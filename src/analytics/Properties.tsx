@@ -530,6 +530,8 @@ interface SendEventsProperties {
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
+        tokenId: string | null
+        networkId: string | null
       }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]:

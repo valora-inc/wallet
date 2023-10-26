@@ -19,7 +19,6 @@ import {
   setTokenBalances,
 } from 'src/tokens/slice'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeurAddress,
@@ -210,35 +209,8 @@ describe(fetchTokenBalancesForAddress, () => {
 })
 
 describe(tokenAmountInSmallestUnit, () => {
-  const mockAddress = '0xMockAddress'
-  const mockTokenId = `celo-alfajores:${mockAddress}`
-
-  it('map to token amount successfully', async () => {
-    await expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockTokenId)
-      .withState(
-        createMockStore({
-          tokens: {
-            tokenBalances: {
-              [mockTokenId]: {
-                address: mockAddress,
-                tokenId: mockTokenId,
-                networkId: NetworkId['celo-alfajores'],
-                decimals: 5,
-              },
-            },
-          },
-        }).getState()
-      )
-      .returns('1000000')
-      .run()
-  })
-
-  it('throw error if token doenst have info', async () => {
-    await expect(
-      expectSaga(tokenAmountInSmallestUnit, new BigNumber(10), mockTokenId)
-        .withState(createMockStore({}).getState())
-        .run()
-    ).rejects.toThrowError(`Couldnt find token info for ID ${mockTokenId}.`)
+  it('returns correct value', async () => {
+    expect(tokenAmountInSmallestUnit(new BigNumber(10), 5)).toEqual('1000000')
   })
 })
 

@@ -105,7 +105,10 @@ export function* buildSendTx(
   const coreContract: Contract = yield* call(getStableTokenContract, tokenAddress)
 
   const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfoByAddress, tokenAddress)
-  const convertedAmount: string = yield* call(tokenAmountInSmallestUnit, amount, tokenInfo?.tokenId)
+  if (!tokenInfo) {
+    throw new Error(`Could not find token with address ${tokenAddress}`)
+  }
+  const convertedAmount = tokenAmountInSmallestUnit(amount, tokenInfo.decimals)
 
   const kit: ContractKit = yield* call(getContractKit)
   return toTransactionObject(

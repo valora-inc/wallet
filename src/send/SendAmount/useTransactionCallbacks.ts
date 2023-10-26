@@ -82,6 +82,8 @@ function useTransactionCallbacks({
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: usdAmount?.toString() ?? null,
+      tokenId: tokenInfo?.tokenId ?? null,
+      networkId: tokenInfo?.networkId ?? null,
     }
   }, [
     origin,

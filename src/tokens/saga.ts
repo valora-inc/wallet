@@ -205,15 +205,8 @@ export function* fetchTokenBalancesSaga() {
   }
 }
 
-export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenId?: string) {
-  if (!tokenId) {
-    throw Error('Missing tokenID')
-  }
-  const tokenInfo = yield* getTokenInfo(tokenId)
-  if (!tokenInfo) {
-    throw Error(`Couldnt find token info for ID ${tokenId}.`)
-  }
-  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+export function tokenAmountInSmallestUnit(amount: BigNumber, decimals: number): string {
+  const decimalFactor = new BigNumber(10).pow(decimals)
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 

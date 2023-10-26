@@ -120,7 +120,7 @@ function* bidaliPaymentRequest({
 
 export function* fetchTxHashesToProviderMapping() {
   const account = yield* call(getAccount)
-  const txHashesToProvider: TxHashToProvider = yield* call(
+  const txHashesToProvider: TxHashToProvider | null = yield* call(
     readOnceFromFirebase,
     `registrations/${account}/txHashes`
   )
@@ -135,15 +135,15 @@ export function* tagTxsWithProviderInfo({ transactions }: UpdateTransactionsActi
 
     Logger.debug(`${TAG}@tagTxsWithProviderInfo`, `Checking ${transactions.length} txs`)
 
-    const providerLogos: ProviderLogos = yield* select(providerLogosSelector)
-    const txHashesToProvider: TxHashToProvider = yield* call(fetchTxHashesToProviderMapping)
+    const providerLogos = yield* select(providerLogosSelector)
+    const txHashesToProvider = yield* call(fetchTxHashesToProviderMapping)
 
     for (const tx of transactions) {
       if (tx.__typename !== 'TokenTransferV3' || tx.type !== TokenTransactionTypeV2.Received) {
         continue
       }
 
-      const provider = txHashesToProvider[tx.transactionHash]
+      const provider = txHashesToProvider?.[tx.transactionHash]
       const providerLogo = providerLogos[provider || '']
 
       if (provider && providerLogo) {
