@@ -1692,7 +1692,8 @@
     "swapFrom": "Tausch von",
     "swapTo": "Tausch zu",
     "rate": "Kurs",
-    "estimatedFee": "Geschätzte Gebühr",
+    "estimatedFee": "Geschätzte Netzwerkgebühr",
+    "networkFee": "Netzwerkgebühr",
     "viewOnExplorer": "Auf CeloExplorer anzeigen"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,18 @@
       "withdraw": "Überweise Token auf ein Bankkonto, mobiles Geld, eine Geschenkkarte usw."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Fertiggestellt",
+    "transactionIsPending": "Ausstehend",
+    "transactionIsFailed": "Gescheitert"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Status prüfen",
+    "retryFailedTransaction": "Erneut versuchen"
+  },
+  "viewOnCeloBlockExplorer": "Auf CeloExplorer anzeigen",
+  "viewOnEthereumBlockExplorer": "Ansicht auf Etherscan",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
