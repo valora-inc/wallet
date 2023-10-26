@@ -23,7 +23,7 @@ const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
-  version: 161,
+  version: 163,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['networkInfo', 'alert', 'imports', 'keylessBackup'],
@@ -146,13 +146,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
     )
   }
 
-  const enhancers = []
-
-  if (__DEV__) {
-    const Reactotron = require('src/reactotronConfig').default
-    enhancers.push(Reactotron.createEnhancer())
-  }
-
   const persistedReducer = persistReducer(config, rootReducer)
 
   const createdStore = configureStore({
@@ -163,7 +156,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
         immutableCheck: false,
         serializableCheck: false,
       }).concat(...middlewares),
-    enhancers,
   })
   const createdPersistor = persistStore(createdStore)
   sagaMiddleware.run(rootSaga)

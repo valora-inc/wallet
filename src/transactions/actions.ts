@@ -1,17 +1,17 @@
-import { CeloTxReceipt } from '@celo/connect'
-import { TransactionFeedFragment } from 'src/apollo/types'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
-import { StandbySwap, StandbyTransfer, TokenTransaction } from 'src/transactions/types'
+import {
+  PendingStandbySwap,
+  PendingStandbyTransfer,
+  TokenTransaction,
+} from 'src/transactions/types'
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
-  TRANSACTION_CONFIRMED_VIEM = 'TRANSACTIONS/TRANSACTION_CONFIRMED_VIEM',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
-  NEW_TRANSACTIONS_IN_FEED = 'TRANSACTIONS/NEW_TRANSACTIONS_IN_FEED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
@@ -19,8 +19,8 @@ export enum Actions {
 }
 
 type BaseStandbyTransaction =
-  | Omit<StandbyTransfer, 'timestamp' | 'status'>
-  | Omit<StandbySwap, 'timestamp' | 'status'>
+  | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
+  | Omit<PendingStandbySwap, 'timestamp' | 'status'>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
@@ -38,25 +38,22 @@ export interface AddHashToStandbyTransactionAction {
   hash: string
 }
 
+// this type would ideally be TransactionReceipt from viem however the numbers
+// are of type bigint which is not serializable and causes problems at runtime
+type BaseTransactionReceipt = {
+  status: boolean
+  block: string
+  transactionHash: string
+}
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
-  receipt: CeloTxReceipt
-}
-
-export interface TransactionConfirmedViemAction {
-  type: Actions.TRANSACTION_CONFIRMED_VIEM
-  txId: string
+  receipt: BaseTransactionReceipt
 }
 
 export interface TransactionFailedAction {
   type: Actions.TRANSACTION_FAILED
   txId: string
-}
-
-export interface NewTransactionsInFeedAction {
-  type: Actions.NEW_TRANSACTIONS_IN_FEED
-  transactions: TransactionFeedFragment[]
 }
 
 export interface UpdatedRecentTxRecipientsCacheAction {
@@ -78,11 +75,9 @@ export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
   | AddHashToStandbyTransactionAction
-  | NewTransactionsInFeedAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
-  | TransactionConfirmedViemAction
   | UpdateInviteTransactionsAction
 
 export const addStandbyTransaction = (
@@ -106,16 +101,11 @@ export const updateRecentTxRecipientsCache = (
 
 export const transactionConfirmed = (
   txId: string,
-  receipt: CeloTxReceipt
+  receipt: BaseTransactionReceipt
 ): TransactionConfirmedAction => ({
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
-})
-
-export const transactionConfirmedViem = (txId: string): TransactionConfirmedViemAction => ({
-  type: Actions.TRANSACTION_CONFIRMED_VIEM,
-  txId,
 })
 
 export const transactionFailed = (txId: string): TransactionFailedAction => ({
@@ -130,13 +120,6 @@ export const addHashToStandbyTransaction = (
   type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS,
   idx,
   hash,
-})
-
-export const newTransactionsInFeed = (
-  transactions: TransactionFeedFragment[]
-): NewTransactionsInFeedAction => ({
-  type: Actions.NEW_TRANSACTIONS_IN_FEED,
-  transactions,
 })
 
 export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({

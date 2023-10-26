@@ -14,19 +14,30 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-export type StandbySwap = {
-  type: TokenTransactionTypeV2.SwapTransaction | TokenTransactionTypeV2.Exchange
+export type PendingStandbySwap = {
   transactionHash?: string
   context: TransactionContext
-} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash'>
+  status: TransactionStatus.Pending
+} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
 
-export type StandbyTransfer = {
-  type: TokenTransactionTypeV2.Sent | TokenTransactionTypeV2.Received
+export type PendingStandbyTransfer = {
   transactionHash?: string
   context: TransactionContext
-} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash'>
+  status: TransactionStatus.Pending
+} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
 
-export type StandbyTransaction = StandbySwap | StandbyTransfer
+export type CompletedStandbyTransaction = (
+  | Omit<TokenExchange, 'status'>
+  | Omit<TokenTransfer, 'status'>
+) & {
+  status: TransactionStatus.Complete
+  context: TransactionContext
+}
+
+export type StandbyTransaction =
+  | PendingStandbySwap
+  | PendingStandbyTransfer
+  | CompletedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {

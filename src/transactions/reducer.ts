@@ -4,7 +4,12 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
-import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  CompletedStandbyTransaction,
+  StandbyTransaction,
+  TokenTransaction,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 export interface InviteTransactions {
   [txHash: string]: {
@@ -74,9 +79,8 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.TRANSACTION_CONFIRMED:
-      const status = action.receipt.status
-
+    case Actions.TRANSACTION_CONFIRMED: {
+      const { status, transactionHash, block } = action.receipt
       if (!status) {
         return {
           ...state,
@@ -85,41 +89,34 @@ export const reducer = (
 
       return {
         ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
-          return {
-            ...tx,
-            status: TransactionStatus.Complete,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === action.txId) {
+              return {
+                ...standbyTransaction,
+                status: TransactionStatus.Complete,
+                transactionHash,
+                block,
+                timestamp: Date.now(),
+                fees: [],
+              }
+            }
+            return standbyTransaction
           }
-        }),
+        ),
       }
-    case Actions.TRANSACTION_CONFIRMED_VIEM:
-      return {
-        ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
-          return {
-            ...tx,
-            status: TransactionStatus.Complete,
-          }
-        }),
-      }
+    }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
-          return {
-            ...tx,
-            transactionHash: action.hash,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === action.idx) {
+              return { ...standbyTransaction, transactionHash: action.hash }
+            }
+            return standbyTransaction
           }
-        }),
-      }
-    case Actions.NEW_TRANSACTIONS_IN_FEED:
-      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
-      action.transactions.forEach((tx) => {
-        newKnownFeedTransactions[tx.hash] = tx.address
-      })
-      return {
-        ...state,
-        knownFeedTransactions: newKnownFeedTransactions,
+        ),
       }
     case Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE:
       return {
@@ -127,9 +124,17 @@ export const reducer = (
         recentTxRecipientsCache: action.recentTxRecipientsCache,
       }
     case Actions.UPDATE_TRANSACTIONS:
+      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
+      action.transactions.forEach((tx) => {
+        if ('address' in tx) {
+          newKnownFeedTransactions[tx.transactionHash] = tx.address
+        }
+      })
+
       return {
         ...state,
         transactions: action.transactions,
+        knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {
@@ -141,21 +146,11 @@ export const reducer = (
   }
 }
 
-function mapForContextId(
-  txs: { context: { id: string } }[],
-  contextId: string,
-  mapping: (tx: any) => any
-) {
-  return txs.map((tx) => {
-    if (tx.context.id !== contextId) {
-      return tx
-    }
-    return mapping(tx)
-  })
-}
+export const standbyTransactionsSelector = (state: RootState) =>
+  state.transactions.standbyTransactions
 
 export const pendingStandbyTransactionsSelector = createSelector(
-  [(state: RootState) => state.transactions.standbyTransactions],
+  [standbyTransactionsSelector],
   (transactions) => {
     return transactions
       .filter((transaction) => transaction.status === TransactionStatus.Pending)
@@ -165,6 +160,16 @@ export const pendingStandbyTransactionsSelector = createSelector(
         block: '',
         fees: [],
       }))
+  }
+)
+
+export const completedStandbyTransactionsSelector = createSelector(
+  [standbyTransactionsSelector],
+  (transactions) => {
+    return transactions.filter(
+      (transaction): transaction is CompletedStandbyTransaction =>
+        transaction.status === TransactionStatus.Complete
+    )
   }
 )
 
