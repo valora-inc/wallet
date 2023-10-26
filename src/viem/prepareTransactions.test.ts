@@ -1,15 +1,16 @@
 import BigNumber from 'bignumber.js'
 import { Network, NetworkId } from 'src/transactions/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
-import { prepareTransactions } from 'src/viem/prepareTransactions'
-import { Address } from 'viem'
+import { prepareTransactions, tryEstimateTransaction } from 'src/viem/prepareTransactions'
+import { Address, BaseError, EstimateGasExecutionError } from 'viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
 import mocked = jest.mocked
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 
 jest.mock('src/viem/estimateFeesPerGas')
 
-describe('prepareTransactions', () => {
+describe('prepareTransactions module', () => {
   const mockFeeCurrencies: TokenBalance[] = [
     {
       address: '0xfee1',
@@ -51,30 +52,82 @@ describe('prepareTransactions', () => {
   beforeAll(() => {
     publicClient[Network.Celo] = mockPublicClient as any
   })
-  it('not enough balance for gas', async () => {
-    mocked(estimateFeesPerGas).mockResolvedValue({
-      maxFeePerGas: BigInt(10),
-      maxPriorityFeePerGas: undefined,
-    })
-    mockPublicClient.estimateGas.mockResolvedValue(BigInt(10_000))
+  describe('prepareTransactions function', () => {
+    it('not enough balance for gas', async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(10),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(10_000))
 
-    // gas fee is 10 * 10k = 100k wei, too high for either fee currency
+      // gas fee is 10 * 10k = 100k wei, too high for either fee currency
 
-    const result = await prepareTransactions({
-      feeCurrencies: mockFeeCurrencies,
-      spendToken: mockSpendToken,
-      spendTokenAmount: new BigNumber(100_000),
-      decreasedAmountGasCostMultiplier: 1,
-      baseTransactions: [
-        {
-          from: '0xfrom' as Address,
-          to: '0xto' as Address,
-          data: '0xdata',
-          type: 'cip42',
-        },
-      ],
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockSpendToken,
+        spendTokenAmount: new BigNumber(100_000),
+        decreasedAmountGasCostMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+          },
+        ],
+      })
+      expect(result.type).toEqual('not-enough-balance-for-gas')
+      expect('feeCurrencies' in result && result.feeCurrencies).toEqual(mockFeeCurrencies)
     })
-    expect(result.type).toEqual('not-enough-balance-for-gas')
-    expect('feeCurrencies' in result && result.feeCurrencies).toEqual(mockFeeCurrencies)
+  })
+  describe('tryEstimateTransaction', () => {
+    it('does not include feeCurrency if not address undefined', async () => {
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(123))
+      const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
+      const estimateTransactionOutput = await tryEstimateTransaction({
+        baseTransaction,
+        maxFeePerGas: BigInt(456),
+        feeCurrencySymbol: 'FEE',
+      })
+      expect(estimateTransactionOutput && 'feeCurrency' in estimateTransactionOutput).toEqual(false)
+      expect(estimateTransactionOutput).toEqual({
+        from: '0x123',
+        gas: BigInt(123),
+        maxFeePerGas: BigInt(456),
+        maxPriorityFeePerGas: undefined,
+      })
+    })
+    it('includes feeCurrency if address is given', async () => {
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(123))
+      const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
+      const estimateTransactionOutput = await tryEstimateTransaction({
+        baseTransaction,
+        maxFeePerGas: BigInt(456),
+        feeCurrencySymbol: 'FEE',
+        feeCurrencyAddress: '0xabc',
+        maxPriorityFeePerGas: BigInt(789),
+      })
+      expect(estimateTransactionOutput).toEqual({
+        from: '0x123',
+        gas: BigInt(123),
+        maxFeePerGas: BigInt(456),
+        feeCurrency: '0xabc',
+        maxPriorityFeePerGas: BigInt(789),
+      })
+    })
+    it('returns null if estimateGas throws EstimateGasExecutionError', async () => {
+      mockPublicClient.estimateGas.mockRejectedValue(
+        new EstimateGasExecutionError(new BaseError('test-cause'), {})
+      )
+      const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
+      const estimateTransactionOutput = await tryEstimateTransaction({
+        baseTransaction,
+        maxFeePerGas: BigInt(456),
+        feeCurrencySymbol: 'FEE',
+        feeCurrencyAddress: '0xabc',
+        maxPriorityFeePerGas: BigInt(789),
+      })
+      expect(estimateTransactionOutput).toEqual(null)
+    })
   })
 })

@@ -50,7 +50,7 @@ function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
   return !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
 }
 
-async function tryEstimateTransaction({
+export async function tryEstimateTransaction({
   baseTransaction,
   maxFeePerGas,
   feeCurrencySymbol,
