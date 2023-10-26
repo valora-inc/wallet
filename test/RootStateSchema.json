@@ -919,14 +919,6 @@
             ],
             "type": "string"
         },
-        "Currency": {
-            "enum": [
-                "cEUR",
-                "cGLD",
-                "cUSD"
-            ],
-            "type": "string"
-        },
         "Dapp": {
             "additionalProperties": false,
             "properties": {
@@ -2523,6 +2515,7 @@
                 "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
+                "SendEnterAmount",
                 "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
@@ -3980,8 +3973,8 @@
                 "isSending": {
                     "type": "boolean"
                 },
-                "lastUsedCurrency": {
-                    "$ref": "#/definitions/Currency"
+                "lastUsedTokenId": {
+                    "type": "string"
                 },
                 "recentPayments": {
                     "items": {
@@ -4004,7 +3997,6 @@
                 "inviteRewardWeeklyLimit",
                 "inviteRewardsVersion",
                 "isSending",
-                "lastUsedCurrency",
                 "recentPayments",
                 "recentRecipients",
                 "showSendToAddressWarning"
