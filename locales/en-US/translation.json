@@ -1692,7 +1692,8 @@
     "swapFrom": "Swap from",
     "swapTo": "Swap to",
     "rate": "Rate",
-    "estimatedFee": "Estimated Fee",
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "Network Fee",
     "viewOnExplorer": "View on CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,18 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Completed",
+    "transactionIsPending": "Pending",
+    "transactionIsFailed": "Failed"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Check Status",
+    "retryFailedTransaction": "Retry"
+  },
+  "viewOnCeloBlockExplorer": "View on CeloExplorer",
+  "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
