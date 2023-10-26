@@ -2516,6 +2516,7 @@
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
+                "SendRedesign",
                 "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
