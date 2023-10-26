@@ -63,7 +63,6 @@ export const reducer = (
       return {
         ...state,
         ...getRehydratePayload(action, 'transactions'),
-        transactions: {},
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
