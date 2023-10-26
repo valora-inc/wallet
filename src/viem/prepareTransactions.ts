@@ -281,21 +281,17 @@ export async function prepareSwapTransactions(
 }
 
 /**
- * Prepare a transaction for sending an ERC-20 token.
+ * Prepare a transaction for sending an ERC-20 token with the 'transfer' method.
  *
- * Works for ERC-20 and native transfers.
- *
- * NOTE: does not include fees for registering a DEK before sending a c-stable, since that is a different transaction.
- *
+ * Works for ERC-20 transfers only.
  */
-export async function prepareSendERC20Transaction(
+export async function prepareERC20TransferTransaction(
   fromWalletAddress: string,
   toWalletAddress: string,
   sendToken: TokenBalanceWithAddress,
   amountWei: bigint,
   feeCurrencies: TokenBalance[]
 ): Promise<PreparedTransactionsResult> {
-  // TODO(ACT-955) make this work for transfer with comment
   const baseSendTx: TransactionRequestCIP42 = {
     from: fromWalletAddress as Address,
     to: sendToken.address as Address,
@@ -314,3 +310,5 @@ export async function prepareSendERC20Transaction(
     baseTransactions: [baseSendTx],
   })
 }
+
+// TODO(ACT-955) create helpers for native transfers and Celo-specific transferWithComment
