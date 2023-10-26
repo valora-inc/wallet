@@ -3,7 +3,6 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { Recipient, areRecipientsEquivalent } from 'src/recipients/recipient'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { ActionTypes, Actions } from 'src/send/actions'
-import { Currency } from 'src/utils/currencies'
 import { timeDeltaInHours } from 'src/utils/time'
 
 // Sets the limit of recent recipients we want to store
@@ -23,8 +22,8 @@ export interface State {
   inviteRewardsVersion: string
   inviteRewardCusd: number
   inviteRewardWeeklyLimit: number
-  lastUsedCurrency: Currency
   showSendToAddressWarning: boolean
+  lastUsedTokenId?: string
 }
 
 const initialState = {
@@ -34,7 +33,6 @@ const initialState = {
   inviteRewardsVersion: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsVersion,
   inviteRewardCusd: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardCusd,
   inviteRewardWeeklyLimit: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardWeeklyLimit,
-  lastUsedCurrency: Currency.Dollar,
   showSendToAddressWarning: true,
 }
 
@@ -67,6 +65,8 @@ export const sendReducer = (
         ...state,
         isSending: false,
         recentPayments: [...paymentsLast24Hours, latestPayment],
+        // TODO(satish): set lastUsedToken once this is available in the send flow (after
+        // #4306 is merged)
       }
     case Actions.SEND_PAYMENT_FAILURE:
       return {
@@ -79,11 +79,6 @@ export const sendReducer = (
         inviteRewardsVersion: action.configValues.inviteRewardsVersion,
         inviteRewardCusd: action.configValues.inviteRewardCusd,
         inviteRewardWeeklyLimit: action.configValues.inviteRewardWeeklyLimit,
-      }
-    case Actions.UPDATE_LAST_USED_CURRENCY:
-      return {
-        ...state,
-        lastUsedCurrency: action.currency,
       }
     case Actions.SET_SHOW_WARNING:
       return {

@@ -1872,5 +1872,10 @@
     "retryFailedTransaction": "Retry"
   },
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
-  "viewOnEthereumBlockExplorer": "View on Etherscan"
+  "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "sendEnterAmountScreen": {
+    "title": "Enter Amount",
+    "selectToken": "Select a Token",
+    "networkFee": "{{networkName}} Network Fee"
+  }
 }
