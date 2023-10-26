@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Network, NetworkId } from 'src/transactions/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import {
+  getMaxGasCost,
   prepareTransactions,
   tryEstimateTransaction,
   tryEstimateTransactions,
@@ -173,6 +174,30 @@ describe('prepareTransactions module', () => {
           maxPriorityFeePerGas: undefined,
         },
       ])
+    })
+  })
+  describe('getMaxGasCost', () => {
+    it('adds gas times maxFeePerGas', () => {
+      expect(
+        getMaxGasCost([
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
+          { gas: BigInt(5), maxFeePerGas: BigInt(7), from: '0x123' },
+        ])
+      ).toEqual(new BigNumber(41))
+    })
+    it('throws if gas or maxFeePerGas are missing', () => {
+      expect(() =>
+        getMaxGasCost([
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
+          { gas: BigInt(5), from: '0x123' },
+        ])
+      ).toThrowError('Missing gas or maxFeePerGas')
+      expect(() =>
+        getMaxGasCost([
+          { maxFeePerGas: BigInt(5), from: '0x123' },
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
+        ])
+      ).toThrowError('Missing gas or maxFeePerGas')
     })
   })
 })
