@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { SwapInfo, SwapUserInput } from 'src/swap/types'
+import { SwapInfo, SwapInfoPrepared, SwapUserInput } from 'src/swap/types'
 
 export enum SwapState {
   USER_INPUT = 'user-input',
@@ -39,9 +39,20 @@ export const slice = createSlice({
       state.swapState = SwapState.USER_INPUT
       state.swapUserInput = action.payload
     },
+    // Legacy
     swapStart: (state, action: PayloadAction<SwapInfo>) => {
       state.swapState = SwapState.START
       state.swapInfo = action.payload
+    },
+    // New flow with prepared transactions
+    swapStartPrepared: (state, action: PayloadAction<SwapInfoPrepared>) => {
+      state.swapState = SwapState.START
+      // Compat for existing code
+      state.swapInfo = {
+        ...action.payload.quote.rawSwapResponse,
+        userInput: action.payload.userInput,
+        quoteReceivedAt: action.payload.quote.receivedAt,
+      }
     },
     swapApprove: (state) => {
       state.swapState = SwapState.APPROVE
@@ -87,6 +98,7 @@ export const slice = createSlice({
 export const {
   setSwapUserInput,
   swapStart,
+  swapStartPrepared,
   swapApprove,
   swapExecute,
   swapSuccess,

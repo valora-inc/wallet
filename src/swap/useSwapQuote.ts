@@ -11,7 +11,7 @@ import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, encodeFunctionData, Hex } from 'viem'
+import { Address, encodeFunctionData, Hex, zeroAddress } from 'viem'
 import { prepareTransactions, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
 // Apply a multiplier for the decreased swap amount to account for the
@@ -26,13 +26,21 @@ export interface QuoteResult {
   provider: string
   estimatedPriceImpact: BigNumber | null
   preparedTransactions?: PreparedTransactionsResult
+  /**
+   * @deprecated Temporary until we remove the swap review screen
+   */
+  rawSwapResponse: FetchQuoteResponse
+  receivedAt: number
 }
 
-function createBaseApproveTransaction(
+function createBaseTransactions(
+  fromToken: TokenBalanceWithAddress,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction
 ) {
-  const { guaranteedPrice, sellTokenAddress, buyAmount, sellAmount, allowanceTarget, from } =
+  const baseTransactions: TransactionRequestCIP42[] = []
+
+  const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
     unvalidatedSwapTransaction
   const amountType: string =
     updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
@@ -42,25 +50,21 @@ function createBaseApproveTransaction(
       ? BigInt(new BigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0))
       : BigInt(sellAmount)
 
-  const data = encodeFunctionData({
-    abi: erc20.abi,
-    functionName: 'approve',
-    args: [allowanceTarget as Address, amountToApprove],
-  })
+  // Approve transaction if the sell token is ERC-20
+  if (allowanceTarget !== zeroAddress && fromToken.address) {
+    const data = encodeFunctionData({
+      abi: erc20.abi,
+      functionName: 'approve',
+      args: [allowanceTarget as Address, amountToApprove],
+    })
 
-  const approveTx: TransactionRequestCIP42 & { amountToApprove: bigint } = {
-    from: from as Address,
-    to: sellTokenAddress as Address,
-    data,
-    type: 'cip42',
-    amountToApprove,
+    const approveTx: TransactionRequestCIP42 = {
+      from: from as Address,
+      to: fromToken.address as Address,
+      data,
+    }
+    baseTransactions.push(approveTx)
   }
-
-  return approveTx
-}
-
-function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) {
-  const { from, to, value, data, gas } = unvalidatedSwapTransaction
 
   const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
     from: from as Address,
@@ -68,13 +72,17 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
     value: BigInt(value ?? 0),
     data: data as Hex,
     // This may not be entirely accurate for now
+    // without the approval transaction being executed first.
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
-    // We'll try to improve this in our API
+    // We control this from our API.
     gas: BigInt(gas),
-    type: 'cip42',
   }
+  baseTransactions.push(swapTx)
 
-  return swapTx
+  return {
+    amountToApprove,
+    baseTransactions,
+  }
 }
 
 async function prepareSwapTransactions(
@@ -84,14 +92,17 @@ async function prepareSwapTransactions(
   price: string,
   feeCurrencies: TokenBalance[]
 ): Promise<PreparedTransactionsResult> {
-  const baseApproveTx = createBaseApproveTransaction(updatedField, unvalidatedSwapTransaction)
-  const baseSwapTx = createBaseSwapTransaction(unvalidatedSwapTransaction)
+  const { amountToApprove, baseTransactions } = createBaseTransactions(
+    fromToken,
+    updatedField,
+    unvalidatedSwapTransaction
+  )
   return prepareTransactions({
     feeCurrencies,
     spendToken: fromToken,
-    spendTokenAmount: new BigNumber(baseApproveTx.amountToApprove.toString()),
+    spendTokenAmount: new BigNumber(amountToApprove.toString()),
     decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
-    baseTransactions: [baseApproveTx, baseSwapTx],
+    baseTransactions,
   })
 }
 
@@ -166,6 +177,8 @@ const useSwapQuote = () => {
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
+        rawSwapResponse: quote,
+        receivedAt: Date.now(),
       }
 
       // TODO: this branch will be part of the normal flow once viem is always used

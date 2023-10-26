@@ -210,6 +210,16 @@ export function SwapScreen({ route }: Props) {
   const handleReview = () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
 
+    const userInput = {
+      toToken: toToken!.address,
+      fromToken: fromToken!.address,
+      swapAmount: {
+        [Field.FROM]: parsedSwapAmount[Field.FROM].toString(),
+        [Field.TO]: parsedSwapAmount[Field.TO].toString(),
+      },
+      updatedField,
+    }
+
     if (useViemForSwap) {
       if (!exchangeRate?.preparedTransactions) {
         // Error already shown, do nothing
@@ -230,7 +240,12 @@ export function SwapScreen({ route }: Props) {
           preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
           break
         case 'possible':
-          // TODO: show review screen with the possible transactions
+          // TODO: we want to remove the need to use redux, but for now keeping it
+          // to avoid too many changes
+          dispatch(setSwapUserInput(userInput))
+          navigate(Screens.SwapReviewScreen, {
+            quote: exchangeRate,
+          })
           break
         default:
           // To catch any missing cases at compile time
@@ -246,17 +261,7 @@ export function SwapScreen({ route }: Props) {
       showMaxCeloSwapWarning()
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
-      dispatch(
-        setSwapUserInput({
-          toToken: toToken!.address,
-          fromToken: fromToken!.address,
-          swapAmount: {
-            [Field.FROM]: parsedSwapAmount[Field.FROM].toString(),
-            [Field.TO]: parsedSwapAmount[Field.TO].toString(),
-          },
-          updatedField,
-        })
-      )
+      dispatch(setSwapUserInput(userInput))
       navigate(Screens.SwapReviewScreen)
     }
   }
