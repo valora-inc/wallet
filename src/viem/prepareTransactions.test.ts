@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { Network, NetworkId } from 'src/transactions/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import {
+  getFeeCurrencyAddress,
   getMaxGasCost,
   prepareTransactions,
   tryEstimateTransaction,
@@ -198,6 +199,15 @@ describe('prepareTransactions module', () => {
           { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
         ])
       ).toThrowError('Missing gas or maxFeePerGas')
+    })
+  })
+
+  describe('getFeeCurrencyAddress', () => {
+    it('returns fee currency address if fee currency is not native', () => {
+      expect(getFeeCurrencyAddress(mockFeeCurrencies[1])).toEqual('0xfee2')
+    })
+    it('returns undefined if fee currency is native', () => {
+      expect(getFeeCurrencyAddress(mockFeeCurrencies[0])).toEqual(undefined)
     })
   })
 })

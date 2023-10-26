@@ -46,7 +46,7 @@ export function getMaxGasCost(txs: TransactionRequestCIP42[]): BigNumber {
   return new BigNumber(maxGasCost.toString())
 }
 
-function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
+export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
   return !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
 }
 
