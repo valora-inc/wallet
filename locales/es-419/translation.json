@@ -1692,7 +1692,8 @@
     "swapFrom": "Cambiar de",
     "swapTo": "Cambiar a",
     "rate": "Tasas",
-    "estimatedFee": "Tarifas estimadas",
+    "estimatedFee": "Est Tasa de red",
+    "networkFee": "Tarifa de red",
     "viewOnExplorer": "Ver en CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,18 @@
       "withdraw": "Transfiere fichas a una cuenta bancaria, dinero móvil, tarjeta regalo, etc."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Finalizada",
+    "transactionIsPending": "Pendientes",
+    "transactionIsFailed": "Fallido"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Detalles",
+    "checkPendingTransactionStatus": "Comprobar estado",
+    "retryFailedTransaction": "Reintentar"
+  },
+  "viewOnCeloBlockExplorer": "Ver en CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Ver en Etherscan",
   "sendEnterAmountScreen": {
     "title": "Introduce el importe",
     "selectToken": "Selecciona un Token",
