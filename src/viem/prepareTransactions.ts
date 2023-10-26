@@ -7,8 +7,6 @@ import { publicClient } from 'src/viem/index'
 import { STATIC_GAS_PADDING } from 'src/config'
 import Logger from 'src/utils/Logger'
 
-const TAG = 'viem/prepareTransactions'
-
 interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
@@ -42,8 +40,98 @@ function getMaxGasCost(txs: TransactionRequestCIP42[]): BigNumber {
   return new BigNumber(maxGasCost.toString())
 }
 
-function allTruthy<T>(arr: (T | undefined | null)[]): arr is T[] {
-  return arr.every((x) => !!x)
+function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
+  return !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
+}
+
+async function tryEstimateTransaction({
+  baseTransaction,
+  maxFeePerGas,
+  feeCurrencyAddress,
+  maxPriorityFeePerGas,
+}: {
+  baseTransaction: TransactionRequestCIP42
+  maxFeePerGas: bigint
+  feeCurrencyAddress?: Address
+  maxPriorityFeePerGas?: bigint
+}) {
+  const tx = {
+    ...baseTransaction,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    // Don't include the feeCurrency field if not present.
+    // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
+    ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
+  }
+
+  // TODO maybe cache this? and add static padding when using non-native fee currency
+  try {
+    tx.gas = await publicClient.celo.estimateGas({
+      ...tx,
+      account: tx.from,
+    })
+  } catch (e) {
+    if (e instanceof EstimateGasExecutionError) {
+      // Likely too much gas was needed
+      Logger.warn(
+        'SwapScreen@useSwapQuote',
+        `Couldn't estimate gas with feeCurrencyAddress ${feeCurrencyAddress}`,
+        e
+      )
+      return null
+    }
+    throw e
+  }
+
+  return tx
+}
+
+async function tryEstimateTransactions(
+  baseTransactions: TransactionRequestCIP42[],
+  feeCurrency: TokenBalance
+) {
+  const transactions: TransactionRequestCIP42[] = []
+
+  const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
+  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
+    publicClient.celo,
+    feeCurrencyAddress
+  )
+
+  for (const [index, baseTx] of baseTransactions.entries()) {
+    // We can only truly estimate the gas for the first transaction
+    if (index === 0) {
+      const tx = await tryEstimateTransaction({
+        baseTransaction: baseTx,
+        feeCurrencyAddress,
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+      })
+      if (!tx) {
+        return null
+      }
+      transactions.push(tx)
+    } else {
+      if (!baseTx.gas) {
+        throw new Error(
+          'When multiple transactions are provided, all transactions but the first one must have a gas value'
+        )
+      }
+      transactions.push({
+        ...baseTx,
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        // Don't include the feeCurrency field if not present.
+        // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
+        ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
+        // We assume the provided gas value is with the native fee currency
+        // If it's not, we add the static padding
+        gas: baseTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
+      })
+    }
+  }
+
+  return transactions
 }
 
 export async function prepareTransactions({
@@ -65,49 +153,12 @@ export async function prepareTransactions({
       // No balance, try next fee currency
       continue
     }
-    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
-    const transactions: (TransactionRequestCIP42 | null)[] = await Promise.all(
-      baseTransactions.map(async (baseTransaction) => {
-        const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-          publicClient.celo,
-          feeCurrencyAddress
-        )
-        const transaction = {
-          ...baseTransaction,
-          maxFeePerGas,
-          maxPriorityFeePerGas,
-          feeCurrency: feeCurrencyAddress,
-        }
-        if (baseTransaction.gas) {
-          transaction.gas =
-            baseTransaction.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING)
-        } else {
-          try {
-            transaction.gas = await publicClient.celo.estimateGas({
-              ...baseTransaction,
-              account: baseTransaction.from,
-            })
-          } catch (e) {
-            if (e instanceof EstimateGasExecutionError) {
-              // likely too much gas was needed
-              Logger.warn(
-                TAG,
-                `Couldn't estimate gas for transaction with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
-                e
-              )
-              return null
-            }
-            throw e
-          }
-        }
-        return transaction
-      })
-    )
-    if (!allTruthy(transactions)) {
-      // gas estimation failed for some transaction, try next fee currency
+    const estimatedTransactions = await tryEstimateTransactions(baseTransactions, feeCurrency)
+    if (!estimatedTransactions) {
+      // Not enough balance to pay for gas, try next fee currency
       continue
     }
-    const maxGasCost = getMaxGasCost(transactions)
+    const maxGasCost = getMaxGasCost(estimatedTransactions)
     const maxGasCostInDecimal = maxGasCost.shiftedBy(-feeCurrency.decimals)
     maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
     if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
@@ -126,7 +177,7 @@ export async function prepareTransactions({
     // This is the one we can use
     return {
       type: 'possible',
-      transactions,
+      transactions: estimatedTransactions,
     } satisfies PreparedTransactionsPossible
   }
 
