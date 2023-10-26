@@ -101,14 +101,16 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                   [
                     {
                       "color": "#2E3338",
-                      "flex": 1,
                       "fontFamily": "Inter-Regular",
                       "fontSize": 16,
+                      "lineHeight": 22,
+                    },
+                    {
+                      "flex": 1,
                       "lineHeight": 22,
                       "paddingHorizontal": 0,
                       "paddingVertical": 12,
                     },
-                    undefined,
                     undefined,
                   ]
                 }
@@ -415,9 +417,12 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       [
                         {
                           "color": "#2E3338",
-                          "flex": 1,
                           "fontFamily": "Inter-Regular",
                           "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
+                          "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
@@ -425,7 +430,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         {
                           "textAlignVertical": "top",
                         },
-                        undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit0"
@@ -474,9 +478,12 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       [
                         {
                           "color": "#2E3338",
-                          "flex": 1,
                           "fontFamily": "Inter-Regular",
                           "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
+                          "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
@@ -484,7 +491,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         {
                           "textAlignVertical": "top",
                         },
-                        undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit1"
@@ -533,9 +539,12 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       [
                         {
                           "color": "#2E3338",
-                          "flex": 1,
                           "fontFamily": "Inter-Regular",
                           "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
+                          "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
@@ -543,7 +552,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         {
                           "textAlignVertical": "top",
                         },
-                        undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit2"
@@ -592,9 +600,12 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                       [
                         {
                           "color": "#2E3338",
-                          "flex": 1,
                           "fontFamily": "Inter-Regular",
                           "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
+                          "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
@@ -602,7 +613,6 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                         {
                           "textAlignVertical": "top",
                         },
-                        undefined,
                       ]
                     }
                     testID="SingleDigitInput/digit3"

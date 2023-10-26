@@ -74,18 +74,6 @@ exports[`SettingsItemInput renders correctly 1`] = `
           onFocus={[Function]}
           style={
             [
-              {
-                "color": "#2E3338",
-                "flex": 1,
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
-                "lineHeight": 22,
-                "paddingHorizontal": 0,
-                "paddingVertical": 12,
-              },
-              {
-                "textAlignVertical": "top",
-              },
               [
                 {
                   "color": "#666666",
@@ -97,6 +85,15 @@ exports[`SettingsItemInput renders correctly 1`] = `
                   "color": "#666666",
                 },
               ],
+              {
+                "flex": 1,
+                "lineHeight": 22,
+                "paddingHorizontal": 0,
+                "paddingVertical": 12,
+              },
+              {
+                "textAlignVertical": "top",
+              },
             ]
           }
           testID="testID"
