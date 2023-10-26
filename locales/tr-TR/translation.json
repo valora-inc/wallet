@@ -1692,7 +1692,8 @@
     "swapFrom": "Takas kaynağı",
     "swapTo": "Takas hedefi",
     "rate": "Oran",
-    "estimatedFee": "Tahmini Ücret",
+    "estimatedFee": "Est Ağ Ücreti",
+    "networkFee": "Ağ Ücreti",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,18 @@
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Tamamlandı",
+    "transactionIsPending": "Beklemede",
+    "transactionIsFailed": "Başarısız"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Detaylar",
+    "checkPendingTransactionStatus": "Durumu Kontrol Edin",
+    "retryFailedTransaction": "Yeniden Dene"
+  },
+  "viewOnCeloBlockExplorer": "CeloExplorer'da görüntüle",
+  "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Belirteç Seçin",
