@@ -12,7 +12,7 @@ import {
   http,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { writeContract } from 'viem/actions'
+import { sendRawTransaction, signTransaction, writeContract } from 'viem/actions'
 
 const TAG = 'viem/getLockableWallet'
 
@@ -24,8 +24,10 @@ export type ViemWallet<
 > = Client<transport, chain, account, WalletRpcSchema, Actions>
 
 type Actions = {
-  writeContract: WalletActions['writeContract']
   unlockAccount: (passphrase: string, duration: number) => Promise<boolean>
+  writeContract: WalletActions['writeContract']
+  signTransaction: WalletActions['signTransaction']
+  sendRawTransaction: WalletActions['sendRawTransaction']
 }
 
 export default function getLockableViemWallet(
@@ -51,12 +53,19 @@ export default function getLockableViemWallet(
       // For instance we will later need signTransaction which we can add here by
       // importing the signTransaction action and blocking it with the checkLock function
       // Introduction to wallet actions: https://viem.sh/docs/actions/wallet/introduction.html
+      unlockAccount: (passphrase: string, duration: number) =>
+        lock.unlock(account.address, passphrase, duration),
       writeContract: (args) => {
         checkLock()
         return writeContract(client, args)
       },
-      unlockAccount: (passphrase: string, duration: number) =>
-        lock.unlock(account.address, passphrase, duration),
+      signTransaction: (args) => {
+        checkLock()
+        return signTransaction(client, args)
+      },
+      sendRawTransaction: (args) => {
+        return sendRawTransaction(client, args)
+      },
     }
   })
 }
