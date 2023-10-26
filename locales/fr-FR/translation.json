@@ -1692,7 +1692,8 @@
     "swapFrom": "Échanger de",
     "swapTo": "Échanger pour",
     "rate": "Taux",
-    "estimatedFee": "Frais estimés",
+    "estimatedFee": "Frais de réseau Est",
+    "networkFee": "Frais de réseau",
     "viewOnExplorer": "Voir sur CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,18 @@
       "withdraw": "Transfère des jetons vers un compte bancaire, de l'argent mobile, une carte cadeau, etc."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Terminé",
+    "transactionIsPending": "En attente",
+    "transactionIsFailed": "Échec"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Détails",
+    "checkPendingTransactionStatus": "Vérifier l'état",
+    "retryFailedTransaction": "Réessayer"
+  },
+  "viewOnCeloBlockExplorer": "Voir sur CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Voir sur Etherscan",
   "sendEnterAmountScreen": {
     "title": "Saisir le montant",
     "selectToken": "Sélectionne un jeton",
