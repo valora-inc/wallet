@@ -5,7 +5,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import HorizontalLine from 'src/components/HorizontalLine'
+import RowDivider from 'src/components/RowDivider'
 import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import ArrowRight from 'src/icons/ArrowRight'
@@ -157,7 +157,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
         <View style={styles.content}>{content}</View>
         {openBlockExplorerHandler && (
           <>
-            <HorizontalLine />
+            <RowDivider />
             <Touchable
               style={styles.rowContainer}
               borderless={true}
