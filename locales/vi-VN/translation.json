@@ -1690,7 +1690,8 @@
     "swapFrom": "Trao đổi từ",
     "swapTo": "Trao đổi sang",
     "rate": "Tỷ giá",
-    "estimatedFee": "Phí ước tính",
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "Phí mạng lưới",
     "viewOnExplorer": "Xem trên CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1856,6 +1857,18 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Đã hoàn tất",
+    "transactionIsPending": "Đang chờ xử lý",
+    "transactionIsFailed": "Failed"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Check Status",
+    "retryFailedTransaction": "Thử lại"
+  },
+  "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
+  "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
