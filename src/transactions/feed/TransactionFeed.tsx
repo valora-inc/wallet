@@ -31,6 +31,20 @@ function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
     useFetchTransactions()
 
+  const pedningTxs = new Set([
+    '0x76b7a52daaba221b14442002d7243e20f36d96691ec2e3eda65c7fe3c6d7a836',
+    '0xbf1dc0916d94fae9db60d08323ac753cb0fb07cc8835749461c5c0c33c3efee0',
+    '0x946efbf397b6167c30ee914cf9c6547eb92b851ac28576aa2f10c7648840a547',
+  ])
+  const failedTxs = new Set([
+    '0x2c854c751c86c3ee2b559e6d8b19573b16a55abd05caf595785cf98408f176db',
+    '0xf6ca0b71f4ab472451844aad45e38ed631e5c25ed3c3829340e34a6ad4f4593b',
+  ])
+  for (const tx of transactions) {
+    if (pedningTxs.has(tx.transactionHash)) tx.status = TransactionStatus.Pending
+    if (failedTxs.has(tx.transactionHash)) tx.status = TransactionStatus.Failed
+  }
+
   const cachedTransactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
   const allConfirmedStandbyTransactions = useSelector(completedStandbyTransactionsSelector)
