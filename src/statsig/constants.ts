@@ -49,7 +49,6 @@ export const ExperimentConfigs = {
     defaultValues: {
       onboardingNameScreenEnabled: true,
       chooseAdventureEnabled: false,
-      cashInBottomSheetEnabled: true,
     },
   },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {
