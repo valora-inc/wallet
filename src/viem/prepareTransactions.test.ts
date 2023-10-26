@@ -1,7 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { Network, NetworkId } from 'src/transactions/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
-import { prepareTransactions, tryEstimateTransaction } from 'src/viem/prepareTransactions'
+import {
+  prepareTransactions,
+  tryEstimateTransaction,
+  tryEstimateTransactions,
+} from 'src/viem/prepareTransactions'
 import { Address, BaseError, EstimateGasExecutionError } from 'viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
@@ -128,6 +132,47 @@ describe('prepareTransactions module', () => {
         maxPriorityFeePerGas: BigInt(789),
       })
       expect(estimateTransactionOutput).toEqual(null)
+    })
+  })
+  describe('tryEstimateTransactions', () => {
+    it('returns null if estimateGas throws EstimateGasExecutionError', async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(10),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockRejectedValue(
+        new EstimateGasExecutionError(new BaseError('test-cause'), {})
+      )
+      const estimateTransactionsOutput = await tryEstimateTransactions(
+        [{ from: '0x123' }, { from: '0x123', gas: BigInt(456) }],
+        mockFeeCurrencies[0]
+      )
+      expect(estimateTransactionsOutput).toEqual(null)
+    })
+    it('estimates gas only for transactions missing a gas field', async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(10),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(123))
+      const estimateTransactionsOutput = await tryEstimateTransactions(
+        [{ from: '0x123' }, { from: '0x123', gas: BigInt(456) }],
+        mockFeeCurrencies[0]
+      )
+      expect(estimateTransactionsOutput).toEqual([
+        {
+          from: '0x123',
+          gas: BigInt(123),
+          maxFeePerGas: BigInt(10),
+          maxPriorityFeePerGas: undefined,
+        },
+        {
+          from: '0x123',
+          gas: BigInt(456),
+          maxFeePerGas: BigInt(10),
+          maxPriorityFeePerGas: undefined,
+        },
+      ])
     })
   })
 })

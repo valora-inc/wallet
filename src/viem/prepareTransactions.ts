@@ -94,7 +94,7 @@ export async function tryEstimateTransaction({
   return tx
 }
 
-async function tryEstimateTransactions(
+export async function tryEstimateTransactions(
   baseTransactions: TransactionRequestCIP42[],
   feeCurrency: TokenBalance
 ) {
