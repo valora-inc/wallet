@@ -1696,7 +1696,8 @@
     "swapFrom": "Обміняти з",
     "swapTo": "Обміняти на",
     "rate": "Оцінка",
-    "estimatedFee": "Передбачувана комісія",
+    "estimatedFee": "Est Плата за мережу",
+    "networkFee": "Комісія за мережу",
     "viewOnExplorer": "Переглянути на CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1862,6 +1863,18 @@
       "withdraw": "Переказуйте токени на банківський рахунок, мобільні гроші, подарункову картку тощо."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Завершено",
+    "transactionIsPending": "Очікує підтвердження",
+    "transactionIsFailed": "Не вдалося."
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Деталі",
+    "checkPendingTransactionStatus": "Перевірити стан",
+    "retryFailedTransaction": "Повторити"
+  },
+  "viewOnCeloBlockExplorer": "Переглянути на CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
   "sendEnterAmountScreen": {
     "title": "Введіть суму",
     "selectToken": "Виберіть токен",
