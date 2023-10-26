@@ -6,6 +6,7 @@ import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   CompletedStandbyTransaction,
+  NetworkId,
   StandbyTransaction,
   TokenTransaction,
   TransactionStatus,
@@ -16,6 +17,10 @@ export interface InviteTransactions {
     paymentId: string
     recipientIdentifier: string
   }
+}
+
+type Transactions = {
+  [networkId in NetworkId]?: TokenTransaction[]
 }
 export interface State {
   // Tracks transactions that have been initiated by the user
@@ -29,7 +34,7 @@ export interface State {
   // txs more than once.
   knownFeedTransactions: KnownFeedTransactionsType
   recentTxRecipientsCache: NumberToRecipient
-  transactions: TokenTransaction[]
+  transactions: Transactions
   // invite transactions are from the escrow contract, the following property maps
   // transaction hash to recipient known to user
   inviteTransactions: InviteTransactions
@@ -45,7 +50,7 @@ const initialState = {
   standbyTransactions: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
-  transactions: [],
+  transactions: {},
   inviteTransactions: {},
 }
 
@@ -58,6 +63,7 @@ export const reducer = (
       return {
         ...state,
         ...getRehydratePayload(action, 'transactions'),
+        transactions: {},
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
@@ -133,7 +139,10 @@ export const reducer = (
 
       return {
         ...state,
-        transactions: action.transactions,
+        transactions: {
+          ...state.transactions,
+          [action.networkId]: action.transactions,
+        },
         knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
@@ -179,10 +188,29 @@ export const knownFeedTransactionsSelector = (state: RootState) =>
 export const recentTxRecipientsCacheSelector = (state: RootState) =>
   state.transactions.recentTxRecipientsCache
 
-export const transactionsSelector = (state: RootState) => state.transactions.transactions
+export const transactionsByNetworkSelector = (state: RootState) => state.transactions.transactions
+
+export const transactionsSelector = createSelector(
+  [transactionsByNetworkSelector],
+  (transactions) => {
+    const transactionsForAllNetworks = Object.values(transactions).flat()
+    return transactionsForAllNetworks.sort((a, b) => b.timestamp - a.timestamp)
+  }
+)
 
 export const inviteTransactionsSelector = (state: RootState) =>
   state.transactions.inviteTransactions
 
-export const transactionHashesSelector = (state: RootState) =>
-  state.transactions.transactions.map((tx) => tx.transactionHash)
+export const transactionHashesByNetworkSelector = createSelector(
+  [transactionsByNetworkSelector],
+  (transactions) => {
+    const hashesByNetwork: {
+      [networkId in NetworkId]?: string[]
+    } = {}
+    Object.entries(transactions).forEach(([networkId, txs]) => {
+      hashesByNetwork[networkId as NetworkId] = txs.map((tx) => tx.transactionHash)
+    })
+
+    return hashesByNetwork
+  }
+)

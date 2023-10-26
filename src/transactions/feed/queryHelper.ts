@@ -13,7 +13,7 @@ import { getDynamicConfigParams } from 'src/statsig/index'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
-import { transactionHashesSelector } from 'src/transactions/reducer'
+import { transactionHashesByNetworkSelector } from 'src/transactions/reducer'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
@@ -72,7 +72,7 @@ export function useFetchTransactions(): QueryHookResult {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const transactionHashes = useSelector(transactionHashesSelector)
+  const transactionHashesByNetwork = useSelector(transactionHashesByNetworkSelector)
 
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
@@ -149,14 +149,18 @@ export function useFetchTransactions(): QueryHookResult {
           )
           // Compare the new tx hashes with the ones we already have in redux
           for (let i = 0; i < nonEmptyTransactions.length; i++) {
-            if (!transactionHashes.includes(nonEmptyTransactions[i].transactionHash)) {
+            if (
+              !transactionHashesByNetwork[networkId]?.includes(
+                nonEmptyTransactions[i].transactionHash
+              )
+            ) {
               hasNewTransaction = true
               break // We only need one new tx justify a refresh
             }
           }
           // If there are new transactions update transactions in redux and fetch balances
           if (hasNewTransaction) {
-            dispatch(updateTransactions(nonEmptyTransactions))
+            dispatch(updateTransactions(networkId, nonEmptyTransactions))
             vibrateSuccess()
           }
         }
