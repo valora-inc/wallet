@@ -1860,5 +1860,10 @@
       "add": "Buy tokens using one of our trusted providers",
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
+  },
+  "sendEnterAmountScreen": {
+    "title": "Enter Amount",
+    "selectToken": "Select a Token",
+    "networkFee": "{{networkName}} Network Fee"
   }
 }
