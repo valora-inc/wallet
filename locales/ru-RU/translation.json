@@ -1696,7 +1696,8 @@
     "swapFrom": "Обменять с",
     "swapTo": "Обменять на",
     "rate": "Курс",
-    "estimatedFee": "Приблизительная комиссия",
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "Комиссия сообщества",
     "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1862,6 +1863,18 @@
       "withdraw": "Переводи токены на банковский счёт, мобильные деньги, подарочную карту и т.д."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "Завершена",
+    "transactionIsPending": "В ожидании",
+    "transactionIsFailed": "Неудачный"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Подробности",
+    "checkPendingTransactionStatus": "Проверь состояние",
+    "retryFailedTransaction": "Повторить"
+  },
+  "viewOnCeloBlockExplorer": "Просмотреть в CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
