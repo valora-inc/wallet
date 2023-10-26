@@ -45,7 +45,7 @@ const contractKit = {
 }
 
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: jest.fn(() => ({ transactionHash: '0x123' })),
+  sendTransaction: jest.fn(() => ({ transactionHash: '0x123', blockNumber: '1234', status: true })),
 }))
 
 const mockSwapTransaction: SwapTransaction = {
@@ -252,6 +252,16 @@ describe(swapSubmitSaga, () => {
               value: BigNumber('0.01'),
               tokenId: mockCeurTokenId,
             },
+          },
+        },
+      })
+      .put.like({
+        action: {
+          type: Actions.TRANSACTION_CONFIRMED,
+          receipt: {
+            transactionHash: '0x123',
+            block: '1234',
+            status: true,
           },
         },
       })
