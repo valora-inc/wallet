@@ -4,7 +4,7 @@ import Colors from 'src/styles/colors'
 
 interface Props {
   size?: number
-  color?: Colors | string
+  color?: Colors
 }
 
 const ExclamationCircleIcon = ({ size = 20, color = Colors.greenUI }: Props) => {
