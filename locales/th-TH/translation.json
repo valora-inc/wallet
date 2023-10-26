@@ -1690,7 +1690,8 @@
     "swapFrom": "สว็อปจาก",
     "swapTo": "สว็อปเป็น",
     "rate": "อัตรา",
-    "estimatedFee": "ค่าธรรมเนียมโดยประมาณ",
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "ค่าธรรมเนียมเครือข่าย",
     "viewOnExplorer": "ดูใน CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1856,6 +1857,18 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
+  "transactionStatus": {
+    "transactionIsCompleted": "เสร็จสมบูรณ์",
+    "transactionIsPending": "รอดำเนินการ",
+    "transactionIsFailed": "Failed"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Check Status",
+    "retryFailedTransaction": "ลองอีกครั้ง"
+  },
+  "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
+  "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
