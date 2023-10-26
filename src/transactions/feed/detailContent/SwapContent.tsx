@@ -77,15 +77,17 @@ export default function SwapContent({ exchange }: Props) {
       </View>
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.estimatedFee')}</Text>
-        <TokenDisplay
-          style={styles.currencyAmountText}
-          amount={exchange.fees[0].amount.value}
-          tokenId={exchange.fees[0].amount.tokenId}
-          showLocalAmount={false}
-          showSymbol={true}
-          hideSign={true}
-          testID="SwapContent/estimatedFee"
-        />
+        {exchange.fees[0] && (
+          <TokenDisplay
+            style={styles.currencyAmountText}
+            amount={exchange.fees[0].amount.value}
+            tokenId={exchange.fees[0].amount.tokenId}
+            showLocalAmount={false}
+            showSymbol={true}
+            hideSign={true}
+            testID="SwapContent/estimatedFee"
+          />
+        )}
       </View>
       <Touchable
         style={styles.rowContainer}
