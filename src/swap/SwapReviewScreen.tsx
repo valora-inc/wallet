@@ -110,7 +110,7 @@ export function SwapReviewScreen({ route }: Props) {
       return new BigNumber(0)
     }
     const feeCurrencyToken = tokensByAddress[feeCurrency]
-    if (!feeCurrencyToken || !feeCurrencyToken.priceUsd) {
+    if (!feeCurrencyToken?.priceUsd) {
       return new BigNumber(0)
     }
 
