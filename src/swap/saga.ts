@@ -409,6 +409,14 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
     }
 
+    yield* put(
+      transactionConfirmed(swapExecuteContext.id, {
+        transactionHash: receipt.transactionHash,
+        block: receipt.blockNumber.toString(),
+        status: receipt.status === 'success',
+      })
+    )
+
     const timeMetrics = getTimeMetrics()
 
     yield* put(swapSuccess())
