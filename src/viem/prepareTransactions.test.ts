@@ -19,6 +19,10 @@ import mocked = jest.mocked
 jest.mock('src/viem/estimateFeesPerGas')
 jest.mock('viem')
 
+beforeEach(() => {
+  jest.clearAllMocks()
+})
+
 describe('prepareTransactions module', () => {
   const mockFeeCurrencies: TokenBalanceWithAddress[] = [
     {
