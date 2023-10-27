@@ -14,7 +14,7 @@ import { publicClient } from 'src/viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, EstimateGasExecutionError, Hex, encodeFunctionData } from 'viem'
+import { Address, EstimateGasExecutionError, Hex, encodeFunctionData, zeroAddress } from 'viem'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas costs of different swap providers (or even the same swap)
@@ -28,12 +28,16 @@ export interface QuoteResult {
   provider: string
   estimatedPriceImpact: BigNumber | null
   preparedTransactions?: PreparedTransactionsResult
+  /**
+   * @deprecated Temporary until we remove the swap review screen
+   */
+  rawSwapResponse: FetchQuoteResponse
+  receivedAt: number
 }
 
 interface PreparedTransactionsPossible {
   type: 'possible'
-  approveTransaction: TransactionRequestCIP42 & { amountToApprove: bigint }
-  swapTransaction: TransactionRequestCIP42
+  transactions: TransactionRequestCIP42[]
 }
 
 export interface PreparedTransactionsNeedDecreaseSwapAmountForGas {
@@ -53,11 +57,14 @@ export type PreparedTransactionsResult =
   | PreparedTransactionsNeedDecreaseSwapAmountForGas
   | PreparedTransactionsNotEnoughBalanceForGas
 
-function createBaseApproveTransaction(
+function createBaseTransactions(
+  fromToken: TokenBalanceWithAddress,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction
 ) {
-  const { guaranteedPrice, sellTokenAddress, buyAmount, sellAmount, allowanceTarget, from } =
+  const baseTransactions: TransactionRequestCIP42[] = []
+
+  const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
     unvalidatedSwapTransaction
   const amountType: string =
     updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
@@ -67,25 +74,21 @@ function createBaseApproveTransaction(
       ? BigInt(new BigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0))
       : BigInt(sellAmount)
 
-  const data = encodeFunctionData({
-    abi: erc20.abi,
-    functionName: 'approve',
-    args: [allowanceTarget as Address, amountToApprove],
-  })
+  // Approve transaction if the sell token is ERC-20
+  if (allowanceTarget !== zeroAddress && fromToken.address) {
+    const data = encodeFunctionData({
+      abi: erc20.abi,
+      functionName: 'approve',
+      args: [allowanceTarget as Address, amountToApprove],
+    })
 
-  const approveTx: TransactionRequestCIP42 & { amountToApprove: bigint } = {
-    from: from as Address,
-    to: sellTokenAddress as Address,
-    data,
-    type: 'cip42',
-    amountToApprove,
+    const approveTx: TransactionRequestCIP42 = {
+      from: from as Address,
+      to: fromToken.address as Address,
+      data,
+    }
+    baseTransactions.push(approveTx)
   }
-
-  return approveTx
-}
-
-function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) {
-  const { from, to, value, data, gas } = unvalidatedSwapTransaction
 
   const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
     from: from as Address,
@@ -93,16 +96,110 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
     value: BigInt(value ?? 0),
     data: data as Hex,
     // This may not be entirely accurate for now
+    // without the approval transaction being executed first.
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
-    // We'll try to improve this in our API
+    // We control this from our API.
     gas: BigInt(gas),
-    type: 'cip42',
   }
+  baseTransactions.push(swapTx)
 
-  return swapTx
+  return {
+    amountToApprove,
+    baseTransactions,
+  }
 }
 
-function getMaxGasCost(txs: TransactionRequestCIP42[]) {
+function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
+  return !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
+}
+
+async function tryEstimateTransactions(
+  baseTransactions: TransactionRequestCIP42[],
+  feeCurrency: TokenBalance
+) {
+  const transactions: TransactionRequestCIP42[] = []
+
+  const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
+  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
+    publicClient.celo,
+    feeCurrencyAddress
+  )
+
+  for (const [index, baseTx] of baseTransactions.entries()) {
+    // We can only truly estimate the gas for the first transaction
+    if (index === 0) {
+      const tx = await tryEstimateTransaction(
+        baseTx,
+        feeCurrency,
+        maxFeePerGas,
+        maxPriorityFeePerGas
+      )
+      if (!tx) {
+        return null
+      }
+      transactions.push(tx)
+    } else {
+      if (!baseTx.gas) {
+        throw new Error(
+          'When multiple transactions are provided, all transactions but the first one must have a gas value'
+        )
+      }
+      transactions.push({
+        ...baseTx,
+        maxFeePerGas,
+        maxPriorityFeePerGas,
+        // Don't include the feeCurrency field if not present.
+        // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
+        ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
+        // We assume the provided gas value is with the native fee currency
+        // If it's not, we add the static padding
+        gas: baseTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
+      })
+    }
+  }
+
+  return transactions
+}
+
+async function tryEstimateTransaction(
+  baseTransaction: TransactionRequestCIP42,
+  feeCurrency: TokenBalance,
+  maxFeePerGas: bigint,
+  maxPriorityFeePerGas: bigint | undefined
+) {
+  const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
+  const tx = {
+    ...baseTransaction,
+    maxFeePerGas,
+    maxPriorityFeePerGas,
+    // Don't include the feeCurrency field if not present.
+    // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
+    ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
+  }
+
+  // TODO maybe cache this? and add static padding when using non-native fee currency
+  try {
+    tx.gas = await publicClient.celo.estimateGas({
+      ...tx,
+      account: tx.from,
+    })
+  } catch (e) {
+    if (e instanceof EstimateGasExecutionError) {
+      // Likely too much gas was needed
+      Logger.warn(
+        'SwapScreen@useSwapQuote',
+        `Couldn't estimate gas with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
+        e
+      )
+      return null
+    }
+    throw e
+  }
+
+  return tx
+}
+
+export function getMaxGasCost(txs: TransactionRequestCIP42[]) {
   let maxGasCost = BigInt(0)
   for (const tx of txs) {
     if (!tx.gas || !tx.maxFeePerGas) {
@@ -120,8 +217,11 @@ async function prepareTransactions(
   price: string,
   feeCurrencies: TokenBalance[]
 ): Promise<PreparedTransactionsResult> {
-  const baseApproveTx = createBaseApproveTransaction(updatedField, unvalidatedSwapTransaction)
-  const baseSwapTx = createBaseSwapTransaction(unvalidatedSwapTransaction)
+  const { amountToApprove, baseTransactions } = createBaseTransactions(
+    fromToken,
+    updatedField,
+    unvalidatedSwapTransaction
+  )
 
   const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
   for (const feeCurrency of feeCurrencies) {
@@ -130,50 +230,13 @@ async function prepareTransactions(
       continue
     }
 
-    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
-    const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-      publicClient.celo,
-      feeCurrencyAddress
-    )
-
-    const approveTx = {
-      ...baseApproveTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
+    const estimatedTransactions = await tryEstimateTransactions(baseTransactions, feeCurrency)
+    if (!estimatedTransactions) {
+      // Not enough balance to pay for gas, try next fee currency
+      continue
     }
 
-    // TODO maybe cache this? and add static padding when using non-native fee currency
-    try {
-      const approveGas = await publicClient.celo.estimateGas({
-        ...approveTx,
-        account: approveTx.from,
-      })
-      approveTx.gas = approveGas
-    } catch (e) {
-      if (e instanceof EstimateGasExecutionError) {
-        // Likely too much gas was needed
-        Logger.warn(
-          'SwapScreen@useSwapQuote',
-          `Couldn't estimate gas for approval with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
-          e
-        )
-        continue
-      }
-      throw e
-    }
-
-    const swapTx = {
-      ...baseSwapTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
-      // We assume the provided gas value is with the native fee currency
-      // If it's not, we add the static padding
-      gas: baseSwapTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
-    }
-
-    const maxGasCost = getMaxGasCost([approveTx, swapTx])
+    const maxGasCost = getMaxGasCost(estimatedTransactions)
     const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
       -feeCurrency.decimals
     )
@@ -183,9 +246,7 @@ async function prepareTransactions(
       continue
     }
 
-    const fromAmount = new BigNumber(approveTx.amountToApprove.toString()).shiftedBy(
-      -fromToken.decimals
-    )
+    const fromAmount = new BigNumber(amountToApprove.toString()).shiftedBy(-fromToken.decimals)
     if (
       fromToken.tokenId === feeCurrency.tokenId &&
       fromAmount.plus(maxGasCostInDecimal).isGreaterThan(fromToken.balance)
@@ -197,8 +258,7 @@ async function prepareTransactions(
     // This is the one we can use
     return {
       type: 'possible',
-      approveTransaction: approveTx,
-      swapTransaction: swapTx,
+      transactions: estimatedTransactions,
     } satisfies PreparedTransactionsPossible
   }
 
@@ -300,6 +360,8 @@ const useSwapQuote = () => {
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
+        rawSwapResponse: quote,
+        receivedAt: Date.now(),
       }
 
       // TODO: this branch will be part of the normal flow once viem is always used

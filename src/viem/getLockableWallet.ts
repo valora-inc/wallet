@@ -87,12 +87,9 @@ export default function getLockableViemWallet(
         checkLock()
         return signMessage(client, args)
       },
-      writeContract: (args) => {
-        checkLock()
-        return writeContract(client, args)
-      },
       unlockAccount: (passphrase: string, duration: number) =>
         lock.unlock(account.address, passphrase, duration),
+      },
     }
   })
 }
