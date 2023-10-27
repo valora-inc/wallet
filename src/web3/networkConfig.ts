@@ -70,7 +70,7 @@ interface NetworkConfig {
   celoTokenAddress: string
 }
 
-export type blockExplorerUrls = {
+export type BlockExplorerUrls = {
   [key in NetworkId]: {
     baseTxUrl: string
     baseAddressUrl: string
@@ -368,7 +368,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   },
 }
 
-export const blockExplorerUrls: blockExplorerUrls = {
+export const blockExplorerUrls: BlockExplorerUrls = {
   [NetworkId['celo-mainnet']]: {
     baseTxUrl: CELOSCAN_BASE_TX_URL_MAINNET,
     baseAddressUrl: CELOSCAN_BASE_ADDRESS_URL_MAINNET,
