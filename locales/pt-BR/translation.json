@@ -1858,6 +1858,11 @@
       "withdraw": "Transfira tokens para uma conta bancária, dinheiro móvel, cartão-presente etc."
     }
   },
+  "sendEnterAmountScreen": {
+    "title": "Insira o valor",
+    "selectToken": "Selecione um token",
+    "networkFee": "{{networkName}} Taxa de rede"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
