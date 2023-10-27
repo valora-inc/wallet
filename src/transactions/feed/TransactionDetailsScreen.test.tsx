@@ -1,12 +1,16 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   Fee,
   FeeType,
+  NetworkId,
   TokenAmount,
   TokenExchange,
   TokenExchangeMetadata,
@@ -14,14 +18,14 @@ import {
   TokenTransactionTypeV2,
   TokenTransfer,
   TokenTransferMetadata,
-  NetworkId,
   TransactionStatus,
 } from 'src/transactions/types'
+import { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
+  RecursivePartial,
   createMockStore,
   getElementText,
   getMockStackScreenProps,
-  RecursivePartial,
 } from 'test/utils'
 import {
   mockAccount,
@@ -34,6 +38,8 @@ import {
   mockDisplayNumber2,
   mockE164Number2,
 } from 'test/values'
+
+jest.mock('src/analytics/ValoraAnalytics')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -87,12 +93,14 @@ describe('TransactionDetailsScreen', () => {
     },
     metadata = {},
     fees = [],
+    status = TransactionStatus.Complete,
   }: {
     type: TokenTransactionTypeV2
     address?: string
     amount?: TokenAmount
     metadata?: TokenTransferMetadata
     fees?: Fee[]
+    status?: TransactionStatus
   }): TokenTransfer {
     return {
       __typename: 'TokenTransferV3',
@@ -105,7 +113,7 @@ describe('TransactionDetailsScreen', () => {
       amount,
       metadata,
       fees,
-      status: TransactionStatus.Complete,
+      status,
     }
   }
 
@@ -121,16 +129,29 @@ describe('TransactionDetailsScreen', () => {
       tokenId: mockCusdTokenId,
     },
     metadata = {},
-    fees = [],
+    fees = [
+      {
+        type: FeeType.SecurityFee,
+        amount: {
+          value: 0.1,
+          tokenAddress: mockCusdAddress,
+          tokenId: mockCusdTokenId,
+        },
+      },
+    ],
+    status = TransactionStatus.Complete,
+    networkId = NetworkId['celo-alfajores'],
   }: {
     inAmount?: TokenAmount
     outAmount?: TokenAmount
     metadata?: TokenExchangeMetadata
     fees?: Fee[]
+    status?: TransactionStatus
+    networkId?: NetworkId
   }): TokenExchange {
     return {
       __typename: 'TokenExchangeV3',
-      networkId: NetworkId['celo-alfajores'],
+      networkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       transactionHash: '0xf5J440sML02q2z8q92Vyt3psStjBACc3825KmFGB2Zk1zMil6wrI306097C1Rps2',
       timestamp: 1531306119,
@@ -139,7 +160,7 @@ describe('TransactionDetailsScreen', () => {
       outAmount,
       metadata,
       fees,
-      status: TransactionStatus.Complete,
+      status,
     }
   }
 
@@ -219,18 +240,7 @@ describe('TransactionDetailsScreen', () => {
 
   it('renders correctly for cUSD to cEUR swap', async () => {
     const { getByTestId } = renderScreen({
-      transaction: swapTransaction({
-        fees: [
-          {
-            type: FeeType.SecurityFee,
-            amount: {
-              value: 0.1,
-              tokenAddress: mockCusdAddress,
-              tokenId: mockCusdTokenId,
-            },
-          },
-        ],
-      }),
+      transaction: swapTransaction({}),
       storeOverrides: {},
     })
 
@@ -246,5 +256,217 @@ describe('TransactionDetailsScreen', () => {
     // Includes the fee
     const estimatedFee = getByTestId('SwapContent/estimatedFee')
     expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
+
+    const estimatedFeeInLocalCurrency = getByTestId('SwapContent/estimatedFeeLocalAmount')
+    expect(getElementText(estimatedFeeInLocalCurrency)).toEqual('₱0.13')
+  })
+
+  it.each([
+    TokenTransactionTypeV2.Sent,
+    TokenTransactionTypeV2.InviteSent,
+    TokenTransactionTypeV2.Received,
+    TokenTransactionTypeV2.InviteReceived,
+  ])('renders details action for complete %s transaction', (type) => {
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type,
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+  })
+
+  it(`renders details action for complete ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.showCompletedTransactionDetails')).toBeTruthy()
+  })
+
+  it.each([
+    TokenTransactionTypeV2.Sent,
+    TokenTransactionTypeV2.InviteSent,
+    TokenTransactionTypeV2.Received,
+    TokenTransactionTypeV2.InviteReceived,
+  ])('renders check status action for pending %s transaction', (type) => {
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type,
+        status: TransactionStatus.Pending,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+  })
+
+  it(`renders check status action for pending ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Pending,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+  })
+
+  it(`renders retry action for failed ${TokenTransactionTypeV2.Sent} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+  })
+
+  it(`renders retry action for failed ${TokenTransactionTypeV2.SwapTransaction} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.retryFailedTransaction')).toBeTruthy()
+  })
+
+  it.each([
+    TokenTransactionTypeV2.InviteSent,
+    TokenTransactionTypeV2.Received,
+    TokenTransactionTypeV2.InviteReceived,
+  ])('does not render retry action for %s transaction', (type) => {
+    const { queryByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type,
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    expect(queryByTestId('transactionDetails/primaryAction')).toBeFalsy()
+  })
+
+  it(`navigates to the celo block explorer url on tap on details action when network is celo`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['celo-alfajores'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('transactionDetailsActions.showCompletedTransactionDetails'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl).origin}`)
+        ),
+      })
+    )
+  })
+
+  it(`navigates to the ethereum block explorer url on tap on details action when the network is ethereum`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['ethereum-sepolia'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('transactionDetailsActions.showCompletedTransactionDetails'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['ethereum-sepolia']].baseTxUrl).origin}`)
+        ),
+      })
+    )
+  })
+
+  it('does not render details action if the transaction networkId is unknown', () => {
+    const { queryByTestId } = renderScreen({
+      transaction: swapTransaction({
+        // @ts-ignore: an edge case specifically for unit tests
+        networkId: 'test-unknown-network',
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(queryByTestId('transactionDetails/primaryAction')).toBeFalsy()
+  })
+
+  it(`navigates to the celo block explorer url on tap on block explorer link when network is celo`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['celo-alfajores'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('viewOnCeloBlockExplorer'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['celo-alfajores']].baseTxUrl).origin}`)
+        ),
+      })
+    )
+  })
+
+  it(`navigates to the ethereum block explorer url on tap on block explorer link when the network is ethereum`, () => {
+    const { getByText } = renderScreen({
+      transaction: swapTransaction({
+        networkId: NetworkId['ethereum-sepolia'],
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByText('viewOnEthereumBlockExplorer'))
+
+    expect(navigate).toHaveBeenCalledWith(
+      Screens.WebViewScreen,
+      expect.objectContaining({
+        uri: expect.stringMatching(
+          RegExp(`^${new URL(blockExplorerUrls[NetworkId['ethereum-sepolia']].baseTxUrl).origin}`)
+        ),
+      })
+    )
+  })
+
+  it('does not render block explorer link if the transaction networkId is unknown', () => {
+    const { queryByTestId } = renderScreen({
+      transaction: swapTransaction({
+        // @ts-ignore: an edge case specifically for unit tests
+        networkId: 'test-unknown-network',
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    expect(queryByTestId('transactionDetails/blockExplorerLink')).toBeFalsy()
+  })
+
+  it('sends correct analytics event on tap on explorer link', () => {
+    const { getByTestId } = renderScreen({
+      transaction: swapTransaction({
+        status: TransactionStatus.Complete,
+      }),
+    })
+
+    fireEvent.press(getByTestId('transactionDetails/blockExplorerLink'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      TransactionDetailsEvents.transaction_details_tap_block_explorer,
+      {
+        transactionType: TokenTransactionTypeV2.SwapTransaction,
+        transactionStatus: TransactionStatus.Complete,
+      }
+    )
   })
 })

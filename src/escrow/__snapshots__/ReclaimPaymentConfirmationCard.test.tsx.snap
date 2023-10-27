@@ -132,7 +132,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
     style={
       {
         "borderStyle": "solid",
-        "borderTopColor": "#F8F9F9",
+        "borderTopColor": "#E6E6E6",
         "borderTopWidth": 1,
         "marginBottom": 15,
         "marginTop": 10,
@@ -361,7 +361,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
     style={
       {
         "borderStyle": "solid",
-        "borderTopColor": "#F8F9F9",
+        "borderTopColor": "#E6E6E6",
         "borderTopWidth": 1,
         "marginBottom": 15,
         "marginTop": 10,
