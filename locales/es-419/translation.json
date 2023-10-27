@@ -1859,6 +1859,41 @@
       "withdraw": "Transfiere fichas a una cuenta bancaria, dinero móvil, tarjeta regalo, etc."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Busca por nombre, teléfono, cartera...",
+    "title": "Selecciona un destinatario",
+    "recents": "Recientes",
+    "qr": {
+      "title": "Escanear o mostrar código QR",
+      "subtitle": "Encuentra rápidamente direcciones en Valora"
+    },
+    "invite": {
+      "title": "Envía criptomonedas a tus amigos",
+      "subtitle": "Invita a amigos de tu lista de contactos"
+    },
+    "getStarted": {
+      "title": "Formas de enviar fondos en Valora",
+      "subtitle": "EMPEZAR",
+      "options": {
+        "one": {
+          "title": "Dirección del monedero",
+          "subtitle": "Introduce una dirección de monedero compatible con Celo o Ethereum (ej. 0x123...abcde)"
+        },
+        "two": {
+          "title": "Número de teléfono",
+          "subtitle": "Envía directamente al número de teléfono de alguien si tiene Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Enviar activos Ethereum a la cuenta ENS de alguien"
+        },
+        "four": {
+          "title": "Nombre del perfil",
+          "subtitle": "Puedes buscar usuarios existentes en Valora"
+        }
+      }
+    }
+  },
   "transactionStatus": {
     "transactionIsCompleted": "Finalizada",
     "transactionIsPending": "Pendientes",
