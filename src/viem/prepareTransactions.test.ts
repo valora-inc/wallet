@@ -86,7 +86,7 @@ describe('prepareTransactions module', () => {
         ],
       })
       expect(result.type).toEqual('not-enough-balance-for-gas')
-      expect('feeCurrencies' in result && result.feeCurrencies).toEqual(mockFeeCurrencies)
+      expect('feeCurrencies' in result && result.feeCurrencies).toStrictEqual(mockFeeCurrencies)
     })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending more than the max amount of a feeCurrency", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
@@ -109,7 +109,7 @@ describe('prepareTransactions module', () => {
           },
         ],
       })
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
         maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
@@ -137,7 +137,7 @@ describe('prepareTransactions module', () => {
           },
         ],
       })
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
         maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
@@ -167,7 +167,7 @@ describe('prepareTransactions module', () => {
           },
         ],
       })
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
         maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
@@ -204,7 +204,7 @@ describe('prepareTransactions module', () => {
           },
         ],
       })
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         type: 'possible',
         transactions: [
           {
@@ -259,7 +259,7 @@ describe('prepareTransactions module', () => {
           },
         ],
       })
-      expect(result).toEqual({
+      expect(result).toStrictEqual({
         type: 'possible',
         transactions: [
           {
@@ -350,7 +350,7 @@ describe('prepareTransactions module', () => {
         feeCurrencySymbol: 'FEE',
       })
       expect(estimateTransactionOutput && 'feeCurrency' in estimateTransactionOutput).toEqual(false)
-      expect(estimateTransactionOutput).toEqual({
+      expect(estimateTransactionOutput).toStrictEqual({
         from: '0x123',
         gas: BigInt(123),
         maxFeePerGas: BigInt(456),
@@ -367,7 +367,7 @@ describe('prepareTransactions module', () => {
         feeCurrencyAddress: '0xabc',
         maxPriorityFeePerGas: BigInt(789),
       })
-      expect(estimateTransactionOutput).toEqual({
+      expect(estimateTransactionOutput).toStrictEqual({
         from: '0x123',
         gas: BigInt(123),
         maxFeePerGas: BigInt(456),
@@ -415,7 +415,7 @@ describe('prepareTransactions module', () => {
         [{ from: '0x123' }, { from: '0x123', gas: BigInt(456) }],
         mockFeeCurrencies[0]
       )
-      expect(estimateTransactionsOutput).toEqual([
+      expect(estimateTransactionsOutput).toStrictEqual([
         {
           from: '0x123',
           gas: BigInt(123),
