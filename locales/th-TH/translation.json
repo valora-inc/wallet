@@ -1857,6 +1857,41 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Search by name, phone, wallet...",
+    "title": "Select a recipient",
+    "recents": "Recents",
+    "qr": {
+      "title": "Scan or Show QR Code",
+      "subtitle": "Quickly find addresses on Valora"
+    },
+    "invite": {
+      "title": "Send crypto to your friends",
+      "subtitle": "Invite friends from your contacts list"
+    },
+    "getStarted": {
+      "title": "Ways to send funds on Valora",
+      "subtitle": "GET STARTED",
+      "options": {
+        "one": {
+          "title": "Wallet Adress",
+          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+        },
+        "two": {
+          "title": "หมายเลขโทรศัพท์",
+          "subtitle": "Send directly to someone's phone number if they have Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Send Ethereum assets to someone's ENS handle"
+        },
+        "four": {
+          "title": "Profile Name",
+          "subtitle": "You can search for existing users on Valora"
+        }
+      }
+    }
+  },
   "transactionStatus": {
     "transactionIsCompleted": "เสร็จสมบูรณ์",
     "transactionIsPending": "รอดำเนินการ",
