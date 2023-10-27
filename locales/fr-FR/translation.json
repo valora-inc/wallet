@@ -1858,6 +1858,11 @@
       "withdraw": "Transfère des jetons vers un compte bancaire, de l'argent mobile, une carte cadeau, etc."
     }
   },
+  "sendEnterAmountScreen": {
+    "title": "Saisir le montant",
+    "selectToken": "Sélectionne un jeton",
+    "networkFee": "{{networkName}} Frais de réseau"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

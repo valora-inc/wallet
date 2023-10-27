@@ -9,7 +9,6 @@ import {
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
-  ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
   TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
@@ -30,12 +29,6 @@ export interface AddStandbyTransactionAction {
 export interface RemoveStandbyTransactionAction {
   type: Actions.REMOVE_STANDBY_TRANSACTION
   idx: string
-}
-
-export interface AddHashToStandbyTransactionAction {
-  type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS
-  idx: string
-  hash: string
 }
 
 // this type would ideally be TransactionReceipt from viem however the numbers
@@ -74,7 +67,6 @@ export interface UpdateInviteTransactionsAction {
 export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
-  | AddHashToStandbyTransactionAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
@@ -111,15 +103,6 @@ export const transactionConfirmed = (
 export const transactionFailed = (txId: string): TransactionFailedAction => ({
   type: Actions.TRANSACTION_FAILED,
   txId,
-})
-
-export const addHashToStandbyTransaction = (
-  idx: string,
-  hash: string
-): AddHashToStandbyTransactionAction => ({
-  type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS,
-  idx,
-  hash,
 })
 
 export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({

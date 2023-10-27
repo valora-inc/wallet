@@ -12,7 +12,6 @@ import { buildSendTx } from 'src/send/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
   transactionFailed,
@@ -23,6 +22,7 @@ import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getSendTxFeeDetails, sendAndMonitorTransaction, sendPayment } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
+
 import { UnlockResult, unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -412,7 +412,6 @@ describe('sendAndMonitorTransaction', () => {
   it('confirms a transaction if successfully executed', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .provide([[matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt]])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(
         transactionConfirmed('txId', {
           transactionHash: mockTxHash,
@@ -431,7 +430,6 @@ describe('sendAndMonitorTransaction', () => {
       .provide([
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), { status: 'reverted' }],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
@@ -449,7 +447,7 @@ describe('sendAndMonitorTransaction', () => {
       .provide([
         [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
       ])
-      .not.put(addHashToStandbyTransaction('txId', mockTxHash))
+      .not.put(transactionConfirmed('txId', expect.anything()))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
@@ -466,7 +464,6 @@ describe('sendAndMonitorTransaction', () => {
           throwError(new Error('wait failed')),
         ],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

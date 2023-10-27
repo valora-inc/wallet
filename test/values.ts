@@ -1005,7 +1005,6 @@ export const mockOnboardingProps = {
   chooseAdventureEnabled: false,
   showRecoveryPhrase: false,
   onboardingNameScreenEnabled: true,
-  cashInBottomSheetEnabled: true,
 }
 
 export const mockDappList: Dapp[] = [

@@ -1858,6 +1858,11 @@
       "withdraw": "Trasferisci i gettoni su un conto bancario, una moneta mobile, una carta regalo, ecc."
     }
   },
+  "sendEnterAmountScreen": {
+    "title": "Inserisci l'importo",
+    "selectToken": "Seleziona un gettone",
+    "networkFee": "{{networkName}} Commissione di rete"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
