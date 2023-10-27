@@ -1,16 +1,19 @@
 import * as React from 'react'
 import Svg, { Path } from 'react-native-svg'
-import Colors from 'src/styles/colors'
+import colors from 'src/styles/colors'
 
 interface Props {
-  color?: Colors
-  size?: number
+  color?: colors
 }
 
-const ArrowRight = ({ color = Colors.greenUI, size = 24 }: Props) => (
-  <Svg width={size} height={size} viewBox="0 0 16 16" fill="none">
+const ArrowRight = ({ color = colors.greenUI }: Props) => (
+  <Svg width={18} height={18} fill="none">
     <Path
-      d="m9.333 12-.933-.967 2.367-2.366h-8.1V7.333h8.1L8.4 4.967 9.333 4l4 4-4 4Z"
+      d="M1 9h16m0 0-7-8m7 8-7 8"
+      stroke="#1AB775"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
       fill={color}
     />
   </Svg>
