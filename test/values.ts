@@ -424,7 +424,6 @@ export const mockWallet: UnlockableWallet = {
 }
 
 export const mockViemWallet: Partial<ViemWallet> = {
-  prepareTransactionRequest: jest.fn(),
   signTransaction: jest.fn(),
   signTypedData: jest.fn(),
   signMessage: jest.fn(),

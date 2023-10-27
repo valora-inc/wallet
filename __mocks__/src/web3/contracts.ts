@@ -45,7 +45,6 @@ export async function getWeb3Async() {
 
 const mockViemWallet = {
   account: { address: '0x1234' },
-  prepareTransactionRequest: jest.fn().mockReturnValue('0x123456789'),
   signTransaction: jest.fn().mockReturnValue('0x123456789'),
   signTypedData: jest.fn().mockReturnValue('0x123456789'),
   signMessage: jest.fn().mockReturnValue('0x123456789'),

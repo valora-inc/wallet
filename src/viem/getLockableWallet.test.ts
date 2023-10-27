@@ -5,7 +5,6 @@ import { KeychainLock } from 'src/web3/KeychainLock'
 import * as mockedKeychain from 'test/mockedKeychain'
 import { mockAccount2, mockContractAddress, mockPrivateDEK, mockTypedData } from 'test/values'
 import {
-  prepareTransactionRequest,
   sendTransaction,
   signMessage,
   signTransaction,
@@ -17,11 +16,6 @@ import { celo } from 'viem/chains'
 jest.mock('viem/actions')
 
 const methodsParams: Record<string, any> = {
-  prepareTransactionRequest: {
-    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
-    to: '0x0000000000000000000000000000000000000000',
-    value: BigInt(1),
-  },
   sendTransaction: {
     account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
     to: '0x0000000000000000000000000000000000000000',
@@ -57,7 +51,6 @@ describe('getLockableWallet', () => {
   })
 
   it.each([
-    ['prepareTransactionRequest', (args: any) => wallet.prepareTransactionRequest(args)],
     ['sendTransaction', (args: any) => wallet.sendTransaction(args)],
     ['signTransaction', (args: any) => wallet.signTransaction(args)],
     ['signTypedData', (args: any) => wallet.signTypedData(args)],
@@ -70,10 +63,6 @@ describe('getLockableWallet', () => {
   })
 
   it.each([
-    {
-      method: prepareTransactionRequest,
-      methodCall: (args: any) => wallet.prepareTransactionRequest(args),
-    },
     { method: sendTransaction, methodCall: (args: any) => wallet.sendTransaction(args) },
     { method: signTransaction, methodCall: (args: any) => wallet.signTransaction(args) },
     { method: signTypedData, methodCall: (args: any) => wallet.signTypedData(args) },
