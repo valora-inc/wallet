@@ -1,26 +1,39 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect } from 'react'
+import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { TransactionDetailsEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import RowDivider from 'src/components/RowDivider'
+import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
+import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
-import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
+import Colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
-import networkConfig from 'src/web3/networkConfig'
+import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAction'
+import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
+  Network,
+  NetworkId,
   TokenExchange,
   TokenTransaction,
   TokenTransactionTypeV2,
   TokenTransfer,
+  TransactionStatus,
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
+import networkConfig, { blockExplorerUrls, networkIdToNetwork } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
@@ -72,21 +85,22 @@ function useHeaderTitle(transaction: TokenTransaction) {
 function TransactionDetailsScreen({ navigation, route }: Props) {
   const { transaction } = route.params
 
-  const headerTitle = useHeaderTitle(transaction)
-  useLayoutEffect(() => {
-    const dateTimeStatus = getDatetimeDisplayString(transaction.timestamp, i18n)
-    navigation.setOptions({
-      headerTitle: () => <HeaderTitleWithSubtitle title={headerTitle} subTitle={dateTimeStatus} />,
-    })
-  }, [transaction])
+  const { t } = useTranslation()
+
+  const title = useHeaderTitle(transaction)
+  const dateTime = getDatetimeDisplayString(transaction.timestamp, i18n)
 
   const addressToDisplayName = useSelector(addressToDisplayNameSelector)
   const rewardsSenders = useSelector(rewardsSendersSelector)
 
   let content
+  let retryHandler
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
+      retryHandler = () => navigate(Screens.Send)
+      content = <TransferSentContent transfer={transaction as TokenTransfer} />
+      break
     case TokenTransactionTypeV2.InviteSent:
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
@@ -104,23 +118,109 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent exchange={transaction as TokenExchange} />
+      retryHandler = () => navigate(Screens.SwapScreenWithBack)
       break
   }
 
+  const transactionNetwork = networkIdToNetwork[transaction.networkId]
+
+  const openBlockExplorerHandler =
+    transaction.networkId in NetworkId
+      ? () =>
+          navigate(Screens.WebViewScreen, {
+            uri: new URL(
+              transaction.transactionHash,
+              blockExplorerUrls[transaction.networkId].baseTxUrl
+            ).toString(),
+          })
+      : undefined
+
+  const primaryActionHanlder =
+    transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
+
   return (
-    <ScrollView contentContainerStyle={styles.contentContainer}>
-      <SafeAreaView style={styles.content}>{content}</SafeAreaView>
+    <ScrollView contentContainerStyle={styles.container}>
+      <SafeAreaView edges={['bottom']}>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.dateTime}>{dateTime}</Text>
+        <View style={styles.status}>
+          <TransactionStatusIndicator status={transaction.status} />
+          {primaryActionHanlder && (
+            <TransactionPrimaryAction
+              status={transaction.status}
+              type={transaction.type}
+              onPress={primaryActionHanlder}
+              testID="transactionDetails/primaryAction"
+            />
+          )}
+        </View>
+        <View style={styles.content}>{content}</View>
+        {openBlockExplorerHandler && (
+          <>
+            <RowDivider />
+            <Touchable
+              style={styles.rowContainer}
+              borderless={true}
+              onPress={() => {
+                ValoraAnalytics.track(
+                  TransactionDetailsEvents.transaction_details_tap_block_explorer,
+                  {
+                    transactionType: transaction.type,
+                    transactionStatus: transaction.status,
+                  }
+                )
+                openBlockExplorerHandler()
+              }}
+              testID="transactionDetails/blockExplorerLink"
+            >
+              <View style={styles.rowContainer}>
+                <Text style={styles.blockExplorerLink}>
+                  {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
+                  {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
+                </Text>
+                <ArrowRightThick size={16} />
+              </View>
+            </Touchable>
+          </>
+        )}
+      </SafeAreaView>
     </ScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
+  container: {
     flexGrow: 1,
+    paddingTop: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
   content: {
-    flexGrow: 1,
-    padding: 16,
+    marginTop: Spacing.Large32,
+  },
+  title: {
+    ...typeScale.titleSmall,
+    color: Colors.dark,
+  },
+  dateTime: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray3,
+    marginTop: 2,
+  },
+  status: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: 42,
+    marginTop: Spacing.Smallest8,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  blockExplorerLink: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray3,
+    marginRight: Spacing.Tiny4,
   },
 })
 

@@ -2,21 +2,13 @@ import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { SwapEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import TokenDisplay from 'src/components/TokenDisplay'
-import { formatValueToDisplay } from 'src/components/TokenDisplay'
-import Touchable from 'src/components/Touchable'
-import OpenLinkIcon from 'src/icons/OpenLinkIcon'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import RowDivider from 'src/components/RowDivider'
+import TokenDisplay, { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
-import { TokenExchange } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
-
+import { TokenExchange, TransactionStatus } from 'src/transactions/types'
 export interface Props {
   exchange: TokenExchange
 }
@@ -33,19 +25,12 @@ export default function SwapContent({ exchange }: Props) {
     (token) => token.tokenId === exchange.inAmount.tokenId
   )?.symbol
 
-  const onPressTxDetails = () => {
-    ValoraAnalytics.track(SwapEvents.swap_feed_detail_view_tx)
-    navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseTxUrl}${exchange.transactionHash}`,
-    })
-  }
-
   return (
     <View style={styles.contentContainer}>
-      <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
+      <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapTo')}</Text>
         <TokenDisplay
-          style={styles.currencyAmountText}
+          style={styles.currencyAmountPrimaryText}
           amount={exchange.inAmount.value}
           tokenId={exchange.inAmount.tokenId}
           showLocalAmount={false}
@@ -54,10 +39,10 @@ export default function SwapContent({ exchange }: Props) {
           testID="SwapContent/swapTo"
         />
       </View>
-      <View style={[styles.row, { paddingBottom: Spacing.Regular16 }]}>
+      <View style={[styles.row]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.swapFrom')}</Text>
         <TokenDisplay
-          style={styles.currencyAmountText}
+          style={styles.currencyAmountPrimaryText}
           amount={exchange.outAmount.value}
           tokenId={exchange.outAmount.tokenId}
           showLocalAmount={false}
@@ -66,19 +51,23 @@ export default function SwapContent({ exchange }: Props) {
           testID="SwapContent/swapFrom"
         />
       </View>
-      <View style={styles.separator} />
+      <RowDivider />
       <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
         <Text style={styles.bodyText}>{t('swapTransactionDetailPage.rate')}</Text>
-        <Text testID="SwapContent/rate" style={styles.currencyAmountText}>
+        <Text testID="SwapContent/rate" style={styles.currencyAmountPrimaryText}>
           {`1 ${fromTokenSymbol} ≈ ${formatValueToDisplay(
             new BigNumber(exchange.inAmount.value).dividedBy(exchange.outAmount.value)
           )} ${toTokenSymbol}`}
         </Text>
       </View>
-      <View style={[styles.row, { paddingBottom: Spacing.Smallest8 }]}>
-        <Text style={styles.bodyText}>{t('swapTransactionDetailPage.estimatedFee')}</Text>
+      <View style={styles.row}>
+        <Text style={styles.bodyText}>
+          {exchange.status === TransactionStatus.Pending
+            ? t('swapTransactionDetailPage.estimatedFee')
+            : t('swapTransactionDetailPage.networkFee')}
+        </Text>
         <TokenDisplay
-          style={styles.currencyAmountText}
+          style={styles.currencyAmountPrimaryText}
           amount={exchange.fees[0].amount.value}
           tokenId={exchange.fees[0].amount.tokenId}
           showLocalAmount={false}
@@ -87,17 +76,17 @@ export default function SwapContent({ exchange }: Props) {
           testID="SwapContent/estimatedFee"
         />
       </View>
-      <Touchable
-        style={styles.rowContainer}
-        borderless={true}
-        onPress={onPressTxDetails}
-        testID={'txDetails'}
-      >
-        <>
-          <Text style={styles.txDetails}>{t('swapTransactionDetailPage.viewOnExplorer')}</Text>
-          <OpenLinkIcon color={colors.gray4} />
-        </>
-      </Touchable>
+      <View style={styles.row}>
+        <TokenDisplay
+          style={styles.currencyAmountSecondaryText}
+          amount={exchange.fees[0].amount.value}
+          tokenId={exchange.fees[0].amount.tokenId}
+          showLocalAmount={true}
+          showSymbol={true}
+          hideSign={true}
+          testID="SwapContent/estimatedFeeLocalAmount"
+        />
+      </View>
     </View>
   )
 }
@@ -112,26 +101,19 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   bodyText: {
-    ...fontStyles.large,
+    ...typeScale.bodyMedium,
+    color: Colors.dark,
     width: '40%',
   },
-  currencyAmountText: {
-    ...fontStyles.large,
+  currencyAmountPrimaryText: {
+    ...typeScale.bodyMedium,
+    color: Colors.dark,
     width: '60%',
     textAlign: 'right',
   },
-  separator: {
-    height: 1,
-    width: '100%',
-    backgroundColor: colors.gray2,
-    marginBottom: Spacing.Regular16,
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  txDetails: {
-    ...fontStyles.large,
-    color: colors.gray4,
+  currencyAmountSecondaryText: {
+    ...typeScale.bodySmall,
+    color: Colors.gray4,
+    marginLeft: 'auto',
   },
 })

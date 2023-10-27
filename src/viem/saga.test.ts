@@ -13,7 +13,6 @@ import { buildSendTx } from 'src/send/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
-  addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
   transactionFailed,
@@ -312,7 +311,6 @@ describe('sendAndMonitorTransaction', () => {
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(
         transactionConfirmed('txId', {
           transactionHash: mockTxHash,
@@ -338,7 +336,6 @@ describe('sendAndMonitorTransaction', () => {
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), { status: 'reverted' }],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
@@ -353,7 +350,7 @@ describe('sendAndMonitorTransaction', () => {
       .provide([
         [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
       ])
-      .not.put(addHashToStandbyTransaction('txId', mockTxHash))
+      .not.put(transactionConfirmed('txId', expect.anything()))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
@@ -372,7 +369,6 @@ describe('sendAndMonitorTransaction', () => {
           throwError(new Error('wait failed')),
         ],
       ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
       .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
