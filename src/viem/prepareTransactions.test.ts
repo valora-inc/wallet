@@ -13,11 +13,21 @@ import {
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
-import { Address, BaseError, EstimateGasExecutionError, encodeFunctionData } from 'viem'
+import {
+  Address,
+  BaseError,
+  EstimateGasExecutionError,
+  encodeFunctionData,
+  ExecutionRevertedError,
+  InsufficientFundsError,
+} from 'viem'
 import mocked = jest.mocked
 
 jest.mock('src/viem/estimateFeesPerGas')
-jest.mock('viem')
+jest.mock('viem', () => ({
+  ...jest.requireActual('viem'),
+  encodeFunctionData: jest.fn(),
+}))
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -379,9 +389,14 @@ describe('prepareTransactions module', () => {
         maxPriorityFeePerGas: BigInt(789),
       })
     })
-    it('returns null if estimateGas throws EstimateGasExecutionError', async () => {
+    it('returns null if estimateGas throws EstimateGasExecutionError with cause insufficient funds', async () => {
       mockPublicClient.estimateGas.mockRejectedValue(
-        new EstimateGasExecutionError(new BaseError('test-cause'), {})
+        new EstimateGasExecutionError(
+          new InsufficientFundsError({
+            cause: new BaseError('insufficient funds'),
+          }),
+          {}
+        )
       )
       const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
       const estimateTransactionOutput = await tryEstimateTransaction({
@@ -392,6 +407,26 @@ describe('prepareTransactions module', () => {
         maxPriorityFeePerGas: BigInt(789),
       })
       expect(estimateTransactionOutput).toEqual(null)
+    })
+    it('throws if estimateGas throws error for some other reason besides insufficient funds', async () => {
+      mockPublicClient.estimateGas.mockRejectedValue(
+        new EstimateGasExecutionError(
+          new ExecutionRevertedError({
+            cause: new BaseError("transfer value exceeded sender's allowance for spender"),
+          }),
+          {}
+        )
+      )
+      const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
+      await expect(() =>
+        tryEstimateTransaction({
+          baseTransaction,
+          maxFeePerGas: BigInt(456),
+          feeCurrencySymbol: 'FEE',
+          feeCurrencyAddress: '0xabc',
+          maxPriorityFeePerGas: BigInt(789),
+        })
+      ).rejects.toThrowError(EstimateGasExecutionError)
     })
   })
   describe('tryEstimateTransactions', () => {
