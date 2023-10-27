@@ -145,7 +145,7 @@ describe(handleRequest, () => {
   })
 
   describe('eth_signTransaction', () => {
-    // TODO: keep only Viem branch after feeCurrecny estimation is ready
+    // TODO: keep only Viem branch after feeCurrency estimation is ready
     describe('transaction normalization (viem)', () => {
       beforeAll(() => {
         jest.mocked(getFeatureGate).mockReturnValue(true)

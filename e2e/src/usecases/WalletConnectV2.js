@@ -42,7 +42,7 @@ async function formatTestTransaction(address, web3Library) {
     })
     const data = await response.json()
 
-    // TODO: keep only Viem branch after feeCurrecny estimation is ready
+    // TODO: keep only Viem branch after feeCurrency estimation is ready
     if (web3Library === 'viem') {
       return {
         from: address,
@@ -109,7 +109,7 @@ export default WalletConnect = () => {
   let walletConnectClient, pairingUrl, core
   let intervalsToClear = []
 
-  // TODO: keep only Viem branch after feeCurrecny estimation is ready
+  // TODO: keep only Viem branch after feeCurrency estimation is ready
   describe.each([{ web3Library: 'contract-kit' }, { web3Library: 'viem' }])(
     'When using $web3Library',
     ({ web3Library }) => {
