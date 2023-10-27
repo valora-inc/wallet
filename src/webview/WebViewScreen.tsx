@@ -189,6 +189,10 @@ function WebViewScreen({ route, navigation }: Props) {
   // Toggle for Android Bottom Sheet - passed to WebViewAndroidBottomSheet
   const toggleBottomSheet = () => setShowingBottomSheet((value: boolean) => !value)
 
+  const { origin } = new URL(uri)
+  const mediaPlaybackRequiresUserAction =
+    !disabledMediaPlaybackRequiresUserActionOrigins.includes(origin)
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
@@ -203,9 +207,7 @@ function WebViewScreen({ route, navigation }: Props) {
           setCanGoForward(navState.canGoForward)
           handleSetNavigationTitle(navState.url, navState.title, navState.loading)
         }}
-        mediaPlaybackRequiresUserAction={
-          !disabledMediaPlaybackRequiresUserActionOrigins.includes(new URL(uri).origin)
-        }
+        mediaPlaybackRequiresUserAction={mediaPlaybackRequiresUserAction}
         testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
       />
       {Platform.OS === 'android' && (
