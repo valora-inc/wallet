@@ -1552,7 +1552,7 @@
       "descriptionXtoYDays": "Your transaction request has been sent & your funds will arrive in {{lowerBound}}-{{upperBound}} days.",
       "baseDescription": "Your transaction request has been sent.",
       "txDetails": "View on CeloExplorer",
-      "viewOnCeloBlockExplorer": "View on CeloScan",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "Continue"
     },
     "requestNotCompleted": {
@@ -1872,7 +1872,8 @@
     "checkPendingTransactionStatus": "Check Status",
     "retryFailedTransaction": "Retry"
   },
-  "viewOnCeloBlockExplorer": "View on CeloScan",
+  "viewOnCeloBlockExplorer": "View on CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",

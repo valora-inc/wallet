@@ -190,7 +190,7 @@ function SuccessOrProcessingSection({
         <Touchable testID={'txDetails'} borderless={true} onPress={onPressTxDetails}>
           <View style={styles.txDetailsContainer}>
             <Text style={styles.txDetails}>
-              {t('fiatConnectStatusScreen.success.viewOnCeloBlockExplorer')}
+              {t('fiatConnectStatusScreen.success.viewOnCeloScan')}
             </Text>
             <OpenLinkIcon color={colors.gray4} />
           </View>
