@@ -16,6 +16,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Button from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
@@ -102,8 +103,8 @@ function TokenBalance({
   } else {
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
-        {localCurrencySymbol}
-        {totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
+        {!hideBalance && localCurrencySymbol}
+        {hideBalance ? 'XX.XX' : totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
@@ -206,7 +207,13 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   )
 }
 
-export function HomeTokenBalance({ hideBalance = false }: { hideBalance: boolean }) {
+export function HomeTokenBalance({
+  buttonOnPress,
+  hideBalance = false,
+}: {
+  buttonOnPress: () => void
+  hideBalance?: boolean
+}) {
   const { t } = useTranslation()
 
   const totalBalance = useTotalTokenBalance()
@@ -260,14 +267,17 @@ export function HomeTokenBalance({ hideBalance = false }: { hideBalance: boolean
           </TouchableOpacity>
         )}
       </View>
-      <TokenBalance
-        style={
-          getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-            ? styles.totalBalance
-            : styles.balance
-        }
-        hideBalance={hideBalance}
-      />
+      <View style={styles.row}>
+        <TokenBalance
+          style={
+            getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+              ? styles.totalBalance
+              : styles.balance
+          }
+          hideBalance={hideBalance}
+        />
+        <Button text={'a'} onPress={buttonOnPress} />
+      </View>
     </View>
   )
 }

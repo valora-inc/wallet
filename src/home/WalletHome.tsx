@@ -12,7 +12,6 @@ import {
   phoneNumberVerifiedSelector,
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
-import Button from 'src/components/Button'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -176,11 +175,12 @@ function WalletHome() {
   const tokenBalanceSection = {
     data: [{}],
     renderItem: () => (
-      <>
-        <HomeTokenBalance key={'HomeTokenBalance'} hideBalance={hideBalances} />
-        <Button text={'hideBalances'} onPress={eyeballOnPress} />
-      </>
-    ), // TODO: Add param here for hiding/showing balances
+      <HomeTokenBalance
+        key={'HomeTokenBalance'}
+        buttonOnPress={eyeballOnPress}
+        hideBalance={hideBalances}
+      />
+    ),
   }
   const actionsCarouselSection = {
     data: [{}],
@@ -200,7 +200,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <TransactionFeed key={'TransactionList'} hideBalances={hideBalances} />, // TODO: Add param for hiding balances
+    renderItem: () => <TransactionFeed key={'TransactionList'} hideBalances={hideBalances} />,
   })
 
   const topRightElements = (
