@@ -1222,6 +1222,24 @@ export interface SwapTimeMetrics {
   quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
 }
 
+export interface SwapTxsProperties {
+  maxGasCost: number // Max gas cost for the swap (approve + swap) in feeCurrency units
+  maxGasCostUsd?: number // Max gas cost for the swap (approve + swap) in USD
+  txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
+  feeCurrency: string | undefined // Fee currency used
+  feeCurrencySymbol: string | undefined // Fee currency symbol used
+}
+
+export interface SwapTxReceiptProperties {
+  swapTxCumulativeGasUsed: number // Gas used by the swap transaction and all preceding transactions in the block
+  swapTxEffectiveGasPrice: number // Pre-London, it is equal to the swap transaction's gasPrice. Post-London, it is equal to the actual gas price paid for inclusion.
+  swapTxGasUsed: number // Gas used by the swap transaction
+  swapTxGas: number // Gas limit of the swap transaction
+  swapTxGasCost: number // Actual gas cost of the swap transaction in feeCurrency units
+  swapTxGasCostUsd: number // Actual gas cost of the swap transaction in USD
+  swapTxHash: string // Hash of the swap transaction
+}
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1236,10 +1254,12 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_screen_review_swap]: undefined
-  [SwapEvents.swap_review_screen_open]: SwapEvent
-  [SwapEvents.swap_review_submit]: SwapQuoteEvent & {
-    usdTotal: number
-  }
+  [SwapEvents.swap_review_screen_open]: SwapEvent & Web3LibraryProps & Partial<SwapTxsProperties>
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> & {
+      usdTotal: number
+    }
   [SwapEvents.swap_execute_price_change]: {
     price: string
     guaranteedPrice: string
@@ -1247,7 +1267,10 @@ interface SwapEventsProperties {
     fromToken: string
   }
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
-    SwapTimeMetrics & {
+    SwapTimeMetrics &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> &
+    Partial<SwapTxReceiptProperties> & {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
@@ -1255,7 +1278,10 @@ interface SwapEventsProperties {
       estimatedBuyTokenUsdValue?: number
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
-    SwapTimeMetrics & {
+    SwapTimeMetrics &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> &
+    Partial<SwapTxReceiptProperties> & {
       error: string
       fromTokenBalance: string
       swapExecuteTxId: string
