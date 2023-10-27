@@ -378,7 +378,14 @@ describe(swapSubmitPreparedSaga, () => {
     }),
   } as any as ViemWallet
 
-  const mockTxReceipt = { status: 'success', blockNumber: BigInt(1234), transactionHash: '0x2' }
+  const mockTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x2',
+    effectiveGasPrice: BigInt(1235),
+    gasUsed: BigInt(4444),
+    feeCurrency: '0xabc',
+  }
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
     [matchers.call.fn(getViemWallet), mockViemWallet],
@@ -426,6 +433,11 @@ describe(swapSubmitPreparedSaga, () => {
             transactionHash: '0x2',
             block: '1234',
             status: true,
+            fee: {
+              effectiveGasPrice: '1235',
+              gasUsed: '4444',
+              feeCurrency: '0xabc',
+            },
           },
         },
       })

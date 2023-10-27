@@ -409,6 +409,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         transactionHash: receipt.transactionHash,
         block: receipt.blockNumber.toString(),
         status: receipt.status === 'success',
+        fee: {
+          effectiveGasPrice: receipt.effectiveGasPrice.toString(),
+          gasUsed: receipt.gasUsed.toString(),
+          feeCurrency: receipt.feeCurrency,
+        },
       })
     )
 
