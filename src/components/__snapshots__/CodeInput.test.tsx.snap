@@ -178,18 +178,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
             style={
               [
                 {
-                  "color": "#2E3338",
                   "flex": 1,
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
                 },
-                undefined,
                 {
                   "minHeight": undefined,
                 },
+                undefined,
               ]
             }
             value="test"
@@ -595,18 +592,15 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
             style={
               [
                 {
-                  "color": "#2E3338",
                   "flex": 1,
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
                 },
-                undefined,
                 {
                   "minHeight": undefined,
                 },
+                undefined,
               ]
             }
             value="test"
@@ -828,15 +822,11 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             style={
               [
                 {
-                  "color": "#2E3338",
                   "flex": 1,
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
                 },
-                undefined,
                 {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
@@ -845,6 +835,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
                   "minHeight": undefined,
                   "textAlign": "center",
                 },
+                undefined,
               ]
             }
             textContentType="oneTimeCode"
@@ -1291,15 +1282,11 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             style={
               [
                 {
-                  "color": "#2E3338",
                   "flex": 1,
-                  "fontFamily": "Inter-Regular",
-                  "fontSize": 16,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
                 },
-                undefined,
                 {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
@@ -1308,6 +1295,7 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
                   "minHeight": undefined,
                   "textAlign": "center",
                 },
+                undefined,
               ]
             }
             textContentType="oneTimeCode"

@@ -82,18 +82,15 @@ exports[`Contact withEmail renders correctly 1`] = `
           style={
             [
               {
-                "color": "#2E3338",
                 "flex": 1,
-                "fontFamily": "Inter-Regular",
-                "fontSize": 16,
                 "lineHeight": 22,
                 "paddingHorizontal": 0,
                 "paddingVertical": 12,
               },
+              undefined,
               {
                 "textAlignVertical": "top",
               },
-              undefined,
             ]
           }
           testID="MessageEntry"

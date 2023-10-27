@@ -75,9 +75,9 @@ export class CTextInput extends React.Component<Props, State> {
         <RNTextInput
           ref={forwardedRef}
           style={[
-            styles.input,
-            passThroughProps.multiline && { textAlignVertical: 'top' },
+            styles.input ?? fontStyles.regular,
             inputStyle,
+            passThroughProps.multiline && { textAlignVertical: 'top' },
           ]}
           value={value}
           {...passThroughProps}
@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    ...fontStyles.regular,
     flex: 1,
     paddingVertical: 12,
     paddingHorizontal: 0,
