@@ -13,7 +13,6 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
   UpdateTransactionsAction,
-  addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
   transactionFailed,
@@ -124,7 +123,7 @@ export function* sendAndMonitorTransaction<T>(
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
     const sendTxMethod = function* () {
-      const { transactionHash, receipt }: TxPromises = yield* call(
+      const { receipt }: TxPromises = yield* call(
         sendTransactionPromises,
         tx.txo,
         account,
@@ -134,8 +133,6 @@ export function* sendAndMonitorTransaction<T>(
         gasPrice,
         nonce
       )
-      const hash: string = yield transactionHash
-      yield* put(addHashToStandbyTransaction(context.id, hash))
       return (yield receipt) as CeloTxReceipt
     }
     // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result

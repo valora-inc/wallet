@@ -1862,6 +1862,11 @@
       "withdraw": "Переказуйте токени на банківський рахунок, мобільні гроші, подарункову картку тощо."
     }
   },
+  "sendEnterAmountScreen": {
+    "title": "Введіть суму",
+    "selectToken": "Виберіть токен",
+    "networkFee": "{{networkName}} Мережева плата"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

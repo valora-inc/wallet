@@ -12,7 +12,6 @@ import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId, tokenSupportsComments } from 'src/tokens/utils'
 import {
-  addHashToStandbyTransaction,
   addStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
@@ -282,7 +281,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       txHash: hash,
     })
-    yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], { hash })
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt

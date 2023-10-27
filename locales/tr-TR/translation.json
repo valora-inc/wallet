@@ -1858,6 +1858,11 @@
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
   },
+  "sendEnterAmountScreen": {
+    "title": "Tutar Girin",
+    "selectToken": "Bir Belirteç Seçin",
+    "networkFee": "{{networkName}} Ağ Ücreti"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
