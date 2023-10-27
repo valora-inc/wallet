@@ -1860,7 +1860,7 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
-  "sendRedesign": {
+  "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
     "title": "Select a recipient",
     "recents": "Recents",
