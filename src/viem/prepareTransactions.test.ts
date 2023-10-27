@@ -285,6 +285,60 @@ describe('prepareTransactions module', () => {
         ],
       })
     })
+    it("returns a 'possible' result when spending the max balance of a token that isn't a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
+
+      // for fee1 (native): gas fee is 0.5k wei from first transaction, plus 0.1k wei from second transaction
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockSpendToken,
+        spendTokenAmount: mockSpendToken.balance.shiftedBy(mockSpendToken.decimals),
+        decreasedAmountGasCostMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+          },
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(500),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: undefined,
+          },
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(100),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: undefined,
+          },
+        ],
+      })
+    })
   })
   describe('tryEstimateTransaction', () => {
     it('does not include feeCurrency if not address undefined', async () => {
