@@ -2744,17 +2744,26 @@ export const v162Schema = {
 }
 
 export const v163Schema = {
-  ...v161Schema,
+  ...v162Schema,
   _persist: {
-    ...v161Schema._persist,
+    ...v162Schema._persist,
     version: 163,
   },
   send: {
-    ..._.omit(v161Schema.send, 'lastUsedCurrency'),
+    ..._.omit(v162Schema.send, 'lastUsedCurrency'),
     lastUsedTokenId: undefined,
   },
 }
 
+export const v164Schema = {
+  ...v163Schema,
+  _persist: {
+    ...v163Schema._persist,
+    version: 164,
+  },
+  app: _.omit(v162Schema.app, 'rampCashInButtonExpEnabled'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v163Schema as Partial<RootState>
+  return v164Schema as Partial<RootState>
 }
