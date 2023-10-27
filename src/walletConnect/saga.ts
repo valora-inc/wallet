@@ -533,10 +533,19 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
     })
 
     // Notify the client about the error if possible
-    const { topic, id } = request
-    if (client && topic && id) {
-      const response = formatJsonRpcResult(id, { error: e })
-      yield* call([client, 'respondSessionRequest'], { topic, response })
+    try {
+      const { topic, id } = request
+      if (client && topic && id) {
+        const response = formatJsonRpcResult(id, { error: e })
+        yield* call([client, 'respondSessionRequest'], { topic, response })
+      }
+    } catch (error) {
+      const e = ensureError(err)
+      Logger.debug(TAG + '@acceptRequest', e.message)
+      ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_error, {
+        ...defaultTrackedProperties,
+        error: e.message,
+      })
     }
   }
 

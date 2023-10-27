@@ -4,6 +4,7 @@ import { call } from 'redux-saga/effects'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
 import { getViemWallet, getWallet } from 'src/web3/contracts'
@@ -17,11 +18,11 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockTypedData,
-  mockViemWallet,
   mockWallet,
 } from 'test/values'
 import { formatTransaction } from 'viem'
 import { getTransactionCount } from 'viem/actions'
+import { celoAlfajores } from 'viem/chains'
 
 jest.mock('src/statsig')
 jest.mock('src/web3/networkConfig', () => {
@@ -98,6 +99,12 @@ const state = createMockStore({
 }).getState()
 
 describe(handleRequest, () => {
+  let viemWallet: Partial<ViemWallet>
+
+  beforeAll(function* () {
+    viemWallet = yield* getViemWallet(celoAlfajores)
+  })
+
   it('unlocks the wallet address when a MTW address is set', async () => {
     const state = createMockStore({ web3: { account: '0xWALLET', mtwAddress: '0xMTW' } }).getState()
     await expectSaga(handleRequest, signTransactionRequest)
@@ -118,30 +125,64 @@ describe(handleRequest, () => {
       .run()
   })
 
-  it('supports personal_sign', async () => {
-    await expectSaga(handleRequest, personalSignRequest)
-      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
-      .withState(state)
-      .call([mockViemWallet, 'signMessage'], {
-        message: { raw: 'Some message' },
-      })
-      .run()
+  describe('legacy signing actions', () => {
+    beforeAll(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+    })
+
+    it('supports personal_sign', async () => {
+      await expectSaga(handleRequest, personalSignRequest)
+        .provide([[call(getWallet), mockWallet]])
+        .withState(state)
+        .call(unlockAccount, '0xwallet')
+        .call([mockWallet, 'signPersonalMessage'], '0xwallet', 'Some message')
+        .run()
+    })
+
+    it('supports eth_signTypedData', async () => {
+      await expectSaga(handleRequest, signTypedDataRequest)
+        .provide([[call(getWallet), mockWallet]])
+        .withState(state)
+        .call(unlockAccount, '0xwallet')
+        .call([mockWallet, 'signTypedData'], '0xwallet', mockTypedData)
+        .run()
+    })
+
+    it('supports eth_signTypedData_v4', async () => {
+      await expectSaga(handleRequest, signTypedDataV4Request)
+        .provide([[call(getWallet), mockWallet]])
+        .withState(state)
+        .call(unlockAccount, '0xwallet')
+        .call([mockWallet, 'signTypedData'], '0xwallet', mockTypedData)
+        .run()
+    })
   })
 
-  it('supports eth_signTypedData', async () => {
-    await expectSaga(handleRequest, signTypedDataRequest)
-      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
-      .withState(state)
-      .call([mockViemWallet, 'signTypedData'], mockTypedData)
-      .run()
-  })
+  describe('viem signing actions', () => {
+    beforeAll(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
 
-  it('supports eth_signTypedData_v4', async () => {
-    await expectSaga(handleRequest, signTypedDataV4Request)
-      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
-      .withState(state)
-      .call([mockViemWallet, 'signTypedData'], mockTypedData)
-      .run()
+    it('supports personal_sign', async () => {
+      await expectSaga(handleRequest, personalSignRequest)
+        .withState(state)
+        .call([viemWallet, 'signMessage'], { message: { raw: 'Some message' } })
+        .run()
+    })
+
+    it('supports eth_signTypedData', async () => {
+      await expectSaga(handleRequest, signTypedDataRequest)
+        .withState(state)
+        .call([viemWallet, 'signTypedData'], mockTypedData)
+        .run()
+    })
+
+    it('supports eth_signTypedData_v4', async () => {
+      await expectSaga(handleRequest, signTypedDataV4Request)
+        .withState(state)
+        .call([viemWallet, 'signTypedData'], mockTypedData)
+        .run()
+    })
   })
 
   describe('eth_signTransaction', () => {
@@ -157,7 +198,6 @@ describe(handleRequest, () => {
           params: [{ from: '0xTEST', data: '0xABC', gasLimit: '0x5208' }],
         })
           .provide([
-            [matchers.call.fn(getViemWallet), mockViemWallet],
             [matchers.call.fn(getTransactionCount), mockTransactionCount],
             [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
           ])
@@ -172,7 +212,6 @@ describe(handleRequest, () => {
           params: [{ from: '0xTEST', data: '0xABC', gasPrice: '0x5208' }],
         })
           .provide([
-            [matchers.call.fn(getViemWallet), mockViemWallet],
             [matchers.call.fn(getTransactionCount), mockTransactionCount],
             [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
           ])
@@ -195,7 +234,6 @@ describe(handleRequest, () => {
           ],
         })
           .provide([
-            [matchers.call.fn(getViemWallet), mockViemWallet],
             [matchers.call.fn(getTransactionCount), mockTransactionCount],
             [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
           ])

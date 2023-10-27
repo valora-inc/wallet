@@ -11,7 +11,7 @@ import { newTransactionContext } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
-import { getContractKit, getViemWallet, getWallet } from 'src/web3/contracts'
+import { getContractKit, getViemWallet, getWallet, getWeb3 } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
@@ -23,6 +23,7 @@ import {
   formatTransaction,
 } from 'viem'
 import { getTransactionCount } from 'viem/actions'
+import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
 
@@ -39,10 +40,10 @@ export function* handleRequest({ method, params }: { method: string; params: any
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)
 
-  switch (method) {
-    case SupportedActions.eth_signTransaction: {
-      // TODO: keep only Viem branch after feeCurrency estimation is ready
-      if (useViem) {
+  // TODO: keep only Viem branch after feeCurrency estimation is ready
+  if (useViem) {
+    switch (method) {
+      case SupportedActions.eth_signTransaction: {
         const rawTx: any = { ...params[0] }
 
         let tx: any
@@ -64,7 +65,42 @@ export function* handleRequest({ method, params }: { method: string; params: any
           address: account as Address,
           blockTag: 'pending',
         }
-        const nonce = yield* call(getTransactionCount, wallet, txCountParams)
+
+        const nonce = formattedTx.nonce ?? (yield* call(getTransactionCount, wallet, txCountParams))
+        const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
+          estimateFeesPerGas,
+          wallet,
+          formattedTx.feeCurrency as Address
+        )
+        const txRequest: any = {
+          ...formattedTx,
+          ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
+          ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
+          nonce,
+        }
+
+        return (yield* call([wallet, 'signTransaction'], txRequest)) as string
+      }
+      case SupportedActions.eth_sendTransaction: {
+        const rawTx: any = { ...params[0] }
+
+        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
+
+        // Convert hex values to numeric ones for Viem
+        // TODO: remove once Viem allows hex values as quanitites
+        const formattedTx: any = yield* call(formatTransaction, normalizedTx)
+
+        // TODO: inject fee currency for Celo when it's ready
+
+        // Fill in missing values, if any:
+        // - nonce
+        // - maxFeePerGas (with respect to feeCurrency)
+        // - maxPriorityFeePerGas (with repsect to feeCurrency)
+        const txCountParams: GetTransactionCountParameters = {
+          address: account as Address,
+          blockTag: 'pending',
+        }
+        const nonce = formattedTx.nonce ?? (yield* call(getTransactionCount, wallet, txCountParams))
         const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
           estimateFeesPerGas,
           wallet,
@@ -72,16 +108,32 @@ export function* handleRequest({ method, params }: { method: string; params: any
         )
         const txRequest = {
           ...formattedTx,
-          ...(formattedTx.nonce === undefined ? { nonce } : {}),
+          ...nonce,
           ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
           ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
         }
 
-        return (yield* call([wallet, 'signTransaction'], txRequest)) as string
+        return (yield* call([wallet, 'sendTransaction'], txRequest)) as string
       }
+      case SupportedActions.eth_signTypedData_v4:
+      case SupportedActions.eth_signTypedData:
+        return (yield* call([wallet, 'signTypedData'], JSON.parse(params[1]))) as string
+      case SupportedActions.personal_sign: {
+        const data = { message: { raw: params[0] } } as SignMessageParameters
+        return (yield* call([wallet, 'signMessage'], data)) as string
+      }
+      case SupportedActions.eth_sign: {
+        const data = { message: { raw: params[1] } } as SignMessageParameters
+        return (yield* call([wallet, 'signMessage'], data)) as string
+      }
+      default:
+        throw new Error('unsupported RPC method')
+    }
+  }
 
-      // Legacy path
-
+  // Legacy path
+  switch (method) {
+    case SupportedActions.eth_signTransaction: {
       // IMPORTANT: We need to normalize the transaction parameters
       // WalletConnect v1 utils currently strips away important fields like `chainId`, `feeCurrency`, `gatewayFee` and `gatewayFeeRecipient`
       // See https://github.com/WalletConnect/walletconnect-monorepo/blame/c6b26481c34848dbc9c49bb0d024bda907ec4599/packages/helpers/utils/src/ethereum.ts#L66-L86
@@ -127,45 +179,14 @@ export function* handleRequest({ method, params }: { method: string; params: any
 
       return (yield* call([legacyWallet, 'signTransaction'], tx)) as EncodedTransaction
     }
+    case SupportedActions.eth_signTypedData_v4:
+    case SupportedActions.eth_signTypedData:
+      return (yield* call(
+        [legacyWallet, 'signTypedData'],
+        account,
+        JSON.parse(params[1])
+      )) as string
     case SupportedActions.eth_sendTransaction: {
-      // TODO: keep only Viem branch after feeCurrency estimation is ready
-      if (useViem) {
-        const rawTx: any = { ...params[0] }
-
-        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
-
-        // Convert hex values to numeric ones for Viem
-        // TODO: remove once Viem allows hex values as quanitites
-        const formattedTx: any = yield* call(formatTransaction, normalizedTx)
-
-        // TODO: inject fee currency for Celo when it's ready
-
-        // Fill in missing values, if any:
-        // - nonce
-        // - maxFeePerGas (with respect to feeCurrency)
-        // - maxPriorityFeePerGas (with repsect to feeCurrency)
-        const txCountParams: GetTransactionCountParameters = {
-          address: account as Address,
-          blockTag: 'pending',
-        }
-        const nonce = yield* call(getTransactionCount, wallet, txCountParams)
-        const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
-          estimateFeesPerGas,
-          wallet,
-          formattedTx.feeCurrency
-        )
-        const txRequest = {
-          ...formattedTx,
-          ...(formattedTx.nonce === undefined ? { nonce } : {}),
-          ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
-          ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
-        }
-
-        return (yield* call([wallet, 'sendTransaction'], txRequest)) as string
-      }
-
-      // Legacy path
-
       const rawTx = { ...params[0] }
       const kit: ContractKit = yield* call(getContractKit)
       const normalizer = new TxParamsNormalizer(kit.connection)
@@ -187,17 +208,11 @@ export function* handleRequest({ method, params }: { method: string; params: any
       )
       return receipt.transactionHash
     }
-    case SupportedActions.eth_signTypedData_v4:
-    case SupportedActions.eth_signTypedData:
-      return (yield* call([wallet, 'signTypedData'], JSON.parse(params[1]))) as string
-    case SupportedActions.personal_sign: {
-      const data = { message: { raw: params[0] } } as SignMessageParameters
-      return (yield* call([wallet, 'signMessage'], data)) as string
-    }
-    case SupportedActions.eth_sign: {
-      const data = { message: { raw: params[1] } } as SignMessageParameters
-      return (yield* call([wallet, 'signMessage'], data)) as string
-    }
+    case SupportedActions.personal_sign:
+      return (yield* call([legacyWallet, 'signPersonalMessage'], account, params[0])) as string
+    case SupportedActions.eth_sign:
+      const web3: Web3 = yield* call(getWeb3)
+      return (yield* call(web3.eth.sign.bind(web3), params[1], account)) as string
     default:
       throw new Error('unsupported RPC method')
   }

@@ -50,7 +50,6 @@ import { StoredTokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { ViemWallet } from 'src/viem/getLockableWallet'
 
 export const nullAddress = '0x0'
 
@@ -421,12 +420,6 @@ export const mockWallet: UnlockableWallet = {
   signPersonalMessage: jest.fn(),
   decrypt: jest.fn(),
   computeSharedSecret: jest.fn(),
-}
-
-export const mockViemWallet: Partial<ViemWallet> = {
-  signTransaction: jest.fn(),
-  signTypedData: jest.fn(),
-  signMessage: jest.fn(),
 }
 
 export const mockTokenBalances: Record<string, StoredTokenBalance> = {
