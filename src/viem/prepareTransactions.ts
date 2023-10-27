@@ -289,11 +289,20 @@ export async function prepareSwapTransactions(
  * Works for ERC-20 transfers only.
  */
 export async function prepareERC20TransferTransaction(
-  fromWalletAddress: string,
-  toWalletAddress: string,
-  sendToken: TokenBalanceWithAddress,
-  amountWei: bigint,
-  feeCurrencies: TokenBalance[]
+  {
+    fromWalletAddress,
+    toWalletAddress,
+    sendToken,
+    amountWei,
+    feeCurrencies,
+  }: {
+    fromWalletAddress: string
+    toWalletAddress: string
+    sendToken: TokenBalanceWithAddress
+    amountWei: bigint
+    feeCurrencies: TokenBalance[]
+  },
+  prepareTxs = prepareTransactions // for unit testing
 ): Promise<PreparedTransactionsResult> {
   const baseSendTx: TransactionRequestCIP42 = {
     from: fromWalletAddress as Address,
@@ -305,7 +314,7 @@ export async function prepareERC20TransferTransaction(
     }),
     type: 'cip42',
   }
-  return prepareTransactions({
+  return prepareTxs({
     feeCurrencies,
     spendToken: sendToken,
     spendTokenAmount: new BigNumber(amountWei.toString()),

@@ -4,17 +4,20 @@ import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import {
   getFeeCurrencyAddress,
   getMaxGasCost,
+  prepareERC20TransferTransaction,
   prepareTransactions,
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
-import { Address, BaseError, EstimateGasExecutionError } from 'viem'
+import { Address, BaseError, encodeFunctionData, EstimateGasExecutionError } from 'viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
 import mocked = jest.mocked
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import erc20 from 'src/abis/IERC20'
 
 jest.mock('src/viem/estimateFeesPerGas')
+jest.mock('viem')
 
 describe('prepareTransactions module', () => {
   const mockFeeCurrencies: TokenBalanceWithAddress[] = [
@@ -290,6 +293,40 @@ describe('prepareTransactions module', () => {
     })
     it('returns undefined if fee currency is native', () => {
       expect(getFeeCurrencyAddress(mockFeeCurrencies[0])).toEqual(undefined)
+    })
+  })
+
+  it('prepareERC20TransferTransaction', async () => {
+    const mockPrepareTransactions = jest.fn()
+    mocked(encodeFunctionData).mockReturnValue('0xabc')
+    await prepareERC20TransferTransaction(
+      {
+        fromWalletAddress: '0x123',
+        toWalletAddress: '0x456',
+        sendToken: mockSpendToken,
+        amountWei: BigInt(100),
+        feeCurrencies: mockFeeCurrencies,
+      },
+      mockPrepareTransactions
+    )
+    expect(mockPrepareTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockFeeCurrencies,
+      spendToken: mockSpendToken,
+      spendTokenAmount: new BigNumber(100),
+      decreasedAmountGasCostMultiplier: 1,
+      baseTransactions: [
+        {
+          from: '0x123',
+          to: mockSpendToken.address,
+          type: 'cip42',
+          data: '0xabc',
+        },
+      ],
+    })
+    expect(encodeFunctionData).toHaveBeenCalledWith({
+      abi: erc20.abi,
+      functionName: 'transfer',
+      args: ['0x456', BigInt(100)],
     })
   })
 })
