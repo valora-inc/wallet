@@ -208,20 +208,26 @@ export async function prepareTransactions({
 /**
  * Prepare a transaction for sending an ERC-20 token with the 'transfer' method.
  *
- * Works for ERC-20 transfers only.
+ * @param fromWalletAddress the address of the wallet sending the transaction
+ * @param toWalletAddress the address of the wallet receiving the token
+ * @param sendToken the token to send
+ * @param amount the amount of the token to send, denominated in the smallest units for that token
+ * @param feeCurrencies the balances of the currencies to consider using for paying the transaction fee
+ *
+ * @param prepareTxs a function that prepares the transactions (for unit testing-- should use default everywhere else)
  */
 export async function prepareERC20TransferTransaction(
   {
     fromWalletAddress,
     toWalletAddress,
     sendToken,
-    amountWei,
+    amount,
     feeCurrencies,
   }: {
     fromWalletAddress: string
     toWalletAddress: string
     sendToken: TokenBalanceWithAddress
-    amountWei: bigint
+    amount: bigint
     feeCurrencies: TokenBalance[]
   },
   prepareTxs = prepareTransactions // for unit testing
@@ -232,14 +238,14 @@ export async function prepareERC20TransferTransaction(
     data: encodeFunctionData({
       abi: erc20.abi,
       functionName: 'transfer',
-      args: [toWalletAddress as Address, amountWei],
+      args: [toWalletAddress as Address, amount],
     }),
     type: 'cip42',
   }
   return prepareTxs({
     feeCurrencies,
     spendToken: sendToken,
-    spendTokenAmount: new BigNumber(amountWei.toString()),
+    spendTokenAmount: new BigNumber(amount.toString()),
     decreasedAmountGasCostMultiplier: 1,
     baseTransactions: [baseSendTx],
   })

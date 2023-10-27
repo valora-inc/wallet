@@ -27,7 +27,7 @@ describe('prepareTransactions module', () => {
   const mockFeeCurrencies: TokenBalanceWithAddress[] = [
     {
       address: '0xfee1',
-      balance: new BigNumber(100), // 10k wei, 100.0 decimals
+      balance: new BigNumber(100), // 10k units, 100.0 decimals
       decimals: 2,
       priceUsd: null,
       lastKnownPriceUsd: null,
@@ -39,7 +39,7 @@ describe('prepareTransactions module', () => {
     },
     {
       address: '0xfee2',
-      balance: new BigNumber(70), // 70k wei, 70.0 decimals
+      balance: new BigNumber(70), // 70k units, 70.0 decimals
       decimals: 3,
       priceUsd: null,
       lastKnownPriceUsd: null,
@@ -47,12 +47,12 @@ describe('prepareTransactions module', () => {
       symbol: 'FEE2',
       name: 'Fee token 2',
       networkId: NetworkId['celo-mainnet'],
-      isNative: false, // means we add 50_000 wei / 50.0 decimal padding for gas
+      isNative: false, // means we add 50_000 units / 50.0 decimal padding for gas
     },
   ]
   const mockSpendToken: TokenBalanceWithAddress = {
     address: '0xspend',
-    balance: new BigNumber(5), // 50k wei, 5.0 decimals
+    balance: new BigNumber(5), // 50k units, 5.0 decimals
     decimals: 4,
     priceUsd: null,
     lastKnownPriceUsd: null,
@@ -73,7 +73,7 @@ describe('prepareTransactions module', () => {
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(1_000))
 
-      // gas fee is 10 * 10k = 100k wei, too high for either fee currency
+      // gas fee is 10 * 10k = 100k units, too high for either fee currency
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -185,7 +185,7 @@ describe('prepareTransactions module', () => {
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
 
-      // gas fee is 0.5k wei from first transaction, plus 0.1k wei from second transaction
+      // gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -239,8 +239,8 @@ describe('prepareTransactions module', () => {
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
 
-      // for fee1 (native): gas fee is 0.5k wei from first transaction, plus 0.1k wei from second transaction
-      // for fee2 (non-native): gas fee is 0.5k wei from first transaction, plus 50.1k ((50k * 1) + 0.1k) wei from second transaction
+      // for fee1 (native): gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
+      // for fee2 (non-native): gas fee is 0.5k units from first transaction, plus 50.1k ((50k * 1) + 0.1k) units from second transaction
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -296,7 +296,7 @@ describe('prepareTransactions module', () => {
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
 
-      // for fee1 (native): gas fee is 0.5k wei from first transaction, plus 0.1k wei from second transaction
+      // for fee1 (native): gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -477,7 +477,7 @@ describe('prepareTransactions module', () => {
         fromWalletAddress: '0x123',
         toWalletAddress: '0x456',
         sendToken: mockSpendToken,
-        amountWei: BigInt(100),
+        amount: BigInt(100),
         feeCurrencies: mockFeeCurrencies,
       },
       mockPrepareTransactions
