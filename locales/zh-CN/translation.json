@@ -1857,6 +1857,41 @@
       "withdraw": "将代币转入银行账户、移动支付、礼品卡等。"
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "按姓名、电话、钱包搜索...",
+    "title": "选择收件人",
+    "recents": "近期活动",
+    "qr": {
+      "title": "扫描或显示 QR 码",
+      "subtitle": "快速查找 Valora 上的地址"
+    },
+    "invite": {
+      "title": "向朋友发送加密货币",
+      "subtitle": "从联系人列表中邀请朋友"
+    },
+    "getStarted": {
+      "title": "在 Valora 上汇款的方式",
+      "subtitle": "开始",
+      "options": {
+        "one": {
+          "title": "钱包地址",
+          "subtitle": "输入 Celo 或以太坊兼容的钱包地址（例如 0x123...abcde）"
+        },
+        "two": {
+          "title": "手机号码",
+          "subtitle": "如果某人拥有 Valora，可直接发送至其电话号码"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "将以太坊资产发送至某人的 ENS 手柄"
+        },
+        "four": {
+          "title": "简介名称",
+          "subtitle": "您可以搜索 Valora 上的现有用户"
+        }
+      }
+    }
+  },
   "transactionStatus": {
     "transactionIsCompleted": "已完成",
     "transactionIsPending": "待处理",
