@@ -166,7 +166,7 @@ describe('TokenTotalLineItem', () => {
     })
   })
 
-  describe('When called from new send screen', () => {
+  describe('When total is shown in crypto currency', () => {
     it('shows approx total in crypto, new exchange rate, conversion in fiat, with fee', () => {
       const { getByTestId } = renderComponent({
         feeToAddInUsd: new BigNumber(0.5),

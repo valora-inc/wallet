@@ -103,6 +103,7 @@ describe('SendConfirmation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockGetGasPrice.mockImplementation(() => mockGasPrice)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   function renderScreen(
@@ -174,9 +175,7 @@ describe('SendConfirmation', () => {
     }
   }
 
-  // TODO: need to redo snapshot for new
   it('renders correctly', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen()
     expect(tree).toMatchSnapshot()
   })
@@ -200,7 +199,6 @@ describe('SendConfirmation', () => {
   })
 
   it('renders correctly for send payment confirmation, sending cUSD, fee in CELO (new UI)', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByText, getByTestId } = renderScreen()
 
     fireEvent.press(getByText('feeEstimate'))
@@ -216,7 +214,6 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('~1.02 cUSD')
   })
 
-  // TODO: Need to make for old and new
   it('renders correctly for send payment confirmation with cEUR fees (old UI)', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     // Note: Higher balance is picked to pay for fees.
@@ -262,7 +259,6 @@ describe('SendConfirmation', () => {
   })
 
   it('shows --- for fee when fee estimate fails', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByTestId, getByText } = renderScreen({
       fees: {
         estimates: {
@@ -281,7 +277,6 @@ describe('SendConfirmation', () => {
   })
 
   it('shows loading for fee while fee estimate loads', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByTestId, getByTestId } = renderScreen({
       fees: {
         estimates: {
@@ -300,7 +295,6 @@ describe('SendConfirmation', () => {
   })
 
   it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
     }
@@ -324,7 +318,6 @@ describe('SendConfirmation', () => {
   })
 
   it('updates the comment/reason', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
         estimates: {
@@ -360,7 +353,6 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
-  // TODO: Need to make this test for new and old version
   it('doesnt show the comment for non core tokens (old UI)', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen(
@@ -379,7 +371,6 @@ describe('SendConfirmation', () => {
   })
 
   it('shows comment when stable token on celo network (new UI)', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { queryByTestId } = renderScreen(
       {},
       getMockStackScreenProps(Screens.SendConfirmation, {
@@ -396,7 +387,6 @@ describe('SendConfirmation', () => {
   })
 
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
     }
@@ -426,7 +416,6 @@ describe('SendConfirmation', () => {
   })
 
   it('does nothing when trying to press "edit" when user has not gone through Secure Send', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const mockE164NumberToAddress: E164NumberToAddressType = {
       [mockE164Number]: [mockAccount2Invite],
     }
@@ -447,7 +436,6 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches an action when the confirm button is pressed', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
 
     expect(store.getActions().length).toEqual(0)
@@ -464,7 +452,6 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches the send action with the right address when going through Secure Send', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { store, getByTestId } = renderScreen(
       {
         identity: {
@@ -515,7 +502,6 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches fee estimation if not already done', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const { store } = renderScreen({ fees: { estimates: emptyFees } })
 
     expect(store.getActions()).toMatchInlineSnapshot(`

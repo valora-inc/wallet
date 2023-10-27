@@ -101,7 +101,7 @@ function SendConfirmation(props: Props) {
     },
   } = props.route.params
 
-  const newSendScreen = getFeatureGate(StatsigFeatureGates.SHOW_NEW_SEND_CONFIRMATION_SCREEN)
+  const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
 
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
@@ -172,7 +172,7 @@ function SendConfirmation(props: Props) {
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        {newSendScreen && (
+        {newSendScreen ? (
           <FeeDrawer
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
@@ -185,8 +185,7 @@ function SendConfirmation(props: Props) {
             showLocalAmount={false}
             tokenId={feeTokenInfo?.tokenId}
           />
-        )}
-        {!newSendScreen && (
+        ) : (
           <LegacyFeeDrawer
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
@@ -321,7 +320,7 @@ function SendConfirmation(props: Props) {
             style={styles.amount}
             amount={tokenAmount}
             tokenId={tokenInfo?.tokenId}
-            showLocalAmount={newSendScreen ? false : amountIsInLocalCurrency}
+            showLocalAmount={!newSendScreen && amountIsInLocalCurrency}
           />
           {newSendScreen && (
             <TokenDisplay

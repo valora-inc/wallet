@@ -17,7 +17,7 @@ jest.mock('react', () => ({
 
 jest.mocked(useState).mockReturnValue([true, jest.fn()])
 
-describe('TokenTotalLineItem', () => {
+describe('FeeDrawer', () => {
   function renderComponent({
     isEstimate = true,
     isExchange = false,
