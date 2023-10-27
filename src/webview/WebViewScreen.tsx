@@ -43,7 +43,7 @@ function WebViewScreen({ route, navigation }: Props) {
   const { t } = useTranslation()
   const activeDapp = useSelector(activeDappSelector)
 
-  const disableMediaPlaybackRequiresUserActionUrls = getDynamicConfigParams(
+  const disabledMediaPlaybackRequiresUserActionOrigins = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]
   ).disabledMediaPlaybackRequiresUserActionOrigins
 
@@ -203,7 +203,9 @@ function WebViewScreen({ route, navigation }: Props) {
           setCanGoForward(navState.canGoForward)
           handleSetNavigationTitle(navState.url, navState.title, navState.loading)
         }}
-        mediaPlaybackRequiresUserAction={!disableMediaPlaybackRequiresUserActionUrls.includes(uri)}
+        mediaPlaybackRequiresUserAction={
+          !disabledMediaPlaybackRequiresUserActionOrigins.includes(new URL(uri).origin)
+        }
         testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
       />
       {Platform.OS === 'android' && (
