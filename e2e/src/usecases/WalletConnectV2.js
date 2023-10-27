@@ -260,7 +260,7 @@ export default WalletConnect = () => {
           .withTimeout(15 * 1000)
         await verifySuccessfulTransaction('Sign transaction', tx)
 
-        // TODO: keep only Viem branch after feeCurrecny estimation is ready
+        // TODO: keep only Viem branch after feeCurrency estimation is ready
         if (web3Library === 'viem') {
           // TODO: assert transaction signer address once Viem could provide it
           const recoveredTx = parseTransactionCelo(signedTx)
