@@ -114,7 +114,58 @@ describe('prepareTransactions module', () => {
       })
     })
     it('possible', async () => {
-      // TODO
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(10),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
+
+      // gas fee is 5k wei from first transaction, plus 1k wei from second transaction
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockFeeCurrencies[0],
+        spendTokenAmount: new BigNumber(4_000),
+        decreasedAmountGasCostMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+          },
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(100),
+          },
+        ],
+      })
+      expect(result).toEqual({
+        type: 'possible',
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(500),
+            maxFeePerGas: BigInt(10),
+            maxPriorityFeePerGas: undefined,
+          },
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(100),
+            maxFeePerGas: BigInt(10),
+            maxPriorityFeePerGas: undefined,
+          },
+        ],
+      })
     })
   })
   describe('tryEstimateTransaction', () => {
