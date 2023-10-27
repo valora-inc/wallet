@@ -2957,9 +2957,6 @@
                 "pushNotificationsEnabled": {
                     "type": "boolean"
                 },
-                "rampCashInButtonExpEnabled": {
-                    "type": "boolean"
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -3051,7 +3048,6 @@
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
-                "rampCashInButtonExpEnabled",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",

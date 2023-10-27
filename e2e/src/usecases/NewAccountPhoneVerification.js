@@ -7,12 +7,11 @@ import { EXAMPLE_NAME, EXAMPLE_PHONE_NUMBER } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import { checkBalance, receiveSms } from '../utils/twilio'
 import {
-  dismissCashInBottomSheet,
+  completeProtectWalletScreen,
   enterPinUi,
   scrollIntoView,
   sleep,
   waitForElementId,
-  completeProtectWalletScreen,
 } from '../utils/utils'
 
 import jestExpect from 'expect'
@@ -179,7 +178,6 @@ export default NewAccountPhoneVerification = () => {
     await element(by.text('Skip')).tap()
 
     // Assert we've arrived at the home screen
-    await dismissCashInBottomSheet()
     await waitForElementId('HomeAction-Send')
 
     // Assert that 'Connect phone number' is present in settings
