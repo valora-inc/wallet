@@ -184,30 +184,6 @@ const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET
 const CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/token/`
 const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/token/`
 
-const CELOSCAN_BASE_URL_ALFAJORES = 'https://alfajores.celoscan.io'
-const CELOSCAN_BASE_URL_MAINNET = 'https://celoscan.io'
-
-const CELOSCAN_BASE_TX_URL_ALFAJORES = `${CELOSCAN_BASE_URL_ALFAJORES}/tx/`
-const CELOSCAN_BASE_TX_URL_MAINNET = `${CELOSCAN_BASE_URL_MAINNET}/tx/`
-
-const CELOSCAN_BASE_ADDRESS_URL_ALFAJORES = `${CELOSCAN_BASE_URL_ALFAJORES}/address/`
-const CELOSCAN_BASE_ADDRESS_URL_MAINNET = `${CELOSCAN_BASE_URL_MAINNET}/address/`
-
-const CELOSCAN_BASE_TOKEN_URL_ALFAJORES = `${CELOSCAN_BASE_URL_ALFAJORES}/token/`
-const CELOSCAN_BASE_TOKEN_URL_MAINNET = `${CELOSCAN_BASE_URL_MAINNET}/token/`
-
-const ETHERSCAN_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
-const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
-
-const ETHERSCAN_BASE_TX_URL_SEPOLIA = `${ETHERSCAN_BASE_URL_SEPOLIA}/tx/`
-const ETHERSCAN_BASE_TX_URL_MAINNET = `${ETHERSCAN_BASE_URL_MAINNET}/tx/`
-
-const ETHERSCAN_BASE_ADDRESS_URL_SEPOLIA = `${ETHERSCAN_BASE_URL_SEPOLIA}/address/`
-const ETHERSCAN_BASE_ADDRESS_URL_MAINNET = `${ETHERSCAN_BASE_URL_MAINNET}/address/`
-
-const ETHERSCAN_BASE_TOKEN_URL_SEPOLIA = `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`
-const ETHERSCAN_BASE_TOKEN_URL_MAINNET = `${ETHERSCAN_BASE_URL_MAINNET}/token/`
-
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
@@ -368,26 +344,32 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   },
 }
 
+const CELOSCAN_BASE_URL_ALFAJORES = 'https://alfajores.celoscan.io'
+const CELOSCAN_BASE_URL_MAINNET = 'https://celoscan.io'
+
+const ETHERSCAN_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
+const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
+
 export const blockExplorerUrls: BlockExplorerUrls = {
   [NetworkId['celo-mainnet']]: {
-    baseTxUrl: CELOSCAN_BASE_TX_URL_MAINNET,
-    baseAddressUrl: CELOSCAN_BASE_ADDRESS_URL_MAINNET,
-    baseTokenUrl: CELOSCAN_BASE_TOKEN_URL_MAINNET,
+    baseTxUrl: `${CELOSCAN_BASE_URL_MAINNET}/tx/`,
+    baseAddressUrl: `${CELOSCAN_BASE_URL_MAINNET}/address/`,
+    baseTokenUrl: `${CELOSCAN_BASE_URL_MAINNET}/token/`,
   },
   [NetworkId['celo-alfajores']]: {
-    baseTxUrl: CELOSCAN_BASE_TX_URL_ALFAJORES,
-    baseAddressUrl: CELOSCAN_BASE_ADDRESS_URL_ALFAJORES,
-    baseTokenUrl: CELOSCAN_BASE_TOKEN_URL_ALFAJORES,
+    baseTxUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/tx/`,
+    baseAddressUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/address/`,
+    baseTokenUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/token/`,
   },
   [NetworkId['ethereum-mainnet']]: {
-    baseTxUrl: ETHERSCAN_BASE_TX_URL_MAINNET,
-    baseAddressUrl: ETHERSCAN_BASE_ADDRESS_URL_MAINNET,
-    baseTokenUrl: ETHERSCAN_BASE_TOKEN_URL_MAINNET,
+    baseTxUrl: `${ETHERSCAN_BASE_URL_MAINNET}/tx/`,
+    baseAddressUrl: `${ETHERSCAN_BASE_URL_MAINNET}/address/`,
+    baseTokenUrl: `${ETHERSCAN_BASE_URL_MAINNET}/token/`,
   },
   [NetworkId['ethereum-sepolia']]: {
-    baseTxUrl: ETHERSCAN_BASE_TX_URL_SEPOLIA,
-    baseAddressUrl: ETHERSCAN_BASE_ADDRESS_URL_SEPOLIA,
-    baseTokenUrl: ETHERSCAN_BASE_TOKEN_URL_SEPOLIA,
+    baseTxUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/tx/`,
+    baseAddressUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/address/`,
+    baseTokenUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`,
   },
 }
 
