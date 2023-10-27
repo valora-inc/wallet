@@ -1859,6 +1859,41 @@
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "title": "Bir alıcı seçin",
+    "recents": "Son Zamanlar",
+    "qr": {
+      "title": "QR Kodunu Tarayın veya Gösterin",
+      "subtitle": "Valora'daki adresleri hızlıca bulun"
+    },
+    "invite": {
+      "title": "Arkadaşlarınıza kripto gönderin",
+      "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
+    },
+    "getStarted": {
+      "title": "Valora'da para gönderme yolları",
+      "subtitle": "BAŞLAYIN",
+      "options": {
+        "one": {
+          "title": "Cüzdan Adresi",
+          "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
+        },
+        "two": {
+          "title": "Telefon Numarası",
+          "subtitle": "Valora'sı olan birinin telefon numarasına doğrudan gönderme"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Ethereum varlıklarını birinin ENS tanıtıcısına gönderin"
+        },
+        "four": {
+          "title": "Profil Adı",
+          "subtitle": "Valora'da mevcut kullanıcıları arayabilirsiniz"
+        }
+      }
+    }
+  },
   "transactionStatus": {
     "transactionIsCompleted": "Tamamlandı",
     "transactionIsPending": "Beklemede",
