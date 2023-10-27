@@ -200,7 +200,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <TransactionFeed key={'TransactionList'} />, // TODO: Add param for hiding balances
+    renderItem: () => <TransactionFeed key={'TransactionList'} hideBalances={hideBalances} />, // TODO: Add param for hiding balances
   })
 
   const topRightElements = (

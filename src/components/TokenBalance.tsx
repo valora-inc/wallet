@@ -206,11 +206,7 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   )
 }
 
-interface HomeTokenBalanceProps {
-  hideBalance: boolean
-}
-
-export function HomeTokenBalance({ hideBalance }: HomeTokenBalanceProps) {
+export function HomeTokenBalance({ hideBalance = false }: { hideBalance: boolean }) {
   const { t } = useTranslation()
 
   const totalBalance = useTotalTokenBalance()

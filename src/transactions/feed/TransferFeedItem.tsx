@@ -20,9 +20,10 @@ export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 
 interface Props {
   transfer: FeedTokenTransfer
+  hideBalance?: boolean
 }
 
-function TransferFeedItem({ transfer }: Props) {
+function TransferFeedItem({ transfer, hideBalance = false }: Props) {
   const { amount } = transfer
 
   const openTransferDetails = () => {
@@ -52,28 +53,30 @@ function TransferFeedItem({ transfer }: Props) {
             {subtitle}
           </Text>
         </View>
-        <View style={styles.amountContainer}>
-          <TokenDisplay
-            amount={amount.value}
-            tokenId={amount.tokenId}
-            localAmount={customLocalAmount ?? amount.localAmount}
-            showExplicitPositiveSign={true}
-            showLocalAmount={!showTokenAmount}
-            style={[styles.amount, colorStyle]}
-            testID={'TransferFeedItem/amount'}
-          />
-          {!showTokenAmount && (
+        {!hideBalance && (
+          <View style={styles.amountContainer}>
             <TokenDisplay
               amount={amount.value}
               tokenId={amount.tokenId}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={true}
-              style={styles.tokenAmount}
-              testID={'TransferFeedItem/tokenAmount'}
+              localAmount={customLocalAmount ?? amount.localAmount}
+              showExplicitPositiveSign={true}
+              showLocalAmount={!showTokenAmount}
+              style={[styles.amount, colorStyle]}
+              testID={'TransferFeedItem/amount'}
             />
-          )}
-        </View>
+            {!showTokenAmount && (
+              <TokenDisplay
+                amount={amount.value}
+                tokenId={amount.tokenId}
+                showLocalAmount={false}
+                showSymbol={true}
+                hideSign={true}
+                style={styles.tokenAmount}
+                testID={'TransferFeedItem/tokenAmount'}
+              />
+            )}
+          </View>
+        )}
       </View>
     </Touchable>
   )

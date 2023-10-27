@@ -16,9 +16,10 @@ import { TokenExchange } from 'src/transactions/types'
 
 interface Props {
   exchange: TokenExchange
+  hideBalance?: boolean
 }
 
-function SwapFeedItem({ exchange }: Props) {
+function SwapFeedItem({ exchange, hideBalance = false }: Props) {
   const { t } = useTranslation()
   const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenId)
   const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenId)
@@ -43,27 +44,29 @@ function SwapFeedItem({ exchange }: Props) {
             })}
           </Text>
         </View>
-        <View style={styles.tokenAmountContainer}>
-          <TokenDisplay
-            amount={exchange.inAmount.value}
-            tokenId={exchange.inAmount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={false}
-            style={[styles.amount, { color: colors.greenUI }]}
-            testID={'SwapFeedItem/incomingAmount'}
-          />
-          <TokenDisplay
-            amount={-exchange.outAmount.value}
-            tokenId={exchange.outAmount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            hideSign={false}
-            style={styles.tokenAmount}
-            testID={'SwapFeedItem/outgoingAmount'}
-          />
-        </View>
+        {!hideBalance && (
+          <View style={styles.tokenAmountContainer}>
+            <TokenDisplay
+              amount={exchange.inAmount.value}
+              tokenId={exchange.inAmount.tokenId}
+              showLocalAmount={false}
+              showSymbol={true}
+              showExplicitPositiveSign={true}
+              hideSign={false}
+              style={[styles.amount, { color: colors.greenUI }]}
+              testID={'SwapFeedItem/incomingAmount'}
+            />
+            <TokenDisplay
+              amount={-exchange.outAmount.value}
+              tokenId={exchange.outAmount.tokenId}
+              showLocalAmount={false}
+              showSymbol={true}
+              hideSign={false}
+              style={styles.tokenAmount}
+              testID={'SwapFeedItem/outgoingAmount'}
+            />
+          </View>
+        )}
       </View>
     </Touchable>
   )
