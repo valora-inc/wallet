@@ -1863,6 +1863,41 @@
       "withdraw": "Przelewaj tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Szukaj według nazwiska, telefonu, portfela...",
+    "title": "Wybierz odbiorcę",
+    "recents": "Ostatnie wydarzenia",
+    "qr": {
+      "title": "Zeskanuj lub pokaż kod QR",
+      "subtitle": "Szybko znajdź adresy na Valorze"
+    },
+    "invite": {
+      "title": "Wysyłaj kryptowaluty do znajomych",
+      "subtitle": "Zapraszaj znajomych z listy kontaktów"
+    },
+    "getStarted": {
+      "title": "Sposoby wysyłania środków na Valora",
+      "subtitle": "ROZPOCZNIJ",
+      "options": {
+        "one": {
+          "title": "Adres portfela",
+          "subtitle": "Wprowadź adres portfela zgodny z Celo lub Ethereum (np. 0x123...abcde)."
+        },
+        "two": {
+          "title": "Numer telefonu",
+          "subtitle": "Wyślij bezpośrednio na czyjś numer telefonu, jeśli posiada on aplikację Valora."
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Wysyłaj aktywa Ethereum na czyjś uchwyt ENS"
+        },
+        "four": {
+          "title": "Nazwa profilu",
+          "subtitle": "Możesz wyszukiwać istniejących użytkowników w Valora"
+        }
+      }
+    }
+  },
   "transactionStatus": {
     "transactionIsCompleted": "Zakończono",
     "transactionIsPending": "Oczekujące",
