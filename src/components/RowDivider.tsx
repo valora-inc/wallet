@@ -7,7 +7,7 @@ export interface Props {
   color?: Colors
 }
 
-export default function HorizontalLine({ color = Colors.gray2 }: Props) {
+export default function RowDivider({ color = Colors.gray2 }: Props) {
   return <View style={[styles.container, { backgroundColor: color }]} />
 }
 
@@ -15,10 +15,6 @@ const styles = StyleSheet.create({
   container: {
     height: 1,
     width: '100%',
-    borderStyle: 'solid',
-    borderTopWidth: 1,
-    borderTopColor: colors.gray2,
-    marginTop: 10,
-    marginBottom: 15,
+    marginVertical: Spacing.Regular16,
   },
 })

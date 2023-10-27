@@ -39,6 +39,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_SWAP]: false,
+  [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
 }
 
 export const ExperimentConfigs = {
@@ -48,7 +49,6 @@ export const ExperimentConfigs = {
     defaultValues: {
       onboardingNameScreenEnabled: true,
       chooseAdventureEnabled: false,
-      cashInBottomSheetEnabled: true,
     },
   },
   [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {

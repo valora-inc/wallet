@@ -38,7 +38,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
     es: 'Recompensas',
     de: 'Belohnungen',
   }),
-  rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,

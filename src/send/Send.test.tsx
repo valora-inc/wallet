@@ -6,6 +6,7 @@ import { fetchAddressesAndValidate } from 'src/identity/actions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Send from 'src/send/Send'
+import { getFeatureGate } from 'src/statsig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeloTokenId,
@@ -197,5 +198,37 @@ describe('Send', () => {
 
     await waitFor(() => expect(getByText('inviteModal.sendInviteButtonLabel')).toBeTruthy())
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('uses old send flow by default', () => {
+    const store = createMockStore(defaultStore)
+
+    const { getAllByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <Send {...mockScreenProps({})} />
+      </Provider>
+    )
+
+    fireEvent.press(getAllByTestId('RecipientItem')[0])
+    expect(getByTestId('TokenBottomSheet')).toBeTruthy()
+    expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('uses new send flow when enabled', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore(defaultStore)
+
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <Send {...mockScreenProps({})} />
+      </Provider>
+    )
+
+    fireEvent.press(getAllByTestId('RecipientItem')[0])
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      origin: SendOrigin.AppSendFlow,
+      recipient: expect.objectContaining(mockRecipient),
+    })
   })
 })

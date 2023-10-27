@@ -22,12 +22,12 @@ export default class Checkmark extends React.PureComponent<Props> {
       <Svg
         width={this.props.width}
         height={this.props.height}
-        viewBox="0 0 16 16"
+        viewBox="0 0 24 24"
         fill="none"
         testID={this.props.testID}
       >
         <Path
-          d="M13.667 4.886 6.124 12.43 2.667 8.972l.886-.886 2.57 2.564L12.78 4l.887.886Z"
+          d="M20.5 7.33 9.186 18.643 4 13.458l1.33-1.33 3.856 3.847L19.17 6 20.5 7.33Z"
           fill={this.props.color}
         />
       </Svg>

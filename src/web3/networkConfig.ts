@@ -78,7 +78,7 @@ export type blockExplorerUrls = {
   }
 }
 
-export type networkIdToNetwork = {
+export type NetworkIdToNetwork = {
   [key in NetworkId]: Network
 }
 
@@ -391,7 +391,7 @@ export const blockExplorerUrls: blockExplorerUrls = {
   },
 }
 
-export const networkIdToNetwork: networkIdToNetwork = {
+export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['celo-mainnet']]: Network.Celo,
   [NetworkId['celo-alfajores']]: Network.Celo,
   [NetworkId['ethereum-mainnet']]: Network.Ethereum,

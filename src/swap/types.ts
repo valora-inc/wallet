@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { QuoteResult } from 'src/swap/useSwapQuote'
 
 export enum Field {
   FROM = 'FROM',
@@ -93,6 +94,11 @@ export interface ApproveTransaction {
 export type SwapInfo = FetchQuoteResponse & {
   userInput: SwapUserInput
   quoteReceivedAt: number
+}
+
+export interface SwapInfoPrepared {
+  userInput: SwapUserInput
+  quote: QuoteResult
 }
 
 export interface FetchQuoteResponse {

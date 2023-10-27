@@ -13,7 +13,6 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
   UpdateTransactionsAction,
-  addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
   transactionFailed,
@@ -25,7 +24,7 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
-  pendingStandbyTransactionsSelector,
+  standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
@@ -44,7 +43,7 @@ const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
-  const standbyTxs: StandbyTransaction[] = yield* select(pendingStandbyTransactionsSelector)
+  const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
     if (standbyTx.transactionHash && newFeedTxHashes.has(standbyTx.transactionHash)) {
@@ -124,7 +123,7 @@ export function* sendAndMonitorTransaction<T>(
     Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
     const sendTxMethod = function* () {
-      const { transactionHash, receipt }: TxPromises = yield* call(
+      const { receipt }: TxPromises = yield* call(
         sendTransactionPromises,
         tx.txo,
         account,
@@ -134,8 +133,6 @@ export function* sendAndMonitorTransaction<T>(
         gasPrice,
         nonce
       )
-      const hash: string = yield transactionHash
-      yield* put(addHashToStandbyTransaction(context.id, hash))
       return (yield receipt) as CeloTxReceipt
     }
     // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
@@ -145,7 +142,13 @@ export function* sendAndMonitorTransaction<T>(
       sendTxMethod,
       context
     )) as unknown as CeloTxReceipt
-    yield* put(transactionConfirmed(context.id, txReceipt))
+    yield* put(
+      transactionConfirmed(context.id, {
+        transactionHash: txReceipt.transactionHash,
+        block: txReceipt.blockNumber.toString(),
+        status: txReceipt.status,
+      })
+    )
 
     yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }

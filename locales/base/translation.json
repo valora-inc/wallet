@@ -1874,4 +1874,9 @@
   },
   "viewOnCeloBlockExplorer": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan"
+  "sendEnterAmountScreen": {
+    "title": "Enter Amount",
+    "selectToken": "Select a Token",
+    "networkFee": "{{networkName}} Network Fee"
+  }
 }
