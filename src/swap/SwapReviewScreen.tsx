@@ -31,12 +31,13 @@ import variables from 'src/styles/variables'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
-import { QuoteResult, getMaxGasCost } from 'src/swap/useSwapQuote'
+import { QuoteResult } from 'src/swap/useSwapQuote'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getMaxGasCost } from 'src/viem/prepareTransactions'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 const initialUserInput = {
@@ -114,8 +115,7 @@ export function SwapReviewScreen({ route }: Props) {
       return new BigNumber(0)
     }
 
-    const maxGasCost = getMaxGasCost(quote.preparedTransactions.transactions)
-    return new BigNumber(maxGasCost.toString())
+    return getMaxGasCost(quote.preparedTransactions.transactions)
       .shiftedBy(-feeCurrencyToken.decimals)
       .times(feeCurrencyToken.priceUsd)
   }
