@@ -45,7 +45,7 @@ function WebViewScreen({ route, navigation }: Props) {
 
   const disableMediaPlaybackRequiresUserActionUrls = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]
-  )[Platform.OS === 'ios' ? 'ios' : 'android'].disableMediaPlaybackRequiresUserAction
+  ).disabledMediaPlaybackRequiresUserActionOrigins
 
   const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)

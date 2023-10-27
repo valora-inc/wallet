@@ -14,12 +14,7 @@ const dappUri = 'https://somedapp.url'
 describe('WebViewScreen', () => {
   beforeEach(() => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      ios: {
-        disableMediaPlaybackRequiresUserAction: [],
-      },
-      android: {
-        disableMediaPlaybackRequiresUserAction: [],
-      },
+      disabledMediaPlaybackRequiresUserActionOrigins: [],
     })
   })
 
@@ -47,9 +42,7 @@ describe('WebViewScreen', () => {
   it('should set the mediaPlaybackRequiresUserAction prop according to the url', () => {
     const uri = 'https://somedapp.url'
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      android: {
-        disableMediaPlaybackRequiresUserAction: [uri],
-      },
+      disabledMediaPlaybackRequiresUserActionOrigins: [uri],
     })
 
     const { getByTestId } = render(
