@@ -182,7 +182,7 @@ export default WalletConnect = () => {
       })
 
       it('Then is able to establish a session', async () => {
-        // TODO: restore initial starting logic after feeCurrecny estimation is ready
+        // TODO: restore initial starting logic after feeCurrency estimation is ready
         // Initial code for reference:
         // if (device.getPlatform() === 'android') {
         //   await launchApp({ url: pairingUrl, newInstance: true })
