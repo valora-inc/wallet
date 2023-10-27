@@ -230,6 +230,12 @@ export type StackParamList = {
         defaultTokenIdOverride?: string
       }
     | undefined
+  [Screens.SendRedesign]:
+    | {
+        forceTokenId?: boolean
+        defaultTokenIdOverride?: string
+      }
+    | undefined
   [Screens.SendAmount]: {
     recipient: Recipient
     isFromScan: boolean
