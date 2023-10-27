@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { Network, NetworkId } from 'src/transactions/types'
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import {
   getFeeCurrencyAddress,
   getMaxGasCost,
@@ -17,10 +17,10 @@ import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/ty
 jest.mock('src/viem/estimateFeesPerGas')
 
 describe('prepareTransactions module', () => {
-  const mockFeeCurrencies: TokenBalance[] = [
+  const mockFeeCurrencies: TokenBalanceWithAddress[] = [
     {
       address: '0xfee1',
-      balance: new BigNumber(10), // 100 wei, 10.0 decimals
+      balance: new BigNumber(100), // 10k wei, 100.0 decimals
       decimals: 2,
       priceUsd: null,
       lastKnownPriceUsd: null,
@@ -32,7 +32,7 @@ describe('prepareTransactions module', () => {
     },
     {
       address: '0xfee2',
-      balance: new BigNumber(20), // 20k wei, 20.0 decimals
+      balance: new BigNumber(70), // 70k wei, 70.0 decimals
       decimals: 3,
       priceUsd: null,
       lastKnownPriceUsd: null,
@@ -61,10 +61,10 @@ describe('prepareTransactions module', () => {
   describe('prepareTransactions function', () => {
     it('not enough balance for gas', async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
-        maxFeePerGas: BigInt(10),
+        maxFeePerGas: BigInt(100),
         maxPriorityFeePerGas: undefined,
       })
-      mockPublicClient.estimateGas.mockResolvedValue(BigInt(10_000))
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(1_000))
 
       // gas fee is 10 * 10k = 100k wei, too high for either fee currency
 
@@ -84,6 +84,37 @@ describe('prepareTransactions module', () => {
       })
       expect(result.type).toEqual('not-enough-balance-for-gas')
       expect('feeCurrencies' in result && result.feeCurrencies).toEqual(mockFeeCurrencies)
+    })
+    it('need decrease spend amount for gas', async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: undefined,
+      })
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockFeeCurrencies[1],
+        spendTokenAmount: new BigNumber(100_000),
+        decreasedAmountGasCostMultiplier: 1.01,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+            gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
+          },
+        ],
+      })
+      expect(result).toEqual({
+        type: 'need-decrease-spend-amount-for-gas',
+        maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        feeCurrency: mockFeeCurrencies[1],
+        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasCost
+      })
+    })
+    it('possible', async () => {
+      // TODO
     })
   })
   describe('tryEstimateTransaction', () => {
