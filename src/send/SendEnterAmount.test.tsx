@@ -1,6 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -27,8 +28,8 @@ jest.mock('src/tokens/utils', () => ({
   ...jest.requireActual('src/tokens/utils'),
   getSupportedNetworkIdsForSend: jest.fn(),
 }))
-
 jest.mock('src/fees/hooks')
+jest.mock('react-native-localize')
 
 const mockStore = {
   tokens: {
@@ -63,6 +64,16 @@ describe('SendEnterAmount', () => {
     jest
       .mocked(getSupportedNetworkIdsForSend)
       .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        groupSize: 3,
+      },
+    })
     jest.clearAllMocks()
   })
 
@@ -170,8 +181,31 @@ describe('SendEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10')
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1.33')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10000.5')
+    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1,330.07')
+  })
+
+  it('entering amount with comma as decimal separator updates local amount', () => {
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: ',', groupingSeparator: '.' })
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: ',',
+        groupSeparator: '.',
+        groupSize: 3,
+      },
+    })
+    const store = createMockStore(mockStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10000,5')
+    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1.330,07')
   })
 
   it('only allows numeric input', () => {
@@ -189,6 +223,19 @@ describe('SendEnterAmount', () => {
     expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), 'abc')
     expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
+  })
+
+  it('starting with decimal separator prefixes 0', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('0.25')
   })
 
   it('selecting new token updates token and network info', async () => {

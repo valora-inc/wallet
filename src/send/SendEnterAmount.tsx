@@ -1,3 +1,4 @@
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useMemo, useRef, useState } from 'react'
@@ -5,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import FastImage from 'react-native-fast-image'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -47,9 +49,9 @@ const MAX_BORDER_RADIUS = 96
 
 // This is just a mock implementation to test various error states
 // TODO(ACT-955): replace with real implementation
-function usePrepareTransactions(amount: string, token: TokenBalance) {
+function usePrepareTransactions(amount: BigNumber, token: TokenBalance) {
   const nativeToken = useTokenInfo(`${token.networkId}:native`)
-  if (!amount || new BigNumber(amount).eq(0)) {
+  if (!amount || amount.eq(0)) {
     return
   }
   if (token.isNative && token.balance.minus(amount).lt(0.1)) {
@@ -132,10 +134,10 @@ function SendEnterAmount({ route }: Props) {
       isFromScan,
       transactionData: {
         recipient,
-        inputAmount: new BigNumber(amount),
+        inputAmount: parsedAmount,
         amountIsInLocalCurrency: false,
         tokenAddress: token.address!,
-        tokenAmount: new BigNumber(amount),
+        tokenAmount: parsedAmount,
       },
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
@@ -160,7 +162,10 @@ function SendEnterAmount({ route }: Props) {
     }
   }
 
-  const prepareTransactionResult = usePrepareTransactions(amount, token)
+  const { decimalSeparator } = getNumberFormatSettings()
+  const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
+
+  const prepareTransactionResult = usePrepareTransactions(parsedAmount, token)
 
   const showLowerAmountError = token.balance.lt(amount)
   const showMaxAmountWarning =
@@ -191,6 +196,9 @@ function SendEnterAmount({ route }: Props) {
                   if (!value) {
                     setAmount('')
                   } else {
+                    if (value.startsWith(decimalSeparator)) {
+                      value = `0${value}`
+                    }
                     setAmount(
                       (prev) => value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev
                     )
@@ -249,7 +257,7 @@ function SendEnterAmount({ route }: Props) {
             )}
             <View style={styles.localAmountRow}>
               <TokenDisplay
-                amount={amount || '0'}
+                amount={parsedAmount}
                 tokenId={token.tokenId}
                 style={styles.localAmount}
                 testID="SendEnterAmount/LocalAmount"
