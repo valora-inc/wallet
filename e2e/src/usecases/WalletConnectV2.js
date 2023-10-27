@@ -262,7 +262,7 @@ export default WalletConnect = () => {
 
         // TODO: keep only Viem branch after feeCurrecny estimation is ready
         if (web3Library === 'viem') {
-          // TODO: assert transaction signer address if once Viem could provide it
+          // TODO: assert transaction signer address once Viem could provide it
           const recoveredTx = parseTransactionCelo(signedTx)
           jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
           jestExpect(recoveredTx.to).toEqual(tx.to)
