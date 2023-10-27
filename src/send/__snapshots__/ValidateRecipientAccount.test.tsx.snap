@@ -100,12 +100,17 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 style={
                   [
                     {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 22,
+                    },
+                    {
                       "flex": 1,
                       "lineHeight": 22,
                       "paddingHorizontal": 0,
                       "paddingVertical": 12,
                     },
-                    undefined,
                     undefined,
                   ]
                 }
@@ -411,12 +416,17 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     style={
                       [
                         {
+                          "color": "#2E3338",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
                           "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
                         {
                           "textAlignVertical": "top",
                         },
@@ -467,12 +477,17 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     style={
                       [
                         {
+                          "color": "#2E3338",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
                           "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
                         {
                           "textAlignVertical": "top",
                         },
@@ -523,12 +538,17 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     style={
                       [
                         {
+                          "color": "#2E3338",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
                           "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
                         {
                           "textAlignVertical": "top",
                         },
@@ -579,12 +599,17 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                     style={
                       [
                         {
+                          "color": "#2E3338",
+                          "fontFamily": "Inter-Regular",
+                          "fontSize": 16,
+                          "lineHeight": 22,
+                        },
+                        {
                           "flex": 1,
                           "lineHeight": 22,
                           "paddingHorizontal": 0,
                           "paddingVertical": 12,
                         },
-                        undefined,
                         {
                           "textAlignVertical": "top",
                         },

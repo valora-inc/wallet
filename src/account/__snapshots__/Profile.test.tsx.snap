@@ -220,12 +220,17 @@ exports[`Profile renders correctly 1`] = `
             style={
               [
                 {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                {
                   "flex": 1,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
                 },
-                undefined,
                 undefined,
               ]
             }

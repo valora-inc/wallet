@@ -75,8 +75,8 @@ export class CTextInput extends React.Component<Props, State> {
         <RNTextInput
           ref={forwardedRef}
           style={[
-            styles.input ?? fontStyles.regular,
-            inputStyle,
+            inputStyle ?? fontStyles.regular,
+            styles.input,
             passThroughProps.multiline && { textAlignVertical: 'top' },
           ]}
           value={value}

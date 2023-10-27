@@ -74,12 +74,6 @@ exports[`SettingsItemInput renders correctly 1`] = `
           onFocus={[Function]}
           style={
             [
-              {
-                "flex": 1,
-                "lineHeight": 22,
-                "paddingHorizontal": 0,
-                "paddingVertical": 12,
-              },
               [
                 {
                   "color": "#666666",
@@ -91,6 +85,12 @@ exports[`SettingsItemInput renders correctly 1`] = `
                   "color": "#666666",
                 },
               ],
+              {
+                "flex": 1,
+                "lineHeight": 22,
+                "paddingHorizontal": 0,
+                "paddingVertical": 12,
+              },
               {
                 "textAlignVertical": "top",
               },

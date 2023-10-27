@@ -178,13 +178,13 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 2`] = `
             style={
               [
                 {
+                  "minHeight": undefined,
+                },
+                {
                   "flex": 1,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
-                },
-                {
-                  "minHeight": undefined,
                 },
                 undefined,
               ]
@@ -592,13 +592,13 @@ exports[`CodeInput renders correctly for all CodeInputStatus states 6`] = `
             style={
               [
                 {
+                  "minHeight": undefined,
+                },
+                {
                   "flex": 1,
                   "lineHeight": 22,
                   "paddingHorizontal": 0,
                   "paddingVertical": 12,
-                },
-                {
-                  "minHeight": undefined,
                 },
                 undefined,
               ]
@@ -822,18 +822,18 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             style={
               [
                 {
-                  "flex": 1,
-                  "lineHeight": 22,
-                  "paddingHorizontal": 0,
-                  "paddingVertical": 12,
-                },
-                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 18,
                   "lineHeight": 24,
                   "minHeight": undefined,
                   "textAlign": "center",
+                },
+                {
+                  "flex": 1,
+                  "lineHeight": 22,
+                  "paddingHorizontal": 0,
+                  "paddingVertical": 12,
                 },
                 undefined,
               ]
@@ -1282,18 +1282,18 @@ exports[`CodeInput renders correctly for all CodeInputStatus states with short c
             style={
               [
                 {
-                  "flex": 1,
-                  "lineHeight": 22,
-                  "paddingHorizontal": 0,
-                  "paddingVertical": 12,
-                },
-                {
                   "color": "#2E3338",
                   "fontFamily": "Inter-Regular",
                   "fontSize": 18,
                   "lineHeight": 24,
                   "minHeight": undefined,
                   "textAlign": "center",
+                },
+                {
+                  "flex": 1,
+                  "lineHeight": 22,
+                  "paddingHorizontal": 0,
+                  "paddingVertical": 12,
                 },
                 undefined,
               ]
