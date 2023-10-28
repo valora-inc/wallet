@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.70.0",
+  "version": "1.71.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -333,7 +333,8 @@
     "events": "^3.3.0",
     "qs": "^6.11.2",
     "flat": "^5.0.2",
-    "crypto-js": "^4.2.0"
+    "crypto-js": "^4.2.0",
+    "browserify-sign": "^4.2.2"
   },
   "detox": {
     "testRunner": {
