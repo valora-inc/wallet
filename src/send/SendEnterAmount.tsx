@@ -153,7 +153,7 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND)
+  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
