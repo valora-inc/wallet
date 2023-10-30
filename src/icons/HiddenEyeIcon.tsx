@@ -24,7 +24,7 @@ function EyeIcon({ color, height }: Props) {
 }
 
 EyeIcon.defaultProps = {
-  height: 16,
+  height: 24,
   color: Colors.dark,
 }
 

@@ -213,7 +213,7 @@ export function HomeTokenBalance({
   buttonOnPress,
   hideBalance = false,
 }: {
-  buttonOnPress: () => void
+  buttonOnPress?: () => void
   hideBalance?: boolean
 }) {
   const { t } = useTranslation()
@@ -281,7 +281,6 @@ export function HomeTokenBalance({
         <Touchable onPress={buttonOnPress}>
           {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
         </Touchable>
-        {/* <Button text={hideBalance? 'a' : 'b'} onPress={buttonOnPress} /> */}
       </View>
     </View>
   )
