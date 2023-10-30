@@ -272,7 +272,7 @@ function* watchPendingTransaction(transaction: StandbyTransaction) {
   }
 }
 
-function* watchPendingTransactions() {
+export function* watchPendingTransactions() {
   while (true) {
     const pendingStandbyTransactions: StandbyTransaction[] = yield* select(
       watchablePendingTransactionSelector

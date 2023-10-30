@@ -1,10 +1,17 @@
 import { EventLog } from '@celo/connect'
+import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
-import { updateInviteTransactions, updateTransactions } from 'src/transactions/actions'
-import { getInviteTransactionsDetails } from 'src/transactions/saga'
+import {
+  transactionConfirmed,
+  transactionFailed,
+  updateInviteTransactions,
+  updateTransactions,
+} from 'src/transactions/actions'
+import { getInviteTransactionsDetails, watchPendingTransactions } from 'src/transactions/saga'
 import {
   NetworkId,
+  StandbyTransaction,
   TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
@@ -12,9 +19,18 @@ import {
 import Logger from 'src/utils/Logger'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { mockAccount, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+
+const mockGetTransactionReceipt = jest.fn()
+jest.mock('src/viem', () => ({
+  publicClient: {
+    celo: {
+      getTransactionReceipt: mockGetTransactionReceipt,
+    },
+  },
+}))
 
 const transactionHash = '0x544367eaf2b01622dd1c7b75a6b19bf278d72127aecfb2e5106424c40c268e8b'
 const mockInviteTransaction: TokenTransaction = {
@@ -100,5 +116,78 @@ describe('getInviteTransactionsDetails', () => {
         })
       )
       .run()
+  })
+})
+
+describe('watchPendingTransactions', () => {
+  const amount = new BigNumber(10)
+  const transactionId = 'txId'
+  const transactionHash = '0x123'
+
+  const pendingTransaction: StandbyTransaction = {
+    __typename: 'TokenTransferV3',
+    context: { id: transactionId },
+    networkId: NetworkId['celo-alfajores'],
+    type: TokenTransactionTypeV2.Sent,
+    metadata: {},
+    amount: {
+      value: amount.negated().toString(),
+      tokenAddress: mockCusdAddress,
+      tokenId: mockCusdTokenId,
+    },
+    address: mockAccount,
+    timestamp: 1000,
+    status: TransactionStatus.Pending,
+    transactionHash,
+  }
+
+  it('updates the pending standby transaction when reverted', async () => {
+    mockGetTransactionReceipt.mockImplementationOnce(({ hash }: { hash: string }) => {
+      if (hash === transactionHash) {
+        return {
+          status: 'reverted',
+        }
+      }
+      return null
+    })
+
+    expectSaga(watchPendingTransactions)
+      .withState(
+        createMockStore({
+          transactions: {
+            standbyTransactions: [pendingTransaction],
+          },
+        }).getState()
+      )
+      .put(transactionFailed(transactionId))
+  })
+
+  it('updates the pending standby transaction when successful', async () => {
+    mockGetTransactionReceipt.mockImplementationOnce(({ hash }: { hash: string }) => {
+      if (hash === transactionHash) {
+        return {
+          status: 'success',
+          blockNumber: BigInt(123),
+          transactionHash,
+        }
+      }
+      return null
+    })
+
+    expectSaga(watchPendingTransactions)
+      .withState(
+        createMockStore({
+          transactions: {
+            standbyTransactions: [pendingTransaction],
+          },
+        }).getState()
+      )
+      .put(
+        transactionConfirmed(transactionId, {
+          transactionHash,
+          block: '123',
+          status: true,
+        })
+      )
   })
 })
