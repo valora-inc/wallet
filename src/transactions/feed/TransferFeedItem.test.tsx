@@ -12,11 +12,11 @@ import { RootState } from 'src/redux/reducers'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   Fee,
+  NetworkId,
   TokenAmount,
   TokenTransactionTypeV2,
   TokenTransferMetadata,
   TransactionStatus,
-  NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import {
@@ -69,6 +69,7 @@ describe('TransferFeedItem', () => {
     metadata = {},
     fees = [],
     status = TransactionStatus.Complete,
+    hideBalance = false,
   }: {
     type?: TokenTransactionTypeV2
     amount?: TokenAmount
@@ -76,6 +77,7 @@ describe('TransferFeedItem', () => {
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
     status?: TransactionStatus
+    hideBalance?: boolean
   }) {
     const store = createMockStore({
       ...storeOverrides,
@@ -97,6 +99,7 @@ describe('TransferFeedItem', () => {
             metadata,
             fees,
           }}
+          hideBalance={hideBalance}
         />
       </Provider>
     )
@@ -603,5 +606,13 @@ describe('TransferFeedItem', () => {
       expectedAmount: `-$${transferOutFcQuote.quote.quote.fiatAmount}.00`,
       expectedTokenAmount: `${transferTotalCost}.00 cUSD`,
     })
+  })
+
+  it('hides balance when flag is set', async () => {
+    const { queryByTestId } = renderScreen({
+      hideBalance: true,
+    })
+    expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
+    expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
   })
 })

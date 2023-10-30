@@ -652,6 +652,51 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       ]
     `)
   })
+
+  it('renders correctly when hideBalance is true', async () => {
+    const store = createMockStore(defaultStore)
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance hideBalance={true} />
+      </Provider>
+    )
+
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
+    expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
+  })
+
+  it('shows correct eye icon when hideBalance is false', async () => {
+    const store = createMockStore(defaultStore)
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance hideBalance={false} />
+      </Provider>
+    )
+
+    expect(tree.getByTestId('EyeIcon')).toBeTruthy()
+  })
+
+  it('calls the correct function when eye icon is pressed ', async () => {
+    const store = createMockStore(defaultStore)
+
+    const mockButtonOnPress = jest.fn()
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance hideBalance={false} buttonOnPress={mockButtonOnPress} />
+      </Provider>
+    )
+    fireEvent.press(tree.getByTestId('EyeIcon'))
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
+    expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
+
+    fireEvent.press(tree.getByTestId('HiddenEyeIcon'))
+    expect(tree.getByTestId('EyeIcon')).toBeTruthy()
+
+    expect(mockButtonOnPress).toHaveBeenCalledTimes(2)
+  })
 })
 
 describe('AssetsTokenBalance', () => {
