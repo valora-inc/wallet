@@ -250,8 +250,6 @@ function* sendPayment(
     Logger.error(`${TAG}/sendPayment`, 'Could not make token transfer', error.message)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
     yield* put(showErrorOrFallback(error, ErrorMessages.TRANSACTION_FAILED))
-    // TODO: Uncomment this when the transaction feed supports multiple tokens.
-    // yield put(removeStandbyTransaction(context.id))
   }
 }
 
