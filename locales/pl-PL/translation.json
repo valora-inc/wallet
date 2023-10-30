@@ -1696,7 +1696,8 @@
     "swapFrom": "Zamień z",
     "swapTo": "Zamień na",
     "rate": "Stawka",
-    "estimatedFee": "Szacowana opłata",
+    "estimatedFee": "Szacunkowa opłata sieciowa",
+    "networkFee": "Opłata sieciowa",
     "viewOnExplorer": "Wyświetl w CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1861,6 +1862,58 @@
       "add": "Kup tokeny, korzystając z usług jednego z naszych zaufanych dostawców",
       "withdraw": "Przelewaj tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
     }
+  },
+  "sendSelectRecipient": {
+    "searchText": "Szukaj według nazwiska, telefonu, portfela...",
+    "title": "Wybierz odbiorcę",
+    "recents": "Ostatnie wydarzenia",
+    "qr": {
+      "title": "Zeskanuj lub pokaż kod QR",
+      "subtitle": "Szybko znajdź adresy na Valorze"
+    },
+    "invite": {
+      "title": "Wysyłaj kryptowaluty do znajomych",
+      "subtitle": "Zapraszaj znajomych z listy kontaktów"
+    },
+    "getStarted": {
+      "title": "Sposoby wysyłania środków na Valora",
+      "subtitle": "ROZPOCZNIJ",
+      "options": {
+        "one": {
+          "title": "Adres portfela",
+          "subtitle": "Wprowadź adres portfela zgodny z Celo lub Ethereum (np. 0x123...abcde)."
+        },
+        "two": {
+          "title": "Numer telefonu",
+          "subtitle": "Wyślij bezpośrednio na czyjś numer telefonu, jeśli posiada on aplikację Valora."
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Wysyłaj aktywa Ethereum na czyjś uchwyt ENS"
+        },
+        "four": {
+          "title": "Nazwa profilu",
+          "subtitle": "Możesz wyszukiwać istniejących użytkowników w Valora"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Zakończono",
+    "transactionIsPending": "Oczekujące",
+    "transactionIsFailed": "Nie powiodło się"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Szczegóły",
+    "checkPendingTransactionStatus": "Sprawdź status",
+    "retryFailedTransaction": "Spróbuj ponownie"
+  },
+  "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Wyświetl na Etherscan",
+  "sendEnterAmountScreen": {
+    "title": "Wprowadź kwotę",
+    "selectToken": "Wybierz token",
+    "networkFee": "{{networkName}} Opłata sieciowa"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

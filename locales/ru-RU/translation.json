@@ -1696,7 +1696,8 @@
     "swapFrom": "Обменять с",
     "swapTo": "Обменять на",
     "rate": "Курс",
-    "estimatedFee": "Приблизительная комиссия",
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "Комиссия сообщества",
     "viewOnExplorer": "Просмотреть в CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1861,6 +1862,58 @@
       "add": "Покупай токены, используя одного из наших проверенных провайдеров",
       "withdraw": "Переводи токены на банковский счёт, мобильные деньги, подарочную карту и т.д."
     }
+  },
+  "sendSelectRecipient": {
+    "searchText": "Поиск по имени, телефону, кошельку...",
+    "title": "Выберите получателя",
+    "recents": "Recents",
+    "qr": {
+      "title": "Отсканируй или покажи QR-код",
+      "subtitle": "Быстрый поиск адресов на Валоре"
+    },
+    "invite": {
+      "title": "Отправляй криптовалюту своим друзьям",
+      "subtitle": "Приглашай друзей из списка контактов"
+    },
+    "getStarted": {
+      "title": "Способы отправки средств на Valora",
+      "subtitle": "НАЧНИ РАБОТАТЬ",
+      "options": {
+        "one": {
+          "title": "Адрес кошелька",
+          "subtitle": "Введи адрес кошелька, совместимого с Celo или Ethereum (например, 0x123...abcde)."
+        },
+        "two": {
+          "title": "Номер телефона",
+          "subtitle": "Отправляй напрямую на чей-то номер телефона, если у него есть Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Отправь Ethereum-активы на чей-то ENS-руководитель"
+        },
+        "four": {
+          "title": "Имя профиля",
+          "subtitle": "Ты можешь искать существующих пользователей на Valora"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Завершена",
+    "transactionIsPending": "В ожидании",
+    "transactionIsFailed": "Неудачный"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Подробности",
+    "checkPendingTransactionStatus": "Проверь состояние",
+    "retryFailedTransaction": "Повторить"
+  },
+  "viewOnCeloBlockExplorer": "Просмотреть в CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
+  "sendEnterAmountScreen": {
+    "title": "Введите сумму",
+    "selectToken": "Выберите токен",
+    "networkFee": "{{networkName}} Сетевой сбор"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

@@ -1,20 +1,18 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
-import erc20 from 'src/abis/IERC20'
-import { STATIC_GAS_PADDING } from 'src/config'
 import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { publicClient } from 'src/viem'
-import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, EstimateGasExecutionError, Hex, encodeFunctionData } from 'viem'
+import { PreparedTransactionsResult, prepareTransactions } from 'src/viem/prepareTransactions'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import { Address, encodeFunctionData, Hex, zeroAddress } from 'viem'
+import erc20 from 'src/abis/IERC20'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas costs of different swap providers (or even the same swap)
@@ -28,36 +26,21 @@ export interface QuoteResult {
   provider: string
   estimatedPriceImpact: BigNumber | null
   preparedTransactions?: PreparedTransactionsResult
+  /**
+   * @deprecated Temporary until we remove the swap review screen
+   */
+  rawSwapResponse: FetchQuoteResponse
+  receivedAt: number
 }
 
-interface PreparedTransactionsPossible {
-  type: 'possible'
-  approveTransaction: TransactionRequestCIP42 & { amountToApprove: bigint }
-  swapTransaction: TransactionRequestCIP42
-}
-
-export interface PreparedTransactionsNeedDecreaseSwapAmountForGas {
-  type: 'need-decrease-swap-amount-for-gas'
-  maxGasCost: BigNumber
-  feeCurrency: TokenBalance
-  decreasedSwapAmount: BigNumber
-}
-
-export interface PreparedTransactionsNotEnoughBalanceForGas {
-  type: 'not-enough-balance-for-gas'
-  feeCurrencies: TokenBalance[]
-}
-
-export type PreparedTransactionsResult =
-  | PreparedTransactionsPossible
-  | PreparedTransactionsNeedDecreaseSwapAmountForGas
-  | PreparedTransactionsNotEnoughBalanceForGas
-
-function createBaseApproveTransaction(
+function createBaseSwapTransactions(
+  fromToken: TokenBalanceWithAddress,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction
 ) {
-  const { guaranteedPrice, sellTokenAddress, buyAmount, sellAmount, allowanceTarget, from } =
+  const baseTransactions: TransactionRequestCIP42[] = []
+
+  const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
     unvalidatedSwapTransaction
   const amountType: string =
     updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
@@ -67,25 +50,21 @@ function createBaseApproveTransaction(
       ? BigInt(new BigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0))
       : BigInt(sellAmount)
 
-  const data = encodeFunctionData({
-    abi: erc20.abi,
-    functionName: 'approve',
-    args: [allowanceTarget as Address, amountToApprove],
-  })
+  // Approve transaction if the sell token is ERC-20
+  if (allowanceTarget !== zeroAddress && fromToken.address) {
+    const data = encodeFunctionData({
+      abi: erc20.abi,
+      functionName: 'approve',
+      args: [allowanceTarget as Address, amountToApprove],
+    })
 
-  const approveTx: TransactionRequestCIP42 & { amountToApprove: bigint } = {
-    from: from as Address,
-    to: sellTokenAddress as Address,
-    data,
-    type: 'cip42',
-    amountToApprove,
+    const approveTx: TransactionRequestCIP42 = {
+      from: from as Address,
+      to: fromToken.address as Address,
+      data,
+    }
+    baseTransactions.push(approveTx)
   }
-
-  return approveTx
-}
-
-function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) {
-  const { from, to, value, data, gas } = unvalidatedSwapTransaction
 
   const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
     from: from as Address,
@@ -93,140 +72,38 @@ function createBaseSwapTransaction(unvalidatedSwapTransaction: SwapTransaction) 
     value: BigInt(value ?? 0),
     data: data as Hex,
     // This may not be entirely accurate for now
+    // without the approval transaction being executed first.
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
-    // We'll try to improve this in our API
+    // We control this from our API.
     gas: BigInt(gas),
-    type: 'cip42',
   }
+  baseTransactions.push(swapTx)
 
-  return swapTx
+  return {
+    amountToApprove,
+    baseTransactions,
+  }
 }
 
-function getMaxGasCost(txs: TransactionRequestCIP42[]) {
-  let maxGasCost = BigInt(0)
-  for (const tx of txs) {
-    if (!tx.gas || !tx.maxFeePerGas) {
-      throw new Error('Missing gas or maxFeePerGas')
-    }
-    maxGasCost += BigInt(tx.gas) * BigInt(tx.maxFeePerGas)
-  }
-  return maxGasCost
-}
-
-async function prepareTransactions(
+export async function prepareSwapTransactions(
   fromToken: TokenBalanceWithAddress,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
   price: string,
   feeCurrencies: TokenBalance[]
 ): Promise<PreparedTransactionsResult> {
-  const baseApproveTx = createBaseApproveTransaction(updatedField, unvalidatedSwapTransaction)
-  const baseSwapTx = createBaseSwapTransaction(unvalidatedSwapTransaction)
-
-  const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
-  for (const feeCurrency of feeCurrencies) {
-    if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
-      // No balance, try next fee currency
-      continue
-    }
-
-    const feeCurrencyAddress = !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
-    const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-      publicClient.celo,
-      feeCurrencyAddress
-    )
-
-    const approveTx = {
-      ...baseApproveTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
-    }
-
-    // TODO maybe cache this? and add static padding when using non-native fee currency
-    try {
-      const approveGas = await publicClient.celo.estimateGas({
-        ...approveTx,
-        account: approveTx.from,
-      })
-      approveTx.gas = approveGas
-    } catch (e) {
-      if (e instanceof EstimateGasExecutionError) {
-        // Likely too much gas was needed
-        Logger.warn(
-          'SwapScreen@useSwapQuote',
-          `Couldn't estimate gas for approval with feeCurrency ${feeCurrency.symbol} (${feeCurrency.tokenId}), trying next feeCurrency`,
-          e
-        )
-        continue
-      }
-      throw e
-    }
-
-    const swapTx = {
-      ...baseSwapTx,
-      maxFeePerGas,
-      maxPriorityFeePerGas,
-      feeCurrency: feeCurrencyAddress,
-      // We assume the provided gas value is with the native fee currency
-      // If it's not, we add the static padding
-      gas: baseSwapTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
-    }
-
-    const maxGasCost = getMaxGasCost([approveTx, swapTx])
-    const maxGasCostInDecimal = new BigNumber(maxGasCost.toString()).shiftedBy(
-      -feeCurrency.decimals
-    )
-    maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
-    if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-
-    const fromAmount = new BigNumber(approveTx.amountToApprove.toString()).shiftedBy(
-      -fromToken.decimals
-    )
-    if (
-      fromToken.tokenId === feeCurrency.tokenId &&
-      fromAmount.plus(maxGasCostInDecimal).isGreaterThan(fromToken.balance)
-    ) {
-      // Not enough balance to pay for gas, try next fee currency
-      continue
-    }
-
-    // This is the one we can use
-    return {
-      type: 'possible',
-      approveTransaction: approveTx,
-      swapTransaction: swapTx,
-    } satisfies PreparedTransactionsPossible
-  }
-
-  // So far not enough balance to pay for gas
-  // let's see if we can decrease the swap from amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === fromToken.tokenId)
-  if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
-    // Can't decrease the swap from amount
-    return {
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies,
-    } satisfies PreparedTransactionsNotEnoughBalanceForGas
-  }
-
-  // We can decrease the swap from amount to pay for gas,
-  // We'll ask the user if they want to proceed
-  const adjustedMaxGasCost = result.maxGasCostInDecimal.times(
-    DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER
+  const { amountToApprove, baseTransactions } = createBaseSwapTransactions(
+    fromToken,
+    updatedField,
+    unvalidatedSwapTransaction
   )
-  const maxFromAmount = fromToken.balance.minus(adjustedMaxGasCost)
-  const maxToAmount = maxFromAmount.times(price)
-
-  return {
-    type: 'need-decrease-swap-amount-for-gas',
-    maxGasCost: adjustedMaxGasCost,
-    feeCurrency: result.feeCurrency,
-    decreasedSwapAmount: updatedField === Field.FROM ? maxFromAmount : maxToAmount,
-  } satisfies PreparedTransactionsNeedDecreaseSwapAmountForGas
+  return prepareTransactions({
+    feeCurrencies,
+    spendToken: fromToken,
+    spendTokenAmount: new BigNumber(amountToApprove.toString()),
+    decreasedAmountGasCostMultiplier: DECREASED_SWAP_AMOUNT_GAS_COST_MULTIPLIER,
+    baseTransactions,
+  })
 }
 
 const useSwapQuote = () => {
@@ -300,11 +177,13 @@ const useSwapQuote = () => {
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
+        rawSwapResponse: quote,
+        receivedAt: Date.now(),
       }
 
       // TODO: this branch will be part of the normal flow once viem is always used
       if (shouldPrepareTransactions) {
-        const preparedTransactions = await prepareTransactions(
+        const preparedTransactions = await prepareSwapTransactions(
           fromToken,
           updatedField,
           quote.unvalidatedSwapTransaction,

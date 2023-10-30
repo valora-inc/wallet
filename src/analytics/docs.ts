@@ -32,6 +32,7 @@ import {
   SettingsEvents,
   SwapEvents,
   TokenBottomSheetEvents,
+  TransactionDetailsEvents,
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
@@ -287,6 +288,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.check_account_alert_back]: ``,
   [SendEvents.check_account_alerts_continue]: ``,
 
+  // Events for the send select recipient screen
+  [SendEvents.send_select_recipient_scan_qr]: `When the QR code button is pressed`,
+  [SendEvents.send_select_recipient_invite]: `When the import contacts button is pressed`,
+
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,
   [QrScreenEvents.qr_screen_bottom_sheet_close]: ``,
@@ -498,7 +503,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SwapEvents.swap_screen_max_swap_amount]: `when a user taps on the "max" button to swap their whole balance`,
   [SwapEvents.swap_gas_fees_learn_more]: `When a user taps on the learn more text on the max swap amount warning`,
   [SwapEvents.swap_screen_review_swap]: `When a user click on the review button to proceed to next step`,
-  [SwapEvents.swap_feed_detail_view_tx]: `When a user click 'View on CeloExplorer' in the swap feed detail page`,
   [SwapEvents.swap_review_screen_open]: `When the review screen is mounted`,
   [SwapEvents.swap_review_submit]: `When the user submits the swap`,
   [SwapEvents.swap_execute_price_change]: `When guaranteed is greater than 2% difference than the quoted price.`,
@@ -536,4 +540,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_copy]: `When the user copies the transaction details via the bottom sheet`,
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_accepted]: `When the user confirms the transaction via the bottom sheet`,
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: `When the user rejects the transaction via the bottom sheet`,
+  [TransactionDetailsEvents.transaction_details_tap_details]: `When a user press 'Details' on transaction details page`,
+  [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
+  [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
+  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
 }

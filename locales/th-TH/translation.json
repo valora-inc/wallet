@@ -1690,7 +1690,8 @@
     "swapFrom": "สว็อปจาก",
     "swapTo": "สว็อปเป็น",
     "rate": "อัตรา",
-    "estimatedFee": "ค่าธรรมเนียมโดยประมาณ",
+    "estimatedFee": "Est Network Fee",
+    "networkFee": "ค่าธรรมเนียมเครือข่าย",
     "viewOnExplorer": "ดูใน CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1855,6 +1856,58 @@
       "add": "Buy tokens using one of our trusted providers",
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
+  },
+  "sendSelectRecipient": {
+    "searchText": "Search by name, phone, wallet...",
+    "title": "Select a recipient",
+    "recents": "Recents",
+    "qr": {
+      "title": "Scan or Show QR Code",
+      "subtitle": "Quickly find addresses on Valora"
+    },
+    "invite": {
+      "title": "Send crypto to your friends",
+      "subtitle": "Invite friends from your contacts list"
+    },
+    "getStarted": {
+      "title": "Ways to send funds on Valora",
+      "subtitle": "GET STARTED",
+      "options": {
+        "one": {
+          "title": "Wallet Adress",
+          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+        },
+        "two": {
+          "title": "หมายเลขโทรศัพท์",
+          "subtitle": "Send directly to someone's phone number if they have Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Send Ethereum assets to someone's ENS handle"
+        },
+        "four": {
+          "title": "Profile Name",
+          "subtitle": "You can search for existing users on Valora"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "เสร็จสมบูรณ์",
+    "transactionIsPending": "รอดำเนินการ",
+    "transactionIsFailed": "Failed"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Check Status",
+    "retryFailedTransaction": "ลองอีกครั้ง"
+  },
+  "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
+  "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "sendEnterAmountScreen": {
+    "title": "Enter Amount",
+    "selectToken": "Select a Token",
+    "networkFee": "{{networkName}} Network Fee"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

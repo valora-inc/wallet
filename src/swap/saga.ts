@@ -16,14 +16,19 @@ import {
   swapExecute,
   swapPriceChange,
   swapStart,
+  swapStartPrepared,
   swapSuccess,
 } from 'src/swap/slice'
-import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
+import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
+import {
+  addStandbyTransaction,
+  removeStandbyTransaction,
+  transactionConfirmed,
+} from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
   TokenTransactionTypeV2,
@@ -33,13 +38,15 @@ import {
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
-import { getContractKit } from 'src/web3/contracts'
+import { publicClient } from 'src/viem'
+import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { getConnectedUnlockedAccount } from 'src/web3/saga'
+import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
-import { zeroAddress } from 'viem'
+import { Hash, zeroAddress } from 'viem'
+import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
 
@@ -61,6 +68,7 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
@@ -68,13 +76,11 @@ function* handleSendSwapTransaction(
       networkId: networkConfig.defaultNetworkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       inAmount: {
-        value: valueToBigNumber(rawTx.sellAmount)
-          .multipliedBy(rawTx.guaranteedPrice)
-          .shiftedBy(-toToken.decimals),
+        value: outValue.multipliedBy(rawTx.guaranteedPrice),
         tokenId: toToken.tokenId,
       },
       outAmount: {
-        value: valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals),
+        value: outValue,
         tokenId: fromToken.tokenId,
       },
     })
@@ -249,12 +255,195 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       error: error.message,
     })
     yield* put(swapError())
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
+    vibrateError()
+  }
+}
+
+export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>) {
+  const swapSubmittedAt = Date.now()
+  const {
+    price,
+    buyTokenAddress,
+    sellTokenAddress,
+    buyAmount,
+    sellAmount,
+    allowanceTarget,
+    estimatedPriceImpact,
+    guaranteedPrice,
+  } = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction
+  const amountType =
+    action.payload.userInput.updatedField === Field.TO
+      ? ('buyAmount' as const)
+      : ('sellAmount' as const)
+  const amount = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction[amountType]
+  const quoteReceivedAt = action.payload.quote.receivedAt
+
+  const tokens = yield* select((state) =>
+    tokensByIdSelector(state, [networkConfig.defaultNetworkId])
+  )
+  const fromToken =
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.fromToken)]
+  const toToken =
+    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.toToken)]
+
+  if (!fromToken || !toToken) {
+    Logger.error(
+      TAG,
+      `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
+    )
+    yield* put(swapError())
+    return
+  }
+
+  const fromTokenBalance = fromToken.balance.shiftedBy(fromToken.decimals).toString()
+  const estimatedSellTokenUsdValue = calculateEstimatedUsdValue({
+    tokenInfo: fromToken,
+    tokenAmount: sellAmount,
+  })
+  const estimatedBuyTokenUsdValue = calculateEstimatedUsdValue({
+    tokenInfo: toToken,
+    tokenAmount: buyAmount,
+  })
+
+  const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
+  const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
+
+  const defaultSwapExecuteProps = {
+    toToken: buyTokenAddress,
+    fromToken: sellTokenAddress,
+    amount,
+    amountType,
+    price,
+    allowanceTarget,
+    estimatedPriceImpact,
+    provider: action.payload.quote.rawSwapResponse.details.swapProvider,
+    fromTokenBalance,
+    swapExecuteTxId: swapExecuteContext.id,
+    swapApproveTxId: swapApproveContext.id,
+    estimatedSellTokenUsdValue,
+    estimatedBuyTokenUsdValue,
+  }
+
+  let quoteToTransactionElapsedTimeInMs: number | undefined
+
+  const getTimeMetrics = (): SwapTimeMetrics => ({
+    quoteToUserConfirmsSwapElapsedTimeInMs: swapSubmittedAt - quoteReceivedAt,
+    quoteToTransactionElapsedTimeInMs,
+  })
+
+  try {
+    // Navigate to swap pending screen
+    navigate(Screens.SwapExecuteScreen)
+
+    const wallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
+    if (!wallet.account) {
+      // this should never happen
+      throw new Error('no account found in the wallet')
+    }
+
+    const preparedTransactions = action.payload.quote.preparedTransactions
+    if (preparedTransactions?.type !== 'possible') {
+      // Should never happen
+      throw new Error('No prepared transactions possible')
+    }
+
+    // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
+    let nonce: number = yield* call(getTransactionCount, wallet, {
+      address: wallet.account.address,
+      blockTag: 'pending',
+    })
+
+    // Unlock account before executing tx
+    yield* call(unlockAccount, wallet.account.address)
+
+    // Execute transaction(s)
+    yield* put(swapExecute())
+    Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
+
+    const beforeSwapExecutionTimestamp = Date.now()
+    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
+
+    const txHashes: Hash[] = []
+    for (const preparedTransaction of preparedTransactions.transactions) {
+      const signedTx = yield* call([wallet, 'signTransaction'], {
+        ...preparedTransaction,
+        nonce: nonce++,
+      } as any)
+      const hash = yield* call([wallet, 'sendRawTransaction'], {
+        serializedTransaction: signedTx,
+      })
+      txHashes.push(hash)
+    }
+
+    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
+
+    const swapTxHash = txHashes[txHashes.length - 1]
+
+    const outValue = valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals)
+    yield* put(
+      addStandbyTransaction({
+        context: swapExecuteContext,
+        __typename: 'TokenExchangeV3',
+        networkId: networkConfig.defaultNetworkId,
+        type: TokenTransactionTypeV2.SwapTransaction,
+        inAmount: {
+          value: outValue.multipliedBy(guaranteedPrice),
+          tokenId: toToken.tokenId,
+        },
+        outAmount: {
+          value: outValue,
+          tokenId: fromToken.tokenId,
+        },
+        transactionHash: swapTxHash,
+      })
+    )
+
+    const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
+      hash: swapTxHash,
+    })
+    Logger.debug('Got swap transaction receipt', receipt)
+    if (receipt.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
+    }
+
+    yield* put(
+      transactionConfirmed(swapExecuteContext.id, {
+        transactionHash: receipt.transactionHash,
+        block: receipt.blockNumber.toString(),
+        status: receipt.status === 'success',
+      })
+    )
+
+    const timeMetrics = getTimeMetrics()
+
+    yield* put(swapSuccess())
+    vibrateSuccess()
+    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
+      ...defaultSwapExecuteProps,
+      ...timeMetrics,
+    })
+  } catch (err) {
+    const error = ensureError(err)
+    const timeMetrics = getTimeMetrics()
+
+    Logger.error(TAG, 'Error while swapping', error)
+    ValoraAnalytics.track(SwapEvents.swap_execute_error, {
+      ...defaultSwapExecuteProps,
+      ...timeMetrics,
+      error: error.message,
+    })
+    yield* put(swapError())
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }
 
 export function* swapSaga() {
+  // Legacy
   yield* takeLatest(swapStart.type, safely(swapSubmitSaga))
+  // New flow with prepared transactions
+  yield* takeLatest(swapStartPrepared.type, safely(swapSubmitPreparedSaga))
 }
 
 export function* sendApproveTx(
