@@ -24,7 +24,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import Warning from 'src/components/Warning'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -39,25 +39,49 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
-import { getMaxGasCost, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
+import { getSupportedNetworkIdsForSend, tokenSupportsComments } from 'src/tokens/utils'
+import {
+  getMaxGasCost,
+  PreparedTransactionsResult,
+  prepareERC20TransferTransaction,
+} from 'src/viem/prepareTransactions'
+import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
+import { useAsync, UseAsyncReturn } from 'react-async-hook'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 
-// This is just a mock implementation to test various error states
-// TODO(ACT-955): replace with real implementation
 function usePrepareTransactions(
   amount: BigNumber,
-  token: TokenBalance
-): PreparedTransactionsResult | undefined {
-  if (!amount || amount.eq(0)) {
-    return
-  }
-  // TODO
+  token: TokenBalance,
+  recipientAddress: string,
+  feeCurrencies: TokenBalance[]
+): UseAsyncReturn<PreparedTransactionsResult | undefined> {
+  const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
+  const walletAddress = useSelector(walletAddressSelector)
+
+  const _includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
+  return useAsync(async () => {
+    if (!amount || amount.eq(0) || !walletAddress) {
+      return
+    }
+    if (tokenBalanceHasAddress(token)) {
+      if (!_includeRegisterDekTx) {
+        return prepareERC20TransferTransaction({
+          fromWalletAddress: walletAddress,
+          toWalletAddress: recipientAddress,
+          sendToken: token,
+          amount: BigInt(amount.toString()),
+          feeCurrencies,
+        })
+      }
+      // TODO(ACT-955): case where we need to register DEK too
+    }
+    // TODO(ACT-956): non-ERC20 native asset case
+  }, [amount, token, recipientAddress, feeCurrencies, walletAddress])
 }
 
 function SendEnterAmount({ route }: Props) {
@@ -155,33 +179,42 @@ function SendEnterAmount({ route }: Props) {
   const { decimalSeparator } = getNumberFormatSettings()
   const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
 
-  const prepareTransactionResult = usePrepareTransactions(parsedAmount, token)
+  const feeCurrencies = useFeeCurrencies(token.networkId)
+  const prepareTransactionsOutput = usePrepareTransactions(
+    parsedAmount,
+    token,
+    recipient.address,
+    feeCurrencies
+  )
+  const prepareTransactionsResult = prepareTransactionsOutput.result
 
   const showLowerAmountError = token.balance.lt(amount)
   const showMaxAmountWarning =
     !showLowerAmountError &&
-    prepareTransactionResult &&
-    prepareTransactionResult.type === 'need-decrease-spend-amount-for-gas'
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'need-decrease-spend-amount-for-gas'
   const showNotEnoughBalanceForGasWarning =
     !showLowerAmountError &&
-    prepareTransactionResult &&
-    prepareTransactionResult.type === 'not-enough-balance-for-gas'
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
   const sendIsPossible =
     !showLowerAmountError &&
-    prepareTransactionResult &&
-    prepareTransactionResult.type === 'possible' &&
-    prepareTransactionResult.transactions.length > 0
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'possible' &&
+    prepareTransactionsResult.transactions.length > 0
 
-  const feeTokenId = sendIsPossible ? prepareTransactionResult.feeTokenId : undefined
-  const { decimals: feeTokenDecimals } = useTokenInfo(feeTokenId) ?? {}
+  const feeTokenId = sendIsPossible
+    ? prepareTransactionsResult.feeTokenId
+    : feeCurrencies[0].tokenId // used for placeholder when fee isn't calculated, so a user knows what they might be paying fees in
+  const { decimals: feeTokenDecimals, symbol: feeTokenSymbol } = useTokenInfo(feeTokenId) ?? {}
   const feeAmount =
     sendIsPossible && feeTokenDecimals
-      ? getMaxGasCost(prepareTransactionResult.transactions).dividedBy(
+      ? getMaxGasCost(prepareTransactionsResult.transactions).dividedBy(
           new BigNumber(10).exponentiatedBy(feeTokenDecimals)
         )
       : undefined
 
-  const showFees = sendIsPossible && feeAmount && feeTokenId
+  const showFeeAmounts = sendIsPossible && feeAmount
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -280,34 +313,36 @@ function SendEnterAmount({ route }: Props) {
                 networkName: NETWORK_NAMES[token.networkId],
               })}
             </Text>
-            {/* TODO(ACT-955): Display estimated fees */}
-            <View style={styles.feeAmountContainer}>
-              <View style={styles.feeInCryptoContainer}>
-                <Text style={styles.feeInCrypto}>~</Text>
-                <TokenDisplay
-                  tokenId={`${token.networkId}:native`}
-                  amount={0.005}
-                  showLocalAmount={false}
-                  style={styles.feeInCrypto}
-                />
+            <View style={styles.feeContainer}>
+              <Text style={styles.feeLabel}>
+                {t('sendEnterAmountScreen.networkFee', {
+                  networkName: NETWORK_NAMES[token.networkId],
+                })}
+              </Text>
+              <View style={styles.feeAmountContainer}>
+                {showFeeAmounts ? (
+                  <>
+                    <View style={styles.feeInCryptoContainer}>
+                      <Text style={styles.feeInCrypto}>~</Text>
+                      <TokenDisplay
+                        tokenId={feeTokenId}
+                        amount={feeAmount}
+                        showLocalAmount={false}
+                        style={styles.feeInCrypto}
+                      />
+                    </View>
+                    <TokenDisplay
+                      tokenId={feeTokenId}
+                      amount={feeAmount}
+                      style={styles.feeInFiat}
+                    />
+                  </>
+                ) : (
+                  <>
+                    <Text style={styles.feeInCrypto}>~ {feeTokenSymbol}</Text>
+                  </>
+                )}
               </View>
-              <TokenDisplay
-                tokenId={`${token.networkId}:native`}
-                amount={0.005}
-                style={styles.feeInFiat}
-              />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                testID="SendEnterAmount/TokenSelect"
-              >
-                <>
-                  <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
-                  <Text style={styles.tokenName}>{token.symbol}</Text>
-                  <DownArrowIcon color={Colors.gray5} />
-                </>
-              </Touchable>
             </View>
             {showLowerAmountError && (
               <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
@@ -331,38 +366,12 @@ function SendEnterAmount({ route }: Props) {
               </Touchable>
             </View>
           </View>
-          {showFees && (
-            <View style={styles.feeContainer}>
-              <Text style={styles.feeLabel}>
-                {t('sendEnterAmountScreen.networkFee', {
-                  networkName: NETWORK_NAMES[token.networkId],
-                })}
-              </Text>
-              {/* TODO(ACT-955): Display estimated fees */}
-              <View style={styles.feeAmountContainer}>
-                <View style={styles.feeInCryptoContainer}>
-                  <Text style={styles.feeInCrypto}>~</Text>
-                  <TokenDisplay
-                    tokenId={feeTokenId}
-                    amount={feeAmount}
-                    showLocalAmount={false}
-                    style={styles.feeInCrypto}
-                  />
-                </View>
-                <TokenDisplay
-                  tokenId={`${token.networkId}:native`}
-                  amount={0.005}
-                  style={styles.feeInFiat}
-                />
-              </View>
-            </View>
-          )}
         </View>
         {showMaxAmountWarning && (
           <Warning
             title={t('sendEnterAmountScreen.maxAmountWarning.title')}
             description={t('sendEnterAmountScreen.maxAmountWarning.description', {
-              feeTokenSymbol: prepareTransactionResult.feeCurrency.symbol,
+              feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
             })}
             style={styles.warning}
             testID="SendEnterAmount/MaxAmountWarning"
@@ -371,10 +380,10 @@ function SendEnterAmount({ route }: Props) {
         {showNotEnoughBalanceForGasWarning && (
           <Warning
             title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionResult.feeCurrencies[0].symbol,
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
             description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionResult.feeCurrencies[0].symbol,
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
             style={styles.warning}
             testID="SendEnterAmount/NotEnoughForGasWarning"
