@@ -1911,7 +1911,16 @@
   "sendEnterAmountScreen": {
     "title": "Introduce el importe",
     "selectToken": "Selecciona un Token",
-    "networkFee": "{{networkName}} Tasa de red"
+    "networkFee": "{{networkName}} Tasa de red",
+    "lowerAmount": "Introduce una cantidad inferior",
+    "maxAmountWarning": {
+      "title": "Enviar el importe máximo",
+      "description": "Ajusta la cantidad que envías para asegurarte de que tienes suficiente {{feeTokenSymbol}} para gasolina"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Necesitas más {{feeTokenSymbol}} para el gas",
+      "description": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que envías"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
