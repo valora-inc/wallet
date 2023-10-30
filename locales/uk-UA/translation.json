@@ -1554,6 +1554,7 @@
       "descriptionXtoYDays": "Ваш запит на транзакцію надіслано, кошти надійдуть через {{lowerBound}}-{{upperBound}} дн.",
       "baseDescription": "Ваш запит на транзакцію надіслано.",
       "txDetails": "Переглянути на CeloExplorer",
+      "viewOnCeloScan": "Переглянути на CeloScan",
       "continue": "Продовжити"
     },
     "requestNotCompleted": {
@@ -1562,7 +1563,7 @@
     },
     "txProcessing": {
       "title": "Оброблення вашої транзакції ще триває.",
-      "description": "Можливо, це через погану якість інтернет-з’єднання. Перевірте оновлення для CeloExplorer."
+      "description": "Це може бути пов'язано з поганим інтернет-з'єднанням. Перевірте наявність оновлень у провіднику блоків."
     }
   },
   "fiatExchangeFlow": {
@@ -1909,6 +1910,7 @@
     "retryFailedTransaction": "Повторити"
   },
   "viewOnCeloBlockExplorer": "Переглянути на CeloExplorer",
+  "viewOnCeloScan": "Переглянути на CeloScan",
   "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
   "sendEnterAmountScreen": {
     "title": "Введіть суму",
