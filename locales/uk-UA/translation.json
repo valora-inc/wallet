@@ -1915,7 +1915,16 @@
   "sendEnterAmountScreen": {
     "title": "Введіть суму",
     "selectToken": "Виберіть токен",
-    "networkFee": "{{networkName}} Мережева плата"
+    "networkFee": "{{networkName}} Мережева плата",
+    "lowerAmount": "Введіть меншу суму",
+    "maxAmountWarning": {
+      "title": "Відправлення максимальної суми",
+      "description": "Відрегулюйте суму, яку ви надсилаєте, щоб переконатися, що вам вистачить {{feeTokenSymbol}} на бензин"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Вам потрібно більше {{feeTokenSymbol}} на газ",
+      "description": "Додайте {{feeTokenSymbol}} , щоб покрити витрати на газ або скоригувати суму, яку ви надсилаєте"
+    }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
