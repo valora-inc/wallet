@@ -55,9 +55,18 @@ export const reducer = (
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
+      const persistedState: State = getRehydratePayload(action, 'transactions')
       return {
         ...state,
-        ...getRehydratePayload(action, 'transactions'),
+        ...persistedState,
+        // TODO: remove this once we have a mechanism for watching and resolving
+        // pending transactions (then we should only remove transactions without
+        // tx hashes). for now, pending transactions can only be resolved within
+        // the same app session anyway. this will remove any stuck pending
+        // transactions for affected internal users.
+        standbyTransactions: (persistedState.standbyTransactions || []).filter(
+          (tx) => tx.status !== TransactionStatus.Pending
+        ),
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
@@ -106,6 +115,18 @@ export const reducer = (
         ),
       }
     }
+    case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
+      return {
+        ...state,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === action.idx) {
+              return { ...standbyTransaction, transactionHash: action.hash }
+            }
+            return standbyTransaction
+          }
+        ),
+      }
     case Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE:
       return {
         ...state,
