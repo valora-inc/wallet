@@ -367,6 +367,7 @@ describe('SwapReviewScreen', () => {
       fromToken: mockCeloAddress,
       toToken: mockCusdAddress,
       amountType: 'sellAmount',
+      web3Library: 'contract-kit',
     })
   })
 
@@ -406,6 +407,9 @@ describe('SwapReviewScreen', () => {
 
     await waitFor(() => expect(getByText('swapReviewScreen.complete')).not.toBeDisabled())
 
+    // Clear swap_review_screen_open
+    jest.mocked(ValoraAnalytics.track).mockClear()
+
     fireEvent.press(getByText('swapReviewScreen.complete'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
       toToken: mockCusdAddress,
@@ -417,6 +421,7 @@ describe('SwapReviewScreen', () => {
       estimatedPriceImpact: mock0xResponse.unvalidatedSwapTransaction.estimatedPriceImpact,
       price: mock0xResponse.unvalidatedSwapTransaction.price,
       provider: mock0xResponse.details.swapProvider,
+      web3Library: 'contract-kit',
     })
   })
 })
