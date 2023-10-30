@@ -1,7 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
@@ -37,13 +37,17 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend, tokenSupportsComments } from 'src/tokens/utils'
-import { getMaxGasCost, prepareERC20TransferTransaction } from 'src/viem/prepareTransactions'
+import {
+  getMaxGasCost,
+  PreparedTransactionsResult,
+  prepareERC20TransferTransaction,
+} from 'src/viem/prepareTransactions'
 import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
-import { useAsync } from 'react-async-hook'
+import { useAsyncCallback } from 'react-async-hook'
 import Logger from 'src/utils/Logger'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 
@@ -52,35 +56,77 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 
-// function usePrepareTransactions(
-//   amount: BigNumber,
-//   token: TokenBalance,
-//   recipientAddress: string,
-//   feeCurrencies: TokenBalance[]
-// ): UseAsyncReturn<PreparedTransactionsResult | undefined> {
-//   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
-//   const walletAddress = useSelector(walletAddressSelector)
-//
-//   const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
-//   return useAsync(async () => {
-//     if (!amount || amount.eq(0) || !walletAddress) {
-//       return
-//     }
-//     if (tokenBalanceHasAddress(token)) {
-//       if (!includeRegisterDekTx) {
-//         return prepareERC20TransferTransaction({
-//           fromWalletAddress: walletAddress,
-//           toWalletAddress: recipientAddress,
-//           sendToken: token,
-//           amount: BigInt(amount.toString()),
-//           feeCurrencies,
-//         })
-//       }
-//       // TODO(ACT-955): case where we need to register DEK too
-//     }
-//     // TODO(ACT-956): non-ERC20 native asset case
-//   }, [amount, recipientAddress, walletAddress, isDekRegistered]) // [amount, token, recipientAddress, feeCurrencies, walletAddress, isDekRegistered]
-// }
+const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+
+function usePrepareTransactions() {
+  const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
+    PreparedTransactionsResult | undefined
+  >()
+  const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
+  const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
+
+  const prepareTransactions = useAsyncCallback(
+    async (
+      amount: BigNumber,
+      token: TokenBalance,
+      recipientAddress: string,
+      walletAddress: string,
+      isDekRegistered: boolean,
+      feeCurrencies: TokenBalance[]
+    ) => {
+      const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
+
+      if (!amount || amount.eq(0) || !walletAddress) {
+        return
+      }
+      if (tokenBalanceHasAddress(token)) {
+        if (!includeRegisterDekTx) {
+          Logger.info(
+            'src/send/SendEnterAmount',
+            `preparing transactions with amount ${amount.toString()}`
+          )
+          return prepareERC20TransferTransaction({
+            fromWalletAddress: walletAddress,
+            toWalletAddress: recipientAddress,
+            sendToken: token,
+            amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
+            feeCurrencies,
+          })
+        }
+        // TODO(ACT-955): case where we need to register DEK too
+      }
+      // TODO(ACT-956): non-ERC20 native asset case
+    },
+    {
+      onError: (error) => {
+        Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
+      },
+      onSuccess: (result: PreparedTransactionsResult | undefined) => {
+        setPrepareTransactionsResult(result)
+        if (result?.type === 'possible') {
+          setFeeCurrency(result.feeCurrency)
+          setFeeAmount(
+            getMaxGasCost(result.transactions).dividedBy(
+              new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals)
+            )
+          )
+        }
+      },
+    }
+  )
+  return {
+    feeCurrency,
+    feeAmount,
+    prepareTransactionsResult,
+    prepareTransactionsLoading: prepareTransactions.loading,
+    refreshPreparedTransactions: prepareTransactions.execute,
+    clearPreparedTransactions: () => {
+      setPrepareTransactionsResult(undefined)
+      setFeeCurrency(undefined)
+      setFeeAmount(undefined)
+    },
+  }
+}
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -177,49 +223,34 @@ function SendEnterAmount({ route }: Props) {
   const { decimalSeparator } = getNumberFormatSettings()
   const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
 
-  const feeCurrencies = useFeeCurrencies(token.networkId)
+  const {
+    prepareTransactionsResult,
+    prepareTransactionsLoading,
+    feeCurrency,
+    feeAmount,
+    refreshPreparedTransactions,
+    clearPreparedTransactions,
+  } = usePrepareTransactions()
 
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const walletAddress = useSelector(walletAddressSelector)
-  Logger.info('src/send/SendEnterAmount', `isDekRegistered: ${isDekRegistered}`)
-
-  const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
-  const prepareTransactionsOutput = useAsync(
-    async () => {
-      if (!parsedAmount || parsedAmount.eq(0) || !walletAddress) {
-        Logger.info(
-          'src/send/SendEnterAmount',
-          `prepareTransactionsOutput: no amount or wallet address`
+  const feeCurrencies = useFeeCurrencies(token.networkId)
+  useEffect(() => {
+    clearPreparedTransactions()
+    const debouncedRefreshTransactions = setTimeout(() => {
+      if (walletAddress) {
+        return refreshPreparedTransactions(
+          parsedAmount,
+          token,
+          recipient.address,
+          walletAddress,
+          isDekRegistered,
+          feeCurrencies
         )
-        return
       }
-      if (tokenBalanceHasAddress(token)) {
-        if (!includeRegisterDekTx) {
-          Logger.info(
-            'src/send/SendEnterAmount',
-            `preparing transactions with amount ${parsedAmount.toString()}`
-          )
-          return prepareERC20TransferTransaction({
-            fromWalletAddress: walletAddress,
-            toWalletAddress: recipient.address,
-            sendToken: token,
-            amount: BigInt(tokenAmountInSmallestUnit(parsedAmount, token.decimals)),
-            feeCurrencies,
-          })
-        }
-        // TODO(ACT-955): case where we need to register DEK too
-      }
-      // TODO(ACT-956): non-ERC20 native asset case
-    },
-    [amount, token, recipient, walletAddress, isDekRegistered],
-    {
-      onError: (error) => {
-        Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
-      },
-    }
-  ) // todo wrap with custom hook and use debounce time like on swap screen
-
-  const prepareTransactionsResult = prepareTransactionsOutput.result
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [parsedAmount, token])
 
   const showLowerAmountError = token.balance.lt(amount)
   const showMaxAmountWarning =
@@ -236,23 +267,8 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  Logger.info(
-    'src/send/SendEnterAmount',
-    `sendIsPossible: ${sendIsPossible}, prepareTransactionsOutput.loading: ${prepareTransactionsOutput.loading}`
-  )
-
-  const feeTokenId = sendIsPossible
-    ? prepareTransactionsResult.feeTokenId
-    : feeCurrencies[0].tokenId // used for placeholder when fee isn't calculated, so a user knows what they might be paying fees in
-  const { decimals: feeTokenDecimals, symbol: feeTokenSymbol } = useTokenInfo(feeTokenId) ?? {}
-  const feeAmount =
-    sendIsPossible && feeTokenDecimals
-      ? getMaxGasCost(prepareTransactionsResult.transactions).dividedBy(
-          new BigNumber(10).exponentiatedBy(feeTokenDecimals)
-        )
-      : undefined
-
-  const showFeeAmounts = sendIsPossible && feeAmount
+  const showFeeAmounts = sendIsPossible && feeAmount && feeCurrency && !prepareTransactionsLoading
+  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0] // even if transactions are not prepared, give users a preview of what currency they might be paying fees in
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
