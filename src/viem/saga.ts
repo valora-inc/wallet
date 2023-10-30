@@ -70,7 +70,7 @@ export function* sendPayment({
     context.description ?? 'No description',
     context.id,
     tokenAddress,
-    amount,
+    amount.toString(),
     feeInfo
   )
 
