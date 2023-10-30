@@ -11,11 +11,12 @@ interface Props {
   ctaLabel?: string | null
   style?: StyleProp<ViewStyle>
   onPressCta?: () => void
+  testID?: string
 }
 
-export function Warning({ title, description, ctaLabel, style, onPressCta }: Props) {
+export function Warning({ title, description, ctaLabel, style, onPressCta, testID }: Props) {
   return (
-    <View style={[styles.container, style]}>
+    <View style={[styles.container, style]} testID={testID}>
       <View style={styles.row}>
         <AttentionIcon color={Colors.goldDark} />
         <Text style={styles.titleText}>{title}</Text>
