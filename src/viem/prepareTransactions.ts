@@ -6,7 +6,12 @@ import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
-import { Address, EstimateGasExecutionError, encodeFunctionData } from 'viem'
+import {
+  Address,
+  EstimateGasExecutionError,
+  InsufficientFundsError,
+  encodeFunctionData,
+} from 'viem'
 
 interface PreparedTransactionsPossible {
   type: 'possible'
@@ -74,8 +79,8 @@ export async function tryEstimateTransaction({
       account: tx.from,
     })
   } catch (e) {
-    if (e instanceof EstimateGasExecutionError) {
-      // Likely too much gas was needed
+    if (e instanceof EstimateGasExecutionError && e.cause instanceof InsufficientFundsError) {
+      // too much gas was needed
       Logger.warn(
         'SwapScreen@useSwapQuote',
         `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`,
