@@ -1550,6 +1550,7 @@
       "descriptionXtoYDays": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{lowerBound}}-{{upperBound}} giorno/i.",
       "baseDescription": "La richiesta di transazione è stata inviata.",
       "txDetails": "Visualizza su CeloExplorer",
+      "viewOnCeloScan": "Visualizza su CeloScan",
       "continue": "Continua"
     },
     "requestNotCompleted": {
@@ -1558,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "La transazione è in fase di elaborazione.",
-      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla la disponibilità di aggiornamenti per CeloExplorer."
+      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla il blocco di Explorer per verificare la presenza di aggiornamenti."
     }
   },
   "fiatExchangeFlow": {
@@ -1905,6 +1906,7 @@
     "retryFailedTransaction": "Riprova"
   },
   "viewOnCeloBlockExplorer": "Visualizza su CeloExplorer",
+  "viewOnCeloScan": "Visualizza su CeloScan",
   "viewOnEthereumBlockExplorer": "Visualizza su Etherscan",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
