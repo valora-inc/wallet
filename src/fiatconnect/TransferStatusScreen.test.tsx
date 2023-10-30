@@ -5,16 +5,16 @@ import { Provider } from 'react-redux'
 import { act } from 'react-test-renderer'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slice'
-import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
-import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import TransferStatusScreen from 'src/fiatconnect/TransferStatusScreen'
+import { FiatConnectTransfer, SendingTransferStatus } from 'src/fiatconnect/slice'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import appTheme from 'src/styles/appTheme'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockFiatConnectQuotes } from 'test/values'
 
@@ -151,7 +151,10 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('txDetails')).toBeTruthy()
       fireEvent.press(getByTestId('txDetails'))
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: `${networkConfig.celoExplorerBaseTxUrl}${mockTxHash}`,
+        uri: new URL(
+          mockTxHash,
+          blockExplorerUrls[networkConfig.defaultNetworkId].baseTxUrl
+        ).toString(),
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -223,7 +226,10 @@ describe('TransferStatusScreen', () => {
       expect(queryByTestId('txDetails')).toBeTruthy()
       fireEvent.press(getByTestId('txDetails'))
       expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-        uri: `${networkConfig.celoExplorerBaseAddressUrl}${mockAddress}`,
+        uri: new URL(
+          mockAddress,
+          blockExplorerUrls[networkConfig.defaultNetworkId].baseAddressUrl
+        ).toString(),
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(

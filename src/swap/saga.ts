@@ -24,7 +24,11 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
+import {
+  addStandbyTransaction,
+  removeStandbyTransaction,
+  transactionConfirmed,
+} from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
   TokenTransactionTypeV2,
@@ -64,6 +68,7 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
@@ -71,13 +76,11 @@ function* handleSendSwapTransaction(
       networkId: networkConfig.defaultNetworkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       inAmount: {
-        value: valueToBigNumber(rawTx.sellAmount)
-          .multipliedBy(rawTx.guaranteedPrice)
-          .shiftedBy(-toToken.decimals),
+        value: outValue.multipliedBy(rawTx.guaranteedPrice),
         tokenId: toToken.tokenId,
       },
       outAmount: {
-        value: valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals),
+        value: outValue,
         tokenId: fromToken.tokenId,
       },
     })
@@ -252,6 +255,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       error: error.message,
     })
     yield* put(swapError())
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }
@@ -376,6 +380,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
     const swapTxHash = txHashes[txHashes.length - 1]
 
+    const outValue = valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals)
     yield* put(
       addStandbyTransaction({
         context: swapExecuteContext,
@@ -383,13 +388,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         networkId: networkConfig.defaultNetworkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
-          value: valueToBigNumber(sellAmount)
-            .multipliedBy(guaranteedPrice)
-            .shiftedBy(-toToken.decimals),
+          value: outValue.multipliedBy(guaranteedPrice),
           tokenId: toToken.tokenId,
         },
         outAmount: {
-          value: valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals),
+          value: outValue,
           tokenId: fromToken.tokenId,
         },
         transactionHash: swapTxHash,
@@ -431,6 +434,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       error: error.message,
     })
     yield* put(swapError())
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }
