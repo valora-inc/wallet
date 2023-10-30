@@ -5,9 +5,10 @@ import { quickOnboarding, waitForElementByIdAndTap, waitForElementId } from '../
 
 async function validateSendFlow(tokenSymbol) {
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
-  await waitForElementByIdAndTap('SendSearchInput')
-  await element(by.id('SendSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-  await element(by.id('SendSearchInput')).tapReturnKey()
+  await waitForElementId('SendSearchInput')
+  await element(by.id('SearchInput')).tap()
+  await element(by.id('SearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
+  await element(by.id('SearchInput')).tapReturnKey()
   await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
   await element(by.text('0xe5f5...8846')).atIndex(0).tap()
   await expect(
