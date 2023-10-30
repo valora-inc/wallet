@@ -55,9 +55,13 @@ export const reducer = (
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
+      const rehydratePayload: State = getRehydratePayload(action, 'transactions')
       return {
         ...state,
-        ...getRehydratePayload(action, 'transactions'),
+        ...rehydratePayload,
+        standbyTransactions: rehydratePayload.standbyTransactions.filter(
+          (standbyTransaction) => !!standbyTransaction.transactionHash
+        ),
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
