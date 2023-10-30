@@ -1554,6 +1554,7 @@
       "descriptionXtoYDays": "Ваш запрос на транзакцию отправлен, и ваши средства поступят в течение {{lowerBound}}–{{upperBound}} дней.",
       "baseDescription": "Ваш запрос на транзакцию отправлен.",
       "txDetails": "Просмотреть в CeloExplorer",
+      "viewOnCeloScan": "Посмотреть на CeloScan",
       "continue": "Продолжить"
     },
     "requestNotCompleted": {
@@ -1562,7 +1563,7 @@
     },
     "txProcessing": {
       "title": "Поставщик услуг обрабатывает ваш заказ.",
-      "description": "Возможной причиной является плохое интернет-соединение или ошибка сервера."
+      "description": "Это может быть связано с плохим интернет-соединением. Проверь блок-проводник на наличие обновлений."
     }
   },
   "fiatExchangeFlow": {
@@ -1909,6 +1910,7 @@
     "retryFailedTransaction": "Повторить"
   },
   "viewOnCeloBlockExplorer": "Просмотреть в CeloExplorer",
+  "viewOnCeloScan": "Посмотреть на CeloScan",
   "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
