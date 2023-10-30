@@ -61,7 +61,7 @@ const mockSwapTransaction: SwapTransaction = {
   estimatedPriceImpact: '0.1',
 } as SwapTransaction // there are lots fields in this type that are not needed for testing
 
-const mockQuoteReceivedTimestamp = 1000000000000
+const mockQuoteReceivedTimestamp = 1_000_000_000_000
 
 const mockSwap: PayloadAction<SwapInfo> = {
   type: 'swap/swapStart',
@@ -233,8 +233,8 @@ describe(swapSubmitSaga, () => {
   it('should complete swap', async () => {
     jest
       .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
 
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
@@ -285,8 +285,8 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
-      quoteToTransactionElapsedTimeInMs: 10000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+      quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
       web3Library: 'contract-kit',
@@ -323,7 +323,7 @@ describe(swapSubmitSaga, () => {
   })
 
   it('should set swap state correctly on error', async () => {
-    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
+    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30_000) // swap submitted timestamp
     jest.mocked(sendTransaction).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
@@ -348,7 +348,7 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 30_000,
       quoteToTransactionElapsedTimeInMs: undefined,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
@@ -407,8 +407,8 @@ describe(swapSubmitPreparedSaga, () => {
   it('should complete swap', async () => {
     jest
       .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
 
     await expectSaga(swapSubmitPreparedSaga, mockSwapPrepared)
       .withState(store.getState())
@@ -515,8 +515,8 @@ describe(swapSubmitPreparedSaga, () => {
   it('should set swap state correctly on error', async () => {
     jest
       .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
 
     jest.mocked(mockViemWallet.sendRawTransaction).mockImplementationOnce(() => {
       throw new Error('fake error')
@@ -542,8 +542,8 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
-      quoteToTransactionElapsedTimeInMs: 10000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+      quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
       web3Library: 'viem',
