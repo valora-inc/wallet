@@ -128,11 +128,11 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
-    // TODO(satish): update to pass token id once #4310 is done
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
       transactionData: {
+        tokenId: token.tokenId,
         recipient,
         inputAmount: parsedAmount,
         amountIsInLocalCurrency: false,
