@@ -180,6 +180,7 @@ interface HomeEventsProperties {
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
   [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
+  [HomeEvents.hide_balances]: undefined
 }
 
 interface SettingsEventsProperties {

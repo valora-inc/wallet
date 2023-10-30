@@ -6,6 +6,8 @@ import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppState } from 'src/app/actions'
 import {
   appStateSelector,
@@ -57,7 +59,10 @@ function WalletHome() {
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
 
   const [hideBalances, setHideBalances] = useState(false)
-  const eyeballOnPress = () => setHideBalances(!hideBalances)
+  const eyeballOnPress = () => {
+    setHideBalances(!hideBalances)
+    ValoraAnalytics.track(HomeEvents.hide_balances)
+  }
 
   useEffect(() => {
     dispatch(visitHome())
