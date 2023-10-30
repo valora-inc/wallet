@@ -268,6 +268,7 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.transactions.length > 0
 
   const showFeeAmounts = sendIsPossible && feeAmount && feeCurrency && !prepareTransactionsLoading
+  // @ts-ignore
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0] // even if transactions are not prepared, give users a preview of what currency they might be paying fees in
 
   return (
@@ -388,7 +389,7 @@ function SendEnterAmount({ route }: Props) {
                   </>
                 ) : (
                   <>
-                    <Text style={styles.feeInCrypto}>~ {feeTokenSymbol}</Text>
+                    <Text style={styles.feeInCrypto}>~ CELO</Text>
                   </>
                 )}
               </View>
@@ -405,14 +406,6 @@ function SendEnterAmount({ route }: Props) {
                 style={styles.localAmount}
                 testID="SendEnterAmount/LocalAmount"
               />
-              <Touchable
-                borderRadius={MAX_BORDER_RADIUS}
-                onPress={onMaxAmountPress}
-                style={styles.maxTouchable}
-                testID="SendEnterAmount/Max"
-              >
-                <Text style={styles.maxText}>{t('max')}</Text>
-              </Touchable>
             </View>
           </View>
         </View>
