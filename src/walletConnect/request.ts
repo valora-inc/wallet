@@ -2,6 +2,7 @@ import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
+import { CeloTransactionSerializable } from 'node_modules/viem/_types/chains/celo/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
@@ -79,7 +80,18 @@ export function* handleRequest({ method, params }: { method: string; params: any
           nonce,
         }
 
-        return (yield* call([wallet, 'signTransaction'], txRequest)) as string
+        // VALID CIP-42 TRANSACTION
+        const celoTx: CeloTransactionSerializable = {
+          value: BigInt(1),
+          gas: BigInt(1000000),
+          feeCurrency: '0xTEST',
+          maxFeePerGas: BigInt(1000000),
+          maxPriorityFeePerGas: BigInt(1000000),
+          chainId: 42220,
+          nonce: 1,
+        }
+
+        return (yield* call([wallet, 'signTransaction'], celoTx)) as string
       }
       case SupportedActions.eth_sendTransaction: {
         const rawTx: any = { ...params[0] }
