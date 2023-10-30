@@ -1548,6 +1548,7 @@
       "descriptionXtoYDays": "您的交易请求已经发出，您的资金将在 {{lowerBound}}-{{upperBound}} 天内到账。",
       "baseDescription": "您的交易请求已经发出。",
       "txDetails": "在 CeloExplorer 上查看",
+      "viewOnCeloScan": "在 CeloScan 上查看",
       "continue": "继续"
     },
     "requestNotCompleted": {
@@ -1556,7 +1557,7 @@
     },
     "txProcessing": {
       "title": "服务提供商正在处理您的订单。",
-      "description": "这可能是由于网络关联不畅 服务器错误。"
+      "description": "这可能是由于网络连接不畅造成的。检查块资源管理器是否有更新。"
     }
   },
   "fiatExchangeFlow": {
@@ -1903,6 +1904,7 @@
     "retryFailedTransaction": "重试"
   },
   "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
+  "viewOnCeloScan": "在 CeloScan 上查看",
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
