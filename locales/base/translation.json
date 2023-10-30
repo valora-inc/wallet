@@ -1552,6 +1552,7 @@
       "descriptionXtoYDays": "Your transaction request has been sent & your funds will arrive in {{lowerBound}}-{{upperBound}} days.",
       "baseDescription": "Your transaction request has been sent.",
       "txDetails": "View on CeloExplorer",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "Continue"
     },
     "requestNotCompleted": {
@@ -1560,7 +1561,7 @@
     },
     "txProcessing": {
       "title": "Your transaction is still processing.",
-      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
+      "description": "This might be due to poor internet connection. Check the block explorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1907,6 +1908,7 @@
     "retryFailedTransaction": "Retry"
   },
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",

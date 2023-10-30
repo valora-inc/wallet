@@ -175,7 +175,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
-                  {transactionNetwork === Network.Celo && t('viewOnCeloBlockExplorer')}
+                  {transactionNetwork === Network.Celo && t('viewOnCeloScan')}
                   {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
                 </Text>
                 <ArrowRightThick size={16} />
