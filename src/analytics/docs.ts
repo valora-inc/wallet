@@ -85,6 +85,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.view_nft_home_assets]: `When "NFTs" is clicked in Home Assets Pages`,
   [HomeEvents.home_action_pressed]: ``,
   [HomeEvents.notification_bell_pressed]: ``,
+  [HomeEvents.hide_balances]: ``,
   [SettingsEvents.settings_profile_edit]: ``,
   [SettingsEvents.profile_generate_name]: ``,
   [SettingsEvents.profile_save]: ``,
