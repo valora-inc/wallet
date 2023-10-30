@@ -362,6 +362,7 @@ describe('SendEnterAmount', () => {
       origin: params.origin,
       isFromScan: params.isFromScan,
       transactionData: {
+        tokenId: mockPoofTokenId,
         recipient: params.recipient,
         inputAmount: new BigNumber(50),
         amountIsInLocalCurrency: false,
@@ -429,6 +430,7 @@ describe('SendEnterAmount', () => {
       origin: params.origin,
       isFromScan: params.isFromScan,
       transactionData: {
+        tokenId: mockCeloTokenId,
         recipient: params.recipient,
         inputAmount: new BigNumber(8),
         amountIsInLocalCurrency: false,
