@@ -12,6 +12,7 @@ import { tokenAmountInSmallestUnit, getTokenInfo } from 'src/tokens/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import {
+  addHashToStandbyTransaction,
   addStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
@@ -356,7 +357,10 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       txHash: hash,
     })
+
+    yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], { hash })
+
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt as unknown as TransactionReceipt // Need to cast here else the wrapSendTransactionWithRetry call complains
   }

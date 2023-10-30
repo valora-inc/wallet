@@ -1692,7 +1692,8 @@
     "swapFrom": "Tausch von",
     "swapTo": "Tausch zu",
     "rate": "Kurs",
-    "estimatedFee": "Geschätzte Gebühr",
+    "estimatedFee": "Geschätzte Netzwerkgebühr",
+    "networkFee": "Netzwerkgebühr",
     "viewOnExplorer": "Auf CeloExplorer anzeigen"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,53 @@
       "withdraw": "Überweise Token auf ein Bankkonto, mobiles Geld, eine Geschenkkarte usw."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Suche nach Name, Telefon, Geldbeutel...",
+    "title": "Wähle einen Empfänger",
+    "recents": "Aktuelle",
+    "qr": {
+      "title": "QR-Code scannen oder anzeigen",
+      "subtitle": "Schnelles Finden von Adressen auf Valora"
+    },
+    "invite": {
+      "title": "Sende Krypto an deine Freunde",
+      "subtitle": "Freunde aus deiner Kontaktliste einladen"
+    },
+    "getStarted": {
+      "title": "Möglichkeiten, Geld auf Valora zu senden",
+      "subtitle": "ANFANGEN",
+      "options": {
+        "one": {
+          "title": "Wallet Adresse",
+          "subtitle": "Gib eine Celo oder Ethereum kompatible Wallet Adresse ein (z.B. 0x123...abcde)"
+        },
+        "two": {
+          "title": "Telefonnummer",
+          "subtitle": "Direkt an die Telefonnummer einer Person senden, wenn diese Valora hat"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Ethereum-Vermögenswerte an das ENS-Handle von jemandem senden"
+        },
+        "four": {
+          "title": "Profil Name",
+          "subtitle": "Du kannst nach bestehenden Benutzern auf Valora suchen"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Fertiggestellt",
+    "transactionIsPending": "Ausstehend",
+    "transactionIsFailed": "Gescheitert"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Details",
+    "checkPendingTransactionStatus": "Status prüfen",
+    "retryFailedTransaction": "Erneut versuchen"
+  },
+  "viewOnCeloBlockExplorer": "Auf CeloExplorer anzeigen",
+  "viewOnEthereumBlockExplorer": "Ansicht auf Etherscan",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",

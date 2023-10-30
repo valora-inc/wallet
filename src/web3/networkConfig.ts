@@ -38,9 +38,7 @@ interface NetworkConfig {
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
   nftsValoraAppUrl: string
-  celoExplorerBaseTokenUrl: string
-  celoExplorerBaseTxUrl: string
-  celoExplorerBaseAddressUrl: string
+  celoExplorerBaseNFTUrl: string
   approveSwapUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
@@ -76,6 +74,14 @@ const ALCHEMY_ETHEREUM_RPC_URL_MAINNET = 'https://eth-mainnet.g.alchemy.com/v2/'
 
 export type blockExplorerUrls = {
   [key in NetworkId]: { baseTxUrl: string }
+}
+
+export type BlockExplorerUrls = {
+  [key in NetworkId]: {
+    baseTxUrl: string
+    baseAddressUrl: string
+    baseTokenUrl: string
+  }
 }
 
 export type NetworkIdToNetwork = {
@@ -172,24 +178,6 @@ const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2 = `${CLOUD_FUNCTIONS_MAINNE
 const RESOLVE_ID_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/resolveId`
 const RESOLVE_ID_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/resolveId`
 
-const CELO_EXPLORER_BASE_URL_ALFAJORES = 'https://explorer.celo.org/alfajores'
-const CELO_EXPLORER_BASE_URL_MAINNET = 'https://explorer.celo.org/mainnet'
-
-const CELO_EXPLORER_BASE_TX_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/tx/`
-const CELO_EXPLORER_BASE_TX_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/tx/`
-
-const CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/address/`
-const CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/address/`
-
-const CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES = `${CELO_EXPLORER_BASE_URL_ALFAJORES}/token/`
-const CELO_EXPLORER_BASE_TOKEN_URL_MAINNET = `${CELO_EXPLORER_BASE_URL_MAINNET}/token/`
-
-const ETH_EXPLORER_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
-const ETH_EXPLORER_BASE_URL_MAINNET = 'https://etherscan.io'
-
-const ETH_EXPLORER_BASE_TX_URL_SEPOLIA = `${ETH_EXPLORER_BASE_URL_SEPOLIA}/tx/`
-const ETH_EXPLORER_BASE_TX_URL_MAINNET = `${ETH_EXPLORER_BASE_URL_MAINNET}/tx/`
-
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
 const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
@@ -247,9 +235,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
-    celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_ALFAJORES,
-    celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES,
-    celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_ALFAJORES,
+    celoExplorerBaseNFTUrl: 'https://explorer.celo.org/alfajores/token/',
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
@@ -314,9 +300,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
-    celoExplorerBaseTokenUrl: CELO_EXPLORER_BASE_TOKEN_URL_MAINNET,
-    celoExplorerBaseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET,
-    celoExplorerBaseAddressUrl: CELO_EXPLORER_BASE_ADDRESS_URL_MAINNET,
+    celoExplorerBaseNFTUrl: 'https://explorer.celo.org/mainnet/token/',
     approveSwapUrl: APPROVE_SWAP_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
@@ -352,11 +336,33 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
   },
 }
 
-export const blockExplorerUrls: blockExplorerUrls = {
-  [NetworkId['celo-mainnet']]: { baseTxUrl: CELO_EXPLORER_BASE_TX_URL_MAINNET },
-  [NetworkId['celo-alfajores']]: { baseTxUrl: CELO_EXPLORER_BASE_TX_URL_ALFAJORES },
-  [NetworkId['ethereum-mainnet']]: { baseTxUrl: ETH_EXPLORER_BASE_TX_URL_MAINNET },
-  [NetworkId['ethereum-sepolia']]: { baseTxUrl: ETH_EXPLORER_BASE_TX_URL_SEPOLIA },
+const CELOSCAN_BASE_URL_ALFAJORES = 'https://alfajores.celoscan.io'
+const CELOSCAN_BASE_URL_MAINNET = 'https://celoscan.io'
+
+const ETHERSCAN_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
+const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
+
+export const blockExplorerUrls: BlockExplorerUrls = {
+  [NetworkId['celo-mainnet']]: {
+    baseTxUrl: `${CELOSCAN_BASE_URL_MAINNET}/tx/`,
+    baseAddressUrl: `${CELOSCAN_BASE_URL_MAINNET}/address/`,
+    baseTokenUrl: `${CELOSCAN_BASE_URL_MAINNET}/token/`,
+  },
+  [NetworkId['celo-alfajores']]: {
+    baseTxUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/tx/`,
+    baseAddressUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/address/`,
+    baseTokenUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/token/`,
+  },
+  [NetworkId['ethereum-mainnet']]: {
+    baseTxUrl: `${ETHERSCAN_BASE_URL_MAINNET}/tx/`,
+    baseAddressUrl: `${ETHERSCAN_BASE_URL_MAINNET}/address/`,
+    baseTokenUrl: `${ETHERSCAN_BASE_URL_MAINNET}/token/`,
+  },
+  [NetworkId['ethereum-sepolia']]: {
+    baseTxUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/tx/`,
+    baseAddressUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/address/`,
+    baseTokenUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`,
+  },
 }
 
 export const networkIdToNetwork: NetworkIdToNetwork = {
