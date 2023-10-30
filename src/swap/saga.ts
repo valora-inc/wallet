@@ -3,6 +3,7 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapEvents } from 'src/analytics/Events'
 import { SwapTimeMetrics, SwapTxReceiptProperties } from 'src/analytics/Properties'
@@ -275,16 +276,17 @@ function getSwapTxReceiptAnalyticsProperties(
   tokensByAddress: TokenBalancesWithAddress,
   celoAddress: string | undefined
 ): Partial<SwapTxReceiptProperties> {
-  const swapTxGasCost =
-    swapTxReceipt?.gasUsed && swapTxReceipt?.effectiveGasPrice
-      ? Number(swapTxReceipt.gasUsed * swapTxReceipt.effectiveGasPrice)
-      : undefined
-
   const feeCurrencyAddress = swapTx?.feeCurrency || celoAddress
   const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
+  const swapTxGasCost =
+    swapTxReceipt?.gasUsed && swapTxReceipt?.effectiveGasPrice && feeCurrencyToken
+      ? new BigNumber(
+          (swapTxReceipt.gasUsed * swapTxReceipt.effectiveGasPrice).toString()
+        ).shiftedBy(-feeCurrencyToken.decimals)
+      : undefined
   const swapTxGasCostUsd =
     feeCurrencyToken && swapTxGasCost && feeCurrencyToken.priceUsd
-      ? feeCurrencyToken.priceUsd.times(swapTxGasCost).toNumber()
+      ? swapTxGasCost.times(feeCurrencyToken.priceUsd)
       : undefined
 
   return {
@@ -296,8 +298,8 @@ function getSwapTxReceiptAnalyticsProperties(
       : undefined,
     swapTxGasUsed: swapTxReceipt?.gasUsed ? Number(swapTxReceipt.gasUsed) : undefined,
     swapTxGas: swapTx?.gas ? Number(swapTx.gas) : undefined,
-    swapTxGasCost,
-    swapTxGasCostUsd,
+    swapTxGasCost: swapTxGasCost?.toNumber(),
+    swapTxGasCostUsd: swapTxGasCostUsd?.toNumber(),
     swapTxHash,
   }
 }

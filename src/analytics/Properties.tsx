@@ -1223,7 +1223,7 @@ export interface SwapTimeMetrics {
 }
 
 export interface SwapTxsProperties {
-  maxGasCost: number // Max gas cost for the swap (approve + swap) in feeCurrency units
+  maxGasCost?: number // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
   maxGasCostUsd?: number // Max gas cost for the swap (approve + swap) in USD
   txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
   feeCurrency: string | undefined // Fee currency used
@@ -1235,7 +1235,7 @@ export interface SwapTxReceiptProperties {
   swapTxEffectiveGasPrice: number // Pre-London, it is equal to the swap transaction's gasPrice. Post-London, it is equal to the actual gas price paid for inclusion.
   swapTxGasUsed: number // Gas used by the swap transaction
   swapTxGas: number // Gas limit of the swap transaction
-  swapTxGasCost: number // Actual gas cost of the swap transaction in feeCurrency units
+  swapTxGasCost: number // Actual gas cost of the swap transaction in feeCurrency (decimal value)
   swapTxGasCostUsd: number // Actual gas cost of the swap transaction in USD
   swapTxHash: string // Hash of the swap transaction
 }

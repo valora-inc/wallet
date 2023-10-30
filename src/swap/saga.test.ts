@@ -120,14 +120,16 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
             to: mockCeurAddress as Address,
             value: BigInt(0),
             data: '0x0',
-            gas: BigInt(59480),
+            gas: BigInt(59_480),
+            maxFeePerGas: BigInt(12_000_000_000),
           },
           {
             from: mockAccount,
             to: mockSwapTransaction.allowanceTarget as Address,
             value: BigInt(0),
             data: '0x0',
-            gas: BigInt(285000),
+            gas: BigInt(1_325_000),
+            maxFeePerGas: BigInt(12_000_000_000),
           },
         ],
       },
@@ -176,7 +178,8 @@ const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
             to: mockSwapTransaction.allowanceTarget as Address,
             value: BigInt(0),
             data: '0x0',
-            gas: BigInt(285000),
+            gas: BigInt(1_325_000),
+            maxFeePerGas: BigInt(12_000_000_000),
           },
         ],
       },
@@ -286,6 +289,7 @@ describe(swapSubmitSaga, () => {
       quoteToTransactionElapsedTimeInMs: 10000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'contract-kit',
     })
   })
 
@@ -348,6 +352,7 @@ describe(swapSubmitSaga, () => {
       quoteToTransactionElapsedTimeInMs: undefined,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'contract-kit',
     })
   })
 
@@ -379,7 +384,14 @@ describe(swapSubmitPreparedSaga, () => {
     }),
   } as any as ViemWallet
 
-  const mockTxReceipt = { status: 'success', blockNumber: BigInt(1234), transactionHash: '0x2' }
+  const mockTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x2',
+    cumulativeGasUsed: BigInt(2_471_070),
+    effectiveGasPrice: BigInt(5_000_000_000),
+    gasUsed: BigInt(371_674),
+  }
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
     [matchers.call.fn(getViemWallet), mockViemWallet],
@@ -449,10 +461,23 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
-      quoteToTransactionElapsedTimeInMs: 10000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+      quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'viem',
+      maxGasCost: 0.01661376,
+      maxGasCostUsd: 0.00830688,
+      feeCurrency: undefined,
+      feeCurrencySymbol: 'CELO',
+      txCount: 2,
+      swapTxCumulativeGasUsed: 2_471_070,
+      swapTxEffectiveGasPrice: 5_000_000_000,
+      swapTxGasUsed: 371_674,
+      swapTxGas: 1_325_000,
+      swapTxGasCost: 0.00185837,
+      swapTxGasCostUsd: 0.000929185,
+      swapTxHash: '0x2',
     })
   })
 
@@ -521,6 +546,20 @@ describe(swapSubmitPreparedSaga, () => {
       quoteToTransactionElapsedTimeInMs: 10000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'viem',
+      maxGasCost: 0.01661376,
+      maxGasCostUsd: 0.00830688,
+      feeCurrency: undefined,
+      feeCurrencySymbol: 'CELO',
+      txCount: 2,
+      // Most of these values are undefined because we didn't get a tx receipt
+      swapTxCumulativeGasUsed: undefined,
+      swapTxEffectiveGasPrice: undefined,
+      swapTxGasUsed: undefined,
+      swapTxGas: 1_325_000,
+      swapTxGasCost: undefined,
+      swapTxGasCostUsd: undefined,
+      swapTxHash: undefined,
     })
   })
 })

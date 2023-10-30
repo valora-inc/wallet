@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapTxsProperties } from 'src/analytics/Properties'
 import { getFeeCurrency } from 'src/swap/getFeeCurrency'
@@ -16,18 +15,18 @@ export function getSwapTxsAnalyticsProperties(
 
   // undefined means the fee currency is the native currency
   const feeCurrency = getFeeCurrency(preparedTransactions)
-  const maxGasCost = getMaxGasCost(preparedTransactions)
-
   const feeCurrencyAddress = feeCurrency || celoAddress
   const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
-  const maxGasCostUsd = feeCurrencyToken?.priceUsd
-    ? new BigNumber(maxGasCost.toString())
-        .shiftedBy(-feeCurrencyToken.decimals)
-        .times(feeCurrencyToken.priceUsd)
+  const maxGasCost = feeCurrencyToken
+    ? getMaxGasCost(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
     : undefined
+  const maxGasCostUsd =
+    maxGasCost && feeCurrencyToken?.priceUsd
+      ? maxGasCost.times(feeCurrencyToken.priceUsd)
+      : undefined
 
   return {
-    maxGasCost: Number(maxGasCost),
+    maxGasCost: maxGasCost?.toNumber(),
     maxGasCostUsd: maxGasCostUsd?.toNumber(),
     feeCurrency,
     feeCurrencySymbol: feeCurrencyToken?.symbol,
