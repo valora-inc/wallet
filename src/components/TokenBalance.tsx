@@ -16,11 +16,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import Button from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { refreshAllBalances } from 'src/home/actions'
+import EyeIcon from 'src/icons/EyeIcon'
+import HiddenEyeIcon from 'src/icons/HiddenEyeIcon'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
@@ -276,7 +278,10 @@ export function HomeTokenBalance({
           }
           hideBalance={hideBalance}
         />
-        <Button text={'a'} onPress={buttonOnPress} />
+        <Touchable onPress={buttonOnPress}>
+          {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
+        </Touchable>
+        {/* <Button text={hideBalance? 'a' : 'b'} onPress={buttonOnPress} /> */}
       </View>
     </View>
   )
