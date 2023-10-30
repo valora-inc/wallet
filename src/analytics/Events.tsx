@@ -306,6 +306,10 @@ export enum SendEvents {
   check_account_do_not_ask_selected = 'check_account_do_not_ask_selected',
   check_account_alert_back = 'check_account_alert_back',
   check_account_alerts_continue = 'check_account_alerts_continue',
+
+  // events specific to send select recipient screen
+  send_select_recipient_scan_qr = 'send_select_recipient_scan_qr',
+  send_select_recipient_invite = 'send_select_recipient_invite',
 }
 
 export enum QrScreenEvents {
