@@ -64,7 +64,7 @@ export const reducer = (
         // tx hashes). for now, pending transactions can only be resolved within
         // the same app session anyway. this will remove any stuck pending
         // transactions for affected internal users.
-        standbyTransactions: persistedState.standbyTransactions.filter(
+        standbyTransactions: (persistedState.standbyTransactions || []).filter(
           (tx) => tx.status !== TransactionStatus.Pending
         ),
       }
