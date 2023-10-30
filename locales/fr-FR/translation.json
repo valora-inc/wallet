@@ -1911,7 +1911,16 @@
   "sendEnterAmountScreen": {
     "title": "Saisir le montant",
     "selectToken": "Sélectionne un jeton",
-    "networkFee": "{{networkName}} Frais de réseau"
+    "networkFee": "{{networkName}} Frais de réseau",
+    "lowerAmount": "Saisis un montant inférieur",
+    "maxAmountWarning": {
+      "title": "Envoyer le montant maximum",
+      "description": "Ajuste le montant que tu envoies pour t'assurer que tu as assez de {{feeTokenSymbol}} pour le gaz."
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Tu as besoin de plus de {{feeTokenSymbol}} pour le gaz",
+      "description": "Ajoute {{feeTokenSymbol}} pour couvrir tes frais d'essence ou ajuste le montant que tu envoies."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
