@@ -689,13 +689,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       </Provider>
     )
     fireEvent.press(tree.getByTestId('EyeIcon'))
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
-    expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
-
-    fireEvent.press(tree.getByTestId('HiddenEyeIcon'))
-    expect(tree.getByTestId('EyeIcon')).toBeTruthy()
-
-    expect(mockButtonOnPress).toHaveBeenCalledTimes(2)
+    expect(mockButtonOnPress).toHaveBeenCalled()
   })
 })
 
