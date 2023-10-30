@@ -41,6 +41,7 @@ import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
+import { getMaxGasCost, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -49,26 +50,14 @@ const MAX_BORDER_RADIUS = 96
 
 // This is just a mock implementation to test various error states
 // TODO(ACT-955): replace with real implementation
-function usePrepareTransactions(amount: BigNumber, token: TokenBalance) {
-  const nativeToken = useTokenInfo(`${token.networkId}:native`)
+function usePrepareTransactions(
+  amount: BigNumber,
+  token: TokenBalance
+): PreparedTransactionsResult | undefined {
   if (!amount || amount.eq(0)) {
     return
   }
-  if (token.isNative && token.balance.minus(amount).lt(0.1)) {
-    return {
-      type: 'need-decrease-spend-amount-for-gas' as const,
-      feeCurrency: token,
-    }
-  }
-  if (!token.isNative && nativeToken?.balance.lt(0.1)) {
-    return {
-      type: 'not-enough-balance-for-gas' as const,
-      feeCurrencies: [nativeToken],
-    }
-  }
-  return {
-    type: 'possible' as const,
-  }
+  // TODO
 }
 
 function SendEnterAmount({ route }: Props) {
@@ -140,6 +129,8 @@ function SendEnterAmount({ route }: Props) {
         tokenAmount: parsedAmount,
       },
     })
+    // TODO pass fees in to confirmation screen as props
+
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
       origin,
       isScan: isFromScan,
@@ -176,10 +167,22 @@ function SendEnterAmount({ route }: Props) {
     !showLowerAmountError &&
     prepareTransactionResult &&
     prepareTransactionResult.type === 'not-enough-balance-for-gas'
-  const canContinue =
+  const sendIsPossible =
     !showLowerAmountError &&
     prepareTransactionResult &&
-    prepareTransactionResult.type === 'possible'
+    prepareTransactionResult.type === 'possible' &&
+    prepareTransactionResult.transactions.length > 0
+
+  const feeTokenId = sendIsPossible ? prepareTransactionResult.feeTokenId : undefined
+  const { decimals: feeTokenDecimals } = useTokenInfo(feeTokenId) ?? {}
+  const feeAmount =
+    sendIsPossible && feeTokenDecimals
+      ? getMaxGasCost(prepareTransactionResult.transactions).dividedBy(
+          new BigNumber(10).exponentiatedBy(feeTokenDecimals)
+        )
+      : undefined
+
+  const showFees = sendIsPossible && feeAmount && feeTokenId
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -272,30 +275,32 @@ function SendEnterAmount({ route }: Props) {
               </Touchable>
             </View>
           </View>
-          <View style={styles.feeContainer}>
-            <Text style={styles.feeLabel}>
-              {t('sendEnterAmountScreen.networkFee', {
-                networkName: NETWORK_NAMES[token.networkId],
-              })}
-            </Text>
-            {/* TODO(ACT-955): Display estimated fees */}
-            <View style={styles.feeAmountContainer}>
-              <View style={styles.feeInCryptoContainer}>
-                <Text style={styles.feeInCrypto}>~</Text>
+          {showFees && (
+            <View style={styles.feeContainer}>
+              <Text style={styles.feeLabel}>
+                {t('sendEnterAmountScreen.networkFee', {
+                  networkName: NETWORK_NAMES[token.networkId],
+                })}
+              </Text>
+              {/* TODO(ACT-955): Display estimated fees */}
+              <View style={styles.feeAmountContainer}>
+                <View style={styles.feeInCryptoContainer}>
+                  <Text style={styles.feeInCrypto}>~</Text>
+                  <TokenDisplay
+                    tokenId={feeTokenId}
+                    amount={feeAmount}
+                    showLocalAmount={false}
+                    style={styles.feeInCrypto}
+                  />
+                </View>
                 <TokenDisplay
                   tokenId={`${token.networkId}:native`}
                   amount={0.005}
-                  showLocalAmount={false}
-                  style={styles.feeInCrypto}
+                  style={styles.feeInFiat}
                 />
               </View>
-              <TokenDisplay
-                tokenId={`${token.networkId}:native`}
-                amount={0.005}
-                style={styles.feeInFiat}
-              />
             </View>
-          </View>
+          )}
         </View>
         {showMaxAmountWarning && (
           <Warning
@@ -325,7 +330,7 @@ function SendEnterAmount({ route }: Props) {
           style={styles.reviewButton}
           size={BtnSizes.FULL}
           fontStyle={styles.reviewButtonText}
-          disabled={!canContinue}
+          disabled={!sendIsPossible}
           testID="SendEnterAmount/ReviewButton"
         />
         <KeyboardSpacer />
