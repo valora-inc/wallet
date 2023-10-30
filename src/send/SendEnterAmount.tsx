@@ -368,11 +368,6 @@ function SendEnterAmount({ route }: Props) {
               })}
             </Text>
             <View style={styles.feeContainer}>
-              <Text style={styles.feeLabel}>
-                {t('sendEnterAmountScreen.networkFee', {
-                  networkName: NETWORK_NAMES[token.networkId],
-                })}
-              </Text>
               <View style={styles.feeAmountContainer}>
                 {showFeeAmounts ? ( // fixme fee rows wrap in an ugly way on iPhone 14 screen
                   <>
