@@ -1692,7 +1692,8 @@
     "swapFrom": "Trocar de",
     "swapTo": "Trocar para",
     "rate": "Taxa",
-    "estimatedFee": "Taxa estimada",
+    "estimatedFee": "Tarifa de rede Est",
+    "networkFee": "Taxa de rede",
     "viewOnExplorer": "Ver no CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1858,6 +1859,53 @@
       "withdraw": "Transfira tokens para uma conta bancária, dinheiro móvel, cartão-presente etc."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Pesquise por nome, telefone, carteira...",
+    "title": "Selecione um destinatário",
+    "recents": "Recentes",
+    "qr": {
+      "title": "Escanear ou mostrar o código QR",
+      "subtitle": "Encontre rapidamente endereços em Valora"
+    },
+    "invite": {
+      "title": "Envie criptografia para seus amigos",
+      "subtitle": "Convidar amigos da sua lista de contatos"
+    },
+    "getStarted": {
+      "title": "Formas de enviar fundos em Valora",
+      "subtitle": "COMEÇAR",
+      "options": {
+        "one": {
+          "title": "Endereço da carteira",
+          "subtitle": "Digite um endereço de carteira compatível com Celo ou Ethereum (por exemplo, 0x123...abcde)"
+        },
+        "two": {
+          "title": "Número de celular",
+          "subtitle": "Envie diretamente para o número de telefone da pessoa, se ela tiver o Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Enviar ativos Ethereum para o identificador ENS de alguém"
+        },
+        "four": {
+          "title": "Nome do perfil",
+          "subtitle": "Você pode pesquisar os usuários existentes em Valora"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Concluída",
+    "transactionIsPending": "Pendente",
+    "transactionIsFailed": "Falha"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Detalhes",
+    "checkPendingTransactionStatus": "Verificar status",
+    "retryFailedTransaction": "Repetir"
+  },
+  "viewOnCeloBlockExplorer": "Ver no CeloExplorer",
+  "viewOnEthereumBlockExplorer": "Ver em Etherscan",
   "sendEnterAmountScreen": {
     "title": "Insira o valor",
     "selectToken": "Selecione um token",
