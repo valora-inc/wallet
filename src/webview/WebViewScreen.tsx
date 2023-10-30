@@ -21,6 +21,9 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { iconHitslop } from 'src/styles/variables'
 import { navigateToURI } from 'src/utils/linking'
@@ -39,6 +42,10 @@ function WebViewScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const activeDapp = useSelector(activeDappSelector)
+
+  const disabledMediaPlaybackRequiresUserActionOrigins = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]
+  ).disabledMediaPlaybackRequiresUserActionOrigins
 
   const webViewRef = useRef<WebViewRef>(null)
   const [canGoBack, setCanGoBack] = useState(false)
@@ -182,6 +189,10 @@ function WebViewScreen({ route, navigation }: Props) {
   // Toggle for Android Bottom Sheet - passed to WebViewAndroidBottomSheet
   const toggleBottomSheet = () => setShowingBottomSheet((value: boolean) => !value)
 
+  const { origin } = new URL(uri)
+  const mediaPlaybackRequiresUserAction =
+    !disabledMediaPlaybackRequiresUserActionOrigins.includes(origin)
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <WebView
@@ -196,6 +207,7 @@ function WebViewScreen({ route, navigation }: Props) {
           setCanGoForward(navState.canGoForward)
           handleSetNavigationTitle(navState.url, navState.title, navState.loading)
         }}
+        mediaPlaybackRequiresUserAction={mediaPlaybackRequiresUserAction}
         testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
       />
       {Platform.OS === 'android' && (
