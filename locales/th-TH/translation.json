@@ -1548,6 +1548,7 @@
       "descriptionXtoYDays": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{lowerBound}}-{{upperBound}} วัน",
       "baseDescription": "ส่งคำขอธุรกรรมของคุณแล้ว",
       "txDetails": "ดูใน CeloExplorer",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "ดำเนินการต่อ"
     },
     "requestNotCompleted": {
@@ -1556,7 +1557,7 @@
     },
     "txProcessing": {
       "title": "ผู้ให้บริการกำลังดำเนินการคำสั่งของคุณ",
-      "description": "โดยอาจมีสาเหตุมาจากการเชื่อมต่ออินเทอร์เน็ตที่ไม่ดีหรือมีปัญหาเซิร์ฟเวอร์"
+      "description": "This might be due to poor internet connection. Check the block explorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1903,6 +1904,7 @@
     "retryFailedTransaction": "ลองอีกครั้ง"
   },
   "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
