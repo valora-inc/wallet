@@ -1,10 +1,6 @@
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
-import {
-  PendingStandbySwap,
-  PendingStandbyTransfer,
-  TokenTransaction,
-} from 'src/transactions/types'
+import { BaseStandbyTransaction, TokenTransaction } from 'src/transactions/types'
 
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
@@ -17,10 +13,6 @@ export enum Actions {
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
-
-type BaseStandbyTransaction =
-  | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
-  | Omit<PendingStandbySwap, 'timestamp' | 'status'>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION

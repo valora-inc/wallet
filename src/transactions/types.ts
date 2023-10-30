@@ -35,19 +35,22 @@ export type CompletedStandbyTransaction = (
 }
 
 export type FailedStandbyTransaction = (
-  | Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
-  | Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
+  | Omit<TokenExchange, 'status'>
+  | Omit<TokenTransfer, 'status'>
 ) & {
-  transactionHash?: string
-  context: TransactionContext
   status: TransactionStatus.Failed
+  context: TransactionContext
 }
 
 export type StandbyTransaction =
+  | FailedStandbyTransaction
   | PendingStandbySwap
   | PendingStandbyTransfer
   | CompletedStandbyTransaction
-  | FailedStandbyTransaction
+
+export type BaseStandbyTransaction =
+  | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
+  | Omit<PendingStandbySwap, 'timestamp' | 'status'>
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {

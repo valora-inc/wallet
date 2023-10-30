@@ -94,17 +94,19 @@ export const reducer = (
 
       return {
         ...state,
-        standbyTransactions: state.standbyTransactions.map(
-          (standbyTransaction): StandbyTransaction => {
-            if (standbyTransaction.context.id === txId) {
-              return {
-                ...standbyTransaction,
-                status: TransactionStatus.Failed,
-              }
+        standbyTransactions: state.standbyTransactions.map((transaction): StandbyTransaction => {
+          if (transaction.context.id === txId) {
+            return {
+              ...transaction,
+              status: TransactionStatus.Failed,
+              block: '',
+              fees: [],
+              transactionHash: transaction.transactionHash || '',
+              timestamp: Date.now(),
             }
-            return standbyTransaction
           }
-        ),
+          return transaction
+        }),
       }
 
     case Actions.TRANSACTION_CONFIRMED: {
@@ -177,15 +179,6 @@ export const reducer = (
 export const standbyTransactionsSelector = (state: RootState) =>
   state.transactions.standbyTransactions
 
-export const watchablePendingTransactionSelector = createSelector(
-  [standbyTransactionsSelector],
-  (transactions) => {
-    return transactions.filter((transaction) => {
-      return transaction.status === TransactionStatus.Pending && transaction.transactionHash
-    })
-  }
-)
-
 export const pendingStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],
   (transactions) => {
@@ -200,29 +193,13 @@ export const pendingStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const failedStandbyTransactionsSelector = createSelector(
-  [standbyTransactionsSelector],
-  (transactions) => {
-    return transactions
-      .filter(
-        (transaction): transaction is FailedStandbyTransaction =>
-          transaction.status === TransactionStatus.Failed
-      )
-      .map((transaction) => ({
-        ...transaction,
-        transactionHash: transaction.transactionHash || '',
-        block: '',
-        fees: [],
-      }))
-  }
-)
-
-export const completedStandbyTransactionsSelector = createSelector(
+export const confirmedStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],
   (transactions) => {
     return transactions.filter(
-      (transaction): transaction is CompletedStandbyTransaction =>
-        transaction.status === TransactionStatus.Complete
+      (transaction): transaction is CompletedStandbyTransaction | FailedStandbyTransaction =>
+        transaction.status === TransactionStatus.Complete ||
+        transaction.status === TransactionStatus.Failed
     )
   }
 )

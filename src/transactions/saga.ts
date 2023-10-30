@@ -25,8 +25,8 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
+  pendingStandbyTransactionsSelector,
   standbyTransactionsSelector,
-  watchablePendingTransactionSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
@@ -230,7 +230,7 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
-function* watchPendingTransaction(transaction: StandbyTransaction) {
+function* getTransactionReceipt(transaction: StandbyTransaction) {
   const { transactionHash, networkId } = transaction
 
   if (!transactionHash) {
@@ -241,7 +241,7 @@ function* watchPendingTransaction(transaction: StandbyTransaction) {
   // TODO: Remove this constraint when our viem client supports other networks
   const supportedNetworkdIds = [NetworkId['celo-mainnet'], NetworkId['celo-alfajores']]
   if (!supportedNetworkdIds.includes(networkId)) {
-    Logger.warn(TAG, `Transaction ${transaction.context.id} is not on the celo network, skipping`)
+    Logger.warn(TAG, `Transaction ${transaction.context.id} is on ${networkId}, skipping`)
     return
   }
 
@@ -277,11 +277,9 @@ function* watchPendingTransaction(transaction: StandbyTransaction) {
 
 export function* watchPendingTransactions() {
   while (true) {
-    const pendingStandbyTransactions: StandbyTransaction[] = yield* select(
-      watchablePendingTransactionSelector
-    )
+    const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
     for (const transaction of pendingStandbyTransactions) {
-      yield* fork(watchPendingTransaction, transaction)
+      yield* fork(getTransactionReceipt, transaction)
     }
     yield* delay(WATCH_PENDING_TRANSACTION_DELAY) // sleep 10 seconds
   }
