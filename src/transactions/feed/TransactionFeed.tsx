@@ -15,6 +15,7 @@ import {
 } from 'src/transactions/feed/queryHelper'
 import {
   completedStandbyTransactionsSelector,
+  failedStandbyTransactionsSelector,
   pendingStandbyTransactionsSelector,
   transactionsSelector,
 } from 'src/transactions/reducer'
@@ -33,7 +34,12 @@ function TransactionFeed() {
 
   const cachedTransactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
-  const allConfirmedStandbyTransactions = useSelector(completedStandbyTransactionsSelector)
+  const allFailedTransactions = useSelector(failedStandbyTransactionsSelector)
+  const allCompletedStandbyTransactions = useSelector(completedStandbyTransactionsSelector)
+  const allConfirmedStandbyTransactions = [
+    ...allCompletedStandbyTransactions,
+    ...allFailedTransactions,
+  ]
   const allowedNetworks = getAllowedNetworkIds()
 
   const confirmedFeedTransactions = useMemo(() => {

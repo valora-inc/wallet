@@ -25,21 +25,26 @@ import {
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   standbyTransactionsSelector,
+  watchablePendingTransactionSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
+  NetworkId,
   StandbyTransaction,
   TokenTransactionTypeV2,
   TransactionContext,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { publicClient } from 'src/viem'
 import { getContractKit } from 'src/web3/contracts'
-import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
+import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
+import { Hash } from 'viem'
 
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
+const WATCH_PENDING_TRANSACTION_DELAY = 10000
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
@@ -222,7 +227,65 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
+function* watchPendingTransaction(transaction: StandbyTransaction) {
+  const { transactionHash, networkId } = transaction
+
+  if (!transactionHash) {
+    Logger.warn(TAG, `Transaction ${transaction.context.id} has no hash, skipping`)
+    return
+  }
+
+  // TODO: Remove this constraint when our viem client supports other networks
+  const supportedNetworkdIds = [NetworkId['celo-mainnet'], NetworkId['celo-alfajores']]
+  if (!supportedNetworkdIds.includes(networkId)) {
+    Logger.warn(TAG, `Transaction ${transaction.context.id} is not on the celo network, skipping`)
+    return
+  }
+
+  try {
+    const receipt = yield* call(publicClient.celo.getTransactionReceipt, {
+      hash: transactionHash as Hash,
+    })
+
+    if (receipt) {
+      if (receipt.status == 'success') {
+        yield* put(
+          transactionConfirmed(transaction.context.id, {
+            transactionHash: receipt.transactionHash,
+            block: receipt.blockNumber.toString(),
+            status: true,
+          })
+        )
+      }
+
+      if (receipt.status == 'reverted') {
+        yield* put(transactionFailed(transaction.context.id))
+      }
+    }
+  } catch (e) {
+    Logger.error(
+      TAG,
+      `Found error when trying to fetch status for transaction with hash: ${transactionHash}`,
+      e
+    )
+    return
+  }
+}
+
+function* watchPendingTransactions() {
+  while (true) {
+    const pendingStandbyTransactions: StandbyTransaction[] = yield* select(
+      watchablePendingTransactionSelector
+    )
+    for (const transaction of pendingStandbyTransactions) {
+      yield* fork(watchPendingTransaction, transaction)
+    }
+    yield* delay(WATCH_PENDING_TRANSACTION_DELAY) // sleep 10 seconds
+  }
+}
+
 export function* transactionSaga() {
   yield* spawn(watchNewFeedTransactions)
   yield* spawn(watchAddressToE164PhoneNumberUpdate)
+  yield* spawn(watchPendingTransactions)
 }

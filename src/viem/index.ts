@@ -1,5 +1,5 @@
-import networkConfig from 'src/web3/networkConfig'
 import { Network } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 import { createPublicClient, http } from 'viem'
 import { celo, celoAlfajores } from 'viem/chains'
 

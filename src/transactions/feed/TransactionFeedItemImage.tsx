@@ -1,8 +1,10 @@
 import React from 'react'
 import ContactCircle from 'src/components/ContactCircle'
+import AlertWithBackground from 'src/icons/AlertWithBackground'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import SwapIcon from 'src/icons/SwapIcon'
 import { Recipient } from 'src/recipients/recipient'
+import Colors from 'src/styles/colors'
 import { TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
@@ -23,8 +25,7 @@ function TransactionFeedItemImage(props: Props) {
   const { status, transactionType } = props
 
   if (status === TransactionStatus.Failed) {
-    // TODO
-    return null
+    return <AlertWithBackground backgroundColor={Colors.errorLight} />
   }
   if (status === TransactionStatus.Pending) {
     return <GreenLoadingSpinner height={AVATAR_SIZE} />

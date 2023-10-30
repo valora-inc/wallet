@@ -64,6 +64,7 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  // TODO: We need to add the transaction hash in order to be able to watch if the transaction fails.
   yield* put(
     addStandbyTransaction({
       context: transactionContext,

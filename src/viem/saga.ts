@@ -91,6 +91,7 @@ export function* sendPayment({
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
 
+    // TODO: We need to add the transaction hash in order to be able to watch if the transaction fails.
     yield* put(
       addStandbyTransaction({
         __typename: 'TokenTransferV3',
@@ -281,6 +282,7 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       txHash: hash,
     })
+
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], { hash })
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt

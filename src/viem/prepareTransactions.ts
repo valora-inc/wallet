@@ -1,12 +1,12 @@
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import BigNumber from 'bignumber.js'
-import { Address, encodeFunctionData, EstimateGasExecutionError } from 'viem'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import erc20 from 'src/abis/IERC20'
+import { STATIC_GAS_PADDING } from 'src/config'
+import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
-import { STATIC_GAS_PADDING } from 'src/config'
-import Logger from 'src/utils/Logger'
-import erc20 from 'src/abis/IERC20'
+import { Address, EstimateGasExecutionError, encodeFunctionData } from 'viem'
 
 interface PreparedTransactionsPossible {
   type: 'possible'

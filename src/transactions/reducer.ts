@@ -6,6 +6,7 @@ import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   CompletedStandbyTransaction,
+  FailedStandbyTransaction,
   StandbyTransaction,
   TokenTransaction,
   TransactionStatus,
@@ -79,6 +80,24 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
+    case Actions.TRANSACTION_FAILED:
+      const { txId } = action
+
+      return {
+        ...state,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === txId) {
+              return {
+                ...standbyTransaction,
+                status: TransactionStatus.Failed,
+              }
+            }
+            return standbyTransaction
+          }
+        ),
+      }
+
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block } = action.receipt
       if (!status) {
@@ -137,6 +156,15 @@ export const reducer = (
 export const standbyTransactionsSelector = (state: RootState) =>
   state.transactions.standbyTransactions
 
+export const watchablePendingTransactionSelector = createSelector(
+  [standbyTransactionsSelector],
+  (transactions) => {
+    return transactions.filter((transaction) => {
+      return transaction.status === TransactionStatus.Pending && transaction.transactionHash
+    })
+  }
+)
+
 export const pendingStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],
   (transactions) => {
@@ -145,6 +173,22 @@ export const pendingStandbyTransactionsSelector = createSelector(
       .map((transaction) => ({
         ...transaction,
         transactionHash: transaction.transactionHash || '',
+        block: '',
+        fees: [],
+      }))
+  }
+)
+
+export const failedStandbyTransactionsSelector = createSelector(
+  [standbyTransactionsSelector],
+  (transactions) => {
+    return transactions
+      .filter(
+        (transaction): transaction is FailedStandbyTransaction =>
+          transaction.status === TransactionStatus.Failed
+      )
+      .map((transaction) => ({
+        ...transaction,
         block: '',
         fees: [],
       }))

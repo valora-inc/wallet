@@ -71,6 +71,7 @@ export type ActionTypes =
   | UpdateTransactionsAction
   | TransactionConfirmedAction
   | UpdateInviteTransactionsAction
+  | TransactionFailedAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
