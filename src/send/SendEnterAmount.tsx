@@ -142,6 +142,7 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
+    // TODO(ACT-955): pass fees as props for confirmation screen
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
@@ -154,7 +155,6 @@ function SendEnterAmount({ route }: Props) {
         tokenAmount: parsedAmount,
       },
     })
-    // TODO pass fees in to confirmation screen as props
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
       origin,
       isScan: isFromScan,
