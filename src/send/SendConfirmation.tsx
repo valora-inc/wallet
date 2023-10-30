@@ -48,14 +48,13 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
+import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
 import { celoAddressSelector } from 'src/tokens/selectors'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { tokenSupportsComments } from 'src/tokens/utils'
+import { Network } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { Network } from 'src/transactions/types'
 
 type OwnProps = NativeStackScreenProps<
   StackParamList,
@@ -167,7 +166,7 @@ function SendConfirmation(props: Props) {
   }, [isDekRegistered])
 
   const securityFeeInUsd = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
-  const storedDekFee = feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK]
+  const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
   const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
   const celoAddress = useSelector(celoAddressSelector)
@@ -177,10 +176,6 @@ function SendConfirmation(props: Props) {
   const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInFeeToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
-  const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
-  const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
-  const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
 
   const FeeContainer = () => {
     return (
