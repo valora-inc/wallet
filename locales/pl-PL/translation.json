@@ -1554,6 +1554,7 @@
       "descriptionXtoYDays": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{lowerBound}}–{{upperBound}} dni.",
       "baseDescription": "Twoje żądanie transakcji zostało wysłane.",
       "txDetails": "Wyświetl w CeloExplorer",
+      "viewOnCeloScan": "Zobacz na CeloScan",
       "continue": "Kontynuuj"
     },
     "requestNotCompleted": {
@@ -1562,7 +1563,7 @@
     },
     "txProcessing": {
       "title": "Twoja transakcja jest nadal przetwarzana.",
-      "description": "Może to być spowodowane słabym połączeniem internetowym. Sprawdź, czy CeloExplorer jest aktualizowany."
+      "description": "Może to być spowodowane słabym połączeniem internetowym. Sprawdź, czy w wyszukiwarce bloków nie ma aktualizacji."
     }
   },
   "fiatExchangeFlow": {
@@ -1909,6 +1910,7 @@
     "retryFailedTransaction": "Spróbuj ponownie"
   },
   "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
+  "viewOnCeloScan": "Zobacz na CeloScan",
   "viewOnEthereumBlockExplorer": "Wyświetl na Etherscan",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
