@@ -68,6 +68,7 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
@@ -75,13 +76,11 @@ function* handleSendSwapTransaction(
       networkId: networkConfig.defaultNetworkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       inAmount: {
-        value: valueToBigNumber(rawTx.sellAmount)
-          .multipliedBy(rawTx.guaranteedPrice)
-          .shiftedBy(-toToken.decimals),
+        value: outValue.multipliedBy(rawTx.guaranteedPrice),
         tokenId: toToken.tokenId,
       },
       outAmount: {
-        value: valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals),
+        value: outValue,
         tokenId: fromToken.tokenId,
       },
     })
@@ -381,6 +380,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
     const swapTxHash = txHashes[txHashes.length - 1]
 
+    const outValue = valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals)
     yield* put(
       addStandbyTransaction({
         context: swapExecuteContext,
@@ -388,13 +388,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         networkId: networkConfig.defaultNetworkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
-          value: valueToBigNumber(sellAmount)
-            .multipliedBy(guaranteedPrice)
-            .shiftedBy(-toToken.decimals),
+          value: outValue.multipliedBy(guaranteedPrice),
           tokenId: toToken.tokenId,
         },
         outAmount: {
-          value: valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals),
+          value: outValue,
           tokenId: fromToken.tokenId,
         },
         transactionHash: swapTxHash,
