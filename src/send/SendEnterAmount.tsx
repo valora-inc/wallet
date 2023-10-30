@@ -394,19 +394,6 @@ function SendEnterAmount({ route }: Props) {
                 )}
               </View>
             </View>
-            {showLowerAmountError && (
-              <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
-                {t('sendEnterAmountScreen.lowerAmount')}
-              </Text>
-            )}
-            <View style={styles.localAmountRow}>
-              <TokenDisplay
-                amount={parsedAmount}
-                tokenId={token.tokenId}
-                style={styles.localAmount}
-                testID="SendEnterAmount/LocalAmount"
-              />
-            </View>
           </View>
         </View>
         {showMaxAmountWarning && (
