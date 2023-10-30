@@ -41,49 +41,46 @@ import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend, tokenSupportsComments } from 'src/tokens/utils'
-import {
-  getMaxGasCost,
-  PreparedTransactionsResult,
-  prepareERC20TransferTransaction,
-} from 'src/viem/prepareTransactions'
+import { getMaxGasCost, prepareERC20TransferTransaction } from 'src/viem/prepareTransactions'
 import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
-import { useAsync, UseAsyncReturn } from 'react-async-hook'
+import { useAsync } from 'react-async-hook'
+import Logger from 'src/utils/Logger'
+import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 
-function usePrepareTransactions(
-  amount: BigNumber,
-  token: TokenBalance,
-  recipientAddress: string,
-  feeCurrencies: TokenBalance[]
-): UseAsyncReturn<PreparedTransactionsResult | undefined> {
-  const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
-  const walletAddress = useSelector(walletAddressSelector)
-
-  const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
-  return useAsync(async () => {
-    if (!amount || amount.eq(0) || !walletAddress) {
-      return
-    }
-    if (tokenBalanceHasAddress(token)) {
-      if (!includeRegisterDekTx) {
-        return prepareERC20TransferTransaction({
-          fromWalletAddress: walletAddress,
-          toWalletAddress: recipientAddress,
-          sendToken: token,
-          amount: BigInt(amount.toString()),
-          feeCurrencies,
-        })
-      }
-      // TODO(ACT-955): case where we need to register DEK too
-    }
-    // TODO(ACT-956): non-ERC20 native asset case
-    throw new Error('Not implemented')
-  }, [amount, token, recipientAddress, feeCurrencies, walletAddress])
-}
+// function usePrepareTransactions(
+//   amount: BigNumber,
+//   token: TokenBalance,
+//   recipientAddress: string,
+//   feeCurrencies: TokenBalance[]
+// ): UseAsyncReturn<PreparedTransactionsResult | undefined> {
+//   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
+//   const walletAddress = useSelector(walletAddressSelector)
+//
+//   const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
+//   return useAsync(async () => {
+//     if (!amount || amount.eq(0) || !walletAddress) {
+//       return
+//     }
+//     if (tokenBalanceHasAddress(token)) {
+//       if (!includeRegisterDekTx) {
+//         return prepareERC20TransferTransaction({
+//           fromWalletAddress: walletAddress,
+//           toWalletAddress: recipientAddress,
+//           sendToken: token,
+//           amount: BigInt(amount.toString()),
+//           feeCurrencies,
+//         })
+//       }
+//       // TODO(ACT-955): case where we need to register DEK too
+//     }
+//     // TODO(ACT-956): non-ERC20 native asset case
+//   }, [amount, recipientAddress, walletAddress, isDekRegistered]) // [amount, token, recipientAddress, feeCurrencies, walletAddress, isDekRegistered]
+// }
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -181,12 +178,47 @@ function SendEnterAmount({ route }: Props) {
   const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
 
   const feeCurrencies = useFeeCurrencies(token.networkId)
-  const prepareTransactionsOutput = usePrepareTransactions(
-    parsedAmount,
-    token,
-    recipient.address,
-    feeCurrencies
-  )
+
+  const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
+  const walletAddress = useSelector(walletAddressSelector)
+  Logger.info('src/send/SendEnterAmount', `isDekRegistered: ${isDekRegistered}`)
+
+  const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
+  const prepareTransactionsOutput = useAsync(
+    async () => {
+      if (!parsedAmount || parsedAmount.eq(0) || !walletAddress) {
+        Logger.info(
+          'src/send/SendEnterAmount',
+          `prepareTransactionsOutput: no amount or wallet address`
+        )
+        return
+      }
+      if (tokenBalanceHasAddress(token)) {
+        if (!includeRegisterDekTx) {
+          Logger.info(
+            'src/send/SendEnterAmount',
+            `preparing transactions with amount ${parsedAmount.toString()}`
+          )
+          return prepareERC20TransferTransaction({
+            fromWalletAddress: walletAddress,
+            toWalletAddress: recipient.address,
+            sendToken: token,
+            amount: BigInt(tokenAmountInSmallestUnit(parsedAmount, token.decimals)),
+            feeCurrencies,
+          })
+        }
+        // TODO(ACT-955): case where we need to register DEK too
+      }
+      // TODO(ACT-956): non-ERC20 native asset case
+    },
+    [amount, token, recipient, walletAddress, isDekRegistered],
+    {
+      onError: (error) => {
+        Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
+      },
+    }
+  ) // todo wrap with custom hook and use debounce time like on swap screen
+
   const prepareTransactionsResult = prepareTransactionsOutput.result
 
   const showLowerAmountError = token.balance.lt(amount)
@@ -203,6 +235,11 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
+
+  Logger.info(
+    'src/send/SendEnterAmount',
+    `sendIsPossible: ${sendIsPossible}, prepareTransactionsOutput.loading: ${prepareTransactionsOutput.loading}`
+  )
 
   const feeTokenId = sendIsPossible
     ? prepareTransactionsResult.feeTokenId
@@ -321,7 +358,7 @@ function SendEnterAmount({ route }: Props) {
                 })}
               </Text>
               <View style={styles.feeAmountContainer}>
-                {showFeeAmounts ? (
+                {showFeeAmounts ? ( // fixme fee rows wrap in an ugly way on iPhone 14 screen
                   <>
                     <View style={styles.feeInCryptoContainer}>
                       <Text style={styles.feeInCrypto}>~</Text>
