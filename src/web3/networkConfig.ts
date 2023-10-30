@@ -66,7 +66,11 @@ interface NetworkConfig {
     [key in CiCoCurrency | Currency]: string
   }
   celoTokenAddress: string
+  alchemyEthereumRpcUrl: string
 }
+
+const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
+const ALCHEMY_ETHEREUM_RPC_URL_MAINNET = 'https://eth-mainnet.g.alchemy.com/v2/'
 
 export type BlockExplorerUrls = {
   [key in NetworkId]: {
@@ -259,6 +263,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Currency.Celo]: CELO_TOKEN_ID_STAGING,
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_STAGING,
+    alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -323,6 +328,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Currency.Celo]: CELO_TOKEN_ID_MAINNET,
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
+    alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
   },
 }
 

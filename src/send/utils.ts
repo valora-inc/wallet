@@ -84,6 +84,7 @@ export function* handleSendPaymentData(
       amountIsInLocalCurrency: true,
       tokenAddress: tokenInfo.address,
       tokenAmount,
+      tokenId: tokenInfo.tokenId,
       comment: data.comment,
     }
     navigate(Screens.SendConfirmation, {

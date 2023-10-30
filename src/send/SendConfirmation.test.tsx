@@ -344,6 +344,7 @@ describe('SendConfirmation', () => {
         transactionData: {
           ...mockTokenTransactionData,
           tokenAddress: mockCeloAddress,
+          tokenId: mockCeloTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
@@ -361,6 +362,7 @@ describe('SendConfirmation', () => {
         transactionData: {
           ...mockTokenTransactionData,
           tokenAddress: mockTestTokenAddress,
+          tokenId: mockTestTokenTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
@@ -442,11 +444,11 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPayment(inputAmount, tokenAddress, inputAmount, '', recipient, mockFeeInfo, false),
+        sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, mockFeeInfo),
       ])
     )
   })
@@ -481,12 +483,12 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const { inputAmount, tokenAddress } = mockTokenTransactionData
+    const { inputAmount, tokenId } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         sendPayment(
           inputAmount,
-          tokenAddress,
+          tokenId,
           inputAmount,
           '',
           {
@@ -494,8 +496,8 @@ describe('SendConfirmation', () => {
             e164PhoneNumber: mockE164Number,
             recipientType: RecipientType.PhoneNumber,
           },
-          mockFeeInfo,
-          false
+          false,
+          mockFeeInfo
         ),
       ])
     )

@@ -359,6 +359,7 @@ describe('SendAmount', () => {
           recipient: mockTransactionData.recipient,
           tokenAddress: mockTestTokenAddress,
           tokenAmount: new BigNumber(AMOUNT_VALID),
+          tokenId: mockTestTokenTokenId,
         },
       })
     })
@@ -430,6 +431,7 @@ describe('SendAmount', () => {
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCusdAddress,
           tokenAmount: mockTransactionData2.amount,
+          tokenId: mockCusdTokenId,
         },
         addressValidationType: AddressValidationType.FULL,
       })
@@ -468,6 +470,7 @@ describe('SendAmount', () => {
           amountIsInLocalCurrency: true,
           recipient: mockTransactionData2.recipient,
           tokenAddress: mockCeurAddress,
+          tokenId: mockCeurTokenId,
           tokenAmount: new BigNumber('3.088972431077694236'), // inputAmount converted to token value: AMOUNT_VALID / 1.33 (default local currency exchange rate) / 1.2 (priceUsd of cEUR)
         },
       })

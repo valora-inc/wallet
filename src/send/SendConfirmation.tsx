@@ -50,9 +50,12 @@ import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { celoAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
+import { getNetworkFromNetworkId } from 'src/web3/utils'
+import { Network } from 'src/transactions/types'
 
 type OwnProps = NativeStackScreenProps<
   StackParamList,
@@ -98,6 +101,7 @@ function SendConfirmation(props: Props) {
       amountIsInLocalCurrency,
       tokenAddress,
       comment: commentFromParams,
+      tokenId,
     },
   } = props.route.params
 
@@ -106,7 +110,8 @@ function SendConfirmation(props: Props) {
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
+  const tokenInfo = useTokenInfo(tokenId)
+  const tokenNetwork = getNetworkFromNetworkId(tokenInfo?.networkId)
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
@@ -115,7 +120,7 @@ function SendConfirmation(props: Props) {
   const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
     inputAmount.toString(),
     amountIsInLocalCurrency,
-    tokenInfo?.tokenId,
+    tokenId,
     inputTokenAmount
   )
 
@@ -141,18 +146,22 @@ function SendConfirmation(props: Props) {
     })
   }
 
+  // TODO (ACT-922): Update all fee-related code below to work with native tokens
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
-  const feeEstimate = feeEstimates[tokenAddress]?.[feeType]
+  const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
+
+  // TODO (ACT-922): Actually disable Ethereum sends if no fee information exists
+  const disableSend = isSending || (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo)
 
   useEffect(() => {
-    if (!feeEstimate) {
+    if (!feeEstimate && tokenAddress) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
   }, [feeEstimate])
 
   useEffect(() => {
-    if (!isDekRegistered) {
+    if (!isDekRegistered && tokenAddress) {
       dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
     }
   }, [isDekRegistered])
@@ -168,6 +177,10 @@ function SendConfirmation(props: Props) {
   const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
   const totalFeeInFeeToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
+  const securityFee = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
+  const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
+  const dekFee = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
+  const totalFeeInUsd = securityFee?.plus(dekFee ?? 0)
 
   const FeeContainer = () => {
     return (
@@ -201,7 +214,7 @@ function SendConfirmation(props: Props) {
         )}
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
-          tokenId={tokenInfo?.tokenId}
+          tokenId={tokenId}
           feeToAddInUsd={totalFeeInUsd}
           showLocalAmountForTotal={!newSendScreen}
           showApproxTotalBalance={newSendScreen}
@@ -233,7 +246,8 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
-    if (!feeEstimate?.feeInfo) {
+    // TODO (ACT-922): Remove Celo network check once we have Ethereum fees
+    if (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
@@ -247,19 +261,21 @@ function SendConfirmation(props: Props) {
       localCurrencyAmount: localAmount?.toString() ?? null,
       tokenAmount: tokenAmount.toString(),
       tokenSymbol: tokenInfo?.symbol ?? '',
-      tokenAddress,
+      tokenAddress: tokenAddress ?? null,
+      networkId: tokenInfo?.networkId ?? null,
+      tokenId,
       commentLength: comment.length,
     })
 
     dispatch(
       sendPayment(
         tokenAmount,
-        tokenAddress,
+        tokenId,
         usdAmount,
         comment,
         recipient,
-        feeEstimate.feeInfo,
-        fromModal
+        fromModal,
+        feeEstimate?.feeInfo
       )
     )
   }
@@ -287,7 +303,7 @@ function SendConfirmation(props: Props) {
         confirmButton={{
           action: onSend,
           text: t('send'),
-          disabled: isSending || !feeEstimate?.feeInfo,
+          disabled: disableSend,
         }}
         isSending={isSending}
       >
@@ -319,7 +335,7 @@ function SendConfirmation(props: Props) {
             testID="SendAmount"
             style={styles.amount}
             amount={tokenAmount}
-            tokenId={tokenInfo?.tokenId}
+            tokenId={tokenId}
             showLocalAmount={!newSendScreen && amountIsInLocalCurrency}
           />
           {newSendScreen && (
