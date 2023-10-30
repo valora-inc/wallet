@@ -678,7 +678,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(tree.getByTestId('EyeIcon')).toBeTruthy()
   })
 
-  it('calls the correct function when eye icon is pressed ', async () => {
+  it('calls the correct function when eye icon is pressed', async () => {
     const store = createMockStore(defaultStore)
 
     const mockButtonOnPress = jest.fn()
