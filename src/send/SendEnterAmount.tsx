@@ -368,31 +368,25 @@ function SendEnterAmount({ route }: Props) {
                 networkName: NETWORK_NAMES[token.networkId],
               })}
             </Text>
-            <View style={styles.feeContainer}>
-              <View style={styles.feeAmountContainer}>
-                {showFeeAmounts ? ( // fixme fee rows wrap in an ugly way on iPhone 14 screen
-                  <>
-                    <View style={styles.feeInCryptoContainer}>
-                      <Text style={styles.feeInCrypto}>~</Text>
-                      <TokenDisplay
-                        tokenId={feeTokenId}
-                        amount={feeAmount}
-                        showLocalAmount={false}
-                        style={styles.feeInCrypto}
-                      />
-                    </View>
+            <View style={styles.feeAmountContainer}>
+              {showFeeAmounts ? (
+                <>
+                  <View style={styles.feeInCryptoContainer}>
+                    <Text style={styles.feeInCrypto}>~</Text>
                     <TokenDisplay
                       tokenId={feeTokenId}
                       amount={feeAmount}
-                      style={styles.feeInFiat}
+                      showLocalAmount={false}
+                      style={styles.feeInCrypto}
                     />
-                  </>
-                ) : (
-                  <>
-                    <Text style={styles.feeInCrypto}>~ CELO</Text>
-                  </>
-                )}
-              </View>
+                  </View>
+                  <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
+                </>
+              ) : (
+                <>
+                  <Text style={styles.feeInCrypto}>~ CELO</Text>
+                </>
+              )}
             </View>
           </View>
         </View>
