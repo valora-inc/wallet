@@ -1223,22 +1223,42 @@ export interface SwapTimeMetrics {
 }
 
 export interface SwapTxsProperties {
-  maxGasCost?: number // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
-  maxGasCostUsd?: number // Max gas cost for the swap (approve + swap) in USD
+  maxGasCost: number | undefined // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
+  maxGasCostUsd: number | undefined // Max gas cost for the swap (approve + swap) in USD
   txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
   feeCurrency: string | undefined // Fee currency used
   feeCurrencySymbol: string | undefined // Fee currency symbol used
 }
 
-export interface SwapTxReceiptProperties {
-  swapTxCumulativeGasUsed: number // Gas used by the swap transaction and all preceding transactions in the block
-  swapTxEffectiveGasPrice: number // Pre-London, it is equal to the swap transaction's gasPrice. Post-London, it is equal to the actual gas price paid for inclusion.
-  swapTxGasUsed: number // Gas used by the swap transaction
-  swapTxGas: number // Gas limit of the swap transaction
-  swapTxGasCost: number // Actual gas cost of the swap transaction in feeCurrency (decimal value)
-  swapTxGasCostUsd: number // Actual gas cost of the swap transaction in USD
-  swapTxHash: string // Hash of the swap transaction
+export interface TxReceiptProperties {
+  txCumulativeGasUsed: number // Gas used by the swap transaction and all preceding transactions in the block
+  txEffectiveGasPrice: number // Pre-London, it is equal to the swap transaction's gasPrice. Post-London, it is equal to the actual gas price paid for inclusion.
+  txGasUsed: number // Gas used by the swap transaction
+  txGas: number // Gas limit of the swap transaction
+  txGasCost: number // Actual gas cost of the swap transaction in feeCurrency (decimal value)
+  txGasCostUsd: number // Actual gas cost of the swap transaction in USD
+  txHash: string // Hash of the swap transaction
 }
+
+// Adds `swap` prefix to all properties of TxReceiptProperties
+type SwapTxReceiptProperties = {
+  [Property in keyof TxReceiptProperties as `swap${Capitalize<
+    string & Property
+  >}`]: TxReceiptProperties[Property]
+}
+
+// Adds `approve` prefix to all properties of TxReceiptProperties
+type ApproveTxReceiptProperties = {
+  [Property in keyof TxReceiptProperties as `approve${Capitalize<
+    string & Property
+  >}`]: TxReceiptProperties[Property]
+}
+
+export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
+  Partial<SwapTxReceiptProperties> & {
+    gasCost?: number // Actual gas cost of the swap (approve + swap) in feeCurrency (decimal value)
+    gasCostUsd?: number // Actual gas cost of the swap (approve + swap) in USD
+  }
 
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
@@ -1270,7 +1290,7 @@ interface SwapEventsProperties {
     SwapTimeMetrics &
     Web3LibraryProps &
     Partial<SwapTxsProperties> &
-    Partial<SwapTxReceiptProperties> & {
+    SwapTxsReceiptProperties & {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
@@ -1281,7 +1301,7 @@ interface SwapEventsProperties {
     SwapTimeMetrics &
     Web3LibraryProps &
     Partial<SwapTxsProperties> &
-    Partial<SwapTxReceiptProperties> & {
+    SwapTxsReceiptProperties & {
       error: string
       fromTokenBalance: string
       swapExecuteTxId: string

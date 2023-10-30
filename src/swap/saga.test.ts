@@ -384,20 +384,29 @@ describe(swapSubmitPreparedSaga, () => {
     }),
   } as any as ViemWallet
 
-  const mockTxReceipt = {
+  const mockSwapTxReceipt = {
     status: 'success',
     blockNumber: BigInt(1234),
     transactionHash: '0x2',
-    cumulativeGasUsed: BigInt(2_471_070),
+    cumulativeGasUsed: BigInt(3_899_547),
     effectiveGasPrice: BigInt(5_000_000_000),
     gasUsed: BigInt(371_674),
+  }
+  const mockApproveTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x1',
+    cumulativeGasUsed: BigInt(3_129_217),
+    effectiveGasPrice: BigInt(5_000_000_000),
+    gasUsed: BigInt(51_578),
   }
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
     [matchers.call.fn(getViemWallet), mockViemWallet],
     [matchers.call.fn(getTransactionCount), 10],
     [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
-    [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+    [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockSwapTxReceipt],
+    [matchers.call.fn(publicClient.celo.getTransactionReceipt), mockApproveTxReceipt],
   ]
 
   beforeEach(() => {
@@ -468,10 +477,19 @@ describe(swapSubmitPreparedSaga, () => {
       web3Library: 'viem',
       maxGasCost: 0.01661376,
       maxGasCostUsd: 0.00830688,
+      gasCost: 0.00211626,
+      gasCostUsd: 0.00105813,
       feeCurrency: undefined,
       feeCurrencySymbol: 'CELO',
       txCount: 2,
-      swapTxCumulativeGasUsed: 2_471_070,
+      approveTxCumulativeGasUsed: 3_129_217,
+      approveTxEffectiveGasPrice: 5_000_000_000,
+      approveTxGasUsed: 51_578,
+      approveTxGas: 59_480,
+      approveTxGasCost: 0.00025789,
+      approveTxGasCostUsd: 0.000128945,
+      approveTxHash: '0x1',
+      swapTxCumulativeGasUsed: 3_899_547,
       swapTxEffectiveGasPrice: 5_000_000_000,
       swapTxGasUsed: 371_674,
       swapTxGas: 1_325_000,
@@ -479,6 +497,15 @@ describe(swapSubmitPreparedSaga, () => {
       swapTxGasCostUsd: 0.000929185,
       swapTxHash: '0x2',
     })
+    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+    expect(analyticsProps.gasCost).toBeCloseTo(
+      analyticsProps.approveTxGasCost + analyticsProps.swapTxGasCost,
+      8
+    )
+    expect(analyticsProps.gasCostUsd).toBeCloseTo(
+      analyticsProps.approveTxGasCostUsd + analyticsProps.swapTxGasCostUsd,
+      8
+    )
   })
 
   it('should complete swap without approval for native sell token', async () => {
@@ -549,10 +576,19 @@ describe(swapSubmitPreparedSaga, () => {
       web3Library: 'viem',
       maxGasCost: 0.01661376,
       maxGasCostUsd: 0.00830688,
+      gasCost: undefined,
+      gasCostUsd: undefined,
       feeCurrency: undefined,
       feeCurrencySymbol: 'CELO',
       txCount: 2,
       // Most of these values are undefined because we didn't get a tx receipt
+      approveTxCumulativeGasUsed: undefined,
+      approveTxEffectiveGasPrice: undefined,
+      approveTxGasUsed: undefined,
+      approveTxGas: 59_480,
+      approveTxGasCost: undefined,
+      approveTxGasCostUsd: undefined,
+      approveTxHash: undefined,
       swapTxCumulativeGasUsed: undefined,
       swapTxEffectiveGasPrice: undefined,
       swapTxGasUsed: undefined,
