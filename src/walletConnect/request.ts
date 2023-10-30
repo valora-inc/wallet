@@ -82,6 +82,7 @@ export function* handleRequest({ method, params }: { method: string; params: any
 
         // VALID CIP-42 TRANSACTION
         const celoTx: CeloTransactionSerializable = {
+          to: '0xEb08a36D153827CC750dd264c9e7360A3174Dc27',
           value: BigInt(1),
           gas: BigInt(1000000),
           feeCurrency: '0xTEST',
