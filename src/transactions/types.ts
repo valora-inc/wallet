@@ -35,9 +35,10 @@ export type CompletedStandbyTransaction = (
 }
 
 export type FailedStandbyTransaction = (
-  | Omit<TokenTransfer, 'block' | 'fees' | 'status'>
-  | Omit<TokenExchange, 'block' | 'fees' | 'status'>
+  | Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
+  | Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
 ) & {
+  transactionHash?: string
   context: TransactionContext
   status: TransactionStatus.Failed
 }

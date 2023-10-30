@@ -189,6 +189,7 @@ export const failedStandbyTransactionsSelector = createSelector(
       )
       .map((transaction) => ({
         ...transaction,
+        transactionHash: transaction.transactionHash || '',
         block: '',
         fees: [],
       }))
