@@ -59,6 +59,8 @@ export const reducer = (
       return {
         ...state,
         ...rehydratePayload,
+        // without the transaction hash, we cannot fetch the status of the
+        // transaction from previous app sessions so we should clear them
         standbyTransactions: rehydratePayload.standbyTransactions.filter(
           (standbyTransaction) => !!standbyTransaction.transactionHash
         ),
