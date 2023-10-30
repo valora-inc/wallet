@@ -72,10 +72,6 @@ interface NetworkConfig {
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_ETHEREUM_RPC_URL_MAINNET = 'https://eth-mainnet.g.alchemy.com/v2/'
 
-export type blockExplorerUrls = {
-  [key in NetworkId]: { baseTxUrl: string }
-}
-
 export type BlockExplorerUrls = {
   [key in NetworkId]: {
     baseTxUrl: string
