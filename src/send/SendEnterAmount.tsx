@@ -117,11 +117,11 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
-    // TODO(satish): update to pass token id once #4310 is done
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
       transactionData: {
+        tokenId: token.tokenId,
         recipient,
         inputAmount: parsedAmount,
         amountIsInLocalCurrency: false,
@@ -130,7 +130,6 @@ function SendEnterAmount({ route }: Props) {
       },
     })
     // TODO pass fees in to confirmation screen as props
-
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
       origin,
       isScan: isFromScan,
@@ -239,6 +238,63 @@ function SendEnterAmount({ route }: Props) {
                     ? { start: startPosition }
                     : undefined
                 }
+              />
+              <Touchable
+                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                onPress={onTokenPickerSelect}
+                style={styles.tokenSelectButton}
+                testID="SendEnterAmount/TokenSelect"
+              >
+                <>
+                  <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+                  <Text style={styles.tokenName}>{token.symbol}</Text>
+                  <DownArrowIcon color={Colors.gray5} />
+                </>
+              </Touchable>
+            </View>
+            {showLowerAmountError && (
+              <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
+                {t('sendEnterAmountScreen.lowerAmount')}
+              </Text>
+            )}
+            <View style={styles.localAmountRow}>
+              <TokenDisplay
+                amount={parsedAmount}
+                tokenId={token.tokenId}
+                style={styles.localAmount}
+                testID="SendEnterAmount/LocalAmount"
+              />
+              <Touchable
+                borderRadius={MAX_BORDER_RADIUS}
+                onPress={onMaxAmountPress}
+                style={styles.maxTouchable}
+                testID="SendEnterAmount/Max"
+              >
+                <Text style={styles.maxText}>{t('max')}</Text>
+              </Touchable>
+            </View>
+          </View>
+          <View style={styles.feeContainer}>
+            <Text style={styles.feeLabel}>
+              {t('sendEnterAmountScreen.networkFee', {
+                networkName: NETWORK_NAMES[token.networkId],
+              })}
+            </Text>
+            {/* TODO(ACT-955): Display estimated fees */}
+            <View style={styles.feeAmountContainer}>
+              <View style={styles.feeInCryptoContainer}>
+                <Text style={styles.feeInCrypto}>~</Text>
+                <TokenDisplay
+                  tokenId={`${token.networkId}:native`}
+                  amount={0.005}
+                  showLocalAmount={false}
+                  style={styles.feeInCrypto}
+                />
+              </View>
+              <TokenDisplay
+                tokenId={`${token.networkId}:native`}
+                amount={0.005}
+                style={styles.feeInFiat}
               />
               <Touchable
                 borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}

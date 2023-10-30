@@ -108,7 +108,7 @@ export default function NftsInfoCarousel({ route }: Props) {
 
   function pressExplorerLink() {
     navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseTokenUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
+      uri: `${networkConfig.celoExplorerBaseNFTUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
     })
   }
 

@@ -409,7 +409,7 @@ describe('TransactionDetailsScreen', () => {
       }),
     })
 
-    fireEvent.press(getByText('viewOnCeloBlockExplorer'))
+    fireEvent.press(getByText('viewOnCeloScan'))
 
     expect(navigate).toHaveBeenCalledWith(
       Screens.WebViewScreen,

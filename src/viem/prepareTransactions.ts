@@ -1,7 +1,12 @@
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import BigNumber from 'bignumber.js'
-import { Address, encodeFunctionData, EstimateGasExecutionError } from 'viem'
+import {
+  Address,
+  encodeFunctionData,
+  EstimateGasExecutionError,
+  InsufficientFundsError,
+} from 'viem'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
 import { STATIC_GAS_PADDING } from 'src/config'
@@ -75,8 +80,8 @@ export async function tryEstimateTransaction({
       account: tx.from,
     })
   } catch (e) {
-    if (e instanceof EstimateGasExecutionError) {
-      // Likely too much gas was needed
+    if (e instanceof EstimateGasExecutionError && e.cause instanceof InsufficientFundsError) {
+      // too much gas was needed
       Logger.warn(
         'SwapScreen@useSwapQuote',
         `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`,
