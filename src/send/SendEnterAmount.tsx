@@ -63,13 +63,13 @@ function usePrepareTransactions(
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const walletAddress = useSelector(walletAddressSelector)
 
-  const _includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
+  const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
   return useAsync(async () => {
     if (!amount || amount.eq(0) || !walletAddress) {
       return
     }
     if (tokenBalanceHasAddress(token)) {
-      if (!_includeRegisterDekTx) {
+      if (!includeRegisterDekTx) {
         return prepareERC20TransferTransaction({
           fromWalletAddress: walletAddress,
           toWalletAddress: recipientAddress,
@@ -81,6 +81,7 @@ function usePrepareTransactions(
       // TODO(ACT-955): case where we need to register DEK too
     }
     // TODO(ACT-956): non-ERC20 native asset case
+    throw new Error('Not implemented')
   }, [amount, token, recipientAddress, feeCurrencies, walletAddress])
 }
 
