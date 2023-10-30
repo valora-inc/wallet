@@ -24,7 +24,11 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
+import {
+  addStandbyTransaction,
+  removeStandbyTransaction,
+  transactionConfirmed,
+} from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
   TokenTransactionTypeV2,
@@ -253,6 +257,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       error: error.message,
     })
     yield* put(swapError())
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }
@@ -432,6 +437,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       error: error.message,
     })
     yield* put(swapError())
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }
