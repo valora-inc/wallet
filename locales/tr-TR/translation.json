@@ -1911,7 +1911,16 @@
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Belirteç Seçin",
-    "networkFee": "{{networkName}} Ağ Ücreti"
+    "networkFee": "{{networkName}} Ağ Ücreti",
+    "lowerAmount": "Daha düşük bir miktar girin",
+    "maxAmountWarning": {
+      "title": "Maksimum tutarın gönderilmesi",
+      "description": "Gönderdiğiniz miktarı gaz için yeterli {{feeTokenSymbol}} olduğundan emin olacak şekilde ayarlayın"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Gaz için daha fazla {{feeTokenSymbol}} adresine ihtiyacınız var",
+      "description": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya gönderdiğiniz miktarı ayarlayın"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
