@@ -1548,6 +1548,7 @@
       "descriptionXtoYDays": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến sau {{lowerBound}}-{{upperBound}} ngày.",
       "baseDescription": "Yêu cầu giao dịch của bạn đã được gửi.",
       "txDetails": "Xem trên CeloExplorer",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "Tiếp tục"
     },
     "requestNotCompleted": {
@@ -1556,7 +1557,7 @@
     },
     "txProcessing": {
       "title": "Nhà cung cấp dịch vụ đang xử lý đơn hàng của bạn.",
-      "description": "Nguyên nhân có thể là kết nối Internet kém hoặc sự cố máy chủ."
+      "description": "This might be due to poor internet connection. Check the block explorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1903,6 +1904,7 @@
     "retryFailedTransaction": "Thử lại"
   },
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
