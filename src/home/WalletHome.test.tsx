@@ -10,7 +10,7 @@ import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
-import { RecursivePartial, createMockStore } from 'test/utils'
+import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
@@ -265,6 +265,16 @@ describe('WalletHome', () => {
     })
 
     expect(queryByTestId('cashInBtn')).toBeFalsy()
+  })
+
+  it('Hides/shows total balance when button is clicked', async () => {
+    const { tree } = renderScreen()
+
+    fireEvent.press(tree.getByTestId('EyeIcon'))
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
+
+    fireEvent.press(tree.getByTestId('HiddenEyeIcon'))
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱1.33')
   })
 
   describe('recently used dapps', () => {

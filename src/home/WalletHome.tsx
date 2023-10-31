@@ -61,11 +61,7 @@ function WalletHome() {
   const [hideBalances, setHideBalances] = useState(false)
   const eyeIconOnPress = () => {
     setHideBalances(!hideBalances)
-    if (hideBalances) {
-      ValoraAnalytics.track(HomeEvents.hide_balances)
-    } else {
-      ValoraAnalytics.track(HomeEvents.show_balances)
-    }
+    ValoraAnalytics.track(hideBalances ? HomeEvents.hide_balances : HomeEvents.show_balances)
   }
 
   useEffect(() => {
