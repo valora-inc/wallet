@@ -244,14 +244,7 @@ export function* getTransactionReceipt(
       hash: transactionHash as Hash,
     })
 
-    Logger.info(
-      'DIEGO test 4',
-      receipt.transactionHash,
-      receipt.blockNumber.toString(),
-      receipt.status
-    )
     if (receipt) {
-      Logger.info('DIEGO test 5')
       yield* put(
         transactionConfirmed(transaction.context.id, {
           transactionHash: receipt.transactionHash,
