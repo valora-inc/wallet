@@ -1,14 +1,20 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
 import erc20 from 'src/abis/IERC20.json'
+import { Network } from 'src/transactions/types'
+import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import * as mockedKeychain from 'test/mockedKeychain'
-import { mockAccount2, mockContractAddress, mockPrivateDEK } from 'test/values'
-import { writeContract } from 'viem/actions'
-import { celoAlfajores, sepolia as ethereumSepolia, goerli as ethereumGoerli } from 'viem/chains'
-import { viemTransports } from 'src/viem'
+import { mockAccount2, mockContractAddress, mockPrivateDEK, mockTypedData } from 'test/values'
 import { http } from 'viem'
-import { Network } from 'src/transactions/types'
+import {
+  sendTransaction,
+  signMessage,
+  signTransaction,
+  signTypedData,
+  writeContract,
+} from 'viem/actions'
+import { celoAlfajores, goerli as ethereumGoerli, sepolia as ethereumSepolia } from 'viem/chains'
 
 jest.mock('viem/actions')
 jest.mock('src/viem', () => {
@@ -32,31 +38,62 @@ describe('getTransport', () => {
   })
 })
 
+const methodsParams: Record<string, any> = {
+  sendTransaction: {
+    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+    to: '0x0000000000000000000000000000000000000000',
+    value: BigInt(1),
+  },
+  signTransaction: {
+    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+    to: '0x0000000000000000000000000000000000000000',
+    value: BigInt(1),
+  },
+  signTypedData: mockTypedData,
+  signMessage: {
+    account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+    message: 'hello world',
+  },
+  writeContract: {
+    address: mockContractAddress,
+    abi: erc20.abi,
+    functionName: 'mint',
+    account: mockAccount2,
+    chain: celoAlfajores,
+    args: [],
+  },
+}
+
 describe('getLockableWallet', () => {
   let wallet: ViemWallet
   let lock: KeychainLock
-  let writeContractConfig: any
 
   beforeEach(() => {
     viemTransports[Network.Celo] = http()
     viemTransports[Network.Ethereum] = http()
     lock = new KeychainLock()
     wallet = getLockableViemWallet(lock, celoAlfajores, `0x${mockPrivateDEK}`)
-    writeContractConfig = {
-      address: mockContractAddress,
-      abi: erc20.abi,
-      functionName: 'mint',
-      account: mockAccount2,
-      chain: celoAlfajores,
-      args: [],
-    }
   })
-  it('cannot call writeContract if not unlocked', () => {
-    expect(() => wallet.writeContract(writeContractConfig)).toThrowError(
+
+  it.each([
+    ['sendTransaction', (args: any) => wallet.sendTransaction(args)],
+    ['signTransaction', (args: any) => wallet.signTransaction(args)],
+    ['signTypedData', (args: any) => wallet.signTypedData(args)],
+    ['signMessage', (args: any) => wallet.signMessage(args)],
+    ['writeContract', (args: any) => wallet.writeContract(args)],
+  ])('cannot call %s if not unlocked', (methodName, methodCall) => {
+    expect(() => methodCall(methodsParams[methodName])).toThrowError(
       'authentication needed: password or unlock'
     )
   })
-  it('can call writeContract if unlocked', async () => {
+
+  it.each([
+    { method: sendTransaction, methodCall: (args: any) => wallet.sendTransaction(args) },
+    { method: signTransaction, methodCall: (args: any) => wallet.signTransaction(args) },
+    { method: signTypedData, methodCall: (args: any) => wallet.signTypedData(args) },
+    { method: signMessage, methodCall: (args: any) => wallet.signMessage(args) },
+    { method: writeContract, methodCall: (args: any) => wallet.writeContract(args) },
+  ])('can call $method.name if unlocked', async ({ method, methodCall }) => {
     // Adding account to the lock and keychain
     const date = new Date()
     lock.addAccount({ address: wallet.account?.address as string, createdAt: date })
@@ -68,9 +105,9 @@ describe('getLockableWallet', () => {
 
     const unlocked = await wallet.unlockAccount('password', 100)
     expect(unlocked).toBe(true)
-    expect(() => wallet.writeContract(writeContractConfig)).not.toThrowError(
+    expect(() => methodCall(methodsParams[method.name])).not.toThrowError(
       'authentication needed: password or unlock'
     )
-    expect(writeContract).toHaveBeenCalledWith(expect.anything(), writeContractConfig)
+    expect(method).toHaveBeenCalledWith(expect.anything(), methodsParams[method.name])
   })
 })
