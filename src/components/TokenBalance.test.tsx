@@ -52,6 +52,8 @@ jest.mocked(getDynamicConfigParams).mockReturnValue({
   showBalances: [NetworkId['celo-alfajores']],
 })
 
+const mockEyeIconOnPress = jest.fn()
+
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -101,7 +103,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -142,7 +144,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -185,7 +187,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const { getByTestId } = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -209,7 +211,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -233,7 +235,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance />
+        <HomeTokenBalance eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -253,7 +255,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -274,7 +276,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -289,7 +291,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -329,7 +331,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -367,7 +369,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -390,7 +392,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -410,7 +412,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -452,7 +454,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -491,7 +493,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       const tree = render(
         <Provider store={store}>
-          <TokenBalanceComponent />
+          <TokenBalanceComponent eyeIconOnPress={mockEyeIconOnPress} />
         </Provider>
       )
 
@@ -514,7 +516,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance />
+        <HomeTokenBalance eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -550,7 +552,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance />
+        <HomeTokenBalance eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -590,7 +592,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance />
+        <HomeTokenBalance eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -627,7 +629,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance />
+        <HomeTokenBalance eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -658,7 +660,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance hideBalance={true} />
+        <HomeTokenBalance hideBalance={true} eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -671,7 +673,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance hideBalance={false} />
+        <HomeTokenBalance hideBalance={false} eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
 
@@ -681,15 +683,13 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   it('calls the correct function when eye icon is pressed', async () => {
     const store = createMockStore(defaultStore)
 
-    const mockButtonOnPress = jest.fn()
-
     const tree = render(
       <Provider store={store}>
-        <HomeTokenBalance hideBalance={false} buttonOnPress={mockButtonOnPress} />
+        <HomeTokenBalance hideBalance={false} eyeIconOnPress={mockEyeIconOnPress} />
       </Provider>
     )
     fireEvent.press(tree.getByTestId('EyeIcon'))
-    expect(mockButtonOnPress).toHaveBeenCalled()
+    expect(mockEyeIconOnPress).toHaveBeenCalled()
   })
 })
 

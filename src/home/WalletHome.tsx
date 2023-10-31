@@ -59,9 +59,13 @@ function WalletHome() {
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
 
   const [hideBalances, setHideBalances] = useState(false)
-  const eyeballOnPress = () => {
+  const eyeIconOnPress = () => {
     setHideBalances(!hideBalances)
-    ValoraAnalytics.track(HomeEvents.hide_balances)
+    if (hideBalances) {
+      ValoraAnalytics.track(HomeEvents.hide_balances)
+    } else {
+      ValoraAnalytics.track(HomeEvents.show_balances)
+    }
   }
 
   useEffect(() => {
@@ -139,7 +143,7 @@ function WalletHome() {
     renderItem: () => (
       <HomeTokenBalance
         key={'HomeTokenBalance'}
-        buttonOnPress={eyeballOnPress}
+        eyeIconOnPress={eyeIconOnPress}
         hideBalance={hideBalances}
       />
     ),

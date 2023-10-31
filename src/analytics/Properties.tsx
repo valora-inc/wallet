@@ -181,6 +181,7 @@ interface HomeEventsProperties {
   [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
   [HomeEvents.hide_balances]: undefined
+  [HomeEvents.show_balances]: undefined
 }
 
 interface SettingsEventsProperties {

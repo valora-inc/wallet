@@ -95,10 +95,11 @@ function TokenBalance({
             {!hideBalance && localCurrencySymbol}
             {hideBalance ? 'XX.XX' : totalTokenBalanceLocal?.toFormat(2) ?? '-'}
           </Text>
-          <Text style={styles.tokenBalance}>
-            {!hideBalance && formatValueToDisplay(tokenBalance)}{' '}
-            {!hideBalance && tokensWithUsdValue[0].symbol}
-          </Text>
+          {!hideBalance && (
+            <Text style={styles.tokenBalance}>
+              {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
+            </Text>
+          )}
         </View>
       </View>
     )
@@ -210,10 +211,10 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 }
 
 export function HomeTokenBalance({
-  buttonOnPress,
+  eyeIconOnPress,
   hideBalance = false,
 }: {
-  buttonOnPress?: () => void
+  eyeIconOnPress: () => void
   hideBalance?: boolean
 }) {
   const { t } = useTranslation()
@@ -278,7 +279,7 @@ export function HomeTokenBalance({
           }
           hideBalance={hideBalance}
         />
-        <Touchable onPress={buttonOnPress}>
+        <Touchable onPress={eyeIconOnPress}>
           {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
         </Touchable>
       </View>
