@@ -101,7 +101,6 @@ export function useFetchTransactions(): QueryHookResult {
   })
 
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-  let hasNewTransaction = false
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -148,6 +147,8 @@ export function useFetchTransactions(): QueryHookResult {
             (returnedTransaction) => !isEmpty(returnedTransaction)
           )
           const knownTransactionHashes = transactionHashesByNetwork[networkId]
+          let hasNewTransaction = false
+
           // Compare the new tx hashes with the ones we already have in redux
           for (const tx of nonEmptyTransactions) {
             if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
