@@ -16,12 +16,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
-import {
-  Address,
-  GetTransactionCountParameters,
-  SignMessageParameters,
-  formatTransaction,
-} from 'viem'
+import { GetTransactionCountParameters, SignMessageParameters, formatTransaction } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 import Web3 from 'web3'
 
@@ -45,74 +40,14 @@ export function* handleRequest({ method, params }: { method: string; params: any
     switch (method) {
       case SupportedActions.eth_signTransaction: {
         const rawTx: any = { ...params[0] }
-
-        let tx: any
-        // Provide an escape hatch for dapp developers who don't want any normalization
-        if (rawTx.__skip_normalization) {
-          delete rawTx.__skip_normalization
-          tx = rawTx
-        } else {
-          tx = yield* call(normalizeTransaction, wallet, rawTx)
-        }
-
-        // Convert hex values to numeric ones for Viem
-        // TODO: remove once Viem allows hex values as quanitites
-        const formattedTx: any = yield* call(formatTransaction, tx)
-
-        // TODO: inject fee currency for Celo when it's ready
-
-        const txCountParams: GetTransactionCountParameters = {
-          address: account as Address,
-          blockTag: 'pending',
-        }
-
-        const nonce = formattedTx.nonce ?? (yield* call(getTransactionCount, wallet, txCountParams))
-        const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
-          estimateFeesPerGas,
-          wallet,
-          formattedTx.feeCurrency as Address
-        )
-        const txRequest: any = {
-          ...formattedTx,
-          ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
-          ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
-          nonce,
-        }
-
+        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
+        const txRequest: any = yield* call(prepareTransactionRequest, wallet, normalizedTx)
         return (yield* call([wallet, 'signTransaction'], txRequest)) as string
       }
       case SupportedActions.eth_sendTransaction: {
         const rawTx: any = { ...params[0] }
-
         const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
-
-        // Convert hex values to numeric ones for Viem
-        // TODO: remove once Viem allows hex values as quanitites
-        const formattedTx: any = yield* call(formatTransaction, normalizedTx)
-
-        // TODO: inject fee currency for Celo when it's ready
-
-        // Fill in missing values, if any:
-        // - nonce
-        // - maxFeePerGas (with respect to feeCurrency)
-        // - maxPriorityFeePerGas (with repsect to feeCurrency)
-        const txCountParams: GetTransactionCountParameters = {
-          address: account as Address,
-          blockTag: 'pending',
-        }
-        const nonce = formattedTx.nonce ?? (yield* call(getTransactionCount, wallet, txCountParams))
-        const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
-          estimateFeesPerGas,
-          wallet,
-          formattedTx.feeCurrency
-        )
-        const txRequest = {
-          ...formattedTx,
-          ...nonce,
-          ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
-          ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
-        }
-
+        const txRequest: any = yield* call(prepareTransactionRequest, wallet, normalizedTx)
         return (yield* call([wallet, 'sendTransaction'], txRequest)) as string
       }
       case SupportedActions.eth_signTypedData_v4:
@@ -233,4 +168,39 @@ function normalizeTransaction(wallet: ViemWallet, rawTx: any) {
   }
 
   return tx
+}
+
+function* prepareTransactionRequest(wallet: ViemWallet, rawTx: any) {
+  // Convert hex values to numeric ones for Viem
+  // TODO: remove once Viem allows hex values as quanitites
+  const formattedTx: any = yield* call(formatTransaction, rawTx)
+
+  // TODO: inject fee currency for Celo when it's ready
+
+  // Fill in missing values, if any:
+  // - nonce
+  // - maxFeePerGas (with respect to feeCurrency)
+  // - maxPriorityFeePerGas (with repsect to feeCurrency)
+  if (!wallet.account) {
+    // this should never happen
+    throw new Error('no account found in the wallet')
+  }
+  const txCountParams: GetTransactionCountParameters = {
+    address: wallet.account.address,
+    blockTag: 'pending',
+  }
+  const nonce = formattedTx.nonce ?? (yield* call(getTransactionCount, wallet, txCountParams))
+  const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
+    estimateFeesPerGas,
+    wallet,
+    formattedTx.feeCurrency
+  )
+  const txRequest = {
+    ...formattedTx,
+    ...nonce,
+    ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
+    ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
+  }
+
+  return txRequest
 }

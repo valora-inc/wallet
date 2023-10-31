@@ -219,33 +219,6 @@ describe(handleRequest, () => {
           .call(formatTransaction, { from: '0xTEST', data: '0xABC' })
           .run()
       })
-
-      it('ensures normalization is skipped when __skip_normalization is set', async () => {
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [
-            {
-              from: '0xTEST',
-              data: '0xABC',
-              gasLimit: '0x5208',
-              gasPrice: '0x5208',
-              __skip_normalization: true,
-            },
-          ],
-        })
-          .provide([
-            [matchers.call.fn(getTransactionCount), mockTransactionCount],
-            [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
-          ])
-          .withState(state)
-          .call(formatTransaction, {
-            from: '0xTEST',
-            data: '0xABC',
-            gasLimit: '0x5208',
-            gasPrice: '0x5208',
-          })
-          .run()
-      })
     })
 
     describe('transaction normalization (legacy)', () => {
