@@ -1550,6 +1550,7 @@
       "descriptionXtoYDays": "Tu solicitud de transacción ha sido enviada y tus fondos llegarán en el plazo de {{lowerBound}} a {{upperBound}} días.",
       "baseDescription": "Tu solicitud de transacción ha sido enviada.",
       "txDetails": "Ver en CeloExplorer",
+      "viewOnCeloScan": "Ver en CeloScan",
       "continue": "Continuar"
     },
     "requestNotCompleted": {
@@ -1558,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "Tu transacción está en proceso.",
-      "description": "Esto puede deberse a una mala conexión a Internet. Consulta CeloExplorer para ver información actualizada."
+      "description": "Esto puede deberse a una mala conexión a Internet. Comprueba si hay actualizaciones en el explorador de bloques."
     }
   },
   "fiatExchangeFlow": {
@@ -1905,11 +1906,21 @@
     "retryFailedTransaction": "Reintentar"
   },
   "viewOnCeloBlockExplorer": "Ver en CeloExplorer",
+  "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
   "sendEnterAmountScreen": {
     "title": "Introduce el importe",
     "selectToken": "Selecciona un Token",
-    "networkFee": "{{networkName}} Tasa de red"
+    "networkFee": "{{networkName}} Tasa de red",
+    "lowerAmount": "Introduce una cantidad inferior",
+    "maxAmountWarning": {
+      "title": "Enviar el importe máximo",
+      "description": "Ajusta la cantidad que envías para asegurarte de que tienes suficiente {{feeTokenSymbol}} para gasolina"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Necesitas más {{feeTokenSymbol}} para el gas",
+      "description": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que envías"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

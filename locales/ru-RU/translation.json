@@ -1554,6 +1554,7 @@
       "descriptionXtoYDays": "Ваш запрос на транзакцию отправлен, и ваши средства поступят в течение {{lowerBound}}–{{upperBound}} дней.",
       "baseDescription": "Ваш запрос на транзакцию отправлен.",
       "txDetails": "Просмотреть в CeloExplorer",
+      "viewOnCeloScan": "Посмотреть на CeloScan",
       "continue": "Продолжить"
     },
     "requestNotCompleted": {
@@ -1562,7 +1563,7 @@
     },
     "txProcessing": {
       "title": "Поставщик услуг обрабатывает ваш заказ.",
-      "description": "Возможной причиной является плохое интернет-соединение или ошибка сервера."
+      "description": "Это может быть связано с плохим интернет-соединением. Проверь блок-проводник на наличие обновлений."
     }
   },
   "fiatExchangeFlow": {
@@ -1909,11 +1910,21 @@
     "retryFailedTransaction": "Повторить"
   },
   "viewOnCeloBlockExplorer": "Просмотреть в CeloExplorer",
+  "viewOnCeloScan": "Посмотреть на CeloScan",
   "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
-    "networkFee": "{{networkName}} Сетевой сбор"
+    "networkFee": "{{networkName}} Сетевой сбор",
+    "lowerAmount": "Введите меньшую сумму",
+    "maxAmountWarning": {
+      "title": "Отправка максимальной суммы",
+      "description": "Отрегулируй сумму, которую ты отправляешь, чтобы тебе хватило {{feeTokenSymbol}} на газ."
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Тебе нужно больше {{feeTokenSymbol}} для газа",
+      "description": "Добавь {{feeTokenSymbol}} , чтобы покрыть плату за газ, или скорректируй сумму, которую ты отправляешь."
+    }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
