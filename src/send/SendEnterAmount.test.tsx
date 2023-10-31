@@ -25,6 +25,7 @@ import {
   mockTokenBalances,
 } from 'test/values'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 
 jest.mock('src/tokens/utils', () => ({
   ...jest.requireActual('src/tokens/utils'),
@@ -64,15 +65,41 @@ const params = {
 
 describe('SendEnterAmount', () => {
   const mockFeeCurrencies = [mockCeloTokenBalance]
-  const mockUsePrepareSendTransactionsOutput: ReturnType<typeof usePrepareSendTransactions> = {
-    prepareTransactionsResult: undefined,
-    prepareTransactionsLoading: false,
-    feeCurrency: undefined,
-    feeAmount: undefined,
-    refreshPreparedTransactions: jest.fn(),
-    clearPreparedTransactions: jest.fn(),
+  let mockUsePrepareSendTransactionsOutput: ReturnType<typeof usePrepareSendTransactions>
+  const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
+    type: 'possible',
+    transactions: [
+      {
+        from: '0xfrom',
+        to: '0xto',
+        data: '0xdata',
+        type: 'cip42',
+        gas: BigInt(500),
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: undefined,
+      },
+      {
+        from: '0xfrom',
+        to: '0xto',
+        data: '0xdata',
+        type: 'cip42',
+        gas: BigInt(100),
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: undefined,
+      },
+    ],
+    feeCurrency: mockCeloTokenBalance,
   }
+
   beforeEach(() => {
+    mockUsePrepareSendTransactionsOutput = {
+      prepareTransactionsResult: undefined,
+      prepareTransactionsLoading: false,
+      feeCurrency: undefined,
+      feeAmount: undefined,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+    }
     jest
       .mocked(getSupportedNetworkIdsForSend)
       .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
@@ -391,35 +418,13 @@ describe('SendEnterAmount', () => {
       },
     })
 
-    const { getByTestId, queryByTestId, getByText } = render(
+    const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={SendEnterAmount} params={params} />
       </Provider>
     )
-    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
-      type: 'possible',
-      transactions: [
-        {
-          from: '0xfrom',
-          to: '0xto',
-          data: '0xdata',
-          type: 'cip42',
-          gas: BigInt(500),
-          maxFeePerGas: BigInt(1),
-          maxPriorityFeePerGas: undefined,
-        },
-        {
-          from: '0xfrom',
-          to: '0xto',
-          data: '0xdata',
-          type: 'cip42',
-          gas: BigInt(100),
-          maxFeePerGas: BigInt(1),
-          maxPriorityFeePerGas: undefined,
-        },
-      ],
-      feeCurrency: mockCeloTokenBalance,
-    }
+    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult =
+      mockPrepareTransactionsResultPossible
     mockUsePrepareSendTransactionsOutput.feeCurrency = mockCeloTokenBalance
     mockUsePrepareSendTransactionsOutput.feeAmount = new BigNumber(0.006)
 
@@ -428,8 +433,9 @@ describe('SendEnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
-    expect(getByText('~0.006 CELO')).toBeTruthy() // fee shown
     fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
@@ -444,5 +450,33 @@ describe('SendEnterAmount', () => {
         tokenAmount: new BigNumber(8),
       },
     })
+  })
+
+  it('clears prepared transactions and refreshes when new token or amount is selected', async () => {
+    const store = createMockStore(mockStore)
+    const { getByTestId, getByText, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+    expect(queryByTestId('SendEnterAmount/FeeInCrypto')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/FeePlaceholder')).toHaveTextContent('~ CELO')
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '9')
+    jest.runAllTimers()
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      1 // not twice since timers were not run between the two amount changes (zero to 8 and 8 to 9)
+    )
+    expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(3) // doesnt wait for timers
+
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    await waitFor(() => expect(getByText('Ether')).toBeTruthy())
+    fireEvent.press(getByText('Ether'))
+    jest.runAllTimers()
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      2
+    )
+    expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(4)
   })
 })

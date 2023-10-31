@@ -293,7 +293,7 @@ function SendEnterAmount({ route }: Props) {
             <View style={styles.feeAmountContainer}>
               {showFeeAmounts ? (
                 <>
-                  <View style={styles.feeInCryptoContainer}>
+                  <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
                     <Text style={styles.feeInCrypto}>~</Text>
                     <TokenDisplay
                       tokenId={feeTokenId}
@@ -306,7 +306,9 @@ function SendEnterAmount({ route }: Props) {
                 </>
               ) : (
                 <>
-                  <Text style={styles.feeInCrypto}>~ {feeTokenSymbol}</Text>
+                  <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
+                    ~ {feeTokenSymbol}
+                  </Text>
                 </>
               )}
             </View>

@@ -13,7 +13,7 @@ import { STATIC_GAS_PADDING } from 'src/config'
 import Logger from 'src/utils/Logger'
 import erc20 from 'src/abis/IERC20'
 
-interface PreparedTransactionsPossible {
+export interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
   feeCurrency: TokenBalance
