@@ -103,4 +103,10 @@ export const DynamicConfigs = {
       showTransfers: [networkConfig.defaultNetworkId],
     },
   },
+  [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {
+    configName: StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG,
+    defaultValues: {
+      disabledMediaPlaybackRequiresUserActionOrigins: [] as string[],
+    },
+  },
 }
