@@ -26,7 +26,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import {
   addStandbyTransaction,
-  removeStandbyTransaction,
+  removeStandbyTransactionWithoutHash,
   transactionConfirmed,
 } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
@@ -70,6 +70,7 @@ function* handleSendSwapTransaction(
 
   // TODO: We need to add the transaction hash in order to be able to watch if the transaction fails.
   const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
+
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
@@ -256,7 +257,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       error: error.message,
     })
     yield* put(swapError())
-    yield* put(removeStandbyTransaction(swapExecuteContext.id))
+    yield* put(removeStandbyTransactionWithoutHash(swapExecuteContext.id))
     vibrateError()
   }
 }
@@ -404,9 +405,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       hash: swapTxHash,
     })
     Logger.debug('Got swap transaction receipt', receipt)
-    if (receipt.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
-    }
 
     yield* put(
       transactionConfirmed(swapExecuteContext.id, {
@@ -415,6 +413,10 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         status: receipt.status === 'success',
       })
     )
+
+    if (receipt.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
+    }
 
     const timeMetrics = getTimeMetrics()
 
@@ -435,7 +437,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       error: error.message,
     })
     yield* put(swapError())
-    yield* put(removeStandbyTransaction(swapExecuteContext.id))
+    yield* put(removeStandbyTransactionWithoutHash(swapExecuteContext.id))
     vibrateError()
   }
 }

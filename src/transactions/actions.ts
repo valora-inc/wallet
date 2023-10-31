@@ -5,9 +5,9 @@ import { BaseStandbyTransaction, TokenTransaction } from 'src/transactions/types
 export enum Actions {
   ADD_STANDBY_TRANSACTION = 'TRANSACTIONS/ADD_STANDBY_TRANSACTION',
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
+  REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
-  TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
@@ -21,6 +21,11 @@ export interface AddStandbyTransactionAction {
 
 export interface RemoveStandbyTransactionAction {
   type: Actions.REMOVE_STANDBY_TRANSACTION
+  idx: string
+}
+
+export interface RemoveStandbyTransactionWithoutHashAction {
+  type: Actions.REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH
   idx: string
 }
 
@@ -43,11 +48,6 @@ export interface TransactionConfirmedAction {
   receipt: BaseTransactionReceipt
 }
 
-export interface TransactionFailedAction {
-  type: Actions.TRANSACTION_FAILED
-  txId: string
-}
-
 export interface UpdatedRecentTxRecipientsCacheAction {
   type: Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE
   recentTxRecipientsCache: NumberToRecipient
@@ -66,12 +66,12 @@ export interface UpdateInviteTransactionsAction {
 export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
+  | RemoveStandbyTransactionWithoutHashAction
   | AddHashToStandbyTransactionAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
   | TransactionConfirmedAction
   | UpdateInviteTransactionsAction
-  | TransactionFailedAction
 
 export const addStandbyTransaction = (
   transaction: BaseStandbyTransaction
@@ -82,6 +82,13 @@ export const addStandbyTransaction = (
 
 export const removeStandbyTransaction = (idx: string): RemoveStandbyTransactionAction => ({
   type: Actions.REMOVE_STANDBY_TRANSACTION,
+  idx,
+})
+
+export const removeStandbyTransactionWithoutHash = (
+  idx: string
+): RemoveStandbyTransactionWithoutHashAction => ({
+  type: Actions.REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH,
   idx,
 })
 
@@ -99,11 +106,6 @@ export const transactionConfirmed = (
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
-})
-
-export const transactionFailed = (txId: string): TransactionFailedAction => ({
-  type: Actions.TRANSACTION_FAILED,
-  txId,
 })
 
 export const addHashToStandbyTransaction = (

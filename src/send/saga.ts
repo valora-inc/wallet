@@ -27,9 +27,9 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   getERC20TokenContract,
   getStableTokenContract,
+  getTokenInfo,
   getTokenInfoByAddress,
   tokenAmountInSmallestUnit,
-  getTokenInfo,
 } from 'src/tokens/saga'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'

@@ -4,7 +4,6 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call } from 'redux-saga/effects'
 import {
   transactionConfirmed,
-  transactionFailed,
   updateInviteTransactions,
   updateTransactions,
 } from 'src/transactions/actions'
@@ -146,6 +145,8 @@ describe('watchPendingTransactions', () => {
       if (hash === transactionHash) {
         return {
           status: 'reverted',
+          blockNumber: BigInt(123),
+          transactionHash,
         }
       }
       return null
@@ -159,7 +160,13 @@ describe('watchPendingTransactions', () => {
           },
         }).getState()
       )
-      .put(transactionFailed(transactionId))
+      .put(
+        transactionConfirmed(transactionId, {
+          transactionHash,
+          block: '123',
+          status: false,
+        })
+      )
   })
 
   it('updates the pending standby transaction when successful', async () => {

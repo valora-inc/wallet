@@ -9,14 +9,17 @@ import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
-import { TokenBalanceWithAddress, fetchTokenBalances, tokenBalanceHasAddress } from 'src/tokens/slice'
+import {
+  TokenBalanceWithAddress,
+  fetchTokenBalances,
+  tokenBalanceHasAddress,
+} from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
-  removeStandbyTransaction,
+  removeStandbyTransactionWithoutHash,
   transactionConfirmed,
-  transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
@@ -92,7 +95,6 @@ export function* sendPayment({
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
 
-    // TODO: We need to add the transaction hash in order to be able to watch if the transaction fails.
     yield* put(
       addStandbyTransaction({
         __typename: 'TokenTransferV3',
@@ -232,16 +234,16 @@ function* getTransferSimulateContract({
   // TODO (ACT-922): Use real fee estimation for Ethereum
   const feeFields = feeInfo
     ? yield* call(getSendTxFeeDetails, {
-      recipientAddress,
-      amount,
-      tokenAddress: tokenInfo.address,
-      feeInfo,
-      encryptedComment: encryptedComment || '',
-    })
+        recipientAddress,
+        amount,
+        tokenAddress: tokenInfo.address,
+        feeInfo,
+        encryptedComment: encryptedComment || '',
+      })
     : {
-      gas: undefined,
-      maxFeePerGas: undefined,
-    }
+        gas: undefined,
+        maxFeePerGas: undefined,
+      }
 
   if (tokenSupportsComments(tokenInfo)) {
     Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {
@@ -363,7 +365,6 @@ export function* sendAndMonitorTransaction({
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt as unknown as TransactionReceipt // Need to cast here else the wrapSendTransactionWithRetry call complains
   }
-
   try {
     // Reuse existing method which times out the sendTxMethod and includes some
     // grace period logic to handle app backgrounding when sending.
@@ -375,17 +376,19 @@ export function* sendAndMonitorTransaction({
       context
     )) as unknown as TransactionReceipt
 
-    if (receipt.status === 'reverted') {
-      throw new Error('transaction reverted')
-    }
-    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(
       transactionConfirmed(context.id, {
         transactionHash: receipt.transactionHash,
         block: receipt.blockNumber.toString(),
-        status: true,
+        status: receipt.status === 'success',
       })
     )
+
+    if (receipt.status === 'reverted') {
+      throw new Error('transaction reverted')
+    }
+    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
+
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {
@@ -395,8 +398,7 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       error: error.message,
     })
-    yield* put(removeStandbyTransaction(context.id))
-    yield* put(transactionFailed(context.id))
+    yield* put(removeStandbyTransactionWithoutHash(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     throw error
   }

@@ -15,8 +15,8 @@ import {
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
+  removeStandbyTransactionWithoutHash,
   transactionConfirmed,
-  transactionFailed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
 } from 'src/transactions/actions'
@@ -150,6 +150,7 @@ export function* sendAndMonitorTransaction<T>(
       sendTxMethod,
       context
     )) as unknown as CeloTxReceipt
+
     yield* put(
       transactionConfirmed(context.id, {
         transactionHash: txReceipt.transactionHash,
@@ -162,8 +163,7 @@ export function* sendAndMonitorTransaction<T>(
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield* put(removeStandbyTransaction(context.id))
-    yield* put(transactionFailed(context.id))
+    yield* put(removeStandbyTransactionWithoutHash(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
   }
@@ -251,19 +251,13 @@ function* getTransactionReceipt(transaction: StandbyTransaction) {
     })
 
     if (receipt) {
-      if (receipt.status == 'success') {
-        yield* put(
-          transactionConfirmed(transaction.context.id, {
-            transactionHash: receipt.transactionHash,
-            block: receipt.blockNumber.toString(),
-            status: true,
-          })
-        )
-      }
-
-      if (receipt.status == 'reverted') {
-        yield* put(transactionFailed(transaction.context.id))
-      }
+      yield* put(
+        transactionConfirmed(transaction.context.id, {
+          transactionHash: receipt.transactionHash,
+          block: receipt.blockNumber.toString(),
+          status: receipt.status == 'success',
+        })
+      )
     }
   } catch (e) {
     Logger.error(

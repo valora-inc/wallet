@@ -89,33 +89,15 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.TRANSACTION_FAILED:
-      const { txId } = action
-
+    case Actions.REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH:
       return {
         ...state,
-        standbyTransactions: state.standbyTransactions.map((transaction): StandbyTransaction => {
-          if (transaction.context.id === txId) {
-            return {
-              ...transaction,
-              status: TransactionStatus.Failed,
-              block: '',
-              fees: [],
-              transactionHash: transaction.transactionHash || '',
-              timestamp: Date.now(),
-            }
-          }
-          return transaction
-        }),
+        standbyTransactions: state.standbyTransactions.filter(
+          (tx: StandbyTransaction) => tx.context.id !== action.idx || tx.transactionHash
+        ),
       }
-
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block } = action.receipt
-      if (!status) {
-        return {
-          ...state,
-        }
-      }
 
       return {
         ...state,
@@ -124,7 +106,7 @@ export const reducer = (
             if (standbyTransaction.context.id === action.txId) {
               return {
                 ...standbyTransaction,
-                status: TransactionStatus.Complete,
+                status: status ? TransactionStatus.Complete : TransactionStatus.Failed,
                 transactionHash,
                 block,
                 timestamp: Date.now(),

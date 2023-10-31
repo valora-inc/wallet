@@ -7,6 +7,7 @@ import { STATIC_GAS_PADDING } from 'src/config'
 import { fetchFeeCurrencySaga } from 'src/fees/saga'
 import { coreTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { addHashToStandbyTransaction } from 'src/transactions/actions'
 import {
   SendTransactionLogEvent,
   SendTransactionLogEventType,
@@ -19,7 +20,7 @@ import { WEI_DECIMALS } from 'src/web3/consts'
 import { getGasPrice } from 'src/web3/gas'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { estimateGas } from 'src/web3/utils'
-import { call, cancel, cancelled, delay, fork, join, race, select } from 'typed-redux-saga'
+import { call, cancel, cancelled, delay, fork, join, put, race, select } from 'typed-redux-saga'
 import { TransactionReceipt, WaitForTransactionReceiptReturnType } from 'viem'
 
 const TAG = 'transactions/send'
@@ -239,7 +240,7 @@ export function* sendTransaction(
   nonce?: number
 ) {
   const sendTxMethod = function* () {
-    const { receipt } = yield* call(
+    const { receipt, transactionHash } = yield* call(
       sendTransactionPromises,
       tx,
       account,
@@ -249,6 +250,8 @@ export function* sendTransaction(
       gasPrice,
       nonce
     )
+    const hash: string = yield transactionHash
+    yield* put(addHashToStandbyTransaction(context.id, hash))
     return (yield receipt) as CeloTxReceipt
   }
   // there is a bug with 'race' in typed-redux-saga, so we need to hard cast the result
