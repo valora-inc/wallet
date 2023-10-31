@@ -82,7 +82,7 @@ export function* sendPayment({
     context.description ?? 'No description',
     context.id,
     tokenId,
-    amount.toString(),
+    amount,
     feeInfo
   )
 
@@ -388,7 +388,6 @@ export function* sendAndMonitorTransaction({
         status: receipt.status === 'success',
       })
     )
-
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {

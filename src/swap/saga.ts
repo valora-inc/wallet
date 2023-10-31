@@ -69,7 +69,6 @@ function* handleSendSwapTransaction(
   const txo = buildTxo(kit, tx)
 
   const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
-
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
@@ -403,7 +402,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
       hash: swapTxHash,
     })
-
     Logger.debug('Got swap transaction receipt', receipt)
     if (receipt.status !== 'success') {
       throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)

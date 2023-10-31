@@ -1,8 +1,8 @@
-import { ALCHEMY_ETHEREUM_API_KEY } from 'src/config'
-import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
+import { Network } from 'src/transactions/types'
 import { createPublicClient, http, Transport } from 'viem'
 import { celo, celoAlfajores } from 'viem/chains'
+import { ALCHEMY_ETHEREUM_API_KEY } from 'src/config'
 
 export const viemTransports: Record<Network, Transport> = {
   [Network.Celo]: http(),

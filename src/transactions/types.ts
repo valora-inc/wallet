@@ -48,10 +48,6 @@ export type StandbyTransaction =
   | PendingStandbyTransfer
   | CompletedStandbyTransaction
 
-export type BaseStandbyTransaction =
-  | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
-  | Omit<PendingStandbySwap, 'timestamp' | 'status'>
-
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {
   // Unique identifier used for tracking a transaction within logging.

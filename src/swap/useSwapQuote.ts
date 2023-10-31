@@ -1,18 +1,18 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { useRef, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
-import erc20 from 'src/abis/IERC20'
 import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { PreparedTransactionsResult, prepareTransactions } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
+import { PreparedTransactionsResult, prepareTransactions } from 'src/viem/prepareTransactions'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import { Address, encodeFunctionData, Hex, zeroAddress } from 'viem'
+import erc20 from 'src/abis/IERC20'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas costs of different swap providers (or even the same swap)
