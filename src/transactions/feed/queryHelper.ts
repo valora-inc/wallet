@@ -150,7 +150,7 @@ export function useFetchTransactions(): QueryHookResult {
           const knownTransactionHashes = transactionHashesByNetwork[networkId]
           // Compare the new tx hashes with the ones we already have in redux
           for (const tx of nonEmptyTransactions) {
-            if (!knownTransactionHashes || knownTransactionHashes.has(tx.transactionHash)) {
+            if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
               hasNewTransaction = true
               break // We only need one new tx justify a refresh
             }
