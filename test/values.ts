@@ -46,7 +46,7 @@ import {
   RecipientType,
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { StoredTokenBalance } from 'src/tokens/slice'
+import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -509,6 +509,26 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
   },
+}
+
+export const mockCeloTokenBalance: TokenBalance = {
+  priceUsd: new BigNumber(0.5),
+  address: mockCeloAddress,
+  tokenId: mockCeloTokenId,
+  networkId: NetworkId['celo-alfajores'],
+  symbol: 'CELO',
+  imageUrl:
+    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
+  name: 'Celo native asset',
+  decimals: 18,
+  balance: new BigNumber(5),
+  isCoreToken: true,
+  priceFetchedAt: Date.now(),
+  showZeroBalance: true,
+  isCashInEligible: true,
+  isCashOutEligible: true,
+  isNative: true,
+  lastKnownPriceUsd: new BigNumber(0.4),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
