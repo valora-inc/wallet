@@ -45,5 +45,24 @@ describe('usePrepareSendTransactions', () => {
       expect(setFeeCurrency).toHaveBeenCalledWith(mockFeeCurrency)
       expect(setFeeAmount).toHaveBeenCalledWith(new BigNumber(6))
     })
+
+    it('sets preparedTransactionsResult and clears feeCurrency, feeAmount if transaction result type is not possible', () => {
+      const result: PreparedTransactionsResult = {
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: [mockFeeCurrency],
+      }
+      const setFeeCurrency = jest.fn()
+      const setPrepareTransactionsResult = jest.fn()
+      const setFeeAmount = jest.fn()
+      const onSuccess = _getOnSuccessCallback({
+        setFeeCurrency,
+        setFeeAmount,
+        setPrepareTransactionsResult,
+      })
+      onSuccess(result)
+      expect(setPrepareTransactionsResult).toHaveBeenCalledWith(result)
+      expect(setFeeCurrency).toHaveBeenCalledWith(undefined)
+      expect(setFeeAmount).toHaveBeenCalledWith(undefined)
+    })
   })
 })
