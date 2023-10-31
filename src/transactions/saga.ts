@@ -233,7 +233,7 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
-function* getTransactionReceipt(
+export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
@@ -244,7 +244,14 @@ function* getTransactionReceipt(
       hash: transactionHash as Hash,
     })
 
+    Logger.info(
+      'DIEGO test 4',
+      receipt.transactionHash,
+      receipt.blockNumber.toString(),
+      receipt.status
+    )
     if (receipt) {
+      Logger.info('DIEGO test 5')
       yield* put(
         transactionConfirmed(transaction.context.id, {
           transactionHash: receipt.transactionHash,
@@ -257,27 +264,30 @@ function* getTransactionReceipt(
     Logger.warn(
       TAG,
       `Error found when trying to fetch status for transaction with hash: ${transactionHash} in ${network}`,
-      e
+      (e as Error).message
     )
   }
 }
 
-export function* watchPendingTransactionsInNetwork(network: Network) {
+export function* internalWatchPendingTransactionsInNetwork(network: Network) {
+  const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
+  const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
+    return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
+  })
+
+  for (const transaction of filteredPendingTxs) {
+    yield* fork(getTransactionReceipt, transaction, network)
+  }
+}
+
+function* watchPendingTransactionsInNetwork(network: Network) {
   while (true) {
-    const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
-    const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
-      return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
-    })
-
-    for (const transaction of filteredPendingTxs) {
-      yield* fork(getTransactionReceipt, transaction, network)
-    }
-
+    yield* call(internalWatchPendingTransactionsInNetwork, network)
     yield* delay(WATCHING_DELAY_BY_NETWORK[network])
   }
 }
 
-export function* watchPendingTransactions() {
+function* watchPendingTransactions() {
   const supportedNetworks = Object.keys(publicClient) as Network[]
   for (const network of supportedNetworks) {
     yield* spawn(watchPendingTransactionsInNetwork, network)
