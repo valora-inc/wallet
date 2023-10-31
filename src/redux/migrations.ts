@@ -1405,9 +1405,7 @@ export const migrations = {
     const transactionsByNetworkId: any = {}
     for (const tx of state.transactions.transactions) {
       const txNetworkId = tx.networkId ?? networkConfig.defaultNetworkId
-      transactionsByNetworkId[txNetworkId] = transactionsByNetworkId[txNetworkId]
-        ? [...transactionsByNetworkId[txNetworkId], tx]
-        : [tx]
+      transactionsByNetworkId[txNetworkId] = [...(transactionsByNetworkId[txNetworkId] ?? []), tx]
     }
 
     return {
