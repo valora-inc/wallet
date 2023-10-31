@@ -257,7 +257,7 @@ function* getTransactionReceipt(
   } catch (e) {
     Logger.warn(
       TAG,
-      `Found error when trying to fetch status for transaction with hash: ${transactionHash}`,
+      `Error found when trying to fetch status for transaction with hash: ${transactionHash} in ${network}`,
       e
     )
     return
@@ -275,7 +275,7 @@ export function* watchPendingTransactionsInNetwork(network: Network) {
       yield* fork(getTransactionReceipt, transaction, network)
     }
 
-    yield* delay(WATCHING_DELAY_BY_NETWORK[network]) // sleep 10 seconds
+    yield* delay(WATCHING_DELAY_BY_NETWORK[network])
   }
 }
 

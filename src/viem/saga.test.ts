@@ -426,7 +426,7 @@ describe('sendAndMonitorTransaction', () => {
       .run()
   })
 
-  it.only('fails a transaction and removes standby tx if receipt status is reverted', async () => {
+  it('fails a transaction and removes standby tx if receipt status is reverted', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .provide([
         [
