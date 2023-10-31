@@ -11,6 +11,7 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
@@ -72,6 +73,7 @@ function TokenBalance({
     totalTokenBalanceLocal || totalPositionsBalanceLocal
       ? new BigNumber(totalTokenBalanceLocal ?? 0).plus(totalPositionsBalanceLocal ?? 0)
       : undefined
+  const { decimalSeparator } = getNumberFormatSettings()
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
@@ -93,7 +95,9 @@ function TokenBalance({
         <View style={styles.column}>
           <Text style={style} testID={'TotalTokenBalance'}>
             {!hideBalance && localCurrencySymbol}
-            {hideBalance ? 'XX.XX' : totalTokenBalanceLocal?.toFormat(2) ?? '-'}
+            {hideBalance
+              ? 'XX' + decimalSeparator + 'XX'
+              : totalTokenBalanceLocal?.toFormat(2) ?? '-'}
           </Text>
           {!hideBalance && (
             <Text style={styles.tokenBalance}>
@@ -107,7 +111,9 @@ function TokenBalance({
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
         {!hideBalance && localCurrencySymbol}
-        {hideBalance ? 'XX.XX' : totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
+        {hideBalance
+          ? 'XX' + decimalSeparator + 'XX'
+          : totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
