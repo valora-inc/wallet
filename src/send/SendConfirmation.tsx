@@ -43,8 +43,6 @@ import { useInputAmounts } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
@@ -95,7 +93,6 @@ function SendConfirmation(props: Props) {
     origin,
     transactionData: {
       recipient: paramRecipient,
-      inputAmount,
       tokenAmount: inputTokenAmount,
       amountIsInLocalCurrency,
       tokenAddress,
@@ -104,7 +101,7 @@ function SendConfirmation(props: Props) {
     },
   } = props.route.params
 
-  const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
+  const newSendScreen = true // getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
 
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
@@ -117,8 +114,8 @@ function SendConfirmation(props: Props) {
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
-    inputAmount.toString(),
-    amountIsInLocalCurrency,
+    inputTokenAmount.toString(),
+    false,
     tokenId,
     inputTokenAmount
   )
