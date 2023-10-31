@@ -1,5 +1,8 @@
+import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { viemTransports } from 'src/viem'
 import { KeychainLock } from 'src/web3/KeychainLock'
+import networkConfig from 'src/web3/networkConfig'
 import {
   Account,
   Address,
@@ -19,9 +22,6 @@ import {
   signTypedData,
   writeContract,
 } from 'viem/actions'
-import { viemTransports } from 'src/viem'
-import networkConfig from 'src/web3/networkConfig'
-import { Network } from 'src/transactions/types'
 
 const TAG = 'viem/getLockableWallet'
 
@@ -75,7 +75,6 @@ export default function getLockableViemWallet(
       // For instance we will later need prepareTransactionRequest which we can add here by
       // importing the prepareTransactionRequest action and blocking it with the checkLock function
       // Introduction to wallet actions: https://viem.sh/docs/actions/wallet/introduction.html
-      sendTransaction: (args) => sendTransaction(client, args),
       unlockAccount: (passphrase: string, duration: number) =>
         lock.unlock(account.address, passphrase, duration),
       writeContract: (args) => {
