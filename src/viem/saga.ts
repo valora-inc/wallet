@@ -365,6 +365,7 @@ export function* sendAndMonitorTransaction({
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
     return receipt as unknown as TransactionReceipt // Need to cast here else the wrapSendTransactionWithRetry call complains
   }
+
   try {
     // Reuse existing method which times out the sendTxMethod and includes some
     // grace period logic to handle app backgrounding when sending.
