@@ -155,7 +155,6 @@ export function* buildAndSendPayment(
     feeInfo
   )
 
-  // TODO: We need to add the transaction hash in order to be able to watch if the transaction fails.
   yield* put(
     addStandbyTransaction({
       __typename: 'TokenTransferV3',
