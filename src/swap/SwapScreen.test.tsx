@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { ReactTestInstance } from 'react-test-renderer'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -187,12 +188,14 @@ const renderScreen = ({
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
+  const tokenBottomSheet = tree.getByTestId('TokenBottomSheet')
 
   return {
     ...tree,
     store,
     swapFromContainer,
     swapToContainer,
+    tokenBottomSheet,
   }
 }
 
@@ -216,6 +219,17 @@ const defaultQuote = {
   },
 }
 const defaultQuoteResponse = JSON.stringify(defaultQuote)
+
+const selectToken = (
+  swapAmountContainer: ReactTestInstance,
+  tokenName: string,
+  tokenBottomSheet: ReactTestInstance
+) => {
+  fireEvent.press(within(swapAmountContainer).getByTestId('SwapAmountInput/TokenSelect'))
+  fireEvent.press(within(tokenBottomSheet).getByTestId(`${tokenName}Touchable`))
+
+  expect(within(swapAmountContainer).getByText(tokenName)).toBeTruthy()
+}
 
 describe('SwapScreen', () => {
   beforeEach(() => {
@@ -243,17 +257,10 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
 
     expect(within(swapToContainer).getByText('swapScreen.swapTo')).toBeTruthy()
     expect(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
-  })
-
-  it('should display the token with the highest usd balance as from token if no fromTokenId is passed', () => {
-    const { swapFromContainer, swapToContainer } = renderScreen({ cUSDBalance: '1000' })
-
-    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
   })
 
@@ -264,61 +271,32 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
   })
 
-  it('should display the token with the highest usd balance as from token if no fromTokenId is not swappable', () => {
-    const { swapFromContainer, swapToContainer } = renderScreen({
-      cUSDBalance: '1000',
-      fromTokenId: mockTestTokenTokenId,
-    })
-
-    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
-  })
-
   it('should allow selecting tokens', async () => {
-    const { swapFromContainer, swapToContainer, getByTestId } = renderScreen({})
+    const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({})
 
-    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
+    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
 
-    fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cEURTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cEURTouchable'))
-
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('CELOTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('CELOTouchable'))
-
-    expect(within(swapFromContainer).getByText('cEUR')).toBeTruthy()
-    expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
+    selectToken(swapFromContainer, 'cEUR', tokenBottomSheet)
+    selectToken(swapToContainer, 'CELO', tokenBottomSheet)
   })
 
   it('should swap the to/from tokens if the same token is selected', async () => {
-    const { swapFromContainer, swapToContainer, getByTestId } = renderScreen({})
+    const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
-    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
-    expect(within(swapToContainer).getByText('cUSD')).toBeTruthy()
-
-    fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+    selectToken(swapFromContainer, 'cUSD', tokenBottomSheet)
 
     expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
   })
 
   it('should swap the to/from tokens even if the to token was not selected', async () => {
-    const { swapFromContainer, swapToContainer, getByTestId } = renderScreen({})
+    const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({})
 
-    expect(within(swapFromContainer).getByText('CELO')).toBeTruthy()
-    expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
-
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('CELOTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('CELOTouchable'))
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'CELO', tokenBottomSheet)
 
     expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
@@ -326,11 +304,10 @@ describe('SwapScreen', () => {
 
   it('should keep the to amount in sync with the exchange rate', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { swapFromContainer, swapToContainer, tokenBottomSheet, getByText } = renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
@@ -348,12 +325,10 @@ describe('SwapScreen', () => {
 
   it('should display a loader when initially fetching exchange rate', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
     await act(() => {
@@ -385,12 +360,10 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
     await act(() => {
@@ -440,13 +413,12 @@ describe('SwapScreen', () => {
       })
     )
 
-    const { getByTestId, swapFromContainer, swapToContainer, getByText, queryByText } =
+    const { swapFromContainer, swapToContainer, tokenBottomSheet, getByText, queryByText } =
       renderScreen({})
 
     // select 100000 CELO to cUSD swap
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -501,13 +473,12 @@ describe('SwapScreen', () => {
       })
     )
 
-    const { getByTestId, swapFromContainer, swapToContainer, getByText, queryByText } =
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, queryByText } =
       renderScreen({})
 
     // select 100000 CELO to cUSD swap
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100000')
     await act(() => {
       jest.runOnlyPendingTimers()
@@ -546,12 +517,10 @@ describe('SwapScreen', () => {
     })
     mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,234')
 
     await act(() => {
@@ -590,12 +559,10 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { getByTestId, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1,234')
 
     await act(() => {
@@ -619,12 +586,11 @@ describe('SwapScreen', () => {
 
   it('should set max from value', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
+    const { swapFromContainer, swapToContainer, getByText, getByTestId, tokenBottomSheet } =
+      renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
     await act(() => {
@@ -643,8 +609,10 @@ describe('SwapScreen', () => {
 
   it('should show and hide the max warning', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByText, getByTestId, queryByText } = renderScreen({})
+    const { swapFromContainer, getByText, getByTestId, queryByText, tokenBottomSheet } =
+      renderScreen({})
 
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
     await waitFor(() => expect(getByText('swapScreen.maxSwapAmountWarning.body')).toBeTruthy())
 
@@ -659,12 +627,11 @@ describe('SwapScreen', () => {
 
   it('should fetch the quote if the amount is cleared and re-entered', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({})
+    const { swapFromContainer, swapToContainer, getByText, getByTestId, tokenBottomSheet } =
+      renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
     await act(() => {
@@ -699,15 +666,14 @@ describe('SwapScreen', () => {
   })
 
   it('should set max value if it is zero', async () => {
-    const { swapFromContainer, swapToContainer, getByText, getByTestId } = renderScreen({
-      celoBalance: '0',
-      cUSDBalance: '0',
-    })
+    const { swapFromContainer, swapToContainer, getByText, getByTestId, tokenBottomSheet } =
+      renderScreen({
+        celoBalance: '0',
+        cUSDBalance: '0',
+      })
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('0')
@@ -719,12 +685,12 @@ describe('SwapScreen', () => {
   it('should display an error banner if api request fails', async () => {
     mockFetch.mockReject()
 
-    const { swapFromContainer, swapToContainer, getByText, store, getByTestId } = renderScreen({})
+    const { swapFromContainer, swapToContainer, getByText, store, tokenBottomSheet } = renderScreen(
+      {}
+    )
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
 
     await act(() => {
@@ -739,12 +705,11 @@ describe('SwapScreen', () => {
 
   it('should be able to navigate to swap review screen', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByText, getByTestId, store, swapToContainer } = renderScreen({})
+    const { getByText, getByTestId, store, swapToContainer, swapFromContainer, tokenBottomSheet } =
+      renderScreen({})
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
     await act(() => {
@@ -773,12 +738,12 @@ describe('SwapScreen', () => {
   it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', async () => {
     mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByTestId, swapToContainer, swapFromContainer, getByText, store } = renderScreen({})
+    const { swapToContainer, swapFromContainer, getByText, store, tokenBottomSheet } = renderScreen(
+      {}
+    )
 
-    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-    await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-    fireEvent.press(getByTestId('cUSDTouchable'))
-
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
 
     await act(() => {
@@ -809,7 +774,16 @@ describe('SwapScreen', () => {
       swappingNonNativeTokensEnabled: true,
     })
 
-    const { swapToContainer, getByPlaceholderText, getByTestId, queryByTestId } = renderScreen({})
+    const {
+      swapToContainer,
+      getByPlaceholderText,
+      getByTestId,
+      queryByTestId,
+      swapFromContainer,
+      tokenBottomSheet,
+    } = renderScreen({})
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
     expect(getByPlaceholderText('tokenBottomSheet.searchAssets')).toBeTruthy()
@@ -845,19 +819,20 @@ describe('SwapScreen', () => {
     it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {
       // Swap from POOF to CELO, when no feeCurrency has any balance
       mockFetch.mockResponse(defaultQuoteResponse)
-      const { getByText, getByTestId, store, swapFromContainer, swapToContainer } = renderScreen({
+      const {
+        getByText,
+        getByTestId,
+        store,
+        swapFromContainer,
+        swapToContainer,
+        tokenBottomSheet,
+      } = renderScreen({
         celoBalance: '0',
         cUSDBalance: '0',
       })
 
-      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('POOFTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('POOFTouchable'))
-
-      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('CELOTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('CELOTouchable'))
-
+      selectToken(swapFromContainer, 'POOF', tokenBottomSheet)
+      selectToken(swapToContainer, 'CELO', tokenBottomSheet)
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
       await act(() => {
@@ -885,19 +860,20 @@ describe('SwapScreen', () => {
     it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
       // Swap from POOF to CELO, when no feeCurrency has any balance
       mockFetch.mockResponse(defaultQuoteResponse)
-      const { getByText, getByTestId, store, swapFromContainer, swapToContainer } = renderScreen({
+      const {
+        getByText,
+        getByTestId,
+        store,
+        swapFromContainer,
+        swapToContainer,
+        tokenBottomSheet,
+      } = renderScreen({
         celoBalance: '0.001',
         cUSDBalance: '0.001',
       })
 
-      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('POOFTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('POOFTouchable'))
-
-      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('CELOTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('CELOTouchable'))
-
+      selectToken(swapFromContainer, 'POOF', tokenBottomSheet)
+      selectToken(swapToContainer, 'CELO', tokenBottomSheet)
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
       await act(() => {
@@ -925,16 +901,21 @@ describe('SwapScreen', () => {
     it('should prompt the user to decrease the swap amount when swapping the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
       // Swap CELO to cUSD, when only CELO has balance
       mockFetch.mockResponse(defaultQuoteResponse)
-      const { getByText, getByTestId, queryByText, store, swapToContainer, swapFromContainer } =
-        renderScreen({
-          celoBalance: '1.234',
-          cUSDBalance: '0',
-        })
+      const {
+        getByText,
+        getByTestId,
+        queryByText,
+        store,
+        swapToContainer,
+        swapFromContainer,
+        tokenBottomSheet,
+      } = renderScreen({
+        celoBalance: '1.234',
+        cUSDBalance: '0',
+      })
 
-      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('cUSDTouchable'))
-
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
       await act(() => {
@@ -1001,16 +982,20 @@ describe('SwapScreen', () => {
           },
         })
       )
-      const { getByText, getByTestId, queryByText, store, swapToContainer, swapFromContainer } =
-        renderScreen({
-          celoBalance: '1.234',
-          cUSDBalance: '0',
-        })
+      const {
+        getByText,
+        queryByText,
+        store,
+        swapToContainer,
+        swapFromContainer,
+        tokenBottomSheet,
+      } = renderScreen({
+        celoBalance: '1.234',
+        cUSDBalance: '0',
+      })
 
-      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('cUSDTouchable'))
-
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.233')
 
       await act(() => {
@@ -1073,16 +1058,14 @@ describe('SwapScreen', () => {
           },
         })
       )
-      const { getByText, getByTestId, queryByTestId, swapToContainer, swapFromContainer } =
+      const { getByText, queryByTestId, swapToContainer, swapFromContainer, tokenBottomSheet } =
         renderScreen({
           celoBalance: '1.234',
           cUSDBalance: '0',
         })
 
-      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('cUSDTouchable'))
-
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
       fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
 
       await act(() => {
@@ -1099,16 +1082,20 @@ describe('SwapScreen', () => {
     it("should allow swapping the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
       // Swap full CELO balance to cUSD
       mockFetch.mockResponse(defaultQuoteResponse)
-      const { getByText, getByTestId, queryByTestId, swapToContainer, swapFromContainer } =
-        renderScreen({
-          celoBalance: '1.234',
-          cUSDBalance: '10',
-        })
+      const {
+        getByText,
+        getByTestId,
+        queryByTestId,
+        swapToContainer,
+        swapFromContainer,
+        tokenBottomSheet,
+      } = renderScreen({
+        celoBalance: '1.234',
+        cUSDBalance: '10',
+      })
 
-      fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
-      await waitFor(() => expect(getByTestId('cUSDTouchable')).toBeTruthy())
-      fireEvent.press(getByTestId('cUSDTouchable'))
-
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
       fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
 
       await act(() => {

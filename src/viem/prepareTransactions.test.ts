@@ -13,17 +13,39 @@ import {
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
-import { Address, BaseError, EstimateGasExecutionError, encodeFunctionData } from 'viem'
+import {
+  Address,
+  BaseError,
+  EstimateGasExecutionError,
+  encodeFunctionData,
+  ExecutionRevertedError,
+  InsufficientFundsError,
+} from 'viem'
 import mocked = jest.mocked
 
 jest.mock('src/viem/estimateFeesPerGas')
-jest.mock('viem')
+jest.mock('viem', () => ({
+  ...jest.requireActual('viem'),
+  encodeFunctionData: jest.fn(),
+}))
 
 beforeEach(() => {
   jest.clearAllMocks()
 })
 
 describe('prepareTransactions module', () => {
+  const mockInsufficientFundsError = new EstimateGasExecutionError(
+    new InsufficientFundsError({
+      cause: new BaseError('insufficient funds'),
+    }),
+    {}
+  )
+  const mockExceededAllowanceError = new EstimateGasExecutionError(
+    new ExecutionRevertedError({
+      cause: new BaseError("transfer value exceeded sender's allowance for spender"),
+    }),
+    {}
+  )
   const mockFeeCurrencies: TokenBalanceWithAddress[] = [
     {
       address: '0xfee1',
@@ -89,8 +111,60 @@ describe('prepareTransactions module', () => {
           },
         ],
       })
-      expect(result.type).toEqual('not-enough-balance-for-gas')
-      expect('feeCurrencies' in result && result.feeCurrencies).toStrictEqual(mockFeeCurrencies)
+      expect(result).toStrictEqual({
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: mockFeeCurrencies,
+      })
+    })
+    it("returns a 'not-enough-balance-for-gas' result when gas estimation throws error due to insufficient funds", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(100),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockRejectedValue(mockInsufficientFundsError)
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockSpendToken,
+        spendTokenAmount: new BigNumber(100_000),
+        decreasedAmountGasCostMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: mockFeeCurrencies,
+      })
+    })
+    it('throws if gas estimation throws error for some other reason besides insufficient funds', async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(100),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockRejectedValue(mockExceededAllowanceError)
+
+      await expect(() =>
+        prepareTransactions({
+          feeCurrencies: mockFeeCurrencies,
+          spendToken: mockSpendToken,
+          spendTokenAmount: new BigNumber(100_000),
+          decreasedAmountGasCostMultiplier: 1,
+          baseTransactions: [
+            {
+              from: '0xfrom' as Address,
+              to: '0xto' as Address,
+              data: '0xdata',
+              type: 'cip42',
+            },
+          ],
+        })
+      ).rejects.toThrowError(EstimateGasExecutionError)
     })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending more than the max amount of a feeCurrency", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
@@ -379,10 +453,8 @@ describe('prepareTransactions module', () => {
         maxPriorityFeePerGas: BigInt(789),
       })
     })
-    it('returns null if estimateGas throws EstimateGasExecutionError', async () => {
-      mockPublicClient.estimateGas.mockRejectedValue(
-        new EstimateGasExecutionError(new BaseError('test-cause'), {})
-      )
+    it('returns null if estimateGas throws EstimateGasExecutionError with cause insufficient funds', async () => {
+      mockPublicClient.estimateGas.mockRejectedValue(mockInsufficientFundsError)
       const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
       const estimateTransactionOutput = await tryEstimateTransaction({
         baseTransaction,
@@ -393,16 +465,27 @@ describe('prepareTransactions module', () => {
       })
       expect(estimateTransactionOutput).toEqual(null)
     })
+    it('throws if estimateGas throws error for some other reason besides insufficient funds', async () => {
+      mockPublicClient.estimateGas.mockRejectedValue(mockExceededAllowanceError)
+      const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
+      await expect(() =>
+        tryEstimateTransaction({
+          baseTransaction,
+          maxFeePerGas: BigInt(456),
+          feeCurrencySymbol: 'FEE',
+          feeCurrencyAddress: '0xabc',
+          maxPriorityFeePerGas: BigInt(789),
+        })
+      ).rejects.toThrowError(EstimateGasExecutionError)
+    })
   })
   describe('tryEstimateTransactions', () => {
-    it('returns null if estimateGas throws EstimateGasExecutionError', async () => {
+    it('returns null if estimateGas throws error due to insufficient funds', async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(10),
         maxPriorityFeePerGas: undefined,
       })
-      mockPublicClient.estimateGas.mockRejectedValue(
-        new EstimateGasExecutionError(new BaseError('test-cause'), {})
-      )
+      mockPublicClient.estimateGas.mockRejectedValue(mockInsufficientFundsError)
       const estimateTransactionsOutput = await tryEstimateTransactions(
         [{ from: '0x123' }, { from: '0x123', gas: BigInt(456) }],
         mockFeeCurrencies[0]

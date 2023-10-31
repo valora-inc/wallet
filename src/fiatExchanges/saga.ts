@@ -50,10 +50,10 @@ function* bidaliPaymentRequest({
 
   const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
   const tokenAddress = tokens[currency]?.address
-
-  if (!tokenAddress) {
+  const tokenId = tokens[currency]?.tokenId
+  if (!tokenId) {
     // This is not supposed to happen in production
-    throw new Error(`No token address found for currency: ${currency}`)
+    throw new Error(`No token ID found for currency: ${currency}`)
   }
 
   const recipient: AddressRecipient = {
@@ -65,6 +65,7 @@ function* bidaliPaymentRequest({
   }
   const transactionData: TransactionDataInput = {
     recipient,
+    tokenId,
     inputAmount: new BigNumber(amount),
     amountIsInLocalCurrency: false,
     tokenAddress,

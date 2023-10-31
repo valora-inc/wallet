@@ -1548,6 +1548,7 @@
       "descriptionXtoYDays": "ส่งคำขอธุรกรรมของคุณแล้ว และคุณจะได้รับเงินใน {{lowerBound}}-{{upperBound}} วัน",
       "baseDescription": "ส่งคำขอธุรกรรมของคุณแล้ว",
       "txDetails": "ดูใน CeloExplorer",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "ดำเนินการต่อ"
     },
     "requestNotCompleted": {
@@ -1556,7 +1557,7 @@
     },
     "txProcessing": {
       "title": "ผู้ให้บริการกำลังดำเนินการคำสั่งของคุณ",
-      "description": "โดยอาจมีสาเหตุมาจากการเชื่อมต่ออินเทอร์เน็ตที่ไม่ดีหรือมีปัญหาเซิร์ฟเวอร์"
+      "description": "This might be due to poor internet connection. Check the block explorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1903,11 +1904,21 @@
     "retryFailedTransaction": "ลองอีกครั้ง"
   },
   "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
-    "networkFee": "{{networkName}} Network Fee"
+    "networkFee": "{{networkName}} Network Fee",
+    "lowerAmount": "Enter a lower amount",
+    "maxAmountWarning": {
+      "title": "Sending the maximum amount",
+      "description": "Adjust the amount you are sending to make sure you have enough {{feeTokenSymbol}} for gas"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

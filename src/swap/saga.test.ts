@@ -28,6 +28,8 @@ import {
   mockCeurTokenId,
   mockContract,
   mockTokenBalances,
+  mockWBTCAddress,
+  mockWBTCTokenId,
 } from 'test/values'
 import { Address, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
@@ -109,7 +111,6 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
       fromTokenAddress: mockCeurAddress,
       swapAmount: new BigNumber(100),
       price: '2',
-
       provider: '0x',
       estimatedPriceImpact: new BigNumber(0.1),
       preparedTransactions: {
@@ -162,6 +163,21 @@ const mockSwapWithNativeSellToken: PayloadAction<SwapInfo> = {
   },
 }
 
+const mockSwapWithWBTCBuyToken: PayloadAction<SwapInfo> = {
+  ...mockSwap,
+  payload: {
+    ...mockSwap.payload,
+    userInput: {
+      ...mockSwap.payload.userInput,
+      toToken: mockWBTCAddress,
+    },
+    unvalidatedSwapTransaction: {
+      ...mockSwap.payload.unvalidatedSwapTransaction,
+      buyTokenAddress: mockWBTCAddress,
+    },
+  },
+}
+
 const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
   ...mockSwapPrepared,
   payload: {
@@ -191,6 +207,28 @@ const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
   },
 }
 
+const mockSwapPreparedWithWBTCBuyToken: PayloadAction<SwapInfoPrepared> = {
+  ...mockSwapPrepared,
+  payload: {
+    ...mockSwapPrepared.payload,
+    userInput: {
+      ...mockSwapPrepared.payload.userInput,
+      toToken: mockWBTCAddress,
+    },
+    quote: {
+      ...mockSwapPrepared.payload.quote,
+      toTokenAddress: mockWBTCAddress,
+      rawSwapResponse: {
+        ...mockSwapPrepared.payload.quote.rawSwapResponse,
+        unvalidatedSwapTransaction: {
+          ...mockSwapPrepared.payload.quote.rawSwapResponse.unvalidatedSwapTransaction,
+          buyTokenAddress: mockWBTCAddress,
+        },
+      },
+    },
+  },
+}
+
 const store = createMockStore({
   tokens: {
     tokenBalances: {
@@ -203,6 +241,14 @@ const store = createMockStore({
         ...mockTokenBalances[mockCeloTokenId],
         priceUsd: '0.5',
         balance: '10',
+      },
+      [mockWBTCTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId], // these values don't matter
+        address: mockWBTCAddress,
+        tokenId: mockWBTCTokenId,
+        symbol: 'WBTC',
+        name: 'Wrapped BTC',
+        decimals: 6,
       },
     },
   },
@@ -287,6 +333,30 @@ describe(swapSubmitSaga, () => {
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
     })
+  })
+
+  it('should display the correct standby values for a swap with different decimals', async () => {
+    await expectSaga(swapSubmitSaga, mockSwapWithWBTCBuyToken)
+      .withState(store.getState())
+      .provide(defaultProviders)
+      .put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenExchangeV3',
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: mockWBTCTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: mockCeurTokenId,
+            },
+          },
+        },
+      })
+      .run()
   })
 
   it('should complete swap without approval for native sell token', async () => {
@@ -485,6 +555,30 @@ describe(swapSubmitPreparedSaga, () => {
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(1)
     expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(1)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
+  })
+
+  it('should display the correct standby values for a swap with different decimals', async () => {
+    await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedWithWBTCBuyToken)
+      .withState(store.getState())
+      .provide(defaultProviders)
+      .put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenExchangeV3',
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: mockWBTCTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: mockCeurTokenId,
+            },
+          },
+        },
+      })
+      .run()
   })
 
   it('should set swap state correctly on error', async () => {

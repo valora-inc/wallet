@@ -9,7 +9,6 @@ import {
   WalletActions,
   WalletRpcSchema,
   createWalletClient,
-  http,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
 import {
@@ -20,8 +19,21 @@ import {
   signTypedData,
   writeContract,
 } from 'viem/actions'
+import { viemTransports } from 'src/viem'
+import networkConfig from 'src/web3/networkConfig'
+import { Network } from 'src/transactions/types'
 
 const TAG = 'viem/getLockableWallet'
+
+export function getTransport(chain: Chain): Transport {
+  const result = Object.entries(networkConfig.viemChain).find(
+    ([_, viemChain]) => chain === viemChain
+  )
+  if (!result) {
+    throw new Error(`No network defined for viem chain ${chain}, cannot create wallet`)
+  }
+  return viemTransports[result[0] as Network]
+}
 
 // Largely copied from https://github.com/wagmi-dev/viem/blob/main/src/clients/createWalletClient.ts#L32
 export type ViemWallet<
@@ -55,7 +67,7 @@ export default function getLockableViemWallet(
 
   return createWalletClient({
     chain,
-    transport: http(),
+    transport: getTransport(chain),
     account,
   }).extend((client: Client): Actions => {
     return {
@@ -63,6 +75,7 @@ export default function getLockableViemWallet(
       // For instance we will later need prepareTransactionRequest which we can add here by
       // importing the prepareTransactionRequest action and blocking it with the checkLock function
       // Introduction to wallet actions: https://viem.sh/docs/actions/wallet/introduction.html
+      sendTransaction: (args) => sendTransaction(client, args),
       unlockAccount: (passphrase: string, duration: number) =>
         lock.unlock(account.address, passphrase, duration),
       writeContract: (args) => {
