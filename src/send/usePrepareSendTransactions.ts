@@ -11,6 +11,32 @@ import { tokenSupportsComments } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 
+// just exported for testing
+export function _getOnSuccessCallback({
+  setFeeCurrency,
+  setPrepareTransactionsResult,
+  setFeeAmount,
+}: {
+  setFeeCurrency: (token: TokenBalance | undefined) => void
+  setPrepareTransactionsResult: (result: PreparedTransactionsResult | undefined) => void
+  setFeeAmount: (amount: BigNumber | undefined) => void
+}) {
+  return (result: PreparedTransactionsResult | undefined) => {
+    setPrepareTransactionsResult(result)
+    if (result?.type === 'possible') {
+      setFeeCurrency(result.feeCurrency)
+      setFeeAmount(
+        getMaxGasCost(result.transactions).dividedBy(
+          new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals)
+        )
+      )
+    } else {
+      setFeeCurrency(undefined)
+      setFeeAmount(undefined)
+    }
+  }
+}
+
 export function usePrepareSendTransactions() {
   const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
     PreparedTransactionsResult | undefined
@@ -54,17 +80,11 @@ export function usePrepareSendTransactions() {
       onError: (error) => {
         Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
       },
-      onSuccess: (result: PreparedTransactionsResult | undefined) => {
-        setPrepareTransactionsResult(result)
-        if (result?.type === 'possible') {
-          setFeeCurrency(result.feeCurrency)
-          setFeeAmount(
-            getMaxGasCost(result.transactions).dividedBy(
-              new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals)
-            )
-          )
-        }
-      },
+      onSuccess: _getOnSuccessCallback({
+        setFeeCurrency: setFeeCurrency,
+        setPrepareTransactionsResult: setPrepareTransactionsResult,
+        setFeeAmount: setFeeAmount,
+      }),
     }
   )
   return {
