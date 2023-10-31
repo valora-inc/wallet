@@ -27,7 +27,7 @@ function TransactionFeedItemImage(props: Props) {
 
   if (status === TransactionStatus.Failed) {
     return (
-      <CircledIcon backgroundColor={Colors.errorLight} radius={40}>
+      <CircledIcon backgroundColor={Colors.errorLight} radius={AVATAR_SIZE}>
         <Alert size={24} testId={'FailedTransactionAlert'} />
       </CircledIcon>
     )
