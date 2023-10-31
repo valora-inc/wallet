@@ -1,4 +1,7 @@
-import { _getOnSuccessCallback } from 'src/send/usePrepareSendTransactions'
+import {
+  _getOnSuccessCallback,
+  _prepareSendTransactionsCallback,
+} from 'src/send/usePrepareSendTransactions'
 import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance } from 'test/values'
 import BigNumber from 'bignumber.js'
@@ -64,5 +67,28 @@ describe('usePrepareSendTransactions', () => {
       expect(setFeeCurrency).toHaveBeenCalledWith(undefined)
       expect(setFeeAmount).toHaveBeenCalledWith(undefined)
     })
+  })
+  describe('_prepareSendTransactionsCallback', () => {
+    it('returns undefined if amount is 0', async () => {
+      expect(
+        await _prepareSendTransactionsCallback({
+          amount: new BigNumber(0),
+          token: mockCeloTokenBalance,
+          recipientAddress: '0xabc',
+          walletAddress: '0x123',
+          isDekRegistered: true,
+          feeCurrencies: [mockCeloTokenBalance],
+        })
+      ).toBeUndefined()
+    })
+    it.todo(
+      'uses prepareERC20TransferTransaction if DEK is registered or token does not support comments'
+    )
+    it.todo(
+      'does nothing for now for the case where DEK is not registered and token supports comments'
+    )
+  })
+  describe('usePrepareSendTransactions', () => {
+    it.todo('gives initial values and lets you refresh them at will')
   })
 })

@@ -162,14 +162,14 @@ function SendEnterAmount({ route }: Props) {
     clearPreparedTransactions()
     const debouncedRefreshTransactions = setTimeout(() => {
       if (walletAddress) {
-        return refreshPreparedTransactions(
-          parsedAmount,
+        return refreshPreparedTransactions({
+          amount: parsedAmount,
           token,
-          recipient.address,
+          recipientAddress: recipient.address,
           walletAddress,
           isDekRegistered,
-          feeCurrencies
-        )
+          feeCurrencies,
+        })
       }
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)

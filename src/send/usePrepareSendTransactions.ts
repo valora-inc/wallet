@@ -37,56 +37,65 @@ export function _getOnSuccessCallback({
   }
 }
 
-export function usePrepareSendTransactions() {
+// just exported for testing
+export async function _prepareSendTransactionsCallback({
+  amount,
+  token,
+  recipientAddress,
+  walletAddress,
+  isDekRegistered,
+  feeCurrencies,
+}: {
+  amount: BigNumber
+  token: TokenBalance
+  recipientAddress: string
+  walletAddress: string
+  isDekRegistered: boolean
+  feeCurrencies: TokenBalance[]
+}) {
+  const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
+
+  if (amount.isLessThanOrEqualTo(0)) {
+    return
+  }
+  if (tokenBalanceHasAddress(token)) {
+    if (!includeRegisterDekTx) {
+      Logger.info(
+        'src/send/SendEnterAmount',
+        `preparing transactions with amount ${amount.toString()}`
+      )
+      return prepareERC20TransferTransaction({
+        fromWalletAddress: walletAddress,
+        toWalletAddress: recipientAddress,
+        sendToken: token,
+        amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
+        feeCurrencies,
+      })
+    }
+    // TODO(ACT-955): case where we need to register DEK too
+  }
+  // TODO(ACT-956): non-ERC20 native asset case
+}
+
+export function usePrepareSendTransactions(
+  prepareSendTransactionsCallback = _prepareSendTransactionsCallback // just for testing
+) {
   const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
     PreparedTransactionsResult | undefined
   >()
   const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
+
   const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
-
-  const prepareTransactions = useAsyncCallback(
-    async (
-      amount: BigNumber,
-      token: TokenBalance,
-      recipientAddress: string,
-      walletAddress: string,
-      isDekRegistered: boolean,
-      feeCurrencies: TokenBalance[]
-    ) => {
-      const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
-
-      if (!amount || amount.eq(0) || !walletAddress) {
-        return
-      }
-      if (tokenBalanceHasAddress(token)) {
-        if (!includeRegisterDekTx) {
-          Logger.info(
-            'src/send/SendEnterAmount',
-            `preparing transactions with amount ${amount.toString()}`
-          )
-          return prepareERC20TransferTransaction({
-            fromWalletAddress: walletAddress,
-            toWalletAddress: recipientAddress,
-            sendToken: token,
-            amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
-            feeCurrencies,
-          })
-        }
-        // TODO(ACT-955): case where we need to register DEK too
-      }
-      // TODO(ACT-956): non-ERC20 native asset case
+  const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
+    onError: (error) => {
+      Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
     },
-    {
-      onError: (error) => {
-        Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
-      },
-      onSuccess: _getOnSuccessCallback({
-        setFeeCurrency: setFeeCurrency,
-        setPrepareTransactionsResult: setPrepareTransactionsResult,
-        setFeeAmount: setFeeAmount,
-      }),
-    }
-  )
+    onSuccess: _getOnSuccessCallback({
+      setFeeCurrency,
+      setPrepareTransactionsResult,
+      setFeeAmount,
+    }),
+  })
   return {
     feeCurrency,
     feeAmount,
