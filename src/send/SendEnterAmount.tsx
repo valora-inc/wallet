@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput as RNTextInput } from 'react-native'
 import { View } from 'react-native-animatable'
 import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -39,17 +39,10 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
-import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSend, tokenSupportsComments } from 'src/tokens/utils'
-import {
-  getMaxGasCost,
-  PreparedTransactionsResult,
-  prepareERC20TransferTransaction,
-} from 'src/viem/prepareTransactions'
+import { TokenBalance } from 'src/tokens/slice'
+import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
-import { useAsyncCallback } from 'react-async-hook'
-import Logger from 'src/utils/Logger'
-import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -57,76 +50,6 @@ const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
-
-function usePrepareTransactions() {
-  const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
-    PreparedTransactionsResult | undefined
-  >()
-  const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
-  const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
-
-  const prepareTransactions = useAsyncCallback(
-    async (
-      amount: BigNumber,
-      token: TokenBalance,
-      recipientAddress: string,
-      walletAddress: string,
-      isDekRegistered: boolean,
-      feeCurrencies: TokenBalance[]
-    ) => {
-      const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
-
-      if (!amount || amount.eq(0) || !walletAddress) {
-        return
-      }
-      if (tokenBalanceHasAddress(token)) {
-        if (!includeRegisterDekTx) {
-          Logger.info(
-            'src/send/SendEnterAmount',
-            `preparing transactions with amount ${amount.toString()}`
-          )
-          return prepareERC20TransferTransaction({
-            fromWalletAddress: walletAddress,
-            toWalletAddress: recipientAddress,
-            sendToken: token,
-            amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
-            feeCurrencies,
-          })
-        }
-        // TODO(ACT-955): case where we need to register DEK too
-      }
-      // TODO(ACT-956): non-ERC20 native asset case
-    },
-    {
-      onError: (error) => {
-        Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
-      },
-      onSuccess: (result: PreparedTransactionsResult | undefined) => {
-        setPrepareTransactionsResult(result)
-        if (result?.type === 'possible') {
-          setFeeCurrency(result.feeCurrency)
-          setFeeAmount(
-            getMaxGasCost(result.transactions).dividedBy(
-              new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals)
-            )
-          )
-        }
-      },
-    }
-  )
-  return {
-    feeCurrency,
-    feeAmount,
-    prepareTransactionsResult,
-    prepareTransactionsLoading: prepareTransactions.loading,
-    refreshPreparedTransactions: prepareTransactions.execute,
-    clearPreparedTransactions: () => {
-      setPrepareTransactionsResult(undefined)
-      setFeeCurrency(undefined)
-      setFeeAmount(undefined)
-    },
-  }
-}
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -230,7 +153,7 @@ function SendEnterAmount({ route }: Props) {
     feeAmount,
     refreshPreparedTransactions,
     clearPreparedTransactions,
-  } = usePrepareTransactions()
+  } = usePrepareSendTransactions()
 
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const walletAddress = useSelector(walletAddressSelector)
