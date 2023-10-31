@@ -89,13 +89,6 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH:
-      return {
-        ...state,
-        standbyTransactions: state.standbyTransactions.filter(
-          (tx: StandbyTransaction) => tx.context.id !== action.idx || tx.transactionHash
-        ),
-      }
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block } = action.receipt
 

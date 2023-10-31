@@ -26,7 +26,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import {
   addStandbyTransaction,
-  removeStandbyTransactionWithoutHash,
+  removeStandbyTransaction,
   transactionConfirmed,
 } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
@@ -256,7 +256,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       error: error.message,
     })
     yield* put(swapError())
-    yield* put(removeStandbyTransactionWithoutHash(swapExecuteContext.id))
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }
@@ -403,7 +403,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
       hash: swapTxHash,
     })
+
     Logger.debug('Got swap transaction receipt', receipt)
+    if (receipt.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
+    }
 
     yield* put(
       transactionConfirmed(swapExecuteContext.id, {
@@ -412,10 +416,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         status: receipt.status === 'success',
       })
     )
-
-    if (receipt.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
-    }
 
     const timeMetrics = getTimeMetrics()
 
@@ -436,7 +436,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       error: error.message,
     })
     yield* put(swapError())
-    yield* put(removeStandbyTransactionWithoutHash(swapExecuteContext.id))
+    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }

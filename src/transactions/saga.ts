@@ -15,7 +15,6 @@ import {
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
-  removeStandbyTransactionWithoutHash,
   transactionConfirmed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
@@ -167,7 +166,7 @@ export function* sendAndMonitorTransaction<T>(
     return { receipt: txReceipt }
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
-    yield* put(removeStandbyTransactionWithoutHash(context.id))
+    yield* put(removeStandbyTransaction(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
   }

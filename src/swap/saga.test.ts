@@ -10,7 +10,7 @@ import { swapSubmitPreparedSaga, swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { Actions, removeStandbyTransactionWithoutHash } from 'src/transactions/actions'
+import { Actions, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -398,7 +398,7 @@ describe(swapSubmitSaga, () => {
       .provide(defaultProviders)
       .put(swapApprove())
       .put(swapError())
-      .put(removeStandbyTransactionWithoutHash('a uuid'))
+      .put(removeStandbyTransaction('a uuid'))
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
@@ -595,7 +595,7 @@ describe(swapSubmitPreparedSaga, () => {
       .provide(defaultProviders)
       .not.put(swapApprove())
       .put(swapError())
-      .put(removeStandbyTransactionWithoutHash('a uuid'))
+      .put(removeStandbyTransaction('a uuid'))
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {

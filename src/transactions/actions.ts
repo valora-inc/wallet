@@ -23,12 +23,6 @@ export interface RemoveStandbyTransactionAction {
   type: Actions.REMOVE_STANDBY_TRANSACTION
   idx: string
 }
-
-export interface RemoveStandbyTransactionWithoutHashAction {
-  type: Actions.REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH
-  idx: string
-}
-
 export interface AddHashToStandbyTransactionAction {
   type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS
   idx: string
@@ -66,7 +60,6 @@ export interface UpdateInviteTransactionsAction {
 export type ActionTypes =
   | AddStandbyTransactionAction
   | RemoveStandbyTransactionAction
-  | RemoveStandbyTransactionWithoutHashAction
   | AddHashToStandbyTransactionAction
   | UpdatedRecentTxRecipientsCacheAction
   | UpdateTransactionsAction
@@ -82,13 +75,6 @@ export const addStandbyTransaction = (
 
 export const removeStandbyTransaction = (idx: string): RemoveStandbyTransactionAction => ({
   type: Actions.REMOVE_STANDBY_TRANSACTION,
-  idx,
-})
-
-export const removeStandbyTransactionWithoutHash = (
-  idx: string
-): RemoveStandbyTransactionWithoutHashAction => ({
-  type: Actions.REMOVE_STANDBY_TRANSACTION_WITHOUT_HASH,
   idx,
 })
 
