@@ -1550,6 +1550,7 @@
       "descriptionXtoYDays": "İşlem talebiniz gönderildi ve paranız {{lowerBound}}-{{upperBound}} gün içinde ulaşacak.",
       "baseDescription": "İşlem talebiniz gönderildi.",
       "txDetails": "CeloExplorer'da görüntüle",
+      "viewOnCeloScan": "CeloScan'de görüntüle",
       "continue": "İleri"
     },
     "requestNotCompleted": {
@@ -1558,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "İşleminiz hala devam ediyor.",
-      "description": "Bunun nedeni zayıf internet bağlantısı olabilir. Güncellemeler için CeloExplorer'ı kontrol edin."
+      "description": "Bunun nedeni zayıf internet bağlantısı olabilir. Güncellemeler için blok gezginini kontrol edin."
     }
   },
   "fiatExchangeFlow": {
@@ -1905,11 +1906,21 @@
     "retryFailedTransaction": "Yeniden Dene"
   },
   "viewOnCeloBlockExplorer": "CeloExplorer'da görüntüle",
+  "viewOnCeloScan": "CeloScan'de görüntüle",
   "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Belirteç Seçin",
-    "networkFee": "{{networkName}} Ağ Ücreti"
+    "networkFee": "{{networkName}} Ağ Ücreti",
+    "lowerAmount": "Daha düşük bir miktar girin",
+    "maxAmountWarning": {
+      "title": "Maksimum tutarın gönderilmesi",
+      "description": "Gönderdiğiniz miktarı gaz için yeterli {{feeTokenSymbol}} olduğundan emin olacak şekilde ayarlayın"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Gaz için daha fazla {{feeTokenSymbol}} adresine ihtiyacınız var",
+      "description": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya gönderdiğiniz miktarı ayarlayın"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
