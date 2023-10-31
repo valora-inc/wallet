@@ -1,9 +1,12 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
 import erc20 from 'src/abis/IERC20.json'
+import { Network } from 'src/transactions/types'
+import { viemTransports } from 'src/viem'
 import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import * as mockedKeychain from 'test/mockedKeychain'
 import { mockAccount2, mockContractAddress, mockPrivateDEK, mockTypedData } from 'test/values'
+import { http } from 'viem'
 import {
   sendTransaction,
   signMessage,
@@ -11,10 +14,7 @@ import {
   signTypedData,
   writeContract,
 } from 'viem/actions'
-import { celoAlfajores, sepolia as ethereumSepolia, goerli as ethereumGoerli } from 'viem/chains'
-import { viemTransports } from 'src/viem'
-import { http } from 'viem'
-import { Network } from 'src/transactions/types'
+import { celoAlfajores, goerli as ethereumGoerli, sepolia as ethereumSepolia } from 'viem/chains'
 
 jest.mock('viem/actions')
 jest.mock('src/viem', () => {
@@ -59,7 +59,7 @@ const methodsParams: Record<string, any> = {
     abi: erc20.abi,
     functionName: 'mint',
     account: mockAccount2,
-    chain: celo,
+    chain: celoAlfajores,
     args: [],
   },
 }
