@@ -214,10 +214,10 @@ export const transactionHashesByNetworkIdSelector = createSelector(
   [transactionsByNetworkIdSelector],
   (transactions) => {
     const hashesByNetwork: {
-      [networkId in NetworkId]?: string[]
+      [networkId in NetworkId]?: Set<string>
     } = {}
     Object.entries(transactions).forEach(([networkId, txs]) => {
-      hashesByNetwork[networkId as NetworkId] = txs.map((tx) => tx.transactionHash)
+      hashesByNetwork[networkId as NetworkId] = new Set(txs.map((tx) => tx.transactionHash))
     })
 
     return hashesByNetwork
