@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
@@ -17,6 +17,7 @@ import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
+  mockCeloTokenBalance,
   mockCeloTokenId,
   mockEthTokenId,
   mockPoofAddress,
@@ -67,6 +68,7 @@ describe('SendEnterAmount', () => {
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
+    jest.mocked(useFeeCurrencies).mockReturnValue([mockCeloTokenBalance])
     BigNumber.config({
       FORMAT: {
         decimalSeparator: '.',
