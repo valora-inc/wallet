@@ -35,9 +35,9 @@ import { QuoteResult } from 'src/swap/useSwapQuote'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
-import { getMaxGasCost } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getMaxGasCost } from 'src/viem/prepareTransactions'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 const initialUserInput = {

@@ -259,7 +259,6 @@ function* getTransactionReceipt(
       `Error found when trying to fetch status for transaction with hash: ${transactionHash} in ${network}`,
       e
     )
-    return
   }
 }
 

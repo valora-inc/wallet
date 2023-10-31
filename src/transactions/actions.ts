@@ -30,6 +30,7 @@ export interface RemoveStandbyTransactionAction {
   type: Actions.REMOVE_STANDBY_TRANSACTION
   idx: string
 }
+
 export interface AddHashToStandbyTransactionAction {
   type: Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS
   idx: string
