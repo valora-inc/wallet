@@ -2,9 +2,15 @@ import {
   _getOnSuccessCallback,
   _prepareSendTransactionsCallback,
 } from 'src/send/usePrepareSendTransactions'
-import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import {
+  PreparedTransactionsResult,
+  prepareERC20TransferTransaction,
+} from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance } from 'test/values'
 import BigNumber from 'bignumber.js'
+import mocked = jest.mocked
+
+jest.mock('src/viem/prepareTransactions')
 
 describe('usePrepareSendTransactions', () => {
   describe('_getOnSuccessCallback', () => {
@@ -81,9 +87,35 @@ describe('usePrepareSendTransactions', () => {
         })
       ).toBeUndefined()
     })
-    it.todo(
-      'uses prepareERC20TransferTransaction if DEK is registered or token does not support comments'
-    )
+    it('returns undefined if balance of token to send 0', async () => {
+      expect(
+        await _prepareSendTransactionsCallback({
+          amount: new BigNumber(5),
+          token: { ...mockCeloTokenBalance, balance: new BigNumber(0) },
+          recipientAddress: '0xabc',
+          walletAddress: '0x123',
+          isDekRegistered: true,
+          feeCurrencies: [mockCeloTokenBalance],
+        })
+      ).toBeUndefined()
+    })
+    it('uses prepareERC20TransferTransaction if DEK is registered or token does not support comments', async () => {
+      const mockPrepareTransactionsResult: PreparedTransactionsResult = {
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: [mockCeloTokenBalance],
+      }
+      mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
+      expect(
+        await _prepareSendTransactionsCallback({
+          amount: new BigNumber(1),
+          token: mockCeloTokenBalance,
+          recipientAddress: '0xabc',
+          walletAddress: '0x123',
+          isDekRegistered: true,
+          feeCurrencies: [mockCeloTokenBalance],
+        })
+      ).toStrictEqual(mockPrepareTransactionsResult)
+    })
     it.todo(
       'does nothing for now for the case where DEK is not registered and token supports comments'
     )
