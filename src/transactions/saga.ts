@@ -30,7 +30,7 @@ import {
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
-  NetworkId,
+  Network,
   StandbyTransaction,
   TokenTransactionTypeV2,
   TransactionContext,
@@ -39,13 +39,17 @@ import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getContractKit } from 'src/web3/contracts'
+import networkConfig from 'src/web3/networkConfig'
 import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 import { Hash } from 'viem'
 
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
-const WATCH_PENDING_TRANSACTION_DELAY = 10000
+const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
+  [Network.Celo]: 5000,
+  [Network.Ethereum]: 15000,
+}
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
@@ -230,23 +234,14 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
-function* getTransactionReceipt(transaction: StandbyTransaction) {
-  const { transactionHash, networkId } = transaction
-
-  if (!transactionHash) {
-    Logger.warn(TAG, `Transaction ${transaction.context.id} has no hash, skipping`)
-    return
-  }
-
-  // TODO: Remove this constraint when our viem client supports other networks
-  const supportedNetworkdIds = [NetworkId['celo-mainnet'], NetworkId['celo-alfajores']]
-  if (!supportedNetworkdIds.includes(networkId)) {
-    Logger.warn(TAG, `Transaction ${transaction.context.id} is on ${networkId}, skipping`)
-    return
-  }
+function* getTransactionReceipt(
+  transaction: StandbyTransaction & { transactionHash: string },
+  network: Network
+) {
+  const { transactionHash } = transaction
 
   try {
-    const receipt = yield* call(publicClient.celo.getTransactionReceipt, {
+    const receipt = yield* call(publicClient[network].getTransactionReceipt, {
       hash: transactionHash as Hash,
     })
 
@@ -260,7 +255,7 @@ function* getTransactionReceipt(transaction: StandbyTransaction) {
       )
     }
   } catch (e) {
-    Logger.error(
+    Logger.warn(
       TAG,
       `Found error when trying to fetch status for transaction with hash: ${transactionHash}`,
       e
@@ -269,13 +264,25 @@ function* getTransactionReceipt(transaction: StandbyTransaction) {
   }
 }
 
-export function* watchPendingTransactions() {
+export function* watchPendingTransactionsInNetwork(network: Network) {
   while (true) {
     const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
-    for (const transaction of pendingStandbyTransactions) {
-      yield* fork(getTransactionReceipt, transaction)
+    const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
+      return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
+    })
+
+    for (const transaction of filteredPendingTxs) {
+      yield* fork(getTransactionReceipt, transaction, network)
     }
-    yield* delay(WATCH_PENDING_TRANSACTION_DELAY) // sleep 10 seconds
+
+    yield* delay(WATCHING_DELAY_BY_NETWORK[network]) // sleep 10 seconds
+  }
+}
+
+export function* watchPendingTransactions() {
+  const supportedNetworks = Object.keys(publicClient) as Network[]
+  for (const network of supportedNetworks) {
+    yield* spawn(watchPendingTransactionsInNetwork, network)
   }
 }
 
