@@ -555,7 +555,9 @@ interface SendEventsProperties {
         localCurrencyAmount: string | null
         tokenAmount: string
         tokenSymbol: string
-        tokenAddress: string
+        tokenAddress: string | null
+        networkId: NetworkId | null
+        tokenId: string
         commentLength: number
       }
 
@@ -591,7 +593,8 @@ interface SendEventsProperties {
     recipientAddress: string
     amount: string
     usdAmount: string | undefined
-    tokenAddress: string
+    tokenAddress: string | undefined
+    tokenId: string
   }
   [SendEvents.send_tx_error]: {
     error: string
@@ -622,6 +625,8 @@ interface SendEventsProperties {
   [SendEvents.check_account_do_not_ask_selected]: undefined
   [SendEvents.check_account_alert_back]: undefined
   [SendEvents.check_account_alerts_continue]: undefined
+  [SendEvents.send_select_recipient_scan_qr]: undefined
+  [SendEvents.send_select_recipient_invite]: undefined
 }
 
 interface RequestEventsProperties {

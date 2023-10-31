@@ -16,6 +16,7 @@ export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
   MULTI_CHAIN_FEATURES = 'multi_chain_features',
+  DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
 }
 
 export enum StatsigFeatureGates {
@@ -35,6 +36,7 @@ export enum StatsigFeatureGates {
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   USE_VIEM_FOR_SWAP = 'use_viem_for_swap',
+  USE_NEW_RECIPIENT_SCREEN = 'use_new_recipient_screen',
   USE_NEW_SEND_FLOW = 'use_new_send_flow',
 }
 

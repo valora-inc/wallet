@@ -1548,6 +1548,7 @@
       "descriptionXtoYDays": "您的交易请求已经发出，您的资金将在 {{lowerBound}}-{{upperBound}} 天内到账。",
       "baseDescription": "您的交易请求已经发出。",
       "txDetails": "在 CeloExplorer 上查看",
+      "viewOnCeloScan": "在 CeloScan 上查看",
       "continue": "继续"
     },
     "requestNotCompleted": {
@@ -1556,7 +1557,7 @@
     },
     "txProcessing": {
       "title": "服务提供商正在处理您的订单。",
-      "description": "这可能是由于网络关联不畅 服务器错误。"
+      "description": "这可能是由于网络连接不畅造成的。检查块资源管理器是否有更新。"
     }
   },
   "fiatExchangeFlow": {
@@ -1690,7 +1691,8 @@
     "swapFrom": "交换自",
     "swapTo": "交换至",
     "rate": "费率",
-    "estimatedFee": "估算费用",
+    "estimatedFee": "估计网络费",
+    "networkFee": "网络费用",
     "viewOnExplorer": "在 CeloExplorer 上查看"
   },
   "swapReviewScreen": {
@@ -1856,10 +1858,67 @@
       "withdraw": "将代币转入银行账户、移动支付、礼品卡等。"
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "按姓名、电话、钱包搜索...",
+    "title": "选择收件人",
+    "recents": "近期活动",
+    "qr": {
+      "title": "扫描或显示 QR 码",
+      "subtitle": "快速查找 Valora 上的地址"
+    },
+    "invite": {
+      "title": "向朋友发送加密货币",
+      "subtitle": "从联系人列表中邀请朋友"
+    },
+    "getStarted": {
+      "title": "在 Valora 上汇款的方式",
+      "subtitle": "开始",
+      "options": {
+        "one": {
+          "title": "钱包地址",
+          "subtitle": "输入 Celo 或以太坊兼容的钱包地址（例如 0x123...abcde）"
+        },
+        "two": {
+          "title": "手机号码",
+          "subtitle": "如果某人拥有 Valora，可直接发送至其电话号码"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "将以太坊资产发送至某人的 ENS 手柄"
+        },
+        "four": {
+          "title": "简介名称",
+          "subtitle": "您可以搜索 Valora 上的现有用户"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "已完成",
+    "transactionIsPending": "待处理",
+    "transactionIsFailed": "失败"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "详细信息",
+    "checkPendingTransactionStatus": "检查状态",
+    "retryFailedTransaction": "重试"
+  },
+  "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
+  "viewOnCeloScan": "在 CeloScan 上查看",
+  "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择令牌",
-    "networkFee": "{{networkName}} 网络费用"
+    "networkFee": "{{networkName}} 网络费用",
+    "lowerAmount": "输入较低的金额",
+    "maxAmountWarning": {
+      "title": "发送最高金额",
+      "description": "调整发送量，以确保您有足够的 {{feeTokenSymbol}} 用于加油"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "您需要更多 {{feeTokenSymbol}} 来获取天然气",
+      "description": "添加 {{feeTokenSymbol}} 以支付汽油费或调整发送金额"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

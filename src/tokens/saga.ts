@@ -12,7 +12,11 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { lastKnownTokenBalancesSelector, tokensListWithAddressSelector } from 'src/tokens/selectors'
+import {
+  lastKnownTokenBalancesSelector,
+  tokensListWithAddressSelector,
+  tokensListSelector,
+} from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -201,20 +205,24 @@ export function* fetchTokenBalancesSaga() {
   }
 }
 
-export function* tokenAmountInSmallestUnit(amount: BigNumber, tokenAddress: string) {
-  const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
-  const tokenInfo = tokens.find((token) => token.address === tokenAddress)
-  if (!tokenInfo) {
-    throw Error(`Couldnt find token info for address ${tokenAddress}.`)
-  }
-
-  const decimalFactor = new BigNumber(10).pow(tokenInfo.decimals)
+export function tokenAmountInSmallestUnit(amount: BigNumber, decimals: number): string {
+  const decimalFactor = new BigNumber(10).pow(decimals)
   return amount.multipliedBy(decimalFactor).toFixed(0)
 }
 
-export function* getTokenInfo(tokenAddress: string) {
+/**
+ * @deprecated use getTokenInfo instead
+ */
+export function* getTokenInfoByAddress(tokenAddress: string) {
   const tokens: TokenBalance[] = yield* select(tokensListWithAddressSelector)
   const tokenInfo = tokens.find((token) => token.address === tokenAddress)
+  return tokenInfo
+}
+
+export function* getTokenInfo(tokenId: string) {
+  const networkIds = Object.values(networkConfig.networkToNetworkId)
+  const tokens: TokenBalance[] = yield* select((state) => tokensListSelector(state, networkIds))
+  const tokenInfo = tokens.find((token) => token.tokenId === tokenId)
   return tokenInfo
 }
 

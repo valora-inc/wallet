@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.70.0",
+  "version": "1.71.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -19,6 +19,8 @@
     "build:metro": "yarn run react-native bundle --entry-file index.js --bundle-output bundle.js; rm bundle.js",
     "dev:android": "./scripts/run_app.sh -p android",
     "dev:ios": "./scripts/run_app.sh -p ios",
+    "dev:ios:mainnet": "yarn dev:ios -e mainnetdev",
+    "dev:android:mainnet": "yarn dev:android -e mainnetdev",
     "dev:show-menu": "adb devices | grep '\t' | awk '{print $1}' | sed 's/\\s//g' | xargs -I {} adb -s {} shell input keyevent 82",
     "dev:clear-data": "adb shell pm clear org.celo.mobile.dev",
     "dev:clean-android": "cd android && ./gradlew clean",
@@ -333,7 +335,8 @@
     "events": "^3.3.0",
     "qs": "^6.11.2",
     "flat": "^5.0.2",
-    "crypto-js": "^4.2.0"
+    "crypto-js": "^4.2.0",
+    "browserify-sign": "^4.2.2"
   },
   "detox": {
     "testRunner": {

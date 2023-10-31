@@ -1550,6 +1550,7 @@
       "descriptionXtoYDays": "La richiesta di transazione è stata inviata e i fondi arriveranno tra {{lowerBound}}-{{upperBound}} giorno/i.",
       "baseDescription": "La richiesta di transazione è stata inviata.",
       "txDetails": "Visualizza su CeloExplorer",
+      "viewOnCeloScan": "Visualizza su CeloScan",
       "continue": "Continua"
     },
     "requestNotCompleted": {
@@ -1558,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "La transazione è in fase di elaborazione.",
-      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla la disponibilità di aggiornamenti per CeloExplorer."
+      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla il blocco di Explorer per verificare la presenza di aggiornamenti."
     }
   },
   "fiatExchangeFlow": {
@@ -1692,7 +1693,8 @@
     "swapFrom": "Scambia da",
     "swapTo": "Scambia a",
     "rate": "Tasso",
-    "estimatedFee": "Commissioni stimate",
+    "estimatedFee": "Costo est della rete",
+    "networkFee": "Commissione di rete",
     "viewOnExplorer": "Visualizza su CeloExplorer"
   },
   "swapReviewScreen": {
@@ -1858,10 +1860,67 @@
       "withdraw": "Trasferisci i gettoni su un conto bancario, una moneta mobile, una carta regalo, ecc."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Cerca per nome, telefono, portafoglio...",
+    "title": "Seleziona un destinatario",
+    "recents": "Recenti",
+    "qr": {
+      "title": "Scansiona o mostra il codice QR",
+      "subtitle": "Trova rapidamente gli indirizzi su Valora"
+    },
+    "invite": {
+      "title": "Invia criptovalute ai tuoi amici",
+      "subtitle": "Invita gli amici della tua lista contatti"
+    },
+    "getStarted": {
+      "title": "Come inviare fondi su Valora",
+      "subtitle": "INIZIAMO",
+      "options": {
+        "one": {
+          "title": "Indirizzo del portafoglio",
+          "subtitle": "Inserisci un indirizzo di portafoglio compatibile con Celo o Ethereum (es. 0x123...abcde)"
+        },
+        "two": {
+          "title": "Numero telefonico",
+          "subtitle": "Invia direttamente al numero di telefono di una persona se ha Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Invia beni Ethereum all'handle ENS di qualcuno"
+        },
+        "four": {
+          "title": "Nome del profilo",
+          "subtitle": "Puoi cercare gli utenti esistenti su Valora"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Completata",
+    "transactionIsPending": "In attesa",
+    "transactionIsFailed": "Fallito"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Dettagli",
+    "checkPendingTransactionStatus": "Verifica lo stato",
+    "retryFailedTransaction": "Riprova"
+  },
+  "viewOnCeloBlockExplorer": "Visualizza su CeloExplorer",
+  "viewOnCeloScan": "Visualizza su CeloScan",
+  "viewOnEthereumBlockExplorer": "Visualizza su Etherscan",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
     "selectToken": "Seleziona un gettone",
-    "networkFee": "{{networkName}} Commissione di rete"
+    "networkFee": "{{networkName}} Commissione di rete",
+    "lowerAmount": "Inserisci un importo inferiore",
+    "maxAmountWarning": {
+      "title": "Invio dell'importo massimo",
+      "description": "Regola l'importo che stai inviando per assicurarti di avere abbastanza {{feeTokenSymbol}} per il gas."
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Hai bisogno di più {{feeTokenSymbol}} per il gas",
+      "description": "Aggiungi {{feeTokenSymbol}} per coprire le spese del gas o modifica l'importo che stai inviando."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

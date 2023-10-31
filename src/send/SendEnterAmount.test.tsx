@@ -1,11 +1,14 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import { useMaxSendAmount } from 'src/fees/hooks'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
@@ -13,6 +16,7 @@ import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
+  mockCeloAddress,
   mockCeloTokenId,
   mockEthTokenId,
   mockPoofAddress,
@@ -24,8 +28,8 @@ jest.mock('src/tokens/utils', () => ({
   ...jest.requireActual('src/tokens/utils'),
   getSupportedNetworkIdsForSend: jest.fn(),
 }))
-
 jest.mock('src/fees/hooks')
+jest.mock('react-native-localize')
 
 const mockStore = {
   tokens: {
@@ -60,6 +64,16 @@ describe('SendEnterAmount', () => {
     jest
       .mocked(getSupportedNetworkIdsForSend)
       .mockReturnValue([NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']])
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: '.',
+        groupSeparator: ',',
+        groupSize: 3,
+      },
+    })
     jest.clearAllMocks()
   })
 
@@ -81,6 +95,8 @@ describe('SendEnterAmount', () => {
     expect(
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
   it('renders components with picker using last used token', () => {
@@ -101,6 +117,8 @@ describe('SendEnterAmount', () => {
     expect(
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Ethereum Sepolia"}')
     ).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
   it('renders components with picker using token override', () => {
@@ -124,6 +142,8 @@ describe('SendEnterAmount', () => {
     expect(
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
   it('renders components with picker using token with highest balance if default override is not supported for sends', () => {
@@ -148,6 +168,8 @@ describe('SendEnterAmount', () => {
     expect(
       getByText('sendEnterAmountScreen.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 
   it('entering amount updates local amount', () => {
@@ -159,8 +181,31 @@ describe('SendEnterAmount', () => {
       </Provider>
     )
 
-    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10')
-    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1.33')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10000.5')
+    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1,330.07')
+  })
+
+  it('entering amount with comma as decimal separator updates local amount', () => {
+    jest
+      .mocked(getNumberFormatSettings)
+      .mockReturnValue({ decimalSeparator: ',', groupingSeparator: '.' })
+    BigNumber.config({
+      FORMAT: {
+        decimalSeparator: ',',
+        groupSeparator: '.',
+        groupSize: 3,
+      },
+    })
+    const store = createMockStore(mockStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '10000,5')
+    expect(getByTestId('SendEnterAmount/LocalAmount')).toHaveTextContent('₱1.330,07')
   })
 
   it('only allows numeric input', () => {
@@ -178,6 +223,19 @@ describe('SendEnterAmount', () => {
     expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), 'abc')
     expect(getByTestId('SendEnterAmount/Input').props.value).toBe('10.5')
+  })
+
+  it('starting with decimal separator prefixes 0', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    expect(getByTestId('SendEnterAmount/Input').props.value).toBe('0.25')
   })
 
   it('selecting new token updates token and network info', async () => {
@@ -212,7 +270,7 @@ describe('SendEnterAmount', () => {
       tokenId: mockEthTokenId,
       origin: 'Send',
     })
-    // TODO(ACT-958): assert fees
+    // TODO(ACT-955): assert fees
   })
 
   it('pressing max fills in max available amount', () => {
@@ -233,6 +291,152 @@ describe('SendEnterAmount', () => {
       networkId: NetworkId['celo-alfajores'],
       tokenAddress: mockPoofAddress,
       tokenId: mockPoofTokenId,
+    })
+  })
+
+  it('entering amount above balance displays error message', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '7')
+    expect(getByTestId('SendEnterAmount/LowerAmountError')).toBeTruthy()
+    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+  })
+
+  it('entering amount below balance for non fee currency with no balance for gas shows warning', () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '2')
+    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeTruthy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+  })
+
+  it('entering amount below balance for non fee currency with balance for gas allows pressing Review', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          ...mockTokenBalances,
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            balance: '0.1',
+          },
+          [mockPoofTokenId]: {
+            ...mockTokenBalances[mockPoofTokenId],
+            balance: '100',
+          },
+        },
+      },
+    })
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '50')
+    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
+    fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      origin: params.origin,
+      isFromScan: params.isFromScan,
+      transactionData: {
+        tokenId: mockPoofTokenId,
+        recipient: params.recipient,
+        inputAmount: new BigNumber(50),
+        amountIsInLocalCurrency: false,
+        tokenAddress: mockPoofAddress,
+        tokenAmount: new BigNumber(50),
+      },
+    })
+  })
+
+  it('entering amount below balance for fee currency close to max amount shows warning', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          ...mockTokenBalances,
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            balance: '10',
+          },
+        },
+      },
+    })
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '9.9999')
+    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/MaxAmountWarning')).toBeTruthy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+  })
+
+  it('entering amount below balance for fee currency with enough balance for gas allows pressing Review', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          ...mockTokenBalances,
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            balance: '10',
+          },
+        },
+      },
+    })
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SendEnterAmount} params={params} />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
+    expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
+    expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
+    fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      origin: params.origin,
+      isFromScan: params.isFromScan,
+      transactionData: {
+        tokenId: mockCeloTokenId,
+        recipient: params.recipient,
+        inputAmount: new BigNumber(8),
+        amountIsInLocalCurrency: false,
+        tokenAddress: mockCeloAddress,
+        tokenAmount: new BigNumber(8),
+      },
     })
   })
 })

@@ -81,15 +81,11 @@ export function SwapScreen({ route }: Props) {
   const swapInfo = useSelector(swapInfoSelector)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
-  const fromTokenId = route.params?.fromTokenId
-  const defaultFromToken = useMemo(() => {
-    const fromToken = fromTokenId
-      ? swappableTokens.find((token) => token.tokenId === fromTokenId)
-      : undefined
-    return fromToken ?? swappableTokens[0]
-  }, [swappableTokens, fromTokenId])
-
-  const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(defaultFromToken)
+  const initialFromTokenId = route.params?.fromTokenId
+  const initialFromToken = initialFromTokenId
+    ? swappableTokens.find((token) => token.tokenId === initialFromTokenId)
+    : undefined
+  const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(initialFromToken)
   const [toToken, setToToken] = useState<TokenBalanceWithAddress | undefined>()
 
   // Raw input values (can contain region specific decimal separators)
@@ -125,7 +121,7 @@ export function SwapScreen({ route }: Props) {
       setSwapAmount(DEFAULT_SWAP_AMOUNT)
       setUpdatedField(Field.FROM)
       setSelectingToken(null)
-      setFromToken(defaultFromToken)
+      setFromToken(initialFromToken)
       setToToken(undefined)
     }
   }, [swapInfo])
@@ -235,7 +231,7 @@ export function SwapScreen({ route }: Props) {
 
       const resultType = exchangeRate.preparedTransactions.type
       switch (resultType) {
-        case 'need-decrease-swap-amount-for-gas': // fallthrough on purpose
+        case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
         case 'not-enough-balance-for-gas':
           preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
           break
@@ -486,8 +482,14 @@ export function SwapScreen({ route }: Props) {
         <PreparedTransactionsReviewBottomSheet
           forwardedRef={preparedTransactionsReviewBottomSheetRef}
           preparedTransactions={exchangeRate.preparedTransactions}
-          onAcceptDecreaseSwapAmountForGas={({ decreasedSwapAmount }) => {
-            handleChangeAmount(updatedField)(decreasedSwapAmount.toString())
+          onAcceptDecreaseSwapAmountForGas={({ decreasedSpendAmount }) => {
+            handleChangeAmount(updatedField)(
+              // ensure units are for the asset whose amount is being selected by the user
+              (updatedField === Field.FROM
+                ? decreasedSpendAmount
+                : decreasedSpendAmount.times(exchangeRate.price)
+              ).toString()
+            )
             preparedTransactionsReviewBottomSheetRef.current?.close()
           }}
         />

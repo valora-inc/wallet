@@ -154,7 +154,7 @@ describe('NftsInfoCarousel', () => {
 
     fireEvent.press(getByTestId('ViewOnExplorer'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseTokenUrl}${mockNftMinimumFields.contractAddress}/instance/${mockNftMinimumFields.tokenId}/metadata`,
+      uri: `${networkConfig.celoExplorerBaseNFTUrl}${mockNftMinimumFields.contractAddress}/instance/${mockNftMinimumFields.tokenId}/metadata`,
     })
   })
 

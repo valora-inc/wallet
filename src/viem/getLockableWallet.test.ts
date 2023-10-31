@@ -1,13 +1,36 @@
 import { normalizeAddress } from '@celo/utils/lib/address'
 import erc20 from 'src/abis/IERC20.json'
-import getLockableViemWallet, { ViemWallet } from 'src/viem/getLockableWallet'
+import getLockableViemWallet, { ViemWallet, getTransport } from 'src/viem/getLockableWallet'
 import { KeychainLock } from 'src/web3/KeychainLock'
 import * as mockedKeychain from 'test/mockedKeychain'
 import { mockAccount2, mockContractAddress, mockPrivateDEK } from 'test/values'
 import { writeContract } from 'viem/actions'
-import { celo } from 'viem/chains'
+import { celoAlfajores, sepolia as ethereumSepolia, goerli as ethereumGoerli } from 'viem/chains'
+import { viemTransports } from 'src/viem'
+import { http } from 'viem'
+import { Network } from 'src/transactions/types'
 
 jest.mock('viem/actions')
+jest.mock('src/viem', () => {
+  return {
+    viemTransports: {
+      celo: 'celoTransport',
+      ethereum: 'ethereumTransport',
+    },
+  }
+})
+
+describe('getTransport', () => {
+  it.each([
+    [celoAlfajores, 'celoTransport'],
+    [ethereumSepolia, 'ethereumTransport'],
+  ])('returns correct transport for $s', (chain, expectedTransport) => {
+    expect(getTransport(chain)).toEqual(expectedTransport)
+  })
+  it('throws if chain not found', () => {
+    expect(() => getTransport(ethereumGoerli)).toThrow()
+  })
+})
 
 describe('getLockableWallet', () => {
   let wallet: ViemWallet
@@ -15,14 +38,16 @@ describe('getLockableWallet', () => {
   let writeContractConfig: any
 
   beforeEach(() => {
+    viemTransports[Network.Celo] = http()
+    viemTransports[Network.Ethereum] = http()
     lock = new KeychainLock()
-    wallet = getLockableViemWallet(lock, celo, `0x${mockPrivateDEK}`)
+    wallet = getLockableViemWallet(lock, celoAlfajores, `0x${mockPrivateDEK}`)
     writeContractConfig = {
       address: mockContractAddress,
       abi: erc20.abi,
       functionName: 'mint',
       account: mockAccount2,
-      chain: celo,
+      chain: celoAlfajores,
       args: [],
     }
   })

@@ -1552,6 +1552,7 @@
       "descriptionXtoYDays": "Your transaction request has been sent & your funds will arrive in {{lowerBound}}-{{upperBound}} days.",
       "baseDescription": "Your transaction request has been sent.",
       "txDetails": "View on CeloExplorer",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "Continue"
     },
     "requestNotCompleted": {
@@ -1560,7 +1561,7 @@
     },
     "txProcessing": {
       "title": "Your transaction is still processing.",
-      "description": "This might be due to poor internet connection. Check CeloExplorer for updates."
+      "description": "This might be due to poor internet connection. Check the block explorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1861,6 +1862,41 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
+  "sendSelectRecipient": {
+    "searchText": "Search by name, phone, wallet...",
+    "title": "Select a recipient",
+    "recents": "Recents",
+    "qr": {
+      "title": "Scan or Show QR Code",
+      "subtitle": "Quickly find addresses on Valora"
+    },
+    "invite": {
+      "title": "Send crypto to your friends",
+      "subtitle": "Invite friends from your contacts list"
+    },
+    "getStarted": {
+      "title": "Ways to send funds on Valora",
+      "subtitle": "GET STARTED",
+      "options": {
+        "one": {
+          "title": "Wallet Adress",
+          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+        },
+        "two": {
+          "title": "Phone Number",
+          "subtitle": "Send directly to someone's phone number if they have Valora"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Send Ethereum assets to someone's ENS handle"
+        },
+        "four": {
+          "title": "Profile Name",
+          "subtitle": "You can search for existing users on Valora"
+        }
+      }
+    }
+  },
   "transactionStatus": {
     "transactionIsCompleted": "Completed",
     "transactionIsPending": "Pending",
@@ -1872,10 +1908,20 @@
     "retryFailedTransaction": "Retry"
   },
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
-    "networkFee": "{{networkName}} Network Fee"
+    "networkFee": "{{networkName}} Network Fee",
+    "lowerAmount": "Enter a lower amount",
+    "maxAmountWarning": {
+      "title": "Sending the maximum amount",
+      "description": "Adjust the amount you are sending to make sure you have enough {{feeTokenSymbol}} for gas"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    }
   }
 }
