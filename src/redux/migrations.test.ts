@@ -32,7 +32,7 @@ import {
   v14Schema,
   v159Schema,
   v15Schema,
-  v163Schema,
+  v164Schema,
   v16Schema,
   v17Schema,
   v18Schema,
@@ -1359,9 +1359,9 @@ describe('Redux persist migrations', () => {
     ])
   })
 
-  it('works from 163 to 164', () => {
+  it('works from 164 to 165', () => {
     const preMigrationSchema = {
-      ...v163Schema,
+      ...v164Schema,
     }
     const celoSwap = {
       __typename: 'TokenExchangeV3',
@@ -1385,7 +1385,7 @@ describe('Redux persist migrations', () => {
       networkId: 'ethereum-sepolia',
     }
     preMigrationSchema.transactions.transactions = [celoSwap, ethereumTransfer, celoTransfer]
-    const migratedSchema = migrations[164](preMigrationSchema)
+    const migratedSchema = migrations[165](preMigrationSchema)
 
     expect(migratedSchema.transactions.transactions).toEqual({
       [NetworkId['celo-alfajores']]: [celoSwap, celoTransfer],
