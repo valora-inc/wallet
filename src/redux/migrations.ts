@@ -1402,19 +1402,19 @@ export const migrations = {
     app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
   }),
   165: (state: any) => {
-    const transactionsByNetwork: any = {}
+    const transactionsByNetworkId: any = {}
     for (const tx of state.transactions.transactions) {
       const txNetworkId = tx.networkId ?? networkConfig.defaultNetworkId
-      transactionsByNetwork[txNetworkId] = transactionsByNetwork[txNetworkId]
-        ? [...transactionsByNetwork[txNetworkId], tx]
+      transactionsByNetworkId[txNetworkId] = transactionsByNetworkId[txNetworkId]
+        ? [...transactionsByNetworkId[txNetworkId], tx]
         : [tx]
     }
 
     return {
       ...state,
       transactions: {
-        ...state.transactions,
-        transactions: transactionsByNetwork,
+        ..._.omit(state.transactions, 'transactions'),
+        transactionsByNetworkId,
       },
     }
   },

@@ -223,7 +223,7 @@ describe('TransactionFeed', () => {
 
     const { getByTestId, queryByTestId } = renderScreen({
       transactions: {
-        transactions: {
+        transactionsByNetworkId: {
           [networkConfig.defaultNetworkId]: MOCK_RESPONSE.data.tokenTransactionsV3.transactions,
         },
       },

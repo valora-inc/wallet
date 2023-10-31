@@ -2771,8 +2771,8 @@ export const v165Schema = {
     version: 165,
   },
   transactions: {
-    ...v164Schema.transactions,
-    transactions: {
+    ..._.omit(v164Schema.transactions, 'transactions'),
+    transactionsByNetworkId: {
       [networkConfig.defaultNetworkId]: v164Schema.transactions.transactions,
     },
   },

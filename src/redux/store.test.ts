@@ -343,7 +343,7 @@ describe('store state', () => {
           "knownFeedTransactions": {},
           "recentTxRecipientsCache": {},
           "standbyTransactions": [],
-          "transactions": {},
+          "transactionsByNetworkId": {},
         },
         "walletConnect": {
           "pendingActions": [],

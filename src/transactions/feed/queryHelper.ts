@@ -13,7 +13,7 @@ import { getDynamicConfigParams } from 'src/statsig/index'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
-import { transactionHashesByNetworkSelector } from 'src/transactions/reducer'
+import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
@@ -72,7 +72,7 @@ export function useFetchTransactions(): QueryHookResult {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const transactionHashesByNetwork = useSelector(transactionHashesByNetworkSelector)
+  const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
 
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.

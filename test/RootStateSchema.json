@@ -4077,8 +4077,8 @@
                     },
                     "type": "array"
                 },
-                "transactions": {
-                    "$ref": "#/definitions/Transactions"
+                "transactionsByNetworkId": {
+                    "$ref": "#/definitions/TransactionsByNetworkId"
                 }
             },
             "required": [
@@ -4086,7 +4086,7 @@
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",
-                "transactions"
+                "transactionsByNetworkId"
             ],
             "type": "object"
         },
@@ -4820,7 +4820,7 @@
             ],
             "type": "string"
         },
-        "Transactions": {
+        "TransactionsByNetworkId": {
             "additionalProperties": false,
             "properties": {
                 "celo-alfajores": {

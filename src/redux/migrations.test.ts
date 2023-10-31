@@ -1387,9 +1387,10 @@ describe('Redux persist migrations', () => {
     preMigrationSchema.transactions.transactions = [celoSwap, ethereumTransfer, celoTransfer]
     const migratedSchema = migrations[165](preMigrationSchema)
 
-    expect(migratedSchema.transactions.transactions).toEqual({
+    expect(migratedSchema.transactions.transactionsByNetworkId).toEqual({
       [NetworkId['celo-alfajores']]: [celoSwap, celoTransfer],
       [NetworkId['ethereum-sepolia']]: [ethereumTransfer],
     })
+    expect('transactions' in migratedSchema.transactions).toBe(false)
   })
 })
