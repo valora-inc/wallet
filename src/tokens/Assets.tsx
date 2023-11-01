@@ -21,6 +21,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import ImportTokenButton from 'src/components/ImportTokenButton'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
@@ -483,6 +484,14 @@ function AssetsScreen({ navigation, route }: Props) {
 
 AssetsScreen.navigationOptions = {
   ...headerWithBackButton,
+  headerRight: HeaderRight,
+}
+
+function HeaderRight() {
+  if (getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
+    return <ImportTokenButton />
+  }
+  return <></>
 }
 
 function TabBar({
