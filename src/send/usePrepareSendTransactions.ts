@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import {
   getMaxGasCost,
   PreparedTransactionsResult,
@@ -18,12 +18,10 @@ export function _getOnSuccessCallback({
   setFeeCurrency,
   setPrepareTransactionsResult,
   setFeeAmount,
-  setCalculatingFeeAmount,
 }: {
   setFeeCurrency: (token: TokenBalance | undefined) => void
   setPrepareTransactionsResult: (result: PreparedTransactionsResult | undefined) => void
   setFeeAmount: (amount: BigNumber | undefined) => void
-  setCalculatingFeeAmount: (calculating: boolean) => void
 }) {
   return (result: PreparedTransactionsResult | undefined) => {
     setPrepareTransactionsResult(result)
@@ -38,7 +36,6 @@ export function _getOnSuccessCallback({
       setFeeCurrency(undefined)
       setFeeAmount(undefined)
     }
-    setCalculatingFeeAmount(false)
   }
 }
 
@@ -85,30 +82,23 @@ export function usePrepareSendTransactions(
     PreparedTransactionsResult | undefined
   >()
   const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
-  const [calculatingFeeAmount, setCalculatingFeeAmount] = useState(false)
 
   const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
   const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
     onError: (error) => {
       Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
-      setCalculatingFeeAmount(false)
     },
     onSuccess: _getOnSuccessCallback({
       setFeeCurrency,
       setPrepareTransactionsResult,
       setFeeAmount,
-      setCalculatingFeeAmount,
     }),
   })
-  useEffect(() => {
-    if (prepareTransactions.loading) setCalculatingFeeAmount(true)
-    // switches to false in onSuccess hook after other state updates
-  }, [prepareTransactions.loading])
   return {
     feeCurrency,
     feeAmount,
     prepareTransactionsResult,
-    prepareTransactionsLoading: prepareTransactions.loading || calculatingFeeAmount, // prepareTransactions.loading flips to false before onSuccess runs and updates state. use this to continue showing loading indicators while state is updated.
+    prepareTransactionsLoading: prepareTransactions.loading,
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)
