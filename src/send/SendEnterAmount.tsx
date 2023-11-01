@@ -60,32 +60,8 @@ const TAG = 'SendEnterAmount'
 
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
-enum FeeEstimateStatus {
-  Loading = 'Loading',
-  ShowAmounts = 'ShowAmounts',
-  ShowPlaceholder = 'ShowPlaceholder',
-}
-
-// just exported for testing
-export function SendEnterAmountFeeSection({
-  feeEstimateStatus,
-  feeAmount,
-  feeCurrency,
-}: {
-  feeEstimateStatus: FeeEstimateStatus
-  feeAmount: BigNumber | undefined
-  feeCurrency: TokenBalance
-}) {
-  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency
-
-  const feePlaceholder = (
-    <>
-      <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
-        ~ {feeTokenSymbol}
-      </Text>
-    </>
-  )
-  const feeLoading = (
+function FeeLoading() {
+  return (
     <>
       <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
         <Text style={styles.feeInCrypto}>{'≈ '}</Text>
@@ -93,37 +69,33 @@ export function SendEnterAmountFeeSection({
       </View>
     </>
   )
-  switch (feeEstimateStatus) {
-    case FeeEstimateStatus.ShowAmounts:
-      if (!feeAmount) {
-        // Case where user had fee estimate, then changed the amount. our useEffect hook updating the fee estimate
-        //  status has not run yet.
-        Logger.error(TAG, 'Fee estimate status is ShowAmounts, but feeAmount is undefined')
-        return feeLoading
-      }
-      return (
-        <>
-          <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
-            <Text style={styles.feeInCrypto}>~</Text>
-            <TokenDisplay
-              tokenId={feeTokenId}
-              amount={feeAmount}
-              showLocalAmount={false}
-              style={styles.feeInCrypto}
-            />
-          </View>
-          <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
-        </>
-      )
-    case FeeEstimateStatus.Loading:
-      return feeLoading
-    case FeeEstimateStatus.ShowPlaceholder:
-      return feePlaceholder
-    default:
-      const assertNever: never = feeEstimateStatus // should catch unhandled fee estimate status at compile time
-      Logger.error(TAG, `Unhandled feeEstimateStatus: ${assertNever}`)
-      return feePlaceholder
-  }
+}
+
+function FeePlaceholder({ feeTokenSymbol }: { feeTokenSymbol: string }) {
+  return (
+    <>
+      <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
+        ~ {feeTokenSymbol}
+      </Text>
+    </>
+  )
+}
+
+function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: BigNumber }) {
+  return (
+    <>
+      <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
+        <Text style={styles.feeInCrypto}>~</Text>
+        <TokenDisplay
+          tokenId={feeTokenId}
+          amount={feeAmount}
+          showLocalAmount={false}
+          style={styles.feeInCrypto}
+        />
+      </View>
+      <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
+    </>
+  )
 }
 
 function SendEnterAmount({ route }: Props) {
@@ -269,11 +241,12 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  let feeEstimateStatus: FeeEstimateStatus = FeeEstimateStatus.Loading
+  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
+  let feeAmountSection = <FeeLoading />
   if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
-    feeEstimateStatus = FeeEstimateStatus.ShowPlaceholder
+    feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
   } else if (prepareTransactionsResult && feeAmount) {
-    feeEstimateStatus = FeeEstimateStatus.ShowAmounts
+    feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
   }
 
   return (
@@ -373,16 +346,7 @@ function SendEnterAmount({ route }: Props) {
                 networkName: NETWORK_NAMES[token.networkId],
               })}
             </Text>
-            <View style={styles.feeAmountContainer}>
-              <SendEnterAmountFeeSection
-                feeAmount={feeAmount}
-                feeCurrency={
-                  feeCurrency ?? feeCurrencies[0]
-                  /* even if transactions are not prepared, give users a preview of what currency they might be paying fees in */
-                }
-                feeEstimateStatus={feeEstimateStatus}
-              />
-            </View>
+            <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
           </View>
         </View>
         {showMaxAmountWarning && (
