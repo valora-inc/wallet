@@ -512,23 +512,10 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
 }
 
 export const mockCeloTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockCeloTokenId],
   priceUsd: new BigNumber(0.5),
-  address: mockCeloAddress,
-  tokenId: mockCeloTokenId,
-  networkId: NetworkId['celo-alfajores'],
-  symbol: 'CELO',
-  imageUrl:
-    'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/CELO.png',
-  name: 'Celo native asset',
-  decimals: 18,
-  balance: new BigNumber(5),
-  isCoreToken: true,
-  priceFetchedAt: Date.now(),
-  showZeroBalance: true,
-  isCashInEligible: true,
-  isCashOutEligible: true,
-  isNative: true,
   lastKnownPriceUsd: new BigNumber(0.4),
+  balance: new BigNumber(5),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {

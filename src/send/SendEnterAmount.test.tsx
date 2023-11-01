@@ -433,9 +433,10 @@ describe('SendEnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/LowerAmountError')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
+    jest.runAllTimers()
     expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
-    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
     fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
@@ -453,7 +454,22 @@ describe('SendEnterAmount', () => {
   })
 
   it('clears prepared transactions and refreshes when new token or amount is selected', async () => {
-    const store = createMockStore(mockStore)
+    const store = createMockStore({
+      ...mockStore,
+      tokens: {
+        tokenBalances: {
+          ...mockStore.tokens.tokenBalances,
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            balance: '10',
+          },
+          [mockEthTokenId]: {
+            ...mockStore.tokens.tokenBalances[mockEthTokenId],
+            balance: '10',
+          },
+        },
+      },
+    })
     const { getByTestId, getByText, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={SendEnterAmount} params={params} />
