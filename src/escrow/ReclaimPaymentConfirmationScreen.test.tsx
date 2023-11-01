@@ -6,8 +6,8 @@ import { Provider } from 'react-redux'
 import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmationScreen'
 import { FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { FeeInfo } from 'src/fees/saga'
-import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { Screens } from 'src/navigator/Screens'
+import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
   emptyFees,

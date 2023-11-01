@@ -4083,11 +4083,8 @@
                     },
                     "type": "array"
                 },
-                "transactions": {
-                    "items": {
-                        "$ref": "#/definitions/TokenTransaction"
-                    },
-                    "type": "array"
+                "transactionsByNetworkId": {
+                    "$ref": "#/definitions/TransactionsByNetworkId"
                 }
             },
             "required": [
@@ -4095,7 +4092,7 @@
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",
-                "transactions"
+                "transactionsByNetworkId"
             ],
             "type": "object"
         },
@@ -4828,6 +4825,36 @@
                 "Pending"
             ],
             "type": "string"
+        },
+        "TransactionsByNetworkId": {
+            "additionalProperties": false,
+            "properties": {
+                "celo-alfajores": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "celo-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "ethereum-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
         },
         "TransferType": {
             "enum": [

@@ -34,6 +34,7 @@ interface Props {
   showSymbol?: boolean
   showLocalAmount?: boolean
   hideSign?: boolean
+  showApprox?: boolean
   showExplicitPositiveSign?: boolean
   localAmount?: LocalAmount
   style?: StyleProp<TextStyle>
@@ -47,6 +48,7 @@ function TokenDisplay({
   showSymbol = true,
   showExplicitPositiveSign = false,
   hideSign = false,
+  showApprox = false,
   localAmount,
   style,
   testID,
@@ -76,6 +78,7 @@ function TokenDisplay({
         '-'
       ) : (
         <>
+          {showApprox && '~'}
           {sign}
           {showLocalAmount && fiatSymbol}
           {formatValueToDisplay(amountToShow.absoluteValue())}
