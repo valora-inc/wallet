@@ -16,7 +16,7 @@ import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
-import { UpdateTransactionsAction } from 'src/transactions/actions'
+import { updateTransactions } from 'src/transactions/actions'
 import {
   NetworkId,
   TokenTransaction,
@@ -276,7 +276,10 @@ describe(tagTxsWithProviderInfo, () => {
     const mockTxHashesToProvider = { [providerTransferHash]: providerName }
     const mockProviderLogos = { [providerName]: mockProviderLogo }
 
-    await expectSaga(tagTxsWithProviderInfo, { transactions } as UpdateTransactionsAction)
+    await expectSaga(
+      tagTxsWithProviderInfo,
+      updateTransactions(NetworkId['celo-alfajores'], transactions)
+    )
       .provide([
         [select(providerLogosSelector), mockProviderLogos],
         [call(fetchTxHashesToProviderMapping), mockTxHashesToProvider],

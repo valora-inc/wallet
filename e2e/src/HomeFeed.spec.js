@@ -34,7 +34,7 @@ describe(':ios: Home Feed', () => {
     const startingItems = await element(by.id('TransferFeedItem')).getAttributes()
 
     // Scroll to bottom
-    await element(by.id('WalletHome/SectionList')).scroll(2400, 'down')
+    await element(by.id('WalletHome/SectionList')).scrollTo('bottom')
     await sleep(5000)
 
     // Compare initial number of items to new number of items after scroll

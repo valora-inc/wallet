@@ -51,7 +51,9 @@ const mockEscrowPastEvent: EventLog = {
 describe('getInviteTransactionsDetails', () => {
   it('logs an error if no matching transaction is found in escrow', async () => {
     const kit = await getContractKitAsync()
-    const updateTransactionsAction = updateTransactions([mockInviteTransaction])
+    const updateTransactionsAction = updateTransactions(NetworkId['celo-alfajores'], [
+      mockInviteTransaction,
+    ])
     const mockEscrowWrapper = {
       getPastEvents: jest.fn(() => [
         {
@@ -77,7 +79,9 @@ describe('getInviteTransactionsDetails', () => {
 
   it('updates the invite transaction details', async () => {
     const kit = await getContractKitAsync()
-    const updateTransactionsAction = updateTransactions([mockInviteTransaction])
+    const updateTransactionsAction = updateTransactions(NetworkId['celo-alfajores'], [
+      mockInviteTransaction,
+    ])
     const mockEscrowWrapper = {
       getPastEvents: jest.fn(() => [mockEscrowPastEvent]),
       eventTypes: {

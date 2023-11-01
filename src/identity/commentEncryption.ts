@@ -28,10 +28,11 @@ import {
 } from 'src/identity/reducer'
 import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
 import { UpdateTransactionsAction } from 'src/transactions/actions'
-import { TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { Network, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 import { all, call, put, select } from 'typed-redux-saga'
 
@@ -167,9 +168,12 @@ interface IdentityMetadataInTx {
 }
 
 // Check tx comments (if they exist) for identity metadata like phone numbers and salts
-export function* checkTxsForIdentityMetadata({ transactions }: UpdateTransactionsAction) {
+export function* checkTxsForIdentityMetadata({
+  transactions,
+  networkId,
+}: UpdateTransactionsAction) {
   try {
-    if (!transactions || !transactions.length) {
+    if (!transactions || !transactions.length || networkIdToNetwork[networkId] !== Network.Celo) {
       return
     }
     Logger.debug(TAG + 'checkTxsForIdentityMetadata', `Checking ${transactions.length} txs`)
