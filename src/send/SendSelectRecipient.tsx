@@ -175,7 +175,7 @@ function SendSelectRecipient() {
 
   const sections: Section[] = []
   if (recentRecipients.length) {
-    sections.push({ key: t('sendRedesign.recents'), data: recentRecipients })
+    sections.push({ key: t('sendSelectRecipient.recents'), data: recentRecipients })
   }
 
   return (
