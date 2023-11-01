@@ -1193,6 +1193,7 @@
   "feedItemNetworkFeeInfo": "Ağ Ücreti",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Onaylayıcı Ödülü",
+  "feedItemFailedTransaction": "Başarısız İşlem",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
