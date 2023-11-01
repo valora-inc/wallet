@@ -223,7 +223,6 @@ function SendEnterAmount({ route }: Props) {
 
   const {
     prepareTransactionsResult,
-    prepareTransactionsLoading,
     feeCurrency,
     feeAmount,
     refreshPreparedTransactions,
@@ -270,21 +269,11 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  // todo simplify this
   let feeEstimateStatus: FeeEstimateStatus = FeeEstimateStatus.Loading
-  if (
-    amount === '' ||
-    showLowerAmountError ||
-    showNotEnoughBalanceForGasWarning ||
-    showMaxAmountWarning
-  ) {
+  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
     feeEstimateStatus = FeeEstimateStatus.ShowPlaceholder
   } else if (prepareTransactionsResult && feeAmount) {
     feeEstimateStatus = FeeEstimateStatus.ShowAmounts
-  } else if (prepareTransactionsResult) {
-    feeEstimateStatus = FeeEstimateStatus.ShowPlaceholder
-  } else if (prepareTransactionsLoading) {
-    feeEstimateStatus = FeeEstimateStatus.Loading
   }
 
   return (
