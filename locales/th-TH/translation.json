@@ -1191,6 +1191,7 @@
   "feedItemNetworkFeeInfo": "ค่าธรรมเนียมเครือข่าย",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "รางวัลที่ยืนยัน",
+  "feedItemFailedTransaction": "Failed Transaction",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} ฟอเซ็ต",
   "feedItemFaucetInfo_noTestnet": "ฟอเซ็ต",
