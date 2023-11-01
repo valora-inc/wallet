@@ -270,28 +270,22 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  const [feeEstimateStatus, setFeeEstimateStatus] = useState(
-    amount === '' ? FeeEstimateStatus.ShowPlaceholder : FeeEstimateStatus.Loading
-  )
-  useEffect(() => {
-    if (
-      amount === '' ||
-      showLowerAmountError ||
-      showNotEnoughBalanceForGasWarning ||
-      showMaxAmountWarning
-    ) {
-      setFeeEstimateStatus(FeeEstimateStatus.ShowPlaceholder)
-      return
-    }
-    if (prepareTransactionsLoading) {
-      setFeeEstimateStatus(FeeEstimateStatus.Loading)
-      return
-    }
-    if (feeAmount) {
-      setFeeEstimateStatus(FeeEstimateStatus.ShowAmounts)
-      return
-    }
-  }, [prepareTransactionsLoading, feeAmount, prepareTransactionsResult])
+  // todo simplify this
+  let feeEstimateStatus: FeeEstimateStatus = FeeEstimateStatus.Loading
+  if (
+    amount === '' ||
+    showLowerAmountError ||
+    showNotEnoughBalanceForGasWarning ||
+    showMaxAmountWarning
+  ) {
+    feeEstimateStatus = FeeEstimateStatus.ShowPlaceholder
+  } else if (prepareTransactionsResult && feeAmount) {
+    feeEstimateStatus = FeeEstimateStatus.ShowAmounts
+  } else if (prepareTransactionsResult) {
+    feeEstimateStatus = FeeEstimateStatus.ShowPlaceholder
+  } else if (prepareTransactionsLoading) {
+    feeEstimateStatus = FeeEstimateStatus.Loading
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>

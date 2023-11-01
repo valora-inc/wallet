@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   getMaxGasCost,
   PreparedTransactionsResult,
@@ -18,10 +18,12 @@ export function _getOnSuccessCallback({
   setFeeCurrency,
   setPrepareTransactionsResult,
   setFeeAmount,
+  setCalculatingFee,
 }: {
   setFeeCurrency: (token: TokenBalance | undefined) => void
   setPrepareTransactionsResult: (result: PreparedTransactionsResult | undefined) => void
   setFeeAmount: (amount: BigNumber | undefined) => void
+  setCalculatingFee: (calculatingFee: boolean) => void
 }) {
   return (result: PreparedTransactionsResult | undefined) => {
     setPrepareTransactionsResult(result)
@@ -36,6 +38,7 @@ export function _getOnSuccessCallback({
       setFeeCurrency(undefined)
       setFeeAmount(undefined)
     }
+    setCalculatingFee(false)
   }
 }
 
@@ -82,6 +85,7 @@ export function usePrepareSendTransactions(
     PreparedTransactionsResult | undefined
   >()
   const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
+  const [calculatingFee, setCalculatingFee] = useState(false)
 
   const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
   const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
@@ -92,13 +96,19 @@ export function usePrepareSendTransactions(
       setFeeCurrency,
       setPrepareTransactionsResult,
       setFeeAmount,
+      setCalculatingFee,
     }),
   })
+  useEffect(() => {
+    if (prepareTransactions.loading) {
+      setCalculatingFee(true)
+    }
+  }, [prepareTransactions.loading])
   return {
     feeCurrency,
     feeAmount,
     prepareTransactionsResult,
-    prepareTransactionsLoading: prepareTransactions.loading,
+    prepareTransactionsLoading: prepareTransactions.loading || calculatingFee,
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)
