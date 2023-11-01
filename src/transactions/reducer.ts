@@ -5,7 +5,7 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
-  CompletedStandbyTransaction,
+  ConfirmedStandbyTransaction,
   NetworkId,
   StandbyTransaction,
   TokenTransaction,
@@ -64,13 +64,8 @@ export const reducer = (
       return {
         ...state,
         ...persistedState,
-        // TODO: remove this once we have a mechanism for watching and resolving
-        // pending transactions (then we should only remove transactions without
-        // tx hashes). for now, pending transactions can only be resolved within
-        // the same app session anyway. this will remove any stuck pending
-        // transactions for affected internal users.
         standbyTransactions: (persistedState.standbyTransactions || []).filter(
-          (tx) => tx.status !== TransactionStatus.Pending
+          (tx) => !tx.transactionHash
         ),
       }
     }
@@ -95,11 +90,6 @@ export const reducer = (
       }
     case Actions.TRANSACTION_CONFIRMED: {
       const { status, transactionHash, block } = action.receipt
-      if (!status) {
-        return {
-          ...state,
-        }
-      }
 
       return {
         ...state,
@@ -108,7 +98,7 @@ export const reducer = (
             if (standbyTransaction.context.id === action.txId) {
               return {
                 ...standbyTransaction,
-                status: TransactionStatus.Complete,
+                status: status ? TransactionStatus.Complete : TransactionStatus.Failed,
                 transactionHash,
                 block,
                 timestamp: Date.now(),
@@ -180,12 +170,13 @@ export const pendingStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const completedStandbyTransactionsSelector = createSelector(
+export const confirmedStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],
   (transactions) => {
     return transactions.filter(
-      (transaction): transaction is CompletedStandbyTransaction =>
-        transaction.status === TransactionStatus.Complete
+      (transaction): transaction is ConfirmedStandbyTransaction =>
+        transaction.status === TransactionStatus.Complete ||
+        transaction.status === TransactionStatus.Failed
     )
   }
 )

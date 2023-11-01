@@ -15,7 +15,6 @@ import {
   addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
-  transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails } from 'src/transactions/send'
 import { publicClient } from 'src/viem'
@@ -24,6 +23,7 @@ import { getSendTxFeeDetails, sendAndMonitorTransaction, sendPayment } from 'src
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 
+import { Network, NetworkId } from 'src/transactions/types'
 import { UnlockResult, unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import {
@@ -33,13 +33,12 @@ import {
   mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenId,
-  mockFeeInfo,
   mockEthTokenId,
-  mockUSDCTokenId,
+  mockFeeInfo,
   mockUSDCAddress,
+  mockUSDCTokenId,
 } from 'test/values'
 import { getAddress } from 'viem'
-import { Network, NetworkId } from 'src/transactions/types'
 
 jest.mock('src/transactions/send', () => ({
   chooseTxFeeDetails: jest.fn(),
@@ -430,11 +429,13 @@ describe('sendAndMonitorTransaction', () => {
   it('fails a transaction and removes standby tx if receipt status is reverted', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .provide([
-        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), { status: 'reverted' }],
+        [
+          matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
+          { status: 'reverted', blockNumber: BigInt(123) },
+        ],
       ])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
-      .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
       .throws(new Error('transaction reverted'))
@@ -452,7 +453,6 @@ describe('sendAndMonitorTransaction', () => {
       ])
       .not.put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
-      .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .not.call.fn(publicClient.celo.waitForTransactionReceipt)
       .throws(new Error('write failed'))
@@ -469,7 +469,6 @@ describe('sendAndMonitorTransaction', () => {
       ])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(removeStandbyTransaction('txId'))
-      .put(transactionFailed('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .throws(new Error('wait failed'))
       .run()

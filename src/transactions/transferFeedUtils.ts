@@ -216,6 +216,10 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
     subtitle = t('confirmingTransaction')
   }
 
+  if (transfer.status === TransactionStatus.Failed) {
+    subtitle = t('feedItemFailedTransaction')
+  }
+
   return { title, subtitle, recipient, customLocalAmount }
 }
 
