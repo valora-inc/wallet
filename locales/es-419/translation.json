@@ -1193,6 +1193,7 @@
   "feedItemNetworkFeeInfo": "Tarifa de red",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Recompensa de confirmador",
+  "feedItemFailedTransaction": "Transacción fallida",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
