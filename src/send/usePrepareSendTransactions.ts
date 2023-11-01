@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
   getMaxGasCost,
   PreparedTransactionsResult,
@@ -99,22 +99,16 @@ export function usePrepareSendTransactions(
       setFeeAmount,
       setCalculatingFeeAmount,
     }),
-    setLoading: (asyncState) => {
-      if (asyncState.loading) {
-        // dont set to false until fee amount is also set
-        setCalculatingFeeAmount(true)
-        setPrepareTransactionsResult(undefined)
-        setFeeCurrency(undefined)
-        setFeeAmount(undefined)
-      }
-      return asyncState
-    },
   })
+  useEffect(() => {
+    if (prepareTransactions.loading) setCalculatingFeeAmount(true)
+    // switches to false in onSuccess hook after other state updates
+  }, [prepareTransactions.loading])
   return {
     feeCurrency,
     feeAmount,
     prepareTransactionsResult,
-    prepareTransactionsLoading: prepareTransactions.loading || calculatingFeeAmount,
+    prepareTransactionsLoading: prepareTransactions.loading || calculatingFeeAmount, // prepareTransactions.loading flips to false before onSuccess runs and updates state. use this to continue showing loading indicators while state is updated.
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)

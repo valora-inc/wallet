@@ -94,17 +94,6 @@ export function SendEnterAmountFeeSection({
       setFeeEstimateStatus(FeeEstimateStatus.ShowAmounts)
       return
     }
-    // else {
-    //   // There is a delay between prepareTransactionsLoading switching to false and feeAmount, feeCurrency getting set.
-    //   // Avoid showing placeholder between these two if it's not the end state for the UI
-    //   const debouncedUpdateFeeEstimateStatus = setTimeout(() => {
-    //     Logger.info(TAG, `feeAmount: ${feeAmount}. Setting feeEstimateStatus`)
-    //     setFeeEstimateStatus(
-    //       feeAmount ? FeeEstimateStatus.ShowAmounts : FeeEstimateStatus.ShowPlaceholder
-    //     )
-    //   }, 500)
-    //   return () => clearTimeout(debouncedUpdateFeeEstimateStatus)
-    // }
   }, [prepareTransactionsLoading, feeAmount])
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency
@@ -129,7 +118,6 @@ export function SendEnterAmountFeeSection({
       if (!feeAmount) {
         // Case where user had fee estimate, then changed the amount. our useEffect hook updating the fee estimate
         //  status has not run yet.
-        Logger.error(TAG, 'feeEstimateStatus is ShowAmounts but feeAmount is undefined')
         return feeLoading
       }
       return (

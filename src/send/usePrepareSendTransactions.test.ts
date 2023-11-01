@@ -50,16 +50,19 @@ describe('usePrepareSendTransactions', () => {
       const setFeeCurrency = jest.fn()
       const setPrepareTransactionsResult = jest.fn()
       const setFeeAmount = jest.fn()
+      const setCalculatingFeeAmount = jest.fn()
       mocked(getMaxGasCost).mockReturnValue(new BigNumber(600))
       const onSuccess = _getOnSuccessCallback({
         setFeeCurrency,
         setPrepareTransactionsResult,
         setFeeAmount,
+        setCalculatingFeeAmount,
       })
       onSuccess(mockPossibleResult)
       expect(setPrepareTransactionsResult).toHaveBeenCalledWith(mockPossibleResult)
       expect(setFeeCurrency).toHaveBeenCalledWith(mockFeeCurrencyWithTwoDecimals)
       expect(setFeeAmount).toHaveBeenCalledWith(new BigNumber(6))
+      expect(setCalculatingFeeAmount).toHaveBeenCalledWith(false)
     })
 
     it('sets preparedTransactionsResult and clears feeCurrency, feeAmount if transaction result type is not possible', () => {
@@ -70,15 +73,18 @@ describe('usePrepareSendTransactions', () => {
       const setFeeCurrency = jest.fn()
       const setPrepareTransactionsResult = jest.fn()
       const setFeeAmount = jest.fn()
+      const setCalculatingFeeAmount = jest.fn()
       const onSuccess = _getOnSuccessCallback({
         setFeeCurrency,
         setFeeAmount,
         setPrepareTransactionsResult,
+        setCalculatingFeeAmount,
       })
       onSuccess(result)
       expect(setPrepareTransactionsResult).toHaveBeenCalledWith(result)
       expect(setFeeCurrency).toHaveBeenCalledWith(undefined)
       expect(setFeeAmount).toHaveBeenCalledWith(undefined)
+      expect(setCalculatingFeeAmount).toHaveBeenCalledWith(false)
     })
   })
   describe('_prepareSendTransactionsCallback', () => {
