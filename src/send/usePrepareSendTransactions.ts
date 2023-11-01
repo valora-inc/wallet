@@ -11,6 +11,8 @@ import { tokenSupportsComments } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 
+const TAG = 'src/send/usePrepareSendTransactions'
+
 // just exported for testing
 export function _getOnSuccessCallback({
   setFeeCurrency,
@@ -60,10 +62,6 @@ export async function _prepareSendTransactionsCallback({
   }
   if (tokenBalanceHasAddress(token)) {
     if (!includeRegisterDekTx) {
-      Logger.info(
-        'src/send/SendEnterAmount',
-        `preparing transactions with amount ${amount.toString()}`
-      )
       return prepareERC20TransferTransaction({
         fromWalletAddress: walletAddress,
         toWalletAddress: recipientAddress,
@@ -88,7 +86,7 @@ export function usePrepareSendTransactions(
   const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
   const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
     onError: (error) => {
-      Logger.error('src/send/SendEnterAmount', `prepareTransactionsOutput: ${error}`)
+      Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
     },
     onSuccess: _getOnSuccessCallback({
       setFeeCurrency,

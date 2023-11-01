@@ -66,44 +66,43 @@ enum FeeEstimateStatus {
   ShowPlaceholder = 'ShowPlaceholder',
 }
 
-function SendEnterAmountFeeSection({
-  // TODO(cajubelt): unit tests for this
+// just exported for testing
+export function SendEnterAmountFeeSection({
   feeAmount,
   feeCurrency,
-  amount,
+  sendAmountInput,
   prepareTransactionsLoading,
-  sendIsPossible,
-  feeCurrencies,
 }: {
   feeAmount: BigNumber | undefined
-  feeCurrency: TokenBalance | undefined
-  amount: string
+  feeCurrency: TokenBalance
+  sendAmountInput: string
   prepareTransactionsLoading: boolean
-  sendIsPossible: boolean | undefined
-  feeCurrencies: TokenBalance[]
 }) {
   const [feeEstimateStatus, setFeeEstimateStatus] = useState(
-    amount !== '' ? FeeEstimateStatus.Loading : FeeEstimateStatus.ShowPlaceholder
+    sendAmountInput === '' ? FeeEstimateStatus.ShowPlaceholder : FeeEstimateStatus.Loading
   )
-
   useEffect(() => {
-    if ((prepareTransactionsLoading || !feeAmount) && amount !== '') {
+    if (sendAmountInput === '') {
+      setFeeEstimateStatus(FeeEstimateStatus.ShowPlaceholder)
+      return
+    }
+    if (prepareTransactionsLoading) {
       setFeeEstimateStatus(FeeEstimateStatus.Loading)
       return
-    }
-    if (sendIsPossible && feeAmount && feeCurrency) {
-      setFeeEstimateStatus(FeeEstimateStatus.ShowAmounts)
-      return
-    }
-    const debouncedUpdateStatusToPlaceholder = setTimeout(() => {
-      // There is a delay between prepareTransactionsLoading switching to false and canShowFeeAmounts becoming true.
+    } else {
+      // There is a delay between prepareTransactionsLoading switching to false and feeAmount, feeCurrency getting set.
       // Avoid showing placeholder between these two if it's not the end state for the UI
-      setFeeEstimateStatus(FeeEstimateStatus.ShowPlaceholder)
-    }, 1000)
-    return () => clearTimeout(debouncedUpdateStatusToPlaceholder)
-  }, [prepareTransactionsLoading, sendIsPossible, feeAmount, feeCurrency])
+      const debouncedUpdateFeeEstimateStatus = setTimeout(() => {
+        Logger.info(TAG, `feeAmount: ${feeAmount}. Setting feeEstimateStatus`)
+        setFeeEstimateStatus(
+          feeAmount ? FeeEstimateStatus.ShowAmounts : FeeEstimateStatus.ShowPlaceholder
+        )
+      }, 500)
+      return () => clearTimeout(debouncedUpdateFeeEstimateStatus)
+    }
+  }, [prepareTransactionsLoading, feeAmount])
 
-  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0] // even if transactions are not prepared, give users a preview of what currency they might be paying fees in
+  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency
 
   const feePlaceholder = (
     <>
@@ -112,10 +111,20 @@ function SendEnterAmountFeeSection({
       </Text>
     </>
   )
+  const feeLoading = (
+    <>
+      <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
+        <Text style={styles.feeInCrypto}>{'≈ '}</Text>
+        <ActivityIndicator size="small" color={Colors.gray4} />
+      </View>
+    </>
+  )
   switch (feeEstimateStatus) {
     case FeeEstimateStatus.ShowAmounts:
       if (!feeAmount) {
-        return feePlaceholder
+        // Case where user had fee estimate, then changed the amount. our useEffect hook updating the fee estimate
+        //  status has not run yet.
+        return feeLoading
       }
       return (
         <>
@@ -132,14 +141,7 @@ function SendEnterAmountFeeSection({
         </>
       )
     case FeeEstimateStatus.Loading:
-      return (
-        <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
-          <Text testID="SendEnterAmount/FeeLoading" style={styles.feeInCrypto}>
-            {'≈ '}
-          </Text>
-          <ActivityIndicator size="small" color={Colors.gray4} />
-        </View>
-      )
+      return feeLoading
     case FeeEstimateStatus.ShowPlaceholder:
       return feePlaceholder
     default:
@@ -257,18 +259,23 @@ function SendEnterAmount({ route }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useFeeCurrencies(token.networkId)
   useEffect(() => {
+    if (!walletAddress) {
+      Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
+      return
+    }
     clearPreparedTransactions()
+    if (parsedAmount.isLessThanOrEqualTo(0) || parsedAmount.isGreaterThan(token.balance)) {
+      return
+    }
     const debouncedRefreshTransactions = setTimeout(() => {
-      if (walletAddress) {
-        return refreshPreparedTransactions({
-          amount: parsedAmount,
-          token,
-          recipientAddress: recipient.address,
-          walletAddress,
-          isDekRegistered,
-          feeCurrencies,
-        })
-      }
+      return refreshPreparedTransactions({
+        amount: parsedAmount,
+        token,
+        recipientAddress: recipient.address,
+        walletAddress,
+        isDekRegistered,
+        feeCurrencies,
+      })
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [parsedAmount, token])
@@ -388,11 +395,12 @@ function SendEnterAmount({ route }: Props) {
             <View style={styles.feeAmountContainer}>
               <SendEnterAmountFeeSection
                 feeAmount={feeAmount}
-                feeCurrency={feeCurrency}
-                amount={amount}
+                feeCurrency={
+                  feeCurrency ?? feeCurrencies[0]
+                  /* even if transactions are not prepared, give users a preview of what currency they might be paying fees in */
+                }
+                sendAmountInput={amount}
                 prepareTransactionsLoading={prepareTransactionsLoading}
-                sendIsPossible={sendIsPossible}
-                feeCurrencies={feeCurrencies}
               />
             </View>
           </View>
