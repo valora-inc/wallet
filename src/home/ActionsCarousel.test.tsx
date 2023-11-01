@@ -98,6 +98,6 @@ describe('ActionsCarousel', () => {
     expect(within(getByTestId(`HomeAction/Title-Send`)).getByText(`homeActions.send`)).toBeTruthy()
     fireEvent.press(getByTestId(`HomeAction-Send`))
     expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.SendRedesign)
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
   })
 })
