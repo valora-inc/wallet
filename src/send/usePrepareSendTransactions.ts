@@ -18,10 +18,12 @@ export function _getOnSuccessCallback({
   setFeeCurrency,
   setPrepareTransactionsResult,
   setFeeAmount,
+  setCalculatingFeeAmount,
 }: {
   setFeeCurrency: (token: TokenBalance | undefined) => void
   setPrepareTransactionsResult: (result: PreparedTransactionsResult | undefined) => void
   setFeeAmount: (amount: BigNumber | undefined) => void
+  setCalculatingFeeAmount: (calculating: boolean) => void
 }) {
   return (result: PreparedTransactionsResult | undefined) => {
     setPrepareTransactionsResult(result)
@@ -36,6 +38,7 @@ export function _getOnSuccessCallback({
       setFeeCurrency(undefined)
       setFeeAmount(undefined)
     }
+    setCalculatingFeeAmount(false)
   }
 }
 
@@ -82,23 +85,36 @@ export function usePrepareSendTransactions(
     PreparedTransactionsResult | undefined
   >()
   const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
+  const [calculatingFeeAmount, setCalculatingFeeAmount] = useState(false)
 
   const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
   const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
     onError: (error) => {
       Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
+      setCalculatingFeeAmount(false)
     },
     onSuccess: _getOnSuccessCallback({
       setFeeCurrency,
       setPrepareTransactionsResult,
       setFeeAmount,
+      setCalculatingFeeAmount,
     }),
+    setLoading: (asyncState) => {
+      if (asyncState.loading) {
+        // dont set to false until fee amount is also set
+        setCalculatingFeeAmount(true)
+        setPrepareTransactionsResult(undefined)
+        setFeeCurrency(undefined)
+        setFeeAmount(undefined)
+      }
+      return asyncState
+    },
   })
   return {
     feeCurrency,
     feeAmount,
     prepareTransactionsResult,
-    prepareTransactionsLoading: prepareTransactions.loading,
+    prepareTransactionsLoading: prepareTransactions.loading || calculatingFeeAmount,
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)
