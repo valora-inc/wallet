@@ -278,16 +278,16 @@ export function* internalWatchPendingTransactionsInNetwork(network: Network) {
   }
 }
 
-function* watchPendingTransactionsInNetwork(network: Network) {
+export function* watchPendingTransactionsInNetwork(network: Network) {
   while (true) {
     yield* call(internalWatchPendingTransactionsInNetwork, network)
     yield* delay(WATCHING_DELAY_BY_NETWORK[network])
   }
 }
 
-function* watchPendingTransactions() {
-  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
-  const supportedNetworkIdsForSwap = getSupportedNetworkIdsForSwap()
+export function* watchPendingTransactions() {
+  const supportedNetworkIdsForSend = yield* call(getSupportedNetworkIdsForSend)
+  const supportedNetworkIdsForSwap = yield* call(getSupportedNetworkIdsForSwap)
   const supportedNetworksByViem = Object.keys(publicClient) as Network[]
   const supportedNetworkIds = new Set([
     ...supportedNetworkIdsForSend,

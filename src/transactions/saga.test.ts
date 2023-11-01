@@ -1,7 +1,9 @@
 import { EventLog } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga/effects'
+import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   transactionConfirmed,
   updateInviteTransactions,
@@ -10,6 +12,8 @@ import {
 import {
   getInviteTransactionsDetails,
   internalWatchPendingTransactionsInNetwork,
+  watchPendingTransactions,
+  watchPendingTransactionsInNetwork,
 } from 'src/transactions/saga'
 import {
   Network,
@@ -216,5 +220,43 @@ describe('watchPendingTransactions', () => {
       ])
       .not.put(transactionConfirmed(expect.any(String), expect.any(Object)))
       .run()
+  })
+
+  it('does spawn a watching loop for each allowed network', async () => {
+    await expectSaga(watchPendingTransactions)
+      .provide([
+        [
+          call(getSupportedNetworkIdsForSend),
+          [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        ],
+        [call(getSupportedNetworkIdsForSwap), [NetworkId['celo-alfajores']]],
+        [matchers.spawn.fn(watchPendingTransactionsInNetwork), null],
+      ])
+      .run()
+      .then((result) => {
+        const spawnCalls = result.allEffects.filter(
+          (effect) => effect.type === 'FORK' && effect.payload.detached
+        )
+        expect(spawnCalls).toHaveLength(2)
+        expect(spawnCalls[0].payload.args[0]).toEqual(Network.Celo)
+        expect(spawnCalls[1].payload.args[0]).toEqual(Network.Ethereum)
+      })
+  })
+
+  it('does spawn a watching loop for only allowed network', async () => {
+    await expectSaga(watchPendingTransactions)
+      .provide([
+        [call(getSupportedNetworkIdsForSend), [NetworkId['celo-alfajores']]],
+        [call(getSupportedNetworkIdsForSwap), [NetworkId['celo-alfajores']]],
+        [matchers.spawn.fn(watchPendingTransactionsInNetwork), null],
+      ])
+      .run()
+      .then((result) => {
+        const spawnCalls = result.allEffects.filter(
+          (effect) => effect.type === 'FORK' && effect.payload.detached
+        )
+        expect(spawnCalls).toHaveLength(1)
+        expect(spawnCalls[0].payload.args[0]).toEqual(Network.Celo)
+      })
   })
 })
