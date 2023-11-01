@@ -69,7 +69,6 @@ describe('TransferFeedItem', () => {
     metadata = {},
     fees = [],
     status = TransactionStatus.Complete,
-    hideBalance = false,
   }: {
     type?: TokenTransactionTypeV2
     amount?: TokenAmount
@@ -77,7 +76,6 @@ describe('TransferFeedItem', () => {
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
     status?: TransactionStatus
-    hideBalance?: boolean
   }) {
     const store = createMockStore({
       ...storeOverrides,
@@ -99,7 +97,6 @@ describe('TransferFeedItem', () => {
             metadata,
             fees,
           }}
-          hideBalance={hideBalance}
         />
       </Provider>
     )
@@ -609,9 +606,7 @@ describe('TransferFeedItem', () => {
   })
 
   it('hides balance when flag is set', async () => {
-    const { queryByTestId } = renderScreen({
-      hideBalance: true,
-    })
+    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
     expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
   })

@@ -55,9 +55,11 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
+  overrideHideBalance = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
+  overrideHideBalance?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -95,8 +97,8 @@ function TokenBalance({
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
           <Text style={style} testID={'TotalTokenBalance'}>
-            {!hideBalance && localCurrencySymbol}
-            {hideBalance
+            {(overrideHideBalance || !hideBalance) && localCurrencySymbol}
+            {hideBalance && !overrideHideBalance
               ? 'XX' + decimalSeparator + 'XX'
               : totalTokenBalanceLocal?.toFormat(2) ?? '-'}
           </Text>
@@ -111,8 +113,8 @@ function TokenBalance({
   } else {
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
-        {!hideBalance && localCurrencySymbol}
-        {hideBalance
+        {(overrideHideBalance || !hideBalance) && localCurrencySymbol}
+        {hideBalance && !overrideHideBalance
           ? 'XX' + decimalSeparator + 'XX'
           : totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
       </Text>
@@ -205,6 +207,7 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
               : styles.balance
           }
           singleTokenViewEnabled={false}
+          overrideHideBalance={true}
         />
 
         {shouldRenderInfoComponent && (
@@ -244,6 +247,7 @@ export function HomeTokenBalance() {
   const [infoVisible, setInfoVisible] = useState(false)
 
   const hideBalance = useSelector(hideBalancesSelector)
+
   const eyeIconOnPress = () => {
     dispatch(switchHideBalancesState())
     ValoraAnalytics.track(hideBalance ? HomeEvents.hide_balances : HomeEvents.show_balances)

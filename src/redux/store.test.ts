@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 165,
+          "version": 166,
         },
         "account": {
           "acceptedTerms": false,
@@ -143,6 +143,7 @@ describe('store state', () => {
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
+          "hideBalances": false,
           "huaweiMobileServicesAvailable": undefined,
           "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,

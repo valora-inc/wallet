@@ -2,7 +2,6 @@ import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { notificationSpotlightSeen } from 'src/app/actions'
 import { dappSelected } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
@@ -11,7 +10,7 @@ import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
-import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
+import { RecursivePartial, createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
@@ -21,7 +20,6 @@ import {
   mockCusdTokenId,
 } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -267,18 +265,6 @@ describe('WalletHome', () => {
     })
 
     expect(queryByTestId('cashInBtn')).toBeFalsy()
-  })
-
-  it('Hides/shows total balance when button is clicked', async () => {
-    const { tree } = renderScreen()
-
-    fireEvent.press(tree.getByTestId('EyeIcon'))
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
-
-    fireEvent.press(tree.getByTestId('HiddenEyeIcon'))
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱1.33')
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3) // Once for "notification_impression"
   })
 
   describe('recently used dapps', () => {

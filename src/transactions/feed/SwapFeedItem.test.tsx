@@ -39,7 +39,6 @@ describe('SwapFeedItem', () => {
     outAmount,
     metadata = {},
     fees = [],
-    hideBalance = false,
   }: {
     inAmount: TokenAmount
     outAmount: TokenAmount
@@ -68,7 +67,6 @@ describe('SwapFeedItem', () => {
             fees,
             status: TransactionStatus.Complete,
           }}
-          hideBalance={hideBalance}
         />
       </Provider>
     )
@@ -129,7 +127,7 @@ describe('SwapFeedItem', () => {
         tokenId: mockCusdTokenId,
         value: 2.87,
       },
-      hideBalance: true,
+      storeOverrides: { app: { hideBalances: true } },
     })
 
     expect(queryByTestId('SwapFeedItem/incomingAmount')).toBeNull()
