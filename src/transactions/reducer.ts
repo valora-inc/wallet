@@ -6,7 +6,6 @@ import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   CompletedStandbyTransaction,
-  FailedStandbyTransaction,
   StandbyTransaction,
   TokenTransaction,
   TransactionStatus,
@@ -60,13 +59,8 @@ export const reducer = (
       return {
         ...state,
         ...persistedState,
-        // TODO: remove this once we have a mechanism for watching and resolving
-        // pending transactions (then we should only remove transactions without
-        // tx hashes). for now, pending transactions can only be resolved within
-        // the same app session anyway. this will remove any stuck pending
-        // transactions for affected internal users.
         standbyTransactions: (persistedState.standbyTransactions || []).filter(
-          (tx) => tx.status !== TransactionStatus.Pending
+          (tx) => !tx.transactionHash
         ),
       }
     }
@@ -168,11 +162,11 @@ export const pendingStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const confirmedStandbyTransactionsSelector = createSelector(
+export const completedStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],
   (transactions) => {
     return transactions.filter(
-      (transaction): transaction is CompletedStandbyTransaction | FailedStandbyTransaction =>
+      (transaction): transaction is CompletedStandbyTransaction =>
         transaction.status === TransactionStatus.Complete ||
         transaction.status === TransactionStatus.Failed
     )

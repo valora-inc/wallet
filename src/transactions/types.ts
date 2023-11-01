@@ -30,20 +30,11 @@ export type CompletedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>
 ) & {
-  status: TransactionStatus.Complete
-  context: TransactionContext
-}
-
-export type FailedStandbyTransaction = (
-  | Omit<TokenExchange, 'status'>
-  | Omit<TokenTransfer, 'status'>
-) & {
-  status: TransactionStatus.Failed
+  status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
 }
 
 export type StandbyTransaction =
-  | FailedStandbyTransaction
   | PendingStandbySwap
   | PendingStandbyTransfer
   | CompletedStandbyTransaction

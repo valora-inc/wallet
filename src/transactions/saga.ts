@@ -10,6 +10,7 @@ import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchTokenBalances } from 'src/tokens/slice'
+import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   Actions,
   UpdateTransactionsAction,
@@ -281,7 +282,18 @@ function* watchPendingTransactionsInNetwork(network: Network) {
 }
 
 function* watchPendingTransactions() {
-  const supportedNetworks = Object.keys(publicClient) as Network[]
+  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
+  const supportedNetworkIdsForSwap = getSupportedNetworkIdsForSwap()
+  const supportedNetworksByViem = Object.keys(publicClient) as Network[]
+  const supportedNetworkIds = new Set([
+    ...supportedNetworkIdsForSend,
+    ...supportedNetworkIdsForSwap,
+  ])
+
+  const supportedNetworks = supportedNetworksByViem.filter((network) =>
+    supportedNetworkIds.has(networkConfig.networkToNetworkId[network])
+  )
+
   for (const network of supportedNetworks) {
     yield* spawn(watchPendingTransactionsInNetwork, network)
   }
