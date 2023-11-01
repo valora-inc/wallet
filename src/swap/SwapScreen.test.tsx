@@ -61,6 +61,9 @@ jest.mock('src/statsig', () => {
   return {
     getExperimentParams: (_: any) => mockExperimentParams(),
     getFeatureGate: jest.fn(),
+    getDynamicConfigParams: () => ({
+      slippagePercentage: '0.3',
+    }),
   }
 })
 
@@ -339,7 +342,7 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
@@ -373,7 +376,7 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8.10000 cUSD')
@@ -531,7 +534,7 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1,23456 cUSD')
@@ -573,7 +576,7 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
         networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}`
+      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8,10000 cUSD')

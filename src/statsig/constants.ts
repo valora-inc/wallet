@@ -110,4 +110,10 @@ export const DynamicConfigs = {
       disabledMediaPlaybackRequiresUserActionOrigins: [] as string[],
     },
   },
+  [StatsigDynamicConfigs.SWAP_CONFIG]: {
+    configName: StatsigDynamicConfigs.SWAP_CONFIG,
+    defaultValues: {
+      slippagePercentage: '0.3',
+    },
+  },
 }

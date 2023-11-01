@@ -26,9 +26,9 @@ import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -68,10 +68,12 @@ export function SwapScreen({ route }: Props) {
   const { swappingNonNativeTokensEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
-
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
+  const slippagePercentage = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).slippagePercentage
 
   const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
@@ -110,7 +112,7 @@ export function SwapScreen({ route }: Props) {
   const fromTokenBalance = useTokenInfoByAddress(fromToken?.address)?.balance ?? new BigNumber(0)
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
-    useSwapQuote()
+    useSwapQuote(slippagePercentage)
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -441,7 +443,7 @@ export function SwapScreen({ route }: Props) {
               networkFee={new BigNumber(1)}
               networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
               feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
-              slippagePercentage={0.3}
+              slippagePercentage={slippagePercentage}
             />
           )}
 

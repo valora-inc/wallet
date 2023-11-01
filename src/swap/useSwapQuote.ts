@@ -106,7 +106,7 @@ export async function prepareSwapTransactions(
   })
 }
 
-const useSwapQuote = () => {
+const useSwapQuote = (slippagePercentage: string) => {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
@@ -143,6 +143,7 @@ const useSwapQuote = () => {
         sellToken: fromToken.address,
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
+        slippagePercentage,
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`

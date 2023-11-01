@@ -15,7 +15,7 @@ interface Props {
   network: Network
   networkFee: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
-  slippagePercentage: number
+  slippagePercentage: string
   feeTokenId: string
 }
 
