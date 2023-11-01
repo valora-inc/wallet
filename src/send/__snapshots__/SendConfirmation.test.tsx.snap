@@ -263,6 +263,21 @@ exports[`SendConfirmation renders correctly 1`] = `
               1.00
                cUSD
             </Text>
+            <Text
+              style={
+                {
+                  "color": "#505050",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 24,
+                  "paddingBottom": 16,
+                }
+              }
+              testID="SendAmountFiat"
+            >
+              ₱
+              1.33
+            </Text>
             <TextInput
               autoFocus={false}
               blurOnSubmit={true}
@@ -474,18 +489,10 @@ exports[`SendConfirmation renders correctly 1`] = `
                 testID="LineItemRow/undefined"
               >
                 <Text
-                  style={
-                    [
-                      undefined,
-                      {
-                        "color": undefined,
-                      },
-                    ]
-                  }
-                  testID="feeDrawer/SendConfirmation/totalFee/value"
+                  testID="feeDrawer/SendConfirmation/totalFee"
                 >
-                  ₱
-                  0.0266
+                  0.004
+                   CELO
                 </Text>
               </Text>
             </View>
@@ -558,8 +565,9 @@ exports[`SendConfirmation renders correctly 1`] = `
           <Text
             testID="TotalLineItem/Total"
           >
-            ₱
-            1.36
+            ~
+            1.02
+             cUSD
           </Text>
         </Text>
       </View>
@@ -617,7 +625,7 @@ exports[`SendConfirmation renders correctly 1`] = `
               }
               testID="TotalLineItem/ExchangeRate"
             >
-              tokenExchanteRate, {"symbol":"cUSD"}
+              tokenExchangeRateApprox, {"symbol":"cUSD"}
               <Text>
                 ₱
                 1.33
@@ -647,8 +655,8 @@ exports[`SendConfirmation renders correctly 1`] = `
           <Text
             testID="TotalLineItem/Subtotal"
           >
-            1.00
-             cUSD
+            ₱
+            1.36
           </Text>
         </Text>
       </View>
