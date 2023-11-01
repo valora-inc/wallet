@@ -130,6 +130,19 @@ describe('TransferFeedItem', () => {
     expect(getByText('confirmingTransaction')).toBeTruthy()
   })
 
+  it('renders a failed transaction correctly', async () => {
+    const { getByTestId } = renderScreen({ status: TransactionStatus.Failed })
+
+    expect(getByTestId('FailedTransactionAlert')).toBeTruthy()
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
+      expectedSubtitleSections: ['feedItemFailedTransaction'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
+  })
+
   function expectDisplay({
     getByTestId,
     queryByTestId,

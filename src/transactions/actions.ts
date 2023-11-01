@@ -12,7 +12,6 @@ export enum Actions {
   REMOVE_STANDBY_TRANSACTION = 'TRANSACTIONS/REMOVE_STANDBY_TRANSACTION',
   ADD_HASH_TO_STANDBY_TRANSACTIONS = 'TRANSACTIONS/ADD_HASH_TO_STANDBY_TRANSACTIONS',
   TRANSACTION_CONFIRMED = 'TRANSACTIONS/TRANSACTION_CONFIRMED',
-  TRANSACTION_FAILED = 'TRANSACTIONS/TRANSACTION_FAILED',
   REFRESH_RECENT_TX_RECIPIENTS = 'TRANSACTIONS/REFRESH_RECENT_TX_RECIPIENTS',
   UPDATE_RECENT_TX_RECIPIENT_CACHE = 'TRANSACTIONS/UPDATE_RECENT_TX_RECIPIENT_CACHE',
   UPDATE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_TRANSACTIONS',
@@ -50,11 +49,6 @@ export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
   receipt: BaseTransactionReceipt
-}
-
-export interface TransactionFailedAction {
-  type: Actions.TRANSACTION_FAILED
-  txId: string
 }
 
 export interface UpdatedRecentTxRecipientsCacheAction {
@@ -108,11 +102,6 @@ export const transactionConfirmed = (
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
-})
-
-export const transactionFailed = (txId: string): TransactionFailedAction => ({
-  type: Actions.TRANSACTION_FAILED,
-  txId,
 })
 
 export const addHashToStandbyTransaction = (
