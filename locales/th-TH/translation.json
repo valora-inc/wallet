@@ -480,6 +480,7 @@
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
+  "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
   "oops": "ขออภัย!",
   "somethingWrong": "มีบางอย่างผิดปกติ",
   "verifyFailed": "ไม่สามารถเชื่อมต่อได้",
