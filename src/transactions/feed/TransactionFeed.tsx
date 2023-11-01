@@ -27,7 +27,7 @@ export type FeedTokenProperties = {
 
 export type FeedTokenTransaction = TokenTransaction & FeedTokenProperties
 
-function TransactionFeed({ hideBalances = false }) {
+function TransactionFeed() {
   const { loading, error, transactions, fetchingMoreTransactions, fetchMoreTransactions } =
     useFetchTransactions()
 
@@ -69,11 +69,9 @@ function TransactionFeed({ hideBalances = false }) {
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {
     switch (tx.__typename) {
       case 'TokenExchangeV3':
-        return <SwapFeedItem key={tx.transactionHash} exchange={tx} hideBalance={hideBalances} />
+        return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV3':
-        return (
-          <TransferFeedItem key={tx.transactionHash} transfer={tx} hideBalance={hideBalances} />
-        )
+        return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV3':
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
     }

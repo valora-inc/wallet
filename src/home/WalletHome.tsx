@@ -1,13 +1,11 @@
 import _ from 'lodash'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
-import { HomeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppState } from 'src/app/actions'
 import {
   appStateSelector,
@@ -57,12 +55,6 @@ function WalletHome() {
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
-
-  const [hideBalances, setHideBalances] = useState(false)
-  const eyeIconOnPress = () => {
-    setHideBalances(!hideBalances)
-    ValoraAnalytics.track(hideBalances ? HomeEvents.hide_balances : HomeEvents.show_balances)
-  }
 
   useEffect(() => {
     dispatch(visitHome())
@@ -136,13 +128,7 @@ function WalletHome() {
   }
   const tokenBalanceSection = {
     data: [{}],
-    renderItem: () => (
-      <HomeTokenBalance
-        key={'HomeTokenBalance'}
-        eyeIconOnPress={eyeIconOnPress}
-        hideBalance={hideBalances}
-      />
-    ),
+    renderItem: () => <HomeTokenBalance key={'HomeTokenBalance'} />,
   }
   const actionsCarouselSection = {
     data: [{}],
@@ -162,7 +148,7 @@ function WalletHome() {
 
   sections.push({
     data: [{}],
-    renderItem: () => <TransactionFeed key={'TransactionList'} hideBalances={hideBalances} />,
+    renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
   const topRightElements = (

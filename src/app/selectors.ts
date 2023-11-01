@@ -117,3 +117,5 @@ export const inAppReviewLastInteractionTimestampSelector = (state: RootState) =>
 
 export const showNotificationSpotlightSelector = (state: RootState) =>
   state.app.showNotificationSpotlight
+
+export const hideBalancesSelector = (state: RootState) => state.app.hideBalances

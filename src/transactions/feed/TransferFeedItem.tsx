@@ -1,8 +1,10 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { hideBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -20,10 +22,9 @@ export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 
 interface Props {
   transfer: FeedTokenTransfer
-  hideBalance?: boolean
 }
 
-function TransferFeedItem({ transfer, hideBalance = false }: Props) {
+function TransferFeedItem({ transfer }: Props) {
   const { amount } = transfer
 
   const openTransferDetails = () => {
@@ -36,6 +37,8 @@ function TransferFeedItem({ transfer, hideBalance = false }: Props) {
   const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
+
+  const hideBalance = useSelector(hideBalancesSelector)
 
   return (
     <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>

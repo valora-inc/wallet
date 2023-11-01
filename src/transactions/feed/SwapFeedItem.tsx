@@ -1,8 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { hideBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -16,10 +18,9 @@ import { TokenExchange } from 'src/transactions/types'
 
 interface Props {
   exchange: TokenExchange
-  hideBalance?: boolean
 }
 
-function SwapFeedItem({ exchange, hideBalance = false }: Props) {
+function SwapFeedItem({ exchange }: Props) {
   const { t } = useTranslation()
   const incomingTokenInfo = useTokenInfo(exchange.inAmount.tokenId)
   const outgoingTokenInfo = useTokenInfo(exchange.outAmount.tokenId)
@@ -28,6 +29,7 @@ function SwapFeedItem({ exchange, hideBalance = false }: Props) {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
+  const hideBalance = useSelector(hideBalancesSelector)
 
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>

@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { switchHideBalancesState } from 'src/app/actions'
+import { hideBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -53,11 +55,9 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
-  hideBalance = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
-  hideBalance?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -74,6 +74,7 @@ function TokenBalance({
       ? new BigNumber(totalTokenBalanceLocal ?? 0).plus(totalPositionsBalanceLocal ?? 0)
       : undefined
   const { decimalSeparator } = getNumberFormatSettings()
+  const hideBalance = useSelector(hideBalancesSelector)
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
@@ -216,14 +217,9 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
   )
 }
 
-export function HomeTokenBalance({
-  eyeIconOnPress,
-  hideBalance = false,
-}: {
-  eyeIconOnPress: () => void
-  hideBalance?: boolean
-}) {
+export function HomeTokenBalance() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const totalBalance = useTotalTokenBalance()
   const tokenBalances = useTokensWithTokenBalance()
@@ -246,6 +242,12 @@ export function HomeTokenBalance({
   }
 
   const [infoVisible, setInfoVisible] = useState(false)
+
+  const hideBalance = useSelector(hideBalancesSelector)
+  const eyeIconOnPress = () => {
+    dispatch(switchHideBalancesState())
+    ValoraAnalytics.track(hideBalance ? HomeEvents.hide_balances : HomeEvents.show_balances)
+  }
 
   return (
     <View style={styles.container} testID="HomeTokenBalance">
@@ -283,7 +285,6 @@ export function HomeTokenBalance({
               ? styles.totalBalance
               : styles.balance
           }
-          hideBalance={hideBalance}
         />
         <Touchable onPress={eyeIconOnPress}>
           {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
