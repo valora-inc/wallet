@@ -66,4 +66,14 @@
       groupName: 'prettier',
     },
   ],
+
+  // A list of dependencies to be ignored by Renovate - "exact match" only
+  ignoreDeps: [
+    '@walletconnect/react-native-compat',
+    '@walletconnect/utils',
+    '@walletconnect/web3wallet',
+    '@walletconnect/legacy-types',
+    '@walletconnect/sign-client',
+    '@walletconnect/types',
+  ],
 }
