@@ -239,7 +239,7 @@ export function* sendTransaction(
   nonce?: number
 ) {
   const sendTxMethod = function* () {
-    const { receipt, transactionHash } = yield* call(
+    const { receipt } = yield* call(
       sendTransactionPromises,
       tx,
       account,
