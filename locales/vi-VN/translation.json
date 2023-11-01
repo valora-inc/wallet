@@ -1191,6 +1191,7 @@
   "feedItemNetworkFeeInfo": "Phí mạng lưới",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Tiền thưởng cho người xác nhận",
+  "feedItemFailedTransaction": "Failed Transaction",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "Faucet {{faucet}}",
   "feedItemFaucetInfo_noTestnet": "Faucet",
