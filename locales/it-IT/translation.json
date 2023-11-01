@@ -1193,6 +1193,7 @@
   "feedItemNetworkFeeInfo": "Commissione di rete",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Ricompensa per la conferma",
+  "feedItemFailedTransaction": "Transazione fallita",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "Faucet {{faucet}}",
   "feedItemFaucetInfo_noTestnet": "Faucet",
