@@ -13,8 +13,10 @@ import BigNumber from 'bignumber.js'
 import mocked = jest.mocked
 import { renderHook } from '@testing-library/react-native'
 import { act } from 'react-test-renderer'
+import { tokenSupportsComments } from 'src/tokens/utils'
 
 jest.mock('src/viem/prepareTransactions')
+jest.mock('src/tokens/utils')
 
 describe('usePrepareSendTransactions', () => {
   const mockFeeCurrencyWithTwoDecimals = { ...mockCeloTokenBalance, decimals: 2 }
@@ -104,7 +106,8 @@ describe('usePrepareSendTransactions', () => {
         })
       ).toBeUndefined()
     })
-    it('uses prepareERC20TransferTransaction if DEK is registered or token does not support comments', async () => {
+    it('uses prepareERC20TransferTransaction if DEK is registered', async () => {
+      mocked(tokenSupportsComments).mockReturnValue(true)
       const mockPrepareTransactionsResult: PreparedTransactionsResult = {
         type: 'not-enough-balance-for-gas',
         feeCurrencies: [mockCeloTokenBalance],
@@ -121,7 +124,26 @@ describe('usePrepareSendTransactions', () => {
         })
       ).toStrictEqual(mockPrepareTransactionsResult)
     })
+    it('uses prepareERC20TransferTransaction if token does not support comments', async () => {
+      mocked(tokenSupportsComments).mockReturnValue(false)
+      const mockPrepareTransactionsResult: PreparedTransactionsResult = {
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: [mockCeloTokenBalance],
+      }
+      mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
+      expect(
+        await _prepareSendTransactionsCallback({
+          amount: new BigNumber(1),
+          token: mockCeloTokenBalance,
+          recipientAddress: '0xabc',
+          walletAddress: '0x123',
+          isDekRegistered: false,
+          feeCurrencies: [mockCeloTokenBalance],
+        })
+      ).toStrictEqual(mockPrepareTransactionsResult)
+    })
     it('does nothing for now for the case where DEK is not registered and token supports comments', async () => {
+      mocked(tokenSupportsComments).mockReturnValue(true)
       expect(
         await _prepareSendTransactionsCallback({
           amount: new BigNumber(1),
