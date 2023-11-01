@@ -1,6 +1,7 @@
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
 import {
+  NetworkId,
   PendingStandbySwap,
   PendingStandbyTransfer,
   TokenTransaction,
@@ -64,6 +65,7 @@ export interface UpdatedRecentTxRecipientsCacheAction {
 export interface UpdateTransactionsAction {
   type: Actions.UPDATE_TRANSACTIONS
   transactions: TokenTransaction[]
+  networkId: NetworkId
 }
 
 export interface UpdateInviteTransactionsAction {
@@ -122,8 +124,12 @@ export const addHashToStandbyTransaction = (
   hash,
 })
 
-export const updateTransactions = (transactions: TokenTransaction[]): UpdateTransactionsAction => ({
+export const updateTransactions = (
+  networkId: NetworkId,
+  transactions: TokenTransaction[]
+): UpdateTransactionsAction => ({
   type: Actions.UPDATE_TRANSACTIONS,
+  networkId,
   transactions,
 })
 

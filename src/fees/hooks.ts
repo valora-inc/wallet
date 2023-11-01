@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux'
-import { estimateFee, FeeType } from 'src/fees/reducer'
+import { FeeType, estimateFee } from 'src/fees/reducer'
 import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'

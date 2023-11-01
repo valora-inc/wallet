@@ -72,7 +72,7 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
   }
 
   return onPress ? (
-    <Touchable onPress={onPress}>
+    <Touchable onPress={onPress} testID={`TokenBalanceItemTouchable/${token.tokenId}`}>
       <Content token={token} containerStyle={containerStyle} />
     </Touchable>
   ) : (
