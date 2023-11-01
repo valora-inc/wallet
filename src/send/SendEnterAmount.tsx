@@ -3,7 +3,13 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, TextInput as RNTextInput } from 'react-native'
+import {
+  ActivityIndicator,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput as RNTextInput,
+} from 'react-native'
 import { View } from 'react-native-animatable'
 import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -43,13 +49,105 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import Logger from 'src/utils/Logger'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 
+const TAG = 'SendEnterAmount'
+
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+
+enum FeeEstimateStatus {
+  Loading = 'Loading',
+  ShowAmounts = 'ShowAmounts',
+  ShowPlaceholder = 'ShowPlaceholder',
+}
+
+function SendEnterAmountFeeSection({
+  // TODO(cajubelt): unit tests for this
+  feeAmount,
+  feeCurrency,
+  amount,
+  prepareTransactionsLoading,
+  sendIsPossible,
+  feeCurrencies,
+}: {
+  feeAmount: BigNumber | undefined
+  feeCurrency: TokenBalance | undefined
+  amount: string
+  prepareTransactionsLoading: boolean
+  sendIsPossible: boolean | undefined
+  feeCurrencies: TokenBalance[]
+}) {
+  const [feeEstimateStatus, setFeeEstimateStatus] = useState(
+    amount !== '' ? FeeEstimateStatus.Loading : FeeEstimateStatus.ShowPlaceholder
+  )
+
+  useEffect(() => {
+    if ((prepareTransactionsLoading || !feeAmount) && amount !== '') {
+      setFeeEstimateStatus(FeeEstimateStatus.Loading)
+      return
+    }
+    if (sendIsPossible && feeAmount && feeCurrency) {
+      setFeeEstimateStatus(FeeEstimateStatus.ShowAmounts)
+      return
+    }
+    const debouncedUpdateStatusToPlaceholder = setTimeout(() => {
+      // There is a delay between prepareTransactionsLoading switching to false and canShowFeeAmounts becoming true.
+      // Avoid showing placeholder between these two if it's not the end state for the UI
+      setFeeEstimateStatus(FeeEstimateStatus.ShowPlaceholder)
+    }, 1000)
+    return () => clearTimeout(debouncedUpdateStatusToPlaceholder)
+  }, [prepareTransactionsLoading, sendIsPossible, feeAmount, feeCurrency])
+
+  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0] // even if transactions are not prepared, give users a preview of what currency they might be paying fees in
+
+  const feePlaceholder = (
+    <>
+      <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
+        ~ {feeTokenSymbol}
+      </Text>
+    </>
+  )
+  switch (feeEstimateStatus) {
+    case FeeEstimateStatus.ShowAmounts:
+      if (!feeAmount) {
+        return feePlaceholder
+      }
+      return (
+        <>
+          <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
+            <Text style={styles.feeInCrypto}>~</Text>
+            <TokenDisplay
+              tokenId={feeTokenId}
+              amount={feeAmount}
+              showLocalAmount={false}
+              style={styles.feeInCrypto}
+            />
+          </View>
+          <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
+        </>
+      )
+    case FeeEstimateStatus.Loading:
+      return (
+        <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
+          <Text testID="SendEnterAmount/FeeLoading" style={styles.feeInCrypto}>
+            {'≈ '}
+          </Text>
+          <ActivityIndicator size="small" color={Colors.gray4} />
+        </View>
+      )
+    case FeeEstimateStatus.ShowPlaceholder:
+      return feePlaceholder
+    default:
+      const assertNever: never = feeEstimateStatus // should catch unhandled fee estimate status at compile time
+      Logger.error(TAG, `Unhandled feeEstimateStatus: ${assertNever}`)
+      return feePlaceholder
+  }
+}
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
@@ -190,9 +288,6 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
-  const showFeeAmounts = sendIsPossible && feeAmount && feeCurrency && !prepareTransactionsLoading
-  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0] // even if transactions are not prepared, give users a preview of what currency they might be paying fees in
-
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -291,26 +386,14 @@ function SendEnterAmount({ route }: Props) {
               })}
             </Text>
             <View style={styles.feeAmountContainer}>
-              {showFeeAmounts ? (
-                <>
-                  <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
-                    <Text style={styles.feeInCrypto}>~</Text>
-                    <TokenDisplay
-                      tokenId={feeTokenId}
-                      amount={feeAmount}
-                      showLocalAmount={false}
-                      style={styles.feeInCrypto}
-                    />
-                  </View>
-                  <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
-                </>
-              ) : (
-                <>
-                  <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
-                    ~ {feeTokenSymbol}
-                  </Text>
-                </>
-              )}
+              <SendEnterAmountFeeSection
+                feeAmount={feeAmount}
+                feeCurrency={feeCurrency}
+                amount={amount}
+                prepareTransactionsLoading={prepareTransactionsLoading}
+                sendIsPossible={sendIsPossible}
+                feeCurrencies={feeCurrencies}
+              />
             </View>
           </View>
         </View>
