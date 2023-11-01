@@ -1191,6 +1191,7 @@
   "feedItemNetworkFeeInfo": "网络费用",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "确认奖励",
+  "feedItemFailedTransaction": "交易失败",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
