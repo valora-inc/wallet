@@ -68,34 +68,14 @@ enum FeeEstimateStatus {
 
 // just exported for testing
 export function SendEnterAmountFeeSection({
+  feeEstimateStatus,
   feeAmount,
   feeCurrency,
-  sendAmountInput,
-  prepareTransactionsLoading,
 }: {
+  feeEstimateStatus: FeeEstimateStatus
   feeAmount: BigNumber | undefined
   feeCurrency: TokenBalance
-  sendAmountInput: string
-  prepareTransactionsLoading: boolean
 }) {
-  const [feeEstimateStatus, setFeeEstimateStatus] = useState(
-    sendAmountInput === '' ? FeeEstimateStatus.ShowPlaceholder : FeeEstimateStatus.Loading
-  )
-  useEffect(() => {
-    if (sendAmountInput === '') {
-      setFeeEstimateStatus(FeeEstimateStatus.ShowPlaceholder)
-      return
-    }
-    if (prepareTransactionsLoading) {
-      setFeeEstimateStatus(FeeEstimateStatus.Loading)
-      return
-    }
-    if (feeAmount) {
-      setFeeEstimateStatus(FeeEstimateStatus.ShowAmounts)
-      return
-    }
-  }, [prepareTransactionsLoading, feeAmount])
-
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency
 
   const feePlaceholder = (
@@ -118,6 +98,7 @@ export function SendEnterAmountFeeSection({
       if (!feeAmount) {
         // Case where user had fee estimate, then changed the amount. our useEffect hook updating the fee estimate
         //  status has not run yet.
+        Logger.error(TAG, 'Fee estimate status is ShowAmounts, but feeAmount is undefined')
         return feeLoading
       }
       return (
@@ -289,6 +270,29 @@ function SendEnterAmount({ route }: Props) {
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
 
+  const [feeEstimateStatus, setFeeEstimateStatus] = useState(
+    amount === '' ? FeeEstimateStatus.ShowPlaceholder : FeeEstimateStatus.Loading
+  )
+  useEffect(() => {
+    if (
+      amount === '' ||
+      showLowerAmountError ||
+      showNotEnoughBalanceForGasWarning ||
+      showMaxAmountWarning
+    ) {
+      setFeeEstimateStatus(FeeEstimateStatus.ShowPlaceholder)
+      return
+    }
+    if (prepareTransactionsLoading) {
+      setFeeEstimateStatus(FeeEstimateStatus.Loading)
+      return
+    }
+    if (feeAmount) {
+      setFeeEstimateStatus(FeeEstimateStatus.ShowAmounts)
+      return
+    }
+  }, [prepareTransactionsLoading, feeAmount, prepareTransactionsResult])
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -393,8 +397,7 @@ function SendEnterAmount({ route }: Props) {
                   feeCurrency ?? feeCurrencies[0]
                   /* even if transactions are not prepared, give users a preview of what currency they might be paying fees in */
                 }
-                sendAmountInput={amount}
-                prepareTransactionsLoading={prepareTransactionsLoading}
+                feeEstimateStatus={feeEstimateStatus}
               />
             </View>
           </View>
