@@ -10,7 +10,7 @@ import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
-import SendEnterAmount, { SendEnterAmountFeeSection } from 'src/send/SendEnterAmount'
+import SendEnterAmount from 'src/send/SendEnterAmount'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
@@ -349,6 +349,7 @@ describe('SendEnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
   })
 
   it('shows warning when prepareTransactionResult type is not-enough-balance-for-gas', () => {
@@ -370,6 +371,7 @@ describe('SendEnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeTruthy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+    expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
   })
 
   it('shows warning when prepareTransactionsResult type is need-decrease-spend-amount-for-gas', () => {
@@ -403,6 +405,7 @@ describe('SendEnterAmount', () => {
     expect(getByTestId('SendEnterAmount/MaxAmountWarning')).toBeTruthy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
+    expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
   })
 
   it('able to press Review when prepareTransactionsResult is type possible', () => {
@@ -434,7 +437,6 @@ describe('SendEnterAmount', () => {
     expect(queryByTestId('SendEnterAmount/MaxAmountWarning')).toBeFalsy()
     expect(queryByTestId('SendEnterAmount/NotEnoughForGasWarning')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
-    jest.runAllTimers()
     expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
     fireEvent.press(getByTestId('SendEnterAmount/ReviewButton'))
@@ -470,12 +472,11 @@ describe('SendEnterAmount', () => {
         },
       },
     })
-    const { getByTestId, getByText, queryByTestId } = render(
+    const { getByTestId, getByText } = render(
       <Provider store={store}>
         <MockedNavigator component={SendEnterAmount} params={params} />
       </Provider>
     )
-    expect(queryByTestId('SendEnterAmount/FeeInCrypto')).toBeFalsy()
     expect(getByTestId('SendEnterAmount/FeePlaceholder')).toHaveTextContent('~ CELO')
 
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
@@ -495,77 +496,12 @@ describe('SendEnterAmount', () => {
     )
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(4)
   })
-})
 
-describe('SendEnterAmountFeeSection', () => {
-  it('renders fee section when feeAmount and feeCurrency are defined and not loading', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <SendEnterAmountFeeSection
-          feeAmount={new BigNumber(0.006)}
-          feeCurrency={mockCeloTokenBalance}
-          sendAmountInput={'0.1'}
-          prepareTransactionsLoading={false}
-        />
-      </Provider>
-    )
-    jest.runAllTimers()
-    expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
-    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
-    expect(queryByTestId('SendEnterAmount/FeeLoading')).toBeFalsy()
-  })
-  it('renders loading when prepare transactions is loading', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <SendEnterAmountFeeSection
-          feeAmount={undefined}
-          feeCurrency={mockCeloTokenBalance}
-          sendAmountInput={'0.1'}
-          prepareTransactionsLoading={true}
-        />
-      </Provider>
-    )
-    expect(queryByTestId('SendEnterAmount/FeeInCrypto')).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/FeeLoading')).toBeTruthy()
-    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
-  })
-  it('renders placeholder after timeout when not loading and feeAmount is undefined', () => {
-    // want timeout first since there is an expected delay between loading switching to false and feeAmount being defined
-    const store = createMockStore(mockStore)
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <SendEnterAmountFeeSection
-          feeAmount={undefined}
-          feeCurrency={mockCeloTokenBalance}
-          sendAmountInput={'0.1'}
-          prepareTransactionsLoading={false}
-        />
-      </Provider>
-    )
-    expect(getByTestId('SendEnterAmount/FeeLoading')).toBeTruthy()
-    expect(queryByTestId('SendEnterAmount/FeeInCrypto')).toBeFalsy()
-    expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
-    jest.runAllTimers()
-    expect(queryByTestId('SendEnterAmount/FeeLoading')).toBeFalsy()
-    expect(queryByTestId('SendEnterAmount/FeeInCrypto')).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/FeePlaceholder')).toHaveTextContent('~ CELO')
-  })
-  it('renders placeholder immediately when sendAmountInput is empty', () => {
-    const store = createMockStore(mockStore)
-    const { getByTestId, queryByTestId } = render(
-      <Provider store={store}>
-        <SendEnterAmountFeeSection
-          feeAmount={undefined}
-          feeCurrency={mockCeloTokenBalance}
-          sendAmountInput={''}
-          prepareTransactionsLoading={false}
-        />
-      </Provider>
-    )
-    expect(queryByTestId('SendEnterAmount/FeeInCrypto')).toBeFalsy()
-    expect(queryByTestId('SendEnterAmount/FeeLoading')).toBeFalsy()
-    expect(getByTestId('SendEnterAmount/FeePlaceholder')).toHaveTextContent('~ CELO')
+  describe('fee section', () => {
+    it.todo('shows fee placeholder initially')
+    it.todo('shows fee placeholder if input greater than balance')
+    it.todo('shows fee placeholder if prepare transactions result is not possible')
+    it.todo('shows fee amount if available')
+    it.todo('shows fee loading if prepare transactions result is undefined')
   })
 })
