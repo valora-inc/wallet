@@ -156,7 +156,10 @@ describe('watchPendingTransactions', () => {
         }).getState()
       )
       .provide([
-        [call(publicClient.celo.getTransactionReceipt, { hash: transactionHash }), revertedReceipt],
+        [
+          call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
+          revertedReceipt,
+        ],
       ])
       .put(
         transactionConfirmed(transactionId, {
@@ -184,7 +187,10 @@ describe('watchPendingTransactions', () => {
         }).getState()
       )
       .provide([
-        [call(publicClient.celo.getTransactionReceipt, { hash: transactionHash }), revertedReceipt],
+        [
+          call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
+          revertedReceipt,
+        ],
       ])
       .put(
         transactionConfirmed(transactionId, {
@@ -205,7 +211,9 @@ describe('watchPendingTransactions', () => {
           },
         }).getState()
       )
-      .provide([[call(publicClient.celo.getTransactionReceipt, { hash: transactionHash }), null]])
+      .provide([
+        [call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }), null],
+      ])
       .not.put(transactionConfirmed(expect.any(String), expect.any(Object)))
       .run()
   })

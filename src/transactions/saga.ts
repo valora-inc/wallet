@@ -245,7 +245,7 @@ export function* getTransactionReceipt(
   const { transactionHash } = transaction
 
   try {
-    const receipt = yield* call(publicClient[network].getTransactionReceipt, {
+    const receipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
       hash: transactionHash as Hash,
     })
 
