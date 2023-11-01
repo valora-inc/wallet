@@ -2764,6 +2764,20 @@ export const v164Schema = {
   app: _.omit(v162Schema.app, 'rampCashInButtonExpEnabled'),
 }
 
+export const v165Schema = {
+  ...v164Schema,
+  _persist: {
+    ...v164Schema._persist,
+    version: 165,
+  },
+  transactions: {
+    ..._.omit(v164Schema.transactions, 'transactions'),
+    transactionsByNetworkId: {
+      [networkConfig.defaultNetworkId]: v164Schema.transactions.transactions,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v164Schema as Partial<RootState>
+  return v165Schema as Partial<RootState>
 }

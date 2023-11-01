@@ -43,11 +43,15 @@ const TAG = 'transactions/saga'
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 
 // Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
+function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
   const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
-    if (standbyTx.transactionHash && newFeedTxHashes.has(standbyTx.transactionHash)) {
+    if (
+      standbyTx.transactionHash &&
+      standbyTx.networkId === networkId &&
+      newFeedTxHashes.has(standbyTx.transactionHash)
+    ) {
       yield* put(removeStandbyTransaction(standbyTx.context.id))
     }
   }
