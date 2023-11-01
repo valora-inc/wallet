@@ -10,7 +10,7 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props {
   forwardedRef: React.RefObject<GorhomBottomSheet>
-  title: string
+  title?: string | null
   titleStyle?: TextStyle
   description?: string | null
   children?: React.ReactNode | React.ReactNode[]
@@ -93,7 +93,9 @@ const BottomSheet = ({
         containerStyle={hasStickyHeader ? { paddingTop: 0 } : undefined}
         testId={testId}
       >
-        {!stickyTitle && <Text style={[titleStyle, styles.headerContentSpacing]}>{title}</Text>}
+        {!stickyTitle && title && (
+          <Text style={[titleStyle, styles.headerContentSpacing]}>{title}</Text>
+        )}
         {description && <Text style={styles.description}>{description}</Text>}
         {children}
       </BottomSheetScrollView>

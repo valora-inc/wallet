@@ -1663,7 +1663,7 @@
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
-    "disclaimer": "Swaps powered by partners on Celo \n<0>Learn more</0>",
+    "disclaimer": "Swaps powered by partners on Celo. <0>Learn more</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
@@ -1689,6 +1689,14 @@
       "title": "Insufficient gas token balance",
       "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this swap.",
       "dismissButton": "Dismiss"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Network Fee",
+      "swapFee": "{{appName}} Fee",
+      "swapFeeWaived": "Free",
+      "slippagePercentage": "Slippage Tolerance",
+      "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.",
+      "networkFeeInfoDismissButton": "Got it"
     }
   },
   "swapTransactionDetailPage": {
@@ -1923,5 +1931,9 @@
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
     }
+  },
+  "networkName": {
+    "ethereum": "Ethereum",
+    "celo": "Celo"
   }
 }

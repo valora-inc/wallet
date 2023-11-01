@@ -13,8 +13,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes } from 'src/components/Button'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CustomHeader from 'src/components/header/CustomHeader'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
@@ -37,11 +37,15 @@ import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactions
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
+import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+import { Network } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
@@ -56,6 +60,8 @@ export function SwapScreen({ route }: Props) {
   const dispatch = useDispatch()
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const showTransactionDetails = false // TODO remove this dummy feature flag after the transaction details are implemented
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -428,6 +434,17 @@ export function SwapScreen({ route }: Props) {
               )}
             </Text>
           </SwapAmountInput>
+
+          {showTransactionDetails && (
+            <SwapTransactionDetails
+              network={Network.Celo}
+              networkFee={new BigNumber(1)}
+              networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+              feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
+              slippagePercentage={0.3}
+            />
+          )}
+
           {showMaxSwapAmountWarning && (
             <Warning
               title={t('swapScreen.maxSwapAmountWarning.title')}
@@ -494,6 +511,23 @@ export function SwapScreen({ route }: Props) {
           }}
         />
       )}
+      <BottomSheet
+        forwardedRef={networkFeeInfoBottomSheetRef}
+        description={t('swapScreen.transactionDetails.networkFeeInfo', {
+          networkName: t(`networkName.${Network.Celo}`),
+        })}
+        testId="NetworkFeeInfoBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            networkFeeInfoBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -518,10 +552,11 @@ const styles = StyleSheet.create({
   toSwapAmountInput: {
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+    marginBottom: Spacing.Small12,
   },
   disclaimerText: {
     ...fontStyles.xsmall,
-    paddingBottom: Spacing.Thick24,
+    paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
     color: colors.gray5,
     textAlign: 'center',
@@ -538,6 +573,9 @@ const styles = StyleSheet.create({
     ...fontStyles.xsmall600,
   },
   warning: {
+    marginTop: Spacing.Thick24,
+  },
+  bottomSheetButton: {
     marginTop: Spacing.Thick24,
   },
 })
