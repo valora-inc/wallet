@@ -5,7 +5,7 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
-  CompletedStandbyTransaction,
+  ConfirmedStandbyTransaction,
   NetworkId,
   StandbyTransaction,
   TokenTransaction,
@@ -170,11 +170,11 @@ export const pendingStandbyTransactionsSelector = createSelector(
   }
 )
 
-export const completedStandbyTransactionsSelector = createSelector(
+export const confirmedStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],
   (transactions) => {
     return transactions.filter(
-      (transaction): transaction is CompletedStandbyTransaction =>
+      (transaction): transaction is ConfirmedStandbyTransaction =>
         transaction.status === TransactionStatus.Complete ||
         transaction.status === TransactionStatus.Failed
     )

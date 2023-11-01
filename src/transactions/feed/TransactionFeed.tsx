@@ -14,7 +14,7 @@ import {
   useFetchTransactions,
 } from 'src/transactions/feed/queryHelper'
 import {
-  completedStandbyTransactionsSelector,
+  confirmedStandbyTransactionsSelector,
   pendingStandbyTransactionsSelector,
   transactionsSelector,
 } from 'src/transactions/reducer'
@@ -33,7 +33,7 @@ function TransactionFeed() {
 
   const cachedTransactions = useSelector(transactionsSelector)
   const allPendingTransactions = useSelector(pendingStandbyTransactionsSelector)
-  const allCompletedStandbyTransactions = useSelector(completedStandbyTransactionsSelector)
+  const allConfirmedStandbyTransactions = useSelector(confirmedStandbyTransactionsSelector)
   const allowedNetworks = getAllowedNetworkIds()
 
   const confirmedFeedTransactions = useMemo(() => {
@@ -41,12 +41,12 @@ function TransactionFeed() {
       transactions.length > 0 ? transactions : cachedTransactions
     const allConfirmedTransactions = deduplicateTransactions(
       confirmedTokenTransactions,
-      allCompletedStandbyTransactions
+      allConfirmedStandbyTransactions
     )
     return allConfirmedTransactions.filter((tx) => {
       return allowedNetworks.includes(tx.networkId)
     })
-  }, [transactions, cachedTransactions, allowedNetworks, allCompletedStandbyTransactions])
+  }, [transactions, cachedTransactions, allowedNetworks, allConfirmedStandbyTransactions])
 
   const pendingTransactions = useMemo(() => {
     return allPendingTransactions.filter((tx) => {
