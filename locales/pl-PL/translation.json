@@ -1197,6 +1197,7 @@
   "feedItemNetworkFeeInfo": "Opłata sieciowa",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Nagroda za potwierdzenie",
+  "feedItemFailedTransaction": "Nieudana transakcja",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
