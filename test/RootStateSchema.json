@@ -4924,9 +4924,6 @@
                 "verified": {
                     "additionalProperties": false,
                     "properties": {
-                        "isScam": {
-                            "type": "boolean"
-                        },
                         "origin": {
                             "type": "string"
                         },
