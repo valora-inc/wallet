@@ -1197,6 +1197,7 @@
   "feedItemNetworkFeeInfo": "Комиссия сообщества",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Вознаграждение за подтверждение",
+  "feedItemFailedTransaction": "Неудачная транзакция",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "Кран {{faucet}}",
   "feedItemFaucetInfo_noTestnet": "Кран",
