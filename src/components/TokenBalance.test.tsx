@@ -668,7 +668,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
   })
 
-  it('shows correct eye icon when hideBalance is false', async () => {
+  it('renders correctly when hideBalance is false', async () => {
     const store = createMockStore(defaultStore)
 
     const tree = render(
@@ -677,10 +677,11 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
       </Provider>
     )
 
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
     expect(tree.getByTestId('EyeIcon')).toBeTruthy()
   })
 
-  it('calls the correct function when eye icon is pressed', async () => {
+  it('tracks analytics event when eye icon is pressed', async () => {
     const store = createMockStore(defaultStore)
 
     const tree = render(
