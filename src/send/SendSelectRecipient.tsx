@@ -175,7 +175,7 @@ function SendSelectRecipient() {
 
   const sections: Section[] = []
   if (recentRecipients.length) {
-    sections.push({ key: t('sendRedesign.recents'), data: recentRecipients })
+    sections.push({ key: t('sendSelectRecipient.recents'), data: recentRecipients })
   }
 
   return (
@@ -197,14 +197,14 @@ function SendSelectRecipient() {
             title={t('sendSelectRecipient.qr.title')}
             subtitle={t('sendSelectRecipient.qr.subtitle')}
             onPress={onPressQR}
-            icon=<QRCode />
+            icon={<QRCode />}
           />
           <SelectRecipientButton
             testID={'SelectRecipient/Invite'}
             title={t('sendSelectRecipient.invite.title')}
             subtitle={t('sendSelectRecipient.invite.subtitle')}
             onPress={onPressContacts}
-            icon=<Social />
+            icon={<Social />}
           />
         </View>
         {showGetStarted ? (

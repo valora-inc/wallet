@@ -20,7 +20,7 @@ export function SendSelectRecipientSearchInput({
 }: SendSelectRecipientSearchInputProps) {
   const { t } = useTranslation()
   return (
-    <View testID="SendRedesignSearchInput" style={styles.textInputContainer}>
+    <View testID="SendSelectRecipientSearchInput" style={styles.textInputContainer}>
       <SearchInput
         shouldShowClipboard={isValidAddress}
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
