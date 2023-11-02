@@ -16,6 +16,8 @@ import erc20 from 'src/abis/IERC20'
 interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
+  feeCurrency: TokenBalance
+  maxGasCostInDecimal: BigNumber
 }
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
@@ -183,6 +185,8 @@ export async function prepareTransactions({
     return {
       type: 'possible',
       transactions: estimatedTransactions,
+      feeCurrency,
+      maxGasCostInDecimal,
     } satisfies PreparedTransactionsPossible
   }
 
