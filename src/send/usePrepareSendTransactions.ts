@@ -32,6 +32,11 @@ export function _getOnSuccessCallback({
           new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals)
         )
       )
+    } else if (result?.type === 'need-decrease-spend-amount-for-gas') {
+      setFeeCurrency(result.feeCurrency)
+      setFeeAmount(
+        result.maxGasCost.dividedBy(new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals))
+      )
     } else {
       setFeeCurrency(undefined)
       setFeeAmount(undefined)

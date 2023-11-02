@@ -5,6 +5,7 @@ import {
 } from 'src/send/usePrepareSendTransactions'
 import {
   getMaxGasCost,
+  PreparedTransactionsNeedDecreaseSpendAmountForGas,
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
 } from 'src/viem/prepareTransactions'
@@ -62,7 +63,28 @@ describe('usePrepareSendTransactions', () => {
       expect(setFeeAmount).toHaveBeenCalledWith(new BigNumber(6))
     })
 
-    it('sets preparedTransactionsResult and clears feeCurrency, feeAmount if transaction result type is not possible', () => {
+    it('sets preparedTransactionsResult, feeCurrency, and feeAmount if transaction result type is need-decrease-spend-amount-for-gas', () => {
+      const result: PreparedTransactionsNeedDecreaseSpendAmountForGas = {
+        type: 'need-decrease-spend-amount-for-gas',
+        maxGasCost: new BigNumber(600),
+        feeCurrency: mockFeeCurrencyWithTwoDecimals,
+        decreasedSpendAmount: new BigNumber(500),
+      }
+      const setFeeCurrency = jest.fn()
+      const setPrepareTransactionsResult = jest.fn()
+      const setFeeAmount = jest.fn()
+      const onSuccess = _getOnSuccessCallback({
+        setFeeCurrency,
+        setFeeAmount,
+        setPrepareTransactionsResult,
+      })
+      onSuccess(result)
+      expect(setPrepareTransactionsResult).toHaveBeenCalledWith(result)
+      expect(setFeeCurrency).toHaveBeenCalledWith(mockFeeCurrencyWithTwoDecimals)
+      expect(setFeeAmount).toHaveBeenCalledWith(new BigNumber(6))
+    })
+
+    it('sets preparedTransactionsResult and clears feeCurrency, feeAmount if transaction result type is not-enough-balance-for-gas', () => {
       const result: PreparedTransactionsResult = {
         type: 'not-enough-balance-for-gas',
         feeCurrencies: [mockFeeCurrencyWithTwoDecimals],
