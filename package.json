@@ -50,8 +50,7 @@
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
-    "keys:encrypt": "bash scripts/key_placer.sh encrypt",
-    "knip": "knip --no-gitignore"
+    "keys:encrypt": "bash scripts/key_placer.sh encrypt"
   },
   "husky": {
     "hooks": {
