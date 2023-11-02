@@ -2907,6 +2907,9 @@
                 "hapticFeedbackEnabled": {
                     "type": "boolean"
                 },
+                "hideHomeBalances": {
+                    "type": "boolean"
+                },
                 "huaweiMobileServicesAvailable": {
                     "type": "boolean"
                 },
@@ -3041,6 +3044,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "hideHomeBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",

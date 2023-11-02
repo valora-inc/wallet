@@ -617,4 +617,10 @@ describe('TransferFeedItem', () => {
       expectedTokenAmount: `${transferTotalCost}.00 cUSD`,
     })
   })
+
+  it('hides balance when flag is set', async () => {
+    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideHomeBalances: true } } })
+    expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
+    expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
+  })
 })
