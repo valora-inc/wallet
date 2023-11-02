@@ -287,7 +287,7 @@ export function HomeTokenBalance() {
           }
           hideBalance={hideBalance}
         />
-        <Touchable onPress={eyeIconOnPress}>
+        <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
           {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
         </Touchable>
       </View>
