@@ -60,7 +60,7 @@ function FeeLoading() {
   return (
     <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
       <Text style={styles.feeInCrypto}>{'≈ '}</Text>
-      <SkeletonPlaceholder style={styles.feesLoadingSkeleton}>
+      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
         <View style={styles.feesLoadingInternal} />
       </SkeletonPlaceholder>
     </View>
@@ -519,10 +519,6 @@ const styles = StyleSheet.create({
   feeInFiat: {
     color: Colors.gray4,
     ...typeScale.bodyXSmall,
-  },
-  feesLoadingSkeleton: {
-    backgroundColor: Colors.gray4,
-    highlightColor: Colors.white,
   },
   feesLoadingInternal: {
     ...typeScale.labelXSmall,
