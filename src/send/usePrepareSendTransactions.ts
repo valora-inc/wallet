@@ -98,7 +98,6 @@ export function usePrepareSendTransactions(
     feeCurrency,
     feeAmount,
     prepareTransactionsResult,
-    prepareTransactionsLoading: prepareTransactions.loading,
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)
