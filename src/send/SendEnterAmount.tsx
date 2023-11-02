@@ -62,22 +62,18 @@ const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
 
 function FeeLoading() {
   return (
-    <>
-      <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
-        <Text style={styles.feeInCrypto}>{'≈ '}</Text>
-        <ActivityIndicator size="small" color={Colors.gray4} />
-      </View>
-    </>
+    <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
+      <Text style={styles.feeInCrypto}>{'≈ '}</Text>
+      <ActivityIndicator size="small" color={Colors.gray4} />
+    </View>
   )
 }
 
 function FeePlaceholder({ feeTokenSymbol }: { feeTokenSymbol: string }) {
   return (
-    <>
-      <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
-        ~ {feeTokenSymbol}
-      </Text>
-    </>
+    <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
+      ~ {feeTokenSymbol}
+    </Text>
   )
 }
 
@@ -85,11 +81,11 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
   return (
     <>
       <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
-        <Text style={styles.feeInCrypto}>~</Text>
         <TokenDisplay
           tokenId={feeTokenId}
           amount={feeAmount}
           showLocalAmount={false}
+          showApprox={true}
           style={styles.feeInCrypto}
         />
       </View>
