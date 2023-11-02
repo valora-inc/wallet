@@ -26,6 +26,7 @@ export function getSwapTxsAnalyticsProperties(
       : undefined
 
   return {
+    gas: Number(preparedTransactions.reduce((sum, tx) => sum + (tx.gas ?? BigInt(0)), BigInt(0))),
     maxGasCost: maxGasCost?.toNumber(),
     maxGasCostUsd: maxGasCostUsd?.toNumber(),
     feeCurrency,

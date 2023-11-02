@@ -545,8 +545,10 @@ describe(swapSubmitPreparedSaga, () => {
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
       web3Library: 'viem',
+      gas: 1384480,
       maxGasCost: 0.01661376,
       maxGasCostUsd: 0.00830688,
+      gasUsed: 423252,
       gasCost: 0.00211626,
       gasCostUsd: 0.00105813,
       feeCurrency: undefined,
@@ -554,20 +556,44 @@ describe(swapSubmitPreparedSaga, () => {
       txCount: 2,
       approveTxCumulativeGasUsed: 3_129_217,
       approveTxEffectiveGasPrice: 5_000_000_000,
-      approveTxGasUsed: 51_578,
+      approveTxFeeCurrency: undefined,
+      approveTxFeeCurrencySymbol: 'CELO',
       approveTxGas: 59_480,
+      approveTxMaxGasCost: 0.00071376,
+      approveTxMaxGasCostUsd: 0.00035688,
+      approveTxGasUsed: 51_578,
       approveTxGasCost: 0.00025789,
       approveTxGasCostUsd: 0.000128945,
       approveTxHash: '0x1',
       swapTxCumulativeGasUsed: 3_899_547,
       swapTxEffectiveGasPrice: 5_000_000_000,
-      swapTxGasUsed: 371_674,
+      swapTxFeeCurrency: undefined,
+      swapTxFeeCurrencySymbol: 'CELO',
       swapTxGas: 1_325_000,
+      swapTxMaxGasCost: 0.0159,
+      swapTxMaxGasCostUsd: 0.00795,
+      swapTxGasUsed: 371_674,
       swapTxGasCost: 0.00185837,
       swapTxGasCostUsd: 0.000929185,
       swapTxHash: '0x2',
     })
     const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+    expect(analyticsProps.gas).toBeCloseTo(
+      analyticsProps.approveTxGas + analyticsProps.swapTxGas,
+      8
+    )
+    expect(analyticsProps.maxGasCost).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCost + analyticsProps.swapTxMaxGasCost,
+      8
+    )
+    expect(analyticsProps.maxGasCostUsd).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCostUsd + analyticsProps.swapTxMaxGasCostUsd,
+      8
+    )
+    expect(analyticsProps.gasUsed).toBeCloseTo(
+      analyticsProps.approveTxGasUsed + analyticsProps.swapTxGasUsed,
+      8
+    )
     expect(analyticsProps.gasCost).toBeCloseTo(
       analyticsProps.approveTxGasCost + analyticsProps.swapTxGasCost,
       8
@@ -668,8 +694,10 @@ describe(swapSubmitPreparedSaga, () => {
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
       web3Library: 'viem',
+      gas: 1384480,
       maxGasCost: 0.01661376,
       maxGasCostUsd: 0.00830688,
+      gasUsed: undefined,
       gasCost: undefined,
       gasCostUsd: undefined,
       feeCurrency: undefined,
@@ -678,18 +706,39 @@ describe(swapSubmitPreparedSaga, () => {
       // Most of these values are undefined because we didn't get a tx receipt
       approveTxCumulativeGasUsed: undefined,
       approveTxEffectiveGasPrice: undefined,
-      approveTxGasUsed: undefined,
+      approveTxFeeCurrency: undefined,
+      approveTxFeeCurrencySymbol: 'CELO',
       approveTxGas: 59_480,
+      approveTxMaxGasCost: 0.00071376,
+      approveTxMaxGasCostUsd: 0.00035688,
+      approveTxGasUsed: undefined,
       approveTxGasCost: undefined,
       approveTxGasCostUsd: undefined,
       approveTxHash: undefined,
       swapTxCumulativeGasUsed: undefined,
       swapTxEffectiveGasPrice: undefined,
-      swapTxGasUsed: undefined,
+      swapTxFeeCurrency: undefined,
+      swapTxFeeCurrencySymbol: 'CELO',
       swapTxGas: 1_325_000,
+      swapTxMaxGasCost: 0.0159,
+      swapTxMaxGasCostUsd: 0.00795,
+      swapTxGasUsed: undefined,
       swapTxGasCost: undefined,
       swapTxGasCostUsd: undefined,
       swapTxHash: undefined,
     })
+    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+    expect(analyticsProps.gas).toBeCloseTo(
+      analyticsProps.approveTxGas + analyticsProps.swapTxGas,
+      8
+    )
+    expect(analyticsProps.maxGasCost).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCost + analyticsProps.swapTxMaxGasCost,
+      8
+    )
+    expect(analyticsProps.maxGasCostUsd).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCostUsd + analyticsProps.swapTxMaxGasCostUsd,
+      8
+    )
   })
 })

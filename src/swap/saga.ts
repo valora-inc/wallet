@@ -7,6 +7,7 @@ import BigNumber from 'bignumber.js'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapEvents } from 'src/analytics/Events'
 import {
+  PrefixedTxReceiptProperties,
   SwapTimeMetrics,
   SwapTxsReceiptProperties,
   TxReceiptProperties,
@@ -50,6 +51,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
+import { getMaxGasCost } from 'src/viem/prepareTransactions'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
@@ -285,6 +287,14 @@ function getTxReceiptAnalyticsProperties(
 ): Partial<TxReceiptProperties> {
   const feeCurrencyAddress = tx?.feeCurrency || celoAddress
   const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
+
+  const txMaxGasCost =
+    tx && feeCurrencyToken ? getMaxGasCost([tx]).shiftedBy(-feeCurrencyToken.decimals) : undefined
+  const txMaxGasCostUsd =
+    feeCurrencyToken && txMaxGasCost && feeCurrencyToken.priceUsd
+      ? txMaxGasCost.times(feeCurrencyToken.priceUsd)
+      : undefined
+
   const txGasCost =
     txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeCurrencyToken
       ? new BigNumber((txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString()).shiftedBy(
@@ -303,23 +313,27 @@ function getTxReceiptAnalyticsProperties(
     txEffectiveGasPrice: txReceipt?.effectiveGasPrice
       ? Number(txReceipt.effectiveGasPrice)
       : undefined,
-    txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
     txGas: tx?.gas ? Number(tx.gas) : undefined,
+    txMaxGasCost: txMaxGasCost?.toNumber(),
+    txMaxGasCostUsd: txMaxGasCostUsd?.toNumber(),
+    txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
     txGasCost: txGasCost?.toNumber(),
     txGasCostUsd: txGasCostUsd?.toNumber(),
     txHash,
+    txFeeCurrency: tx?.feeCurrency,
+    txFeeCurrencySymbol: feeCurrencyToken?.symbol,
   }
 }
 
-function getPrefixedTxAnalyticsProperties(
+function getPrefixedTxAnalyticsProperties<Prefix extends string>(
   receiptProperties: Partial<TxReceiptProperties>,
-  prefix: string
-) {
+  prefix: Prefix
+): Partial<PrefixedTxReceiptProperties<Prefix>> {
   const prefixedProperties: Record<string, any> = {}
   for (const [key, value] of Object.entries(receiptProperties)) {
     prefixedProperties[`${prefix}${key[0].toUpperCase()}${key.slice(1)}`] = value
   }
-  return prefixedProperties as Partial<TxReceiptProperties>
+  return prefixedProperties as Partial<PrefixedTxReceiptProperties<Prefix>>
 }
 
 function getSwapTxsReceiptAnalyticsProperties(
@@ -337,6 +351,7 @@ function getSwapTxsReceiptAnalyticsProperties(
   return {
     ...getPrefixedTxAnalyticsProperties(approveTx || {}, 'approve'),
     ...getPrefixedTxAnalyticsProperties(swapTx, 'swap'),
+    gasUsed: swapTx.txGasUsed ? txs.reduce((sum, tx) => sum + (tx.txGasUsed || 0), 0) : undefined,
     gasCost: swapTx.txGasCost ? txs.reduce((sum, tx) => sum + (tx.txGasCost || 0), 0) : undefined,
     gasCostUsd: swapTx.txGasCostUsd
       ? txs.reduce((sum, tx) => sum + (tx.txGasCostUsd || 0), 0)
