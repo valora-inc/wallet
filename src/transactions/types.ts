@@ -26,18 +26,18 @@ export type PendingStandbyTransfer = {
   status: TransactionStatus.Pending
 } & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
 
-export type CompletedStandbyTransaction = (
+export type ConfirmedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>
 ) & {
-  status: TransactionStatus.Complete
+  status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
 }
 
 export type StandbyTransaction =
   | PendingStandbySwap
   | PendingStandbyTransfer
-  | CompletedStandbyTransaction
+  | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {
