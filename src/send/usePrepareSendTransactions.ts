@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import {
-  getMaxGasCost,
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
 } from 'src/viem/prepareTransactions'
@@ -12,37 +11,6 @@ import Logger from 'src/utils/Logger'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 
 const TAG = 'src/send/usePrepareSendTransactions'
-
-// just exported for testing
-export function _getOnSuccessCallback({
-  setFeeCurrency,
-  setPrepareTransactionsResult,
-  setFeeAmount,
-}: {
-  setFeeCurrency: (token: TokenBalance | undefined) => void
-  setPrepareTransactionsResult: (result: PreparedTransactionsResult | undefined) => void
-  setFeeAmount: (amount: BigNumber | undefined) => void
-}) {
-  return (result: PreparedTransactionsResult | undefined) => {
-    setPrepareTransactionsResult(result)
-    if (result?.type === 'possible') {
-      setFeeCurrency(result.feeCurrency)
-      setFeeAmount(
-        getMaxGasCost(result.transactions).dividedBy(
-          new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals)
-        )
-      )
-    } else if (result?.type === 'need-decrease-spend-amount-for-gas') {
-      setFeeCurrency(result.feeCurrency)
-      setFeeAmount(
-        result.maxGasCost.dividedBy(new BigNumber(10).exponentiatedBy(result.feeCurrency.decimals))
-      )
-    } else {
-      setFeeCurrency(undefined)
-      setFeeAmount(undefined)
-    }
-  }
-}
 
 // just exported for testing
 export async function _prepareSendTransactionsCallback({
@@ -86,28 +54,18 @@ export function usePrepareSendTransactions(
   const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
     PreparedTransactionsResult | undefined
   >()
-  const [feeCurrency, setFeeCurrency] = useState<TokenBalance | undefined>()
 
-  const [feeAmount, setFeeAmount] = useState<BigNumber | undefined>()
   const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
     onError: (error) => {
       Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
     },
-    onSuccess: _getOnSuccessCallback({
-      setFeeCurrency,
-      setPrepareTransactionsResult,
-      setFeeAmount,
-    }),
+    onSuccess: setPrepareTransactionsResult,
   })
   return {
-    feeCurrency,
-    feeAmount,
     prepareTransactionsResult,
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)
-      setFeeCurrency(undefined)
-      setFeeAmount(undefined)
     },
   }
 }

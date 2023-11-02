@@ -50,6 +50,7 @@ import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import Logger from 'src/utils/Logger'
+import { getMaxGasCost, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -92,6 +93,34 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
       <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
     </>
   )
+}
+
+/**
+ * Given prepared transactions, get the fee currency and amount in decimals
+ *
+ * Exported only for testing
+ *
+ * @param prepareTransactionsResult
+ */
+export function _getFeeCurrencyAndAmount(
+  prepareTransactionsResult: PreparedTransactionsResult | undefined
+): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
+  let feeAmountSmallestUnits = undefined
+  let feeCurrency = undefined
+  if (prepareTransactionsResult?.type === 'possible') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = getMaxGasCost(prepareTransactionsResult.transactions)
+  } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasCost
+  }
+  return {
+    feeAmount:
+      feeAmountSmallestUnits &&
+      feeCurrency &&
+      feeAmountSmallestUnits.dividedBy(new BigNumber(10).exponentiatedBy(feeCurrency.decimals)),
+    feeCurrency,
+  }
 }
 
 function SendEnterAmount({ route }: Props) {
@@ -189,13 +218,9 @@ function SendEnterAmount({ route }: Props) {
   const { decimalSeparator } = getNumberFormatSettings()
   const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
 
-  const {
-    prepareTransactionsResult,
-    feeCurrency,
-    feeAmount,
-    refreshPreparedTransactions,
-    clearPreparedTransactions,
-  } = usePrepareSendTransactions()
+  const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
+    usePrepareSendTransactions()
+  const { feeAmount, feeCurrency } = _getFeeCurrencyAndAmount(prepareTransactionsResult)
 
   const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const walletAddress = useSelector(walletAddressSelector)
