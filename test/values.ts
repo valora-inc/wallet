@@ -115,6 +115,7 @@ export const mockPoofAddress = '0x00400FcbF0816bebB94654259de7273f4A05c762'.toLo
 export const mockTestTokenAddress = '0x048F47d358EC521a6cf384461d674750a3cB58C8'.toLowerCase()
 export const mockCrealAddress = '0xE4D517785D091D3c54818832dB6094bcc2744545'.toLowerCase()
 export const mockWBTCAddress = '0x2260fac5e5542a773aa44fbcfedf7c193bc2c599'.toLowerCase()
+export const mockUSDCAddress = '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLowerCase()
 
 export const mockCusdTokenId = `celo-alfajores:${mockCusdAddress}`
 export const mockCeurTokenId = `celo-alfajores:${mockCeurAddress}`
@@ -124,6 +125,7 @@ export const mockTestTokenTokenId = `celo-alfajores:${mockTestTokenAddress}`
 export const mockCrealTokenId = `celo-alfajores:${mockCrealAddress}`
 export const mockWBTCTokenId = `celo-alfajores:${mockWBTCAddress}`
 export const mockEthTokenId = 'ethereum-sepolia:native'
+export const mockUSDCTokenId = `ethereum-sepolia:${mockUSDCAddress}`
 
 export const mockQrCodeData2 = {
   address: mockAccount2Invite,
@@ -184,6 +186,7 @@ export const mockTransactionData = {
   tokenAddress: mockCusdAddress,
   recipient: mockInvitableRecipient2,
   tokenAmount: new BigNumber(1),
+  tokenId: mockCusdTokenId,
 }
 
 export const mockTransactionDataLegacy = {
@@ -206,6 +209,7 @@ export const mockTokenTransactionData: TransactionDataInput = {
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
+  tokenId: mockCusdTokenId,
   tokenAmount: new BigNumber(1),
 }
 
@@ -214,6 +218,7 @@ export const mockTokenInviteTransactionData: TransactionDataInput = {
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
+  tokenId: mockCusdTokenId,
   tokenAmount: new BigNumber(1),
 }
 
@@ -1313,4 +1318,37 @@ export const mockNftNullMetadata: Nft = {
   media: [],
   metadata: null,
   tokenId: '4',
+}
+
+export const mockTypedData = {
+  account: '0xA0Cf798816D4b9b9866b5330EEa46a18382f251e',
+  domain: {
+    name: 'Ether Mail',
+    version: '1',
+    chainId: 1,
+    verifyingContract: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+  },
+  types: {
+    Person: [
+      { name: 'name', type: 'string' },
+      { name: 'wallet', type: 'address' },
+    ],
+    Mail: [
+      { name: 'from', type: 'Person' },
+      { name: 'to', type: 'Person' },
+      { name: 'contents', type: 'string' },
+    ],
+  },
+  primaryType: 'Mail',
+  message: {
+    from: {
+      name: 'Cow',
+      wallet: '0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826',
+    },
+    to: {
+      name: 'Bob',
+      wallet: '0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB',
+    },
+    contents: 'Hello, Bob!',
+  },
 }

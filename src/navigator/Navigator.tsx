@@ -227,7 +227,7 @@ const sendScreens = (Navigator: typeof Stack) => (
       options={Send.navigationOptions as NativeStackNavigationOptions}
     />
     <Navigator.Screen
-      name={Screens.SendRedesign}
+      name={Screens.SendSelectRecipient}
       component={SendSelectRecipient}
       options={SendSelectRecipient.navigationOptions as NativeStackNavigationOptions}
     />

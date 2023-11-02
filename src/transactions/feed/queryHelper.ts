@@ -13,7 +13,7 @@ import { getDynamicConfigParams } from 'src/statsig/index'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { updateTransactions } from 'src/transactions/actions'
-import { transactionHashesSelector } from 'src/transactions/reducer'
+import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
@@ -72,7 +72,7 @@ export function useFetchTransactions(): QueryHookResult {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const transactionHashes = useSelector(transactionHashesSelector)
+  const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
 
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
@@ -101,7 +101,6 @@ export function useFetchTransactions(): QueryHookResult {
   })
 
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-  let hasNewTransaction = false
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -147,16 +146,19 @@ export function useFetchTransactions(): QueryHookResult {
           const nonEmptyTransactions = returnedTransactions.filter(
             (returnedTransaction) => !isEmpty(returnedTransaction)
           )
+          const knownTransactionHashes = transactionHashesByNetwork[networkId]
+          let hasNewTransaction = false
+
           // Compare the new tx hashes with the ones we already have in redux
-          for (let i = 0; i < nonEmptyTransactions.length; i++) {
-            if (!transactionHashes.includes(nonEmptyTransactions[i].transactionHash)) {
+          for (const tx of nonEmptyTransactions) {
+            if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
               hasNewTransaction = true
               break // We only need one new tx justify a refresh
             }
           }
           // If there are new transactions update transactions in redux and fetch balances
           if (hasNewTransaction) {
-            dispatch(updateTransactions(nonEmptyTransactions))
+            dispatch(updateTransactions(networkId, nonEmptyTransactions))
             vibrateSuccess()
           }
         }

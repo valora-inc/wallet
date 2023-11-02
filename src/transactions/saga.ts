@@ -10,13 +10,13 @@ import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { fetchTokenBalances } from 'src/tokens/slice'
+import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   Actions,
   UpdateTransactionsAction,
   addHashToStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
-  transactionFailed,
   updateInviteTransactions,
   updateRecentTxRecipientsCache,
 } from 'src/transactions/actions'
@@ -25,29 +25,42 @@ import {
   KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
+  pendingStandbyTransactionsSelector,
   standbyTransactionsSelector,
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
+  Network,
   StandbyTransaction,
   TokenTransactionTypeV2,
   TransactionContext,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { publicClient } from 'src/viem'
 import { getContractKit } from 'src/web3/contracts'
-import { call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
+import networkConfig from 'src/web3/networkConfig'
+import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
+import { Hash } from 'viem'
 
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
+const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
+  [Network.Celo]: 5000,
+  [Network.Ethereum]: 15000,
+}
 
 // Remove standby txs from redux state when the real ones show up in the feed
-function* cleanupStandbyTransactions({ transactions }: UpdateTransactionsAction) {
+function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
   const standbyTxs: StandbyTransaction[] = yield* select(standbyTransactionsSelector)
   const newFeedTxHashes = new Set(transactions.map((tx) => tx?.transactionHash))
   for (const standbyTx of standbyTxs) {
-    if (standbyTx.transactionHash && newFeedTxHashes.has(standbyTx.transactionHash)) {
+    if (
+      standbyTx.transactionHash &&
+      standbyTx.networkId === networkId &&
+      newFeedTxHashes.has(standbyTx.transactionHash)
+    ) {
       yield* put(removeStandbyTransaction(standbyTx.context.id))
     }
   }
@@ -145,6 +158,7 @@ export function* sendAndMonitorTransaction<T>(
       sendTxMethod,
       context
     )) as unknown as CeloTxReceipt
+
     yield* put(
       transactionConfirmed(context.id, {
         transactionHash: txReceipt.transactionHash,
@@ -158,7 +172,6 @@ export function* sendAndMonitorTransaction<T>(
   } catch (error) {
     Logger.error(TAG + '@sendAndMonitorTransaction', `Error sending tx ${context.id}`, error)
     yield* put(removeStandbyTransaction(context.id))
-    yield* put(transactionFailed(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     return { error }
   }
@@ -225,7 +238,73 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
+export function* getTransactionReceipt(
+  transaction: StandbyTransaction & { transactionHash: string },
+  network: Network
+) {
+  const { transactionHash } = transaction
+
+  try {
+    const receipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
+      hash: transactionHash as Hash,
+    })
+
+    if (receipt) {
+      yield* put(
+        transactionConfirmed(transaction.context.id, {
+          transactionHash: receipt.transactionHash,
+          block: receipt.blockNumber.toString(),
+          status: receipt.status == 'success',
+        })
+      )
+    }
+  } catch (e) {
+    Logger.warn(
+      TAG,
+      `Error found when trying to fetch status for transaction with hash: ${transactionHash} in ${network}`,
+      (e as Error).message
+    )
+  }
+}
+
+export function* internalWatchPendingTransactionsInNetwork(network: Network) {
+  const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
+  const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
+    return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
+  })
+
+  for (const transaction of filteredPendingTxs) {
+    yield* fork(getTransactionReceipt, transaction, network)
+  }
+}
+
+export function* watchPendingTransactionsInNetwork(network: Network) {
+  while (true) {
+    yield* call(internalWatchPendingTransactionsInNetwork, network)
+    yield* delay(WATCHING_DELAY_BY_NETWORK[network])
+  }
+}
+
+export function* watchPendingTransactions() {
+  const supportedNetworkIdsForSend = yield* call(getSupportedNetworkIdsForSend)
+  const supportedNetworkIdsForSwap = yield* call(getSupportedNetworkIdsForSwap)
+  const supportedNetworksByViem = Object.keys(publicClient) as Network[]
+  const supportedNetworkIds = new Set([
+    ...supportedNetworkIdsForSend,
+    ...supportedNetworkIdsForSwap,
+  ])
+
+  const supportedNetworks = supportedNetworksByViem.filter((network) =>
+    supportedNetworkIds.has(networkConfig.networkToNetworkId[network])
+  )
+
+  for (const network of supportedNetworks) {
+    yield* spawn(watchPendingTransactionsInNetwork, network)
+  }
+}
+
 export function* transactionSaga() {
   yield* spawn(watchNewFeedTransactions)
   yield* spawn(watchAddressToE164PhoneNumberUpdate)
+  yield* spawn(watchPendingTransactions)
 }

@@ -16,7 +16,7 @@ import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
-import { UpdateTransactionsAction } from 'src/transactions/actions'
+import { updateTransactions } from 'src/transactions/actions'
 import {
   NetworkId,
   TokenTransaction,
@@ -25,7 +25,13 @@ import {
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
-import { mockAccount } from 'test/values'
+import {
+  mockAccount,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockCeurAddress,
+  mockCeurTokenId,
+} from 'test/values'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
@@ -51,12 +57,12 @@ describe(watchBidaliPaymentRequests, () => {
   })
 
   it.each`
-    currencyCode | expectedCurrency   | expectedTokenAddress
-    ${'cUSD'}    | ${Currency.Dollar} | ${'mockCusdAddress'}
-    ${'cEUR'}    | ${Currency.Euro}   | ${'mockCeurAddress'}
+    currencyCode | expectedCurrency   | expectedTokenAddress | expectedTokenId
+    ${'cUSD'}    | ${Currency.Dollar} | ${mockCusdAddress}   | ${mockCusdTokenId}
+    ${'cEUR'}    | ${Currency.Euro}   | ${mockCeurAddress}   | ${mockCeurTokenId}
   `(
     'triggers the payment flow with $currencyCode and calls `onPaymentSent` when successful',
-    async ({ currencyCode, expectedCurrency, expectedTokenAddress }) => {
+    async ({ currencyCode, expectedCurrency, expectedTokenAddress, expectedTokenId }) => {
       const onPaymentSent = jest.fn()
       const onCancelled = jest.fn()
 
@@ -64,7 +70,7 @@ describe(watchBidaliPaymentRequests, () => {
         .provide([
           [
             select(tokensByCurrencySelector),
-            { [expectedCurrency]: { address: expectedTokenAddress } },
+            { [expectedCurrency]: { address: expectedTokenAddress, tokenId: expectedTokenId } },
           ],
         ])
         .put(
@@ -86,17 +92,17 @@ describe(watchBidaliPaymentRequests, () => {
         .dispatch(
           sendPayment(
             amount,
-            expectedTokenAddress,
+            expectedTokenId,
             new BigNumber('20'),
             'Some description (TEST_CHARGE_ID)',
             recipient,
+            true,
             {
               fee: new BigNumber('0.01'),
               gas: new BigNumber('0.01'),
               gasPrice: new BigNumber('0.01'),
               feeCurrency: expectedCurrency,
-            },
-            true
+            }
           )
         )
         .dispatch(sendPaymentSuccess(amount))
@@ -110,6 +116,7 @@ describe(watchBidaliPaymentRequests, () => {
           recipient,
           amountIsInLocalCurrency: false,
           tokenAddress: expectedTokenAddress,
+          tokenId: expectedTokenId,
           tokenAmount: amount,
         },
         isFromScan: false,
@@ -125,7 +132,10 @@ describe(watchBidaliPaymentRequests, () => {
 
     await expectSaga(watchBidaliPaymentRequests)
       .provide([
-        [select(tokensByCurrencySelector), { [Currency.Dollar]: { address: 'mockCusdAddress' } }],
+        [
+          select(tokensByCurrencySelector),
+          { [Currency.Dollar]: { address: mockCusdAddress, tokenId: mockCusdTokenId } },
+        ],
       ])
       .not.put.actionType(IdentityActions.UPDATE_KNOWN_ADDRESSES)
       .dispatch(
@@ -142,17 +152,17 @@ describe(watchBidaliPaymentRequests, () => {
       .dispatch(
         sendPayment(
           amount,
-          'mockCusdAddress',
+          mockCusdTokenId,
           new BigNumber('20'),
           'Some description (TEST_CHARGE_ID)',
           recipient,
+          true,
           {
             fee: new BigNumber('0.01'),
             gas: new BigNumber('0.01'),
             gasPrice: new BigNumber('0.01'),
             feeCurrency: Currency.Dollar,
-          },
-          true
+          }
         )
       )
       .dispatch(sendPaymentFailure())
@@ -166,8 +176,9 @@ describe(watchBidaliPaymentRequests, () => {
         comment: 'Some description (TEST_CHARGE_ID)',
         recipient,
         amountIsInLocalCurrency: false,
-        tokenAddress: 'mockCusdAddress',
+        tokenAddress: mockCusdAddress,
         tokenAmount: amount,
+        tokenId: mockCusdTokenId,
       },
       isFromScan: false,
     })
@@ -265,7 +276,10 @@ describe(tagTxsWithProviderInfo, () => {
     const mockTxHashesToProvider = { [providerTransferHash]: providerName }
     const mockProviderLogos = { [providerName]: mockProviderLogo }
 
-    await expectSaga(tagTxsWithProviderInfo, { transactions } as UpdateTransactionsAction)
+    await expectSaga(
+      tagTxsWithProviderInfo,
+      updateTransactions(NetworkId['celo-alfajores'], transactions)
+    )
       .provide([
         [select(providerLogosSelector), mockProviderLogos],
         [call(fetchTxHashesToProviderMapping), mockTxHashesToProvider],

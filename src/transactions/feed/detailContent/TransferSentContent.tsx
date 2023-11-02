@@ -1,8 +1,8 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import FeeDrawer from 'src/components/FeeDrawer'
 import HorizontalLine from 'src/components/HorizontalLine'
+import LegacyFeeDrawer from 'src/components/LegacyFeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
@@ -11,12 +11,12 @@ import { getRecipientFromAddress } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo } from 'src/tokens/hooks'
-import networkConfig from 'src/web3/networkConfig'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
-import { TokenTransfer } from 'src/transactions/types'
 import UserSection from 'src/transactions/UserSection'
+import { TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 
 // Note that this is tested from TransactionDetailsScreen.test.tsx
 function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
@@ -58,7 +58,7 @@ function TransferSentContent({ transfer }: { transfer: TokenTransfer }) {
           />
         }
       />
-      <FeeDrawer
+      <LegacyFeeDrawer
         currency={feeCurrency}
         securityFee={securityFee}
         dekFee={dekFee}

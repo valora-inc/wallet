@@ -480,6 +480,7 @@
   "totalInCelo": "Celo @ <0></0>",
   "totalInToken": "<0></0> @ <1></1>",
   "tokenExchanteRate": "{{symbol}} @ <0></0>",
+  "tokenExchangeRateApprox": "1 {{symbol}} ≈ <0></0>",
   "oops": "Oops!",
   "somethingWrong": "Something went wrong.",
   "verifyFailed": "Failed to connect",
@@ -1194,6 +1195,7 @@
   "feedItemNetworkFeeInfo": "Network Fee",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Confirmer Reward",
+  "feedItemFailedTransaction": "Failed Transaction",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
@@ -1913,6 +1915,15 @@
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
-    "networkFee": "{{networkName}} Network Fee"
+    "networkFee": "{{networkName}} Network Fee",
+    "lowerAmount": "Enter a lower amount",
+    "maxAmountWarning": {
+      "title": "Sending the maximum amount",
+      "description": "Adjust the amount you are sending to make sure you have enough {{feeTokenSymbol}} for gas"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    }
   }
 }

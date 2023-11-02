@@ -19,10 +19,11 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { Actions as SendActions } from 'src/send/actions'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions, UpdateTransactionsAction } from 'src/transactions/actions'
-import { TokenTransactionTypeV2 } from 'src/transactions/types'
+import { Network, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { resolveCurrency } from 'src/utils/currencies'
 import { safely } from 'src/utils/safely'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { getAccount } from 'src/web3/saga'
 import { call, put, race, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 
@@ -50,10 +51,10 @@ function* bidaliPaymentRequest({
 
   const tokens: CurrencyTokens = yield* select(tokensByCurrencySelector)
   const tokenAddress = tokens[currency]?.address
-
-  if (!tokenAddress) {
+  const tokenId = tokens[currency]?.tokenId
+  if (!tokenId) {
     // This is not supposed to happen in production
-    throw new Error(`No token address found for currency: ${currency}`)
+    throw new Error(`No token ID found for currency: ${currency}`)
   }
 
   const recipient: AddressRecipient = {
@@ -65,6 +66,7 @@ function* bidaliPaymentRequest({
   }
   const transactionData: TransactionDataInput = {
     recipient,
+    tokenId,
     inputAmount: new BigNumber(amount),
     amountIsInLocalCurrency: false,
     tokenAddress,
@@ -126,9 +128,9 @@ export function* fetchTxHashesToProviderMapping() {
   return txHashesToProvider
 }
 
-export function* tagTxsWithProviderInfo({ transactions }: UpdateTransactionsAction) {
+export function* tagTxsWithProviderInfo({ transactions, networkId }: UpdateTransactionsAction) {
   try {
-    if (!transactions || !transactions.length) {
+    if (!transactions || !transactions.length || networkIdToNetwork[networkId] !== Network.Celo) {
       return
     }
 

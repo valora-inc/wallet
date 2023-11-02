@@ -12,11 +12,11 @@ import { RootState } from 'src/redux/reducers'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   Fee,
+  NetworkId,
   TokenAmount,
   TokenTransactionTypeV2,
   TokenTransferMetadata,
   TransactionStatus,
-  NetworkId,
 } from 'src/transactions/types'
 import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
 import {
@@ -128,6 +128,19 @@ describe('TransferFeedItem', () => {
       )
     ).toBeTruthy()
     expect(getByText('confirmingTransaction')).toBeTruthy()
+  })
+
+  it('renders a failed transaction correctly', async () => {
+    const { getByTestId } = renderScreen({ status: TransactionStatus.Failed })
+
+    expect(getByTestId('FailedTransactionAlert')).toBeTruthy()
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
+      expectedSubtitleSections: ['feedItemFailedTransaction'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
   })
 
   function expectDisplay({

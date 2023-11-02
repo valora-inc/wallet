@@ -116,6 +116,9 @@ export function getFullCurrencyName(currency: Currency | null) {
   }
 }
 
+/**
+ * @deprecated use TokenDisplay instead
+ */
 export default function CurrencyDisplay({
   type,
   size,

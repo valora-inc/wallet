@@ -1,5 +1,8 @@
+import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { viemTransports } from 'src/viem'
 import { KeychainLock } from 'src/web3/KeychainLock'
+import networkConfig from 'src/web3/networkConfig'
 import {
   Account,
   Address,
@@ -9,12 +12,28 @@ import {
   WalletActions,
   WalletRpcSchema,
   createWalletClient,
-  http,
 } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
-import { sendRawTransaction, signTransaction, writeContract } from 'viem/actions'
+import {
+  sendRawTransaction,
+  sendTransaction,
+  signMessage,
+  signTransaction,
+  signTypedData,
+  writeContract,
+} from 'viem/actions'
 
 const TAG = 'viem/getLockableWallet'
+
+export function getTransport(chain: Chain): Transport {
+  const result = Object.entries(networkConfig.viemChain).find(
+    ([_, viemChain]) => chain === viemChain
+  )
+  if (!result) {
+    throw new Error(`No network defined for viem chain ${chain}, cannot create wallet`)
+  }
+  return viemTransports[result[0] as Network]
+}
 
 // Largely copied from https://github.com/wagmi-dev/viem/blob/main/src/clients/createWalletClient.ts#L32
 export type ViemWallet<
@@ -23,12 +42,15 @@ export type ViemWallet<
   account extends Account | undefined = Account | undefined
 > = Client<transport, chain, account, WalletRpcSchema, Actions>
 
-type Actions = {
-  unlockAccount: (passphrase: string, duration: number) => Promise<boolean>
-  writeContract: WalletActions['writeContract']
-  signTransaction: WalletActions['signTransaction']
-  sendRawTransaction: WalletActions['sendRawTransaction']
-}
+type Actions = Pick<
+  WalletActions,
+  | 'sendRawTransaction'
+  | 'sendTransaction'
+  | 'signTransaction'
+  | 'signTypedData'
+  | 'signMessage'
+  | 'writeContract'
+> & { unlockAccount: (passphrase: string, duration: number) => Promise<boolean> }
 
 export default function getLockableViemWallet(
   lock: KeychainLock,
@@ -45,13 +67,13 @@ export default function getLockableViemWallet(
 
   return createWalletClient({
     chain,
-    transport: http(),
+    transport: getTransport(chain),
     account,
   }).extend((client: Client): Actions => {
     return {
       // All wallet functions that we want our ViemWallet to have must go here
-      // For instance we will later need signTransaction which we can add here by
-      // importing the signTransaction action and blocking it with the checkLock function
+      // For instance we will later need prepareTransactionRequest which we can add here by
+      // importing the prepareTransactionRequest action and blocking it with the checkLock function
       // Introduction to wallet actions: https://viem.sh/docs/actions/wallet/introduction.html
       unlockAccount: (passphrase: string, duration: number) =>
         lock.unlock(account.address, passphrase, duration),
@@ -65,6 +87,18 @@ export default function getLockableViemWallet(
       },
       sendRawTransaction: (args) => {
         return sendRawTransaction(client, args)
+      },
+      sendTransaction: (args) => {
+        checkLock()
+        return sendTransaction(client, args)
+      },
+      signTypedData: (args) => {
+        checkLock()
+        return signTypedData(client, args)
+      },
+      signMessage: (args) => {
+        checkLock()
+        return signMessage(client, args)
       },
     }
   })

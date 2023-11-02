@@ -1548,6 +1548,7 @@
       "descriptionXtoYDays": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến sau {{lowerBound}}-{{upperBound}} ngày.",
       "baseDescription": "Yêu cầu giao dịch của bạn đã được gửi.",
       "txDetails": "Xem trên CeloExplorer",
+      "viewOnCeloScan": "View on CeloScan",
       "continue": "Tiếp tục"
     },
     "requestNotCompleted": {
@@ -1556,7 +1557,7 @@
     },
     "txProcessing": {
       "title": "Nhà cung cấp dịch vụ đang xử lý đơn hàng của bạn.",
-      "description": "Nguyên nhân có thể là kết nối Internet kém hoặc sự cố máy chủ."
+      "description": "This might be due to poor internet connection. Check the block explorer for updates."
     }
   },
   "fiatExchangeFlow": {
@@ -1903,11 +1904,21 @@
     "retryFailedTransaction": "Thử lại"
   },
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
+  "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
-    "networkFee": "{{networkName}} Network Fee"
+    "networkFee": "{{networkName}} Network Fee",
+    "lowerAmount": "Enter a lower amount",
+    "maxAmountWarning": {
+      "title": "Sending the maximum amount",
+      "description": "Adjust the amount you are sending to make sure you have enough {{feeTokenSymbol}} for gas"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "You need more {{feeTokenSymbol}} for gas",
+      "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

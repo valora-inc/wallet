@@ -32,8 +32,12 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
   return token2UsdBalance.comparedTo(token1UsdBalance)
 }
 
-export function isStablecoin(token: TokenBalance | undefined) {
-  return token?.isCoreToken && token.symbol !== 'CELO'
+export function tokenSupportsComments(token: TokenBalance | undefined) {
+  return (
+    token?.isCoreToken &&
+    token.symbol !== 'CELO' &&
+    token.networkId === networkConfig.networkToNetworkId[Network.Celo]
+  )
 }
 
 /**
@@ -139,6 +143,10 @@ export function getTokenId(networkId: NetworkId, tokenAddress?: string): string 
 
 export function getSupportedNetworkIdsForSend(): NetworkId[] {
   return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSend
+}
+
+export function getSupportedNetworkIdsForSwap(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSwap
 }
 
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
