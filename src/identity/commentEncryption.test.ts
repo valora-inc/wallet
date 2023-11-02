@@ -237,7 +237,10 @@ describe(checkTxsForIdentityMetadata, () => {
     const mockAccountsWrapper = {
       getWalletAddress: jest.fn((address) => address),
     }
-    await expectSaga(checkTxsForIdentityMetadata, updateTransactions(transactions))
+    await expectSaga(
+      checkTxsForIdentityMetadata,
+      updateTransactions(NetworkId['celo-alfajores'], transactions)
+    )
       .provide([
         [select(dataEncryptionKeySelector), mockPrivateDEK2],
         [matchers.call.fn(lookupAccountAddressesForIdentifier), lookupResult],
@@ -260,7 +263,10 @@ describe(checkTxsForIdentityMetadata, () => {
   })
 
   it('Ignores invalid identity claims', async () => {
-    await expectSaga(checkTxsForIdentityMetadata, updateTransactions(transactions))
+    await expectSaga(
+      checkTxsForIdentityMetadata,
+      updateTransactions(NetworkId['celo-alfajores'], transactions)
+    )
       .provide([
         [select(dataEncryptionKeySelector), mockPrivateDEK2],
         [matchers.call.fn(lookupAccountAddressesForIdentifier), {}],
