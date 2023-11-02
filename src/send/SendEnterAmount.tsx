@@ -51,6 +51,7 @@ import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selecto
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import Logger from 'src/utils/Logger'
 import { getMaxGasCost, PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -65,7 +66,9 @@ function FeeLoading() {
   return (
     <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
       <Text style={styles.feeInCrypto}>{'≈ '}</Text>
-      <ActivityIndicator size="small" color={Colors.gray4} />
+      <SkeletonPlaceholder style={styles.feesLoadingSkeleton}>
+        <View style={styles.feesLoadingInternal} />
+      </SkeletonPlaceholder>
     </View>
   )
 }
@@ -522,6 +525,15 @@ const styles = StyleSheet.create({
   feeInFiat: {
     color: Colors.gray4,
     ...typeScale.bodyXSmall,
+  },
+  feesLoadingSkeleton: {
+    backgroundColor: Colors.gray4,
+    highlightColor: Colors.white,
+  },
+  feesLoadingInternal: {
+    ...typeScale.labelXSmall,
+    width: 46,
+    borderRadius: 100,
   },
   reviewButton: {
     paddingVertical: Spacing.Thick24,
