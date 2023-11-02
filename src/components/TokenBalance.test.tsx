@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   AssetsTokenBalance,
@@ -18,7 +19,6 @@ import { createMockStore, getElementText } from 'test/utils'
 import { mockPositions, mockTokenBalances } from 'test/values'
 
 jest.mock('src/statsig')
-jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -656,7 +656,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   })
 
   it('renders correctly when hideBalance is true', async () => {
-    const store = createMockStore({ ...defaultStore, app: { hideBalances: true } })
+    const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
 
     const tree = render(
       <Provider store={store}>
@@ -691,6 +691,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     )
     fireEvent.press(tree.getByTestId('EyeIcon'))
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.hide_balances)
   })
 })
 

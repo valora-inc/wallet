@@ -619,7 +619,7 @@ describe('TransferFeedItem', () => {
   })
 
   it('hides balance when flag is set', async () => {
-    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
+    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideHomeBalances: true } } })
     expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
   })

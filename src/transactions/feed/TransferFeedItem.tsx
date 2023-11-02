@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { hideBalancesSelector } from 'src/app/selectors'
+import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -38,7 +38,7 @@ function TransferFeedItem({ transfer }: Props) {
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
-  const hideBalance = useSelector(hideBalancesSelector)
+  const hideBalance = useSelector(hideHomeBalancesSelector)
 
   return (
     <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>

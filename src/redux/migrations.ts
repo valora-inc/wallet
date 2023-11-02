@@ -1416,5 +1416,5 @@ export const migrations = {
       },
     }
   },
-  166: (state: any) => state,
+  166: (state: any) => ({ ...state, app: { hideHomeBalances: false } }),
 }

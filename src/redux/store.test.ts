@@ -143,7 +143,7 @@ describe('store state', () => {
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
-          "hideBalances": false,
+          "hideHomeBalances": false,
           "huaweiMobileServicesAvailable": undefined,
           "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,

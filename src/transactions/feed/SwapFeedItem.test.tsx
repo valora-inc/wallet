@@ -127,7 +127,7 @@ describe('SwapFeedItem', () => {
         tokenId: mockCusdTokenId,
         value: 2.87,
       },
-      storeOverrides: { app: { hideBalances: true } },
+      storeOverrides: { app: { hideHomeBalances: true } },
     })
 
     expect(queryByTestId('SwapFeedItem/incomingAmount')).toBeNull()

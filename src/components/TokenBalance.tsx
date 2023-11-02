@@ -17,8 +17,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { switchHideBalancesState } from 'src/app/actions'
-import { hideBalancesSelector } from 'src/app/selectors'
+import { toggleHideBalances } from 'src/app/actions'
+import { hideHomeBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -55,11 +55,11 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
-  overrideHideBalance = false,
+  hideBalance = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
-  overrideHideBalance?: boolean
+  hideBalance?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -76,7 +76,8 @@ function TokenBalance({
       ? new BigNumber(totalTokenBalanceLocal ?? 0).plus(totalPositionsBalanceLocal ?? 0)
       : undefined
   const { decimalSeparator } = getNumberFormatSettings()
-  const hideBalance = useSelector(hideBalancesSelector)
+
+  const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
@@ -97,10 +98,8 @@ function TokenBalance({
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
           <Text style={style} testID={'TotalTokenBalance'}>
-            {(overrideHideBalance || !hideBalance) && localCurrencySymbol}
-            {hideBalance && !overrideHideBalance
-              ? 'XX' + decimalSeparator + 'XX'
-              : totalTokenBalanceLocal?.toFormat(2) ?? '-'}
+            {!hideBalance && localCurrencySymbol}
+            {balanceDisplay ?? '-'}
           </Text>
           {!hideBalance && (
             <Text style={styles.tokenBalance}>
@@ -113,10 +112,8 @@ function TokenBalance({
   } else {
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
-        {(overrideHideBalance || !hideBalance) && localCurrencySymbol}
-        {hideBalance && !overrideHideBalance
-          ? 'XX' + decimalSeparator + 'XX'
-          : totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
+        {!hideBalance && localCurrencySymbol}
+        {balanceDisplay ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
@@ -207,7 +204,6 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
               : styles.balance
           }
           singleTokenViewEnabled={false}
-          overrideHideBalance={true}
         />
 
         {shouldRenderInfoComponent && (
@@ -246,11 +242,11 @@ export function HomeTokenBalance() {
 
   const [infoVisible, setInfoVisible] = useState(false)
 
-  const hideBalance = useSelector(hideBalancesSelector)
+  const hideBalance = useSelector(hideHomeBalancesSelector)
 
   const eyeIconOnPress = () => {
-    dispatch(switchHideBalancesState())
-    ValoraAnalytics.track(hideBalance ? HomeEvents.hide_balances : HomeEvents.show_balances)
+    ValoraAnalytics.track(hideBalance ? HomeEvents.show_balances : HomeEvents.hide_balances)
+    dispatch(toggleHideBalances())
   }
 
   return (
@@ -289,6 +285,7 @@ export function HomeTokenBalance() {
               ? styles.totalBalance
               : styles.balance
           }
+          hideBalance={hideBalance}
         />
         <Touchable onPress={eyeIconOnPress}>
           {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}

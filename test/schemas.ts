@@ -2786,7 +2786,7 @@ export const v166Schema = {
   },
   app: {
     ...v165Schema.app,
-    hideBalances: false,
+    hideHomeBalances: false,
   },
 }
 

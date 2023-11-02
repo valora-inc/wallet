@@ -53,7 +53,7 @@ export interface State {
   pushNotificationsEnabled: boolean
   inAppReviewLastInteractionTimestamp: number | null
   showNotificationSpotlight: boolean
-  hideBalances: boolean
+  hideHomeBalances: boolean
 }
 
 const initialState = {
@@ -100,7 +100,7 @@ const initialState = {
   pushNotificationsEnabled: false,
   inAppReviewLastInteractionTimestamp: null,
   showNotificationSpotlight: false,
-  hideBalances: false,
+  hideHomeBalances: false,
 }
 
 export const appReducer = (
@@ -268,10 +268,10 @@ export const appReducer = (
         ...state,
         inAppReviewLastInteractionTimestamp: action.inAppReviewLastInteractionTimestamp,
       }
-    case Actions.SWITCH_HIDE_BALANCES_STATE:
+    case Actions.TOGGLE_HIDE_BALANCES:
       return {
         ...state,
-        hideBalances: !state.hideBalances,
+        hideHomeBalances: !state.hideHomeBalances,
       }
     default:
       return state
