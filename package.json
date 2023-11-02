@@ -50,7 +50,8 @@
     "deploy:update-disclaimer": "yarn licenses generate-disclaimer --prod > src/account/LicenseDisclaimer.txt && ./scripts/copy_license_to_android_assets.sh",
     "postinstall": "patch-package && yarn keys:decrypt && ./scripts/sync_branding.sh && ./scripts/copy_license_to_android_assets.sh",
     "keys:decrypt": "bash scripts/key_placer.sh decrypt",
-    "keys:encrypt": "bash scripts/key_placer.sh encrypt"
+    "keys:encrypt": "bash scripts/key_placer.sh encrypt",
+    "knip": "knip"
   },
   "husky": {
     "hooks": {
@@ -263,6 +264,7 @@
     "jest-html-reporter": "^3.5.0",
     "jest-junit": "^10.0.0",
     "jest-snapshot": "^29.6.2",
+    "knip": "^2.38.6",
     "lokijs": "^1.5.12",
     "metro-react-native-babel-preset": "0.73.10",
     "mockdate": "^3.0.5",
