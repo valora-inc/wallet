@@ -38,6 +38,7 @@ export enum Actions {
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
+  TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
 }
 
 export interface SetAppState {
@@ -169,6 +170,10 @@ export interface NotificationSpotlightSeen {
   type: Actions.NOTIFICATION_SPOTLIGHT_SEEN
 }
 
+interface ToggleHideBalances {
+  type: Actions.TOGGLE_HIDE_BALANCES
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -196,6 +201,7 @@ export type ActionTypes =
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
   | NotificationSpotlightSeen
+  | ToggleHideBalances
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -360,5 +366,11 @@ export const inAppReviewRequested = (
 export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
   return {
     type: Actions.NOTIFICATION_SPOTLIGHT_SEEN,
+  }
+}
+
+export const toggleHideBalances = (): ToggleHideBalances => {
+  return {
+    type: Actions.TOGGLE_HIDE_BALANCES,
   }
 }
