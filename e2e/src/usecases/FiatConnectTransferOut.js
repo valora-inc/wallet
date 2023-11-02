@@ -4,13 +4,7 @@ import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
 import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
-import {
-  dismissCashInBottomSheet,
-  enterPinUiIfNecessary,
-  quickOnboarding,
-  sleep,
-  waitForElementId,
-} from '../utils/utils'
+import { enterPinUiIfNecessary, quickOnboarding, sleep, waitForElementId } from '../utils/utils'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)
@@ -73,7 +67,7 @@ async function selectCurrencyAndAmount(token, amount) {
  *
  * @return {{result: Error}}
  */
-async function submitTransfer(expectZeroBalance = false) {
+async function submitTransfer() {
   // ReviewScreen
   await waitForElementId('submitButton')
   await element(by.id('submitButton')).tap()
@@ -85,9 +79,6 @@ async function submitTransfer(expectZeroBalance = false) {
   await element(by.id('Continue')).tap()
 
   // WalletHome
-  if (expectZeroBalance) {
-    await dismissCashInBottomSheet()
-  }
   await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }
 

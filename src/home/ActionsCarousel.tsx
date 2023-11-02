@@ -18,6 +18,8 @@ import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 function ActionsCarousel() {
   const { t } = useTranslation()
@@ -30,7 +32,11 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <QuickActionsSend color={Colors.onboardingGreen} />,
       onPress: () => {
-        navigate(Screens.Send)
+        const shouldShowSelectRecipient = getFeatureGate(
+          StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
+        )
+        const sendScreen = shouldShowSelectRecipient ? Screens.SendSelectRecipient : Screens.Send
+        navigate(sendScreen)
       },
     },
     {

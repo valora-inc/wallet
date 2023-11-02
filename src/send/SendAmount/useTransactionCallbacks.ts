@@ -59,18 +59,13 @@ function useTransactionCallbacks({
   const dispatch = useDispatch()
 
   const getTransactionData = useCallback((): TransactionDataInput => {
-    // TODO(ACT-904): Remove this once we have a better way to handle Eth sends
-    if (!tokenInfo?.address) {
-      throw new Error(
-        'getTransactionData cannot be called on token without an address ex: Ethereum'
-      )
-    }
     return {
       recipient,
       inputAmount: inputIsInLocalCurrency ? localAmount! : tokenAmount,
       tokenAmount,
       amountIsInLocalCurrency: inputIsInLocalCurrency,
-      tokenAddress: tokenInfo.address,
+      tokenAddress: tokenInfo?.address ?? undefined,
+      tokenId: transferTokenId,
     }
   }, [recipient, tokenAmount, transferTokenId, tokenInfo])
 
@@ -87,6 +82,8 @@ function useTransactionCallbacks({
       underlyingTokenSymbol: tokenInfo?.symbol ?? '',
       underlyingAmount: tokenAmount.toString(),
       amountInUsd: usdAmount?.toString() ?? null,
+      tokenId: tokenInfo?.tokenId ?? null,
+      networkId: tokenInfo?.networkId ?? null,
     }
   }, [
     origin,

@@ -10,14 +10,16 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { sendPayment } from 'src/send/actions'
 import SendConfirmation from 'src/send/SendConfirmation'
+import { sendPayment } from 'src/send/actions'
+import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { getGasPrice } from 'src/web3/gas'
 import {
+  RecursivePartial,
   createMockStore,
   getElementText,
   getMockStackScreenProps,
-  RecursivePartial,
 } from 'test/utils'
 import {
   emptyFees,
@@ -39,7 +41,6 @@ import {
   mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/gas')
 const mockGetGasPrice = getGasPrice as jest.Mock
@@ -55,6 +56,8 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
+
+jest.mock('src/statsig')
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: {
@@ -85,11 +88,22 @@ const mockFeeEstimates = {
     feeInfo: mockFeeInfo,
   },
 }
+const mockFeeEstimatesCeur = {
+  ...emptyFees,
+  [FeeType.SEND]: {
+    usdFee: '0.02',
+    lastUpdated: 500,
+    loading: false,
+    error: false,
+    feeInfo: mockFeeInfo,
+  },
+}
 
 describe('SendConfirmation', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockGetGasPrice.mockImplementation(() => mockGasPrice)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   function renderScreen(
@@ -143,7 +157,7 @@ describe('SendConfirmation', () => {
       fees: {
         estimates: {
           [mockCusdAddress]: mockFeeEstimates,
-          [mockCeurAddress]: mockFeeEstimates,
+          [mockCeurAddress]: mockFeeEstimatesCeur,
         },
       },
       ...storeOverrides,
@@ -166,7 +180,8 @@ describe('SendConfirmation', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders correctly for send payment confirmation with cUSD fees', async () => {
+  it('renders correctly for send payment confirmation with cUSD fees (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { getByText, getByTestId } = renderScreen()
 
     fireEvent.press(getByText('feeEstimate'))
@@ -183,7 +198,24 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('renders correctly for send payment confirmation with cEUR fees', async () => {
+  it('renders correctly for send payment confirmation, sending cUSD, fee in CELO (new UI)', async () => {
+    const { getByText, getByTestId } = renderScreen()
+
+    fireEvent.press(getByText('feeEstimate'))
+
+    await act(() => {
+      jest.runAllTimers()
+    })
+
+    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee')
+    expect(getElementText(feeComponent)).toEqual('0.004 CELO')
+
+    const totalComponent = getByTestId('TotalLineItem/Total')
+    expect(getElementText(totalComponent)).toEqual('~1.02 cUSD')
+  })
+
+  it('renders correctly for send payment confirmation with cEUR fees (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     // Note: Higher balance is picked to pay for fees.
     const { getByText, getByTestId } = renderScreen({
       tokens: {
@@ -305,12 +337,14 @@ describe('SendConfirmation', () => {
   })
 
   it('doesnt show the comment for CELO', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen(
       {},
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
           ...mockTokenTransactionData,
           tokenAddress: mockCeloAddress,
+          tokenId: mockCeloTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
@@ -320,13 +354,15 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeFalsy()
   })
 
-  it('doesnt show the comment for non core tokens', () => {
+  it('doesnt show the comment for non core tokens (old UI)', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen(
       {},
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
           ...mockTokenTransactionData,
           tokenAddress: mockTestTokenAddress,
+          tokenId: mockTestTokenTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
@@ -334,6 +370,22 @@ describe('SendConfirmation', () => {
     )
 
     expect(queryByTestId('commentInput/send')).toBeFalsy()
+  })
+
+  it('shows comment when stable token on celo network (new UI)', () => {
+    const { queryByTestId } = renderScreen(
+      {},
+      getMockStackScreenProps(Screens.SendConfirmation, {
+        transactionData: {
+          ...mockTokenTransactionData,
+          tokenAddress: mockCusdAddress,
+        },
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+      })
+    )
+
+    expect(queryByTestId('commentInput/send')).toBeTruthy()
   })
 
   it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
@@ -392,11 +444,11 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const { inputAmount, tokenAddress, recipient } = mockTokenTransactionData
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        sendPayment(inputAmount, tokenAddress, inputAmount, '', recipient, mockFeeInfo, false),
+        sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, mockFeeInfo),
       ])
     )
   })
@@ -431,12 +483,12 @@ describe('SendConfirmation', () => {
 
     fireEvent.press(getByTestId('ConfirmButton'))
 
-    const { inputAmount, tokenAddress } = mockTokenTransactionData
+    const { inputAmount, tokenId } = mockTokenTransactionData
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
         sendPayment(
           inputAmount,
-          tokenAddress,
+          tokenId,
           inputAmount,
           '',
           {
@@ -444,8 +496,8 @@ describe('SendConfirmation', () => {
             e164PhoneNumber: mockE164Number,
             recipientType: RecipientType.PhoneNumber,
           },
-          mockFeeInfo,
-          false
+          false,
+          mockFeeInfo
         ),
       ])
     )

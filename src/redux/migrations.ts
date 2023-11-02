@@ -1380,4 +1380,40 @@ export const migrations = {
       }),
     },
   }),
+  162: (state: any) => ({
+    ...state,
+    transactions: {
+      ...state.transactions,
+      standbyTransactions: state.transactions.standbyTransactions.filter((tx: any) => {
+        // this migration requires extra data on completed standby transactions
+        // that we cannot recover, so we remove these from the store. this is
+        // low risk since completed tx's will be returned by blockchain-api
+        // eventually.
+        return tx.status !== 'Complete'
+      }),
+    },
+  }),
+  163: (state: any) => ({
+    ...state,
+    send: { ..._.omit(state.send, 'lastUsedCurrency'), lastUsedTokenId: undefined },
+  }),
+  164: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
+  }),
+  165: (state: any) => {
+    const transactionsByNetworkId: any = {}
+    for (const tx of state.transactions.transactions) {
+      const txNetworkId = tx.networkId ?? networkConfig.defaultNetworkId
+      transactionsByNetworkId[txNetworkId] = [...(transactionsByNetworkId[txNetworkId] ?? []), tx]
+    }
+
+    return {
+      ...state,
+      transactions: {
+        ..._.omit(state.transactions, 'transactions'),
+        transactionsByNetworkId,
+      },
+    }
+  },
 }

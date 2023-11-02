@@ -3,22 +3,21 @@ import { useEffect, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import Toast from 'react-native-simple-toast'
-import { batch, useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import useInterval from 'src/hooks/useInterval'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { getDynamicConfigParams } from 'src/statsig/index'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
-import { fetchTokenBalances } from 'src/tokens/slice'
 import { updateTransactions } from 'src/transactions/actions'
-import { transactionHashesSelector } from 'src/transactions/reducer'
+import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getDynamicConfigParams } from 'src/statsig/index'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { DynamicConfigs } from 'src/statsig/constants'
 
 const MIN_NUM_TRANSACTIONS = 10
 
@@ -49,7 +48,7 @@ const TAG = 'transactions/feed/queryHelper'
 // Query poll interval
 const POLL_INTERVAL = 10000 // 10 secs
 
-const deduplicateTransactions = (
+export const deduplicateTransactions = (
   existingTxs: TokenTransaction[],
   incomingTxs: TokenTransaction[]
 ) => {
@@ -73,7 +72,7 @@ export function useFetchTransactions(): QueryHookResult {
   const dispatch = useDispatch()
   const address = useSelector(walletAddressSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const transactionHashes = useSelector(transactionHashesSelector)
+  const transactionHashesByNetwork = useSelector(transactionHashesByNetworkIdSelector)
 
   // N.B: This fetch-time filtering does not suffice to prevent non-Celo TXs from appearing
   // on the home feed, since they get cached in Redux -- this is just a network optimization.
@@ -102,7 +101,6 @@ export function useFetchTransactions(): QueryHookResult {
   })
 
   const [fetchingMoreTransactions, setFetchingMoreTransactions] = useState(false)
-  let hasNewTransaction = false
 
   // Update the counter variable every |POLL_INTERVAL| so that a query is made to the backend.
   const [counter, setCounter] = useState(0)
@@ -148,19 +146,19 @@ export function useFetchTransactions(): QueryHookResult {
           const nonEmptyTransactions = returnedTransactions.filter(
             (returnedTransaction) => !isEmpty(returnedTransaction)
           )
+          const knownTransactionHashes = transactionHashesByNetwork[networkId]
+          let hasNewTransaction = false
+
           // Compare the new tx hashes with the ones we already have in redux
-          for (let i = 0; i < nonEmptyTransactions.length; i++) {
-            if (!transactionHashes.includes(nonEmptyTransactions[i].transactionHash)) {
+          for (const tx of nonEmptyTransactions) {
+            if (!knownTransactionHashes || !knownTransactionHashes.has(tx.transactionHash)) {
               hasNewTransaction = true
               break // We only need one new tx justify a refresh
             }
           }
           // If there are new transactions update transactions in redux and fetch balances
           if (hasNewTransaction) {
-            batch(() => {
-              dispatch(updateTransactions(nonEmptyTransactions))
-              dispatch(fetchTokenBalances({ showLoading: false }))
-            })
+            dispatch(updateTransactions(networkId, nonEmptyTransactions))
             vibrateSuccess()
           }
         }

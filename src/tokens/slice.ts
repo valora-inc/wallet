@@ -108,6 +108,12 @@ export interface State {
   error: boolean
 }
 
+export function tokenBalanceHasAddress(
+  tokenInfo: TokenBalance | TokenBalanceWithAddress
+): tokenInfo is TokenBalanceWithAddress {
+  return !!tokenInfo.address
+}
+
 export const initialState = {
   tokenBalances: {},
   loading: false,

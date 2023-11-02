@@ -20,18 +20,20 @@ describe('TokenTotalLineItem', () => {
     amount = defaultAmount,
     tokenId = defaultTokenId,
     localAmount,
-    localCurrencyCode = LocalCurrencyCode.BRL,
     usdToLocalRate = '1.5',
     feeToAddInUsd = undefined,
     hideSign = undefined,
+    showLocalAmountForTotal = true,
+    newSendScreen = false,
   }: {
     amount?: BigNumber
     tokenId?: string
     localAmount?: LocalAmount
-    localCurrencyCode?: LocalCurrencyCode
     usdToLocalRate?: string
     feeToAddInUsd?: BigNumber
     hideSign?: boolean
+    showLocalAmountForTotal?: boolean
+    newSendScreen?: boolean
   }) {
     return render(
       <Provider
@@ -71,6 +73,9 @@ describe('TokenTotalLineItem', () => {
           localAmount={localAmount}
           feeToAddInUsd={feeToAddInUsd}
           hideSign={hideSign}
+          showLocalAmountForTotal={showLocalAmountForTotal}
+          showApproxTotalBalance={newSendScreen}
+          showApproxExchangeRate={newSendScreen}
         />
       </Provider>
     )
@@ -124,7 +129,7 @@ describe('TokenTotalLineItem', () => {
       expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
         'tokenExchanteRate, {"symbol":"cUSD"}R$1.50'
       )
-      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.12 cUSD')
     })
   })
 
@@ -158,6 +163,32 @@ describe('TokenTotalLineItem', () => {
         'tokenExchanteRate, {"symbol":"cUSD"}€0.50'
       )
       expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('10.00 cUSD')
+    })
+  })
+
+  describe('When total is shown in crypto currency', () => {
+    it('shows approx total in crypto, new exchange rate, conversion in fiat, with fee', () => {
+      const { getByTestId } = renderComponent({
+        feeToAddInUsd: new BigNumber(0.5),
+        showLocalAmountForTotal: false,
+        newSendScreen: true,
+      })
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('~10.50 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
+        'tokenExchangeRateApprox, {"symbol":"cUSD"}R$1.50'
+      )
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('R$15.75')
+    })
+    it('shows approx total in crypto without fee', () => {
+      const { getByTestId } = renderComponent({
+        showLocalAmountForTotal: false,
+        newSendScreen: true,
+      })
+      expect(getElementText(getByTestId('TotalLineItem/Total'))).toEqual('~10.00 cUSD')
+      expect(getElementText(getByTestId('TotalLineItem/ExchangeRate'))).toEqual(
+        'tokenExchangeRateApprox, {"symbol":"cUSD"}R$1.50'
+      )
+      expect(getElementText(getByTestId('TotalLineItem/Subtotal'))).toEqual('R$15.00')
     })
   })
 })

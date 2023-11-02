@@ -27,8 +27,9 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   getERC20TokenContract,
   getStableTokenContract,
-  getTokenInfo,
+  getTokenInfoByAddress,
   tokenAmountInSmallestUnit,
+  getTokenInfo,
 } from 'src/tokens/saga'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
@@ -103,8 +104,11 @@ export function* buildSendTx(
   const contract: Contract = yield* call(getERC20TokenContract, tokenAddress)
   const coreContract: Contract = yield* call(getStableTokenContract, tokenAddress)
 
-  const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenAddress)
-  const convertedAmount: string = yield* call(tokenAmountInSmallestUnit, amount, tokenAddress)
+  const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfoByAddress, tokenAddress)
+  if (!tokenInfo) {
+    throw new Error(`Could not find token with address ${tokenAddress}`)
+  }
+  const convertedAmount = tokenAmountInSmallestUnit(amount, tokenInfo.decimals)
 
   const kit: ContractKit = yield* call(getContractKit)
   return toTransactionObject(
@@ -205,11 +209,16 @@ function* sendPayment(
   recipientAddress: string,
   amount: BigNumber,
   usdAmount: BigNumber | null,
-  tokenAddress: string,
+  tokenId: string,
   comment: string,
-  feeInfo: FeeInfo
+  feeInfo?: FeeInfo
 ) {
   const context = newTransactionContext(TAG, 'Send payment')
+  const tokenInfo = yield* call(getTokenInfo, tokenId)
+  if (!tokenInfo) {
+    throw new Error('token info not found')
+  }
+
   const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SEND)
   const web3Library = useViem ? 'viem' : 'contract-kit'
 
@@ -221,17 +230,20 @@ function* sendPayment(
         context,
         recipientAddress,
         amount,
-        tokenAddress,
+        tokenId,
         comment,
         feeInfo,
       })
     } else {
+      if (!(feeInfo && tokenInfo.address)) {
+        throw new Error('fee info and token address are required for non-viem sends')
+      }
       yield* call(
         buildAndSendPayment,
         context,
         recipientAddress,
         amount,
-        tokenAddress,
+        tokenInfo.address,
         comment,
         feeInfo
       )
@@ -242,7 +254,8 @@ function* sendPayment(
       recipientAddress,
       amount: amount.toString(),
       usdAmount: usdAmount?.toString(),
-      tokenAddress,
+      tokenAddress: tokenInfo.address ?? undefined,
+      tokenId: tokenInfo.tokenId,
       web3Library,
     })
   } catch (err) {
@@ -257,19 +270,19 @@ function* sendPayment(
 
 export function* sendPaymentSaga({
   amount,
-  tokenAddress,
+  tokenId,
   usdAmount,
   comment,
   recipient,
-  feeInfo,
   fromModal,
+  feeInfo,
 }: SendPaymentAction) {
   try {
     yield* call(getConnectedUnlockedAccount)
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
-    const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenAddress)
+    const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenId)
     if (recipient.address) {
-      yield* call(sendPayment, recipient.address, amount, usdAmount, tokenAddress, comment, feeInfo)
+      yield* call(sendPayment, recipient.address, amount, usdAmount, tokenId, comment, feeInfo)
       if (tokenInfo?.symbol === 'CELO') {
         ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
           amount: amount.toString(),

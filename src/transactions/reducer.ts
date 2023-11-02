@@ -4,13 +4,23 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
-import { StandbyTransaction, TokenTransaction, TransactionStatus } from 'src/transactions/types'
+import {
+  ConfirmedStandbyTransaction,
+  NetworkId,
+  StandbyTransaction,
+  TokenTransaction,
+  TransactionStatus,
+} from 'src/transactions/types'
 
 export interface InviteTransactions {
   [txHash: string]: {
     paymentId: string
     recipientIdentifier: string
   }
+}
+
+type TransactionsByNetworkId = {
+  [networkId in NetworkId]?: TokenTransaction[]
 }
 export interface State {
   // Tracks transactions that have been initiated by the user
@@ -24,7 +34,7 @@ export interface State {
   // txs more than once.
   knownFeedTransactions: KnownFeedTransactionsType
   recentTxRecipientsCache: NumberToRecipient
-  transactions: TokenTransaction[]
+  transactionsByNetworkId: TransactionsByNetworkId
   // invite transactions are from the escrow contract, the following property maps
   // transaction hash to recipient known to user
   inviteTransactions: InviteTransactions
@@ -40,7 +50,7 @@ const initialState = {
   standbyTransactions: [],
   knownFeedTransactions: {},
   recentTxRecipientsCache: {},
-  transactions: [],
+  transactionsByNetworkId: {},
   inviteTransactions: {},
 }
 
@@ -50,9 +60,13 @@ export const reducer = (
 ): State => {
   switch (action.type) {
     case REHYDRATE: {
+      const persistedState: State = getRehydratePayload(action, 'transactions')
       return {
         ...state,
-        ...getRehydratePayload(action, 'transactions'),
+        ...persistedState,
+        standbyTransactions: (persistedState.standbyTransactions || []).filter(
+          (tx) => !tx.transactionHash
+        ),
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
@@ -74,52 +88,39 @@ export const reducer = (
           (tx: StandbyTransaction) => tx.context.id !== action.idx
         ),
       }
-    case Actions.TRANSACTION_CONFIRMED:
-      const status = action.receipt.status
-
-      if (!status) {
-        return {
-          ...state,
-        }
-      }
+    case Actions.TRANSACTION_CONFIRMED: {
+      const { status, transactionHash, block } = action.receipt
 
       return {
         ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
-          return {
-            ...tx,
-            status: TransactionStatus.Complete,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === action.txId) {
+              return {
+                ...standbyTransaction,
+                status: status ? TransactionStatus.Complete : TransactionStatus.Failed,
+                transactionHash,
+                block,
+                timestamp: Date.now(),
+                fees: [],
+              }
+            }
+            return standbyTransaction
           }
-        }),
+        ),
       }
-    case Actions.TRANSACTION_CONFIRMED_VIEM:
-      return {
-        ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.txId, (tx) => {
-          return {
-            ...tx,
-            status: TransactionStatus.Complete,
-          }
-        }),
-      }
+    }
     case Actions.ADD_HASH_TO_STANDBY_TRANSACTIONS:
       return {
         ...state,
-        standbyTransactions: mapForContextId(state.standbyTransactions, action.idx, (tx) => {
-          return {
-            ...tx,
-            transactionHash: action.hash,
+        standbyTransactions: state.standbyTransactions.map(
+          (standbyTransaction): StandbyTransaction => {
+            if (standbyTransaction.context.id === action.idx) {
+              return { ...standbyTransaction, transactionHash: action.hash }
+            }
+            return standbyTransaction
           }
-        }),
-      }
-    case Actions.NEW_TRANSACTIONS_IN_FEED:
-      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
-      action.transactions.forEach((tx) => {
-        newKnownFeedTransactions[tx.hash] = tx.address
-      })
-      return {
-        ...state,
-        knownFeedTransactions: newKnownFeedTransactions,
+        ),
       }
     case Actions.UPDATE_RECENT_TX_RECIPIENT_CACHE:
       return {
@@ -127,9 +128,20 @@ export const reducer = (
         recentTxRecipientsCache: action.recentTxRecipientsCache,
       }
     case Actions.UPDATE_TRANSACTIONS:
+      const newKnownFeedTransactions = { ...state.knownFeedTransactions }
+      action.transactions.forEach((tx) => {
+        if ('address' in tx) {
+          newKnownFeedTransactions[tx.transactionHash] = tx.address
+        }
+      })
+
       return {
         ...state,
-        transactions: action.transactions,
+        transactionsByNetworkId: {
+          ...state.transactionsByNetworkId,
+          [action.networkId]: action.transactions,
+        },
+        knownFeedTransactions: newKnownFeedTransactions,
       }
     case Actions.UPDATE_INVITE_TRANSACTIONS:
       return {
@@ -141,21 +153,11 @@ export const reducer = (
   }
 }
 
-function mapForContextId(
-  txs: { context: { id: string } }[],
-  contextId: string,
-  mapping: (tx: any) => any
-) {
-  return txs.map((tx) => {
-    if (tx.context.id !== contextId) {
-      return tx
-    }
-    return mapping(tx)
-  })
-}
+export const standbyTransactionsSelector = (state: RootState) =>
+  state.transactions.standbyTransactions
 
 export const pendingStandbyTransactionsSelector = createSelector(
-  [(state: RootState) => state.transactions.standbyTransactions],
+  [standbyTransactionsSelector],
   (transactions) => {
     return transactions
       .filter((transaction) => transaction.status === TransactionStatus.Pending)
@@ -168,16 +170,47 @@ export const pendingStandbyTransactionsSelector = createSelector(
   }
 )
 
+export const confirmedStandbyTransactionsSelector = createSelector(
+  [standbyTransactionsSelector],
+  (transactions) => {
+    return transactions.filter(
+      (transaction): transaction is ConfirmedStandbyTransaction =>
+        transaction.status === TransactionStatus.Complete ||
+        transaction.status === TransactionStatus.Failed
+    )
+  }
+)
+
 export const knownFeedTransactionsSelector = (state: RootState) =>
   state.transactions.knownFeedTransactions
 
 export const recentTxRecipientsCacheSelector = (state: RootState) =>
   state.transactions.recentTxRecipientsCache
 
-export const transactionsSelector = (state: RootState) => state.transactions.transactions
+export const transactionsByNetworkIdSelector = (state: RootState) =>
+  state.transactions.transactionsByNetworkId
+
+export const transactionsSelector = createSelector(
+  [transactionsByNetworkIdSelector],
+  (transactions) => {
+    const transactionsForAllNetworks = Object.values(transactions).flat()
+    return transactionsForAllNetworks.sort((a, b) => b.timestamp - a.timestamp)
+  }
+)
 
 export const inviteTransactionsSelector = (state: RootState) =>
   state.transactions.inviteTransactions
 
-export const transactionHashesSelector = (state: RootState) =>
-  state.transactions.transactions.map((tx) => tx.transactionHash)
+export const transactionHashesByNetworkIdSelector = createSelector(
+  [transactionsByNetworkIdSelector],
+  (transactions) => {
+    const hashesByNetwork: {
+      [networkId in NetworkId]?: Set<string>
+    } = {}
+    Object.entries(transactions).forEach(([networkId, txs]) => {
+      hashesByNetwork[networkId as NetworkId] = new Set(txs.map((tx) => tx.transactionHash))
+    })
+
+    return hashesByNetwork
+  }
+)

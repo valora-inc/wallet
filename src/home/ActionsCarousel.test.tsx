@@ -10,6 +10,11 @@ import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
+import { getFeatureGate } from 'src/statsig'
+
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn().mockReturnValue(false),
+}))
 
 function getStore(shouldShowSwapAction: boolean) {
   return createMockStore({
@@ -83,4 +88,16 @@ describe('ActionsCarousel', () => {
       })
     }
   )
+  it('navigates to send redesign if feature gate is true', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <ActionsCarousel />
+      </Provider>
+    )
+    expect(within(getByTestId(`HomeAction/Title-Send`)).getByText(`homeActions.send`)).toBeTruthy()
+    fireEvent.press(getByTestId(`HomeAction-Send`))
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
+  })
 })

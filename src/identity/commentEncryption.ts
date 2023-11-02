@@ -12,7 +12,6 @@ import { PhoneNumberHashDetails } from '@celo/identity/lib/odis/phone-number-ide
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { eqAddress, hexToBuffer } from '@celo/utils/lib/address'
 import { memoize, values } from 'lodash'
-import { TokenTransactionType, TransactionFeedFragment } from 'src/apollo/types'
 import { MAX_COMMENT_LENGTH } from 'src/config'
 import { features } from 'src/flags'
 import i18n from 'src/i18n'
@@ -28,10 +27,12 @@ import {
   E164NumberToSaltType,
 } from 'src/identity/reducer'
 import { e164NumberToAddressSelector, e164NumberToSaltSelector } from 'src/identity/selectors'
-import { NewTransactionsInFeedAction } from 'src/transactions/actions'
+import { UpdateTransactionsAction } from 'src/transactions/actions'
+import { Network, TokenTransaction, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getContractKit } from 'src/web3/contracts'
 import { doFetchDataEncryptionKey } from 'src/web3/dataEncryptionKey'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector } from 'src/web3/selectors'
 import { all, call, put, select } from 'typed-redux-saga'
 
@@ -167,9 +168,12 @@ interface IdentityMetadataInTx {
 }
 
 // Check tx comments (if they exist) for identity metadata like phone numbers and salts
-export function* checkTxsForIdentityMetadata({ transactions }: NewTransactionsInFeedAction) {
+export function* checkTxsForIdentityMetadata({
+  transactions,
+  networkId,
+}: UpdateTransactionsAction) {
   try {
-    if (!transactions || !transactions.length) {
+    if (!transactions || !transactions.length || networkIdToNetwork[networkId] !== Network.Celo) {
       return
     }
     Logger.debug(TAG + 'checkTxsForIdentityMetadata', `Checking ${transactions.length} txs`)
@@ -198,19 +202,26 @@ export function* checkTxsForIdentityMetadata({ transactions }: NewTransactionsIn
 
 // Check all transaction comments for metadata
 function findIdentityMetadataInComments(
-  transactions: TransactionFeedFragment[],
+  transactions: TokenTransaction[],
   dataEncryptionKey: string
 ) {
   const newIdentityData: IdentityMetadataInTx[] = []
   for (const tx of transactions) {
-    if (tx.__typename !== 'TokenTransfer' || tx.type !== TokenTransactionType.Received) {
+    if (tx.__typename !== 'TokenTransferV3' || tx.type !== TokenTransactionTypeV2.Received) {
       continue
     }
-    const { e164Number, salt } = decryptComment(tx.comment, dataEncryptionKey, false)
+    const { e164Number, salt } = decryptComment(
+      tx.metadata.comment ?? null,
+      dataEncryptionKey,
+      false
+    )
     if (!e164Number || !salt) {
       continue
     }
-    Logger.debug(TAG + 'checkTxsForIdentityMetadata', `Found metadata in tx hash ${tx.hash}`)
+    Logger.debug(
+      TAG + 'checkTxsForIdentityMetadata',
+      `Found metadata in tx hash ${tx.transactionHash}`
+    )
     newIdentityData.push({
       address: tx.address,
       e164Number,

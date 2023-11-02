@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 161,
+          "version": 165,
         },
         "account": {
           "acceptedTerms": false,
@@ -158,7 +158,6 @@ describe('store state', () => {
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
-          "rampCashInButtonExpEnabled": false,
           "requirePinOnAppOpen": false,
           "rewardPillText": {
             "de": "Belohnungen",
@@ -312,7 +311,7 @@ describe('store state', () => {
           "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,
-          "lastUsedCurrency": "cUSD",
+          "lastUsedTokenId": undefined,
           "recentPayments": [],
           "recentRecipients": [],
           "showSendToAddressWarning": true,
@@ -344,7 +343,7 @@ describe('store state', () => {
           "knownFeedTransactions": {},
           "recentTxRecipientsCache": {},
           "standbyTransactions": [],
-          "transactions": [],
+          "transactionsByNetworkId": {},
         },
         "walletConnect": {
           "pendingActions": [],

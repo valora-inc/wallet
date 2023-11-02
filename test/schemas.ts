@@ -2729,6 +2729,55 @@ export const v161Schema = {
   },
 }
 
+export const v162Schema = {
+  ...v161Schema,
+  _persist: {
+    ...v161Schema._persist,
+    version: 162,
+  },
+  transactions: {
+    ...v161Schema.transactions,
+    standbyTransactions: v161Schema.transactions.standbyTransactions.filter((tx: any) => {
+      return tx.status !== 'Complete'
+    }),
+  },
+}
+
+export const v163Schema = {
+  ...v162Schema,
+  _persist: {
+    ...v162Schema._persist,
+    version: 163,
+  },
+  send: {
+    ..._.omit(v162Schema.send, 'lastUsedCurrency'),
+    lastUsedTokenId: undefined,
+  },
+}
+
+export const v164Schema = {
+  ...v163Schema,
+  _persist: {
+    ...v163Schema._persist,
+    version: 164,
+  },
+  app: _.omit(v162Schema.app, 'rampCashInButtonExpEnabled'),
+}
+
+export const v165Schema = {
+  ...v164Schema,
+  _persist: {
+    ...v164Schema._persist,
+    version: 165,
+  },
+  transactions: {
+    ..._.omit(v164Schema.transactions, 'transactions'),
+    transactionsByNetworkId: {
+      [networkConfig.defaultNetworkId]: v164Schema.transactions.transactions,
+    },
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v161Schema as Partial<RootState>
+  return v165Schema as Partial<RootState>
 }

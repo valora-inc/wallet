@@ -38,6 +38,7 @@ import {
   SettingsEvents,
   SwapEvents,
   TokenBottomSheetEvents,
+  TransactionDetailsEvents,
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
@@ -68,7 +69,7 @@ import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
-import { NetworkId } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
@@ -530,6 +531,8 @@ interface SendEventsProperties {
         underlyingTokenSymbol: string
         underlyingAmount: string | null
         amountInUsd: string | null
+        tokenId: string | null
+        networkId: string | null
       }
   [SendEvents.send_confirm_back]: undefined
   [SendEvents.send_confirm_send]:
@@ -552,7 +555,9 @@ interface SendEventsProperties {
         localCurrencyAmount: string | null
         tokenAmount: string
         tokenSymbol: string
-        tokenAddress: string
+        tokenAddress: string | null
+        networkId: NetworkId | null
+        tokenId: string
         commentLength: number
       }
 
@@ -588,7 +593,8 @@ interface SendEventsProperties {
     recipientAddress: string
     amount: string
     usdAmount: string | undefined
-    tokenAddress: string
+    tokenAddress: string | undefined
+    tokenId: string
   }
   [SendEvents.send_tx_error]: {
     error: string
@@ -619,6 +625,8 @@ interface SendEventsProperties {
   [SendEvents.check_account_do_not_ask_selected]: undefined
   [SendEvents.check_account_alert_back]: undefined
   [SendEvents.check_account_alerts_continue]: undefined
+  [SendEvents.send_select_recipient_scan_qr]: undefined
+  [SendEvents.send_select_recipient_invite]: undefined
 }
 
 interface RequestEventsProperties {
@@ -1217,6 +1225,54 @@ export interface SwapTimeMetrics {
   quoteToUserConfirmsSwapElapsedTimeInMs: number // The elapsed time since the quote was received until the user confirmed to execute the swap
 }
 
+export interface SwapTxsProperties {
+  gas: number // Gas limit of the swap (approve + swap)
+  maxGasCost: number | undefined // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
+  maxGasCostUsd: number | undefined // Max gas cost for the swap (approve + swap) in USD
+  txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
+  feeCurrency: string | undefined // Fee currency used
+  feeCurrencySymbol: string | undefined // Fee currency symbol used
+}
+
+export interface TxReceiptProperties {
+  txCumulativeGasUsed: number // Gas used by the transaction and all preceding transactions in the block
+  txEffectiveGasPrice: number // Pre-London, it is equal to the transaction's gasPrice. Post-London, it is equal to the actual gas price paid for inclusion.
+  txGas: number // Gas limit of the transaction
+  txMaxGasCost: number | undefined // Max gas cost of the transaction in feeCurrency (decimal value)
+  txMaxGasCostUsd: number | undefined // Max gas cost of the in USD
+  txGasUsed: number // Gas used by the transaction
+  txGasCost: number // Actual gas cost of the transaction in feeCurrency (decimal value)
+  txGasCostUsd: number // Actual gas cost of the transaction in USD
+  txHash: string // Hash of the transaction
+  txFeeCurrency: string | undefined // Fee currency used
+  txFeeCurrencySymbol: string | undefined // Fee currency symbol used
+}
+
+export type PrefixedTxReceiptProperties<Prefix extends string> = {
+  [Property in keyof TxReceiptProperties as `${Prefix}${Capitalize<
+    string & Property
+  >}`]: TxReceiptProperties[Property]
+}
+
+// Adds `swap` prefix to all properties of TxReceiptProperties
+type SwapTxReceiptProperties = PrefixedTxReceiptProperties<'swap'>
+
+// Adds `approve` prefix to all properties of TxReceiptProperties
+type ApproveTxReceiptProperties = PrefixedTxReceiptProperties<'approve'>
+
+export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
+  Partial<SwapTxReceiptProperties> &
+  Partial<{
+    gas: number // Gas limit of the swap (approve + swap)
+    maxGasCost: number | undefined // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
+    maxGasCostUsd: number | undefined // Max gas cost for the swap (approve + swap) in USD
+    gasUsed: number // Gas used by the swap (approve + swap)
+    gasCost: number | undefined // Actual gas cost of the swap (approve + swap) in feeCurrency (decimal value)
+    gasCostUsd: number | undefined // Actual gas cost of the swap (approve + swap) in USD
+    feeCurrency: string | undefined // Fee currency used
+    feeCurrencySymbol: string | undefined // Fee currency symbol used
+  }>
+
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1231,11 +1287,12 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_screen_review_swap]: undefined
-  [SwapEvents.swap_feed_detail_view_tx]: undefined
-  [SwapEvents.swap_review_screen_open]: SwapEvent
-  [SwapEvents.swap_review_submit]: SwapQuoteEvent & {
-    usdTotal: number
-  }
+  [SwapEvents.swap_review_screen_open]: SwapEvent & Web3LibraryProps & Partial<SwapTxsProperties>
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> & {
+      usdTotal: number
+    }
   [SwapEvents.swap_execute_price_change]: {
     price: string
     guaranteedPrice: string
@@ -1243,7 +1300,10 @@ interface SwapEventsProperties {
     fromToken: string
   }
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
-    SwapTimeMetrics & {
+    SwapTimeMetrics &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> &
+    SwapTxsReceiptProperties & {
       fromTokenBalance: string
       swapExecuteTxId: string
       swapApproveTxId: string
@@ -1251,7 +1311,10 @@ interface SwapEventsProperties {
       estimatedBuyTokenUsdValue?: number
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
-    SwapTimeMetrics & {
+    SwapTimeMetrics &
+    Web3LibraryProps &
+    Partial<SwapTxsProperties> &
+    SwapTxsReceiptProperties & {
       error: string
       fromTokenBalance: string
       swapExecuteTxId: string
@@ -1381,6 +1444,25 @@ interface DappShortcutsProperties {
   [DappShortcutsEvents.dapp_shortcuts_reward_tx_rejected]: DappShortcutClaimRewardEvent
 }
 
+interface TransactionDetailsProperties {
+  [TransactionDetailsEvents.transaction_details_tap_details]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_check_status]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_retry]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+  [TransactionDetailsEvents.transaction_details_tap_block_explorer]: {
+    transactionType: TokenTransactionTypeV2
+    transactionStatus: TransactionStatus
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1414,6 +1496,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   AssetsEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
-  DappShortcutsProperties
+  DappShortcutsProperties &
+  TransactionDetailsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

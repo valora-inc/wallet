@@ -1550,6 +1550,7 @@
       "descriptionXtoYDays": "İşlem talebiniz gönderildi ve paranız {{lowerBound}}-{{upperBound}} gün içinde ulaşacak.",
       "baseDescription": "İşlem talebiniz gönderildi.",
       "txDetails": "CeloExplorer'da görüntüle",
+      "viewOnCeloScan": "CeloScan'de görüntüle",
       "continue": "İleri"
     },
     "requestNotCompleted": {
@@ -1558,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "İşleminiz hala devam ediyor.",
-      "description": "Bunun nedeni zayıf internet bağlantısı olabilir. Güncellemeler için CeloExplorer'ı kontrol edin."
+      "description": "Bunun nedeni zayıf internet bağlantısı olabilir. Güncellemeler için blok gezginini kontrol edin."
     }
   },
   "fiatExchangeFlow": {
@@ -1692,7 +1693,8 @@
     "swapFrom": "Takas kaynağı",
     "swapTo": "Takas hedefi",
     "rate": "Oran",
-    "estimatedFee": "Tahmini Ücret",
+    "estimatedFee": "Est Ağ Ücreti",
+    "networkFee": "Ağ Ücreti",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
   },
   "swapReviewScreen": {
@@ -1856,6 +1858,68 @@
       "swap": "Jetonlarınızı cüzdanınızdan çıkmadan takas edin",
       "add": "Güvenilir sağlayıcılarımızdan birini kullanarak token satın alın",
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
+    }
+  },
+  "sendSelectRecipient": {
+    "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "title": "Bir alıcı seçin",
+    "recents": "Son Zamanlar",
+    "qr": {
+      "title": "QR Kodunu Tarayın veya Gösterin",
+      "subtitle": "Valora'daki adresleri hızlıca bulun"
+    },
+    "invite": {
+      "title": "Arkadaşlarınıza kripto gönderin",
+      "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
+    },
+    "getStarted": {
+      "title": "Valora'da para gönderme yolları",
+      "subtitle": "BAŞLAYIN",
+      "options": {
+        "one": {
+          "title": "Cüzdan Adresi",
+          "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
+        },
+        "two": {
+          "title": "Telefon Numarası",
+          "subtitle": "Valora'sı olan birinin telefon numarasına doğrudan gönderme"
+        },
+        "three": {
+          "title": "ENS",
+          "subtitle": "Ethereum varlıklarını birinin ENS tanıtıcısına gönderin"
+        },
+        "four": {
+          "title": "Profil Adı",
+          "subtitle": "Valora'da mevcut kullanıcıları arayabilirsiniz"
+        }
+      }
+    }
+  },
+  "transactionStatus": {
+    "transactionIsCompleted": "Tamamlandı",
+    "transactionIsPending": "Beklemede",
+    "transactionIsFailed": "Başarısız"
+  },
+  "transactionDetailsActions": {
+    "showCompletedTransactionDetails": "Detaylar",
+    "checkPendingTransactionStatus": "Durumu Kontrol Edin",
+    "retryFailedTransaction": "Yeniden Dene"
+  },
+  "viewOnCeloBlockExplorer": "CeloExplorer'da görüntüle",
+  "viewOnCeloScan": "CeloScan'de görüntüle",
+  "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
+  "sendEnterAmountScreen": {
+    "title": "Tutar Girin",
+    "selectToken": "Bir Belirteç Seçin",
+    "networkFee": "{{networkName}} Ağ Ücreti",
+    "lowerAmount": "Daha düşük bir miktar girin",
+    "maxAmountWarning": {
+      "title": "Maksimum tutarın gönderilmesi",
+      "description": "Gönderdiğiniz miktarı gaz için yeterli {{feeTokenSymbol}} olduğundan emin olacak şekilde ayarlayın"
+    },
+    "notEnoughBalanceForGasWarning": {
+      "title": "Gaz için daha fazla {{feeTokenSymbol}} adresine ihtiyacınız var",
+      "description": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya gönderdiğiniz miktarı ayarlayın"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
