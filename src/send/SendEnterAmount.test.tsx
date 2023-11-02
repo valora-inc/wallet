@@ -94,7 +94,6 @@ describe('SendEnterAmount', () => {
   beforeEach(() => {
     mockUsePrepareSendTransactionsOutput = {
       prepareTransactionsResult: undefined,
-      prepareTransactionsLoading: false,
       feeCurrency: undefined,
       feeAmount: undefined,
       refreshPreparedTransactions: jest.fn(),
