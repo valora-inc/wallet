@@ -51,7 +51,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getMaxGasCost } from 'src/viem/prepareTransactions'
+import { getMaxGasFee } from 'src/viem/prepareTransactions'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
@@ -288,22 +288,22 @@ function getTxReceiptAnalyticsProperties(
   const feeCurrencyAddress = tx?.feeCurrency || celoAddress
   const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
 
-  const txMaxGasCost =
-    tx && feeCurrencyToken ? getMaxGasCost([tx]).shiftedBy(-feeCurrencyToken.decimals) : undefined
-  const txMaxGasCostUsd =
-    feeCurrencyToken && txMaxGasCost && feeCurrencyToken.priceUsd
-      ? txMaxGasCost.times(feeCurrencyToken.priceUsd)
+  const txMaxGasFee =
+    tx && feeCurrencyToken ? getMaxGasFee([tx]).shiftedBy(-feeCurrencyToken.decimals) : undefined
+  const txMaxGasFeeUsd =
+    feeCurrencyToken && txMaxGasFee && feeCurrencyToken.priceUsd
+      ? txMaxGasFee.times(feeCurrencyToken.priceUsd)
       : undefined
 
-  const txGasCost =
+  const txGasFee =
     txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeCurrencyToken
       ? new BigNumber((txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString()).shiftedBy(
           -feeCurrencyToken.decimals
         )
       : undefined
-  const txGasCostUsd =
-    feeCurrencyToken && txGasCost && feeCurrencyToken.priceUsd
-      ? txGasCost.times(feeCurrencyToken.priceUsd)
+  const txGasFeeUsd =
+    feeCurrencyToken && txGasFee && feeCurrencyToken.priceUsd
+      ? txGasFee.times(feeCurrencyToken.priceUsd)
       : undefined
 
   return {
@@ -314,11 +314,11 @@ function getTxReceiptAnalyticsProperties(
       ? Number(txReceipt.effectiveGasPrice)
       : undefined,
     txGas: tx?.gas ? Number(tx.gas) : undefined,
-    txMaxGasCost: txMaxGasCost?.toNumber(),
-    txMaxGasCostUsd: txMaxGasCostUsd?.toNumber(),
+    txMaxGasFee: txMaxGasFee?.toNumber(),
+    txMaxGasFeeUsd: txMaxGasFeeUsd?.toNumber(),
     txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
-    txGasCost: txGasCost?.toNumber(),
-    txGasCostUsd: txGasCostUsd?.toNumber(),
+    txGasFee: txGasFee?.toNumber(),
+    txGasFeeUsd: txGasFeeUsd?.toNumber(),
     txHash,
     txFeeCurrency: tx?.feeCurrency,
     txFeeCurrencySymbol: feeCurrencyToken?.symbol,
@@ -352,9 +352,9 @@ function getSwapTxsReceiptAnalyticsProperties(
     ...getPrefixedTxAnalyticsProperties(approveTx || {}, 'approve'),
     ...getPrefixedTxAnalyticsProperties(swapTx, 'swap'),
     gasUsed: swapTx.txGasUsed ? txs.reduce((sum, tx) => sum + (tx.txGasUsed || 0), 0) : undefined,
-    gasCost: swapTx.txGasCost ? txs.reduce((sum, tx) => sum + (tx.txGasCost || 0), 0) : undefined,
-    gasCostUsd: swapTx.txGasCostUsd
-      ? txs.reduce((sum, tx) => sum + (tx.txGasCostUsd || 0), 0)
+    gasFee: swapTx.txGasFee ? txs.reduce((sum, tx) => sum + (tx.txGasFee || 0), 0) : undefined,
+    gasFeeUsd: swapTx.txGasFeeUsd
+      ? txs.reduce((sum, tx) => sum + (tx.txGasFeeUsd || 0), 0)
       : undefined,
   }
 }

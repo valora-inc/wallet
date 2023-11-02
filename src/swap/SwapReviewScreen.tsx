@@ -35,7 +35,7 @@ import { FetchQuoteResponse, Field } from 'src/swap/types'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
-import { getMaxGasCost } from 'src/viem/prepareTransactions'
+import { getMaxGasFee } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getSwapTxsAnalyticsProperties } from './getSwapTxsAnalyticsProperties'
@@ -111,7 +111,7 @@ export function SwapReviewScreen({ route }: Props) {
       return new BigNumber(0)
     }
 
-    return getMaxGasCost(quote.preparedTransactions.transactions)
+    return getMaxGasFee(quote.preparedTransactions.transactions)
       .shiftedBy(-feeCurrencyToken.decimals)
       .times(feeCurrencyToken.priceUsd)
   }
