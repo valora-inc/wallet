@@ -275,7 +275,7 @@ export function getFeeCurrencyAndAmount(
     feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = prepareTransactionsResult.maxGasCost
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFee
   }
   return {
     feeAmount:
