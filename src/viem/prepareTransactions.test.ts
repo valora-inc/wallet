@@ -645,7 +645,7 @@ describe('prepareTransactions module', () => {
         getFeeCurrencyAndAmount({
           type: 'need-decrease-spend-amount-for-gas',
           feeCurrency: mockCeloTokenBalance,
-          maxGasCost: new BigNumber(10).exponentiatedBy(17),
+          maxGasFee: new BigNumber(10).exponentiatedBy(17),
           decreasedSpendAmount: new BigNumber(4),
         })
       ).toStrictEqual({
