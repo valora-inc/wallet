@@ -2516,7 +2516,7 @@
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
-                "SendRedesign",
+                "SendSelectRecipient",
                 "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
@@ -2771,7 +2771,10 @@
                             "$ref": "#/definitions/TokenAmount"
                         },
                         "status": {
-                            "const": "Complete",
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
                             "type": "string"
                         },
                         "timestamp": {
@@ -2831,7 +2834,10 @@
                             "$ref": "#/definitions/NetworkId"
                         },
                         "status": {
-                            "const": "Complete",
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
                             "type": "string"
                         },
                         "timestamp": {
@@ -2899,6 +2905,9 @@
                     "type": "boolean"
                 },
                 "hapticFeedbackEnabled": {
+                    "type": "boolean"
+                },
+                "hideHomeBalances": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -3035,6 +3044,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "hideHomeBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",
@@ -4077,11 +4087,8 @@
                     },
                     "type": "array"
                 },
-                "transactions": {
-                    "items": {
-                        "$ref": "#/definitions/TokenTransaction"
-                    },
-                    "type": "array"
+                "transactionsByNetworkId": {
+                    "$ref": "#/definitions/TransactionsByNetworkId"
                 }
             },
             "required": [
@@ -4089,7 +4096,7 @@
                 "knownFeedTransactions",
                 "recentTxRecipientsCache",
                 "standbyTransactions",
-                "transactions"
+                "transactionsByNetworkId"
             ],
             "type": "object"
         },
@@ -4822,6 +4829,36 @@
                 "Pending"
             ],
             "type": "string"
+        },
+        "TransactionsByNetworkId": {
+            "additionalProperties": false,
+            "properties": {
+                "celo-alfajores": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "celo-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "ethereum-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                }
+            },
+            "type": "object"
         },
         "TransferType": {
             "enum": [

@@ -7,12 +7,13 @@ import { RootState } from 'src/redux/reducers'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import {
+  NetworkId,
   StandbyTransaction,
   TokenTransaction,
   TokenTransactionTypeV2,
   TransactionStatus,
-  NetworkId,
 } from 'src/transactions/types'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
@@ -222,7 +223,9 @@ describe('TransactionFeed', () => {
 
     const { getByTestId, queryByTestId } = renderScreen({
       transactions: {
-        transactions: MOCK_RESPONSE.data.tokenTransactionsV3.transactions,
+        transactionsByNetworkId: {
+          [networkConfig.defaultNetworkId]: MOCK_RESPONSE.data.tokenTransactionsV3.transactions,
+        },
       },
     })
 

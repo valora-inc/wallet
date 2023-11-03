@@ -1401,4 +1401,20 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
   }),
+  165: (state: any) => {
+    const transactionsByNetworkId: any = {}
+    for (const tx of state.transactions.transactions) {
+      const txNetworkId = tx.networkId ?? networkConfig.defaultNetworkId
+      transactionsByNetworkId[txNetworkId] = [...(transactionsByNetworkId[txNetworkId] ?? []), tx]
+    }
+
+    return {
+      ...state,
+      transactions: {
+        ..._.omit(state.transactions, 'transactions'),
+        transactionsByNetworkId,
+      },
+    }
+  },
+  166: (state: any) => ({ ...state, app: { ...state.app, hideHomeBalances: false } }),
 }

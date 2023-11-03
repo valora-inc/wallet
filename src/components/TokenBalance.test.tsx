@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   AssetsTokenBalance,
   FiatExchangeTokenBalance,
@@ -651,6 +653,45 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
         },
       ]
     `)
+  })
+
+  it('renders correctly when hideBalance is true', async () => {
+    const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
+    expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
+  })
+
+  it('renders correctly when hideBalance is false', async () => {
+    const store = createMockStore(defaultStore)
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
+    expect(tree.getByTestId('EyeIcon')).toBeTruthy()
+  })
+
+  it('tracks analytics event when eye icon is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+    fireEvent.press(tree.getByTestId('EyeIcon'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.hide_balances)
   })
 })
 
