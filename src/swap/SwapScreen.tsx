@@ -59,16 +59,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 function getNetworkFee(networkId: NetworkId, quote: QuoteResult) {
-  let networkFee = new BigNumber(0)
-  let feeTokenId = getTokenId(networkId) // native token
-
-  if (quote.preparedTransactions && quote.preparedTransactions.type === 'possible') {
-    return {
-      networkFee: quote.preparedTransactions.maxGasCostInDecimal,
-      feeTokenId: quote.preparedTransactions.feeCurrency.tokenId,
-    }
-  }
-
   // TODO remove this block once we have viem enabled for everyone. this block
   // only services the contractKit (Celo) flow. the fee will be displayed in
   // fiat value and will be very low, since it's an approximation anyway we'll
@@ -84,9 +74,18 @@ function getNetworkFee(networkId: NetworkId, quote: QuoteResult) {
     }
   }
 
+  if (quote.preparedTransactions.type === 'possible') {
+    return {
+      networkFee: quote.preparedTransactions.maxGasCostInDecimal,
+      feeTokenId: quote.preparedTransactions.feeCurrency.tokenId,
+    }
+  }
+
+  // these are dummy values that don't matter, if the prepared transactions type
+  // is not "possible" then we don't care about the fee
   return {
-    networkFee,
-    feeTokenId,
+    networkFee: new BigNumber(0),
+    feeTokenId: getTokenId(networkId), // native token
   }
 }
 
