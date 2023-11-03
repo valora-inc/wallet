@@ -5,13 +5,13 @@ import { RootState } from 'src/redux/reducers'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import {
   Fee,
+  NetworkId,
   TokenAmount,
   TokenExchangeMetadata,
   TokenTransactionTypeV2,
-  NetworkId,
   TransactionStatus,
 } from 'src/transactions/types'
-import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import { mockCeurTokenId, mockCusdTokenId } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
@@ -45,6 +45,7 @@ describe('SwapFeedItem', () => {
     metadata?: TokenExchangeMetadata
     fees?: Fee[]
     storeOverrides?: RecursivePartial<RootState>
+    hideBalance?: boolean
   }) {
     const store = createMockStore({
       ...storeOverrides,
@@ -114,5 +115,22 @@ describe('SwapFeedItem', () => {
     )
     expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+17.87 cUSD')
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
+  })
+
+  it('hides balance when flag is set', async () => {
+    const { queryByTestId } = renderScreen({
+      inAmount: {
+        tokenId: mockCeurTokenId,
+        value: 2.93,
+      },
+      outAmount: {
+        tokenId: mockCusdTokenId,
+        value: 2.87,
+      },
+      storeOverrides: { app: { hideHomeBalances: true } },
+    })
+
+    expect(queryByTestId('SwapFeedItem/incomingAmount')).toBeNull()
+    expect(queryByTestId('SwapFeedItem/outgoingAmount')).toBeNull()
   })
 })
