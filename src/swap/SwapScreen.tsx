@@ -15,17 +15,18 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CustomHeader from 'src/components/header/CustomHeader'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
@@ -34,17 +35,16 @@ import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
-import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
-import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
+import { setSwapUserInput } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -439,7 +439,7 @@ export function SwapScreen({ route }: Props) {
 
           {showTransactionDetails && (
             <SwapTransactionDetails
-              network={Network.Celo}
+              networkId={fromToken?.networkId}
               networkFee={new BigNumber(1)}
               networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
               feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
@@ -516,7 +516,7 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={networkFeeInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.networkFeeInfo', {
-          networkName: t(`networkName.${Network.Celo}`),
+          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
         })}
         testId="NetworkFeeInfoBottomSheet"
       >

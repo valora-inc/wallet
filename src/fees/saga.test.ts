@@ -10,11 +10,11 @@ import { createReclaimTransaction } from 'src/escrow/saga'
 import { estimateFee, feeEstimated, FeeEstimateState, FeeType } from 'src/fees/reducer'
 import { calculateFee, estimateFeeSaga, SWAP_FEE_ESTIMATE_MULTIPLIER } from 'src/fees/saga'
 import { buildSendTx } from 'src/send/saga'
+import { NetworkId } from 'src/transactions/types'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { estimateGas } from 'src/web3/utils'
 import { createMockStore } from 'test/utils'
 import { mockCeurAddress, mockCeurTokenId, mockCusdAddress, mockCusdTokenId } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const GAS_AMOUNT = 500000
 

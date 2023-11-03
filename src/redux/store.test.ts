@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 164,
+          "version": 166,
         },
         "account": {
           "acceptedTerms": false,
@@ -143,6 +143,7 @@ describe('store state', () => {
           "fiatConnectCashOutEnabled": false,
           "googleMobileServicesAvailable": undefined,
           "hapticFeedbackEnabled": true,
+          "hideHomeBalances": false,
           "huaweiMobileServicesAvailable": undefined,
           "inAppReviewLastInteractionTimestamp": null,
           "inviterAddress": null,
@@ -343,7 +344,7 @@ describe('store state', () => {
           "knownFeedTransactions": {},
           "recentTxRecipientsCache": {},
           "standbyTransactions": [],
-          "transactions": [],
+          "transactionsByNetworkId": {},
         },
         "walletConnect": {
           "pendingActions": [],
