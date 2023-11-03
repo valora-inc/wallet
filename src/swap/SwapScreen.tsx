@@ -96,7 +96,6 @@ export function SwapScreen({ route }: Props) {
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const showTransactionDetails = false // TODO remove this dummy feature flag after the transaction details are implemented
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -477,15 +476,13 @@ export function SwapScreen({ route }: Props) {
             </Text>
           </SwapAmountInput>
 
-          {showTransactionDetails && (
-            <SwapTransactionDetails
-              networkFee={networkFee}
-              networkId={fromToken?.networkId}
-              networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
-              feeTokenId={feeTokenId}
-              slippagePercentage={0.3}
-            />
-          )}
+          <SwapTransactionDetails
+            networkFee={networkFee}
+            networkId={fromToken?.networkId}
+            networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+            feeTokenId={feeTokenId}
+            slippagePercentage={0.3}
+          />
 
           {showMaxSwapAmountWarning && (
             <Warning
