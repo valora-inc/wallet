@@ -1,7 +1,5 @@
 import * as $ from 'shelljs'
 
-$.config.fatal = true
-
 const SECTION_REGEX = /[a-zA-Z ]+\([0-9]+\)/
 const CATEGORY_REGEX = /[a-zA-Z ]+/
 const PARENS_REGEX = /\(|\)| /
