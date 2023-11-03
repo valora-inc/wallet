@@ -45,6 +45,8 @@ export enum HomeEvents {
   notification_bell_pressed = 'notification_bell_pressed',
   notification_center_opened = 'notification_center_opened',
   notification_center_spotlight_dismiss = 'notification_center_spotlight_dismiss',
+  hide_balances = 'hide_balances',
+  show_balances = 'show_balances',
 }
 
 export enum SettingsEvents {

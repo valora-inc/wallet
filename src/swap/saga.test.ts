@@ -63,7 +63,7 @@ const mockSwapTransaction: SwapTransaction = {
   estimatedPriceImpact: '0.1',
 } as SwapTransaction // there are lots fields in this type that are not needed for testing
 
-const mockQuoteReceivedTimestamp = 1000000000000
+const mockQuoteReceivedTimestamp = 1_000_000_000_000
 
 const mockSwap: PayloadAction<SwapInfo> = {
   type: 'swap/swapStart',
@@ -121,14 +121,16 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
             to: mockCeurAddress as Address,
             value: BigInt(0),
             data: '0x0',
-            gas: BigInt(59480),
+            gas: BigInt(59_480),
+            maxFeePerGas: BigInt(12_000_000_000),
           },
           {
             from: mockAccount,
             to: mockSwapTransaction.allowanceTarget as Address,
             value: BigInt(0),
             data: '0x0',
-            gas: BigInt(285000),
+            gas: BigInt(1_325_000),
+            maxFeePerGas: BigInt(12_000_000_000),
           },
         ],
       },
@@ -192,7 +194,8 @@ const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
             to: mockSwapTransaction.allowanceTarget as Address,
             value: BigInt(0),
             data: '0x0',
-            gas: BigInt(285000),
+            gas: BigInt(1_325_000),
+            maxFeePerGas: BigInt(12_000_000_000),
           },
         ],
       },
@@ -276,8 +279,8 @@ describe(swapSubmitSaga, () => {
   it('should complete swap', async () => {
     jest
       .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
 
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
@@ -328,10 +331,11 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
-      quoteToTransactionElapsedTimeInMs: 10000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+      quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'contract-kit',
     })
   })
 
@@ -389,7 +393,7 @@ describe(swapSubmitSaga, () => {
   })
 
   it('should set swap state correctly on error', async () => {
-    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30000) // swap submitted timestamp
+    jest.spyOn(Date, 'now').mockReturnValueOnce(mockQuoteReceivedTimestamp + 30_000) // swap submitted timestamp
     jest.mocked(sendTransaction).mockImplementationOnce(() => {
       throw new Error('fake error')
     })
@@ -414,10 +418,11 @@ describe(swapSubmitSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 30000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 30_000,
       quoteToTransactionElapsedTimeInMs: undefined,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'contract-kit',
     })
   })
 
@@ -449,13 +454,29 @@ describe(swapSubmitPreparedSaga, () => {
     }),
   } as any as ViemWallet
 
-  const mockTxReceipt = { status: 'success', blockNumber: BigInt(1234), transactionHash: '0x2' }
+  const mockSwapTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x2',
+    cumulativeGasUsed: BigInt(3_899_547),
+    effectiveGasPrice: BigInt(5_000_000_000),
+    gasUsed: BigInt(371_674),
+  }
+  const mockApproveTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x1',
+    cumulativeGasUsed: BigInt(3_129_217),
+    effectiveGasPrice: BigInt(5_000_000_000),
+    gasUsed: BigInt(51_578),
+  }
 
   const defaultProviders: (EffectProviders | StaticProvider)[] = [
     [matchers.call.fn(getViemWallet), mockViemWallet],
     [matchers.call.fn(getTransactionCount), 10],
     [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
-    [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+    [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockSwapTxReceipt],
+    [matchers.call.fn(publicClient.celo.getTransactionReceipt), mockApproveTxReceipt],
   ]
 
   beforeEach(() => {
@@ -465,8 +486,8 @@ describe(swapSubmitPreparedSaga, () => {
   it('should complete swap', async () => {
     jest
       .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
 
     await expectSaga(swapSubmitPreparedSaga, mockSwapPrepared)
       .withState(store.getState())
@@ -519,11 +540,68 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
-      quoteToTransactionElapsedTimeInMs: 10000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+      quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'viem',
+      gas: 1384480,
+      maxGasCost: 0.01661376,
+      maxGasCostUsd: 0.00830688,
+      gasUsed: 423252,
+      gasCost: 0.00211626,
+      gasCostUsd: 0.00105813,
+      feeCurrency: undefined,
+      feeCurrencySymbol: 'CELO',
+      txCount: 2,
+      approveTxCumulativeGasUsed: 3_129_217,
+      approveTxEffectiveGasPrice: 5_000_000_000,
+      approveTxFeeCurrency: undefined,
+      approveTxFeeCurrencySymbol: 'CELO',
+      approveTxGas: 59_480,
+      approveTxMaxGasCost: 0.00071376,
+      approveTxMaxGasCostUsd: 0.00035688,
+      approveTxGasUsed: 51_578,
+      approveTxGasCost: 0.00025789,
+      approveTxGasCostUsd: 0.000128945,
+      approveTxHash: '0x1',
+      swapTxCumulativeGasUsed: 3_899_547,
+      swapTxEffectiveGasPrice: 5_000_000_000,
+      swapTxFeeCurrency: undefined,
+      swapTxFeeCurrencySymbol: 'CELO',
+      swapTxGas: 1_325_000,
+      swapTxMaxGasCost: 0.0159,
+      swapTxMaxGasCostUsd: 0.00795,
+      swapTxGasUsed: 371_674,
+      swapTxGasCost: 0.00185837,
+      swapTxGasCostUsd: 0.000929185,
+      swapTxHash: '0x2',
     })
+    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+    expect(analyticsProps.gas).toBeCloseTo(
+      analyticsProps.approveTxGas + analyticsProps.swapTxGas,
+      8
+    )
+    expect(analyticsProps.maxGasCost).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCost + analyticsProps.swapTxMaxGasCost,
+      8
+    )
+    expect(analyticsProps.maxGasCostUsd).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCostUsd + analyticsProps.swapTxMaxGasCostUsd,
+      8
+    )
+    expect(analyticsProps.gasUsed).toBeCloseTo(
+      analyticsProps.approveTxGasUsed + analyticsProps.swapTxGasUsed,
+      8
+    )
+    expect(analyticsProps.gasCost).toBeCloseTo(
+      analyticsProps.approveTxGasCost + analyticsProps.swapTxGasCost,
+      8
+    )
+    expect(analyticsProps.gasCostUsd).toBeCloseTo(
+      analyticsProps.approveTxGasCostUsd + analyticsProps.swapTxGasCostUsd,
+      8
+    )
   })
 
   it('should complete swap without approval for native sell token', async () => {
@@ -584,8 +662,8 @@ describe(swapSubmitPreparedSaga, () => {
   it('should set swap state correctly on error', async () => {
     jest
       .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10000) // before send swap timestamp
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
 
     jest.mocked(mockViemWallet.sendRawTransaction).mockImplementationOnce(() => {
       throw new Error('fake error')
@@ -611,10 +689,56 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenBalance: '10000000000000000000',
       swapApproveTxId: 'a uuid',
       swapExecuteTxId: 'a uuid',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2500,
-      quoteToTransactionElapsedTimeInMs: 10000,
+      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+      quoteToTransactionElapsedTimeInMs: 10_000,
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
+      web3Library: 'viem',
+      gas: 1384480,
+      maxGasCost: 0.01661376,
+      maxGasCostUsd: 0.00830688,
+      gasUsed: undefined,
+      gasCost: undefined,
+      gasCostUsd: undefined,
+      feeCurrency: undefined,
+      feeCurrencySymbol: 'CELO',
+      txCount: 2,
+      // Most of these values are undefined because we didn't get a tx receipt
+      approveTxCumulativeGasUsed: undefined,
+      approveTxEffectiveGasPrice: undefined,
+      approveTxFeeCurrency: undefined,
+      approveTxFeeCurrencySymbol: 'CELO',
+      approveTxGas: 59_480,
+      approveTxMaxGasCost: 0.00071376,
+      approveTxMaxGasCostUsd: 0.00035688,
+      approveTxGasUsed: undefined,
+      approveTxGasCost: undefined,
+      approveTxGasCostUsd: undefined,
+      approveTxHash: undefined,
+      swapTxCumulativeGasUsed: undefined,
+      swapTxEffectiveGasPrice: undefined,
+      swapTxFeeCurrency: undefined,
+      swapTxFeeCurrencySymbol: 'CELO',
+      swapTxGas: 1_325_000,
+      swapTxMaxGasCost: 0.0159,
+      swapTxMaxGasCostUsd: 0.00795,
+      swapTxGasUsed: undefined,
+      swapTxGasCost: undefined,
+      swapTxGasCostUsd: undefined,
+      swapTxHash: undefined,
     })
+    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+    expect(analyticsProps.gas).toBeCloseTo(
+      analyticsProps.approveTxGas + analyticsProps.swapTxGas,
+      8
+    )
+    expect(analyticsProps.maxGasCost).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCost + analyticsProps.swapTxMaxGasCost,
+      8
+    )
+    expect(analyticsProps.maxGasCostUsd).toBeCloseTo(
+      analyticsProps.approveTxMaxGasCostUsd + analyticsProps.swapTxMaxGasCostUsd,
+      8
+    )
   })
 })

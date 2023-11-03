@@ -230,7 +230,7 @@ export type StackParamList = {
         defaultTokenIdOverride?: string
       }
     | undefined
-  [Screens.SendRedesign]:
+  [Screens.SendSelectRecipient]:
     | {
         forceTokenId?: boolean
         defaultTokenIdOverride?: string
