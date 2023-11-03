@@ -437,7 +437,7 @@ export function SwapScreen({ route }: Props) {
 
           {showTransactionDetails && (
             <SwapTransactionDetails
-              networkId={networkConfig.defaultNetworkId}
+              networkId={fromToken?.networkId}
               networkFee={new BigNumber(1)}
               networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
               feeTokenId={getTokenId(networkConfig.defaultNetworkId)}

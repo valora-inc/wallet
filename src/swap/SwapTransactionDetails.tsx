@@ -38,6 +38,7 @@ export function SwapTransactionDetails({
             networkFeeInfoBottomSheetRef.current?.snapToIndex(0)
           }}
           disabled={!networkId}
+          testID="SwapTransactionDetails/NetworkFeeMoreInfo"
         >
           <>
             <Text style={styles.label}>
@@ -47,7 +48,13 @@ export function SwapTransactionDetails({
                   })
                 : t('swapScreen.transactionDetails.networkFeeNoNetwork')}
             </Text>
-            {networkId && <InfoIcon size={14} color={colors.gray4} />}
+            {networkId && (
+              <InfoIcon
+                size={14}
+                color={colors.gray4}
+                testID="SwapTransactionDetails/NetworkFeeMoreInfo/Icon"
+              />
+            )}
           </>
         </Touchable>
         <TokenDisplay
