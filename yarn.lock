@@ -6109,10 +6109,10 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.1.0, bl@^6.0.7:
-  version "6.0.7"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.7.tgz#1ee70a88044ad3ca9219a6ff94206a193dd4c39d"
-  integrity sha512-9FNh0IvlWSU5C9BCDhw0IovmhuqevzBX1AME7BdFHNDMfOju4NmwRWoBrfz5Srs+JNBhxfjrPLxZSnDotgSs9A==
+bl@^4.1.0, bl@^6.0.8:
+  version "6.0.8"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.8.tgz#737d57f2d1e25b9ca45e0f4c5d84409731a86c04"
+  integrity sha512-HCRq8z0+3vrGCjEKrbnK6blpDZ1xzhfZKCCuyvPC7upGcfXZSmaCumpVao/jC8o1hs/fOqJoCSPMabl+CQTPXg==
   dependencies:
     buffer "^6.0.3"
     inherits "^2.0.4"
@@ -6296,15 +6296,7 @@ browserify-des@^1.0.0:
     inherits "^2.0.1"
     safe-buffer "^5.1.2"
 
-browserify-rsa@^4.0.0:
-  version "4.0.1"
-  resolved "https://registry.yarnpkg.com/browserify-rsa/-/browserify-rsa-4.0.1.tgz#21e0abfaf6f2029cf2fafb133567a701d4135524"
-  integrity sha1-IeCr+vbyApzy+vsTNWenAdQTVSQ=
-  dependencies:
-    bn.js "^4.1.0"
-    randombytes "^2.0.1"
-
-browserify-rsa@^4.1.0:
+browserify-rsa@^4.0.0, browserify-rsa@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/browserify-rsa/-/browserify-rsa-4.1.0.tgz#b2fd06b5b75ae297f7ce2dc651f918f5be158c8d"
   integrity sha512-AdEER0Hkspgno2aR97SAf6vi0y0k8NuOpGnVH3O99rcA5Q6sh8QxcngtHuJ6uXwnfAXNM4Gn1Gb7/MV1+Ymbog==
