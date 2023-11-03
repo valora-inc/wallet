@@ -31,8 +31,10 @@ function SwapFeedItem({ exchange }: Props) {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
+
+  const hideBalanceSelectorReturn = useSelector(hideHomeBalancesSelector)
   const hideBalance = getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE)
-    ? useSelector(hideHomeBalancesSelector)
+    ? hideBalanceSelectorReturn
     : false
 
   return (

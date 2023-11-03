@@ -40,8 +40,9 @@ function TransferFeedItem({ transfer }: Props) {
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
+  const hideBalanceSelectorReturn = useSelector(hideHomeBalancesSelector)
   const hideBalance = getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE)
-    ? useSelector(hideHomeBalancesSelector)
+    ? hideBalanceSelectorReturn
     : false
 
   return (
