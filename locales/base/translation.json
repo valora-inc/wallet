@@ -1196,6 +1196,7 @@
   "feedItemNetworkFeeInfo": "Network Fee",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Confirmer Reward",
+  "feedItemFailedTransaction": "Failed Transaction",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",

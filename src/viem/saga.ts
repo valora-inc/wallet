@@ -8,18 +8,21 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
-import { tokenAmountInSmallestUnit, getTokenInfo } from 'src/tokens/saga'
-import { fetchTokenBalances } from 'src/tokens/slice'
+import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
+import {
+  TokenBalanceWithAddress,
+  fetchTokenBalances,
+  tokenBalanceHasAddress,
+} from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
   removeStandbyTransaction,
   transactionConfirmed,
-  transactionFailed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
-import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
+import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
@@ -27,11 +30,9 @@ import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
+import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put } from 'typed-redux-saga'
 import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
-import { Network } from 'src/transactions/types'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { TokenBalanceWithAddress, tokenBalanceHasAddress } from 'src/tokens/slice'
 
 const TAG = 'viem/saga'
 
@@ -384,7 +385,7 @@ export function* sendAndMonitorTransaction({
       transactionConfirmed(context.id, {
         transactionHash: receipt.transactionHash,
         block: receipt.blockNumber.toString(),
-        status: true,
+        status: receipt.status === 'success',
       })
     )
     yield* put(fetchTokenBalances({ showLoading: true }))
@@ -397,7 +398,6 @@ export function* sendAndMonitorTransaction({
       error: error.message,
     })
     yield* put(removeStandbyTransaction(context.id))
-    yield* put(transactionFailed(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     throw error
   }

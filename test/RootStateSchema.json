@@ -2516,7 +2516,7 @@
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
-                "SendRedesign",
+                "SendSelectRecipient",
                 "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
@@ -2771,7 +2771,10 @@
                             "$ref": "#/definitions/TokenAmount"
                         },
                         "status": {
-                            "const": "Complete",
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
                             "type": "string"
                         },
                         "timestamp": {
@@ -2831,7 +2834,10 @@
                             "$ref": "#/definitions/NetworkId"
                         },
                         "status": {
-                            "const": "Complete",
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
                             "type": "string"
                         },
                         "timestamp": {
@@ -2899,6 +2905,9 @@
                     "type": "boolean"
                 },
                 "hapticFeedbackEnabled": {
+                    "type": "boolean"
+                },
+                "hideHomeBalances": {
                     "type": "boolean"
                 },
                 "huaweiMobileServicesAvailable": {
@@ -3035,6 +3044,7 @@
                 "fiatConnectCashInEnabled",
                 "fiatConnectCashOutEnabled",
                 "hapticFeedbackEnabled",
+                "hideHomeBalances",
                 "inAppReviewLastInteractionTimestamp",
                 "inviterAddress",
                 "lastTimeBackgrounded",

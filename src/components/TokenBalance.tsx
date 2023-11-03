@@ -11,15 +11,21 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { toggleHideBalances } from 'src/app/actions'
+import { hideHomeBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
+import Touchable from 'src/components/Touchable'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { refreshAllBalances } from 'src/home/actions'
+import EyeIcon from 'src/icons/EyeIcon'
+import HiddenEyeIcon from 'src/icons/HiddenEyeIcon'
 import InfoIcon from 'src/icons/InfoIcon'
 import ProgressArrow from 'src/icons/ProgressArrow'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
@@ -49,9 +55,11 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
+  hideBalance = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
+  hideBalance?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -67,6 +75,9 @@ function TokenBalance({
     totalTokenBalanceLocal || totalPositionsBalanceLocal
       ? new BigNumber(totalTokenBalanceLocal ?? 0).plus(totalPositionsBalanceLocal ?? 0)
       : undefined
+  const { decimalSeparator } = getNumberFormatSettings()
+
+  const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
@@ -87,20 +98,22 @@ function TokenBalance({
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
           <Text style={style} testID={'TotalTokenBalance'}>
-            {localCurrencySymbol}
-            {totalTokenBalanceLocal?.toFormat(2) ?? '-'}
+            {!hideBalance && localCurrencySymbol}
+            {balanceDisplay ?? '-'}
           </Text>
-          <Text style={styles.tokenBalance}>
-            {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
-          </Text>
+          {!hideBalance && (
+            <Text style={styles.tokenBalance}>
+              {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
+            </Text>
+          )}
         </View>
       </View>
     )
   } else {
     return (
       <Text style={style} testID={'TotalTokenBalance'}>
-        {localCurrencySymbol}
-        {totalBalanceLocal?.toFormat(2) ?? new BigNumber(0).toFormat(2)}
+        {!hideBalance && localCurrencySymbol}
+        {balanceDisplay ?? new BigNumber(0).toFormat(2)}
       </Text>
     )
   }
@@ -205,6 +218,7 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 
 export function HomeTokenBalance() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const totalBalance = useTotalTokenBalance()
   const tokenBalances = useTokensWithTokenBalance()
@@ -227,6 +241,13 @@ export function HomeTokenBalance() {
   }
 
   const [infoVisible, setInfoVisible] = useState(false)
+
+  const hideBalance = useSelector(hideHomeBalancesSelector)
+
+  const eyeIconOnPress = () => {
+    ValoraAnalytics.track(hideBalance ? HomeEvents.show_balances : HomeEvents.hide_balances)
+    dispatch(toggleHideBalances())
+  }
 
   return (
     <View style={styles.container} testID="HomeTokenBalance">
@@ -257,13 +278,19 @@ export function HomeTokenBalance() {
           </TouchableOpacity>
         )}
       </View>
-      <TokenBalance
-        style={
-          getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-            ? styles.totalBalance
-            : styles.balance
-        }
-      />
+      <View style={styles.row}>
+        <TokenBalance
+          style={
+            getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+              ? styles.totalBalance
+              : styles.balance
+          }
+          hideBalance={hideBalance}
+        />
+        <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
+          {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
+        </Touchable>
+      </View>
     </View>
   )
 }
