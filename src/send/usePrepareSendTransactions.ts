@@ -13,7 +13,7 @@ import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 const TAG = 'src/send/usePrepareSendTransactions'
 
 // just exported for testing
-export async function _prepareSendTransactions({
+export async function _prepareSendTransactionsCallback({
   amount,
   token,
   recipientAddress,
@@ -50,12 +50,8 @@ export async function _prepareSendTransactions({
 
 /**
  * Hook to prepare transactions for sending crypto.
- *
- * @param _prepareSendTransactionsCallback: do not use unless testing!
  */
-export function usePrepareSendTransactions(
-  _prepareSendTransactionsCallback = _prepareSendTransactions // just for testing
-) {
+export function usePrepareSendTransactions() {
   const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
     PreparedTransactionsResult | undefined
   >()

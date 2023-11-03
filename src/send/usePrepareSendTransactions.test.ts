@@ -1,9 +1,8 @@
 import {
-  _prepareSendTransactions,
+  _prepareSendTransactionsCallback,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
 import {
-  getMaxGasFee,
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
 } from 'src/viem/prepareTransactions'
@@ -44,10 +43,10 @@ describe('usePrepareSendTransactions', () => {
     feeCurrency: mockFeeCurrencyWithTwoDecimals,
   }
 
-  describe('_prepareSendTransactions Callback', () => {
+  describe('_prepareSendTransactionsCallback', () => {
     it('returns undefined if amount is 0', async () => {
       expect(
-        await _prepareSendTransactions({
+        await _prepareSendTransactionsCallback({
           amount: new BigNumber(0),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -59,7 +58,7 @@ describe('usePrepareSendTransactions', () => {
     })
     it('returns undefined if balance of token to send 0', async () => {
       expect(
-        await _prepareSendTransactions({
+        await _prepareSendTransactionsCallback({
           amount: new BigNumber(5),
           token: { ...mockCeloTokenBalance, balance: new BigNumber(0) },
           recipientAddress: '0xabc',
@@ -77,7 +76,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactions({
+        await _prepareSendTransactionsCallback({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -95,7 +94,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactions({
+        await _prepareSendTransactionsCallback({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -108,7 +107,7 @@ describe('usePrepareSendTransactions', () => {
     it('does nothing for now for the case where DEK is not registered and token supports comments', async () => {
       mocked(tokenSupportsComments).mockReturnValue(true)
       expect(
-        await _prepareSendTransactions({
+        await _prepareSendTransactionsCallback({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -120,12 +119,10 @@ describe('usePrepareSendTransactions', () => {
     })
   })
   describe('usePrepareSendTransactions', () => {
+    // integration tests (testing both usePrepareSendTransactions and _prepareSendTransactionsCallback at once)
     it('gives initial values and lets you refresh them at will', async () => {
-      const mockPrepareSendTransactionsCallback = jest.fn().mockResolvedValue(mockPossibleResult)
-      mocked(getMaxGasFee).mockReturnValue(new BigNumber(600))
-      const { result } = renderHook(() =>
-        usePrepareSendTransactions(mockPrepareSendTransactionsCallback)
-      )
+      mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPossibleResult)
+      const { result } = renderHook(usePrepareSendTransactions)
       expect(result.current.prepareTransactionsResult).toBeUndefined()
       await act(async () => {
         await result.current.refreshPreparedTransactions({
