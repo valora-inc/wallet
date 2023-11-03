@@ -45,8 +45,7 @@ if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
 
   $.exec(`git checkout ${branchName}`)
 
-  const shouldFail = compareKnipResults(mainKnipResults, branchKnipResults)
-  if (shouldFail) {
+  if (compareKnipResults(mainKnipResults, branchKnipResults)) {
     console.log('Knip check failed. Branch reported more problems than main.')
     process.exit(1)
   }
