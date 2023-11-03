@@ -73,7 +73,7 @@ export function SwapScreen({ route }: Props) {
   )
   const slippagePercentage = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
-  ).slippagePercentage
+  ).maxSlippagePercentage
 
   const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 

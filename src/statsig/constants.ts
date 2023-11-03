@@ -113,7 +113,7 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.SWAP_CONFIG]: {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
-      slippagePercentage: '0.3',
+      maxSlippagePercentage: '0.3',
     },
   },
 }
