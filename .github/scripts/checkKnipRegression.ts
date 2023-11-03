@@ -22,13 +22,16 @@ function compareKnipResults(
   branchKnipResults: Record<string, number>
 ): boolean {
   let shouldFail = false
+  const table: Array<Array<string | number>> = []
   for (const [category, mainProblems] of Object.entries(mainKnipResults)) {
     const branchProblems = branchKnipResults[category] ?? 0
-    console.log(`${category} Main: ${mainProblems} Branch: ${branchProblems}`)
+    table.push([category, mainProblems, branchProblems])
     if (branchProblems > mainProblems) {
       shouldFail = true
     }
   }
+  console.log('Summary of Issues')
+  console.table(table, ['Issue Category', 'Main Branch', 'PR Branch'])
   return shouldFail
 }
 
