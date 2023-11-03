@@ -26,6 +26,7 @@ import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
@@ -44,7 +45,6 @@ import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -437,7 +437,7 @@ export function SwapScreen({ route }: Props) {
 
           {showTransactionDetails && (
             <SwapTransactionDetails
-              network={Network.Celo}
+              networkId={networkConfig.defaultNetworkId}
               networkFee={new BigNumber(1)}
               networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
               feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
@@ -514,7 +514,7 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={networkFeeInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.networkFeeInfo', {
-          networkName: t(`networkName.${Network.Celo}`),
+          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
         })}
         testId="NetworkFeeInfoBottomSheet"
       >

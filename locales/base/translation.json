@@ -1694,10 +1694,11 @@
     },
     "transactionDetails": {
       "networkFee": "{{networkName}} Network Fee",
+      "networkFeeNoNetwork": "Network Fee",
       "swapFee": "{{appName}} Fee",
       "swapFeeWaived": "Free",
       "slippagePercentage": "Slippage Tolerance",
-      "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.",
+      "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
       "networkFeeInfoDismissButton": "Got it"
     }
   },
@@ -1933,9 +1934,5 @@
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
     }
-  },
-  "networkName": {
-    "ethereum": "Ethereum",
-    "celo": "Celo"
   }
 }

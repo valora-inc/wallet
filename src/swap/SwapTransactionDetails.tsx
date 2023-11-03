@@ -6,13 +6,14 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { Network } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 
 interface Props {
-  network: Network
+  networkId?: NetworkId
   networkFee: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippagePercentage: number
@@ -20,7 +21,7 @@ interface Props {
 }
 
 export function SwapTransactionDetails({
-  network,
+  networkId,
   networkFee,
   networkFeeInfoBottomSheetRef,
   feeTokenId,
@@ -28,7 +29,6 @@ export function SwapTransactionDetails({
 }: Props) {
   const { t } = useTranslation()
 
-  const networkName = t(`networkName.${network}`)
   return (
     <View style={styles.container}>
       <View style={styles.row}>
@@ -37,14 +37,17 @@ export function SwapTransactionDetails({
           onPress={() => {
             networkFeeInfoBottomSheetRef.current?.snapToIndex(0)
           }}
+          disabled={!networkId}
         >
           <>
             <Text style={styles.label}>
-              {t('swapScreen.transactionDetails.networkFee', {
-                networkName,
-              })}
+              {networkId
+                ? t('swapScreen.transactionDetails.networkFee', {
+                    networkName: NETWORK_NAMES[networkId],
+                  })
+                : t('swapScreen.transactionDetails.networkFeeNoNetwork')}
             </Text>
-            <InfoIcon size={14} color={colors.gray4} />
+            {networkId && <InfoIcon size={14} color={colors.gray4} />}
           </>
         </Touchable>
         <TokenDisplay
