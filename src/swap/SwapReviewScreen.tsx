@@ -28,16 +28,17 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { getFeeCurrency } from 'src/swap/getFeeCurrency'
 import { swapUserInputSelector } from 'src/swap/selectors'
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { FetchQuoteResponse, Field } from 'src/swap/types'
-import { QuoteResult } from 'src/swap/useSwapQuote'
 import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selectors'
 import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
+import { getMaxGasCost } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getMaxGasCost } from 'src/viem/prepareTransactions'
+import { getSwapTxsAnalyticsProperties } from './getSwapTxsAnalyticsProperties'
 
 const TAG = 'SWAP_REVIEW_SCREEN'
 const initialUserInput = {
@@ -48,14 +49,6 @@ const initialUserInput = {
     [Field.TO]: null,
   },
   updatedField: Field.TO,
-}
-
-function getFeeCurrency(quote: QuoteResult) {
-  if (quote.preparedTransactions?.type !== 'possible') {
-    return undefined
-  }
-  // The prepared transactions always use the same fee currency
-  return quote.preparedTransactions.transactions[0].feeCurrency
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapReviewScreen>
@@ -76,7 +69,10 @@ export function SwapReviewScreen({ route }: Props) {
   const walletAddress = useSelector(walletAddressSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const feeCurrencyFromHook = useFeeCurrency()
-  const feeCurrency = (quote ? getFeeCurrency(quote) : feeCurrencyFromHook) ?? celoAddress
+  const feeCurrency =
+    (quote?.preparedTransactions?.type === 'possible'
+      ? getFeeCurrency(quote.preparedTransactions.transactions)
+      : feeCurrencyFromHook) ?? celoAddress
   const quoteReceivedAtRef = useRef<number | undefined>()
 
   const estimateFeeAmount = () => {
@@ -147,6 +143,14 @@ export function SwapReviewScreen({ route }: Props) {
       fromToken,
       amount: swapAmount[updatedField],
       amountType: swapAmountParam,
+      web3Library: quote ? 'viem' : 'contract-kit',
+      ...getSwapTxsAnalyticsProperties(
+        quote?.preparedTransactions?.type === 'possible'
+          ? quote.preparedTransactions.transactions
+          : undefined,
+        tokensByAddress,
+        celoAddress
+      ),
     })
   }, [])
 
@@ -212,6 +216,14 @@ export function SwapReviewScreen({ route }: Props) {
       estimatedPriceImpact,
       price,
       provider: swapResponse.details.swapProvider,
+      web3Library: quote ? 'viem' : 'contract-kit',
+      ...getSwapTxsAnalyticsProperties(
+        quote?.preparedTransactions?.type === 'possible'
+          ? quote.preparedTransactions.transactions
+          : undefined,
+        tokensByAddress,
+        celoAddress
+      ),
     })
 
     // New flow for viem

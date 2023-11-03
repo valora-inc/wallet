@@ -1,8 +1,10 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -36,6 +38,8 @@ function TransferFeedItem({ transfer }: Props) {
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
+  const hideBalance = useSelector(hideHomeBalancesSelector)
+
   return (
     <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>
       <View style={styles.container}>
@@ -52,28 +56,30 @@ function TransferFeedItem({ transfer }: Props) {
             {subtitle}
           </Text>
         </View>
-        <View style={styles.amountContainer}>
-          <TokenDisplay
-            amount={amount.value}
-            tokenId={amount.tokenId}
-            localAmount={customLocalAmount ?? amount.localAmount}
-            showExplicitPositiveSign={true}
-            showLocalAmount={!showTokenAmount}
-            style={[styles.amount, colorStyle]}
-            testID={'TransferFeedItem/amount'}
-          />
-          {!showTokenAmount && (
+        {!hideBalance && (
+          <View style={styles.amountContainer}>
             <TokenDisplay
               amount={amount.value}
               tokenId={amount.tokenId}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={true}
-              style={styles.tokenAmount}
-              testID={'TransferFeedItem/tokenAmount'}
+              localAmount={customLocalAmount ?? amount.localAmount}
+              showExplicitPositiveSign={true}
+              showLocalAmount={!showTokenAmount}
+              style={[styles.amount, colorStyle]}
+              testID={'TransferFeedItem/amount'}
             />
-          )}
-        </View>
+            {!showTokenAmount && (
+              <TokenDisplay
+                amount={amount.value}
+                tokenId={amount.tokenId}
+                showLocalAmount={false}
+                showSymbol={true}
+                hideSign={true}
+                style={styles.tokenAmount}
+                testID={'TransferFeedItem/tokenAmount'}
+              />
+            )}
+          </View>
+        )}
       </View>
     </Touchable>
   )
