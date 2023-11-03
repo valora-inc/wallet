@@ -272,7 +272,7 @@ export function getFeeCurrencyAndAmount(
   let feeCurrency = undefined
   if (prepareTransactionsResult?.type === 'possible') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = getMaxGasCost(prepareTransactionsResult.transactions)
+    feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
     feeAmountSmallestUnits = prepareTransactionsResult.maxGasCost

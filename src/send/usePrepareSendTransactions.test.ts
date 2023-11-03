@@ -3,7 +3,7 @@ import {
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
 import {
-  getMaxGasCost,
+  getMaxGasFee,
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
 } from 'src/viem/prepareTransactions'
@@ -122,7 +122,7 @@ describe('usePrepareSendTransactions', () => {
   describe('usePrepareSendTransactions', () => {
     it('gives initial values and lets you refresh them at will', async () => {
       const mockPrepareSendTransactionsCallback = jest.fn().mockResolvedValue(mockPossibleResult)
-      mocked(getMaxGasCost).mockReturnValue(new BigNumber(600))
+      mocked(getMaxGasFee).mockReturnValue(new BigNumber(600))
       const { result } = renderHook(() =>
         usePrepareSendTransactions(mockPrepareSendTransactionsCallback)
       )

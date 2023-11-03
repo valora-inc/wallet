@@ -392,7 +392,7 @@ describe('SendEnterAmount', () => {
     mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
       type: 'need-decrease-spend-amount-for-gas',
       feeCurrency: mockCeloTokenBalance,
-      maxGasCost: new BigNumber(1),
+      maxGasFee: new BigNumber(1),
       decreasedSpendAmount: new BigNumber(9),
     }
 
