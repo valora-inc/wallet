@@ -8,7 +8,7 @@ import { publicClient } from 'src/viem/index'
 import {
   getFeeCurrencyAddress,
   getFeeCurrencyAndAmount,
-  getMaxGasCost,
+  getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareTransactions,
   tryEstimateTransaction,
@@ -18,9 +18,9 @@ import {
   Address,
   BaseError,
   EstimateGasExecutionError,
-  encodeFunctionData,
   ExecutionRevertedError,
   InsufficientFundsError,
+  encodeFunctionData,
 } from 'viem'
 import mocked = jest.mocked
 import { mockCeloTokenBalance } from 'test/values'
@@ -103,7 +103,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockSpendToken,
         spendTokenAmount: new BigNumber(100_000),
-        decreasedAmountGasCostMultiplier: 1,
+        decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -129,7 +129,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockSpendToken,
         spendTokenAmount: new BigNumber(100_000),
-        decreasedAmountGasCostMultiplier: 1,
+        decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -156,7 +156,7 @@ describe('prepareTransactions module', () => {
           feeCurrencies: mockFeeCurrencies,
           spendToken: mockSpendToken,
           spendTokenAmount: new BigNumber(100_000),
-          decreasedAmountGasCostMultiplier: 1,
+          decreasedAmountGasFeeMultiplier: 1,
           baseTransactions: [
             {
               from: '0xfrom' as Address,
@@ -178,7 +178,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockFeeCurrencies[1],
         spendTokenAmount: new BigNumber(100_000),
-        decreasedAmountGasCostMultiplier: 1.01,
+        decreasedAmountGasFeeMultiplier: 1.01,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -191,9 +191,9 @@ describe('prepareTransactions module', () => {
       })
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
-        maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
-        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasCost
+        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
     })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending the exact max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
@@ -206,7 +206,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockFeeCurrencies[1],
         spendTokenAmount: mockFeeCurrencies[1].balance.shiftedBy(mockFeeCurrencies[1].decimals),
-        decreasedAmountGasCostMultiplier: 1.01,
+        decreasedAmountGasFeeMultiplier: 1.01,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -219,9 +219,9 @@ describe('prepareTransactions module', () => {
       })
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
-        maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
-        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasCost
+        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
     })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
@@ -236,7 +236,7 @@ describe('prepareTransactions module', () => {
         spendTokenAmount: mockFeeCurrencies[1].balance
           .shiftedBy(mockFeeCurrencies[1].decimals)
           .minus(1), // 69.999k
-        decreasedAmountGasCostMultiplier: 1.01,
+        decreasedAmountGasFeeMultiplier: 1.01,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -249,9 +249,9 @@ describe('prepareTransactions module', () => {
       })
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
-        maxGasCost: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
-        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasCost
+        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
     })
     it("returns a 'possible' result when spending a feeCurrency, when there's enough balance to cover for the fee", async () => {
@@ -267,7 +267,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockFeeCurrencies[0],
         spendTokenAmount: new BigNumber(4_000),
-        decreasedAmountGasCostMultiplier: 1,
+        decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -323,7 +323,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockFeeCurrencies[0],
         spendTokenAmount: mockFeeCurrencies[0].balance.shiftedBy(mockFeeCurrencies[0].decimals),
-        decreasedAmountGasCostMultiplier: 1,
+        decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -380,7 +380,7 @@ describe('prepareTransactions module', () => {
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockSpendToken,
         spendTokenAmount: mockSpendToken.balance.shiftedBy(mockSpendToken.decimals),
-        decreasedAmountGasCostMultiplier: 1,
+        decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
             from: '0xfrom' as Address,
@@ -523,10 +523,10 @@ describe('prepareTransactions module', () => {
       ])
     })
   })
-  describe('getMaxGasCost', () => {
+  describe('getMaxGasFee', () => {
     it('adds gas times maxFeePerGas', () => {
       expect(
-        getMaxGasCost([
+        getMaxGasFee([
           { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
           { gas: BigInt(5), maxFeePerGas: BigInt(7), from: '0x123' },
         ])
@@ -534,13 +534,13 @@ describe('prepareTransactions module', () => {
     })
     it('throws if gas or maxFeePerGas are missing', () => {
       expect(() =>
-        getMaxGasCost([
+        getMaxGasFee([
           { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
           { gas: BigInt(5), from: '0x123' },
         ])
       ).toThrowError('Missing gas or maxFeePerGas')
       expect(() =>
-        getMaxGasCost([
+        getMaxGasFee([
           { maxFeePerGas: BigInt(5), from: '0x123' },
           { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
         ])
@@ -574,7 +574,7 @@ describe('prepareTransactions module', () => {
       feeCurrencies: mockFeeCurrencies,
       spendToken: mockSpendToken,
       spendTokenAmount: new BigNumber(100),
-      decreasedAmountGasCostMultiplier: 1,
+      decreasedAmountGasFeeMultiplier: 1,
       baseTransactions: [
         {
           from: '0x123',
