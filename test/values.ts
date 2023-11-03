@@ -164,7 +164,7 @@ export const mockInviteDetails3 = {
   inviteLink: 'http://celo.page.link/PARAMS',
 }
 
-export const mockInvitableRecipient: ContactRecipient = {
+export const mockInvitableRecipient: ContactRecipient & { displayNumber: string } = {
   name: mockName,
   displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
@@ -222,7 +222,7 @@ export const mockTokenInviteTransactionData: TransactionDataInput = {
   tokenAmount: new BigNumber(1),
 }
 
-export const mockRecipient: ContactRecipient & AddressRecipient = {
+export const mockRecipient: ContactRecipient & AddressRecipient & { displayNumber: string } = {
   ...mockInvitableRecipient,
   address: mockAccount,
   recipientType: RecipientType.Address,
