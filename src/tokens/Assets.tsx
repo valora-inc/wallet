@@ -21,16 +21,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import ImportTokenButton from 'src/components/ImportTokenButton'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
+import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
@@ -489,9 +489,17 @@ AssetsScreen.navigationOptions = {
 
 function HeaderRight() {
   if (getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
-    return <ImportTokenButton />
+    const { t } = useTranslation()
+    return (
+      <TopBarTextButton
+        testID="Assets/ImportTokenButton"
+        onPress={navigateBack}
+        title={t('importToken')}
+        style={styles.topBarTextItem}
+      />
+    )
   }
-  return <></>
+  return null
 }
 
 function TabBar({
@@ -580,6 +588,11 @@ const styles = StyleSheet.create({
   tabBarItemSelected: {
     ...typeScale.labelMedium,
     color: Colors.dark,
+  },
+  topBarTextItem: {
+    ...typeScale.labelMedium,
+    color: Colors.greenUI,
+    paddingRight: Spacing.Smallest8,
   },
   nftsPairingContainer: {
     flexDirection: 'row',
