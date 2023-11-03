@@ -13,7 +13,7 @@ import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 const TAG = 'src/send/usePrepareSendTransactions'
 
 // just exported for testing
-export async function _prepareSendTransactionsCallback({
+export async function _prepareSendTransactions({
   amount,
   token,
   recipientAddress,
@@ -48,14 +48,19 @@ export async function _prepareSendTransactionsCallback({
   // TODO(ACT-956): non-ERC20 native asset case
 }
 
+/**
+ * Hook to prepare transactions for sending crypto.
+ *
+ * @param _prepareSendTransactionsCallback: do not use unless testing!
+ */
 export function usePrepareSendTransactions(
-  prepareSendTransactionsCallback = _prepareSendTransactionsCallback // just for testing
+  _prepareSendTransactionsCallback = _prepareSendTransactions // just for testing
 ) {
   const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
     PreparedTransactionsResult | undefined
   >()
 
-  const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
+  const prepareTransactions = useAsyncCallback(_prepareSendTransactionsCallback, {
     onError: (error) => {
       Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
     },

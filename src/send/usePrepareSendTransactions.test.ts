@@ -1,5 +1,5 @@
 import {
-  _prepareSendTransactionsCallback,
+  _prepareSendTransactions,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
 import {
@@ -44,10 +44,10 @@ describe('usePrepareSendTransactions', () => {
     feeCurrency: mockFeeCurrencyWithTwoDecimals,
   }
 
-  describe('_prepareSendTransactionsCallback', () => {
+  describe('_prepareSendTransactions Callback', () => {
     it('returns undefined if amount is 0', async () => {
       expect(
-        await _prepareSendTransactionsCallback({
+        await _prepareSendTransactions({
           amount: new BigNumber(0),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -59,7 +59,7 @@ describe('usePrepareSendTransactions', () => {
     })
     it('returns undefined if balance of token to send 0', async () => {
       expect(
-        await _prepareSendTransactionsCallback({
+        await _prepareSendTransactions({
           amount: new BigNumber(5),
           token: { ...mockCeloTokenBalance, balance: new BigNumber(0) },
           recipientAddress: '0xabc',
@@ -77,7 +77,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactionsCallback({
+        await _prepareSendTransactions({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -95,7 +95,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactionsCallback({
+        await _prepareSendTransactions({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -108,7 +108,7 @@ describe('usePrepareSendTransactions', () => {
     it('does nothing for now for the case where DEK is not registered and token supports comments', async () => {
       mocked(tokenSupportsComments).mockReturnValue(true)
       expect(
-        await _prepareSendTransactionsCallback({
+        await _prepareSendTransactions({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',

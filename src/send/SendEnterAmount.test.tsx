@@ -10,7 +10,7 @@ import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
-import SendEnterAmount, { _getFeeCurrencyAndAmount } from 'src/send/SendEnterAmount'
+import SendEnterAmount from 'src/send/SendEnterAmount'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
@@ -490,45 +490,6 @@ describe('SendEnterAmount', () => {
       2
     )
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(4)
-  })
-
-  describe('_getFeeCurrencyAndAmount', () => {
-    it('returns undefined fee currency and fee amount if prepare transactions result is undefined', () => {
-      expect(_getFeeCurrencyAndAmount(undefined)).toStrictEqual({
-        feeCurrency: undefined,
-        feeAmount: undefined,
-      })
-    })
-    it('returns undefined fee currency and fee amount if prepare transactions result is not enough balance for gas', () => {
-      expect(
-        _getFeeCurrencyAndAmount({
-          type: 'not-enough-balance-for-gas',
-          feeCurrencies: [mockCeloTokenBalance],
-        })
-      ).toStrictEqual({
-        feeCurrency: undefined,
-        feeAmount: undefined,
-      })
-    })
-    it('returns fee currency and amount if prepare transactions result is possible', () => {
-      expect(_getFeeCurrencyAndAmount(mockPrepareTransactionsResultPossible)).toStrictEqual({
-        feeCurrency: mockCeloTokenBalance,
-        feeAmount: new BigNumber(0.006),
-      })
-    })
-    it('returns fee currency and amount if prepare transactions result is need decrease spend amount for gas', () => {
-      expect(
-        _getFeeCurrencyAndAmount({
-          type: 'need-decrease-spend-amount-for-gas',
-          feeCurrency: mockCeloTokenBalance,
-          maxGasCost: new BigNumber(10).exponentiatedBy(17),
-          decreasedSpendAmount: new BigNumber(4),
-        })
-      ).toStrictEqual({
-        feeCurrency: mockCeloTokenBalance,
-        feeAmount: new BigNumber(0.1),
-      })
-    })
   })
 
   describe('fee section', () => {

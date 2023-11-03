@@ -259,3 +259,29 @@ export async function prepareERC20TransferTransaction(
 }
 
 // TODO(ACT-955) create helpers for native transfers and Celo-specific transferWithComment
+
+/**
+ * Given prepared transactions, get the fee currency and amount in decimals
+ *
+ * @param prepareTransactionsResult
+ */
+export function getFeeCurrencyAndAmount(
+  prepareTransactionsResult: PreparedTransactionsResult | undefined
+): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
+  let feeAmountSmallestUnits = undefined
+  let feeCurrency = undefined
+  if (prepareTransactionsResult?.type === 'possible') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = getMaxGasCost(prepareTransactionsResult.transactions)
+  } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasCost
+  }
+  return {
+    feeAmount:
+      feeAmountSmallestUnits &&
+      feeCurrency &&
+      feeAmountSmallestUnits.shiftedBy(-feeCurrency.decimals),
+    feeCurrency,
+  }
+}
