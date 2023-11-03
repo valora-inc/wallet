@@ -415,6 +415,19 @@ function AssetsScreen({ navigation, route }: Props) {
     return items
   }, [t, displayPositions])
 
+  navigation.setOptions({
+    ...headerWithBackButton,
+    headerRight: () =>
+      getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) ? (
+        <TopBarTextButton
+          testID="Assets/ImportTokenButton"
+          onPress={navigateBack}
+          title={t('importToken')}
+          style={styles.topBarTextItem}
+        />
+      ) : null,
+  })
+
   return (
     <>
       <Animated.View
@@ -480,26 +493,6 @@ function AssetsScreen({ navigation, route }: Props) {
       )}
     </>
   )
-}
-
-AssetsScreen.navigationOptions = {
-  ...headerWithBackButton,
-  headerRight: HeaderRight,
-}
-
-function HeaderRight() {
-  if (getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
-    const { t } = useTranslation()
-    return (
-      <TopBarTextButton
-        testID="Assets/ImportTokenButton"
-        onPress={navigateBack}
-        title={t('importToken')}
-        style={styles.topBarTextItem}
-      />
-    )
-  }
-  return null
 }
 
 function TabBar({

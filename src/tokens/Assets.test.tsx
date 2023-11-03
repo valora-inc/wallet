@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -334,6 +334,21 @@ describe('AssetsScreen', () => {
 
     fireEvent.press(getByText('assets.claimRewards'))
     expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutsRewards)
+  })
+
+  it('clicking Import Token opens a screen', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore(storeWithPositionsAndClaimableRewards)
+
+    const component = (
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+    const { getByTestId } = render(component)
+    fireEvent.press(getByTestId('Assets/ImportTokenButton'))
+
+    expect(navigateBack).toHaveBeenCalled()
   })
 
   it('displays tokens with balance and ones marked with showZeroBalance in the expected order', () => {
