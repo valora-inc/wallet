@@ -26,7 +26,7 @@ function compareKnipResults(
   for (const [category, mainProblems] of Object.entries(mainKnipResults)) {
     const branchProblems = branchKnipResults[category] ?? 0
     rows.push({
-      'Issue Category': category,
+      'Issue Category': category.trim(),
       'Main Branch': mainProblems,
       'PR Branch': branchProblems,
     })
