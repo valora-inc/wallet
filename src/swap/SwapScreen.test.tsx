@@ -62,7 +62,7 @@ jest.mock('src/statsig', () => {
     getExperimentParams: (_: any) => mockExperimentParams(),
     getFeatureGate: jest.fn(),
     getDynamicConfigParams: () => ({
-      slippagePercentage: '0.3',
+      maxSlippagePercentage: '0.3',
     }),
   }
 })
