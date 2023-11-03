@@ -416,7 +416,6 @@ function AssetsScreen({ navigation, route }: Props) {
   }, [t, displayPositions])
 
   navigation.setOptions({
-    ...headerWithBackButton,
     headerRight: () =>
       getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) ? (
         <TopBarTextButton
@@ -493,6 +492,10 @@ function AssetsScreen({ navigation, route }: Props) {
       )}
     </>
   )
+}
+
+AssetsScreen.navigationOptions = {
+  ...headerWithBackButton,
 }
 
 function TabBar({
