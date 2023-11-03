@@ -636,8 +636,8 @@ describe('prepareTransactions module', () => {
           feeCurrency: mockFeeCurrencies[0],
         })
       ).toStrictEqual({
-        feeCurrency: mockCeloTokenBalance,
-        feeAmount: new BigNumber(0.006),
+        feeCurrency: mockFeeCurrencies[0],
+        feeAmount: new BigNumber(6),
       })
     })
     it('returns fee currency and amount if prepare transactions result is need decrease spend amount for gas', () => {
