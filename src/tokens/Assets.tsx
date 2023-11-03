@@ -583,7 +583,7 @@ const styles = StyleSheet.create({
     color: Colors.dark,
   },
   topBarTextItem: {
-    ...typeScale.labelMedium,
+    ...typeScale.bodyMedium,
     color: Colors.greenUI,
     paddingRight: Spacing.Smallest8,
   },
