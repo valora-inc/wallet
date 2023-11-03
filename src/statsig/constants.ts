@@ -42,6 +42,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
   [StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN]: false,
   [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
+  [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
 }
 
 export const ExperimentConfigs = {

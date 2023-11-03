@@ -9,6 +9,7 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   Fee,
@@ -41,6 +42,8 @@ const MOCK_CONTACT = {
   address: MOCK_ADDRESS,
 }
 
+jest.mock('src/statsig')
+
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -56,6 +59,8 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
+
+jest.mocked(getFeatureGate).mockReturnValue(true)
 
 describe('TransferFeedItem', () => {
   function renderScreen({

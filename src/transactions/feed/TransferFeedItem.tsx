@@ -9,6 +9,8 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -38,7 +40,9 @@ function TransferFeedItem({ transfer }: Props) {
 
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
 
-  const hideBalance = useSelector(hideHomeBalancesSelector)
+  const hideBalance = getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE)
+    ? useSelector(hideHomeBalancesSelector)
+    : false
 
   return (
     <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>

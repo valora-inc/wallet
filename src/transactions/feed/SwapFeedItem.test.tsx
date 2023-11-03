@@ -2,6 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import {
   Fee,
@@ -15,6 +16,8 @@ import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import { mockCeurTokenId, mockCusdTokenId } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
+
+jest.mock('src/statsig')
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -31,6 +34,8 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
+
+jest.mocked(getFeatureGate).mockReturnValue(true)
 
 describe('SwapFeedItem', () => {
   function renderScreen({

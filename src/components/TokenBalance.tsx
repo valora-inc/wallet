@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { toggleHideBalances } from 'src/app/actions'
+import { toggleHideHomeBalances } from 'src/app/actions'
 import { hideHomeBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -242,11 +242,15 @@ export function HomeTokenBalance() {
 
   const [infoVisible, setInfoVisible] = useState(false)
 
+  const showHideHomeBalancesToggle = getFeatureGate(
+    StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
+  )
+
   const hideBalance = useSelector(hideHomeBalancesSelector)
 
   const eyeIconOnPress = () => {
     ValoraAnalytics.track(hideBalance ? HomeEvents.show_balances : HomeEvents.hide_balances)
-    dispatch(toggleHideBalances())
+    dispatch(toggleHideHomeBalances())
   }
 
   return (
@@ -285,11 +289,13 @@ export function HomeTokenBalance() {
               ? styles.totalBalance
               : styles.balance
           }
-          hideBalance={hideBalance}
+          hideBalance={showHideHomeBalancesToggle ? hideBalance : false}
         />
-        <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
-          {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
-        </Touchable>
+        {showHideHomeBalancesToggle && (
+          <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
+            {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
+          </Touchable>
+        )}
       </View>
     </View>
   )
