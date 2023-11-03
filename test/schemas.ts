@@ -2778,6 +2778,18 @@ export const v165Schema = {
   },
 }
 
+export const v166Schema = {
+  ...v165Schema,
+  _persist: {
+    ...v165Schema._persist,
+    version: 166,
+  },
+  app: {
+    ...v165Schema.app,
+    hideHomeBalances: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v165Schema as Partial<RootState>
+  return v166Schema as Partial<RootState>
 }

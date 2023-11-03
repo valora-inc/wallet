@@ -17,7 +17,7 @@ const defaultStore = {
   },
 }
 
-describe('SendRedesign', () => {
+describe('SendSelectRecipient', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })

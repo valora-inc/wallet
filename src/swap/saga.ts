@@ -3,13 +3,21 @@ import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer
 import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
+import BigNumber from 'bignumber.js'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapEvents } from 'src/analytics/Events'
-import { SwapTimeMetrics } from 'src/analytics/Properties'
+import {
+  PrefixedTxReceiptProperties,
+  SwapTimeMetrics,
+  SwapTxsReceiptProperties,
+  TxReceiptProperties,
+} from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
+import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import {
   swapApprove,
   swapError,
@@ -21,8 +29,12 @@ import {
 } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { tokensByIdSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
+import {
+  celoAddressSelector,
+  tokensByAddressSelector,
+  tokensByIdSelector,
+} from 'src/tokens/selectors'
+import { TokenBalance, TokenBalancesWithAddress } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import {
   addStandbyTransaction,
@@ -39,13 +51,14 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
+import { getMaxGasCost } from 'src/viem/prepareTransactions'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
-import { Hash, zeroAddress } from 'viem'
+import { Hash, TransactionReceipt, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
@@ -169,6 +182,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     swapApproveTxId: swapApproveContext.id,
     estimatedSellTokenUsdValue,
     estimatedBuyTokenUsdValue,
+    web3Library: 'contract-kit' as const,
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
@@ -260,6 +274,91 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   }
 }
 
+interface TrackedTx {
+  tx: TransactionRequestCIP42 | undefined
+  txHash: Hash | undefined
+  txReceipt: TransactionReceipt | undefined
+}
+
+function getTxReceiptAnalyticsProperties(
+  { tx, txHash, txReceipt }: TrackedTx,
+  tokensByAddress: TokenBalancesWithAddress,
+  celoAddress: string | undefined
+): Partial<TxReceiptProperties> {
+  const feeCurrencyAddress = tx?.feeCurrency || celoAddress
+  const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
+
+  const txMaxGasCost =
+    tx && feeCurrencyToken ? getMaxGasCost([tx]).shiftedBy(-feeCurrencyToken.decimals) : undefined
+  const txMaxGasCostUsd =
+    feeCurrencyToken && txMaxGasCost && feeCurrencyToken.priceUsd
+      ? txMaxGasCost.times(feeCurrencyToken.priceUsd)
+      : undefined
+
+  const txGasCost =
+    txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeCurrencyToken
+      ? new BigNumber((txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString()).shiftedBy(
+          -feeCurrencyToken.decimals
+        )
+      : undefined
+  const txGasCostUsd =
+    feeCurrencyToken && txGasCost && feeCurrencyToken.priceUsd
+      ? txGasCost.times(feeCurrencyToken.priceUsd)
+      : undefined
+
+  return {
+    txCumulativeGasUsed: txReceipt?.cumulativeGasUsed
+      ? Number(txReceipt.cumulativeGasUsed)
+      : undefined,
+    txEffectiveGasPrice: txReceipt?.effectiveGasPrice
+      ? Number(txReceipt.effectiveGasPrice)
+      : undefined,
+    txGas: tx?.gas ? Number(tx.gas) : undefined,
+    txMaxGasCost: txMaxGasCost?.toNumber(),
+    txMaxGasCostUsd: txMaxGasCostUsd?.toNumber(),
+    txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
+    txGasCost: txGasCost?.toNumber(),
+    txGasCostUsd: txGasCostUsd?.toNumber(),
+    txHash,
+    txFeeCurrency: tx?.feeCurrency,
+    txFeeCurrencySymbol: feeCurrencyToken?.symbol,
+  }
+}
+
+function getPrefixedTxAnalyticsProperties<Prefix extends string>(
+  receiptProperties: Partial<TxReceiptProperties>,
+  prefix: Prefix
+): Partial<PrefixedTxReceiptProperties<Prefix>> {
+  const prefixedProperties: Record<string, any> = {}
+  for (const [key, value] of Object.entries(receiptProperties)) {
+    prefixedProperties[`${prefix}${key[0].toUpperCase()}${key.slice(1)}`] = value
+  }
+  return prefixedProperties as Partial<PrefixedTxReceiptProperties<Prefix>>
+}
+
+function getSwapTxsReceiptAnalyticsProperties(
+  trackedTxs: TrackedTx[],
+  tokensByAddress: TokenBalancesWithAddress,
+  celoAddress: string | undefined
+): SwapTxsReceiptProperties {
+  const txs = trackedTxs.map((trackedTx) =>
+    getTxReceiptAnalyticsProperties(trackedTx, tokensByAddress, celoAddress)
+  )
+
+  const approveTx = trackedTxs.length > 1 ? txs[0] : undefined
+  const swapTx = txs[txs.length - 1]
+
+  return {
+    ...getPrefixedTxAnalyticsProperties(approveTx || {}, 'approve'),
+    ...getPrefixedTxAnalyticsProperties(swapTx, 'swap'),
+    gasUsed: swapTx.txGasUsed ? txs.reduce((sum, tx) => sum + (tx.txGasUsed || 0), 0) : undefined,
+    gasCost: swapTx.txGasCost ? txs.reduce((sum, tx) => sum + (tx.txGasCost || 0), 0) : undefined,
+    gasCostUsd: swapTx.txGasCostUsd
+      ? txs.reduce((sum, tx) => sum + (tx.txGasCostUsd || 0), 0)
+      : undefined,
+  }
+}
+
 export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>) {
   const swapSubmittedAt = Date.now()
   const {
@@ -309,6 +408,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
 
+  const { quote } = action.payload
+
+  const tokensByAddress = yield* select(tokensByAddressSelector)
+  const celoAddress = yield* select(celoAddressSelector)
+
   const defaultSwapExecuteProps = {
     toToken: buyTokenAddress,
     fromToken: sellTokenAddress,
@@ -323,6 +427,14 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     swapApproveTxId: swapApproveContext.id,
     estimatedSellTokenUsdValue,
     estimatedBuyTokenUsdValue,
+    web3Library: 'viem' as const,
+    ...getSwapTxsAnalyticsProperties(
+      quote?.preparedTransactions?.type === 'possible'
+        ? quote.preparedTransactions.transactions
+        : undefined,
+      tokensByAddress,
+      celoAddress
+    ),
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
@@ -331,6 +443,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     quoteToUserConfirmsSwapElapsedTimeInMs: swapSubmittedAt - quoteReceivedAt,
     quoteToTransactionElapsedTimeInMs,
   })
+
+  const trackedTxs: TrackedTx[] = []
 
   try {
     // Navigate to swap pending screen
@@ -346,6 +460,14 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     if (preparedTransactions?.type !== 'possible') {
       // Should never happen
       throw new Error('No prepared transactions possible')
+    }
+
+    for (const tx of preparedTransactions.transactions) {
+      trackedTxs.push({
+        tx,
+        txHash: undefined,
+        txReceipt: undefined,
+      })
     }
 
     // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
@@ -376,6 +498,10 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       txHashes.push(hash)
     }
 
+    for (let i = 0; i < txHashes.length; i++) {
+      trackedTxs[i].txHash = txHashes[i]
+    }
+
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
 
     const swapTxHash = txHashes[txHashes.length - 1]
@@ -399,19 +525,34 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       })
     )
 
-    const receipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
+    const swapTxReceipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
       hash: swapTxHash,
     })
-    Logger.debug('Got swap transaction receipt', receipt)
-    if (receipt.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${receipt.transactionHash}`)
+    Logger.debug('Got swap transaction receipt', swapTxReceipt)
+    trackedTxs[trackedTxs.length - 1].txReceipt = swapTxReceipt
+
+    // Also get the receipt of the first transaction (approve), for tracking purposes
+    try {
+      if (txHashes.length > 1) {
+        const approveTxReceipt = yield* call([publicClient.celo, 'getTransactionReceipt'], {
+          hash: txHashes[0],
+        })
+        Logger.debug('Got approve transaction receipt', approveTxReceipt)
+        trackedTxs[0].txReceipt = approveTxReceipt
+      }
+    } catch (e) {
+      Logger.warn(TAG, 'Error getting approve transaction receipt', e)
+    }
+
+    if (swapTxReceipt.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
     }
 
     yield* put(
       transactionConfirmed(swapExecuteContext.id, {
-        transactionHash: receipt.transactionHash,
-        block: receipt.blockNumber.toString(),
-        status: receipt.status === 'success',
+        transactionHash: swapTxReceipt.transactionHash,
+        block: swapTxReceipt.blockNumber.toString(),
+        status: swapTxReceipt.status === 'success',
       })
     )
 
@@ -422,6 +563,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
+      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, tokensByAddress, celoAddress),
     })
   } catch (err) {
     const error = ensureError(err)
@@ -431,6 +573,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
+      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, tokensByAddress, celoAddress),
       error: error.message,
     })
     yield* put(swapError())
