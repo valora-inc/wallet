@@ -610,7 +610,32 @@ describe('prepareTransactions module', () => {
       })
     })
     it('returns fee currency and amount if prepare transactions result is possible', () => {
-      expect(getFeeCurrencyAndAmount(mockPrepareTransactionsResultPossible)).toStrictEqual({
+      expect(
+        getFeeCurrencyAndAmount({
+          type: 'possible',
+          transactions: [
+            {
+              from: '0xfrom',
+              to: '0xto',
+              data: '0xdata',
+              type: 'cip42',
+              gas: BigInt(500),
+              maxFeePerGas: BigInt(1),
+              maxPriorityFeePerGas: undefined,
+            },
+            {
+              from: '0xfrom',
+              to: '0xto',
+              data: '0xdata',
+              type: 'cip42',
+              gas: BigInt(100),
+              maxFeePerGas: BigInt(1),
+              maxPriorityFeePerGas: undefined,
+            },
+          ],
+          feeCurrency: mockFeeCurrencies[0],
+        })
+      ).toStrictEqual({
         feeCurrency: mockCeloTokenBalance,
         feeAmount: new BigNumber(0.006),
       })
