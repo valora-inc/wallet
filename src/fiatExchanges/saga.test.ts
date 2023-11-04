@@ -27,10 +27,10 @@ import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import {
   mockAccount,
-  mockCusdAddress,
-  mockCusdTokenId,
   mockCeurAddress,
   mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
 } from 'test/values'
 
 const now = Date.now()
@@ -105,7 +105,7 @@ describe(watchBidaliPaymentRequests, () => {
             }
           )
         )
-        .dispatch(sendPaymentSuccess(amount))
+        .dispatch(sendPaymentSuccess({ amount, tokenId: expectedTokenId }))
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
