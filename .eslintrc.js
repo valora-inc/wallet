@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['@valora/eslint-config-typescript'],
+  extends: ['@valora/eslint-config-typescript', 'plugin:storybook/recommended'],
   plugins: ['@jambit/typed-redux-saga'],
   parserOptions: {
     project: './tsconfig.eslint.json',

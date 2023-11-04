@@ -146,10 +146,6 @@ export const typeScale = StyleSheet.create({
   },
 })
 
-/***
- * @deprecated
- * Use typeScale instead
- */
 export const fontStyles = StyleSheet.create({
   h1: {
     fontSize: 26,

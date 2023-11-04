@@ -102,3 +102,4 @@ export class App extends React.Component<Props> {
 }
 
 export default Sentry.wrap(App)
+// export { StorybookUIRoot as default }

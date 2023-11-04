@@ -34,6 +34,7 @@ module.exports = {
       net: require.resolve('node-libs-react-native/mock/net'),
       vm: require.resolve('vm-browserify'),
     },
+    resolverMainFields: ['sbmodern', 'react-native', 'browser', 'main'],
     sourceExts: isE2E ? ['e2e.ts', 'e2e.js'].concat(defaultSourceExts) : defaultSourceExts,
   },
   watchFolders: [root],

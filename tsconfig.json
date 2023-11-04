@@ -14,17 +14,18 @@
     "importHelpers": true,
     "jsx": "react",
     "lib": ["es7", "esnext", "dom"],
-    "moduleResolution": "Node16",
-    "module": "Node16",
+    "moduleResolution": "bundler",
+    "module": "ESNext",
     "noEmit": true,
     "noImplicitAny": true,
     "noUnusedLocals": true,
     "strictNullChecks": true,
     "skipLibCheck": true,
     "target": "es2015",
-    "strict": true
+    "strict": true,
+    "composite": true
   },
   "files": ["jest_setup.ts"],
-  "include": ["src"],
+  "include": ["src", "vite.config.ts"],
   "exclude": ["node_modules", "vendor", ".bundle"]
 }

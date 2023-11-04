@@ -19,6 +19,7 @@ if (!process.env.JEST_WORKER_ID) {
 
 module.exports = {
   plugins: [
+    ['babel-plugin-react-docgen-typescript', { exclude: 'node_modules' }],
     [require('@babel/plugin-proposal-decorators').default, { legacy: true }],
     [
       'module:react-native-dotenv',
