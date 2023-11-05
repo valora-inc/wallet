@@ -14,6 +14,9 @@ interface Props {
   testID?: string
 }
 
+/**
+ * @deprecated use Notification.Warning instead
+ */
 export function Warning({ title, description, ctaLabel, style, onPressCta, testID }: Props) {
   return (
     <View style={[styles.container, style]} testID={testID}>

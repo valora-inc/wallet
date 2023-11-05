@@ -39,6 +39,9 @@ export enum Colors {
   successDark = '#137211',
   successLight = '#F1FDF1',
 
+  informationDark = '#0768AE',
+  informationFaint = '#E8F8FF',
+
   warningDark = '#9C6E00',
   warningLight = '#FFF9EA',
 
