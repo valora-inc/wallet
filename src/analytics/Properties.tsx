@@ -1394,6 +1394,9 @@ interface AssetsEventsProperties {
   [AssetsEvents.tap_token_details_bottom_sheet_action]: {
     action: TokenDetailsActionName
   } & TokenProperties
+  [AssetsEvents.tap_import_token_screen_open]: undefined
+  [AssetsEvents.tap_import_token_action]: undefined
+  [AssetsEvents.tap_import_token_paste]: undefined
 }
 
 interface NftsEventsProperties {

@@ -609,6 +609,9 @@ export enum AssetsEvents {
   tap_token_details_action = 'tap_token_details_action',
   tap_token_details_learn_more = 'tap_token_details_learn_more',
   tap_token_details_bottom_sheet_action = 'tap_token_details_bottom_sheet_action',
+  tap_import_token_screen_open = 'tap_import_token_screen_open',
+  tap_import_token_action = 'tap_import_token_action',
+  tap_import_token_paste = 'tap_import_token_paste',
 }
 
 export enum NftEvents {
