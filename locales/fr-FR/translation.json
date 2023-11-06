@@ -1663,7 +1663,7 @@
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Des échanges propulsés par des partenaires sur Celo.\n<0>En savoir plus</0>",
+    "disclaimer": "Swaps alimentés par des partenaires sur Celo. <0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "maxSwapAmountWarning": {
@@ -1689,6 +1689,15 @@
       "title": "Solde insuffisant des jetons de gaz",
       "description": "Tu n'as pas assez de {{feeCurrencies}} pour couvrir les frais d'essence. Merci d'ajouter {{feeCurrencies}} à ton portefeuille pour réaliser cet échange.",
       "dismissButton": "Refuser"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Frais de réseau",
+      "networkFeeNoNetwork": "Frais de réseau",
+      "swapFee": "Frais de {{appName}}",
+      "swapFeeWaived": "Gratuit",
+      "slippagePercentage": "Tolérance de glissement",
+      "networkFeeInfo": "Tu es en train d'échanger sur le réseau {{networkName}} .\n\nCette redevance estimée est nécessaire pour effectuer une transaction sur le réseau {{networkName}} . Ces frais sécurisent ta transaction et servent à maintenir le réseau opérationnel.",
+      "networkFeeInfoDismissButton": "Got it"
     }
   },
   "swapTransactionDetailPage": {
