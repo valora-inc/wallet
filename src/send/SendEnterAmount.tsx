@@ -1,9 +1,9 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
+import { Platform, StyleSheet, Text, TextInput as RNTextInput } from 'react-native'
 import { View } from 'react-native-animatable'
 import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -24,7 +24,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import Warning from 'src/components/Warning'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -37,38 +37,59 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
+import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
+import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import Logger from 'src/utils/Logger'
+import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
 
-// This is just a mock implementation to test various error states
-// TODO(ACT-955): replace with real implementation
-function usePrepareTransactions(amount: BigNumber, token: TokenBalance) {
-  const nativeToken = useTokenInfo(`${token.networkId}:native`)
-  if (!amount || amount.eq(0)) {
-    return
-  }
-  if (token.isNative && token.balance.minus(amount).lt(0.1)) {
-    return {
-      type: 'need-decrease-spend-amount-for-gas' as const,
-      feeCurrency: token,
-    }
-  }
-  if (!token.isNative && nativeToken?.balance.lt(0.1)) {
-    return {
-      type: 'not-enough-balance-for-gas' as const,
-      feeCurrencies: [nativeToken],
-    }
-  }
-  return {
-    type: 'possible' as const,
-  }
+const TAG = 'SendEnterAmount'
+
+const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+
+function FeeLoading() {
+  return (
+    <View testID="SendEnterAmount/FeeLoading" style={styles.feeInCryptoContainer}>
+      <Text style={styles.feeInCrypto}>{'≈ '}</Text>
+      <SkeletonPlaceholder backgroundColor={Colors.gray2} highlightColor={Colors.white}>
+        <View style={styles.feesLoadingInternal} />
+      </SkeletonPlaceholder>
+    </View>
+  )
+}
+
+function FeePlaceholder({ feeTokenSymbol }: { feeTokenSymbol: string }) {
+  return (
+    <Text testID="SendEnterAmount/FeePlaceholder" style={styles.feeInCrypto}>
+      ~ {feeTokenSymbol}
+    </Text>
+  )
+}
+
+function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: BigNumber }) {
+  return (
+    <>
+      <View testID="SendEnterAmount/FeeInCrypto" style={styles.feeInCryptoContainer}>
+        <TokenDisplay
+          tokenId={feeTokenId}
+          amount={feeAmount}
+          showLocalAmount={false}
+          showApprox={true}
+          style={styles.feeInCrypto}
+        />
+      </View>
+      <TokenDisplay tokenId={feeTokenId} amount={feeAmount} style={styles.feeInFiat} />
+    </>
+  )
 }
 
 function SendEnterAmount({ route }: Props) {
@@ -96,7 +117,7 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND)
+  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -128,6 +149,7 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
+    // TODO(ACT-955): pass fees as props for confirmation screen
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
@@ -165,21 +187,57 @@ function SendEnterAmount({ route }: Props) {
   const { decimalSeparator } = getNumberFormatSettings()
   const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
 
-  const prepareTransactionResult = usePrepareTransactions(parsedAmount, token)
+  const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
+    usePrepareSendTransactions()
+  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
+
+  const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
+  const walletAddress = useSelector(walletAddressSelector)
+  const feeCurrencies = useFeeCurrencies(token.networkId)
+  useEffect(() => {
+    if (!walletAddress) {
+      Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
+      return
+    }
+    clearPreparedTransactions()
+    if (parsedAmount.isLessThanOrEqualTo(0) || parsedAmount.isGreaterThan(token.balance)) {
+      return
+    }
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return refreshPreparedTransactions({
+        amount: parsedAmount,
+        token,
+        recipientAddress: recipient.address,
+        walletAddress,
+        isDekRegistered,
+        feeCurrencies,
+      })
+    }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [parsedAmount, token])
 
   const showLowerAmountError = token.balance.lt(amount)
   const showMaxAmountWarning =
     !showLowerAmountError &&
-    prepareTransactionResult &&
-    prepareTransactionResult.type === 'need-decrease-spend-amount-for-gas'
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'need-decrease-spend-amount-for-gas'
   const showNotEnoughBalanceForGasWarning =
     !showLowerAmountError &&
-    prepareTransactionResult &&
-    prepareTransactionResult.type === 'not-enough-balance-for-gas'
-  const canContinue =
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'not-enough-balance-for-gas'
+  const sendIsPossible =
     !showLowerAmountError &&
-    prepareTransactionResult &&
-    prepareTransactionResult.type === 'possible'
+    prepareTransactionsResult &&
+    prepareTransactionsResult.type === 'possible' &&
+    prepareTransactionsResult.transactions.length > 0
+
+  const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
+  let feeAmountSection = <FeeLoading />
+  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
+    feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
+  } else if (prepareTransactionsResult && feeAmount) {
+    feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
+  }
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -278,30 +336,14 @@ function SendEnterAmount({ route }: Props) {
                 networkName: NETWORK_NAMES[token.networkId],
               })}
             </Text>
-            {/* TODO(ACT-955): Display estimated fees */}
-            <View style={styles.feeAmountContainer}>
-              <View style={styles.feeInCryptoContainer}>
-                <Text style={styles.feeInCrypto}>~</Text>
-                <TokenDisplay
-                  tokenId={`${token.networkId}:native`}
-                  amount={0.005}
-                  showLocalAmount={false}
-                  style={styles.feeInCrypto}
-                />
-              </View>
-              <TokenDisplay
-                tokenId={`${token.networkId}:native`}
-                amount={0.005}
-                style={styles.feeInFiat}
-              />
-            </View>
+            <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
           </View>
         </View>
         {showMaxAmountWarning && (
           <Warning
             title={t('sendEnterAmountScreen.maxAmountWarning.title')}
             description={t('sendEnterAmountScreen.maxAmountWarning.description', {
-              feeTokenSymbol: prepareTransactionResult.feeCurrency.symbol,
+              feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
             })}
             style={styles.warning}
             testID="SendEnterAmount/MaxAmountWarning"
@@ -310,10 +352,10 @@ function SendEnterAmount({ route }: Props) {
         {showNotEnoughBalanceForGasWarning && (
           <Warning
             title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionResult.feeCurrencies[0].symbol,
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
             description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionResult.feeCurrencies[0].symbol,
+              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
             style={styles.warning}
             testID="SendEnterAmount/NotEnoughForGasWarning"
@@ -325,7 +367,7 @@ function SendEnterAmount({ route }: Props) {
           style={styles.reviewButton}
           size={BtnSizes.FULL}
           fontStyle={styles.reviewButtonText}
-          disabled={!canContinue}
+          disabled={!sendIsPossible}
           testID="SendEnterAmount/ReviewButton"
         />
         <KeyboardSpacer />
@@ -449,6 +491,11 @@ const styles = StyleSheet.create({
   feeInFiat: {
     color: Colors.gray4,
     ...typeScale.bodyXSmall,
+  },
+  feesLoadingInternal: {
+    ...typeScale.labelXSmall,
+    width: 46,
+    borderRadius: 100,
   },
   reviewButton: {
     paddingVertical: Spacing.Thick24,
