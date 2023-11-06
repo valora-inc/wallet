@@ -30,39 +30,48 @@ export function SwapTransactionDetails({
   const { t } = useTranslation()
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container} testID="SwapTransactionDetails">
       <View style={styles.row}>
-        <Touchable
-          style={styles.touchableRow}
-          onPress={() => {
-            networkFeeInfoBottomSheetRef.current?.snapToIndex(0)
-          }}
-          disabled={!networkId}
-          testID="SwapTransactionDetails/NetworkFeeMoreInfo"
-        >
+        {networkId ? (
+          <>
+            <Touchable
+              style={styles.touchableRow}
+              onPress={() => {
+                networkFeeInfoBottomSheetRef.current?.snapToIndex(0)
+              }}
+              testID="SwapTransactionDetails/NetworkFee/MoreInfo"
+            >
+              <>
+                <Text style={styles.label}>
+                  {t('swapScreen.transactionDetails.networkFee', {
+                    networkName: NETWORK_NAMES[networkId],
+                  })}
+                </Text>
+                <InfoIcon
+                  size={14}
+                  color={colors.gray4}
+                  testID="SwapTransactionDetails/NetworkFee/MoreInfo/Icon"
+                />
+              </>
+            </Touchable>
+            <TokenDisplay
+              style={styles.value}
+              amount={networkFee}
+              tokenId={feeTokenId}
+              showLocalAmount={true}
+              testID="SwapTransactionDetails/NetworkFee/Value"
+            />
+          </>
+        ) : (
           <>
             <Text style={styles.label}>
-              {networkId
-                ? t('swapScreen.transactionDetails.networkFee', {
-                    networkName: NETWORK_NAMES[networkId],
-                  })
-                : t('swapScreen.transactionDetails.networkFeeNoNetwork')}
+              {t('swapScreen.transactionDetails.networkFeeNoNetwork')}
             </Text>
-            {networkId && (
-              <InfoIcon
-                size={14}
-                color={colors.gray4}
-                testID="SwapTransactionDetails/NetworkFeeMoreInfo/Icon"
-              />
-            )}
+            <Text style={styles.value} testID="SwapTransactionDetails/NetworkFee/Value">
+              -
+            </Text>
           </>
-        </Touchable>
-        <TokenDisplay
-          style={styles.value}
-          amount={networkFee}
-          tokenId={feeTokenId}
-          showLocalAmount={true}
-        />
+        )}
       </View>
       <View style={styles.row}>
         <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
@@ -70,11 +79,9 @@ export function SwapTransactionDetails({
           {t('swapScreen.transactionDetails.swapFeeWaived')}
         </Text>
       </View>
-      <View style={styles.row}>
+      <View style={styles.row} testID="SwapTransactionDetails/Slippage">
         <Text style={styles.label}>{t('swapScreen.transactionDetails.slippagePercentage')}</Text>
-        <Text testID={'SwapFee'} style={styles.value}>
-          {`${slippagePercentage}%`}
-        </Text>
+        <Text style={styles.value}>{`${slippagePercentage}%`}</Text>
       </View>
     </View>
   )

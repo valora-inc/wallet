@@ -423,7 +423,7 @@ export function SwapScreen({ route }: Props) {
     if (fromToken && exchangeRate) {
       return getNetworkFee(fromToken.networkId, exchangeRate)
     }
-    return { networkFee: new BigNumber(0), feeTokenId: '' }
+    return { networkFee: new BigNumber(0), feeTokenId: getTokenId(networkConfig.defaultNetworkId) }
   }, [fromToken, exchangeRate])
 
   return (
