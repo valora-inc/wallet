@@ -15,7 +15,7 @@ describe('SwapTransactionDetails', () => {
           networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
-          slippagePercentage={0.5}
+          slippagePercentage={'0.5'}
         />
       </Provider>
     )
@@ -33,7 +33,7 @@ describe('SwapTransactionDetails', () => {
           networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
-          slippagePercentage={0.5}
+          slippagePercentage={'0.5'}
         />
       </Provider>
     )

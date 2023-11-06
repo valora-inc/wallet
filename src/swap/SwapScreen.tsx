@@ -15,11 +15,11 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CustomHeader from 'src/components/header/CustomHeader'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -27,18 +27,18 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
-import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
-import { setSwapUserInput } from 'src/swap/slice'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
+import { setSwapUserInput } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
@@ -68,10 +68,12 @@ export function SwapScreen({ route }: Props) {
   const { swappingNonNativeTokensEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
-
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
+  const slippagePercentage = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).maxSlippagePercentage
 
   const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
@@ -110,7 +112,7 @@ export function SwapScreen({ route }: Props) {
   const fromTokenBalance = useTokenInfoByAddress(fromToken?.address)?.balance ?? new BigNumber(0)
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
-    useSwapQuote()
+    useSwapQuote(slippagePercentage)
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -441,7 +443,7 @@ export function SwapScreen({ route }: Props) {
               networkFee={new BigNumber(1)}
               networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
               feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
-              slippagePercentage={0.3}
+              slippagePercentage={slippagePercentage}
             />
           )}
 

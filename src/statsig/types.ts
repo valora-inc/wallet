@@ -17,6 +17,7 @@ export enum StatsigDynamicConfigs {
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
   MULTI_CHAIN_FEATURES = 'multi_chain_features',
   DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
+  SWAP_CONFIG = 'swap_config',
 }
 
 export enum StatsigFeatureGates {
