@@ -304,6 +304,8 @@ describe('prepareTransactions module', () => {
             maxPriorityFeePerGas: undefined,
           },
         ],
+        maxGasFeeInDecimal: new BigNumber('6'),
+        feeCurrency: expect.objectContaining({ tokenId: 'celo-mainnet:native' }),
       })
     })
     it("returns a 'possible' result when spending the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
@@ -361,6 +363,8 @@ describe('prepareTransactions module', () => {
             feeCurrency: mockFeeCurrencies[1].address,
           },
         ],
+        maxGasFeeInDecimal: new BigNumber('50.6'),
+        feeCurrency: expect.objectContaining({ tokenId: mockFeeCurrencies[1].tokenId }),
       })
     })
     it("returns a 'possible' result when spending the max balance of a token that isn't a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
@@ -415,6 +419,8 @@ describe('prepareTransactions module', () => {
             maxPriorityFeePerGas: undefined,
           },
         ],
+        maxGasFeeInDecimal: new BigNumber('6'),
+        feeCurrency: expect.objectContaining({ tokenId: 'celo-mainnet:native' }),
       })
     })
   })
