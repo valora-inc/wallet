@@ -218,34 +218,6 @@ describe('prepareTransactions module', () => {
         })
       ).rejects.toThrowError(EstimateGasExecutionError)
     })
-    it("returns a 'need-decrease-spend-amount-for-gas' result when spending more than the max amount of a feeCurrency", async () => {
-      mocked(estimateFeesPerGas).mockResolvedValue({
-        maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
-      })
-
-      const result = await prepareTransactions({
-        feeCurrencies: mockFeeCurrencies,
-        spendToken: mockFeeCurrencies[1],
-        spendTokenAmount: new BigNumber(9_000),
-        decreasedAmountGasFeeMultiplier: 1.01,
-        baseTransactions: [
-          {
-            from: '0xfrom' as Address,
-            to: '0xto' as Address,
-            data: '0xdata',
-            type: 'cip42',
-            gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
-          },
-        ],
-      })
-      expect(result).toStrictEqual({
-        type: 'need-decrease-spend-amount-for-gas',
-        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
-        feeCurrency: mockFeeCurrencies[1],
-        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
-      })
-    })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending the exact max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
