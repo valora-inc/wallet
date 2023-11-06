@@ -33,9 +33,8 @@ function SwapFeedItem({ exchange }: Props) {
   }
 
   const hideBalanceSelectorReturn = useSelector(hideHomeBalancesSelector)
-  const hideBalance = getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE)
-    ? hideBalanceSelectorReturn
-    : false
+  const hideBalance =
+    getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideBalanceSelectorReturn
 
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>

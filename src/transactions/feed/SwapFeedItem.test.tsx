@@ -38,6 +38,10 @@ jest.mock('src/web3/networkConfig', () => {
 jest.mocked(getFeatureGate).mockReturnValue(true)
 
 describe('SwapFeedItem', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+  })
   function renderScreen({
     storeOverrides = {},
     inAmount,
@@ -122,7 +126,28 @@ describe('SwapFeedItem', () => {
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
   })
 
-  it('hides balance when flag is set', async () => {
+  it('still shows balances when feature gate false, hide balances root state true', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const { getByTestId } = renderScreen({
+      inAmount: {
+        tokenId: mockCeurTokenId,
+        value: 2.93,
+      },
+      outAmount: {
+        tokenId: mockCusdTokenId,
+        value: 2.87,
+      },
+    })
+
+    expect(getElementText(getByTestId('SwapFeedItem/title'))).toEqual('swapScreen.title')
+    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual(
+      'feedItemSwapPath, {"token1":"cUSD","token2":"cEUR"}'
+    )
+    expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+2.93 cEUR')
+    expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-2.87 cUSD')
+  })
+
+  it('hides balance when feature gate true, root state hide home balances flag is set', async () => {
     const { queryByTestId } = renderScreen({
       inAmount: {
         tokenId: mockCeurTokenId,
