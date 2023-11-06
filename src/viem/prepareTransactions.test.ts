@@ -42,6 +42,12 @@ describe('prepareTransactions module', () => {
     }),
     {}
   )
+  const mockValueExceededBalanceError = new EstimateGasExecutionError(
+    new ExecutionRevertedError({
+      cause: new BaseError('test mock', { details: 'transfer value exceeded balance of sender' }),
+    }),
+    {}
+  )
   const mockExceededAllowanceError = new EstimateGasExecutionError(
     new ExecutionRevertedError({
       cause: new BaseError("transfer value exceeded sender's allowance for spender"),
@@ -90,6 +96,24 @@ describe('prepareTransactions module', () => {
     publicClient[Network.Celo] = mockPublicClient as any
   })
   describe('prepareTransactions function', () => {
+    it('throws if trying to sendAmount > sendToken balance', async () => {
+      await expect(() =>
+        prepareTransactions({
+          feeCurrencies: mockFeeCurrencies,
+          spendToken: mockSpendToken,
+          spendTokenAmount: new BigNumber(51_000),
+          decreasedAmountGasFeeMultiplier: 1,
+          baseTransactions: [
+            {
+              from: '0xfrom' as Address,
+              to: '0xto' as Address,
+              data: '0xdata',
+              type: 'cip42',
+            },
+          ],
+        })
+      ).rejects.toThrowError(/Cannot prepareTransactions for amount greater than balance./)
+    })
     it("returns a 'not-enough-balance-for-gas' result when the balances for feeCurrencies are too low to cover the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
@@ -102,7 +126,7 @@ describe('prepareTransactions module', () => {
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockSpendToken,
-        spendTokenAmount: new BigNumber(100_000),
+        spendTokenAmount: new BigNumber(45_000),
         decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
@@ -128,7 +152,33 @@ describe('prepareTransactions module', () => {
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
         spendToken: mockSpendToken,
-        spendTokenAmount: new BigNumber(100_000),
+        spendTokenAmount: new BigNumber(50_000),
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            type: 'cip42',
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: mockFeeCurrencies,
+      })
+    })
+    it("returns a 'not-enough-balance-for-gas' result when gas estimation throws error due to value exceeded balance", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(100),
+        maxPriorityFeePerGas: undefined,
+      })
+      mockPublicClient.estimateGas.mockRejectedValue(mockValueExceededBalanceError)
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        spendToken: mockSpendToken,
+        spendTokenAmount: new BigNumber(50_000),
         decreasedAmountGasFeeMultiplier: 1,
         baseTransactions: [
           {
@@ -155,7 +205,7 @@ describe('prepareTransactions module', () => {
         prepareTransactions({
           feeCurrencies: mockFeeCurrencies,
           spendToken: mockSpendToken,
-          spendTokenAmount: new BigNumber(100_000),
+          spendTokenAmount: new BigNumber(20),
           decreasedAmountGasFeeMultiplier: 1,
           baseTransactions: [
             {
@@ -167,34 +217,6 @@ describe('prepareTransactions module', () => {
           ],
         })
       ).rejects.toThrowError(EstimateGasExecutionError)
-    })
-    it("returns a 'need-decrease-spend-amount-for-gas' result when spending more than the max amount of a feeCurrency", async () => {
-      mocked(estimateFeesPerGas).mockResolvedValue({
-        maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
-      })
-
-      const result = await prepareTransactions({
-        feeCurrencies: mockFeeCurrencies,
-        spendToken: mockFeeCurrencies[1],
-        spendTokenAmount: new BigNumber(100_000),
-        decreasedAmountGasFeeMultiplier: 1.01,
-        baseTransactions: [
-          {
-            from: '0xfrom' as Address,
-            to: '0xto' as Address,
-            data: '0xdata',
-            type: 'cip42',
-            gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
-          },
-        ],
-      })
-      expect(result).toStrictEqual({
-        type: 'need-decrease-spend-amount-for-gas',
-        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
-        feeCurrency: mockFeeCurrencies[1],
-        decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
-      })
     })
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending the exact max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
