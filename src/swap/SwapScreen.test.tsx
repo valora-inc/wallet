@@ -808,6 +808,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
   })
 
+  // TODO remove this test when viem is enabled by default for swaps
   it('should display the correct transaction details', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, getByText, swapFromContainer, swapToContainer, tokenBottomSheet } =
