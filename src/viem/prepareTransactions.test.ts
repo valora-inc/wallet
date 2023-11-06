@@ -7,6 +7,7 @@ import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
 import {
   getFeeCurrencyAddress,
+  getFeeCurrencyAndAmount,
   getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareTransactions,
@@ -22,6 +23,7 @@ import {
   encodeFunctionData,
 } from 'viem'
 import mocked = jest.mocked
+import { mockCeloTokenBalance } from 'test/values'
 
 jest.mock('src/viem/estimateFeesPerGas')
 jest.mock('viem', () => ({
@@ -304,6 +306,7 @@ describe('prepareTransactions module', () => {
             maxPriorityFeePerGas: undefined,
           },
         ],
+        feeCurrency: mockFeeCurrencies[0],
       })
     })
     it("returns a 'possible' result when spending the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
@@ -361,6 +364,7 @@ describe('prepareTransactions module', () => {
             feeCurrency: mockFeeCurrencies[1].address,
           },
         ],
+        feeCurrency: mockFeeCurrencies[1],
       })
     })
     it("returns a 'possible' result when spending the max balance of a token that isn't a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
@@ -415,6 +419,7 @@ describe('prepareTransactions module', () => {
             maxPriorityFeePerGas: undefined,
           },
         ],
+        feeCurrency: mockFeeCurrencies[0],
       })
     })
   })
@@ -583,6 +588,70 @@ describe('prepareTransactions module', () => {
       abi: erc20.abi,
       functionName: 'transfer',
       args: ['0x456', BigInt(100)],
+    })
+  })
+
+  describe('getFeeCurrencyAndAmount', () => {
+    it('returns undefined fee currency and fee amount if prepare transactions result is undefined', () => {
+      expect(getFeeCurrencyAndAmount(undefined)).toStrictEqual({
+        feeCurrency: undefined,
+        feeAmount: undefined,
+      })
+    })
+    it('returns undefined fee currency and fee amount if prepare transactions result is not enough balance for gas', () => {
+      expect(
+        getFeeCurrencyAndAmount({
+          type: 'not-enough-balance-for-gas',
+          feeCurrencies: [mockCeloTokenBalance],
+        })
+      ).toStrictEqual({
+        feeCurrency: undefined,
+        feeAmount: undefined,
+      })
+    })
+    it('returns fee currency and amount if prepare transactions result is possible', () => {
+      expect(
+        getFeeCurrencyAndAmount({
+          type: 'possible',
+          transactions: [
+            {
+              from: '0xfrom',
+              to: '0xto',
+              data: '0xdata',
+              type: 'cip42',
+              gas: BigInt(500),
+              maxFeePerGas: BigInt(1),
+              maxPriorityFeePerGas: undefined,
+            },
+            {
+              from: '0xfrom',
+              to: '0xto',
+              data: '0xdata',
+              type: 'cip42',
+              gas: BigInt(100),
+              maxFeePerGas: BigInt(1),
+              maxPriorityFeePerGas: undefined,
+            },
+          ],
+          feeCurrency: mockFeeCurrencies[0],
+        })
+      ).toStrictEqual({
+        feeCurrency: mockFeeCurrencies[0],
+        feeAmount: new BigNumber(6),
+      })
+    })
+    it('returns fee currency and amount if prepare transactions result is need decrease spend amount for gas', () => {
+      expect(
+        getFeeCurrencyAndAmount({
+          type: 'need-decrease-spend-amount-for-gas',
+          feeCurrency: mockCeloTokenBalance,
+          maxGasFee: new BigNumber(10).exponentiatedBy(17),
+          decreasedSpendAmount: new BigNumber(4),
+        })
+      ).toStrictEqual({
+        feeCurrency: mockCeloTokenBalance,
+        feeAmount: new BigNumber(0.1),
+      })
     })
   })
 })

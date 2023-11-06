@@ -13,9 +13,10 @@ import {
   encodeFunctionData,
 } from 'viem'
 
-interface PreparedTransactionsPossible {
+export interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
+  feeCurrency: TokenBalance
 }
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
@@ -183,6 +184,7 @@ export async function prepareTransactions({
     return {
       type: 'possible',
       transactions: estimatedTransactions,
+      feeCurrency,
     } satisfies PreparedTransactionsPossible
   }
 
@@ -257,3 +259,29 @@ export async function prepareERC20TransferTransaction(
 }
 
 // TODO(ACT-955) create helpers for native transfers and Celo-specific transferWithComment
+
+/**
+ * Given prepared transactions, get the fee currency and amount in decimals
+ *
+ * @param prepareTransactionsResult
+ */
+export function getFeeCurrencyAndAmount(
+  prepareTransactionsResult: PreparedTransactionsResult | undefined
+): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
+  let feeAmountSmallestUnits = undefined
+  let feeCurrency = undefined
+  if (prepareTransactionsResult?.type === 'possible') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
+  } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFee
+  }
+  return {
+    feeAmount:
+      feeAmountSmallestUnits &&
+      feeCurrency &&
+      feeAmountSmallestUnits.shiftedBy(-feeCurrency.decimals),
+    feeCurrency,
+  }
+}

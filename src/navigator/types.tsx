@@ -246,7 +246,7 @@ export type StackParamList = {
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: {
-    recipient: Recipient
+    recipient: Recipient & { address: string }
     isFromScan: boolean
     origin: SendOrigin
     forceTokenId?: boolean
