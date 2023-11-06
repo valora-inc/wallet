@@ -26,6 +26,7 @@ exports[`ContactCircle when given recipient with only address uses DefaultAvatar
           "height": 30,
           "width": 30,
         },
+        undefined,
       ]
     }
   >
