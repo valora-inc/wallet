@@ -1,4 +1,4 @@
-// Helper functions for serializing and deserializing prepared transactions
+// Helper functions making prepared transactions serializable
 // so they can be used in redux actions (or even stores).
 import _ from 'lodash'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
