@@ -23,6 +23,7 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
+  mockCeloTokenBalance,
   mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
@@ -133,6 +134,7 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
             maxFeePerGas: BigInt(12_000_000_000),
           },
         ],
+        feeCurrency: mockCeloTokenBalance,
       },
       rawSwapResponse: {
         approveTransaction: {
@@ -198,6 +200,7 @@ const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
             maxFeePerGas: BigInt(12_000_000_000),
           },
         ],
+        feeCurrency: mockCeloTokenBalance,
       },
       rawSwapResponse: {
         ...mockSwapPrepared.payload.quote.rawSwapResponse,
