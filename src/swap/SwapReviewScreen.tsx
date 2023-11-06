@@ -111,9 +111,9 @@ export function SwapReviewScreen({ route }: Props) {
       return new BigNumber(0)
     }
 
-    return getMaxGasFee(quote.preparedTransactions.transactions)
-      .shiftedBy(-feeCurrencyToken.decimals)
-      .times(feeCurrencyToken.priceUsd)
+    return getMaxGasFee(quote.preparedTransactions.transactions).shiftedBy(
+      -feeCurrencyToken.decimals
+    )
   }
 
   const estimatedFeeAmount = quote ? getEstimatedMaxFee() : estimateFeeAmount()
