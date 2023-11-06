@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -415,16 +415,18 @@ function AssetsScreen({ navigation, route }: Props) {
     return items
   }, [t, displayPositions])
 
-  navigation.setOptions({
-    headerRight: () =>
-      getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) ? (
-        <TopBarTextButton
-          testID="Assets/ImportTokenButton"
-          onPress={navigateBack}
-          title={t('importToken')}
-          style={styles.topBarTextItem}
-        />
-      ) : null,
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) ? (
+          <TopBarTextButton
+            testID="Assets/ImportTokenButton"
+            onPress={navigateBack}
+            title={t('importToken')}
+            style={styles.topBarTextItem}
+          />
+        ) : null,
+    })
   })
 
   return (
