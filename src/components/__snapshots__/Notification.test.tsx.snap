@@ -406,22 +406,6 @@ exports[`Notification renders correctly with description 1`] = `
         Description
       </Text>
     </View>
-    <View
-      style={
-        [
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "gap": 8,
-          },
-          {
-            "justifyContent": "flex-end",
-            "paddingHorizontal": 8,
-            "paddingVertical": 4,
-          },
-        ]
-      }
-    />
   </View>
 </View>
 `;
@@ -666,22 +650,6 @@ exports[`Notification renders correctly with headline and description 1`] = `
         Description
       </Text>
     </View>
-    <View
-      style={
-        [
-          {
-            "alignItems": "center",
-            "flexDirection": "row",
-            "gap": 8,
-          },
-          {
-            "justifyContent": "flex-end",
-            "paddingHorizontal": 8,
-            "paddingVertical": 4,
-          },
-        ]
-      }
-    />
   </View>
 </View>
 `;

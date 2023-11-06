@@ -56,18 +56,20 @@ export function Notification({
           <Text style={defaultStyles.bodyText}>{description}</Text>
         </View>
 
-        <View style={[defaultStyles.row, defaultStyles.ctaRow]}>
-          {ctaLabel && onPressCta && (
-            <Text style={[defaultStyles.ctaLabel, styles?.ctaLabel]} onPress={onPressCta}>
-              {ctaLabel}
-            </Text>
-          )}
-          {ctaLabel2 && onPressCta2 && (
-            <Text style={[defaultStyles.ctaLabel2, styles?.ctaLabel2]} onPress={onPressCta2}>
-              {ctaLabel2}
-            </Text>
-          )}
-        </View>
+        {(ctaLabel || ctaLabel2) && (
+          <View style={[defaultStyles.row, defaultStyles.ctaRow]}>
+            {ctaLabel && onPressCta && (
+              <Text style={[defaultStyles.ctaLabel, styles?.ctaLabel]} onPress={onPressCta}>
+                {ctaLabel}
+              </Text>
+            )}
+            {ctaLabel2 && onPressCta2 && (
+              <Text style={[defaultStyles.ctaLabel2, styles?.ctaLabel2]} onPress={onPressCta2}>
+                {ctaLabel2}
+              </Text>
+            )}
+          </View>
+        )}
       </View>
     </View>
   )
