@@ -1697,7 +1697,7 @@
       "swapFeeWaived": "Gratuit",
       "slippagePercentage": "Tolérance de glissement",
       "networkFeeInfo": "Tu es en train d'échanger sur le réseau {{networkName}} .\n\nCette redevance estimée est nécessaire pour effectuer une transaction sur le réseau {{networkName}} . Ces frais sécurisent ta transaction et servent à maintenir le réseau opérationnel.",
-      "networkFeeInfoDismissButton": "Got it"
+      "networkFeeInfoDismissButton": "J'ai compris"
     }
   },
   "swapTransactionDetailPage": {
