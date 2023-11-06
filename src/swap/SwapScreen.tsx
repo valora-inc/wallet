@@ -76,7 +76,7 @@ function getNetworkFee(networkId: NetworkId, quote: QuoteResult) {
 
   if (quote.preparedTransactions.type === 'possible') {
     return {
-      networkFee: quote.preparedTransactions.maxGasCostInDecimal,
+      networkFee: quote.preparedTransactions.maxGasFeeInDecimal,
       feeTokenId: quote.preparedTransactions.feeCurrency.tokenId,
     }
   }

@@ -152,7 +152,7 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
           },
         ],
         feeCurrency: mockFeeCurrency,
-        maxGasCostInDecimal: new BigNumber(0.12345),
+        maxGasFeeInDecimal: new BigNumber(0.12345),
       },
       rawSwapResponse: {
         approveTransaction: {
@@ -219,7 +219,7 @@ const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
           },
         ],
         feeCurrency: mockFeeCurrency,
-        maxGasCostInDecimal: new BigNumber('0.12345'),
+        maxGasFeeInDecimal: new BigNumber('0.12345'),
       },
       rawSwapResponse: {
         ...mockSwapPrepared.payload.quote.rawSwapResponse,
