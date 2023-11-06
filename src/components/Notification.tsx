@@ -124,26 +124,26 @@ const defaultStyles = StyleSheet.create({
   },
 })
 
-const informationalStyle: Partial<CustomStyles> = StyleSheet.create({
+const informationalStyle: Partial<CustomStyles> = {
   container: { backgroundColor: Colors.informationFaint },
   attentionIcon: { color: Colors.informationDark },
   ctaLabel: { color: Colors.informationDark },
   ctaLabel2: { color: Colors.informationDark },
-})
+}
 
-const warningStyle: Partial<CustomStyles> = StyleSheet.create({
+const warningStyle: Partial<CustomStyles> = {
   container: { backgroundColor: Colors.warningLight },
   attentionIcon: { color: Colors.warningDark },
   ctaLabel: { color: Colors.warningDark },
   ctaLabel2: { color: Colors.warningDark },
-})
+}
 
-const errorStyle: Partial<CustomStyles> = StyleSheet.create({
+const errorStyle: Partial<CustomStyles> = {
   container: { backgroundColor: Colors.errorLight },
   attentionIcon: { color: Colors.errorDark },
   ctaLabel: { color: Colors.errorDark },
   ctaLabel2: { color: Colors.errorDark },
-})
+}
 
 Notification.Informational = (props: PropsWithPresetStyle) =>
   Notification({ ...props, styles: informationalStyle })

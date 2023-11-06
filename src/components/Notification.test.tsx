@@ -9,7 +9,7 @@ describe(Notification, () => {
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
-        onPressCta={() => {}}
+        onPressCta={jest.fn()}
         ctaLabel2={'Action 2'}
       />
     )
@@ -45,9 +45,9 @@ describe(Notification, () => {
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
-        onPressCta={() => {}}
+        onPressCta={jest.fn()}
         ctaLabel2={'Action 2'}
-        onPressCta2={() => {}}
+        onPressCta2={jest.fn()}
       />
     )
     expect(tree).toMatchSnapshot()
@@ -58,9 +58,9 @@ describe(Notification, () => {
       <Notification.Informational
         description={'Description'}
         ctaLabel={'Action 1'}
-        onPressCta={() => {}}
+        onPressCta={jest.fn()}
         ctaLabel2={'Action 2'}
-        onPressCta2={() => {}}
+        onPressCta2={jest.fn()}
       />
     )
     expect(tree).toMatchSnapshot()
@@ -82,9 +82,9 @@ describe(Notification, () => {
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
-        onPressCta={() => {}}
+        onPressCta={jest.fn()}
         ctaLabel2={'Action 2'}
-        onPressCta2={() => {}}
+        onPressCta2={jest.fn()}
       />
     )
     expect(tree).toMatchSnapshot()
@@ -96,9 +96,9 @@ describe(Notification, () => {
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
-        onPressCta={() => {}}
+        onPressCta={jest.fn()}
         ctaLabel2={'Action 2'}
-        onPressCta2={() => {}}
+        onPressCta2={jest.fn()}
       />
     )
     expect(tree).toMatchSnapshot()

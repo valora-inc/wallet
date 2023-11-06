@@ -122,7 +122,7 @@ exports[`Notification renders correctly Error 1`] = `
       }
     >
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -142,7 +142,7 @@ exports[`Notification renders correctly Error 1`] = `
         Action 1
       </Text>
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -288,7 +288,7 @@ exports[`Notification renders correctly Warning 1`] = `
       }
     >
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -308,7 +308,7 @@ exports[`Notification renders correctly Warning 1`] = `
         Action 1
       </Text>
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -517,7 +517,7 @@ exports[`Notification renders correctly with description and actions 1`] = `
       }
     >
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -537,7 +537,7 @@ exports[`Notification renders correctly with description and actions 1`] = `
         Action 1
       </Text>
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -808,7 +808,7 @@ exports[`Notification renders correctly with headline, description and actions 1
       }
     >
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
@@ -828,7 +828,7 @@ exports[`Notification renders correctly with headline, description and actions 1
         Action 1
       </Text>
       <Text
-        onPress={[Function]}
+        onPress={[MockFunction]}
         style={
           [
             {
