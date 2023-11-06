@@ -1,6 +1,5 @@
 // Helper functions making prepared transactions serializable
 // so they can be used in redux actions (or even stores).
-import _ from 'lodash'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 
 const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas', 'gatewayFee'] as const
@@ -21,8 +20,6 @@ function mapBigIntsToStrings<T, K extends keyof T>(
     const value = obj[key]
     if (typeof value === 'bigint') {
       result[key] = value.toString() as any
-    } else {
-      result[key] = value as any
     }
   }
 
@@ -49,7 +46,7 @@ export function getSerializablePreparedTransactions(
 export function getPreparedTransaction(
   preparedTransaction: SerializableTransactionRequestCIP42
 ): TransactionRequestCIP42 {
-  const result: TransactionRequestCIP42 = _.omit(preparedTransaction, bigIntProps)
+  const result: TransactionRequestCIP42 = { ...preparedTransaction } as TransactionRequestCIP42
 
   for (const prop of bigIntProps) {
     const value = preparedTransaction[prop]

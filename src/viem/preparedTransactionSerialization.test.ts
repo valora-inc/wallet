@@ -32,6 +32,26 @@ describe(getSerializablePreparedTransactions, () => {
       },
     ])
   })
+
+  it('should not touch undefined values', () => {
+    expect(
+      getSerializablePreparedTransactions([
+        {
+          from: '0x123',
+          to: '0x456',
+          value: undefined,
+          gas: BigInt(456),
+        },
+      ])
+    ).toStrictEqual([
+      {
+        from: '0x123',
+        to: '0x456',
+        value: undefined,
+        gas: '456',
+      },
+    ])
+  })
 })
 
 describe(getPreparedTransactions, () => {
@@ -60,6 +80,26 @@ describe(getPreparedTransactions, () => {
         maxPriorityFeePerGas: BigInt(1011),
         gatewayFee: BigInt(1213),
         unknown: BigInt(1415), // not touched
+      },
+    ])
+  })
+
+  it('should not touch undefined values', () => {
+    expect(
+      getPreparedTransactions([
+        {
+          from: '0x123',
+          to: '0x456',
+          value: undefined,
+          gas: '456',
+        },
+      ])
+    ).toStrictEqual([
+      {
+        from: '0x123',
+        to: '0x456',
+        value: undefined,
+        gas: BigInt(456),
       },
     ])
   })
