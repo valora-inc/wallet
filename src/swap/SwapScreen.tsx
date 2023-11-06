@@ -58,26 +58,26 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
-function getNetworkFee(networkId: NetworkId, quote: QuoteResult) {
+function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
+  if (quote && quote.preparedTransactions?.type === 'possible') {
+    return {
+      networkFee: quote.preparedTransactions.maxGasFeeInDecimal,
+      feeTokenId: quote.preparedTransactions.feeCurrency.tokenId,
+    }
+  }
+
   // TODO remove this block once we have viem enabled for everyone. this block
   // only services the contractKit (Celo) flow. the fee will be displayed in
   // fiat value and will be very low, since it's an approximation anyway we'll
   // simplify this logic to just use the fees from the quote.
-  if (!quote.preparedTransactions) {
+  if (quote && !quote.preparedTransactions) {
     return {
       networkFee: divideByWei(
         new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
           new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gasPrice)
         )
       ),
-      feeTokenId: getTokenId(networkId), // native token
-    }
-  }
-
-  if (quote.preparedTransactions.type === 'possible') {
-    return {
-      networkFee: quote.preparedTransactions.maxGasFeeInDecimal,
-      feeTokenId: quote.preparedTransactions.feeCurrency.tokenId,
+      feeTokenId: getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
     }
   }
 
@@ -85,7 +85,7 @@ function getNetworkFee(networkId: NetworkId, quote: QuoteResult) {
   // is not "possible" then we don't care about the fee
   return {
     networkFee: new BigNumber(0),
-    feeTokenId: getTokenId(networkId), // native token
+    feeTokenId: getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
   }
 }
 
@@ -420,10 +420,7 @@ export function SwapScreen({ route }: Props) {
     !showMissingPriceImpactWarning
 
   const { networkFee, feeTokenId } = useMemo(() => {
-    if (fromToken && exchangeRate) {
-      return getNetworkFee(fromToken.networkId, exchangeRate)
-    }
-    return { networkFee: new BigNumber(0), feeTokenId: getTokenId(networkConfig.defaultNetworkId) }
+    return getNetworkFee(exchangeRate, fromToken?.networkId)
   }, [fromToken, exchangeRate])
 
   return (
