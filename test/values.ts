@@ -46,7 +46,7 @@ import {
   RecipientType,
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { StoredTokenBalance } from 'src/tokens/slice'
+import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -509,6 +509,13 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
   },
+}
+
+export const mockCeloTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockCeloTokenId],
+  priceUsd: new BigNumber(0.5),
+  lastKnownPriceUsd: new BigNumber(0.4),
+  balance: new BigNumber(5),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
