@@ -7,6 +7,7 @@ import {
   isTxPossiblyPending,
   shouldTxFailureRetry,
 } from 'src/transactions/send'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -16,7 +17,6 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -232,7 +232,7 @@ describe('chooseTxFeeDetails', () => {
       .run()
   })
 
-  it('returns only estimated gas (with padding), not gasPrice if estimate is not enough for gas cost', async () => {
+  it('returns only estimated gas (with padding), not gasPrice if estimate is not enough for gas fee', async () => {
     await expectSaga(wrapperSaga, {
       tx: { from: '0xTEST', data: '0xABC' },
       feeCurrency: undefined,

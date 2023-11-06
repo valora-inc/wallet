@@ -1,8 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { hideHomeBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { navigate } from 'src/navigator/NavigationService'
@@ -27,6 +29,7 @@ function SwapFeedItem({ exchange }: Props) {
     navigate(Screens.TransactionDetailsScreen, { transaction: exchange })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
+  const hideBalance = useSelector(hideHomeBalancesSelector)
 
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
@@ -43,27 +46,29 @@ function SwapFeedItem({ exchange }: Props) {
             })}
           </Text>
         </View>
-        <View style={styles.tokenAmountContainer}>
-          <TokenDisplay
-            amount={exchange.inAmount.value}
-            tokenId={exchange.inAmount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            showExplicitPositiveSign={true}
-            hideSign={false}
-            style={[styles.amount, { color: colors.greenUI }]}
-            testID={'SwapFeedItem/incomingAmount'}
-          />
-          <TokenDisplay
-            amount={-exchange.outAmount.value}
-            tokenId={exchange.outAmount.tokenId}
-            showLocalAmount={false}
-            showSymbol={true}
-            hideSign={false}
-            style={styles.tokenAmount}
-            testID={'SwapFeedItem/outgoingAmount'}
-          />
-        </View>
+        {!hideBalance && (
+          <View style={styles.tokenAmountContainer}>
+            <TokenDisplay
+              amount={exchange.inAmount.value}
+              tokenId={exchange.inAmount.tokenId}
+              showLocalAmount={false}
+              showSymbol={true}
+              showExplicitPositiveSign={true}
+              hideSign={false}
+              style={[styles.amount, { color: colors.greenUI }]}
+              testID={'SwapFeedItem/incomingAmount'}
+            />
+            <TokenDisplay
+              amount={-exchange.outAmount.value}
+              tokenId={exchange.outAmount.tokenId}
+              showLocalAmount={false}
+              showSymbol={true}
+              hideSign={false}
+              style={styles.tokenAmount}
+              testID={'SwapFeedItem/outgoingAmount'}
+            />
+          </View>
+        )}
       </View>
     </Touchable>
   )
