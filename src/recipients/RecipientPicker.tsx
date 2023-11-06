@@ -22,7 +22,6 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SectionHead from 'src/components/SectionHead'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import RecipientItem from 'src/recipients/RecipientItem'
-import RecipientItemV2 from 'src/recipients/RecipientItemV2'
 import {
   MobileRecipient,
   Recipient,
@@ -117,19 +116,7 @@ function RecipientPicker(props: RecipientProps) {
     )
   }
 
-  const renderItem = ({ item, index }: SectionListRenderItemInfo<Recipient, Section>) => {
-    if (index >= 0) {
-      return (
-        <RecipientItemV2
-          recipient={item}
-          onSelectRecipient={props.onSelectRecipient}
-          showValoraIcon={index % 2 === 0}
-          loading={index % 2 === 1}
-          selected={index % 2 === 1}
-        />
-      )
-    }
-
+  const renderItem = ({ item }: SectionListRenderItemInfo<Recipient, Section>) => {
     return (
       <RecipientItem
         recipient={item}
