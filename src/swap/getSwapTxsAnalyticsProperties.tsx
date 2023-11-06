@@ -2,7 +2,7 @@ import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/ty
 import { SwapTxsProperties } from 'src/analytics/Properties'
 import { getFeeCurrency } from 'src/swap/getFeeCurrency'
 import { TokenBalancesWithAddress } from 'src/tokens/slice'
-import { getMaxGasCost } from 'src/viem/prepareTransactions'
+import { getMaxGasFee } from 'src/viem/prepareTransactions'
 
 export function getSwapTxsAnalyticsProperties(
   preparedTransactions: TransactionRequestCIP42[] | undefined,
@@ -17,18 +17,16 @@ export function getSwapTxsAnalyticsProperties(
   const feeCurrency = getFeeCurrency(preparedTransactions)
   const feeCurrencyAddress = feeCurrency || celoAddress
   const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
-  const maxGasCost = feeCurrencyToken
-    ? getMaxGasCost(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
+  const maxGasFee = feeCurrencyToken
+    ? getMaxGasFee(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
     : undefined
-  const maxGasCostUsd =
-    maxGasCost && feeCurrencyToken?.priceUsd
-      ? maxGasCost.times(feeCurrencyToken.priceUsd)
-      : undefined
+  const maxGasFeeUsd =
+    maxGasFee && feeCurrencyToken?.priceUsd ? maxGasFee.times(feeCurrencyToken.priceUsd) : undefined
 
   return {
     gas: Number(preparedTransactions.reduce((sum, tx) => sum + (tx.gas ?? BigInt(0)), BigInt(0))),
-    maxGasCost: maxGasCost?.toNumber(),
-    maxGasCostUsd: maxGasCostUsd?.toNumber(),
+    maxGasFee: maxGasFee?.toNumber(),
+    maxGasFeeUsd: maxGasFeeUsd?.toNumber(),
     feeCurrency,
     feeCurrencySymbol: feeCurrencyToken?.symbol,
     txCount: preparedTransactions.length,
