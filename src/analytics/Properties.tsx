@@ -1229,8 +1229,8 @@ export interface SwapTimeMetrics {
 
 export interface SwapTxsProperties {
   gas: number // Gas limit of the swap (approve + swap)
-  maxGasCost: number | undefined // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
-  maxGasCostUsd: number | undefined // Max gas cost for the swap (approve + swap) in USD
+  maxGasFee: number | undefined // Max gas fee for the swap (approve + swap) in feeCurrency (decimal value)
+  maxGasFeeUsd: number | undefined // Max gas fee for the swap (approve + swap) in USD
   txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
   feeCurrency: string | undefined // Fee currency used
   feeCurrencySymbol: string | undefined // Fee currency symbol used
@@ -1240,11 +1240,11 @@ export interface TxReceiptProperties {
   txCumulativeGasUsed: number // Gas used by the transaction and all preceding transactions in the block
   txEffectiveGasPrice: number // Pre-London, it is equal to the transaction's gasPrice. Post-London, it is equal to the actual gas price paid for inclusion.
   txGas: number // Gas limit of the transaction
-  txMaxGasCost: number | undefined // Max gas cost of the transaction in feeCurrency (decimal value)
-  txMaxGasCostUsd: number | undefined // Max gas cost of the in USD
+  txMaxGasFee: number | undefined // Max gas fee of the transaction in feeCurrency (decimal value)
+  txMaxGasFeeUsd: number | undefined // Max gas fee of the in USD
   txGasUsed: number // Gas used by the transaction
-  txGasCost: number // Actual gas cost of the transaction in feeCurrency (decimal value)
-  txGasCostUsd: number // Actual gas cost of the transaction in USD
+  txGasFee: number // Actual gas fee of the transaction in feeCurrency (decimal value)
+  txGasFeeUsd: number // Actual gas fee of the transaction in USD
   txHash: string // Hash of the transaction
   txFeeCurrency: string | undefined // Fee currency used
   txFeeCurrencySymbol: string | undefined // Fee currency symbol used
@@ -1266,11 +1266,11 @@ export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
   Partial<SwapTxReceiptProperties> &
   Partial<{
     gas: number // Gas limit of the swap (approve + swap)
-    maxGasCost: number | undefined // Max gas cost for the swap (approve + swap) in feeCurrency (decimal value)
-    maxGasCostUsd: number | undefined // Max gas cost for the swap (approve + swap) in USD
+    maxGasFee: number | undefined // Max gas fee for the swap (approve + swap) in feeCurrency (decimal value)
+    maxGasFeeUsd: number | undefined // Max gas fee for the swap (approve + swap) in USD
     gasUsed: number // Gas used by the swap (approve + swap)
-    gasCost: number | undefined // Actual gas cost of the swap (approve + swap) in feeCurrency (decimal value)
-    gasCostUsd: number | undefined // Actual gas cost of the swap (approve + swap) in USD
+    gasFee: number | undefined // Actual gas fee of the swap (approve + swap) in feeCurrency (decimal value)
+    gasFeeUsd: number | undefined // Actual gas fee of the swap (approve + swap) in USD
     feeCurrency: string | undefined // Fee currency used
     feeCurrencySymbol: string | undefined // Fee currency symbol used
   }>
