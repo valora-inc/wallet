@@ -77,19 +77,25 @@ function TokenBalance({
       : undefined
   const { decimalSeparator } = getNumberFormatSettings()
 
-  const hideBalanceSelectorReturn = useSelector(hideHomeBalancesSelector)
-  const hideBalance = showHideHomeBalancesToggle && hideBalanceSelectorReturn
-
+  const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
+  const hideBalance = showHideHomeBalancesToggle && hideHomeBalanceState
   const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
+
+  const RenderTotalTokenBalance = ({ balanceDisplay }: { balanceDisplay: string }) => {
+    return (
+      <View style={styles.row}>
+        <Text style={style} testID={'TotalTokenBalance'}>
+          {!hideBalance && localCurrencySymbol}
+          {balanceDisplay}
+        </Text>
+        {showHideHomeBalancesToggle && <HideBalanceButton hideBalance={hideBalance} />}
+      </View>
+    )
+  }
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
-    return (
-      <Text style={style} testID={'TotalTokenBalance'}>
-        {localCurrencySymbol}
-        {'-'}
-      </Text>
-    )
+    return <RenderTotalTokenBalance balanceDisplay={'-'} />
   } else if (
     singleTokenViewEnabled &&
     tokensWithUsdValue.length === 1 &&
@@ -100,13 +106,7 @@ function TokenBalance({
       <View style={styles.oneBalance}>
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
-          <View style={styles.row}>
-            <Text style={style} testID={'TotalTokenBalance'}>
-              {!hideBalance && localCurrencySymbol}
-              {balanceDisplay ?? '-'}
-            </Text>
-            {showHideHomeBalancesToggle && <HideBalanceButton hideBalance={hideBalance} />}
-          </View>
+          <RenderTotalTokenBalance balanceDisplay={balanceDisplay ?? '-'} />
           {!hideBalance && (
             <Text style={styles.tokenBalance}>
               {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
@@ -117,13 +117,7 @@ function TokenBalance({
     )
   } else {
     return (
-      <View style={styles.row}>
-        <Text style={style} testID={'TotalTokenBalance'}>
-          {!hideBalance && localCurrencySymbol}
-          {balanceDisplay ?? new BigNumber(0).toFormat(2)}
-        </Text>
-        {showHideHomeBalancesToggle && <HideBalanceButton hideBalance={hideBalance} />}
-      </View>
+      <RenderTotalTokenBalance balanceDisplay={balanceDisplay ?? new BigNumber(0).toFormat(2)} />
     )
   }
 }

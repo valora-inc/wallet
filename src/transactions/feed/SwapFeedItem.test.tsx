@@ -35,8 +35,6 @@ jest.mock('src/web3/networkConfig', () => {
   }
 })
 
-jest.mocked(getFeatureGate).mockReturnValue(true)
-
 describe('SwapFeedItem', () => {
   beforeEach(() => {
     jest.clearAllMocks()

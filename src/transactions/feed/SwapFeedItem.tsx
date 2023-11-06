@@ -32,9 +32,9 @@ function SwapFeedItem({ exchange }: Props) {
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
   }
 
-  const hideBalanceSelectorReturn = useSelector(hideHomeBalancesSelector)
+  const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
   const hideBalance =
-    getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideBalanceSelectorReturn
+    getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideHomeBalanceState
 
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
