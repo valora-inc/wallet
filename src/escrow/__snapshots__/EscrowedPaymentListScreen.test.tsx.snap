@@ -186,6 +186,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                           "height": 40,
                           "width": 40,
                         },
+                        undefined,
                       ]
                     }
                   >
@@ -464,6 +465,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                           "height": 40,
                           "width": 40,
                         },
+                        undefined,
                       ]
                     }
                   >
@@ -742,6 +744,7 @@ exports[`EscrowedPaymentListScreen renders correctly with payments 1`] = `
                           "height": 40,
                           "width": 40,
                         },
+                        undefined,
                       ]
                     }
                   >
