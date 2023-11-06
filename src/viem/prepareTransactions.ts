@@ -98,6 +98,7 @@ export async function tryEstimateTransaction({
       account: tx.from,
     })
     Logger.info(TAG, `estimateGas results`, {
+      feeCurrency: tx.feeCurrency,
       gas: tx.gas,
       maxFeePerGas,
       maxPriorityFeePerGas,
