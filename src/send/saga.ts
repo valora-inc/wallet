@@ -43,12 +43,13 @@ import {
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
-import { sendPayment as viemSendPayment } from 'src/viem/saga'
+import { sendPayment as viemSendPayment, sendPreparedPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
+import { SerializableTransactionRequestCIP42 } from 'src/viem/preparedTransactionSerialization'
 
 const TAG = 'send/saga'
 
@@ -201,9 +202,10 @@ export function* buildAndSendPayment(
  * @param recipientAddress the address to send the payment to
  * @param amount the crypto amount to send
  * @param usdAmount the amount in usd (nullable, used only for analytics)
- * @param tokenAddress the crypto token address
+ * @param tokenId the id of the token to send
  * @param comment the comment on the transaction
  * @param feeInfo an object containing the fee information
+ * @param preparedTransaction
  */
 function* sendPayment(
   recipientAddress: string,
@@ -211,7 +213,8 @@ function* sendPayment(
   usdAmount: BigNumber | null,
   tokenId: string,
   comment: string,
-  feeInfo?: FeeInfo
+  feeInfo?: FeeInfo,
+  preparedTransaction?: SerializableTransactionRequestCIP42
 ) {
   const context = newTransactionContext(TAG, 'Send payment')
   const tokenInfo = yield* call(getTokenInfo, tokenId)
@@ -220,12 +223,21 @@ function* sendPayment(
   }
 
   const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SEND)
-  const web3Library = useViem ? 'viem' : 'contract-kit'
+  const web3Library = useViem || !!preparedTransaction ? 'viem' : 'contract-kit'
 
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start, { web3Library })
 
-    if (useViem) {
+    if (preparedTransaction) {
+      yield* call(sendPreparedPayment, {
+        context,
+        recipientAddress,
+        amount,
+        tokenId,
+        comment,
+        preparedTransaction,
+      })
+    } else if (useViem) {
       yield* call(viemSendPayment, {
         context,
         recipientAddress,
@@ -276,13 +288,23 @@ export function* sendPaymentSaga({
   recipient,
   fromModal,
   feeInfo,
+  preparedTransaction,
 }: SendPaymentAction) {
   try {
     yield* call(getConnectedUnlockedAccount)
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
     const tokenInfo: TokenBalance | undefined = yield* call(getTokenInfo, tokenId)
     if (recipient.address) {
-      yield* call(sendPayment, recipient.address, amount, usdAmount, tokenId, comment, feeInfo)
+      yield* call(
+        sendPayment,
+        recipient.address,
+        amount,
+        usdAmount,
+        tokenId,
+        comment,
+        feeInfo,
+        preparedTransaction
+      )
       if (tokenInfo?.symbol === 'CELO') {
         ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
           amount: amount.toString(),

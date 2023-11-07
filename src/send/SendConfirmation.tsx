@@ -101,6 +101,7 @@ function SendConfirmation(props: Props) {
       comment: commentFromParams,
       tokenId,
     },
+    preparedTransaction, // todo use for fees if present
   } = props.route.params
 
   const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
@@ -241,7 +242,7 @@ function SendConfirmation(props: Props) {
 
   const onSend = () => {
     // TODO (ACT-922): Remove Celo network check once we have Ethereum fees
-    if (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo) {
+    if ((!feeEstimate?.feeInfo || !preparedTransaction) && tokenNetwork === Network.Celo) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
@@ -269,7 +270,8 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         fromModal,
-        feeEstimate?.feeInfo
+        feeEstimate?.feeInfo,
+        preparedTransaction
       )
     )
   }

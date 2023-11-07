@@ -4,6 +4,7 @@ import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
 import { Svg } from 'svgs'
+import { SerializableTransactionRequestCIP42 } from 'src/viem/preparedTransactionSerialization'
 
 export interface QrCode {
   type: string
@@ -44,6 +45,7 @@ export interface SendPaymentAction {
   recipient: Recipient
   fromModal: boolean
   feeInfo?: FeeInfo
+  preparedTransaction?: SerializableTransactionRequestCIP42
 }
 
 export interface SendPaymentSuccessAction {
@@ -101,7 +103,8 @@ export const sendPayment = (
   comment: string,
   recipient: Recipient,
   fromModal: boolean,
-  feeInfo?: FeeInfo
+  feeInfo?: FeeInfo,
+  preparedTransaction?: SerializableTransactionRequestCIP42
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
@@ -111,6 +114,7 @@ export const sendPayment = (
   recipient,
   fromModal,
   feeInfo,
+  preparedTransaction,
 })
 
 export const sendPaymentSuccess = (amount: BigNumber): SendPaymentSuccessAction => ({

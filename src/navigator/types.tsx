@@ -23,6 +23,7 @@ import { AssetViewType } from 'src/tokens/TokenBalances'
 import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { SerializableTransactionRequestCIP42 } from 'src/viem/preparedTransactionSerialization'
 
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
@@ -35,6 +36,7 @@ interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
   isFromScan: boolean
+  preparedTransaction?: SerializableTransactionRequestCIP42
 }
 
 export type StackParamList = {

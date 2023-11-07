@@ -10,9 +10,9 @@ import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import {
-  TokenBalanceWithAddress,
   fetchTokenBalances,
   tokenBalanceHasAddress,
+  TokenBalanceWithAddress,
 } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import {
@@ -32,12 +32,20 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put } from 'typed-redux-saga'
-import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
+import { getAddress, SimulateContractReturnType, TransactionReceipt } from 'viem'
+import {
+  getPreparedTransaction,
+  SerializableTransactionRequestCIP42,
+} from 'src/viem/preparedTransactionSerialization'
+import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'viem/saga'
 
 /**
  * Send a payment with viem. The equivalent of buildAndSendPayment in src/send/saga.
+ *
+ * @deprecated - use sendPreparedPayment instead. Otherwise, we prepare the transaction twice, once to estimate fees
+ *  and show them to a user, and another time here.
  *
  * @param options an object containing the arguments
  * @param options.context the transaction context
@@ -179,6 +187,93 @@ export function* sendPayment({
       })
       return receipt
     }
+  } catch (err) {
+    Logger.error(TAG, JSON.stringify(err, null, 4))
+    Logger.warn(TAG, 'Transaction failed', err)
+    throw err
+  }
+}
+
+export function* sendPreparedPayment({
+  context,
+  preparedTransaction,
+  tokenId,
+  amount,
+  recipientAddress,
+  comment,
+}: {
+  context: TransactionContext
+  preparedTransaction: SerializableTransactionRequestCIP42
+  tokenId: string
+  amount: BigNumber
+  recipientAddress: string
+  comment?: string
+}) {
+  const tokenInfo = yield* call(getTokenInfo, tokenId)
+  const network = getNetworkFromNetworkId(tokenInfo?.networkId)
+  if (!tokenInfo || !network) {
+    throw new Error('Unknown token network')
+  }
+
+  const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
+
+  if (!wallet.account) {
+    // this should never happen
+    throw new Error('no account found in the wallet')
+  }
+
+  const transactionRequest = getPreparedTransaction(preparedTransaction)
+
+  Logger.debug(
+    TAG,
+    'Transferring token',
+    context.description ?? 'No description',
+    context.id,
+    tokenId,
+    amount
+  )
+
+  try {
+    yield* call(unlockAccount, wallet.account.address)
+
+    yield* put(
+      addStandbyTransaction({
+        __typename: 'TokenTransferV3',
+        type: TokenTransactionTypeV2.Sent,
+        context,
+        networkId: tokenInfo.networkId,
+        amount: {
+          value: amount.negated().toString(),
+          tokenAddress: tokenInfo.address ?? undefined,
+          tokenId,
+        },
+        address: recipientAddress,
+        metadata: {
+          comment,
+        },
+      })
+    )
+
+    return yield* call(sendAndMonitorTransaction, {
+      context,
+      network,
+      sendTx: async () => {
+        if (!wallet.account) {
+          throw new Error('no account found in the wallet')
+        }
+        const nonce = await getTransactionCount(wallet, {
+          address: wallet.account.address,
+          blockTag: 'pending',
+        })
+        //@ts-ignore fixme deal with type error
+        const serializedTransaction = await wallet.signTransaction({
+          ...transactionRequest,
+          type: 'eip1559', // fixme weird to do this with CIP42 transfers... fails otherwise though :(. also this appears to work even when setting the feeCurrency
+          nonce,
+        })
+        return wallet.sendRawTransaction({ serializedTransaction })
+      },
+    })
   } catch (err) {
     Logger.error(TAG, JSON.stringify(err, null, 4))
     Logger.warn(TAG, 'Transaction failed', err)
