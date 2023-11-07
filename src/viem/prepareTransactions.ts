@@ -1,26 +1,30 @@
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import BigNumber from 'bignumber.js'
-import {
-  Address,
-  encodeFunctionData,
-  EstimateGasExecutionError,
-  InsufficientFundsError,
-} from 'viem'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import erc20 from 'src/abis/IERC20'
+import { STATIC_GAS_PADDING } from 'src/config'
+import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import Logger from 'src/utils/Logger'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
-import { STATIC_GAS_PADDING } from 'src/config'
-import Logger from 'src/utils/Logger'
-import erc20 from 'src/abis/IERC20'
+import {
+  Address,
+  EstimateGasExecutionError,
+  InsufficientFundsError,
+  encodeFunctionData,
+  ExecutionRevertedError,
+} from 'viem'
 
-interface PreparedTransactionsPossible {
+const TAG = 'viem/prepareTransactions'
+
+export interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
+  feeCurrency: TokenBalance
 }
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
-  maxGasCost: BigNumber
+  maxGasFee: BigNumber
   feeCurrency: TokenBalance
   decreasedSpendAmount: BigNumber
 }
@@ -35,21 +39,36 @@ export type PreparedTransactionsResult =
   | PreparedTransactionsNeedDecreaseSpendAmountForGas
   | PreparedTransactionsNotEnoughBalanceForGas
 
-export function getMaxGasCost(txs: TransactionRequestCIP42[]): BigNumber {
-  let maxGasCost = BigInt(0)
+export function getMaxGasFee(txs: TransactionRequestCIP42[]): BigNumber {
+  let maxGasFee = BigInt(0)
   for (const tx of txs) {
     if (!tx.gas || !tx.maxFeePerGas) {
       throw new Error('Missing gas or maxFeePerGas')
     }
-    maxGasCost += BigInt(tx.gas) * BigInt(tx.maxFeePerGas)
+    maxGasFee += BigInt(tx.gas) * BigInt(tx.maxFeePerGas)
   }
-  return new BigNumber(maxGasCost.toString())
+  return new BigNumber(maxGasFee.toString())
 }
 
 export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
   return !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
 }
 
+/**
+ * Try estimating gas for a transaction
+ *
+ * Returns null if execution reverts due to insufficient funds or transfer value exceeds balance of sender. This means
+ *   checks comparing the user's balance to send/swap amounts need to be done somewhere else to be able to give
+ *   coherent error messages to the user when they lack the funds to perform a transaction.
+ *
+ * Throws other kinds of errors (e.g. if execution is reverted for some other reason)
+ *
+ * @param baseTransaction
+ * @param maxFeePerGas
+ * @param feeCurrencySymbol
+ * @param feeCurrencyAddress
+ * @param maxPriorityFeePerGas
+ */
 export async function tryEstimateTransaction({
   baseTransaction,
   maxFeePerGas,
@@ -78,14 +97,21 @@ export async function tryEstimateTransaction({
       ...tx,
       account: tx.from,
     })
+    Logger.info(TAG, `estimateGas results`, {
+      feeCurrency: tx.feeCurrency,
+      gas: tx.gas,
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+    })
   } catch (e) {
-    if (e instanceof EstimateGasExecutionError && e.cause instanceof InsufficientFundsError) {
+    if (
+      e instanceof EstimateGasExecutionError &&
+      (e.cause instanceof InsufficientFundsError ||
+        (e.cause instanceof ExecutionRevertedError && // viem does not reliably label node errors as InsufficientFundsError when the user has enough to pay for the transfer, but not for the transfer + gas
+          /transfer value exceeded balance of sender/.test(e.cause.details)))
+    ) {
       // too much gas was needed
-      Logger.warn(
-        'SwapScreen@useSwapQuote',
-        `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`,
-        e
-      )
+      Logger.warn(TAG, `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`, e)
       return null
     }
     throw e
@@ -139,20 +165,39 @@ export async function tryEstimateTransactions(
   return transactions
 }
 
+/**
+ * Prepare transactions to submit to the blockchain.
+ *
+ * Adds "maxFeePerGas" and "maxPriorityFeePerGas" fields to base transactions. Adds "gas" field to base
+ *  transactions if they do not already include them.
+ *
+ * NOTE: throws if spendTokenAmount exceeds the user's balance of that token.
+ *
+ * @param feeCurrencies
+ * @param spendToken
+ * @param spendTokenAmount
+ * @param decreasedAmountGasFeeMultiplier
+ * @param baseTransactions
+ */
 export async function prepareTransactions({
   feeCurrencies,
   spendToken,
   spendTokenAmount,
-  decreasedAmountGasCostMultiplier,
+  decreasedAmountGasFeeMultiplier,
   baseTransactions,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken: TokenBalanceWithAddress
   spendTokenAmount: BigNumber
-  decreasedAmountGasCostMultiplier: number
+  decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
 }): Promise<PreparedTransactionsResult> {
-  const maxGasCosts: Array<{ feeCurrency: TokenBalance; maxGasCostInDecimal: BigNumber }> = []
+  if (spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))) {
+    throw new Error(
+      `Cannot prepareTransactions for amount greater than balance. Amount: ${spendTokenAmount}, Balance: ${spendToken.balance}, Decimals: ${spendToken.decimals}`
+    )
+  }
+  const maxGasFees: Array<{ feeCurrency: TokenBalance; maxGasFeeInDecimal: BigNumber }> = []
   for (const feeCurrency of feeCurrencies) {
     if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
       // No balance, try next fee currency
@@ -163,17 +208,17 @@ export async function prepareTransactions({
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
-    const maxGasCost = getMaxGasCost(estimatedTransactions)
-    const maxGasCostInDecimal = maxGasCost.shiftedBy(-feeCurrency.decimals)
-    maxGasCosts.push({ feeCurrency, maxGasCostInDecimal })
-    if (maxGasCostInDecimal.isGreaterThan(feeCurrency.balance)) {
+    const maxGasFee = getMaxGasFee(estimatedTransactions)
+    const maxGasFeeInDecimal = maxGasFee.shiftedBy(-feeCurrency.decimals)
+    maxGasFees.push({ feeCurrency, maxGasFeeInDecimal })
+    if (maxGasFeeInDecimal.isGreaterThan(feeCurrency.balance)) {
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
     const spendAmountDecimal = spendTokenAmount.shiftedBy(-spendToken.decimals)
     if (
       spendToken.tokenId === feeCurrency.tokenId &&
-      spendAmountDecimal.plus(maxGasCostInDecimal).isGreaterThan(spendToken.balance)
+      spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance)
     ) {
       // Not enough balance to pay for gas, try next fee currency
       continue
@@ -183,13 +228,14 @@ export async function prepareTransactions({
     return {
       type: 'possible',
       transactions: estimatedTransactions,
+      feeCurrency,
     } satisfies PreparedTransactionsPossible
   }
 
   // So far not enough balance to pay for gas
   // let's see if we can decrease the spend amount
-  const result = maxGasCosts.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
-  if (!result || result.maxGasCostInDecimal.isGreaterThan(result.feeCurrency.balance)) {
+  const result = maxGasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
+  if (!result || result.maxGasFeeInDecimal.isGreaterThan(result.feeCurrency.balance)) {
     // Can't decrease the spend amount
     return {
       type: 'not-enough-balance-for-gas',
@@ -199,12 +245,12 @@ export async function prepareTransactions({
 
   // We can decrease the spend amount to pay for gas,
   // We'll ask the user if they want to proceed
-  const adjustedMaxGasCost = result.maxGasCostInDecimal.times(decreasedAmountGasCostMultiplier)
-  const maxAmount = spendToken.balance.minus(adjustedMaxGasCost)
+  const adjustedMaxGasFee = result.maxGasFeeInDecimal.times(decreasedAmountGasFeeMultiplier)
+  const maxAmount = spendToken.balance.minus(adjustedMaxGasFee)
 
   return {
     type: 'need-decrease-spend-amount-for-gas',
-    maxGasCost: adjustedMaxGasCost,
+    maxGasFee: adjustedMaxGasFee,
     feeCurrency: result.feeCurrency,
     decreasedSpendAmount: maxAmount,
   } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
@@ -251,9 +297,35 @@ export async function prepareERC20TransferTransaction(
     feeCurrencies,
     spendToken: sendToken,
     spendTokenAmount: new BigNumber(amount.toString()),
-    decreasedAmountGasCostMultiplier: 1,
+    decreasedAmountGasFeeMultiplier: 1,
     baseTransactions: [baseSendTx],
   })
 }
 
 // TODO(ACT-955) create helpers for native transfers and Celo-specific transferWithComment
+
+/**
+ * Given prepared transactions, get the fee currency and amount in decimals
+ *
+ * @param prepareTransactionsResult
+ */
+export function getFeeCurrencyAndAmount(
+  prepareTransactionsResult: PreparedTransactionsResult | undefined
+): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
+  let feeAmountSmallestUnits = undefined
+  let feeCurrency = undefined
+  if (prepareTransactionsResult?.type === 'possible') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
+  } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFee
+  }
+  return {
+    feeAmount:
+      feeAmountSmallestUnits &&
+      feeCurrency &&
+      feeAmountSmallestUnits.shiftedBy(-feeCurrency.decimals),
+    feeCurrency,
+  }
+}

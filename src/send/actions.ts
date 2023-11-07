@@ -49,6 +49,7 @@ export interface SendPaymentAction {
 export interface SendPaymentSuccessAction {
   type: Actions.SEND_PAYMENT_SUCCESS
   amount: BigNumber
+  tokenId: string
 }
 
 export interface SendPaymentFailureAction {
@@ -113,9 +114,16 @@ export const sendPayment = (
   feeInfo,
 })
 
-export const sendPaymentSuccess = (amount: BigNumber): SendPaymentSuccessAction => ({
+export const sendPaymentSuccess = ({
+  amount,
+  tokenId,
+}: {
+  amount: BigNumber
+  tokenId: string
+}): SendPaymentSuccessAction => ({
   type: Actions.SEND_PAYMENT_SUCCESS,
   amount,
+  tokenId,
 })
 
 export const sendPaymentFailure = (): SendPaymentFailureAction => ({

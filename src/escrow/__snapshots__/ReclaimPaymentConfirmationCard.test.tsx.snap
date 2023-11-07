@@ -44,6 +44,7 @@ exports[`ReclaimPaymentConfirmationCard renders correctly for send payment confi
               "height": 40,
               "width": 40,
             },
+            undefined,
           ]
         }
       >

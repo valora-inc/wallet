@@ -13,35 +13,39 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
-import Button, { BtnSizes } from 'src/components/Button'
-import CustomHeader from 'src/components/header/CustomHeader'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
+import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
+import SwapAmountInput from 'src/swap/SwapAmountInput'
+import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
-import SwapAmountInput from 'src/swap/SwapAmountInput'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+import networkConfig from 'src/web3/networkConfig'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
@@ -56,16 +60,20 @@ export function SwapScreen({ route }: Props) {
   const dispatch = useDispatch()
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const showTransactionDetails = false // TODO remove this dummy feature flag after the transaction details are implemented
 
   const { decimalSeparator } = getNumberFormatSettings()
 
   const { swappingNonNativeTokensEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
   )
-
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
+  const slippagePercentage = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).maxSlippagePercentage
 
   const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
@@ -104,7 +112,7 @@ export function SwapScreen({ route }: Props) {
   const fromTokenBalance = useTokenInfoByAddress(fromToken?.address)?.balance ?? new BigNumber(0)
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
-    useSwapQuote()
+    useSwapQuote(slippagePercentage)
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -428,6 +436,17 @@ export function SwapScreen({ route }: Props) {
               )}
             </Text>
           </SwapAmountInput>
+
+          {showTransactionDetails && (
+            <SwapTransactionDetails
+              networkId={fromToken?.networkId}
+              networkFee={new BigNumber(1)}
+              networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+              feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
+              slippagePercentage={slippagePercentage}
+            />
+          )}
+
           {showMaxSwapAmountWarning && (
             <Warning
               title={t('swapScreen.maxSwapAmountWarning.title')}
@@ -494,6 +513,23 @@ export function SwapScreen({ route }: Props) {
           }}
         />
       )}
+      <BottomSheet
+        forwardedRef={networkFeeInfoBottomSheetRef}
+        description={t('swapScreen.transactionDetails.networkFeeInfo', {
+          networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
+        })}
+        testId="NetworkFeeInfoBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            networkFeeInfoBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -518,10 +554,11 @@ const styles = StyleSheet.create({
   toSwapAmountInput: {
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+    marginBottom: Spacing.Small12,
   },
   disclaimerText: {
     ...fontStyles.xsmall,
-    paddingBottom: Spacing.Thick24,
+    paddingBottom: Spacing.Smallest8,
     flexWrap: 'wrap',
     color: colors.gray5,
     textAlign: 'center',
@@ -538,6 +575,9 @@ const styles = StyleSheet.create({
     ...fontStyles.xsmall600,
   },
   warning: {
+    marginTop: Spacing.Thick24,
+  },
+  bottomSheetButton: {
     marginTop: Spacing.Thick24,
   },
 })

@@ -46,6 +46,10 @@ const SEARCH_THROTTLE_TIME = 100
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 
+function hasAddressField(obj: Object): obj is { address: string } {
+  return 'address' in obj && !!obj.address
+}
+
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
   const forceTokenId = route.params?.forceTokenId
@@ -122,7 +126,10 @@ function Send({ route }: Props) {
     // interfere with the invite modal or bottom sheet.
     Keyboard.dismiss()
 
-    if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED) {
+    if (
+      recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED ||
+      !hasAddressField(recipient) // should already be caught by UNVERIFIED and UNKNOWN checks, but doing this to be safe and to satisfy the TS compiler
+    ) {
       setShowInviteModal(true)
       return
     }

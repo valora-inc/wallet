@@ -54,6 +54,7 @@ exports[`QRCode renders correctly 1`] = `
               "height": 64,
               "width": 64,
             },
+            undefined,
           ]
         }
       >
@@ -219,6 +220,7 @@ exports[`QRCode renders correctly 2`] = `
               "height": 64,
               "width": 64,
             },
+            undefined,
           ]
         }
       >
