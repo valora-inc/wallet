@@ -352,7 +352,7 @@ describe('AssetsScreen', () => {
       </Provider>
     )
     const { queryByText } = render(component)
-    const button = queryByText('importToken')
+    const button = queryByText('assets.importToken')
 
     expect(button).toBeNull()
   })
@@ -367,7 +367,7 @@ describe('AssetsScreen', () => {
       </Provider>
     )
     const { getByText } = render(component)
-    const button = getByText('importToken')
+    const button = getByText('assets.importToken')
     fireEvent.press(button)
 
     expect(navigateBack).toHaveBeenCalled()
