@@ -172,13 +172,14 @@ export async function tryEstimateTransactions(
  * Adds "maxFeePerGas" and "maxPriorityFeePerGas" fields to base transactions. Adds "gas" field to base
  *  transactions if they do not already include them.
  *
- * NOTE: throws if spendTokenAmount exceeds the user's balance of that token.
+ * NOTE: throws if spendTokenAmount exceeds the user's balance of that token, unless throwOnSpendTokenAmountExceedsBalance is false
  *
  * @param feeCurrencies
  * @param spendToken
  * @param spendTokenAmount
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
+ * @param throwOnSpendTokenAmountExceedsBalance
  */
 export async function prepareTransactions({
   feeCurrencies,
@@ -186,14 +187,19 @@ export async function prepareTransactions({
   spendTokenAmount,
   decreasedAmountGasFeeMultiplier,
   baseTransactions,
+  throwOnSpendTokenAmountExceedsBalance = true,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken: TokenBalanceWithAddress
   spendTokenAmount: BigNumber
   decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
+  throwOnSpendTokenAmountExceedsBalance?: boolean
 }): Promise<PreparedTransactionsResult> {
-  if (spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))) {
+  if (
+    throwOnSpendTokenAmountExceedsBalance &&
+    spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))
+  ) {
     throw new Error(
       `Cannot prepareTransactions for amount greater than balance. Amount: ${spendTokenAmount}, Balance: ${spendToken.balance}, Decimals: ${spendToken.decimals}`
     )

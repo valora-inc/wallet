@@ -116,6 +116,31 @@ describe('prepareTransactions module', () => {
         })
       ).rejects.toThrowError(/Cannot prepareTransactions for amount greater than balance./)
     })
+    it('does not throw if trying to sendAmount > sendToken balance when throwOnSpendTokenAmountExceedsBalance is false', async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(100),
+        maxPriorityFeePerGas: BigInt(2),
+      })
+      mockPublicClient.estimateGas.mockResolvedValue(BigInt(1_000))
+
+      await expect(
+        prepareTransactions({
+          feeCurrencies: mockFeeCurrencies,
+          spendToken: mockSpendToken,
+          spendTokenAmount: new BigNumber(51_000),
+          decreasedAmountGasFeeMultiplier: 1,
+          baseTransactions: [
+            {
+              from: '0xfrom' as Address,
+              to: '0xto' as Address,
+              data: '0xdata',
+              type: 'cip42',
+            },
+          ],
+          throwOnSpendTokenAmountExceedsBalance: false,
+        })
+      ).resolves.toEqual(expect.anything())
+    })
     it("returns a 'not-enough-balance-for-gas' result when the balances for feeCurrencies are too low to cover the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
