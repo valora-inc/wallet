@@ -376,9 +376,6 @@ export function* sendAndMonitorTransaction({
       context
     )) as unknown as TransactionReceipt
 
-    if (receipt.status === 'reverted') {
-      throw new Error('transaction reverted')
-    }
     ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(
       transactionConfirmed(context.id, {
@@ -387,6 +384,9 @@ export function* sendAndMonitorTransaction({
         status: receipt.status === 'success',
       })
     )
+    if (receipt.status === 'reverted') {
+      throw new Error('transaction reverted')
+    }
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {
