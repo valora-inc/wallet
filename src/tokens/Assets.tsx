@@ -422,7 +422,7 @@ function AssetsScreen({ navigation, route }: Props) {
           <TopBarTextButton
             onPress={navigateBack}
             title={t('assets.importToken')}
-            style={styles.topBarTextItem}
+            style={styles.topBarTextButton}
           />
         ),
     })
@@ -586,7 +586,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     color: Colors.dark,
   },
-  topBarTextItem: {
+  topBarTextButton: {
     ...typeScale.bodyMedium,
     color: Colors.greenUI,
     paddingRight: Spacing.Smallest8,
