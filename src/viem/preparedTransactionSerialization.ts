@@ -6,27 +6,27 @@ const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas', 'ga
 
 type BigIntProps = (typeof bigIntProps)[number]
 
-type MapBigIntToString<T, K extends keyof T> = {
+type MapValuesToString<T, K extends keyof T> = {
   [P in keyof T]: P extends K ? string : T[P]
 }
 
-function mapBigIntsToStrings<T, K extends keyof T>(
+function mapBigIntsToStrings<T extends object, K extends keyof T>(
   obj: T,
   bigIntKeys: readonly K[]
-): MapBigIntToString<T, K> {
-  const result = { ...obj } as MapBigIntToString<T, K>
+): MapValuesToString<T, K> {
+  const result = { ...obj } as MapValuesToString<T, K>
 
   for (const key of bigIntKeys) {
     const value = obj[key]
     if (typeof value === 'bigint') {
-      result[key] = value.toString() as any
+      result[key] = value.toString() as MapValuesToString<T, K>[K]
     }
   }
 
   return result
 }
 
-export type SerializableTransactionRequestCIP42 = MapBigIntToString<
+export type SerializableTransactionRequestCIP42 = MapValuesToString<
   TransactionRequestCIP42,
   BigIntProps
 >
