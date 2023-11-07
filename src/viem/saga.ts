@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { CallEffect } from 'redux-saga/effects'
+import { CallEffect } from 'typed-redux-saga'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'

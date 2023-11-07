@@ -5,17 +5,10 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
-import { showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
-import {
-  Actions,
-  addHashToStandbyTransaction,
-  removeStandbyTransaction,
-  transactionConfirmed,
-} from 'src/transactions/actions'
+import { Actions, transactionConfirmed } from 'src/transactions/actions'
 import { chooseTxFeeDetails } from 'src/transactions/send'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -101,7 +94,6 @@ describe('sendPayment', () => {
         feeInfo: mockFeeInfo,
         encryptedComment: 'encryptedComment',
       })
-      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .returns('txReceipt')
       .run()
 
@@ -133,7 +125,6 @@ describe('sendPayment', () => {
         feeInfo: mockFeeInfo,
         encryptedComment: '',
       })
-      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .returns('txReceipt')
       .run()
 
@@ -211,7 +202,6 @@ describe('sendPayment', () => {
         [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
       ])
       .call(getViemWallet, networkConfig.viemChain.ethereum)
-      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .returns('txReceipt')
       .run()
 
@@ -258,7 +248,6 @@ describe('sendPayment', () => {
       ])
       .not.call.fn(encryptComment)
       .call(getViemWallet, networkConfig.viemChain.ethereum)
-      .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .returns('txReceipt')
       .run()
 
@@ -403,7 +392,9 @@ describe('sendAndMonitorTransaction', () => {
   const mockArgs = {
     context: { id: 'txId' },
     network: Network.Celo,
-    sendTx: () => Promise.resolve(mockTxHash),
+    sendTx: function* () {
+      return mockTxHash
+    },
   }
 
   beforeEach(() => {
@@ -412,7 +403,6 @@ describe('sendAndMonitorTransaction', () => {
   it('confirms a transaction if successfully executed', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .provide([[matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt]])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
       .put(
         transactionConfirmed('txId', {
           transactionHash: mockTxHash,
@@ -423,54 +413,6 @@ describe('sendAndMonitorTransaction', () => {
       .put(fetchTokenBalances({ showLoading: true }))
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
       .returns(mockTxReceipt)
-      .run()
-  })
-
-  it('fails a transaction and removes standby tx if receipt status is reverted', async () => {
-    await expectSaga(sendAndMonitorTransaction, mockArgs)
-      .provide([
-        [
-          matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
-          { status: 'reverted', blockNumber: BigInt(123) },
-        ],
-      ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(removeStandbyTransaction('txId'))
-      .put(showError(ErrorMessages.TRANSACTION_FAILED))
-      .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
-      .throws(new Error('transaction reverted'))
-      .run()
-  })
-
-  it('fails a transaction and removes standby tx if writeContract throws', async () => {
-    const sendTxFail = () => Promise.reject(new Error('write failed'))
-    await expectSaga(sendAndMonitorTransaction, {
-      ...mockArgs,
-      sendTx: sendTxFail,
-    })
-      .provide([
-        [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
-      ])
-      .not.put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(removeStandbyTransaction('txId'))
-      .put(showError(ErrorMessages.TRANSACTION_FAILED))
-      .not.call.fn(publicClient.celo.waitForTransactionReceipt)
-      .throws(new Error('write failed'))
-      .run()
-  })
-
-  it('fails a transaction and removes standby tx if wait for receipt throws', async () => {
-    await expectSaga(sendAndMonitorTransaction, mockArgs)
-      .provide([
-        [
-          matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
-          throwError(new Error('wait failed')),
-        ],
-      ])
-      .put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(removeStandbyTransaction('txId'))
-      .put(showError(ErrorMessages.TRANSACTION_FAILED))
-      .throws(new Error('wait failed'))
       .run()
   })
 })
