@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { QuoteResult } from 'src/swap/useSwapQuote'
+import { SerializableTransactionRequestCIP42 } from 'src/viem/preparedTransactionSerialization'
 
 export enum Field {
   FROM = 'FROM',
@@ -98,7 +98,14 @@ export type SwapInfo = FetchQuoteResponse & {
 
 export interface SwapInfoPrepared {
   userInput: SwapUserInput
-  quote: QuoteResult
+  quote: {
+    preparedTransactions: SerializableTransactionRequestCIP42[]
+    receivedAt: number
+    /**
+     * @deprecated Temporary until we remove the swap review screen
+     */
+    rawSwapResponse: FetchQuoteResponse
+  }
 }
 
 export interface FetchQuoteResponse {
