@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import erc20 from 'src/abis/IERC20'
+import stableToken from 'src/abis/StableToken'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
@@ -15,6 +16,7 @@ import {
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
+import { mockCeloTokenBalance } from 'test/values'
 import {
   Address,
   BaseError,
@@ -24,8 +26,6 @@ import {
   encodeFunctionData,
 } from 'viem'
 import mocked = jest.mocked
-import { mockCeloTokenBalance } from 'test/values'
-import stableToken from 'src/abis/StableToken'
 
 jest.mock('src/viem/estimateFeesPerGas')
 jest.mock('viem', () => ({
@@ -119,7 +119,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'not-enough-balance-for-gas' result when the balances for feeCurrencies are too low to cover the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(1_000))
 
@@ -147,7 +147,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'not-enough-balance-for-gas' result when gas estimation throws error due to insufficient funds", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockRejectedValue(mockInsufficientFundsError)
 
@@ -173,7 +173,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'not-enough-balance-for-gas' result when gas estimation throws error due to value exceeded balance", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockRejectedValue(mockValueExceededBalanceError)
 
@@ -199,7 +199,7 @@ describe('prepareTransactions module', () => {
     it('throws if gas estimation throws error for some other reason besides insufficient funds', async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockRejectedValue(mockExceededAllowanceError)
 
@@ -223,7 +223,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending the exact max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
 
       const result = await prepareTransactions({
@@ -251,7 +251,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'need-decrease-spend-amount-for-gas' result when spending close to the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
 
       const result = await prepareTransactions({
@@ -281,7 +281,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'possible' result when spending a feeCurrency, when there's enough balance to cover for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
 
@@ -318,7 +318,7 @@ describe('prepareTransactions module', () => {
             type: 'cip42',
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
-            maxPriorityFeePerGas: undefined,
+            maxPriorityFeePerGas: BigInt(2),
           },
           {
             from: '0xfrom',
@@ -327,7 +327,7 @@ describe('prepareTransactions module', () => {
             type: 'cip42',
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
-            maxPriorityFeePerGas: undefined,
+            maxPriorityFeePerGas: BigInt(2),
           },
         ],
         feeCurrency: mockFeeCurrencies[0],
@@ -336,7 +336,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'possible' result when spending the max balance of a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
 
@@ -374,7 +374,7 @@ describe('prepareTransactions module', () => {
             type: 'cip42',
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
-            maxPriorityFeePerGas: undefined,
+            maxPriorityFeePerGas: BigInt(2),
             feeCurrency: mockFeeCurrencies[1].address,
           },
           {
@@ -384,7 +384,7 @@ describe('prepareTransactions module', () => {
             type: 'cip42',
             gas: BigInt(50_100),
             maxFeePerGas: BigInt(1),
-            maxPriorityFeePerGas: undefined,
+            maxPriorityFeePerGas: BigInt(2),
             feeCurrency: mockFeeCurrencies[1].address,
           },
         ],
@@ -394,7 +394,7 @@ describe('prepareTransactions module', () => {
     it("returns a 'possible' result when spending the max balance of a token that isn't a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(500))
 
@@ -431,7 +431,7 @@ describe('prepareTransactions module', () => {
             type: 'cip42',
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
-            maxPriorityFeePerGas: undefined,
+            maxPriorityFeePerGas: BigInt(2),
           },
           {
             from: '0xfrom',
@@ -440,7 +440,7 @@ describe('prepareTransactions module', () => {
             type: 'cip42',
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
-            maxPriorityFeePerGas: undefined,
+            maxPriorityFeePerGas: BigInt(2),
           },
         ],
         feeCurrency: mockFeeCurrencies[0],
@@ -448,12 +448,13 @@ describe('prepareTransactions module', () => {
     })
   })
   describe('tryEstimateTransaction', () => {
-    it('does not include feeCurrency if not address undefined', async () => {
+    it('does not include feeCurrency if address is undefined', async () => {
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(123))
       const baseTransaction: TransactionRequestCIP42 = { from: '0x123' }
       const estimateTransactionOutput = await tryEstimateTransaction({
         baseTransaction,
         maxFeePerGas: BigInt(456),
+        maxPriorityFeePerGas: BigInt(2),
         feeCurrencySymbol: 'FEE',
       })
       expect(estimateTransactionOutput && 'feeCurrency' in estimateTransactionOutput).toEqual(false)
@@ -461,7 +462,7 @@ describe('prepareTransactions module', () => {
         from: '0x123',
         gas: BigInt(123),
         maxFeePerGas: BigInt(456),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
     })
     it('includes feeCurrency if address is given', async () => {
@@ -512,7 +513,7 @@ describe('prepareTransactions module', () => {
     it('returns null if estimateGas throws error due to insufficient funds', async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(10),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockRejectedValue(mockInsufficientFundsError)
       const estimateTransactionsOutput = await tryEstimateTransactions(
@@ -524,7 +525,7 @@ describe('prepareTransactions module', () => {
     it('estimates gas only for transactions missing a gas field', async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(10),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(123))
       const estimateTransactionsOutput = await tryEstimateTransactions(
@@ -536,13 +537,13 @@ describe('prepareTransactions module', () => {
           from: '0x123',
           gas: BigInt(123),
           maxFeePerGas: BigInt(10),
-          maxPriorityFeePerGas: undefined,
+          maxPriorityFeePerGas: BigInt(2),
         },
         {
           from: '0x123',
           gas: BigInt(456),
           maxFeePerGas: BigInt(10),
-          maxPriorityFeePerGas: undefined,
+          maxPriorityFeePerGas: BigInt(2),
         },
       ])
     })
@@ -680,7 +681,7 @@ describe('prepareTransactions module', () => {
               type: 'cip42',
               gas: BigInt(500),
               maxFeePerGas: BigInt(1),
-              maxPriorityFeePerGas: undefined,
+              maxPriorityFeePerGas: BigInt(2),
             },
             {
               from: '0xfrom',
@@ -689,7 +690,7 @@ describe('prepareTransactions module', () => {
               type: 'cip42',
               gas: BigInt(100),
               maxFeePerGas: BigInt(1),
-              maxPriorityFeePerGas: undefined,
+              maxPriorityFeePerGas: BigInt(2),
             },
           ],
           feeCurrency: mockFeeCurrencies[0],

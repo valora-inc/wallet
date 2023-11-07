@@ -1,8 +1,11 @@
 import { Address, Client, hexToBigInt } from 'viem'
 
-// Custom function that can be removed once it's supported in viem
+// Custom function for Celo that can be removed once it's supported in viem
 // See https://github.com/wagmi-dev/viem/discussions/914
 export async function estimateFeesPerGas(client: Client, feeCurrency?: Address) {
+  // The gasPrice returned on Celo is already roughly 2x baseFeePerGas
+  // See this interesting thread for more details:
+  // https://valora-app.slack.com/archives/CNJ7KTHQU/p1697717100995909?thread_ts=1697647756.662059&cid=CNJ7KTHQU
   const [gasPrice, maxPriorityFeePerGas] = await Promise.all([
     getGasPrice(client, feeCurrency),
     getMaxPriorityFeePerGas(client, feeCurrency),
