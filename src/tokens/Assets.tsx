@@ -426,7 +426,7 @@ function AssetsScreen({ navigation, route }: Props) {
           />
         ),
     })
-  })
+  }, [navigation])
 
   return (
     <>
