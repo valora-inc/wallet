@@ -46,7 +46,7 @@ import {
   RecipientType,
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { StoredTokenBalance } from 'src/tokens/slice'
+import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -164,7 +164,7 @@ export const mockInviteDetails3 = {
   inviteLink: 'http://celo.page.link/PARAMS',
 }
 
-export const mockInvitableRecipient: ContactRecipient = {
+export const mockInvitableRecipient: ContactRecipient & { displayNumber: string } = {
   name: mockName,
   displayNumber: '14155550000',
   e164PhoneNumber: mockE164Number,
@@ -222,7 +222,7 @@ export const mockTokenInviteTransactionData: TransactionDataInput = {
   tokenAmount: new BigNumber(1),
 }
 
-export const mockRecipient: ContactRecipient & AddressRecipient = {
+export const mockRecipient: ContactRecipient & AddressRecipient & { displayNumber: string } = {
   ...mockInvitableRecipient,
   address: mockAccount,
   recipientType: RecipientType.Address,
@@ -509,6 +509,13 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
   },
+}
+
+export const mockCeloTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockCeloTokenId],
+  priceUsd: new BigNumber(0.5),
+  lastKnownPriceUsd: new BigNumber(0.4),
+  balance: new BigNumber(5),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {

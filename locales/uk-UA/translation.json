@@ -1667,7 +1667,7 @@
     "swapTo": "НА",
     "insufficientFunds": "{{token}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин.",
-    "disclaimer": "Свопи здійснюються за підтримки партнерів у мережі Celo. \n<0>Дізнатися більше</0>",
+    "disclaimer": "Свопи від партнерів на Celo. <0>Дізнайтеся більше</0>",
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "maxSwapAmountWarning": {
@@ -1693,6 +1693,15 @@
       "title": "Недостатній баланс газових токенів",
       "description": "У вас недостатньо {{feeCurrencies}} для оплати за газ. Будь ласка, додайте {{feeCurrencies}} до свого гаманця, щоб завершити обмін.",
       "dismissButton": "Відхилити"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Мережева плата",
+      "networkFeeNoNetwork": "Комісія за мережу",
+      "swapFee": "Комісія {{appName}}",
+      "swapFeeWaived": "Безплатно",
+      "slippagePercentage": "Допуск на прослизання",
+      "networkFeeInfo": "Ви здійснюєте обмін в мережі {{networkName}} .\n\nЦя орієнтовна мережева комісія необхідна для проведення транзакції в мережі {{networkName}} . Ця комісія забезпечує безпеку вашої транзакції і йде на підтримку роботи мережі.",
+      "networkFeeInfoDismissButton": "Зрозуміло"
     }
   },
   "swapTransactionDetailPage": {
