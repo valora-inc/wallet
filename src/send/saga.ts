@@ -204,8 +204,8 @@ export function* buildAndSendPayment(
  * @param usdAmount the amount in usd (nullable, used only for analytics)
  * @param tokenId the id of the token to send
  * @param comment the comment on the transaction
- * @param feeInfo an object containing the fee information
- * @param preparedTransaction
+ * @param feeInfo an object containing the fee information. for legacy contractkit sends only.
+ * @param preparedTransaction a serializable transaction request with fee information for viem sends
  */
 function* sendPayment(
   recipientAddress: string,
@@ -235,7 +235,6 @@ function* sendPayment(
         amount,
         tokenId,
         comment,
-        feeInfo,
         preparedTransaction,
       })
     } else {

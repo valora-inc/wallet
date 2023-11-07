@@ -5,9 +5,7 @@ import { showError } from 'src/alert/actions'
 import { TransactionEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import {
   fetchTokenBalances,
@@ -21,7 +19,7 @@ import {
   removeStandbyTransaction,
   transactionConfirmed,
 } from 'src/transactions/actions'
-import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
+import { wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -48,9 +46,8 @@ const TAG = 'viem/saga'
  * @param options.context the transaction context
  * @param options.recipientAddress the address to send the payment to
  * @param options.amount the crypto amount to send
- * @param options.tokenAddress the crypto token address
+ * @param options.tokenId the crypto token id
  * @param options.comment the comment on the transaction
- * @param options.feeInfo an object containing the fee information
  * @returns
  */
 export function* sendPayment({
@@ -59,7 +56,6 @@ export function* sendPayment({
   amount,
   tokenId,
   comment,
-  feeInfo,
   preparedTransaction,
 }: {
   context: TransactionContext
@@ -67,7 +63,6 @@ export function* sendPayment({
   amount: BigNumber
   tokenId: string
   comment: string
-  feeInfo?: FeeInfo
   preparedTransaction?: SerializableTransactionRequestCIP42
 }) {
   const tokenInfo = yield* call(getTokenInfo, tokenId)
@@ -90,7 +85,7 @@ export function* sendPayment({
     context.id,
     tokenId,
     amount,
-    feeInfo
+    preparedTransaction
   )
 
   const unlockAndAddStandby = function* () {
@@ -136,7 +131,6 @@ export function* sendPayment({
         amount,
         recipientAddress,
         comment,
-        feeInfo,
         preparedTransaction,
       })
 
@@ -209,7 +203,6 @@ function* getTransferSimulateContract({
   amount,
   recipientAddress,
   comment,
-  feeInfo,
   preparedTransaction,
 }: {
   wallet: ViemWallet
@@ -217,7 +210,6 @@ function* getTransferSimulateContract({
   recipientAddress: string
   amount: BigNumber
   comment: string
-  feeInfo?: FeeInfo
   preparedTransaction?: SerializableTransactionRequestCIP42
 }) {
   if (!wallet.account) {
@@ -237,7 +229,7 @@ function* getTransferSimulateContract({
   }
 
   // TODO (ACT-922): Remove this check once fee info is available for all sends
-  if (!(feeInfo || preparedTransaction) && network === Network.Celo) {
+  if (!preparedTransaction && network === Network.Celo) {
     throw new Error('Celo sends must include fee info')
   }
 
@@ -256,15 +248,6 @@ function* getTransferSimulateContract({
     if (preparedTx.feeCurrency) {
       feeFields.feeCurrency = preparedTx.feeCurrency
     }
-  } else if (feeInfo) {
-    // TODO remove feeInfo from SEND_PAYMENT action and drop this
-    feeFields = yield* call(getSendTxFeeDetails, {
-      recipientAddress,
-      amount,
-      tokenAddress: tokenInfo.address,
-      feeInfo,
-      encryptedComment: encryptedComment || '',
-    })
   }
 
   if (tokenSupportsComments(tokenInfo)) {
@@ -304,56 +287,6 @@ function* getTransferSimulateContract({
       args: [getAddress(recipientAddress), convertedAmount],
       ...feeFields,
     })
-}
-
-/**
- * Helper function to call chooseTxFeeDetails for send transactions (aka
- * transfer contract calls) using parameters that are not specific to contractkit
- *
- * @param options the getSendTxFeeDetails options
- * @returns an object with the feeInfo compatible with viem
- */
-export function* getSendTxFeeDetails({
-  recipientAddress,
-  amount,
-  tokenAddress,
-  feeInfo,
-  encryptedComment,
-}: {
-  recipientAddress: string
-  amount: BigNumber
-  tokenAddress: string
-  feeInfo: FeeInfo
-  encryptedComment?: string
-}) {
-  const celoTx = yield* call(
-    buildSendTx,
-    tokenAddress,
-    amount,
-    recipientAddress,
-    encryptedComment || ''
-  )
-  // TODO(ACT-926): port this logic over from contractkit to use viem
-  const { feeCurrency, gas, gasPrice } = yield* call(
-    chooseTxFeeDetails,
-    celoTx.txo,
-    feeInfo.feeCurrency,
-    // gas and gasPrice can either be BigNumber or string. Since these are
-    // stored in redux, BigNumbers are serialized as strings.
-    // TODO(ACT-925): ensure type is consistent when fee is read from redux
-    Number(feeInfo.gas),
-    feeInfo.gasPrice
-  )
-  // Return fields in format compatible with viem
-  return {
-    // Don't include the feeCurrency field if not present. Otherwise viem throws
-    // saying feeCurrency is required for CIP-42 transactions. Not setting the
-    // field at all bypasses this check and the tx succeeds with fee paid with
-    // CELO.
-    ...(feeCurrency && { feeCurrency: getAddress(feeCurrency) }),
-    gas: gas ? BigInt(gas) : undefined,
-    maxFeePerGas: gasPrice ? BigInt(Number(gasPrice)) : undefined,
-  }
 }
 
 export function* sendAndMonitorTransaction({

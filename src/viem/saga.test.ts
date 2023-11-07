@@ -1,4 +1,3 @@
-import { CeloTransactionObject } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
@@ -8,7 +7,6 @@ import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { buildSendTx } from 'src/send/saga'
 import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
@@ -16,10 +14,9 @@ import {
   removeStandbyTransaction,
   transactionConfirmed,
 } from 'src/transactions/actions'
-import { chooseTxFeeDetails } from 'src/transactions/send'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
-import { getSendTxFeeDetails, sendAndMonitorTransaction, sendPayment } from 'src/viem/saga'
+import { sendAndMonitorTransaction, sendPayment } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -41,7 +38,6 @@ import {
 import { getAddress } from 'viem'
 
 jest.mock('src/transactions/send', () => ({
-  chooseTxFeeDetails: jest.fn(),
   wrapSendTransactionWithRetry: jest
     .fn()
     .mockImplementation((sendTxMethod, _context) => sendTxMethod()),
@@ -88,19 +84,11 @@ describe('sendPayment', () => {
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(encryptComment), 'encryptedComment'],
-        [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
-      .call(getSendTxFeeDetails, {
-        recipientAddress: mockSendPaymentArgs.recipientAddress,
-        amount: BigNumber(2),
-        tokenAddress: mockCusdAddress,
-        feeInfo: mockFeeInfo,
-        encryptedComment: 'encryptedComment',
-      })
       .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .returns('txReceipt')
       .run()
@@ -120,19 +108,11 @@ describe('sendPayment', () => {
       .withState(createMockStore().getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
-        [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(sendAndMonitorTransaction), 'txReceipt'],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .not.call.fn(encryptComment)
-      .call(getSendTxFeeDetails, {
-        recipientAddress: mockSendPaymentArgs.recipientAddress,
-        amount: BigNumber(2),
-        tokenAddress: mockCeloAddress,
-        feeInfo: mockFeeInfo,
-        encryptedComment: '',
-      })
       .put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .returns('txReceipt')
       .run()
@@ -152,10 +132,7 @@ describe('sendPayment', () => {
 
     await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenId: mockCeloTokenId })
       .withState(createMockStore().getState())
-      .provide([
-        [matchers.call.fn(getViemWallet), mockViemWallet],
-        [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
-      ])
+      .provide([[matchers.call.fn(getViemWallet), mockViemWallet]])
       .not.put.like({ action: { type: Actions.ADD_STANDBY_TRANSACTION } })
       .not.call.fn(unlockAccount)
       .not.call.fn(sendAndMonitorTransaction)
@@ -168,7 +145,6 @@ describe('sendPayment', () => {
       .withState(createMockStore().getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
-        [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(sendAndMonitorTransaction), throwError(new Error('tx failed'))],
       ])
@@ -271,128 +247,6 @@ describe('sendPayment', () => {
       gas: undefined,
       maxFeePerGad: undefined,
     })
-  })
-})
-
-describe('getSendTxFeeDetails', () => {
-  it('calls buildSendTx and chooseTxFeeDetails with the expected values and returns fee in viem format', async () => {
-    const recipientAddress = mockAccount
-    const amount = new BigNumber(10)
-    const tokenAddress = mockCusdAddress
-    const feeInfo = mockFeeInfo
-    const celoTx = {
-      txo: 'test',
-    } as unknown as CeloTransactionObject<unknown>
-    const encryptedComment = 'test'
-
-    const mockFeeDetails = {
-      feeCurrency: mockCusdAddress,
-      gas: feeInfo.gas,
-      gasPrice: feeInfo.gasPrice,
-    }
-
-    await expectSaga(getSendTxFeeDetails, {
-      recipientAddress,
-      amount,
-      tokenAddress,
-      feeInfo,
-      encryptedComment,
-    })
-      .withState(createMockStore().getState())
-      .provide([
-        [matchers.call.fn(buildSendTx), celoTx],
-        [matchers.call.fn(chooseTxFeeDetails), mockFeeDetails],
-      ])
-      .call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment)
-      .call(
-        chooseTxFeeDetails,
-        celoTx.txo,
-        feeInfo.feeCurrency,
-        feeInfo.gas.toNumber(),
-        feeInfo.gasPrice
-      )
-      .returns(mockViemFeeInfo)
-      .run()
-  })
-
-  it('does not include feeCurrency if it is undefined', async () => {
-    const recipientAddress = mockAccount
-    const amount = new BigNumber(10)
-    const tokenAddress = mockCusdAddress
-    const feeInfo = mockFeeInfo
-    const celoTx = {
-      txo: 'test',
-    } as unknown as CeloTransactionObject<unknown>
-    const encryptedComment = 'test'
-
-    const mockFeeDetails = {
-      feeCurrency: undefined,
-      gas: feeInfo.gas,
-      gasPrice: feeInfo.gasPrice,
-    }
-
-    await expectSaga(getSendTxFeeDetails, {
-      recipientAddress,
-      amount,
-      tokenAddress,
-      feeInfo,
-      encryptedComment,
-    })
-      .withState(createMockStore().getState())
-      .provide([
-        [matchers.call.fn(buildSendTx), celoTx],
-        [matchers.call.fn(chooseTxFeeDetails), mockFeeDetails],
-      ])
-      .call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment)
-      .call(chooseTxFeeDetails, celoTx.txo, undefined, feeInfo.gas.toNumber(), feeInfo.gasPrice)
-      .returns({ gas: mockViemFeeInfo.gas, maxFeePerGas: mockViemFeeInfo.maxFeePerGas })
-      .run()
-  })
-
-  // TODO(ACT-925): remove this test once we've ensured gas and gasPrice are
-  // consistently BigNumbers or strings
-  it('returns fee if gas and gasPrice are strings', async () => {
-    const recipientAddress = mockAccount
-    const amount = new BigNumber(10)
-    const tokenAddress = mockCusdAddress
-    const feeInfo = {
-      feeCurrency: mockCusdAddress,
-      gas: mockFeeInfo.gas.toString(),
-      gasPrice: mockFeeInfo.gasPrice.toString(),
-    } as any
-    const celoTx = {
-      txo: 'test',
-    } as unknown as CeloTransactionObject<unknown>
-    const encryptedComment = 'test'
-
-    const mockFeeDetails = {
-      feeCurrency: mockCusdAddress,
-      gas: feeInfo.gas,
-      gasPrice: feeInfo.gasPrice,
-    }
-
-    await expectSaga(getSendTxFeeDetails, {
-      recipientAddress,
-      amount,
-      tokenAddress,
-      feeInfo,
-      encryptedComment,
-    })
-      .withState(createMockStore().getState())
-      .provide([
-        [matchers.call.fn(buildSendTx), celoTx],
-        [matchers.call.fn(chooseTxFeeDetails), mockFeeDetails],
-      ])
-      .call(buildSendTx, tokenAddress, amount, recipientAddress, encryptedComment)
-      .call(
-        chooseTxFeeDetails,
-        celoTx.txo,
-        feeInfo.feeCurrency,
-        Number(feeInfo.gas),
-        feeInfo.gasPrice
-      )
-      .returns(mockViemFeeInfo)
-      .run()
   })
 })
 
