@@ -88,7 +88,7 @@ export function* sendPayment({
     feeInfo
   )
 
-  const unlockAndAddStandby = function* () {
+  const unlockWallet = function* () {
     // This will never happen, but Typescript complains otherwise
     if (!wallet.account) {
       throw new Error('no account found in the wallet')
@@ -139,8 +139,7 @@ export function* sendPayment({
 
       const { request } = yield* call(simulateContractMethod)
 
-      // unlock account before executing tx
-      yield* call(unlockAccount, wallet.account.address)
+      yield* call(unlockWallet)
 
       const sendContractTxMethod = function* () {
         const hash = yield* call(
@@ -171,7 +170,7 @@ export function* sendPayment({
         })
 
       yield* call(callMethod)
-      yield* call(unlockAndAddStandby)
+      yield* call(unlockWallet)
 
       const sendNativeTxMethod = function* () {
         if (!wallet.account) {
