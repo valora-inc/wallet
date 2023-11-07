@@ -56,6 +56,7 @@ const MAX_BORDER_RADIUS = 96
 const TAG = 'SendEnterAmount'
 
 const FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME = 250
+const DUMMY_COMMENT_LENGTH = 640 // for fee estimation. Simulates max length of encrypted comment. (Unencrypted max length is set by MAX_COMMENT_LENGTH in config.ts, currently set to 70)
 
 function FeeLoading() {
   return (
@@ -217,6 +218,7 @@ function SendEnterAmount({ route }: Props) {
         recipientAddress: recipient.address,
         walletAddress,
         feeCurrencies,
+        comment: ' '.repeat(DUMMY_COMMENT_LENGTH),
       })
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)

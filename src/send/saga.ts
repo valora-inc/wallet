@@ -43,7 +43,7 @@ import {
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
-import { sendPayment as viemSendPayment, sendPreparedPayment } from 'src/viem/saga'
+import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
@@ -228,16 +228,7 @@ function* sendPayment(
   try {
     ValoraAnalytics.track(SendEvents.send_tx_start, { web3Library })
 
-    if (preparedTransaction) {
-      yield* call(sendPreparedPayment, {
-        context,
-        recipientAddress,
-        amount,
-        tokenId,
-        comment,
-        preparedTransaction,
-      })
-    } else if (useViem) {
+    if (useViem) {
       yield* call(viemSendPayment, {
         context,
         recipientAddress,
@@ -245,6 +236,7 @@ function* sendPayment(
         tokenId,
         comment,
         feeInfo,
+        preparedTransaction,
       })
     } else {
       if (!(feeInfo && tokenInfo.address)) {

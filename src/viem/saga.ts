@@ -37,15 +37,12 @@ import {
   getPreparedTransaction,
   SerializableTransactionRequestCIP42,
 } from 'src/viem/preparedTransactionSerialization'
-import { getTransactionCount } from 'viem/actions'
+import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 
 const TAG = 'viem/saga'
 
 /**
  * Send a payment with viem. The equivalent of buildAndSendPayment in src/send/saga.
- *
- * @deprecated - use sendPreparedPayment instead. Otherwise, we prepare the transaction twice, once to estimate fees
- *  and show them to a user, and another time here.
  *
  * @param options an object containing the arguments
  * @param options.context the transaction context
@@ -63,6 +60,7 @@ export function* sendPayment({
   tokenId,
   comment,
   feeInfo,
+  preparedTransaction,
 }: {
   context: TransactionContext
   recipientAddress: string
@@ -70,6 +68,7 @@ export function* sendPayment({
   tokenId: string
   comment: string
   feeInfo?: FeeInfo
+  preparedTransaction?: SerializableTransactionRequestCIP42
 }) {
   const tokenInfo = yield* call(getTokenInfo, tokenId)
   const network = getNetworkFromNetworkId(tokenInfo?.networkId)
@@ -138,6 +137,7 @@ export function* sendPayment({
         recipientAddress,
         comment,
         feeInfo,
+        preparedTransaction,
       })
 
       const { request } = yield* call(simulateContractMethod)
@@ -194,93 +194,6 @@ export function* sendPayment({
   }
 }
 
-export function* sendPreparedPayment({
-  context,
-  preparedTransaction,
-  tokenId,
-  amount,
-  recipientAddress,
-  comment,
-}: {
-  context: TransactionContext
-  preparedTransaction: SerializableTransactionRequestCIP42
-  tokenId: string
-  amount: BigNumber
-  recipientAddress: string
-  comment?: string
-}) {
-  const tokenInfo = yield* call(getTokenInfo, tokenId)
-  const network = getNetworkFromNetworkId(tokenInfo?.networkId)
-  if (!tokenInfo || !network) {
-    throw new Error('Unknown token network')
-  }
-
-  const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
-
-  if (!wallet.account) {
-    // this should never happen
-    throw new Error('no account found in the wallet')
-  }
-
-  const transactionRequest = getPreparedTransaction(preparedTransaction)
-
-  Logger.debug(
-    TAG,
-    'Transferring token',
-    context.description ?? 'No description',
-    context.id,
-    tokenId,
-    amount
-  )
-
-  try {
-    yield* call(unlockAccount, wallet.account.address)
-
-    yield* put(
-      addStandbyTransaction({
-        __typename: 'TokenTransferV3',
-        type: TokenTransactionTypeV2.Sent,
-        context,
-        networkId: tokenInfo.networkId,
-        amount: {
-          value: amount.negated().toString(),
-          tokenAddress: tokenInfo.address ?? undefined,
-          tokenId,
-        },
-        address: recipientAddress,
-        metadata: {
-          comment,
-        },
-      })
-    )
-
-    return yield* call(sendAndMonitorTransaction, {
-      context,
-      network,
-      sendTx: async () => {
-        if (!wallet.account) {
-          throw new Error('no account found in the wallet')
-        }
-        const nonce = await getTransactionCount(wallet, {
-          address: wallet.account.address,
-          blockTag: 'pending',
-        })
-        //@ts-ignore fixme deal with type error
-        const serializedTransaction = await wallet.signTransaction({
-          ...transactionRequest,
-          type: 'eip1559', // fixme weird to do this with CIP42 transfers... fails otherwise though :(. also this appears to work even when setting the feeCurrency
-          nonce,
-        })
-        return wallet.sendRawTransaction({ serializedTransaction })
-      },
-    })
-  } catch (err) {
-    Logger.error(TAG, JSON.stringify(err, null, 4))
-    Logger.warn(TAG, 'Transaction failed', err)
-    throw err
-  }
-}
-
 /**
  * Gets a function that invokes simulateContract for the appropriate contract
  * method based on the token. If the token is a stable token, it uses the
@@ -297,6 +210,7 @@ function* getTransferSimulateContract({
   recipientAddress,
   comment,
   feeInfo,
+  preparedTransaction,
 }: {
   wallet: ViemWallet
   tokenInfo: TokenBalanceWithAddress
@@ -304,6 +218,7 @@ function* getTransferSimulateContract({
   amount: BigNumber
   comment: string
   feeInfo?: FeeInfo
+  preparedTransaction?: SerializableTransactionRequestCIP42
 }) {
   if (!wallet.account) {
     // this should never happen
@@ -322,23 +237,35 @@ function* getTransferSimulateContract({
   }
 
   // TODO (ACT-922): Remove this check once fee info is available for all sends
-  if (!feeInfo && network === Network.Celo) {
+  if (!(feeInfo || preparedTransaction) && network === Network.Celo) {
     throw new Error('Celo sends must include fee info')
   }
 
   // TODO (ACT-922): Use real fee estimation for Ethereum
-  const feeFields = feeInfo
-    ? yield* call(getSendTxFeeDetails, {
-        recipientAddress,
-        amount,
-        tokenAddress: tokenInfo.address,
-        feeInfo,
-        encryptedComment: encryptedComment || '',
-      })
-    : {
-        gas: undefined,
-        maxFeePerGas: undefined,
-      }
+  let feeFields: Pick<TransactionRequestCIP42, 'gas' | 'maxFeePerGas'> & { feeCurrency?: string } =
+    {
+      gas: undefined,
+      maxFeePerGas: undefined,
+    }
+  if (preparedTransaction) {
+    const preparedTx = getPreparedTransaction(preparedTransaction)
+    feeFields = {
+      gas: preparedTx.gas,
+      maxFeePerGas: preparedTx.maxFeePerGas,
+    }
+    if (preparedTx.feeCurrency) {
+      feeFields.feeCurrency = preparedTx.feeCurrency
+    }
+  } else if (feeInfo) {
+    // TODO remove feeInfo from SEND_PAYMENT action and drop this
+    feeFields = yield* call(getSendTxFeeDetails, {
+      recipientAddress,
+      amount,
+      tokenAddress: tokenInfo.address,
+      feeInfo,
+      encryptedComment: encryptedComment || '',
+    })
+  }
 
   if (tokenSupportsComments(tokenInfo)) {
     Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {

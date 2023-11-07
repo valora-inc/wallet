@@ -20,12 +20,14 @@ export async function _prepareSendTransactionsCallback({
   recipientAddress,
   walletAddress,
   feeCurrencies,
+  comment,
 }: {
   amount: BigNumber
   token: TokenBalance
   recipientAddress: string
   walletAddress: string
   feeCurrencies: TokenBalance[]
+  comment?: string
 }) {
   if (amount.isLessThanOrEqualTo(0)) {
     return
@@ -39,7 +41,7 @@ export async function _prepareSendTransactionsCallback({
       feeCurrencies,
     }
     if (tokenSupportsComments(token)) {
-      return prepareTransferWithCommentTransaction(transactionParams)
+      return prepareTransferWithCommentTransaction({ ...transactionParams, comment })
     } else {
       return prepareERC20TransferTransaction(transactionParams)
     }
