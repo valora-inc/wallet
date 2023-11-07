@@ -103,10 +103,12 @@ export async function prepareSwapTransactions(
     spendTokenAmount: new BigNumber(amountToApprove.toString()),
     decreasedAmountGasFeeMultiplier: DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER,
     baseTransactions,
+    // We still want to prepare the transactions even if the user doesn't have enough balance
+    throwOnSpendTokenAmountExceedsBalance: false,
   })
 }
 
-const useSwapQuote = () => {
+const useSwapQuote = (slippagePercentage: string) => {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
@@ -143,6 +145,7 @@ const useSwapQuote = () => {
         sellToken: fromToken.address,
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
+        slippagePercentage,
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
