@@ -52,6 +52,7 @@ import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getMaxGasFee } from 'src/viem/prepareTransactions'
+import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
@@ -376,6 +377,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       ? ('buyAmount' as const)
       : ('sellAmount' as const)
   const amount = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction[amountType]
+  const preparedTransactions = getPreparedTransactions(action.payload.quote.preparedTransactions)
   const quoteReceivedAt = action.payload.quote.receivedAt
 
   const tokens = yield* select((state) =>
@@ -408,8 +410,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
 
-  const { quote } = action.payload
-
   const tokensByAddress = yield* select(tokensByAddressSelector)
   const celoAddress = yield* select(celoAddressSelector)
 
@@ -428,13 +428,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     estimatedSellTokenUsdValue,
     estimatedBuyTokenUsdValue,
     web3Library: 'viem' as const,
-    ...getSwapTxsAnalyticsProperties(
-      quote?.preparedTransactions?.type === 'possible'
-        ? quote.preparedTransactions.transactions
-        : undefined,
-      tokensByAddress,
-      celoAddress
-    ),
+    ...getSwapTxsAnalyticsProperties(preparedTransactions, tokensByAddress, celoAddress),
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
@@ -456,13 +450,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       throw new Error('no account found in the wallet')
     }
 
-    const preparedTransactions = action.payload.quote.preparedTransactions
-    if (preparedTransactions?.type !== 'possible') {
-      // Should never happen
-      throw new Error('No prepared transactions possible')
-    }
-
-    for (const tx of preparedTransactions.transactions) {
+    for (const tx of preparedTransactions) {
       trackedTxs.push({
         tx,
         txHash: undefined,
@@ -487,7 +475,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
 
     const txHashes: Hash[] = []
-    for (const preparedTransaction of preparedTransactions.transactions) {
+    for (const preparedTransaction of preparedTransactions) {
       const signedTx = yield* call([wallet, 'signTransaction'], {
         ...preparedTransaction,
         nonce: nonce++,

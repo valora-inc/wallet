@@ -1667,7 +1667,7 @@
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Zamiany wspierane przez partnerów na Celo.\n<0>Dowiedz się więcej</0>",
+    "disclaimer": "Swapy obsługiwane przez partnerów na Celo. <0>Dowiedz się więcej</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "maxSwapAmountWarning": {
@@ -1693,6 +1693,15 @@
       "title": "Niewystarczający bilans żetonów gazu",
       "description": "Nie masz wystarczającej ilości {{feeCurrencies}} , aby pokryć opłaty za paliwo. Dodaj {{feeCurrencies}} do swojego portfela, aby dokończyć tę wymianę.",
       "dismissButton": "Odrzuć"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Opłata sieciowa",
+      "networkFeeNoNetwork": "Opłata sieciowa",
+      "swapFee": "Opłata w aplikacji {{appName}}",
+      "swapFeeWaived": "Bezpłatnie",
+      "slippagePercentage": "Tolerancja poślizgu",
+      "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}} .\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}} . Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
+      "networkFeeInfoDismissButton": "Rozumiem"
     }
   },
   "swapTransactionDetailPage": {

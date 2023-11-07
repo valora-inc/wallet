@@ -11,6 +11,7 @@ import {
   getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareTransactions,
+  prepareTransferWithCommentTransaction,
   tryEstimateTransaction,
   tryEstimateTransactions,
 } from 'src/viem/prepareTransactions'
@@ -24,6 +25,7 @@ import {
 } from 'viem'
 import mocked = jest.mocked
 import { mockCeloTokenBalance } from 'test/values'
+import stableToken from 'src/abis/StableToken'
 
 jest.mock('src/viem/estimateFeesPerGas')
 jest.mock('viem', () => ({
@@ -610,6 +612,41 @@ describe('prepareTransactions module', () => {
       abi: erc20.abi,
       functionName: 'transfer',
       args: ['0x456', BigInt(100)],
+    })
+  })
+
+  it('prepareTransferWithCommentTransaction', async () => {
+    const mockPrepareTransactions = jest.fn()
+    mocked(encodeFunctionData).mockReturnValue('0xabc')
+    await prepareTransferWithCommentTransaction(
+      {
+        fromWalletAddress: '0x123',
+        toWalletAddress: '0x456',
+        sendToken: mockSpendToken,
+        amount: BigInt(100),
+        feeCurrencies: mockFeeCurrencies,
+        comment: 'test comment',
+      },
+      mockPrepareTransactions
+    )
+    expect(mockPrepareTransactions).toHaveBeenCalledWith({
+      feeCurrencies: mockFeeCurrencies,
+      spendToken: mockSpendToken,
+      spendTokenAmount: new BigNumber(100),
+      decreasedAmountGasFeeMultiplier: 1,
+      baseTransactions: [
+        {
+          from: '0x123',
+          to: mockSpendToken.address,
+          type: 'cip42',
+          data: '0xabc',
+        },
+      ],
+    })
+    expect(encodeFunctionData).toHaveBeenCalledWith({
+      abi: stableToken.abi,
+      functionName: 'transferWithComment',
+      args: ['0x456', BigInt(100), 'test comment'],
     })
   })
 
