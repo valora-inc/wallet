@@ -13,7 +13,6 @@ import { fetchTokenBalances } from 'src/tokens/slice'
 import {
   Actions,
   addHashToStandbyTransaction,
-  removeStandbyTransaction,
   transactionConfirmed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails } from 'src/transactions/send'
@@ -435,7 +434,6 @@ describe('sendAndMonitorTransaction', () => {
         ],
       ])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(removeStandbyTransaction('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: mockTxHash })
       .throws(new Error('transaction reverted'))
@@ -452,7 +450,6 @@ describe('sendAndMonitorTransaction', () => {
         [matchers.call.fn(mockViemWallet.writeContract), throwError(new Error('write failed'))],
       ])
       .not.put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(removeStandbyTransaction('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .not.call.fn(publicClient.celo.waitForTransactionReceipt)
       .throws(new Error('write failed'))
@@ -468,7 +465,6 @@ describe('sendAndMonitorTransaction', () => {
         ],
       ])
       .put(addHashToStandbyTransaction('txId', mockTxHash))
-      .put(removeStandbyTransaction('txId'))
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .throws(new Error('wait failed'))
       .run()

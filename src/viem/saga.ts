@@ -18,7 +18,6 @@ import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
-  removeStandbyTransaction,
   transactionConfirmed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
@@ -397,7 +396,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       error: error.message,
     })
-    yield* put(removeStandbyTransaction(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     throw error
   }
