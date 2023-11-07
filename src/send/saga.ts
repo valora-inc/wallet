@@ -27,9 +27,9 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   getERC20TokenContract,
   getStableTokenContract,
+  getTokenInfo,
   getTokenInfoByAddress,
   tokenAmountInSmallestUnit,
-  getTokenInfo,
 } from 'src/tokens/saga'
 import { TokenBalance } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
@@ -320,7 +320,7 @@ export function* sendPaymentSaga({
       navigateHome()
     }
 
-    yield* put(sendPaymentSuccess(amount))
+    yield* put(sendPaymentSuccess({ amount, tokenId }))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (e) {
     yield* put(showErrorOrFallback(e, ErrorMessages.SEND_PAYMENT_FAILED))

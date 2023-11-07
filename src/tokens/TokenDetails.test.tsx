@@ -6,7 +6,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
@@ -14,6 +14,7 @@ import { createMockStore } from 'test/utils'
 import {
   exchangePriceHistory,
   mockCeloTokenId,
+  mockEthTokenId,
   mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
@@ -21,9 +22,9 @@ import {
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(() => {
     return {
-      showCico: ['celo-alfajores'],
-      showSend: ['celo-alfajores'],
-      showSwap: ['celo-alfajores'],
+      showCico: ['celo-alfajores', 'ethereum-sepolia'],
+      showSend: ['celo-alfajores', 'ethereum-sepolia'],
+      showSwap: ['celo-alfajores', 'ethereum-sepolia'],
     }
   }),
 }))
@@ -371,5 +372,42 @@ describe('TokenDetails', () => {
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
+  })
+
+  // TODO(ACT-954): remove once we switch to passing just token ids, above test
+  // should be sufficient
+  it('add action sends appropriate network', async () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockEthTokenId]: {
+            symbol: 'ETH',
+            balance: '0',
+            showZeroBalance: true,
+            isCashInEligible: true,
+            tokenId: mockEthTokenId,
+            networkId: NetworkId['ethereum-sepolia'],
+          },
+        },
+      },
+      app: {
+        showSwapMenuInDrawerMenu: true,
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockEthTokenId }} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('TokenDetails/Action/Add'))
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
+      currency: CiCoCurrency.ETH,
+      tokenId: mockEthTokenId,
+      flow: CICOFlow.CashIn,
+      network: Network.Ethereum,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 })

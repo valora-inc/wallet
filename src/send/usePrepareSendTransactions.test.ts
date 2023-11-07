@@ -5,6 +5,7 @@ import {
 import {
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
+  prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance } from 'test/values'
 import BigNumber from 'bignumber.js'
@@ -17,6 +18,9 @@ jest.mock('src/viem/prepareTransactions')
 jest.mock('src/tokens/utils')
 
 describe('usePrepareSendTransactions', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   const mockFeeCurrencyWithTwoDecimals = { ...mockCeloTokenBalance, decimals: 2 }
   const mockPossibleResult: PreparedTransactionsResult = {
     type: 'possible',
@@ -51,7 +55,6 @@ describe('usePrepareSendTransactions', () => {
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
           walletAddress: '0x123',
-          isDekRegistered: true,
           feeCurrencies: [mockCeloTokenBalance],
         })
       ).toBeUndefined()
@@ -63,28 +66,9 @@ describe('usePrepareSendTransactions', () => {
           token: { ...mockCeloTokenBalance, balance: new BigNumber(0) },
           recipientAddress: '0xabc',
           walletAddress: '0x123',
-          isDekRegistered: true,
           feeCurrencies: [mockCeloTokenBalance],
         })
       ).toBeUndefined()
-    })
-    it('uses prepareERC20TransferTransaction if DEK is registered', async () => {
-      mocked(tokenSupportsComments).mockReturnValue(true)
-      const mockPrepareTransactionsResult: PreparedTransactionsResult = {
-        type: 'not-enough-balance-for-gas',
-        feeCurrencies: [mockCeloTokenBalance],
-      }
-      mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
-      expect(
-        await _prepareSendTransactionsCallback({
-          amount: new BigNumber(1),
-          token: mockCeloTokenBalance,
-          recipientAddress: '0xabc',
-          walletAddress: '0x123',
-          isDekRegistered: true,
-          feeCurrencies: [mockCeloTokenBalance],
-        })
-      ).toStrictEqual(mockPrepareTransactionsResult)
     })
     it('uses prepareERC20TransferTransaction if token does not support comments', async () => {
       mocked(tokenSupportsComments).mockReturnValue(false)
@@ -99,29 +83,47 @@ describe('usePrepareSendTransactions', () => {
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
           walletAddress: '0x123',
-          isDekRegistered: false,
           feeCurrencies: [mockCeloTokenBalance],
         })
       ).toStrictEqual(mockPrepareTransactionsResult)
+      expect(prepareERC20TransferTransaction).toHaveBeenCalledWith({
+        fromWalletAddress: '0x123',
+        toWalletAddress: '0xabc',
+        sendToken: mockCeloTokenBalance,
+        amount: BigInt('1'.concat('0'.repeat(18))),
+        feeCurrencies: [mockCeloTokenBalance],
+      })
     })
-    it('does nothing for now for the case where DEK is not registered and token supports comments', async () => {
+    it('uses prepareTransferWithCommentTransaction if token supports comments', async () => {
       mocked(tokenSupportsComments).mockReturnValue(true)
+      const mockPrepareTransactionsResult: PreparedTransactionsResult = {
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: [mockCeloTokenBalance],
+      }
+      mocked(prepareTransferWithCommentTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
         await _prepareSendTransactionsCallback({
-          amount: new BigNumber(1),
+          amount: new BigNumber(20),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
           walletAddress: '0x123',
-          isDekRegistered: false,
           feeCurrencies: [mockCeloTokenBalance],
         })
-      ).toBeUndefined()
+      ).toStrictEqual(mockPrepareTransactionsResult)
+      expect(prepareTransferWithCommentTransaction).toHaveBeenCalledWith({
+        fromWalletAddress: '0x123',
+        toWalletAddress: '0xabc',
+        sendToken: mockCeloTokenBalance,
+        amount: BigInt('2'.concat('0'.repeat(19))),
+        feeCurrencies: [mockCeloTokenBalance],
+      })
     })
   })
   describe('usePrepareSendTransactions', () => {
     // integration tests (testing both usePrepareSendTransactions and _prepareSendTransactionsCallback at once)
     it('gives initial values and lets you refresh them at will', async () => {
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPossibleResult)
+      mocked(tokenSupportsComments).mockReturnValue(false)
       const { result } = renderHook(usePrepareSendTransactions)
       expect(result.current.prepareTransactionsResult).toBeUndefined()
       await act(async () => {
@@ -130,7 +132,6 @@ describe('usePrepareSendTransactions', () => {
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
           walletAddress: '0x123',
-          isDekRegistered: true,
           feeCurrencies: [mockCeloTokenBalance],
         })
       })

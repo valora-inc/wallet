@@ -41,7 +41,7 @@ import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
-import { isDekRegisteredSelector, walletAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
@@ -199,7 +199,6 @@ function SendEnterAmount({ route }: Props) {
     usePrepareSendTransactions()
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
 
-  const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useFeeCurrencies(token.networkId)
   useEffect(() => {
@@ -217,7 +216,6 @@ function SendEnterAmount({ route }: Props) {
         token,
         recipientAddress: recipient.address,
         walletAddress,
-        isDekRegistered,
         feeCurrencies,
       })
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
