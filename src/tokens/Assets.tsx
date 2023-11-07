@@ -588,7 +588,6 @@ const styles = StyleSheet.create({
   },
   topBarTextButton: {
     ...typeScale.bodyMedium,
-    color: Colors.greenUI,
     paddingRight: Spacing.Smallest8,
   },
   nftsPairingContainer: {
