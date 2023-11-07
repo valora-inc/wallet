@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { CallEffect } from 'redux-saga/effects'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'
@@ -15,12 +16,7 @@ import {
   tokenBalanceHasAddress,
 } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
-import {
-  addHashToStandbyTransaction,
-  addStandbyTransaction,
-  removeStandbyTransaction,
-  transactionConfirmed,
-} from 'src/transactions/actions'
+import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -35,6 +31,12 @@ import { call, put } from 'typed-redux-saga'
 import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
+
+type HashGenerator = () => Generator<
+  CallEffect<void> | CallEffect<`0x${string}`>,
+  `0x${string}`,
+  unknown
+>
 
 /**
  * Send a payment with viem. The equivalent of buildAndSendPayment in src/send/saga.
@@ -94,7 +96,9 @@ export function* sendPayment({
 
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
+  }
 
+  const addPendingStandbyTransaction = function* (hash: string) {
     yield* put(
       addStandbyTransaction({
         __typename: 'TokenTransferV3',
@@ -110,6 +114,7 @@ export function* sendPayment({
         metadata: {
           comment,
         },
+        transactionHash: hash,
       })
     )
   }
@@ -133,10 +138,18 @@ export function* sendPayment({
       })
 
       const { request } = yield* call(simulateContractMethod)
-      yield* call(unlockAndAddStandby)
 
-      const sendContractTxMethod = () =>
-        wallet.writeContract(request as SimulateContractReturnType['request'])
+      // unlock account before executing tx
+      yield* call(unlockAccount, wallet.account.address)
+
+      const sendContractTxMethod = function* () {
+        const hash = yield* call(
+          wallet.writeContract,
+          request as SimulateContractReturnType['request']
+        )
+        yield* call(addPendingStandbyTransaction, hash)
+        return hash
+      }
 
       const receipt = yield* call(sendAndMonitorTransaction, {
         context,
@@ -160,16 +173,21 @@ export function* sendPayment({
       yield* call(callMethod)
       yield* call(unlockAndAddStandby)
 
-      const sendNativeTxMethod = () => {
+      const sendNativeTxMethod = function* () {
         if (!wallet.account) {
           throw new Error('no account found in the wallet')
         }
-        return wallet.sendTransaction({
+
+        const hash = yield* call(wallet.sendTransaction, {
           account: wallet.account,
           to: getAddress(recipientAddress),
           value: convertedAmount,
           chain: networkConfig.viemChain[network],
         })
+
+        yield* call(addPendingStandbyTransaction, hash)
+
+        return hash
       }
 
       const receipt = yield* call(sendAndMonitorTransaction, {
@@ -341,7 +359,7 @@ export function* sendAndMonitorTransaction({
 }: {
   context: TransactionContext
   network: Network
-  sendTx: () => Promise<`0x${string}`>
+  sendTx: HashGenerator
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
@@ -358,8 +376,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       txHash: hash,
     })
-
-    yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], { hash })
 
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
@@ -377,9 +393,6 @@ export function* sendAndMonitorTransaction({
       context
     )) as unknown as TransactionReceipt
 
-    if (receipt.status === 'reverted') {
-      throw new Error('transaction reverted')
-    }
     ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(
       transactionConfirmed(context.id, {
@@ -388,6 +401,11 @@ export function* sendAndMonitorTransaction({
         status: receipt.status === 'success',
       })
     )
+
+    if (receipt.status === 'reverted') {
+      throw new Error('transaction reverted')
+    }
+
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {
@@ -397,7 +415,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       error: error.message,
     })
-    yield* put(removeStandbyTransaction(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     throw error
   }
