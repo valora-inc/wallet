@@ -418,13 +418,13 @@ function AssetsScreen({ navigation, route }: Props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>
-        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) ? (
+        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
           <TopBarTextButton
             onPress={navigateBack}
             title={t('importToken')}
             style={styles.topBarTextItem}
           />
-        ) : null,
+        ),
     })
   })
 
