@@ -1663,7 +1663,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "Scambi supportati dai partner su Celo.\n<0>Altre informazioni</0>",
+    "disclaimer": "Scambi alimentati dai partner su Celo. <0>Per saperne di più</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "maxSwapAmountWarning": {
@@ -1689,6 +1689,15 @@
       "title": "Bilanciamento dei gettoni di gas insufficiente",
       "description": "Non hai abbastanza {{feeCurrencies}} per coprire le spese di benzina. Per favore, aggiungi {{feeCurrencies}} al tuo portafoglio per completare questo scambio.",
       "dismissButton": "Ignorare"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Commissione di rete",
+      "networkFeeNoNetwork": "Commissione di rete",
+      "swapFee": "Commissione di {{appName}}",
+      "swapFeeWaived": "Gratuito",
+      "slippagePercentage": "Tolleranza allo slittamento",
+      "networkFeeInfo": "Stai effettuando uno scambio sulla Rete {{networkName}} .\n\nPer effettuare una transazione sulla Rete {{networkName}} è necessario pagare una commissione di rete stimata. Questa commissione garantisce la transazione e serve a mantenere la rete operativa.",
+      "networkFeeInfoDismissButton": "Ho capito"
     }
   },
   "swapTransactionDetailPage": {

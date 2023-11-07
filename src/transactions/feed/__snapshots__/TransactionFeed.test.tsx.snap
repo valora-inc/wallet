@@ -156,6 +156,7 @@ exports[`TransactionFeed renders correctly when there is a response 1`] = `
                     "height": 40,
                     "width": 40,
                   },
+                  undefined,
                 ]
               }
             >

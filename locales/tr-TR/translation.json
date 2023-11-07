@@ -1663,7 +1663,7 @@
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortakların desteklediği takaslar. \n<0>Daha Fazla Bilgi Edinin</0>",
+    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. <0>Daha fazla bilgi</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "maxSwapAmountWarning": {
@@ -1689,6 +1689,15 @@
       "title": "Yetersiz gaz jetonu dengesi",
       "description": "Benzin ücretini karşılamak için yeterli {{feeCurrencies}} adresiniz yok. Bu takası tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin.",
       "dismissButton": "Yoksay"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Ağ Ücreti",
+      "networkFeeNoNetwork": "Ağ Ücreti",
+      "swapFee": "{{appName}} Ücreti",
+      "swapFeeWaived": "Ücretsiz",
+      "slippagePercentage": "Kayma Toleransı",
+      "networkFeeInfo": "{{networkName}} Ağında takas yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
+      "networkFeeInfoDismissButton": "Anladım"
     }
   },
   "swapTransactionDetailPage": {
