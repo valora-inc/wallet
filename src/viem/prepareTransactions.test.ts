@@ -119,7 +119,7 @@ describe('prepareTransactions module', () => {
     it('does not throw if trying to sendAmount > sendToken balance when throwOnSpendTokenAmountExceedsBalance is false', async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
-        maxPriorityFeePerGas: undefined,
+        maxPriorityFeePerGas: BigInt(2),
       })
       mockPublicClient.estimateGas.mockResolvedValue(BigInt(1_000))
 
