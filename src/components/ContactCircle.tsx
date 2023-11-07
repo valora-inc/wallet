@@ -2,12 +2,17 @@ import * as React from 'react'
 import { Image, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import DefaultAvatar from 'src/icons/DefaultAvatar'
 import { Recipient } from 'src/recipients/recipient'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface Props {
   style?: ViewStyle
   size?: number
   recipient: Recipient
+  backgroundColor?: Colors
+  foregroundColor?: Colors
+  borderColor?: Colors
+  DefaultIcon?: React.ComponentType<{ foregroundColor: string; backgroundColor: string }>
 }
 
 const DEFAULT_ICON_SIZE = 40
@@ -18,10 +23,17 @@ const getAddressForegroundColor = (address: string) =>
   `hsl(${parseInt(address.substring(0, 5), 16) % 360}, 67%, 24%)`
 const getNameInitial = (name: string) => name.charAt(0).toLocaleUpperCase()
 
-function ContactCircle({ size, recipient, style }: Props) {
+function ContactCircle({
+  size: iconSize = DEFAULT_ICON_SIZE,
+  recipient,
+  style,
+  backgroundColor,
+  foregroundColor,
+  borderColor,
+  DefaultIcon = DefaultAvatar,
+}: Props) {
   const address = recipient.address
-  const iconSize = size || DEFAULT_ICON_SIZE
-  const iconBackgroundColor = getAddressBackgroundColor(address || '0x0')
+  const iconBackgroundColor = backgroundColor ?? getAddressBackgroundColor(address || '0x0')
 
   const renderThumbnail = () => {
     if (recipient.thumbnailPath) {
@@ -37,7 +49,7 @@ function ContactCircle({ size, recipient, style }: Props) {
       )
     }
 
-    const fontColor = getAddressForegroundColor(address || '0x0')
+    const fontColor = foregroundColor ?? getAddressForegroundColor(address || '0x0')
     if (recipient.name) {
       const initial = getNameInitial(recipient.name)
       return (
@@ -50,7 +62,7 @@ function ContactCircle({ size, recipient, style }: Props) {
       )
     }
 
-    return <DefaultAvatar foregroundColor={fontColor} backgroundColor={iconBackgroundColor} />
+    return <DefaultIcon foregroundColor={fontColor} backgroundColor={iconBackgroundColor} />
   }
 
   return (
@@ -63,6 +75,10 @@ function ContactCircle({ size, recipient, style }: Props) {
             height: iconSize,
             width: iconSize,
             borderRadius: iconSize / 2,
+          },
+          borderColor && {
+            borderColor,
+            borderWidth: 1,
           },
         ]}
       >
