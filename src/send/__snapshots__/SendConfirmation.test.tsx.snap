@@ -191,6 +191,7 @@ exports[`SendConfirmation renders correctly 1`] = `
                         "height": 40,
                         "width": 40,
                       },
+                      undefined,
                     ]
                   }
                 >

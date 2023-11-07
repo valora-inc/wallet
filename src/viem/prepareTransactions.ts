@@ -11,7 +11,11 @@ import {
   EstimateGasExecutionError,
   InsufficientFundsError,
   encodeFunctionData,
+  ExecutionRevertedError,
 } from 'viem'
+import stableToken from 'src/abis/StableToken'
+
+const TAG = 'viem/prepareTransactions'
 
 export interface PreparedTransactionsPossible {
   type: 'possible'
@@ -51,6 +55,21 @@ export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
   return !feeCurrency.isNative ? (feeCurrency.address as Address) : undefined
 }
 
+/**
+ * Try estimating gas for a transaction
+ *
+ * Returns null if execution reverts due to insufficient funds or transfer value exceeds balance of sender. This means
+ *   checks comparing the user's balance to send/swap amounts need to be done somewhere else to be able to give
+ *   coherent error messages to the user when they lack the funds to perform a transaction.
+ *
+ * Throws other kinds of errors (e.g. if execution is reverted for some other reason)
+ *
+ * @param baseTransaction
+ * @param maxFeePerGas
+ * @param feeCurrencySymbol
+ * @param feeCurrencyAddress
+ * @param maxPriorityFeePerGas
+ */
 export async function tryEstimateTransaction({
   baseTransaction,
   maxFeePerGas,
@@ -79,14 +98,21 @@ export async function tryEstimateTransaction({
       ...tx,
       account: tx.from,
     })
+    Logger.info(TAG, `estimateGas results`, {
+      feeCurrency: tx.feeCurrency,
+      gas: tx.gas,
+      maxFeePerGas,
+      maxPriorityFeePerGas,
+    })
   } catch (e) {
-    if (e instanceof EstimateGasExecutionError && e.cause instanceof InsufficientFundsError) {
+    if (
+      e instanceof EstimateGasExecutionError &&
+      (e.cause instanceof InsufficientFundsError ||
+        (e.cause instanceof ExecutionRevertedError && // viem does not reliably label node errors as InsufficientFundsError when the user has enough to pay for the transfer, but not for the transfer + gas
+          /transfer value exceeded balance of sender/.test(e.cause.details)))
+    ) {
       // too much gas was needed
-      Logger.warn(
-        'SwapScreen@useSwapQuote',
-        `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`,
-        e
-      )
+      Logger.warn(TAG, `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`, e)
       return null
     }
     throw e
@@ -140,6 +166,20 @@ export async function tryEstimateTransactions(
   return transactions
 }
 
+/**
+ * Prepare transactions to submit to the blockchain.
+ *
+ * Adds "maxFeePerGas" and "maxPriorityFeePerGas" fields to base transactions. Adds "gas" field to base
+ *  transactions if they do not already include them.
+ *
+ * NOTE: throws if spendTokenAmount exceeds the user's balance of that token.
+ *
+ * @param feeCurrencies
+ * @param spendToken
+ * @param spendTokenAmount
+ * @param decreasedAmountGasFeeMultiplier
+ * @param baseTransactions
+ */
 export async function prepareTransactions({
   feeCurrencies,
   spendToken,
@@ -153,6 +193,11 @@ export async function prepareTransactions({
   decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
 }): Promise<PreparedTransactionsResult> {
+  if (spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))) {
+    throw new Error(
+      `Cannot prepareTransactions for amount greater than balance. Amount: ${spendTokenAmount}, Balance: ${spendToken.balance}, Decimals: ${spendToken.decimals}`
+    )
+  }
   const maxGasFees: Array<{ feeCurrency: TokenBalance; maxGasFeeInDecimal: BigNumber }> = []
   for (const feeCurrency of feeCurrencies) {
     if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
@@ -258,7 +303,56 @@ export async function prepareERC20TransferTransaction(
   })
 }
 
-// TODO(ACT-955) create helpers for native transfers and Celo-specific transferWithComment
+/**
+ * Prepare a transaction for sending an ERC-20 token with the 'transfer' method.
+ *
+ * @param fromWalletAddress the address of the wallet sending the transaction
+ * @param toWalletAddress the address of the wallet receiving the token
+ * @param sendToken the token to send. MUST support transferWithComment method
+ * @param amount the amount of the token to send, denominated in the smallest units for that token
+ * @param feeCurrencies the balances of the currencies to consider using for paying the transaction fee
+ * @param comment the comment to include with the token transfer. Defaults to empty string if not provided
+ *
+ * @param prepareTxs a function that prepares the transactions (for unit testing-- should use default everywhere else)
+ */
+export async function prepareTransferWithCommentTransaction(
+  {
+    fromWalletAddress,
+    toWalletAddress,
+    sendToken,
+    amount,
+    feeCurrencies,
+    comment,
+  }: {
+    fromWalletAddress: string
+    toWalletAddress: string
+    sendToken: TokenBalanceWithAddress
+    amount: bigint
+    feeCurrencies: TokenBalance[]
+    comment?: string
+  },
+  prepareTxs = prepareTransactions // for unit testing
+): Promise<PreparedTransactionsResult> {
+  const baseSendTx: TransactionRequestCIP42 = {
+    from: fromWalletAddress as Address,
+    to: sendToken.address as Address,
+    data: encodeFunctionData({
+      abi: stableToken.abi,
+      functionName: 'transferWithComment',
+      args: [toWalletAddress as Address, amount, comment ?? ''],
+    }),
+    type: 'cip42',
+  }
+  return prepareTxs({
+    feeCurrencies,
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amount.toString()),
+    decreasedAmountGasFeeMultiplier: 1,
+    baseTransactions: [baseSendTx],
+  })
+}
+
+// TODO(ACT-956) create helper for native transfers
 
 /**
  * Given prepared transactions, get the fee currency and amount in decimals
