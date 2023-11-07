@@ -285,6 +285,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
                   "height": 40,
                   "width": 40,
                 },
+                undefined,
               ]
             }
           >

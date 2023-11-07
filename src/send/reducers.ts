@@ -65,8 +65,7 @@ export const sendReducer = (
         ...state,
         isSending: false,
         recentPayments: [...paymentsLast24Hours, latestPayment],
-        // TODO(satish): set lastUsedToken once this is available in the send flow (after
-        // #4306 is merged)
+        lastUsedTokenId: action.tokenId,
       }
     case Actions.SEND_PAYMENT_FAILURE:
       return {

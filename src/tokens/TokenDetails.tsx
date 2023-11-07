@@ -47,7 +47,7 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
-import { Network } from 'src/transactions/types'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -194,10 +194,11 @@ export const useActions = (token: TokenBalance) => {
         // token is CiCoCurrency, but adding it here to ensure type safety
         if (isCicoToken(tokenSymbol)) {
           navigate(Screens.FiatExchangeAmount, {
+            // TODO(ACT-954): only pass token id
             currency: tokenSymbol,
             tokenId: token.tokenId,
             flow: CICOFlow.CashIn,
-            network: Network.Celo, // TODO (ACT-954): use networkId from token
+            network: networkIdToNetwork[token.networkId],
           })
         }
       },

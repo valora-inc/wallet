@@ -16,6 +16,9 @@ interface Props {
   loading: boolean
 }
 
+/**
+ * @deprecated new recipient screen should use RecipientItemV2
+ */
 function RecipientItem({ recipient, onSelectRecipient, loading }: Props) {
   const { t } = useTranslation()
 
