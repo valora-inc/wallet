@@ -420,7 +420,6 @@ function AssetsScreen({ navigation, route }: Props) {
       headerRight: () =>
         getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) ? (
           <TopBarTextButton
-            testID="Assets/ImportTokenButton"
             onPress={navigateBack}
             title={t('importToken')}
             style={styles.topBarTextItem}

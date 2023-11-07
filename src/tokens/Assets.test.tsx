@@ -32,6 +32,12 @@ jest.mock('src/statsig', () => {
   }
 })
 
+function mockEnabledFeatureFlags(...flags: StatsigFeatureGates[]) {
+  jest
+    .mocked(getFeatureGate)
+    .mockImplementation((gate: StatsigFeatureGates) => flags.includes(gate))
+}
+
 const ethTokenId = 'ethereum-sepolia:native'
 
 const storeWithTokenBalances = {
@@ -336,17 +342,33 @@ describe('AssetsScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutsRewards)
   })
 
-  it('clicking Import Token opens a screen', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-    const store = createMockStore(storeWithPositionsAndClaimableRewards)
+  it('does not render Import Token when feature flag is off', () => {
+    mockEnabledFeatureFlags()
+    const store = createMockStore(storeWithPositions)
 
     const component = (
       <Provider store={store}>
         <MockedNavigator component={AssetsScreen} />
       </Provider>
     )
-    const { getByTestId } = render(component)
-    fireEvent.press(getByTestId('Assets/ImportTokenButton'))
+    const { queryByText } = render(component)
+    const button = queryByText('importToken')
+
+    expect(button).toBeNull()
+  })
+
+  it('clicking Import Token opens a screen', () => {
+    mockEnabledFeatureFlags(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)
+    const store = createMockStore(storeWithPositions)
+
+    const component = (
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+    const { getByText } = render(component)
+    const button = getByText('importToken')
+    fireEvent.press(button)
 
     expect(navigateBack).toHaveBeenCalled()
   })
