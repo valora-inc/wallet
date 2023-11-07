@@ -54,15 +54,15 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
-import { Network } from 'src/transactions/types'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
-import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
+  CloudFunctionDigitalAsset,
   FiatExchangeFlow,
   LegacyMobileMoneyProvider,
   PaymentMethod,
@@ -72,7 +72,6 @@ import {
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
-  resolveCloudFunctionDigitalAsset,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -90,9 +89,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const {
     flow,
-    selectedCrypto: digitalAsset,
+    tokenId,
     amount: { crypto: cryptoAmount, fiat: fiatAmount },
-    network,
   } = route.params
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
@@ -103,7 +101,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoWithAddressBySymbol(digitalAsset)
+  const tokenInfo = useTokenInfo(tokenId)
 
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
@@ -114,12 +112,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     dispatch(
       fetchFiatConnectQuotes({
         flow,
-        digitalAsset,
+        digitalAsset: CiCoCurrency[tokenInfo?.symbol],
         cryptoAmount,
         fiatAmount,
       })
     )
-  }, [flow, digitalAsset, cryptoAmount])
+  }, [flow, tokenInfo?.name, cryptoAmount])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
@@ -129,7 +127,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   const asyncExchanges = useAsync(async () => {
     try {
-      const availableExchanges = await fetchExchanges(userLocation.countryCodeAlpha2, digitalAsset)
+      const availableExchanges = await fetchExchanges(
+        userLocation.countryCodeAlpha2,
+        tokenInfo?.symbol
+      )
 
       return availableExchanges
     } catch (error) {
@@ -149,11 +150,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: resolveCloudFunctionDigitalAsset(digitalAsset),
+          digitalAsset: CloudFunctionDigitalAsset[tokenInfo?.symbol],
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-          networkId: networkConfig.networkToNetworkId[network],
+          networkId: tokenInfo?.networkId,
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
@@ -162,7 +163,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         rawLegacyMobileMoneyProviders,
         flow,
         userLocation.countryCodeAlpha2,
-        digitalAsset
+        tokenInfo?.symbol
       )
       return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
@@ -298,7 +299,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           analyticsData={analyticsData}
         />
       ))}
-      {network === Network.Celo && (
+      {(tokenInfo?.networkId === NetworkId['celo-mainnet'] ||
+        tokenInfo?.networkId === NetworkId['celo-alfajores']) && (
         <LegacyMobileMoneySection
           providers={legacyMobileMoneyProviders || []}
           digitalAsset={digitalAsset}
@@ -336,7 +338,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   )
 }
 
-function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['params']) {
+function AmountSpentInfo({ flow, tokenId, amount }: Props['route']['params']) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   return (
     <View style={styles.amountSpentInfo} testID="AmountSpentInfo">
