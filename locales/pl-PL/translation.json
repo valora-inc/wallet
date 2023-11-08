@@ -1849,7 +1849,8 @@
       "tokens": "Tokeny",
       "collectibles": "Kolekcje",
       "dappPositions": "Pozycje dapp"
-    }
+    },
+    "importToken": "Import"
   },
   "notificationCenterSpotlight": {
     "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu",
