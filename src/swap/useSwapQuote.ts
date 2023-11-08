@@ -103,6 +103,8 @@ export async function prepareSwapTransactions(
     spendTokenAmount: new BigNumber(amountToApprove.toString()),
     decreasedAmountGasFeeMultiplier: DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER,
     baseTransactions,
+    // We still want to prepare the transactions even if the user doesn't have enough balance
+    throwOnSpendTokenAmountExceedsBalance: false,
   })
 }
 
