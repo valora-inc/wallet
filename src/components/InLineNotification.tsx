@@ -13,12 +13,12 @@ export enum Severity {
 
 interface Props {
   severity: Severity
-  title?: string
+  title?: string | null
   description: string
   style?: StyleProp<ViewStyle>
-  ctaLabel?: string
+  ctaLabel?: string | null
   onPressCta?: () => void
-  ctaLabel2?: string
+  ctaLabel2?: string | null
   onPressCta2?: () => void
   testID?: string
 }
