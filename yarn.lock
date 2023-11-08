@@ -18270,7 +18270,7 @@ victory@^36.6.11:
     victory-voronoi-container "^36.6.11"
     victory-zoom-container "^36.6.11"
 
-viem@^1.18.4:
+viem@^1.18.9:
   version "1.18.9"
   resolved "https://registry.yarnpkg.com/viem/-/viem-1.18.9.tgz#8be8fe3148b1c6c3bccc853001df98f91a8aeb30"
   integrity sha512-eAXtoTwAFA3YEgjTYMb5ZTQrDC0UPx5qyZ4sv90TirVKepcM9mBPksTkC1SSWya0UdxhBmhEBL/CiYMjmGCTWg==
