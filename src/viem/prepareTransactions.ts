@@ -13,6 +13,7 @@ import {
   encodeFunctionData,
   ExecutionRevertedError,
 } from 'viem'
+import stableToken from 'src/abis/StableToken'
 
 const TAG = 'viem/prepareTransactions'
 
@@ -171,13 +172,14 @@ export async function tryEstimateTransactions(
  * Adds "maxFeePerGas" and "maxPriorityFeePerGas" fields to base transactions. Adds "gas" field to base
  *  transactions if they do not already include them.
  *
- * NOTE: throws if spendTokenAmount exceeds the user's balance of that token.
+ * NOTE: throws if spendTokenAmount exceeds the user's balance of that token, unless throwOnSpendTokenAmountExceedsBalance is false
  *
  * @param feeCurrencies
  * @param spendToken
  * @param spendTokenAmount
  * @param decreasedAmountGasFeeMultiplier
  * @param baseTransactions
+ * @param throwOnSpendTokenAmountExceedsBalance
  */
 export async function prepareTransactions({
   feeCurrencies,
@@ -185,14 +187,19 @@ export async function prepareTransactions({
   spendTokenAmount,
   decreasedAmountGasFeeMultiplier,
   baseTransactions,
+  throwOnSpendTokenAmountExceedsBalance = true,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken: TokenBalanceWithAddress
   spendTokenAmount: BigNumber
   decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
+  throwOnSpendTokenAmountExceedsBalance?: boolean
 }): Promise<PreparedTransactionsResult> {
-  if (spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))) {
+  if (
+    throwOnSpendTokenAmountExceedsBalance &&
+    spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))
+  ) {
     throw new Error(
       `Cannot prepareTransactions for amount greater than balance. Amount: ${spendTokenAmount}, Balance: ${spendToken.balance}, Decimals: ${spendToken.decimals}`
     )
@@ -302,7 +309,56 @@ export async function prepareERC20TransferTransaction(
   })
 }
 
-// TODO(ACT-955) create helpers for native transfers and Celo-specific transferWithComment
+/**
+ * Prepare a transaction for sending an ERC-20 token with the 'transfer' method.
+ *
+ * @param fromWalletAddress the address of the wallet sending the transaction
+ * @param toWalletAddress the address of the wallet receiving the token
+ * @param sendToken the token to send. MUST support transferWithComment method
+ * @param amount the amount of the token to send, denominated in the smallest units for that token
+ * @param feeCurrencies the balances of the currencies to consider using for paying the transaction fee
+ * @param comment the comment to include with the token transfer. Defaults to empty string if not provided
+ *
+ * @param prepareTxs a function that prepares the transactions (for unit testing-- should use default everywhere else)
+ */
+export async function prepareTransferWithCommentTransaction(
+  {
+    fromWalletAddress,
+    toWalletAddress,
+    sendToken,
+    amount,
+    feeCurrencies,
+    comment,
+  }: {
+    fromWalletAddress: string
+    toWalletAddress: string
+    sendToken: TokenBalanceWithAddress
+    amount: bigint
+    feeCurrencies: TokenBalance[]
+    comment?: string
+  },
+  prepareTxs = prepareTransactions // for unit testing
+): Promise<PreparedTransactionsResult> {
+  const baseSendTx: TransactionRequestCIP42 = {
+    from: fromWalletAddress as Address,
+    to: sendToken.address as Address,
+    data: encodeFunctionData({
+      abi: stableToken.abi,
+      functionName: 'transferWithComment',
+      args: [toWalletAddress as Address, amount, comment ?? ''],
+    }),
+    type: 'cip42',
+  }
+  return prepareTxs({
+    feeCurrencies,
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amount.toString()),
+    decreasedAmountGasFeeMultiplier: 1,
+    baseTransactions: [baseSendTx],
+  })
+}
+
+// TODO(ACT-956) create helper for native transfers
 
 /**
  * Given prepared transactions, get the fee currency and amount in decimals

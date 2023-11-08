@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
+  prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
 import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
 import BigNumber from 'bignumber.js'
@@ -18,32 +19,30 @@ export async function _prepareSendTransactionsCallback({
   token,
   recipientAddress,
   walletAddress,
-  isDekRegistered,
   feeCurrencies,
 }: {
   amount: BigNumber
   token: TokenBalance
   recipientAddress: string
   walletAddress: string
-  isDekRegistered: boolean
   feeCurrencies: TokenBalance[]
 }) {
-  const includeRegisterDekTx = !isDekRegistered && tokenSupportsComments(token)
-
   if (amount.isLessThanOrEqualTo(0)) {
     return
   }
   if (tokenBalanceHasAddress(token)) {
-    if (!includeRegisterDekTx) {
-      return prepareERC20TransferTransaction({
-        fromWalletAddress: walletAddress,
-        toWalletAddress: recipientAddress,
-        sendToken: token,
-        amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
-        feeCurrencies,
-      })
+    const transactionParams = {
+      fromWalletAddress: walletAddress,
+      toWalletAddress: recipientAddress,
+      sendToken: token,
+      amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
+      feeCurrencies,
     }
-    // TODO(ACT-955): case where we need to register DEK too
+    if (tokenSupportsComments(token)) {
+      return prepareTransferWithCommentTransaction(transactionParams)
+    } else {
+      return prepareERC20TransferTransaction(transactionParams)
+    }
   }
   // TODO(ACT-956): non-ERC20 native asset case
 }

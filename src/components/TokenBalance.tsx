@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { hideAlert, showToast } from 'src/alert/actions'
 import { AssetsEvents, FiatExchangeEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { toggleHideBalances } from 'src/app/actions'
+import { toggleHideHomeBalances } from 'src/app/actions'
 import { hideHomeBalancesSelector } from 'src/app/selectors'
 import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
@@ -55,11 +55,11 @@ import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 function TokenBalance({
   style = styles.balance,
   singleTokenViewEnabled = true,
-  hideBalance = false,
+  showHideHomeBalancesToggle = false,
 }: {
   style?: StyleProp<TextStyle>
   singleTokenViewEnabled?: boolean
-  hideBalance?: boolean
+  showHideHomeBalancesToggle?: boolean
 }) {
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const tokensWithUsdValue = useTokensWithUsdValue(supportedNetworkIds)
@@ -77,16 +77,25 @@ function TokenBalance({
       : undefined
   const { decimalSeparator } = getNumberFormatSettings()
 
+  const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
+  const hideBalance = showHideHomeBalancesToggle && hideHomeBalanceState
   const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
+
+  const TotalTokenBalance = ({ balanceDisplay }: { balanceDisplay: string }) => {
+    return (
+      <View style={styles.row}>
+        <Text style={style} testID={'TotalTokenBalance'}>
+          {!hideBalance && localCurrencySymbol}
+          {balanceDisplay}
+        </Text>
+        {showHideHomeBalancesToggle && <HideBalanceButton hideBalance={hideBalance} />}
+      </View>
+    )
+  }
 
   if (tokenFetchError || tokenFetchLoading || tokensAreStale) {
     // Show '-' if we haven't fetched the tokens yet or prices are stale
-    return (
-      <Text style={style} testID={'TotalTokenBalance'}>
-        {localCurrencySymbol}
-        {'-'}
-      </Text>
-    )
+    return <TotalTokenBalance balanceDisplay={'-'} />
   } else if (
     singleTokenViewEnabled &&
     tokensWithUsdValue.length === 1 &&
@@ -97,10 +106,7 @@ function TokenBalance({
       <View style={styles.oneBalance}>
         <Image source={{ uri: tokensWithUsdValue[0].imageUrl }} style={styles.tokenImg} />
         <View style={styles.column}>
-          <Text style={style} testID={'TotalTokenBalance'}>
-            {!hideBalance && localCurrencySymbol}
-            {balanceDisplay ?? '-'}
-          </Text>
+          <TotalTokenBalance balanceDisplay={balanceDisplay ?? '-'} />
           {!hideBalance && (
             <Text style={styles.tokenBalance}>
               {formatValueToDisplay(tokenBalance)} {tokensWithUsdValue[0].symbol}
@@ -110,13 +116,21 @@ function TokenBalance({
       </View>
     )
   } else {
-    return (
-      <Text style={style} testID={'TotalTokenBalance'}>
-        {!hideBalance && localCurrencySymbol}
-        {balanceDisplay ?? new BigNumber(0).toFormat(2)}
-      </Text>
-    )
+    return <TotalTokenBalance balanceDisplay={balanceDisplay ?? new BigNumber(0).toFormat(2)} />
   }
+}
+
+function HideBalanceButton({ hideBalance }: { hideBalance: boolean }) {
+  const dispatch = useDispatch()
+  const eyeIconOnPress = () => {
+    ValoraAnalytics.track(hideBalance ? HomeEvents.show_balances : HomeEvents.hide_balances)
+    dispatch(toggleHideHomeBalances())
+  }
+  return (
+    <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
+      {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
+    </Touchable>
+  )
 }
 
 function useErrorMessageWithRefresh() {
@@ -218,7 +232,6 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
 
 export function HomeTokenBalance() {
   const { t } = useTranslation()
-  const dispatch = useDispatch()
 
   const totalBalance = useTotalTokenBalance()
   const tokenBalances = useTokensWithTokenBalance()
@@ -241,13 +254,6 @@ export function HomeTokenBalance() {
   }
 
   const [infoVisible, setInfoVisible] = useState(false)
-
-  const hideBalance = useSelector(hideHomeBalancesSelector)
-
-  const eyeIconOnPress = () => {
-    ValoraAnalytics.track(hideBalance ? HomeEvents.show_balances : HomeEvents.hide_balances)
-    dispatch(toggleHideBalances())
-  }
 
   return (
     <View style={styles.container} testID="HomeTokenBalance">
@@ -278,19 +284,16 @@ export function HomeTokenBalance() {
           </TouchableOpacity>
         )}
       </View>
-      <View style={styles.row}>
-        <TokenBalance
-          style={
-            getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-              ? styles.totalBalance
-              : styles.balance
-          }
-          hideBalance={hideBalance}
-        />
-        <Touchable onPress={eyeIconOnPress} hitSlop={variables.iconHitslop}>
-          {hideBalance ? <HiddenEyeIcon /> : <EyeIcon />}
-        </Touchable>
-      </View>
+      <TokenBalance
+        style={
+          getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
+            ? styles.totalBalance
+            : styles.balance
+        }
+        showHideHomeBalancesToggle={getFeatureGate(
+          StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
+        )}
+      />
     </View>
   )
 }
