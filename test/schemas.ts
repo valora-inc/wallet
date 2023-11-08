@@ -2754,19 +2754,13 @@ export const v163Schema = {
     lastUsedTokenId: undefined,
   },
 }
-
 export const v164Schema = {
   ...v163Schema,
   _persist: {
     ...v163Schema._persist,
     version: 164,
   },
-  transactions: {
-    ..._.omit(v163Schema.transactions, 'transactions'),
-    transactionsByNetworkId: {
-      [networkConfig.defaultNetworkId]: v163Schema.transactions.transactions,
-    },
-  },
+  app: _.omit(v162Schema.app, 'rampCashInButtonExpEnabled'),
 }
 
 export const v165Schema = {
@@ -2775,12 +2769,38 @@ export const v165Schema = {
     ...v164Schema._persist,
     version: 165,
   },
+  transactions: {
+    ..._.omit(v164Schema.transactions, 'transactions'),
+    transactionsByNetworkId: {
+      [networkConfig.defaultNetworkId]: v164Schema.transactions.transactions,
+    },
+  },
+}
+
+export const v166Schema = {
+  ...v165Schema,
+  _persist: {
+    ...v165Schema._persist,
+    version: 166,
+  },
   app: {
-    ...v164Schema.app,
+    ...v165Schema.app,
     hideHomeBalances: false,
   },
 }
 
+export const v167Schema = {
+  ...v166Schema,
+  _persist: {
+    ...v166Schema._persist,
+    version: 167,
+  },
+  app: {
+    ...v166Schema.app,
+    rampCashInButtonExpEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v165Schema as Partial<RootState>
+  return v167Schema as Partial<RootState>
 }

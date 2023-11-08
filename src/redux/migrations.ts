@@ -1397,7 +1397,11 @@ export const migrations = {
     ...state,
     send: { ..._.omit(state.send, 'lastUsedCurrency'), lastUsedTokenId: undefined },
   }),
-  164: (state: any) => {
+  164: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
+  }),
+  165: (state: any) => {
     const transactionsByNetworkId: any = {}
     for (const tx of state.transactions.transactions) {
       const txNetworkId = tx.networkId ?? networkConfig.defaultNetworkId
@@ -1412,5 +1416,12 @@ export const migrations = {
       },
     }
   },
-  165: (state: any) => ({ ...state, app: { ...state.app, hideHomeBalances: false } }),
+  166: (state: any) => ({ ...state, app: { ...state.app, hideHomeBalances: false } }),
+  167: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      rampCashInButtonExpEnabled: false,
+    },
+  }),
 }
