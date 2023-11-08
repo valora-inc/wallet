@@ -268,7 +268,7 @@ export const appReducer = (
         ...state,
         inAppReviewLastInteractionTimestamp: action.inAppReviewLastInteractionTimestamp,
       }
-    case Actions.TOGGLE_HIDE_BALANCES:
+    case Actions.TOGGLE_HIDE_HOME_BALANCES:
       return {
         ...state,
         hideHomeBalances: !state.hideHomeBalances,

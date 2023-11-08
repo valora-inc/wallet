@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { CallEffect } from 'typed-redux-saga'
+import { CallEffect } from 'redux-saga/effects'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'
@@ -391,8 +391,6 @@ export function* sendAndMonitorTransaction({
       sendTxMethod,
       context
     )) as unknown as TransactionReceipt
-
-    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(
       transactionConfirmed(context.id, {
         transactionHash: receipt.transactionHash,
@@ -400,11 +398,10 @@ export function* sendAndMonitorTransaction({
         status: receipt.status === 'success',
       })
     )
-
     if (receipt.status === 'reverted') {
       throw new Error('transaction reverted')
     }
-
+    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {

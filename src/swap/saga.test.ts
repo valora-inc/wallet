@@ -16,6 +16,7 @@ import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import { UnlockResult, getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -23,7 +24,6 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockCeloAddress,
-  mockCeloTokenBalance,
   mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
@@ -108,34 +108,24 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
       },
     },
     quote: {
-      toTokenAddress: mockCeloAddress,
-      fromTokenAddress: mockCeurAddress,
-      swapAmount: new BigNumber(100),
-      price: '2',
-      provider: '0x',
-      estimatedPriceImpact: new BigNumber(0.1),
-      preparedTransactions: {
-        type: 'possible',
-        transactions: [
-          {
-            from: mockAccount,
-            to: mockCeurAddress as Address,
-            value: BigInt(0),
-            data: '0x0',
-            gas: BigInt(59_480),
-            maxFeePerGas: BigInt(12_000_000_000),
-          },
-          {
-            from: mockAccount,
-            to: mockSwapTransaction.allowanceTarget as Address,
-            value: BigInt(0),
-            data: '0x0',
-            gas: BigInt(1_325_000),
-            maxFeePerGas: BigInt(12_000_000_000),
-          },
-        ],
-        feeCurrency: mockCeloTokenBalance,
-      },
+      preparedTransactions: getSerializablePreparedTransactions([
+        {
+          from: mockAccount,
+          to: mockCeurAddress as Address,
+          value: BigInt(0),
+          data: '0x0',
+          gas: BigInt(59_480),
+          maxFeePerGas: BigInt(12_000_000_000),
+        },
+        {
+          from: mockAccount,
+          to: mockSwapTransaction.allowanceTarget as Address,
+          value: BigInt(0),
+          data: '0x0',
+          gas: BigInt(1_325_000),
+          maxFeePerGas: BigInt(12_000_000_000),
+        },
+      ]),
       rawSwapResponse: {
         approveTransaction: {
           gas: '59480',
@@ -188,20 +178,16 @@ const mockSwapPreparedWithNativeSellToken: PayloadAction<SwapInfoPrepared> = {
     ...mockSwapPrepared.payload,
     quote: {
       ...mockSwapPrepared.payload.quote,
-      preparedTransactions: {
-        type: 'possible',
-        transactions: [
-          {
-            from: mockAccount,
-            to: mockSwapTransaction.allowanceTarget as Address,
-            value: BigInt(0),
-            data: '0x0',
-            gas: BigInt(1_325_000),
-            maxFeePerGas: BigInt(12_000_000_000),
-          },
-        ],
-        feeCurrency: mockCeloTokenBalance,
-      },
+      preparedTransactions: getSerializablePreparedTransactions([
+        {
+          from: mockAccount,
+          to: mockSwapTransaction.allowanceTarget as Address,
+          value: BigInt(0),
+          data: '0x0',
+          gas: BigInt(1_325_000),
+          maxFeePerGas: BigInt(12_000_000_000),
+        },
+      ]),
       rawSwapResponse: {
         ...mockSwapPrepared.payload.quote.rawSwapResponse,
         unvalidatedSwapTransaction: {
@@ -223,7 +209,6 @@ const mockSwapPreparedWithWBTCBuyToken: PayloadAction<SwapInfoPrepared> = {
     },
     quote: {
       ...mockSwapPrepared.payload.quote,
-      toTokenAddress: mockWBTCAddress,
       rawSwapResponse: {
         ...mockSwapPrepared.payload.quote.rawSwapResponse,
         unvalidatedSwapTransaction: {
@@ -676,7 +661,6 @@ describe(swapSubmitPreparedSaga, () => {
       .provide(defaultProviders)
       .not.put(swapApprove())
       .put(swapError())
-      .put(removeStandbyTransaction('a uuid'))
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
