@@ -32,12 +32,6 @@ jest.mock('src/statsig', () => {
   }
 })
 
-function mockEnabledFeatureFlags(...flags: StatsigFeatureGates[]) {
-  jest
-    .mocked(getFeatureGate)
-    .mockImplementation((gate: StatsigFeatureGates) => flags.includes(gate))
-}
-
 const ethTokenId = 'ethereum-sepolia:native'
 
 const storeWithTokenBalances = {
@@ -105,6 +99,7 @@ const storeWithNfts = {
 describe('AssetsScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockRestore()
   })
 
   it('renders tokens and collectibles tabs when positions is disabled', () => {
@@ -343,7 +338,6 @@ describe('AssetsScreen', () => {
   })
 
   it('does not render Import Token when feature flag is off', () => {
-    mockEnabledFeatureFlags()
     const store = createMockStore(storeWithPositions)
 
     const component = (
@@ -358,7 +352,11 @@ describe('AssetsScreen', () => {
   })
 
   it('clicking Import Token opens a screen', () => {
-    mockEnabledFeatureFlags(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate: StatsigFeatureGates) => gate === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+      )
     const store = createMockStore(storeWithPositions)
 
     const component = (
