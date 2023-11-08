@@ -9,6 +9,7 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   Fee,
@@ -41,6 +42,8 @@ const MOCK_CONTACT = {
   address: MOCK_ADDRESS,
 }
 
+jest.mock('src/statsig')
+
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -58,6 +61,10 @@ jest.mock('src/web3/networkConfig', () => {
 })
 
 describe('TransferFeedItem', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+  })
   function renderScreen({
     storeOverrides = {},
     type = TokenTransactionTypeV2.Sent,
@@ -618,7 +625,14 @@ describe('TransferFeedItem', () => {
     })
   })
 
-  it('hides balance when flag is set', async () => {
+  it('shows balance when feature gate false, root state hide home balances flag is set', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const { getByTestId } = renderScreen({ storeOverrides: { app: { hideHomeBalances: true } } })
+    expect(getByTestId('TransferFeedItem/amount')).toBeTruthy()
+    expect(getByTestId('TransferFeedItem/tokenAmount')).toBeTruthy()
+  })
+
+  it('hides balance when feature gate true, root state hide home balances flag is set', async () => {
     const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideHomeBalances: true } } })
     expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()

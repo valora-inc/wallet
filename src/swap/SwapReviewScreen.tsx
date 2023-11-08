@@ -36,6 +36,7 @@ import { celoAddressSelector, tokensByAddressSelector } from 'src/tokens/selecto
 import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
 import { getMaxGasFee } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { getSwapTxsAnalyticsProperties } from './getSwapTxsAnalyticsProperties'
@@ -228,9 +229,19 @@ export function SwapReviewScreen({ route }: Props) {
 
     // New flow for viem
     if (quote && userInput) {
+      if (quote?.preparedTransactions?.type !== 'possible') {
+        // Should never happen
+        throw new Error('Unexpected prepared transaction result')
+      }
       dispatch(
         swapStartPrepared({
-          quote,
+          quote: {
+            preparedTransactions: getSerializablePreparedTransactions(
+              quote.preparedTransactions.transactions
+            ),
+            receivedAt: quote.receivedAt,
+            rawSwapResponse: quote.rawSwapResponse,
+          },
           userInput,
         })
       )
