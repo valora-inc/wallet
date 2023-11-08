@@ -20,8 +20,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { useTokenInfo } from 'src/tokens/hooks'
 
 const SETTLEMENT_TIME_STRINGS: Record<SettlementTime, string> = {
   [SettlementTime.LESS_THAN_ONE_HOUR]: 'selectProviderScreen.oneHour',
@@ -41,7 +40,7 @@ export interface PaymentMethodSectionProps {
   paymentMethod: PaymentMethodSectionMethods
   normalizedQuotes: NormalizedQuote[]
   flow: CICOFlow
-  cryptoType: CiCoCurrency
+  tokenId: string
   analyticsData: ProviderSelectionAnalyticsData
 }
 
@@ -49,7 +48,7 @@ export function PaymentMethodSection({
   paymentMethod,
   normalizedQuotes,
   flow,
-  cryptoType,
+  tokenId,
   analyticsData,
 }: PaymentMethodSectionProps) {
   const { t } = useTranslation()
@@ -58,7 +57,7 @@ export function PaymentMethodSection({
     (quote) => quote.getPaymentMethod() === paymentMethod
   )
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoWithAddressBySymbol(cryptoType)
+  const tokenInfo = useTokenInfo(tokenId)
   const localCurrency = useSelector(getLocalCurrencyCode)
 
   const showReceiveAmountFeatureGate = getFeatureGate(
@@ -216,7 +215,7 @@ export function PaymentMethodSection({
           <Text>
             <Trans i18nKey="selectProviderScreen.receiveAmount">
               {flow === CICOFlow.CashIn ? (
-                <CryptoAmount amount={receiveAmount} currency={cryptoType} />
+                <CryptoAmount amount={receiveAmount} tokenId={tokenId} />
               ) : (
                 <FiatAmount amount={receiveAmount} currency={localCurrency} />
               )}

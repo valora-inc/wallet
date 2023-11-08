@@ -95,7 +95,7 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExternalExchanges]: {
-    currency: CiCoCurrency
+    tokenId: string
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.ExchangeQR]: {

@@ -13,7 +13,6 @@ import {
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -23,7 +22,7 @@ export function normalizeQuotes(
   flow: CICOFlow,
   fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
   externalProviders: FetchProvidersOutput[] = [],
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
 ): NormalizedQuote[] {
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
@@ -99,7 +98,7 @@ export function normalizeFiatConnectQuotes(
 export function normalizeExternalProviders(
   flow: CICOFlow,
   input: FetchProvidersOutput[],
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
 

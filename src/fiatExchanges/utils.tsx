@@ -50,7 +50,7 @@ interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
-  digitalAsset: CloudFunctionDigitalAsset
+  digitalAsset: string
   networkId?: NetworkId
   fiatAmount?: number
   digitalAssetAmount?: number
@@ -259,13 +259,9 @@ export const filterLegacyMobileMoneyProviders = (
   providers: LegacyMobileMoneyProvider[] | undefined,
   flow: CICOFlow,
   userCountry: string | null,
-  selectedCurrency: CiCoCurrency
+  selectedCurrency: string
 ) => {
-  if (
-    !providers ||
-    !userCountry ||
-    ![CiCoCurrency.cUSD, CiCoCurrency.CELO].includes(selectedCurrency)
-  ) {
+  if (!providers || !userCountry || !['cUSD', 'CELO'].includes(selectedCurrency)) {
     return []
   }
 
@@ -276,9 +272,7 @@ export const filterLegacyMobileMoneyProviders = (
   )
 
   return activeProviders.filter((provider) =>
-    provider[selectedCurrency === CiCoCurrency.cUSD ? 'cusd' : 'celo'].countries.includes(
-      userCountry
-    )
+    provider[selectedCurrency === 'cUSD' ? 'cusd' : 'celo'].countries.includes(userCountry)
   )
 }
 
@@ -356,7 +350,7 @@ export function getProviderSelectionAnalyticsData({
   centralizedExchanges?: ExternalExchangeProvider[]
   coinbasePayAvailable: boolean
   transferCryptoAmount: number
-  cryptoType: CiCoCurrency
+  cryptoType: string
 }): ProviderSelectionAnalyticsData {
   let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
   let lowestFeeProvider: string | undefined = undefined

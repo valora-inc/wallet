@@ -17,7 +17,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import Touchable from 'src/components/Touchable'
 import { FeeEstimateState, FeeType, estimateFee } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
+import { FiatAmount, LegacyCryptoAmount } from 'src/fiatExchanges/amount'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
@@ -41,7 +41,6 @@ import variables from 'src/styles/variables'
 import { useLocalToTokenAmountByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { Network } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectReview>
@@ -65,6 +64,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const feeType = FeeType.SEND
   const tokenList: TokenBalance[] = useSelector(tokensListWithAddressSelector)
   const cryptoType = normalizedQuote.getCryptoTypeString()
+  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
@@ -120,12 +120,11 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     if (previousScreen?.name === Screens.FiatDetailsScreen) {
       navigate(Screens.SelectProvider, {
         flow: normalizedQuote.flow,
-        selectedCrypto: normalizedQuote.getCryptoType(),
+        tokenId: tokenInfo?.tokenId,
         amount: {
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
         },
-        network: Network.Celo,
       })
     } else if (previousScreen?.name === Screens.FiatConnectRefetchQuote) {
       navigateHome()
@@ -351,15 +350,19 @@ function getDisplayAmounts({
       <FiatAmount amount={receive} currency={fiatType} testID={testID} />
     )
     const totalDisplay = (
-      <CryptoAmount amount={total} currency={cryptoType} testID="txDetails-total" />
+      <LegacyCryptoAmount amount={total} currency={cryptoType} testID="txDetails-total" />
     )
 
     const feeDisplay = totalFee && (
-      <CryptoAmount amount={totalFee} currency={cryptoType} testID="txDetails-fee" />
+      <LegacyCryptoAmount amount={totalFee} currency={cryptoType} testID="txDetails-fee" />
     )
 
     const totalMinusFeeDisplay = (
-      <CryptoAmount amount={totalMinusFees} currency={cryptoType} testID="txDetails-converted" />
+      <LegacyCryptoAmount
+        amount={totalMinusFees}
+        currency={cryptoType}
+        testID="txDetails-converted"
+      />
     )
     const exchangeRateDisplay = (
       <FiatAmount
@@ -385,7 +388,7 @@ function getDisplayAmounts({
     const exchangeRate = totalMinusFee / Number(receive)
 
     const receiveDisplay = (testID: string) => (
-      <CryptoAmount amount={receive} currency={cryptoType} testID={testID} />
+      <LegacyCryptoAmount amount={receive} currency={cryptoType} testID={testID} />
     )
     const totalDisplay = <FiatAmount amount={total} currency={fiatType} testID="txDetails-total" />
 
@@ -517,16 +520,16 @@ function PaymentMethod({
   fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
+  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
 
   const onPress = () => {
     navigate(Screens.SelectProvider, {
       flow: normalizedQuote.flow,
-      selectedCrypto: normalizedQuote.getCryptoType(),
+      tokenId: tokenInfo?.tokenId,
       amount: {
         fiat: parseFloat(normalizedQuote.getFiatAmount()),
         crypto: parseFloat(normalizedQuote.getCryptoAmount()),
       },
-      network: Network.Celo,
     })
   }
 

@@ -1,11 +1,26 @@
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import CurrencyDisplay, { FormatType } from 'src/components/CurrencyDisplay'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { CiCoCurrency } from 'src/utils/currencies'
 
 export function CryptoAmount({
+  amount,
+  tokenId,
+  testID,
+}: {
+  amount: BigNumber.Value
+  tokenId?: string
+  testID?: string
+}) {
+  return <TokenDisplay amount={amount} tokenId={tokenId} showLocalAmount={false} testID={testID} />
+}
+
+/**
+ * @deprecated use CryptoAmount instead
+ */
+export function LegacyCryptoAmount({
   amount,
   currency,
   testID,
@@ -14,15 +29,8 @@ export function CryptoAmount({
   currency: CiCoCurrency
   testID?: string
 }) {
-  const { address } = useTokenInfoWithAddressBySymbol(currency) ?? {}
-  return (
-    <LegacyTokenDisplay
-      amount={amount}
-      tokenAddress={address}
-      showLocalAmount={false}
-      testID={testID}
-    />
-  )
+  const { tokenId } = useTokenInfoWithAddressBySymbol(currency) ?? {}
+  return <CryptoAmount amount={amount} tokenId={tokenId} testID={testID} />
 }
 
 export function FiatAmount({

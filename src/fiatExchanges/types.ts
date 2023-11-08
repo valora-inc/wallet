@@ -1,6 +1,6 @@
 import { PaymentMethod } from 'src/fiatExchanges/utils'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { Network } from 'src/transactions/types'
+import { CiCoCurrency } from 'src/utils/currencies'
 
 export enum SelectProviderExchangesText {
   CryptoExchange = 'CryptoExchange',
@@ -18,7 +18,7 @@ export interface ProviderSelectionAnalyticsData {
   totalOptions: number
   paymentMethodsAvailable: Record<PaymentMethod, boolean>
   transferCryptoAmount: number
-  cryptoType: CiCoCurrency
+  cryptoType: string
   lowestFeeKycRequired: boolean | undefined
   lowestFeeCryptoAmount: number | undefined
   lowestFeeProvider: string | undefined
