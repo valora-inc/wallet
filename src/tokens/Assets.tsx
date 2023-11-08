@@ -222,6 +222,19 @@ function AssetsScreen({ navigation, route }: Props) {
     }
   }, [footerPosition.value])
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
+          <TopBarTextButton
+            onPress={navigateBack}
+            title={t('assets.importToken')}
+            style={styles.topBarTextButton}
+          />
+        ),
+    })
+  }, [navigation])
+
   useScrollAwareHeader({
     navigation,
     title: t('totalAssets'),
@@ -414,19 +427,6 @@ function AssetsScreen({ navigation, route }: Props) {
     }
     return items
   }, [t, displayPositions])
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
-          <TopBarTextButton
-            onPress={navigateBack}
-            title={t('assets.importToken')}
-            style={styles.topBarTextButton}
-          />
-        ),
-    })
-  }, [navigation])
 
   return (
     <>
