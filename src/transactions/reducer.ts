@@ -65,7 +65,7 @@ export const reducer = (
         ...state,
         ...persistedState,
         standbyTransactions: (persistedState.standbyTransactions || []).filter(
-          (tx) => !tx.transactionHash
+          (tx) => tx.transactionHash
         ),
       }
     }
