@@ -532,10 +532,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       Logger.warn(TAG, 'Error getting approve transaction receipt', e)
     }
 
-    if (swapTxReceipt.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
-    }
-
     yield* put(
       transactionConfirmed(swapExecuteContext.id, {
         transactionHash: swapTxReceipt.transactionHash,
@@ -543,6 +539,10 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         status: swapTxReceipt.status === 'success',
       })
     )
+
+    if (swapTxReceipt.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
+    }
 
     const timeMetrics = getTimeMetrics()
 
@@ -565,7 +565,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       error: error.message,
     })
     yield* put(swapError())
-    yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
 }

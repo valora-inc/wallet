@@ -661,7 +661,6 @@ describe(swapSubmitPreparedSaga, () => {
       .provide(defaultProviders)
       .not.put(swapApprove())
       .put(swapError())
-      .put(removeStandbyTransaction('a uuid'))
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
