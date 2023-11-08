@@ -10,10 +10,9 @@ import { swapSubmitPreparedSaga, swapSubmitSaga } from 'src/swap/saga'
 import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import { TokenBalance } from 'src/tokens/slice'
 import { Actions, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -29,8 +28,6 @@ import {
   mockCeurAddress,
   mockCeurTokenId,
   mockContract,
-  mockCusdAddress,
-  mockCusdTokenId,
   mockTokenBalances,
   mockWBTCAddress,
   mockWBTCTokenId,
@@ -96,21 +93,6 @@ const mockSwap: PayloadAction<SwapInfo> = {
     },
     quoteReceivedAt: mockQuoteReceivedTimestamp,
   },
-}
-
-const mockFeeCurrency: TokenBalance = {
-  balance: new BigNumber('10'),
-  priceUsd: new BigNumber('1'),
-  lastKnownPriceUsd: new BigNumber('1'),
-  symbol: 'cUSD',
-  address: mockCusdAddress,
-  tokenId: mockCusdTokenId,
-  networkId: NetworkId['celo-alfajores'],
-  isCoreToken: true,
-  priceFetchedAt: Date.now(),
-  decimals: 18,
-  name: 'Celo Dollar',
-  imageUrl: '',
 }
 
 const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {

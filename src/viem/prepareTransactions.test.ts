@@ -722,6 +722,7 @@ describe('prepareTransactions module', () => {
             },
           ],
           feeCurrency: mockFeeCurrencies[0],
+          maxGasFeeInDecimal: new BigNumber(2),
         })
       ).toStrictEqual({
         feeCurrency: mockFeeCurrencies[0],
