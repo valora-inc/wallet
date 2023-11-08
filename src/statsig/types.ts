@@ -40,6 +40,7 @@ export enum StatsigFeatureGates {
   USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS = 'use_viem_for_walletconnect_transactions',
   USE_NEW_RECIPIENT_SCREEN = 'use_new_recipient_screen',
   USE_NEW_SEND_FLOW = 'use_new_send_flow',
+  SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
 }
 
