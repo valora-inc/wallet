@@ -2,6 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import {
   Fee,
@@ -15,6 +16,8 @@ import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import { mockCeurTokenId, mockCusdTokenId } from 'test/values'
 
 const MOCK_TX_HASH = '0x006b866d20452a24d1d90c7514422188cc7c5d873e2f1ed661ec3f810ad5331c'
+
+jest.mock('src/statsig')
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -33,6 +36,10 @@ jest.mock('src/web3/networkConfig', () => {
 })
 
 describe('SwapFeedItem', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+  })
   function renderScreen({
     storeOverrides = {},
     inAmount,
@@ -117,7 +124,28 @@ describe('SwapFeedItem', () => {
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
   })
 
-  it('hides balance when flag is set', async () => {
+  it('still shows balances when feature gate false, hide balances root state true', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const { getByTestId } = renderScreen({
+      inAmount: {
+        tokenId: mockCeurTokenId,
+        value: 2.93,
+      },
+      outAmount: {
+        tokenId: mockCusdTokenId,
+        value: 2.87,
+      },
+    })
+
+    expect(getElementText(getByTestId('SwapFeedItem/title'))).toEqual('swapScreen.title')
+    expect(getElementText(getByTestId('SwapFeedItem/subtitle'))).toEqual(
+      'feedItemSwapPath, {"token1":"cUSD","token2":"cEUR"}'
+    )
+    expect(getElementText(getByTestId('SwapFeedItem/incomingAmount'))).toEqual('+2.93 cEUR')
+    expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-2.87 cUSD')
+  })
+
+  it('hides balance when feature gate true, root state hide home balances flag is set', async () => {
     const { queryByTestId } = renderScreen({
       inAmount: {
         tokenId: mockCeurTokenId,
