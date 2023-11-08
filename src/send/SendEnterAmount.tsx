@@ -3,7 +3,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, TextInput as RNTextInput } from 'react-native'
+import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
 import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -13,8 +13,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
 import TextInput from 'src/components/TextInput'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
@@ -22,7 +24,6 @@ import TokenBottomSheet, {
 } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
-import Warning from 'src/components/Warning'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -33,6 +34,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -41,11 +43,9 @@ import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
-import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -338,7 +338,8 @@ function SendEnterAmount({ route }: Props) {
           </View>
         </View>
         {showMaxAmountWarning && (
-          <Warning
+          <InLineNotification
+            severity={Severity.Warning}
             title={t('sendEnterAmountScreen.maxAmountWarning.title')}
             description={t('sendEnterAmountScreen.maxAmountWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
@@ -348,7 +349,8 @@ function SendEnterAmount({ route }: Props) {
           />
         )}
         {showNotEnoughBalanceForGasWarning && (
-          <Warning
+          <InLineNotification
+            severity={Severity.Warning}
             title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
