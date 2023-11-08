@@ -18,7 +18,6 @@ import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   addHashToStandbyTransaction,
   addStandbyTransaction,
-  removeStandbyTransaction,
   transactionConfirmed,
 } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
@@ -376,11 +375,6 @@ export function* sendAndMonitorTransaction({
       sendTxMethod,
       context
     )) as unknown as TransactionReceipt
-
-    if (receipt.status === 'reverted') {
-      throw new Error('transaction reverted')
-    }
-    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(
       transactionConfirmed(context.id, {
         transactionHash: receipt.transactionHash,
@@ -388,6 +382,10 @@ export function* sendAndMonitorTransaction({
         status: receipt.status === 'success',
       })
     )
+    if (receipt.status === 'reverted') {
+      throw new Error('transaction reverted')
+    }
+    ValoraAnalytics.track(TransactionEvents.transaction_confirmed, commonTxAnalyticsProps)
     yield* put(fetchTokenBalances({ showLoading: true }))
     return receipt
   } catch (err) {
@@ -397,7 +395,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       error: error.message,
     })
-    yield* put(removeStandbyTransaction(context.id))
     yield* put(showError(ErrorMessages.TRANSACTION_FAILED))
     throw error
   }
