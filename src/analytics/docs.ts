@@ -292,7 +292,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
 
   // Events for the send select recipient screen
   [SendEvents.send_select_recipient_scan_qr]: `When the QR code button is pressed`,
-  [SendEvents.send_select_recipient_invite]: `When the import contacts button is pressed`,
+  [SendEvents.send_select_recipient_contacts]: `When the import contacts button is pressed`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,
