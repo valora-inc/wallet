@@ -75,6 +75,7 @@ exports[`PictureInputScreen renders correctly 1`] = `
               "height": 64,
               "width": 64,
             },
+            undefined,
           ]
         }
       >

@@ -1663,7 +1663,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Intercambios impulsados por socios en Celo. \n<0>Más información</0>",
+    "disclaimer": "Intercambios impulsados por socios en Celo. <0>Más información</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {
@@ -1689,6 +1689,15 @@
       "title": "Balance de fichas de gas insuficiente",
       "description": "No tienes suficiente {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, añade {{feeCurrencies}} a tu cartera para completar este intercambio.",
       "dismissButton": "Ignorar"
+    },
+    "transactionDetails": {
+      "networkFee": "{{networkName}} Tasa de red",
+      "networkFeeNoNetwork": "Tarifa de red",
+      "swapFee": "Tarifa de {{appName}}",
+      "swapFeeWaived": "Gratis",
+      "slippagePercentage": "Tolerancia al deslizamiento",
+      "networkFeeInfo": "Estás intercambiando en la Red {{networkName}} .\n\nEsta tarifa de red estimada es necesaria para realizar una transacción en la Red {{networkName}} . Esta tarifa asegura tu transacción y se destina a mantener operativa la red.",
+      "networkFeeInfoDismissButton": "Entendido"
     }
   },
   "swapTransactionDetailPage": {

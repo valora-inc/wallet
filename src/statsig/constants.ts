@@ -42,6 +42,8 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
   [StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN]: false,
   [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
+  [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
+  [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
 }
 
 export const ExperimentConfigs = {
@@ -108,6 +110,12 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG,
     defaultValues: {
       disabledMediaPlaybackRequiresUserActionOrigins: [] as string[],
+    },
+  },
+  [StatsigDynamicConfigs.SWAP_CONFIG]: {
+    configName: StatsigDynamicConfigs.SWAP_CONFIG,
+    defaultValues: {
+      maxSlippagePercentage: '0.3',
     },
   },
 }
