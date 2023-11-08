@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useState } from 'react'
+import React, { useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -27,9 +27,10 @@ import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
+import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import NftMedia from 'src/nfts/NftMedia'
 import NftsLoadError from 'src/nfts/NftsLoadError'
@@ -220,6 +221,19 @@ function AssetsScreen({ navigation, route }: Props) {
       ],
     }
   }, [footerPosition.value])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
+          <TopBarTextButton
+            onPress={navigateBack}
+            title={t('assets.importToken')}
+            style={styles.topBarTextButton}
+          />
+        ),
+    })
+  }, [navigation])
 
   useScrollAwareHeader({
     navigation,
@@ -571,6 +585,10 @@ const styles = StyleSheet.create({
   tabBarItemSelected: {
     ...typeScale.labelMedium,
     color: Colors.dark,
+  },
+  topBarTextButton: {
+    ...typeScale.bodyMedium,
+    paddingRight: Spacing.Smallest8,
   },
   nftsPairingContainer: {
     flexDirection: 'row',

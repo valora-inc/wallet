@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -99,6 +99,7 @@ const storeWithNfts = {
 describe('AssetsScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockRestore()
   })
 
   it('renders tokens and collectibles tabs when positions is disabled', () => {
@@ -334,6 +335,40 @@ describe('AssetsScreen', () => {
 
     fireEvent.press(getByText('assets.claimRewards'))
     expect(navigate).toHaveBeenCalledWith(Screens.DappShortcutsRewards)
+  })
+
+  it('does not render Import Token when feature flag is off', () => {
+    const store = createMockStore(storeWithPositions)
+
+    const component = (
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+    const { queryByText } = render(component)
+    const button = queryByText('assets.importToken')
+
+    expect(button).toBeNull()
+  })
+
+  it('clicking Import Token opens a screen', () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate: StatsigFeatureGates) => gate === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+      )
+    const store = createMockStore(storeWithPositions)
+
+    const component = (
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+    const { getByText } = render(component)
+    const button = getByText('assets.importToken')
+    fireEvent.press(button)
+
+    expect(navigateBack).toHaveBeenCalled()
   })
 
   it('displays tokens with balance and ones marked with showZeroBalance in the expected order', () => {
