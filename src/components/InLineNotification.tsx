@@ -43,7 +43,7 @@ export function InLineNotification({
 }: Props) {
   const severityStyle = severityStyles[severity]
   return (
-    <View style={[defaultStyles.container, style]} testID={testID}>
+    <View style={[defaultStyles.container, severityStyle.container, style]} testID={testID}>
       {title && (
         <View style={defaultStyles.row}>
           <View style={defaultStyles.attentionIcon}>
