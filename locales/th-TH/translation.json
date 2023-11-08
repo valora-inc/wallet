@@ -1843,7 +1843,8 @@
       "tokens": "โทเค็น",
       "collectibles": "ของสะสม",
       "dappPositions": "สถานะ Dapp"
-    }
+    },
+    "importToken": "Import"
   },
   "notificationCenterSpotlight": {
     "message": "แนะนำวิธีการใหม่ในการรับรางวัล ดูการแจ้งเตือน และดูข้อมูลอัปเดตในที่เดียว",
