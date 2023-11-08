@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { CallEffect } from 'redux-saga/effects'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { showError } from 'src/alert/actions'
@@ -28,15 +27,9 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put } from 'typed-redux-saga'
-import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
+import { Hash, SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
-
-type HashGenerator = () => Generator<
-  CallEffect<void> | CallEffect<`0x${string}`>,
-  `0x${string}`,
-  unknown
->
 
 /**
  * Send a payment with viem. The equivalent of buildAndSendPayment in src/send/saga.
@@ -358,7 +351,7 @@ export function* sendAndMonitorTransaction({
 }: {
   context: TransactionContext
   network: Network
-  sendTx: HashGenerator
+  sendTx: () => Generator<any, Hash, any>
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
