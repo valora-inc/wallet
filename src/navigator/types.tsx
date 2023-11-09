@@ -20,8 +20,8 @@ import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { QuoteResult } from 'src/swap/useSwapQuote'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { Network, TokenTransaction } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { TokenTransaction } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
@@ -103,10 +103,8 @@ export type StackParamList = {
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.FiatExchangeAmount]: {
-    currency: CiCoCurrency
     tokenId: string
     flow: CICOFlow
-    network: Network
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow

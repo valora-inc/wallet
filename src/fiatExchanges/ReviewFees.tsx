@@ -14,7 +14,7 @@ import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
   provider: string
-  currencyToBuy: CiCoCurrency
+  tokenIdToBuy: string
   localCurrency: LocalCurrencyCode
   crypto: {
     amount: number
@@ -32,7 +32,7 @@ export default function ReviewFees({
   crypto,
   fiat,
   localCurrency,
-  currencyToBuy,
+  tokenIdToBuy,
   feeWaived,
   feeUrl,
 }: Props) {

@@ -71,7 +71,7 @@ type Props = RouteProps
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { currency, flow, network, tokenId } = route.params
+  const { flow, tokenId } = route.params
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -79,7 +79,7 @@ function FiatExchangeAmount({ route }: Props) {
   }
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const { address } = useTokenInfo(tokenId) || {}
+  const { address, symbol } = useTokenInfo(tokenId) || {}
 
   const inputConvertedToCrypto =
     useLocalToTokenAmountByAddress(parsedInputAmount, address) || new BigNumber(0)
@@ -101,7 +101,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey = cicoCurrencyTranslationKeys[currency]
+  const displayCurrencyKey = cicoCurrencyTranslationKeys[symbol]
 
   const cUSDToken = useTokenInfo(networkConfig.currencyToTokenId[CiCoCurrency.cUSD])!
   const localCurrencyMaxAmount =
@@ -119,7 +119,7 @@ function FiatExchangeAmount({ route }: Props) {
   const dispatch = useDispatch()
 
   //TODO: Remove ETH check here once ETH token information is available
-  if (!address && currency !== CiCoCurrency.ETH) {
+  if (!address && symbol !== 'ETH') {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
   }
@@ -135,7 +135,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency: currencyForAnalytics[currency],
+      currency: symbol,
       flow,
     })
     const amount = {
@@ -147,7 +147,7 @@ function FiatExchangeAmount({ route }: Props) {
 
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
-        account.cryptoType === currency &&
+        account.cryptoType === CiCoCurrency[symbol] &&
         account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
@@ -157,7 +157,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         attemptReturnUserFlow({
           flow,
-          selectedCrypto: currency,
+          selectedCrypto: CiCoCurrency[symbol],
           amount,
           providerId,
           fiatAccountId,
@@ -168,9 +168,8 @@ function FiatExchangeAmount({ route }: Props) {
     } else {
       navigate(Screens.SelectProvider, {
         flow,
-        selectedCrypto: currency,
+        tokenId: tokenId,
         amount,
-        network,
       })
     }
   }
@@ -181,7 +180,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency: currencyForAnalytics[currency],
+          currency: currencyForAnalytics[symbol],
           flow,
         })
         return
