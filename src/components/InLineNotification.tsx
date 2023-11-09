@@ -1,5 +1,13 @@
 import React from 'react'
-import { StyleProp, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import {
+  GestureResponderEvent,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from 'react-native'
 import AttentionIcon from 'src/icons/Attention'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
@@ -42,6 +50,17 @@ export function InLineNotification({
   testID,
 }: Props) {
   const severityStyle = severityStyles[severity]
+  const renderCtaLabel = (
+    label?: string | null,
+    onPress?: (event: GestureResponderEvent) => void,
+    customStyle?: TextStyle
+  ) =>
+    label &&
+    onPress && (
+      <Text style={[defaultStyles.ctaLabel, customStyle]} onPress={onPress}>
+        {label}
+      </Text>
+    )
   return (
     <View style={[defaultStyles.container, severityStyle.container, style]} testID={testID}>
       {title && (
@@ -63,19 +82,8 @@ export function InLineNotification({
 
         {(ctaLabel || ctaLabel2) && (
           <View style={[defaultStyles.row, defaultStyles.ctaRow]}>
-            {ctaLabel && onPressCta && (
-              <Text style={[defaultStyles.ctaLabel, severityStyle.ctaLabel]} onPress={onPressCta}>
-                {ctaLabel}
-              </Text>
-            )}
-            {ctaLabel2 && onPressCta2 && (
-              <Text
-                style={[defaultStyles.ctaLabel2, severityStyle.ctaLabel2]}
-                onPress={onPressCta2}
-              >
-                {ctaLabel2}
-              </Text>
-            )}
+            {renderCtaLabel(ctaLabel, onPressCta, severityStyle.ctaLabel)}
+            {renderCtaLabel(ctaLabel2, onPressCta2, severityStyle.ctaLabel2)}
           </View>
         )}
       </View>
