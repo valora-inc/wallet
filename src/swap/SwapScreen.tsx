@@ -17,7 +17,10 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  TokenBalanceItemOption,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
@@ -508,6 +511,7 @@ export function SwapScreen({ route }: Props) {
             ? t('swapScreen.swapFromTokenSelection')
             : t('swapScreen.swapToTokenSelection')
         }
+        TokenOptionComponent={TokenBalanceItemOption}
       />
       {exchangeRate?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
