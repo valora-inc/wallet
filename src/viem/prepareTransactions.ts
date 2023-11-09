@@ -26,7 +26,7 @@ export interface PreparedTransactionsPossible {
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
-  maxGasFee: BigNumber
+  maxGasFeeInDecimal: BigNumber
   feeCurrency: TokenBalance
   decreasedSpendAmount: BigNumber
 }
@@ -259,7 +259,7 @@ export async function prepareTransactions({
 
   return {
     type: 'need-decrease-spend-amount-for-gas',
-    maxGasFee: adjustedMaxGasFee,
+    maxGasFeeInDecimal: adjustedMaxGasFee,
     feeCurrency: result.feeCurrency,
     decreasedSpendAmount: maxAmount,
   } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
@@ -377,7 +377,7 @@ export function getFeeCurrencyAndAmount(
     feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFee
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFeeInDecimal
   }
   return {
     feeAmount:

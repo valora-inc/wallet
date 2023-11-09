@@ -268,7 +268,7 @@ describe('prepareTransactions module', () => {
       })
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
-        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        maxGasFeeInDecimal: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
         decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
@@ -298,7 +298,7 @@ describe('prepareTransactions module', () => {
       })
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
-        maxGasFee: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        maxGasFeeInDecimal: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
         decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
@@ -734,7 +734,7 @@ describe('prepareTransactions module', () => {
         getFeeCurrencyAndAmount({
           type: 'need-decrease-spend-amount-for-gas',
           feeCurrency: mockCeloTokenBalance,
-          maxGasFee: new BigNumber(10).exponentiatedBy(17),
+          maxGasFeeInDecimal: new BigNumber(10).exponentiatedBy(17),
           decreasedSpendAmount: new BigNumber(4),
         })
       ).toStrictEqual({
