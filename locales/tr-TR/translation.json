@@ -1875,6 +1875,7 @@
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
     "title": "Bir alıcı seçin",
+    "contactsTitle": "Bir kişi seçin",
     "recents": "Son Zamanlar",
     "qr": {
       "title": "QR Kodunu Tarayın veya Gösterin",
