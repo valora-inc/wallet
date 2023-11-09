@@ -81,8 +81,12 @@ function GetStartedSection() {
 
   return (
     <View style={getStartedStyles.container} testID={'SelectRecipient/GetStarted'}>
-      <Text style={getStartedStyles.subtitle}>{t('sendSelectRecipient.getStarted.subtitle')}</Text>
-      <Text style={getStartedStyles.title}>{t('sendSelectRecipient.getStarted.title')}</Text>
+      <View>
+        <Text style={getStartedStyles.subtitle}>
+          {t('sendSelectRecipient.getStarted.subtitle')}
+        </Text>
+        <Text style={getStartedStyles.title}>{t('sendSelectRecipient.getStarted.title')}</Text>
+      </View>
       {options.map((params) => renderOption(params))}
     </View>
   )
@@ -90,11 +94,12 @@ function GetStartedSection() {
 
 const getStartedStyles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     backgroundColor: colors.gray1,
-    padding: 24,
-    margin: 24,
+    padding: Spacing.Thick24,
+    margin: Spacing.Thick24,
+    marginTop: 44,
     borderRadius: 10,
+    gap: Spacing.Regular16,
   },
   subtitle: {
     ...typeScale.labelXXSmall,
@@ -103,11 +108,9 @@ const getStartedStyles = StyleSheet.create({
   title: {
     ...typeScale.labelMedium,
     color: colors.gray5,
-    paddingBottom: 10,
   },
   optionWrapper: {
     flexDirection: 'row',
-    paddingVertical: 10,
   },
   optionNum: {
     borderWidth: 1,
@@ -118,13 +121,13 @@ const getStartedStyles = StyleSheet.create({
     color: colors.dark,
   },
   optionText: {
-    paddingLeft: 10,
-    flexDirection: 'column',
+    paddingLeft: Spacing.Smallest8,
+    flex: 1,
   },
   optionTitle: {
     ...typeScale.labelSmall,
     color: colors.gray5,
-    paddingBottom: 5,
+    paddingBottom: Spacing.Tiny4,
   },
   optionSubtitle: {
     ...typeScale.bodyXSmall,
@@ -219,23 +222,19 @@ function SendSelectRecipient() {
               />
             </View>
             {showGetStarted ? (
-              <View style={styles.getStartedWrapper}>
-                <GetStartedSection />
-              </View>
+              <GetStartedSection />
             ) : (
-              <View style={styles.recipientWrapper}>
-                <RecipientPicker
-                  testID={'SelectRecipient/RecentRecipientPicker'}
-                  recipients={recentRecipients}
-                  title={t('sendSelectRecipient.recents')}
-                  onSelectRecipient={setSelectedRecipient}
-                  selectedRecipient={recipient}
-                  isSelectedRecipientLoading={
-                    !!recipient &&
-                    recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
-                  }
-                />
-              </View>
+              <RecipientPicker
+                testID={'SelectRecipient/RecentRecipientPicker'}
+                recipients={recentRecipients}
+                title={t('sendSelectRecipient.recents')}
+                onSelectRecipient={setSelectedRecipient}
+                selectedRecipient={recipient}
+                isSelectedRecipientLoading={
+                  !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
+                }
+                style={styles.recentRecipientPicker}
+              />
             )}
           </>
         )}
@@ -254,31 +253,25 @@ SendSelectRecipient.navigationOptions = {
 const styles = StyleSheet.create({
   title: {
     ...typeScale.titleSmall,
-    paddingTop: 24,
-    paddingBottom: 16,
+    paddingTop: Spacing.Thick24,
+    paddingBottom: Spacing.Regular16,
     color: colors.dark,
   },
   header: {
-    justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
   },
   topSection: {
-    paddingHorizontal: 24,
-  },
-  getStartedWrapper: {
-    marginTop: 'auto',
+    paddingHorizontal: Spacing.Thick24,
   },
   content: {
     flex: 1,
-    justifyContent: 'flex-start',
   },
   body: {
     flex: 1,
   },
-  recipientWrapper: {
+  recentRecipientPicker: {
     paddingTop: Spacing.Large32,
-    flex: 1,
   },
   buttonContainer: {
     padding: variables.contentPadding,

@@ -1,5 +1,5 @@
 import React from 'react'
-import { FlatList, StyleSheet, Text, View } from 'react-native'
+import { FlatList, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import RecipientItem from 'src/recipients/RecipientItemV2'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
@@ -13,6 +13,7 @@ interface Props {
   onSelectRecipient(recipient: Recipient): void
   selectedRecipient: Recipient | null
   isSelectedRecipientLoading: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 function RecipientPicker({
@@ -22,9 +23,10 @@ function RecipientPicker({
   onSelectRecipient,
   selectedRecipient,
   isSelectedRecipientLoading,
+  style,
 }: Props) {
   return (
-    <View style={styles.body} testID={testID}>
+    <View style={[styles.body, style]} testID={testID}>
       {title && <Text style={styles.title}>{title}</Text>}
       <FlatList
         data={recipients}
