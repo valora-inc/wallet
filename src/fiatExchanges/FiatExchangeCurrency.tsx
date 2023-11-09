@@ -11,29 +11,28 @@ import {
   View,
   ViewStyle,
 } from 'react-native'
+import { useDispatch } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import RadioButton from 'src/icons/RadioButton'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
-import { CICOFlow, FiatExchangeFlow } from './utils'
-import { getDynamicConfigParams } from 'src/statsig'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
-import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
-import { useDispatch } from 'react-redux'
-import networkConfig from 'src/web3/networkConfig'
 import { Network } from 'src/transactions/types'
+import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
+import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -130,10 +129,8 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
       })
     }
     navigate(Screens.FiatExchangeAmount, {
-      currency: selectedCurrency,
       tokenId: networkConfig.currencyToTokenId[selectedCurrency],
       flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
-      network: CiCoCurrencyNetworkMap[selectedCurrency],
     })
   }
 

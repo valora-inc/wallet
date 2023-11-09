@@ -27,7 +27,6 @@ import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
 import { LayerParams } from 'src/statsig/constants'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
-import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import { Statsig } from 'statsig-react-native'
@@ -82,7 +81,7 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
     try {
       const availableExchanges = await fetchExchanges(
         userLocation.countryCodeAlpha2,
-        CiCoCurrency.CELO // Default to CELO, since the user never makes a selection when arriving here
+        'CELO' // Default to CELO, since the user never makes a selection when arriving here
       )
       return availableExchanges
     } catch (error) {

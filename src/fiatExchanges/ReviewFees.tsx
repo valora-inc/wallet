@@ -9,7 +9,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { navigateToURI } from 'src/utils/linking'
 
 interface Props {
@@ -66,13 +66,7 @@ export default function ReviewFees({
     />
   )
 
-  const token = {
-    [CiCoCurrency.CELO]: 'CELO',
-    [CiCoCurrency.cUSD]: 'cUSD',
-    [CiCoCurrency.cEUR]: 'cEUR',
-    [CiCoCurrency.cREAL]: 'cREAL',
-    [CiCoCurrency.ETH]: 'ETH',
-  }[currencyToBuy]
+  const tokenSymbol = useTokenInfo(tokenIdToBuy)?.symbol
 
   return (
     <View style={[styles.review]}>
@@ -103,13 +97,13 @@ export default function ReviewFees({
       </Dialog>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText]}>
-          {t('amount')} ({token})
+          {t('amount')} ({tokenSymbol})
         </Text>
         <Text style={[styles.reviewLineText]}>{showAmount(crypto.amount, true)}</Text>
       </View>
       <View style={[styles.reviewLine]}>
         <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
-          {t('pricePer', { coin: token })}
+          {t('pricePer', { coin: tokenSymbol })}
         </Text>
         <Text style={[styles.reviewLineText, styles.reviewLineTextAlt]}>
           {showAmount(fiat.subTotal / crypto.amount, false, [styles.reviewLineTextAlt])}

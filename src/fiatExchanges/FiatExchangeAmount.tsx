@@ -135,7 +135,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency: symbol,
+      currency: currencyForAnalytics[symbol],
       flow,
     })
     const amount = {
@@ -189,7 +189,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: maxWithdrawAmount.toFixed(2),
-          currency: currency,
+          currency: symbol,
         })
       )
       return
@@ -221,7 +221,7 @@ function FiatExchangeAmount({ route }: Props) {
         <View style={styles.amountInputContainer}>
           <View>
             <Text style={styles.exchangeBodyText}>
-              {inputIsCrypto ? `${t('amount')} (${currency})` : t('amount')}
+              {inputIsCrypto ? `${t('amount')} (${symbol})` : t('amount')}
             </Text>
           </View>
           <TextInput
@@ -290,8 +290,9 @@ FiatExchangeAmount.navOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => {
-  const { currency, flow, tokenId } = route.params
+  const { flow, tokenId } = route.params
   const inputIsCrypto = isUserInputCrypto(flow)
+  const { symbol } = useTokenInfo(tokenId) || {}
   return {
     ...emptyHeader,
     headerLeft: () => <BackButton eventName={FiatExchangeEvents.cico_amount_back} />,
@@ -302,7 +303,7 @@ FiatExchangeAmount.navOptions = ({
             ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
             : `fiatExchangeFlow.cashOut.exchangeAmountTitle`,
           {
-            currency,
+            symbol,
           }
         )}
         tokenId={tokenId}

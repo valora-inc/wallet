@@ -57,7 +57,7 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
@@ -111,12 +111,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     dispatch(
       fetchFiatConnectQuotes({
         flow,
-        digitalAsset: CiCoCurrency[tokenInfo?.symbol],
+        digitalAsset: resolveCICOCurrency(tokenInfo?.symbol),
         cryptoAmount,
         fiatAmount,
       })
     )
-  }, [flow, tokenInfo?.name, cryptoAmount])
+  }, [flow, tokenInfo?.symbol, cryptoAmount])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {

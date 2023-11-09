@@ -278,7 +278,7 @@ export const filterLegacyMobileMoneyProviders = (
 
 export async function fetchExchanges(
   countryCodeAlpha2: string | null,
-  currency: CiCoCurrency
+  currency: string
 ): Promise<ExternalExchangeProvider[] | undefined> {
   // If user location data is not available, default fetching exchanges serving the US
   if (!countryCodeAlpha2) countryCodeAlpha2 = 'us'
