@@ -99,9 +99,6 @@ describe('prepareTransactions module', () => {
     name: 'Spend token',
   }
   const mockPublicClient = {} as unknown as jest.Mocked<(typeof publicClient)[Network.Celo]>
-  beforeAll(() => {
-    publicClient[Network.Celo] = mockPublicClient
-  })
   describe('prepareTransactions function', () => {
     it('throws if trying to sendAmount > sendToken balance', async () => {
       await expect(() =>
