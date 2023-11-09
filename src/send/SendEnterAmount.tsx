@@ -46,11 +46,13 @@ import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
+import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
+const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
 
 const TAG = 'SendEnterAmount'
 
@@ -209,6 +211,7 @@ function SendEnterAmount({ route }: Props) {
         recipientAddress: recipient.address,
         walletAddress,
         feeCurrencies,
+        comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
       })
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
