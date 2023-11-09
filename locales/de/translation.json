@@ -1875,6 +1875,7 @@
   "sendSelectRecipient": {
     "searchText": "Suche nach Name, Telefon, Geldbeutel...",
     "title": "Wähle einen Empfänger",
+    "contactsTitle": "Wähle einen Kontakt",
     "recents": "Aktuelle",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
