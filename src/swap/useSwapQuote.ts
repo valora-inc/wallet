@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
@@ -103,6 +103,8 @@ export async function prepareSwapTransactions(
     spendTokenAmount: new BigNumber(amountToApprove.toString()),
     decreasedAmountGasFeeMultiplier: DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER,
     baseTransactions,
+    // We still want to prepare the transactions even if the user doesn't have enough balance
+    throwOnSpendTokenAmountExceedsBalance: false,
   })
 }
 
@@ -113,11 +115,6 @@ const useSwapQuote = (slippagePercentage: string) => {
 
   // TODO use the networkId from the fromToken
   const feeCurrencies = useFeeCurrencies(networkConfig.defaultNetworkId)
-
-  // refreshQuote requests are generated when the swap input amounts are
-  // changed, but the quote response / updated exchange rate updates the swap
-  // input amounts. this variable prevents duplicated requests in this scenario
-  const requestUrlRef = useRef<string>('')
 
   const refreshQuote = useAsyncCallback(
     async (
@@ -147,12 +144,6 @@ const useSwapQuote = (slippagePercentage: string) => {
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
       const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
-      if (requestUrl === requestUrlRef.current) {
-        // return the current exchange rate if the request url hasn't changed
-        return exchangeRate
-      }
-
-      requestUrlRef.current = requestUrl
       const response = await fetch(requestUrl)
 
       if (!response.ok) {
@@ -208,7 +199,7 @@ const useSwapQuote = (slippagePercentage: string) => {
   )
 
   const clearQuote = () => {
-    requestUrlRef.current = ''
+    setExchangeRate(null)
   }
 
   return {

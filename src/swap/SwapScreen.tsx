@@ -146,8 +146,20 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     setFromSwapAmountError(false)
+    // since we use the calculated exchange rate to update the parsedSwapAmount,
+    // this hook will be triggered after the exchange rate is first updated. this
+    // variable prevents the exchange rate from needlessly being calculated
+    // again.
+    const exchangeRateKnown =
+      fromToken &&
+      toToken &&
+      exchangeRate &&
+      exchangeRate.toTokenAddress === toToken.address &&
+      exchangeRate.fromTokenAddress === fromToken.address &&
+      exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField])
+
     const debouncedRefreshQuote = setTimeout(() => {
-      if (toToken && fromToken) {
+      if (fromToken && toToken && parsedSwapAmount[updatedField].gt(0) && !exchangeRateKnown) {
         void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField, useViemForSwap)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
@@ -155,7 +167,7 @@ export function SwapScreen({ route }: Props) {
     return () => {
       clearTimeout(debouncedRefreshQuote)
     }
-  }, [fromToken, toToken, parsedSwapAmount])
+  }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
 
   useEffect(() => {
     if (showMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {

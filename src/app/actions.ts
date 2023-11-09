@@ -38,7 +38,7 @@ export enum Actions {
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
-  TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
+  TOGGLE_HIDE_HOME_BALANCES = 'APP/TOGGLE_HIDE_HOME_BALANCES',
 }
 
 export interface SetAppState {
@@ -170,8 +170,8 @@ export interface NotificationSpotlightSeen {
   type: Actions.NOTIFICATION_SPOTLIGHT_SEEN
 }
 
-interface ToggleHideBalances {
-  type: Actions.TOGGLE_HIDE_BALANCES
+interface ToggleHideHomeBalances {
+  type: Actions.TOGGLE_HIDE_HOME_BALANCES
 }
 
 export type ActionTypes =
@@ -201,7 +201,7 @@ export type ActionTypes =
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
   | NotificationSpotlightSeen
-  | ToggleHideBalances
+  | ToggleHideHomeBalances
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -369,8 +369,8 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
   }
 }
 
-export const toggleHideBalances = (): ToggleHideBalances => {
+export const toggleHideHomeBalances = (): ToggleHideHomeBalances => {
   return {
-    type: Actions.TOGGLE_HIDE_BALANCES,
+    type: Actions.TOGGLE_HIDE_HOME_BALANCES,
   }
 }
