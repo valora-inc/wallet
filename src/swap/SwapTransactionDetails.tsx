@@ -14,7 +14,7 @@ import { NetworkId } from 'src/transactions/types'
 
 interface Props {
   networkId?: NetworkId
-  networkFee: BigNumber
+  networkFee?: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippagePercentage: string
   feeTokenId: string
@@ -54,13 +54,18 @@ export function SwapTransactionDetails({
                 />
               </>
             </Touchable>
-            <TokenDisplay
-              style={styles.value}
-              amount={networkFee}
-              tokenId={feeTokenId}
-              showLocalAmount={true}
-              testID="SwapTransactionDetails/NetworkFee/Value"
-            />
+            {networkFee ? (
+              <TokenDisplay
+                style={styles.value}
+                amount={networkFee}
+                showApprox
+                tokenId={feeTokenId}
+                showLocalAmount={true}
+                testID="SwapTransactionDetails/NetworkFee/Value"
+              />
+            ) : (
+              <Text style={styles.value}>-</Text>
+            )}
           </>
         ) : (
           <>
