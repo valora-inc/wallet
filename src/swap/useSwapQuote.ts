@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useSelector } from 'react-redux'
@@ -9,7 +8,11 @@ import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { PreparedTransactionsResult, prepareTransactions } from 'src/viem/prepareTransactions'
+import {
+  PreparedTransactionsResult,
+  TransactionRequest,
+  prepareTransactions,
+} from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
@@ -38,7 +41,7 @@ function createBaseSwapTransactions(
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction
 ) {
-  const baseTransactions: TransactionRequestCIP42[] = []
+  const baseTransactions: TransactionRequest[] = []
 
   const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
     unvalidatedSwapTransaction
@@ -58,7 +61,7 @@ function createBaseSwapTransactions(
       args: [allowanceTarget as Address, amountToApprove],
     })
 
-    const approveTx: TransactionRequestCIP42 = {
+    const approveTx: TransactionRequest = {
       from: from as Address,
       to: fromToken.address as Address,
       data,
@@ -66,7 +69,7 @@ function createBaseSwapTransactions(
     baseTransactions.push(approveTx)
   }
 
-  const swapTx: TransactionRequestCIP42 & { gas: bigint } = {
+  const swapTx: TransactionRequest & { gas: bigint } = {
     from: from as Address,
     to: to as Address,
     value: BigInt(value ?? 0),

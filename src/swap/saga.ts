@@ -4,7 +4,6 @@ import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapEvents } from 'src/analytics/Events'
 import {
   PrefixedTxReceiptProperties,
@@ -17,6 +16,7 @@ import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
+import { getFeeCurrency } from 'src/swap/getFeeCurrency'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import {
   swapApprove,
@@ -51,7 +51,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getMaxGasFee } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getMaxGasFee } from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -276,7 +276,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 }
 
 interface TrackedTx {
-  tx: TransactionRequestCIP42 | undefined
+  tx: TransactionRequest | undefined
   txHash: Hash | undefined
   txReceipt: TransactionReceipt | undefined
 }
@@ -286,7 +286,8 @@ function getTxReceiptAnalyticsProperties(
   tokensByAddress: TokenBalancesWithAddress,
   celoAddress: string | undefined
 ): Partial<TxReceiptProperties> {
-  const feeCurrencyAddress = tx?.feeCurrency || celoAddress
+  const txFeeCurrency = tx && getFeeCurrency(tx)
+  const feeCurrencyAddress = txFeeCurrency || celoAddress
   const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
 
   const txMaxGasFee =
@@ -321,7 +322,7 @@ function getTxReceiptAnalyticsProperties(
     txGasFee: txGasFee?.toNumber(),
     txGasFeeUsd: txGasFeeUsd?.toNumber(),
     txHash,
-    txFeeCurrency: tx?.feeCurrency,
+    txFeeCurrency,
     txFeeCurrencySymbol: feeCurrencyToken?.symbol,
   }
 }

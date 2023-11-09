@@ -1,11 +1,10 @@
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapTxsProperties } from 'src/analytics/Properties'
 import { getFeeCurrency } from 'src/swap/getFeeCurrency'
 import { TokenBalancesWithAddress } from 'src/tokens/slice'
-import { getMaxGasFee } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getMaxGasFee } from 'src/viem/prepareTransactions'
 
 export function getSwapTxsAnalyticsProperties(
-  preparedTransactions: TransactionRequestCIP42[] | undefined,
+  preparedTransactions: TransactionRequest[] | undefined,
   tokensByAddress: TokenBalancesWithAddress,
   celoAddress: string | undefined
 ): SwapTxsProperties | null {
