@@ -1845,7 +1845,8 @@
       "tokens": "Token",
       "collectibles": "Sammlerstücke",
       "dappPositions": "Dapp-Positionen"
-    }
+    },
+    "importToken": "Importieren"
   },
   "notificationCenterSpotlight": {
     "message": "Einführung einer neuen Möglichkeit, um an einem Ort Rewards zu beanspruchen und Benachrichtigungen und Updates sehen",
