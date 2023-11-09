@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import { TransactionRequestCIP64 } from 'node_modules/viem/_types/chains/celo/types'
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'
@@ -22,7 +22,8 @@ import { estimateGas } from 'viem/actions'
 
 const TAG = 'viem/prepareTransactions'
 
-export type TransactionRequest = TransactionRequestCIP42 | TransactionRequestEIP1559
+// Supported transaction types
+export type TransactionRequest = TransactionRequestCIP64 | TransactionRequestEIP1559
 
 export interface PreparedTransactionsPossible {
   type: 'possible'

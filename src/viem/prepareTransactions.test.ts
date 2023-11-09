@@ -115,7 +115,6 @@ describe('prepareTransactions module', () => {
               from: '0xfrom' as Address,
               to: '0xto' as Address,
               data: '0xdata',
-              type: 'cip42',
             },
           ],
         })
@@ -139,7 +138,6 @@ describe('prepareTransactions module', () => {
               from: '0xfrom' as Address,
               to: '0xto' as Address,
               data: '0xdata',
-              type: 'cip42',
             },
           ],
           throwOnSpendTokenAmountExceedsBalance: false,
@@ -165,7 +163,6 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
           },
         ],
       })
@@ -191,7 +188,6 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
           },
         ],
       })
@@ -217,7 +213,6 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
           },
         ],
       })
@@ -244,7 +239,6 @@ describe('prepareTransactions module', () => {
               from: '0xfrom' as Address,
               to: '0xto' as Address,
               data: '0xdata',
-              type: 'cip42',
             },
           ],
         })
@@ -266,7 +260,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
           },
         ],
@@ -296,7 +290,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(15_000), // 50k will be added for fee currency 1 since it is non-native
           },
         ],
@@ -327,13 +321,12 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
           },
           {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(100),
           },
         ],
@@ -345,7 +338,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom',
             to: '0xto',
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
@@ -354,7 +347,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom',
             to: '0xto',
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
@@ -383,13 +376,12 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
           },
           {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
           },
         ],
@@ -401,7 +393,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom',
             to: '0xto',
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
@@ -411,7 +403,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom',
             to: '0xto',
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(50_100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
@@ -440,13 +432,12 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
           },
           {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
           },
         ],
@@ -458,7 +449,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom',
             to: '0xto',
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
@@ -467,7 +458,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom',
             to: '0xto',
             data: '0xdata',
-            type: 'cip42',
+
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
@@ -710,7 +701,7 @@ describe('prepareTransactions module', () => {
               from: '0xfrom',
               to: '0xto',
               data: '0xdata',
-              type: 'cip42',
+
               gas: BigInt(500),
               maxFeePerGas: BigInt(1),
               maxPriorityFeePerGas: BigInt(2),
@@ -719,7 +710,7 @@ describe('prepareTransactions module', () => {
               from: '0xfrom',
               to: '0xto',
               data: '0xdata',
-              type: 'cip42',
+
               gas: BigInt(100),
               maxFeePerGas: BigInt(1),
               maxPriorityFeePerGas: BigInt(2),
