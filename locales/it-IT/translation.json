@@ -1845,7 +1845,8 @@
       "tokens": "Token",
       "collectibles": "Oggetti da collezione",
       "dappPositions": "Posizioni Dapp"
-    }
+    },
+    "importToken": "Importazione"
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere le ricompense, visualizzare gli avvisi e vedere gli aggiornamenti in un'unica posizione",

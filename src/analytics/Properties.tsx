@@ -628,7 +628,7 @@ interface SendEventsProperties {
   [SendEvents.check_account_alert_back]: undefined
   [SendEvents.check_account_alerts_continue]: undefined
   [SendEvents.send_select_recipient_scan_qr]: undefined
-  [SendEvents.send_select_recipient_invite]: undefined
+  [SendEvents.send_select_recipient_contacts]: undefined
 }
 
 interface RequestEventsProperties {
