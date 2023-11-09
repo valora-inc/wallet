@@ -1845,7 +1845,8 @@
       "tokens": "Tokens",
       "collectibles": "Colecionáveis",
       "dappPositions": "Posições de dapp"
-    }
+    },
+    "importToken": "Importação"
   },
   "notificationCenterSpotlight": {
     "message": "Apresentamos uma nova forma de resgatar recompensas, ver alertas e consultar atualizações em um só lugar",

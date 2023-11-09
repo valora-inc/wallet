@@ -1845,7 +1845,8 @@
       "tokens": "Tokenlar",
       "collectibles": "Koleksiyon Ürünleri",
       "dappPositions": "Dapp Pozisyonları"
-    }
+    },
+    "importToken": "İthalat"
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
