@@ -480,6 +480,10 @@ describe('SendEnterAmount', () => {
     expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
       1 // not twice since timers were not run between the two amount changes (zero to 8 and 8 to 9)
     )
+    expect(
+      jest.mocked(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).mock.calls[0][0]
+        ?.comment?.length
+    ).toBeGreaterThanOrEqual(640)
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(3) // doesnt wait for timers
 
     fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
