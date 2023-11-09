@@ -109,6 +109,7 @@ describe('usePrepareSendTransactions', () => {
           recipientAddress: '0xabc',
           walletAddress: '0x123',
           feeCurrencies: [mockCeloTokenBalance],
+          comment: 'mock comment',
         })
       ).toStrictEqual(mockPrepareTransactionsResult)
       expect(prepareTransferWithCommentTransaction).toHaveBeenCalledWith({
@@ -117,6 +118,7 @@ describe('usePrepareSendTransactions', () => {
         sendToken: mockCeloTokenBalance,
         amount: BigInt('2'.concat('0'.repeat(19))),
         feeCurrencies: [mockCeloTokenBalance],
+        comment: 'mock comment',
       })
     })
   })

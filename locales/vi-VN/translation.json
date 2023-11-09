@@ -1843,7 +1843,8 @@
       "tokens": "Token",
       "collectibles": "Các bộ sưu tập",
       "dappPositions": "Lệnh giao dịch trên Dapp"
-    }
+    },
+    "importToken": "Import"
   },
   "notificationCenterSpotlight": {
     "message": "Giới thiệu phương thức mới để nhận tiền thưởng, xem thông báo và xem thông tin cập nhật ở cùng một nơi",

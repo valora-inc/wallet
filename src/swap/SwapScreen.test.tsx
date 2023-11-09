@@ -226,13 +226,19 @@ const defaultQuoteResponse = JSON.stringify(defaultQuote)
 
 const selectToken = (
   swapAmountContainer: ReactTestInstance,
-  tokenName: string,
+  tokenSymbol: string,
   tokenBottomSheet: ReactTestInstance
 ) => {
+  const tokenSymbolNameMap: Record<string, string> = {
+    cUSD: 'Celo Dollar',
+    cEUR: 'Celo Euro',
+    CELO: 'Celo native asset',
+    POOF: 'Poof',
+  }
   fireEvent.press(within(swapAmountContainer).getByTestId('SwapAmountInput/TokenSelect'))
-  fireEvent.press(within(tokenBottomSheet).getByTestId(`${tokenName}Touchable`))
+  fireEvent.press(within(tokenBottomSheet).getByText(tokenSymbolNameMap[tokenSymbol]))
 
-  expect(within(swapAmountContainer).getByText(tokenName)).toBeTruthy()
+  expect(within(swapAmountContainer).getByText(tokenSymbol)).toBeTruthy()
 }
 
 describe('SwapScreen', () => {
@@ -778,24 +784,19 @@ describe('SwapScreen', () => {
       swappingNonNativeTokensEnabled: true,
     })
 
-    const {
-      swapToContainer,
-      getByPlaceholderText,
-      getByTestId,
-      queryByTestId,
-      swapFromContainer,
-      tokenBottomSheet,
-    } = renderScreen({})
+    const { swapToContainer, getByPlaceholderText, swapFromContainer, tokenBottomSheet } =
+      renderScreen({})
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
     expect(getByPlaceholderText('tokenBottomSheet.searchAssets')).toBeTruthy()
-    expect(getByTestId('cUSDTouchable')).toBeTruthy()
-    expect(getByTestId('cEURTouchable')).toBeTruthy()
-    expect(getByTestId('CELOTouchable')).toBeTruthy()
-    expect(queryByTestId('POOFTouchable')).toBeTruthy()
-    expect(queryByTestId('TTTouchable')).toBeFalsy()
+
+    expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    expect(within(tokenBottomSheet).getByText('Celo Euro')).toBeTruthy()
+    expect(within(tokenBottomSheet).getByText('Celo native asset')).toBeTruthy()
+    expect(within(tokenBottomSheet).getByText('Poof')).toBeTruthy()
+    expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
   })
 
   it('should disable buy amount input when swap buy amount experiment is set is false', () => {
