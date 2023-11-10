@@ -53,15 +53,16 @@ describe(estimateFeesPerGas, () => {
     expect(defaultEstimateFeesPerGas).toHaveBeenCalledWith(client)
   })
 
-  it('should return the default fees per gas on other networks when fee currency is specified', async () => {
+  it('should throw on other networks when fee currency is specified', async () => {
     jest
       .mocked(defaultEstimateFeesPerGas)
       .mockResolvedValue({ maxFeePerGas: BigInt(110), maxPriorityFeePerGas: BigInt(10) })
     const client = {
       chain: { id: 1 },
     }
-    const fees = await estimateFeesPerGas(client as any, '0x123')
-    expect(fees).toEqual({ maxFeePerGas: BigInt(110), maxPriorityFeePerGas: BigInt(10) })
-    expect(defaultEstimateFeesPerGas).toHaveBeenCalledWith(client)
+    await expect(estimateFeesPerGas(client as any, '0x123')).rejects.toThrowError(
+      'feeCurrency is only supported on Celo'
+    )
+    expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
   })
 })

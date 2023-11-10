@@ -20,6 +20,10 @@ export async function estimateFeesPerGas(
     return { maxFeePerGas, maxPriorityFeePerGas }
   }
 
+  if (feeCurrency) {
+    throw new Error('feeCurrency is only supported on Celo')
+  }
+
   return defaultEstimateFeesPerGas(client)
 }
 
