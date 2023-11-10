@@ -1890,7 +1890,7 @@
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
-          "title": "Cüzdan Adresi",
+          "title": "Cüzdan adresi",
           "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
         },
         "two": {
