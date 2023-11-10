@@ -153,7 +153,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: tokenInfo.symbol,
+          digitalAsset: tokenInfo.symbol.toUpperCase(),
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',

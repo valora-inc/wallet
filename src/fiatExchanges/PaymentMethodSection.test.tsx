@@ -1,15 +1,16 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import {
   PaymentMethodSection,
   PaymentMethodSectionProps,
 } from 'src/fiatExchanges/PaymentMethodSection'
 import { normalizeQuotes } from 'src/fiatExchanges/quotes/normalizeQuotes'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
@@ -17,10 +18,9 @@ import {
   mockCusdTokenId,
   mockFiatConnectQuotes,
   mockFiatConnectQuotesWithUnknownFees,
-  mockProviders,
   mockProviderSelectionAnalyticsData,
+  mockProviders,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const mockStore = createMockStore({
   localCurrency: {
@@ -41,6 +41,13 @@ const mockStore = createMockStore({
     },
   },
 })
+
+const mockUseTokenInfo = jest.fn(() => {
+  return { address: mockCusdAddress, symbol: 'cUSD' }
+})
+jest.mock('src/tokens/hooks', () => ({
+  useTokenInfo: () => mockUseTokenInfo(),
+}))
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -64,9 +71,9 @@ describe('PaymentMethodSection', () => {
     props = {
       paymentMethod: PaymentMethod.Card,
       // the below creates 4 quotes - 1 Ramp (card), 2 Moonpay (bank, card), 1 Simplex (card)
-      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders, CiCoCurrency.cUSD),
+      normalizedQuotes: normalizeQuotes(CICOFlow.CashIn, [], mockProviders, mockCusdTokenId),
       flow: CICOFlow.CashIn,
-      cryptoType: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
       analyticsData: mockProviderSelectionAnalyticsData,
     }
     jest.mocked(getFeatureGate).mockReturnValue(false)

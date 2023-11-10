@@ -14,8 +14,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Network } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
   mockCeloAddress,
@@ -27,7 +26,6 @@ import {
   mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -483,12 +481,11 @@ describe('ReviewScreen', () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: CICOFlow.CashOut,
-        selectedCrypto: Currency.Dollar,
         amount: {
           fiat: 100,
           crypto: 100,
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
     describe.each([

@@ -103,6 +103,7 @@ import {
   mockCeurAddress,
   mockCrealAddress,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFeeInfo,
   mockFiatConnectProviderInfo,
   mockFiatConnectQuotes,
@@ -110,6 +111,13 @@ import {
 } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 
+const mockUseTokenInfo = jest.fn(() => {
+  return { address: mockCusdAddress, symbol: 'cUSD', tokenId: mockCusdTokenId }
+})
+jest.mock('src/tokens/hooks', () => ({
+  useTokenInfo: () => mockUseTokenInfo(),
+  useTokenInfoWithAddressBySymbol: () => mockUseTokenInfo(),
+}))
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect')
 jest.mock('uuid')
@@ -962,12 +970,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuoteKyc.flow,
-        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
     it('invokes _checkFiatAccountAndNavigate directly if KYC is not required', async () => {
@@ -1003,12 +1010,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuote.flow,
-        selectedCrypto: normalizedQuote.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
   })
@@ -1048,12 +1054,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuoteKyc.flow,
-        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
     it('navigates to SelectProvider if _checkFiatAccountAndNavigate throws', async () => {
@@ -1078,12 +1083,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuoteKyc.flow,
-        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
   })
@@ -1329,18 +1333,26 @@ describe('Fiatconnect saga', () => {
         fiat: 2,
       },
       flow: CICOFlow.CashOut,
+      tokenId: mockCusdTokenId,
+    }
+    const selectProviderParamsReturn = {
+      amount: {
+        crypto: 2,
+        fiat: 2,
+      },
+      flow: CICOFlow.CashOut,
       selectedCrypto: CiCoCurrency.cUSD,
       network: Network.Celo,
     }
     const params = attemptReturnUserFlow({
-      ...selectProviderParams,
+      ...selectProviderParamsReturn,
       providerId: 'provider-two',
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
       fiatAccountSchema: FiatAccountSchema.AccountNumber,
     })
     const paramsKyc = attemptReturnUserFlow({
-      ...selectProviderParams,
+      ...selectProviderParamsReturn,
       providerId: 'provider-three',
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,

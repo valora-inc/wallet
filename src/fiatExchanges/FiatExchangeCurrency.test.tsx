@@ -5,11 +5,11 @@ import FiatExchangeCurrency from 'src/fiatExchanges/FiatExchangeCurrency'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Network, NetworkId } from 'src/transactions/types'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { FiatExchangeFlow } from './utils'
-import { mockCusdTokenId, mockCeurTokenId, mockCeloTokenId, mockEthTokenId } from 'test/values'
 import { getDynamicConfigParams } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockCeloTokenId, mockCeurTokenId, mockCusdTokenId, mockEthTokenId } from 'test/values'
+import { FiatExchangeFlow } from './utils'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(() => {
@@ -44,10 +44,8 @@ describe('FiatExchangeCurrency', () => {
 
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: 'cUSD',
       tokenId: mockCusdTokenId,
       flow: FiatExchangeFlow.CashIn,
-      network: Network.Celo,
     })
   })
   it('cEUR Flow', () => {
@@ -62,10 +60,8 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByTestId('radio/cEUR'))
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: 'cEUR',
       tokenId: mockCeurTokenId,
       flow: FiatExchangeFlow.CashIn,
-      network: Network.Celo,
     })
   })
   it('CELO Flow', () => {
@@ -81,9 +77,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockCeloTokenId,
-      currency: 'CELO',
       flow: FiatExchangeFlow.CashIn,
-      network: Network.Celo,
     })
   })
   it('ETH Flow', () => {
@@ -102,9 +96,7 @@ describe('FiatExchangeCurrency', () => {
     fireEvent.press(tree.getByText('next'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockEthTokenId,
-      currency: 'ETH',
       flow: FiatExchangeFlow.CashIn,
-      network: Network.Ethereum,
     })
   })
   it('Spend Flow', () => {
