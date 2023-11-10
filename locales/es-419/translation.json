@@ -1890,7 +1890,7 @@
       "subtitle": "EMPEZAR",
       "options": {
         "one": {
-          "title": "Dirección del monedero",
+          "title": "Dirección de wallet",
           "subtitle": "Introduce una dirección de monedero compatible con Celo o Ethereum (ej. 0x123...abcde)"
         },
         "two": {
