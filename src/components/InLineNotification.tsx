@@ -1,13 +1,5 @@
 import React from 'react'
-import {
-  GestureResponderEvent,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-  ViewStyle,
-} from 'react-native'
+import { GestureResponderEvent, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import AttentionIcon from 'src/icons/Attention'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
@@ -32,10 +24,8 @@ interface Props {
 }
 
 interface CustomStyles {
-  container: ViewStyle
-  attentionIcon: Record<'color', Colors>
-  ctaLabel: TextStyle
-  ctaLabel2: TextStyle
+  primary: Colors
+  secondary: Colors
 }
 
 export function InLineNotification({
@@ -53,20 +43,23 @@ export function InLineNotification({
   const renderCtaLabel = (
     label?: string | null,
     onPress?: (event: GestureResponderEvent) => void,
-    customStyle?: TextStyle
+    color?: Colors
   ) =>
     label &&
     onPress && (
-      <Text style={[defaultStyles.ctaLabel, customStyle]} onPress={onPress}>
+      <Text style={[defaultStyles.ctaLabel, { color }]} onPress={onPress}>
         {label}
       </Text>
     )
 
   return (
-    <View style={[defaultStyles.container, severityStyle.container, style]} testID={testID}>
+    <View
+      style={[defaultStyles.container, { backgroundColor: severityStyle.secondary }, style]}
+      testID={testID}
+    >
       <View style={[defaultStyles.row, title ? null : defaultStyles.bodyRow]}>
         <View style={defaultStyles.attentionIcon}>
-          <AttentionIcon color={severityStyle.attentionIcon.color} />
+          <AttentionIcon color={severityStyle.primary} />
         </View>
         {title ? (
           <Text style={defaultStyles.titleText}>{title}</Text>
@@ -83,8 +76,8 @@ export function InLineNotification({
 
       {(ctaLabel || ctaLabel2) && (
         <View style={[defaultStyles.row, defaultStyles.ctaRow]}>
-          {renderCtaLabel(ctaLabel, onPressCta, severityStyle.ctaLabel)}
-          {renderCtaLabel(ctaLabel2, onPressCta2, severityStyle.ctaLabel2)}
+          {renderCtaLabel(ctaLabel, onPressCta, severityStyle.primary)}
+          {renderCtaLabel(ctaLabel2, onPressCta2, severityStyle.primary)}
         </View>
       )}
     </View>
@@ -150,22 +143,16 @@ const defaultStyles = StyleSheet.create({
 
 const severityStyles: Record<Severity, CustomStyles> = {
   [Severity.Informational]: {
-    container: { backgroundColor: Colors.informationFaint },
-    attentionIcon: { color: Colors.informationDark },
-    ctaLabel: { color: Colors.informationDark },
-    ctaLabel2: { color: Colors.informationDark },
+    primary: Colors.informationDark,
+    secondary: Colors.informationFaint,
   },
   [Severity.Warning]: {
-    container: { backgroundColor: Colors.warningLight },
-    attentionIcon: { color: Colors.warningDark },
-    ctaLabel: { color: Colors.warningDark },
-    ctaLabel2: { color: Colors.warningDark },
+    primary: Colors.warningDark,
+    secondary: Colors.warningLight,
   },
   [Severity.Error]: {
-    container: { backgroundColor: Colors.errorLight },
-    attentionIcon: { color: Colors.errorDark },
-    ctaLabel: { color: Colors.errorDark },
-    ctaLabel2: { color: Colors.errorDark },
+    primary: Colors.errorDark,
+    secondary: Colors.errorLight,
   },
 }
 
