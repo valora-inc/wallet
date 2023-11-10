@@ -7,6 +7,7 @@ import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
 import {
   TransactionRequest,
+  getFeeCurrency,
   getFeeCurrencyAddress,
   getFeeCurrencyAndAmount,
   getMaxGasFee,
@@ -732,6 +733,60 @@ describe('prepareTransactions module', () => {
         feeCurrency: mockCeloTokenBalance,
         feeAmount: new BigNumber(0.1),
       })
+    })
+  })
+
+  describe(getFeeCurrency, () => {
+    it('returns undefined if no transactions are provided', () => {
+      const result = getFeeCurrency([])
+      expect(result).toBeUndefined()
+    })
+
+    it('returns the fee currency if only one transaction is provided', () => {
+      const result = getFeeCurrency({
+        from: '0xfrom' as Address,
+        to: '0xto' as Address,
+        data: '0xdata',
+        feeCurrency: '0xfee' as Address,
+      })
+      expect(result).toEqual('0xfee')
+    })
+
+    it('returns the fee currency if multiple transactions with the same fee currency are provided', () => {
+      const result = getFeeCurrency([
+        {
+          from: '0xfrom' as Address,
+          to: '0xto' as Address,
+          data: '0xdata',
+          feeCurrency: '0xfee1' as Address,
+        },
+        {
+          from: '0xfrom' as Address,
+          to: '0xto' as Address,
+          data: '0xdata',
+          feeCurrency: '0xfee1' as Address,
+        },
+      ])
+      expect(result).toEqual('0xfee1')
+    })
+
+    it('throws an error if multiple transactions with different fee currencies are provided', () => {
+      expect(() =>
+        getFeeCurrency([
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            feeCurrency: '0xfee1' as Address,
+          },
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            feeCurrency: '0xfee2' as Address,
+          },
+        ])
+      ).toThrowError('Unexpected usage of multiple fee currencies for prepared transactions')
     })
   })
 })

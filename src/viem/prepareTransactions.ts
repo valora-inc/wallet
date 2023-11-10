@@ -397,3 +397,34 @@ export function getFeeCurrencyAndAmount(
     feeCurrency,
   }
 }
+
+/**
+ * Given prepared transaction(s), get the fee currency set.
+ *
+ * NOTE: throws if the fee currency is not the same for all transactions
+ */
+export function getFeeCurrency(preparedTransactions: TransactionRequest[]): Address | undefined
+export function getFeeCurrency(preparedTransaction: TransactionRequest): Address | undefined
+export function getFeeCurrency(x: TransactionRequest[] | TransactionRequest): Address | undefined {
+  const preparedTransactions = Array.isArray(x) ? x : [x]
+
+  const feeCurrencies = preparedTransactions.map(_getFeeCurrency)
+  // The prepared transactions should always use the same fee currency
+  // throw if that's not the case
+  if (
+    feeCurrencies.length > 1 &&
+    feeCurrencies.some((feeCurrency) => feeCurrency !== feeCurrencies[0])
+  ) {
+    throw new Error('Unexpected usage of multiple fee currencies for prepared transactions')
+  }
+
+  return feeCurrencies[0]
+}
+
+function _getFeeCurrency(prepareTransaction: TransactionRequest): Address | undefined {
+  if ('feeCurrency' in prepareTransaction) {
+    return prepareTransaction.feeCurrency
+  }
+
+  return undefined
+}

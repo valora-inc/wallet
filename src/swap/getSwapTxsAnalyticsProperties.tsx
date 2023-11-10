@@ -1,7 +1,6 @@
 import { SwapTxsProperties } from 'src/analytics/Properties'
-import { getFeeCurrency } from 'src/swap/getFeeCurrency'
 import { TokenBalancesWithAddress } from 'src/tokens/slice'
-import { TransactionRequest, getMaxGasFee } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getFeeCurrency, getMaxGasFee } from 'src/viem/prepareTransactions'
 
 export function getSwapTxsAnalyticsProperties(
   preparedTransactions: TransactionRequest[] | undefined,
