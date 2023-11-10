@@ -12,7 +12,6 @@ export enum Colors {
   brownFaint = '#FFF9EE',
   yellowFaint = '#FFF9EA',
   warning = '#EA6042',
-  informational = '#0768AE',
   dark = '#2E3338',
   dark_0_2 = '#2E333833', // same as dark but with alpha 0.2 (20% opacity)
   gray6 = '#DFDBCE',
@@ -40,7 +39,7 @@ export enum Colors {
   successLight = '#F1FDF1',
 
   informationDark = '#0768AE',
-  informationFaint = '#E8F8FF',
+  informationLight = '#E8F8FF',
 
   warningDark = '#9C6E00',
   warningLight = '#FFF9EA',

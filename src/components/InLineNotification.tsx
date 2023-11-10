@@ -95,9 +95,6 @@ const defaultStyles = StyleSheet.create({
   ctaContainer: {
     paddingBottom: Spacing.Small12,
   },
-  bodyContainer: {
-    gap: Spacing.Smallest8,
-  },
   row: {
     flexDirection: 'row',
     gap: Spacing.Smallest8,
@@ -134,17 +131,12 @@ const defaultStyles = StyleSheet.create({
     paddingHorizontal: Spacing.Smallest8,
     paddingVertical: Spacing.Tiny4,
   },
-  ctaLabel2: {
-    ...fontStyles.small600,
-    paddingHorizontal: Spacing.Smallest8,
-    paddingVertical: Spacing.Tiny4,
-  },
 })
 
 const severityStyles: Record<Severity, CustomStyles> = {
   [Severity.Informational]: {
     primary: Colors.informationDark,
-    secondary: Colors.informationFaint,
+    secondary: Colors.informationLight,
   },
   [Severity.Warning]: {
     primary: Colors.warningDark,
