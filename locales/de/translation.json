@@ -1890,7 +1890,7 @@
       "subtitle": "ANFANGEN",
       "options": {
         "one": {
-          "title": "Wallet Adresse",
+          "title": "Wallet-Adresse",
           "subtitle": "Gib eine Celo oder Ethereum kompatible Wallet Adresse ein (z.B. 0x123...abcde)"
         },
         "two": {
