@@ -63,30 +63,29 @@ export function InLineNotification({
     )
   return (
     <View style={[defaultStyles.container, severityStyle.container, style]} testID={testID}>
-      {title && (
-        <View style={defaultStyles.row}>
-          <View style={defaultStyles.attentionIcon}>
-            <AttentionIcon color={severityStyle.attentionIcon.color} />
-          </View>
+      <View style={[defaultStyles.row, title ? null : defaultStyles.bodyRow]}>
+        <View style={defaultStyles.attentionIcon}>
+          <AttentionIcon color={severityStyle.attentionIcon.color} />
+        </View>
+        {title ? (
           <Text style={defaultStyles.titleText}>{title}</Text>
+        ) : (
+          <Text style={defaultStyles.bodyText}>{description}</Text>
+        )}
+      </View>
+
+      {title && (
+        <View style={[defaultStyles.row, defaultStyles.bodyRow, defaultStyles.iconLessRow]}>
+          <Text style={defaultStyles.bodyText}>{description}</Text>
         </View>
       )}
 
-      <View style={defaultStyles.bodyContainer}>
-        <View style={[defaultStyles.row, defaultStyles.bodyRow]}>
-          <View style={defaultStyles.attentionIcon}>
-            {!title && <AttentionIcon color={severityStyle.attentionIcon.color} />}
-          </View>
-          <Text style={defaultStyles.bodyText}>{description}</Text>
+      {(ctaLabel || ctaLabel2) && (
+        <View style={[defaultStyles.row, defaultStyles.ctaRow]}>
+          {renderCtaLabel(ctaLabel, onPressCta, severityStyle.ctaLabel)}
+          {renderCtaLabel(ctaLabel2, onPressCta2, severityStyle.ctaLabel2)}
         </View>
-
-        {(ctaLabel || ctaLabel2) && (
-          <View style={[defaultStyles.row, defaultStyles.ctaRow]}>
-            {renderCtaLabel(ctaLabel, onPressCta, severityStyle.ctaLabel)}
-            {renderCtaLabel(ctaLabel2, onPressCta2, severityStyle.ctaLabel2)}
-          </View>
-        )}
-      </View>
+      )}
     </View>
   )
 }
@@ -94,11 +93,13 @@ export function InLineNotification({
 const defaultStyles = StyleSheet.create({
   container: {
     paddingHorizontal: Spacing.Regular16,
-    paddingTop: Spacing.Regular16,
-    paddingBottom: Spacing.Small12,
+    paddingVertical: Spacing.Regular16,
     borderRadius: Spacing.Regular16,
     width: '100%',
     gap: Spacing.Tiny4,
+  },
+  ctaContainer: {
+    paddingBottom: Spacing.Small12,
   },
   bodyContainer: {
     gap: Spacing.Smallest8,
@@ -112,9 +113,12 @@ const defaultStyles = StyleSheet.create({
     alignItems: 'flex-start',
   },
   ctaRow: {
-    paddingVertical: Spacing.Tiny4,
+    paddingTop: Spacing.Smallest8,
     paddingHorizontal: Spacing.Smallest8,
     justifyContent: 'flex-end',
+  },
+  iconLessRow: {
+    paddingLeft: Spacing.Large32,
   },
   attentionIcon: {
     padding: Spacing.Tiny4,
@@ -129,6 +133,7 @@ const defaultStyles = StyleSheet.create({
     lineHeight: 18,
     color: Colors.dark,
     flexShrink: 1,
+    alignItems: 'flex-start',
   },
   ctaLabel: {
     ...fontStyles.small600,
