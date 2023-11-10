@@ -5,15 +5,15 @@ import {
   verifySignature,
 } from '@celo/utils/lib/signatureUtils'
 import { recoverTransaction } from '@celo/wallet-base'
-import { hexToNumber } from 'viem'
-import { parseTransactionCelo } from 'viem/chains/utils'
+import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
+import { hexToNumber } from 'viem'
+import { parseTransactionCelo } from 'viem/chains/utils'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
-import { Core } from '@walletconnect/core'
 
 import jestExpect from 'expect'
 
@@ -209,26 +209,24 @@ export default WalletConnect = () => {
       })
 
       it('Then is able to send a transaction (eth_sendTransaction)', async () => {
-        let txHash
         const tx = await formatTestTransaction(walletAddress, web3Library)
         const [session] = walletConnectClient.session.map.values()
-        walletConnectClient
-          .request({
-            topic: session.topic,
-            chainId: 'eip155:44787',
-            request: {
-              method: 'eth_sendTransaction',
-              params: [tx],
-            },
-          })
-          .then((result) => {
-            txHash = result
-          })
+        const requestPromise = walletConnectClient.request({
+          topic: session.topic,
+          chainId: 'eip155:44787',
+          request: {
+            method: 'eth_sendTransaction',
+            params: [tx],
+          },
+        })
 
         await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
           .toBeVisible()
           .withTimeout(15 * 1000)
         await verifySuccessfulTransaction('Send transaction', tx)
+
+        const txHash = await requestPromise
+        console.log('Received tx hash', txHash)
 
         // Wait for transaction and get receipt
         const { status, from, to } = await kit.connection.getTransactionReceipt(txHash)
@@ -239,26 +237,24 @@ export default WalletConnect = () => {
       })
 
       it('Then is able to sign a transaction (eth_signTransaction)', async () => {
-        let signedTx
         const tx = await formatTestTransaction(walletAddress, web3Library)
         const [session] = walletConnectClient.session.map.values()
-        walletConnectClient
-          .request({
-            topic: session.topic,
-            chainId: 'eip155:44787',
-            request: {
-              method: 'eth_signTransaction',
-              params: [tx],
-            },
-          })
-          .then((result) => {
-            signedTx = result
-          })
+        const requestPromise = walletConnectClient.request({
+          topic: session.topic,
+          chainId: 'eip155:44787',
+          request: {
+            method: 'eth_signTransaction',
+            params: [tx],
+          },
+        })
 
         await waitFor(element(by.text(`${dappName} would like to sign a Celo transaction.`)))
           .toBeVisible()
           .withTimeout(15 * 1000)
         await verifySuccessfulTransaction('Sign transaction', tx)
+
+        const signedTx = await requestPromise
+        console.log('Received signed tx', signedTx)
 
         // TODO: keep only Viem branch after feeCurrency estimation is ready
         if (web3Library === 'viem') {
@@ -280,55 +276,50 @@ export default WalletConnect = () => {
       })
 
       it('Then is able to sign a message (eth_sign)', async () => {
-        let signature
         const message = hashMessageWithPrefix(
           `My email is valora.test@mailinator.com - ${+new Date()}`
         )
         const params = [walletAddress, message]
         const [session] = walletConnectClient.session.map.values()
-        walletConnectClient
-          .request({
-            topic: session.topic,
-            chainId: 'eip155:44787',
-            request: {
-              method: 'eth_sign',
-              params,
-            },
-          })
-          .then((result) => {
-            signature = result
-          })
+        const requestPromise = walletConnectClient.request({
+          topic: session.topic,
+          chainId: 'eip155:44787',
+          request: {
+            method: 'eth_sign',
+            params,
+          },
+        })
 
         await verifySuccessfulSign()
+
+        const signature = await requestPromise
+        console.log('Received signature', signature)
 
         jestExpect(verifySignature(message, signature, walletAddress)).toStrictEqual(true)
       })
 
       it('Then is able to sign a personal message (personal_sign)', async () => {
-        let signature
         const message = `My email is valora.test@mailinator.com - ${+new Date()}`
         const params = [utf8ToHex(message), walletAddress]
         const [session] = walletConnectClient.session.map.values()
-        walletConnectClient
-          .request({
-            topic: session.topic,
-            chainId: 'eip155:44787',
-            request: {
-              method: 'personal_sign',
-              params,
-            },
-          })
-          .then((result) => {
-            signature = result
-          })
+        const requetPromise = walletConnectClient.request({
+          topic: session.topic,
+          chainId: 'eip155:44787',
+          request: {
+            method: 'personal_sign',
+            params,
+          },
+        })
 
         await verifySuccessfulSign()
+
+        const signature = await requetPromise
+        console.log('Received signature', signature)
 
         jestExpect(verifySignature(message, signature, walletAddress)).toStrictEqual(true)
       })
 
       it('Then is able to sign typed data (eth_signTypedData)', async () => {
-        let signature
         const typedData = {
           types: {
             EIP712Domain: [
@@ -382,20 +373,19 @@ export default WalletConnect = () => {
         }
         const params = [walletAddress, JSON.stringify(typedData)]
         const [session] = walletConnectClient.session.map.values()
-        walletConnectClient
-          .request({
-            topic: session.topic,
-            chainId: 'eip155:44787',
-            request: {
-              method: 'eth_signTypedData',
-              params,
-            },
-          })
-          .then((result) => {
-            signature = result
-          })
+        const requestPromise = walletConnectClient.request({
+          topic: session.topic,
+          chainId: 'eip155:44787',
+          request: {
+            method: 'eth_signTypedData',
+            params,
+          },
+        })
 
         await verifySuccessfulSign()
+
+        const signature = await requestPromise
+        console.log('Received signature', signature)
 
         jestExpect(verifyEIP712TypedDataSigner(typedData, signature, walletAddress)).toStrictEqual(
           true
