@@ -61,6 +61,7 @@ export function InLineNotification({
         {label}
       </Text>
     )
+
   return (
     <View style={[defaultStyles.container, severityStyle.container, style]} testID={testID}>
       <View style={[defaultStyles.row, title ? null : defaultStyles.bodyRow]}>
@@ -75,9 +76,9 @@ export function InLineNotification({
       </View>
 
       {title && (
-        <View style={[defaultStyles.row, defaultStyles.bodyRow, defaultStyles.iconLessRow]}>
-          <Text style={defaultStyles.bodyText}>{description}</Text>
-        </View>
+        <Text style={[defaultStyles.row, defaultStyles.iconLessRow, defaultStyles.bodyText]}>
+          {description}
+        </Text>
       )}
 
       {(ctaLabel || ctaLabel2) && (
