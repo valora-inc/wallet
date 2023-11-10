@@ -1890,7 +1890,7 @@
       "subtitle": "INIZIAMO",
       "options": {
         "one": {
-          "title": "Indirizzo del portafoglio",
+          "title": "Indirizzo del wallet",
           "subtitle": "Inserisci un indirizzo di portafoglio compatibile con Celo o Ethereum (es. 0x123...abcde)"
         },
         "two": {
