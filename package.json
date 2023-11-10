@@ -1,6 +1,6 @@
 {
   "name": "@valora/wallet",
-  "version": "1.71.0",
+  "version": "1.72.0",
   "author": "Valora Inc",
   "license": "Apache-2.0",
   "private": true,
@@ -202,7 +202,7 @@
     "utf8": "^3.0.0",
     "uuid": "^9.0.1",
     "victory-native": "^36.6.11",
-    "viem": "^1.18.9",
+    "viem": "^1.16.6",
     "vm-browserify": "^1.1.2",
     "web3": "1.10.3"
   },

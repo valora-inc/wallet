@@ -33,6 +33,7 @@ import {
   v159Schema,
   v15Schema,
   v164Schema,
+  v166Schema,
   v16Schema,
   v17Schema,
   v18Schema,
@@ -1392,5 +1393,13 @@ describe('Redux persist migrations', () => {
       [NetworkId['ethereum-sepolia']]: [ethereumTransfer],
     })
     expect('transactions' in migratedSchema.transactions).toBe(false)
+  })
+
+  it('works from 166 to 167', () => {
+    const oldSchema = v166Schema
+    const migratedSchema = migrations[167](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.app.rampCashInButtonExpEnabled = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

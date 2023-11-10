@@ -1417,4 +1417,11 @@ export const migrations = {
     }
   },
   166: (state: any) => ({ ...state, app: { ...state.app, hideHomeBalances: false } }),
+  167: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      rampCashInButtonExpEnabled: false,
+    },
+  }),
 }

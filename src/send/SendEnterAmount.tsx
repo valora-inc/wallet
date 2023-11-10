@@ -25,6 +25,7 @@ import TokenBottomSheet, {
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
+import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
 import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
@@ -51,6 +52,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
+const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
 
 const TAG = 'SendEnterAmount'
 
@@ -209,6 +211,7 @@ function SendEnterAmount({ route }: Props) {
         recipientAddress: recipient.address,
         walletAddress,
         feeCurrencies,
+        comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
       })
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)

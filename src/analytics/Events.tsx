@@ -311,7 +311,7 @@ export enum SendEvents {
 
   // events specific to send select recipient screen
   send_select_recipient_scan_qr = 'send_select_recipient_scan_qr',
-  send_select_recipient_invite = 'send_select_recipient_invite',
+  send_select_recipient_contacts = 'send_select_recipient_contacts',
 }
 
 export enum QrScreenEvents {

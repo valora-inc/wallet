@@ -5,11 +5,11 @@ import { Provider } from 'react-redux'
 import { notificationSpotlightSeen } from 'src/app/actions'
 import { dappSelected } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
+import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
-import { NetworkId } from 'src/transactions/types'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { RecursivePartial, createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -18,7 +18,9 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockProviders,
 } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -123,11 +125,19 @@ const deepLinkedDapp: Dapp = {
 const recentDappIds = [dapp.id, deepLinkedDapp.id]
 
 jest.mock('src/statsig', () => ({
+  getExperimentParams: jest.fn(() => ({
+    cashInBottomSheetEnabled: true,
+  })),
   getFeatureGate: jest.fn().mockReturnValue(false),
   getDynamicConfigParams: jest.fn(() => ({
     showBalances: ['celo-alfajores'],
     showTransfers: ['celo-alfajores'],
   })),
+}))
+
+jest.mock('src/fiatExchanges/utils', () => ({
+  ...(jest.requireActual('src/fiatExchanges/utils') as any),
+  fetchProviders: jest.fn(),
 }))
 
 describe('WalletHome', () => {
@@ -222,6 +232,10 @@ describe('WalletHome', () => {
   })
 
   it('hides sections', async () => {
+    jest.mocked(getExperimentParams).mockReturnValueOnce({
+      cashInBottomSheetEnabled: false,
+    })
+
     const { queryByTestId } = renderScreen({ ...zeroBalances })
     expect(queryByTestId('SendOrRequestBar')).toBeFalsy()
     expect(queryByTestId('cashInBtn')).toBeFalsy()
@@ -251,6 +265,18 @@ describe('WalletHome', () => {
     const { getByTestId } = renderScreen()
 
     expect(getByTestId('HomeTokenBalance')).toBeTruthy()
+  })
+
+  it('Renders cash in bottom sheet when experiment flag is turned on and balances are zero', async () => {
+    jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+    const { getByTestId } = renderScreen({
+      ...zeroBalances,
+    })
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+    await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
   })
 
   it('Does not render cash in bottom sheet when experiment flag is turned on but balances are not zero', async () => {
@@ -379,6 +405,38 @@ describe('WalletHome', () => {
       fireEvent.press(getByText('notificationCenterSpotlight.cta'))
 
       expect(store.getActions()).toEqual([notificationSpotlightSeen()])
+    })
+
+    it('shows the cash in bottom sheet after the spotlight for an eligible user', async () => {
+      jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+
+      const { getByText, queryByTestId, rerender, getByTestId } = renderScreen({
+        ...zeroBalances,
+        app: {
+          showNotificationSpotlight: true,
+        },
+      })
+
+      expect(getByText('notificationCenterSpotlight.message')).toBeTruthy()
+      expect(queryByTestId('cashInBtn')).toBeFalsy()
+
+      rerender(
+        <Provider
+          store={createMockStore({
+            ...zeroBalances,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          })}
+        >
+          <WalletHome />
+        </Provider>
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+      await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
     })
   })
 })

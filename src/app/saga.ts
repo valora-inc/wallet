@@ -22,8 +22,8 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
-  phoneNumberVerificationMigrated,
   SetAppState,
+  phoneNumberVerificationMigrated,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -238,6 +238,7 @@ export interface RemoteConfigValues {
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
   rewardPillText: string
+  rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
