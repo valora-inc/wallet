@@ -102,6 +102,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const tokenInfo = useTokenInfo(tokenId)
 
+  if (!tokenInfo) {
+    throw new Error('Token info not found')
+  }
+
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
   const appIdResponse = useAsync(async () => readOnceFromFirebase('coinbasePay/appId'), [])
@@ -111,12 +115,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     dispatch(
       fetchFiatConnectQuotes({
         flow,
-        digitalAsset: resolveCICOCurrency(tokenInfo?.symbol),
+        digitalAsset: resolveCICOCurrency(tokenInfo.symbol),
         cryptoAmount,
         fiatAmount,
       })
     )
-  }, [flow, tokenInfo?.symbol, cryptoAmount])
+  }, [flow, tokenInfo.symbol, cryptoAmount])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
@@ -128,7 +132,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     try {
       const availableExchanges = await fetchExchanges(
         userLocation.countryCodeAlpha2,
-        tokenInfo?.symbol
+        tokenInfo.symbol
       )
 
       return availableExchanges
@@ -149,11 +153,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: tokenInfo?.symbol,
+          digitalAsset: tokenInfo.symbol,
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-          networkId: tokenInfo?.networkId,
+          networkId: tokenInfo.networkId,
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
@@ -162,7 +166,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         rawLegacyMobileMoneyProviders,
         flow,
         userLocation.countryCodeAlpha2,
-        tokenInfo?.symbol
+        tokenInfo.symbol
       )
       return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
@@ -180,7 +184,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     fiatConnectQuotes,
     asyncProviders.result?.externalProviders,
-    tokenInfo?.tokenId
+    tokenInfo.tokenId
   )
 
   const exchanges = asyncExchanges.result ?? []
@@ -195,7 +199,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     !coinbaseProvider.restricted &&
     coinbasePayEnabled &&
     appId &&
-    tokenInfo?.symbol === 'CELO'
+    tokenInfo.symbol === 'CELO'
 
   const anyProviders =
     normalizedQuotes.length ||
@@ -211,7 +215,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     centralizedExchanges: exchanges,
     coinbasePayAvailable: coinbasePayVisible,
     transferCryptoAmount: cryptoAmount,
-    cryptoType: tokenInfo?.symbol,
+    cryptoType: tokenInfo.symbol,
   })
 
   useEffect(() => {
@@ -260,7 +264,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       <View style={styles.noPaymentMethodsContainer}>
         <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
           {t('noPaymentMethods', {
-            digitalAsset: tokenInfo?.symbol,
+            digitalAsset: tokenInfo.symbol,
           })}
         </Text>
         <TextButton
@@ -298,11 +302,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           analyticsData={analyticsData}
         />
       ))}
-      {(tokenInfo?.networkId === NetworkId['celo-mainnet'] ||
-        tokenInfo?.networkId === NetworkId['celo-alfajores']) && (
+      {(tokenInfo.networkId === NetworkId['celo-mainnet'] ||
+        tokenInfo.networkId === NetworkId['celo-alfajores']) && (
         <LegacyMobileMoneySection
           providers={legacyMobileMoneyProviders || []}
-          tokenSymbol={tokenInfo?.symbol}
+          tokenSymbol={tokenInfo.symbol}
           flow={flow}
           analyticsData={analyticsData}
         />

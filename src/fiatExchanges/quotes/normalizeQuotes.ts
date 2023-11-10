@@ -103,6 +103,9 @@ export function normalizeExternalProviders(
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
   const { symbol: digitalAsset } = useTokenInfo(tokenId) || {}
+  if (!digitalAsset) {
+    throw new Error('Token info not found')
+  }
   input.forEach((provider) => {
     try {
       const quotes: (RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId)[] = []

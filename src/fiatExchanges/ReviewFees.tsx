@@ -50,6 +50,10 @@ export default function ReviewFees({
 
   const tokenSymbol = useTokenInfo(tokenIdToBuy)?.symbol
 
+  if (!tokenSymbol) {
+    throw new Error('Token info not found')
+  }
+
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay
       amount={{

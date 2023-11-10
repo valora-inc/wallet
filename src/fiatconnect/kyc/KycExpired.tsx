@@ -36,6 +36,9 @@ function KycExpired({ route, navigation }: Props) {
   const { t } = useTranslation()
   // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
+  if (!tokenId) {
+    throw new Error('Token info not found')
+  }
 
   const onPressTryAgain = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_try_again, {

@@ -66,6 +66,9 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const cryptoType = normalizedQuote.getCryptoTypeString()
   // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
+  if (!tokenInfo) {
+    throw new Error('Token info not found')
+  }
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
@@ -525,6 +528,9 @@ function PaymentMethod({
   const { t } = useTranslation()
   // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
+  if (!tokenInfo) {
+    throw new Error('Token info not found')
+  }
 
   const onPress = () => {
     navigate(Screens.SelectProvider, {

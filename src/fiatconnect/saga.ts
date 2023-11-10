@@ -77,7 +77,7 @@ import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { Network, newTransactionContext } from 'src/transactions/types'
+import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
@@ -405,6 +405,9 @@ export function* handleAttemptReturnUserFlow({
     // Navigate to Select Provider Screen
     // TODO: remove deprecated function call when FiatConnect updated to take token IDs
     const { tokenId } = useTokenInfoWithAddressBySymbol(selectedCrypto) || {}
+    if (!tokenId) {
+      throw new Error('Token info not found')
+    }
     navigate(Screens.SelectProvider, {
       flow,
       tokenId,
@@ -735,6 +738,9 @@ export function* handleSelectFiatConnectQuote({
     }
     // TODO: remove deprecated function call when FiatConnect updated to take token IDs
     const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
+    if (!tokenId) {
+      throw new Error('Token info not found')
+    }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
       tokenId: tokenId,
@@ -790,11 +796,13 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
     }
     // TODO: remove deprecated function call when FiatConnect updated to take token IDs
     const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
+    if (!tokenId) {
+      throw new Error('Token info not found')
+    }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
       tokenId: tokenId,
       amount: amount,
-      network: Network.Celo,
     })
     yield* delay(500) // to avoid screen flash
     yield* put(personaFinished())

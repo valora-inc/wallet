@@ -48,7 +48,7 @@ import {
   useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, resolveCICOCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -80,6 +80,9 @@ function FiatExchangeAmount({ route }: Props) {
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const { address, symbol } = useTokenInfo(tokenId) || {}
+  if (!symbol) {
+    throw new Error('Token info not found')
+  }
 
   const inputConvertedToCrypto =
     useLocalToTokenAmountByAddress(parsedInputAmount, address) || new BigNumber(0)
@@ -101,7 +104,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey = cicoCurrencyTranslationKeys[symbol]
+  const displayCurrencyKey = cicoCurrencyTranslationKeys[resolveCICOCurrency(symbol)]
 
   const cUSDToken = useTokenInfo(networkConfig.currencyToTokenId[CiCoCurrency.cUSD])!
   const localCurrencyMaxAmount =
@@ -133,6 +136,9 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
+    if (!symbol) {
+      throw new Error('Token info not found')
+    }
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
       currency: symbolToAnalyticsCurrency(symbol),
@@ -147,7 +153,7 @@ function FiatExchangeAmount({ route }: Props) {
 
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
-        account.cryptoType === CiCoCurrency[symbol] &&
+        account.cryptoType === resolveCICOCurrency(symbol) &&
         account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
@@ -157,7 +163,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         attemptReturnUserFlow({
           flow,
-          selectedCrypto: CiCoCurrency[symbol],
+          selectedCrypto: resolveCICOCurrency(symbol),
           amount,
           providerId,
           fiatAccountId,
@@ -175,6 +181,9 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
+    if (!symbol) {
+      throw new Error('Token info not found')
+    }
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)

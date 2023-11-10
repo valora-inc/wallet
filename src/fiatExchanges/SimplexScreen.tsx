@@ -49,6 +49,9 @@ function SimplexScreen({ route, navigation }: Props) {
   // const currencyToBuy = resolveCICOCurrency(simplexQuote.digital_money.currency)
   const tokenIdToBuy = simplexQuote.tokenId
   const { symbol } = useTokenInfo(tokenIdToBuy) || {}
+  if (!symbol) {
+    throw new Error('Token info not found')
+  }
 
   const feeIsWaived =
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
