@@ -70,7 +70,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { Awaited } from 'src/utils/typescript'
 
 type PermissionStatus = Awaited<ReturnType<typeof check>>
@@ -774,21 +774,21 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
   [FiatExchangeEvents.cico_currency_chosen]: {
     flow: FiatExchangeFlow
-    currency: AnalyticsCurrency
+    currency: string
   }
   [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_section_impression]: {
@@ -903,7 +903,7 @@ interface FiatExchangeEventsProperties {
   }
   [FiatExchangeEvents.cico_simplex_open_webview]: {
     amount: number
-    cryptoCurrency: CiCoCurrency
+    cryptoCurrency: string
     feeInFiat: number
     fiatCurrency: string
   }

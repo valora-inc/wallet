@@ -73,6 +73,7 @@ import { Screens } from 'src/navigator/Screens'
 import { UserLocationData } from 'src/networkInfo/saga'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
@@ -402,11 +403,12 @@ export function* handleAttemptReturnUserFlow({
     )
     yield* put(attemptReturnUserFlowCompleted())
     // Navigate to Select Provider Screen
+    // TODO: remove deprecated function call when FiatConnect updated to take token IDs
+    const { tokenId } = useTokenInfoWithAddressBySymbol(selectedCrypto) || {}
     navigate(Screens.SelectProvider, {
       flow,
-      selectedCrypto,
+      tokenId,
       amount,
-      network: Network.Celo,
     })
   }
 }
@@ -731,11 +733,12 @@ export function* handleSelectFiatConnectQuote({
       crypto: parseFloat(quote.getCryptoAmount()),
       fiat: parseFloat(quote.getFiatAmount()),
     }
+    // TODO: remove deprecated function call when FiatConnect updated to take token IDs
+    const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
-      selectedCrypto: quote.getCryptoType(),
+      tokenId: tokenId,
       amount: amount,
-      network: Network.Celo,
     })
   }
 }
@@ -785,9 +788,11 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
       crypto: parseFloat(quote.getCryptoAmount()),
       fiat: parseFloat(quote.getFiatAmount()),
     }
+    // TODO: remove deprecated function call when FiatConnect updated to take token IDs
+    const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
-      selectedCrypto: quote.getCryptoType(),
+      tokenId: tokenId,
       amount: amount,
       network: Network.Celo,
     })

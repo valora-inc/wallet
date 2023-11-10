@@ -17,7 +17,7 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { Network } from 'src/transactions/types'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.KycDenied>
 
@@ -34,6 +34,8 @@ function KycDenied({ route, navigation }: Props) {
   )
 
   const { t } = useTranslation()
+  // TODO: remove deprecated function call when FiatConnect updated to take token IDs
+  const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
 
   const onPressTryAgain = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_fc_kyc_status_try_again, {
@@ -51,12 +53,11 @@ function KycDenied({ route, navigation }: Props) {
     })
     navigate(Screens.SelectProvider, {
       flow,
-      selectedCrypto: quote.getCryptoType(),
+      tokenId: tokenId,
       amount: {
         crypto: Number(quote.getCryptoAmount()),
         fiat: Number(quote.getFiatAmount()),
       },
-      network: Network.Celo,
     })
   }
   if (tryAgainLoading) {

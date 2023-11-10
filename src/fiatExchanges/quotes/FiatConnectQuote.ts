@@ -333,4 +333,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
       this.flow === CICOFlow.CashIn ? this.getCryptoAmount() : this.getFiatAmount()
     )
   }
+
+  // TODO: Update this to return tokenId when reworking fiatConnect
+  getTokenId(): null {
+    return null
+  }
 }

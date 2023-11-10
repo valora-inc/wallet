@@ -25,6 +25,8 @@ export const currencyForAnalytics: {
   [CiCoCurrency.cREAL]: 'cReal',
   [CiCoCurrency.ETH]: 'ETH',
 }
+export const symbolToAnalyticsCurrency = (symbol: string): string =>
+  symbol === 'CELO' ? 'cGLD' : symbol === 'cREAL' ? 'cReal' : symbol
 export interface CurrencyInfo {
   symbol: string
   displayDecimals: number

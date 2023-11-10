@@ -64,6 +64,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const feeType = FeeType.SEND
   const tokenList: TokenBalance[] = useSelector(tokensListWithAddressSelector)
   const cryptoType = normalizedQuote.getCryptoTypeString()
+  // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
@@ -300,6 +301,7 @@ function ReceiveAmount({
 }) {
   const { t } = useTranslation()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+  // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())!
   const { receiveDisplay } = getDisplayAmounts({
     flow,
@@ -427,6 +429,7 @@ function TransactionDetails({
   feeEstimate: FeeEstimateState | undefined
 }) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+  // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
 
   const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
@@ -520,6 +523,7 @@ function PaymentMethod({
   fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
+  // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
 
   const onPress = () => {

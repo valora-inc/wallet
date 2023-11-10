@@ -11,8 +11,8 @@ import {
   CICOFlow,
   FetchProvidersOutput,
   PaymentMethod,
-  RawProviderQuote,
-  SimplexQuote,
+  RawProviderQuoteWithTokenId,
+  SimplexQuoteWithTokenId,
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
@@ -37,10 +37,11 @@ const paymentMethodToSettlementTime = {
   [PaymentMethod.Coinbase]: DEFAULT_CARD_SETTLEMENT_ESTIMATION,
 }
 
-export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is SimplexQuote =>
-  !!quote && 'wallet_id' in quote
+export const isSimplexQuote = (
+  quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId
+): quote is SimplexQuoteWithTokenId => !!quote && 'wallet_id' in quote
 export default class ExternalQuote extends NormalizedQuote {
-  quote: RawProviderQuote | SimplexQuote
+  quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId
   provider: FetchProvidersOutput
   flow: CICOFlow
   constructor({
@@ -48,7 +49,7 @@ export default class ExternalQuote extends NormalizedQuote {
     provider,
     flow,
   }: {
-    quote: RawProviderQuote | SimplexQuote
+    quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId
     provider: FetchProvidersOutput
     flow: CICOFlow
   }) {
@@ -158,5 +159,9 @@ export default class ExternalQuote extends NormalizedQuote {
     return typeof this.quote.returnedAmount !== 'undefined'
       ? new BigNumber(this.quote.returnedAmount)
       : null
+  }
+
+  getTokenId(): string {
+    return this.quote.tokenId
   }
 }

@@ -48,16 +48,18 @@ export default function ReviewFees({
 
   const openProviderFeeUrl = () => navigateToURI(feeUrl)
 
+  const tokenSymbol = useTokenInfo(tokenIdToBuy)?.symbol
+
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay
       amount={{
         value: 0,
         localAmount: {
           value,
-          currencyCode: isCelo ? currencyToBuy : localCurrency,
+          currencyCode: isCelo ? tokenSymbol : localCurrency,
           exchangeRate: 1,
         },
-        currencyCode: isCelo ? currencyToBuy : localCurrency,
+        currencyCode: isCelo ? tokenSymbol : localCurrency,
       }}
       hideSymbol={false}
       showLocalAmount={true}
@@ -65,8 +67,6 @@ export default function ReviewFees({
       style={[...textStyle]}
     />
   )
-
-  const tokenSymbol = useTokenInfo(tokenIdToBuy)?.symbol
 
   return (
     <View style={[styles.review]}>

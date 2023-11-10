@@ -180,7 +180,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     fiatConnectQuotes,
     asyncProviders.result?.externalProviders,
-    tokenInfo?.symbol
+    tokenInfo?.tokenId
   )
 
   const exchanges = asyncExchanges.result ?? []

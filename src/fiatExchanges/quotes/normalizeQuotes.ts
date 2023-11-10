@@ -7,11 +7,12 @@ import NormalizedQuote from 'src/fiatExchanges/quotes/NormalizedQuote'
 import {
   CICOFlow,
   FetchProvidersOutput,
-  RawProviderQuote,
-  SimplexQuote,
+  RawProviderQuoteWithTokenId,
+  SimplexQuoteWithTokenId,
 } from 'src/fiatExchanges/utils'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 
@@ -22,11 +23,11 @@ export function normalizeQuotes(
   flow: CICOFlow,
   fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
   externalProviders: FetchProvidersOutput[] = [],
-  digitalAsset: string
+  tokenId: string
 ): NormalizedQuote[] {
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
-    ...normalizeExternalProviders(flow, externalProviders, digitalAsset),
+    ...normalizeExternalProviders(flow, externalProviders, tokenId),
   ].sort(
     getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
       ? quotesByReceiveAmountComparator
@@ -98,19 +99,19 @@ export function normalizeFiatConnectQuotes(
 export function normalizeExternalProviders(
   flow: CICOFlow,
   input: FetchProvidersOutput[],
-  digitalAsset: string
+  tokenId: string
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
-
+  const { symbol: digitalAsset } = useTokenInfo(tokenId) || {}
   input.forEach((provider) => {
     try {
-      const quotes: (RawProviderQuote | SimplexQuote)[] = []
+      const quotes: (RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId)[] = []
       if (Array.isArray(provider.quote)) {
         // If the quote object is an array, it may contain quotes, or be empty.
         // If it is empty, it does not necessarily mean that the provider does not
         // support transfers.
         if (provider.quote.length) {
-          quotes.push(...provider.quote)
+          quotes.push(...provider.quote.map((quote) => ({ ...quote, tokenId })))
         } else if (!provider.unavailable && !provider.restricted) {
           // If no quotes are provided, but the provider is not marked as unavailable,
           // this means the provider supports transfers, but does not give specific quote details.
@@ -120,16 +121,17 @@ export function normalizeExternalProviders(
             quotes.push({
               digitalAsset,
               paymentMethod,
+              tokenId,
             })
           )
         }
       } else if (provider.quote) {
         // If the quote is not an array, but does exist, we assume it to be an object representing
         // a single quote.
-        quotes.push(provider.quote)
+        quotes.push({ ...provider.quote, tokenId: tokenId })
       }
 
-      quotes.forEach((quote: RawProviderQuote | SimplexQuote) => {
+      quotes.forEach((quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId) => {
         const normalizedQuote = new ExternalQuote({ quote, provider, flow })
         normalizedQuotes.push(normalizedQuote)
       })

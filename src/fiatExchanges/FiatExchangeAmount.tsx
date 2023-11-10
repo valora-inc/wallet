@@ -48,7 +48,7 @@ import {
   useTokenToLocalAmountByAddress,
 } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency, currencyForAnalytics } from 'src/utils/currencies'
+import { CiCoCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -135,7 +135,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency: currencyForAnalytics[symbol],
+      currency: symbolToAnalyticsCurrency(symbol),
       flow,
     })
     const amount = {
@@ -180,7 +180,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency: currencyForAnalytics[symbol],
+          currency: symbolToAnalyticsCurrency(symbol),
           flow,
         })
         return
