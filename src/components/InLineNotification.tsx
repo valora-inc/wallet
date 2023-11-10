@@ -92,9 +92,6 @@ const defaultStyles = StyleSheet.create({
     width: '100%',
     gap: Spacing.Tiny4,
   },
-  ctaContainer: {
-    paddingBottom: Spacing.Small12,
-  },
   row: {
     flexDirection: 'row',
     gap: Spacing.Smallest8,
