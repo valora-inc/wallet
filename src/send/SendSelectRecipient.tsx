@@ -189,9 +189,7 @@ function SendSelectRecipient() {
       <View style={styles.content}>
         {showContacts ? (
           <>
-            <View style={styles.topSection}>
-              <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
-            </View>
+            <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
             <RecipientPicker
               testID={'SelectRecipient/ContactRecipientPicker'}
               recipients={contactRecipients}
@@ -204,23 +202,21 @@ function SendSelectRecipient() {
           </>
         ) : (
           <>
-            <View style={styles.topSection}>
-              <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
-              <SelectRecipientButton
-                testID={'SelectRecipient/QR'}
-                title={t('sendSelectRecipient.qr.title')}
-                subtitle={t('sendSelectRecipient.qr.subtitle')}
-                onPress={onPressQR}
-                icon={<QRCode />}
-              />
-              <SelectRecipientButton
-                testID={'SelectRecipient/Contacts'}
-                title={t('sendSelectRecipient.invite.title')}
-                subtitle={t('sendSelectRecipient.invite.subtitle')}
-                onPress={onPressContacts}
-                icon={<Social />}
-              />
-            </View>
+            <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
+            <SelectRecipientButton
+              testID={'SelectRecipient/QR'}
+              title={t('sendSelectRecipient.qr.title')}
+              subtitle={t('sendSelectRecipient.qr.subtitle')}
+              onPress={onPressQR}
+              icon={<QRCode />}
+            />
+            <SelectRecipientButton
+              testID={'SelectRecipient/Contacts'}
+              title={t('sendSelectRecipient.invite.title')}
+              subtitle={t('sendSelectRecipient.invite.subtitle')}
+              onPress={onPressContacts}
+              icon={<Social />}
+            />
             {showGetStarted ? (
               <GetStartedSection />
             ) : (
@@ -253,16 +249,13 @@ SendSelectRecipient.navigationOptions = {
 const styles = StyleSheet.create({
   title: {
     ...typeScale.titleSmall,
-    paddingTop: Spacing.Thick24,
+    padding: Spacing.Thick24,
     paddingBottom: Spacing.Regular16,
     color: colors.dark,
   },
   header: {
     alignItems: 'center',
     flexDirection: 'row',
-  },
-  topSection: {
-    paddingHorizontal: Spacing.Thick24,
   },
   content: {
     flex: 1,
