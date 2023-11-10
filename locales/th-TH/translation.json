@@ -1888,7 +1888,7 @@
       "subtitle": "GET STARTED",
       "options": {
         "one": {
-          "title": "Wallet Adress",
+          "title": "ที่อยู่กระเป๋าเงิน",
           "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
