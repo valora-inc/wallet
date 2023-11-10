@@ -1,5 +1,5 @@
 import { throttle } from 'lodash'
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -18,7 +18,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { sortRecipients } from 'src/recipients/recipient'
+import { sortRecipients, Recipient, filterRecipientFactory } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
@@ -28,8 +28,12 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { requestContactsPermission } from 'src/utils/permissions'
+import PasteAddressButton from 'src/send/PasteAddressButton'
+import { debounce } from 'lodash'
+import { isAddressFormat } from 'src/account/utils'
 
 const SEARCH_THROTTLE_TIME = 100
+const TYPING_DEBOUNCE_MILLSECONDS = 300
 
 function GetStartedSection() {
   const { t } = useTranslation()
@@ -136,9 +140,26 @@ function SendSelectRecipient() {
   const { t } = useTranslation()
 
   const [searchQuery, setSearchQuery] = useState('')
-  const throttledSearch = throttle((searchInput: string) => {
-    setSearchQuery(searchInput)
-  }, SEARCH_THROTTLE_TIME)
+  const [showSearchResults, setShowSearchResults] = useState(false)
+
+  // We debounce the search query in order to perform network calls to check
+  // if the query resolves to some special sort of identifier.
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery)
+  const debounceSearchQuery = useCallback(
+    debounce((query: string) => {
+      setDebouncedSearchQuery(query)
+    }, TYPING_DEBOUNCE_MILLSECONDS),
+    []
+  )
+
+  const setSearchQueryWrapper = (query: string) => {
+    if (!query) {
+      setShowSearchResults(false)
+    } else {
+      setShowSearchResults(true)
+    }
+    setSearchQuery(query)
+  }
 
   const [showContacts, setShowContacts] = useState(false)
 
@@ -148,6 +169,31 @@ function SendSelectRecipient() {
     () => sortRecipients(Object.values(contactsCache)),
     [contactsCache]
   )
+  const [contactsFiltered, setContactsFiltered] = useState(() =>
+    sortRecipients(Object.values(contactRecipients))
+  )
+  const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
+
+  const recentRecipientsFilter = useMemo(
+    () => filterRecipientFactory(recentRecipients, false),
+    [recentRecipients]
+  )
+  const contactRecipientsFilter = useMemo(
+    () => filterRecipientFactory(Object.values(contactRecipients), true),
+    [contactRecipients]
+  )
+
+  const throttledSearch = throttle((searchInput: string) => {
+    setSearchQueryWrapper(searchInput)
+    setRecentFiltered(recentRecipientsFilter(searchInput))
+    setContactsFiltered(contactRecipientsFilter(searchInput))
+  }, SEARCH_THROTTLE_TIME)
+
+  useEffect(() => {
+    // Clear search when recipients change to avoid tricky states
+    throttledSearch('')
+  }, [recentRecipientsFilter, contactRecipientsFilter])
+
   const showGetStarted = !recentRecipients.length
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
@@ -184,7 +230,14 @@ function SendSelectRecipient() {
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={throttledSearch} />
       </View>
       <View style={styles.content}>
-        {showContacts ? (
+        <PasteAddressButton
+          shouldShowClipboard={isAddressFormat}
+          onChangeText={setSearchQueryWrapper}
+          value={''}
+        />
+        {showSearchResults ? (
+          <></>
+        ) : showContacts ? (
           <>
             <View style={styles.topSection}>
               <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
@@ -259,6 +312,8 @@ const styles = StyleSheet.create({
     color: colors.dark,
   },
   header: {
+    paddingRight: 24,
+    paddingTop: 15,
     justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
