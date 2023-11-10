@@ -15,7 +15,9 @@ describe(InLineNotification, () => {
       />
     )
 
-    expect(getByText('Action 1')).toBeDefined()
+    expect(getByText('Title')).toBeTruthy()
+    expect(getByText('Description')).toBeTruthy()
+    expect(getByText('Action 1')).toBeTruthy()
     expect(() => getByText('Action 2')).toThrow()
   })
 
