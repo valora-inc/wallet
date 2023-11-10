@@ -184,7 +184,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     fiatConnectQuotes,
     asyncProviders.result?.externalProviders,
-    tokenInfo.tokenId
+    tokenInfo.tokenId,
+    tokenInfo.symbol
   )
 
   const exchanges = asyncExchanges.result ?? []

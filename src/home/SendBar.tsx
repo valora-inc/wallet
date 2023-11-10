@@ -19,7 +19,7 @@ interface Props {
 
 export default function SendBar({ selectedTokenId, skipImport }: Props) {
   const canSendTokens = useSelector(canSendTokensSelector)
-  const tokenInfo = selectedTokenId ? useTokenInfo(selectedTokenId) : undefined
+  const tokenInfo = useTokenInfo(selectedTokenId)
 
   const onPressSend = () => {
     navigate(Screens.Send, {

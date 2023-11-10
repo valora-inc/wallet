@@ -12,7 +12,6 @@ import {
 } from 'src/fiatExchanges/utils'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { useTokenInfo } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 
@@ -23,11 +22,12 @@ export function normalizeQuotes(
   flow: CICOFlow,
   fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
   externalProviders: FetchProvidersOutput[] = [],
-  tokenId: string
+  tokenId: string,
+  tokenSymbol: string
 ): NormalizedQuote[] {
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
-    ...normalizeExternalProviders(flow, externalProviders, tokenId),
+    ...normalizeExternalProviders(flow, externalProviders, tokenId, tokenSymbol),
   ].sort(
     getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
       ? quotesByReceiveAmountComparator
@@ -99,13 +99,10 @@ export function normalizeFiatConnectQuotes(
 export function normalizeExternalProviders(
   flow: CICOFlow,
   input: FetchProvidersOutput[],
-  tokenId: string
+  tokenId: string,
+  tokenSymbol: string
 ): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
-  const { symbol: digitalAsset } = useTokenInfo(tokenId) || {}
-  if (!digitalAsset) {
-    throw new Error('Token info not found')
-  }
   input.forEach((provider) => {
     try {
       const quotes: (RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId)[] = []
@@ -122,7 +119,7 @@ export function normalizeExternalProviders(
           // for Simplex quotes, which are a special case.
           provider.paymentMethods.forEach((paymentMethod) =>
             quotes.push({
-              digitalAsset,
+              digitalAsset: tokenSymbol,
               paymentMethod,
               tokenId,
             })
