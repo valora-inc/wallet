@@ -132,8 +132,8 @@ const defaultStyles = StyleSheet.create({
 
 const severityStyles: Record<Severity, CustomStyles> = {
   [Severity.Informational]: {
-    primary: Colors.informationDark,
-    secondary: Colors.informationLight,
+    primary: Colors.infoDark,
+    secondary: Colors.infoLight,
   },
   [Severity.Warning]: {
     primary: Colors.warningDark,
