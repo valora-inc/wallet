@@ -3,6 +3,7 @@ import { EXAMPLE_NAME } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   completeProtectWalletScreen,
+  dismissCashInBottomSheet,
   enterPinUi,
   quickOnboarding,
   scrollIntoView,
@@ -27,6 +28,7 @@ const quickEducation = async () => {
 
 const arriveAtHomeScreen = async () => {
   // Arrived to Home screen
+  await dismissCashInBottomSheet()
   await expect(element(by.id('HomeAction-Send'))).toBeVisible()
 }
 
@@ -115,6 +117,7 @@ export default NewAccountOnboarding = () => {
       .withTimeout(10 * 1000)
 
     // Navigated to Home screen
+    await dismissCashInBottomSheet()
     await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
       .withTimeout(10 * 1000)
