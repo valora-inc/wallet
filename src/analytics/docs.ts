@@ -53,7 +53,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.error_fallback]: ``,
   [AppEvents.error_boundary]: ``,
   [AppEvents.user_restart]: ``,
-  [AppEvents.fetch_balance]: ``,
+  [AppEvents.fetch_balance]: `when balances are fetched. occurs every 10 seconds on the transaction feed, or on-demand after events like completing a send`,
   [AppEvents.fetch_balance_error]: ``,
   [AppEvents.redux_keychain_mismatch]: `when the redux state doesn't contain the account found in the keychain`,
   [AppEvents.redux_store_recovery_success]: ``,
