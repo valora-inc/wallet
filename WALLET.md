@@ -34,7 +34,6 @@
   - [Redux state migration](#redux-state-migration)
   - [Redux-Saga pitfalls](#redux-saga-pitfalls)
   - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
-  - [Generating GraphQL Types](#generating-graphql-types)
   - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
   - [Helpful hints for development](#helpful-hints-for-development)
   - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
@@ -464,10 +463,6 @@ The service that route SMS messages to the app needs to be configured to [append
 1.  Go to the play console for the relevant app, Release management > App signing, and download the App signing certificate.
 2.  Use this script to generate the hash code: https://github.com/michalbrz/sms-retriever-hash-generator
 
-### Generating GraphQL Types
-
-We're using [GraphQL Code Generator][graphql code generator] to properly type GraphQL queries. If you make a change to a query, run `yarn build:gen-graphql-types` to update the typings in the `typings` directory.
-
 ### Redux state migration
 
 We're using [redux-persist](https://github.com/rt2zz/redux-persist) to persist the state of the app across launches.
@@ -669,7 +664,6 @@ $ adb kill-server && adb start-server
 [apple developer program]: https://developer.apple.com/programs/
 [detox]: https://github.com/wix/Detox
 [e2e readme]: ./e2e/README.md
-[graphql code generator]: https://github.com/dotansimha/graphql-code-generator
 [protocol readme]: ../protocol/README.md
 [react native]: https://facebook.github.io/react-native/
 [flipper]: https://fbflipper.com

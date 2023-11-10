@@ -1,8 +1,5 @@
 import BigNumber from 'bignumber.js'
-import gql from 'graphql-tag'
 import { Actions as AccountActions } from 'src/account/actions'
-import { apolloClient } from 'src/apollo'
-import { ExchangeRateQuery, ExchangeRateQueryVariables } from 'src/apollo/types'
 import { Actions as AppActions } from 'src/app/actions'
 import {
   Actions,
@@ -13,34 +10,51 @@ import {
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import Logger from 'src/utils/Logger'
+import { gql } from 'src/utils/gql'
 import { safely } from 'src/utils/safely'
+import networkConfig from 'src/web3/networkConfig'
 import { call, put, select, spawn, take, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'localCurrency/saga'
+
+interface ExchangeRateQueryVariables {
+  currencyCode: string
+  sourceCurrencyCode?: string | null
+}
+
+interface ExchangeRateQuery {
+  currencyConversion: { rate: BigNumber.Value } | null
+}
 
 export async function fetchExchangeRate(
   sourceCurrency: string,
   localCurrencyCode: string
 ): Promise<string> {
-  const response = await apolloClient.query<ExchangeRateQuery, ExchangeRateQueryVariables>({
-    query: gql`
-      query ExchangeRate($currencyCode: String!, $sourceCurrencyCode: String) {
-        currencyConversion(currencyCode: $currencyCode, sourceCurrencyCode: $sourceCurrencyCode) {
-          rate
-        }
-      }
-    `,
-    variables: {
-      currencyCode: localCurrencyCode,
-      sourceCurrencyCode: sourceCurrency,
+  const response = await fetch(`${networkConfig.blockchainApiUrl}/graphql`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
     },
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all',
+    body: JSON.stringify({
+      query: gql`
+        query ExchangeRate($currencyCode: String!, $sourceCurrencyCode: String) {
+          currencyConversion(currencyCode: $currencyCode, sourceCurrencyCode: $sourceCurrencyCode) {
+            rate
+          }
+        }
+      `,
+      variables: {
+        currencyCode: localCurrencyCode,
+        sourceCurrencyCode: sourceCurrency,
+      } satisfies ExchangeRateQueryVariables,
+    }),
   })
+  const body = (await response.json()) as { data: ExchangeRateQuery | undefined }
 
-  const rate = response.data.currencyConversion?.rate
+  const rate = body.data?.currencyConversion?.rate
   if (typeof rate !== 'number' && typeof rate !== 'string') {
-    throw new Error(`Invalid response data ${response.data}`)
+    throw new Error(`Invalid response data ${body.data}`)
   }
 
   return new BigNumber(rate).toString()
