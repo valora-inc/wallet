@@ -4,7 +4,7 @@ import InLineNotification, { Severity } from 'src/components/InLineNotification'
 
 describe(InLineNotification, () => {
   it('does not render CTA when onPress function is not provided', async () => {
-    const { findByText } = render(
+    const { getByText } = render(
       <InLineNotification
         severity={Severity.Informational}
         title={'Title'}
@@ -15,14 +15,14 @@ describe(InLineNotification, () => {
       />
     )
 
-    await expect(findByText('Action 1')).resolves.toBeDefined()
-    await expect(findByText('Action 2')).rejects.toThrow()
+    expect(getByText('Action 1')).toBeDefined()
+    expect(() => getByText('Action 2')).toThrow()
   })
 
   it('calls onPress function when pressed', async () => {
     const fn = jest.fn()
     const fn2 = jest.fn()
-    const { findByText } = render(
+    const { getByText } = render(
       <InLineNotification
         severity={Severity.Informational}
         title={'Title'}
@@ -34,8 +34,8 @@ describe(InLineNotification, () => {
       />
     )
 
-    fireEvent.press(await findByText('Action 1'))
-    fireEvent.press(await findByText('Action 2'))
+    fireEvent.press(getByText('Action 1'))
+    fireEvent.press(getByText('Action 2'))
 
     expect(fn).toBeCalled()
     expect(fn2).toBeCalled()
