@@ -72,6 +72,7 @@ export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
  *
  * Throws other kinds of errors (e.g. if execution is reverted for some other reason)
  *
+ * @param client
  * @param baseTransaction
  * @param maxFeePerGas
  * @param feeCurrencySymbol
