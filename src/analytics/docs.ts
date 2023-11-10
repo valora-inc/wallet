@@ -250,7 +250,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [InviteEvents.invite_with_share]: ``,
   [InviteEvents.invite_with_share_dismiss]: ``,
   [InviteEvents.invite_with_referral_url]: ``,
-  [InviteEvents.opened_via_invite_url]: ``,
+  [InviteEvents.opened_via_invite_url]: `When a user opens a "share" deeplink. Should get tracked every time a user opens the app with a share deeplink, and not just the first time.`,
   [InviteEvents.invite_help_link]: `When taps "View all terms" in invite disclaimer`,
   [EscrowEvents.escrow_fetch_start]: ``,
   [EscrowEvents.escrow_fetch_complete]: ``,
