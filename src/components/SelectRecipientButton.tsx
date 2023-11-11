@@ -1,9 +1,10 @@
 import React, { ReactElement } from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 type Props = {
   title: string
@@ -31,7 +32,8 @@ function SelectRecipientButton({ title, subtitle, onPress, icon, testID }: Props
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 16,
+    paddingVertical: Spacing.Regular16,
+    paddingHorizontal: Spacing.Thick24,
   },
   icon: {
     borderWidth: 1,
@@ -50,8 +52,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textSection: {
-    paddingLeft: 15,
+    paddingLeft: Spacing.Small12,
     flexDirection: 'column',
+    flex: 1,
   },
 })
 
