@@ -1875,6 +1875,7 @@
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
     "title": "Bir alıcı seçin",
+    "contactsTitle": "Bir kişi seçin",
     "recents": "Son Zamanlar",
     "qr": {
       "title": "QR Kodunu Tarayın veya Gösterin",
@@ -1889,7 +1890,7 @@
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
-          "title": "Cüzdan Adresi",
+          "title": "Cüzdan adresi",
           "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
         },
         "two": {

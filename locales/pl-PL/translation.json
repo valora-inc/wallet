@@ -1879,6 +1879,7 @@
   "sendSelectRecipient": {
     "searchText": "Szukaj według nazwiska, telefonu, portfela...",
     "title": "Wybierz odbiorcę",
+    "contactsTitle": "Wybierz kontakt",
     "recents": "Ostatnie wydarzenia",
     "qr": {
       "title": "Zeskanuj lub pokaż kod QR",
