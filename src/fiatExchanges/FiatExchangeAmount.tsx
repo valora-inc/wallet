@@ -77,7 +77,7 @@ function FiatExchangeAmount({ route }: Props) {
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
   const { address } = useTokenInfo(tokenId) || {}
   if (!address) {
-    throw new Error('Token info not found')
+    throw new Error(`Token info not found for token ID ${tokenId}`)
   }
 
   const inputConvertedToCrypto =
@@ -132,9 +132,6 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function goToProvidersScreen() {
-    if (!symbol) {
-      throw new Error('Token info not found')
-    }
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
       currency: symbolToAnalyticsCurrency(symbol),
@@ -178,9 +175,6 @@ function FiatExchangeAmount({ route }: Props) {
   }
 
   function onPressContinue() {
-    if (!symbol) {
-      throw new Error('Token info not found')
-    }
     if (flow === CICOFlow.CashIn) {
       if (inputLocalCurrencyAmount.isGreaterThan(localCurrencyMaxAmount)) {
         setShowingInvalidAmountDialog(true)

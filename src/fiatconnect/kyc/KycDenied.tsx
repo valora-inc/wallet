@@ -37,7 +37,7 @@ function KycDenied({ route, navigation }: Props) {
   // TODO: remove deprecated function call when FiatConnect updated to take token IDs
   const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
   if (!tokenId) {
-    throw new Error('Token info not found')
+    throw new Error(`Token info not found for token symbol ${quote.getCryptoType()}`)
   }
 
   const onPressTryAgain = () => {

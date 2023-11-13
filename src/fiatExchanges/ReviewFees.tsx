@@ -51,7 +51,7 @@ export default function ReviewFees({
   const tokenSymbol = useTokenInfo(tokenIdToBuy)?.symbol
 
   if (!tokenSymbol) {
-    throw new Error('Token info not found')
+    throw new Error(`Token info not found for token ID ${tokenIdToBuy}`)
   }
 
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (

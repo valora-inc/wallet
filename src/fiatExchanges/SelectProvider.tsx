@@ -103,7 +103,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const tokenInfo = useTokenInfo(tokenId)
 
   if (!tokenInfo) {
-    throw new Error('Token info not found')
+    throw new Error(`Token info not found for token ID ${tokenId}`)
   }
 
   const { t } = useTranslation()

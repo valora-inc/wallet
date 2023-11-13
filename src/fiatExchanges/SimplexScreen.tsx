@@ -50,7 +50,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const tokenIdToBuy = simplexQuote.tokenId
   const { symbol } = useTokenInfo(tokenIdToBuy) || {}
   if (!symbol) {
-    throw new Error('Token info not found')
+    throw new Error(`Token info not found for token ID ${tokenIdToBuy}`)
   }
 
   const feeIsWaived =

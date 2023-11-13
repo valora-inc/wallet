@@ -731,10 +731,9 @@ export function* handleSelectFiatConnectQuote({
       crypto: parseFloat(quote.getCryptoAmount()),
       fiat: parseFloat(quote.getFiatAmount()),
     }
-    // TODO: remove deprecated function call when FiatConnect updated to take token IDs
     const tokenId = quote.getTokenId()
     if (!tokenId) {
-      throw new Error('Token info not found')
+      throw new Error(`No tokenId found in FiatConnect quote for token ${quote.getCryptoType()}`)
     }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
@@ -791,7 +790,7 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
     }
     const tokenId = quote.getTokenId()
     if (!tokenId) {
-      throw new Error('Token info not found')
+      throw new Error(`No tokenId found in FiatConnect quote for token ${quote.getCryptoType()}`)
     }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
