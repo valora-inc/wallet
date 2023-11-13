@@ -128,6 +128,7 @@ export interface AttemptReturnUserFlowAction {
   fiatAccountId: string
   fiatAccountType: FiatAccountType
   fiatAccountSchema: FiatAccountSchema
+  tokenId: string
 }
 
 export interface FetchFiatConnectQuotesCompletedAction {

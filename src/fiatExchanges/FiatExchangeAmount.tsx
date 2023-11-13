@@ -169,6 +169,7 @@ function FiatExchangeAmount({ route }: Props) {
           fiatAccountId,
           fiatAccountType,
           fiatAccountSchema,
+          tokenId,
         })
       )
     } else {

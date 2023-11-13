@@ -8,7 +8,7 @@ import {
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
 import { Dispatch } from 'redux'
-import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectProviderInfo, FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import {
   DEFAULT_ALLOWED_VALUES,
@@ -97,7 +97,7 @@ const daysToSettlementEstimation = ({
 }
 
 export default class FiatConnectQuote extends NormalizedQuote {
-  quote: FiatConnectQuoteSuccess
+  quote: FiatConnectQuoteSuccessWithTokenId
   fiatAccountType: FiatAccountType
   flow: CICOFlow
   quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
@@ -108,7 +108,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     fiatAccountType,
     flow,
   }: {
-    quote: FiatConnectQuoteSuccess
+    quote: FiatConnectQuoteSuccessWithTokenId
     fiatAccountType: keyof typeof quote.fiatAccount
     // TODO: Get flow from the quote object once it is added to the spec https://github.com/fiatconnect/specification/pull/67
     flow: CICOFlow
@@ -334,8 +334,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
-  // TODO: Update this to return tokenId when reworking fiatConnect
-  getTokenId(): null {
-    return null
+  getTokenId(): string | null {
+    return this.quote.tokenId ?? null
   }
 }

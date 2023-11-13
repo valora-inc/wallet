@@ -26,7 +26,7 @@ export function normalizeQuotes(
   tokenSymbol: string
 ): NormalizedQuote[] {
   return [
-    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
+    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes, tokenId),
     ...normalizeExternalProviders(flow, externalProviders, tokenId, tokenSymbol),
   ].sort(
     getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
@@ -68,7 +68,8 @@ const quoteHasErrors = (
 
 export function normalizeFiatConnectQuotes(
   flow: CICOFlow,
-  quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
+  quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[],
+  tokenId?: string
 ): FiatConnectQuote[] {
   const normalizedQuotes: FiatConnectQuote[] = []
 
@@ -81,7 +82,7 @@ export function normalizeFiatConnectQuotes(
         ([key, value]: [string, FiatAccountTypeQuoteData | undefined]) => {
           try {
             const normalizedQuote = new FiatConnectQuote({
-              quote,
+              quote: { ...quote, tokenId: tokenId },
               fiatAccountType: key as FiatAccountType,
               flow,
             })
