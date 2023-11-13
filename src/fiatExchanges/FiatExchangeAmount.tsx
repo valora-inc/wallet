@@ -302,7 +302,7 @@ FiatExchangeAmount.navOptions = ({
             ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
             : `fiatExchangeFlow.cashOut.exchangeAmountTitle`,
           {
-            symbol,
+            currency: symbol,
           }
         )}
         tokenId={tokenId}
