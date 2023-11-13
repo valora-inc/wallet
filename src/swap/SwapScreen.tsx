@@ -399,8 +399,8 @@ export function SwapScreen({ route }: Props) {
   }
 
   const allowReview = useMemo(
-    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
-    [parsedSwapAmount]
+    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
+    [parsedSwapAmount, fetchingSwapQuote]
   )
 
   const onPressLearnMore = () => {
