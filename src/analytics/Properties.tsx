@@ -363,7 +363,9 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.wallet_import_success]: undefined
 
   [OnboardingEvents.initialize_account_start]: undefined
-  [OnboardingEvents.initialize_account_complete]: undefined
+  [OnboardingEvents.initialize_account_complete]: {
+    inviterAddress: string | null
+  }
   [OnboardingEvents.initialize_account_error]: {
     error: string
   }
