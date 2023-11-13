@@ -17,9 +17,9 @@ interface Props {
   description: string
   style?: StyleProp<ViewStyle>
   ctaLabel?: string | null
-  onPressCta?: () => void
+  onPressCta?: (event: GestureResponderEvent) => void
   ctaLabel2?: string | null
-  onPressCta2?: () => void
+  onPressCta2?: (event: GestureResponderEvent) => void
   testID?: string
 }
 
