@@ -150,12 +150,12 @@ jest.mock('src/transactions/send')
 describe('Fiatconnect saga', () => {
   const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
   const normalizedQuote = new FiatConnectQuote({
-    quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    quote: { ...(mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess), tokenId: mockCusdTokenId },
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
   })
   const normalizedQuoteKyc = new FiatConnectQuote({
-    quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+    quote: { ...(mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess), tokenId: mockCusdTokenId },
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
   })
@@ -1350,6 +1350,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
       fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      tokenId: mockCusdTokenId,
     })
     const paramsKyc = attemptReturnUserFlow({
       ...selectProviderParamsReturn,
@@ -1357,6 +1358,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
       fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      tokenId: mockCusdTokenId,
     })
     const fiatAccount = {
       fiatAccountId: '123',

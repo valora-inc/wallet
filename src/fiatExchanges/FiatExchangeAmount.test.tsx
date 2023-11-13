@@ -37,7 +37,7 @@ const mockTokenInfoPartial = {
   networkId: NetworkId['celo-alfajores'],
 }
 jest.mock('src/fees/hooks', () => ({
-  useMaxSendAmountByAddress: () => mockUseMaxSendAmount(),
+  useMaxSendAmount: () => mockUseMaxSendAmount(),
 }))
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
