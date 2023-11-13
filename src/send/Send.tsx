@@ -41,8 +41,10 @@ import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
+import Logger from 'src/utils/Logger'
 
 const SEARCH_THROTTLE_TIME = 100
+const TAG = 'send/Send'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Send>
 
@@ -126,22 +128,27 @@ function Send({ route }: Props) {
     // interfere with the invite modal or bottom sheet.
     Keyboard.dismiss()
 
-    if (
-      recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED ||
-      !hasAddressField(recipient) // should already be caught by UNVERIFIED and UNKNOWN checks, but doing this to be safe and to satisfy the TS compiler
-    ) {
+    if (recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED) {
       setShowInviteModal(true)
       return
     }
 
     if (getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
-      navigate(Screens.SendEnterAmount, {
-        isFromScan: false,
-        defaultTokenIdOverride,
-        forceTokenId,
-        recipient,
-        origin: SendOrigin.AppSendFlow,
-      })
+      if (hasAddressField(recipient)) {
+        navigate(Screens.SendEnterAmount, {
+          isFromScan: false,
+          defaultTokenIdOverride,
+          forceTokenId,
+          recipient,
+          origin: SendOrigin.AppSendFlow,
+        })
+      } else {
+        // TODO(cajubelt): get the recipient address before navigating to SendEnterAmount
+        Logger.error(
+          TAG,
+          'Recipient does not have address field. Cannot continue with new send flow'
+        )
+      }
     } else if (defaultTokenIdOverride) {
       navigate(Screens.SendAmount, {
         isFromScan: false,
