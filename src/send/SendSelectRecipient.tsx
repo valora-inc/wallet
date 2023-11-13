@@ -155,6 +155,7 @@ function SendSelectRecipient() {
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient } =
     useFetchRecipientVerificationStatus()
+  // TODO enter secure send flow if recipient is verified with multiple addresses
 
   const dispatch = useDispatch()
 
