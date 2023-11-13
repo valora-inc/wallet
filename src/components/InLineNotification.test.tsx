@@ -4,7 +4,7 @@ import InLineNotification, { Severity } from 'src/components/InLineNotification'
 
 describe(InLineNotification, () => {
   it('does not render CTA when onPress function is not provided', async () => {
-    const { getByText } = render(
+    const { getByText, queryByText } = render(
       <InLineNotification
         severity={Severity.Informational}
         title={'Title'}
@@ -18,7 +18,7 @@ describe(InLineNotification, () => {
     expect(getByText('Title')).toBeTruthy()
     expect(getByText('Description')).toBeTruthy()
     expect(getByText('Action 1')).toBeTruthy()
-    expect(() => getByText('Action 2')).toThrow()
+    expect(queryByText('Action 2')).toBeFalsy()
   })
 
   it('calls onPress function when pressed', async () => {
