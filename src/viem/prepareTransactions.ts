@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import erc20 from 'src/abis/IERC20'
+import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -9,11 +10,10 @@ import { publicClient } from 'src/viem/index'
 import {
   Address,
   EstimateGasExecutionError,
+  ExecutionRevertedError,
   InsufficientFundsError,
   encodeFunctionData,
-  ExecutionRevertedError,
 } from 'viem'
-import stableToken from 'src/abis/StableToken'
 
 const TAG = 'viem/prepareTransactions'
 
@@ -21,11 +21,12 @@ export interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequestCIP42[]
   feeCurrency: TokenBalance
+  maxGasFeeInDecimal: BigNumber
 }
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
-  maxGasFee: BigNumber
+  maxGasFeeInDecimal: BigNumber
   feeCurrency: TokenBalance
   decreasedSpendAmount: BigNumber
 }
@@ -236,6 +237,7 @@ export async function prepareTransactions({
       type: 'possible',
       transactions: estimatedTransactions,
       feeCurrency,
+      maxGasFeeInDecimal,
     } satisfies PreparedTransactionsPossible
   }
 
@@ -257,7 +259,7 @@ export async function prepareTransactions({
 
   return {
     type: 'need-decrease-spend-amount-for-gas',
-    maxGasFee: adjustedMaxGasFee,
+    maxGasFeeInDecimal: adjustedMaxGasFee,
     feeCurrency: result.feeCurrency,
     decreasedSpendAmount: maxAmount,
   } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
@@ -375,7 +377,7 @@ export function getFeeCurrencyAndAmount(
     feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFee
+    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFeeInDecimal
   }
   return {
     feeAmount:
