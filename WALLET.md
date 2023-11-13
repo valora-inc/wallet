@@ -62,8 +62,8 @@ Install Node version listed in [.nvmrc](.nvmrc) and make it default (example for
 
 ```bash
 # Check actual version number in .nvmrc
-nvm install 16.20.2
-nvm alias default 16.20.2
+nvm install 20
+nvm alias default 20
 ```
 
 Install Yarn
