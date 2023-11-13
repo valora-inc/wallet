@@ -168,6 +168,7 @@ export function* handleBarcode(
     if (!success) {
       return
     }
+    // TODO navigate to SendEnterAmount if amount missing from secureSendTxData
     navigate(Screens.SendConfirmation, {
       transactionData: secureSendTxData,
       origin: SendOrigin.AppSendFlow,

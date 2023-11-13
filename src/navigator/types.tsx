@@ -37,6 +37,24 @@ interface SendConfirmationParams {
   isFromScan: boolean
 }
 
+interface SendEnterAmountParams {
+  recipient: Recipient
+  isFromScan: boolean
+  origin: SendOrigin
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
+}
+
+type ValidateRecipientParams = {
+  addressValidationType: AddressValidationType
+  requesterAddress?: string
+  origin: SendOrigin
+} & (
+  | SendEnterAmountParams
+  | {
+      transactionData: TransactionDataInput
+    }
+)
 export type StackParamList = {
   [Screens.BackupComplete]:
     | undefined
@@ -245,13 +263,7 @@ export type StackParamList = {
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
-  [Screens.SendEnterAmount]: {
-    recipient: Recipient & { address: string }
-    isFromScan: boolean
-    origin: SendOrigin
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
-  }
+  [Screens.SendEnterAmount]: SendEnterAmountParams & { recipient: { address: string } }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: {
@@ -277,18 +289,8 @@ export type StackParamList = {
     transaction: TokenTransaction
   }
   [Screens.UpgradeScreen]: undefined
-  [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInput
-    addressValidationType: AddressValidationType
-    requesterAddress?: string
-    origin: SendOrigin
-  }
-  [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInput
-    addressValidationType: AddressValidationType
-    requesterAddress?: string
-    origin: SendOrigin
-  }
+  [Screens.ValidateRecipientIntro]: ValidateRecipientParams
+  [Screens.ValidateRecipientAccount]: ValidateRecipientParams
   [Screens.VerificationStartScreen]:
     | {
         hideOnboardingStep?: boolean

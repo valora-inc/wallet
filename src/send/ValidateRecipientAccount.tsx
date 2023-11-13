@@ -4,7 +4,6 @@ import { WithTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
@@ -37,9 +36,10 @@ const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
 
 interface StateProps {
   recipient: Recipient
-  transactionData: TransactionDataInput
+  transactionData?: TransactionDataInput
   addressValidationType: AddressValidationType
   validationSuccessful: boolean
+  validatedAddress?: string
   error?: ErrorMessages | null
 }
 
@@ -65,18 +65,22 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { route } = ownProps
-  const transactionData = route.params.transactionData
-  const { recipient } = transactionData
+  const { recipient } =
+    'transactionData' in route.params ? route.params.transactionData : route.params
   const e164PhoneNumber = recipient.e164PhoneNumber
   const error = state.alert ? state.alert.underlyingError : null
-  const validationSuccessful = e164PhoneNumber
-    ? !!state.identity.secureSendPhoneNumberMapping[e164PhoneNumber]?.validationSuccessful
+  const phoneNumberMapping =
+    e164PhoneNumber && state.identity.secureSendPhoneNumberMapping[e164PhoneNumber]
+  const validationSuccessful = phoneNumberMapping
+    ? !!phoneNumberMapping?.validationSuccessful
     : false
+  const validatedAddress = phoneNumberMapping ? phoneNumberMapping.address : undefined
 
   return {
     recipient,
-    transactionData,
+    transactionData: 'transactionData' in route.params ? route.params.transactionData : undefined,
     validationSuccessful,
+    validatedAddress,
     addressValidationType: route.params.addressValidationType,
     error,
   }
@@ -86,14 +90,6 @@ export const validateRecipientAccountScreenNavOptions = () => ({
   ...emptyHeader,
   headerLeft: () => <BackButton eventName={SendEvents.send_secure_back} />,
 })
-
-function navigateToConfirmationScreen(transactionData: TransactionDataInput, origin: SendOrigin) {
-  navigate(Screens.SendConfirmation, {
-    transactionData,
-    origin,
-    isFromScan: false,
-  })
-}
 
 export class ValidateRecipientAccount extends React.Component<Props, State> {
   state: State = {
@@ -111,11 +107,27 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   componentDidUpdate = (prevProps: Props) => {
-    const { validationSuccessful, transactionData, route } = this.props
+    const { validationSuccessful, transactionData, route, recipient, validatedAddress } = this.props
     const { singleDigitInputValueArr } = this.state
 
-    if (validationSuccessful && prevProps.validationSuccessful === false) {
-      navigateToConfirmationScreen(transactionData, route.params.origin)
+    if (
+      validationSuccessful &&
+      validatedAddress &&
+      (!prevProps.validationSuccessful || !prevProps.validatedAddress)
+    ) {
+      if (transactionData) {
+        navigate(Screens.SendConfirmation, {
+          transactionData,
+          origin: route.params.origin,
+          isFromScan: false,
+        })
+      } else {
+        navigate(Screens.SendEnterAmount, {
+          origin: route.params.origin,
+          recipient: { ...recipient, address: validatedAddress },
+          isFromScan: false,
+        })
+      }
     }
 
     // If the user has entered 4 valid digits, dismiss the keyboard
