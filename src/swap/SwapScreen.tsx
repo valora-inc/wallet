@@ -54,7 +54,7 @@ import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 
-const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
+const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 200
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
