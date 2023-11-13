@@ -1879,6 +1879,7 @@
   "sendSelectRecipient": {
     "searchText": "Поиск по имени, телефону, кошельку...",
     "title": "Выберите получателя",
+    "contactsTitle": "Выберите контакт",
     "recents": "Recents",
     "qr": {
       "title": "Отсканируй или покажи QR-код",

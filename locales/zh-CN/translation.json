@@ -1873,6 +1873,7 @@
   "sendSelectRecipient": {
     "searchText": "按姓名、电话、钱包搜索...",
     "title": "选择收件人",
+    "contactsTitle": "选择联系人",
     "recents": "近期活动",
     "qr": {
       "title": "扫描或显示 QR 码",
