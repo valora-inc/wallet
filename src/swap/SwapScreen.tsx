@@ -11,7 +11,6 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -130,7 +129,6 @@ export function SwapScreen({ route }: Props) {
   const [updatedField, setUpdatedField] = useState(Field.FROM)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
-  const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
   const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
@@ -197,12 +195,6 @@ export function SwapScreen({ route }: Props) {
       clearTimeout(debouncedRefreshQuote)
     }
   }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
-
-  useEffect(() => {
-    if (showMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
-      setShowMaxSwapAmountWarning(false)
-    }
-  }, [fromToken, showMaxSwapAmountWarning])
 
   useEffect(
     () => {
@@ -273,7 +265,6 @@ export function SwapScreen({ route }: Props) {
 
       if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
         setFromSwapAmountError(true)
-        showMaxCeloSwapWarning()
         dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
         return
       }
@@ -303,7 +294,6 @@ export function SwapScreen({ route }: Props) {
 
     if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
       setFromSwapAmountError(true)
-      showMaxCeloSwapWarning()
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
     } else {
       dispatch(setSwapUserInput(userInput))
@@ -368,8 +358,6 @@ export function SwapScreen({ route }: Props) {
         [fieldType]: value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev[fieldType],
       }))
     }
-
-    setShowMaxSwapAmountWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -386,16 +374,9 @@ export function SwapScreen({ route }: Props) {
         decimalSeparator,
       }),
     }))
-    showMaxCeloSwapWarning()
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
       tokenSymbol: fromToken?.symbol,
     })
-  }
-
-  const showMaxCeloSwapWarning = () => {
-    if (fromToken?.symbol === 'CELO') {
-      setShowMaxSwapAmountWarning(true)
-    }
   }
 
   const allowReview = useMemo(
@@ -406,11 +387,6 @@ export function SwapScreen({ route }: Props) {
   const onPressLearnMore = () => {
     ValoraAnalytics.track(SwapEvents.swap_learn_more)
     navigate(Screens.WebViewScreen, { uri: SWAP_LEARN_MORE })
-  }
-
-  const onPressLearnMoreFees = () => {
-    ValoraAnalytics.track(SwapEvents.swap_gas_fees_learn_more)
-    navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
   const exchangeRateUpdatePending =
@@ -489,16 +465,6 @@ export function SwapScreen({ route }: Props) {
             feeTokenId={feeTokenId}
             slippagePercentage={slippagePercentage}
           />
-
-          {showMaxSwapAmountWarning && (
-            <Warning
-              title={t('swapScreen.maxSwapAmountWarning.title')}
-              description={t('swapScreen.maxSwapAmountWarning.body')}
-              ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
-              style={styles.warning}
-              onPressCta={onPressLearnMoreFees}
-            />
-          )}
           {showPriceImpactWarning && (
             <Warning
               title={t('swapScreen.priceImpactWarning.title')}

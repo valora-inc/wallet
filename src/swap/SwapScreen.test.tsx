@@ -1,4 +1,4 @@
-import { act, fireEvent, render, waitFor, within } from '@testing-library/react-native'
+import { act, fireEvent, render, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
@@ -8,7 +8,6 @@ import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
@@ -615,24 +614,6 @@ describe('SwapScreen', () => {
       '12.345678'
     )
     expect(getByText('swapScreen.review')).not.toBeDisabled()
-  })
-
-  it('should show and hide the max warning', async () => {
-    mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByText, getByTestId, queryByText, tokenBottomSheet } =
-      renderScreen({})
-
-    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
-    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
-    await waitFor(() => expect(getByText('swapScreen.maxSwapAmountWarning.body')).toBeTruthy())
-
-    fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: TRANSACTION_FEES_LEARN_MORE,
-    })
-
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-    await waitFor(() => expect(queryByText('swapScreen.maxSwapAmountWarning.body')).toBeFalsy())
   })
 
   it('should fetch the quote if the amount is cleared and re-entered', async () => {
