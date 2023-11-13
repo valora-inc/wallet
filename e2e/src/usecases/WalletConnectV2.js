@@ -10,7 +10,7 @@ import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { createPublicClient, hexToNumber, http } from 'viem'
-import { celo } from 'viem/chains'
+import { celoAlfajores } from 'viem/chains'
 import { parseTransactionCelo } from 'viem/chains/utils'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
@@ -23,8 +23,8 @@ const dappName = 'WalletConnectV2 E2E'
 const kitUrl = process.env.FORNO_URL || 'https://alfajores-forno.celo-testnet.org'
 const kit = newKit(kitUrl)
 
-const celoClient = createPublicClient({
-  chain: celo,
+const celoAlfajoresClient = createPublicClient({
+  chain: celoAlfajores,
   transport: http(kitUrl),
 })
 
@@ -235,7 +235,7 @@ export default WalletConnect = () => {
         console.log('Received tx hash', txHash)
 
         // Wait for the transaction to be mined
-        const receipt = await celoClient.waitForTransactionReceipt({
+        const receipt = await celoAlfajoresClient.waitForTransactionReceipt({
           hash: txHash,
         })
         console.log('Received receipt', receipt)
