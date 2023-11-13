@@ -2790,6 +2790,18 @@ export const v166Schema = {
   },
 }
 
+export const v167Schema = {
+  ...v166Schema,
+  _persist: {
+    ...v166Schema._persist,
+    version: 167,
+  },
+  app: {
+    ...v166Schema.app,
+    rampCashInButtonExpEnabled: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v166Schema as Partial<RootState>
+  return v167Schema as Partial<RootState>
 }

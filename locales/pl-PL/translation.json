@@ -1849,7 +1849,8 @@
       "tokens": "Tokeny",
       "collectibles": "Kolekcje",
       "dappPositions": "Pozycje dapp"
-    }
+    },
+    "importToken": "Import"
   },
   "notificationCenterSpotlight": {
     "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu",
@@ -1878,6 +1879,7 @@
   "sendSelectRecipient": {
     "searchText": "Szukaj według nazwiska, telefonu, portfela...",
     "title": "Wybierz odbiorcę",
+    "contactsTitle": "Wybierz kontakt",
     "recents": "Ostatnie wydarzenia",
     "qr": {
       "title": "Zeskanuj lub pokaż kod QR",

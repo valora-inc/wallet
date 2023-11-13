@@ -6,7 +6,7 @@ import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -17,7 +17,10 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
+import TokenBottomSheet, {
+  TokenBalanceItemOption,
+  TokenPickerOrigin,
+} from 'src/components/TokenBottomSheet'
 import Warning from 'src/components/Warning'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
@@ -26,6 +29,7 @@ import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
@@ -40,11 +44,14 @@ import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
 import { setSwapUserInput } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
-import useSwapQuote from 'src/swap/useSwapQuote'
+import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { swappableTokensSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
+import { divideByWei } from 'src/utils/formatting'
+import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
@@ -55,13 +62,35 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
+function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
+  // TODO remove this block once we have viem enabled for everyone. this block
+  // only services the contractKit (Celo) flow. the fee will be displayed in
+  // fiat value and will be very low, since it's an approximation anyway we'll
+  // simplify this logic to just use the fees from the quote.
+  if (quote && !quote.preparedTransactions) {
+    return {
+      networkFee: divideByWei(
+        new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
+          new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gasPrice)
+        )
+      ),
+      feeTokenId: getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
+    }
+  }
+
+  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(quote?.preparedTransactions)
+  return {
+    networkFee: feeAmount,
+    feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
+  }
+}
+
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const showTransactionDetails = false // TODO remove this dummy feature flag after the transaction details are implemented
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -146,8 +175,20 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     setFromSwapAmountError(false)
+    // since we use the calculated exchange rate to update the parsedSwapAmount,
+    // this hook will be triggered after the exchange rate is first updated. this
+    // variable prevents the exchange rate from needlessly being calculated
+    // again.
+    const exchangeRateKnown =
+      fromToken &&
+      toToken &&
+      exchangeRate &&
+      exchangeRate.toTokenAddress === toToken.address &&
+      exchangeRate.fromTokenAddress === fromToken.address &&
+      exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField])
+
     const debouncedRefreshQuote = setTimeout(() => {
-      if (toToken && fromToken) {
+      if (fromToken && toToken && parsedSwapAmount[updatedField].gt(0) && !exchangeRateKnown) {
         void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField, useViemForSwap)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
@@ -155,7 +196,7 @@ export function SwapScreen({ route }: Props) {
     return () => {
       clearTimeout(debouncedRefreshQuote)
     }
-  }, [fromToken, toToken, parsedSwapAmount])
+  }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
 
   useEffect(() => {
     if (showMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
@@ -386,6 +427,10 @@ export function SwapScreen({ route }: Props) {
     !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
     !showMissingPriceImpactWarning
 
+  const { networkFee, feeTokenId } = useMemo(() => {
+    return getNetworkFee(exchangeRate, fromToken?.networkId)
+  }, [fromToken, exchangeRate])
+
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader
@@ -437,15 +482,13 @@ export function SwapScreen({ route }: Props) {
             </Text>
           </SwapAmountInput>
 
-          {showTransactionDetails && (
-            <SwapTransactionDetails
-              networkId={fromToken?.networkId}
-              networkFee={new BigNumber(1)}
-              networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
-              feeTokenId={getTokenId(networkConfig.defaultNetworkId)}
-              slippagePercentage={slippagePercentage}
-            />
-          )}
+          <SwapTransactionDetails
+            networkFee={networkFee}
+            networkId={fromToken?.networkId}
+            networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+            feeTokenId={feeTokenId}
+            slippagePercentage={slippagePercentage}
+          />
 
           {showMaxSwapAmountWarning && (
             <Warning
@@ -496,6 +539,7 @@ export function SwapScreen({ route }: Props) {
             ? t('swapScreen.swapFromTokenSelection')
             : t('swapScreen.swapToTokenSelection')
         }
+        TokenOptionComponent={TokenBalanceItemOption}
       />
       {exchangeRate?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet

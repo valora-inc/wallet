@@ -20,12 +20,14 @@ export async function _prepareSendTransactionsCallback({
   recipientAddress,
   walletAddress,
   feeCurrencies,
+  comment,
 }: {
   amount: BigNumber
   token: TokenBalance
   recipientAddress: string
   walletAddress: string
   feeCurrencies: TokenBalance[]
+  comment?: string
 }) {
   if (amount.isLessThanOrEqualTo(0)) {
     return
@@ -37,6 +39,7 @@ export async function _prepareSendTransactionsCallback({
       sendToken: token,
       amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
       feeCurrencies,
+      comment,
     }
     if (tokenSupportsComments(token)) {
       return prepareTransferWithCommentTransaction(transactionParams)

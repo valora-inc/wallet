@@ -1849,7 +1849,8 @@
       "tokens": "Токены",
       "collectibles": "Коллекционные предметы",
       "dappPositions": "Позиции dapp"
-    }
+    },
+    "importToken": "Импорт"
   },
   "notificationCenterSpotlight": {
     "message": "Теперь можно заявлять о вознаграждениях, просматривать оповещения и обновления в одном месте",
@@ -1878,6 +1879,7 @@
   "sendSelectRecipient": {
     "searchText": "Поиск по имени, телефону, кошельку...",
     "title": "Выберите получателя",
+    "contactsTitle": "Выберите контакт",
     "recents": "Recents",
     "qr": {
       "title": "Отсканируй или покажи QR-код",

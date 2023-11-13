@@ -1845,7 +1845,8 @@
       "tokens": "Tokens",
       "collectibles": "Collectibles",
       "dappPositions": "Dapp Positions"
-    }
+    },
+    "importToken": "Import"
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
@@ -1874,6 +1875,7 @@
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
     "title": "Select a recipient",
+    "contactsTitle": "Select a contact",
     "recents": "Recents",
     "qr": {
       "title": "Scan or Show QR Code",
@@ -1888,7 +1890,7 @@
       "subtitle": "GET STARTED",
       "options": {
         "one": {
-          "title": "Wallet Adress",
+          "title": "Wallet address",
           "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {

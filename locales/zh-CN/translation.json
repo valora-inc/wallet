@@ -1843,7 +1843,8 @@
       "tokens": "代币",
       "collectibles": "藏品",
       "dappPositions": "Dapp 持仓"
-    }
+    },
+    "importToken": "进口"
   },
   "notificationCenterSpotlight": {
     "message": "我们正在推出一种新方法，让您可在同一个地方领取奖励、查看提醒和更新信息",
@@ -1872,6 +1873,7 @@
   "sendSelectRecipient": {
     "searchText": "按姓名、电话、钱包搜索...",
     "title": "选择收件人",
+    "contactsTitle": "选择联系人",
     "recents": "近期活动",
     "qr": {
       "title": "扫描或显示 QR 码",

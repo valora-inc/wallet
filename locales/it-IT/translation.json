@@ -1845,7 +1845,8 @@
       "tokens": "Token",
       "collectibles": "Oggetti da collezione",
       "dappPositions": "Posizioni Dapp"
-    }
+    },
+    "importToken": "Importazione"
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere le ricompense, visualizzare gli avvisi e vedere gli aggiornamenti in un'unica posizione",
@@ -1874,6 +1875,7 @@
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, telefono, portafoglio...",
     "title": "Seleziona un destinatario",
+    "contactsTitle": "Seleziona un contatto",
     "recents": "Recenti",
     "qr": {
       "title": "Scansiona o mostra il codice QR",
@@ -1888,7 +1890,7 @@
       "subtitle": "INIZIAMO",
       "options": {
         "one": {
-          "title": "Indirizzo del portafoglio",
+          "title": "Indirizzo del wallet",
           "subtitle": "Inserisci un indirizzo di portafoglio compatibile con Celo o Ethereum (es. 0x123...abcde)"
         },
         "two": {
