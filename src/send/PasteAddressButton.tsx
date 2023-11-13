@@ -1,10 +1,7 @@
 import React from 'react'
-import { View, Text, StyleProp, ViewProps, ViewStyle, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import i18n from 'src/i18n'
-
 import { Spacing } from 'src/styles/styles'
-import { isAddressFormat } from 'src/account/utils'
 import Touchable from 'src/components/Touchable'
 import { PasteAwareWrappedElementProps, withPasteAware } from 'src/components/WithPasteAware'
 import Clipboard from 'src/icons/Clipboard'
@@ -65,7 +62,6 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flexWrap: 'wrap',
     flexShrink: 1,
-    wordBreak: 'break-all',
   },
   address: {
     ...typeScale.bodyXSmall,

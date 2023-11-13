@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
   textInputContainer: {
     ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingRight: 24,
+    marginRight: 24,
+    paddingRight: 10,
     paddingBottom: 12,
     flex: 1,
     borderWidth: 1,

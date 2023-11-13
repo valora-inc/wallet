@@ -7,10 +7,22 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import { requestContactsPermission } from 'src/utils/permissions'
-import { createMockStore } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockPhoneRecipientCache, mockRecipient, mockRecipient2 } from 'test/values'
 
 jest.mock('src/utils/permissions')
+
+const mockScreenProps = ({
+  defaultTokenIdOverride,
+  forceTokenId,
+}: {
+  defaultTokenIdOverride?: string
+  forceTokenId?: boolean
+}) =>
+  getMockStackScreenProps(Screens.SendSelectRecipient, {
+    defaultTokenIdOverride,
+    forceTokenId,
+  })
 
 const defaultStore = {
   send: {
@@ -33,7 +45,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     await act(() => {
@@ -48,7 +60,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     await act(() => {
@@ -63,7 +75,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     fireEvent.press(getByTestId('SelectRecipient/QR'))
@@ -77,7 +89,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     expect(getByTestId('SelectRecipient/GetStarted')).toBeTruthy()
@@ -87,7 +99,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     expect(getByTestId('SelectRecipient/RecentRecipientPicker')).toBeTruthy()
