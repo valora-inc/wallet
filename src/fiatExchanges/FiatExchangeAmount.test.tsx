@@ -149,6 +149,7 @@ describe('FiatExchangeAmount cashIn', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId,
       flow: CICOFlow.CashIn,
+      symbol: currency,
     })
     const tree = render(
       <Provider store={storeWithUSD}>
@@ -191,6 +192,7 @@ describe('FiatExchangeAmount cashIn', () => {
       const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
         tokenId,
         flow: CICOFlow.CashIn,
+        symbol: currency,
       })
       const tree = render(
         <Provider store={store}>
@@ -213,6 +215,7 @@ describe('FiatExchangeAmount cashIn', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashIn,
+      symbol: 'cUSD',
     })
     const tree = render(
       <Provider store={storeWithUSD}>
@@ -232,6 +235,7 @@ describe('FiatExchangeAmount cashIn', () => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashIn,
+      symbol: 'cUSD',
     })
     const tree = render(
       <Provider store={storeWithEUR}>
@@ -246,16 +250,19 @@ describe('FiatExchangeAmount cashOut', () => {
   const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     tokenId: mockCusdTokenId,
     flow: CICOFlow.CashOut,
+    symbol: 'cUSD',
   })
 
   const mockScreenPropsEuro = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     tokenId: mockCeurTokenId,
     flow: CICOFlow.CashOut,
+    symbol: 'cEUR',
   })
 
   const mockScreenPropsCelo = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     tokenId: mockCeloTokenId,
     flow: CICOFlow.CashOut,
+    symbol: 'CELO',
   })
 
   beforeEach(() => {
@@ -455,6 +462,7 @@ describe('FiatExchangeAmount cashOut', () => {
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashOut,
+      symbol: 'cUSD',
     })
     const tree = render(
       <Provider store={store}>
@@ -476,6 +484,7 @@ describe('FiatExchangeAmount cashOut', () => {
         fiatAccountId: '123',
         fiatAccountType: FiatAccountType.BankAccount,
         fiatAccountSchema: FiatAccountSchema.AccountNumber,
+        tokenId: mockCusdTokenId,
       })
     )
   })
@@ -510,6 +519,7 @@ describe('FiatExchangeAmount cashOut', () => {
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashOut,
+      symbol: 'cUSD',
     })
     const tree = render(
       <Provider store={store}>
@@ -531,6 +541,7 @@ describe('FiatExchangeAmount cashOut', () => {
         fiatAccountId: '123',
         fiatAccountType: FiatAccountType.BankAccount,
         fiatAccountSchema: FiatAccountSchema.AccountNumber,
+        tokenId: mockCusdTokenId,
       })
     )
   })

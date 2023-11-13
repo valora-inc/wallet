@@ -46,6 +46,7 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: FiatExchangeFlow.CashIn,
+      symbol: 'cUSD',
     })
   })
   it('cEUR Flow', () => {
@@ -62,6 +63,7 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockCeurTokenId,
       flow: FiatExchangeFlow.CashIn,
+      symbol: 'cEUR',
     })
   })
   it('CELO Flow', () => {
@@ -78,6 +80,7 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockCeloTokenId,
       flow: FiatExchangeFlow.CashIn,
+      symbol: 'CELO',
     })
   })
   it('ETH Flow', () => {
@@ -97,6 +100,7 @@ describe('FiatExchangeCurrency', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockEthTokenId,
       flow: FiatExchangeFlow.CashIn,
+      symbol: 'ETH',
     })
   })
   it('Spend Flow', () => {
