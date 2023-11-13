@@ -214,37 +214,42 @@ export default WalletConnect = () => {
         await verifySuccessfulConnection()
       })
 
-      it('Then is able to send a transaction (eth_sendTransaction)', async () => {
-        const tx = await formatTestTransaction(walletAddress, web3Library)
-        const [session] = walletConnectClient.session.map.values()
-        const requestPromise = walletConnectClient.request({
-          topic: session.topic,
-          chainId: 'eip155:44787',
-          request: {
-            method: 'eth_sendTransaction',
-            params: [tx],
-          },
-        })
+      it(
+        'Then is able to send a transaction (eth_sendTransaction)',
+        async () => {
+          const tx = await formatTestTransaction(walletAddress, web3Library)
+          const [session] = walletConnectClient.session.map.values()
+          const requestPromise = walletConnectClient.request({
+            topic: session.topic,
+            chainId: 'eip155:44787',
+            request: {
+              method: 'eth_sendTransaction',
+              params: [tx],
+            },
+          })
 
-        await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
-          .toBeVisible()
-          .withTimeout(15 * 1000)
-        await verifySuccessfulTransaction('Send transaction', tx)
+          await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
+            .toBeVisible()
+            .withTimeout(15 * 1000)
+          await verifySuccessfulTransaction('Send transaction', tx)
 
-        const txHash = await requestPromise
-        console.log('Received tx hash', txHash)
+          const txHash = await requestPromise
+          console.log('Received tx hash', txHash)
 
-        // Wait for the transaction to be mined
-        const receipt = await celoAlfajoresClient.waitForTransactionReceipt({
-          hash: txHash,
-        })
-        console.log('Received receipt', receipt)
-        const { status, from, to } = receipt
+          // Wait for the transaction to be mined
+          const receipt = await celoAlfajoresClient.waitForTransactionReceipt({
+            hash: txHash,
+          })
+          console.log('Received receipt', receipt)
+          const { status, from, to } = receipt
 
-        jestExpect(status).toStrictEqual('success')
-        jestExpect(from).toStrictEqual(walletAddress)
-        jestExpect(to).toStrictEqual(walletAddress)
-      })
+          jestExpect(status).toStrictEqual('success')
+          jestExpect(from).toStrictEqual(walletAddress)
+          jestExpect(to).toStrictEqual(walletAddress)
+        },
+        // Increase timeout for this test, since it's waiting for a transaction to be mined
+        60 * 1000
+      )
 
       it('Then is able to sign a transaction (eth_signTransaction)', async () => {
         const tx = await formatTestTransaction(walletAddress, web3Library)
