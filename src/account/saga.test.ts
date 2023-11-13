@@ -12,14 +12,17 @@ import {
 } from 'src/account/saga'
 import { choseToRestoreAccountSelector } from 'src/account/selectors'
 import { updateAccountRegistration } from 'src/account/updateAccountRegistration'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Actions as AccountActions, phoneNumberVerificationCompleted } from 'src/app/actions'
+import { inviterAddressSelector } from 'src/app/selectors'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { retrieveSignedMessage, storeSignedMessage } from 'src/pincode/authentication'
 import Logger from 'src/utils/Logger'
 import { getContractKit, getWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { getOrCreateAccount, unlockAccount, UnlockResult } from 'src/web3/saga'
+import { UnlockResult, getOrCreateAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockWallet } from 'test/values'
 import { initializeAccountSuccess, saveSignedMessage } from './actions'
@@ -32,6 +35,7 @@ mockedDEK.compressedPubKey = jest.fn().mockReturnValue('publicKeyForUser')
 
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
+jest.mock('src/analytics/ValoraAnalytics')
 
 jest.mock('@react-native-firebase/app', () => ({
   app: jest.fn(() => ({
@@ -145,6 +149,7 @@ describe('initializeAccount', () => {
     mockFetch.mockResponse(
       JSON.stringify({ data: { phoneNumbers: ['+1302123456', '+31619123456'] } })
     )
+    const inviterAddress = '0xINVITER'
 
     await expectSaga(initializeAccountSaga)
       .provide([
@@ -153,6 +158,7 @@ describe('initializeAccount', () => {
         [select(choseToRestoreAccountSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [select(walletAddressSelector), '0xabc'],
+        [select(inviterAddressSelector), inviterAddress],
       ])
       .put(initializeAccountSuccess())
       .put(phoneNumberVerificationCompleted('+31619123456', '+31'))
@@ -169,6 +175,10 @@ describe('initializeAccount', () => {
         },
       }
     )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      OnboardingEvents.initialize_account_complete,
+      { inviterAddress }
+    )
   })
 
   it('should handle if there is no previously verified phone number', async () => {
@@ -181,6 +191,7 @@ describe('initializeAccount', () => {
         [select(choseToRestoreAccountSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [select(walletAddressSelector), '0xabc'],
+        [select(inviterAddressSelector), null],
       ])
       .put(initializeAccountSuccess())
       .not.put.actionType(AccountActions.PHONE_NUMBER_VERIFICATION_COMPLETED)
@@ -199,6 +210,7 @@ describe('initializeAccount', () => {
         [select(choseToRestoreAccountSelector), true],
         [call(retrieveSignedMessage), 'some signed message'],
         [select(walletAddressSelector), '0xabc'],
+        [select(inviterAddressSelector), null],
       ])
       .put(initializeAccountSuccess())
       .not.put.actionType(AccountActions.PHONE_NUMBER_VERIFICATION_COMPLETED)
