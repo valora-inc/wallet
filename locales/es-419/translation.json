@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Gana recompensas semanales. ¡Súmate a Supercharge!",
   "startSuperchargingNotificationStart": "Primeros pasos",
   "cashIn": "Agregar {{currency}}",
-  "connectNumber": "Conecta tu número",
+  "connectNumber": "Conectar número",
   "connectToWallet": "Conectarse a {{dappName}}",
   "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
-  "address": "Dirección de wallet",
+  "address": "Dirección de billetera",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
-    "add": "Depositar",
+    "add": "Comprar",
     "receive": "Recibir",
     "request": "Solicitar",
     "send": "Enviar",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Enviar",
       "swap": "Cambiar",
-      "add": "Depositar",
+      "add": "Comprar",
       "withdraw": "Retirar",
       "more": "Más"
     },
@@ -1890,7 +1890,7 @@
       "subtitle": "EMPEZAR",
       "options": {
         "one": {
-          "title": "Dirección de wallet",
+          "title": "Dirección de billetera",
           "subtitle": "Introduce una dirección de monedero compatible con Celo o Ethereum (ej. 0x123...abcde)"
         },
         "two": {
