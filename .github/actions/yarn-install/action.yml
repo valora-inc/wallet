@@ -1,0 +1,26 @@
+name: 'Yarn install'
+description: 'Runs setup node + cache + yarn install'
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/setup-node@v3
+      id: setup-node
+      with:
+        node-version-file: 'package.json'
+        check-latest: true
+    - uses: actions/cache@v3
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+    - name: Install Yarn dependencies
+      run: |
+        # Deals with yarn (v1) install flakiness
+        yarn || yarn --network-concurrency 1
+        # Another install flakiness fix (at least in yarn v1 with node 20)
+        # yarn postinstall isn't always run (?!) so we run it manually
+        if [ ! -f src/brandingConfig.ts ]; then
+          yarn postinstall
+        fi
+      shell: bash

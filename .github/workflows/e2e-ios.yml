@@ -29,13 +29,7 @@ jobs:
           secrets: |-
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        id: setup-node
-        with:
-          node-version-file: 'package.json'
-          check-latest: true
-      - name: Install package dependencies
-        run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - name: Fail if someone forgot to commit "yarn.lock"
         run: git diff --exit-code
       # Since the e2e runners have access to the Valora branding,
