@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\nAfter they download Valora, connect their phone number, and add 5 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 5 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
