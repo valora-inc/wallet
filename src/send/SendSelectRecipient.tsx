@@ -162,6 +162,7 @@ function SendSelectRecipient({ route }: Props) {
   const [showSearchResults, setShowSearchResults] = useState(false)
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
+  const [sendOrInviteButtonHidden, setSendOrInviteButtonHidden] = useState(true)
 
   // We debounce the search query in order to perform network calls to check
   // if the query resolves to some special sort of identifier.
@@ -187,6 +188,13 @@ function SendSelectRecipient({ route }: Props) {
   const { result: resolveAddressResult } = useAsync(resolveId, [debouncedSearchQuery])
 
   const setSearchQueryWrapper = (query: string) => {
+    // Always unset the selected recipient and hide the send/invite button
+    // when the search query is changed in order to prevent edge cases
+    // where the button appears but is bound to a recipient that is
+    // not present on the page.
+    unsetSelectedRecipient()
+    setSendOrInviteButtonHidden(true)
+
     if (!query) {
       setShowSearchResults(false)
     } else {
@@ -256,21 +264,24 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   const mergedFilteredRecipients = useMemo(() => {
-    const mergedRecipients: Recipient[] = []
+    const allRecipients: Recipient[] = []
     if (resolveAddressResult && resolveAddressResult.resolutions.length > 0) {
       const resolutions = resolveAddressResult.resolutions.map(mapResolutionToRecipient)
-      mergedRecipients.push(...resolutions)
+      allRecipients.push(...resolutions)
     }
+    allRecipients.push(...recentFiltered)
+    allRecipients.push(...contactsFiltered)
 
-    mergedRecipients.push(...recentFiltered)
-
-    for (const contactRecipient of contactsFiltered) {
+    const mergedRecipients: Recipient[] = []
+    for (const potentialRecipient of allRecipients) {
       if (
-        !recentFiltered.find(
-          (recentRecipient) => recentRecipient.e164PhoneNumber === contactRecipient.e164PhoneNumber
+        !mergedRecipients.find(
+          (mergedRecipient) =>
+            mergedRecipient.e164PhoneNumber === potentialRecipient.e164PhoneNumber ||
+            mergedRecipient.address === potentialRecipient.address
         )
       ) {
-        mergedRecipients.push(contactRecipient)
+        mergedRecipients.push(potentialRecipient)
       }
     }
 
@@ -278,6 +289,7 @@ function SendSelectRecipient({ route }: Props) {
     if (!mergedRecipients.length && uniqueRecipient) {
       mergedRecipients.push(uniqueRecipient)
     }
+
     return mergedRecipients
   }, [recentFiltered, contactsFiltered, resolveAddressResult])
 
@@ -294,9 +306,13 @@ function SendSelectRecipient({ route }: Props) {
 
   const showGetStarted = !recentRecipients.length
 
-  const { recipientVerificationStatus, recipient, setSelectedRecipient } =
+  const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
+  const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
+    setSelectedRecipient(selectedRecipient)
+    setSendOrInviteButtonHidden(false)
+  }
   const dispatch = useDispatch()
 
   const onPressContacts = async () => {
@@ -320,7 +336,6 @@ function SendSelectRecipient({ route }: Props) {
     return content !== searchQuery && isAddressFormat(content)
   }
 
-  const sendOrInviteButtonHidden = !recipient
   const sendOrInviteButtonDisabled =
     !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
   const shouldInviteRecipient =
@@ -358,7 +373,7 @@ function SendSelectRecipient({ route }: Props) {
           <RecipientPicker
             testID={'SelectRecipient/AllRecipientPicker'}
             recipients={mergedFilteredRecipients}
-            onSelectRecipient={setSelectedRecipient}
+            onSelectRecipient={setSelectedRecipientWrapper}
             selectedRecipient={recipient}
             isSelectedRecipientLoading={
               !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
@@ -411,11 +426,17 @@ function SendSelectRecipient({ route }: Props) {
             <RecipientPicker
               testID={'SelectRecipient/ContactRecipientPicker'}
               recipients={contactRecipients}
-              onSelectRecipient={setSelectedRecipient}
+              onSelectRecipient={setSelectedRecipientWrapper}
               selectedRecipient={recipient}
               isSelectedRecipientLoading={
                 !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
               }
+            />
+            <SendOrInviteButton
+              onPress={onPressSendOrInvite}
+              hidden={sendOrInviteButtonHidden}
+              disabled={sendOrInviteButtonDisabled}
+              text={sendOrInviteButtonText}
             />
           </>
         ) : (
@@ -442,7 +463,7 @@ function SendSelectRecipient({ route }: Props) {
                 testID={'SelectRecipient/RecentRecipientPicker'}
                 recipients={recentRecipients}
                 title={t('sendSelectRecipient.recents')}
-                onSelectRecipient={setSelectedRecipient}
+                onSelectRecipient={setSelectedRecipientWrapper}
                 selectedRecipient={recipient}
                 isSelectedRecipientLoading={
                   !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN

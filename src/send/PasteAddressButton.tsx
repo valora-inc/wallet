@@ -51,13 +51,13 @@ const styles = StyleSheet.create({
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
-    paddingVertical: 16,
-    paddingHorizontal: 12,
+    paddingVertical: Spacing.Regular16,
+    paddingHorizontal: Spacing.Small12,
     alignItems: 'center',
     borderRadius: 10,
   },
   textSection: {
-    paddingLeft: 15,
+    paddingLeft: Spacing.Regular16,
     display: 'flex',
     flexDirection: 'column',
     flexWrap: 'wrap',
