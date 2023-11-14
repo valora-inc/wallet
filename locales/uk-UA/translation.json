@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Отримайте винагороду в криптовалюті. Почати дію Supercharge!",
   "startSuperchargingNotificationStart": "Почати роботу",
   "cashIn": "Додати {{currency}}",
-  "connectNumber": "Під’єднати номер",
+  "connectNumber": "Номер підключення",
   "connectToWallet": "Під’єднати до {{dappName}}",
   "confirmTransaction": "Підтвердити транзакцію",
   "allow": "Дозволити",
@@ -1808,7 +1808,7 @@
     "noTokenInResult": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Додати",
+    "add": "Купити",
     "receive": "Отримання",
     "request": "Запит",
     "send": "Надіслати",
@@ -1864,7 +1864,7 @@
     "actions": {
       "send": "Надіслати",
       "swap": "Обміняти",
-      "add": "Додати",
+      "add": "Купити",
       "withdraw": "Зняти",
       "more": "Більше"
     },
