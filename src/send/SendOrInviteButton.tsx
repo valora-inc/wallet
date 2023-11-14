@@ -16,6 +16,7 @@ export default function SendOrInviteButton({ hidden, disabled, text, onPress }: 
   }
   return (
     <Button
+      testID="SendOrInviteButton"
       style={styles.button}
       onPress={onPress}
       disabled={disabled}

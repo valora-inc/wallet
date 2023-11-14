@@ -50,7 +50,7 @@ const InviteModal = ({
   }
 
   return (
-    <SafeAreaView style={[styles.container, { height, width }]}>
+    <SafeAreaView testID="InviteModalContainer" style={[styles.container, { height, width }]}>
       <Touchable
         onPress={onClose}
         borderless={true}

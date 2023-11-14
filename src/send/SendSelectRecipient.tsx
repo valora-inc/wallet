@@ -371,7 +371,7 @@ function SendSelectRecipient({ route }: Props) {
         <>
           <Text style={styles.searchResultsHeader}>{t('sendSelectRecipient.results')}</Text>
           <RecipientPicker
-            testID={'SelectRecipient/AllRecipientPicker'}
+            testID={'SelectRecipient/AllRecipientsPicker'}
             recipients={mergedFilteredRecipients}
             onSelectRecipient={setSelectedRecipientWrapper}
             selectedRecipient={recipient}
@@ -390,7 +390,7 @@ function SendSelectRecipient({ route }: Props) {
     } else {
       return (
         <>
-          <View style={styles.noResultsWrapper}>
+          <View testID={'SelectRecipient/NoResults'} style={styles.noResultsWrapper}>
             <Text style={styles.noResultsTitle}>
               {t('noResultsFor')}
               <Text style={styles.noResultsTitle}>{` "${searchQuery}"`}</Text>

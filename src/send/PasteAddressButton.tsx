@@ -20,7 +20,7 @@ function PasteAddressButton(props: Props) {
   return (
     <View style={styles.wrapper}>
       <Touchable
-        testID={'PasteAddressButton'}
+        testID="PasteAddressButton"
         borderRadius={10}
         style={styles.buttonContainer}
         onPress={onPressPaste}
