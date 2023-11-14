@@ -1,11 +1,18 @@
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { Recipient, getDisplayDetail, getDisplayName } from 'src/recipients/recipient'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import {
+  Recipient,
+  RecipientType,
+  getDisplayDetail,
+  getDisplayName,
+} from 'src/recipients/recipient'
+import useSelector from 'src/redux/useSelector'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -14,18 +21,27 @@ interface Props {
   recipient: Recipient
   onSelectRecipient(recipient: Recipient): void
   loading: boolean
-  showValoraIcon?: boolean
   selected?: boolean
 }
 
 const ICON_SIZE = 10
 
-function RecipientItem({ recipient, onSelectRecipient, loading, showValoraIcon, selected }: Props) {
+function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Props) {
   const { t } = useTranslation()
 
   const onPress = () => {
     onSelectRecipient(recipient)
   }
+
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+
+  // TODO(ACT-980): avoid icon flash when a known valora contact is clicked
+  // TODO(ACT-950): show icon for address recipients
+  const showValoraIcon = useMemo(() => {
+    if (recipient.recipientType === RecipientType.PhoneNumber) {
+      return recipient.e164PhoneNumber && !!e164NumberToAddress[recipient.e164PhoneNumber]
+    }
+  }, [e164NumberToAddress, recipient])
 
   return (
     <Touchable onPress={onPress} testID="RecipientItem">

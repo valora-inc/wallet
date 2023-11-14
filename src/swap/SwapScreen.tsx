@@ -15,13 +15,13 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
-import Warning from 'src/components/Warning'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { useMaxSendAmountByAddress } from 'src/fees/hooks'
@@ -491,7 +491,8 @@ export function SwapScreen({ route }: Props) {
           />
 
           {showMaxSwapAmountWarning && (
-            <Warning
+            <InLineNotification
+              severity={Severity.Warning}
               title={t('swapScreen.maxSwapAmountWarning.title')}
               description={t('swapScreen.maxSwapAmountWarning.body')}
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
@@ -500,14 +501,16 @@ export function SwapScreen({ route }: Props) {
             />
           )}
           {showPriceImpactWarning && (
-            <Warning
+            <InLineNotification
+              severity={Severity.Warning}
               title={t('swapScreen.priceImpactWarning.title')}
               description={t('swapScreen.priceImpactWarning.body')}
               style={styles.warning}
             />
           )}
           {showMissingPriceImpactWarning && (
-            <Warning
+            <InLineNotification
+              severity={Severity.Warning}
               title={t('swapScreen.missingSwapImpactWarning.title')}
               description={t('swapScreen.missingSwapImpactWarning.body')}
               style={styles.warning}
