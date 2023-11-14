@@ -639,14 +639,14 @@
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
     "share": "Hi! I’ve been using {{appName}} as my crypto wallet. It’s easy to try and I want to invite you to check it out with this link: {{shareUrl}}",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 10 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 5 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Invite friends and collect NFTs",
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
     },
     "rewardsActiveCUSD": {
       "title": "Get cUSD with Valora Referral Rewards",
-      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 10 cUSD or more, while funds last."
+      "body": "Invite up to 25 friends to join {{appName}} and you’ll each get 0.50 cUSD when they add or receive 5 cUSD or more, while funds last."
     }
   },
   "getReward": "Get ${{reward}}",
@@ -1772,7 +1772,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 10 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 5 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
