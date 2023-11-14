@@ -1804,7 +1804,7 @@
     "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>„{{searchTerm}}”</0>"
   },
   "homeActions": {
-    "add": "Hinzufügen",
+    "add": "Kaufen",
     "receive": "Erhalten",
     "request": "Anfragen",
     "send": "Senden",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Senden",
       "swap": "Tauschen",
-      "add": "Hinzufügen",
+      "add": "Kaufen",
       "withdraw": "Abheben",
       "more": "Mehr"
     },
