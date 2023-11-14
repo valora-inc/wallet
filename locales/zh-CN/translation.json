@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "每周获得加密货币奖励。开始 Supercharge 吧！",
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
-  "connectNumber": "关联号码",
+  "connectNumber": "连接号码",
   "connectToWallet": "关联到 {{dappName}}",
   "confirmTransaction": "确认交易",
   "allow": "允许",
@@ -1802,7 +1802,7 @@
     "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
   },
   "homeActions": {
-    "add": "添加",
+    "add": "买入",
     "receive": "接收",
     "request": "请求",
     "send": "发送",
@@ -1858,7 +1858,7 @@
     "actions": {
       "send": "发送",
       "swap": "交换",
-      "add": "添加",
+      "add": "买入",
       "withdraw": "提取",
       "more": "更多信息"
     },
