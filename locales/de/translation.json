@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Lade {{contactName}} zu {{appName}} ein und erhalte 0,50 cUSD",
-      "body": "Es sieht so aus, dass {{contactName}} nicht auf Valora ist. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden.\n\nNachdem die Person Valora heruntergeladen hat, ihre Telefonnummer verknüpft hat und 10 cUSD auf ihr Wallet eingezahlt hat, erhaltet ihr beide 0,50 cUSD, solange das Guthaben reicht."
+      "body": "Es sieht so aus, dass {{contactName}} nicht auf Valora ist. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden.\n\nNachdem die Person Valora heruntergeladen hat, ihre Telefonnummer verknüpft hat und 5 cUSD auf ihr Wallet eingezahlt hat, erhaltet ihr beide 0,50 cUSD, solange das Guthaben reicht."
     }
   },
   "celoNews": {
