@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -16,8 +17,6 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
-import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
   TokenPickerOrigin,
@@ -438,7 +437,7 @@ export function SwapScreen({ route }: Props) {
         left={<BackButton />}
         title={t('swapScreen.title')}
       />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
@@ -528,8 +527,7 @@ export function SwapScreen({ route }: Props) {
           size={BtnSizes.FULL}
           disabled={!allowReview}
         />
-        <KeyboardSpacer topSpacing={Spacing.Regular16} />
-      </KeyboardAwareScrollView>
+      </ScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
