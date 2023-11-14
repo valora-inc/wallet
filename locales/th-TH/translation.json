@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "รับรางวัลเป็นคริปโตทุกสัปดาห์ เริ่ม Supercharge เลย",
   "startSuperchargingNotificationStart": "รับรางวัล",
   "cashIn": "เพิ่ม {{currency}}",
-  "connectNumber": "เชื่อมต่อหมายเลข",
+  "connectNumber": "Connect number",
   "connectToWallet": "เชื่อมต่อกับ {{dappName}}",
   "confirmTransaction": "ยืนยันธุรกรรม",
   "allow": "อนุญาต",
@@ -1802,7 +1802,7 @@
     "noTokenInResult": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "เพิ่ม",
+    "add": "ซื้อ",
     "receive": "รับ",
     "request": "ส่งคำขอ",
     "send": "ส่ง",
@@ -1858,7 +1858,7 @@
     "actions": {
       "send": "ส่ง",
       "swap": "สว็อป",
-      "add": "เพิ่ม",
+      "add": "ซื้อ",
       "withdraw": "ถอน",
       "more": "More"
     },
