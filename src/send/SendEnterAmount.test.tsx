@@ -73,7 +73,6 @@ describe('SendEnterAmount', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
@@ -82,7 +81,6 @@ describe('SendEnterAmount', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,

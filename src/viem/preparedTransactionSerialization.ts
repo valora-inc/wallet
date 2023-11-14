@@ -1,8 +1,8 @@
 // Helper functions making prepared transactions serializable
 // so they can be used in redux actions (or even stores).
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
+import { TransactionRequest } from 'src/viem/prepareTransactions'
 
-const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas', 'gatewayFee'] as const
+const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas'] as const
 
 type BigIntProps = (typeof bigIntProps)[number]
 
@@ -26,27 +26,24 @@ function mapBigIntsToStrings<T extends object, K extends keyof T>(
   return result
 }
 
-export type SerializableTransactionRequestCIP42 = MapValuesToString<
-  TransactionRequestCIP42,
-  BigIntProps
->
+export type SerializableTransactionRequest = MapValuesToString<TransactionRequest, BigIntProps>
 
 export function getSerializablePreparedTransaction(
-  preparedTransaction: TransactionRequestCIP42
-): SerializableTransactionRequestCIP42 {
+  preparedTransaction: TransactionRequest
+): SerializableTransactionRequest {
   return mapBigIntsToStrings(preparedTransaction, bigIntProps)
 }
 
 export function getSerializablePreparedTransactions(
-  preparedTransactions: TransactionRequestCIP42[]
-): SerializableTransactionRequestCIP42[] {
+  preparedTransactions: TransactionRequest[]
+): SerializableTransactionRequest[] {
   return preparedTransactions.map(getSerializablePreparedTransaction)
 }
 
 export function getPreparedTransaction(
-  preparedTransaction: SerializableTransactionRequestCIP42
-): TransactionRequestCIP42 {
-  const result: TransactionRequestCIP42 = { ...preparedTransaction } as TransactionRequestCIP42
+  preparedTransaction: SerializableTransactionRequest
+): TransactionRequest {
+  const result: TransactionRequest = { ...preparedTransaction } as TransactionRequest
 
   for (const prop of bigIntProps) {
     const value = preparedTransaction[prop]
@@ -59,7 +56,7 @@ export function getPreparedTransaction(
 }
 
 export function getPreparedTransactions(
-  preparedTransactions: SerializableTransactionRequestCIP42[]
-): TransactionRequestCIP42[] {
+  preparedTransactions: SerializableTransactionRequest[]
+): TransactionRequest[] {
   return preparedTransactions.map(getPreparedTransaction)
 }
