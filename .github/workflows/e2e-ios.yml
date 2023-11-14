@@ -30,8 +30,9 @@ jobs:
             EMERGE_API_TOKEN:projects/1027349420744/secrets/EMERGE_API_TOKEN
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       - name: Install package dependencies
         run: yarn || yarn --network-concurrency 1

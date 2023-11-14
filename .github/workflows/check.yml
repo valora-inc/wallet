@@ -26,15 +26,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       - uses: actions/cache@v3
         with:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: ./scripts/ci_check_vulnerabilities.sh
 
@@ -44,8 +45,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v3
@@ -53,7 +55,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn run format:check
       - run: yarn run lint
@@ -64,8 +66,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v3
@@ -73,7 +76,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: git diff --exit-code
   licenses:
@@ -82,8 +85,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v3
@@ -91,7 +95,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn check-licenses
   knip-depcheck:
@@ -100,8 +104,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v3
@@ -109,7 +114,7 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn knip:depcheck
   knip-regression:
@@ -118,8 +123,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        id: setup-node
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           check-latest: true
       # https://github.com/actions/cache/blob/main/examples.md#node---lerna
       - uses: actions/cache@v3
@@ -127,6 +133,6 @@ jobs:
           path: |
             node_modules
             */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+          key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
       - run: yarn || yarn --network-concurrency 1
       - run: yarn ts-node ./.github/scripts/checkKnipRegression.ts
