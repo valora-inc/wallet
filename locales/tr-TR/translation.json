@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 10 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
+      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 5 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
