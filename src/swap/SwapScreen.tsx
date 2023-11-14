@@ -398,7 +398,8 @@ export function SwapScreen({ route }: Props) {
   }
 
   const allowReview = useMemo(
-    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
+    () =>
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !exchangeRateUpdatePending,
     [parsedSwapAmount, fetchingSwapQuote]
   )
 
@@ -413,10 +414,11 @@ export function SwapScreen({ route }: Props) {
   }
 
   const exchangeRateUpdatePending =
-    exchangeRate &&
-    (exchangeRate.fromTokenAddress !== fromToken?.address ||
-      exchangeRate.toTokenAddress !== toToken?.address ||
-      !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
+    (exchangeRate &&
+      (exchangeRate.fromTokenAddress !== fromToken?.address ||
+        exchangeRate.toTokenAddress !== toToken?.address ||
+        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+    fetchingSwapQuote
 
   const showMissingPriceImpactWarning =
     (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
@@ -446,7 +448,7 @@ export function SwapScreen({ route }: Props) {
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             style={styles.fromSwapAmountInput}
-            loading={updatedField === Field.TO && fetchingSwapQuote}
+            loading={updatedField === Field.TO && exchangeRateUpdatePending}
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
@@ -459,7 +461,7 @@ export function SwapScreen({ route }: Props) {
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
             style={styles.toSwapAmountInput}
-            loading={updatedField === Field.FROM && fetchingSwapQuote}
+            loading={updatedField === Field.FROM && exchangeRateUpdatePending}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
             editable={swapBuyAmountEnabled}
           />
@@ -473,6 +475,7 @@ export function SwapScreen({ route }: Props) {
             toToken={toToken}
             exchangeRatePrice={exchangeRate?.price}
             swapAmount={parsedSwapAmount[Field.FROM]}
+            fetchingSwapQuote={exchangeRateUpdatePending}
           />
 
           {showMaxSwapAmountWarning && (

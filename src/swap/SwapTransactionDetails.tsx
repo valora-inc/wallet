@@ -23,6 +23,7 @@ interface Props {
   toToken?: TokenBalance
   exchangeRatePrice?: string
   swapAmount?: BigNumber
+  fetchingSwapQuote: boolean
 }
 
 export function SwapTransactionDetails({
@@ -34,6 +35,7 @@ export function SwapTransactionDetails({
   toToken,
   exchangeRatePrice,
   swapAmount,
+  fetchingSwapQuote,
 }: Props) {
   const { t } = useTranslation()
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
@@ -45,7 +47,7 @@ export function SwapTransactionDetails({
       <View style={styles.row}>
         <Text style={styles.label}>{t('swapScreen.transactionDetails.exchangeRate')}</Text>
         <Text style={styles.value}>
-          {fromToken && toToken && exchangeRatePrice ? (
+          {!fetchingSwapQuote && fromToken && toToken && exchangeRatePrice ? (
             <>
               {`1 ${fromToken.symbol} ≈ `}
               <Text style={styles.value}>
@@ -85,7 +87,7 @@ export function SwapTransactionDetails({
                 />
               </>
             </Touchable>
-            {networkFee ? (
+            {!fetchingSwapQuote && networkFee ? (
               <View style={styles.networkFeeContainer}>
                 <TokenDisplay
                   style={styles.value}
@@ -131,7 +133,7 @@ export function SwapTransactionDetails({
       <View style={styles.row}>
         <Text style={styles.label}>{t('swapScreen.transactionDetails.estimatedValue')}</Text>
         <Text style={styles.value}>
-          {fromToken?.priceUsd && swapAmount && localCurrencyExchangeRate
+          {!fetchingSwapQuote && fromToken?.priceUsd && swapAmount && localCurrencyExchangeRate
             ? `${localCurrencySymbol}${swapAmount
                 .multipliedBy(fromToken.priceUsd)
                 .multipliedBy(localCurrencyExchangeRate)

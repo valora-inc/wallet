@@ -75,6 +75,8 @@ const SwapAmountInput = ({
             }}
             value={inputValue || undefined}
             placeholder="0"
+            // hide input when loading so that the value is not visible under the loader
+            style={{ opacity: loading ? 0 : 1 }}
             editable={editable && !loading}
             keyboardType="decimal-pad"
             // Work around for RN issue with Samsung keyboards
