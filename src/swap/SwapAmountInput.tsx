@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     backgroundColor: Colors.gray1,
     borderColor: Colors.gray2,
+    borderWidth: 1,
   },
   label: {
     ...fontStyles.xsmall,

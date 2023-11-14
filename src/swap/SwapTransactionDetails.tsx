@@ -133,7 +133,7 @@ export function SwapTransactionDetails({
       <View style={styles.row} testID="SwapTransactionDetails/EstimatedValue">
         <Text style={styles.label}>{t('swapScreen.transactionDetails.estimatedValue')}</Text>
         <Text style={styles.value}>
-          {!fetchingSwapQuote && fromToken?.priceUsd && swapAmount && localCurrencyExchangeRate
+          {fromToken?.priceUsd && swapAmount?.gt(0) && localCurrencyExchangeRate
             ? `${localCurrencySymbol}${swapAmount
                 .multipliedBy(fromToken.priceUsd)
                 .multipliedBy(localCurrencyExchangeRate)
