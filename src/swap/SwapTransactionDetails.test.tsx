@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
+import { mockCeloTokenId } from 'test/values'
 
 describe('SwapTransactionDetails', () => {
   it('should render correctly without networkId', () => {
@@ -21,8 +22,8 @@ describe('SwapTransactionDetails', () => {
     )
 
     expect(getByText('swapScreen.transactionDetails.networkFeeNoNetwork')).toBeTruthy()
-    expect(queryByTestId('SwapTransactionDetails/NetworkFeeMoreInfo/Icon')).toBeFalsy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFeeMoreInfo')).toBeDisabled()
+    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('-')
+    expect(queryByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).toBeFalsy()
   })
 
   it('should render correctly with networkId', () => {
@@ -32,7 +33,7 @@ describe('SwapTransactionDetails', () => {
           networkId={networkConfig.defaultNetworkId}
           networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
-          feeTokenId={'someId'}
+          feeTokenId={mockCeloTokenId}
           slippagePercentage={'0.5'}
         />
       </Provider>
@@ -41,7 +42,8 @@ describe('SwapTransactionDetails', () => {
     expect(
       getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFeeMoreInfo/Icon')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFeeMoreInfo')).not.toBeDisabled()
+    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('₱0.00067')
+    expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo/Icon')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).not.toBeDisabled()
   })
 })

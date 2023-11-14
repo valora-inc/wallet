@@ -218,6 +218,7 @@ const defaultQuote = {
     value: '0',
     data: '0x0',
     gas: '1800000',
+    gasPrice: '500000000',
   },
   details: {
     swapProvider: 'someProvider',
@@ -810,6 +811,39 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(false)
   })
 
+  // TODO remove this test when viem is enabled by default for swaps
+  it('should display the correct transaction details', async () => {
+    mockFetch.mockResponse(defaultQuoteResponse)
+    const { getByTestId, getByText, swapFromContainer, swapToContainer, tokenBottomSheet } =
+      renderScreen({
+        celoBalance: '10',
+        cUSDBalance: '10',
+      })
+
+    const transactionDetails = getByTestId('SwapTransactionDetails')
+    expect(transactionDetails).toHaveTextContent(
+      'swapScreen.transactionDetails.networkFeeNoNetwork'
+    )
+    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('-')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
+    expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.3%')
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(
+      getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
+    ).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('₱0.016') // matches gas * gasPrice in defaultQuoteResponse
+  })
+
   // When viem is enabled, it also uses the new fee estimation logic
   describe('when USE_VIEM_FOR_SWAP is enabled', () => {
     beforeEach(() => {
@@ -820,6 +854,40 @@ describe('SwapScreen', () => {
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_SWAP)
+    })
+
+    it('should display the correct transaction details', async () => {
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { getByTestId, getByText, swapFromContainer, swapToContainer, tokenBottomSheet } =
+        renderScreen({
+          celoBalance: '10',
+          cUSDBalance: '10',
+        })
+
+      const transactionDetails = getByTestId('SwapTransactionDetails')
+      expect(transactionDetails).toHaveTextContent(
+        'swapScreen.transactionDetails.networkFeeNoNetwork'
+      )
+      expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('-')
+      expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
+      expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
+      expect(transactionDetails).toHaveTextContent(
+        'swapScreen.transactionDetails.slippagePercentage'
+      )
+      expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.3%')
+
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(
+        getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
+      ).toBeTruthy()
+      expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('₱0.38') // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
     })
 
     it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {
