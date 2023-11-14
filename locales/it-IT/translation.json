@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita {{contactName}} in {{appName}} e riceverete 0.50 cUSD",
-      "body": "Sembra che {{contactName}} non sia su Valora. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito.\n\n Dopo che avrà scaricato Valora, collegato il suo numero telefonico e aggiunto 10 cUSD al suo portafoglio, riceverete entrambi 0,50 cUSD, fino ad esaurimento fondi."
+      "body": "Sembra che {{contactName}} non sia su Valora. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito.\n\n Dopo che avrà scaricato Valora, collegato il suo numero telefonico e aggiunto 5 cUSD al suo portafoglio, riceverete entrambi 0,50 cUSD, fino ad esaurimento fondi."
     }
   },
   "celoNews": {
