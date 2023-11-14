@@ -35,6 +35,8 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
 
+  // TODO(ACT-980): avoid icon flash when a known valora contact is clicked
+  // TODO(ACT-950): show icon for address recipients
   const showValoraIcon = useMemo(() => {
     if (recipient.recipientType === RecipientType.PhoneNumber) {
       return recipient.e164PhoneNumber && !!e164NumberToAddress[recipient.e164PhoneNumber]
