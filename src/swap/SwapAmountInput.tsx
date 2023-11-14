@@ -31,7 +31,6 @@ interface Props {
   inputError?: boolean
   style?: StyleProp<ViewStyle>
   buttonPlaceholder: string
-  children?: React.ReactNode
   editable?: boolean
 }
 
@@ -47,7 +46,6 @@ const SwapAmountInput = ({
   inputError,
   style,
   buttonPlaceholder,
-  children,
   editable = true,
 }: Props) => {
   const { t } = useTranslation()
@@ -147,7 +145,6 @@ const SwapAmountInput = ({
           )}
         </Touchable>
       </View>
-      {children}
     </View>
   )
 }

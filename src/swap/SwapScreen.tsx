@@ -462,31 +462,16 @@ export function SwapScreen({ route }: Props) {
             loading={updatedField === Field.FROM && fetchingSwapQuote}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
             editable={swapBuyAmountEnabled}
-          >
-            <Text style={[styles.exchangeRateText, { opacity: exchangeRateUpdatePending ? 0 : 1 }]}>
-              {fromToken && toToken && exchangeRate ? (
-                <>
-                  {`1 ${fromToken.symbol} ≈ `}
-                  <Text style={styles.exchangeRateValueText}>
-                    {`${new BigNumber(exchangeRate.price).toFormat(5, BigNumber.ROUND_DOWN)} ${
-                      toToken.symbol
-                    }`}
-                  </Text>
-                </>
-              ) : (
-                <Trans i18nKey={'swapScreen.estimatedExchangeRate'}>
-                  <Text style={styles.exchangeRateValueText} />
-                </Trans>
-              )}
-            </Text>
-          </SwapAmountInput>
+          />
 
           <SwapTransactionDetails
             networkFee={networkFee}
-            networkId={fromToken?.networkId}
             networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
             feeTokenId={feeTokenId}
             slippagePercentage={slippagePercentage}
+            fromToken={fromToken}
+            toToken={toToken}
+            exchangeRatePrice={exchangeRate?.price}
           />
 
           {showMaxSwapAmountWarning && (

@@ -10,29 +10,54 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { NetworkId } from 'src/transactions/types'
+import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
-  networkId?: NetworkId
   networkFee?: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippagePercentage: string
   feeTokenId: string
+  fromToken?: TokenBalance
+  toToken?: TokenBalance
+  exchangeRatePrice?: string
 }
 
 export function SwapTransactionDetails({
-  networkId,
   networkFee,
   networkFeeInfoBottomSheetRef,
   feeTokenId,
   slippagePercentage,
+  fromToken,
+  toToken,
+  exchangeRatePrice,
 }: Props) {
   const { t } = useTranslation()
 
+  const placeholder = '-'
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
       <View style={styles.row}>
-        {networkId ? (
+        <Text style={styles.label}>{t('swapScreen.transactionDetails.exchangeRate')}</Text>
+        <Text style={styles.value}>
+          {fromToken && toToken && exchangeRatePrice ? (
+            <>
+              {`1 ${fromToken.symbol} ≈ `}
+              <Text style={styles.value}>
+                {`${new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN)} ${
+                  toToken.symbol
+                }`}
+              </Text>
+            </>
+          ) : (
+            <Text style={styles.value}>
+              {fromToken ? `1 ${fromToken.symbol} ≈ ` : ''}
+              {placeholder}
+            </Text>
+          )}
+        </Text>
+      </View>
+      <View style={styles.row}>
+        {fromToken?.networkId ? (
           <>
             <Touchable
               style={styles.touchableRow}
@@ -44,7 +69,7 @@ export function SwapTransactionDetails({
               <>
                 <Text style={styles.label}>
                   {t('swapScreen.transactionDetails.networkFee', {
-                    networkName: NETWORK_NAMES[networkId],
+                    networkName: NETWORK_NAMES[fromToken.networkId],
                   })}
                 </Text>
                 <InfoIcon
@@ -64,7 +89,7 @@ export function SwapTransactionDetails({
                 testID="SwapTransactionDetails/NetworkFee/Value"
               />
             ) : (
-              <Text style={styles.value}>-</Text>
+              <Text style={styles.value}>{placeholder}</Text>
             )}
           </>
         ) : (
@@ -73,7 +98,7 @@ export function SwapTransactionDetails({
               {t('swapScreen.transactionDetails.networkFeeNoNetwork')}
             </Text>
             <Text style={styles.value} testID="SwapTransactionDetails/NetworkFee/Value">
-              -
+              {placeholder}
             </Text>
           </>
         )}

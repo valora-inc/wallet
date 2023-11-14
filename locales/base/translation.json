@@ -1699,7 +1699,8 @@
       "swapFeeWaived": "Free",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
-      "networkFeeInfoDismissButton": "Got it"
+      "networkFeeInfoDismissButton": "Got it",
+      "exchangeRate": "Exchange Rate"
     }
   },
   "swapTransactionDetailPage": {
