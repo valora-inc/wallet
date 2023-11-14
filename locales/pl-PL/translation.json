@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Otrzymuj cotygodniowe nagrody w postaci kryptowalut. Zacznij korzystać z programu Supercharge!",
   "startSuperchargingNotificationStart": "Otrzymuj nagrody",
   "cashIn": "Dodaj {{currency}}",
-  "connectNumber": "Podłącz numer",
+  "connectNumber": "Połącz numer",
   "connectToWallet": "Połącz z {{dappName}}",
   "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
@@ -1808,7 +1808,7 @@
     "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
   },
   "homeActions": {
-    "add": "Dodaj",
+    "add": "Kup",
     "receive": "Otrzymaj",
     "request": "Zażądaj",
     "send": "Wysyłaj",
@@ -1864,7 +1864,7 @@
     "actions": {
       "send": "Wysyłaj",
       "swap": "Zamieniaj",
-      "add": "Dodaj",
+      "add": "Kup",
       "withdraw": "Wycofaj",
       "more": "Więcej"
     },
