@@ -1875,6 +1875,7 @@
   "sendSelectRecipient": {
     "searchText": "Suche nach Name, Telefon, Geldbeutel...",
     "title": "Wähle einen Empfänger",
+    "contactsTitle": "Wähle einen Kontakt",
     "recents": "Aktuelle",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
@@ -1889,7 +1890,7 @@
       "subtitle": "ANFANGEN",
       "options": {
         "one": {
-          "title": "Wallet Adresse",
+          "title": "Wallet-Adresse",
           "subtitle": "Gib eine Celo oder Ethereum kompatible Wallet Adresse ein (z.B. 0x123...abcde)"
         },
         "two": {

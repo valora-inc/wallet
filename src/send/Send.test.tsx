@@ -9,6 +9,8 @@ import Send from 'src/send/Send'
 import { getFeatureGate } from 'src/statsig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
+  mockAccount,
+  mockAccount2,
   mockCeloTokenId,
   mockCusdTokenId,
   mockE164Number,
@@ -198,6 +200,33 @@ describe('Send', () => {
 
     await waitFor(() => expect(getByText('inviteModal.sendInviteButtonLabel')).toBeTruthy())
     expect(navigate).not.toHaveBeenCalled()
+  })
+
+  it('looks up a new phone number and navigates to send amount if it has two addresses', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      identity: {
+        e164NumberToAddress: { [mockRecipient4.e164PhoneNumber]: [mockAccount, mockAccount2] },
+      },
+    })
+    const { getAllByTestId } = render(
+      <Provider store={store}>
+        <Send
+          {...mockScreenProps({
+            defaultTokenIdOverride: mockCeloTokenId,
+          })}
+        />
+      </Provider>
+    )
+    fireEvent.press(getAllByTestId('RecipientItem')[2])
+
+    await waitFor(() => expect(navigate).toHaveBeenCalledTimes(1))
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+      recipient: expect.objectContaining(mockRecipient4),
+      origin: SendOrigin.AppSendFlow,
+      defaultTokenIdOverride: mockCeloTokenId,
+      isFromScan: false,
+    })
   })
 
   it('uses old send flow by default', () => {

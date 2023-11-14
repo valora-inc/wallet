@@ -61,7 +61,7 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
             <Text
               testID="BridgeLabel"
               numberOfLines={1}
-              style={[styles.subLabel, { color: colors.informational }]}
+              style={[styles.subLabel, { color: colors.infoDark }]}
             >
               {t('assets.bridge', { bridge: token.bridge })}
             </Text>
