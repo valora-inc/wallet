@@ -231,6 +231,7 @@ export default WalletConnect = () => {
           console.log('Received tx hash', txHash)
 
           // Wait for the transaction to be mined
+          // TODO: switch to viem waitForTransactionReceipt once we can upgrade to node 20+
           let receipt
           for (let i = 0; i < 30; i++) {
             receipt = await kit.connection.getTransactionReceipt(txHash)
