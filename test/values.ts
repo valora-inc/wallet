@@ -28,6 +28,7 @@ import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
   FiatConnectQuoteSuccess,
+  FiatConnectQuoteSuccessWithTokenId,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
@@ -914,6 +915,10 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     },
   },
 ]
+export const mockFiatConnectQuotesWithTokenIds: (
+  | FiatConnectQuoteSuccessWithTokenId
+  | FiatConnectQuoteError
+)[] = mockFiatConnectQuotes.slice(1).map((quote) => ({ ...quote, tokenId: mockCusdTokenId }))
 export const mockFiatConnectQuotesWithUnknownFees: FiatConnectQuoteSuccess[] = [
   {
     // provider-two with no fee given

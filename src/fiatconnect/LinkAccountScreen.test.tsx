@@ -3,20 +3,20 @@ import { fireEvent, render } from '@testing-library/react-native'
 import _ from 'lodash'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import FiatConnectLinkAccountScreen from 'src/fiatconnect/LinkAccountScreen'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockFiatConnectQuotesWithTokenIds } from 'test/values'
 
 describe('LinkAccountScreen', () => {
   const store = createMockStore()
 
   const normalizedQuote = new FiatConnectQuote({
-    quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
   })

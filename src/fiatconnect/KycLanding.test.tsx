@@ -5,21 +5,21 @@ import { Provider } from 'react-redux'
 import { KycStatus } from 'src/account/reducer'
 import { CICOEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import KycLanding from 'src/fiatconnect/KycLanding'
 import { personaFinished, personaStarted, postKyc } from 'src/fiatconnect/slice'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockFiatConnectQuotesWithTokenIds } from 'test/values'
 
 jest.mock('src/account/Persona')
 jest.mock('src/analytics/ValoraAnalytics')
 
 describe('KycLanding', () => {
   const normalizedQuote = new FiatConnectQuote({
-    quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
   })

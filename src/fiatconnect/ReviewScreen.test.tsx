@@ -7,7 +7,7 @@ import { MockStoreEnhanced } from 'redux-mock-store'
 import { FeeEstimateState } from 'src/fees/reducer'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccess, FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import FiatConnectReviewScreen from 'src/fiatconnect/ReviewScreen'
 import { FiatAccount, createFiatConnectTransfer, refetchQuote } from 'src/fiatconnect/slice'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -25,6 +25,7 @@ import {
   mockCusdTokenId,
   mockFeeInfo,
   mockFiatConnectQuotes,
+  mockFiatConnectQuotesWithTokenIds,
 } from 'test/values'
 
 jest.mock('src/web3/networkConfig', () => {
@@ -54,10 +55,9 @@ function getProps(
   shouldRefetchQuote = false,
   quoteExpireMs = 0
 ) {
-  const quoteData = {
-    ...(_.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess),
-    tokenId: mockCusdTokenId,
-  }
+  const quoteData = _.cloneDeep(
+    mockFiatConnectQuotesWithTokenIds[0]
+  ) as FiatConnectQuoteSuccessWithTokenId
   if (!withFee) {
     delete quoteData.quote.fee
   }

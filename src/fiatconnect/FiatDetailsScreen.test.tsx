@@ -8,13 +8,17 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import { SendingFiatAccountStatus, submitFiatAccount } from 'src/fiatconnect/slice'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
+import {
+  mockFiatConnectProviderIcon,
+  mockFiatConnectQuotesWithTokenIds,
+  mockNavigation,
+} from 'test/values'
 import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
@@ -57,7 +61,7 @@ const schemaCountryOverrides: FiatAccountSchemaCountryOverrides = {
 }
 const store = createMockStore({ fiatConnect: { schemaCountryOverrides } })
 const quoteWithAllowedValues = new FiatConnectQuote({
-  quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+  quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
   fiatAccountType: FiatAccountType.BankAccount,
   flow: CICOFlow.CashIn,
 })
@@ -67,7 +71,9 @@ const mockScreenPropsWithAllowedValues = getMockStackScreenProps(Screens.FiatDet
 })
 
 // NOTE: Make a quote with no allowed values since setting a value on picker is hard
-const mockFcQuote = _.cloneDeep(mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess)
+const mockFcQuote = _.cloneDeep(
+  mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId
+)
 mockFcQuote.fiatAccount.BankAccount = {
   ...mockFcQuote.fiatAccount.BankAccount,
   fiatAccountSchemas: [
@@ -89,7 +95,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
 })
 
 const mmQuote = new FiatConnectQuote({
-  quote: _.cloneDeep(mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess),
+  quote: _.cloneDeep(mockFiatConnectQuotesWithTokenIds[3] as FiatConnectQuoteSuccessWithTokenId),
   fiatAccountType: FiatAccountType.MobileMoney,
   flow: CICOFlow.CashIn,
 })

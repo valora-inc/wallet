@@ -4,7 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -25,7 +25,7 @@ import {
   mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenId,
-  mockFiatConnectQuotes,
+  mockFiatConnectQuotesWithTokenIds,
   mockName,
   mockTestTokenAddress,
   mockTestTokenTokenId,
@@ -581,7 +581,7 @@ describe('TransferFeedItem', () => {
     const transferTotalCost = 102
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
-      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
+      quote: mockFiatConnectQuotesWithTokenIds[2] as FiatConnectQuoteSuccessWithTokenId,
       fiatAccountType: FiatAccountType.BankAccount,
     })
     const { getByTestId } = renderScreen({
