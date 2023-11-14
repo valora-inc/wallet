@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Get rewarded with crypto weekly. Start Supercharging!",
   "startSuperchargingNotificationStart": "Get rewards",
   "cashIn": "Add {{currency}}",
-  "connectNumber": "Connect Number",
+  "connectNumber": "Connect number",
   "connectToWallet": "Connect to {{dappName}}",
   "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
-  "address": "Wallet address",
+  "address": "Wallet Address",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -1806,7 +1806,7 @@
     "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Add",
+    "add": "Buy",
     "receive": "Receive",
     "request": "Request",
     "send": "Send",
@@ -1862,7 +1862,7 @@
     "actions": {
       "send": "Send",
       "swap": "Swap",
-      "add": "Add",
+      "add": "Buy",
       "withdraw": "Withdraw",
       "more": "More"
     },
