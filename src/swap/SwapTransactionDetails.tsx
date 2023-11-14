@@ -44,7 +44,7 @@ export function SwapTransactionDetails({
   const placeholder = '-'
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
-      <View style={styles.row}>
+      <View style={styles.row} testID="SwapTransactionDetails/ExchangeRate">
         <Text style={styles.label}>{t('swapScreen.transactionDetails.exchangeRate')}</Text>
         <Text style={styles.value}>
           {!fetchingSwapQuote && fromToken && toToken && exchangeRatePrice ? (
@@ -130,7 +130,7 @@ export function SwapTransactionDetails({
           {t('swapScreen.transactionDetails.swapFeeWaived')}
         </Text>
       </View>
-      <View style={styles.row}>
+      <View style={styles.row} testID="SwapTransactionDetails/EstimatedValue">
         <Text style={styles.label}>{t('swapScreen.transactionDetails.estimatedValue')}</Text>
         <Text style={styles.value}>
           {!fetchingSwapQuote && fromToken?.priceUsd && swapAmount && localCurrencyExchangeRate
