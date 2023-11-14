@@ -229,10 +229,6 @@ const styles = StyleSheet.create({
     height: 24,
     borderRadius: 12,
   },
-  loadingContainer: {
-    position: 'absolute',
-    left: 0,
-  },
 })
 
 export default SwapAmountInput

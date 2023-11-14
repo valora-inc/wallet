@@ -600,13 +600,6 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     color: colors.greenUI,
   },
-  exchangeRateText: {
-    ...fontStyles.xsmall,
-    color: colors.gray3,
-  },
-  exchangeRateValueText: {
-    ...fontStyles.xsmall600,
-  },
   warning: {
     marginTop: Spacing.Thick24,
   },
