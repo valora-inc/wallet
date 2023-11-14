@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Convide {{contactName}} para a {{appName}} e receba 0,50 cUSD",
-      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Depois que seu amigo baixar a Valora, conectar o número de celular e adicionar 10 cUSD à carteira, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
+      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Depois que seu amigo baixar a Valora, conectar o número de celular e adicionar 5 cUSD à carteira, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
     }
   },
   "celoNews": {
