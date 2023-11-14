@@ -1,16 +1,16 @@
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  ActivityIndicator,
   Image,
   Platform,
+  TextInput as RNTextInput,
   StyleProp,
   StyleSheet,
   Text,
-  TextInput as RNTextInput,
   View,
   ViewStyle,
 } from 'react-native'
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import TextInput from 'src/components/TextInput'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
@@ -64,59 +64,56 @@ const SwapAmountInput = ({
     }
   }
 
-  const showInputLoader = loading && !inputValue
-
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
       <View style={styles.contentContainer}>
-        <TextInput
-          forwardedRef={textInputRef}
-          onChangeText={(value) => {
-            handleSetStartPosition(undefined)
-            onInputChange(value)
-          }}
-          value={inputValue || undefined}
-          placeholder="0"
-          // hide input when loading to prevent the UI height from jumping
-          style={[styles.input, { opacity: showInputLoader ? 0 : 1 }]}
-          editable={editable && !showInputLoader}
-          keyboardType="decimal-pad"
-          // Work around for RN issue with Samsung keyboards
-          // https://github.com/facebook/react-native/issues/22005
-          autoCapitalize="words"
-          autoFocus={autoFocus}
-          // unset lineHeight to allow ellipsis on long inputs on iOS
-          inputStyle={[
-            styles.inputText,
-            inputError ? styles.inputError : {},
-            loading ? styles.inputLoading : {},
-          ]}
-          testID="SwapAmountInput/Input"
-          onBlur={() => {
-            handleSetStartPosition(0)
-          }}
-          onFocus={() => {
-            handleSetStartPosition(inputValue?.length ?? 0)
-          }}
-          onSelectionChange={() => {
-            handleSetStartPosition(undefined)
-          }}
-          selection={
-            Platform.OS === 'android' && typeof startPosition === 'number'
-              ? { start: startPosition }
-              : undefined
-          }
-        />
-        {showInputLoader && (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator
-              size="small"
-              color={Colors.greenBrand}
-              testID="SwapAmountInput/Loader"
-            />
-          </View>
-        )}
+        <View style={styles.inputContainer}>
+          <TextInput
+            forwardedRef={textInputRef}
+            onChangeText={(value) => {
+              handleSetStartPosition(undefined)
+              onInputChange(value)
+            }}
+            value={inputValue || undefined}
+            placeholder="0"
+            editable={editable && !loading}
+            keyboardType="decimal-pad"
+            // Work around for RN issue with Samsung keyboards
+            // https://github.com/facebook/react-native/issues/22005
+            autoCapitalize="words"
+            autoFocus={autoFocus}
+            // unset lineHeight to allow ellipsis on long inputs on iOS
+            inputStyle={[styles.inputText, inputError ? styles.inputError : {}]}
+            testID="SwapAmountInput/Input"
+            onBlur={() => {
+              handleSetStartPosition(0)
+            }}
+            onFocus={() => {
+              handleSetStartPosition(inputValue?.length ?? 0)
+            }}
+            onSelectionChange={() => {
+              handleSetStartPosition(undefined)
+            }}
+            selection={
+              Platform.OS === 'android' && typeof startPosition === 'number'
+                ? { start: startPosition }
+                : undefined
+            }
+          />
+          {loading && (
+            <View style={styles.loaderContainer}>
+              <SkeletonPlaceholder
+                borderRadius={100} // ensure rounded corners with font scaling
+                backgroundColor={Colors.gray2}
+                highlightColor={Colors.white}
+                testID="SwapAmountInput/Loader"
+              >
+                <View style={styles.loader} />
+              </SkeletonPlaceholder>
+            </View>
+          )}
+        </View>
         {onPressMax && (
           <Touchable
             borderless
@@ -160,7 +157,6 @@ const styles = StyleSheet.create({
     padding: Spacing.Regular16,
     backgroundColor: Colors.gray1,
     borderColor: Colors.gray2,
-    borderWidth: 1,
   },
   label: {
     ...fontStyles.xsmall,
@@ -170,21 +166,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  input: {
+  inputContainer: {
     flex: 1,
     marginRight: Spacing.Smallest8,
   },
   inputError: {
     color: Colors.warning,
   },
-  inputLoading: {
-    color: Colors.gray3,
-  },
   inputText: {
     ...fontStyles.h2,
     fontSize: 26,
     lineHeight: undefined,
     paddingVertical: Spacing.Smallest8,
+  },
+  loaderContainer: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    paddingVertical: Spacing.Small12,
+    width: '100%',
+    height: '100%',
+  },
+  loader: {
+    height: '100%',
+    width: '100%',
   },
   maxButton: {
     backgroundColor: Colors.light,
