@@ -14,7 +14,6 @@ describe(getSerializablePreparedTransactions, () => {
           gas: BigInt(456),
           maxFeePerGas: BigInt(789),
           maxPriorityFeePerGas: BigInt(1011),
-          gatewayFee: BigInt(1213),
           // @ts-expect-error: unknown key, will be ignored, but TS will prevent in normal use
           unknown: BigInt(1415),
         },
@@ -27,7 +26,6 @@ describe(getSerializablePreparedTransactions, () => {
         gas: '456',
         maxFeePerGas: '789',
         maxPriorityFeePerGas: '1011',
-        gatewayFee: '1213',
         unknown: BigInt(1415), // not touched
       },
     ])
@@ -65,7 +63,6 @@ describe(getPreparedTransactions, () => {
           gas: '456',
           maxFeePerGas: '789',
           maxPriorityFeePerGas: '1011',
-          gatewayFee: '1213',
           // @ts-expect-error: unknown key, will be ignored, but TS will prevent in normal use
           unknown: BigInt(1415), // not touched
         },
@@ -78,7 +75,6 @@ describe(getPreparedTransactions, () => {
         gas: BigInt(456),
         maxFeePerGas: BigInt(789),
         maxPriorityFeePerGas: BigInt(1011),
-        gatewayFee: BigInt(1213),
         unknown: BigInt(1415), // not touched
       },
     ])
