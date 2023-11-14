@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Ganhe recompensas semanalmente. Entre no Supercharge!",
   "startSuperchargingNotificationStart": "Ganhe recompensas",
   "cashIn": "Adicionar {{currency}}",
-  "connectNumber": "Conectar o número",
+  "connectNumber": "Conectar número",
   "connectToWallet": "Conectar a {{dappName}}",
   "confirmTransaction": "Confirmar transacção",
   "allow": "Permitir",
-  "address": "Endereço da carteira",
+  "address": "Endereço da conta",
   "phoneNumber": "Número de celular",
   "transaction": {
     "operation": "Operação",
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Adicionar",
+    "add": "Comprar",
     "receive": "Receber",
     "request": "Solicitar",
     "send": "Enviar",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Enviar",
       "swap": "Trocar",
-      "add": "Adicionar",
+      "add": "Comprar",
       "withdraw": "Sacar",
       "more": "Mais"
     },
@@ -1890,7 +1890,7 @@
       "subtitle": "COMEÇAR",
       "options": {
         "one": {
-          "title": "Endereço da carteira",
+          "title": "Endereço da conta",
           "subtitle": "Digite um endereço de carteira compatível com Celo ou Ethereum (por exemplo, 0x123...abcde)"
         },
         "two": {
