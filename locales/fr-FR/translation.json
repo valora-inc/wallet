@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Obtenez des récompenses crypto chaque semaine. Commencez avec Supercharge !",
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
-  "connectNumber": "Connecter le numéro",
+  "connectNumber": "Numéro de connexion",
   "connectToWallet": "Connectez-vous à {{dappName}}",
   "confirmTransaction": "Confirmer la transaction",
   "allow": "Autoriser",
-  "address": "Adresse du wallet",
+  "address": "Adresse du portefeuille",
   "phoneNumber": "Numéro de téléphone",
   "transaction": {
     "operation": "Transaction",
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Ajouter",
+    "add": "Acheter",
     "receive": "Recevoir",
     "request": "Demander",
     "send": "Envoyer",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Envoyer",
       "swap": "Échanger",
-      "add": "Ajouter",
+      "add": "Acheter",
       "withdraw": "Retirer",
       "more": "Plus d'informations"
     },
@@ -1890,7 +1890,7 @@
       "subtitle": "COMMENCER",
       "options": {
         "one": {
-          "title": "Adresse du wallet",
+          "title": "Adresse du portefeuille",
           "subtitle": "Saisis une adresse de portefeuille compatible avec Celo ou Ethereum (ex. 0x123...abcde)."
         },
         "two": {
