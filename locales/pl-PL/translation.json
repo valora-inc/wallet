@@ -1774,7 +1774,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Zaproś {{contactName}} do {{appName}} i zdobądź 0,50 cUSD",
-      "body": "Wygląda na to, że {{contactName}} nie jest w Valorze. Nadal możesz wysłać płatność, jeśli znasz adres portfela tej osoby, lub zamiast tego wysłać zaproszenie. \n\nPo pobraniu Valory, połączeniu numeru telefonu i zasileniu portfela kwotą 10 cUSD otrzymacie po 0,50 cUSD przed wyczerpaniem środków."
+      "body": "Wygląda na to, że {{contactName}} nie jest w Valorze. Nadal możesz wysłać płatność, jeśli znasz adres portfela tej osoby, lub zamiast tego wysłać zaproszenie. \n\nPo pobraniu Valory, połączeniu numeru telefonu i zasileniu portfela kwotą 5 cUSD otrzymacie po 0,50 cUSD przed wyczerpaniem środków."
     }
   },
   "celoNews": {
