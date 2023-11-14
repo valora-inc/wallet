@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Nhận thưởng hằng tuần bằng tiền điện tử. Hãy bắt đầu với chương trình Supercharge!",
   "startSuperchargingNotificationStart": "Nhận tiền thưởng",
   "cashIn": "Nạp {{currency}}",
-  "connectNumber": "Kết nối số",
+  "connectNumber": "Connect number",
   "connectToWallet": "Kết nối với {{dappName}}",
   "confirmTransaction": "Xác nhận giao dịch",
   "allow": "Cho phép",
@@ -1802,7 +1802,7 @@
     "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Nạp",
+    "add": "Mua",
     "receive": "Nhận được",
     "request": "Yêu cầu",
     "send": "Gửi",
@@ -1858,7 +1858,7 @@
     "actions": {
       "send": "Gửi",
       "swap": "Trao đổi",
-      "add": "Nạp",
+      "add": "Mua",
       "withdraw": "Rút tiền",
       "more": "More"
     },
