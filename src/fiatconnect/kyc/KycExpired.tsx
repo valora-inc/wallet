@@ -34,7 +34,7 @@ function KycExpired({ route, navigation }: Props) {
   )
 
   const { t } = useTranslation()
-  // TODO: remove deprecated function call when FiatConnect updated to take token IDs
+  // TODO (ACT-985): remove deprecated function call when FiatConnect updated to take token IDs
   const { tokenId } = useTokenInfoWithAddressBySymbol(quote.getCryptoType()) || {}
   if (!tokenId) {
     throw new Error(`Token info not found for token symbol ${quote.getCryptoType()}`)
@@ -56,7 +56,7 @@ function KycExpired({ route, navigation }: Props) {
     })
     navigate(Screens.SelectProvider, {
       flow,
-      tokenId: tokenId,
+      tokenId,
       amount: {
         crypto: Number(quote.getCryptoAmount()),
         fiat: Number(quote.getFiatAmount()),

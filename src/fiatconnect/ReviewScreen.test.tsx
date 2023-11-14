@@ -54,7 +54,10 @@ function getProps(
   shouldRefetchQuote = false,
   quoteExpireMs = 0
 ) {
-  const quoteData = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+  const quoteData = {
+    ...(_.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess),
+    tokenId: mockCusdTokenId,
+  }
   if (!withFee) {
     delete quoteData.quote.fee
   }
@@ -279,6 +282,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
     })
@@ -303,6 +307,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
       expect(queryByTestId('TryAgain')).toBeTruthy()
@@ -315,6 +320,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
     })
@@ -423,6 +429,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
     })

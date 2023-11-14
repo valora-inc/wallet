@@ -16,6 +16,7 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import RadioButton from 'src/icons/RadioButton'
@@ -32,7 +33,6 @@ import variables from 'src/styles/variables'
 import { Network } from 'src/transactions/types'
 import { CiCoCurrency, currencyForAnalytics, resolveCurrency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
-import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatExchangeCurrency>
 
@@ -131,7 +131,7 @@ function FiatExchangeCurrency({ route, navigation }: Props) {
     navigate(Screens.FiatExchangeAmount, {
       tokenId: networkConfig.currencyToTokenId[selectedCurrency],
       flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
-      symbol: selectedCurrency,
+      tokenSymbol: selectedCurrency,
     })
   }
 

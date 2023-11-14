@@ -124,7 +124,7 @@ export type FiatConnectQuoteSuccess = {
 } & QuoteResponse
 
 export type FiatConnectQuoteSuccessWithTokenId = {
-  tokenId?: string
+  tokenId: string
 } & FiatConnectQuoteSuccess
 
 export async function getFiatConnectQuotes(

@@ -365,7 +365,7 @@ describe('TokenDetails', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockCeloTokenId,
       flow: CICOFlow.CashIn,
-      symbol: 'CELO',
+      tokenSymbol: 'CELO',
     })
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
@@ -403,7 +403,7 @@ describe('TokenDetails', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
       tokenId: mockEthTokenId,
       flow: CICOFlow.CashIn,
-      symbol: 'ETH',
+      tokenSymbol: 'ETH',
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })

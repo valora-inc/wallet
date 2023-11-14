@@ -105,7 +105,7 @@ export type StackParamList = {
   [Screens.FiatExchangeAmount]: {
     tokenId: string
     flow: CICOFlow
-    symbol: string
+    tokenSymbol: string
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow

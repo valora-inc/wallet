@@ -67,7 +67,7 @@ type Props = RouteProps
 
 function FiatExchangeAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { flow, tokenId, symbol } = route.params
+  const { flow, tokenId, tokenSymbol } = route.params
 
   const [showingInvalidAmountDialog, setShowingInvalidAmountDialog] = useState(false)
   const closeInvalidAmountDialog = () => {
@@ -75,10 +75,11 @@ function FiatExchangeAmount({ route }: Props) {
   }
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const { address } = useTokenInfo(tokenId) || {}
-  if (!address) {
+  const tokenInfo = useTokenInfo(tokenId)
+  if (!tokenInfo) {
     throw new Error(`Token info not found for token ID ${tokenId}`)
   }
+  const address = tokenInfo.address
 
   const inputConvertedToCrypto =
     useLocalToTokenAmount(parsedInputAmount, tokenId) || new BigNumber(0)
@@ -100,7 +101,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const displayCurrencyKey = cicoCurrencyTranslationKeys[resolveCICOCurrency(symbol)]
+  const displayCurrencyKey = cicoCurrencyTranslationKeys[resolveCICOCurrency(tokenSymbol)]
 
   const cUSDToken = useTokenInfo(networkConfig.currencyToTokenId[CiCoCurrency.cUSD])!
   const localCurrencyMaxAmount =
@@ -118,7 +119,7 @@ function FiatExchangeAmount({ route }: Props) {
   const dispatch = useDispatch()
 
   //TODO: Remove ETH check here once ETH token information is available
-  if (!address && symbol !== 'ETH') {
+  if (!address && tokenSymbol !== 'ETH') {
     Logger.error(TAG, "Couldn't grab the exchange token info")
     return null
   }
@@ -134,7 +135,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency: symbolToAnalyticsCurrency(symbol),
+      currency: symbolToAnalyticsCurrency(tokenSymbol),
       flow,
     })
     const amount = {
@@ -146,7 +147,7 @@ function FiatExchangeAmount({ route }: Props) {
 
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
-        account.cryptoType === resolveCICOCurrency(symbol) &&
+        account.cryptoType === resolveCICOCurrency(tokenSymbol) &&
         account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
@@ -156,7 +157,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         attemptReturnUserFlow({
           flow,
-          selectedCrypto: resolveCICOCurrency(symbol),
+          selectedCrypto: resolveCICOCurrency(tokenSymbol),
           amount,
           providerId,
           fiatAccountId,
@@ -168,7 +169,7 @@ function FiatExchangeAmount({ route }: Props) {
     } else {
       navigate(Screens.SelectProvider, {
         flow,
-        tokenId: tokenId,
+        tokenId,
         amount,
       })
     }
@@ -180,7 +181,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency: symbolToAnalyticsCurrency(symbol),
+          currency: symbolToAnalyticsCurrency(tokenSymbol),
           flow,
         })
         return
@@ -189,7 +190,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         showError(ErrorMessages.CASH_OUT_LIMIT_EXCEEDED, ALERT_BANNER_DURATION, {
           balance: maxWithdrawAmount.toFixed(2),
-          currency: symbol,
+          currency: tokenSymbol,
         })
       )
       return
@@ -221,7 +222,7 @@ function FiatExchangeAmount({ route }: Props) {
         <View style={styles.amountInputContainer}>
           <View>
             <Text style={styles.exchangeBodyText}>
-              {inputIsCrypto ? `${t('amount')} (${symbol})` : t('amount')}
+              {inputIsCrypto ? `${t('amount')} (${tokenSymbol})` : t('amount')}
             </Text>
           </View>
           <TextInput
@@ -290,7 +291,7 @@ FiatExchangeAmount.navOptions = ({
 }: {
   route: RouteProp<StackParamList, Screens.FiatExchangeAmount>
 }) => {
-  const { flow, tokenId, symbol } = route.params
+  const { flow, tokenId, tokenSymbol } = route.params
   const inputIsCrypto = isUserInputCrypto(flow)
   return {
     ...emptyHeader,
@@ -302,7 +303,7 @@ FiatExchangeAmount.navOptions = ({
             ? `fiatExchangeFlow.cashIn.exchangeAmountTitle`
             : `fiatExchangeFlow.cashOut.exchangeAmountTitle`,
           {
-            currency: symbol,
+            currency: tokenSymbol,
           }
         )}
         tokenId={tokenId}

@@ -114,7 +114,7 @@ export function* handleFetchFiatConnectQuotes({
  * Handles Refetching a single quote for the Review Screen.
  */
 export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
-  const { flow, cryptoType, cryptoAmount, fiatAmount, providerId, fiatAccount } = params
+  const { flow, cryptoType, cryptoAmount, fiatAmount, providerId, fiatAccount, tokenId } = params
   try {
     const {
       normalizedQuote,
@@ -129,6 +129,7 @@ export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refet
       fiatAmount: parseFloat(fiatAmount),
       providerId: providerId,
       fiatAccount: fiatAccount,
+      tokenId,
     })
 
     yield* put(refetchQuoteCompleted())
@@ -340,6 +341,7 @@ export function* handleAttemptReturnUserFlow({
         flow,
         providerId,
         fiatAccount: fiatAccount,
+        tokenId,
       }
     )
     const kycSchema = normalizedQuote.getKycSchema()
@@ -544,6 +546,7 @@ export function* _getSpecificQuote({
   flow,
   providerId,
   fiatAccount,
+  tokenId,
 }: {
   digitalAsset: CiCoCurrency
   cryptoAmount: number
@@ -551,6 +554,7 @@ export function* _getSpecificQuote({
   flow: CICOFlow
   providerId: string
   fiatAccount?: FiatAccount
+  tokenId: string
 }) {
   // Despite fetching quotes for a single provider, there still may be multiple quotes, since a quote
   // object is generated for each Fiat Account Schema supported by the provider.
@@ -561,7 +565,7 @@ export function* _getSpecificQuote({
     fiatAmount,
     providerIds: [providerId],
   })
-  const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
+  const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes, tokenId)
 
   // If no account was provided, we need to fetch accounts from the provider and find a matching quote-account pair
   if (!fiatAccount) {

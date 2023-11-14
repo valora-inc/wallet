@@ -1,6 +1,5 @@
 import { FiatAccountSchema, FiatAccountType, FiatType } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -11,8 +10,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { Network, NetworkId } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
@@ -28,14 +26,7 @@ import {
 import { CICOFlow } from './utils'
 
 const mockUseMaxSendAmount = jest.fn(() => mockMaxSendAmount)
-const mockTokenInfoPartial = {
-  balance: new BigNumber(1),
-  priceUsd: new BigNumber(1),
-  lastKnownPriceUsd: new BigNumber(1),
-  decimals: 1,
-  name: 'mockName',
-  networkId: NetworkId['celo-alfajores'],
-}
+
 jest.mock('src/fees/hooks', () => ({
   useMaxSendAmount: () => mockUseMaxSendAmount(),
 }))
@@ -51,16 +42,12 @@ jest.mock('src/web3/networkConfig', () => {
       ...originalModule.default,
       networkToNetworkId: {
         celo: 'celo-alfajores',
-        ethereum: 'ethereuim-sepolia',
+        ethereum: 'ethereum-sepolia',
       },
       defaultNetworkId: 'celo-alfajores',
     },
   }
 })
-jest.mock('src/tokens/hooks', () => ({
-  ...jest.requireActual('src/tokens/hooks'),
-  useTokenInfo: jest.fn(),
-}))
 
 const usdToUsdRate = '1'
 const usdToEurRate = '0.862'
@@ -95,6 +82,16 @@ const mockTokens = {
       symbol: 'CELO',
       balance: '200',
       priceUsd: '5',
+      isCoreToken: true,
+      priceFetchedAt: Date.now(),
+    },
+    [mockEthTokenId]: {
+      address: undefined,
+      tokenId: mockEthTokenId,
+      networkId: NetworkId['ethereum-sepolia'],
+      symbol: 'ETH',
+      balance: '1',
+      priceUsd: '1000',
       isCoreToken: true,
       priceFetchedAt: Date.now(),
     },
@@ -136,20 +133,14 @@ describe('FiatExchangeAmount cashIn', () => {
   })
 
   it.each([
-    { currency: CiCoCurrency.cUSD, tokenId: mockCusdTokenId, network: Network.Celo },
-    { currency: CiCoCurrency.cEUR, tokenId: mockCeurTokenId, network: Network.Celo },
-    { currency: CiCoCurrency.ETH, tokenId: mockEthTokenId, network: Network.Ethereum },
+    { currency: CiCoCurrency.cUSD, tokenId: mockCusdTokenId },
+    { currency: CiCoCurrency.cEUR, tokenId: mockCeurTokenId },
+    { currency: CiCoCurrency.ETH, tokenId: mockEthTokenId },
   ])(`disables the next button if the $currency amount is 0`, ({ tokenId, currency }) => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: 'mockAddress',
-      symbol: currency,
-      tokenId: tokenId,
-    })
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId,
       flow: CICOFlow.CashIn,
-      symbol: currency,
+      tokenSymbol: currency,
     })
     const tree = render(
       <Provider store={storeWithUSD}>
@@ -165,34 +156,25 @@ describe('FiatExchangeAmount cashIn', () => {
     {
       currency: CiCoCurrency.cUSD,
       tokenId: mockCusdTokenId,
-      network: Network.Celo,
       store: storeWithUSD,
     },
     {
       currency: CiCoCurrency.cEUR,
       tokenId: mockCeurTokenId,
-      network: Network.Celo,
       store: storeWithPHP,
     },
     {
       currency: CiCoCurrency.ETH,
       tokenId: mockEthTokenId,
-      network: Network.Ethereum,
       store: storeWithUSD,
     },
   ])(
     `enables the next button if the $currency amount is greater than 0`,
     ({ tokenId, currency, store }) => {
-      jest.mocked(useTokenInfo).mockReturnValue({
-        ...mockTokenInfoPartial,
-        address: 'mockAddress',
-        symbol: currency,
-        tokenId: tokenId,
-      })
       const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
         tokenId,
         flow: CICOFlow.CashIn,
-        symbol: currency,
+        tokenSymbol: currency,
       })
       const tree = render(
         <Provider store={store}>
@@ -206,16 +188,10 @@ describe('FiatExchangeAmount cashIn', () => {
   )
 
   it('renders correctly with USD as app currency', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashIn,
-      symbol: 'cUSD',
+      tokenSymbol: 'cUSD',
     })
     const tree = render(
       <Provider store={storeWithUSD}>
@@ -226,16 +202,10 @@ describe('FiatExchangeAmount cashIn', () => {
   })
 
   it('renders correctly with EUR as app currency', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashIn,
-      symbol: 'cUSD',
+      tokenSymbol: 'cUSD',
     })
     const tree = render(
       <Provider store={storeWithEUR}>
@@ -250,19 +220,19 @@ describe('FiatExchangeAmount cashOut', () => {
   const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     tokenId: mockCusdTokenId,
     flow: CICOFlow.CashOut,
-    symbol: 'cUSD',
+    tokenSymbol: 'cUSD',
   })
 
   const mockScreenPropsEuro = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     tokenId: mockCeurTokenId,
     flow: CICOFlow.CashOut,
-    symbol: 'cEUR',
+    tokenSymbol: 'cEUR',
   })
 
   const mockScreenPropsCelo = getMockStackScreenProps(Screens.FiatExchangeAmount, {
     tokenId: mockCeloTokenId,
     flow: CICOFlow.CashOut,
-    symbol: 'CELO',
+    tokenSymbol: 'CELO',
   })
 
   beforeEach(() => {
@@ -273,12 +243,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly for cUSD when local currency is USD', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const { getByText, getByTestId } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
@@ -291,13 +255,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly for cEUR when local currency is USD', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      priceUsd: new BigNumber(1.2),
-      address: mockCeurAddress,
-      symbol: 'cEUR',
-      tokenId: mockCeurTokenId,
-    })
     const { getByText, getByTestId } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenPropsEuro} />
@@ -310,13 +267,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly for CELO when local currency is USD', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      priceUsd: new BigNumber(5),
-      address: mockCeloAddress,
-      symbol: 'CELO',
-      tokenId: mockCeloTokenId,
-    })
     const { getByText, getByTestId } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenPropsCelo} />
@@ -328,12 +278,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly when the SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER feature flag is on', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const { getByText, queryByTestId, queryByText } = render(
       <Provider store={storeWithUSD}>
@@ -358,12 +302,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('shows an error banner if the user balance is less than the requested cash-out amount', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const tree = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
@@ -383,12 +321,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('shows an error banner if the user balance minus estimated transaction fee is less than the requested cash-out amount', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const tree = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
@@ -408,12 +340,6 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('navigates to the SelectProvider if the user balance is greater than the requested cash-out amount', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const tree = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
@@ -432,12 +358,6 @@ describe('FiatExchangeAmount cashOut', () => {
     })
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const store = createMockStore({
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
@@ -462,7 +382,7 @@ describe('FiatExchangeAmount cashOut', () => {
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashOut,
-      symbol: 'cUSD',
+      tokenSymbol: 'cUSD',
     })
     const tree = render(
       <Provider store={store}>
@@ -489,12 +409,6 @@ describe('FiatExchangeAmount cashOut', () => {
     )
   })
   it('calls dispatch attemptReturnUserFlow when there is a previously linked fiatconnect account that used a different flow', () => {
-    jest.mocked(useTokenInfo).mockReturnValue({
-      ...mockTokenInfoPartial,
-      address: mockCusdAddress,
-      symbol: 'cUSD',
-      tokenId: mockCusdTokenId,
-    })
     const store = createMockStore({
       localCurrency: {
         fetchedCurrencyCode: LocalCurrencyCode.USD,
@@ -519,7 +433,7 @@ describe('FiatExchangeAmount cashOut', () => {
     const screenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId: mockCusdTokenId,
       flow: CICOFlow.CashOut,
-      symbol: 'cUSD',
+      tokenSymbol: 'cUSD',
     })
     const tree = render(
       <Provider store={store}>

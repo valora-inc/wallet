@@ -15,12 +15,6 @@ import {
   mockProviders,
 } from 'test/values'
 
-const mockUseTokenInfo = jest.fn(() => {
-  return { address: 'mockAddress', symbol: 'mockSymbol' }
-})
-jest.mock('src/tokens/hooks', () => ({
-  useTokenInfo: () => mockUseTokenInfo(),
-}))
 jest.mock('src/utils/Logger', () => ({
   __esModule: true,
   namedExport: jest.fn(),

@@ -175,6 +175,7 @@ interface RefetchQuoteAction {
   fiatAmount: string
   providerId: string
   fiatAccount?: FiatAccount
+  tokenId: string
 }
 
 interface SubmitFiatAccountAction {

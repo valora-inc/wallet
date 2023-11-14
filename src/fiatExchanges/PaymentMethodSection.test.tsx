@@ -41,13 +41,6 @@ const mockStore = createMockStore({
   },
 })
 
-const mockUseTokenInfo = jest.fn(() => {
-  return { address: mockCusdAddress, symbol: 'cUSD' }
-})
-jest.mock('src/tokens/hooks', () => ({
-  useTokenInfo: () => mockUseTokenInfo(),
-}))
-
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {

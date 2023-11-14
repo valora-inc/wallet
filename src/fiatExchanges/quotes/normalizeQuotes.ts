@@ -69,7 +69,7 @@ const quoteHasErrors = (
 export function normalizeFiatConnectQuotes(
   flow: CICOFlow,
   quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[],
-  tokenId?: string
+  tokenId: string
 ): FiatConnectQuote[] {
   const normalizedQuotes: FiatConnectQuote[] = []
 
@@ -82,7 +82,7 @@ export function normalizeFiatConnectQuotes(
         ([key, value]: [string, FiatAccountTypeQuoteData | undefined]) => {
           try {
             const normalizedQuote = new FiatConnectQuote({
-              quote: { ...quote, tokenId: tokenId },
+              quote: { ...quote, tokenId },
               fiatAccountType: key as FiatAccountType,
               flow,
             })
@@ -129,7 +129,7 @@ export function normalizeExternalProviders(
       } else if (provider.quote) {
         // If the quote is not an array, but does exist, we assume it to be an object representing
         // a single quote.
-        quotes.push({ ...provider.quote, tokenId: tokenId })
+        quotes.push({ ...provider.quote, tokenId })
       }
 
       quotes.forEach((quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId) => {

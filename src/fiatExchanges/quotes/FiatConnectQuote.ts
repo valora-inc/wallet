@@ -334,7 +334,7 @@ export default class FiatConnectQuote extends NormalizedQuote {
     )
   }
 
-  getTokenId(): string | null {
-    return this.quote.tokenId ?? null
+  getTokenId(): string {
+    return this.quote.tokenId
   }
 }

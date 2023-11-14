@@ -3,7 +3,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import TokenDisplay from 'src/components/TokenDisplay'
-import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
+import { CryptoAmount, FiatAmount, LegacyCryptoAmount } from 'src/fiatExchanges/amount'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import { mockCusdTokenId } from 'test/values'
 
@@ -11,10 +12,29 @@ jest.mock('src/components/TokenDisplay')
 jest.mock('src/components/CurrencyDisplay')
 
 describe('CryptoAmount', () => {
-  it('passes amount and token address to TokenDisplay', () => {
+  it('passes amount and tokenId to TokenDisplay', () => {
     render(
       <Provider store={createMockStore()}>
         <CryptoAmount amount={10} tokenId={mockCusdTokenId} testID="cryptoAmt" />
+      </Provider>
+    )
+    expect(TokenDisplay).toHaveBeenCalledWith(
+      {
+        amount: 10,
+        testID: 'cryptoAmt',
+        tokenId: mockCusdTokenId,
+        showLocalAmount: false,
+      },
+      {}
+    )
+  })
+})
+
+describe('LegacyCryptoAmount', () => {
+  it('passes amount and tokenId to TokenDisplay', () => {
+    render(
+      <Provider store={createMockStore()}>
+        <LegacyCryptoAmount amount={10} currency={CiCoCurrency.cUSD} testID="cryptoAmt" />
       </Provider>
     )
     expect(TokenDisplay).toHaveBeenCalledWith(

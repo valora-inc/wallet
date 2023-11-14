@@ -48,11 +48,11 @@ export default function ReviewFees({
 
   const openProviderFeeUrl = () => navigateToURI(feeUrl)
 
-  const tokenSymbol = useTokenInfo(tokenIdToBuy)?.symbol
-
-  if (!tokenSymbol) {
+  const tokenInfo = useTokenInfo(tokenIdToBuy)
+  if (!tokenInfo) {
     throw new Error(`Token info not found for token ID ${tokenIdToBuy}`)
   }
+  const tokenSymbol = tokenInfo.symbol
 
   const showAmount = (value: number, isCelo: boolean = false, textStyle: any[] = []) => (
     <CurrencyDisplay

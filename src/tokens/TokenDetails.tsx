@@ -195,7 +195,7 @@ export const useActions = (token: TokenBalance) => {
           navigate(Screens.FiatExchangeAmount, {
             tokenId: token.tokenId,
             flow: CICOFlow.CashIn,
-            symbol: token.symbol,
+            tokenSymbol: token.symbol,
           })
         }
       },
