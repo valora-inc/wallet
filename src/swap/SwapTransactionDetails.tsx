@@ -64,7 +64,7 @@ export function SwapTransactionDetails({
           )}
         </Text>
       </View>
-      <View style={styles.row}>
+      <View style={styles.row} testID="SwapTransactionDetails/NetworkFee">
         {fromToken?.networkId ? (
           <>
             <Touchable
@@ -95,7 +95,6 @@ export function SwapTransactionDetails({
                   showApprox
                   tokenId={feeTokenId}
                   showLocalAmount={true}
-                  testID="SwapTransactionDetails/NetworkFee/FiatValue"
                 />
                 <Text style={[styles.value, { fontWeight: '400' }]}>
                   {` (`}
@@ -104,7 +103,6 @@ export function SwapTransactionDetails({
                     tokenId={feeTokenId}
                     showSymbol={true}
                     showLocalAmount={false}
-                    testID="SwapTransactionDetails/NetworkFee/Value"
                   />
                   {')'}
                 </Text>
@@ -118,9 +116,7 @@ export function SwapTransactionDetails({
             <Text style={styles.label}>
               {t('swapScreen.transactionDetails.networkFeeNoNetwork')}
             </Text>
-            <Text style={styles.value} testID="SwapTransactionDetails/NetworkFee/Value">
-              {placeholder}
-            </Text>
+            <Text style={styles.value}>{placeholder}</Text>
           </>
         )}
       </View>

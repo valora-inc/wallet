@@ -56,7 +56,7 @@ describe('SwapTransactionDetails', () => {
     )
 
     expect(getByText('swapScreen.transactionDetails.networkFeeNoNetwork')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('-')
+    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('-')
     expect(queryByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).toBeFalsy()
   })
 
@@ -77,8 +77,9 @@ describe('SwapTransactionDetails', () => {
     expect(
       getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/FiatValue')).toHaveTextContent('₱0.00067')
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('0.0001 CELO')
+    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent(
+      '₱0.00067 (0.0001 CELO)'
+    )
     expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo/Icon')).toBeTruthy()
     expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).not.toBeDisabled()
   })
