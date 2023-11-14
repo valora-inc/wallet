@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Haftalık kripto para ödülleri kazanın. Supercharge'lamaya başlayın!",
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
-  "connectNumber": "Telefon Numarası Bağla",
+  "connectNumber": "Bağlantı numarası",
   "connectToWallet": "{{dappName}} uygulamasına bağlanın",
   "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
-  "address": "Cüzdan adresi",
+  "address": "Cüzdan Adresi",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı"
   },
   "homeActions": {
-    "add": "Ekle",
+    "add": "Satın Al",
     "receive": "Almak",
     "request": "İste",
     "send": "Gönder",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Gönder",
       "swap": "Swap",
-      "add": "Ekle",
+      "add": "Satın Al",
       "withdraw": "Çek",
       "more": "Daha fazla"
     },
@@ -1890,7 +1890,7 @@
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
-          "title": "Cüzdan adresi",
+          "title": "Cüzdan Adresi",
           "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
         },
         "two": {
