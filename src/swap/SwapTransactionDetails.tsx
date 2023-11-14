@@ -80,14 +80,27 @@ export function SwapTransactionDetails({
               </>
             </Touchable>
             {networkFee ? (
-              <TokenDisplay
-                style={styles.value}
-                amount={networkFee}
-                showApprox
-                tokenId={feeTokenId}
-                showLocalAmount={true}
-                testID="SwapTransactionDetails/NetworkFee/Value"
-              />
+              <View style={styles.networkFeeContainer}>
+                <TokenDisplay
+                  style={styles.value}
+                  amount={networkFee}
+                  showApprox
+                  tokenId={feeTokenId}
+                  showLocalAmount={true}
+                  testID="SwapTransactionDetails/NetworkFee/FiatValue"
+                />
+                <Text style={[styles.value, { fontWeight: '400' }]}>
+                  {` (`}
+                  <TokenDisplay
+                    amount={networkFee}
+                    tokenId={feeTokenId}
+                    showSymbol={true}
+                    showLocalAmount={false}
+                    testID="SwapTransactionDetails/NetworkFee/Value"
+                  />
+                  {')'}
+                </Text>
+              </View>
             ) : (
               <Text style={styles.value}>{placeholder}</Text>
             )}
@@ -139,6 +152,9 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: colors.gray4,
     marginRight: Spacing.Tiny4,
+  },
+  networkFeeContainer: {
+    flexDirection: 'row',
   },
 })
 
