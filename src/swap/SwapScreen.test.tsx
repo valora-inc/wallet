@@ -17,7 +17,6 @@ import SwapScreen from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
-import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -67,7 +66,10 @@ jest.mock('src/statsig', () => {
   }
 })
 
-jest.spyOn(publicClient.celo, 'estimateGas').mockImplementation(async () => BigInt(21000))
+jest.mock('viem/actions', () => ({
+  ...jest.requireActual('viem/actions'),
+  estimateGas: jest.fn(async () => BigInt(21000)),
+}))
 
 jest.mock('src/viem/estimateFeesPerGas', () => ({
   estimateFeesPerGas: jest.fn(async () => ({
