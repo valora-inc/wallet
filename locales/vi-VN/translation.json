@@ -1768,7 +1768,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 10 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
+      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 5 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
     }
   },
   "celoNews": {
