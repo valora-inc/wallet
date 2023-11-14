@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Получайте еженедельные криптовознаграждения. Присоединяйтесь к Supercharge!",
   "startSuperchargingNotificationStart": "Начать",
   "cashIn": "Внести {{currency}}",
-  "connectNumber": "Подключить номер",
+  "connectNumber": "Номер соединения",
   "connectToWallet": "Подключиться к {{dappName}}",
   "confirmTransaction": "Подтвердить транзакцию",
   "allow": "Разрешить",
@@ -1808,7 +1808,7 @@
     "noTokenInResult": "Не найдено подходящих результатов для <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Внести",
+    "add": "Купить",
     "receive": "Получить",
     "request": "Запросить",
     "send": "Отправить",
@@ -1864,7 +1864,7 @@
     "actions": {
       "send": "Отправить",
       "swap": "Обменять",
-      "add": "Внести",
+      "add": "Купить",
       "withdraw": "Вывести",
       "more": "Подробнее"
     },
