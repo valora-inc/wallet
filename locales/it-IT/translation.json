@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Ottieni ricompense settimanali in cripto. Inizia Supercharge!",
   "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
-  "connectNumber": "Collega numero",
+  "connectNumber": "Connetti il numero",
   "connectToWallet": "Collega a {{dappName}}",
   "confirmTransaction": "Conferma la transazione",
   "allow": "Consenti",
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
-    "add": "Aggiungi",
+    "add": "Acquista",
     "receive": "Ricevi",
     "request": "Richiedi",
     "send": "Invia",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Invia",
       "swap": "Scambia",
-      "add": "Aggiungi",
+      "add": "Acquista",
       "withdraw": "Preleva",
       "more": "Altro"
     },
