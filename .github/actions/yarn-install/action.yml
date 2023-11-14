@@ -24,3 +24,6 @@ runs:
           yarn postinstall
         fi
       shell: bash
+    - name: Fail if someone forgot to commit "yarn.lock"
+      run: git diff --exit-code
+      shell: bash
