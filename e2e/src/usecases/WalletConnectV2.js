@@ -9,8 +9,7 @@ import { Core } from '@walletconnect/core'
 import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
-import { createPublicClient, hexToNumber, http } from 'viem'
-import { celoAlfajores } from 'viem/chains'
+import { hexToNumber } from 'viem'
 import { parseTransactionCelo } from 'viem/chains/utils'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
@@ -22,11 +21,6 @@ const dappName = 'WalletConnectV2 E2E'
 
 const kitUrl = process.env.FORNO_URL || 'https://alfajores-forno.celo-testnet.org'
 const kit = newKit(kitUrl)
-
-const celoAlfajoresClient = createPublicClient({
-  chain: celoAlfajores,
-  transport: http(kitUrl),
-})
 
 const walletAddress = (
   process.env.E2E_WALLET_ADDRESS || '0x6131a6d616a4be3737b38988847270a64bc10caa'
@@ -237,13 +231,20 @@ export default WalletConnect = () => {
           console.log('Received tx hash', txHash)
 
           // Wait for the transaction to be mined
-          const receipt = await celoAlfajoresClient.waitForTransactionReceipt({
-            hash: txHash,
-          })
+          let receipt
+          for (let i = 0; i < 30; i++) {
+            receipt = await kit.connection.getTransactionReceipt(txHash)
+            if (receipt) {
+              break
+            }
+            await sleep(1000)
+          }
+
           console.log('Received receipt', receipt)
+          jestExpect(receipt).toBeTruthy()
           const { status, from, to } = receipt
 
-          jestExpect(status).toStrictEqual('success')
+          jestExpect(status).toStrictEqual(true)
           jestExpect(from).toStrictEqual(walletAddress)
           jestExpect(to).toStrictEqual(walletAddress)
         },
