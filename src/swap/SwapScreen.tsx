@@ -472,6 +472,7 @@ export function SwapScreen({ route }: Props) {
             fromToken={fromToken}
             toToken={toToken}
             exchangeRatePrice={exchangeRate?.price}
+            swapAmount={parsedSwapAmount[Field.FROM]}
           />
 
           {showMaxSwapAmountWarning && (
