@@ -1768,7 +1768,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转入 10 cUSD 之后，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
+      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转入 5 cUSD 之后，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
     }
   },
   "celoNews": {
