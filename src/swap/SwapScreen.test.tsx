@@ -17,7 +17,6 @@ import SwapScreen from 'src/swap/SwapScreen'
 import { setSwapUserInput } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
-import { publicClient } from 'src/viem'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -67,7 +66,10 @@ jest.mock('src/statsig', () => {
   }
 })
 
-jest.spyOn(publicClient.celo, 'estimateGas').mockImplementation(async () => BigInt(21000))
+jest.mock('viem/actions', () => ({
+  ...jest.requireActual('viem/actions'),
+  estimateGas: jest.fn(async () => BigInt(21000)),
+}))
 
 jest.mock('src/viem/estimateFeesPerGas', () => ({
   estimateFeesPerGas: jest.fn(async () => ({
@@ -314,7 +316,8 @@ describe('SwapScreen', () => {
 
   it('should keep the to amount in sync with the exchange rate', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, swapToContainer, tokenBottomSheet, getByText } = renderScreen({})
+    const { swapFromContainer, swapToContainer, tokenBottomSheet, getByText, getByTestId } =
+      renderScreen({})
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
@@ -325,7 +328,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 1.23456 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -335,7 +340,8 @@ describe('SwapScreen', () => {
 
   it('should display a loader when initially fetching exchange rate', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, getByTestId } =
+      renderScreen({})
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
@@ -352,7 +358,9 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 1.23456 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
@@ -370,7 +378,8 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, getByTestId } =
+      renderScreen({})
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
@@ -386,7 +395,9 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8.10000 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 8.10000 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0.15234566652'
     )
@@ -423,8 +434,14 @@ describe('SwapScreen', () => {
       })
     )
 
-    const { swapFromContainer, swapToContainer, tokenBottomSheet, getByText, queryByText } =
-      renderScreen({})
+    const {
+      swapFromContainer,
+      swapToContainer,
+      tokenBottomSheet,
+      getByText,
+      queryByText,
+      getByTestId,
+    } = renderScreen({})
 
     // select 100000 CELO to cUSD swap
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
@@ -434,7 +451,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 12.44445 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 12.44445 cUSD'
+    )
     expect(getByText('swapScreen.priceImpactWarning.title')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
@@ -454,7 +473,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 13.12345 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 13.12345 cUSD'
+    )
     expect(queryByText('swapScreen.priceImpactWarning.title')).toBeFalsy()
   })
 
@@ -483,8 +504,14 @@ describe('SwapScreen', () => {
       })
     )
 
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, queryByText } =
-      renderScreen({})
+    const {
+      tokenBottomSheet,
+      swapFromContainer,
+      swapToContainer,
+      getByText,
+      queryByText,
+      getByTestId,
+    } = renderScreen({})
 
     // select 100000 CELO to cUSD swap
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
@@ -494,7 +521,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 12.44445 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 12.44445 cUSD'
+    )
     expect(getByText('swapScreen.missingSwapImpactWarning.title')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
@@ -514,7 +543,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 13.12345 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 13.12345 cUSD'
+    )
     expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
 
@@ -527,7 +558,8 @@ describe('SwapScreen', () => {
     })
     mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, getByTestId } =
+      renderScreen({})
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
@@ -544,7 +576,9 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1,23456 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 1,23456 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1,5234566652'
@@ -569,7 +603,8 @@ describe('SwapScreen', () => {
         },
       })
     )
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText } = renderScreen({})
+    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, getByTestId } =
+      renderScreen({})
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
@@ -586,7 +621,9 @@ describe('SwapScreen', () => {
       }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 8,10000 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 8,10000 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '0,15234566652'
     )
@@ -607,7 +644,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 1.23456 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
@@ -664,7 +703,9 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(swapToContainer).toHaveTextContent('1 CELO ≈ 1.23456 cUSD')
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 1.23456 cUSD'
+    )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '10' // matching the value inside the mocked store
     )
@@ -822,7 +863,7 @@ describe('SwapScreen', () => {
     expect(transactionDetails).toHaveTextContent(
       'swapScreen.transactionDetails.networkFeeNoNetwork'
     )
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('-')
+    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('-')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
@@ -839,7 +880,9 @@ describe('SwapScreen', () => {
     expect(
       getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('₱0.016') // matches gas * gasPrice in defaultQuoteResponse
+    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent(
+      '₱0.016 (0.0009 CELO)'
+    ) // matches gas * gasPrice in defaultQuoteResponse
   })
 
   // When viem is enabled, it also uses the new fee estimation logic
@@ -866,7 +909,7 @@ describe('SwapScreen', () => {
       expect(transactionDetails).toHaveTextContent(
         'swapScreen.transactionDetails.networkFeeNoNetwork'
       )
-      expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('-')
+      expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('-')
       expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
       expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
       expect(transactionDetails).toHaveTextContent(
@@ -885,7 +928,9 @@ describe('SwapScreen', () => {
       expect(
         getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
       ).toBeTruthy()
-      expect(getByTestId('SwapTransactionDetails/NetworkFee/Value')).toHaveTextContent('₱0.38') // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
+      expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent(
+        '₱0.38 (0.022 CELO)'
+      ) // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
     })
 
     it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {

@@ -5,7 +5,7 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import Warning from 'src/components/Warning'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -63,7 +63,8 @@ function SessionRequest({ pendingSession, namespacesToApprove, supportedChains }
         description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : null}
         testId="WalletConnectSessionRequest"
       >
-        <Warning
+        <InLineNotification
+          severity={Severity.Warning}
           title={t('walletConnectRequest.session.failUnsupportedNamespace.title', { dappName })}
           description={t('walletConnectRequest.session.failUnsupportedNamespace.description', {
             dappName,
@@ -149,7 +150,14 @@ function NamespacesWarning({
     return null
   }
 
-  return <Warning title={title} description={description} style={styles.warning} />
+  return (
+    <InLineNotification
+      severity={Severity.Warning}
+      title={title}
+      description={description}
+      style={styles.warning}
+    />
+  )
 }
 
 const styles = StyleSheet.create({

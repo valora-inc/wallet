@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Ottieni ricompense settimanali in cripto. Inizia Supercharge!",
   "startSuperchargingNotificationStart": "Inizia",
   "cashIn": "Aggiungi {{currency}}",
-  "connectNumber": "Collega numero",
+  "connectNumber": "Connetti il numero",
   "connectToWallet": "Collega a {{dappName}}",
   "confirmTransaction": "Conferma la transazione",
   "allow": "Consenti",
@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita amici e ricevi ricompense",
-    "body": "Una volta che si saranno registrati e avranno aggiunto 10 cUSD al loro portafoglio {{appName}}, riceverete entrambi 0,50 cUSD."
+    "body": "Una volta che si saranno registrati e avranno aggiunto 5 cUSD al loro portafoglio {{appName}}, riceverete entrambi 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
     "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
-    "share": "Ciao. Uso {{appName}} come wallet di criptovalute. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{shareUrl}}",
-    "help": "Per ricevere questa ricompensa, la persona invitata deve eseguire il download dal link del referente, collegare il proprio numero telefonico e detenere nel proprio portafoglio {{appName}} almeno 10 cUSD per 7 giorni. <0>Visualizza tutti i Termini</0>",
+    "share": "Ehi! Iscriviti a {{appName}} wallet. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: {{shareUrl}}.",
+    "help": "Per ricevere questa ricompensa, la persona invitata deve eseguire il download dal link del referente, collegare il proprio numero telefonico e detenere nel proprio portafoglio {{appName}} almeno 5 cUSD per 7 giorni. <0>Visualizza tutti i Termini</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "Ottieni cUSD con Valora Referral Rewards",
-      "body": "Invita fino a 25 amici a iscriversi a {{appName}} e ognuno di voi riceverà 0,50 cUSD dopo aver aggiunto o ricevuto almeno 10 cUSD, fino ad esaurimento fondi."
+      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti gli amici a Valora!",
+      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e avrà mantenuto 5 cUSD per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Ciao! 👋 Valora è il modo più semplice per inviare denaro alle persone a cui tieni, indipendentemente da dove si trovano. Ti serve solo un numero telefonico. Esegui il download da questo link, collega il tuo numero telefonico e aggiungi 10 cUSD al tuo nuovo portafoglio per ottenere 0,50$ 💫 \n\n{{link}} \n\nAgisci subito, le ricompense dei referral sono limitate.",
+  "inviteWithRewardsCUSD": "Ehi! In questo momento possiamo entrambi ricevere una ricompensa gratuita di 0,50 cUSD se ti iscrivi e fondi il tuo portafoglio Valora. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\nAffrettati però, la promozione termina presto.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita {{contactName}} in {{appName}} e riceverete 0.50 cUSD",
-      "body": "Sembra che {{contactName}} non sia su Valora. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito.\n\n Dopo che avrà scaricato Valora, collegato il suo numero telefonico e aggiunto 10 cUSD al suo portafoglio, riceverete entrambi 0,50 cUSD, fino ad esaurimento fondi."
+      "body": "Sembra che {{contactName}} non sia su Valora. Se conosci l'indirizzo del suo portafoglio, puoi comunque inviare un pagamento o un invito.\n\n Dopo che avrà scaricato Valora, collegato il suo numero telefonico e aggiunto 5 cUSD al suo portafoglio, riceverete entrambi 0,50 cUSD, fino ad esaurimento fondi."
     }
   },
   "celoNews": {
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>."
   },
   "homeActions": {
-    "add": "Aggiungi",
+    "add": "Acquista",
     "receive": "Ricevi",
     "request": "Richiedi",
     "send": "Invia",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Invia",
       "swap": "Scambia",
-      "add": "Aggiungi",
+      "add": "Acquista",
       "withdraw": "Preleva",
       "more": "Altro"
     },

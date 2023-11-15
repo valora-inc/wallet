@@ -15,11 +15,7 @@ import {
   tokenBalanceHasAddress,
 } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
-import {
-  addHashToStandbyTransaction,
-  addStandbyTransaction,
-  transactionConfirmed,
-} from 'src/transactions/actions'
+import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -31,7 +27,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put } from 'typed-redux-saga'
-import { SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
+import { Hash, SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
 
@@ -85,7 +81,7 @@ export function* sendPayment({
     feeInfo
   )
 
-  const unlockAndAddStandby = function* () {
+  const unlockWallet = function* () {
     // This will never happen, but Typescript complains otherwise
     if (!wallet.account) {
       throw new Error('no account found in the wallet')
@@ -93,7 +89,9 @@ export function* sendPayment({
 
     // unlock account before executing tx
     yield* call(unlockAccount, wallet.account.address)
+  }
 
+  const addPendingStandbyTransaction = function* (hash: string) {
     yield* put(
       addStandbyTransaction({
         __typename: 'TokenTransferV3',
@@ -109,6 +107,7 @@ export function* sendPayment({
         metadata: {
           comment,
         },
+        transactionHash: hash,
       })
     )
   }
@@ -132,10 +131,17 @@ export function* sendPayment({
       })
 
       const { request } = yield* call(simulateContractMethod)
-      yield* call(unlockAndAddStandby)
 
-      const sendContractTxMethod = () =>
-        wallet.writeContract(request as SimulateContractReturnType['request'])
+      yield* call(unlockWallet)
+
+      const sendContractTxMethod = function* () {
+        const hash = yield* call(
+          wallet.writeContract,
+          request as SimulateContractReturnType['request']
+        )
+        yield* call(addPendingStandbyTransaction, hash)
+        return hash
+      }
 
       const receipt = yield* call(sendAndMonitorTransaction, {
         context,
@@ -157,18 +163,23 @@ export function* sendPayment({
         })
 
       yield* call(callMethod)
-      yield* call(unlockAndAddStandby)
+      yield* call(unlockWallet)
 
-      const sendNativeTxMethod = () => {
+      const sendNativeTxMethod = function* () {
         if (!wallet.account) {
           throw new Error('no account found in the wallet')
         }
-        return wallet.sendTransaction({
+
+        const hash = yield* call(wallet.sendTransaction, {
           account: wallet.account,
           to: getAddress(recipientAddress),
           value: convertedAmount,
           chain: networkConfig.viemChain[network],
         })
+
+        yield* call(addPendingStandbyTransaction, hash)
+
+        return hash
       }
 
       const receipt = yield* call(sendAndMonitorTransaction, {
@@ -340,7 +351,7 @@ export function* sendAndMonitorTransaction({
 }: {
   context: TransactionContext
   network: Network
-  sendTx: () => Promise<`0x${string}`>
+  sendTx: () => Generator<any, Hash, any>
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
@@ -357,8 +368,6 @@ export function* sendAndMonitorTransaction({
       ...commonTxAnalyticsProps,
       txHash: hash,
     })
-
-    yield* put(addHashToStandbyTransaction(context.id, hash))
     const receipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], { hash })
 
     ValoraAnalytics.track(TransactionEvents.transaction_receipt_received, commonTxAnalyticsProps)
