@@ -69,7 +69,7 @@ export default function TokenImportScreen(_: Props) {
             description={t('tokenImport.notification')}
           />
 
-          <View style={{ gap: Spacing.Thick24, width: '100%' }}>
+          <View style={styles.inputContainer}>
             {/* Token Address */}
             <View style={styles.textInputGroup}>
               <Text style={styles.label}>{t('tokenImport.input.tokenAddress')}</Text>
@@ -179,6 +179,10 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Regular16,
     paddingHorizontal: Spacing.Thick24,
     borderTopColor: Colors.gray2,
+  },
+  inputContainer: {
+    gap: Spacing.Thick24,
+    width: '100%',
   },
   textInputGroup: {
     flexDirection: 'column',
