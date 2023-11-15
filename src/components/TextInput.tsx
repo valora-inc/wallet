@@ -87,7 +87,6 @@ export class CTextInput extends React.Component<Props, State> {
           onFocus={this.handleInputFocus}
           onBlur={this.handleInputBlur}
         />
-        {right}
         {!passThroughProps.multiline && isFocused && !!value && showClearButton && (
           <CircleButton
             style={styles.icon}
@@ -98,6 +97,7 @@ export class CTextInput extends React.Component<Props, State> {
             inactiveColor={Colors.gray1}
           />
         )}
+        {right}
       </View>
     )
   }
