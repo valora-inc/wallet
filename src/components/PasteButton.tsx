@@ -13,9 +13,6 @@ interface Props {
 }
 
 export const PasteButton = ({ value, setValue, onPress }: Props) => {
-  // when a value is already set, remove the button
-  if (value) return null
-
   const { t } = useTranslation()
   const [, , getFreshClipboardContent] = useClipboard()
 
@@ -24,6 +21,9 @@ export const PasteButton = ({ value, setValue, onPress }: Props) => {
     setValue(content)
     onPress?.(event)
   }
+
+  // when a value is already set, remove the button
+  if (value) return null
 
   return (
     <Touchable onPress={pasteClipboard}>
