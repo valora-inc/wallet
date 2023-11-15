@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "每周获得加密货币奖励。开始 Supercharge 吧！",
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
-  "connectNumber": "关联号码",
+  "connectNumber": "连接号码",
   "connectToWallet": "关联到 {{dappName}}",
   "confirmTransaction": "确认交易",
   "allow": "允许",
@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "在他们成功设置 {{appName}} 钱包并转入 10 cUSD 后，你们都将获得 0.50 cUSD 的奖励。"
+    "body": "在他们成功设置 {{appName}} 钱包并转入 5 cUSD 后，你们都将获得 0.50 cUSD 的奖励。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
     "body": "在 {{appName}} 上关联您的朋友和家人并分享价值。",
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
-    "share": "嗨！我一直使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接进行查看：{{shareUrl}}",
-    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载钱包应用，关联手机号码并向其 {{appName}} 钱包至少转入 10 cUSD，并且 7 天之内不转出资金。<0>查看所有条款</0>",
+    "share": "嘿！注册 {{appName}} 钱包。我用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成设置。请确保使用我的推荐链接注册： {{shareUrl}}。",
+    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载钱包应用，关联手机号码并向其 {{appName}} 钱包至少转入 5 cUSD，并且 7 天之内不转出资金。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "参加 Valora 推荐计划，赚取 cUSD 奖励",
-      "body": "最多可邀请 25 位好友加入 {{appName}} ，当他们向其钱包至少转入 10 cUSD 时，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
+      "title": "限时限量。邀请好友访问 Valora，即可获得免费 cUSD！",
+      "body": "每邀请一位朋友登录 {{appName}}，即可获得 0.50 cUSD。一旦他们添加资金，并在 7 天内持有 5 cUSD，你们都将获得 0.50 cUSD。请抓紧时间，资金有限！(仅限 25 位好友）。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -960,7 +960,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "您好！👋 Valora 是向亲朋好友汇款的最简单途径，无论他们身处世界的任何地方。您只需要一个手机号码即可完成所有操作。点击此链接下载，关联您的电话号码并向您的新钱包转入 10 cUSD，即可获得 $0.50 的奖励💫 \n\n{{link}} \n\n立即行动，推荐奖励数额有限。",
+  "inviteWithRewardsCUSD": "嘿！现在，如果你注册并为 Valora 钱包充值，我们都可以免费获得 0.50 cUSD 的奖励。我用它来增加我的美元和加密货币储蓄，只需一个电话号码，您就可以在几秒钟内完成设置。请确保使用我的推荐链接注册： \n\n{{link}} \n\n不过要抓紧时间，推荐促销活动马上就要结束了。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1768,7 +1768,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转入 10 cUSD 之后，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
+      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转入 5 cUSD 之后，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
     }
   },
   "celoNews": {
@@ -1802,7 +1802,7 @@
     "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
   },
   "homeActions": {
-    "add": "添加",
+    "add": "买入",
     "receive": "接收",
     "request": "请求",
     "send": "发送",
@@ -1858,7 +1858,7 @@
     "actions": {
       "send": "发送",
       "swap": "交换",
-      "add": "添加",
+      "add": "买入",
       "withdraw": "提取",
       "more": "更多信息"
     },
