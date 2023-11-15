@@ -162,39 +162,31 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
   },
   messageTextInput: {
-    width: '100%',
     ...typeScale.bodySmall,
     paddingHorizontal: Spacing.Small12,
     borderColor: Colors.gray2,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1.5,
-    color: Colors.dark,
   },
   titleContainer: {
-    alignItems: 'center',
+    ...typeScale.titleLarge,
     marginVertical: Spacing.Smallest8,
     marginHorizontal: Spacing.Thick24,
     gap: Spacing.Regular16,
-    ...typeScale.titleLarge,
   },
   buttonContainer: {
     paddingVertical: Spacing.Regular16,
     paddingHorizontal: Spacing.Thick24,
-    borderTopColor: Colors.gray2,
   },
   inputContainer: {
     gap: Spacing.Thick24,
-    width: '100%',
   },
   textInputGroup: {
-    flexDirection: 'column',
-    justifyContent: 'flex-start',
     alignItems: 'flex-start',
     gap: Spacing.Smallest8,
   },
   label: {
     ...typeScale.labelSmall,
-    flexWrap: 'wrap',
   },
   errorLabel: {
     ...typeScale.labelSmall,
