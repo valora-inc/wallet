@@ -2,12 +2,13 @@ import { CeloTx, CeloTxReceipt, EncodedTransaction } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import { ContractKit } from '@celo/contractkit'
 import { UnlockableWallet } from '@celo/wallet-base'
+import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
-import { newTransactionContext } from 'src/transactions/types'
+import { Network, newTransactionContext } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
@@ -22,13 +23,29 @@ import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
 
-export function* handleRequest({ method, params }: { method: string; params: any[] }) {
-  const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
+const walletConnectChainToNetwork: Record<string, Network> = {
+  'eip155:44787': Network.Celo,
+  'eip155:42220': Network.Celo,
+  'eip155:1': Network.Ethereum,
+  'eip155:3': Network.Ethereum,
+}
+
+export function* handleRequest({
+  request: { method, params },
+  chainId,
+}: Web3WalletTypes.EventArguments['session_request']['params']) {
+  console.log('=====handle request chainId', chainId)
+  const network = walletConnectChainToNetwork[chainId]
   const useViem = yield* call(
     getFeatureGate,
     StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
   )
 
+  if (!useViem && network !== Network.Celo) {
+    throw new Error('unsupported network')
+  }
+
+  const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain[network])
   const account = yield* call(getWalletAddress)
   const legacyWallet: UnlockableWallet = yield* call(getWallet)
   yield* call(unlockAccount, account)

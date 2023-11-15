@@ -1,4 +1,3 @@
-import { ContractKit } from '@celo/contractkit'
 import { appendPath } from '@celo/utils/lib/string'
 import { formatJsonRpcError, formatJsonRpcResult, JsonRpcResult } from '@json-rpc-tools/utils'
 import { Core } from '@walletconnect/core'
@@ -21,6 +20,10 @@ import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -57,7 +60,6 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import {
@@ -81,6 +83,13 @@ export function _setClientForTesting(newClient: IWeb3Wallet | null) {
 const TAG = 'WalletConnect/saga'
 
 const GET_SESSION_TIMEOUT = 10_000
+
+const walletConnectChainIdMap: Record<NetworkId, string> = {
+  [NetworkId['celo-alfajores']]: 'eip155:44787',
+  [NetworkId['celo-mainnet']]: 'eip155:42220',
+  [NetworkId['ethereum-mainnet']]: 'eip155:1',
+  [NetworkId['ethereum-sepolia']]: 'eip155:3',
+}
 
 export function* getDefaultSessionTrackedProperties(
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
@@ -257,7 +266,7 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
   // Here we approve all required namespaces, but only for EVM chains.
   // This is so we don't break existing dapps which don't specify the Celo chain as required.
   // As of writing this, Curve, Toucan and Cred Protocol do that.
-  // We also add the Celo chain to the list of supported chains if it's not already there.
+  // We also add the chains that we support to the list if it's not already there.
   // The goal is to be more flexible and allow the initial connection to succeed, no matter what (EVM) chain is specified.
   // If later the dapp actually requests an action on an unsupported chain, we will show an error.
   // See SessionRequest and ActionRequest for more details.
@@ -318,11 +327,16 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
 // Export for testing
 export const _showSessionRequest = showSessionRequest
 
-function* getSupportedChains() {
-  const kit: ContractKit = yield* call(getContractKit)
-  const chainId = yield* call([kit.connection, 'chainId'])
+function getSupportedChains() {
+  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS)
+  if (!useViem) {
+    return [walletConnectChainIdMap[networkConfig.defaultNetworkId]]
+  }
 
-  return [`eip155:${chainId}`]
+  const supportedNetworkIdsForWalletConnect = getSupportedNetworkIdsForWalletConnect()
+  return supportedNetworkIdsForWalletConnect.map((networkId) => {
+    return walletConnectChainIdMap[networkId]
+  })
 }
 
 function* showActionRequest(request: Web3WalletTypes.EventArguments['session_request']) {
@@ -515,7 +529,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
       throw new Error(`Missing active session for topic ${topic}`)
     }
 
-    const result = yield* call(handleRequest, { ...params.request })
+    const result = yield* call(handleRequest, params)
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
       (params.request.method = typeof result === 'string' ? result : result.raw)
