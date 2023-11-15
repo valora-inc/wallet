@@ -1661,7 +1661,7 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "交换由 Celo 上的合作伙伴提供。<0>了解更多</0>",
+    "disclaimer": "最优惠价格由网络合作伙伴决定。<0>了解更多信息</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "maxSwapAmountWarning": {
@@ -1695,7 +1695,9 @@
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑动公差",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付估计的网络费。该费用可确保您的交易安全，并用于维持网络运行。",
-      "networkFeeInfoDismissButton": "知道了"
+      "networkFeeInfoDismissButton": "知道了",
+      "exchangeRate": "汇率",
+      "estimatedValue": "估计价值"
     }
   },
   "swapTransactionDetailPage": {
