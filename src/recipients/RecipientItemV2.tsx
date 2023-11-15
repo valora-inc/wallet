@@ -22,12 +22,11 @@ interface Props {
   onSelectRecipient(recipient: Recipient): void
   loading: boolean
   selected?: boolean
-  testID?: string
 }
 
 const ICON_SIZE = 10
 
-function RecipientItem({ recipient, onSelectRecipient, loading, selected, testID }: Props) {
+function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Props) {
   const { t } = useTranslation()
 
   const onPress = () => {
@@ -45,7 +44,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected, testID
   }, [e164NumberToAddress, recipient])
 
   return (
-    <Touchable onPress={onPress} testID={testID ?? 'RecipientItem'}>
+    <Touchable onPress={onPress} testID="RecipientItem">
       <View style={[styles.row, selected && styles.rowSelected]}>
         <View>
           <ContactCircle

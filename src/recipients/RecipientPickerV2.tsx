@@ -30,9 +30,8 @@ function RecipientPicker({
       {title && <Text style={styles.title}>{title}</Text>}
       <FlatList
         data={recipients}
-        renderItem={({ item, index }) => (
+        renderItem={({ item }) => (
           <RecipientItem
-            testID={`RecipientItem-${index}`}
             recipient={item}
             onSelectRecipient={onSelectRecipient}
             selected={selectedRecipient === item}

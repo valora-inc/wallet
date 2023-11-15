@@ -155,7 +155,7 @@ describe('SendSelectRecipient', () => {
     )
     const searchInput = getByTestId('SendSelectRecipientSearchInput')
     fireEvent.changeText(searchInput, 'George Bogart')
-    fireEvent.press(getByTestId('RecipientItem-0'))
+    fireEvent.press(getByTestId('RecipientItem'))
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
 
     fireEvent.press(getByTestId('SendOrInviteButton'))
@@ -181,7 +181,7 @@ describe('SendSelectRecipient', () => {
     )
     const searchInput = getByTestId('SendSelectRecipientSearchInput')
     fireEvent.changeText(searchInput, 'George Bogart')
-    fireEvent.press(getByTestId('RecipientItem-0'))
+    fireEvent.press(getByTestId('RecipientItem'))
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
 
     fireEvent.press(getByTestId('SendOrInviteButton'))
