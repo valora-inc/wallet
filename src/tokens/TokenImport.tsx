@@ -47,9 +47,9 @@ export default function TokenImportScreen(_: Props) {
   const errorMessage = () => {
     // TODO RET-892: when states and validation are added, choose appropriate error or return null
     const errors = [
-      t('tokenImport.invalidToken'),
-      t('tokenImport.alreadySupported'),
-      t('tokenImport.alreadyImported'),
+      t('tokenImport.error.invalidToken'),
+      t('tokenImport.error.alreadySupported'),
+      t('tokenImport.error.alreadyImported'),
     ]
     return <Text style={styles.errorLabel}>{errors[0]}</Text>
   }
@@ -71,7 +71,7 @@ export default function TokenImportScreen(_: Props) {
           <View style={{ gap: Spacing.Thick24, width: '100%' }}>
             {/* Token Address */}
             <View style={styles.textInputGroup}>
-              <Text style={styles.label}>{t('tokenImport.tokenAddress')}</Text>
+              <Text style={styles.label}>{t('tokenImport.input.tokenAddress')}</Text>
               <TextInput
                 onChangeText={setTokenAddress}
                 value={tokenAddress}
@@ -80,7 +80,7 @@ export default function TokenImportScreen(_: Props) {
                 placeholderTextColor={Colors.gray4}
                 underlineColorAndroid="transparent"
                 numberOfLines={1}
-                placeholder={t('tokenImport.tokenAddressPlaceholder') ?? undefined}
+                placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
                 showClearButton={true}
                 rightElement={
                   !tokenAddress && (
@@ -98,7 +98,7 @@ export default function TokenImportScreen(_: Props) {
 
             {/* Token Symbol */}
             <View style={styles.textInputGroup}>
-              <Text style={styles.label}>{t('tokenImport.tokenSymbol')}</Text>
+              <Text style={styles.label}>{t('tokenImport.input.tokenSymbol')}</Text>
               <TextInput
                 onChangeText={setTokenSymbol}
                 value={tokenSymbol}
@@ -116,7 +116,7 @@ export default function TokenImportScreen(_: Props) {
 
             {/* Network */}
             <View style={styles.textInputGroup}>
-              <Text style={styles.label}>{t('tokenImport.network')}</Text>
+              <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
               <TextInput
                 onChangeText={setTokenSymbol}
                 value={t('celoGold') ?? undefined}

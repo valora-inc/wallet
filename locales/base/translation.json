@@ -1877,13 +1877,17 @@
   "tokenImport": {
     "title": "Import Token",
     "notification": "Anyone can create a token, including fake versions of existing tokens. Verify your token address is correct before you import.",
-    "tokenAddress": "Token Address",
-    "tokenAddressPlaceholder": "0x…",
-    "tokenSymbol": "Token Symbol",
-    "network": "Network",
-    "invalidToken": "Invalid token. Try again or contact support",
-    "alreadyImported": "Token was added already before.",
-    "alreadySupported": "Token is already supported.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Network"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Token was added already before.",
+      "alreadySupported": "Token is already supported."
+    },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"
   },
