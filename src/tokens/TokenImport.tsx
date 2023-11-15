@@ -33,7 +33,7 @@ export default function TokenImportScreen(_: Props) {
   const [tokenSymbol, setTokenSymbol] = useState('')
 
   const navigateBackAndToast = () => {
-    ValoraAnalytics.track(AssetsEvents.tap_import_token_action)
+    ValoraAnalytics.track(AssetsEvents.import_token_submit)
     navigateBack()
     // TODO RET-891: do this only when actually imported
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
@@ -87,7 +87,7 @@ export default function TokenImportScreen(_: Props) {
                     <PasteButton
                       onPress={(address) => {
                         setTokenAddress(address)
-                        ValoraAnalytics.track(AssetsEvents.tap_import_token_paste)
+                        ValoraAnalytics.track(AssetsEvents.import_token_paste)
                       }}
                     />
                   )

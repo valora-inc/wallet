@@ -228,7 +228,7 @@ function AssetsScreen({ navigation, route }: Props) {
         getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
           <TopBarTextButton
             onPress={() => {
-              ValoraAnalytics.track(AssetsEvents.tap_import_token_screen_open)
+              ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
               navigate(Screens.TokenImport)
             }}
             title={t('assets.importToken')}
