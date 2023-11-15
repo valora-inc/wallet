@@ -1,6 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import React from 'react'
-import { GestureResponderEvent } from 'react-native'
 import { PasteButton } from './PasteButton'
 
 const mockGetFreshClipboardContent = jest.fn()
@@ -23,10 +22,9 @@ describe('PasteButton', () => {
   it('should call onPress with clipboard content and event when button is pressed', async () => {
     mockGetFreshClipboardContent.mockResolvedValue('mocked-value')
     const { getByText } = render(<PasteButton onPress={onPress} />)
-    const event = { nativeEvent: { timestamp: 123 } } as GestureResponderEvent
-    fireEvent.press(getByText('paste'), event)
+    fireEvent.press(getByText('paste'))
     await waitFor(() => {
-      expect(onPress).toHaveBeenCalledWith('mocked-value', event)
+      expect(onPress).toHaveBeenCalledWith('mocked-value')
     })
   })
 })
