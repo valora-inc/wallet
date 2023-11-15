@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Ganhe recompensas semanalmente. Entre no Supercharge!",
   "startSuperchargingNotificationStart": "Ganhe recompensas",
   "cashIn": "Adicionar {{currency}}",
-  "connectNumber": "Conectar o número",
+  "connectNumber": "Conectar número",
   "connectToWallet": "Conectar a {{dappName}}",
   "confirmTransaction": "Confirmar transacção",
   "allow": "Permitir",
-  "address": "Endereço da carteira",
+  "address": "Endereço da conta",
   "phoneNumber": "Número de celular",
   "transaction": {
     "operation": "Operação",
@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Convide amigos e receba recompensas",
-    "body": "Assim que a pessoa configurar e adicionar 10 cUSD à sua carteira {{appName}}, você dois receberão 0,50 cUSD."
+    "body": "Assim que a pessoa configurar e adicionar 5 cUSD à sua carteira {{appName}}, você dois receberão 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
-    "share": "Olá! Estou usando a carteira cripto {{appName}}. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{shareUrl}}",
-    "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de indicação, conectar o número de celular e manter 10 cUSD ou mais em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
+    "share": "Ei, inscreva-se na carteira {{appName}} . Eu a uso para aumentar minhas economias em dólares americanos e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Não se esqueça de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
+    "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de indicação, conectar o número de celular e manter 5 cUSD ou mais em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "Ganhe cUSD com Valora Referral Rewards",
-      "body": "Convide até 25 amigos para a {{appName}} e cada um receberá 0,50 cUSD quando eles adicionarem ou receberem 10 cUSD ou mais, enquanto durarem os fundos."
+      "title": "POR TEMPO LIMITADO. Você pode ganhar cUSD grátis ao convidar amigos para o Valora!",
+      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para {{appName}}. Quando ele adicionar fundos e mantiver 5 cUSD por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Olá! 👋 Valora é a maneira mais fácil de enviar dinheiro para as pessoas de quem você gosta, não importa onde elas estejam. Tudo o que você precisa é de um número de celular. Faça o download através deste link, conecte seu número de celular e adicione 10 cUSD à sua nova carteira para obter US$ 0,50 💫 \n\n{{link}} \n\nNão perca tempo, as recompensas de indicação são limitadas.",
+  "inviteWithRewardsCUSD": "Neste momento, nós dois podemos receber uma recompensa gratuita de 0,50 cUSD se você se inscrever e depositar fundos na sua carteira Valora. Eu a uso para aumentar minhas economias em dólares e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Certifique-se de que você se inscreva com meu link de indicação aqui: \n\n{{link}} \n\nMas corra, pois a promoção de indicação termina em breve.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1770,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Convide {{contactName}} para a {{appName}} e receba 0,50 cUSD",
-      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Depois que seu amigo baixar a Valora, conectar o número de celular e adicionar 10 cUSD à carteira, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
+      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Depois que seu amigo baixar a Valora, conectar o número de celular e adicionar 5 cUSD à carteira, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
     }
   },
   "celoNews": {
@@ -1804,7 +1804,7 @@
     "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Adicionar",
+    "add": "Comprar",
     "receive": "Receber",
     "request": "Solicitar",
     "send": "Enviar",
@@ -1860,7 +1860,7 @@
     "actions": {
       "send": "Enviar",
       "swap": "Trocar",
-      "add": "Adicionar",
+      "add": "Comprar",
       "withdraw": "Sacar",
       "more": "Mais"
     },
@@ -1890,7 +1890,7 @@
       "subtitle": "COMEÇAR",
       "options": {
         "one": {
-          "title": "Endereço da carteira",
+          "title": "Endereço da conta",
           "subtitle": "Digite um endereço de carteira compatível com Celo ou Ethereum (por exemplo, 0x123...abcde)"
         },
         "two": {

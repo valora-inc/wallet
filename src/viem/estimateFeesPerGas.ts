@@ -1,17 +1,30 @@
+import networkConfig from 'src/web3/networkConfig'
 import { Address, Client, hexToBigInt } from 'viem'
+import { estimateFeesPerGas as defaultEstimateFeesPerGas } from 'viem/actions'
 
-// Custom function for Celo that can be removed once it's supported in viem
-// See https://github.com/wagmi-dev/viem/discussions/914
-export async function estimateFeesPerGas(client: Client, feeCurrency?: Address) {
-  // The gasPrice returned on Celo is already roughly 2x baseFeePerGas
-  // See this interesting thread for more details:
-  // https://valora-app.slack.com/archives/CNJ7KTHQU/p1697717100995909?thread_ts=1697647756.662059&cid=CNJ7KTHQU
-  const [gasPrice, maxPriorityFeePerGas] = await Promise.all([
-    getGasPrice(client, feeCurrency),
-    getMaxPriorityFeePerGas(client, feeCurrency),
-  ])
-  const maxFeePerGas = gasPrice + maxPriorityFeePerGas
-  return { maxFeePerGas, maxPriorityFeePerGas }
+export async function estimateFeesPerGas(
+  client: Client,
+  feeCurrency?: Address
+): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint }> {
+  // Custom path for Celo that can be removed once it's supported in viem
+  // See https://github.com/wagmi-dev/viem/discussions/914
+  if (client.chain?.id === networkConfig.viemChain.celo.id) {
+    // The gasPrice returned on Celo is already roughly 2x baseFeePerGas
+    // See this thread for more context:
+    // https://valora-app.slack.com/archives/CNJ7KTHQU/p1697717100995909?thread_ts=1697647756.662059&cid=CNJ7KTHQU
+    const [gasPrice, maxPriorityFeePerGas] = await Promise.all([
+      getGasPrice(client, feeCurrency),
+      getMaxPriorityFeePerGas(client, feeCurrency),
+    ])
+    const maxFeePerGas = gasPrice + maxPriorityFeePerGas
+    return { maxFeePerGas, maxPriorityFeePerGas }
+  }
+
+  if (feeCurrency) {
+    throw new Error('feeCurrency is only supported on Celo')
+  }
+
+  return defaultEstimateFeesPerGas(client)
 }
 
 // Get gas price with optional fee currency, this is Celo specific
