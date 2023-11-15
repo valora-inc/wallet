@@ -33,6 +33,7 @@ export default function TokenImportScreen(_: Props) {
 
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
+  const [network, setNetwork] = useState(t('celoGold') ?? '')
 
   const navigateBackAndToast = () => {
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
@@ -119,8 +120,8 @@ export default function TokenImportScreen(_: Props) {
             <View style={styles.textInputGroup}>
               <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
               <TextInput
-                onChangeText={setTokenSymbol}
-                value={t('celoGold') ?? undefined}
+                onChangeText={setNetwork}
+                value={network}
                 multiline={false}
                 style={styles.messageTextInput}
                 placeholderTextColor={Colors.gray4}
