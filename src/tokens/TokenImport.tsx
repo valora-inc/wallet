@@ -1,5 +1,6 @@
+import { isValidAddress } from '@celo/utils/lib/address'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -43,11 +44,6 @@ export default function TokenImportScreen(_: Props) {
     // TODO RET-891: do this only when actually imported
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
   }
-
-  const isValidAddress = useMemo(() => {
-    // TODO RET-892: later will be changed to validate via viem
-    return tokenAddress.length == 42 // 0x prefix and 20 bytes address
-  }, [tokenAddress])
 
   const errorMessage = () => {
     // TODO RET-892: when states and validation are added, choose appropriate error or return null
@@ -113,8 +109,8 @@ export default function TokenImportScreen(_: Props) {
                 underlineColorAndroid="transparent"
                 numberOfLines={1}
                 showClearButton={true}
-                editable={isValidAddress}
-                rightElement={isValidAddress && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
+                editable={isValidAddress(tokenAddress)}
+                rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
               />
               {errorMessage()}
             </View>
