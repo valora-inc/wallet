@@ -43,13 +43,10 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
-import Logger from 'src/utils/Logger'
 import { CiCoCurrency, resolveCICOCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { CICOFlow, isUserInputCrypto } from './utils'
-
-const TAG = 'FiatExchangeAmount'
 
 const { decimalSeparator } = getNumberFormatSettings()
 
@@ -75,11 +72,6 @@ function FiatExchangeAmount({ route }: Props) {
   }
   const [inputAmount, setInputAmount] = useState('')
   const parsedInputAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const tokenInfo = useTokenInfo(tokenId)
-  if (!tokenInfo) {
-    throw new Error(`Token info not found for token ID ${tokenId}`)
-  }
-  const address = tokenInfo.address
 
   const inputConvertedToCrypto =
     useLocalToTokenAmount(parsedInputAmount, tokenId) || new BigNumber(0)
@@ -117,12 +109,6 @@ function FiatExchangeAmount({ route }: Props) {
   )
 
   const dispatch = useDispatch()
-
-  //TODO: Remove ETH check here once ETH token information is available
-  if (!address && tokenSymbol !== 'ETH') {
-    Logger.error(TAG, "Couldn't grab the exchange token info")
-    return null
-  }
 
   function isNextButtonValid() {
     return parsedInputAmount.isGreaterThan(0)
