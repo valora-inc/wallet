@@ -20,18 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - name: Install Yarn dependencies
-        run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - name: Build
         run: yarn build
       - name: Update RootStateSchema if necessary
