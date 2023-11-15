@@ -16,7 +16,7 @@ export const PasteButton = ({ value, setValue, onPress }: Props) => {
   const { t } = useTranslation()
   const [, , getFreshClipboardContent] = useClipboard()
 
-  const pasteClipboard = async (event: GestureResponderEvent) => {
+  const handlePasteClipboard = async (event: GestureResponderEvent) => {
     const content = await getFreshClipboardContent()
     setValue(content)
     onPress?.(event)
@@ -26,7 +26,7 @@ export const PasteButton = ({ value, setValue, onPress }: Props) => {
   if (value) return null
 
   return (
-    <Touchable onPress={pasteClipboard}>
+    <Touchable onPress={handlePasteClipboard}>
       <Text style={styles.text}>{t('paste')}</Text>
     </Touchable>
   )
