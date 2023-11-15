@@ -22,6 +22,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
+import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
@@ -33,7 +34,11 @@ export default function TokenImportScreen(_: Props) {
   const [tokenSymbol, setTokenSymbol] = useState('')
 
   const navigateBackAndToast = () => {
-    ValoraAnalytics.track(AssetsEvents.import_token_submit)
+    ValoraAnalytics.track(AssetsEvents.import_token_submit, {
+      tokenAddress,
+      tokenSymbol,
+      networkId: networkConfig.networkId,
+    })
     navigateBack()
     // TODO RET-891: do this only when actually imported
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))

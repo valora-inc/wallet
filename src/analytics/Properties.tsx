@@ -1395,7 +1395,11 @@ interface AssetsEventsProperties {
     action: TokenDetailsActionName
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
-  [AssetsEvents.import_token_submit]: undefined
+  [AssetsEvents.import_token_submit]: {
+    tokenAddress: string
+    tokenSymbol: string
+    networkId: string
+  }
   [AssetsEvents.import_token_paste]: undefined
 }
 
