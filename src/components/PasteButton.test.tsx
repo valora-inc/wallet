@@ -9,50 +9,24 @@ jest.mock('src/utils/useClipboard', () => ({
 }))
 
 describe('PasteButton', () => {
-  const emptyValue = ''
-  const setValue = jest.fn()
   const onPress = jest.fn()
 
   beforeEach(() => {
     jest.clearAllMocks()
   })
 
-  it('should render a button with "paste" text when value is empty', () => {
-    const { getByText } = render(
-      <PasteButton value={emptyValue} setValue={setValue} onPress={onPress} />
-    )
+  it('should render a button with "paste" text', () => {
+    const { getByText } = render(<PasteButton onPress={onPress} />)
     expect(getByText('paste')).toBeTruthy()
   })
 
-  it('should not render anything when value is not empty', () => {
-    const { queryByText } = render(
-      <PasteButton value={'some-value'} setValue={setValue} onPress={onPress} />
-    )
-    expect(queryByText('paste')).toBeNull()
-  })
-
-  it('should call setValue with clipboard content when button is pressed', async () => {
+  it('should call onPress with clipboard content and event when button is pressed', async () => {
     mockGetFreshClipboardContent.mockResolvedValue('mocked-value')
-    const { getByText } = render(
-      <PasteButton value={emptyValue} setValue={setValue} onPress={onPress} />
-    )
-    fireEvent.press(getByText('paste'))
-    await waitFor(() => {
-      expect(setValue).toHaveBeenCalledWith('mocked-value')
-      expect(onPress).toHaveBeenCalled()
-    })
-  })
-
-  it('should call onPress with event when button is pressed', async () => {
-    mockGetFreshClipboardContent.mockResolvedValue('mocked-value2')
-    const { getByText } = render(
-      <PasteButton value={emptyValue} setValue={setValue} onPress={onPress} />
-    )
+    const { getByText } = render(<PasteButton onPress={onPress} />)
     const event = { nativeEvent: { timestamp: 123 } } as GestureResponderEvent
     fireEvent.press(getByText('paste'), event)
     await waitFor(() => {
-      expect(setValue).toHaveBeenCalledWith('mocked-value2')
-      expect(onPress).toHaveBeenCalledWith(event)
+      expect(onPress).toHaveBeenCalledWith('mocked-value', event)
     })
   })
 })

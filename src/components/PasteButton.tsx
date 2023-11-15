@@ -7,23 +7,17 @@ import { typeScale } from 'src/styles/fonts'
 import { useClipboard } from 'src/utils/useClipboard'
 
 interface Props {
-  value: string
-  setValue: React.Dispatch<React.SetStateAction<string>>
-  onPress?: (event: GestureResponderEvent) => void
+  onPress?: (clipboardContent: string, event: GestureResponderEvent) => void
 }
 
-export const PasteButton = ({ value, setValue, onPress }: Props) => {
+export const PasteButton = ({ onPress }: Props) => {
   const { t } = useTranslation()
   const [, , getFreshClipboardContent] = useClipboard()
 
   const handlePasteClipboard = async (event: GestureResponderEvent) => {
     const content = await getFreshClipboardContent()
-    setValue(content)
-    onPress?.(event)
+    onPress?.(content, event)
   }
-
-  // when a value is already set, remove the button
-  if (value) return null
 
   return (
     <Touchable onPress={handlePasteClipboard}>
