@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "{{appName}} cüzdanlarını kurup 10 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
+    "body": "{{appName}} cüzdanlarını kurup 5 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
     "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
-    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
-    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 10 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
+    "share": "Hey! {{appName}} cüzdanına kaydolun. Birikimlerimi USD ve kripto olarak büyütmek için kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki yönlendirme bağlantımla kaydolduğunuzdan emin olun: {{shareUrl}}.",
+    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 5 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "Valora Davet Ödülleri ile cUSD kazanın",
-      "body": "En fazla 25 arkadaşınızı {{appName}} uygulamasına katılmaya davet edin. 10 cUSD veya daha fazla yatırdıklarında, para cüzdanda kaldığı sürece her biriniz 0,50 cUSD kazanacaksınız."
+      "title": "SADECE SINIRLI BIR SÜRE IÇIN. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
+      "body": "{{appName}}adresine davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Para eklediklerinde ve 7 gün boyunca 5 cUSD tuttuklarında, ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Merhaba! 👋 Valora, her yerdeki sevdiklerinize para göndermenin en kolay yoludur. Tek ihtiyacınız olan bir telefon numarası. Bu bağlantı üzerinden indirin, telefon numaranızı bağlayın ve 0,50 $ kazanmak için yeni cüzdanınıza 10 cUSD para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, davet ödülleri sınırlıdır.",
+  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanınıza kaydolur ve para yatırırsanız ikimiz de ücretsiz 0,50 cUSD ödül kazanabiliriz. Birikimlerimi USD ve kripto olarak artırmak için kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki yönlendirme bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAcele edin, yönlendirme promosyonu yakında sona eriyor.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
