@@ -1,32 +1,26 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { GestureResponderEvent, StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { useClipboard } from 'src/utils/useClipboard'
 
 interface Props {
-  value: string
-  setValue: React.Dispatch<React.SetStateAction<string>>
-  onPress?: (event: GestureResponderEvent) => void
+  onPress?: (clipboardContent: string) => void
 }
 
-export const PasteButton = ({ value, setValue, onPress }: Props) => {
+export const PasteButton = ({ onPress }: Props) => {
   const { t } = useTranslation()
   const [, , getFreshClipboardContent] = useClipboard()
 
-  const pasteClipboard = async (event: GestureResponderEvent) => {
+  const handlePasteClipboard = async () => {
     const content = await getFreshClipboardContent()
-    setValue(content)
-    onPress?.(event)
+    onPress?.(content)
   }
 
-  // when a value is already set, remove the button
-  if (value) return null
-
   return (
-    <Touchable onPress={pasteClipboard}>
+    <Touchable onPress={handlePasteClipboard}>
       <Text style={styles.text}>{t('paste')}</Text>
     </Touchable>
   )
@@ -34,7 +28,6 @@ export const PasteButton = ({ value, setValue, onPress }: Props) => {
 
 const styles = StyleSheet.create({
   text: {
-    textAlign: 'center',
     ...typeScale.semiBoldMedium,
     fontSize: 14,
     lineHeight: 18,
