@@ -38,7 +38,11 @@ import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { useLocalToTokenAmountByAddress, useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
+import {
+  useLocalToTokenAmountByAddress,
+  useTokenInfo,
+  useTokenInfoWithAddressBySymbol,
+} from 'src/tokens/hooks'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -64,11 +68,6 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   const feeType = FeeType.SEND
   const tokenList: TokenBalance[] = useSelector(tokensListWithAddressSelector)
   const cryptoType = normalizedQuote.getCryptoTypeString()
-  // TODO (ACT-985): remove deprecated function call when FiatConnect updated to take token IDs
-  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
-  if (!tokenInfo) {
-    throw new Error(`Token info not found for symbol ${normalizedQuote.getCryptoType()}`)
-  }
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
@@ -125,7 +124,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
     if (previousScreen?.name === Screens.FiatDetailsScreen) {
       navigate(Screens.SelectProvider, {
         flow: normalizedQuote.flow,
-        tokenId: tokenInfo?.tokenId,
+        tokenId: normalizedQuote.getTokenId(),
         amount: {
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
@@ -307,8 +306,7 @@ function ReceiveAmount({
 }) {
   const { t } = useTranslation()
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  // TODO (ACT-985): remove deprecated function call when FiatConnect updated to take token IDs
-  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())!
+  const tokenInfo = useTokenInfo(normalizedQuote.getTokenId())!
   const { receiveDisplay } = getDisplayAmounts({
     flow,
     normalizedQuote,
@@ -435,8 +433,7 @@ function TransactionDetails({
   feeEstimate: FeeEstimateState | undefined
 }) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  // TODO (ACT-985): remove deprecated function call when FiatConnect updated to take token IDs
-  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
+  const tokenInfo = useTokenInfo(normalizedQuote.getTokenId())
 
   const { receiveDisplay, totalDisplay, feeDisplay, exchangeRateDisplay, totalMinusFeeDisplay } =
     getDisplayAmounts({
@@ -529,8 +526,7 @@ function PaymentMethod({
   fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
-  // TODO (ACT-985): remove deprecated function call when FiatConnect updated to take token IDs
-  const tokenInfo = useTokenInfoWithAddressBySymbol(normalizedQuote.getCryptoType())
+  const tokenInfo = useTokenInfo(normalizedQuote.getTokenId())
   if (!tokenInfo) {
     throw new Error(`Token info not found for token symbol ${normalizedQuote.getCryptoType()}`)
   }
@@ -538,7 +534,7 @@ function PaymentMethod({
   const onPress = () => {
     navigate(Screens.SelectProvider, {
       flow: normalizedQuote.flow,
-      tokenId: tokenInfo?.tokenId,
+      tokenId: tokenInfo.tokenId,
       amount: {
         fiat: parseFloat(normalizedQuote.getFiatAmount()),
         crypto: parseFloat(normalizedQuote.getCryptoAmount()),

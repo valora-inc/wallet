@@ -65,6 +65,9 @@ function getProps(
     quoteData.quote.guaranteedUntil = new Date(Date.now() + quoteExpireMs).toISOString()
   }
   quoteData.quote.cryptoType = cryptoType
+  if (cryptoType === CryptoType.cEUR) {
+    quoteData.tokenId = mockCeurTokenId
+  }
   const normalizedQuote = new FiatConnectQuote({
     quote: quoteData,
     fiatAccountType: FiatAccountType.BankAccount,
