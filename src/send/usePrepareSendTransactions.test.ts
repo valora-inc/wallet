@@ -29,7 +29,6 @@ describe('usePrepareSendTransactions', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt(500),
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
@@ -38,13 +37,13 @@ describe('usePrepareSendTransactions', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt(100),
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
       },
     ],
     feeCurrency: mockFeeCurrencyWithTwoDecimals,
+    maxGasFeeInDecimal: new BigNumber(6),
   }
 
   describe('_prepareSendTransactionsCallback', () => {

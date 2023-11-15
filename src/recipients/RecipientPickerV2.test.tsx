@@ -1,20 +1,25 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
+import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
+import { createMockStore } from 'test/utils'
 import { mockRecipient, mockRecipient2, mockRecipient3 } from 'test/values'
 
 const mockRecipients = [mockRecipient, mockRecipient2, mockRecipient3]
+const store = createMockStore()
 
 describe('RecipientPickerV2', () => {
   it('renders all recipients', () => {
     const { getAllByTestId } = render(
-      <RecipientPicker
-        recipients={mockRecipients}
-        onSelectRecipient={jest.fn()}
-        selectedRecipient={null}
-        isSelectedRecipientLoading={false}
-      />
+      <Provider store={store}>
+        <RecipientPicker
+          recipients={mockRecipients}
+          onSelectRecipient={jest.fn()}
+          selectedRecipient={null}
+          isSelectedRecipientLoading={false}
+        />
+      </Provider>
     )
 
     expect(getAllByTestId('RecipientItem')).toHaveLength(3)
@@ -22,13 +27,15 @@ describe('RecipientPickerV2', () => {
 
   it('renders all recipients with title', () => {
     const { getAllByTestId, getByText } = render(
-      <RecipientPicker
-        title="mockRecipientTitle"
-        recipients={mockRecipients}
-        onSelectRecipient={jest.fn()}
-        selectedRecipient={null}
-        isSelectedRecipientLoading={false}
-      />
+      <Provider store={store}>
+        <RecipientPicker
+          title="mockRecipientTitle"
+          recipients={mockRecipients}
+          onSelectRecipient={jest.fn()}
+          selectedRecipient={null}
+          isSelectedRecipientLoading={false}
+        />
+      </Provider>
     )
 
     expect(getByText('mockRecipientTitle')).toBeTruthy()
@@ -37,12 +44,14 @@ describe('RecipientPickerV2', () => {
 
   it('renders all recipients with one recipient selected', () => {
     const { getAllByTestId, queryByTestId } = render(
-      <RecipientPicker
-        recipients={mockRecipients}
-        onSelectRecipient={jest.fn()}
-        selectedRecipient={mockRecipient2}
-        isSelectedRecipientLoading={false}
-      />
+      <Provider store={store}>
+        <RecipientPicker
+          recipients={mockRecipients}
+          onSelectRecipient={jest.fn()}
+          selectedRecipient={mockRecipient2}
+          isSelectedRecipientLoading={false}
+        />
+      </Provider>
     )
 
     expect(getAllByTestId('RecipientItem')).toHaveLength(3)
@@ -60,12 +69,14 @@ describe('RecipientPickerV2', () => {
 
   it('renders all recipients with one recipient selected and loading', () => {
     const { getAllByTestId, getByTestId } = render(
-      <RecipientPicker
-        recipients={mockRecipients}
-        onSelectRecipient={jest.fn()}
-        selectedRecipient={mockRecipient}
-        isSelectedRecipientLoading={true}
-      />
+      <Provider store={store}>
+        <RecipientPicker
+          recipients={mockRecipients}
+          onSelectRecipient={jest.fn()}
+          selectedRecipient={mockRecipient}
+          isSelectedRecipientLoading={true}
+        />
+      </Provider>
     )
 
     expect(getAllByTestId('RecipientItem')).toHaveLength(3)
