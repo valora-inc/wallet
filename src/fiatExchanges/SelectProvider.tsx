@@ -57,7 +57,7 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { resolveCICOCurrency } from 'src/utils/currencies'
+import { celoTokenSymbol, cusdTokenSymbol, resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
@@ -200,7 +200,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     !coinbaseProvider.restricted &&
     coinbasePayEnabled &&
     appId &&
-    tokenInfo.symbol === 'CELO'
+    tokenInfo.symbol === celoTokenSymbol
 
   const anyProviders =
     normalizedQuotes.length ||
@@ -536,7 +536,7 @@ function LegacyMobileMoneySection({
       isLowestFee: undefined,
       ...analyticsData,
     })
-    navigateToURI(provider[tokenSymbol === 'cUSD' ? 'cusd' : 'celo'].url)
+    navigateToURI(provider[tokenSymbol === cusdTokenSymbol ? 'cusd' : 'celo'].url)
   }
 
   if (!provider) {

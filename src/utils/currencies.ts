@@ -26,7 +26,7 @@ export const currencyForAnalytics: {
   [CiCoCurrency.ETH]: 'ETH',
 }
 export const symbolToAnalyticsCurrency = (symbol: string): string =>
-  symbol === 'CELO' ? 'cGLD' : symbol === 'cREAL' ? 'cReal' : symbol
+  symbol === celoTokenSymbol ? 'cGLD' : symbol === crealTokenSymbol ? 'cReal' : symbol
 export interface CurrencyInfo {
   symbol: string
   displayDecimals: number
@@ -73,3 +73,7 @@ export function resolveCICOCurrency(currencyCode: string): CiCoCurrency {
   }
   return mapping[currencyCode.toUpperCase()] || CiCoCurrency.CELO
 }
+
+export const celoTokenSymbol = 'CELO'
+export const cusdTokenSymbol = 'cUSD'
+export const crealTokenSymbol = 'cREAL'
