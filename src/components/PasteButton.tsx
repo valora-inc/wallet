@@ -36,6 +36,8 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     ...typeScale.semiBoldMedium,
+    fontSize: 14,
+    lineHeight: 18,
     color: Colors.greenUI,
   },
 })
