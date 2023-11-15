@@ -23,6 +23,8 @@ import {
   FetchProvidersOutput,
   LegacyMobileMoneyProvider,
   PaymentMethod,
+  RawProviderQuote,
+  SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import {
   FiatConnectProviderInfo,
@@ -707,6 +709,13 @@ export const mockProviders: FetchProvidersOutput[] = [
       },
     ],
   },
+]
+export const mockExternalQuotesWithTokenId = [
+  { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+  { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+  { ...(mockProviders[2].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+  { ...(mockProviders[3].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+  { ...(mockProviders[4].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
 ]
 
 export const mockFiatConnectProviderImage =

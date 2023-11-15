@@ -2,7 +2,7 @@ import BigNumber from 'bignumber.js'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
-import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -12,6 +12,7 @@ import {
   mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenId,
+  mockExternalQuotesWithTokenId,
   mockProviderSelectionAnalyticsData,
   mockProviders,
 } from 'test/values'
@@ -41,10 +42,7 @@ describe('ExternalQuote', () => {
       expect(
         () =>
           new ExternalQuote({
-            quote: {
-              ...(mockProviders[4].quote as RawProviderQuote[])[0],
-              tokenId: mockCusdTokenId,
-            },
+            quote: mockExternalQuotesWithTokenId[4],
             provider: mockProviders[4],
             flow: CICOFlow.CashIn,
           })
@@ -54,10 +52,7 @@ describe('ExternalQuote', () => {
       expect(
         () =>
           new ExternalQuote({
-            quote: {
-              ...(mockProviders[3].quote as RawProviderQuote[])[0],
-              tokenId: mockCusdTokenId,
-            },
+            quote: mockExternalQuotesWithTokenId[3],
             provider: mockProviders[3],
             flow: CICOFlow.CashIn,
           })
@@ -67,10 +62,7 @@ describe('ExternalQuote', () => {
       expect(
         () =>
           new ExternalQuote({
-            quote: {
-              ...(mockProviders[1].quote as RawProviderQuote[])[0],
-              tokenId: mockCusdTokenId,
-            },
+            quote: mockExternalQuotesWithTokenId[1],
             provider: mockProviders[1],
             flow: CICOFlow.CashOut,
           })
@@ -80,7 +72,7 @@ describe('ExternalQuote', () => {
   describe('.getPaymentMethod', () => {
     it('returns PaymentMethod for simplex', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
@@ -88,7 +80,7 @@ describe('ExternalQuote', () => {
     })
     it('returns PaymentMethod for other', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -99,7 +91,7 @@ describe('ExternalQuote', () => {
   describe('.getFeeInCrypto', () => {
     it('returns converted fee for simplex', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
@@ -107,7 +99,7 @@ describe('ExternalQuote', () => {
     })
     it('returns converted fee for other', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -130,7 +122,7 @@ describe('ExternalQuote', () => {
   describe('.getFeeInFiat', () => {
     it('returns fee for simplex', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
@@ -138,7 +130,7 @@ describe('ExternalQuote', () => {
     })
     it('returns fee for other', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -161,7 +153,7 @@ describe('ExternalQuote', () => {
   describe('.getKycInfo', () => {
     it('returns idRequired', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -172,7 +164,7 @@ describe('ExternalQuote', () => {
   describe('.getTimeEstimation', () => {
     it('returns 1-3 days for Bank', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -184,7 +176,7 @@ describe('ExternalQuote', () => {
     })
     it('returns oneHour for Card', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
@@ -197,7 +189,7 @@ describe('ExternalQuote', () => {
   describe('.onPress', () => {
     it('returns a function that calls ValoraAnalytics', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
@@ -214,7 +206,7 @@ describe('ExternalQuote', () => {
   describe('.navigate', () => {
     it('calls navigate for simplex', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })
@@ -223,7 +215,7 @@ describe('ExternalQuote', () => {
     })
     it('calls navigateToURI for other', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -235,7 +227,7 @@ describe('ExternalQuote', () => {
   describe('.getProviderName', () => {
     it('returns provider name', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -246,7 +238,7 @@ describe('ExternalQuote', () => {
   describe('.getProviderLogo', () => {
     it('returns provider logo', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -259,7 +251,7 @@ describe('ExternalQuote', () => {
   describe('.getProviderId', () => {
     it('returns provider id', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -270,7 +262,7 @@ describe('ExternalQuote', () => {
   describe('.isProviderNew', () => {
     it('returns false', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[1],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
       })
@@ -281,7 +273,7 @@ describe('ExternalQuote', () => {
   describe('.getReceiveAmount', () => {
     it('returns amount for simplex quote', () => {
       const quote = new ExternalQuote({
-        quote: { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
+        quote: mockExternalQuotesWithTokenId[0],
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
       })

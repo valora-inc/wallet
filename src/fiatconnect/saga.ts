@@ -736,9 +736,6 @@ export function* handleSelectFiatConnectQuote({
       fiat: parseFloat(quote.getFiatAmount()),
     }
     const tokenId = quote.getTokenId()
-    if (!tokenId) {
-      throw new Error(`No tokenId found in FiatConnect quote for token ${quote.getCryptoType()}`)
-    }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
       tokenId: tokenId,
@@ -793,9 +790,6 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
       fiat: parseFloat(quote.getFiatAmount()),
     }
     const tokenId = quote.getTokenId()
-    if (!tokenId) {
-      throw new Error(`No tokenId found in FiatConnect quote for token ${quote.getCryptoType()}`)
-    }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
       tokenId: tokenId,

@@ -526,15 +526,11 @@ function PaymentMethod({
   fiatAccount: ObfuscatedFiatAccountData
 }) {
   const { t } = useTranslation()
-  const tokenInfo = useTokenInfo(normalizedQuote.getTokenId())
-  if (!tokenInfo) {
-    throw new Error(`Token info not found for token symbol ${normalizedQuote.getCryptoType()}`)
-  }
 
   const onPress = () => {
     navigate(Screens.SelectProvider, {
       flow: normalizedQuote.flow,
-      tokenId: tokenInfo.tokenId,
+      tokenId: normalizedQuote.getTokenId(),
       amount: {
         fiat: parseFloat(normalizedQuote.getFiatAmount()),
         crypto: parseFloat(normalizedQuote.getCryptoAmount()),
