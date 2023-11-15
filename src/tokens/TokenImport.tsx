@@ -18,6 +18,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -33,7 +34,7 @@ export default function TokenImportScreen(_: Props) {
 
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
-  const [network, setNetwork] = useState(t('celoGold') ?? '')
+  const [networkName, setNetworkName] = useState(NETWORK_NAMES[networkConfig.defaultNetworkId])
 
   const navigateBackAndToast = () => {
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
@@ -120,8 +121,8 @@ export default function TokenImportScreen(_: Props) {
             <View style={styles.textInputGroup}>
               <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
               <TextInput
-                onChangeText={setNetwork}
-                value={network}
+                onChangeText={setNetworkName}
+                value={networkName}
                 multiline={false}
                 style={styles.messageTextInput}
                 placeholderTextColor={Colors.gray4}
