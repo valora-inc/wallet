@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Zapraszaj znajomych i otrzymuj nagrody",
-    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} kwotą 10 cUSD Ty i znajomy otrzymacie 0,50 cUSD."
+    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} kwotą 5 cUSD Ty i znajomy otrzymacie 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
-    "share": "Cześć! Korzystam z portfel kryptowalutowy {{appName}}. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{shareUrl}}",
-    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i przez 7 dni posiadać w swoim portfelu {{appName}} kwotę 10 cUSD lub wyższą. <0>Zobacz wszystkie warunki</0>",
+    "share": "Zarejestruj się na {{appName}} wallet. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: {{shareUrl}}.",
+    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i przez 7 dni posiadać w swoim portfelu {{appName}} kwotę 5 cUSD lub wyższą. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Zdobądź cUSD dzięki nagrodom za polecenie Valory",
-      "body": "Zaproś do 25 znajomych, aby dołączyli do {{appName}}. Otrzymacie po 0,50 cUSD, gdy znajomy zasili swój portfel kwotą 10 cUSD lub wyższą przed wyczerpaniem środków."
+      "title": "TYLKO PRZEZ OGRANICZONY CZAS. Zdobądź darmowe cUSD za zaproszenie znajomych do Valory!",
+      "body": "Zdobądź 0,50 cUSD za każdego znajomego, którego zaprosisz na {{appName}}. Gdy dodadzą środki i utrzymają 5 cUSD przez 7 dni, oboje otrzymacie 0,50 cUSD. Pospiesz się, środki są ograniczone! (Limit 25 znajomych)."
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -966,7 +966,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Cześć! 👋 Valora to najprostszy sposób na wysyłanie pieniędzy do osób, na których Ci zależy, bez względu na to, gdzie się znajdują. Wszystko, czego potrzebujesz, to numer telefonu. Pobierz aplikację poprzez ten link, połącz swój numer telefonu i zasil nowy portfel kwotą 10 cUSD, aby otrzymać 0,50 USD 💫 \n\n{{link}} \n\nZacznij działać już teraz – nagrody za polecenie są ograniczone.",
+  "inviteWithRewardsCUSD": "Hej! W tej chwili oboje możemy otrzymać darmową nagrodę w wysokości 0,50 cUSD, jeśli zarejestrujesz się i zasilisz swój portfel Valora. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\nPośpiesz się, promocja kończy się wkrótce.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
