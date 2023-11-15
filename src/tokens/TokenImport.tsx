@@ -10,7 +10,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
-import { PasteButton } from 'src/components/PasteButton'
 import TextInput from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
@@ -22,6 +21,7 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { PasteButton } from 'src/tokens/PasteButton'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
@@ -82,12 +82,15 @@ export default function TokenImportScreen(_: Props) {
                 numberOfLines={1}
                 placeholder={t('tokenImport.tokenAddressPlaceholder') ?? undefined}
                 showClearButton={true}
-                right={
-                  <PasteButton
-                    value={tokenAddress}
-                    setValue={setTokenAddress}
-                    onPress={() => ValoraAnalytics.track(AssetsEvents.tap_import_token_paste)}
-                  />
+                rightElement={
+                  !tokenAddress && (
+                    <PasteButton
+                      onPress={(address) => {
+                        setTokenAddress(address)
+                        ValoraAnalytics.track(AssetsEvents.tap_import_token_paste)
+                      }}
+                    />
+                  )
                 }
                 maxLength={42} // 0x prefix and 20 bytes
               />
@@ -106,7 +109,7 @@ export default function TokenImportScreen(_: Props) {
                 numberOfLines={1}
                 showClearButton={true}
                 editable={isValidAddress}
-                right={isValidAddress && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
+                rightElement={isValidAddress && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
               />
               {errorMessage()}
             </View>
