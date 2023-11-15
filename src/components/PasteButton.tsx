@@ -34,7 +34,6 @@ export const PasteButton = ({ value, setValue, onPress }: Props) => {
 
 const styles = StyleSheet.create({
   text: {
-    textAlign: 'center',
     ...typeScale.semiBoldMedium,
     fontSize: 14,
     lineHeight: 18,
