@@ -7,19 +7,27 @@ import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import {
   Address,
+  Client,
   EstimateGasExecutionError,
   ExecutionRevertedError,
   InsufficientFundsError,
+  TransactionRequestBase,
+  TransactionRequestEIP1559,
   encodeFunctionData,
 } from 'viem'
+import { estimateGas } from 'viem/actions'
 
 const TAG = 'viem/prepareTransactions'
 
+// Supported transaction types
+export type TransactionRequest = TransactionRequestCIP42 | TransactionRequestEIP1559
+
 export interface PreparedTransactionsPossible {
   type: 'possible'
-  transactions: TransactionRequestCIP42[]
+  transactions: TransactionRequest[]
   feeCurrency: TokenBalance
   maxGasFeeInDecimal: BigNumber
 }
@@ -41,7 +49,7 @@ export type PreparedTransactionsResult =
   | PreparedTransactionsNeedDecreaseSpendAmountForGas
   | PreparedTransactionsNotEnoughBalanceForGas
 
-export function getMaxGasFee(txs: TransactionRequestCIP42[]): BigNumber {
+export function getMaxGasFee(txs: TransactionRequest[]): BigNumber {
   let maxGasFee = BigInt(0)
   for (const tx of txs) {
     if (!tx.gas || !tx.maxFeePerGas) {
@@ -65,6 +73,7 @@ export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
  *
  * Throws other kinds of errors (e.g. if execution is reverted for some other reason)
  *
+ * @param client
  * @param baseTransaction
  * @param maxFeePerGas
  * @param feeCurrencySymbol
@@ -72,17 +81,19 @@ export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
  * @param maxPriorityFeePerGas
  */
 export async function tryEstimateTransaction({
+  client,
   baseTransaction,
   maxFeePerGas,
+  maxPriorityFeePerGas,
   feeCurrencySymbol,
   feeCurrencyAddress,
-  maxPriorityFeePerGas,
 }: {
-  baseTransaction: TransactionRequestCIP42
+  client: Client
+  baseTransaction: TransactionRequest
   maxFeePerGas: bigint
+  maxPriorityFeePerGas?: bigint
   feeCurrencySymbol: string
   feeCurrencyAddress?: Address
-  maxPriorityFeePerGas?: bigint
 }) {
   const tx = {
     ...baseTransaction,
@@ -95,8 +106,8 @@ export async function tryEstimateTransaction({
 
   // TODO maybe cache this? and add static padding when using non-native fee currency
   try {
-    tx.gas = await publicClient.celo.estimateGas({
-      ...tx,
+    tx.gas = await estimateGas(client, {
+      ...(tx as TransactionRequestBase),
       account: tx.from,
     })
     Logger.info(TAG, `estimateGas results`, {
@@ -123,14 +134,16 @@ export async function tryEstimateTransaction({
 }
 
 export async function tryEstimateTransactions(
-  baseTransactions: TransactionRequestCIP42[],
+  baseTransactions: TransactionRequest[],
   feeCurrency: TokenBalance
 ) {
-  const transactions: TransactionRequestCIP42[] = []
+  const transactions: TransactionRequest[] = []
 
+  const network = networkIdToNetwork[feeCurrency.networkId]
+  const client = publicClient[network]
   const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
   const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
-    publicClient.celo,
+    client,
     feeCurrencyAddress
   )
 
@@ -151,6 +164,7 @@ export async function tryEstimateTransactions(
       })
     } else {
       const tx = await tryEstimateTransaction({
+        client,
         baseTransaction: baseTx,
         feeCurrencySymbol: feeCurrency.symbol,
         feeCurrencyAddress,
@@ -194,7 +208,7 @@ export async function prepareTransactions({
   spendToken: TokenBalanceWithAddress
   spendTokenAmount: BigNumber
   decreasedAmountGasFeeMultiplier: number
-  baseTransactions: (TransactionRequestCIP42 & { gas?: bigint })[]
+  baseTransactions: (TransactionRequest & { gas?: bigint })[]
   throwOnSpendTokenAmountExceedsBalance?: boolean
 }): Promise<PreparedTransactionsResult> {
   if (
@@ -292,7 +306,7 @@ export async function prepareERC20TransferTransaction(
   },
   prepareTxs = prepareTransactions // for unit testing
 ): Promise<PreparedTransactionsResult> {
-  const baseSendTx: TransactionRequestCIP42 = {
+  const baseSendTx: TransactionRequest = {
     from: fromWalletAddress as Address,
     to: sendToken.address as Address,
     data: encodeFunctionData({
@@ -300,7 +314,6 @@ export async function prepareERC20TransferTransaction(
       functionName: 'transfer',
       args: [toWalletAddress as Address, amount],
     }),
-    type: 'cip42',
   }
   return prepareTxs({
     feeCurrencies,
@@ -341,7 +354,7 @@ export async function prepareTransferWithCommentTransaction(
   },
   prepareTxs = prepareTransactions // for unit testing
 ): Promise<PreparedTransactionsResult> {
-  const baseSendTx: TransactionRequestCIP42 = {
+  const baseSendTx: TransactionRequest = {
     from: fromWalletAddress as Address,
     to: sendToken.address as Address,
     data: encodeFunctionData({
@@ -349,7 +362,6 @@ export async function prepareTransferWithCommentTransaction(
       functionName: 'transferWithComment',
       args: [toWalletAddress as Address, amount, comment ?? ''],
     }),
-    type: 'cip42',
   }
   return prepareTxs({
     feeCurrencies,
@@ -386,4 +398,35 @@ export function getFeeCurrencyAndAmount(
       feeAmountSmallestUnits.shiftedBy(-feeCurrency.decimals),
     feeCurrency,
   }
+}
+
+/**
+ * Given prepared transaction(s), get the fee currency set.
+ *
+ * NOTE: throws if the fee currency is not the same for all transactions
+ */
+export function getFeeCurrency(preparedTransactions: TransactionRequest[]): Address | undefined
+export function getFeeCurrency(preparedTransaction: TransactionRequest): Address | undefined
+export function getFeeCurrency(x: TransactionRequest[] | TransactionRequest): Address | undefined {
+  const preparedTransactions = Array.isArray(x) ? x : [x]
+
+  const feeCurrencies = preparedTransactions.map(_getFeeCurrency)
+  // The prepared transactions should always use the same fee currency
+  // throw if that's not the case
+  if (
+    feeCurrencies.length > 1 &&
+    feeCurrencies.some((feeCurrency) => feeCurrency !== feeCurrencies[0])
+  ) {
+    throw new Error('Unexpected usage of multiple fee currencies for prepared transactions')
+  }
+
+  return feeCurrencies[0]
+}
+
+function _getFeeCurrency(prepareTransaction: TransactionRequest): Address | undefined {
+  if ('feeCurrency' in prepareTransaction) {
+    return prepareTransaction.feeCurrency
+  }
+
+  return undefined
 }
