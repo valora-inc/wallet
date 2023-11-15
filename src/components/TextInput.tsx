@@ -27,7 +27,7 @@ type Props = Omit<RNTextInputProps, 'style'> & {
   onChangeText: (value: string) => void
   testID?: string
   showClearButton?: boolean
-  right?: React.ReactNode
+  rightElement?: React.ReactNode
   forwardedRef?:
     | ((instance: RNTextInput | null) => void)
     | React.MutableRefObject<RNTextInput | null>
@@ -66,7 +66,7 @@ export class CTextInput extends React.Component<Props, State> {
       inputStyle,
       value = '',
       showClearButton = true,
-      right,
+      rightElement,
       forwardedRef,
       ...passThroughProps
     } = this.props
@@ -97,7 +97,7 @@ export class CTextInput extends React.Component<Props, State> {
             inactiveColor={Colors.gray1}
           />
         )}
-        {right}
+        {rightElement}
       </View>
     )
   }
