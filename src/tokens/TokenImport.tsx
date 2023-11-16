@@ -34,13 +34,13 @@ export default function TokenImportScreen(_: Props) {
 
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
-  const [networkName, setNetworkName] = useState(NETWORK_NAMES[networkConfig.defaultNetworkId])
+  const [networkId] = useState(networkConfig.defaultNetworkId)
 
   const handleImportToken = () => {
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol,
-      networkId: networkConfig.networkId,
+      networkId,
     })
     navigateBack()
     // TODO RET-891: do this only when actually imported
@@ -121,8 +121,9 @@ export default function TokenImportScreen(_: Props) {
             <View style={styles.textInputGroup}>
               <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
               <TextInput
-                onChangeText={setNetworkName}
-                value={networkName}
+                // not editable for now, thus onChangeText is empty
+                onChangeText={() => undefined}
+                value={NETWORK_NAMES[networkId]}
                 multiline={false}
                 style={styles.messageTextInput}
                 placeholderTextColor={Colors.gray4}
