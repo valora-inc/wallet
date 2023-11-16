@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-import { PERMISSIONS, PermissionStatus, RESULTS, check, request } from 'react-native-permissions'
+import {
+  PERMISSIONS,
+  RESULTS as PERMISSION_RESULTS,
+  PermissionStatus,
+  check as checkPermission,
+  request as requestPermission,
+} from 'react-native-permissions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
@@ -33,14 +39,15 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   const [showEnableContactsModal, setShowEnableContactsModal] = useState(false)
   const [navigateToPhoneVerification, setNavigateToPhoneVerification] = useState(false)
 
-  useAsync(async () => {
-    if (!contactsPermissionStatus) {
-      setContactsPermissionStatus(await check(CONTACTS_PERMISSION))
-    }
-  }, [contactsPermissionStatus])
+  useAsync(() => checkPermission(CONTACTS_PERMISSION), [], {
+    onSuccess: (permissionStatus) => {
+      setContactsPermissionStatus(permissionStatus)
+    },
+  })
 
   const onPressContacts = async () => {
-    const currentPermission = contactsPermissionStatus ?? (await check(CONTACTS_PERMISSION))
+    const currentPermission =
+      contactsPermissionStatus ?? (await checkPermission(CONTACTS_PERMISSION))
     setContactsPermissionStatus(currentPermission)
 
     ValoraAnalytics.track(SendEvents.send_select_recipient_contacts, {
@@ -54,40 +61,46 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
     }
 
     // Based on https://github.com/zoontek/react-native-permissions#understanding-permission-flow
-    if (currentPermission === RESULTS.BLOCKED) {
-      // permission not requestable
-      setShowEnableContactsModal(true)
-    } else if (currentPermission === RESULTS.GRANTED) {
-      // permission already granted
-      onContactsPermissionGranted()
-    } else if (currentPermission === RESULTS.DENIED) {
-      ValoraAnalytics.track(SendEvents.request_contacts_permission_started)
-      const newPermission = await request(CONTACTS_PERMISSION, {
-        // rationale for Android, shows up the 2nd time a permission is requested.
-        title: t('accessContacts.disclosure.title'),
-        message: t('accessContacts.disclosure.body'),
-        buttonPositive: t('continue'),
-        buttonNegative: t('notNow') ?? undefined,
-      })
-      setContactsPermissionStatus(newPermission)
-      ValoraAnalytics.track(SendEvents.request_contacts_permission_completed, {
-        permissionStatus: newPermission,
-      })
-      if (newPermission === RESULTS.GRANTED) {
-        // permission granted
-        onContactsPermissionGranted()
-      } else if (newPermission === RESULTS.BLOCKED && Platform.OS === 'android') {
-        // we only know if permissions are requestable or not on Android after
-        // doing a request. So if we get back blocked from the request, its
-        // possible a native modal was never shown, so show our custom modal.
+    switch (currentPermission) {
+      case PERMISSION_RESULTS.BLOCKED: // permission not requestable
         setShowEnableContactsModal(true)
-      }
-    } else {
-      // this should never happen
-      Logger.error(
-        'SelectRecipientButtons/onPressContacts',
-        `Unexpected contacts permission status: ${currentPermission}`
-      )
+        break
+      case PERMISSION_RESULTS.GRANTED: // permission already granted
+        onContactsPermissionGranted()
+        break
+      case PERMISSION_RESULTS.DENIED: // permission is requestable
+        ValoraAnalytics.track(SendEvents.request_contacts_permission_started)
+        const newPermission = await requestPermission(CONTACTS_PERMISSION, {
+          // rationale for Android, shows up the 2nd time a permission is requested.
+          title: t('accessContacts.disclosure.title'),
+          message: t('accessContacts.disclosure.body'),
+          buttonPositive: t('continue'),
+          buttonNegative: t('notNow') ?? undefined,
+        })
+        setContactsPermissionStatus(newPermission)
+        ValoraAnalytics.track(SendEvents.request_contacts_permission_completed, {
+          permissionStatus: newPermission,
+        })
+        if (newPermission === PERMISSION_RESULTS.GRANTED) {
+          // permission granted
+          onContactsPermissionGranted()
+        } else if (newPermission === PERMISSION_RESULTS.BLOCKED && Platform.OS === 'android') {
+          // we only know if permissions are requestable or not on Android after
+          // doing a request. So if we get back blocked from the request, its
+          // possible a native modal was never shown, so show our custom modal.
+          setShowEnableContactsModal(true)
+        }
+        break
+      case PERMISSION_RESULTS.UNAVAILABLE:
+      case PERMISSION_RESULTS.LIMITED:
+      default:
+        // this should never happen
+        const unexpectedPermission: 'unavailable' | 'limited' = currentPermission
+        Logger.error(
+          'SelectRecipientButtons/onPressContacts',
+          `Unexpected contacts permission status: ${unexpectedPermission}`
+        )
+        break
     }
   }
 
@@ -145,7 +158,9 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
         subtitle={t('sendSelectRecipient.invite.subtitle')}
         onPress={onPressContacts}
         icon={<Social />}
-        showCheckmark={phoneNumberVerified && contactsPermissionStatus === RESULTS.GRANTED}
+        showCheckmark={
+          phoneNumberVerified && contactsPermissionStatus === PERMISSION_RESULTS.GRANTED
+        }
       />
       <Dialog
         title={t('sendSelectRecipient.connectPhoneNumberModal.title')}
