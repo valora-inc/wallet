@@ -293,6 +293,12 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // Events for the send select recipient screen
   [SendEvents.send_select_recipient_scan_qr]: `When the QR code button is pressed`,
   [SendEvents.send_select_recipient_contacts]: `When the import contacts button is pressed`,
+  [SendEvents.send_select_recipient_phone_number_modal_connect]: `When the connect action is pressed on the modal shown when the user clicks sync contacts but hasn't connected a phone number yet`,
+  [SendEvents.send_select_recipient_phone_number_modal_dismiss]: `When the dismiss action or background is pressed on the modal shown when the user clicks sync contacts but hasn't connected a phone number yet`,
+  [SendEvents.send_select_recipient_contacts_modal_settings]: `When the settings action is pressed in the modal shown when the user clicks sync contacts but hasn't granted contacts permission yet`,
+  [SendEvents.send_select_recipient_contacts_modal_dismiss]: `When the dismiss action or background is pressed in the modal shown when the user clicks sync contacts but hasn't granted contacts permission yet`,
+  [SendEvents.send_select_recipient_request_contacts_permission_started]: `When contacts permission is requested (for iOS this and the below fires only when the permission is requestable, for Android these fire when the permission is requstable or in a do not ask again state)`,
+  [SendEvents.send_select_recipient_request_contacts_permission_completed]: `When the request to contact permission completes, includes a property on the permission status`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,

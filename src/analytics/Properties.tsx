@@ -4,7 +4,7 @@ import {
   FiatConnectError,
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
-import { check } from 'react-native-permissions'
+import { PermissionStatus } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -71,9 +71,7 @@ import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Awaited } from 'src/utils/typescript'
 
-type PermissionStatus = Awaited<ReturnType<typeof check>>
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
 interface AppEventsProperties {
@@ -630,7 +628,18 @@ interface SendEventsProperties {
   [SendEvents.check_account_alert_back]: undefined
   [SendEvents.check_account_alerts_continue]: undefined
   [SendEvents.send_select_recipient_scan_qr]: undefined
-  [SendEvents.send_select_recipient_contacts]: undefined
+  [SendEvents.send_select_recipient_contacts]: {
+    contactsPermissionStatus: PermissionStatus
+    phoneNumberVerified: boolean
+  }
+  [SendEvents.send_select_recipient_phone_number_modal_connect]: undefined
+  [SendEvents.send_select_recipient_phone_number_modal_dismiss]: undefined
+  [SendEvents.send_select_recipient_contacts_modal_settings]: undefined
+  [SendEvents.send_select_recipient_contacts_modal_dismiss]: undefined
+  [SendEvents.send_select_recipient_request_contacts_permission_started]: undefined
+  [SendEvents.send_select_recipient_request_contacts_permission_completed]: {
+    permissionStatus: PermissionStatus
+  }
 }
 
 interface RequestEventsProperties {
