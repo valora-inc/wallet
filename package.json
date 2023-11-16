@@ -294,7 +294,7 @@
     "typescript-json-schema": "^0.59.0"
   },
   "resolutions": {
-    "ethers": "5.7.2",
+    "ethers": "6.8.1",
     "node-gyp": "5.1.1",
     "tar": "4.4.19",
     "lodash": "~4.17.21",
