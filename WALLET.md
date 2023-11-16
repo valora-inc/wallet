@@ -61,9 +61,7 @@ Install [NVM](https://github.com/nvm-sh/nvm#install--update-script) if you don't
 Install Node version listed in [.nvmrc](.nvmrc) and make it default (example for NVM):
 
 ```bash
-# Check actual version number in .nvmrc
-nvm install 16.20.2
-nvm alias default 16.20.2
+nvm install --default
 ```
 
 Install Yarn

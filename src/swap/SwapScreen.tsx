@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -16,8 +17,6 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
-import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
   TokenPickerOrigin,
@@ -54,7 +53,7 @@ import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import networkConfig from 'src/web3/networkConfig'
 
-const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 500
+const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 200
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
@@ -399,8 +398,8 @@ export function SwapScreen({ route }: Props) {
   }
 
   const allowReview = useMemo(
-    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
-    [parsedSwapAmount]
+    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
+    [parsedSwapAmount, fetchingSwapQuote]
   )
 
   const onPressLearnMore = () => {
@@ -414,10 +413,11 @@ export function SwapScreen({ route }: Props) {
   }
 
   const exchangeRateUpdatePending =
-    exchangeRate &&
-    (exchangeRate.fromTokenAddress !== fromToken?.address ||
-      exchangeRate.toTokenAddress !== toToken?.address ||
-      !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))
+    (exchangeRate &&
+      (exchangeRate.fromTokenAddress !== fromToken?.address ||
+        exchangeRate.toTokenAddress !== toToken?.address ||
+        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+    fetchingSwapQuote
 
   const showMissingPriceImpactWarning =
     (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
@@ -438,7 +438,7 @@ export function SwapScreen({ route }: Props) {
         left={<BackButton />}
         title={t('swapScreen.title')}
       />
-      <KeyboardAwareScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
@@ -447,7 +447,7 @@ export function SwapScreen({ route }: Props) {
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             style={styles.fromSwapAmountInput}
-            loading={updatedField === Field.TO && fetchingSwapQuote}
+            loading={updatedField === Field.TO && exchangeRateUpdatePending}
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
@@ -460,34 +460,21 @@ export function SwapScreen({ route }: Props) {
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
             style={styles.toSwapAmountInput}
-            loading={updatedField === Field.FROM && fetchingSwapQuote}
+            loading={updatedField === Field.FROM && exchangeRateUpdatePending}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
             editable={swapBuyAmountEnabled}
-          >
-            <Text style={[styles.exchangeRateText, { opacity: exchangeRateUpdatePending ? 0 : 1 }]}>
-              {fromToken && toToken && exchangeRate ? (
-                <>
-                  {`1 ${fromToken.symbol} ≈ `}
-                  <Text style={styles.exchangeRateValueText}>
-                    {`${new BigNumber(exchangeRate.price).toFormat(5, BigNumber.ROUND_DOWN)} ${
-                      toToken.symbol
-                    }`}
-                  </Text>
-                </>
-              ) : (
-                <Trans i18nKey={'swapScreen.estimatedExchangeRate'}>
-                  <Text style={styles.exchangeRateValueText} />
-                </Trans>
-              )}
-            </Text>
-          </SwapAmountInput>
+          />
 
           <SwapTransactionDetails
             networkFee={networkFee}
-            networkId={fromToken?.networkId}
             networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
             feeTokenId={feeTokenId}
             slippagePercentage={slippagePercentage}
+            fromToken={fromToken}
+            toToken={toToken}
+            exchangeRatePrice={exchangeRate?.price}
+            swapAmount={parsedSwapAmount[Field.FROM]}
+            fetchingSwapQuote={exchangeRateUpdatePending}
           />
 
           {showMaxSwapAmountWarning && (
@@ -528,8 +515,7 @@ export function SwapScreen({ route }: Props) {
           size={BtnSizes.FULL}
           disabled={!allowReview}
         />
-        <KeyboardSpacer topSpacing={Spacing.Regular16} />
-      </KeyboardAwareScrollView>
+      </ScrollView>
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
@@ -613,13 +599,6 @@ const styles = StyleSheet.create({
   disclaimerLink: {
     textDecorationLine: 'underline',
     color: colors.greenUI,
-  },
-  exchangeRateText: {
-    ...fontStyles.xsmall,
-    color: colors.gray3,
-  },
-  exchangeRateValueText: {
-    ...fontStyles.xsmall600,
   },
   warning: {
     marginTop: Spacing.Thick24,
