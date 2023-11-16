@@ -99,6 +99,7 @@ export default function TokenImportScreen(_: Props) {
             // TODO RET-892: once loaded, hide the spinner
             rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />}
             errorElement={renderErrorMessage()}
+            testID={'tokenSymbol'}
           />
 
           {/* Network */}
