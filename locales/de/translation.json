@@ -1663,7 +1663,7 @@
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Swaps powered by Partner auf Celo. <0>Mehr erfahren</0>",
+    "disclaimer": "Der beste Tarif wird von den Netzwerkpartnern bestimmt. <0>Mehr erfahren</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "maxSwapAmountWarning": {
@@ -1697,7 +1697,9 @@
       "swapFeeWaived": "Kostenlos",
       "slippagePercentage": "Schlupftoleranz",
       "networkFeeInfo": "Du tauschst über das {{networkName}} Netzwerk.\n\nDiese geschätzte Netzwerkgebühr ist erforderlich, um eine Transaktion über das {{networkName}} Netzwerk durchzuführen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, den Betrieb des Netzwerks aufrechtzuerhalten.",
-      "networkFeeInfoDismissButton": "Verstanden"
+      "networkFeeInfoDismissButton": "Verstanden",
+      "exchangeRate": "Umtauschkurs",
+      "estimatedValue": "Geschätzter Wert"
     }
   },
   "swapTransactionDetailPage": {
