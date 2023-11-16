@@ -18,12 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      - name: Install package dependencies
-        run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - name: Create E2E Fund .env File
         env:
           TEST_FAUCET_SECRET: ${{ secrets.TEST_FAUCET_SECRET }}
