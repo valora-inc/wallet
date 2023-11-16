@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Otrzymuj cotygodniowe nagrody w postaci kryptowalut. Zacznij korzystać z programu Supercharge!",
   "startSuperchargingNotificationStart": "Otrzymuj nagrody",
   "cashIn": "Dodaj {{currency}}",
-  "connectNumber": "Połącz numer",
+  "connectNumber": "Podłącz numer",
   "connectToWallet": "Połącz z {{dappName}}",
   "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
@@ -1556,7 +1556,7 @@
       "descriptionXtoYDays": "Twoje żądanie transakcji zostało wysłane, a środki dotrą w ciągu {{lowerBound}}–{{upperBound}} dni.",
       "baseDescription": "Twoje żądanie transakcji zostało wysłane.",
       "txDetails": "Wyświetl w CeloExplorer",
-      "viewOnCeloScan": "Zobacz na CeloScan",
+      "viewOnCeloScan": "Wyświetl na CeloScan",
       "continue": "Kontynuuj"
     },
     "requestNotCompleted": {
@@ -1565,7 +1565,7 @@
     },
     "txProcessing": {
       "title": "Twoja transakcja jest nadal przetwarzana.",
-      "description": "Może to być spowodowane słabym połączeniem internetowym. Sprawdź, czy w wyszukiwarce bloków nie ma aktualizacji."
+      "description": "Może to być spowodowane słabym połączeniem internetowym. Sprawdź wyszukiwarkę bloków pod kątem aktualizacji."
     }
   },
   "fiatExchangeFlow": {
@@ -1686,21 +1686,21 @@
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Niewystarczające saldo {{tokenSymbol}}",
-      "description": "Nie masz wystarczającej ilości {{tokenSymbol}} , aby pokryć opłaty za paliwo. Chcesz wymienić mniejszą kwotę?",
+      "description": "Nie masz wystarczającej ilości {{tokenSymbol}}, aby pokryć opłaty za gaz. Chcesz wymienić mniejszą kwotę?",
       "confirmDecreaseButton": "Wymień mniejszą kwotę"
     },
     "notEnoughBalanceForGas": {
-      "title": "Niewystarczający bilans żetonów gazu",
-      "description": "Nie masz wystarczającej ilości {{feeCurrencies}} , aby pokryć opłaty za paliwo. Dodaj {{feeCurrencies}} do swojego portfela, aby dokończyć tę wymianę.",
+      "title": "Niewystarczające saldo tokenów gazu",
+      "description": "Nie masz wystarczającej ilości {{feeCurrencies}}, aby pokryć opłaty za gaz. Dodaj {{feeCurrencies}} do swojego portfela, aby dokończyć tę wymianę.",
       "dismissButton": "Odrzuć"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Opłata sieciowa",
+      "networkFee": "Opłata sieciowa za {{networkName}}",
       "networkFeeNoNetwork": "Opłata sieciowa",
       "swapFee": "Opłata w aplikacji {{appName}}",
       "swapFeeWaived": "Bezpłatnie",
       "slippagePercentage": "Tolerancja poślizgu",
-      "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}} .\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}} . Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
+      "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
       "estimatedValue": "Szacunkowa wartość"
@@ -1873,43 +1873,43 @@
     "moreActions": "Więcej działań",
     "actionDescriptions": {
       "send": "Użyj dowolnego adresu Celo, domeny, numeru telefonu itp.",
-      "swap": "Wymieniaj żetony bez opuszczania portfela",
+      "swap": "Wymień tokeny bez opuszczania portfela",
       "add": "Kup tokeny, korzystając z usług jednego z naszych zaufanych dostawców",
-      "withdraw": "Przelewaj tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
+      "withdraw": "Przenieś tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
     }
   },
   "sendSelectRecipient": {
-    "searchText": "Szukaj według nazwiska, telefonu, portfela...",
+    "searchText": "Szukaj według nazwy, telefonu, portfela…",
     "title": "Wybierz odbiorcę",
     "contactsTitle": "Wybierz kontakt",
-    "recents": "Ostatnie wydarzenia",
+    "recents": "Najnowsze",
     "qr": {
       "title": "Zeskanuj lub pokaż kod QR",
-      "subtitle": "Szybko znajdź adresy na Valorze"
+      "subtitle": "Szybko znajdź adresy w Valorze"
     },
     "invite": {
-      "title": "Wysyłaj kryptowaluty do znajomych",
-      "subtitle": "Zapraszaj znajomych z listy kontaktów"
+      "title": "Wyślij kryptowalutę do znajomego",
+      "subtitle": "Zaproś znajomych z listy kontaktów"
     },
     "getStarted": {
-      "title": "Sposoby wysyłania środków na Valora",
+      "title": "Sposoby wysyłania środków w Valorze",
       "subtitle": "ROZPOCZNIJ",
       "options": {
         "one": {
           "title": "Adres portfela",
-          "subtitle": "Wprowadź adres portfela zgodny z Celo lub Ethereum (np. 0x123...abcde)."
+          "subtitle": "Wprowadź adres portfela zgodny z Celo lub Ethereum (np. 0x123…abcde)"
         },
         "two": {
           "title": "Numer telefonu",
-          "subtitle": "Wyślij bezpośrednio na czyjś numer telefonu, jeśli posiada on aplikację Valora."
+          "subtitle": "Wyślij bezpośrednio na czyjś numer telefonu, jeśli ta osoba ma aplikację Valora"
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Wysyłaj aktywa Ethereum na czyjś uchwyt ENS"
+          "subtitle": "Wyślij aktywa Ethereum do czyjejś usługi ENS"
         },
         "four": {
           "title": "Nazwa profilu",
-          "subtitle": "Możesz wyszukiwać istniejących użytkowników w Valora"
+          "subtitle": "Możesz wyszukać istniejących użytkowników w Valorze"
         }
       }
     }
@@ -1917,7 +1917,7 @@
   "transactionStatus": {
     "transactionIsCompleted": "Zakończono",
     "transactionIsPending": "Oczekujące",
-    "transactionIsFailed": "Nie powiodło się"
+    "transactionIsFailed": "Nie udało się"
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Szczegóły",
@@ -1926,11 +1926,11 @@
   },
   "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
   "viewOnCeloScan": "Zobacz na CeloScan",
-  "viewOnEthereumBlockExplorer": "Wyświetl na Etherscan",
+  "viewOnEthereumBlockExplorer": "Wyświetl w Etherscan",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
-    "networkFee": "{{networkName}} Opłata sieciowa",
+    "networkFee": "Opłata sieciowa za {{networkName}}",
     "lowerAmount": "Wprowadź niższą kwotę",
     "maxAmountWarning": {
       "title": "Wysyłanie maksymalnej kwoty",
