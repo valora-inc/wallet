@@ -34,7 +34,6 @@ export function* handleRequest({
   request: { method, params },
   chainId,
 }: Web3WalletTypes.EventArguments['session_request']['params']) {
-  console.log('=====handle request chainId', chainId)
   const network = walletConnectChainToNetwork[chainId]
   const useViem = yield* call(
     getFeatureGate,
