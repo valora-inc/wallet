@@ -22,8 +22,8 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
-  SetAppState,
   phoneNumberVerificationMigrated,
+  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -342,7 +342,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
-      navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {

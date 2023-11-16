@@ -34,6 +34,8 @@ export function FiatExchangeSection({
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
 
+  const useCicoCurrencyBottomSheet = true
+
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
@@ -43,23 +45,31 @@ export function FiatExchangeSection({
   }, [appState])
 
   function goToAddFunds() {
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    useCicoCurrencyBottomSheet
+      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, {
+          flow: FiatExchangeFlow.CashIn,
+        })
+      : navigate(Screens.FiatExchangeCurrency, {
+          flow: FiatExchangeFlow.CashIn,
+        })
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashIn,
     })
   }
 
   function goToCashOut() {
-    navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
+    useCicoCurrencyBottomSheet
+      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashOut })
+      : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashOut,
     })
   }
 
   function goToSpend() {
-    navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
+    useCicoCurrencyBottomSheet
+      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.Spend })
+      : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.Spend,
     })

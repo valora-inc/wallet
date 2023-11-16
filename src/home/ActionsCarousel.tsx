@@ -16,10 +16,10 @@ import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import Colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 function ActionsCarousel() {
   const { t } = useTranslation()
@@ -54,7 +54,7 @@ function ActionsCarousel() {
       title: t('homeActions.add'),
       icon: <QuickActionsAdd color={Colors.onboardingGreen} />,
       onPress: () => {
-        navigate(Screens.FiatExchangeCurrency, {
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, {
           flow: FiatExchangeFlow.CashIn,
         })
       },

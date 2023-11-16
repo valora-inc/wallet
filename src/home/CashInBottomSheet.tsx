@@ -110,7 +110,7 @@ function CashInBottomSheet() {
   const goToAddFunds = () => {
     onDismissBottomSheet()
 
-    navigate(Screens.FiatExchangeCurrency, {
+    navigate(Screens.FiatExchangeCurrencyBottomSheet, {
       flow: FiatExchangeFlow.CashIn,
     })
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_selected, {

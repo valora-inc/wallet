@@ -21,6 +21,7 @@ export enum TokenPickerOrigin {
   SendConfirmation = 'SendConfirmation',
   Exchange = 'Exchange',
   Swap = 'Swap',
+  Add = 'Add',
 }
 
 export const DEBOUCE_WAIT_TIME = 200

@@ -41,6 +41,9 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeCurrency'
+import FiatExchangeCurrencyBottomSheet, {
+  fiatExchangesBottomSheetOptionsScreenOptions,
+} from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
@@ -92,10 +95,10 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
-import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import SendEnterAmount from 'src/send/SendEnterAmount'
+import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -372,6 +375,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={fiatExchangesOptionsScreenOptions}
       name={Screens.FiatExchangeCurrency}
       component={FiatExchangeCurrency}
+    />
+    <Navigator.Screen
+      options={fiatExchangesBottomSheetOptionsScreenOptions}
+      name={Screens.FiatExchangeCurrencyBottomSheet}
+      component={FiatExchangeCurrencyBottomSheet}
     />
     <Navigator.Screen
       options={headerWithBackButton}

@@ -62,7 +62,7 @@ function ChooseYourAdventure() {
       text: t('chooseYourAdventure.options.add'),
       goToNextScreen: () => {
         navigateHome() // navigate home so that back on the fiat exchange currency screen takes the user back to Home screen
-        navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
       icon: <PlusIcon />,
       name: AdventureCardName.Add,
