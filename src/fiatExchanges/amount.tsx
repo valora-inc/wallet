@@ -16,7 +16,6 @@ export function CryptoAmount({
   testID?: string
 }) {
   const { tokenId } = useTokenInfo(networkConfig.currencyToTokenId[currency]) ?? {}
-
   return <TokenDisplay amount={amount} tokenId={tokenId} showLocalAmount={false} testID={testID} />
 }
 
