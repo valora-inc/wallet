@@ -14,9 +14,10 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
-import { setSwapUserInput } from 'src/swap/slice'
+import { setSwapUserInput, swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -219,12 +220,33 @@ const defaultQuote = {
     data: '0x0',
     gas: '1800000',
     gasPrice: '500000000',
+    estimatedPriceImpact: '0.1',
   },
   details: {
     swapProvider: 'someProvider',
   },
 }
 const defaultQuoteResponse = JSON.stringify(defaultQuote)
+
+const preparedTransactions: SerializableTransactionRequest[] = [
+  {
+    data: '0x095ea7b3000000000000000000000000000000000000000000000000000000000000012300000000000000000000000000000000000000000000000011200c7644d50000',
+    from: '0x0000000000000000000000000000000000007E57',
+    gas: '21000',
+    maxFeePerGas: '12000000000',
+    maxPriorityFeePerGas: '2000000000',
+    to: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
+  },
+  {
+    data: '0x0',
+    from: '0x0000000000000000000000000000000000007E57',
+    gas: '1800000',
+    maxFeePerGas: '12000000000',
+    maxPriorityFeePerGas: '2000000000',
+    to: '0x0000000000000000000000000000000000000123',
+    value: '0',
+  },
+]
 
 const selectToken = (
   swapAmountContainer: ReactTestInstance,
@@ -264,7 +286,7 @@ describe('SwapScreen', () => {
     const { getByText, swapFromContainer, swapToContainer } = renderScreen({})
 
     expect(getByText('swapScreen.title')).toBeTruthy()
-    expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
 
     expect(within(swapFromContainer).getByText('swapScreen.swapFrom')).toBeTruthy()
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/MaxButton')).toBeTruthy()
@@ -335,7 +357,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
     )
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
   it('should display a loader when initially fetching exchange rate', async () => {
@@ -365,7 +387,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
     )
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
   it('should keep the from amount in sync with the exchange rate', async () => {
@@ -402,7 +424,7 @@ describe('SwapScreen', () => {
       '0.15234566652'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
   it('should show and hide the price impact warning', async () => {
@@ -583,7 +605,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1,5234566652'
     )
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
   it('should support to amount with comma as the decimal separator', async () => {
@@ -628,7 +650,7 @@ describe('SwapScreen', () => {
       '0,15234566652'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
   it('should set max from value', async () => {
@@ -653,7 +675,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '12.345678'
     )
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
   it('should show and hide the max warning', async () => {
@@ -688,13 +710,13 @@ describe('SwapScreen', () => {
     })
 
     expect(mockFetch.mock.calls.length).toEqual(1)
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '')
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
-    expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(mockFetch.mock.calls.length).toEqual(1)
 
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
@@ -712,7 +734,7 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '12.345678'
     )
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
     expect(mockFetch.mock.calls.length).toEqual(2)
   })
 
@@ -730,7 +752,7 @@ describe('SwapScreen', () => {
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('0')
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('')
     expect(mockFetch).not.toHaveBeenCalled()
-    expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
   })
 
   it('should display an error banner if api request fails', async () => {
@@ -748,13 +770,26 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(getByText('swapScreen.review')).toBeDisabled()
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
     )
   })
 
-  it('should be able to navigate to swap review screen', async () => {
+  it('should be able to start a swap', async () => {
+    const userInput = {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      swapAmount: {
+        [Field.FROM]: '10',
+        [Field.TO]: '12.345678', // 10 * 1.2345678
+      },
+      updatedField: Field.FROM,
+    }
+
+    const quoteReceivedTimestamp = 1000
+    jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
+
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByText, getByTestId, store, swapToContainer, swapFromContainer, tokenBottomSheet } =
       renderScreen({})
@@ -767,26 +802,35 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
-    fireEvent.press(getByText('swapScreen.review'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        setSwapUserInput({
-          toToken: mockCusdAddress,
-          fromToken: mockCeloAddress,
-          swapAmount: {
-            [Field.FROM]: '10',
-            [Field.TO]: '12.345678',
-          },
-          updatedField: Field.FROM,
-        }),
+        setSwapUserInput(userInput),
+        swapStart({
+          ...defaultQuote,
+          userInput,
+          quoteReceivedAt: quoteReceivedTimestamp,
+        } as any),
       ])
     )
   })
 
-  it('should be able to navigate to swap review screen when the entered value uses comma as the decimal separator', async () => {
+  it('should be able to start a swap when the entered value uses comma as the decimal separator', async () => {
+    const userInput = {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      swapAmount: {
+        [Field.FROM]: '1.5',
+        [Field.TO]: '1.8518517', // 1.5 * 1.2345678
+      },
+      updatedField: Field.FROM,
+    }
+
+    const quoteReceivedTimestamp = 1000
+    jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
+
     mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
     mockFetch.mockResponse(defaultQuoteResponse)
     const { swapToContainer, swapFromContainer, getByText, store, tokenBottomSheet } = renderScreen(
@@ -795,29 +839,58 @@ describe('SwapScreen', () => {
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1,5')
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.5')
 
     await act(() => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(getByText('swapScreen.review')).not.toBeDisabled()
-    fireEvent.press(getByText('swapScreen.review'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        setSwapUserInput({
-          toToken: mockCusdAddress,
-          fromToken: mockCeloAddress,
-          swapAmount: {
-            [Field.FROM]: '1.5',
-            [Field.TO]: '1.8518517', // 1.5 * 1.2345678
-          },
-          updatedField: Field.FROM,
-        }),
+        setSwapUserInput(userInput),
+        swapStart({
+          ...defaultQuote,
+          userInput,
+          quoteReceivedAt: quoteReceivedTimestamp,
+        } as any),
       ])
     )
+  })
+
+  it('should have correct analytics on swap submission', async () => {
+    mockFetch.mockResponse(defaultQuoteResponse)
+    const { getByText, getByTestId, swapToContainer, swapFromContainer, tokenBottomSheet } =
+      renderScreen({})
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+
+    // Clear any previous events
+    jest.mocked(ValoraAnalytics.track).mockClear()
+
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_swap, {
+      toToken: mockCusdAddress,
+      fromToken: mockCeloAddress,
+      amount: '10',
+      amountType: 'sellAmount',
+      usdTotal: 1.5234566652,
+      allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
+      estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+      price: defaultQuote.unvalidatedSwapTransaction.price,
+      provider: defaultQuote.details.swapProvider,
+      web3Library: 'contract-kit',
+    })
   })
 
   it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {
@@ -956,8 +1029,8 @@ describe('SwapScreen', () => {
         jest.runOnlyPendingTimers()
       })
 
-      expect(getByText('swapScreen.review')).not.toBeDisabled()
-      fireEvent.press(getByText('swapScreen.review'))
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
 
       expect(
         getByText(
@@ -997,8 +1070,8 @@ describe('SwapScreen', () => {
         jest.runOnlyPendingTimers()
       })
 
-      expect(getByText('swapScreen.review')).not.toBeDisabled()
-      fireEvent.press(getByText('swapScreen.review'))
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
 
       expect(
         getByText(
@@ -1043,8 +1116,8 @@ describe('SwapScreen', () => {
         '1.234' // matching the value inside the mocked store
       )
 
-      expect(getByText('swapScreen.review')).not.toBeDisabled()
-      fireEvent.press(getByText('swapScreen.review'))
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
 
       const confirmDecrease = getByText(
         'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
@@ -1119,8 +1192,8 @@ describe('SwapScreen', () => {
         jest.runOnlyPendingTimers()
       })
 
-      expect(getByText('swapScreen.review')).not.toBeDisabled()
-      fireEvent.press(getByText('swapScreen.review'))
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
 
       const confirmDecrease = getByText(
         'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
@@ -1189,8 +1262,8 @@ describe('SwapScreen', () => {
         jest.runOnlyPendingTimers()
       })
 
-      expect(getByText('swapScreen.review')).not.toBeDisabled()
-      fireEvent.press(getByText('swapScreen.review'))
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
 
       expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
       expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
@@ -1223,11 +1296,145 @@ describe('SwapScreen', () => {
         '1.234' // matching the value inside the mocked store
       )
 
-      expect(getByText('swapScreen.review')).not.toBeDisabled()
-      fireEvent.press(getByText('swapScreen.review'))
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
 
       expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
       expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
+    })
+
+    it('should be able to start a swap', async () => {
+      const userInput = {
+        toToken: mockCusdAddress,
+        fromToken: mockCeloAddress,
+        swapAmount: {
+          [Field.FROM]: '10',
+          [Field.TO]: '12.345678', // 10 * 1.2345678
+        },
+        updatedField: Field.FROM,
+      }
+
+      const quoteReceivedTimestamp = 1000
+      jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
+
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const {
+        getByText,
+        getByTestId,
+        store,
+        swapToContainer,
+        swapFromContainer,
+        tokenBottomSheet,
+      } = renderScreen({})
+
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          setSwapUserInput(userInput),
+          swapStartPrepared({
+            quote: {
+              preparedTransactions,
+              receivedAt: quoteReceivedTimestamp,
+              rawSwapResponse: defaultQuote as any,
+            },
+            userInput,
+          }),
+        ])
+      )
+    })
+
+    it('should be able to start a swap when the entered value uses comma as the decimal separator', async () => {
+      const userInput = {
+        toToken: mockCusdAddress,
+        fromToken: mockCeloAddress,
+        swapAmount: {
+          [Field.FROM]: '1.5',
+          [Field.TO]: '1.8518517', // 1.5 * 1.2345678
+        },
+        updatedField: Field.FROM,
+      }
+
+      const quoteReceivedTimestamp = 1000
+      jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
+
+      mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { swapToContainer, swapFromContainer, getByText, store, tokenBottomSheet } =
+        renderScreen({})
+
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+      fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.5')
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+      expect(store.getActions()).toEqual(
+        expect.arrayContaining([
+          setSwapUserInput(userInput),
+          swapStartPrepared({
+            quote: {
+              preparedTransactions,
+              receivedAt: quoteReceivedTimestamp,
+              rawSwapResponse: defaultQuote as any,
+            },
+            userInput,
+          }),
+        ])
+      )
+    })
+
+    it('should have correct analytics on swap submission', async () => {
+      mockFetch.mockResponse(defaultQuoteResponse)
+      const { getByText, getByTestId, swapToContainer, swapFromContainer, tokenBottomSheet } =
+        renderScreen({})
+
+      selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+      selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+      fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+
+      expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+
+      // Clear any previous events
+      jest.mocked(ValoraAnalytics.track).mockClear()
+
+      fireEvent.press(getByText('swapScreen.confirmSwap'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_swap, {
+        toToken: mockCusdAddress,
+        fromToken: mockCeloAddress,
+        amount: '10',
+        amountType: 'sellAmount',
+        usdTotal: 12.345678,
+        allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
+        estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+        price: defaultQuote.unvalidatedSwapTransaction.price,
+        provider: defaultQuote.details.swapProvider,
+        web3Library: 'viem',
+        gas: 1821000,
+        maxGasFee: 0.021852,
+        maxGasFeeUsd: 0.28529642665785426,
+        feeCurrency: undefined,
+        feeCurrencySymbol: 'CELO',
+        txCount: 2,
+      })
     })
   })
 })

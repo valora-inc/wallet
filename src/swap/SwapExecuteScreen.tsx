@@ -23,16 +23,8 @@ export function SwapExecuteScreen() {
   const swapState = useSelector(swapStateSelector)
   const { t } = useTranslation()
 
-  const navigateToSwapStart = () => {
-    // Navigate back twice to go back to the swap start screen (SwapScreen) or (SwapScreenWithBack)
-    // Since we do not know which stack was used navigating to a specific screen can produce unexpected results
-    // If we add a screen in the future within the swap flow we will need to update this logic
-    navigateBack()
-    navigateBack()
-  }
-
-  const navigateToReviewScreen = () => {
-    navigate(Screens.SwapReviewScreen)
+  const navigateToSwapScreen = () => {
+    navigate(Screens.SwapScreenWithBack)
   }
 
   const navigateToSupport = () => {
@@ -46,7 +38,7 @@ export function SwapExecuteScreen() {
           <View style={styles.actionBar}>
             <Button
               text={t('SwapExecuteScreen.swapActionBar.tryAgain')}
-              onPress={navigateToReviewScreen}
+              onPress={navigateBack}
               type={BtnTypes.PRIMARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/TryAgain"
@@ -75,7 +67,7 @@ export function SwapExecuteScreen() {
             />
             <Button
               text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
-              onPress={navigateToSwapStart}
+              onPress={navigateToSwapScreen}
               type={BtnTypes.SECONDARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/SwapAgain"
@@ -132,9 +124,9 @@ export function SwapExecuteScreen() {
             isVisible={true}
             title={t('SwapExecuteScreen.swapPriceModal.title')}
             actionText={t('SwapExecuteScreen.swapPriceModal.action')}
-            actionPress={navigateToReviewScreen}
+            actionPress={navigateBack}
             testID="PriceChangeModal"
-            onBackgroundPress={navigateToReviewScreen}
+            onBackgroundPress={navigateBack}
           >
             {t('SwapExecuteScreen.swapPriceModal.body')}
           </Dialog>

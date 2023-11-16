@@ -40,17 +40,23 @@ import variables from 'src/styles/variables'
 import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
+import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
-import { setSwapUserInput } from 'src/swap/slice'
+import { setSwapUserInput, swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import { swappableTokensSelector } from 'src/tokens/selectors'
+import {
+  celoAddressSelector,
+  swappableTokensSelector,
+  tokensByAddressSelector,
+} from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 200
@@ -116,6 +122,9 @@ export function SwapScreen({ route }: Props) {
 
   const swapInfo = useSelector(swapInfoSelector)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
+
+  const tokensByAddress = useSelector(tokensByAddressSelector)
+  const celoAddress = useSelector(celoAddressSelector)
 
   const initialFromTokenId = route.params?.fromTokenId
   const initialFromToken = initialFromTokenId
@@ -251,12 +260,21 @@ export function SwapScreen({ route }: Props) {
     [exchangeRate]
   )
 
-  const handleReview = () => {
-    ValoraAnalytics.track(SwapEvents.swap_screen_review_swap)
+  const handleConfirmSwap = () => {
+    if (!toToken || !fromToken || !exchangeRate) {
+      return // this should never happen, because the button must be disabled in that cases
+    }
+
+    if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
+      setFromSwapAmountError(true)
+      showMaxCeloSwapWarning()
+      dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
+      return
+    }
 
     const userInput = {
-      toToken: toToken!.address,
-      fromToken: fromToken!.address,
+      toToken: toToken.address,
+      fromToken: fromToken.address,
       swapAmount: {
         [Field.FROM]: parsedSwapAmount[Field.FROM].toString(),
         [Field.TO]: parsedSwapAmount[Field.TO].toString(),
@@ -264,16 +282,14 @@ export function SwapScreen({ route }: Props) {
       updatedField,
     }
 
+    const swapAmountDecimals = updatedField === Field.FROM ? toToken.decimals : fromToken.decimals
+    const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
+    const { estimatedPriceImpact, price, allowanceTarget } =
+      exchangeRate.rawSwapResponse.unvalidatedSwapTransaction
+
     if (useViemForSwap) {
       if (!exchangeRate?.preparedTransactions) {
         // Error already shown, do nothing
-        return
-      }
-
-      if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
-        setFromSwapAmountError(true)
-        showMaxCeloSwapWarning()
-        dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
         return
       }
 
@@ -284,12 +300,39 @@ export function SwapScreen({ route }: Props) {
           preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
           break
         case 'possible':
+          ValoraAnalytics.track(SwapEvents.swap_screen_confirm_swap, {
+            toToken: toToken.address,
+            fromToken: fromToken.address,
+            amount: swapAmount[updatedField],
+            amountType: swapAmountParam,
+            usdTotal: exchangeRate.swapAmount.multipliedBy(exchangeRate.price).toNumber(),
+            allowanceTarget,
+            estimatedPriceImpact,
+            price,
+            provider: exchangeRate.provider,
+            web3Library: 'viem',
+            ...getSwapTxsAnalyticsProperties(
+              exchangeRate.preparedTransactions.transactions,
+              tokensByAddress,
+              celoAddress
+            ),
+          })
+
           // TODO: we want to remove the need to use redux, but for now keeping it
           // to avoid too many changes
           dispatch(setSwapUserInput(userInput))
-          navigate(Screens.SwapReviewScreen, {
-            quote: exchangeRate,
-          })
+          dispatch(
+            swapStartPrepared({
+              quote: {
+                preparedTransactions: getSerializablePreparedTransactions(
+                  exchangeRate.preparedTransactions.transactions
+                ),
+                receivedAt: exchangeRate.receivedAt,
+                rawSwapResponse: exchangeRate.rawSwapResponse,
+              },
+              userInput,
+            })
+          )
           break
         default:
           // To catch any missing cases at compile time
@@ -300,14 +343,34 @@ export function SwapScreen({ route }: Props) {
       return
     }
 
-    if (parsedSwapAmount[Field.FROM].gt(maxFromAmount)) {
-      setFromSwapAmountError(true)
-      showMaxCeloSwapWarning()
-      dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
-    } else {
-      dispatch(setSwapUserInput(userInput))
-      navigate(Screens.SwapReviewScreen)
-    }
+    // Legacy
+
+    const swapResponse = exchangeRate.rawSwapResponse
+
+    ValoraAnalytics.track(SwapEvents.swap_screen_confirm_swap, {
+      toToken: toToken.address,
+      fromToken: fromToken.address,
+      amount: swapAmount[updatedField],
+      amountType: swapAmountParam,
+      usdTotal: new BigNumber(swapResponse.unvalidatedSwapTransaction[swapAmountParam])
+        .shiftedBy(-swapAmountDecimals)
+        .multipliedBy(swapResponse.unvalidatedSwapTransaction.price)
+        .toNumber(),
+      allowanceTarget,
+      estimatedPriceImpact,
+      price,
+      provider: swapResponse.details.swapProvider,
+      web3Library: 'contract-kit',
+    })
+
+    dispatch(setSwapUserInput(userInput))
+    dispatch(
+      swapStart({
+        ...exchangeRate.rawSwapResponse,
+        userInput,
+        quoteReceivedAt: exchangeRate.receivedAt,
+      })
+    )
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
@@ -397,7 +460,7 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
-  const allowReview = useMemo(
+  const allowSwap = useMemo(
     () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
     [parsedSwapAmount, fetchingSwapQuote]
   )
@@ -510,10 +573,10 @@ export function SwapScreen({ route }: Props) {
           </Trans>
         </Text>
         <Button
-          onPress={handleReview}
-          text={t('swapScreen.review')}
+          onPress={handleConfirmSwap}
+          text={t('swapScreen.confirmSwap')}
           size={BtnSizes.FULL}
-          disabled={!allowReview}
+          disabled={!allowSwap}
         />
       </ScrollView>
       <TokenBottomSheet

@@ -116,7 +116,7 @@ describe('SwapExecuteScreen', () => {
       )
 
       fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.tryAgain'))
-      expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+      expect(navigateBack).toHaveBeenCalled()
     })
 
     it("should navigate to home on tap of 'Done'", () => {
@@ -167,7 +167,7 @@ describe('SwapExecuteScreen', () => {
         </Provider>
       )
       fireEvent.press(getByText('SwapExecuteScreen.swapPriceModal.action'))
-      expect(navigate).toHaveBeenCalledWith(Screens.SwapReviewScreen)
+      expect(navigateBack).toHaveBeenCalled()
     })
   })
 
@@ -201,7 +201,7 @@ describe('SwapExecuteScreen', () => {
       </Provider>
     )
     fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.swapAgain'))
-    expect(navigateBack).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack)
   })
 
   it("should be able to navigate home on press of 'Done'", () => {
