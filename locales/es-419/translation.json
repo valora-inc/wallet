@@ -1663,7 +1663,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "Intercambios impulsados por socios en Celo. <0>Más información</0>",
+    "disclaimer": "La mejor tarifa la determinan los socios de la red. <0>Más información</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "maxSwapAmountWarning": {
@@ -1697,7 +1697,9 @@
       "swapFeeWaived": "Gratis",
       "slippagePercentage": "Tolerancia al deslizamiento",
       "networkFeeInfo": "Estás intercambiando en la Red {{networkName}} .\n\nEsta tarifa de red estimada es necesaria para realizar una transacción en la Red {{networkName}} . Esta tarifa asegura tu transacción y se destina a mantener operativa la red.",
-      "networkFeeInfoDismissButton": "Entendido"
+      "networkFeeInfoDismissButton": "Entendido",
+      "exchangeRate": "Tasa de cambio",
+      "estimatedValue": "Valor estimado"
     }
   },
   "swapTransactionDetailPage": {
