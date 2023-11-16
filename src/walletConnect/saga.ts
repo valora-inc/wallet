@@ -23,7 +23,6 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -53,7 +52,7 @@ import {
   getDefaultSessionTrackedProperties as getDefaultSessionTrackedPropertiesAnalytics,
 } from 'src/walletConnect/analytics'
 import { isSupportedAction, SupportedActions, SupportedEvents } from 'src/walletConnect/constants'
-import { handleRequest } from 'src/walletConnect/request'
+import { handleRequest, networkIdToWalletConnectChainId } from 'src/walletConnect/request'
 import {
   selectHasPendingState,
   selectPendingActions,
@@ -83,13 +82,6 @@ export function _setClientForTesting(newClient: IWeb3Wallet | null) {
 const TAG = 'WalletConnect/saga'
 
 const GET_SESSION_TIMEOUT = 10_000
-
-const walletConnectChainIdMap: Record<NetworkId, string> = {
-  [NetworkId['celo-alfajores']]: 'eip155:44787',
-  [NetworkId['celo-mainnet']]: 'eip155:42220',
-  [NetworkId['ethereum-mainnet']]: 'eip155:1',
-  [NetworkId['ethereum-sepolia']]: 'eip155:3',
-}
 
 export function* getDefaultSessionTrackedProperties(
   session: Web3WalletTypes.EventArguments['session_proposal'] | SessionTypes.Struct
@@ -330,12 +322,12 @@ export const _showSessionRequest = showSessionRequest
 function getSupportedChains() {
   const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS)
   if (!useViem) {
-    return [walletConnectChainIdMap[networkConfig.defaultNetworkId]]
+    return [networkIdToWalletConnectChainId[networkConfig.defaultNetworkId]]
   }
 
   const supportedNetworkIdsForWalletConnect = getSupportedNetworkIdsForWalletConnect()
   return supportedNetworkIdsForWalletConnect.map((networkId) => {
-    return walletConnectChainIdMap[networkId]
+    return networkIdToWalletConnectChainId[networkId]
   })
 }
 
