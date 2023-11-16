@@ -25,17 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: ./scripts/ci_check_vulnerabilities.sh
 
   lint:
@@ -43,18 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: yarn run format:check
       - run: yarn run lint
       - run: yarn tsc -p .github/scripts
@@ -63,70 +42,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: git diff --exit-code
   licenses:
     name: Licenses
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: yarn check-licenses
   knip-depcheck:
     name: Dependencies
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: yarn knip:depcheck
   knip-regression:
     name: Knip Regression
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          check-latest: true
-      # https://github.com/actions/cache/blob/main/examples.md#node---lerna
-      - uses: actions/cache@v3
-        with:
-          path: |
-            node_modules
-            */*/node_modules
-          key: ${{ runner.os }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: yarn ts-node ./.github/scripts/checkKnipRegression.ts

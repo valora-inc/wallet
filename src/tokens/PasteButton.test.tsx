@@ -19,7 +19,7 @@ describe('PasteButton', () => {
     expect(getByText('paste')).toBeTruthy()
   })
 
-  it('should call onPress with clipboard content and event when button is pressed', async () => {
+  it('should call onPress with clipboard content when button is pressed', async () => {
     mockGetFreshClipboardContent.mockResolvedValue('mocked-value')
     const { getByText } = render(<PasteButton onPress={onPress} />)
     fireEvent.press(getByText('paste'))

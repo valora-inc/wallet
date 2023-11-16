@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Nhận thưởng hằng tuần bằng tiền điện tử. Hãy bắt đầu với chương trình Supercharge!",
   "startSuperchargingNotificationStart": "Nhận tiền thưởng",
   "cashIn": "Nạp {{currency}}",
-  "connectNumber": "Kết nối số",
+  "connectNumber": "Connect number",
   "connectToWallet": "Kết nối với {{dappName}}",
   "confirmTransaction": "Xác nhận giao dịch",
   "allow": "Cho phép",
@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi họ thiết lập và nạp 10 cUSD vào ví {{appName}} của mình, cả hai bạn đều sẽ nhận được 0,50 cUSD."
+    "body": "Sau khi họ thiết lập và nạp 5 cUSD vào ví {{appName}} của mình, cả hai bạn đều sẽ nhận được 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
     "body": "Kết nối và chia sẻ giá trị với bạn bè và gia đình trên {{appName}}.",
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
-    "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}",
-    "help": "Để thu thập tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và duy trì 10 cUSD trở lên trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
+    "share": "Hey! Sign up to {{appName}} wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: {{shareUrl}}.",
+    "help": "Để thu thập tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và duy trì 5 cUSD trở lên trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "Nhận cUSD với Tiền thưởng giới thiệu Valora",
-      "body": "Mời đến 25 người bạn tham gia {{appName}}. Trong thời gian quỹ tiền thưởng vẫn còn hiệu lực, mỗi người sẽ nhận được 0,50 cUSD khi họ nạp hoặc nhận 10 cUSD trở lên."
+      "title": "LIMITED TIME ONLY. Get free cUSD for inviting friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they add funds, and hold 5 cUSD for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -960,7 +960,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Chào bạn! 👋 Valora là cách đơn giản nhất để gửi tiền cho những người bạn quan tâm, bất kể họ ở đâu. Bạn chỉ cần có số điện thoại. Hãy tải xuống bằng đường liên kết này, kết nối số điện thoại và nạp 10 cUSD vào ví mới của bạn để được nhận 0,50 USD 💫 \n\n{{link}} \n\nHãy nhanh tay lên, tiền thưởng giới thiệu có hạn.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free 0.50 cUSD reward if you sign up and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\nHurry though, the referral promotion ends soon.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -1661,7 +1661,7 @@
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn more</0>",
+    "disclaimer": "Best rate determined by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "maxSwapAmountWarning": {
@@ -1695,7 +1695,9 @@
       "swapFeeWaived": "Miễn phí",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
-      "networkFeeInfoDismissButton": "Đã hiểu"
+      "networkFeeInfoDismissButton": "Đã hiểu",
+      "exchangeRate": "Tỷ giá quy đổi",
+      "estimatedValue": "Estimated Value"
     }
   },
   "swapTransactionDetailPage": {
@@ -1768,7 +1770,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 10 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
+      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 5 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
     }
   },
   "celoNews": {
@@ -1802,7 +1804,7 @@
     "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Nạp",
+    "add": "Mua",
     "receive": "Nhận được",
     "request": "Yêu cầu",
     "send": "Gửi",
@@ -1858,7 +1860,7 @@
     "actions": {
       "send": "Gửi",
       "swap": "Trao đổi",
-      "add": "Nạp",
+      "add": "Mua",
       "withdraw": "Rút tiền",
       "more": "More"
     },

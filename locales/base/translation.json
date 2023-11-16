@@ -1665,7 +1665,7 @@
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
     "fetchSwapQuoteFailed": "Sorry for the delay! It's taking longer than usual to get the best exchange rate. Please try again in a few minutes.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn more</0>",
+    "disclaimer": "Best rate determined by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
     "maxSwapAmountWarning": {
@@ -1699,7 +1699,9 @@
       "swapFeeWaived": "Free",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
-      "networkFeeInfoDismissButton": "Got it"
+      "networkFeeInfoDismissButton": "Got it",
+      "exchangeRate": "Exchange Rate",
+      "estimatedValue": "Estimated Value"
     }
   },
   "swapTransactionDetailPage": {
