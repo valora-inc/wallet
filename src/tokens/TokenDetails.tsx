@@ -48,7 +48,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
+import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -62,6 +62,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -78,20 +79,25 @@ export default function TokenDetailsScreen({ route }: Props) {
             {token.name}
           </Text>
         </View>
-        {token?.priceUsd !== null ? (
-          <TokenDisplay
-            amount={1}
-            tokenId={tokenId}
-            style={styles.assetValue}
-            testID="TokenDetails/AssetValue"
-          />
+        {!token?.priceUsd || !localCurrencyExchangeRate ? (
+          <>
+            <Text style={styles.assetValue} testID="TokenDetails/AssetValue">
+              {localCurrencySymbol ?? '$'}
+              {' --'}
+            </Text>
+            <PriceUnavailable />
+          </>
         ) : (
-          <Text style={styles.assetValue} testID="TokenDetails/AssetValue">
-            {localCurrencySymbol ?? '$'}
-            {' --'}
-          </Text>
+          <>
+            <TokenDisplay
+              amount={1}
+              tokenId={tokenId}
+              style={styles.assetValue}
+              testID="TokenDetails/AssetValue"
+            />
+            {!token.isStableCoin && <PriceInfo token={token} />}
+          </>
         )}
-        {!token.isStableCoin && <PriceInfo token={token} />}
         {token.isNative && token.symbol === 'CELO' && (
           <CeloGoldHistoryChart
             color={Colors.dark}
@@ -128,14 +134,19 @@ TokenDetailsScreen.navigationOptions = {
   ...noHeader,
 }
 
+function PriceUnavailable() {
+  const { t } = useTranslation()
+  return (
+    <View style={styles.priceInfo}>
+      <Text style={styles.priceInfoUnavailable}>{t('tokenDetails.priceUnavailable')}</Text>
+    </View>
+  )
+}
+
 function PriceInfo({ token }: { token: TokenBalance }) {
   const { t } = useTranslation()
   if (!token.priceUsd) {
-    return (
-      <View style={styles.priceInfo}>
-        <Text style={styles.priceInfoUnavailable}>{t('tokenDetails.priceUnavailable')}</Text>
-      </View>
-    )
+    return <PriceUnavailable />
   }
 
   if (!token.historicalPricesUsd || !isHistoricalPriceUpdated(token)) {
