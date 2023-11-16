@@ -7,7 +7,7 @@ import { typeScale } from 'src/styles/fonts'
 import { useClipboard } from 'src/utils/useClipboard'
 
 interface Props {
-  onPress?: (clipboardContent: string) => void
+  onPress: (clipboardContent: string) => void
 }
 
 export const PasteButton = ({ onPress }: Props) => {
@@ -16,7 +16,7 @@ export const PasteButton = ({ onPress }: Props) => {
 
   const handlePasteClipboard = async () => {
     const content = await getFreshClipboardContent()
-    onPress?.(content)
+    onPress(content)
   }
 
   return (
