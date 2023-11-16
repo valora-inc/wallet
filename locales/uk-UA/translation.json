@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Отримайте винагороду в криптовалюті. Почати дію Supercharge!",
   "startSuperchargingNotificationStart": "Почати роботу",
   "cashIn": "Додати {{currency}}",
-  "connectNumber": "Номер підключення",
+  "connectNumber": "Під’єднати номер",
   "connectToWallet": "Під’єднати до {{dappName}}",
   "confirmTransaction": "Підтвердити транзакцію",
   "allow": "Дозволити",
@@ -1565,7 +1565,7 @@
     },
     "txProcessing": {
       "title": "Оброблення вашої транзакції ще триває.",
-      "description": "Це може бути пов'язано з поганим інтернет-з'єднанням. Перевірте наявність оновлень у провіднику блоків."
+      "description": "Можливо, це через погану якість інтернет-з’єднання. Перевірте оновлення для провідника блоків."
     }
   },
   "fiatExchangeFlow": {
@@ -1667,7 +1667,7 @@
     "swapTo": "НА",
     "insufficientFunds": "{{token}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин.",
-    "disclaimer": "Свопи від партнерів на Celo. <0>Дізнайтеся більше</0>",
+    "disclaimer": "Найкращий тариф визначають партнери мережі. <0>Дізнатися більше</0>",
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "maxSwapAmountWarning": {
@@ -1685,30 +1685,32 @@
     },
     "estimatedExchangeRate": "Орієнтовний курс ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Недостатній баланс {{tokenSymbol}}",
-      "description": "У вас недостатньо {{tokenSymbol}} для оплати за газ. Хочете обміняти меншу суму?",
-      "confirmDecreaseButton": "Обміняйте меншу суму"
+      "title": "Недостатній залишок {{tokenSymbol}}",
+      "description": "У вас недостатньо {{tokenSymbol}}, щоб покрити комісії за газ. Обміняти меншу суму?",
+      "confirmDecreaseButton": "Обміняти меншу суму"
     },
     "notEnoughBalanceForGas": {
-      "title": "Недостатній баланс газових токенів",
-      "description": "У вас недостатньо {{feeCurrencies}} для оплати за газ. Будь ласка, додайте {{feeCurrencies}} до свого гаманця, щоб завершити обмін.",
+      "title": "Недостатній залишок токенів для комісії за газ",
+      "description": "У вас недостатньо {{feeCurrencies}}, щоб покрити комісії за газ. Додайте {{feeCurrencies}} до свого гаманця, щоб виконати обмін.",
       "dismissButton": "Відхилити"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Мережева плата",
+      "networkFee": "Комісія за мережу {{networkName}}",
       "networkFeeNoNetwork": "Комісія за мережу",
       "swapFee": "Комісія {{appName}}",
       "swapFeeWaived": "Безплатно",
-      "slippagePercentage": "Допуск на прослизання",
-      "networkFeeInfo": "Ви здійснюєте обмін в мережі {{networkName}} .\n\nЦя орієнтовна мережева комісія необхідна для проведення транзакції в мережі {{networkName}} . Ця комісія забезпечує безпеку вашої транзакції і йде на підтримку роботи мережі.",
-      "networkFeeInfoDismissButton": "Зрозуміло"
+      "slippagePercentage": "Допуск прослизання",
+      "networkFeeInfo": "Ви обмінюєтеся активами в мережі {{networkName}}.\n\nОрієнтовна комісія мережі потрібна, щоб виконати транзакцію в мережі {{networkName}}. Комісія допомагає убезпечити транзакцію і спрямована на підтримку роботи мережі.",
+      "networkFeeInfoDismissButton": "Зрозуміло",
+      "exchangeRate": "Валютний курс",
+      "estimatedValue": "Орієнтовна вартість"
     }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Обміняти з",
     "swapTo": "Обміняти на",
     "rate": "Оцінка",
-    "estimatedFee": "Est Плата за мережу",
+    "estimatedFee": "Комісія за мережу Est",
     "networkFee": "Комісія за мережу",
     "viewOnExplorer": "Переглянути на CeloExplorer"
   },
@@ -1850,7 +1852,7 @@
       "collectibles": "Колекційні предмети",
       "dappPositions": "Позиції застосунків Dapp"
     },
-    "importToken": "Імпорт"
+    "importToken": "Імпортувати"
   },
   "notificationCenterSpotlight": {
     "message": "Запроваджуємо нову можливість: отримуйте винагороди, переглядайте попередження та знайомтеся з оновленнями в одному місці",
@@ -1858,7 +1860,7 @@
   },
   "tokenDetails": {
     "yourBalance": "Ваш баланс",
-    "learnMore": "Дізнайтеся більше про {{tokenName}}",
+    "learnMore": "Дізнатися більше про {{tokenName}}",
     "priceUnavailable": "Ціна недоступна",
     "priceDeltaSuffix": "Сьогодні",
     "actions": {
@@ -1866,48 +1868,48 @@
       "swap": "Обміняти",
       "add": "Купити",
       "withdraw": "Зняти",
-      "more": "Більше"
+      "more": "Додатково"
     },
-    "moreActions": "Більше дій",
+    "moreActions": "Додаткові дії",
     "actionDescriptions": {
-      "send": "Використовуйте будь-яку адресу Celo, домен, номер телефону тощо.",
-      "swap": "Обмінюйте токени, не виходячи з гаманця",
-      "add": "Купуйте токени в одного з наших перевірених постачальників",
-      "withdraw": "Переказуйте токени на банківський рахунок, мобільні гроші, подарункову картку тощо."
+      "send": "Використайте будь-яку адресу, домен, номер телефону із Celo тощо.",
+      "swap": "Обміняйте свої токени, не виходячи з гаманця",
+      "add": "Придбайте токени через одного з наших довірених постачальників",
+      "withdraw": "Перекажіть токени на банківський рахунок, мобільний телефон, подарункову карту тощо."
     }
   },
   "sendSelectRecipient": {
     "searchText": "Пошук за іменем, телефоном, гаманцем...",
-    "title": "Виберіть одержувача",
-    "contactsTitle": "Виберіть контакт",
-    "recents": "Нещодавні події",
+    "title": "Вибрати отримувача",
+    "contactsTitle": "Вибрати контакт",
+    "recents": "Нещодавні",
     "qr": {
-      "title": "Відскануйте або покажіть QR-код",
-      "subtitle": "Швидко знаходити адреси на Валорі"
+      "title": "Сканувати або показати QR-код",
+      "subtitle": "Швидко знайти адреси у Valora"
     },
     "invite": {
-      "title": "Надсилайте криптовалюту друзям",
-      "subtitle": "Запросіть друзів зі списку контактів"
+      "title": "Надіслати криптовалюту друзям",
+      "subtitle": "Запросити друзів зі свого списку контактів"
     },
     "getStarted": {
-      "title": "Способи надсилання коштів на Valora",
+      "title": "Як надіслати кошти у Valora",
       "subtitle": "ПОЧАТИ РОБОТУ",
       "options": {
         "one": {
           "title": "Адреса гаманця",
-          "subtitle": "Введіть адресу гаманця, сумісного з Celo або Ethereum (наприклад, 0x123...abcde)"
+          "subtitle": "Введіть адресу гаманця, сумісного із Celo або Ethereum (напр., 0x123...abcde)"
         },
         "two": {
           "title": "Номер телефону",
-          "subtitle": "Надсилайте безпосередньо на номер телефону користувача, якщо у нього є Valora"
+          "subtitle": "Надішліть прямо на номер телефону абонентів, у яких є Valora"
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Надсилайте активи Ethereum на чийсь дескриптор ENS"
+          "subtitle": "Надіслати активи Ethereum тим, хто використовує ENS"
         },
         "four": {
-          "title": "Ім'я профілю Ім'я профілю",
-          "subtitle": "Ви можете шукати існуючих користувачів на Valora"
+          "title": "Ім’я профілю",
+          "subtitle": "Можна виконати пошук наявних користувачів у Valora"
         }
       }
     }
@@ -1915,10 +1917,10 @@
   "transactionStatus": {
     "transactionIsCompleted": "Завершено",
     "transactionIsPending": "Очікує підтвердження",
-    "transactionIsFailed": "Не вдалося."
+    "transactionIsFailed": "Невдало"
   },
   "transactionDetailsActions": {
-    "showCompletedTransactionDetails": "Деталі",
+    "showCompletedTransactionDetails": "Подробиці",
     "checkPendingTransactionStatus": "Перевірити стан",
     "retryFailedTransaction": "Повторити"
   },
@@ -1926,17 +1928,17 @@
   "viewOnCeloScan": "Переглянути на CeloScan",
   "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
   "sendEnterAmountScreen": {
-    "title": "Введіть суму",
-    "selectToken": "Виберіть токен",
-    "networkFee": "{{networkName}} Мережева плата",
-    "lowerAmount": "Введіть меншу суму",
+    "title": "Ввести суму",
+    "selectToken": "Вибрати токен",
+    "networkFee": "Комісія за мережу {{networkName}}",
+    "lowerAmount": "Ввести меншу суму",
     "maxAmountWarning": {
-      "title": "Відправлення максимальної суми",
-      "description": "Відрегулюйте суму, яку ви надсилаєте, щоб переконатися, що вам вистачить {{feeTokenSymbol}} на бензин"
+      "title": "Як надіслати максимальну суму",
+      "description": "Скоригуйте суму, яку надсилаєте, щоб переконатися, що у вас достатньо {{feeTokenSymbol}} за комісію за газ"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Вам потрібно більше {{feeTokenSymbol}} на газ",
-      "description": "Додайте {{feeTokenSymbol}} , щоб покрити витрати на газ або скоригувати суму, яку ви надсилаєте"
+      "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
+      "description": "Додайте {{feeTokenSymbol}}, щоб покрити комісію на газ або скоригувати суму, яку ви надсилаєте"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
