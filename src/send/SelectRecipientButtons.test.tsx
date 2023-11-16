@@ -151,10 +151,10 @@ describe('SelectRecipientButtons', () => {
     expect(request).toHaveBeenCalled()
     expect(onPermissionsGranted).toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_request_contacts_permission_started
+      SendEvents.request_contacts_permission_started
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_request_contacts_permission_completed,
+      SendEvents.request_contacts_permission_completed,
       { permissionStatus: RESULTS.GRANTED }
     )
   })
@@ -172,10 +172,10 @@ describe('SelectRecipientButtons', () => {
     expect(request).toHaveBeenCalled()
     expect(onPermissionsGranted).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_request_contacts_permission_started
+      SendEvents.request_contacts_permission_started
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      SendEvents.send_select_recipient_request_contacts_permission_completed,
+      SendEvents.request_contacts_permission_completed,
       { permissionStatus: RESULTS.DENIED }
     )
     expect(getByTestId('SelectRecipient/ContactsModal')).not.toBeVisible()
@@ -203,10 +203,10 @@ describe('SelectRecipientButtons', () => {
       expect(request).toHaveBeenCalled()
       expect(onPermissionsGranted).not.toHaveBeenCalled()
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        SendEvents.send_select_recipient_request_contacts_permission_started
+        SendEvents.request_contacts_permission_started
       )
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-        SendEvents.send_select_recipient_request_contacts_permission_completed,
+        SendEvents.request_contacts_permission_completed,
         { permissionStatus: RESULTS.BLOCKED }
       )
       expect(getByTestId('SelectRecipient/ContactsModal').props.visible).toEqual(showsModal)

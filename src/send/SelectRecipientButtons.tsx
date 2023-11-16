@@ -61,7 +61,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
       // permission already granted
       onContactsPermissionGranted()
     } else if (currentPermission === RESULTS.DENIED) {
-      ValoraAnalytics.track(SendEvents.send_select_recipient_request_contacts_permission_started)
+      ValoraAnalytics.track(SendEvents.request_contacts_permission_started)
       const newPermission = await request(CONTACTS_PERMISSION, {
         // rationale for Android, shows up the 2nd time a permission is requested.
         title: t('accessContacts.disclosure.title'),
@@ -69,10 +69,9 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
         buttonPositive: t('continue'),
         buttonNegative: t('notNow') ?? undefined,
       })
-      ValoraAnalytics.track(
-        SendEvents.send_select_recipient_request_contacts_permission_completed,
-        { permissionStatus: newPermission }
-      )
+      ValoraAnalytics.track(SendEvents.request_contacts_permission_completed, {
+        permissionStatus: newPermission,
+      })
       if (newPermission === RESULTS.GRANTED) {
         // permission granted
         onContactsPermissionGranted()
@@ -97,7 +96,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onPressConnectPhoneNumber = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_phone_number_modal_connect)
+    ValoraAnalytics.track(SendEvents.send_phone_number_modal_connect)
     setShowConnectPhoneNumberModal(false)
     // navigating directly here causes a screen freeze since the modal is fully
     // not dismissed. A state is set, which is then checked on the modal hide
@@ -106,7 +105,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onDismissConnectPhoneNumberModal = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_phone_number_modal_dismiss)
+    ValoraAnalytics.track(SendEvents.send_phone_number_modal_dismiss)
     setShowConnectPhoneNumberModal(false)
   }
 
@@ -120,13 +119,13 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }
 
   const onPressSettings = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_contacts_modal_settings)
+    ValoraAnalytics.track(SendEvents.send_contacts_modal_settings)
     setShowEnableContactsModal(false)
     navigateToPhoneSettings()
   }
 
   const onDismissEnableContactsModal = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_contacts_modal_dismiss)
+    ValoraAnalytics.track(SendEvents.send_contacts_modal_dismiss)
     setShowEnableContactsModal(false)
   }
 

@@ -632,12 +632,12 @@ interface SendEventsProperties {
     contactsPermissionStatus: PermissionStatus
     phoneNumberVerified: boolean
   }
-  [SendEvents.send_select_recipient_phone_number_modal_connect]: undefined
-  [SendEvents.send_select_recipient_phone_number_modal_dismiss]: undefined
-  [SendEvents.send_select_recipient_contacts_modal_settings]: undefined
-  [SendEvents.send_select_recipient_contacts_modal_dismiss]: undefined
-  [SendEvents.send_select_recipient_request_contacts_permission_started]: undefined
-  [SendEvents.send_select_recipient_request_contacts_permission_completed]: {
+  [SendEvents.send_phone_number_modal_connect]: undefined
+  [SendEvents.send_phone_number_modal_dismiss]: undefined
+  [SendEvents.send_contacts_modal_settings]: undefined
+  [SendEvents.send_contacts_modal_dismiss]: undefined
+  [SendEvents.request_contacts_permission_started]: undefined
+  [SendEvents.request_contacts_permission_completed]: {
     permissionStatus: PermissionStatus
   }
 }

@@ -312,12 +312,12 @@ export enum SendEvents {
   // events specific to send select recipient screen
   send_select_recipient_scan_qr = 'send_select_recipient_scan_qr',
   send_select_recipient_contacts = 'send_select_recipient_contacts',
-  send_select_recipient_phone_number_modal_connect = 'send_select_recipient_phone_number_modal_connect',
-  send_select_recipient_phone_number_modal_dismiss = 'send_select_recipient_phone_number_modal_dismiss',
-  send_select_recipient_contacts_modal_settings = 'send_select_recipient_contacts_modal_settings',
-  send_select_recipient_contacts_modal_dismiss = 'send_select_recipient_contacts_modal_dismiss',
-  send_select_recipient_request_contacts_permission_started = 'send_select_recipient_request_contacts_permission_started',
-  send_select_recipient_request_contacts_permission_completed = 'send_select_recipient_request_contacts_permission_completed',
+  send_phone_number_modal_connect = 'send_phone_number_modal_connect',
+  send_phone_number_modal_dismiss = 'send_phone_number_modal_dismiss',
+  send_contacts_modal_settings = 'send_contacts_modal_settings',
+  send_contacts_modal_dismiss = 'send_contacts_modal_dismiss',
+  request_contacts_permission_started = 'request_contacts_permission_started',
+  request_contacts_permission_completed = 'request_contacts_permission_completed',
 }
 
 export enum QrScreenEvents {
