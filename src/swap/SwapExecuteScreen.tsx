@@ -23,10 +23,6 @@ export function SwapExecuteScreen() {
   const swapState = useSelector(swapStateSelector)
   const { t } = useTranslation()
 
-  const navigateToSwapScreen = () => {
-    navigate(Screens.SwapScreenWithBack)
-  }
-
   const navigateToSupport = () => {
     navigate(Screens.SupportContact)
   }
@@ -67,7 +63,7 @@ export function SwapExecuteScreen() {
             />
             <Button
               text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
-              onPress={navigateToSwapScreen}
+              onPress={navigateBack}
               type={BtnTypes.SECONDARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/SwapAgain"
