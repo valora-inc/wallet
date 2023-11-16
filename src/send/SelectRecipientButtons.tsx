@@ -40,7 +40,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   }, [contactsPermissionStatus])
 
   const onPressContacts = async () => {
-    const currentPermission = await check(CONTACTS_PERMISSION)
+    const currentPermission = contactsPermissionStatus ?? (await check(CONTACTS_PERMISSION))
     setContactsPermissionStatus(currentPermission)
 
     ValoraAnalytics.track(SendEvents.send_select_recipient_contacts, {
@@ -69,6 +69,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
         buttonPositive: t('continue'),
         buttonNegative: t('notNow') ?? undefined,
       })
+      setContactsPermissionStatus(newPermission)
       ValoraAnalytics.track(SendEvents.request_contacts_permission_completed, {
         permissionStatus: newPermission,
       })
