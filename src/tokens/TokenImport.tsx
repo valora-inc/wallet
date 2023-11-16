@@ -1,6 +1,6 @@
 import { isValidAddress } from '@celo/utils/lib/address'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -11,7 +11,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
-import TextInput from 'src/components/TextInput'
+import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import { noHeader } from 'src/navigator/Headers'
@@ -47,7 +47,7 @@ export default function TokenImportScreen(_: Props) {
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
   }
 
-  const renderErrorMessage = () => {
+  const renderErrorMessage = (): ReactElement<Text> => {
     // TODO RET-892: when states and validation are added, choose appropriate error or return null
     const errors = [
       t('tokenImport.error.invalidToken'),
@@ -72,66 +72,42 @@ export default function TokenImportScreen(_: Props) {
 
         <View style={styles.inputContainer}>
           {/* Token Address */}
-          <View style={styles.textInputGroup}>
-            <Text style={styles.label}>{t('tokenImport.input.tokenAddress')}</Text>
-            <TextInput
-              onChangeText={setTokenAddress}
-              value={tokenAddress}
-              multiline={false}
-              style={styles.messageTextInput}
-              placeholderTextColor={Colors.gray4}
-              underlineColorAndroid="transparent"
-              numberOfLines={1}
-              placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
-              showClearButton={true}
-              rightElement={
-                !tokenAddress && (
-                  <PasteButton
-                    onPress={(address) => {
-                      setTokenAddress(address)
-                      ValoraAnalytics.track(AssetsEvents.import_token_paste)
-                    }}
-                  />
-                )
-              }
-              maxLength={42} // 0x prefix and 20 bytes
-            />
-          </View>
+          <TextInputGroup
+            label={t('tokenImport.input.tokenAddress')}
+            value={tokenAddress}
+            onChangeText={setTokenAddress}
+            placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
+            rightElement={
+              !tokenAddress && (
+                <PasteButton
+                  onPress={(address) => {
+                    setTokenAddress(address)
+                    ValoraAnalytics.track(AssetsEvents.import_token_paste)
+                  }}
+                />
+              )
+            }
+            maxLength={42} // 0x prefix and 20 bytes
+          />
 
           {/* Token Symbol */}
-          <View style={styles.textInputGroup}>
-            <Text style={styles.label}>{t('tokenImport.input.tokenSymbol')}</Text>
-            <TextInput
-              onChangeText={setTokenSymbol}
-              value={tokenSymbol}
-              multiline={false}
-              style={styles.messageTextInput}
-              placeholderTextColor={Colors.gray4}
-              underlineColorAndroid="transparent"
-              numberOfLines={1}
-              showClearButton={true}
-              editable={isValidAddress(tokenAddress)}
-              rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
-            />
-            {renderErrorMessage()}
-          </View>
+          <TextInputGroup
+            label={t('tokenImport.input.tokenSymbol')}
+            value={tokenSymbol}
+            onChangeText={setTokenSymbol}
+            editable={isValidAddress(tokenAddress)}
+            // TODO RET-892: once loaded, hide the spinner
+            rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />}
+            errorElement={renderErrorMessage()}
+          />
 
           {/* Network */}
-          <View style={styles.textInputGroup}>
-            <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
-            <TextInput
-              // not editable for now, thus onChangeText is empty
-              onChangeText={() => undefined}
-              value={NETWORK_NAMES[networkId]}
-              multiline={false}
-              style={styles.messageTextInput}
-              placeholderTextColor={Colors.gray4}
-              underlineColorAndroid="transparent"
-              numberOfLines={1}
-              showClearButton={true}
-              editable={false}
-            />
-          </View>
+          <TextInputGroup
+            label={t('tokenImport.input.network')}
+            value={NETWORK_NAMES[networkId]}
+            onChangeText={() => undefined}
+            editable={false}
+          />
         </View>
       </ScrollView>
       <Button
@@ -145,6 +121,25 @@ export default function TokenImportScreen(_: Props) {
     </SafeAreaView>
   )
 }
+
+const TextInputGroup = ({
+  label,
+  errorElement,
+  ...textInputProps
+}: { label: string; errorElement?: ReactElement<Text> } & TextInputProps) => (
+  <View style={styles.textInputGroup}>
+    <Text style={styles.label}>{label}</Text>
+    <TextInput
+      multiline={false}
+      style={styles.messageTextInput}
+      placeholderTextColor={Colors.gray4}
+      numberOfLines={1}
+      showClearButton={true}
+      {...textInputProps}
+    />
+    {errorElement}
+  </View>
+)
 
 TokenImportScreen.navigationOptions = {
   ...noHeader,
