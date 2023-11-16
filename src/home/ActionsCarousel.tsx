@@ -54,9 +54,13 @@ function ActionsCarousel() {
       title: t('homeActions.add'),
       icon: <QuickActionsAdd color={Colors.onboardingGreen} />,
       onPress: () => {
-        navigate(Screens.FiatExchangeCurrencyBottomSheet, {
-          flow: FiatExchangeFlow.CashIn,
-        })
+        getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
+          ? navigate(Screens.FiatExchangeCurrencyBottomSheet, {
+              flow: FiatExchangeFlow.CashIn,
+            })
+          : navigate(Screens.FiatExchangeCurrency, {
+              flow: FiatExchangeFlow.CashIn,
+            })
       },
     },
     {

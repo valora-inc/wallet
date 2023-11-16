@@ -18,6 +18,8 @@ import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
@@ -62,7 +64,9 @@ function ChooseYourAdventure() {
       text: t('chooseYourAdventure.options.add'),
       goToNextScreen: () => {
         navigateHome() // navigate home so that back on the fiat exchange currency screen takes the user back to Home screen
-        navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+        getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
+          ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+          : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
       },
       icon: <PlusIcon />,
       name: AdventureCardName.Add,

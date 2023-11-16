@@ -251,9 +251,13 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   }
 
   const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrencyBottomSheet, {
-      flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
+    getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
+      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, {
+          flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+        })
+      : navigate(Screens.FiatExchangeCurrency, {
+          flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
+        })
 
   if (!anyProviders) {
     return (

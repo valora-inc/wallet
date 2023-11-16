@@ -266,7 +266,9 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
-      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+      getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
+        ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+        : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })

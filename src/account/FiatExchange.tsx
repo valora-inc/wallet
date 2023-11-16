@@ -14,6 +14,8 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useTypedSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -34,7 +36,9 @@ export function FiatExchangeSection({
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
 
-  const useCicoCurrencyBottomSheet = true
+  const useCicoCurrencyBottomSheet = getFeatureGate(
+    StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET
+  )
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {

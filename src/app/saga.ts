@@ -342,7 +342,9 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
-      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+      getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
+        ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
+        : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
