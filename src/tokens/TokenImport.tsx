@@ -36,7 +36,7 @@ export default function TokenImportScreen(_: Props) {
   const [tokenSymbol, setTokenSymbol] = useState('')
   const [networkName, setNetworkName] = useState(NETWORK_NAMES[networkConfig.defaultNetworkId])
 
-  const navigateBackAndToast = () => {
+  const handleImportToken = () => {
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol,
@@ -47,7 +47,7 @@ export default function TokenImportScreen(_: Props) {
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
   }
 
-  const errorMessage = () => {
+  const renderErrorMessage = () => {
     // TODO RET-892: when states and validation are added, choose appropriate error or return null
     const errors = [
       t('tokenImport.error.invalidToken'),
@@ -114,7 +114,7 @@ export default function TokenImportScreen(_: Props) {
                 editable={isValidAddress(tokenAddress)}
                 rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
               />
-              {errorMessage()}
+              {renderErrorMessage()}
             </View>
 
             {/* Network */}
@@ -140,7 +140,7 @@ export default function TokenImportScreen(_: Props) {
         text={t('tokenImport.importButton')}
         showLoading={false}
         disabled={tokenSymbol.length == 0} // TODO RET-892: enable button if the contract was loaded
-        onPress={navigateBackAndToast}
+        onPress={handleImportToken}
         style={styles.buttonContainer}
       />
     </SafeAreaView>
