@@ -1699,7 +1699,7 @@
       "networkFeeNoNetwork": "Комісія за мережу",
       "swapFee": "Комісія {{appName}}",
       "swapFeeWaived": "Безплатно",
-      "slippagePercentage": "Допуск на прослизання",
+      "slippagePercentage": "Допуск прослизання",
       "networkFeeInfo": "Ви обмінюєтеся активами в мережі {{networkName}}.\n\nОрієнтовна комісія мережі потрібна, щоб виконати транзакцію в мережі {{networkName}}. Комісія допомагає убезпечити транзакцію і спрямована на підтримку роботи мережі.",
       "networkFeeInfoDismissButton": "Зрозуміло",
       "exchangeRate": "Валютний курс",
@@ -1931,14 +1931,14 @@
     "title": "Ввести суму",
     "selectToken": "Вибрати токен",
     "networkFee": "Комісія за мережу {{networkName}}",
-    "lowerAmount": "Введіть меншу суму",
+    "lowerAmount": "Ввести меншу суму",
     "maxAmountWarning": {
-      "title": "Відправлення максимальної суми",
-      "description": "Відрегулюйте суму, яку ви надсилаєте, щоб переконатися, що вам вистачить {{feeTokenSymbol}} на бензин"
+      "title": "Як надіслати максимальну суму",
+      "description": "Скоригуйте суму, яку надсилаєте, щоб переконатися, що у вас достатньо {{feeTokenSymbol}} за комісію за газ"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Вам потрібно більше {{feeTokenSymbol}} на газ",
-      "description": "Додайте {{feeTokenSymbol}} , щоб покрити витрати на газ або скоригувати суму, яку ви надсилаєте"
+      "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
+      "description": "Додайте {{feeTokenSymbol}}, щоб покрити комісію на газ або скоригувати суму, яку ви надсилаєте"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
