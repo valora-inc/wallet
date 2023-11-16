@@ -64,75 +64,73 @@ export default function TokenImportScreen(_: Props) {
         left={<BackButton />}
         title={<Text style={styles.headerTitle}>{t('tokenImport.title')}</Text>}
       />
-      <ScrollView>
-        <View style={styles.titleContainer}>
-          <InLineNotification
-            severity={Severity.Informational}
-            description={t('tokenImport.notification')}
-          />
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <InLineNotification
+          severity={Severity.Informational}
+          description={t('tokenImport.notification')}
+        />
 
-          <View style={styles.inputContainer}>
-            {/* Token Address */}
-            <View style={styles.textInputGroup}>
-              <Text style={styles.label}>{t('tokenImport.input.tokenAddress')}</Text>
-              <TextInput
-                onChangeText={setTokenAddress}
-                value={tokenAddress}
-                multiline={false}
-                style={styles.messageTextInput}
-                placeholderTextColor={Colors.gray4}
-                underlineColorAndroid="transparent"
-                numberOfLines={1}
-                placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
-                showClearButton={true}
-                rightElement={
-                  !tokenAddress && (
-                    <PasteButton
-                      onPress={(address) => {
-                        setTokenAddress(address)
-                        ValoraAnalytics.track(AssetsEvents.import_token_paste)
-                      }}
-                    />
-                  )
-                }
-                maxLength={42} // 0x prefix and 20 bytes
-              />
-            </View>
+        <View style={styles.inputContainer}>
+          {/* Token Address */}
+          <View style={styles.textInputGroup}>
+            <Text style={styles.label}>{t('tokenImport.input.tokenAddress')}</Text>
+            <TextInput
+              onChangeText={setTokenAddress}
+              value={tokenAddress}
+              multiline={false}
+              style={styles.messageTextInput}
+              placeholderTextColor={Colors.gray4}
+              underlineColorAndroid="transparent"
+              numberOfLines={1}
+              placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
+              showClearButton={true}
+              rightElement={
+                !tokenAddress && (
+                  <PasteButton
+                    onPress={(address) => {
+                      setTokenAddress(address)
+                      ValoraAnalytics.track(AssetsEvents.import_token_paste)
+                    }}
+                  />
+                )
+              }
+              maxLength={42} // 0x prefix and 20 bytes
+            />
+          </View>
 
-            {/* Token Symbol */}
-            <View style={styles.textInputGroup}>
-              <Text style={styles.label}>{t('tokenImport.input.tokenSymbol')}</Text>
-              <TextInput
-                onChangeText={setTokenSymbol}
-                value={tokenSymbol}
-                multiline={false}
-                style={styles.messageTextInput}
-                placeholderTextColor={Colors.gray4}
-                underlineColorAndroid="transparent"
-                numberOfLines={1}
-                showClearButton={true}
-                editable={isValidAddress(tokenAddress)}
-                rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
-              />
-              {renderErrorMessage()}
-            </View>
+          {/* Token Symbol */}
+          <View style={styles.textInputGroup}>
+            <Text style={styles.label}>{t('tokenImport.input.tokenSymbol')}</Text>
+            <TextInput
+              onChangeText={setTokenSymbol}
+              value={tokenSymbol}
+              multiline={false}
+              style={styles.messageTextInput}
+              placeholderTextColor={Colors.gray4}
+              underlineColorAndroid="transparent"
+              numberOfLines={1}
+              showClearButton={true}
+              editable={isValidAddress(tokenAddress)}
+              rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />} // TODO RET-892: once loaded, hide the spinner
+            />
+            {renderErrorMessage()}
+          </View>
 
-            {/* Network */}
-            <View style={styles.textInputGroup}>
-              <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
-              <TextInput
-                // not editable for now, thus onChangeText is empty
-                onChangeText={() => undefined}
-                value={NETWORK_NAMES[networkId]}
-                multiline={false}
-                style={styles.messageTextInput}
-                placeholderTextColor={Colors.gray4}
-                underlineColorAndroid="transparent"
-                numberOfLines={1}
-                showClearButton={true}
-                editable={false}
-              />
-            </View>
+          {/* Network */}
+          <View style={styles.textInputGroup}>
+            <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
+            <TextInput
+              // not editable for now, thus onChangeText is empty
+              onChangeText={() => undefined}
+              value={NETWORK_NAMES[networkId]}
+              multiline={false}
+              style={styles.messageTextInput}
+              placeholderTextColor={Colors.gray4}
+              underlineColorAndroid="transparent"
+              numberOfLines={1}
+              showClearButton={true}
+              editable={false}
+            />
           </View>
         </View>
       </ScrollView>
@@ -163,14 +161,12 @@ const styles = StyleSheet.create({
     ...typeScale.bodyMedium,
   },
   messageTextInput: {
-    ...typeScale.bodySmall,
     paddingHorizontal: Spacing.Small12,
     borderColor: Colors.gray2,
     borderRadius: Spacing.Tiny4,
     borderWidth: 1.5,
   },
-  titleContainer: {
-    ...typeScale.titleLarge,
+  scrollViewContainer: {
     marginVertical: Spacing.Smallest8,
     marginHorizontal: Spacing.Thick24,
     gap: Spacing.Regular16,
@@ -183,7 +179,6 @@ const styles = StyleSheet.create({
     gap: Spacing.Thick24,
   },
   textInputGroup: {
-    alignItems: 'flex-start',
     gap: Spacing.Smallest8,
   },
   label: {
