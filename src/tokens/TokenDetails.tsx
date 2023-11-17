@@ -26,6 +26,7 @@ import QuickActionsMore from 'src/icons/quick-actions/More'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -47,8 +48,6 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 

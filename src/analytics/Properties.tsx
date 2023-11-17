@@ -70,8 +70,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { Awaited } from 'src/utils/typescript'
-import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
