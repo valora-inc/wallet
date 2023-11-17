@@ -1878,18 +1878,18 @@
     "title": "Importer un jeton",
     "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifie que l'adresse de ton token est correcte avant de l'importer.",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "Adresse du jeton",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Symbole du jeton",
       "network": "Réseau"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "Jeton invalide. Essaie à nouveau ou contacte l'assistance",
       "alreadyImported": "Le jeton a déjà été ajouté auparavant.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Le jeton est déjà pris en charge."
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
-    "importButton": "Import"
+    "importSuccess": "Importation réussie du jeton {{tokenSymbol}}",
+    "importButton": "Importation"
   },
   "sendSelectRecipient": {
     "searchText": "Recherche par nom, téléphone, portefeuille...",
