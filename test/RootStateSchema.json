@@ -2477,6 +2477,7 @@
                 "FiatDetailsScreen",
                 "FiatExchangeAmount",
                 "FiatExchangeCurrency",
+                "FiatExchangeCurrencyBottomSheet",
                 "GoldEducation",
                 "ImportWallet",
                 "Invite",
