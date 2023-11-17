@@ -519,7 +519,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
       'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
     name: 'Ether',
     decimals: 18,
-    balance: '0.1',
+    balance: '0',
     priceFetchedAt: Date.now(),
     isNative: true,
   },
