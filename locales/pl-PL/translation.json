@@ -1882,17 +1882,17 @@
     "title": "Importuj token",
     "notification": "Każdy może utworzyć token, w tym fałszywe wersje istniejących tokenów. Przed importem sprawdź, czy adres tokena jest prawidłowy.",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "Adres tokena",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Symbol tokena",
       "network": "Sieć"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "Nieprawidłowy token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
       "alreadyImported": "Token został dodany już wcześniej.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Token jest już obsługiwany."
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importSuccess": "Pomyślnie zaimportowano token {{tokenSymbol}}",
     "importButton": "Import"
   },
   "sendSelectRecipient": {
