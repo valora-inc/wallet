@@ -1878,6 +1878,23 @@
       "withdraw": "Перекажіть токени на банківський рахунок, мобільний телефон, подарункову карту тощо."
     }
   },
+  "tokenImport": {
+    "title": "Токен імпорту",
+    "notification": "Будь-хто може створити токен, включаючи підроблені версії існуючих токенів. Перед імпортом перевірте правильність адреси токена.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Мережа"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Токен був доданий раніше.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Імпортувати"
+  },
   "sendSelectRecipient": {
     "searchText": "Пошук за іменем, телефоном, гаманцем...",
     "title": "Вибрати отримувача",
