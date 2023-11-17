@@ -1878,18 +1878,18 @@
     "title": "Importar Token",
     "notification": "Cualquiera puede crear un token, incluso versiones falsas de tokens existentes. Comprueba que la dirección de tu token es correcta antes de importarlo.",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "Dirección del token",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Símbolo de ficha",
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "Token no válido. Inténtalo de nuevo o ponte en contacto con el servicio de asistencia",
       "alreadyImported": "La ficha ya se había añadido antes.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Token ya es compatible."
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
-    "importButton": "Import"
+    "importSuccess": "Importado con éxito el token {{tokenSymbol}}",
+    "importButton": "Importa"
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, cartera...",
