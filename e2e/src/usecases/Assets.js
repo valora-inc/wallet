@@ -109,14 +109,14 @@ export default Assets = () => {
     describe.each(tokens)('For $symbol', ({ symbol, tokenId, learnMore, actions, moreActions }) => {
       it('navigates to asset details on tapping asset', async () => {
         await waitForElementByIdAndTap(`TokenBalanceItemTouchable/${tokenId}`)
-        await waitForElementId('TokenDetails/Balance')
+        await waitForElementId('TokenDetails/AssetValue')
       })
 
       if (actions.includes('Send')) {
         it('send action navigates to send flow', async () => {
           await element(by.id('TokenDetails/Action/Send')).tap()
           await validateSendFlow(symbol)
-          await waitForElementId('TokenDetails/Balance')
+          await waitForElementId('TokenDetails/AssetValue')
         })
       }
 
@@ -124,7 +124,7 @@ export default Assets = () => {
         it('add action navigates to add cico flow', async () => {
           await element(by.id('TokenDetails/Action/Add')).tap()
           await validateAddFlow(symbol)
-          await waitForElementId('TokenDetails/Balance')
+          await waitForElementId('TokenDetails/AssetValue')
         })
       }
 
@@ -134,7 +134,7 @@ export default Assets = () => {
           await waitForElementByIdAndTap('TokenDetailsMoreActions/Send')
           await validateSendFlow(symbol)
           await element(by.id('TokenDetailsMoreActions')).swipe('down')
-          await waitForElementId('TokenDetails/Balance')
+          await waitForElementId('TokenDetails/AssetValue')
         })
       }
 
@@ -144,7 +144,7 @@ export default Assets = () => {
           await waitForElementByIdAndTap('TokenDetailsMoreActions/Add')
           await validateAddFlow(symbol)
           await element(by.id('TokenDetailsMoreActions')).swipe('down')
-          await waitForElementId('TokenDetails/Balance')
+          await waitForElementId('TokenDetails/AssetValue')
         })
       }
 
@@ -155,7 +155,7 @@ export default Assets = () => {
           await waitForElementId('FiatExchangeTokenBalance')
           await element(by.id('BackChevron')).tap()
           await element(by.id('TokenDetailsMoreActions')).swipe('down')
-          await waitForElementId('TokenDetails/Balance')
+          await waitForElementId('TokenDetails/AssetValue')
         })
       }
 
@@ -167,7 +167,7 @@ export default Assets = () => {
             .toBeVisible()
             .withTimeout(10 * 1000)
           await element(by.id('WebViewScreen/CloseButton')).tap()
-          await waitForElementId('TokenDetails/Balance')
+          await waitForElementId('TokenDetails/AssetValue')
         })
       }
 

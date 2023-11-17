@@ -2,7 +2,7 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -351,7 +351,7 @@ describe('AssetsScreen', () => {
     expect(button).toBeNull()
   })
 
-  it('clicking Import Token opens a screen', () => {
+  it('clicking Import opens Import Token screen', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
@@ -368,7 +368,7 @@ describe('AssetsScreen', () => {
     const button = getByText('assets.importToken')
     fireEvent.press(button)
 
-    expect(navigateBack).toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.TokenImport)
   })
 
   it('displays tokens with balance and ones marked with showZeroBalance in the expected order', () => {

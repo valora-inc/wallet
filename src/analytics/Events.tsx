@@ -312,6 +312,12 @@ export enum SendEvents {
   // events specific to send select recipient screen
   send_select_recipient_scan_qr = 'send_select_recipient_scan_qr',
   send_select_recipient_contacts = 'send_select_recipient_contacts',
+  send_phone_number_modal_connect = 'send_phone_number_modal_connect',
+  send_phone_number_modal_dismiss = 'send_phone_number_modal_dismiss',
+  send_contacts_modal_settings = 'send_contacts_modal_settings',
+  send_contacts_modal_dismiss = 'send_contacts_modal_dismiss',
+  request_contacts_permission_started = 'request_contacts_permission_started',
+  request_contacts_permission_completed = 'request_contacts_permission_completed',
 }
 
 export enum QrScreenEvents {
@@ -609,6 +615,9 @@ export enum AssetsEvents {
   tap_token_details_action = 'tap_token_details_action',
   tap_token_details_learn_more = 'tap_token_details_learn_more',
   tap_token_details_bottom_sheet_action = 'tap_token_details_bottom_sheet_action',
+  import_token_screen_open = 'import_token_screen_open',
+  import_token_submit = 'import_token_submit',
+  import_token_paste = 'import_token_paste',
 }
 
 export enum NftEvents {

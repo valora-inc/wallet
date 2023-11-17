@@ -47,6 +47,8 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -59,6 +61,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   if (!token) throw new Error(`token with id ${tokenId} not found`)
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -76,10 +79,11 @@ export default function TokenDetailsScreen({ route }: Props) {
           </Text>
         </View>
         <TokenDisplay
-          amount={token.balance}
+          amount={1}
           tokenId={tokenId}
-          style={styles.balance}
-          testID="TokenDetails/Balance"
+          style={styles.assetValue}
+          testID="TokenDetails/AssetValue"
+          errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
         {token.isNative && token.symbol === 'CELO' && (
@@ -323,7 +327,7 @@ const styles = StyleSheet.create({
   tokenImg: {
     marginRight: Spacing.Tiny4,
   },
-  balance: {
+  assetValue: {
     ...typeScale.titleLarge,
     color: Colors.dark,
     marginHorizontal: Spacing.Thick24,
