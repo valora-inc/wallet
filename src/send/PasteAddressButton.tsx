@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     flexWrap: 'wrap',
     flexShrink: 1,
-    wordBreak: 'break-all',
     maxWidth: '100%',
   },
   title: {

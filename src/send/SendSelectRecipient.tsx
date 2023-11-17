@@ -1,7 +1,4 @@
-import { throttle } from 'lodash'
-import { parsePhoneNumber } from '@celo/phone-utils'
-import React, { useMemo, useState, useCallback, useEffect } from 'react'
-import { useAsync } from 'react-async-hook'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -20,16 +17,7 @@ import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { resolveId } from 'src/recipients/RecipientPicker'
-import {
-  sortRecipients,
-  getRecipientFromAddress,
-  Recipient,
-  RecipientType,
-  filterRecipientFactory,
-} from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
-import useSelector from 'src/redux/useSelector'
+import { Recipient } from 'src/recipients/recipient'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
@@ -38,20 +26,13 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { requestContactsPermission } from 'src/utils/permissions'
 import PasteAddressButton from 'src/send/PasteAddressButton'
-import { debounce } from 'lodash'
 import { isAddressFormat } from 'src/account/utils'
-import SendOrInviteButton from './SendOrInviteButton'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
-import { isValidAddress } from '@celo/utils/lib/address'
-import { recipientInfoSelector } from 'src/recipients/reducer'
-import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { StackParamList } from 'src/navigator/types'
 import { SendOrigin } from 'src/analytics/types'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
-
-const SEARCH_THROTTLE_TIME = 100
-const TYPING_DEBOUNCE_MILLSECONDS = 300
+import Button, { BtnSizes } from 'src/components/Button'
+import { useSendRecipients, useMergedSearchRecipients } from 'src/send/hooks'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
@@ -154,157 +135,27 @@ const getStartedStyles = StyleSheet.create({
 
 function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
 
-  const [searchQuery, setSearchQuery] = useState('')
+  const [sendOrInviteButtonHidden, setSendOrInviteButtonHidden] = useState(true)
+  const [showInviteModal, setShowInviteModal] = useState(false)
+  const [showContacts, setShowContacts] = useState(false)
   const [showSearchResults, setShowSearchResults] = useState(false)
 
-  const defaultCountryCode = useSelector(defaultCountryCodeSelector)
-  const [sendOrInviteButtonHidden, setSendOrInviteButtonHidden] = useState(true)
-
-  // We debounce the search query in order to perform network calls to check
-  // if the query resolves to some special sort of identifier.
-  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery)
-  const debounceSearchQuery = useCallback(
-    debounce((query: string) => {
-      setDebouncedSearchQuery(query)
-    }, TYPING_DEBOUNCE_MILLSECONDS),
-    []
-  )
-  useEffect(() => {
-    const parsedPhoneNumber = parsePhoneNumber(
-      searchQuery,
-      defaultCountryCode ? defaultCountryCode : undefined
-    )
-
-    if (parsedPhoneNumber) {
-      debounceSearchQuery(parsedPhoneNumber.e164Number)
-    } else {
-      debounceSearchQuery(searchQuery)
-    }
-  }, [searchQuery, defaultCountryCode])
-  const { result: resolveAddressResult } = useAsync(resolveId, [debouncedSearchQuery])
-
-  const setSearchQueryWrapper = (query: string) => {
+  const onSearch = (searchQuery: string) => {
     // Always unset the selected recipient and hide the send/invite button
     // when the search query is changed in order to prevent edge cases
     // where the button appears but is bound to a recipient that is
     // not present on the page.
     unsetSelectedRecipient()
     setSendOrInviteButtonHidden(true)
-
-    if (!query) {
-      setShowSearchResults(false)
-    } else {
-      setShowSearchResults(true)
-    }
-    setSearchQuery(query)
+    setShowSearchResults(!!searchQuery)
   }
-
-  const [showInviteModal, setShowInviteModal] = useState(false)
-
-  const [showContacts, setShowContacts] = useState(false)
-
-  const recentRecipients = useSelector((state) => state.send.recentRecipients)
-  const contactsCache = useSelector(phoneRecipientCacheSelector)
-  const recipientInfo = useSelector(recipientInfoSelector)
-
-  const contactRecipients = useMemo(
-    () => sortRecipients(Object.values(contactsCache)),
-    [contactsCache]
-  )
-  const [contactsFiltered, setContactsFiltered] = useState(() =>
-    sortRecipients(Object.values(contactRecipients))
-  )
-  const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
-
-  const recentRecipientsFilter = useMemo(
-    () => filterRecipientFactory(recentRecipients, false),
-    [recentRecipients]
-  )
-  const contactRecipientsFilter = useMemo(
-    () => filterRecipientFactory(Object.values(contactRecipients), true),
-    [contactRecipients]
-  )
-
-  const getUniqueSearchRecipient = (): Recipient | undefined => {
-    const parsedNumber = parsePhoneNumber(
-      searchQuery,
-      defaultCountryCode ? defaultCountryCode : undefined
-    )
-    if (parsedNumber) {
-      return {
-        displayNumber: parsedNumber.displayNumber,
-        e164PhoneNumber: parsedNumber.e164Number,
-        recipientType: RecipientType.PhoneNumber,
-        name: t('sendToMobileNumber'),
-      }
-    }
-    if (isValidAddress(searchQuery)) {
-      return getRecipientFromAddress(searchQuery.toLowerCase(), recipientInfo)
-    }
-  }
-
-  const mapResolutionToRecipient = (resolution: NameResolution): Recipient => {
-    const lowerCaseAddress = resolution.address.toLowerCase()
-    switch (resolution.kind) {
-      case ResolutionKind.Address:
-        return getRecipientFromAddress(lowerCaseAddress, recipientInfo)
-      case ResolutionKind.Nom:
-        return {
-          address: lowerCaseAddress,
-          name: t('nomSpaceRecipient', { name: resolution.name ?? searchQuery }),
-          recipientType: RecipientType.Nomspace,
-        }
-      default:
-        return getRecipientFromAddress(lowerCaseAddress, recipientInfo)
-    }
-  }
-
-  const mergedFilteredRecipients = useMemo(() => {
-    const allRecipients: Recipient[] = []
-    if (resolveAddressResult && resolveAddressResult.resolutions.length > 0) {
-      const resolutions = resolveAddressResult.resolutions.map(mapResolutionToRecipient)
-      allRecipients.push(...resolutions)
-    }
-    allRecipients.push(...recentFiltered)
-    allRecipients.push(...contactsFiltered)
-
-    const mergedRecipients: Recipient[] = []
-    for (const potentialRecipient of allRecipients) {
-      if (
-        !mergedRecipients.find(
-          (mergedRecipient) =>
-            mergedRecipient.e164PhoneNumber === potentialRecipient.e164PhoneNumber ||
-            mergedRecipient.address === potentialRecipient.address
-        )
-      ) {
-        mergedRecipients.push(potentialRecipient)
-      }
-    }
-
-    const uniqueRecipient = getUniqueSearchRecipient()
-    if (!mergedRecipients.length && uniqueRecipient) {
-      mergedRecipients.push(uniqueRecipient)
-    }
-
-    return mergedRecipients
-  }, [recentFiltered, contactsFiltered, resolveAddressResult])
-
-  const throttledSearch = throttle((searchInput: string) => {
-    setSearchQueryWrapper(searchInput)
-    setRecentFiltered(recentRecipientsFilter(searchInput))
-    setContactsFiltered(contactRecipientsFilter(searchInput))
-  }, SEARCH_THROTTLE_TIME)
-
-  useEffect(() => {
-    // Clear search when recipients change to avoid tricky states
-    throttledSearch('')
-  }, [recentRecipientsFilter, contactRecipientsFilter])
-
-  const showGetStarted = !recentRecipients.length
+  const { contactRecipients, recentRecipients } = useSendRecipients()
+  const { mergedRecipients, searchQuery, setSearchQuery } = useMergedSearchRecipients(onSearch)
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
@@ -313,7 +164,6 @@ function SendSelectRecipient({ route }: Props) {
     setSelectedRecipient(selectedRecipient)
     setSendOrInviteButtonHidden(false)
   }
-  const dispatch = useDispatch()
 
   const onPressContacts = async () => {
     ValoraAnalytics.track(SendEvents.send_select_recipient_contacts)
@@ -336,18 +186,18 @@ function SendSelectRecipient({ route }: Props) {
     return content !== searchQuery && isAddressFormat(content)
   }
 
+  const showGetStarted = !recentRecipients.length
+
   const sendOrInviteButtonDisabled =
     !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
   const shouldInviteRecipient =
     !sendOrInviteButtonDisabled &&
     recipient?.e164PhoneNumber &&
     recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
-  const sendOrInviteButtonText = shouldInviteRecipient ? t('invite') : t('send')
   const onPressSendOrInvite = () => {
     if (!recipient) {
       return
     }
-
     if (shouldInviteRecipient) {
       setShowInviteModal(true)
     } else {
@@ -360,31 +210,41 @@ function SendSelectRecipient({ route }: Props) {
       })
     }
   }
+  const renderSendOrInviteButton = () => {
+    if (sendOrInviteButtonHidden) {
+      return <></>
+    }
+    return (
+      <Button
+        testID="SendOrInviteButton"
+        style={styles.sendOrInviteButton}
+        onPress={onPressSendOrInvite}
+        disabled={sendOrInviteButtonDisabled}
+        text={shouldInviteRecipient ? t('invite') : t('send')}
+        size={BtnSizes.FULL}
+      />
+    )
+  }
 
   const onCloseInviteModal = () => {
     setShowInviteModal(false)
   }
 
   const renderSearchResults = () => {
-    if (mergedFilteredRecipients.length) {
+    if (mergedRecipients.length) {
       return (
         <>
           <Text style={styles.searchResultsHeader}>{t('sendSelectRecipient.results')}</Text>
           <RecipientPicker
             testID={'SelectRecipient/AllRecipientsPicker'}
-            recipients={mergedFilteredRecipients}
+            recipients={mergedRecipients}
             onSelectRecipient={setSelectedRecipientWrapper}
             selectedRecipient={recipient}
             isSelectedRecipientLoading={
               !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
             }
           />
-          <SendOrInviteButton
-            onPress={onPressSendOrInvite}
-            hidden={sendOrInviteButtonHidden}
-            disabled={sendOrInviteButtonDisabled}
-            text={sendOrInviteButtonText}
-          />
+          {renderSendOrInviteButton()}
         </>
       )
     } else {
@@ -401,6 +261,7 @@ function SendSelectRecipient({ route }: Props) {
       )
     }
   }
+
   return (
     <SafeAreaView style={styles.body} edges={['top']}>
       <View style={styles.header}>
@@ -410,12 +271,12 @@ function SendSelectRecipient({ route }: Props) {
           eventName={SendEvents.send_cancel}
           style={styles.buttonContainer}
         />
-        <SendSelectRecipientSearchInput input={searchQuery} onChangeText={throttledSearch} />
+        <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
       <View style={styles.content}>
         <PasteAddressButton
           shouldShowClipboard={shouldShowClipboard}
-          onChangeText={setSearchQueryWrapper}
+          onChangeText={setSearchQuery}
           value={''}
         />
         {showSearchResults ? (
@@ -432,12 +293,7 @@ function SendSelectRecipient({ route }: Props) {
                 !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
               }
             />
-            <SendOrInviteButton
-              onPress={onPressSendOrInvite}
-              hidden={sendOrInviteButtonHidden}
-              disabled={sendOrInviteButtonDisabled}
-              text={sendOrInviteButtonText}
-            />
+            {renderSendOrInviteButton()}
           </>
         ) : (
           <>
@@ -534,6 +390,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: Spacing.Thick24,
     textAlign: 'center',
+  },
+  sendOrInviteButton: {
+    padding: variables.contentPadding,
   },
 })
 
