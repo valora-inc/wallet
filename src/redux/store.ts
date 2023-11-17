@@ -141,6 +141,7 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'fiatConnect',
           'keylessBackup',
           'nfts',
+          'swap',
         ],
       })
     )
