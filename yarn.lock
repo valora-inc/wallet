@@ -3109,10 +3109,10 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.0.3.tgz#abfb12aa085aa4098ee419c2360852e5dd9ad2b5"
   integrity sha512-KzNpIIwlAwIz65JhsLdcHA67x1c6JB+LCRiPsJbCUST6CnVhqkWnTsWLtJyHEt0yfxwnUwwAyB1FSTD0HH4zQg==
 
-"@segment/analytics-react-native-plugin-firebase@^0.3.10":
-  version "0.3.10"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.3.10.tgz#9511a5969ede21b324cce85e184bd5bdf177800d"
-  integrity sha512-d4XYltxCWLT/pyVZQ3Z1serKz9/olrLtBaiHCabYmtoAxt8AcGkmaScSAt9YSCpOJ5xS6hv0vVNp6eJooZPK/w==
+"@segment/analytics-react-native-plugin-firebase@^0.3.11":
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.3.11.tgz#42b05ff55462be8d7b7821226bebb035c3f5710b"
+  integrity sha512-d2ip1G621+Cc+Ffwhq8sUI6mCduZnj+uzrQxaEp/GCocuHUp2488aIp4tNK1dKgwdQbvMpxQtE6hB7nIBJesEw==
 
 "@segment/analytics-react-native@^2.16.1":
   version "2.16.1"
