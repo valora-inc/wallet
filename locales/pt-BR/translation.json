@@ -1925,6 +1925,14 @@
           "subtitle": "Você pode pesquisar os usuários existentes em Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Permitir que os contatos continuem",
+      "description": "Vá para as configurações para atualizar seus contatos e começar a enviar para amigos"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Conecte seu número de celular",
+      "description": "Você precisa conectar seu número de telefone para poder começar a enviar criptografia para seus amigos"
     }
   },
   "transactionStatus": {
