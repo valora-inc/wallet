@@ -509,6 +509,20 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
   },
+  [mockEthTokenId]: {
+    priceUsd: '1500',
+    address: null,
+    tokenId: mockEthTokenId,
+    networkId: NetworkId['ethereum-sepolia'],
+    symbol: 'ETH',
+    imageUrl:
+      'https://raw.githubusercontent.com/valora-inc/address-metadata/main/assets/tokens/ETH.png',
+    name: 'Ether',
+    decimals: 18,
+    balance: '0.1',
+    priceFetchedAt: Date.now(),
+    isNative: true,
+  },
 }
 
 export const mockCeloTokenBalance: TokenBalance = {
@@ -516,6 +530,13 @@ export const mockCeloTokenBalance: TokenBalance = {
   priceUsd: new BigNumber(0.5),
   lastKnownPriceUsd: new BigNumber(0.4),
   balance: new BigNumber(5),
+}
+
+export const mockEthTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockEthTokenId],
+  priceUsd: new BigNumber(1500),
+  lastKnownPriceUsd: new BigNumber(1500),
+  balance: new BigNumber(0.1),
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
