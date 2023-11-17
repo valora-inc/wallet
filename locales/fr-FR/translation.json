@@ -1925,6 +1925,14 @@
           "subtitle": "Tu peux rechercher des utilisateurs existants sur Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Autorise les contacts à continuer",
+      "description": "Va dans les paramètres pour mettre à jour tes contacts et commencer à envoyer des messages à tes amis."
+    },
+    "connectPhoneNumberModal": {
+      "title": "Connectez votre numéro de téléphone",
+      "description": "Tu dois connecter ton numéro de téléphone pour pouvoir commencer à envoyer de la crypto à tes amis."
     }
   },
   "transactionStatus": {
