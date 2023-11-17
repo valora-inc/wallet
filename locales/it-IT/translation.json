@@ -1878,18 +1878,18 @@
     "title": "Importazione del token",
     "notification": "Chiunque può creare un token, anche versioni false di token esistenti. Verifica che l'indirizzo del token sia corretto prima di effettuare l'importazione.",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "Indirizzo del token",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Simbolo del gettone",
       "network": "Rete"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "Token non valido. Riprova o contatta l'assistenza",
       "alreadyImported": "Il token è già stato aggiunto in precedenza.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Il token è già supportato."
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
-    "importButton": "Import"
+    "importSuccess": "Importazione riuscita del token {{tokenSymbol}}",
+    "importButton": "Importazione"
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, telefono, portafoglio...",
