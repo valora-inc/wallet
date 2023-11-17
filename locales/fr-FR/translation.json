@@ -1874,6 +1874,23 @@
       "withdraw": "Transfère des jetons vers un compte bancaire, de l'argent mobile, une carte cadeau, etc."
     }
   },
+  "tokenImport": {
+    "title": "Importer un jeton",
+    "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifie que l'adresse de ton token est correcte avant de l'importer.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Réseau"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Le jeton a déjà été ajouté auparavant.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
     "searchText": "Recherche par nom, téléphone, portefeuille...",
     "title": "Sélectionne un destinataire",
