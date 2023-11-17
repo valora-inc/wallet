@@ -46,8 +46,10 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
   })
 
   const onPressContacts = async () => {
-    const currentPermission =
-      contactsPermissionStatus ?? (await checkPermission(CONTACTS_PERMISSION))
+    // always fetch permission here as it can change outside the app through
+    // native settings, but this screen still remains in view (happens for
+    // Android for when permission changes from denied -> granted, everything else causes an app reload)
+    const currentPermission = await checkPermission(CONTACTS_PERMISSION)
     setContactsPermissionStatus(currentPermission)
 
     ValoraAnalytics.track(SendEvents.send_select_recipient_contacts, {

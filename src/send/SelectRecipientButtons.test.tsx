@@ -29,31 +29,31 @@ describe('SelectRecipientButtons', () => {
     jest.mocked(check).mockResolvedValue(RESULTS.DENIED)
   })
 
-  it('renders QR and contacts button with no check mark on contacts if phone number is not verified', () => {
-    const { getByTestId, queryByTestId } = renderComponent()
-    expect(getByTestId('SelectRecipient/QR')).toBeTruthy()
+  it('renders QR and contacts button with no check mark on contacts if phone number is not verified', async () => {
+    const { getByTestId, queryByTestId, findByTestId } = renderComponent()
+    // using findByTestId for first assertion in all tests to ensure rendering is finished after useAsync
+    expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()
     expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
     expect(queryByTestId('SelectRecipient/Contacts/checkmark')).toBeFalsy()
+    expect(check).toHaveBeenCalledTimes(1)
   })
-  it('renders QR and contacts button with no check mark on contacts if phone number is verified but contact permission is not granted', () => {
-    const { getByTestId, queryByTestId } = renderComponent(true)
-    expect(getByTestId('SelectRecipient/QR')).toBeTruthy()
+  it('renders QR and contacts button with no check mark on contacts if phone number is verified but contact permission is not granted', async () => {
+    const { getByTestId, queryByTestId, findByTestId } = renderComponent(true)
+    expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()
     expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
     expect(queryByTestId('SelectRecipient/Contacts/checkmark')).toBeFalsy()
   })
   it('renders QR and contacts button with check mark on contacts if phone number is verified and contact permission is granted', async () => {
     jest.mocked(check).mockResolvedValue(RESULTS.GRANTED)
 
-    const { getByTestId } = renderComponent(true)
-    expect(getByTestId('SelectRecipient/QR')).toBeTruthy()
+    const { getByTestId, findByTestId } = renderComponent(true)
+    expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()
     expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
-    await waitFor(() => {
-      expect(getByTestId('SelectRecipient/Contacts/checkmark')).toBeTruthy()
-    })
+    expect(getByTestId('SelectRecipient/Contacts/checkmark')).toBeTruthy()
   })
-  it('navigates to QR screen when QR button is pressed', () => {
-    const { getByTestId } = renderComponent()
-    fireEvent.press(getByTestId('SelectRecipient/QR'))
+  it('navigates to QR screen when QR button is pressed', async () => {
+    const { findByTestId } = renderComponent()
+    fireEvent.press(await findByTestId('SelectRecipient/QR'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
@@ -61,9 +61,9 @@ describe('SelectRecipientButtons', () => {
   })
   it('invokes permissions granted callback when contacts button is pressed with phone verified and contacts permission granted', async () => {
     jest.mocked(check).mockResolvedValue(RESULTS.GRANTED)
-    const { getByTestId, onPermissionsGranted } = renderComponent(true)
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    const { findByTestId, onPermissionsGranted } = renderComponent(true)
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
@@ -75,9 +75,9 @@ describe('SelectRecipientButtons', () => {
   })
 
   it('shows connect phone number modal if phone is not verified', async () => {
-    const { getByTestId, onPermissionsGranted } = renderComponent(false)
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(false)
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: false,
@@ -94,12 +94,15 @@ describe('SelectRecipientButtons', () => {
     await waitFor(() => {
       expect(getByTestId('SelectRecipient/PhoneNumberModal')).not.toBeVisible()
     })
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(getByTestId('SelectRecipient/PhoneNumberModal')).toBeVisible()
     await act(() => {
       fireEvent.press(getByTestId('SelectRecipient/PhoneNumberModal/PrimaryAction'))
+    })
+    await waitFor(() => {
+      expect(getByTestId('SelectRecipient/PhoneNumberModal')).not.toBeVisible()
     })
     await waitFor(() => {
       expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
@@ -110,9 +113,9 @@ describe('SelectRecipientButtons', () => {
 
   it('shows enable contacts modal if phone verified but contacts permission is blocked', async () => {
     jest.mocked(check).mockResolvedValue(RESULTS.BLOCKED)
-    const { getByTestId, onPermissionsGranted } = renderComponent(true)
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(true)
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
@@ -128,8 +131,8 @@ describe('SelectRecipientButtons', () => {
     await waitFor(() => {
       expect(getByTestId('SelectRecipient/ContactsModal')).not.toBeVisible()
     })
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(getByTestId('SelectRecipient/ContactsModal')).toBeVisible()
     await act(() => {
@@ -140,9 +143,9 @@ describe('SelectRecipientButtons', () => {
 
   it('requests permission if phone is verified but contacts permission is denied and invokes callback if request is granted', async () => {
     jest.mocked(request).mockResolvedValue(RESULTS.GRANTED)
-    const { getByTestId, onPermissionsGranted } = renderComponent(true)
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    const { findByTestId, onPermissionsGranted } = renderComponent(true)
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
@@ -161,9 +164,9 @@ describe('SelectRecipientButtons', () => {
 
   it('requests permission if phone is verified but contacts permission is denied and does nothing if request is denied', async () => {
     jest.mocked(request).mockResolvedValue(RESULTS.DENIED)
-    const { getByTestId, onPermissionsGranted } = renderComponent(true)
-    await act(() => {
-      fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+    const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(true)
+    await act(async () => {
+      fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_contacts, {
       phoneNumberVerified: true,
@@ -189,9 +192,9 @@ describe('SelectRecipientButtons', () => {
     async ({ os, showsModal }) => {
       Platform.OS = os
       jest.mocked(request).mockResolvedValue(RESULTS.BLOCKED)
-      const { getByTestId, onPermissionsGranted } = renderComponent(true)
-      await act(() => {
-        fireEvent.press(getByTestId('SelectRecipient/Contacts'))
+      const { findByTestId, getByTestId, onPermissionsGranted } = renderComponent(true)
+      await act(async () => {
+        fireEvent.press(await findByTestId('SelectRecipient/Contacts'))
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         SendEvents.send_select_recipient_contacts,
