@@ -14,8 +14,8 @@ import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
   lastKnownTokenBalancesSelector,
-  tokensListWithAddressSelector,
   tokensListSelector,
+  tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
