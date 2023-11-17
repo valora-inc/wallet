@@ -1872,6 +1872,23 @@
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
     }
   },
+  "tokenImport": {
+    "title": "Import Token",
+    "notification": "Anyone can create a token, including fake versions of existing tokens. Verify your token address is correct before you import.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "เครือข่าย"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Token was added already before.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
     "title": "Select a recipient",
