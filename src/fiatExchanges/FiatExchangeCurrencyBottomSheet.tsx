@@ -19,9 +19,6 @@ import useSelector from 'src/redux/useSelector'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import variables from 'src/styles/variables'
 import { cicoTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
@@ -108,59 +105,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'space-between',
-  },
-  topContainer: {
-    paddingHorizontal: variables.contentPadding,
-    backgroundColor: colors.light,
-  },
-  titleContainer: {
-    flexWrap: 'wrap',
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: variables.contentPadding,
-  },
-  selectDigitalCurrency: {
-    ...fontStyles.regular,
-    marginRight: 12,
-  },
-  currenciesContainer: {
-    flexDirection: 'column',
-    marginTop: 8,
-  },
-  currencyItemContainer: {
-    flexDirection: 'row',
-    padding: variables.contentPadding,
-    borderWidth: 1,
-    flexWrap: 'wrap',
-    alignItems: 'center',
-  },
-  currencyItemTitle: {
-    ...fontStyles.regular500,
-    marginLeft: variables.contentPadding,
-  },
-  currencyItemBody: {
-    ...fontStyles.regular500,
-    color: colors.gray4,
-    marginLeft: 4,
-  },
-  bottomContainer: {
-    flexDirection: 'column',
-    paddingHorizontal: variables.contentPadding,
-  },
-  goToProvider: {
-    width: '50%',
-    alignSelf: 'center',
-    marginTop: 40,
-    marginBottom: 24,
-  },
-  radioMiddle: {
-    borderTopWidth: 0.5,
-    borderBottomWidth: 0.5,
-  },
-  radioBottom: {
-    borderTopWidth: 0.5,
-    borderBottomLeftRadius: 8,
-    borderBottomRightRadius: 8,
   },
 })
 
