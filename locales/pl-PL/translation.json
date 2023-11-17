@@ -1929,6 +1929,14 @@
           "subtitle": "Możesz wyszukać istniejących użytkowników w Valorze"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Włącz kontakty, aby kontynuować",
+      "description": "Przejdź do ustawień, aby zaktualizować kontakty i rozpocząć wysyłanie do znajomych."
+    },
+    "connectPhoneNumberModal": {
+      "title": "Podłącz swój numer telefonu",
+      "description": "Musisz połączyć swój numer telefonu, aby móc zacząć wysyłać kryptowaluty do znajomych"
     }
   },
   "transactionStatus": {
