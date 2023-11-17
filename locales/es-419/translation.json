@@ -1925,6 +1925,14 @@
           "subtitle": "Puedes buscar usuarios existentes en Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Habilitar contactos para continuar",
+      "description": "Ve a la configuración para actualizar tus contactos y empezar a enviar a tus amigos"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Conecta tu número de teléfono",
+      "description": "Tienes que conectar tu número de teléfono para poder empezar a enviar criptomonedas a tus amigos"
     }
   },
   "transactionStatus": {
