@@ -1923,6 +1923,14 @@
           "subtitle": "您可以搜索 Valora 上的现有用户"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "启用联系人继续",
+      "description": "请进入设置更新联系人，并开始向朋友发送信息"
+    },
+    "connectPhoneNumberModal": {
+      "title": "关联您的手机号码",
+      "description": "您需要连接您的电话号码，以便开始向朋友发送加密货币"
     }
   },
   "transactionStatus": {
