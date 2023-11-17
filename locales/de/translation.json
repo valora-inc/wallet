@@ -1925,6 +1925,14 @@
           "subtitle": "Du kannst nach bestehenden Benutzern auf Valora suchen"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Kontakte zum Fortfahren freigeben",
+      "description": "Bitte gehe zu den Einstellungen, um deine Kontakte zu aktualisieren und mit dem Senden an Freunde zu beginnen"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Verbinden Sie Ihre Telefonnummer",
+      "description": "Du musst deine Telefonnummer angeben, damit du Kryptowährungen an deine Freunde schicken kannst."
     }
   },
   "transactionStatus": {
