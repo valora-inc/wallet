@@ -1874,6 +1874,23 @@
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
   },
+  "tokenImport": {
+    "title": "İçe Aktarma Belirteci",
+    "notification": "Mevcut belirteçlerin sahte sürümleri de dahil olmak üzere herkes bir belirteç oluşturabilir. İçe aktarmadan önce token adresinizin doğru olduğunu doğrulayın.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Ağ"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Token daha önce zaten eklenmişti.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
     "title": "Bir alıcı seçin",
