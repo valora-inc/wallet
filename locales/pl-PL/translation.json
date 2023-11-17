@@ -1878,6 +1878,23 @@
       "withdraw": "Przenieś tokeny na konto bankowe, pieniądze mobilne, kartę podarunkową itp."
     }
   },
+  "tokenImport": {
+    "title": "Importuj token",
+    "notification": "Każdy może utworzyć token, w tym fałszywe wersje istniejących tokenów. Przed importem sprawdź, czy adres tokena jest prawidłowy.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Sieć"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Token został dodany już wcześniej.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
     "searchText": "Szukaj według nazwy, telefonu, portfela…",
     "title": "Wybierz odbiorcę",
