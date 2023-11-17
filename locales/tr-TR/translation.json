@@ -1878,18 +1878,18 @@
     "title": "İçe Aktarma Belirteci",
     "notification": "Mevcut belirteçlerin sahte sürümleri de dahil olmak üzere herkes bir belirteç oluşturabilir. İçe aktarmadan önce token adresinizin doğru olduğunu doğrulayın.",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "Belirteç Adresi",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Jeton Sembolü",
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "Geçersiz belirteç. Tekrar deneyin veya desteğe başvurun",
       "alreadyImported": "Token daha önce zaten eklenmişti.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Token zaten desteklenmektedir."
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
-    "importButton": "Import"
+    "importSuccess": "{{tokenSymbol}} belirteci başarıyla içe aktarıldı",
+    "importButton": "İthalat"
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
