@@ -185,13 +185,27 @@ describe('TokenDisplay', () => {
       expect(getElementText(getByTestId('test'))).toEqual('-R$1.00')
     })
 
-    it('shows a dash when the token doesnt exist', () => {
+    it('shows a dash by default when the token doesnt exist', () => {
       const { getByTestId } = render(
         <Provider store={store()}>
           <TokenDisplay amount={10} tokenId={'celo-alfajores:does-not-exist'} testID="test" />
         </Provider>
       )
       expect(getElementText(getByTestId('test'))).toEqual('-')
+    })
+
+    it('shows custom error fallback when token doesnt exist and fallback is provided', () => {
+      const { getByTestId } = render(
+        <Provider store={store()}>
+          <TokenDisplay
+            amount={10}
+            tokenId={'celo-alfajores:does-not-exist'}
+            testID="test"
+            errorFallback="$ --"
+          />
+        </Provider>
+      )
+      expect(getElementText(getByTestId('test'))).toEqual('$ --')
     })
 
     it('doesnt show error when the token doesnt exist if theres a localAmount', () => {
