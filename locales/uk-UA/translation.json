@@ -1882,17 +1882,17 @@
     "title": "Токен імпорту",
     "notification": "Будь-хто може створити токен, включаючи підроблені версії існуючих токенів. Перед імпортом перевірте правильність адреси токена.",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "Адреса токена",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Символ токену",
       "network": "Мережа"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "Недійсний токен. Спробуйте ще раз або зверніться до служби підтримки",
       "alreadyImported": "Токен був доданий раніше.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Токен вже підтримується."
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importSuccess": "Успішно імпортовано токен {{tokenSymbol}}",
     "importButton": "Імпортувати"
   },
   "sendSelectRecipient": {
