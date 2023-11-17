@@ -11,6 +11,11 @@ import { createMockStore } from 'test/utils'
 import { mockPhoneRecipientCache, mockRecipient, mockRecipient2 } from 'test/values'
 
 jest.mock('src/utils/permissions')
+jest.mock('react-native-device-info', () => {
+  return {
+    getFontScaleSync: () => 1,
+  }
+})
 
 const defaultStore = {
   send: {
