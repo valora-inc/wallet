@@ -22,7 +22,7 @@ import {
 } from 'test/values'
 import { formatTransaction } from 'viem'
 import { getTransactionCount } from 'viem/actions'
-import { celoAlfajores } from 'viem/chains'
+import { celoAlfajores, sepolia as ethereumSepolia } from 'viem/chains'
 
 jest.mock('src/statsig')
 jest.mock('src/web3/networkConfig', () => {
@@ -180,6 +180,20 @@ describe(handleRequest, () => {
   describe('viem signing actions', () => {
     beforeAll(() => {
       jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
+
+    it('chooses the correct wallet for the request', async () => {
+      await expectSaga(handleRequest, { ...personalSignRequest, chainId: 'eip155:11155111' })
+        .withState(state)
+        .call(getViemWallet, ethereumSepolia)
+        .not.call(getViemWallet, celoAlfajores)
+        .run()
+
+      await expectSaga(handleRequest, { ...personalSignRequest, chainId: 'eip155:44787' })
+        .withState(state)
+        .call(getViemWallet, celoAlfajores)
+        .not.call(getViemWallet, ethereumSepolia)
+        .run()
     })
 
     it('supports personal_sign', async () => {

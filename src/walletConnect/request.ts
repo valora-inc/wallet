@@ -46,7 +46,7 @@ export function* handleRequest({
     StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
   )
 
-  if (!useViem && network !== Network.Celo) {
+  if ((!useViem && network !== Network.Celo) || !networkConfig.viemChain[network]) {
     throw new Error('unsupported network')
   }
 
