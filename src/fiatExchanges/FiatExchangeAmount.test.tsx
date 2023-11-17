@@ -249,9 +249,9 @@ describe('FiatExchangeAmount cashOut', () => {
       </Provider>
     )
     expect(getByText('amount (cUSD)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('celoDollar @ $1.00')
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('cUSD @ $1.00')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
-    expect(getByText('disclaimerFiat, {"currency":"celoDollar"}')).toBeTruthy()
+    expect(getByText('disclaimerFiat, {"currency":"cUSD"}')).toBeTruthy()
   })
 
   it('displays correctly for cEUR when local currency is USD', () => {
@@ -261,9 +261,9 @@ describe('FiatExchangeAmount cashOut', () => {
       </Provider>
     )
     expect(getByText('amount (cEUR)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('celoEuro @ $1.20')
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('cEUR @ $1.20')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
-    expect(getByText('disclaimerFiat, {"currency":"celoEuro"}')).toBeTruthy()
+    expect(getByText('disclaimerFiat, {"currency":"cEUR"}')).toBeTruthy()
   })
 
   it('displays correctly for CELO when local currency is USD', () => {
@@ -273,7 +273,7 @@ describe('FiatExchangeAmount cashOut', () => {
       </Provider>
     )
     expect(getByText('amount (CELO)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('subtotal @ $5.00')
+    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('CELO @ $5.00')
     expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
   })
 
@@ -287,7 +287,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(getByText('amount (cUSD)')).toBeTruthy()
     expect(queryByTestId('LineItemRowTitle/subtotal')).toBeFalsy()
     expect(queryByTestId('LineItemRow/subtotal')).toBeFalsy()
-    expect(queryByText('disclaimerFiat, {"currency":"celoDollar"}')).toBeFalsy()
+    expect(queryByText('disclaimerFiat, {"currency":"cUSD"}')).toBeFalsy()
   })
 
   it('disables the next button if the cUSD amount is 0', () => {

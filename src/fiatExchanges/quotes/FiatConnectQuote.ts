@@ -297,12 +297,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.quote.cryptoAmount
   }
 
-  getCryptoTypeString(): string {
-    // todo eventually rename this to getCryptoType and rename getCryptoType to getCryptoCurrency
+  getCryptoType(): string {
     return this.quote.quote.cryptoType
   }
 
-  getCryptoType(): CiCoCurrency {
+  getCryptoCurrency(): CiCoCurrency {
     return resolveCICOCurrency(this.quote.quote.cryptoType)
   }
 

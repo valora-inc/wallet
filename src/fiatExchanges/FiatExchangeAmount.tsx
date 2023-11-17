@@ -43,20 +43,12 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { CiCoCurrency, resolveCICOCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
+import { CiCoCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { CICOFlow, isUserInputCrypto } from './utils'
 
 const { decimalSeparator } = getNumberFormatSettings()
-
-const cicoCurrencyTranslationKeys = {
-  [CiCoCurrency.CELO]: 'subtotal',
-  [CiCoCurrency.cEUR]: 'celoEuro',
-  [CiCoCurrency.cUSD]: 'celoDollar',
-  [CiCoCurrency.cREAL]: 'celoReal',
-  [CiCoCurrency.ETH]: 'ether',
-}
 
 type RouteProps = NativeStackScreenProps<StackParamList, Screens.FiatExchangeAmount>
 
@@ -92,8 +84,6 @@ function FiatExchangeAmount({ route }: Props) {
   const maxWithdrawAmount = useMaxSendAmount(tokenId, FeeType.SEND)
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
-
-  const displayCurrencyKey = cicoCurrencyTranslationKeys[resolveCICOCurrency(tokenSymbol)]
 
   const cUSDToken = useTokenInfo(networkConfig.currencyToTokenId[CiCoCurrency.cUSD])!
   const localCurrencyMaxAmount =
@@ -133,7 +123,7 @@ function FiatExchangeAmount({ route }: Props) {
 
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
-        account.cryptoType === resolveCICOCurrency(tokenSymbol) &&
+        account.cryptoType.toString() === tokenSymbol &&
         account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
@@ -143,7 +133,7 @@ function FiatExchangeAmount({ route }: Props) {
       dispatch(
         attemptReturnUserFlow({
           flow,
-          selectedCrypto: resolveCICOCurrency(tokenSymbol),
+          selectedCrypto: tokenSymbol,
           amount,
           providerId,
           fiatAccountId,
@@ -229,7 +219,7 @@ function FiatExchangeAmount({ route }: Props) {
             textStyle={styles.subtotalBodyText}
             title={
               <>
-                {`${t(displayCurrencyKey)} @ `}
+                {`${tokenSymbol} @ `}
                 {
                   <TokenDisplay
                     amount={BigNumber(1)}
@@ -252,9 +242,7 @@ function FiatExchangeAmount({ route }: Props) {
         )}
       </KeyboardAwareScrollView>
       {showExchangeRate && (
-        <Text style={styles.disclaimerFiat}>
-          {t('disclaimerFiat', { currency: t(displayCurrencyKey) })}
-        </Text>
+        <Text style={styles.disclaimerFiat}>{t('disclaimerFiat', { currency: tokenSymbol })}</Text>
       )}
       <Button
         onPress={onPressContinue}

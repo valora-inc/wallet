@@ -17,7 +17,7 @@ import LineItemRow from 'src/components/LineItemRow'
 import Touchable from 'src/components/Touchable'
 import { FeeEstimateState, FeeType, estimateFee } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
-import { FiatAmount, LegacyCryptoAmount } from 'src/fiatExchanges/amount'
+import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { convertToFiatConnectFiatCurrency } from 'src/fiatconnect'
@@ -67,7 +67,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
 
   const feeType = FeeType.SEND
   const tokenList: TokenBalance[] = useSelector(tokensListWithAddressSelector)
-  const cryptoType = normalizedQuote.getCryptoTypeString()
+  const cryptoType = normalizedQuote.getCryptoType()
   const tokenAddress = tokenList.find((token) => token.symbol === cryptoType)?.address
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
@@ -339,7 +339,6 @@ function getDisplayAmounts({
   networkFee: BigNumber
   tokenInfo: TokenBalance | undefined
 }) {
-  const cryptoType = normalizedQuote.getCryptoType()
   const fiatType = normalizedQuote.getFiatType()
   if (flow === CICOFlow.CashOut) {
     const providerFee =
@@ -356,17 +355,25 @@ function getDisplayAmounts({
       <FiatAmount amount={receive} currency={fiatType} testID={testID} />
     )
     const totalDisplay = (
-      <LegacyCryptoAmount amount={total} currency={cryptoType} testID="txDetails-total" />
+      <CryptoAmount
+        amount={total}
+        tokenId={normalizedQuote.getTokenId()}
+        testID="txDetails-total"
+      />
     )
 
     const feeDisplay = totalFee && (
-      <LegacyCryptoAmount amount={totalFee} currency={cryptoType} testID="txDetails-fee" />
+      <CryptoAmount
+        amount={totalFee}
+        tokenId={normalizedQuote.getTokenId()}
+        testID="txDetails-fee"
+      />
     )
 
     const totalMinusFeeDisplay = (
-      <LegacyCryptoAmount
+      <CryptoAmount
         amount={totalMinusFees}
-        currency={cryptoType}
+        tokenId={normalizedQuote.getTokenId()}
         testID="txDetails-converted"
       />
     )
@@ -394,7 +401,7 @@ function getDisplayAmounts({
     const exchangeRate = totalMinusFee / Number(receive)
 
     const receiveDisplay = (testID: string) => (
-      <LegacyCryptoAmount amount={receive} currency={cryptoType} testID={testID} />
+      <CryptoAmount amount={receive} tokenId={normalizedQuote.getTokenId()} testID={testID} />
     )
     const totalDisplay = <FiatAmount amount={total} currency={fiatType} testID="txDetails-total" />
 

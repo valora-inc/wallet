@@ -161,7 +161,7 @@ describe('Fiatconnect saga', () => {
       cryptoAmount: normalizedQuoteKyc.getCryptoAmount(),
       fiatAmount: normalizedQuoteKyc.getFiatAmount(),
       flow: normalizedQuoteKyc.flow,
-      cryptoType: normalizedQuoteKyc.getCryptoType(),
+      cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
       fiatType: normalizedQuoteKyc.getFiatType(),
     },
   }
@@ -205,7 +205,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuote.flow,
-            cryptoType: normalizedQuote.getCryptoType(),
+            cryptoType: normalizedQuote.getCryptoCurrency(),
             fiatType: normalizedQuote.getFiatType(),
           })
         )
@@ -335,7 +335,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -397,7 +397,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -458,7 +458,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -518,7 +518,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -569,7 +569,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -629,7 +629,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -1108,7 +1108,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: quote.getFiatAccountType(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
       flow: quote.flow,
-      cryptoType: quote.getCryptoType(),
+      cryptoType: quote.getCryptoCurrency(),
       fiatType: quote.getFiatType(),
     })
     it('navigates to step two of kyc landing if kyc is required and fiat account is not found', async () => {

@@ -598,7 +598,7 @@ describe('TransferFeedItem', () => {
               fiatAccountId,
               providerId: transferOutFcQuote.getProviderId(),
               flow: CICOFlow.CashOut,
-              cryptoType: transferOutFcQuote.getCryptoType(),
+              cryptoType: transferOutFcQuote.getCryptoCurrency(),
               fiatType: transferOutFcQuote.getFiatType(),
               fiatAccountType: transferOutFcQuote.getFiatAccountType(),
               fiatAccountSchema: transferOutFcQuote.getFiatAccountSchema(),

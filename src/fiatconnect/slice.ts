@@ -111,7 +111,7 @@ export interface CachedFiatAccountUse {
 
 export interface FetchQuotesAction {
   flow: CICOFlow
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   cryptoAmount: number
   fiatAmount: number
   providerIds?: string[]
@@ -119,7 +119,7 @@ export interface FetchQuotesAction {
 
 export interface AttemptReturnUserFlowAction {
   flow: CICOFlow
-  selectedCrypto: CiCoCurrency
+  selectedCrypto: string
   amount: {
     crypto: number
     fiat: number
@@ -170,7 +170,7 @@ export interface CreateFiatConnectTransferTxProcessingAction {
 
 interface RefetchQuoteAction {
   flow: CICOFlow
-  cryptoType: CiCoCurrency
+  cryptoType: string
   cryptoAmount: string
   fiatAmount: string
   providerId: string

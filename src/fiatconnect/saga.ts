@@ -78,7 +78,6 @@ import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
 import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -124,7 +123,7 @@ export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refet
       selectedFiatAccount: FiatAccount
     } = yield* call(_getSpecificQuote, {
       flow,
-      digitalAsset: resolveCICOCurrency(cryptoType),
+      digitalAsset: cryptoType,
       cryptoAmount: parseFloat(cryptoAmount),
       fiatAmount: parseFloat(fiatAmount),
       providerId: providerId,
@@ -187,7 +186,7 @@ export function* handleSubmitFiatAccount({
         fiatAccountType,
         fiatAccountSchema,
         flow,
-        cryptoType: quote.getCryptoType(),
+        cryptoType: quote.getCryptoCurrency(),
         fiatType: quote.getFiatType(),
       })
     )
@@ -420,7 +419,7 @@ export function* _getQuotes({
   flow,
   providerIds,
 }: {
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   cryptoAmount: number
   fiatAmount: number
   flow: CICOFlow
@@ -548,7 +547,7 @@ export function* _getSpecificQuote({
   fiatAccount,
   tokenId,
 }: {
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   cryptoAmount: number
   fiatAmount: number
   flow: CICOFlow
@@ -669,7 +668,7 @@ export function* handleSelectFiatConnectQuote({
                   cryptoAmount: quote.getCryptoAmount(),
                   fiatAmount: quote.getFiatAmount(),
                   flow: quote.flow,
-                  cryptoType: quote.getCryptoType(),
+                  cryptoType: quote.getCryptoCurrency(),
                   fiatType: quote.getFiatType(),
                 },
               })
@@ -767,7 +766,7 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
           cryptoAmount: quote.getCryptoAmount(),
           fiatAmount: quote.getFiatAmount(),
           flow: quote.flow,
-          cryptoType: quote.getCryptoType(),
+          cryptoType: quote.getCryptoCurrency(),
           fiatType: quote.getFiatType(),
         },
       })
@@ -842,7 +841,7 @@ export function* _checkFiatAccountAndNavigate({
       fiatAccountType: quote.getFiatAccountType(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
       flow: quote.flow,
-      cryptoType: quote.getCryptoType(),
+      cryptoType: quote.getCryptoCurrency(),
       fiatType: quote.getFiatType(),
     })
   )
@@ -961,7 +960,7 @@ export function* _initiateSendTxToProvider({
   Logger.info(TAG, 'Starting transfer out transaction..')
 
   const tokenList: TokenBalanceWithAddress[] = yield* select(tokensListWithAddressSelector)
-  const cryptoType = fiatConnectQuote.getCryptoTypeString()
+  const cryptoType = fiatConnectQuote.getCryptoType()
   const tokenInfo = tokenList.find((token) => token.symbol === cryptoType)
   if (!tokenInfo) {
     // case where none of the tokens in tokenList, which should be from firebase and in sync with this https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json

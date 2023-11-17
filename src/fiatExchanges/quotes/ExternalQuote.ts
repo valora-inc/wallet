@@ -19,7 +19,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount } from 'src/tokens/utils'
-import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 const strings = {
@@ -77,10 +76,10 @@ export default class ExternalQuote extends NormalizedQuote {
     return isSimplexQuote(this.quote) ? this.provider.paymentMethods[0] : this.quote.paymentMethod
   }
 
-  getCryptoType(): CiCoCurrency {
+  getCryptoType(): string {
     return isSimplexQuote(this.quote)
-      ? resolveCICOCurrency(this.quote.digital_money.currency)!
-      : resolveCICOCurrency(this.quote.digitalAsset)!
+      ? this.quote.digital_money.currency!
+      : this.quote.digitalAsset!
   }
 
   getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {

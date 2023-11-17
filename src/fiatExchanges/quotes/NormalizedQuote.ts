@@ -6,13 +6,12 @@ import { SettlementEstimation } from 'src/fiatExchanges/quotes/constants'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency } from 'src/utils/currencies'
 
 export default abstract class NormalizedQuote {
   abstract getPaymentMethod(): PaymentMethod
   abstract getFeeInFiat(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null
   abstract getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null
-  abstract getCryptoType(): CiCoCurrency
+  abstract getCryptoType(): string
   abstract getMobileCarrier(): string | undefined
   abstract getKycInfo(): string | null
   abstract getTimeEstimation(): SettlementEstimation

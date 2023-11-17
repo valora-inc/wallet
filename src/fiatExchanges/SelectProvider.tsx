@@ -57,7 +57,7 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { celoTokenSymbol, cusdTokenSymbol, resolveCICOCurrency } from 'src/utils/currencies'
+import { celoTokenSymbol, cusdTokenSymbol } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
@@ -115,7 +115,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     dispatch(
       fetchFiatConnectQuotes({
         flow,
-        digitalAsset: resolveCICOCurrency(tokenInfo.symbol),
+        digitalAsset: tokenInfo.symbol,
         cryptoAmount,
         fiatAmount,
       })
