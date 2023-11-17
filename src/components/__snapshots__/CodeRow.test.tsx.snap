@@ -38,6 +38,7 @@ exports[`CodeRow renders correctly for all CodeRowStatus states 2`] = `
         "alignItems": "center",
         "flex": 1,
         "flexDirection": "row",
+        "gap": 8,
         "justifyContent": "center",
       },
       {
