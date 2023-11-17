@@ -82,7 +82,7 @@
     "@gorhom/bottom-sheet": "^4.5.1",
     "@json-rpc-tools/utils": "^1.7.6",
     "@noble/secp256k1": "^1.7.1",
-    "@react-native-async-storage/async-storage": "^1.19.3",
+    "@react-native-async-storage/async-storage": "^1.19.5",
     "@react-native-clipboard/clipboard": "^1.12.1",
     "@react-native-community/netinfo": "^9.4.1",
     "@react-native-cookies/cookies": "^6.2.1",
