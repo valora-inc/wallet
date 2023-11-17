@@ -27,7 +27,7 @@ import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -227,7 +227,10 @@ function AssetsScreen({ navigation, route }: Props) {
       headerRight: () =>
         getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
           <TopBarTextButton
-            onPress={navigateBack}
+            onPress={() => {
+              ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
+              navigate(Screens.TokenImport)
+            }}
             title={t('assets.importToken')}
             style={styles.topBarTextButton}
           />
