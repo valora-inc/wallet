@@ -22,6 +22,7 @@ $static_framework = [
 
 require_relative "../node_modules/react-native/scripts/react_native_pods"
 require_relative "../node_modules/@react-native-community/cli-platform-ios/native_modules"
+require_relative "../node_modules/react-native-permissions/scripts/setup"
 
 platform :ios, min_ios_version_supported
 prepare_react_native_project! 
@@ -33,12 +34,9 @@ if linkage != nil
   use_frameworks! :linkage => linkage.to_sym
 end
 
-target "celo" do
-  # RNPermissions
-  permissions_path = '../node_modules/react-native-permissions/ios'
-  pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-  pod 'Permission-AppTrackingTransparency', :path => "#{permissions_path}/AppTrackingTransparency"
+setup_permissions(['Camera', 'AppTrackingTransparency', 'Contacts'])
 
+target "celo" do
   target "celoTests" do
     inherit! :search_paths
   end
