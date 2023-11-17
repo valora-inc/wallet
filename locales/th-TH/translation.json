@@ -1923,6 +1923,14 @@
           "subtitle": "You can search for existing users on Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Enable contacts to continue",
+      "description": "Please go to settings to update your contacts and start sending to friends"
+    },
+    "connectPhoneNumberModal": {
+      "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
+      "description": "You need to connect your phone number so you can start sending crypto to your friends"
     }
   },
   "transactionStatus": {
