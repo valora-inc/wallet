@@ -1876,17 +1876,17 @@
     "title": "导入令牌",
     "notification": "任何人都可以创建令牌，包括现有令牌的伪造版本。请在导入前确认令牌地址是否正确。",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "令牌地址",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "代币符号",
       "network": "网络"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
+      "invalidToken": "令牌无效。请重试或联系支持人员",
       "alreadyImported": "之前已经添加了令牌。",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "已支持令牌。"
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importSuccess": "成功导入 {{tokenSymbol}} 令牌",
     "importButton": "导入"
   },
   "sendSelectRecipient": {
