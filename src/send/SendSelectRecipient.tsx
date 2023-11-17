@@ -1,7 +1,8 @@
 import { throttle } from 'lodash'
 import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
@@ -45,8 +46,14 @@ function GetStartedSection() {
   }) => {
     return (
       <View key={`getStartedOption-${optionNum}`} style={getStartedStyles.optionWrapper}>
-        <CircledIcon radius={24} style={getStartedStyles.optionNum} backgroundColor={colors.white}>
-          <Text style={getStartedStyles.optionNumText}>{optionNum}</Text>
+        <CircledIcon
+          radius={Math.min(24 * getFontScaleSync(), 50)}
+          style={getStartedStyles.optionNum}
+          backgroundColor={colors.white}
+        >
+          <Text adjustsFontSizeToFit={true} style={getStartedStyles.optionNumText}>
+            {optionNum}
+          </Text>
         </CircledIcon>
         <View style={getStartedStyles.optionText}>
           <Text style={getStartedStyles.optionTitle}>{title}</Text>
@@ -186,7 +193,7 @@ function SendSelectRecipient() {
         />
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={throttledSearch} />
       </View>
-      <View style={styles.content}>
+      <ScrollView style={styles.content}>
         {showContacts ? (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
@@ -234,7 +241,7 @@ function SendSelectRecipient() {
             )}
           </>
         )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   )
 }

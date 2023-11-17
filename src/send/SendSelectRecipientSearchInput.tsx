@@ -45,13 +45,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   search: {
-    height: 44,
-    alignItems: 'flex-start',
+    alignItems: 'center',
     borderColor: colors.gray2,
     borderRadius: 100,
   },
   input: {
     ...typeScale.bodySmall,
-    height: 44,
   },
 })
