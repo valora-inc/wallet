@@ -21,7 +21,7 @@ import { Spacing } from 'src/styles/styles'
 
 export const LINE_HEIGHT = Platform.select({ android: 22, default: 20 })
 
-type Props = Omit<RNTextInputProps, 'style'> & {
+export type Props = Omit<RNTextInputProps, 'style'> & {
   style?: StyleProp<ViewStyle>
   inputStyle?: RNTextInputProps['style']
   onChangeText: (value: string) => void

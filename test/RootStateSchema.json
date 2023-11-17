@@ -2530,6 +2530,7 @@
                 "TokenBalances",
                 "TokenDetails",
                 "TokenDetailsMoreActions",
+                "TokenImport",
                 "TransactionDetailsScreen",
                 "UpgradeScreen",
                 "ValidateRecipientAccount",
