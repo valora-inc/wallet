@@ -1874,6 +1874,23 @@
       "withdraw": "Transfiere fichas a una cuenta bancaria, dinero móvil, tarjeta regalo, etc."
     }
   },
+  "tokenImport": {
+    "title": "Importar Token",
+    "notification": "Cualquiera puede crear un token, incluso versiones falsas de tokens existentes. Comprueba que la dirección de tu token es correcta antes de importarlo.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Red"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "La ficha ya se había añadido antes.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, cartera...",
     "title": "Selecciona un destinatario",
