@@ -168,6 +168,7 @@ export function SwapScreen({ route }: Props) {
       setSelectingToken(null)
       setFromToken(initialFromToken)
       setToToken(undefined)
+      clearQuote()
     }
   }, [swapInfo])
 
