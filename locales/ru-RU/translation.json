@@ -1878,6 +1878,23 @@
       "withdraw": "Переводи токены на банковский счёт, мобильные деньги, подарочную карту и т.д."
     }
   },
+  "tokenImport": {
+    "title": "Импортный токен",
+    "notification": "Создать токен может кто угодно, в том числе и поддельные версии существующих токенов. Перед импортом проверь правильность адреса своего токена.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Сообщество"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Токен был добавлен уже ранее.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
     "searchText": "Поиск по имени, телефону, кошельку...",
     "title": "Выберите получателя",
