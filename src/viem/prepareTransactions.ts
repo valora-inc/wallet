@@ -205,7 +205,7 @@ export async function prepareTransactions({
   throwOnSpendTokenAmountExceedsBalance = true,
 }: {
   feeCurrencies: TokenBalance[]
-  spendToken: TokenBalanceWithAddress
+  spendToken: TokenBalance
   spendTokenAmount: BigNumber
   decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
@@ -372,7 +372,42 @@ export async function prepareTransferWithCommentTransaction(
   })
 }
 
-// TODO(ACT-956) create helper for native transfers
+/**
+ * Prepare a transaction for sending native asset.
+ *
+ * @param fromWalletAddress
+ * @param toWalletAddress
+ * @param amount
+ * @param feeCurrencies
+ * @param sendToken
+ */
+export function prepareSendNativeAssetTransaction({
+  fromWalletAddress,
+  toWalletAddress,
+  amount,
+  feeCurrencies,
+  sendToken,
+}: {
+  fromWalletAddress: string
+  toWalletAddress: string
+  amount: bigint
+  feeCurrencies: TokenBalance[]
+  sendToken: TokenBalance
+}): Promise<PreparedTransactionsResult> {
+  const baseSendTx: TransactionRequest = {
+    from: fromWalletAddress as Address,
+    to: toWalletAddress as Address,
+    value: amount,
+  }
+  Logger.info(TAG, 'prepareSendNativeAssetTransaction')
+  return prepareTransactions({
+    feeCurrencies,
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amount.toString()),
+    decreasedAmountGasFeeMultiplier: 1,
+    baseTransactions: [baseSendTx],
+  })
+}
 
 /**
  * Given prepared transactions, get the fee currency and amount in decimals

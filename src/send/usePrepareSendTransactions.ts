@@ -2,6 +2,7 @@ import { useState } from 'react'
 import {
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
+  prepareSendNativeAssetTransaction,
   prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
 import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
@@ -32,22 +33,26 @@ export async function _prepareSendTransactionsCallback({
   if (amount.isLessThanOrEqualTo(0)) {
     return
   }
+  const baseTransactionParams = {
+    // not including sendToken yet because of typing. need to check whether token has address field or not first, required for erc-20 transfers
+    fromWalletAddress: walletAddress,
+    toWalletAddress: recipientAddress,
+    amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
+    feeCurrencies,
+  }
   if (tokenBalanceHasAddress(token)) {
-    const transactionParams = {
-      fromWalletAddress: walletAddress,
-      toWalletAddress: recipientAddress,
-      sendToken: token,
-      amount: BigInt(tokenAmountInSmallestUnit(amount, token.decimals)),
-      feeCurrencies,
-      comment,
-    }
+    const transactionParams = { ...baseTransactionParams, sendToken: token, comment }
     if (tokenSupportsComments(token)) {
       return prepareTransferWithCommentTransaction(transactionParams)
     } else {
       return prepareERC20TransferTransaction(transactionParams)
     }
+  } else {
+    return prepareSendNativeAssetTransaction({
+      ...baseTransactionParams,
+      sendToken: token,
+    })
   }
-  // TODO(ACT-956): non-ERC20 native asset case
 }
 
 /**
