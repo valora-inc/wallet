@@ -154,7 +154,7 @@
     "react-native-config": "^1.5.1",
     "react-native-contacts": "https://github.com/celo-org/react-native-contacts#9940121",
     "react-native-device-info": "^10.11.0",
-    "react-native-email-link": "^1.14.7",
+    "react-native-email-link": "^1.14.8",
     "react-native-exit-app": "^1.1.0",
     "react-native-fast-crypto": "^2.0.0",
     "react-native-fast-image": "^8.6.3",
