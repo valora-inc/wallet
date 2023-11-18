@@ -6,11 +6,7 @@ import { createMockStore } from 'test/utils'
 import { mockPhoneRecipientCache, mockRecipient, mockRecipient2 } from 'test/values'
 
 jest.mock('src/utils/permissions')
-jest.mock('react-native-device-info', () => {
-  return {
-    getFontScaleSync: () => 1,
-  }
-})
+jest.mock('react-native-device-info', () => ({ getFontScaleSync: () => 1 }))
 // this mock defaults to granting all permissions
 jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
 
