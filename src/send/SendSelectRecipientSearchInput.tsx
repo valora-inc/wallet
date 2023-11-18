@@ -30,6 +30,7 @@ export function SendSelectRecipientSearchInput({
         inputStyle={styles.input}
         leftIcon={<></>}
         placeholderTextColor={colors.gray4}
+        allowFontScaling={false}
       />
     </View>
   )
