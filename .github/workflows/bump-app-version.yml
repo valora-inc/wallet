@@ -33,7 +33,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: main
-      - run: yarn || yarn --network-concurrency 1
+      - uses: ./.github/actions/yarn-install
       - run: yarn ts-node .github/scripts/createAppVersionPr.ts
         env:
           VALORA_BOT_TOKEN: ${{ steps.google-secrets.outputs.VALORA_BOT_TOKEN }}
