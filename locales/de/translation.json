@@ -1874,6 +1874,23 @@
       "withdraw": "Überweise Token auf ein Bankkonto, mobiles Geld, eine Geschenkkarte usw."
     }
   },
+  "tokenImport": {
+    "title": "Token importieren",
+    "notification": "Jeder kann einen Token erstellen, auch gefälschte Versionen von bestehenden Token. Vergewissere dich vor dem Import, dass die Adresse deines Tokens korrekt ist.",
+    "input": {
+      "tokenAddress": "Token Adresse",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Netzwerk"
+    },
+    "error": {
+      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere den Support",
+      "alreadyImported": "Das Token wurde bereits vorher hinzugefügt.",
+      "alreadySupported": "Token wird bereits unterstützt."
+    },
+    "importSuccess": "Erfolgreich importiertes {{tokenSymbol}} Token",
+    "importButton": "Importieren"
+  },
   "sendSelectRecipient": {
     "searchText": "Suche nach Name, Telefon, Geldbeutel...",
     "title": "Wähle einen Empfänger",
@@ -1908,6 +1925,14 @@
           "subtitle": "Du kannst nach bestehenden Benutzern auf Valora suchen"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Kontakte zum Fortfahren freigeben",
+      "description": "Bitte gehe zu den Einstellungen, um deine Kontakte zu aktualisieren und mit dem Senden an Freunde zu beginnen"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Verbinden Sie Ihre Telefonnummer",
+      "description": "Du musst deine Telefonnummer angeben, damit du Kryptowährungen an deine Freunde schicken kannst."
     }
   },
   "transactionStatus": {

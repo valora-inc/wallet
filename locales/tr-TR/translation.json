@@ -1874,6 +1874,23 @@
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
   },
+  "tokenImport": {
+    "title": "İçe Aktarma Belirteci",
+    "notification": "Mevcut belirteçlerin sahte sürümleri de dahil olmak üzere herkes bir belirteç oluşturabilir. İçe aktarmadan önce token adresinizin doğru olduğunu doğrulayın.",
+    "input": {
+      "tokenAddress": "Belirteç Adresi",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Jeton Sembolü",
+      "network": "Ağ"
+    },
+    "error": {
+      "invalidToken": "Geçersiz belirteç. Tekrar deneyin veya desteğe başvurun",
+      "alreadyImported": "Token daha önce zaten eklenmişti.",
+      "alreadySupported": "Token zaten desteklenmektedir."
+    },
+    "importSuccess": "{{tokenSymbol}} belirteci başarıyla içe aktarıldı",
+    "importButton": "İthalat"
+  },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
     "title": "Bir alıcı seçin",
@@ -1908,6 +1925,14 @@
           "subtitle": "Valora'da mevcut kullanıcıları arayabilirsiniz"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Devam etmek için kişileri etkinleştirin",
+      "description": "Kişilerinizi güncellemek ve arkadaşlarınıza göndermeye başlamak için lütfen ayarlara gidin"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Telefon numaranı bağla",
+      "description": "Arkadaşlarınıza kripto göndermeye başlayabilmeniz için telefon numaranızı bağlamanız gerekir"
     }
   },
   "transactionStatus": {
