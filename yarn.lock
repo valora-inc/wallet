@@ -1364,10 +1364,10 @@
     bignumber.js "^9.0.0"
     debug "^4.1.1"
 
-"@coinbase/cbpay-js@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-1.8.0.tgz#6582bf436e828beda2bb2b8c3761974bcc28b1ce"
-  integrity sha512-J9yYTmZZdtZso1aenDeJFZ4Wai4iLZZVsMUAvwNgQpFjhQ5VDkkdYWCLcBEMWECsfJqQY2IdrOeU9qOu4orG2w==
+"@coinbase/cbpay-js@^1.9.0":
+  version "1.9.0"
+  resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-1.9.0.tgz#c9f72f9b813471b12ac5d279e85c10856d7a7179"
+  integrity sha512-Jv4upbaNs1aFIJFT0U7vbuhcYhj6IAruQAvt04zaF29FNjSkzoyjQhOvrpizNFEdiypy3/7pKTbOpPtweZVlyg==
 
 "@crowdin/ota-client@^0.7.0":
   version "0.7.0"
