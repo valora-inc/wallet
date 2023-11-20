@@ -5,7 +5,7 @@ import {
   prepareSendNativeAssetTransaction,
   prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
-import { TokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
+import { TokenBalance, tokenBalanceHasAddress, isNativeTokenBalance } from 'src/tokens/slice'
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import { tokenSupportsComments } from 'src/tokens/utils'
@@ -41,17 +41,24 @@ export async function _prepareSendTransactionsCallback({
     feeCurrencies,
   }
   if (tokenBalanceHasAddress(token)) {
+    // NOTE: CELO will be sent as ERC-20. This makes analytics easier, but if gas prices increase later on and/or we
+    //   gain analytics coverage for native CELO transfers, we could switch to sending CELO as native asset to save on gas
     const transactionParams = { ...baseTransactionParams, sendToken: token, comment }
     if (tokenSupportsComments(token)) {
       return prepareTransferWithCommentTransaction(transactionParams)
     } else {
       return prepareERC20TransferTransaction(transactionParams)
     }
-  } else {
+  } else if (isNativeTokenBalance(token)) {
     return prepareSendNativeAssetTransaction({
       ...baseTransactionParams,
       sendToken: token,
     })
+  } else {
+    Logger.error(
+      TAG,
+      `Token does not have address AND is not native. token: ${JSON.stringify(token)}}`
+    )
   }
 }
 

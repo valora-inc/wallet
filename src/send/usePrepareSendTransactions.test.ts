@@ -120,7 +120,7 @@ describe('usePrepareSendTransactions', () => {
         comment: 'mock comment',
       })
     })
-    it('uses prepareSendNativeAssetTransaction if token does not have address', async () => {
+    it('uses prepareSendNativeAssetTransaction if token is native and does not have address', async () => {
       mocked(tokenSupportsComments).mockReturnValue(false)
       const mockPrepareTransactionsResult: PreparedTransactionsResult = {
         type: 'not-enough-balance-for-gas',

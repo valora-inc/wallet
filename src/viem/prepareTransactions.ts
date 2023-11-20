@@ -3,7 +3,7 @@ import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/ty
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { NativeTokenBalance, TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
@@ -395,7 +395,7 @@ export function prepareSendNativeAssetTransaction(
     toWalletAddress: string
     amount: bigint
     feeCurrencies: TokenBalance[]
-    sendToken: TokenBalance
+    sendToken: NativeTokenBalance
   },
   prepareTxs = prepareTransactions
 ): Promise<PreparedTransactionsResult> {

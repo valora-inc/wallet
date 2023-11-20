@@ -68,6 +68,10 @@ export interface TokenBalanceWithAddress extends TokenBalance {
   address: string
 }
 
+export interface NativeTokenBalance extends TokenBalance {
+  isNative: true
+}
+
 export interface StoredTokenBalances {
   [tokenId: string]: StoredTokenBalance | undefined
 }
@@ -104,6 +108,10 @@ export function tokenBalanceHasAddress(
   tokenInfo: TokenBalance | TokenBalanceWithAddress
 ): tokenInfo is TokenBalanceWithAddress {
   return !!tokenInfo.address
+}
+
+export function isNativeTokenBalance(tokenInfo: TokenBalance): tokenInfo is NativeTokenBalance {
+  return !!tokenInfo.isNative
 }
 
 export const initialState = {
