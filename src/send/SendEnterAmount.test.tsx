@@ -73,7 +73,6 @@ describe('SendEnterAmount', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
@@ -82,13 +81,13 @@ describe('SendEnterAmount', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
       },
     ],
     feeCurrency: mockCeloTokenBalance,
+    maxGasFeeInDecimal: new BigNumber(2),
   }
 
   beforeEach(() => {
@@ -392,7 +391,7 @@ describe('SendEnterAmount', () => {
     mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
       type: 'need-decrease-spend-amount-for-gas',
       feeCurrency: mockCeloTokenBalance,
-      maxGasFee: new BigNumber(1),
+      maxGasFeeInDecimal: new BigNumber(1),
       decreasedSpendAmount: new BigNumber(9),
     }
 

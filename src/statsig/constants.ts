@@ -105,6 +105,7 @@ export const DynamicConfigs = {
       showSend: [networkConfig.defaultNetworkId],
       showSwap: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
+      showWalletConnect: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {

@@ -4,11 +4,11 @@ import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import Warning from 'src/components/Warning'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { getDescriptionAndTitleFromAction, SupportedActions } from 'src/walletConnect/constants'
+import { SupportedActions, getDescriptionAndTitleFromAction } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
@@ -66,7 +66,8 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
         description={description}
         testId="WalletConnectActionRequest"
       >
-        <Warning
+        <InLineNotification
+          severity={Severity.Warning}
           title={t('walletConnectRequest.unsupportedChain.title', { dappName, chainId })}
           description={t('walletConnectRequest.unsupportedChain.description', {
             dappName,

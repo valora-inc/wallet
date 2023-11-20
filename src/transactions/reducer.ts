@@ -70,6 +70,16 @@ export const reducer = (
       }
     }
     case Actions.ADD_STANDBY_TRANSACTION:
+      // Removing any duplicate transactions
+      const otherStandbyTransactions = (state.standbyTransactions || []).filter(
+        (tx) =>
+          !(
+            tx.context.id === action.transaction.context.id ||
+            (action.transaction.transactionHash &&
+              tx.transactionHash === action.transaction.transactionHash)
+          )
+      )
+
       return {
         ...state,
         standbyTransactions: [
@@ -78,7 +88,7 @@ export const reducer = (
             timestamp: Date.now(),
             status: TransactionStatus.Pending,
           },
-          ...(state.standbyTransactions || []),
+          ...otherStandbyTransactions,
         ],
       }
     case Actions.REMOVE_STANDBY_TRANSACTION:

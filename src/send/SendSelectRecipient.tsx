@@ -5,29 +5,24 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import SelectRecipientButton from 'src/components/SelectRecipientButton'
 import CircledIcon from 'src/icons/CircledIcon'
-import QRCode from 'src/icons/QRCode'
-import Social from 'src/icons/Social'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
 import { sortRecipients } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
+import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { requestContactsPermission } from 'src/utils/permissions'
 
 const SEARCH_THROTTLE_TIME = 100
 
@@ -81,8 +76,12 @@ function GetStartedSection() {
 
   return (
     <View style={getStartedStyles.container} testID={'SelectRecipient/GetStarted'}>
-      <Text style={getStartedStyles.subtitle}>{t('sendSelectRecipient.getStarted.subtitle')}</Text>
-      <Text style={getStartedStyles.title}>{t('sendSelectRecipient.getStarted.title')}</Text>
+      <View>
+        <Text style={getStartedStyles.subtitle}>
+          {t('sendSelectRecipient.getStarted.subtitle')}
+        </Text>
+        <Text style={getStartedStyles.title}>{t('sendSelectRecipient.getStarted.title')}</Text>
+      </View>
       {options.map((params) => renderOption(params))}
     </View>
   )
@@ -90,11 +89,12 @@ function GetStartedSection() {
 
 const getStartedStyles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     backgroundColor: colors.gray1,
-    padding: 24,
-    margin: 24,
+    padding: Spacing.Thick24,
+    margin: Spacing.Thick24,
+    marginTop: 44,
     borderRadius: 10,
+    gap: Spacing.Regular16,
   },
   subtitle: {
     ...typeScale.labelXXSmall,
@@ -103,11 +103,9 @@ const getStartedStyles = StyleSheet.create({
   title: {
     ...typeScale.labelMedium,
     color: colors.gray5,
-    paddingBottom: 10,
   },
   optionWrapper: {
     flexDirection: 'row',
-    paddingVertical: 10,
   },
   optionNum: {
     borderWidth: 1,
@@ -118,13 +116,13 @@ const getStartedStyles = StyleSheet.create({
     color: colors.dark,
   },
   optionText: {
-    paddingLeft: 10,
-    flexDirection: 'column',
+    paddingLeft: Spacing.Smallest8,
+    flex: 1,
   },
   optionTitle: {
     ...typeScale.labelSmall,
     color: colors.gray5,
-    paddingBottom: 5,
+    paddingBottom: Spacing.Tiny4,
   },
   optionSubtitle: {
     ...typeScale.bodyXSmall,
@@ -155,21 +153,9 @@ function SendSelectRecipient() {
 
   const dispatch = useDispatch()
 
-  const onPressContacts = async () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_contacts)
-    const permissionGranted = await requestContactsPermission()
-    // TODO(satish): show modal if permissions are rejected
-    if (permissionGranted) {
-      dispatch(importContacts())
-      setShowContacts(true)
-    }
-  }
-
-  const onPressQR = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_scan_qr)
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-    })
+  const onContactsPermissionGranted = () => {
+    dispatch(importContacts())
+    setShowContacts(true)
   }
 
   return (
@@ -186,9 +172,7 @@ function SendSelectRecipient() {
       <View style={styles.content}>
         {showContacts ? (
           <>
-            <View style={styles.topSection}>
-              <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
-            </View>
+            <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
             <RecipientPicker
               testID={'SelectRecipient/ContactRecipientPicker'}
               recipients={contactRecipients}
@@ -201,41 +185,22 @@ function SendSelectRecipient() {
           </>
         ) : (
           <>
-            <View style={styles.topSection}>
-              <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
-              <SelectRecipientButton
-                testID={'SelectRecipient/QR'}
-                title={t('sendSelectRecipient.qr.title')}
-                subtitle={t('sendSelectRecipient.qr.subtitle')}
-                onPress={onPressQR}
-                icon={<QRCode />}
-              />
-              <SelectRecipientButton
-                testID={'SelectRecipient/Contacts'}
-                title={t('sendSelectRecipient.invite.title')}
-                subtitle={t('sendSelectRecipient.invite.subtitle')}
-                onPress={onPressContacts}
-                icon={<Social />}
-              />
-            </View>
+            <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
+            <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
             {showGetStarted ? (
-              <View style={styles.getStartedWrapper}>
-                <GetStartedSection />
-              </View>
+              <GetStartedSection />
             ) : (
-              <View style={styles.recipientWrapper}>
-                <RecipientPicker
-                  testID={'SelectRecipient/RecentRecipientPicker'}
-                  recipients={recentRecipients}
-                  title={t('sendSelectRecipient.recents')}
-                  onSelectRecipient={setSelectedRecipient}
-                  selectedRecipient={recipient}
-                  isSelectedRecipientLoading={
-                    !!recipient &&
-                    recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
-                  }
-                />
-              </View>
+              <RecipientPicker
+                testID={'SelectRecipient/RecentRecipientPicker'}
+                recipients={recentRecipients}
+                title={t('sendSelectRecipient.recents')}
+                onSelectRecipient={setSelectedRecipient}
+                selectedRecipient={recipient}
+                isSelectedRecipientLoading={
+                  !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
+                }
+                style={styles.recentRecipientPicker}
+              />
             )}
           </>
         )}
@@ -254,31 +219,22 @@ SendSelectRecipient.navigationOptions = {
 const styles = StyleSheet.create({
   title: {
     ...typeScale.titleSmall,
-    paddingTop: 24,
-    paddingBottom: 16,
+    padding: Spacing.Thick24,
+    paddingBottom: Spacing.Regular16,
     color: colors.dark,
   },
   header: {
-    justifyContent: 'flex-start',
     alignItems: 'center',
     flexDirection: 'row',
   },
-  topSection: {
-    paddingHorizontal: 24,
-  },
-  getStartedWrapper: {
-    marginTop: 'auto',
-  },
   content: {
     flex: 1,
-    justifyContent: 'flex-start',
   },
   body: {
     flex: 1,
   },
-  recipientWrapper: {
+  recentRecipientPicker: {
     paddingTop: Spacing.Large32,
-    flex: 1,
   },
   buttonContainer: {
     padding: variables.contentPadding,

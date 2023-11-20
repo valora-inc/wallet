@@ -108,6 +108,7 @@ import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
+import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
@@ -544,6 +545,11 @@ const assetScreens = (Navigator: typeof Stack) => (
       name={Screens.TokenDetails}
       component={TokenDetailsScreen}
       options={TokenDetailsScreen.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.TokenImport}
+      component={TokenImportScreen}
+      options={TokenImportScreen.navigationOptions}
     />
   </>
 )
