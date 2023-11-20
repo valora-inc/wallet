@@ -1874,6 +1874,23 @@
       "withdraw": "Transfiere fichas a una cuenta bancaria, dinero móvil, tarjeta regalo, etc."
     }
   },
+  "tokenImport": {
+    "title": "Importar Token",
+    "notification": "Cualquiera puede crear un token, incluso versiones falsas de tokens existentes. Comprueba que la dirección de tu token es correcta antes de importarlo.",
+    "input": {
+      "tokenAddress": "Dirección del token",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Símbolo de ficha",
+      "network": "Red"
+    },
+    "error": {
+      "invalidToken": "Token no válido. Inténtalo de nuevo o ponte en contacto con el servicio de asistencia",
+      "alreadyImported": "La ficha ya se había añadido antes.",
+      "alreadySupported": "Token ya es compatible."
+    },
+    "importSuccess": "Importado con éxito el token {{tokenSymbol}}",
+    "importButton": "Importa"
+  },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, cartera...",
     "title": "Selecciona un destinatario",
@@ -1908,6 +1925,14 @@
           "subtitle": "Puedes buscar usuarios existentes en Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Habilitar contactos para continuar",
+      "description": "Ve a la configuración para actualizar tus contactos y empezar a enviar a tus amigos"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Conecta tu número de teléfono",
+      "description": "Tienes que conectar tu número de teléfono para poder empezar a enviar criptomonedas a tus amigos"
     }
   },
   "transactionStatus": {

@@ -10,25 +10,29 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  acceptSession as acceptSessionAction,
   Actions,
+  acceptSession as acceptSessionAction,
   sessionProposal as sessionProposalAction,
 } from 'src/walletConnect/actions'
 import { SupportedActions, SupportedEvents } from 'src/walletConnect/constants'
 import {
-  getDefaultSessionTrackedProperties,
-  initialiseWalletConnect,
-  initialiseWalletConnectV2,
-  walletConnectSaga,
   _acceptSession,
   _applyIconFixIfNeeded,
   _setClientForTesting,
   _showSessionRequest,
+  getDefaultSessionTrackedProperties,
+  initialiseWalletConnect,
+  initialiseWalletConnectV2,
+  walletConnectSaga,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
+
+jest.mock('src/statsig')
 
 function createSessionProposal(
   proposerMetadata: CoreTypes.Metadata
@@ -223,6 +227,10 @@ describe(walletConnectSaga, () => {
 })
 
 describe('showSessionRequest', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
   const sessionProposal = createSessionProposal({
     url: 'someUrl',
     icons: ['someIcon'],
@@ -267,6 +275,37 @@ describe('showSessionRequest', () => {
         },
       }
     `)
+  })
+
+  it('includes all supported chains for session approval', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation(
+        (gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
+      )
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showWalletConnect: ['celo-alfajores', 'ethereum-sepolia'],
+    })
+    const state = createMockStore({}).getState()
+    await expectSaga(_showSessionRequest, sessionProposal)
+      .withState(state)
+      .provide([[select(activeDappSelector), null]])
+      .run()
+
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Session,
+      pendingSession: sessionProposal,
+      namespacesToApprove: expect.objectContaining({
+        eip155: expect.objectContaining({
+          // matches the chains requested by the dapp
+          chains: ['eip155:44787'],
+          accounts: ['eip155:44787:0x0000000000000000000000000000000000007e57'],
+        }),
+      }),
+      supportedChains: ['eip155:44787', 'eip155:11155111'], // matches the chains supported by the wallet
+      version: 2,
+    })
   })
 
   it('navigates to the screen to approve the session when requiring an EIP155 namespace with unsupported chains/methods/events', async () => {
