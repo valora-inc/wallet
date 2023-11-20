@@ -14,8 +14,7 @@ import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 
 const TAG = 'src/send/usePrepareSendTransactions'
 
-// just exported for testing
-export async function _prepareSendTransactionsCallback({
+export async function prepareSendTransactions({
   amount,
   token,
   recipientAddress,
@@ -70,7 +69,7 @@ export function usePrepareSendTransactions() {
     PreparedTransactionsResult | undefined
   >()
 
-  const prepareTransactions = useAsyncCallback(_prepareSendTransactionsCallback, {
+  const prepareTransactions = useAsyncCallback(prepareSendTransactions, {
     onError: (error) => {
       Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
     },

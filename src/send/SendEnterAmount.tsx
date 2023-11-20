@@ -26,8 +26,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies, useMaxSendAmountLegacy } from 'src/fees/hooks'
-import { FeeType } from 'src/fees/reducer'
+import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -119,7 +118,12 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const maxAmount = useMaxSendAmountLegacy(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
+  const feeCurrencies = useFeeCurrencies(token.networkId)
+  const {
+    maxAmount,
+    loading: maxAmountLoading,
+    error: maxAmountError,
+  } = useMaxSendAmount(token.tokenId, COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -140,14 +144,20 @@ function SendEnterAmount({ route }: Props) {
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  const onMaxAmountPress = () => {
-    setAmount(maxAmount.toString())
-    textInputRef.current?.blur()
+  const maxAmountButtonDisabled = maxAmountLoading || maxAmountError || maxAmount === null
+  const onMaxAmountPress = async () => {
+    Logger.info(TAG, 'Max amount pressed')
     ValoraAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
       tokenAddress: token.address,
       networkId: token.networkId,
     })
+    if (maxAmountButtonDisabled) {
+      Logger.error(TAG, 'Max amount button disabled. Should not be able to press it.')
+      return
+    }
+    setAmount(maxAmount.toString())
+    textInputRef.current?.blur()
   }
 
   const onReviewPress = () => {
@@ -194,7 +204,6 @@ function SendEnterAmount({ route }: Props) {
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
-  const feeCurrencies = useFeeCurrencies(token.networkId)
   useEffect(() => {
     if (!walletAddress) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
@@ -326,6 +335,7 @@ function SendEnterAmount({ route }: Props) {
                 onPress={onMaxAmountPress}
                 style={styles.maxTouchable}
                 testID="SendEnterAmount/Max"
+                disabled={maxAmountButtonDisabled}
               >
                 <Text style={styles.maxText}>{t('max')}</Text>
               </Touchable>
