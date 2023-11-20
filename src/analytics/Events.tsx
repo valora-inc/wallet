@@ -578,7 +578,7 @@ export enum SwapEvents {
   swap_screen_confirm_token = 'swap_screen_confirm_token',
   swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
-  swap_screen_confirm_swap = 'swap_screen_confirm_swap',
+  swap_review_submit = 'swap_review_submit',
   swap_execute_price_change = 'swap_execute_price_change',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
