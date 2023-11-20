@@ -1,6 +1,11 @@
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, inputNumberKeypad, addComment } from '../utils/utils'
+import {
+  enterPinUiIfNecessary,
+  inputNumberKeypad,
+  addComment,
+  quickOnboarding,
+} from '../utils/utils'
 const faker = require('@faker-js/faker')
 import jestExpect from 'expect'
 
