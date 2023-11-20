@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Obtenez des récompenses crypto chaque semaine. Commencez avec Supercharge !",
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
-  "connectNumber": "Numéro de connexion",
+  "connectNumber": "Connecter le numéro",
   "connectToWallet": "Connectez-vous à {{dappName}}",
   "confirmTransaction": "Confirmer la transaction",
   "allow": "Autoriser",
