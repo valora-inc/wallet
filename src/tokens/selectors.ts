@@ -7,6 +7,7 @@ import {
   TIME_UNTIL_TOKEN_INFO_BECOMES_STALE,
   TOKEN_MIN_AMOUNT,
 } from 'src/config'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
 import {
@@ -409,10 +410,15 @@ export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector
 )
 
 export const cicoTokensSelector = createSelector(
-  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) =>
+  [
+    (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+    (_state: RootState, _networkIds: NetworkId[], flow: FiatExchangeFlow) => flow,
+  ],
+  (tokens, flow) =>
     tokens
-      .filter((tokenInfo) => tokenInfo.isCashInEligible)
+      .filter((tokenInfo) =>
+        flow === FiatExchangeFlow.CashOut ? tokenInfo.isCashOutEligible : tokenInfo.isCashInEligible
+      )
       .sort((token1, token2) => {
         // Sorts by usd balance, then token balance, then zero balance natives by
         // network id, then zero balance non natives by network id
