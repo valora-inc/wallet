@@ -590,6 +590,8 @@ export enum SwapEvents {
   swap_execute_error = 'swap_execute_error',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
+  swap_again = 'swap_again',
+  swap_try_again = 'swap_try_again',
 }
 
 export enum CeloNewsEvents {

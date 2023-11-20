@@ -1338,6 +1338,8 @@ interface SwapEventsProperties {
     provider: string
     priceImpact?: string
   }
+  [SwapEvents.swap_again]: undefined
+  [SwapEvents.swap_try_again]: undefined
 }
 
 interface CeloNewsEventsProperties {

@@ -1,6 +1,8 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate, navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { SwapState } from 'src/swap/slice'
@@ -217,5 +219,35 @@ describe('SwapExecuteScreen', () => {
     )
     fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.done'))
     expect(navigateHome).toHaveBeenCalled()
+  })
+
+  it("should emit a correct analytics event on press 'Swap Again' after a successful swap", () => {
+    const store = createMockStore({
+      swap: {
+        swapState: SwapState.COMPLETE,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <SwapExecuteScreen />
+      </Provider>
+    )
+    fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.swapAgain'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_again)
+  })
+
+  it("should emit a correct analytics event on press 'Try Again' after a failed swap", () => {
+    const store = createMockStore({
+      swap: {
+        swapState: SwapState.ERROR,
+      },
+    })
+    const { getByText } = render(
+      <Provider store={store}>
+        <SwapExecuteScreen />
+      </Provider>
+    )
+    fireEvent.press(getByText('SwapExecuteScreen.swapActionBar.tryAgain'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_try_again)
   })
 })
