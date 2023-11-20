@@ -8,12 +8,12 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
-import { Network, NetworkId, newTransactionContext } from 'src/transactions/types'
+import { Network, newTransactionContext } from 'src/transactions/types'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getViemWallet, getWallet, getWeb3 } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { walletConnectChainIdToNetwork } from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
@@ -22,19 +22,6 @@ import { getTransactionCount } from 'viem/actions'
 import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
-
-export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
-  [NetworkId['celo-alfajores']]: 'eip155:44787',
-  [NetworkId['celo-mainnet']]: 'eip155:42220',
-  [NetworkId['ethereum-mainnet']]: 'eip155:1',
-  [NetworkId['ethereum-sepolia']]: 'eip155:11155111',
-}
-const walletConnectChainIdToNetwork: Record<string, Network> = {
-  'eip155:44787': Network.Celo,
-  'eip155:42220': Network.Celo,
-  'eip155:1': Network.Ethereum,
-  'eip155:11155111': Network.Ethereum,
-}
 
 export function* handleRequest({
   request: { method, params },

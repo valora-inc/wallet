@@ -52,14 +52,14 @@ import {
   getDefaultSessionTrackedProperties as getDefaultSessionTrackedPropertiesAnalytics,
 } from 'src/walletConnect/analytics'
 import { isSupportedAction, SupportedActions, SupportedEvents } from 'src/walletConnect/constants'
-import { handleRequest, networkIdToWalletConnectChainId } from 'src/walletConnect/request'
+import { handleRequest } from 'src/walletConnect/request'
 import {
   selectHasPendingState,
   selectPendingActions,
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToWalletConnectChainId } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import {
   call,
