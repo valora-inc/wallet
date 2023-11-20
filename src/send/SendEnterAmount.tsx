@@ -26,7 +26,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies, useMaxSendAmountLegacy } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -119,7 +119,7 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
+  const maxAmount = useMaxSendAmountLegacy(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)

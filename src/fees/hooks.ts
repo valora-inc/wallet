@@ -44,7 +44,16 @@ export function usePaidFees(fees: Fee[]) {
   }
 }
 
-export function useMaxSendAmount(
+export function useMaxSendAmount(tokenId: string) {
+  // TODO(ACT-946): Implement this
+  const balance = useTokenInfo(tokenId)?.balance ?? new BigNumber(0)
+  return balance // FIXME calculate and subtract fees
+}
+
+/**
+ * @deprecated - use useMaxSendAmount instead
+ */
+export function useMaxSendAmountLegacy(
   tokenId: string | undefined,
   feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true
@@ -103,7 +112,7 @@ export function useMaxSendAmountByAddress(
   shouldRefresh: boolean = true
 ) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useMaxSendAmount(tokenInfo?.tokenId, feeType, shouldRefresh)
+  return useMaxSendAmountLegacy(tokenInfo?.tokenId, feeType, shouldRefresh)
 }
 
 /**
