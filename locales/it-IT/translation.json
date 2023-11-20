@@ -1874,6 +1874,23 @@
       "withdraw": "Trasferisci i gettoni su un conto bancario, una moneta mobile, una carta regalo, ecc."
     }
   },
+  "tokenImport": {
+    "title": "Importazione del token",
+    "notification": "Chiunque può creare un token, anche versioni false di token esistenti. Verifica che l'indirizzo del token sia corretto prima di effettuare l'importazione.",
+    "input": {
+      "tokenAddress": "Indirizzo del token",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Simbolo del gettone",
+      "network": "Rete"
+    },
+    "error": {
+      "invalidToken": "Token non valido. Riprova o contatta l'assistenza",
+      "alreadyImported": "Il token è già stato aggiunto in precedenza.",
+      "alreadySupported": "Il token è già supportato."
+    },
+    "importSuccess": "Importazione riuscita del token {{tokenSymbol}}",
+    "importButton": "Importazione"
+  },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, telefono, portafoglio...",
     "title": "Seleziona un destinatario",
@@ -1908,6 +1925,14 @@
           "subtitle": "Puoi cercare gli utenti esistenti su Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Abilita i contatti per continuare",
+      "description": "Vai alle impostazioni per aggiornare i tuoi contatti e iniziare ad inviare agli amici"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Collega il tuo numero telefonico",
+      "description": "Devi collegare il tuo numero di telefono per poter iniziare a inviare criptovalute ai tuoi amici."
     }
   },
   "transactionStatus": {

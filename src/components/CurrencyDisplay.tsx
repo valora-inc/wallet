@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { ColorValue, StyleProp, StyleSheet, Text, TextStyle, View } from 'react-native'
-import { MoneyAmount } from 'src/apollo/types'
 import i18n from 'src/i18n'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
 import { convertCurrencyToLocalAmount } from 'src/localCurrency/convert'
@@ -17,6 +16,7 @@ import {
   getMoneyDisplayValue,
   getNetworkFeeDisplayValue,
 } from 'src/utils/formatting'
+import { MoneyAmount } from 'src/utils/moneyAmount'
 
 export enum DisplayType {
   Default,
