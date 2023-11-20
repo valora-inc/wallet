@@ -1,7 +1,7 @@
 import { newKitFromWeb3, StableToken } from '@celo/contractkit'
 import dotenv from 'dotenv'
 import Web3 from 'web3'
-import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts'
+import { E2E_TEST_FAUCET, E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND } from './consts'
 import { checkBalance, getBalance } from './utils'
 
 dotenv.config({ path: `${__dirname}/../.env` })
@@ -12,9 +12,16 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
 ;(async () => {
   // Get E2E Test Wallet Balance & Valora Faucet Balance
-  const receivingBalance = await getBalance(E2E_TEST_WALLET)
+  const [balanceE2ETestWallet, balanceSecureSendWallet] = await Promise.all([
+    getBalance(E2E_TEST_WALLET),
+    getBalance(E2E_TEST_WALLET_SECURE_SEND),
+  ])
+  const receivingBalance = {
+    ...balanceE2ETestWallet,
+    ...balanceSecureSendWallet,
+  }
   const sendingBalance = (await getBalance(E2E_TEST_FAUCET)) ?? {}
-  console.table(await getBalance(E2E_TEST_FAUCET))
+  console.table(sendingBalance)
 
   // Connect Valora E2E Test Faucet - Private Key Stored in GitHub Secrets
   kit.connection.addAccount(
@@ -190,7 +197,11 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   // Log Balances
   console.log('E2E Test Account:', E2E_TEST_WALLET)
   console.table(await getBalance(E2E_TEST_WALLET))
+  console.log('E2E Test Account Secure Send:', E2E_TEST_WALLET_SECURE_SEND)
+  console.table(await getBalance(E2E_TEST_WALLET_SECURE_SEND))
   console.log('Valora Test Facuet:', E2E_TEST_FAUCET)
   console.table(await getBalance(E2E_TEST_FAUCET))
+
   await checkBalance(E2E_TEST_WALLET)
+  await checkBalance(E2E_TEST_WALLET_SECURE_SEND)
 })()
