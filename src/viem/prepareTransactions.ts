@@ -404,7 +404,6 @@ export function prepareSendNativeAssetTransaction(
     to: toWalletAddress as Address,
     value: amount,
   }
-  Logger.info(TAG, 'prepareSendNativeAssetTransaction')
   return prepareTxs({
     feeCurrencies,
     spendToken: sendToken,
