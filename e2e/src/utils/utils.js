@@ -201,10 +201,13 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
       await element(by.id('ConfirmUseAccountDialog/PrimaryAction')).tap()
     } catch {}
 
-    // Verify Education
-    await waitForElementId('PhoneVerificationSkipHeader')
-    // Skip
-    await element(by.id('PhoneVerificationSkipHeader')).tap()
+    // this onboarding step is bypassed for already verified wallets
+    try {
+      // Verify Education
+      await waitForElementId('PhoneVerificationSkipHeader')
+      // Skip
+      await element(by.id('PhoneVerificationSkipHeader')).tap()
+    } catch {}
 
     // Assert on Wallet Home Screen
     await dismissCashInBottomSheet()

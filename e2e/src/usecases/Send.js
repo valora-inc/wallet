@@ -5,6 +5,10 @@ const faker = require('@faker-js/faker')
 import jestExpect from 'expect'
 
 export default Send = () => {
+  beforeAll(async () => {
+    await quickOnboarding()
+  })
+
   let randomComment = faker.lorem.words()
   describe.each([{ web3Library: 'contract-kit' }, { web3Library: 'viem' }])(
     'When multi-token send flow (with $web3Library)',
