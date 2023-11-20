@@ -7,5 +7,5 @@ import { checkBalance, getBalance } from './utils'
 
   console.log(E2E_TEST_WALLET_SECURE_SEND)
   console.table(await getBalance(E2E_TEST_WALLET_SECURE_SEND))
-  await checkBalance(E2E_TEST_WALLET_SECURE_SEND)
+  await checkBalance(E2E_TEST_WALLET_SECURE_SEND, 2)
 })()
