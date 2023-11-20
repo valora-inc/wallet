@@ -1,5 +1,7 @@
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
 import React, { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { StyleSheet, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { TokenBalanceItemOption } from 'src/components/TokenBottomSheet'
@@ -12,6 +14,7 @@ import useSelector from 'src/redux/useSelector'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { typeScale } from 'src/styles/fonts'
 import { cicoTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
@@ -20,6 +23,7 @@ import { CICOFlow, FiatExchangeFlow } from './utils'
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
 
 function FiatExchangeCurrencyBottomSheet({ route }: Props) {
+  const { t } = useTranslation()
   const dispatch = useDispatch()
   const { flow } = route.params
   const supportedNetworkIds = getDynamicConfigParams(
@@ -52,6 +56,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
 
   return (
     <BottomSheetScrollView>
+      <Text style={styles.selectDigitalCurrency}>{t('sendEnterAmountScreen.selectToken')}</Text>
       {tokenList.length == 0
         ? null
         : tokenList.map((tokenInfo, index) => {
@@ -68,5 +73,12 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
     </BottomSheetScrollView>
   )
 }
+
+const styles = StyleSheet.create({
+  selectDigitalCurrency: {
+    ...typeScale.titleSmall,
+    marginRight: 12,
+  },
+})
 
 export default FiatExchangeCurrencyBottomSheet
