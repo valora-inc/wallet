@@ -301,7 +301,7 @@ export function SwapScreen({ route }: Props) {
           preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
           break
         case 'possible':
-          ValoraAnalytics.track(SwapEvents.swap_screen_confirm_swap, {
+          ValoraAnalytics.track(SwapEvents.swap_review_submit, {
             toToken: toToken.address,
             fromToken: fromToken.address,
             amount: swapAmount[updatedField],
@@ -348,7 +348,7 @@ export function SwapScreen({ route }: Props) {
 
     const swapResponse = exchangeRate.rawSwapResponse
 
-    ValoraAnalytics.track(SwapEvents.swap_screen_confirm_swap, {
+    ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken: toToken.address,
       fromToken: fromToken.address,
       amount: swapAmount[updatedField],

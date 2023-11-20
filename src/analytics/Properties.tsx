@@ -1290,7 +1290,7 @@ interface SwapEventsProperties {
     tokenSymbol?: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
-  [SwapEvents.swap_screen_confirm_swap]: SwapQuoteEvent &
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
     Web3LibraryProps &
     Partial<SwapTxsProperties> & {
       usdTotal: number

@@ -879,7 +879,7 @@ describe('SwapScreen', () => {
     jest.mocked(ValoraAnalytics.track).mockClear()
 
     fireEvent.press(getByText('swapScreen.confirmSwap'))
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_swap, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
       toToken: mockCusdAddress,
       fromToken: mockCeloAddress,
       amount: '10',
@@ -1417,7 +1417,7 @@ describe('SwapScreen', () => {
       jest.mocked(ValoraAnalytics.track).mockClear()
 
       fireEvent.press(getByText('swapScreen.confirmSwap'))
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_swap, {
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
         toToken: mockCusdAddress,
         fromToken: mockCeloAddress,
         amount: '10',
