@@ -89,20 +89,11 @@ export function useMaxSendAmount(tokenId: string, comment?: string) {
   if (loading) {
     return { loading: true, maxAmount: null }
   }
-  if (!prepareTransactionsResult) {
-    return { loading: false, maxAmount: null, error: true }
+  if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
+    return { loading: false, maxAmount: prepareTransactionsResult.decreasedSpendAmount }
   }
-  switch (prepareTransactionsResult.type) {
-    case 'possible':
-    case 'not-enough-balance-for-gas': // there is no lower amount we can recommend. Just show the balance and a warning.
-      return { loading: false, maxAmount: balance }
-    case 'need-decrease-spend-amount-for-gas':
-      return { loading: false, maxAmount: prepareTransactionsResult.decreasedSpendAmount }
-    default:
-      const assertNever: never = prepareTransactionsResult
-      Logger.error(TAG, `Unhandled prepareTransactionsResult ${assertNever}`)
-      return { loading: false, maxAmount: null, error: true }
-  }
+  // cases where the full balance works, or we can't calculate an amount that would work
+  return { loading: false, maxAmount: balance }
 }
 
 /**

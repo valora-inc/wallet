@@ -119,11 +119,10 @@ function SendEnterAmount({ route }: Props) {
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
   const feeCurrencies = useFeeCurrencies(token.networkId)
-  const {
-    maxAmount,
-    loading: maxAmountLoading,
-    error: maxAmountError,
-  } = useMaxSendAmount(token.tokenId, COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE)
+  const { maxAmount, loading: maxAmountLoading } = useMaxSendAmount(
+    token.tokenId,
+    COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE
+  )
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -144,7 +143,6 @@ function SendEnterAmount({ route }: Props) {
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  const maxAmountButtonDisabled = maxAmountLoading || maxAmountError || maxAmount === null
   const onMaxAmountPress = async () => {
     Logger.info(TAG, 'Max amount pressed')
     ValoraAnalytics.track(SendEvents.max_pressed, {
@@ -152,11 +150,7 @@ function SendEnterAmount({ route }: Props) {
       tokenAddress: token.address,
       networkId: token.networkId,
     })
-    if (maxAmountButtonDisabled) {
-      Logger.error(TAG, 'Max amount button disabled. Should not be able to press it.')
-      return
-    }
-    setAmount(maxAmount.toString())
+    setAmount((maxAmount ?? token.balance).toString())
     textInputRef.current?.blur()
   }
 
@@ -335,7 +329,7 @@ function SendEnterAmount({ route }: Props) {
                 onPress={onMaxAmountPress}
                 style={styles.maxTouchable}
                 testID="SendEnterAmount/Max"
-                disabled={maxAmountButtonDisabled}
+                disabled={maxAmountLoading}
               >
                 <Text style={styles.maxText}>{t('max')}</Text>
               </Touchable>
