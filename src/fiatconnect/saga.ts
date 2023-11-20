@@ -734,10 +734,9 @@ export function* handleSelectFiatConnectQuote({
       crypto: parseFloat(quote.getCryptoAmount()),
       fiat: parseFloat(quote.getFiatAmount()),
     }
-    const tokenId = quote.getTokenId()
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
-      tokenId: tokenId,
+      tokenId: quote.getTokenId(),
       amount: amount,
     })
   }
@@ -788,10 +787,9 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
       crypto: parseFloat(quote.getCryptoAmount()),
       fiat: parseFloat(quote.getFiatAmount()),
     }
-    const tokenId = quote.getTokenId()
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
-      tokenId: tokenId,
+      tokenId: quote.getTokenId(),
       amount: amount,
     })
     yield* delay(500) // to avoid screen flash
