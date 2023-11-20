@@ -16,8 +16,9 @@ import {
   prepareTransferWithCommentTransaction,
   tryEstimateTransaction,
   tryEstimateTransactions,
+  prepareSendNativeAssetTransaction,
 } from 'src/viem/prepareTransactions'
-import { mockCeloTokenBalance } from 'test/values'
+import { mockCeloTokenBalance, mockEthTokenBalance } from 'test/values'
 import {
   Address,
   BaseError,
@@ -638,6 +639,27 @@ describe('prepareTransactions module', () => {
       abi: erc20.abi,
       functionName: 'transfer',
       args: ['0x456', BigInt(100)],
+    })
+  })
+
+  it('prepareSendNativeAssetTransaction', async () => {
+    const mockPrepareTransactions = jest.fn()
+    await prepareSendNativeAssetTransaction(
+      {
+        fromWalletAddress: '0x123',
+        toWalletAddress: '0x456',
+        amount: BigInt(100),
+        feeCurrencies: [mockEthTokenBalance],
+        sendToken: mockEthTokenBalance,
+      },
+      mockPrepareTransactions
+    )
+    expect(mockPrepareTransactions).toHaveBeenCalledWith({
+      feeCurrencies: [mockEthTokenBalance],
+      spendToken: mockEthTokenBalance,
+      spendTokenAmount: new BigNumber(100),
+      decreasedAmountGasFeeMultiplier: 1,
+      baseTransactions: [{ from: '0x123', to: '0x456', value: BigInt(100) }],
     })
   })
 
