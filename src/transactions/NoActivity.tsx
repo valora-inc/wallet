@@ -1,4 +1,3 @@
-import { ApolloError } from 'apollo-boost'
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
@@ -7,7 +6,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 interface OwnProps {
   loading: boolean
-  error: ApolloError | Error | undefined
+  error: Error | undefined
 }
 
 type Props = OwnProps & WithTranslation
