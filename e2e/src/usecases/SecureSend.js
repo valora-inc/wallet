@@ -1,19 +1,19 @@
-import { SAMPLE_BACKUP_KEY_VERIFIED } from '../utils/consts'
+import {
+  SAMPLE_BACKUP_KEY_VERIFIED,
+  VERIFIED_PHONE_NUMBER,
+  SAMPLE_WALLET_ADDRESS_VERIFIED_2,
+} from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   addComment,
   enterPinUiIfNecessary,
   inputNumberKeypad,
   scrollIntoView,
-  sleep,
   quickOnboarding,
 } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
-// const PHONE_NUMBER = '+15203140983'
-const PHONE_NUMBER = '+31619789443'
-const LAST_ACCOUNT_CHARACTERS = 'f192'
-const AMOUNT_TO_SEND = '0.1'
+const AMOUNT_TO_SEND = '0.01'
 
 export default SecureSend = () => {
   describe.each([{ web3Library: 'contract-kit' }, { web3Library: 'viem' }])(
@@ -44,7 +44,7 @@ export default SecureSend = () => {
         await waitFor(element(by.id('SendSearchInput'))).toBeVisible()
 
         await element(by.id('SearchInput')).tap()
-        await element(by.id('SearchInput')).replaceText(PHONE_NUMBER)
+        await element(by.id('SearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
         await element(by.id('RecipientItem')).tap()
 
         // Select the currency
@@ -58,10 +58,14 @@ export default SecureSend = () => {
         // Use the last digits of the account to confirm the sender.
         await waitFor(element(by.id('confirmAccountButton'))).toBeVisible()
         await element(by.id('confirmAccountButton')).tap()
-        for (let index = 0; index < 4; index++) {
-          const character = LAST_ACCOUNT_CHARACTERS[index]
-          await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
-        }
+        // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
+        // for (let index = 0; index < 4; index++) {
+        //   const character = LAST_ACCOUNT_CHARACTERS[index]
+        //   await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
+        // }
+        await element(by.id('ValidateRecipientAccount/TextInput')).replaceText(
+          SAMPLE_WALLET_ADDRESS_VERIFIED_2
+        )
 
         // Scroll to see submit button
         await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
