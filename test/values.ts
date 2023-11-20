@@ -537,6 +537,7 @@ export const mockEthTokenBalance: NativeTokenBalance = {
   priceUsd: new BigNumber(1500),
   lastKnownPriceUsd: new BigNumber(1500),
   balance: new BigNumber(0.1),
+  isNative: true,
 }
 
 export const mockTokenBalancesWithHistoricalPrices = {
