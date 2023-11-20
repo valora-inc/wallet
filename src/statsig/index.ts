@@ -133,18 +133,31 @@ export async function patchUpdateStatsigUser(statsigUser?: StatsigUser) {
 
 interface ExpectedLaunchArgs {
   statsigGateOverrides?: string // format: gate_1=true,gate_2=false
+  statsigConfigOverrides?: string // format: config_1:{}|config_2:{}
 }
 
 export function setupOverridesFromLaunchArgs() {
   try {
     Logger.debug(TAG, 'Cleaning up local overrides')
     Statsig.removeGateOverride() // remove all gate overrides
-    const { statsigGateOverrides } = LaunchArguments.value<ExpectedLaunchArgs>()
+    Statsig.removeConfigOverride() // remove all dynamic config overrides
+
+    const { statsigGateOverrides, statsigConfigOverrides } =
+      LaunchArguments.value<ExpectedLaunchArgs>()
     if (statsigGateOverrides) {
       Logger.debug(TAG, 'Setting up gate overrides', statsigGateOverrides)
       statsigGateOverrides.split(',').forEach((gateOverride: string) => {
         const [gate, value] = gateOverride.split('=')
         Statsig.overrideGate(gate, value === 'true')
+      })
+    }
+
+    if (statsigConfigOverrides) {
+      Logger.debug(TAG, 'Setting up config overrides', statsigConfigOverrides)
+      statsigConfigOverrides.split('|').forEach((configOverride: string) => {
+        const [config, value] = configOverride.split('=')
+        Logger.debug(TAG, 'Setting up config override', config, value)
+        Statsig.overrideConfig(config, JSON.parse(value))
       })
     }
   } catch (err) {

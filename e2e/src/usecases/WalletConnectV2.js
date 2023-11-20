@@ -120,17 +120,11 @@ export default WalletConnect = () => {
         // during the WC client init, and then clear them after the test is done
         // Note: this is a hack, and should be removed once @walletconnect/heartbeat is fixed
         const originalSetInterval = global.setInterval
-        const originalAbortController = global.AbortController
         global.setInterval = (...args) => {
           const id = originalSetInterval(...args)
           intervalsToClear.push(id)
           return id
         }
-        // This is fixed in Jest 27, but we're still on 26
-        const abortFn = jest.fn()
-        global.AbortController = jest.fn(() => ({
-          abort: abortFn,
-        }))
 
         core = await Core.init({
           projectId: WALLET_CONNECT_PROJECT_ID_E2E,
@@ -149,7 +143,6 @@ export default WalletConnect = () => {
 
         // Now restore the original setInterval
         global.setInterval = originalSetInterval
-        global.AbortController = originalAbortController
 
         const { uri } = await walletConnectClient.connect({
           requiredNamespaces: {
@@ -162,6 +155,19 @@ export default WalletConnect = () => {
                 'eth_signTypedData',
               ],
               chains: ['eip155:44787'],
+              events: ['chainChanged', 'accountsChanged'],
+            },
+          },
+          optionalNamespaces: {
+            eip155: {
+              methods: [
+                'eth_sendTransaction',
+                'eth_signTransaction',
+                'eth_sign',
+                'personal_sign',
+                'eth_signTypedData',
+              ],
+              chains: ['eip155:11155111'],
               events: ['chainChanged', 'accountsChanged'],
             },
           },
@@ -197,6 +203,14 @@ export default WalletConnect = () => {
             statsigGateOverrides: `use_viem_for_walletconnect_transactions=${
               web3Library === 'viem'
             }`,
+            ...(web3Library === 'viem'
+              ? {
+                  statsigConfigOverrides: `multi_chain_features=${JSON.stringify({
+                    showWalletConnect: ['ethereum-sepolia', 'celo-alfajores'],
+                    showTransfers: ['ethereum-sepolia', 'celo-alfajores'],
+                  })}`,
+                }
+              : {}),
           },
         })
 
@@ -208,14 +222,21 @@ export default WalletConnect = () => {
         await verifySuccessfulConnection()
       })
 
-      it(
-        'Then is able to send a transaction (eth_sendTransaction)',
-        async () => {
+      it.each(
+        web3Library === 'viem'
+          ? [
+              // { networkId: 'celo-alfajores', chainId: 'eip155:44787' },
+              { networkId: 'ethereum-sepolia', chainId: 'eip155:11155111' },
+            ]
+          : [{ networkId: 'celo-alfajores', chainId: 'eip155:44787' }]
+      )(
+        'Then is able to send a transaction (eth_sendTransaction) on $networkId',
+        async ({ chainId }) => {
           const tx = await formatTestTransaction(walletAddress, web3Library)
           const [session] = walletConnectClient.session.map.values()
           const requestPromise = walletConnectClient.request({
             topic: session.topic,
-            chainId: 'eip155:44787',
+            chainId,
             request: {
               method: 'eth_sendTransaction',
               params: [tx],
