@@ -149,6 +149,11 @@ export function getSupportedNetworkIdsForSwap(): NetworkId[] {
   return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]).showSwap
 }
 
+export function getSupportedNetworkIdsForWalletConnect(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showWalletConnect
+}
+
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
   return {
     symbol: token.symbol,
