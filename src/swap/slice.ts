@@ -33,10 +33,6 @@ export const slice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
-    swapUserInput: (state) => {
-      state.swapState = SwapState.USER_INPUT
-      state.swapInfo = null
-    },
     // Legacy
     swapStart: (state, action: PayloadAction<SwapInfo>) => {
       state.swapState = SwapState.START
@@ -93,7 +89,6 @@ export const slice = createSlice({
 })
 
 export const {
-  swapUserInput,
   swapStart,
   swapStartPrepared,
   swapApprove,

@@ -14,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
-import { swapStart, swapStartPrepared, swapUserInput } from 'src/swap/slice'
+import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -887,12 +887,6 @@ describe('SwapScreen', () => {
       provider: defaultQuote.details.swapProvider,
       web3Library: 'contract-kit',
     })
-  })
-
-  it('should set correct swap state on open', async () => {
-    const { store } = renderScreen({})
-
-    expect(store.getActions()).toEqual(expect.arrayContaining([swapUserInput()]))
   })
 
   it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {

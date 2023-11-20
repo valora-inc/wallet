@@ -42,7 +42,7 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
-import { swapStart, swapStartPrepared, swapUserInput } from 'src/swap/slice'
+import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
@@ -174,7 +174,6 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
-    dispatch(swapUserInput())
   }, [])
 
   useEffect(() => {
