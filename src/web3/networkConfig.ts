@@ -368,6 +368,20 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['ethereum-sepolia']]: Network.Ethereum,
 }
 
+export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
+  [NetworkId['celo-alfajores']]: 'eip155:44787',
+  [NetworkId['celo-mainnet']]: 'eip155:42220',
+  [NetworkId['ethereum-mainnet']]: 'eip155:1',
+  [NetworkId['ethereum-sepolia']]: 'eip155:11155111',
+}
+
+export const walletConnectChainIdToNetwork: Record<string, Network> = {
+  'eip155:44787': Network.Celo,
+  'eip155:42220': Network.Celo,
+  'eip155:1': Network.Ethereum,
+  'eip155:11155111': Network.Ethereum,
+}
+
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)
 
 export default networkConfigs[DEFAULT_TESTNET]

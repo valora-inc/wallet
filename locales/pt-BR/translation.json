@@ -1874,6 +1874,23 @@
       "withdraw": "Transfira tokens para uma conta bancária, dinheiro móvel, cartão-presente etc."
     }
   },
+  "tokenImport": {
+    "title": "Token de importação",
+    "notification": "Qualquer pessoa pode criar um token, inclusive versões falsas de tokens existentes. Verifique se o endereço do token está correto antes de você importar.",
+    "input": {
+      "tokenAddress": "Endereço do token",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Símbolo do token",
+      "network": "Rede"
+    },
+    "error": {
+      "invalidToken": "Token inválido. Tente novamente ou entre em contato com o suporte",
+      "alreadyImported": "O token já foi adicionado anteriormente.",
+      "alreadySupported": "O token já é compatível."
+    },
+    "importSuccess": "Você importou com sucesso o token {{tokenSymbol}}",
+    "importButton": "Importação"
+  },
   "sendSelectRecipient": {
     "searchText": "Pesquise por nome, telefone, carteira...",
     "title": "Selecione um destinatário",
@@ -1908,6 +1925,14 @@
           "subtitle": "Você pode pesquisar os usuários existentes em Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Permitir que os contatos continuem",
+      "description": "Vá para as configurações para atualizar seus contatos e começar a enviar para amigos"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Conecte seu número de celular",
+      "description": "Você precisa conectar seu número de telefone para poder começar a enviar criptografia para seus amigos"
     }
   },
   "transactionStatus": {
