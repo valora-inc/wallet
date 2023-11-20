@@ -14,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
-import { setSwapUserInput, swapStart, swapStartPrepared } from 'src/swap/slice'
+import { swapStart, swapStartPrepared, swapUserInput } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -777,16 +777,6 @@ describe('SwapScreen', () => {
   })
 
   it('should be able to start a swap', async () => {
-    const userInput = {
-      toToken: mockCusdAddress,
-      fromToken: mockCeloAddress,
-      swapAmount: {
-        [Field.FROM]: '10',
-        [Field.TO]: '12.345678', // 10 * 1.2345678
-      },
-      updatedField: Field.FROM,
-    }
-
     const quoteReceivedTimestamp = 1000
     jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
 
@@ -807,10 +797,17 @@ describe('SwapScreen', () => {
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        setSwapUserInput(userInput),
         swapStart({
           ...defaultQuote,
-          userInput,
+          userInput: {
+            toToken: mockCusdAddress,
+            fromToken: mockCeloAddress,
+            swapAmount: {
+              [Field.FROM]: '10',
+              [Field.TO]: '12.345678', // 10 * 1.2345678
+            },
+            updatedField: Field.FROM,
+          },
           quoteReceivedAt: quoteReceivedTimestamp,
         } as any),
       ])
@@ -850,7 +847,6 @@ describe('SwapScreen', () => {
 
     expect(store.getActions()).toEqual(
       expect.arrayContaining([
-        setSwapUserInput(userInput),
         swapStart({
           ...defaultQuote,
           userInput,
@@ -891,6 +887,12 @@ describe('SwapScreen', () => {
       provider: defaultQuote.details.swapProvider,
       web3Library: 'contract-kit',
     })
+  })
+
+  it('should set correct swap state on open', async () => {
+    const { store } = renderScreen({})
+
+    expect(store.getActions()).toEqual(expect.arrayContaining([swapUserInput()]))
   })
 
   it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {
@@ -1009,17 +1011,11 @@ describe('SwapScreen', () => {
     it("should warn when the balances for feeCurrencies are 0 and can't cover the fee", async () => {
       // Swap from POOF to CELO, when no feeCurrency has any balance
       mockFetch.mockResponse(defaultQuoteResponse)
-      const {
-        getByText,
-        getByTestId,
-        store,
-        swapFromContainer,
-        swapToContainer,
-        tokenBottomSheet,
-      } = renderScreen({
-        celoBalance: '0',
-        cUSDBalance: '0',
-      })
+      const { getByText, getByTestId, swapFromContainer, swapToContainer, tokenBottomSheet } =
+        renderScreen({
+          celoBalance: '0',
+          cUSDBalance: '0',
+        })
 
       selectToken(swapFromContainer, 'POOF', tokenBottomSheet)
       selectToken(swapToContainer, 'CELO', tokenBottomSheet)
@@ -1037,14 +1033,6 @@ describe('SwapScreen', () => {
           'swapScreen.notEnoughBalanceForGas.dismissButton, {"feeCurrencies":"CELO, cEUR, cUSD"}'
         )
       ).toBeTruthy()
-
-      expect(store.getActions()).toEqual(
-        expect.not.arrayContaining([
-          expect.objectContaining({
-            type: setSwapUserInput.type,
-          }),
-        ])
-      )
     })
 
     it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
@@ -1078,14 +1066,6 @@ describe('SwapScreen', () => {
           'swapScreen.notEnoughBalanceForGas.dismissButton, {"feeCurrencies":"CELO, cUSD, cEUR"}'
         )
       ).toBeTruthy()
-
-      expect(store.getActions()).toEqual(
-        expect.not.arrayContaining([
-          expect.objectContaining({
-            type: setSwapUserInput.type,
-          }),
-        ])
-      )
     })
 
     it('should prompt the user to decrease the swap amount when swapping the max amount of a feeCurrency, and no other feeCurrency has enough balance to pay for the fee', async () => {
@@ -1123,14 +1103,6 @@ describe('SwapScreen', () => {
         'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
       )
       expect(confirmDecrease).toBeTruthy()
-
-      expect(store.getActions()).toEqual(
-        expect.not.arrayContaining([
-          expect.objectContaining({
-            type: setSwapUserInput.type,
-          }),
-        ])
-      )
 
       // Mock next call with the decreased amount
       mockFetch.mockResponse(
@@ -1199,14 +1171,6 @@ describe('SwapScreen', () => {
         'swapScreen.needDecreaseSwapAmountForGas.confirmDecreaseButton, {"tokenSymbol":"CELO"}'
       )
       expect(confirmDecrease).toBeTruthy()
-
-      expect(store.getActions()).toEqual(
-        expect.not.arrayContaining([
-          expect.objectContaining({
-            type: setSwapUserInput.type,
-          }),
-        ])
-      )
 
       // Mock next call with the decreased amount
       mockFetch.mockResponse(
@@ -1304,16 +1268,6 @@ describe('SwapScreen', () => {
     })
 
     it('should be able to start a swap', async () => {
-      const userInput = {
-        toToken: mockCusdAddress,
-        fromToken: mockCeloAddress,
-        swapAmount: {
-          [Field.FROM]: '10',
-          [Field.TO]: '12.345678', // 10 * 1.2345678
-        },
-        updatedField: Field.FROM,
-      }
-
       const quoteReceivedTimestamp = 1000
       jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
 
@@ -1340,30 +1294,27 @@ describe('SwapScreen', () => {
 
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
-          setSwapUserInput(userInput),
           swapStartPrepared({
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,
               rawSwapResponse: defaultQuote as any,
             },
-            userInput,
+            userInput: {
+              toToken: mockCusdAddress,
+              fromToken: mockCeloAddress,
+              swapAmount: {
+                [Field.FROM]: '10',
+                [Field.TO]: '12.345678', // 10 * 1.2345678
+              },
+              updatedField: Field.FROM,
+            },
           }),
         ])
       )
     })
 
     it('should be able to start a swap when the entered value uses comma as the decimal separator', async () => {
-      const userInput = {
-        toToken: mockCusdAddress,
-        fromToken: mockCeloAddress,
-        swapAmount: {
-          [Field.FROM]: '1.5',
-          [Field.TO]: '1.8518517', // 1.5 * 1.2345678
-        },
-        updatedField: Field.FROM,
-      }
-
       const quoteReceivedTimestamp = 1000
       jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
 
@@ -1385,14 +1336,21 @@ describe('SwapScreen', () => {
 
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
-          setSwapUserInput(userInput),
           swapStartPrepared({
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,
               rawSwapResponse: defaultQuote as any,
             },
-            userInput,
+            userInput: {
+              toToken: mockCusdAddress,
+              fromToken: mockCeloAddress,
+              swapAmount: {
+                [Field.FROM]: '1.5',
+                [Field.TO]: '1.8518517', // 1.5 * 1.2345678
+              },
+              updatedField: Field.FROM,
+            },
           }),
         ])
       )
