@@ -1038,17 +1038,11 @@ describe('SwapScreen', () => {
     it('should warn when the balances for feeCurrencies are too low to cover the fee', async () => {
       // Swap from POOF to CELO, when no feeCurrency has any balance
       mockFetch.mockResponse(defaultQuoteResponse)
-      const {
-        getByText,
-        getByTestId,
-        store,
-        swapFromContainer,
-        swapToContainer,
-        tokenBottomSheet,
-      } = renderScreen({
-        celoBalance: '0.001',
-        cUSDBalance: '0.001',
-      })
+      const { getByText, getByTestId, swapFromContainer, swapToContainer, tokenBottomSheet } =
+        renderScreen({
+          celoBalance: '0.001',
+          cUSDBalance: '0.001',
+        })
 
       selectToken(swapFromContainer, 'POOF', tokenBottomSheet)
       selectToken(swapToContainer, 'CELO', tokenBottomSheet)
@@ -1075,7 +1069,6 @@ describe('SwapScreen', () => {
         getByText,
         getByTestId,
         queryByText,
-        store,
         swapToContainer,
         swapFromContainer,
         tokenBottomSheet,
@@ -1144,17 +1137,11 @@ describe('SwapScreen', () => {
           },
         })
       )
-      const {
-        getByText,
-        queryByText,
-        store,
-        swapToContainer,
-        swapFromContainer,
-        tokenBottomSheet,
-      } = renderScreen({
-        celoBalance: '1.234',
-        cUSDBalance: '0',
-      })
+      const { getByText, queryByText, swapToContainer, swapFromContainer, tokenBottomSheet } =
+        renderScreen({
+          celoBalance: '1.234',
+          cUSDBalance: '0',
+        })
 
       selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
       selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
