@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
+import Checkmark from 'src/icons/Checkmark'
 import CircledIcon from 'src/icons/CircledIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -12,15 +13,21 @@ type Props = {
   onPress: () => void
   icon: ReactElement
   testID: string
+  showCheckmark?: boolean
 }
 
-function SelectRecipientButton({ title, subtitle, onPress, icon, testID }: Props) {
+function SelectRecipientButton({ title, subtitle, onPress, icon, testID, showCheckmark }: Props) {
   return (
     <Touchable testID={testID} onPress={onPress} style={styles.container}>
       <View style={styles.body}>
         <CircledIcon radius={40} style={styles.icon} backgroundColor={colors.gray1}>
           {icon}
         </CircledIcon>
+        {showCheckmark && (
+          <View style={styles.checkmark} testID={`${testID}/checkmark`}>
+            <Checkmark height={12} width={12} color={colors.dark} />
+          </View>
+        )}
         <View style={styles.textSection}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.subtitle}>{subtitle}</Text>
@@ -55,6 +62,14 @@ const styles = StyleSheet.create({
     paddingLeft: Spacing.Small12,
     flexDirection: 'column',
     flex: 1,
+  },
+  checkmark: {
+    position: 'absolute',
+    left: 26,
+    top: 26,
+    backgroundColor: colors.gray2,
+    borderRadius: 100,
+    padding: 2,
   },
 })
 

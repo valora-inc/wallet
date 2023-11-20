@@ -27,6 +27,8 @@ const SEARCH_THROTTLE_TIME = 100
  *
  * onSearch is a callback function which will be called with the search query
  * just before it's updated.
+ *
+ * This hook is tested via the SendSelectRecipient.test.tsx file.
  */
 export function useMergedSearchRecipients(onSearch: (searchQuery: string) => void) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -131,7 +133,7 @@ export function useSendRecipients() {
  * If there are any duplicated recipients (by phone number or address), they are dedpulicated,
  * picking the recipient to show based on the precedence listed above.
  */
-function mergeRecipients(
+export function mergeRecipients(
   contactRecipients: Recipient[],
   recentRecipients: Recipient[],
   resolvedRecipients: Recipient[],
@@ -212,5 +214,6 @@ export function useMapResolutionsToRecipients(
         return getRecipientFromAddress(lowerCaseAddress, recipientInfo)
     }
   })
+
   return resolvedRecipients.filter((recipient) => !!recipient)
 }

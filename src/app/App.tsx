@@ -1,7 +1,6 @@
 import * as Sentry from '@sentry/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
-import { ApolloProvider } from 'react-apollo'
 import { LogBox, StatusBar } from 'react-native'
 import { Auth0Provider } from 'react-native-auth0'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -10,7 +9,6 @@ import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableFreeze, enableScreens } from 'react-native-screens'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { apolloClient } from 'src/apollo/index'
 import AppInitGate from 'src/app/AppInitGate'
 import ErrorBoundary from 'src/app/ErrorBoundary'
 import { AUTH0_CLIENT_ID, AUTH0_DOMAIN, isE2EEnv } from 'src/config'
@@ -77,25 +75,23 @@ export class App extends React.Component<Props> {
   render() {
     return (
       <SafeAreaProvider>
-        <ApolloProvider client={apolloClient}>
-          <Provider store={store}>
-            <PersistGate persistor={persistor}>
-              <Auth0Provider domain={AUTH0_DOMAIN} clientId={AUTH0_CLIENT_ID}>
-                <AppInitGate
-                  appStartedMillis={this.props.appStartedMillis}
-                  reactLoadTime={this.reactLoadTime}
-                >
-                  <StatusBar backgroundColor="transparent" barStyle="dark-content" />
-                  <ErrorBoundary>
-                    <GestureHandlerRootView style={{ flex: 1 }}>
-                      <NavigatorWrapper />
-                    </GestureHandlerRootView>
-                  </ErrorBoundary>
-                </AppInitGate>
-              </Auth0Provider>
-            </PersistGate>
-          </Provider>
-        </ApolloProvider>
+        <Provider store={store}>
+          <PersistGate persistor={persistor}>
+            <Auth0Provider domain={AUTH0_DOMAIN} clientId={AUTH0_CLIENT_ID}>
+              <AppInitGate
+                appStartedMillis={this.props.appStartedMillis}
+                reactLoadTime={this.reactLoadTime}
+              >
+                <StatusBar backgroundColor="transparent" barStyle="dark-content" />
+                <ErrorBoundary>
+                  <GestureHandlerRootView style={{ flex: 1 }}>
+                    <NavigatorWrapper />
+                  </GestureHandlerRootView>
+                </ErrorBoundary>
+              </AppInitGate>
+            </Auth0Provider>
+          </PersistGate>
+        </Provider>
       </SafeAreaProvider>
     )
   }

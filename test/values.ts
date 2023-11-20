@@ -293,15 +293,15 @@ export const mockNavigation: NativeStackNavigationProp<StackParamList, any> = {
 } as unknown as NativeStackNavigationProp<StackParamList, any>
 
 export const mockAddressToE164Number: AddressToE164NumberType = {
-  [mockAccount]: mockE164Number,
-  [mockAccountInvite]: mockE164NumberInvite,
-  [mockAccount2Invite]: mockE164Number2Invite,
+  [mockAccount.toLowerCase()]: mockE164Number,
+  [mockAccountInvite.toLowerCase()]: mockE164NumberInvite,
+  [mockAccount2Invite.toLowerCase()]: mockE164Number2Invite,
 }
 
 export const mockE164NumberToAddress: E164NumberToAddressType = {
-  [mockE164Number]: [mockAccount],
-  [mockE164NumberInvite]: [mockAccountInvite],
-  [mockE164Number2Invite]: [mockAccount2Invite],
+  [mockE164Number]: [mockAccount.toLowerCase()],
+  [mockE164NumberInvite]: [mockAccountInvite.toLowerCase()],
+  [mockE164Number2Invite]: [mockAccount2Invite.toLowerCase()],
 }
 
 export const mockContactWithPhone: MinimalContact = {

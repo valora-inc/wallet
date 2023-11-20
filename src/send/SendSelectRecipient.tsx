@@ -4,27 +4,22 @@ import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import SelectRecipientButton from 'src/components/SelectRecipientButton'
 import CircledIcon from 'src/icons/CircledIcon'
-import QRCode from 'src/icons/QRCode'
-import Social from 'src/icons/Social'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateBack, navigate } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
 import { Recipient } from 'src/recipients/recipient'
+import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
 import { typeScale, fontStyles } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { requestContactsPermission } from 'src/utils/permissions'
 import PasteAddressButton from 'src/send/PasteAddressButton'
 import { isAddressFormat } from 'src/account/utils'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -33,6 +28,7 @@ import { SendOrigin } from 'src/analytics/types'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import Button, { BtnSizes } from 'src/components/Button'
 import { useSendRecipients, useMergedSearchRecipients } from 'src/send/hooks'
+import { Screens } from 'src/navigator/Screens'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
@@ -165,21 +161,9 @@ function SendSelectRecipient({ route }: Props) {
     setSendOrInviteButtonHidden(false)
   }
 
-  const onPressContacts = async () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_contacts)
-    const permissionGranted = await requestContactsPermission()
-    // TODO(satish): show modal if permissions are rejected
-    if (permissionGranted) {
-      dispatch(importContacts())
-      setShowContacts(true)
-    }
-  }
-
-  const onPressQR = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_scan_qr)
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-    })
+  const onContactsPermissionGranted = () => {
+    dispatch(importContacts())
+    setShowContacts(true)
   }
 
   const shouldShowClipboard = (content: string) => {
@@ -298,20 +282,7 @@ function SendSelectRecipient({ route }: Props) {
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
-            <SelectRecipientButton
-              testID={'SelectRecipient/QR'}
-              title={t('sendSelectRecipient.qr.title')}
-              subtitle={t('sendSelectRecipient.qr.subtitle')}
-              onPress={onPressQR}
-              icon={<QRCode />}
-            />
-            <SelectRecipientButton
-              testID={'SelectRecipient/Contacts'}
-              title={t('sendSelectRecipient.invite.title')}
-              subtitle={t('sendSelectRecipient.invite.subtitle')}
-              onPress={onPressContacts}
-              icon={<Social />}
-            />
+            <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
             {showGetStarted ? (
               <GetStartedSection />
             ) : (

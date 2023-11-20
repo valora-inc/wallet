@@ -5,6 +5,9 @@ import Logger from 'src/utils/Logger'
 
 const TAG = 'utils/permissions.android'
 
+/**
+ * @deprecated use react-native-permissions
+ */
 export async function requestContactsPermission() {
   return requestPermission(
     PermissionsAndroid.PERMISSIONS.READ_CONTACTS,
@@ -13,6 +16,9 @@ export async function requestContactsPermission() {
   )
 }
 
+/**
+ * @deprecated use react-native-permissions
+ */
 export async function checkContactsPermission() {
   return PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.READ_CONTACTS)
 }
