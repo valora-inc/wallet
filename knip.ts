@@ -14,6 +14,7 @@ const config: KnipConfig = {
     'Base64',
     '@actions/github',
     '@babel/runtime', // enforce specific version for react-native
+    '@babel/plugin-transform-private-methods', // used in babel.config.js to build. not imported, so knip doesn't understand it is used
     '@react-native-picker/picker', // react-native-picker-select requires
     'babel-jest',
     'jest-circus',

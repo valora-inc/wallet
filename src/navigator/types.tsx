@@ -273,6 +273,7 @@ export type StackParamList = {
     | undefined // old flow before viem
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TokenDetails]: { tokenId: string }
+  [Screens.TokenImport]: undefined
   [Screens.TransactionDetailsScreen]: {
     transaction: TokenTransaction
   }
