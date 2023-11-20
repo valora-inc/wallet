@@ -157,6 +157,13 @@ export async function fetchTokenBalancesForAddress(
           },
         }),
       })
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch token balances for ${networkId}: ${response.status} ${response.statusText}`
+        )
+      }
+
       return (await response.json()) as { data: UserBalancesResponse }
     })
   )

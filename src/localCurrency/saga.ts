@@ -50,6 +50,11 @@ export async function fetchExchangeRate(
       } satisfies ExchangeRateQueryVariables,
     }),
   })
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch exchange rate: ${response.status} ${response.statusText}`)
+  }
+
   const body = (await response.json()) as { data: ExchangeRateQuery | undefined }
 
   const rate = body.data?.currencyConversion?.rate
