@@ -22,7 +22,7 @@ import {
 } from 'test/values'
 import { formatTransaction } from 'viem'
 import { getTransactionCount } from 'viem/actions'
-import { celoAlfajores } from 'viem/chains'
+import { celoAlfajores, sepolia as ethereumSepolia } from 'viem/chains'
 
 jest.mock('src/statsig')
 jest.mock('src/web3/networkConfig', () => {
@@ -44,21 +44,40 @@ const mockEstimateFeePerGas = jest.fn().mockResolvedValue({
 })
 
 const signTransactionRequest = {
-  method: SupportedActions.eth_signTransaction,
-  params: [{ from: '0xTEST', to: '0xTEST', data: '0x', nonce: 7, gas: '0x5208', value: '0x01' }],
+  request: {
+    method: SupportedActions.eth_signTransaction,
+    params: [{ from: '0xTEST', to: '0xTEST', data: '0x', nonce: 7, gas: '0x5208', value: '0x01' }],
+  },
+  chainId: 'eip155:44787',
 }
 const personalSignRequest = {
-  method: SupportedActions.personal_sign,
-  params: ['Some message', '0xdeadbeef'],
+  request: {
+    method: SupportedActions.personal_sign,
+    params: ['Some message', '0xdeadbeef'],
+  },
+  chainId: 'eip155:44787',
 }
 const signTypedDataRequest = {
-  method: SupportedActions.eth_signTypedData,
-  params: ['0xdeadbeef', JSON.stringify(mockTypedData)],
+  request: {
+    method: SupportedActions.eth_signTypedData,
+    params: ['0xdeadbeef', JSON.stringify(mockTypedData)],
+  },
+  chainId: 'eip155:44787',
 }
 const signTypedDataV4Request = {
-  method: SupportedActions.eth_signTypedData_v4,
-  params: ['0xdeadbeef', JSON.stringify(mockTypedData)],
+  request: {
+    method: SupportedActions.eth_signTypedData_v4,
+    params: ['0xdeadbeef', JSON.stringify(mockTypedData)],
+  },
+  chainId: 'eip155:44787',
 }
+const createSignTransactionRequest = (params: any) => ({
+  ...signTransactionRequest,
+  request: {
+    ...signTransactionRequest.request,
+    params,
+  },
+})
 
 const state = createMockStore({
   web3: { account: '0xWALLET', mtwAddress: undefined },
@@ -163,6 +182,20 @@ describe(handleRequest, () => {
       jest.mocked(getFeatureGate).mockReturnValue(true)
     })
 
+    it('chooses the correct wallet for the request', async () => {
+      await expectSaga(handleRequest, { ...personalSignRequest, chainId: 'eip155:11155111' })
+        .withState(state)
+        .call(getViemWallet, ethereumSepolia)
+        .not.call(getViemWallet, celoAlfajores)
+        .run()
+
+      await expectSaga(handleRequest, { ...personalSignRequest, chainId: 'eip155:44787' })
+        .withState(state)
+        .call(getViemWallet, celoAlfajores)
+        .not.call(getViemWallet, ethereumSepolia)
+        .run()
+    })
+
     it('supports personal_sign', async () => {
       await expectSaga(handleRequest, personalSignRequest)
         .withState(state)
@@ -193,10 +226,10 @@ describe(handleRequest, () => {
       })
 
       it('ensures `gasLimit` value is moved to the `gas` parameter', async () => {
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC', gasLimit: '0x5208' }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([{ from: '0xTEST', data: '0xABC', gasLimit: '0x5208' }])
+        )
           .provide([
             [matchers.call.fn(getTransactionCount), mockTransactionCount],
             [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
@@ -207,10 +240,10 @@ describe(handleRequest, () => {
       })
 
       it('ensures `gasPrice` is stripped away before preparing transaction request', async () => {
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC', gasPrice: '0x5208' }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([{ from: '0xTEST', data: '0xABC', gasPrice: '0x5208' }])
+        )
           .provide([
             [matchers.call.fn(getTransactionCount), mockTransactionCount],
             [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
@@ -227,10 +260,10 @@ describe(handleRequest, () => {
       })
 
       it('ensures chainId, feeCurrency, gas, gasPrice and nonce are added if not set', async () => {
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC' }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([{ from: '0xTEST', data: '0xABC' }])
+        )
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
@@ -247,10 +280,12 @@ describe(handleRequest, () => {
       })
 
       it('ensures normalization is skipped when __skip_normalization is set', async () => {
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC', __skip_normalization: true }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([
+            { from: '0xTEST', data: '0xABC', __skip_normalization: true },
+          ])
+        )
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
@@ -299,10 +334,12 @@ describe(handleRequest, () => {
           },
         }).getState()
 
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([
+            { from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 },
+          ])
+        )
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
@@ -320,10 +357,12 @@ describe(handleRequest, () => {
 
       it('ensures gas is NOT padded and gasPrice is recalculated when feeCurrency is not set (or was stripped) and the new feeCurrency is CELO', async () => {
         // This is because WalletConnect v1 utils strips away feeCurrency
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([
+            { from: '0xTEST', data: '0xABC', gas: 1, gasPrice: 2, nonce: 3 },
+          ])
+        )
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
@@ -349,10 +388,7 @@ describe(handleRequest, () => {
           gasPrice: 2,
           nonce: 3,
         }
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [txParams],
-        })
+        await expectSaga(handleRequest, createSignTransactionRequest([txParams]))
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
@@ -407,10 +443,10 @@ describe(handleRequest, () => {
           },
         }).getState()
 
-        await expectSaga(handleRequest, {
-          method: SupportedActions.eth_signTransaction,
-          params: [{ from: '0xTEST', data: '0xABC' }],
-        })
+        await expectSaga(
+          handleRequest,
+          createSignTransactionRequest([{ from: '0xTEST', data: '0xABC' }])
+        )
           .provide([[call(getWallet), mockWallet]])
           .withState(state)
           .call(unlockAccount, '0xwallet')
