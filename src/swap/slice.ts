@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { SwapInfo, SwapInfoPrepared, SwapUserInput } from 'src/swap/types'
+import { SwapInfo, SwapInfoPrepared } from 'src/swap/types'
 
 export enum SwapState {
   USER_INPUT = 'user-input',
@@ -18,7 +18,6 @@ export enum SwapState {
 export interface State {
   swapState: SwapState
   swapInfo: SwapInfo | null
-  swapUserInput: SwapUserInput | null
   guaranteedSwapPriceEnabled: boolean
   priceImpactWarningThreshold: number
 }
@@ -26,7 +25,6 @@ export interface State {
 const initialState: State = {
   swapState: SwapState.QUOTE,
   swapInfo: null,
-  swapUserInput: null,
   guaranteedSwapPriceEnabled: false,
   priceImpactWarningThreshold: 0.04,
 }
@@ -35,9 +33,9 @@ export const slice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
-    setSwapUserInput: (state, action: PayloadAction<SwapUserInput>) => {
+    swapUserInput: (state) => {
       state.swapState = SwapState.USER_INPUT
-      state.swapUserInput = action.payload
+      state.swapInfo = null
     },
     // Legacy
     swapStart: (state, action: PayloadAction<SwapInfo>) => {
@@ -90,13 +88,12 @@ export const slice = createSlice({
         ...getRehydratePayload(action, 'swap'),
         swapState: SwapState.QUOTE,
         swapInfo: null,
-        swapUserInput: null,
       }))
   },
 })
 
 export const {
-  setSwapUserInput,
+  swapUserInput,
   swapStart,
   swapStartPrepared,
   swapApprove,
