@@ -150,7 +150,12 @@ function SendEnterAmount({ route }: Props) {
       tokenAddress: token.address,
       networkId: token.networkId,
     })
-    setAmount((maxAmount ?? token.balance).toString())
+    if (maxAmountLoading) {
+      // should not be possible
+      Logger.error(TAG, 'Max amount loading, cannot set max amount')
+      return
+    }
+    setAmount(maxAmount.toString())
     textInputRef.current?.blur()
   }
 

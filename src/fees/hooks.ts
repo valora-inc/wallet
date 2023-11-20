@@ -50,7 +50,10 @@ export function usePaidFees(fees: Fee[]) {
   }
 }
 
-export function useMaxSendAmount(tokenId: string, comment?: string) {
+export function useMaxSendAmount(
+  tokenId: string,
+  comment?: string
+): { loading: true; maxAmount: null } | { loading: false; maxAmount: BigNumber } {
   const token = useTokenInfo(tokenId)
   const balance = token?.balance ?? new BigNumber(0)
   const feeCurrencies = useFeeCurrencies(token?.networkId)
