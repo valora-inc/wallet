@@ -10,12 +10,8 @@ import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useSelector from 'src/redux/useSelector'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { typeScale } from 'src/styles/fonts'
-import { cicoTokensSelector } from 'src/tokens/selectors'
+import { useCashInTokens, useCashOutTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
@@ -26,10 +22,9 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { flow } = route.params
-  const supportedNetworkIds = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
-  ).showCico
-  const tokenList = useSelector((state) => cicoTokensSelector(state, supportedNetworkIds, flow))
+  const cashInTokens = useCashInTokens()
+  const cashOutTokens = useCashOutTokens()
+  const tokenList = flow === FiatExchangeFlow.CashIn ? cashInTokens : cashOutTokens
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {
