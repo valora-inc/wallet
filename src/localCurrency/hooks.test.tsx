@@ -1,11 +1,11 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { MoneyAmount } from 'src/apollo/types'
 import * as localCurrencyHooks from 'src/localCurrency/hooks'
-import { Currency } from 'src/utils/currencies'
-import { createMockStore } from 'test/utils'
 import { NetworkId } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
+import { MoneyAmount } from 'src/utils/moneyAmount'
+import { createMockStore } from 'test/utils'
 
 const useLocalCurrencyToShowSpy = jest.spyOn(localCurrencyHooks, 'useLocalCurrencyToShow')
 

@@ -3,6 +3,8 @@ import { Trans, useTranslation } from 'react-i18next'
 import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
+import { SwapEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import Touchable from 'src/components/Touchable'
@@ -23,20 +25,18 @@ export function SwapExecuteScreen() {
   const swapState = useSelector(swapStateSelector)
   const { t } = useTranslation()
 
-  const navigateToSwapStart = () => {
-    // Navigate back twice to go back to the swap start screen (SwapScreen) or (SwapScreenWithBack)
-    // Since we do not know which stack was used navigating to a specific screen can produce unexpected results
-    // If we add a screen in the future within the swap flow we will need to update this logic
-    navigateBack()
-    navigateBack()
-  }
-
-  const navigateToReviewScreen = () => {
-    navigate(Screens.SwapReviewScreen)
-  }
-
   const navigateToSupport = () => {
     navigate(Screens.SupportContact)
+  }
+
+  const swapAgain = () => {
+    ValoraAnalytics.track(SwapEvents.swap_again)
+    navigateBack()
+  }
+
+  const tryAgain = () => {
+    ValoraAnalytics.track(SwapEvents.swap_try_again)
+    navigateBack()
   }
 
   const navigationButtons = useMemo(() => {
@@ -46,7 +46,7 @@ export function SwapExecuteScreen() {
           <View style={styles.actionBar}>
             <Button
               text={t('SwapExecuteScreen.swapActionBar.tryAgain')}
-              onPress={navigateToReviewScreen}
+              onPress={tryAgain}
               type={BtnTypes.PRIMARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/TryAgain"
@@ -75,7 +75,7 @@ export function SwapExecuteScreen() {
             />
             <Button
               text={t('SwapExecuteScreen.swapActionBar.swapAgain')}
-              onPress={navigateToSwapStart}
+              onPress={swapAgain}
               type={BtnTypes.SECONDARY}
               size={BtnSizes.FULL}
               testID="SwapExecuteScreen/SwapAgain"
@@ -132,9 +132,9 @@ export function SwapExecuteScreen() {
             isVisible={true}
             title={t('SwapExecuteScreen.swapPriceModal.title')}
             actionText={t('SwapExecuteScreen.swapPriceModal.action')}
-            actionPress={navigateToReviewScreen}
+            actionPress={navigateBack}
             testID="PriceChangeModal"
-            onBackgroundPress={navigateToReviewScreen}
+            onBackgroundPress={navigateBack}
           >
             {t('SwapExecuteScreen.swapPriceModal.body')}
           </Dialog>
