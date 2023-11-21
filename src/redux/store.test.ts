@@ -325,8 +325,6 @@ describe('store state', () => {
           "fetchAvailableRewardsLoading": false,
           "loading": false,
           "superchargeRewardContractAddress": "",
-          "superchargeV1Addresses": [],
-          "superchargeV2Enabled": false,
         },
         "swap": {
           "guaranteedSwapPriceEnabled": false,
