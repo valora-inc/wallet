@@ -26,7 +26,7 @@ import {
   ONE_CUSD_REWARD_RESPONSE,
   ONE_CUSD_REWARD_RESPONSE_V2,
 } from 'src/consumerIncentives/testValues'
-import { SuperchargePendingReward, SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
+import { SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
@@ -87,16 +87,6 @@ jest.mock('src/transactions/send', () => ({
 
 describe('fetchAvailableRewardsSaga', () => {
   const userAddress = 'test'
-  const expectedRewardsV1: SuperchargePendingReward[] = [
-    {
-      amount: '0x2386f26fc10000',
-      contractAddress: '0x7e87b603F816e6dE393c892565eEF051ce9Ce851',
-      createdAt: 1650635674453,
-      index: 0,
-      tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1',
-      proof: [],
-    },
-  ]
   const expectedRewardsV2: SuperchargePendingRewardV2[] = [
     {
       transaction: {

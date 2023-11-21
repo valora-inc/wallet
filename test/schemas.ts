@@ -2817,9 +2817,9 @@ export const v169Schema = {
     ...v168Schema._persist,
     version: 169,
   },
-  superchage: _.omit(v168Schema.superchage, 'superchargeV2Enabled', 'superchargeV1Addresses'),
+  supercharge: _.omit(v168Schema.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v168Schema as Partial<RootState>
+  return v169Schema as Partial<RootState>
 }
