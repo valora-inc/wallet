@@ -1,8 +1,8 @@
 import 'react-native'
-import { SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
 
-export const ONE_CUSD_REWARD_RESPONSE_V2: SuperchargePendingRewardV2 = {
+export const ONE_CUSD_REWARD_RESPONSE: SuperchargePendingReward = {
   transaction: {
     from: mockAccount,
     chainId: 42220,
@@ -16,7 +16,7 @@ export const ONE_CUSD_REWARD_RESPONSE_V2: SuperchargePendingRewardV2 = {
   },
 }
 
-export const ONE_CEUR_REWARD_RESPONSE_V2: SuperchargePendingRewardV2 = {
+export const ONE_CEUR_REWARD_RESPONSE: SuperchargePendingReward = {
   transaction: {
     from: mockAccount,
     chainId: 42220,

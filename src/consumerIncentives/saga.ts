@@ -15,7 +15,7 @@ import {
   fetchAvailableRewardsSuccess,
   setAvailableRewards,
 } from 'src/consumerIncentives/slice'
-import { SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
@@ -99,7 +99,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
   }
 }
 
-function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseNonce: number) {
+function* claimRewardV2(reward: SuperchargePendingReward, index: number, baseNonce: number) {
   const { transaction, details } = reward
 
   const superchargeRewardContractAddress = yield* select(superchargeRewardContractAddressSelector)
@@ -160,7 +160,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
   }
 
   try {
-    const superchargeRewardsUrl = networkConfig.fetchAvailableSuperchargeRewardsV2
+    const superchargeRewardsUrl = networkConfig.fetchAvailableSuperchargeRewards
 
     const response = yield* call(
       fetchWithTimeout,
@@ -174,7 +174,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
         : null,
       SUPERCHARGE_FETCH_TIMEOUT
     )
-    const data: { availableRewards: SuperchargePendingRewardV2[] } = yield* call([response, 'json'])
+    const data: { availableRewards: SuperchargePendingReward[] } = yield* call([response, 'json'])
     if (!data.availableRewards) {
       throw new Error(
         `No rewards field found in supercharge service response ${JSON.stringify(data)}`

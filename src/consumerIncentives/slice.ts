@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 
 export interface State {
@@ -10,7 +10,7 @@ export interface State {
   fetchAvailableRewardsLoading: boolean
   fetchAvailableRewardsError: boolean
   superchargeRewardContractAddress: string
-  availableRewards: SuperchargePendingRewardV2[]
+  availableRewards: SuperchargePendingReward[]
 }
 
 export const initialState: State = {
@@ -26,7 +26,7 @@ const slice = createSlice({
   name: 'supercharge',
   initialState,
   reducers: {
-    claimRewards: (state, action: PayloadAction<SuperchargePendingRewardV2[]>) => ({
+    claimRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
       ...state,
       loading: true,
       error: false,
@@ -59,7 +59,7 @@ const slice = createSlice({
       fetchAvailableRewardsLoading: false,
       fetchAvailableRewardsError: true,
     }),
-    setAvailableRewards: (state, action: PayloadAction<SuperchargePendingRewardV2[]>) => ({
+    setAvailableRewards: (state, action: PayloadAction<SuperchargePendingReward[]>) => ({
       ...state,
       availableRewards: action.payload,
     }),

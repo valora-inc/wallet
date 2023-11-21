@@ -23,7 +23,7 @@ import {
   superchargeRewardsLoadingSelector,
 } from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import { SuperchargePendingRewardV2, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -177,7 +177,7 @@ function SuperchargingInfo() {
   )
 }
 
-function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewardV2[] }) {
+function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingReward[] }) {
   const tokens = useSelector(tokensByAddressSelector)
   const { t } = useTranslation()
 

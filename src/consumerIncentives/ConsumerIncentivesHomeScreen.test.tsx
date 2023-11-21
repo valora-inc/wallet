@@ -7,7 +7,7 @@ import { MockStoreEnhanced } from 'redux-mock-store'
 import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { State, initialState } from 'src/consumerIncentives/slice'
-import { ONE_CUSD_REWARD_RESPONSE_V2 } from 'src/consumerIncentives/testValues'
+import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -183,7 +183,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: [ONE_CUSD_REWARD_RESPONSE_V2],
+            availableRewards: [ONE_CUSD_REWARD_RESPONSE],
           },
         })}
       >
@@ -258,7 +258,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: [ONE_CUSD_REWARD_RESPONSE_V2],
+            availableRewards: [ONE_CUSD_REWARD_RESPONSE],
           },
         })}
       >

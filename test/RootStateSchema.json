@@ -3499,7 +3499,7 @@
             "properties": {
                 "availableRewards": {
                     "items": {
-                        "$ref": "#/definitions/SuperchargePendingRewardV2"
+                        "$ref": "#/definitions/SuperchargePendingReward"
                     },
                     "type": "array"
                 },
@@ -4266,7 +4266,7 @@
             },
             "type": "object"
         },
-        "SuperchargePendingRewardV2": {
+        "SuperchargePendingReward": {
             "additionalProperties": false,
             "properties": {
                 "details": {

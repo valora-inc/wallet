@@ -20,10 +20,10 @@ import {
   setAvailableRewards,
 } from 'src/consumerIncentives/slice'
 import {
-  ONE_CEUR_REWARD_RESPONSE_V2,
-  ONE_CUSD_REWARD_RESPONSE_V2,
+  ONE_CEUR_REWARD_RESPONSE,
+  ONE_CUSD_REWARD_RESPONSE,
 } from 'src/consumerIncentives/testValues'
-import { SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
+import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
@@ -84,7 +84,7 @@ jest.mock('src/transactions/send', () => ({
 
 describe('fetchAvailableRewardsSaga', () => {
   const userAddress = 'test'
-  const expectedRewardsV2: SuperchargePendingRewardV2[] = [
+  const expectedRewards: SuperchargePendingReward[] = [
     {
       transaction: {
         from: '0xabc',
@@ -100,13 +100,13 @@ describe('fetchAvailableRewardsSaga', () => {
     },
   ]
 
-  it('stores v2 rewards after fetching them', async () => {
+  it('stores rewards after fetching them', async () => {
     const mockResponse = {
       json: () => {
-        return { availableRewards: expectedRewardsV2 }
+        return { availableRewards: expectedRewards }
       },
     }
-    const uri = `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`
+    const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
@@ -114,7 +114,7 @@ describe('fetchAvailableRewardsSaga', () => {
         [select(walletAddressSelector), userAddress],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
       ])
-      .put(setAvailableRewards(expectedRewardsV2))
+      .put(setAvailableRewards(expectedRewards))
       .put(fetchAvailableRewardsSuccess())
       .run()
   })
@@ -122,10 +122,10 @@ describe('fetchAvailableRewardsSaga', () => {
   it('bypasses the cache to fetch rewards for a user who has already claimed', async () => {
     const mockResponse = {
       json: () => {
-        return { availableRewards: expectedRewardsV2 }
+        return { availableRewards: expectedRewards }
       },
     }
-    const uri = `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`
+    const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
       .provide([
@@ -141,18 +141,14 @@ describe('fetchAvailableRewardsSaga', () => {
           mockResponse,
         ],
       ])
-      .put(setAvailableRewards(expectedRewardsV2))
+      .put(setAvailableRewards(expectedRewards))
       .put(fetchAvailableRewardsSuccess())
       .run()
   })
 
-  it.each`
-    version | availableRewardsUri
-    ${'1'}  | ${config.fetchAvailableSuperchargeRewards}
-    ${'2'}  | ${config.fetchAvailableSuperchargeRewardsV2}
-  `('handles v$version failures correctly', async ({ version, availableRewardsUri }) => {
+  it('handles v$version failures correctly', async () => {
     const error = new Error('Unexpected error')
-    const uri = `${availableRewardsUri}?address=${userAddress}`
+    const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
@@ -185,7 +181,7 @@ describe('fetchAvailableRewardsSaga', () => {
         [
           call(
             fetchWithTimeout,
-            `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`,
+            `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`,
             null,
             SUPERCHARGE_FETCH_TIMEOUT
           ),
@@ -217,131 +213,129 @@ describe('claimRewardsSaga', () => {
     expect(navigateHome).toHaveBeenCalled()
   })
 
-  describe('claiming rewards in version 2', () => {
-    const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [call(getContractKit), contractKit],
-      [call(getConnectedUnlockedAccount), mockAccount],
-      [select(tokensByAddressSelector), mockTokens],
-      [select(superchargeRewardContractAddressSelector), '0xsuperchargeContract'],
-    ]
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [call(getContractKit), contractKit],
+    [call(getConnectedUnlockedAccount), mockAccount],
+    [select(tokensByAddressSelector), mockTokens],
+    [select(superchargeRewardContractAddressSelector), '0xsuperchargeContract'],
+  ]
 
-    it('claims one reward successfully', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE_V2]))
-        .provide(defaultProviders)
-        .put.like({
-          action: {
-            type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: {
-              amount: {
-                tokenAddress: mockCusdAddress.toLowerCase(),
-              },
+  it('claims one reward successfully', async () => {
+    await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE]))
+      .provide(defaultProviders)
+      .put.like({
+        action: {
+          type: TransactionActions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            amount: {
+              tokenAddress: mockCusdAddress.toLowerCase(),
             },
           },
-        })
-        .put(fetchAvailableRewards({ forceRefresh: true }))
-        .put(claimRewardsSuccess())
-        .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
-        .run()
-      expect(navigateHome).toHaveBeenCalled()
-      expect(sendTransaction).toHaveBeenCalledWith(
-        expect.anything(),
-        mockAccount,
-        expect.anything(),
-        ONE_CUSD_REWARD_RESPONSE_V2.transaction.gas,
-        undefined,
-        undefined,
-        mockBaseNonce
-      )
-    })
-
-    it('claims two rewards successfully', async () => {
-      await expectSaga(
-        claimRewardsSaga,
-        claimRewards([ONE_CUSD_REWARD_RESPONSE_V2, ONE_CEUR_REWARD_RESPONSE_V2])
-      )
-        .provide(defaultProviders)
-        .put.like({
-          action: {
-            type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: {
-              amount: {
-                tokenAddress: mockCusdAddress.toLowerCase(),
-              },
-            },
-          },
-        })
-        .put.like({
-          action: {
-            type: TransactionActions.ADD_STANDBY_TRANSACTION,
-            transaction: {
-              amount: {
-                tokenAddress: mockCeurAddress.toLowerCase(),
-              },
-            },
-          },
-        })
-        .put(fetchAvailableRewards({ forceRefresh: true }))
-        .put(claimRewardsSuccess())
-        .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
-        .run()
-      expect(navigateHome).toHaveBeenCalled()
-      expect(sendTransaction).toHaveBeenCalledTimes(2)
-      expect(sendTransaction).toHaveBeenCalledWith(
-        expect.anything(),
-        mockAccount,
-        expect.anything(),
-        ONE_CUSD_REWARD_RESPONSE_V2.transaction.gas,
-        undefined,
-        undefined,
-        mockBaseNonce
-      )
-      expect(sendTransaction).toHaveBeenCalledWith(
-        expect.anything(),
-        mockAccount,
-        expect.anything(),
-        ONE_CEUR_REWARD_RESPONSE_V2.transaction.gas,
-        undefined,
-        undefined,
-        mockBaseNonce + 1
-      )
-    })
-
-    it('fails if claiming reward fails', async () => {
-      ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
-        throw new Error('Error claiming')
+        },
       })
-      await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE_V2]))
-        .provide(defaultProviders)
-        .not.put(claimRewardsSuccess())
-        .put(claimRewardsFailure())
-        .put.like({
-          action: {
-            type: AlertActions.SHOW,
-            alertType: AlertTypes.ERROR,
-            message: 'superchargeClaimFailure',
-          },
-        })
-        .run()
-      expect(navigateHome).not.toHaveBeenCalled()
-    })
+      .put(fetchAvailableRewards({ forceRefresh: true }))
+      .put(claimRewardsSuccess())
+      .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
+      .run()
+    expect(navigateHome).toHaveBeenCalled()
+    expect(sendTransaction).toHaveBeenCalledWith(
+      expect.anything(),
+      mockAccount,
+      expect.anything(),
+      ONE_CUSD_REWARD_RESPONSE.transaction.gas,
+      undefined,
+      undefined,
+      mockBaseNonce
+    )
+  })
 
-    it('fails if the reward transaction to address is incorrect', async () => {
-      await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE_V2]))
-        .provide([
-          [select(superchargeRewardContractAddressSelector), '0xnewSuperchargeContract'],
-          ...defaultProviders,
-        ])
-        .not.put(claimRewardsSuccess())
-        .put(claimRewardsFailure())
-        .put.like({
-          action: {
-            type: AlertActions.SHOW,
-            alertType: AlertTypes.ERROR,
-            message: 'superchargeClaimFailure',
+  it('claims two rewards successfully', async () => {
+    await expectSaga(
+      claimRewardsSaga,
+      claimRewards([ONE_CUSD_REWARD_RESPONSE, ONE_CEUR_REWARD_RESPONSE])
+    )
+      .provide(defaultProviders)
+      .put.like({
+        action: {
+          type: TransactionActions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            amount: {
+              tokenAddress: mockCusdAddress.toLowerCase(),
+            },
           },
-        })
-        .run()
-      expect(navigateHome).not.toHaveBeenCalled()
+        },
+      })
+      .put.like({
+        action: {
+          type: TransactionActions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            amount: {
+              tokenAddress: mockCeurAddress.toLowerCase(),
+            },
+          },
+        },
+      })
+      .put(fetchAvailableRewards({ forceRefresh: true }))
+      .put(claimRewardsSuccess())
+      .put.like({ action: { type: AlertActions.SHOW, message: 'superchargeClaimSuccess' } })
+      .run()
+    expect(navigateHome).toHaveBeenCalled()
+    expect(sendTransaction).toHaveBeenCalledTimes(2)
+    expect(sendTransaction).toHaveBeenCalledWith(
+      expect.anything(),
+      mockAccount,
+      expect.anything(),
+      ONE_CUSD_REWARD_RESPONSE.transaction.gas,
+      undefined,
+      undefined,
+      mockBaseNonce
+    )
+    expect(sendTransaction).toHaveBeenCalledWith(
+      expect.anything(),
+      mockAccount,
+      expect.anything(),
+      ONE_CEUR_REWARD_RESPONSE.transaction.gas,
+      undefined,
+      undefined,
+      mockBaseNonce + 1
+    )
+  })
+
+  it('fails if claiming reward fails', async () => {
+    ;(sendTransaction as jest.Mock).mockImplementationOnce(() => {
+      throw new Error('Error claiming')
     })
+    await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE]))
+      .provide(defaultProviders)
+      .not.put(claimRewardsSuccess())
+      .put(claimRewardsFailure())
+      .put.like({
+        action: {
+          type: AlertActions.SHOW,
+          alertType: AlertTypes.ERROR,
+          message: 'superchargeClaimFailure',
+        },
+      })
+      .run()
+    expect(navigateHome).not.toHaveBeenCalled()
+  })
+
+  it('fails if the reward transaction to address is incorrect', async () => {
+    await expectSaga(claimRewardsSaga, claimRewards([ONE_CUSD_REWARD_RESPONSE]))
+      .provide([
+        [select(superchargeRewardContractAddressSelector), '0xnewSuperchargeContract'],
+        ...defaultProviders,
+      ])
+      .not.put(claimRewardsSuccess())
+      .put(claimRewardsFailure())
+      .put.like({
+        action: {
+          type: AlertActions.SHOW,
+          alertType: AlertTypes.ERROR,
+          message: 'superchargeClaimFailure',
+        },
+      })
+      .run()
+    expect(navigateHome).not.toHaveBeenCalled()
   })
 })

@@ -10,7 +10,7 @@ export interface SuperchargeTokenConfig {
   maxBalance: number
 }
 
-export interface SuperchargePendingRewardV2 {
+export interface SuperchargePendingReward {
   transaction: {
     from: string
     chainId: number
