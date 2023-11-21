@@ -1,8 +1,6 @@
 import BigNumber from 'bignumber.js'
-import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
-  cicoTokensSelector,
   defaultTokenToSendSelector,
   swappableTokensSelector,
   tokensByAddressSelector,
@@ -54,8 +52,6 @@ const state: any = {
         priceFetchedAt: mockDate,
         isSwappable: true,
         showZeroBalance: true,
-        isCashInEligible: true,
-        isCashOutEligible: true,
       },
       ['celo-alfajores:0xeur']: {
         tokenId: 'celo-alfajores:0xeur',
@@ -68,8 +64,6 @@ const state: any = {
         isSupercharged: true,
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.0.0',
-        isCashInEligible: true,
-        isCashOutEligible: true,
       },
       ['celo-alfajores:0x1']: {
         tokenId: 'celo-alfajores:0x1',
@@ -81,7 +75,6 @@ const state: any = {
         priceUsd: '10',
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.20.0',
-        isCashInEligible: true,
       },
       ['celo-alfajores:0x2']: {
         tokenId: 'celo-alfajores:0x2',
@@ -102,7 +95,6 @@ const state: any = {
         isSupercharged: true,
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.10.0',
-        isCashOutEligible: true,
       },
       ['celo-alfajores:0x5']: {
         tokenId: 'celo-alfajores:0x5',
@@ -138,8 +130,6 @@ const state: any = {
         priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
         showZeroBalance: true,
         isNative: true,
-        isCashInEligible: true,
-        isCashOutEligible: true,
       },
     },
   },
@@ -226,7 +216,6 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x1",
           "balance": "10",
           "bridge": "somebridge",
-          "isCashInEligible": true,
           "lastKnownPriceUsd": "10",
           "minimumAppVersionToSwap": "1.20.0",
           "name": "0x1 token (somebridge)",
@@ -238,8 +227,6 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0xeur",
           "balance": "50",
-          "isCashInEligible": true,
-          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
@@ -253,8 +240,6 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0xusd",
           "balance": "0",
-          "isCashInEligible": true,
-          "isCashOutEligible": true,
           "isSwappable": true,
           "lastKnownPriceUsd": "1",
           "name": "cUSD",
@@ -268,7 +253,6 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0x4",
           "balance": "50",
-          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": null,
           "minimumAppVersionToSwap": "1.10.0",
@@ -302,8 +286,6 @@ describe('tokensWithUsdValueSelector', () => {
         {
           "address": "0xeur",
           "balance": "50",
-          "isCashInEligible": true,
-          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
@@ -318,7 +300,6 @@ describe('tokensWithUsdValueSelector', () => {
           "address": "0x1",
           "balance": "10",
           "bridge": "somebridge",
-          "isCashInEligible": true,
           "lastKnownPriceUsd": "10",
           "minimumAppVersionToSwap": "1.20.0",
           "name": "0x1 token",
@@ -368,8 +349,6 @@ describe(totalTokenBalanceSelector, () => {
           {
             "address": "0xeur",
             "balance": "50",
-            "isCashInEligible": true,
-            "isCashOutEligible": true,
             "isSupercharged": true,
             "lastKnownPriceUsd": "0.5",
             "minimumAppVersionToSwap": "1.0.0",
@@ -383,7 +362,6 @@ describe(totalTokenBalanceSelector, () => {
           {
             "address": "0x4",
             "balance": "50",
-            "isCashOutEligible": true,
             "isSupercharged": true,
             "lastKnownPriceUsd": null,
             "minimumAppVersionToSwap": "1.10.0",
@@ -397,8 +375,6 @@ describe(totalTokenBalanceSelector, () => {
           {
             "address": "0xusd",
             "balance": "0",
-            "isCashInEligible": true,
-            "isCashOutEligible": true,
             "isSwappable": true,
             "lastKnownPriceUsd": "1",
             "name": "cUSD",
@@ -445,47 +421,5 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
     expect(tokensWithNonZeroBalanceAndShowZeroBalanceSelector.recomputations()).toEqual(
       prevComputations + 1
     )
-  })
-})
-
-describe('cicoTokensSelector', () => {
-  it('returns expected tokens in the correct order for cash-ins', () => {
-    const tokens = cicoTokensSelector(
-      state,
-      [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      FiatExchangeFlow.CashIn
-    )
-
-    expect(tokens.map((token) => token.tokenId)).toEqual([
-      'celo-alfajores:0x1',
-      'celo-alfajores:0xeur',
-      'ethereum-sepolia:native',
-      'celo-alfajores:0xusd',
-    ])
-  })
-  it('returns expected tokens in the correct order for cash-outs', () => {
-    const tokens = cicoTokensSelector(
-      state,
-      [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      FiatExchangeFlow.CashOut
-    )
-
-    expect(tokens.map((token) => token.tokenId)).toEqual([
-      'celo-alfajores:0xeur',
-      'celo-alfajores:0x4',
-      'ethereum-sepolia:native',
-      'celo-alfajores:0xusd',
-    ])
-  })
-  it('avoids unnecessary recomputation', () => {
-    const prevComputations = cicoTokensSelector.recomputations()
-    const tokens = cicoTokensSelector(state, [NetworkId['celo-alfajores']], FiatExchangeFlow.CashIn)
-    const tokens2 = cicoTokensSelector(
-      state,
-      [NetworkId['celo-alfajores']],
-      FiatExchangeFlow.CashIn
-    )
-    expect(tokens).toEqual(tokens2)
-    expect(cicoTokensSelector.recomputations()).toEqual(prevComputations + 1)
   })
 })
