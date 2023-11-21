@@ -1659,6 +1659,7 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
+    "confirmSwap": "Takası Onayla",
     "swapFrom": "KAYNAK",
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
