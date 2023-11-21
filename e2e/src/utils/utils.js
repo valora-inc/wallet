@@ -207,7 +207,11 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
       await waitForElementId('PhoneVerificationSkipHeader')
       // Skip
       await element(by.id('PhoneVerificationSkipHeader')).tap()
-    } catch {}
+    } catch {
+      console.log(
+        'Error trying to skip phone verification step during onboarding, likely due to wallet already being verified'
+      )
+    }
 
     // Assert on Wallet Home Screen
     await dismissCashInBottomSheet()

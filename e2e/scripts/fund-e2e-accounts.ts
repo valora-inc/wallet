@@ -11,15 +11,8 @@ const kit = newKitFromWeb3(web3)
 const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
 ;(async () => {
-  // Get E2E Test Wallet Balance & Valora Faucet Balance
-  const [balanceE2ETestWallet, balanceSecureSendWallet] = await Promise.all([
-    getBalance(E2E_TEST_WALLET),
-    getBalance(E2E_TEST_WALLET_SECURE_SEND),
-  ])
-  const receivingBalance = {
-    ...balanceE2ETestWallet,
-    ...balanceSecureSendWallet,
-  }
+  const walletsToBeFunded = [E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND]
+  const walletBalances = await Promise.all(walletsToBeFunded.map(getBalance))
   const sendingBalance = (await getBalance(E2E_TEST_FAUCET)) ?? {}
   console.table(sendingBalance)
 
@@ -47,6 +40,7 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
     if (targetTokenRegex.test(balance)) sum += balances[balance]
   }
 
+  // Ensure that the faucet has enough funds
   for (let balance in balances) {
     const target = sum / numOfTokens
     if (balances[balance] >= sum / numOfTokens) {
@@ -162,35 +156,35 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   }
 
   // Set Amount To Send
-  let amountToSend = web3.utils.toWei('100', 'ether')
+  const amountToSend = web3.utils.toWei('100', 'ether')
 
-  // Loop through E2E Test Wallet Balance Object
-  for (const coin in receivingBalance) {
-    let tx: any
-    // Add funds if balance is less than 100 add 100
-    if (receivingBalance[coin] < 200 && sendingBalance[coin] > 100) {
-      switch (coin) {
-        case 'CELO':
-          tx = await celoToken
-            .transfer(E2E_TEST_WALLET, amountToSend)
-            .send({ from: E2E_TEST_FAUCET })
-          break
-        case 'cUSD':
-          tx = await cusdToken
-            .transfer(E2E_TEST_WALLET, amountToSend)
-            .send({ from: E2E_TEST_FAUCET })
-          break
-        case 'cEUR':
-          tx = await ceurToken
-            .transfer(E2E_TEST_WALLET, amountToSend)
-            .send({ from: E2E_TEST_FAUCET })
-          break
+  for (let i = 0; i < walletsToBeFunded.length; i++) {
+    const walletAddress = walletsToBeFunded[i]
+    const walletBalance = walletBalances[i]
+    for (const coin in walletBalance) {
+      if (walletBalance[coin] < 200 && sendingBalance[coin] > 100) {
+        let tx: any
+        switch (coin) {
+          case 'CELO':
+            tx = await celoToken
+              .transfer(walletAddress, amountToSend)
+              .send({ from: E2E_TEST_FAUCET })
+            break
+          case 'cUSD':
+            tx = await cusdToken
+              .transfer(walletAddress, amountToSend)
+              .send({ from: E2E_TEST_FAUCET })
+            break
+          case 'cEUR':
+            tx = await ceurToken
+              .transfer(walletAddress, amountToSend)
+              .send({ from: E2E_TEST_FAUCET })
+            break
+        }
+        const receipt = await tx.waitReceipt()
+
+        console.log(' Transaction receipt: %o', receipt)
       }
-      // Wait for the transactions to be processed
-      let receipt = await tx.waitReceipt()
-
-      // Print Receipt
-      console.log(' Transaction receipt: %o', receipt)
     }
   }
 
