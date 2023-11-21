@@ -9,8 +9,8 @@ import { NftOrigin } from 'src/nfts/types'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields, mockNftNullMetadata } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
-jest.mock('react-native-video', () => 'ReactNativeVideo')
+// jest.mock('src/analytics/ValoraAnalytics')
+// jest.mock('react-native-video', () => 'ReactNativeVideo')
 
 describe('Given NftMedia', () => {
   beforeEach(() => {

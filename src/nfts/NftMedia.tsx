@@ -131,7 +131,7 @@ export default function NftMedia({
       {status === 'error' ? (
         ErrorComponent
       ) : mediaType === 'video' && videoUrl ? (
-        <>
+        <View testID={testID}>
           <Video
             source={{
               uri: videoUrl,
@@ -140,7 +140,6 @@ export default function NftMedia({
               },
             }}
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
-            testID={testID}
             style={{
               height: shouldAutoScaleHeight ? scaledHeight : height,
               width: variables.width,
@@ -162,7 +161,7 @@ export default function NftMedia({
           <View style={{ marginTop: -DEFAULT_HEIGHT }}>
             <Placeholder mediaType="video" testID={`${testID}/VideoPlaceholder`} />
           </View>
-        </>
+        </View>
       ) : (
         <FastImage
           key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
