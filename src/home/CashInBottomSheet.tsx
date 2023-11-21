@@ -17,12 +17,9 @@ import {
 import Times from 'src/icons/Times'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -112,13 +109,7 @@ function CashInBottomSheet() {
   const goToAddFunds = () => {
     onDismissBottomSheet()
 
-    getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
-      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, {
-          flow: FiatExchangeFlow.CashIn,
-        })
-      : navigate(Screens.FiatExchangeCurrency, {
-          flow: FiatExchangeFlow.CashIn,
-        })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_selected, {
       rampAvailable,
     })

@@ -13,7 +13,7 @@ import QuickActionsReceive from 'src/icons/quick-actions/Receive'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { getFeatureGate } from 'src/statsig'
@@ -54,13 +54,7 @@ function ActionsCarousel() {
       title: t('homeActions.add'),
       icon: <QuickActionsAdd color={Colors.onboardingGreen} />,
       onPress: () => {
-        getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
-          ? navigate(Screens.FiatExchangeCurrencyBottomSheet, {
-              flow: FiatExchangeFlow.CashIn,
-            })
-          : navigate(Screens.FiatExchangeCurrency, {
-              flow: FiatExchangeFlow.CashIn,
-            })
+        navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
       },
     },
     {

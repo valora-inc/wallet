@@ -65,7 +65,11 @@ import {
 import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateHome,
+  navigateToFiatCurrencySelection,
+} from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -342,9 +346,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
-      getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
-        ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-        : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+      navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {

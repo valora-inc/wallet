@@ -11,11 +11,8 @@ import { FUNDING_LINK } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import useTypedSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -36,10 +33,6 @@ export function FiatExchangeSection({
   const [timestamp, setTimestamp] = useState<number | null>(null)
   const appState = useTypedSelector((state) => state.app.appState)
 
-  const useCicoCurrencyBottomSheet = getFeatureGate(
-    StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET
-  )
-
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {
       const timeElapsed: number = Date.now() - timestamp
@@ -49,31 +42,21 @@ export function FiatExchangeSection({
   }, [appState])
 
   function goToAddFunds() {
-    useCicoCurrencyBottomSheet
-      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, {
-          flow: FiatExchangeFlow.CashIn,
-        })
-      : navigate(Screens.FiatExchangeCurrency, {
-          flow: FiatExchangeFlow.CashIn,
-        })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashIn,
     })
   }
 
   function goToCashOut() {
-    useCicoCurrencyBottomSheet
-      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashOut })
-      : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.CashOut)
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashOut,
     })
   }
 
   function goToSpend() {
-    useCicoCurrencyBottomSheet
-      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.Spend })
-      : navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.Spend)
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.Spend,
     })
