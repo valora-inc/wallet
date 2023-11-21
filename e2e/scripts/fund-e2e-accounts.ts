@@ -1,7 +1,12 @@
 import { newKitFromWeb3, StableToken } from '@celo/contractkit'
 import dotenv from 'dotenv'
 import Web3 from 'web3'
-import { E2E_TEST_FAUCET, E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND } from './consts'
+import {
+  E2E_TEST_FAUCET,
+  E2E_TEST_WALLET,
+  E2E_TEST_WALLET_SECURE_SEND,
+  REFILL_TOKENS,
+} from './consts'
 import { checkBalance, getBalance } from './utils'
 
 dotenv.config({ path: `${__dirname}/../.env` })
@@ -11,8 +16,6 @@ const kit = newKitFromWeb3(web3)
 const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
 ;(async () => {
-  const refillTokens = ['CELO', 'cUSD', 'cEUR']
-
   const walletsToBeFunded = [E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND]
   const walletBalances = await Promise.all(walletsToBeFunded.map(getBalance))
   for (let i = 0; i < walletsToBeFunded.length; i++) {
@@ -40,15 +43,15 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   // Balance Faucet
   let totalTokenHoldings = 0 // the absolute number of faucet tokens the faucet is holding
   Object.entries(faucetTokenBalances).forEach(([tokenSymbol, tokenBalance]) => {
-    if (refillTokens.includes(tokenSymbol)) {
+    if (REFILL_TOKENS.includes(tokenSymbol)) {
       totalTokenHoldings += tokenBalance
     }
   })
-  const targetFaucetTokenBalance = totalTokenHoldings / refillTokens.length
+  const targetFaucetTokenBalance = totalTokenHoldings / REFILL_TOKENS.length
 
   // Ensure that the faucet has enough balance for each refill tokens
   for (const [tokenSymbol, tokenBalance] of Object.entries(faucetTokenBalances)) {
-    if (!refillTokens.includes(tokenSymbol)) {
+    if (!REFILL_TOKENS.includes(tokenSymbol)) {
       continue
     }
 
@@ -174,7 +177,7 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   for (let i = 0; i < walletsToBeFunded.length; i++) {
     const walletAddress = walletsToBeFunded[i]
     const walletBalance = walletBalances[i]
-    for (const tokenSymbol of refillTokens) {
+    for (const tokenSymbol of REFILL_TOKENS) {
       if (walletBalance && walletBalance[tokenSymbol] < 200) {
         console.log(`Sending ${amountToSend} ${tokenSymbol} to ${walletAddress}`)
         let tx: any
@@ -213,6 +216,6 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   console.log('Valora Test Facuet:', E2E_TEST_FAUCET)
   console.table(await getBalance(E2E_TEST_FAUCET))
 
-  await checkBalance(E2E_TEST_WALLET, 10, refillTokens)
-  await checkBalance(E2E_TEST_WALLET_SECURE_SEND, 10, refillTokens)
+  await checkBalance(E2E_TEST_WALLET)
+  await checkBalance(E2E_TEST_WALLET_SECURE_SEND)
 })()
