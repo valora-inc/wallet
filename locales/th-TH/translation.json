@@ -1657,6 +1657,7 @@
   "swapScreen": {
     "title": "สว็อป",
     "review": "ตรวจสอบ",
+    "confirmSwap": "Confirm Swap",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
