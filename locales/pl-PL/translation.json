@@ -1960,11 +1960,11 @@
     "lowerAmount": "Wprowadź niższą kwotę",
     "maxAmountWarning": {
       "title": "Wysyłanie maksymalnej kwoty",
-      "description": "Dostosuj wysyłaną kwotę, aby upewnić się, że masz wystarczającą ilość {{feeTokenSymbol}} na gaz"
+      "description": "Dostosuj ilość wysyłanych produktów, aby upewnić się, że masz wystarczająco dużo {{feeTokenSymbol}} na gaz"
     },
     "notEnoughBalanceForGasWarning": {
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
-      "description": "Dodaj {{feeTokenSymbol}} , aby pokryć opłaty za gaz lub dostosuj wysyłaną kwotę."
+      "description": "Dodaj {{feeTokenSymbol}}, aby pokryć opłaty za gaz lub dostosuj wysyłaną kwotę"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
