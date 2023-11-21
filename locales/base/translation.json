@@ -1661,6 +1661,7 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Review",
+    "confirmSwap": "Confirm Swap",
     "swapFrom": "FROM",
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
