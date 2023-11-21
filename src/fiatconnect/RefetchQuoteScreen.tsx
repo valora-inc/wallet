@@ -22,7 +22,7 @@ export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const cachedQuoteParamsList = useSelector(cachedQuoteParamsSelector)
   const cachedQuoteParams = cachedQuoteParamsList?.[providerId]?.[kycSchema]
-  // TODO (ACT-985): remove deprecated function call when FiatConnect updated to take token IDs
+  // TODO (ACT-985): remove deprecated function call when cachedQuoteParams updated to have token IDs
   const tokenInfo = useTokenInfoWithAddressBySymbol(cachedQuoteParams?.cryptoType)
 
   useEffect(() => {

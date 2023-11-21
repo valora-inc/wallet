@@ -118,7 +118,7 @@ export type ProviderQuote = RawProviderQuote & {
   url: string
 }
 
-export interface SimplexQuote {
+export type SimplexQuote = {
   user_id: string
   quote_id: string
   wallet_id: string
