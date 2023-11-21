@@ -34,6 +34,7 @@ import {
   v15Schema,
   v164Schema,
   v166Schema,
+  v167Schema,
   v16Schema,
   v17Schema,
   v18Schema,
@@ -1400,6 +1401,13 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[167](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.rampCashInButtonExpEnabled = false
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 167 to 168', () => {
+    const oldSchema = v167Schema
+    const migratedSchema = migrations[168](oldSchema)
+    const expectedSchema: any = _.omit(oldSchema, 'swap.swapUserInput')
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

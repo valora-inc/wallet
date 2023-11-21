@@ -42,7 +42,7 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
-import { setSwapUserInput, swapStart, swapStartPrepared } from 'src/swap/slice'
+import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
@@ -319,9 +319,6 @@ export function SwapScreen({ route }: Props) {
             ),
           })
 
-          // TODO: we want to remove the need to use redux, but for now keeping it
-          // to avoid too many changes
-          dispatch(setSwapUserInput(userInput))
           dispatch(
             swapStartPrepared({
               quote: {
@@ -364,7 +361,6 @@ export function SwapScreen({ route }: Props) {
       web3Library: 'contract-kit',
     })
 
-    dispatch(setSwapUserInput(userInput))
     dispatch(
       swapStart({
         ...exchangeRate.rawSwapResponse,
