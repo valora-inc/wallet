@@ -1193,7 +1193,7 @@
   "feedItemNetworkFeeInfo": "Netzwerkgebühr",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Bestätigungsrewards",
-  "feedItemFailedTransaction": "Gescheiterte Transaktion",
+  "feedItemFailedTransaction": "Fehlgeschlagene Transaktion",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
@@ -1552,7 +1552,7 @@
       "descriptionXtoYDays": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben in {{lowerBound}} bis {{upperBound}} Tagen.",
       "baseDescription": "Deine Transaktionsanfrage wurde gesendet.",
       "txDetails": "Auf CeloExplorer anzeigen",
-      "viewOnCeloScan": "Ansicht auf CeloScan",
+      "viewOnCeloScan": "Auf CeloScan anzeigen",
       "continue": "Weiter"
     },
     "requestNotCompleted": {
@@ -1561,7 +1561,7 @@
     },
     "txProcessing": {
       "title": "Der Dienstleister bearbeitet deine Bestellung.",
-      "description": "Das kann an einer schlechten Internetverbindung liegen. Überprüfe den Block-Explorer auf Updates."
+      "description": "Das kann an einer schlechten Internetverbindung liegen. Überprüfe den Block-Explorer auf Aktualisierungen."
     }
   },
   "fiatExchangeFlow": {
@@ -1682,22 +1682,22 @@
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Unzureichendes {{tokenSymbol}} Gleichgewicht",
-      "description": "Du hast nicht genug {{tokenSymbol}} , um die Gaskosten zu decken. Möchtest du einen kleineren Betrag tauschen?",
-      "confirmDecreaseButton": "Kleinere Menge tauschen"
+      "title": "Unzureichendes {{tokenSymbol}}-Guthaben",
+      "description": "Du hast nicht genug {{tokenSymbol}}, um die Gasgebühr damit zu begleichen. Möchtest du einen kleineren Betrag tauschen?",
+      "confirmDecreaseButton": "Kleineren Betrag tauschen"
     },
     "notEnoughBalanceForGas": {
-      "title": "Unzureichende Gas-Token-Bilanz",
-      "description": "Du hast nicht genug {{feeCurrencies}} , um die Benzinkosten zu decken. Bitte füge {{feeCurrencies}} zu deinem Geldbeutel hinzu, um diesen Tausch abzuschließen.",
+      "title": "Unzureichendes Gas-Token-Guthaben",
+      "description": "Du hast nicht genug {{feeCurrencies}}, um die Gasgebühren zu begleichen. Bitte füge {{feeCurrencies}} zu deiner Wallet hinzu, um diesen Tausch abzuschließen.",
       "dismissButton": "Verwerfen"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Netzwerk-Gebühr",
+      "networkFee": "{{networkName}} Netzwerkgebühr",
       "networkFeeNoNetwork": "Netzwerkgebühr",
       "swapFee": "{{appName}}-Gebühr",
       "swapFeeWaived": "Kostenlos",
-      "slippagePercentage": "Schlupftoleranz",
-      "networkFeeInfo": "Du tauschst über das {{networkName}} Netzwerk.\n\nDiese geschätzte Netzwerkgebühr ist erforderlich, um eine Transaktion über das {{networkName}} Netzwerk durchzuführen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, den Betrieb des Netzwerks aufrechtzuerhalten.",
+      "slippagePercentage": "Slippage-Toleranz",
+      "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
       "estimatedValue": "Geschätzter Wert"
@@ -1857,7 +1857,7 @@
   },
   "tokenDetails": {
     "yourBalance": "Dein Saldo",
-    "learnMore": "Erfahre mehr über {{tokenName}}",
+    "learnMore": "Mehr erfahren über {{tokenName}}.",
     "priceUnavailable": "Preis nicht verfügbar",
     "priceDeltaSuffix": "Heute",
     "actions": {
@@ -1867,11 +1867,11 @@
       "withdraw": "Abheben",
       "more": "Mehr"
     },
-    "moreActions": "Mehr Aktionen",
+    "moreActions": "Weitere Aktionen",
     "actionDescriptions": {
-      "send": "Verwende eine beliebige Celo Adresse, Domain, Telefonnummer, etc.",
-      "swap": "Tausche deine Token, ohne dein Portemonnaie zu verlassen",
-      "add": "Kaufe Token über einen unserer vertrauenswürdigen Anbieter",
+      "send": "Verwende eine beliebige Celo-Adresse, -Domain, -Telefonnummer usw.",
+      "swap": "Tausche deine Token, ohne deine Wallet zu verlassen.",
+      "add": "Kaufe Token über einen unserer vertrauenswürdigen Anbieter.",
       "withdraw": "Überweise Token auf ein Bankkonto, mobiles Geld, eine Geschenkkarte usw."
     }
   },
@@ -1893,37 +1893,37 @@
     "importButton": "Importieren"
   },
   "sendSelectRecipient": {
-    "searchText": "Suche nach Name, Telefon, Geldbeutel...",
-    "title": "Wähle einen Empfänger",
-    "contactsTitle": "Wähle einen Kontakt",
-    "recents": "Aktuelle",
+    "searchText": "Suche nach Name, Telefon, Wallet ...",
+    "title": "Einen Empfänger auswählen",
+    "contactsTitle": "Kontakt wählen",
+    "recents": "Zuletzt",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
-      "subtitle": "Schnelles Finden von Adressen auf Valora"
+      "subtitle": "Finde Adressen schnell auf Valora."
     },
     "invite": {
-      "title": "Sende Krypto an deine Freunde",
-      "subtitle": "Freunde aus deiner Kontaktliste einladen"
+      "title": "Sende Krypto an deine Freunde.",
+      "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
     },
     "getStarted": {
-      "title": "Möglichkeiten, Geld auf Valora zu senden",
-      "subtitle": "ANFANGEN",
+      "title": "So kannst du Guthaben auf Valora senden.",
+      "subtitle": "ERSTE SCHRITTE",
       "options": {
         "one": {
           "title": "Wallet-Adresse",
-          "subtitle": "Gib eine Celo oder Ethereum kompatible Wallet Adresse ein (z.B. 0x123...abcde)"
+          "subtitle": "Gib eine Wallet-Adresse ein, die mit Celo oder Ethereum kompatibel ist (z. B. 0x123...abcde)."
         },
         "two": {
           "title": "Telefonnummer",
-          "subtitle": "Direkt an die Telefonnummer einer Person senden, wenn diese Valora hat"
+          "subtitle": "Sende direkt an die Telefonnummer von jemandem, wenn diese Person Valora hat."
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Ethereum-Vermögenswerte an das ENS-Handle von jemandem senden"
+          "subtitle": "Sende Ethereum-Vermögen an das ENS-Handle einer Person."
         },
         "four": {
-          "title": "Profil Name",
-          "subtitle": "Du kannst nach bestehenden Benutzern auf Valora suchen"
+          "title": "Profilname",
+          "subtitle": "Du kannst auf Valora nach anderen Nutzern suchen."
         }
       }
     },
@@ -1939,28 +1939,28 @@
   "transactionStatus": {
     "transactionIsCompleted": "Fertiggestellt",
     "transactionIsPending": "Ausstehend",
-    "transactionIsFailed": "Gescheitert"
+    "transactionIsFailed": "Fehlgeschlagen"
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Details",
-    "checkPendingTransactionStatus": "Status prüfen",
+    "checkPendingTransactionStatus": "Status überprüfen",
     "retryFailedTransaction": "Erneut versuchen"
   },
   "viewOnCeloBlockExplorer": "Auf CeloExplorer anzeigen",
-  "viewOnCeloScan": "Ansicht auf CeloScan",
-  "viewOnEthereumBlockExplorer": "Ansicht auf Etherscan",
+  "viewOnCeloScan": "Auf CeloScan anzeigen",
+  "viewOnEthereumBlockExplorer": "Auf Etherscan anzeigen",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
-    "networkFee": "{{networkName}} Netzwerk-Gebühr",
-    "lowerAmount": "Einen niedrigeren Betrag eingeben",
+    "networkFee": "Netzwerkgebühr für {{networkName}}",
+    "lowerAmount": "Gib einen niedrigeren Betrag ein.",
     "maxAmountWarning": {
-      "title": "Den Höchstbetrag senden",
-      "description": "Passe den Betrag an, den du sendest, um sicherzustellen, dass du genug {{feeTokenSymbol}} für Gas hast."
+      "title": "Der Höchstbetrag wird gesendet.",
+      "description": "Passe den Betrag an, den du senden möchtest, um sicherzustellen, dass du genug {{feeTokenSymbol}} für Gas hast."
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Du brauchst mehr {{feeTokenSymbol}} für Gas",
-      "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu decken oder passe den Betrag an, den du sendest"
+      "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
+      "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu begleichen, oder passe den Betrag an, den du senden möchtest."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
