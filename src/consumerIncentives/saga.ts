@@ -59,7 +59,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
 
     if (rewards.length > 0) {
       receivedRewards = (yield* all(
-        rewards.map((reward, index) => call(claimRewardV2, reward, index, baseNonce))
+        rewards.map((reward, index) => call(claimReward, reward, index, baseNonce))
       )) as {
         fundsSource: string
         amount: string
@@ -99,7 +99,7 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
   }
 }
 
-function* claimRewardV2(reward: SuperchargePendingReward, index: number, baseNonce: number) {
+function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce: number) {
   const { transaction, details } = reward
 
   const superchargeRewardContractAddress = yield* select(superchargeRewardContractAddressSelector)
