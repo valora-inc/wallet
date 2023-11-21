@@ -1659,6 +1659,7 @@
   "swapScreen": {
     "title": "Scambia",
     "review": "Rivedi",
+    "confirmSwap": "Conferma lo scambio",
     "swapFrom": "DA",
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
