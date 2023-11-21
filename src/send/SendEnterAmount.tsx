@@ -139,17 +139,16 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onMaxAmountPress = async () => {
-    Logger.info(TAG, 'Max amount pressed')
-    ValoraAnalytics.track(SendEvents.max_pressed, {
-      tokenId: token.tokenId,
-      tokenAddress: token.address,
-      networkId: token.networkId,
-    })
     // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
     // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
     // if there is not enough for gas
     setAmount(token.balance.toString())
     textInputRef.current?.blur()
+    ValoraAnalytics.track(SendEvents.max_pressed, {
+      tokenId: token.tokenId,
+      tokenAddress: token.address,
+      networkId: token.networkId,
+    })
   }
 
   const onReviewPress = () => {
