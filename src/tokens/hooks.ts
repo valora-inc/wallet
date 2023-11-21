@@ -98,11 +98,13 @@ export function useCashInTokens() {
   return useSelector((state) => cashInTokensByNetworkIdSelector(state, networkIdsForCico))
 }
 
-export function useCashOutTokens() {
+export function useCashOutTokens(showZeroBalanceTokens: boolean = false) {
   const networkIdsForCico = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showCico
-  return useSelector((state) => cashOutTokensByNetworkIdSelector(state, networkIdsForCico))
+  return useSelector((state) =>
+    cashOutTokensByNetworkIdSelector(state, networkIdsForCico, showZeroBalanceTokens)
+  )
 }
 
 export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
