@@ -276,6 +276,10 @@ describe('SwapScreen', () => {
         decimalSeparator: '.',
       },
     })
+
+    mockExperimentParams.mockReturnValue({
+      swapBuyAmountEnabled: true,
+    })
   })
 
   it('should display the correct elements on load', () => {
@@ -885,7 +889,7 @@ describe('SwapScreen', () => {
     })
   })
 
-  it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {
+  it('should show swappable tokens and search box', async () => {
     const { swapToContainer, getByPlaceholderText, swapFromContainer, tokenBottomSheet } =
       renderScreen({})
 
