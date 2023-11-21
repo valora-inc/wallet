@@ -113,10 +113,8 @@ export function useMaxSendAmountByAddress(
  * Returns the list of currencies that can be used to pay fees
  * Sorted by native currency first, then by USD balance, and balance otherwise
  */
-export function useFeeCurrencies(networkId?: NetworkId) {
-  const networkTokens = useSelector((state) =>
-    tokensListSelector(state, networkId ? [networkId] : [])
-  )
+export function useFeeCurrencies(networkId: NetworkId) {
+  const networkTokens = useSelector((state) => tokensListSelector(state, [networkId]))
 
   const result = useMemo(
     () =>
