@@ -1682,22 +1682,22 @@
     },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Equilibrio insuficiente {{tokenSymbol}}",
-      "description": "No tienes suficiente {{tokenSymbol}} para cubrir los gastos de gasolina. ¿Te gustaría intercambiar una cantidad menor?",
-      "confirmDecreaseButton": "Intercambia una cantidad menor"
+      "title": "Saldo de {{tokenSymbol}} insuficiente",
+      "description": "No tienes suficientes {{tokenSymbol}} para cubrir los gastos de gasolina. ¿Te gustaría intercambiar un monto menor?",
+      "confirmDecreaseButton": "Intercambia un monto menor"
     },
     "notEnoughBalanceForGas": {
-      "title": "Balance de fichas de gas insuficiente",
-      "description": "No tienes suficiente {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, añade {{feeCurrencies}} a tu cartera para completar este intercambio.",
+      "title": "Saldo insuficiente de tokens para gasolina",
+      "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, añade {{feeCurrencies}} a tu billetera para completar este intercambio.",
       "dismissButton": "Ignorar"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Tasa de red",
+      "networkFee": "Tarifa de red de {{networkName}}",
       "networkFeeNoNetwork": "Tarifa de red",
       "swapFee": "Tarifa de {{appName}}",
       "swapFeeWaived": "Gratis",
       "slippagePercentage": "Tolerancia al deslizamiento",
-      "networkFeeInfo": "Estás intercambiando en la Red {{networkName}} .\n\nEsta tarifa de red estimada es necesaria para realizar una transacción en la Red {{networkName}} . Esta tarifa asegura tu transacción y se destina a mantener operativa la red.",
+      "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nEsta tarifa de red estimada es necesaria para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener operativa la red.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
       "estimatedValue": "Valor estimado"
@@ -1707,7 +1707,7 @@
     "swapFrom": "Cambiar de",
     "swapTo": "Cambiar a",
     "rate": "Tasas",
-    "estimatedFee": "Est Tasa de red",
+    "estimatedFee": "Tarifa de red estimada",
     "networkFee": "Tarifa de red",
     "viewOnExplorer": "Ver en CeloExplorer"
   },
@@ -1773,7 +1773,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
-      "body": "Parece que {{contactName}} no está en Valora. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Después de que descargue Valora, conecte su número de teléfono y añada 5 cUSD a su monedero, ambos recibiréis 0,50 cUSD hasta agotar fondos."
+      "body": "Parece que {{contactName}} no está en Valora. Aún puedes enviar un pago si conoces la dirección de su billetera, o enviar una invitación. \n\n Después de que descargue Valora, que conecte su número de teléfono y añada 5 cUSD a su billetera, ambos recibirán 0.50 cUSD hasta agotar fondos."
     }
   },
   "celoNews": {
@@ -1849,7 +1849,7 @@
       "collectibles": "Coleccionables",
       "dappPositions": "Posiciones Dapp"
     },
-    "importToken": "Importa"
+    "importToken": "Importar"
   },
   "notificationCenterSpotlight": {
     "message": "Presentamos una nueva forma de reclamar recompensas, ver alertas y consultar actualizaciones en un solo lugar",
@@ -1870,9 +1870,9 @@
     "moreActions": "Más acciones",
     "actionDescriptions": {
       "send": "Utiliza cualquier dirección de Celo, dominio, número de teléfono, etc.",
-      "swap": "Intercambia tus fichas sin salir de tu cartera",
-      "add": "Compra fichas utilizando uno de nuestros proveedores de confianza",
-      "withdraw": "Transfiere fichas a una cuenta bancaria, dinero móvil, tarjeta regalo, etc."
+      "swap": "Intercambia tus tokens sin salir de tu billetera",
+      "add": "Compra tokens utilizando uno de nuestros proveedores de confianza",
+      "withdraw": "Transfiere tokens a una cuenta bancaria, dinero móvil, tarjeta de regalo, etc."
     }
   },
   "tokenImport": {
@@ -1893,7 +1893,7 @@
     "importButton": "Importa"
   },
   "sendSelectRecipient": {
-    "searchText": "Busca por nombre, teléfono, cartera...",
+    "searchText": "Busca por nombre, teléfono, billetera...",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
     "recents": "Recientes",
@@ -1902,7 +1902,7 @@
       "subtitle": "Encuentra rápidamente direcciones en Valora"
     },
     "invite": {
-      "title": "Envía criptomonedas a tus amigos",
+      "title": "Envía cripto a tus amigos",
       "subtitle": "Invita a amigos de tu lista de contactos"
     },
     "getStarted": {
@@ -1911,7 +1911,7 @@
       "options": {
         "one": {
           "title": "Dirección de billetera",
-          "subtitle": "Introduce una dirección de monedero compatible con Celo o Ethereum (ej. 0x123...abcde)"
+          "subtitle": "Introduce una dirección de billetera compatible con Celo o Ethereum (ej. 0x123...abcde)"
         },
         "two": {
           "title": "Número de teléfono",
@@ -1919,7 +1919,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Enviar activos Ethereum a la cuenta ENS de alguien"
+          "subtitle": "Enviar activos Ethereum al nombre ENS de alguien"
         },
         "four": {
           "title": "Nombre del perfil",
@@ -1939,7 +1939,7 @@
   "transactionStatus": {
     "transactionIsCompleted": "Finalizada",
     "transactionIsPending": "Pendientes",
-    "transactionIsFailed": "Fallido"
+    "transactionIsFailed": "Falló"
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Detalles",
@@ -1950,17 +1950,17 @@
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
   "sendEnterAmountScreen": {
-    "title": "Introduce el importe",
+    "title": "Introduce el monto",
     "selectToken": "Selecciona un Token",
-    "networkFee": "{{networkName}} Tasa de red",
-    "lowerAmount": "Introduce una cantidad inferior",
+    "networkFee": "Tarifa de red de {{networkName}}",
+    "lowerAmount": "Introduce un monto menor",
     "maxAmountWarning": {
-      "title": "Enviar el importe máximo",
-      "description": "Ajusta la cantidad que envías para asegurarte de que tienes suficiente {{feeTokenSymbol}} para gasolina"
+      "title": "Enviar el monto máximo",
+      "description": "Ajusta el monto que envías para asegurarte de que tienes suficientes {{feeTokenSymbol}} para gasolina"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Necesitas más {{feeTokenSymbol}} para el gas",
-      "description": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta la cantidad que envías"
+      "title": "Necesitas más {{feeTokenSymbol}} para la gasolina",
+      "description": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta el monto que envías"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
