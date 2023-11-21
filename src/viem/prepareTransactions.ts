@@ -3,7 +3,7 @@ import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/ty
 import erc20 from 'src/abis/IERC20'
 import stableToken from 'src/abis/StableToken'
 import { STATIC_GAS_PADDING } from 'src/config'
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { NativeTokenBalance, TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
@@ -205,7 +205,7 @@ export async function prepareTransactions({
   throwOnSpendTokenAmountExceedsBalance = true,
 }: {
   feeCurrencies: TokenBalance[]
-  spendToken: TokenBalanceWithAddress
+  spendToken: TokenBalance
   spendTokenAmount: BigNumber
   decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
@@ -372,7 +372,46 @@ export async function prepareTransferWithCommentTransaction(
   })
 }
 
-// TODO(ACT-956) create helper for native transfers
+/**
+ * Prepare a transaction for sending native asset.
+ *
+ * @param fromWalletAddress - sender address
+ * @param toWalletAddress - recipient address
+ * @param amount the amount of the token to send, denominated in the smallest units for that token
+ * @param feeCurrencies - tokens to consider using for paying the transaction fee
+ * @param sendToken - native asset to send. MUST be native asset (e.g. sendable using the 'value' field of a transaction, like ETH or CELO)
+ *
+ * @param prepareTxs a function that prepares the transactions (for unit testing-- should use default everywhere else)
+ **/
+export function prepareSendNativeAssetTransaction(
+  {
+    fromWalletAddress,
+    toWalletAddress,
+    amount,
+    feeCurrencies,
+    sendToken,
+  }: {
+    fromWalletAddress: string
+    toWalletAddress: string
+    amount: bigint
+    feeCurrencies: TokenBalance[]
+    sendToken: NativeTokenBalance
+  },
+  prepareTxs = prepareTransactions
+): Promise<PreparedTransactionsResult> {
+  const baseSendTx: TransactionRequest = {
+    from: fromWalletAddress as Address,
+    to: toWalletAddress as Address,
+    value: amount,
+  }
+  return prepareTxs({
+    feeCurrencies,
+    spendToken: sendToken,
+    spendTokenAmount: new BigNumber(amount.toString()),
+    decreasedAmountGasFeeMultiplier: 1,
+    baseTransactions: [baseSendTx],
+  })
+}
 
 /**
  * Given prepared transactions, get the fee currency and amount in decimals
