@@ -3498,20 +3498,10 @@
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
-                    "anyOf": [
-                        {
-                            "items": {
-                                "$ref": "#/definitions/SuperchargePendingReward"
-                            },
-                            "type": "array"
-                        },
-                        {
-                            "items": {
-                                "$ref": "#/definitions/SuperchargePendingRewardV2"
-                            },
-                            "type": "array"
-                        }
-                    ]
+                    "items": {
+                        "$ref": "#/definitions/SuperchargePendingRewardV2"
+                    },
+                    "type": "array"
                 },
                 "error": {
                     "type": "boolean"
@@ -4274,41 +4264,6 @@
             "additionalProperties": {
                 "$ref": "#/definitions/StoredTokenBalance"
             },
-            "type": "object"
-        },
-        "SuperchargePendingReward": {
-            "additionalProperties": false,
-            "properties": {
-                "amount": {
-                    "type": "string"
-                },
-                "contractAddress": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "number"
-                },
-                "index": {
-                    "type": "number"
-                },
-                "proof": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "tokenAddress": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "amount",
-                "contractAddress",
-                "createdAt",
-                "index",
-                "proof",
-                "tokenAddress"
-            ],
             "type": "object"
         },
         "SuperchargePendingRewardV2": {

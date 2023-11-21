@@ -10,15 +10,6 @@ export interface SuperchargeTokenConfig {
   maxBalance: number
 }
 
-export interface SuperchargePendingReward {
-  amount: string
-  contractAddress: string
-  createdAt: number
-  index: number
-  proof: string[]
-  tokenAddress: string
-}
-
 export interface SuperchargePendingRewardV2 {
   transaction: {
     from: string
