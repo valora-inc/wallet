@@ -1,15 +1,17 @@
 import BigNumber from 'bignumber.js'
+import { FetchMock } from 'jest-fetch-mock'
 import { expectSaga } from 'redux-saga-test-plan'
 import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getDynamicConfigParams } from 'src/statsig'
 import {
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
+  getTokensInfo,
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
-  getTokensInfo,
 } from 'src/tokens/saga'
 import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
@@ -18,6 +20,8 @@ import {
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockAccount,
@@ -29,21 +33,8 @@ import {
   mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
-import { FetchMock } from 'jest-fetch-mock'
-import Logger from 'src/utils/Logger'
-import { apolloClient } from 'src/apollo'
-import { getDynamicConfigParams } from 'src/statsig'
-import { ApolloQueryResult } from 'apollo-client'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig')
-jest.mock('src/apollo', () => {
-  return {
-    apolloClient: {
-      query: jest.fn(),
-    },
-  }
-})
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -170,17 +161,18 @@ describe(fetchTokenBalancesForAddress, () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores']],
     })
-    jest
-      .mocked(apolloClient.query)
-      .mockImplementation(async (payload: any): Promise<ApolloQueryResult<unknown>> => {
-        return {
+    mockFetch.mockImplementation(async (_, requestInit) => {
+      const body = JSON.parse((requestInit?.body as string) ?? '{}')
+      return new Response(
+        JSON.stringify({
           data: {
             userBalances: {
-              balances: [`${payload.variables.networkId} balance`],
+              balances: [`${body.variables.networkId} balance`],
             },
           },
-        } as ApolloQueryResult<unknown>
-      })
+        })
+      )
+    })
     const result = await fetchTokenBalancesForAddress('some-address')
     expect(result).toHaveLength(1),
       expect(result).toEqual(expect.arrayContaining(['celo_alfajores balance']))
@@ -189,17 +181,18 @@ describe(fetchTokenBalancesForAddress, () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
-    jest
-      .mocked(apolloClient.query)
-      .mockImplementation(async (payload: any): Promise<ApolloQueryResult<unknown>> => {
-        return {
+    mockFetch.mockImplementation(async (_, requestInit) => {
+      const body = JSON.parse((requestInit?.body as string) ?? '{}')
+      return new Response(
+        JSON.stringify({
           data: {
             userBalances: {
-              balances: [`${payload.variables.networkId} balance`],
+              balances: [`${body.variables.networkId} balance`],
             },
           },
-        } as ApolloQueryResult<unknown>
-      })
+        })
+      )
+    })
     const result = await fetchTokenBalancesForAddress('some-address')
     expect(result).toHaveLength(2),
       expect(result).toEqual(

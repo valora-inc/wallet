@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { MoneyAmount } from 'src/apollo/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import {
@@ -12,6 +11,7 @@ import useSelector from 'src/redux/useSelector'
 import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
+import { MoneyAmount } from 'src/utils/moneyAmount'
 
 export function useLocalCurrencyToShow(amount: MoneyAmount, currencyInfo?: CurrencyInfo) {
   let localCurrencyCode = useSelector(getLocalCurrencyCode)
