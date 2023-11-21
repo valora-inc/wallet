@@ -2,17 +2,15 @@ import BigNumber from 'bignumber.js'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ExternalQuote from 'src/fiatExchanges/quotes/ExternalQuote'
 import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
-import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 import {
-  mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenId,
-  mockExternalQuotesWithTokenId,
   mockProviderSelectionAnalyticsData,
   mockProviders,
 } from 'test/values'
@@ -42,9 +40,10 @@ describe('ExternalQuote', () => {
       expect(
         () =>
           new ExternalQuote({
-            quote: mockExternalQuotesWithTokenId[4],
+            quote: (mockProviders[4].quote as RawProviderQuote[])[0],
             provider: mockProviders[4],
             flow: CICOFlow.CashIn,
+            tokenId: mockCusdTokenId,
           })
       ).toThrow()
     })
@@ -52,9 +51,10 @@ describe('ExternalQuote', () => {
       expect(
         () =>
           new ExternalQuote({
-            quote: mockExternalQuotesWithTokenId[3],
+            quote: (mockProviders[3].quote as RawProviderQuote[])[0],
             provider: mockProviders[3],
             flow: CICOFlow.CashIn,
+            tokenId: mockCusdTokenId,
           })
       ).toThrow()
     })
@@ -62,9 +62,10 @@ describe('ExternalQuote', () => {
       expect(
         () =>
           new ExternalQuote({
-            quote: mockExternalQuotesWithTokenId[1],
+            quote: (mockProviders[1].quote as RawProviderQuote[])[0],
             provider: mockProviders[1],
             flow: CICOFlow.CashOut,
+            tokenId: mockCusdTokenId,
           })
       ).toThrow()
     })
@@ -72,17 +73,19 @@ describe('ExternalQuote', () => {
   describe('.getPaymentMethod', () => {
     it('returns PaymentMethod for simplex', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getPaymentMethod()).toEqual(PaymentMethod.Card)
     })
     it('returns PaymentMethod for other', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getPaymentMethod()).toEqual(PaymentMethod.Bank)
     })
@@ -91,17 +94,19 @@ describe('ExternalQuote', () => {
   describe('.getFeeInCrypto', () => {
     it('returns converted fee for simplex', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(3))
     })
     it('returns converted fee for other', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(2.5))
     })
@@ -110,10 +115,10 @@ describe('ExternalQuote', () => {
         quote: {
           paymentMethod: PaymentMethod.Card,
           digitalAsset: CiCoCurrency.cUSD,
-          tokenId: mockCusdTokenId,
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(null)
     })
@@ -122,17 +127,19 @@ describe('ExternalQuote', () => {
   describe('.getFeeInFiat', () => {
     it('returns fee for simplex', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(6))
     })
     it('returns fee for other', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(5))
     })
@@ -141,10 +148,10 @@ describe('ExternalQuote', () => {
         quote: {
           paymentMethod: PaymentMethod.Card,
           digitalAsset: CiCoCurrency.cUSD,
-          tokenId: mockCusdTokenId,
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(null)
     })
@@ -153,9 +160,10 @@ describe('ExternalQuote', () => {
   describe('.getKycInfo', () => {
     it('returns idRequired', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getKycInfo()).toEqual('selectProviderScreen.idRequired')
     })
@@ -164,9 +172,10 @@ describe('ExternalQuote', () => {
   describe('.getTimeEstimation', () => {
     it('returns 1-3 days for Bank', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.X_TO_Y_DAYS,
@@ -176,9 +185,10 @@ describe('ExternalQuote', () => {
     })
     it('returns oneHour for Card', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
@@ -189,9 +199,10 @@ describe('ExternalQuote', () => {
   describe('.onPress', () => {
     it('returns a function that calls ValoraAnalytics', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       quote.onPress(
         CICOFlow.CashIn,
@@ -206,18 +217,20 @@ describe('ExternalQuote', () => {
   describe('.navigate', () => {
     it('calls navigate for simplex', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       quote.navigate()
       expect(navigate).toHaveBeenCalled()
     })
     it('calls navigateToURI for other', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       quote.navigate()
       expect(navigateToURI).toHaveBeenCalled()
@@ -227,9 +240,10 @@ describe('ExternalQuote', () => {
   describe('.getProviderName', () => {
     it('returns provider name', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderName()).toEqual('Moonpay')
     })
@@ -238,9 +252,10 @@ describe('ExternalQuote', () => {
   describe('.getProviderLogo', () => {
     it('returns provider logo', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderLogo()).toEqual(
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media'
@@ -251,9 +266,10 @@ describe('ExternalQuote', () => {
   describe('.getProviderId', () => {
     it('returns provider id', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderId()).toEqual('Moonpay')
     })
@@ -262,9 +278,10 @@ describe('ExternalQuote', () => {
   describe('.isProviderNew', () => {
     it('returns false', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[1],
+        quote: (mockProviders[1].quote as RawProviderQuote[])[0],
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.isProviderNew()).toEqual(false)
     })
@@ -273,9 +290,10 @@ describe('ExternalQuote', () => {
   describe('.getReceiveAmount', () => {
     it('returns amount for simplex quote', () => {
       const quote = new ExternalQuote({
-        quote: mockExternalQuotesWithTokenId[0],
+        quote: mockProviders[0].quote as SimplexQuote,
         provider: mockProviders[0],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getReceiveAmount()).toEqual(new BigNumber(25))
     })
@@ -286,10 +304,10 @@ describe('ExternalQuote', () => {
           paymentMethod: PaymentMethod.Bank,
           digitalAsset: CiCoCurrency.CELO,
           returnedAmount: 20,
-          tokenId: mockCeloTokenId,
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getReceiveAmount()).toEqual(new BigNumber(20))
     })
@@ -299,10 +317,10 @@ describe('ExternalQuote', () => {
         quote: {
           paymentMethod: PaymentMethod.Bank,
           digitalAsset: CiCoCurrency.CELO,
-          tokenId: mockCeloTokenId,
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getReceiveAmount()).toBeNull()
     })

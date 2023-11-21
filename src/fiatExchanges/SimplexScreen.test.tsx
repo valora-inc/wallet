@@ -11,7 +11,7 @@ import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockCusdTokenId, mockE164Number } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
-import { SimplexQuoteWithTokenId } from './utils'
+import { SimplexQuote } from './utils'
 
 const mockUserIpAddress = '1.1.1.1.1.1.0'
 
@@ -61,7 +61,8 @@ const MOCK_SIMPLEX_QUOTE = {
 
 const mockScreenProps = () =>
   getMockStackScreenProps(Screens.Simplex, {
-    simplexQuote: MOCK_SIMPLEX_QUOTE as SimplexQuoteWithTokenId,
+    simplexQuote: MOCK_SIMPLEX_QUOTE as SimplexQuote,
+    tokenId: mockCusdTokenId,
   })
 
 describe('SimplexScreen', () => {

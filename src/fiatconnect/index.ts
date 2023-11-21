@@ -122,10 +122,6 @@ export type FiatConnectQuoteSuccess = {
   ok: boolean
 } & QuoteResponse
 
-export type FiatConnectQuoteSuccessWithTokenId = {
-  tokenId: string
-} & FiatConnectQuoteSuccess
-
 export async function getFiatConnectQuotes(
   params: QuotesInput
 ): Promise<(FiatConnectQuoteSuccess | FiatConnectQuoteError)[]> {

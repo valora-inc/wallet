@@ -36,7 +36,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const [redirected, setRedirected] = useState(false)
   const { t } = useTranslation()
 
-  const { simplexQuote } = route.params
+  const { simplexQuote, tokenId } = route.params
 
   const account = useSelector(currentAccountSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
@@ -46,10 +46,9 @@ function SimplexScreen({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
 
-  const tokenIdToBuy = simplexQuote.tokenId
-  const tokenInfo = useTokenInfo(tokenIdToBuy)
+  const tokenInfo = useTokenInfo(tokenId)
   if (!tokenInfo) {
-    throw new Error(`Token info not found for token ID ${tokenIdToBuy}`)
+    throw new Error(`Token info not found for token ID ${tokenId}`)
   }
   const symbol = tokenInfo.symbol
 
@@ -118,7 +117,7 @@ function SimplexScreen({ route, navigation }: Props) {
         <View style={styles.review}>
           <ReviewFees
             provider="Simplex"
-            tokenIdToBuy={tokenIdToBuy}
+            tokenIdToBuy={tokenId}
             localCurrency={localCurrency}
             fiat={{
               subTotal: simplexQuote.fiat_money.base_amount,

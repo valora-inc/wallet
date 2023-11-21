@@ -4,9 +4,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
-import { FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
@@ -19,13 +19,13 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenId,
-  mockFiatConnectQuotesWithTokenIds,
+  mockFiatConnectQuotes,
   mockName,
   mockTestTokenAddress,
   mockTestTokenTokenId,
@@ -581,8 +581,9 @@ describe('TransferFeedItem', () => {
     const transferTotalCost = 102
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
-      quote: mockFiatConnectQuotesWithTokenIds[2] as FiatConnectQuoteSuccessWithTokenId,
+      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.Sent,

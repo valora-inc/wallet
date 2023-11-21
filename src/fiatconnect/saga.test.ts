@@ -30,7 +30,6 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteSuccess,
-  FiatConnectQuoteSuccessWithTokenId,
   fetchQuotes,
   getFiatConnectProviders,
 } from 'src/fiatconnect'
@@ -108,7 +107,6 @@ import {
   mockFeeInfo,
   mockFiatConnectProviderInfo,
   mockFiatConnectQuotes,
-  mockFiatConnectQuotesWithTokenIds,
   mockTokenBalances,
 } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
@@ -145,14 +143,16 @@ jest.mock('src/transactions/send')
 describe('Fiatconnect saga', () => {
   const provideDelay = ({ fn }: { fn: any }, next: any) => (fn.name === 'delayP' ? null : next())
   const normalizedQuote = new FiatConnectQuote({
-    quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+    quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: mockCusdTokenId,
   })
   const normalizedQuoteKyc = new FiatConnectQuote({
-    quote: mockFiatConnectQuotesWithTokenIds[2] as FiatConnectQuoteSuccessWithTokenId,
+    quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: mockCusdTokenId,
   })
   const expectedCacheQuoteParams = {
     providerId: normalizedQuoteKyc.getProviderId(),
@@ -1230,7 +1230,8 @@ describe('Fiatconnect saga', () => {
     const quote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
       fiatAccountType: FiatAccountType.BankAccount,
-      quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+      tokenId: mockCusdTokenId,
     })
     const params = refetchQuote({
       flow: CICOFlow.CashOut,
@@ -1755,8 +1756,9 @@ describe('Fiatconnect saga', () => {
   describe('_initiateTransferWithProvider', () => {
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
-      quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
 
     const quoteId = transferOutFcQuote.getQuoteId()
@@ -1844,8 +1846,9 @@ describe('Fiatconnect saga', () => {
   describe('_initiateSendTxToProvider', () => {
     const transferOutFcQuote = new FiatConnectQuote({
       flow: CICOFlow.CashOut,
-      quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+      quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
     const TEST_FEE_INFO_CUSD = {
       ...mockFeeInfo,
@@ -1873,6 +1876,7 @@ describe('Fiatconnect saga', () => {
           flow: CICOFlow.CashOut,
           quote,
           fiatAccountType: FiatAccountType.BankAccount,
+          tokenId: mockCusdTokenId,
         })
         const tokenAddress = cryptoTypeToAddress[cryptoType]
         await expectSaga(_initiateSendTxToProvider, {
@@ -2046,8 +2050,9 @@ describe('Fiatconnect saga', () => {
     describe('TransferIn', () => {
       const transferInFcQuote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
-        quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       const transferAddress = '0x12345'
       it('calls transfer in', async () => {
@@ -2081,8 +2086,9 @@ describe('Fiatconnect saga', () => {
     describe('TransferOut', () => {
       const transferOutFcQuote = new FiatConnectQuote({
         flow: CICOFlow.CashOut,
-        quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       const transferAddress = '0x12345'
       const transactionHash = '0xabc'
@@ -2215,8 +2221,9 @@ describe('Fiatconnect saga', () => {
     describe('Errors', () => {
       const transferInFcQuote = new FiatConnectQuote({
         flow: CICOFlow.CashIn,
-        quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+        quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       it('Handles thrown errors and logs them', async () => {
         const action = createFiatConnectTransfer({
@@ -2673,9 +2680,10 @@ describe('Fiatconnect saga', () => {
 
   describe('handleKycTryAgain', () => {
     const quote = new FiatConnectQuote({
-      quote: mockFiatConnectQuotesWithTokenIds[2] as FiatConnectQuoteSuccessWithTokenId,
+      quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
       flow: CICOFlow.CashOut,
+      tokenId: mockCusdTokenId,
     })
     const flow = CICOFlow.CashOut
 
@@ -2712,9 +2720,10 @@ describe('Fiatconnect saga', () => {
         kycTryAgain({
           flow,
           quote: new FiatConnectQuote({
-            quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+            quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
             fiatAccountType: FiatAccountType.BankAccount,
             flow,
+            tokenId: mockCusdTokenId,
           }),
         })
       )

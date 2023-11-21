@@ -9,7 +9,7 @@ import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
 import { FiatAccount } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { CICOFlow, FiatExchangeFlow, SimplexQuoteWithTokenId } from 'src/fiatExchanges/utils'
+import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { AddressValidationType } from 'src/identity/reducer'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
@@ -154,7 +154,8 @@ export type StackParamList = {
     quote: FiatConnectQuote
   }
   [Screens.Simplex]: {
-    simplexQuote: SimplexQuoteWithTokenId
+    simplexQuote: SimplexQuote
+    tokenId: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:

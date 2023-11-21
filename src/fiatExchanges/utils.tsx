@@ -83,9 +83,7 @@ export interface RawProviderQuote {
   fiatFee?: number
   extraReqs?: { mobileCarrier: 'Safaricom' | 'MTN' }
 }
-export interface RawProviderQuoteWithTokenId extends RawProviderQuote {
-  tokenId: string
-}
+
 export interface LegacyMobileMoneyProvider {
   name: string
   celo: {
@@ -135,9 +133,6 @@ export interface SimplexQuote {
   }
   valid_until: string
   supported_digital_currencies: string[]
-}
-export interface SimplexQuoteWithTokenId extends SimplexQuote {
-  tokenId: string
 }
 
 export interface CicoQuote {

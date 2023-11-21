@@ -23,14 +23,11 @@ import {
   FetchProvidersOutput,
   LegacyMobileMoneyProvider,
   PaymentMethod,
-  RawProviderQuote,
-  SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import {
   FiatConnectProviderInfo,
   FiatConnectQuoteError,
   FiatConnectQuoteSuccess,
-  FiatConnectQuoteSuccessWithTokenId,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
@@ -710,13 +707,6 @@ export const mockProviders: FetchProvidersOutput[] = [
     ],
   },
 ]
-export const mockExternalQuotesWithTokenId = [
-  { ...(mockProviders[0].quote as SimplexQuote), tokenId: mockCusdTokenId },
-  { ...(mockProviders[1].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
-  { ...(mockProviders[2].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
-  { ...(mockProviders[3].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
-  { ...(mockProviders[4].quote as RawProviderQuote[])[0], tokenId: mockCusdTokenId },
-]
 
 export const mockFiatConnectProviderImage =
   'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media'
@@ -924,10 +914,6 @@ export const mockFiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteE
     },
   },
 ]
-export const mockFiatConnectQuotesWithTokenIds: (
-  | FiatConnectQuoteSuccessWithTokenId
-  | FiatConnectQuoteError
-)[] = mockFiatConnectQuotes.slice(1).map((quote) => ({ ...quote, tokenId: mockCusdTokenId }))
 export const mockFiatConnectQuotesWithUnknownFees: FiatConnectQuoteSuccess[] = [
   {
     // provider-two with no fee given

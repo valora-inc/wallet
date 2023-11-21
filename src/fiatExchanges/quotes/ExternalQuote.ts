@@ -11,8 +11,8 @@ import {
   CICOFlow,
   FetchProvidersOutput,
   PaymentMethod,
-  RawProviderQuoteWithTokenId,
-  SimplexQuoteWithTokenId,
+  RawProviderQuote,
+  SimplexQuote,
 } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { navigate } from 'src/navigator/NavigationService'
@@ -36,23 +36,26 @@ const paymentMethodToSettlementTime = {
   [PaymentMethod.Coinbase]: DEFAULT_CARD_SETTLEMENT_ESTIMATION,
 }
 
-export const isSimplexQuote = (
-  quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId
-): quote is SimplexQuoteWithTokenId => !!quote && 'wallet_id' in quote
+export const isSimplexQuote = (quote: RawProviderQuote | SimplexQuote): quote is SimplexQuote =>
+  !!quote && 'wallet_id' in quote
 export default class ExternalQuote extends NormalizedQuote {
-  quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId
+  quote: RawProviderQuote | SimplexQuote
   provider: FetchProvidersOutput
   flow: CICOFlow
+  tokenId: string
   constructor({
     quote,
     provider,
     flow,
+    tokenId,
   }: {
-    quote: RawProviderQuoteWithTokenId | SimplexQuoteWithTokenId
+    quote: RawProviderQuote | SimplexQuote
     provider: FetchProvidersOutput
     flow: CICOFlow
+    tokenId: string
   }) {
     super()
+    this.tokenId = tokenId
     if (provider.restricted) {
       throw new Error(`Error: ${provider.name}. Quote is restricted`)
     }
@@ -123,6 +126,7 @@ export default class ExternalQuote extends NormalizedQuote {
     if (isSimplexQuote(this.quote)) {
       navigate(Screens.Simplex, {
         simplexQuote: this.quote,
+        tokenId: this.tokenId,
       })
     } else {
       navigateToURI(this.provider.url!)
@@ -161,6 +165,6 @@ export default class ExternalQuote extends NormalizedQuote {
   }
 
   getTokenId(): string {
-    return this.quote.tokenId
+    return this.tokenId
   }
 }

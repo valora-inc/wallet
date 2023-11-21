@@ -6,13 +6,13 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { FiatConnectQuoteSuccessWithTokenId } from 'src/fiatconnect'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import KycPending from 'src/fiatconnect/kyc/KycPending'
 import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotesWithTokenIds } from 'test/values'
+import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect/kyc/getNavigationOptions')
@@ -31,7 +31,8 @@ describe('KycPending', () => {
   const mockQuote = new FiatConnectQuote({
     flow: CICOFlow.CashOut,
     fiatAccountType: FiatAccountType.BankAccount,
-    quote: mockFiatConnectQuotesWithTokenIds[0] as FiatConnectQuoteSuccessWithTokenId,
+    quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    tokenId: mockCusdTokenId,
   })
 
   const mockScreenProps = () =>
