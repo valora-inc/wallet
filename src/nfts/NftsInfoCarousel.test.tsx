@@ -9,7 +9,6 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata } from 'test/values'
 
 jest.mock('src/utils/Logger')
-jest.mock('react-native-video', () => 'ReactNativeVideo')
 
 describe('NftsInfoCarousel', () => {
   beforeEach(() => {
@@ -26,7 +25,7 @@ describe('NftsInfoCarousel', () => {
     )
 
     // Correct image source should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/MainVideo').children[0]).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
@@ -58,7 +57,7 @@ describe('NftsInfoCarousel', () => {
     expect(getByTestId('NftsInfoCarousel/NftImageCarousel')).toBeTruthy()
 
     // Correct Nft Video and name should be rendered
-    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/MainVideo').children[0]).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
