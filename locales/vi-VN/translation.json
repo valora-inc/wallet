@@ -1657,6 +1657,7 @@
   "swapScreen": {
     "title": "Trao đổi",
     "review": "Xem lại",
+    "confirmSwap": "Confirm Swap",
     "swapFrom": "TỪ",
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
