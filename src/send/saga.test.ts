@@ -35,7 +35,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
-  mockAccount2,
   mockAccount3,
   mockAccount2Invite,
   mockAccountInvite,

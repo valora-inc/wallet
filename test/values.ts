@@ -89,6 +89,8 @@ export const mockDisplayNumber2 = '+1 209-555-9790'
 export const mockComment = 'Rent request for June, it is already late!!!'
 export const mockCountryCode = '+1'
 
+export const mockE164Number3 = '+14155550123'
+
 export const mockQrCodeData = {
   address: mockAccount,
   e164PhoneNumber: mockE164Number,
