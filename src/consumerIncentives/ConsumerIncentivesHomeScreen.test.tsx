@@ -130,7 +130,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
           numberVerifiedCentrally: false,
           supercharge: {
             ...initialState,
-            superchargeV2Enabled: true,
           },
         })}
       >
@@ -153,7 +152,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
           numberVerifiedCentrally: false,
           supercharge: {
             ...initialState,
-            superchargeV2Enabled: true,
           },
         })}
       >
@@ -208,7 +206,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            superchargeV2Enabled: true,
             availableRewards: [ONE_CUSD_REWARD_RESPONSE_V2],
           },
         })}

@@ -6,13 +6,8 @@ import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
-import {
-  superchargeRewardContractAddressSelector,
-  superchargeV1AddressesSelector,
-  superchargeV2EnabledSelector,
-} from 'src/consumerIncentives/selectors'
+import { superchargeRewardContractAddressSelector } from 'src/consumerIncentives/selectors'
 import {
   claimRewards,
   claimRewardsFailure,
@@ -44,7 +39,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { buildTxo, getContract } from 'src/web3/utils'
-import { all, call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
+import { all, call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'SuperchargeRewardsClaimer'
 export const SUPERCHARGE_FETCH_TIMEOUT = 45_000
@@ -155,11 +150,7 @@ function* claimRewardV2(reward: SuperchargePendingRewardV2, index: number, baseN
   const { transaction, details } = reward
 
   const superchargeRewardContractAddress = yield* select(superchargeRewardContractAddressSelector)
-  const superchargeV1Addresses: string[] = yield* select(superchargeV1AddressesSelector)
-  if (
-    superchargeRewardContractAddress !== transaction.to &&
-    !superchargeV1Addresses.includes(transaction.to)
-  ) {
+  if (superchargeRewardContractAddress !== transaction.to) {
     throw new Error(
       `Unexpected supercharge contract address ${transaction.to} on reward transaction, aborting claim.`
     )
@@ -208,18 +199,15 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
     return
   }
 
-  const superchargeV2Enabled = yield* select(superchargeV2EnabledSelector)
   const numberVerifiedCentrally = yield* select(phoneNumberVerifiedSelector)
-  if (superchargeV2Enabled && !numberVerifiedCentrally) {
+  if (!numberVerifiedCentrally) {
     yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since user is not verified with CPV')
     return
   }
 
   try {
-    const superchargeRewardsUrl = superchargeV2Enabled
-      ? networkConfig.fetchAvailableSuperchargeRewardsV2
-      : networkConfig.fetchAvailableSuperchargeRewards
+    const superchargeRewardsUrl = networkConfig.fetchAvailableSuperchargeRewardsV2
 
     const response = yield* call(
       fetchWithTimeout,
@@ -258,27 +246,7 @@ export function* watchClaimRewards() {
   yield* takeEvery(claimRewards.type, safely(claimRewardsSaga))
 }
 
-// this saga can be removed after supercharge v2 is rolled out. since
-// supercharge rewards are fetched from the notifications component inside the
-// home screen, on app launch there is a race condition between fetching
-// supercharge rewards and remote config values. since the supercharge v1 and v2
-// responses are not compatible, we should clear any stored rewards and refetch
-// when supercharge v2 is enabled.
-export function* watchSuperchargeV2Enabled() {
-  let superchargeV2Enabled = yield* select(superchargeV2EnabledSelector)
-  while (true) {
-    const action = (yield* take(AppActions.UPDATE_REMOTE_CONFIG_VALUES)) as UpdateConfigValuesAction
-
-    if (superchargeV2Enabled !== action.configValues.superchargeV2Enabled) {
-      superchargeV2Enabled = action.configValues.superchargeV2Enabled
-      yield* put(setAvailableRewards([]))
-      yield* put(fetchAvailableRewards())
-    }
-  }
-}
-
 export function* superchargeSaga() {
-  yield* spawn(watchSuperchargeV2Enabled)
   yield* spawn(watchClaimRewards)
   yield* spawn(watchAvailableRewards)
 }

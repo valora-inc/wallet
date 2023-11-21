@@ -3,20 +3,14 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
-import { Actions as AppActions } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
+  SUPERCHARGE_FETCH_TIMEOUT,
   claimRewardsSaga,
   fetchAvailableRewardsSaga,
-  SUPERCHARGE_FETCH_TIMEOUT,
-  watchSuperchargeV2Enabled,
 } from 'src/consumerIncentives/saga'
-import {
-  superchargeRewardContractAddressSelector,
-  superchargeV1AddressesSelector,
-  superchargeV2EnabledSelector,
-} from 'src/consumerIncentives/selectors'
+import { superchargeRewardContractAddressSelector } from 'src/consumerIncentives/selectors'
 import {
   claimRewards,
   claimRewardsFailure,
@@ -119,32 +113,24 @@ describe('fetchAvailableRewardsSaga', () => {
     },
   ]
 
-  it.each`
-    version | availableRewardsUri                          | expectedRewards
-    ${'1'}  | ${config.fetchAvailableSuperchargeRewards}   | ${expectedRewardsV1}
-    ${'2'}  | ${config.fetchAvailableSuperchargeRewardsV2} | ${expectedRewardsV2}
-  `(
-    'stores v$version rewards after fetching them',
-    async ({ version, availableRewardsUri, expectedRewards }) => {
-      const mockResponse = {
-        json: () => {
-          return { availableRewards: expectedRewards }
-        },
-      }
-      const uri = `${availableRewardsUri}?address=${userAddress}`
-
-      await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
-        .provide([
-          [select(phoneNumberVerifiedSelector), true],
-          [select(superchargeV2EnabledSelector), version === '2'],
-          [select(walletAddressSelector), userAddress],
-          [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
-        ])
-        .put(setAvailableRewards(expectedRewards))
-        .put(fetchAvailableRewardsSuccess())
-        .run()
+  it('stores v2 rewards after fetching them', async () => {
+    const mockResponse = {
+      json: () => {
+        return { availableRewards: expectedRewardsV2 }
+      },
     }
-  )
+    const uri = `${config.fetchAvailableSuperchargeRewardsV2}?address=${userAddress}`
+
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .provide([
+        [select(phoneNumberVerifiedSelector), true],
+        [select(walletAddressSelector), userAddress],
+        [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
+      ])
+      .put(setAvailableRewards(expectedRewardsV2))
+      .put(fetchAvailableRewardsSuccess())
+      .run()
+  })
 
   it('bypasses the cache to fetch rewards for a user who has already claimed', async () => {
     const mockResponse = {
@@ -157,7 +143,6 @@ describe('fetchAvailableRewardsSaga', () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [select(superchargeV2EnabledSelector), true],
         [select(walletAddressSelector), userAddress],
         [
           call(
@@ -185,7 +170,6 @@ describe('fetchAvailableRewardsSaga', () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [select(superchargeV2EnabledSelector), version === '2'],
         [select(walletAddressSelector), userAddress],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
@@ -200,7 +184,6 @@ describe('fetchAvailableRewardsSaga', () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(phoneNumberVerifiedSelector), false],
-        [select(superchargeV2EnabledSelector), true],
         [select(walletAddressSelector), userAddress],
       ])
       .not.call(fetchWithTimeout)
@@ -211,7 +194,6 @@ describe('fetchAvailableRewardsSaga', () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [select(superchargeV2EnabledSelector), true],
         [select(walletAddressSelector), userAddress],
         [
           call(
@@ -243,7 +225,6 @@ describe('claimRewardsSaga', () => {
   `('claiming no v$version rewards succeeds', async ({ version }) => {
     await expectSaga(claimRewardsSaga, claimRewards([]))
       .provide([
-        [select(superchargeV2EnabledSelector), version === '2'],
         [call(getContractKit), contractKit],
         [call(getConnectedUnlockedAccount), mockAccount],
       ])
@@ -259,7 +240,6 @@ describe('claimRewardsSaga', () => {
     })
 
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [select(superchargeV2EnabledSelector), false],
       [call(getContractKit), contractKit],
       [call(getConnectedUnlockedAccount), mockAccount],
       [select(tokensByAddressSelector), mockTokens],
@@ -368,8 +348,6 @@ describe('claimRewardsSaga', () => {
 
   describe('claiming rewards in version 2', () => {
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [select(superchargeV1AddressesSelector), []],
-      [select(superchargeV2EnabledSelector), true],
       [call(getContractKit), contractKit],
       [call(getConnectedUnlockedAccount), mockAccount],
       [select(tokensByAddressSelector), mockTokens],
@@ -493,29 +471,6 @@ describe('claimRewardsSaga', () => {
         })
         .run()
       expect(navigateHome).not.toHaveBeenCalled()
-    })
-  })
-
-  describe('migrating from v1 to v2', () => {
-    beforeAll(() => {
-      jest.useRealTimers()
-    })
-
-    it('clears old rewards and fetches new rewards when v2 becomes enabled', async () => {
-      await expectSaga(watchSuperchargeV2Enabled)
-        .provide([[select(superchargeV2EnabledSelector), false]])
-        // remote config value updated twice
-        .dispatch({
-          type: AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-          configValues: { superchargeV2Enabled: true },
-        })
-        .dispatch({
-          type: AppActions.UPDATE_REMOTE_CONFIG_VALUES,
-          configValues: { superchargeV2Enabled: true },
-        })
-        .put(setAvailableRewards([]))
-        .put(fetchAvailableRewards())
-        .silentRun()
     })
   })
 })
