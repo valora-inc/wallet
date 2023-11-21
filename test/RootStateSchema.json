@@ -2529,7 +2529,6 @@
                 "Support",
                 "SupportContact",
                 "SwapExecuteScreen",
-                "SwapReviewScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
                 "TokenDetails",
@@ -3842,24 +3841,13 @@
                 },
                 "swapState": {
                     "$ref": "#/definitions/SwapState"
-                },
-                "swapUserInput": {
-                    "anyOf": [
-                        {
-                            "$ref": "#/definitions/SwapUserInput"
-                        },
-                        {
-                            "type": "null"
-                        }
-                    ]
                 }
             },
             "required": [
                 "guaranteedSwapPriceEnabled",
                 "priceImpactWarningThreshold",
                 "swapInfo",
-                "swapState",
-                "swapUserInput"
+                "swapState"
             ],
             "type": "object"
         },
