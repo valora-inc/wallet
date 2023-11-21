@@ -65,10 +65,6 @@ const contractKit = {
   },
 }
 
-const mockTx = {
-  txo: jest.fn(),
-}
-
 const mockTokens = {
   [mockCusdAddress]: {
     symbol: 'cUSD',
