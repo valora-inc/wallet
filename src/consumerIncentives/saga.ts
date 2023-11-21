@@ -1,7 +1,5 @@
-import { toTransactionObject } from '@celo/connect'
 import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
 import BigNumber from 'bignumber.js'
-import merkleDistributor from 'src/abis/MerkleDistributor.json'
 import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -17,11 +15,7 @@ import {
   fetchAvailableRewardsSuccess,
   setAvailableRewards,
 } from 'src/consumerIncentives/slice'
-import {
-  SuperchargePendingReward,
-  SuperchargePendingRewardV2,
-  isSuperchargePendingRewardsV2,
-} from 'src/consumerIncentives/types'
+import { SuperchargePendingRewardV2 } from 'src/consumerIncentives/types'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
@@ -38,7 +32,7 @@ import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { buildTxo, getContract } from 'src/web3/utils'
+import { buildTxo } from 'src/web3/utils'
 import { all, call, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'SuperchargeRewardsClaimer'
@@ -64,10 +58,8 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     }[] = []
 
     if (rewards.length > 0) {
-      const claimRewardFn = isSuperchargePendingRewardsV2(rewards) ? claimRewardV2 : claimReward
       receivedRewards = (yield* all(
-        // @ts-expect-error remove this when upgrading to TS 4.2+ https://github.com/microsoft/TypeScript/issues/36390
-        rewards.map((reward, index) => call(claimRewardFn, reward, index, baseNonce))
+        rewards.map((reward, index) => call(claimRewardV2, reward, index, baseNonce))
       )) as {
         fundsSource: string
         amount: string
@@ -104,45 +96,6 @@ export function* claimRewardsSaga({ payload: rewards }: ReturnType<typeof claimR
     yield* put(claimRewardsFailure())
     yield* put(showError(ErrorMessages.SUPERCHARGE_CLAIM_FAILED))
     Logger.error(TAG, 'Error claiming rewards', error as Error)
-  }
-}
-
-function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce: number) {
-  const kit = yield* call(getContractKit)
-  const tokens = yield* select(tokensByAddressSelector)
-  const walletAddress = yield* call(getConnectedUnlockedAccount)
-
-  Logger.debug(TAG, `Start claiming reward at index ${index}:`, reward)
-  const merkleContract = yield* call(getContract, merkleDistributor.abi, reward.contractAddress)
-  const fundsSource: string = yield* call(async () => merkleContract.methods.fundsSource().call())
-  const tx = toTransactionObject(
-    kit.connection,
-    merkleContract.methods.claim(reward.index, walletAddress, reward.amount, reward.proof ?? [])
-  )
-
-  const receipt = yield* call(
-    sendTransaction,
-    tx.txo,
-    walletAddress,
-    newTransactionContext(TAG, 'Claim Supercharge reward'),
-    undefined,
-    undefined,
-    undefined,
-    baseNonce + index
-  )
-  Logger.info(TAG, `Claimed reward at index ${index}:`, receipt)
-  const amount = new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN).toString()
-  const tokenAddress = reward.tokenAddress.toLowerCase()
-  ValoraAnalytics.track(RewardsEvents.claimed_reward, {
-    amount,
-    token: tokens[tokenAddress]?.symbol ?? '',
-    version: 1,
-  })
-  return {
-    fundsSource: fundsSource.toLowerCase(),
-    tokenAddress,
-    amount,
-    txHash: receipt.transactionHash,
   }
 }
 
@@ -221,8 +174,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
         : null,
       SUPERCHARGE_FETCH_TIMEOUT
     )
-    const data: { availableRewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[] } =
-      yield* call([response, 'json'])
+    const data: { availableRewards: SuperchargePendingRewardV2[] } = yield* call([response, 'json'])
     if (!data.availableRewards) {
       throw new Error(
         `No rewards field found in supercharge service response ${JSON.stringify(data)}`

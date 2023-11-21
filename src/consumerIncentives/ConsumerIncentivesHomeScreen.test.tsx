@@ -7,10 +7,7 @@ import { MockStoreEnhanced } from 'redux-mock-store'
 import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { State, initialState } from 'src/consumerIncentives/slice'
-import {
-  ONE_CUSD_REWARD_RESPONSE,
-  ONE_CUSD_REWARD_RESPONSE_V2,
-} from 'src/consumerIncentives/testValues'
+import { ONE_CUSD_REWARD_RESPONSE_V2 } from 'src/consumerIncentives/testValues'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -178,26 +175,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
     expectVisibleMainComponents(queryByTestId, 'SuperchargingInfo')
   })
 
-  it('renders available v1 rewards to claim when they are available', () => {
-    const { queryByTestId, getByText } = render(
-      <Provider
-        store={createStore({
-          numberVerified: true,
-          tokenBalances: ONLY_CUSD_BALANCE,
-          supercharge: {
-            ...initialState,
-            availableRewards: ONE_CUSD_REWARD_RESPONSE,
-          },
-        })}
-      >
-        <ConsumerIncentivesHomeScreen />
-      </Provider>
-    )
-
-    expectVisibleMainComponents(queryByTestId, 'ClaimSuperchargeDescription')
-    expect(getByText('superchargeRewardsAvailable, {"token":"cUSD","amount":"1.00"}')).toBeTruthy()
-  })
-
   it('renders available v2 rewards to claim when they are available', () => {
     const { queryByTestId, getByText } = render(
       <Provider
@@ -281,7 +258,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: ONE_CUSD_REWARD_RESPONSE,
+            availableRewards: [ONE_CUSD_REWARD_RESPONSE_V2],
           },
         })}
       >
