@@ -1659,6 +1659,7 @@
   "swapScreen": {
     "title": "Tauschen",
     "review": "Überprüfen",
+    "confirmSwap": "Tausch bestätigen",
     "swapFrom": "VON",
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
