@@ -15,12 +15,6 @@ import {
 import { Fee, NetworkId, FeeType as TransactionFeeType } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
-import { prepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { useAsync } from 'react-async-hook'
-import Logger from 'src/utils/Logger'
-
-const TAG = 'src/fees/hooks.ts'
 
 export function useFeeCurrency(): string | undefined {
   const tokens = useSelector(tokensByUsdBalanceSelector)
@@ -50,59 +44,10 @@ export function usePaidFees(fees: Fee[]) {
   }
 }
 
-export function useMaxSendAmount(
-  tokenId: string,
-  comment?: string
-): { loading: true; maxAmount: null } | { loading: false; maxAmount: BigNumber } {
-  const token = useTokenInfo(tokenId)
-  const balance = token?.balance ?? new BigNumber(0)
-  const feeCurrencies = useFeeCurrencies(token?.networkId)
-  const walletAddress = useSelector(walletAddressSelector)
-  const { result: prepareTransactionsResult, loading } = useAsync(async () => {
-    try {
-      if (!walletAddress) {
-        // should never happen
-        throw new Error('Cannot calculate max send amount because wallet address is undefined')
-      }
-      if (!token) {
-        // should never happen
-        throw new Error(
-          `Cannot calculate max send amount because token with tokenId ${tokenId} not found`
-        )
-      }
-      const output = await prepareSendTransactions({
-        amount: balance,
-        token,
-        recipientAddress: walletAddress, // dummy recipient
-        walletAddress,
-        feeCurrencies,
-        comment,
-      })
-      if (!output) {
-        throw new Error(
-          'prepareSendTransactions returned undefined. Can occur when balance is 0 or if token has no address and is not native'
-        )
-      }
-      return output
-    } catch (error) {
-      Logger.error(TAG, 'Error calculating max send amount', error)
-      return
-    }
-  }, [token])
-  if (loading) {
-    return { loading: true, maxAmount: null }
-  }
-  if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
-    return { loading: false, maxAmount: prepareTransactionsResult.decreasedSpendAmount }
-  }
-  // cases where the full balance works, or we can't calculate an amount that would work
-  return { loading: false, maxAmount: balance }
-}
-
 /**
- * @deprecated - use useMaxSendAmount instead
+ * @deprecated - doesn't scale to non-Celo chains, where gas fees vary more quickly
  */
-export function useMaxSendAmountLegacy(
+export function useMaxSendAmount(
   tokenId: string | undefined,
   feeType: FeeType.SEND | FeeType.SWAP,
   shouldRefresh: boolean = true
@@ -161,7 +106,7 @@ export function useMaxSendAmountByAddress(
   shouldRefresh: boolean = true
 ) {
   const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useMaxSendAmountLegacy(tokenInfo?.tokenId, feeType, shouldRefresh)
+  return useMaxSendAmount(tokenInfo?.tokenId, feeType, shouldRefresh)
 }
 
 /**

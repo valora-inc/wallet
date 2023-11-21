@@ -14,7 +14,7 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TokenBottomSheet, { TokenPickerOrigin } from 'src/components/TokenBottomSheet'
 import { NUMBER_INPUT_MAX_DECIMALS, STABLE_TRANSACTION_MIN_AMOUNT } from 'src/config'
-import { useMaxSendAmountLegacy } from 'src/fees/hooks'
+import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
 import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { noHeader } from 'src/navigator/Headers'
@@ -138,7 +138,7 @@ function SendAmount(props: Props) {
 
   const recipientVerificationStatus = useRecipientVerificationStatus(recipient)
   const feeType = FeeType.SEND
-  const maxBalance = useMaxSendAmountLegacy(transferTokenId, feeType, true)
+  const maxBalance = useMaxSendAmount(transferTokenId, feeType, true)
   const maxInLocalCurrency = useTokenToLocalAmount(maxBalance, transferTokenId)
   const maxAmountValue = showInputInLocalAmount ? maxInLocalCurrency : maxBalance
   const isUsingMaxAmount = rawAmount === maxAmountValue?.toFixed()

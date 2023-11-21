@@ -26,7 +26,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies } from 'src/fees/hooks'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -119,10 +119,6 @@ function SendEnterAmount({ route }: Props) {
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
   const feeCurrencies = useFeeCurrencies(token.networkId)
-  const { maxAmount, loading: maxAmountLoading } = useMaxSendAmount(
-    token.tokenId,
-    COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE
-  )
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -150,12 +146,10 @@ function SendEnterAmount({ route }: Props) {
       tokenAddress: token.address,
       networkId: token.networkId,
     })
-    if (maxAmountLoading) {
-      // should not be possible
-      Logger.error(TAG, 'Max amount loading, cannot set max amount')
-      return
-    }
-    setAmount(maxAmount.toString())
+    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
+    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
+    // if there is not enough for gas
+    setAmount(token.balance.toString())
     textInputRef.current?.blur()
   }
 
@@ -334,7 +328,6 @@ function SendEnterAmount({ route }: Props) {
                 onPress={onMaxAmountPress}
                 style={styles.maxTouchable}
                 testID="SendEnterAmount/Max"
-                disabled={maxAmountLoading}
               >
                 <Text style={styles.maxText}>{t('max')}</Text>
               </Touchable>
