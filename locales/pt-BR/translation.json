@@ -1659,6 +1659,7 @@
   "swapScreen": {
     "title": "Trocar",
     "review": "Revisar",
+    "confirmSwap": "Confirmar troca",
     "swapFrom": "DE",
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
