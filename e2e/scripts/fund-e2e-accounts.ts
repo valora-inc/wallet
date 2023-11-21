@@ -1,7 +1,12 @@
 import { newKitFromWeb3, StableToken } from '@celo/contractkit'
 import dotenv from 'dotenv'
 import Web3 from 'web3'
-import { E2E_TEST_FAUCET, E2E_TEST_WALLET } from './consts'
+import {
+  E2E_TEST_FAUCET,
+  E2E_TEST_WALLET,
+  E2E_TEST_WALLET_SECURE_SEND,
+  REFILL_TOKENS,
+} from './consts'
 import { checkBalance, getBalance } from './utils'
 
 dotenv.config({ path: `${__dirname}/../.env` })
@@ -11,10 +16,16 @@ const kit = newKitFromWeb3(web3)
 const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
 
 ;(async () => {
-  // Get E2E Test Wallet Balance & Valora Faucet Balance
-  const receivingBalance = await getBalance(E2E_TEST_WALLET)
-  const sendingBalance = (await getBalance(E2E_TEST_FAUCET)) ?? {}
-  console.table(await getBalance(E2E_TEST_FAUCET))
+  const walletsToBeFunded = [E2E_TEST_WALLET, E2E_TEST_WALLET_SECURE_SEND]
+  const walletBalances = await Promise.all(walletsToBeFunded.map(getBalance))
+  for (let i = 0; i < walletsToBeFunded.length; i++) {
+    console.log(`Initial balance for ${walletsToBeFunded[i]}:`)
+    console.table(walletBalances[i])
+  }
+
+  const faucetTokenBalances = (await getBalance(E2E_TEST_FAUCET)) ?? {}
+  console.log('Initial faucet balance:')
+  console.table(faucetTokenBalances)
 
   // Connect Valora E2E Test Faucet - Private Key Stored in GitHub Secrets
   kit.connection.addAccount(
@@ -30,24 +41,27 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   const ceurExchange = await kit.contracts.getExchange(StableToken.cEUR)
 
   // Balance Faucet
-  let targetTokenRegex = /[cusd|celo|ceur]/gi
-  let balances = await getBalance(E2E_TEST_FAUCET)
-  let sum = 0
-  const numOfTokens = 3 // Only cusd, celo and ceur
-  for (let balance in balances) {
-    console.log(`${balance}: ${balances[balance]}`)
-    // Sum only the target balances
-    if (targetTokenRegex.test(balance)) sum += balances[balance]
-  }
+  let totalTokenHoldings = 0 // the absolute number of faucet tokens the faucet is holding
+  Object.entries(faucetTokenBalances).forEach(([tokenSymbol, tokenBalance]) => {
+    if (REFILL_TOKENS.includes(tokenSymbol)) {
+      totalTokenHoldings += tokenBalance
+    }
+  })
+  const targetFaucetTokenBalance = totalTokenHoldings / REFILL_TOKENS.length
 
-  for (let balance in balances) {
-    const target = sum / numOfTokens
-    if (balances[balance] >= sum / numOfTokens) {
-      const toSell = balances[balance] - target
-      console.log(toSell)
-      const amountToExchange = kit.web3.utils.toWei(`${toSell}`, 'ether')
-      console.log(`${balance} balance higher than ${sum / numOfTokens}`)
-      switch (balance) {
+  // Ensure that the faucet has enough balance for each refill tokens
+  for (const [tokenSymbol, tokenBalance] of Object.entries(faucetTokenBalances)) {
+    if (!REFILL_TOKENS.includes(tokenSymbol)) {
+      continue
+    }
+
+    if (tokenBalance >= targetFaucetTokenBalance) {
+      const sellAmount = tokenBalance - targetFaucetTokenBalance
+      const amountToExchange = kit.web3.utils.toWei(`${sellAmount}`, 'ether')
+      console.log(
+        `${tokenSymbol} balance is ${tokenBalance}, which is higher than target ${targetFaucetTokenBalance}. Selling ${sellAmount}.`
+      )
+      switch (tokenSymbol) {
         case 'CELO':
           try {
             const celoApproveTx = await celoToken
@@ -98,10 +112,12 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
           }
       }
     } else {
-      const toBuy = target - balances[balance]
-      const amountToExchange = kit.web3.utils.toWei(`${toBuy}`, 'ether')
-      console.log(`${balance} balance lower than ${sum / numOfTokens}`)
-      switch (balance) {
+      const buyAmount = targetFaucetTokenBalance - tokenBalance
+      const amountToExchange = kit.web3.utils.toWei(`${buyAmount}`, 'ether')
+      console.log(
+        `${tokenSymbol} balance is ${tokenBalance}, which is lower than target ${targetFaucetTokenBalance}. Buying ${buyAmount}.`
+      )
+      switch (tokenSymbol) {
         case 'CELO':
           try {
             const celoApproveTx = await celoToken
@@ -155,42 +171,51 @@ const valoraTestFaucetSecret = process.env['TEST_FAUCET_SECRET']!
   }
 
   // Set Amount To Send
-  let amountToSend = web3.utils.toWei('100', 'ether')
+  const amountToSend = '100'
+  const amountToSendWei = web3.utils.toWei(amountToSend, 'ether')
 
-  // Loop through E2E Test Wallet Balance Object
-  for (const coin in receivingBalance) {
-    let tx: any
-    // Add funds if balance is less than 100 add 100
-    if (receivingBalance[coin] < 200 && sendingBalance[coin] > 100) {
-      switch (coin) {
-        case 'CELO':
-          tx = await celoToken
-            .transfer(E2E_TEST_WALLET, amountToSend)
-            .send({ from: E2E_TEST_FAUCET })
-          break
-        case 'cUSD':
-          tx = await cusdToken
-            .transfer(E2E_TEST_WALLET, amountToSend)
-            .send({ from: E2E_TEST_FAUCET })
-          break
-        case 'cEUR':
-          tx = await ceurToken
-            .transfer(E2E_TEST_WALLET, amountToSend)
-            .send({ from: E2E_TEST_FAUCET })
-          break
+  for (let i = 0; i < walletsToBeFunded.length; i++) {
+    const walletAddress = walletsToBeFunded[i]
+    const walletBalance = walletBalances[i]
+    for (const tokenSymbol of REFILL_TOKENS) {
+      if (walletBalance && walletBalance[tokenSymbol] < 200) {
+        console.log(`Sending ${amountToSend} ${tokenSymbol} to ${walletAddress}`)
+        let tx: any
+        switch (tokenSymbol) {
+          case 'CELO':
+            tx = await celoToken
+              .transfer(walletAddress, amountToSendWei)
+              .send({ from: E2E_TEST_FAUCET })
+            break
+          case 'cUSD':
+            tx = await cusdToken
+              .transfer(walletAddress, amountToSendWei)
+              .send({ from: E2E_TEST_FAUCET })
+            break
+          case 'cEUR':
+            tx = await ceurToken
+              .transfer(walletAddress, amountToSendWei)
+              .send({ from: E2E_TEST_FAUCET })
+            break
+        }
+        const receipt = await tx.waitReceipt()
+
+        console.log(
+          `Received tx hash ${receipt.transactionHash} for ${tokenSymbol} transfer to ${walletAddress}`
+        )
       }
-      // Wait for the transactions to be processed
-      let receipt = await tx.waitReceipt()
-
-      // Print Receipt
-      console.log(' Transaction receipt: %o', receipt)
     }
   }
+  console.log('Finished funding wallets.')
 
   // Log Balances
   console.log('E2E Test Account:', E2E_TEST_WALLET)
   console.table(await getBalance(E2E_TEST_WALLET))
+  console.log('E2E Test Account Secure Send:', E2E_TEST_WALLET_SECURE_SEND)
+  console.table(await getBalance(E2E_TEST_WALLET_SECURE_SEND))
   console.log('Valora Test Facuet:', E2E_TEST_FAUCET)
   console.table(await getBalance(E2E_TEST_FAUCET))
+
   await checkBalance(E2E_TEST_WALLET)
+  await checkBalance(E2E_TEST_WALLET_SECURE_SEND)
 })()
