@@ -1193,7 +1193,7 @@
   "feedItemNetworkFeeInfo": "Commissione di rete",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Ricompensa per la conferma",
-  "feedItemFailedTransaction": "Transazione fallita",
+  "feedItemFailedTransaction": "Transazione non riuscita",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "Faucet {{faucet}}",
   "feedItemFaucetInfo_noTestnet": "Faucet",
@@ -1561,7 +1561,7 @@
     },
     "txProcessing": {
       "title": "La transazione è in fase di elaborazione.",
-      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla il blocco di Explorer per verificare la presenza di aggiornamenti."
+      "description": "Questo potrebbe essere dovuto a una scarsa connessione a Internet. Controlla l'explorer dei blocchi per verificare la presenza di aggiornamenti."
     }
   },
   "fiatExchangeFlow": {
@@ -1682,22 +1682,22 @@
     },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Equilibrio insufficiente {{tokenSymbol}}",
-      "description": "Non hai abbastanza {{tokenSymbol}} per coprire le spese del gas. Vuoi scambiare un importo minore?",
-      "confirmDecreaseButton": "Scambia una quantità minore"
+      "title": "Saldo insufficiente {{tokenSymbol}}",
+      "description": "Non hai abbastanza {{tokenSymbol}} per coprire le commissioni sulle transazioni. Vuoi scambiare un importo minore?",
+      "confirmDecreaseButton": "Scambia importo minore"
     },
     "notEnoughBalanceForGas": {
-      "title": "Bilanciamento dei gettoni di gas insufficiente",
-      "description": "Non hai abbastanza {{feeCurrencies}} per coprire le spese di benzina. Per favore, aggiungi {{feeCurrencies}} al tuo portafoglio per completare questo scambio.",
+      "title": "Saldo di token per le commissioni insufficiente",
+      "description": "Non hai abbastanza {{feeCurrencies}} per coprire le commissioni sulle transazioni. Aggiungi {{feeCurrencies}} al tuo portafoglio per completare questo scambio.",
       "dismissButton": "Ignorare"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Commissione di rete",
+      "networkFee": "Commissione di rete {{networkName}}",
       "networkFeeNoNetwork": "Commissione di rete",
       "swapFee": "Commissione di {{appName}}",
       "swapFeeWaived": "Gratuito",
-      "slippagePercentage": "Tolleranza allo slittamento",
-      "networkFeeInfo": "Stai effettuando uno scambio sulla Rete {{networkName}} .\n\nPer effettuare una transazione sulla Rete {{networkName}} è necessario pagare una commissione di rete stimata. Questa commissione garantisce la transazione e serve a mantenere la rete operativa.",
+      "slippagePercentage": "Tolleranza slippage",
+      "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
@@ -1707,7 +1707,7 @@
     "swapFrom": "Scambia da",
     "swapTo": "Scambia a",
     "rate": "Tasso",
-    "estimatedFee": "Costo est della rete",
+    "estimatedFee": "Commissione di rete stimata",
     "networkFee": "Commissione di rete",
     "viewOnExplorer": "Visualizza su CeloExplorer"
   },
@@ -1849,15 +1849,15 @@
       "collectibles": "Oggetti da collezione",
       "dappPositions": "Posizioni Dapp"
     },
-    "importToken": "Importazione"
+    "importToken": "Importa"
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere le ricompense, visualizzare gli avvisi e vedere gli aggiornamenti in un'unica posizione",
     "cta": "Ho capito"
   },
   "tokenDetails": {
-    "yourBalance": "Il tuo equilibrio",
-    "learnMore": "Per saperne di più su {{tokenName}}",
+    "yourBalance": "Il tuo saldo",
+    "learnMore": "Altre informazioni su {{tokenName}}",
     "priceUnavailable": "Prezzo non disponibile",
     "priceDeltaSuffix": "Oggi",
     "actions": {
@@ -1869,10 +1869,10 @@
     },
     "moreActions": "Altre azioni",
     "actionDescriptions": {
-      "send": "Usa qualsiasi indirizzo Celo, dominio, numero di telefono, ecc.",
-      "swap": "Scambia i tuoi gettoni senza lasciare il tuo portafoglio",
-      "add": "Acquista i token utilizzando uno dei nostri fornitori di fiducia",
-      "withdraw": "Trasferisci i gettoni su un conto bancario, una moneta mobile, una carta regalo, ecc."
+      "send": "Usa qualsiasi indirizzo Celo, dominio, numero telefonico, ecc.",
+      "swap": "Scambia i tuoi token senza uscire dal tuo portafoglio",
+      "add": "Acquista token utilizzando uno dei nostri fornitori di fiducia",
+      "withdraw": "Trasferisci i token su un conto bancario, servizio di Mobile Money, buono regalo, ecc."
     }
   },
   "tokenImport": {
@@ -1893,21 +1893,21 @@
     "importButton": "Importazione"
   },
   "sendSelectRecipient": {
-    "searchText": "Cerca per nome, telefono, portafoglio...",
+    "searchText": "Cerca per nome, numero telefonico, portafoglio...",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
     "recents": "Recenti",
     "qr": {
-      "title": "Scansiona o mostra il codice QR",
+      "title": "Inquadra o visualizza il codice QR",
       "subtitle": "Trova rapidamente gli indirizzi su Valora"
     },
     "invite": {
       "title": "Invia criptovalute ai tuoi amici",
-      "subtitle": "Invita gli amici della tua lista contatti"
+      "subtitle": "Invita amici dal tuo elenco dei contatti"
     },
     "getStarted": {
       "title": "Come inviare fondi su Valora",
-      "subtitle": "INIZIAMO",
+      "subtitle": "INIZIA",
       "options": {
         "one": {
           "title": "Indirizzo del wallet",
@@ -1915,15 +1915,15 @@
         },
         "two": {
           "title": "Numero telefonico",
-          "subtitle": "Invia direttamente al numero di telefono di una persona se ha Valora"
+          "subtitle": "Invia direttamente al numero telefonico di una persona che usa Valora"
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Invia beni Ethereum all'handle ENS di qualcuno"
+          "subtitle": "Invia asset Ethereum all'handle ENS di qualcuno"
         },
         "four": {
           "title": "Nome del profilo",
-          "subtitle": "Puoi cercare gli utenti esistenti su Valora"
+          "subtitle": "Puoi cercare utenti esistenti su Valora"
         }
       }
     },
@@ -1939,11 +1939,11 @@
   "transactionStatus": {
     "transactionIsCompleted": "Completata",
     "transactionIsPending": "In attesa",
-    "transactionIsFailed": "Fallito"
+    "transactionIsFailed": "Operazione non riuscita"
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Dettagli",
-    "checkPendingTransactionStatus": "Verifica lo stato",
+    "checkPendingTransactionStatus": "Controlla lo stato",
     "retryFailedTransaction": "Riprova"
   },
   "viewOnCeloBlockExplorer": "Visualizza su CeloExplorer",
@@ -1951,16 +1951,16 @@
   "viewOnEthereumBlockExplorer": "Visualizza su Etherscan",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
-    "selectToken": "Seleziona un gettone",
-    "networkFee": "{{networkName}} Commissione di rete",
+    "selectToken": "Seleziona un token",
+    "networkFee": "Commissione di rete {{networkName}}",
     "lowerAmount": "Inserisci un importo inferiore",
     "maxAmountWarning": {
       "title": "Invio dell'importo massimo",
-      "description": "Regola l'importo che stai inviando per assicurarti di avere abbastanza {{feeTokenSymbol}} per il gas."
+      "description": "Modifica l'importo che stai inviando per assicurarti di avere abbastanza {{feeTokenSymbol}} per le commissioni sulle transazioni"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Hai bisogno di più {{feeTokenSymbol}} per il gas",
-      "description": "Aggiungi {{feeTokenSymbol}} per coprire le spese del gas o modifica l'importo che stai inviando."
+      "title": "Sono necessari più {{feeTokenSymbol}} per le commissioni sulle transazioni",
+      "description": "Aggiungi {{feeTokenSymbol}} per coprire le commissioni sulle transazioni o modifica l'importo che stai inviando"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
