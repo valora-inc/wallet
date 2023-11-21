@@ -118,7 +118,6 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const feeCurrencies = useFeeCurrencies(token.networkId)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -197,6 +196,7 @@ function SendEnterAmount({ route }: Props) {
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
+  const feeCurrencies = useFeeCurrencies(token.networkId)
   useEffect(() => {
     if (!walletAddress) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
