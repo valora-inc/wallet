@@ -1659,6 +1659,7 @@
   "swapScreen": {
     "title": "Échanger",
     "review": "Vérifier",
+    "confirmSwap": "Confirmer l'échange",
     "swapFrom": "DE",
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
