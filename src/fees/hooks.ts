@@ -45,7 +45,7 @@ export function usePaidFees(fees: Fee[]) {
 }
 
 /**
- * @deprecated - doesn't scale to non-Celo chains, where gas fees vary more quickly
+ * @deprecated - only works for Celo, and the approach doesn't scale to chains where gas fees vary more quickly
  */
 export function useMaxSendAmount(
   tokenId: string | undefined,
