@@ -71,10 +71,7 @@ function GetStartedSection() {
   ]
 
   return (
-    <ScrollView
-      contentContainerStyle={getStartedStyles.container}
-      testID={'SelectRecipient/GetStarted'}
-    >
+    <View style={getStartedStyles.container} testID={'SelectRecipient/GetStarted'}>
       <View>
         <Text style={getStartedStyles.subtitle}>
           {t('sendSelectRecipient.getStarted.subtitle')}
@@ -82,7 +79,7 @@ function GetStartedSection() {
         <Text style={getStartedStyles.title}>{t('sendSelectRecipient.getStarted.title')}</Text>
       </View>
       {options.map((params) => renderOption(params))}
-    </ScrollView>
+    </View>
   )
 }
 

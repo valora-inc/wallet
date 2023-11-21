@@ -36,7 +36,7 @@ async function requestPermission(permission: Permission, title?: string, message
           }
         : undefined
     )
-    Logger.debug(TAG + '@requestPermission', 'Granted status: ' + granted)
+
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       Logger.debug(TAG + '@requestPermission', 'Permission granted for: ' + permission)
       return true
