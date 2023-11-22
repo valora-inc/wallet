@@ -244,7 +244,7 @@ PODS:
   - nanopb/decode (2.30909.0)
   - nanopb/encode (2.30909.0)
   - OpenSSL-Universal (1.1.1100)
-  - PersonaInquirySDK2 (2.3.9)
+  - PersonaInquirySDK2 (2.13.0)
   - PromisesObjC (2.3.1)
   - PromisesSwift (2.3.1):
     - PromisesObjC (= 2.3.1)
@@ -702,8 +702,11 @@ PODS:
     - React-Core
   - RNPermissions (3.10.1):
     - React-Core
-  - RNPersonaInquiry2 (2.2.23):
-    - PersonaInquirySDK2 (= 2.3.9)
+  - RNPersonaInquiry2 (2.6.5):
+    - React-Core
+    - RNPersonaInquiry2/Core (= 2.6.5)
+  - RNPersonaInquiry2/Core (2.6.5):
+    - PersonaInquirySDK2 (= 2.13.0)
     - React-Core
   - RNReactNativeHapticFeedback (1.14.0):
     - React-Core
@@ -1159,7 +1162,7 @@ SPEC CHECKSUMS:
   lottie-react-native: 8f9d4be452e23f6e5ca0fdc11669dc99ab52be81
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   OpenSSL-Universal: ebc357f1e6bc71fa463ccb2fe676756aff50e88c
-  PersonaInquirySDK2: 8153173c5f6d4e964874c9f0d7b375652c9bb6f9
+  PersonaInquirySDK2: 65697651f9b7ff06b5dd4365c0d3216087813873
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   PromisesSwift: 28dca69a9c40779916ac2d6985a0192a5cb4a265
   RCT-Folly: 424b8c9a7a0b9ab2886ffe9c3b041ef628fd4fb1
@@ -1228,7 +1231,7 @@ SPEC CHECKSUMS:
   RNKeychain: 4f63aada75ebafd26f4bc2c670199461eab85d94
   RNLocalize: d4b8af4e442d4bcca54e68fc687a2129b4d71a81
   RNPermissions: 74dd0814d683da200baaf4111fe5815906b3274c
-  RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd
+  RNPersonaInquiry2: b13b46cc75a131daaf32cfe52a9eccd9780edbcd
   RNReactNativeHapticFeedback: 1e3efeca9628ff9876ee7cdd9edec1b336913f8c
   RNReanimated: f186e85d9f28c9383d05ca39e11dd194f59093ec
   RNScreens: 3c2d122f5e08c192e254c510b212306da97d2581
