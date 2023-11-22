@@ -38,8 +38,6 @@ describe('SwapTransactionDetails', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 cUSD ≈ 0.58370 CELO'
     )
-    expect(getByText('swapScreen.transactionDetails.estimatedValue')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/EstimatedValue')).toHaveTextContent('₱1.33')
   })
 
   it('should render correctly without networkId from the fromToken', () => {

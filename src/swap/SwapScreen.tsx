@@ -457,9 +457,17 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
+  const exchangeRateUpdatePending =
+    (exchangeRate &&
+      (exchangeRate.fromTokenAddress !== fromToken?.address ||
+        exchangeRate.toTokenAddress !== toToken?.address ||
+        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+    fetchingSwapQuote
+
   const allowSwap = useMemo(
-    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
-    [parsedSwapAmount, fetchingSwapQuote]
+    () =>
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !exchangeRateUpdatePending,
+    [parsedSwapAmount, exchangeRateUpdatePending]
   )
 
   const onPressLearnMore = () => {
@@ -472,20 +480,12 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const exchangeRateUpdatePending =
-    (exchangeRate &&
-      (exchangeRate.fromTokenAddress !== fromToken?.address ||
-        exchangeRate.toTokenAddress !== toToken?.address ||
-        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
-    fetchingSwapQuote
-
+  const showPriceImpactWarning = !!exchangeRate?.estimatedPriceImpact?.gte(
+    priceImpactWarningThreshold
+  )
   const showMissingPriceImpactWarning =
-    (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
+    (exchangeRate && !exchangeRate.estimatedPriceImpact) ||
     (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd))
-  const showPriceImpactWarning =
-    !fetchingSwapQuote &&
-    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
-    !showMissingPriceImpactWarning
 
   const { networkFee, feeTokenId } = useMemo(() => {
     return getNetworkFee(exchangeRate, fromToken?.networkId)
@@ -547,21 +547,27 @@ export function SwapScreen({ route }: Props) {
               onPressCta={onPressLearnMoreFees}
             />
           )}
-          {showPriceImpactWarning && (
-            <InLineNotification
-              severity={Severity.Warning}
-              title={t('swapScreen.priceImpactWarning.title')}
-              description={t('swapScreen.priceImpactWarning.body')}
-              style={styles.warning}
-            />
-          )}
-          {showMissingPriceImpactWarning && (
-            <InLineNotification
-              severity={Severity.Warning}
-              title={t('swapScreen.missingSwapImpactWarning.title')}
-              description={t('swapScreen.missingSwapImpactWarning.body')}
-              style={styles.warning}
-            />
+
+          {!exchangeRateUpdatePending && (
+            <>
+              {showPriceImpactWarning ? (
+                <InLineNotification
+                  severity={Severity.Warning}
+                  title={t('swapScreen.priceImpactWarning.title')}
+                  description={t('swapScreen.priceImpactWarning.body')}
+                  style={styles.warning}
+                />
+              ) : (
+                showMissingPriceImpactWarning && (
+                  <InLineNotification
+                    severity={Severity.Warning}
+                    title={t('swapScreen.missingSwapImpactWarning.title')}
+                    description={t('swapScreen.missingSwapImpactWarning.body')}
+                    style={styles.warning}
+                  />
+                )
+              )}
+            </>
           )}
         </View>
         <Text style={styles.disclaimerText}>
