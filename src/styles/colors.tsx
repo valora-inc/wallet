@@ -6,7 +6,6 @@ export enum Colors {
   goldFaint = '#E3C376', // gold disabled
   goldBrand = '#FBCC5C',
   goldUI = '#EEB93C',
-  goldDark = '#9C6E00',
   beige = '#F1F0EB',
   gray6 = '#DFDBCE',
   onboardingBrownLight = '#A49B80',
