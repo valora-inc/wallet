@@ -46,6 +46,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
@@ -151,7 +152,10 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
-    // TODO(ACT-955): pass fees as props for confirmation screen
+    if (!sendIsPossible) {
+      // should never happen because button is disabled if send is not possible
+      throw new Error('Send is not possible')
+    }
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
@@ -163,6 +167,11 @@ function SendEnterAmount({ route }: Props) {
         tokenAddress: token.address!,
         tokenAmount: parsedAmount,
       },
+      preparedTransaction: getSerializablePreparedTransaction(
+        prepareTransactionsResult.transactions[0]
+      ),
+      feeAmount: feeAmount?.toString(),
+      feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
       origin,
