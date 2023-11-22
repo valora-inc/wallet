@@ -377,8 +377,12 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
-        networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
+        networkConfig.getSwapQuoteUrl
+      }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+        NetworkId['celo-alfajores']
+      }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+        NetworkId['celo-alfajores']
+      }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
@@ -414,8 +418,12 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
-        networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
+        networkConfig.getSwapQuoteUrl
+      }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+        NetworkId['celo-alfajores']
+      }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+        NetworkId['celo-alfajores']
+      }&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
@@ -481,8 +489,12 @@ describe('SwapScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
       {
-        toToken: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
-        fromToken: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
+        toToken: mockCusdAddress,
+        toTokenId: mockCusdTokenId,
+        toTokenNetworkId: NetworkId['celo-alfajores'],
+        fromToken: mockCeloAddress,
+        fromTokenId: mockCeloTokenId,
+        fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: '0.052',
@@ -551,8 +563,12 @@ describe('SwapScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       SwapEvents.swap_price_impact_warning_displayed,
       {
-        toToken: '0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
-        fromToken: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
+        toToken: mockCusdAddress,
+        toTokenId: mockCusdTokenId,
+        toTokenNetworkId: NetworkId['celo-alfajores'],
+        fromToken: mockCeloAddress,
+        fromTokenId: mockCeloTokenId,
+        fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: undefined,
@@ -595,8 +611,12 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
-        networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
+        networkConfig.getSwapQuoteUrl
+      }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+        NetworkId['celo-alfajores']
+      }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+        NetworkId['celo-alfajores']
+      }&sellAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
@@ -640,8 +660,12 @@ describe('SwapScreen', () => {
     expect(mockFetch.mock.calls.length).toEqual(1)
     expect(mockFetch.mock.calls[0][0]).toEqual(
       `${
-        networkConfig.approveSwapUrl
-      }?buyToken=${mockCusdAddress}&sellToken=${mockCeloAddress}&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
+        networkConfig.getSwapQuoteUrl
+      }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
+        NetworkId['celo-alfajores']
+      }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
+        NetworkId['celo-alfajores']
+      }&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
     )
 
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
@@ -878,7 +902,11 @@ describe('SwapScreen', () => {
     fireEvent.press(getByText('swapScreen.confirmSwap'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
       toToken: mockCusdAddress,
+      toTokenId: mockCusdTokenId,
+      toTokenNetworkId: NetworkId['celo-alfajores'],
       fromToken: mockCeloAddress,
+      fromTokenId: mockCeloTokenId,
+      fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10',
       amountType: 'sellAmount',
       usdTotal: 1.5234566652,
@@ -1351,7 +1379,11 @@ describe('SwapScreen', () => {
       fireEvent.press(getByText('swapScreen.confirmSwap'))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_review_submit, {
         toToken: mockCusdAddress,
+        toTokenId: mockCusdTokenId,
+        toTokenNetworkId: NetworkId['celo-alfajores'],
         fromToken: mockCeloAddress,
+        fromTokenId: mockCeloTokenId,
+        fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '10',
         amountType: 'sellAmount',
         usdTotal: 12.345678,
