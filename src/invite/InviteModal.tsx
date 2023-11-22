@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   helpLink: {
-    color: colors.onboardingBlue,
+    color: colors.infoDark,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
   },

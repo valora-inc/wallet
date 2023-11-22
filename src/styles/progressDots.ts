@@ -27,6 +27,6 @@ export default StyleSheet.create({
   },
   circleActiveOnboarding: {
     ...circle,
-    backgroundColor: colors.onboardingBlue,
+    backgroundColor: colors.infoDark,
   },
 })

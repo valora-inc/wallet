@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.error,
   },
   debugButton: {
-    backgroundColor: colors.onboardingBlue,
+    backgroundColor: colors.infoDark,
   },
   hiddenButton: {
     flex: 1,
