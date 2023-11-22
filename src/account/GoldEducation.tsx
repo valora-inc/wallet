@@ -43,7 +43,7 @@ export default function GoldEducation() {
       embeddedNavBar={EmbeddedNavBar.Close}
       stepInfo={stepInfo}
       onFinish={onFinish}
-      finalButtonType={BtnTypes.TERTIARY}
+      finalButtonType={BtnTypes.PRIMARY}
       finalButtonText={t('done')}
       buttonText={t('next')}
     />
