@@ -1428,4 +1428,5 @@ export const migrations = {
     ...state,
     swap: _.omit(state.swap, 'swapUserInput'),
   }),
+  169: (state: any) => state,
 }

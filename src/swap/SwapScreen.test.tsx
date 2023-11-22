@@ -63,6 +63,7 @@ jest.mock('src/statsig', () => {
     getFeatureGate: jest.fn(),
     getDynamicConfigParams: () => ({
       maxSlippagePercentage: '0.3',
+      showSwap: ['celo-alfajores'],
     }),
   }
 })
@@ -800,8 +801,8 @@ describe('SwapScreen', () => {
         swapStart({
           ...defaultQuote,
           userInput: {
-            toToken: mockCusdAddress,
-            fromToken: mockCeloAddress,
+            toTokenId: mockCusdTokenId,
+            fromTokenId: mockCeloTokenId,
             swapAmount: {
               [Field.FROM]: '10',
               [Field.TO]: '12.345678', // 10 * 1.2345678
@@ -816,8 +817,8 @@ describe('SwapScreen', () => {
 
   it('should be able to start a swap when the entered value uses comma as the decimal separator', async () => {
     const userInput = {
-      toToken: mockCusdAddress,
-      fromToken: mockCeloAddress,
+      toTokenId: mockCusdTokenId,
+      fromTokenId: mockCeloTokenId,
       swapAmount: {
         [Field.FROM]: '1.5',
         [Field.TO]: '1.8518517', // 1.5 * 1.2345678
@@ -1274,8 +1275,8 @@ describe('SwapScreen', () => {
               rawSwapResponse: defaultQuote as any,
             },
             userInput: {
-              toToken: mockCusdAddress,
-              fromToken: mockCeloAddress,
+              toTokenId: mockCusdTokenId,
+              fromTokenId: mockCeloTokenId,
               swapAmount: {
                 [Field.FROM]: '10',
                 [Field.TO]: '12.345678', // 10 * 1.2345678
@@ -1316,8 +1317,8 @@ describe('SwapScreen', () => {
               rawSwapResponse: defaultQuote as any,
             },
             userInput: {
-              toToken: mockCusdAddress,
-              fromToken: mockCeloAddress,
+              toTokenId: mockCusdTokenId,
+              fromTokenId: mockCeloTokenId,
               swapAmount: {
                 [Field.FROM]: '1.5',
                 [Field.TO]: '1.8518517', // 1.5 * 1.2345678
