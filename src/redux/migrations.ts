@@ -1428,7 +1428,8 @@ export const migrations = {
     ...state,
     swap: _.omit(state.swap, 'swapUserInput'),
   }),
-  169: (state: any) => ({
+  169: (state: any) => state,
+  170: (state: any) => ({
     ...state,
     supercharge: _.omit(state.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
   }),
