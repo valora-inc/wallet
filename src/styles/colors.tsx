@@ -3,7 +3,6 @@ export enum Colors {
   // to be updated
   greenLight = '#D0F4E1',
   greenFaint = '#97DFC1', // green disabled
-  greenBrand = '#42D689',
   goldFaint = '#E3C376', // gold disabled
   goldBrand = '#FBCC5C',
   goldUI = '#EEB93C',

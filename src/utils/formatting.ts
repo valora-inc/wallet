@@ -122,7 +122,7 @@ export const getCurrencyColor = (currencyType: Currency): string => {
   switch (currencyType) {
     case Currency.Dollar:
     case Currency.Euro:
-      return colors.greenBrand
+      return colors.primary
     case Currency.Celo:
       return colors.goldBrand
   }
@@ -130,7 +130,7 @@ export const getCurrencyColor = (currencyType: Currency): string => {
 
 export const getBalanceColor = (accountBalance: BigNumber): string => {
   if (accountBalance.isGreaterThan(0)) {
-    return colors.greenBrand
+    return colors.primary
   }
   if (accountBalance.isLessThan(0)) {
     return colors.error
