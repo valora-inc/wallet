@@ -26,9 +26,7 @@ function DappFilterChip({ filterId, filterName, isSelected, onPress, style }: Da
       style={[
         styles.filterChipContainer,
         // Filter chips color based on selected filter
-        isSelected
-          ? { backgroundColor: colors.infoDark }
-          : { backgroundColor: colors.onboardingLightBlue },
+        isSelected ? { backgroundColor: colors.infoDark } : { backgroundColor: colors.infoLight },
         style,
       ]}
     >

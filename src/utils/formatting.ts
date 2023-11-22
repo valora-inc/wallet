@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode, LocalCurrencySymbol } from 'src/localCurrency/consts'
-import colors from 'src/styles/colors'
 import { CURRENCIES, Currency } from 'src/utils/currencies'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 
@@ -116,24 +115,4 @@ export function roundUp(
     )
   }
   return new BigNumber(value).decimalPlaces(decimals, BigNumber.ROUND_UP)
-}
-
-export const getCurrencyColor = (currencyType: Currency): string => {
-  switch (currencyType) {
-    case Currency.Dollar:
-    case Currency.Euro:
-      return colors.primary
-    case Currency.Celo:
-      return colors.goldBrand
-  }
-}
-
-export const getBalanceColor = (accountBalance: BigNumber): string => {
-  if (accountBalance.isGreaterThan(0)) {
-    return colors.primary
-  }
-  if (accountBalance.isLessThan(0)) {
-    return colors.error
-  }
-  return colors.black
 }
