@@ -153,7 +153,7 @@ const SwapAmountInput = ({
           )}
         </Touchable>
       </View>
-      <View>
+      <View testID="SwapAmountInput/FiatValue">
         <Text style={[styles.fiatValue, { opacity: loading || !swapAmount || !token ? 0 : 1 }]}>
           {token?.priceUsd && swapAmount?.gt(0) && localCurrencyExchangeRate
             ? `≈${localCurrencySymbol}${swapAmount
