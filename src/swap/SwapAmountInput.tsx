@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Smallest8,
   },
   inputError: {
-    color: Colors.warning,
+    color: Colors.error,
   },
   inputText: {
     ...fontStyles.h2,
@@ -192,7 +192,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   maxButton: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 4,
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 100,
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
   tokenNamePlaceholder: {
     ...fontStyles.small600,
     paddingHorizontal: 4,
-    color: Colors.greenUI,
+    color: Colors.primary,
   },
   tokenImage: {
     width: 24,

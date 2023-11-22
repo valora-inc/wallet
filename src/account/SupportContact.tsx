@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1.5,
     marginBottom: 16,
-    color: colors.dark,
+    color: colors.black,
     height: 80,
     maxHeight: 150,
   },
@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     borderWidth: 1.5,
     marginBottom: 16,
-    color: colors.dark,
+    color: colors.black,
     maxHeight: 50,
   },
   headerText: {

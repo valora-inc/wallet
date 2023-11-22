@@ -18,7 +18,7 @@ export default StyleSheet.create({
   },
   circleActive: {
     ...circle,
-    backgroundColor: colors.dark,
+    backgroundColor: colors.black,
   },
   circlePassiveOnboarding: {
     ...circle,

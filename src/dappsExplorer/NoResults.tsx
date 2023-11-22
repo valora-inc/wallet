@@ -72,7 +72,7 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
 
 const styles = StyleSheet.create({
   searchedText: {
-    color: Colors.dark,
+    color: Colors.black,
     fontWeight: 'bold',
   },
   text: {

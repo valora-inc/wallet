@@ -31,6 +31,6 @@ const styles = StyleSheet.create({
     ...typeScale.semiBoldMedium,
     fontSize: 14,
     lineHeight: 18,
-    color: Colors.greenUI,
+    color: Colors.primary,
   },
 })

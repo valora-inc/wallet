@@ -278,7 +278,7 @@ function SendEnterAmount({ route }: Props) {
                 inputStyle={[
                   styles.inputText,
                   Platform.select({ ios: { lineHeight: undefined } }),
-                  showLowerAmountError && { color: Colors.warning },
+                  showLowerAmountError && { color: Colors.error },
                 ]}
                 testID="SendEnterAmount/Input"
                 onBlur={() => {
@@ -438,7 +438,7 @@ const styles = StyleSheet.create({
   tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: TOKEN_SELECTOR_BORDER_RADIUS,
@@ -507,7 +507,7 @@ const styles = StyleSheet.create({
     ...typeScale.semiBoldMedium,
   },
   lowerAmountError: {
-    color: Colors.warning,
+    color: Colors.error,
     ...typeScale.labelXSmall,
     paddingLeft: Spacing.Regular16,
   },

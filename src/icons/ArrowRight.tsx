@@ -6,7 +6,7 @@ interface Props {
   color?: colors
 }
 
-const ArrowRight = ({ color = colors.greenUI }: Props) => (
+const ArrowRight = ({ color = colors.primary }: Props) => (
   <Svg width={18} height={18} fill="none">
     <Path
       d="M1 9h16m0 0-7-8m7 8-7 8"

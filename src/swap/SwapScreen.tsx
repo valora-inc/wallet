@@ -647,7 +647,7 @@ const styles = StyleSheet.create({
   },
   disclaimerLink: {
     textDecorationLine: 'underline',
-    color: colors.greenUI,
+    color: colors.primary,
   },
   warning: {
     marginTop: Spacing.Thick24,

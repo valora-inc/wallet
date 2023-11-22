@@ -56,6 +56,6 @@ export default function FundingEducationDialog({ isVisible, onPressDismiss, isCa
 
 const styles = StyleSheet.create({
   link: {
-    color: colors.greenUI,
+    color: colors.primary,
   },
 })
