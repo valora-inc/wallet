@@ -84,7 +84,7 @@ describe('NftsInfoCarousel', () => {
     // Return to first Nft
     fireEvent.press(getByTestId(nft1Thumbnail))
     expect(getByText(mockNftAllFields.metadata!.name)).toBeTruthy()
-    expect(getByTestId('NftsInfoCarousel/MainVideo')).toHaveProp(
+    expect(getByTestId('NftsInfoCarousel/MainVideo').children[0]).toHaveProp(
       'source',
       expect.objectContaining({
         uri: mockNftAllFields.media[1].gateway,
