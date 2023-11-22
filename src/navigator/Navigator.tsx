@@ -92,10 +92,10 @@ import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
-import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import SendEnterAmount from 'src/send/SendEnterAmount'
+import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import ValidateRecipientAccount, {
   validateRecipientAccountScreenNavOptions,
 } from 'src/send/ValidateRecipientAccount'
@@ -103,7 +103,6 @@ import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
 import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
-import SwapReviewScreen from 'src/swap/SwapReviewScreen'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -511,11 +510,6 @@ const generalScreens = (Navigator: typeof Stack) => (
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
-    <Navigator.Screen
-      name={Screens.SwapReviewScreen}
-      component={SwapReviewScreen}
-      options={SwapReviewScreen.navOptions}
-    />
     <Navigator.Screen
       name={Screens.SwapExecuteScreen}
       component={SwapExecuteScreen}
