@@ -9,7 +9,6 @@ export enum Colors {
   goldUI = '#EEB93C',
   goldDark = '#9C6E00',
   beige = '#F1F0EB',
-  yellowFaint = '#FFF9EA',
   gray6 = '#DFDBCE',
   onboardingBrownLight = '#A49B80',
   onboardingBackground = '#F9F6F0',
