@@ -40,7 +40,7 @@ function DappFilterChip({ filterId, filterName, isSelected, onPress, style }: Da
         <Text
           style={[
             styles.filterChipText,
-            isSelected ? { color: colors.onboardingLightBlue } : { color: colors.infoDark },
+            isSelected ? { color: colors.infoLight } : { color: colors.infoDark },
           ]}
         >
           {filterName}
