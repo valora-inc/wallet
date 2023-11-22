@@ -278,7 +278,7 @@ describe('SwapScreen', () => {
     })
 
     mockExperimentParams.mockReturnValue({
-      swappingNonNativeTokensEnabled: false,
+      swapBuyAmountEnabled: true,
     })
   })
 
@@ -889,11 +889,7 @@ describe('SwapScreen', () => {
     })
   })
 
-  it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {
-    mockExperimentParams.mockReturnValue({
-      swappingNonNativeTokensEnabled: true,
-    })
-
+  it('should show swappable tokens and search box', async () => {
     const { swapToContainer, getByPlaceholderText, swapFromContainer, tokenBottomSheet } =
       renderScreen({})
 
@@ -957,10 +953,6 @@ describe('SwapScreen', () => {
   // When viem is enabled, it also uses the new fee estimation logic
   describe('when USE_VIEM_FOR_SWAP is enabled', () => {
     beforeEach(() => {
-      mockExperimentParams.mockReturnValue({
-        swappingNonNativeTokensEnabled: true,
-      })
-
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_SWAP)

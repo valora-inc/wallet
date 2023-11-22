@@ -99,9 +99,6 @@ export function SwapScreen({ route }: Props) {
 
   const { decimalSeparator } = getNumberFormatSettings()
 
-  const { swappingNonNativeTokensEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
-  )
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
@@ -113,12 +110,6 @@ export function SwapScreen({ route }: Props) {
 
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSelector(swappableTokensSelector)
-  const swappableTokens = useMemo(() => {
-    if (!swappingNonNativeTokensEnabled) {
-      return supportedTokens.filter((token) => token.isCoreToken)
-    }
-    return supportedTokens
-  }, [supportedTokens])
 
   const swapInfo = useSelector(swapInfoSelector)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
@@ -128,7 +119,7 @@ export function SwapScreen({ route }: Props) {
 
   const initialFromTokenId = route.params?.fromTokenId
   const initialFromToken = initialFromTokenId
-    ? swappableTokens.find((token) => token.tokenId === initialFromTokenId)
+    ? supportedTokens.find((token) => token.tokenId === initialFromTokenId)
     : undefined
   const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(initialFromToken)
   const [toToken, setToToken] = useState<TokenBalanceWithAddress | undefined>()
@@ -384,7 +375,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = ({ address: tokenAddress }: TokenBalanceWithAddress) => {
-    const selectedToken = swappableTokens.find((token) => token.address === tokenAddress)
+    const selectedToken = supportedTokens.find((token) => token.address === tokenAddress)
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
@@ -581,8 +572,8 @@ export function SwapScreen({ route }: Props) {
         snapPoints={['90%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
-        searchEnabled={swappingNonNativeTokensEnabled}
-        tokens={swappableTokens}
+        searchEnabled={true}
+        tokens={supportedTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
