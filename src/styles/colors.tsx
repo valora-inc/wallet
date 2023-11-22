@@ -10,7 +10,6 @@ export enum Colors {
   goldDark = '#9C6E00',
   beige = '#F1F0EB',
   yellowFaint = '#FFF9EA',
-  dark_0_2 = '#2E333833', // same as dark but with alpha 0.2 (20% opacity)
   gray6 = '#DFDBCE',
   onboardingBrownLight = '#A49B80',
   onboardingBackground = '#F9F6F0',
