@@ -80,15 +80,25 @@ export const typeScale = StyleSheet.create({
     fontSize: 20,
     lineHeight: 28,
   },
-  semiBoldLarge: {
+  labelSemiBoldLarge: {
     fontFamily: Inter.SemiBold,
     fontSize: 18,
     lineHeight: 28,
   },
-  semiBoldMedium: {
+  labelSemiBoldMedium: {
     fontFamily: Inter.SemiBold,
     fontSize: 16,
     lineHeight: 24,
+  },
+  labelSemiBoldSmall: {
+    fontFamily: Inter.SemiBold,
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  labelSemiBoldXSmall: {
+    fontFamily: Inter.SemiBold,
+    fontSize: 12,
+    lineHeight: 16,
   },
   labelLarge: {
     fontFamily: Inter.Medium,
