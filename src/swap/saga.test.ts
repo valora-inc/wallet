@@ -78,8 +78,8 @@ const mockSwap: PayloadAction<SwapInfo> = {
     },
     userInput: {
       updatedField: Field.TO,
-      fromToken: mockCeurAddress,
-      toToken: mockCeloAddress,
+      fromTokenId: mockCeurTokenId,
+      toTokenId: mockCeloTokenId,
       swapAmount: {
         [Field.FROM]: '100',
         [Field.TO]: '200',
@@ -100,8 +100,8 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
   payload: {
     userInput: {
       updatedField: Field.TO,
-      fromToken: mockCeurAddress,
-      toToken: mockCeloAddress,
+      fromTokenId: mockCeurTokenId,
+      toTokenId: mockCeloTokenId,
       swapAmount: {
         [Field.FROM]: '100',
         [Field.TO]: '200',
@@ -163,7 +163,7 @@ const mockSwapWithWBTCBuyToken: PayloadAction<SwapInfo> = {
     ...mockSwap.payload,
     userInput: {
       ...mockSwap.payload.userInput,
-      toToken: mockWBTCAddress,
+      toTokenId: mockWBTCTokenId,
     },
     unvalidatedSwapTransaction: {
       ...mockSwap.payload.unvalidatedSwapTransaction,
@@ -205,7 +205,7 @@ const mockSwapPreparedWithWBTCBuyToken: PayloadAction<SwapInfoPrepared> = {
     ...mockSwapPrepared.payload,
     userInput: {
       ...mockSwapPrepared.payload.userInput,
-      toToken: mockWBTCAddress,
+      toTokenId: mockWBTCTokenId,
     },
     quote: {
       ...mockSwapPrepared.payload.quote,

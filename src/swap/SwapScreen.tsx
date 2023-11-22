@@ -45,14 +45,10 @@ import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
-import { useTokenInfoByAddress } from 'src/tokens/hooks'
-import {
-  celoAddressSelector,
-  swappableTokensSelector,
-  tokensByAddressSelector,
-} from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { swappableTokensSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
-import { getTokenId } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
@@ -99,9 +95,6 @@ export function SwapScreen({ route }: Props) {
 
   const { decimalSeparator } = getNumberFormatSettings()
 
-  const { swappingNonNativeTokensEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]
-  )
   const { swapBuyAmountEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
   )
@@ -113,22 +106,17 @@ export function SwapScreen({ route }: Props) {
 
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSelector(swappableTokensSelector)
-  const swappableTokens = useMemo(() => {
-    if (!swappingNonNativeTokensEnabled) {
-      return supportedTokens.filter((token) => token.isCoreToken)
-    }
-    return supportedTokens
-  }, [supportedTokens])
 
   const swapInfo = useSelector(swapInfoSelector)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
-  const tokensByAddress = useSelector(tokensByAddressSelector)
-  const celoAddress = useSelector(celoAddressSelector)
+  const tokensById = useSelector((state) =>
+    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
+  )
 
   const initialFromTokenId = route.params?.fromTokenId
   const initialFromToken = initialFromTokenId
-    ? swappableTokens.find((token) => token.tokenId === initialFromTokenId)
+    ? supportedTokens.find((token) => token.tokenId === initialFromTokenId)
     : undefined
   const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(initialFromToken)
   const [toToken, setToToken] = useState<TokenBalanceWithAddress | undefined>()
@@ -140,16 +128,17 @@ export function SwapScreen({ route }: Props) {
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
 
+  // TODO: remove this once we have viem enabled for everyone
   const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
   const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
     ? new BigNumber(0)
     : maxFromAmountUnchecked
   // TODO: Check the user has enough balance in native tokens to pay for the gas fee
 
-  const fromTokenBalance = useTokenInfoByAddress(fromToken?.address)?.balance ?? new BigNumber(0)
+  const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
-    useSwapQuote(slippagePercentage)
+    useSwapQuote(fromToken?.networkId || networkConfig.defaultNetworkId, slippagePercentage)
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -274,8 +263,8 @@ export function SwapScreen({ route }: Props) {
     }
 
     const userInput = {
-      toToken: toToken.address,
-      fromToken: fromToken.address,
+      toTokenId: toToken.tokenId,
+      fromTokenId: fromToken.tokenId,
       swapAmount: {
         [Field.FROM]: parsedSwapAmount[Field.FROM].toString(),
         [Field.TO]: parsedSwapAmount[Field.TO].toString(),
@@ -314,8 +303,8 @@ export function SwapScreen({ route }: Props) {
             web3Library: 'viem',
             ...getSwapTxsAnalyticsProperties(
               exchangeRate.preparedTransactions.transactions,
-              tokensByAddress,
-              celoAddress
+              fromToken.networkId,
+              tokensById
             ),
           })
 
@@ -384,7 +373,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = ({ address: tokenAddress }: TokenBalanceWithAddress) => {
-    const selectedToken = swappableTokens.find((token) => token.address === tokenAddress)
+    const selectedToken = supportedTokens.find((token) => token.address === tokenAddress)
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
@@ -587,8 +576,8 @@ export function SwapScreen({ route }: Props) {
         snapPoints={['90%']}
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
-        searchEnabled={swappingNonNativeTokensEnabled}
-        tokens={swappableTokens}
+        searchEnabled={true}
+        tokens={supportedTokens}
         title={
           selectingToken == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')

@@ -63,6 +63,7 @@ jest.mock('src/statsig', () => {
     getFeatureGate: jest.fn(),
     getDynamicConfigParams: () => ({
       maxSlippagePercentage: '0.3',
+      showSwap: ['celo-alfajores'],
     }),
   }
 })
@@ -278,7 +279,7 @@ describe('SwapScreen', () => {
     })
 
     mockExperimentParams.mockReturnValue({
-      swappingNonNativeTokensEnabled: true,
+      swapBuyAmountEnabled: true,
     })
   })
 
@@ -840,8 +841,8 @@ describe('SwapScreen', () => {
         swapStart({
           ...defaultQuote,
           userInput: {
-            toToken: mockCusdAddress,
-            fromToken: mockCeloAddress,
+            toTokenId: mockCusdTokenId,
+            fromTokenId: mockCeloTokenId,
             swapAmount: {
               [Field.FROM]: '10',
               [Field.TO]: '12.345678', // 10 * 1.2345678
@@ -856,8 +857,8 @@ describe('SwapScreen', () => {
 
   it('should be able to start a swap when the entered value uses comma as the decimal separator', async () => {
     const userInput = {
-      toToken: mockCusdAddress,
-      fromToken: mockCeloAddress,
+      toTokenId: mockCusdTokenId,
+      fromTokenId: mockCeloTokenId,
       swapAmount: {
         [Field.FROM]: '1.5',
         [Field.TO]: '1.8518517', // 1.5 * 1.2345678
@@ -929,11 +930,7 @@ describe('SwapScreen', () => {
     })
   })
 
-  it('should show swappable tokens and search box when the swapping non native tokens experiment is enabled', async () => {
-    mockExperimentParams.mockReturnValue({
-      swappingNonNativeTokensEnabled: true,
-    })
-
+  it('should show swappable tokens and search box', async () => {
     const { swapToContainer, getByPlaceholderText, swapFromContainer, tokenBottomSheet } =
       renderScreen({})
 
@@ -997,10 +994,6 @@ describe('SwapScreen', () => {
   // When viem is enabled, it also uses the new fee estimation logic
   describe('when USE_VIEM_FOR_SWAP is enabled', () => {
     beforeEach(() => {
-      mockExperimentParams.mockReturnValue({
-        swappingNonNativeTokensEnabled: true,
-      })
-
       jest
         .mocked(getFeatureGate)
         .mockImplementation((gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_SWAP)
@@ -1322,8 +1315,8 @@ describe('SwapScreen', () => {
               rawSwapResponse: defaultQuote as any,
             },
             userInput: {
-              toToken: mockCusdAddress,
-              fromToken: mockCeloAddress,
+              toTokenId: mockCusdTokenId,
+              fromTokenId: mockCeloTokenId,
               swapAmount: {
                 [Field.FROM]: '10',
                 [Field.TO]: '12.345678', // 10 * 1.2345678
@@ -1364,8 +1357,8 @@ describe('SwapScreen', () => {
               rawSwapResponse: defaultQuote as any,
             },
             userInput: {
-              toToken: mockCusdAddress,
-              fromToken: mockCeloAddress,
+              toTokenId: mockCusdTokenId,
+              fromTokenId: mockCeloTokenId,
               swapAmount: {
                 [Field.FROM]: '1.5',
                 [Field.TO]: '1.8518517', // 1.5 * 1.2345678

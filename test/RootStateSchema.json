@@ -4580,13 +4580,13 @@
         "SwapUserInput": {
             "additionalProperties": false,
             "properties": {
-                "fromToken": {
+                "fromTokenId": {
                     "type": "string"
                 },
                 "swapAmount": {
                     "$ref": "#/definitions/SwapAmount"
                 },
-                "toToken": {
+                "toTokenId": {
                     "type": "string"
                 },
                 "updatedField": {
@@ -4594,9 +4594,9 @@
                 }
             },
             "required": [
-                "fromToken",
+                "fromTokenId",
                 "swapAmount",
-                "toToken",
+                "toTokenId",
                 "updatedField"
             ],
             "type": "object"
