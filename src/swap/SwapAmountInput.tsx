@@ -154,7 +154,7 @@ const SwapAmountInput = ({
         </Touchable>
       </View>
       <View>
-        <Text style={[styles.fiatValue, { opacity: !swapAmount || !token ? 0 : 1 }]}>
+        <Text style={[styles.fiatValue, { opacity: loading || !swapAmount || !token ? 0 : 1 }]}>
           {token?.priceUsd && swapAmount?.gt(0) && localCurrencyExchangeRate
             ? `≈${localCurrencySymbol}${swapAmount
                 .multipliedBy(token.priceUsd)
@@ -211,7 +211,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    paddingVertical: Spacing.Small12,
     width: '100%',
     height: '100%',
   },
