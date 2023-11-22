@@ -2,7 +2,7 @@ import { useHeaderHeight } from '@react-navigation/elements'
 import React, { useEffect, useState } from 'react'
 import { Platform, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import Video from 'react-native-video'
+import Video, { ResizeMode } from 'react-native-video'
 import { useSelector } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -131,7 +131,7 @@ export default function NftMedia({
       {status === 'error' ? (
         ErrorComponent
       ) : mediaType === 'video' && videoUrl ? (
-        <>
+        <View testID={testID}>
           <Video
             source={{
               uri: videoUrl,
@@ -140,7 +140,6 @@ export default function NftMedia({
               },
             }}
             key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
-            testID={testID}
             style={{
               height: shouldAutoScaleHeight ? scaledHeight : height,
               width: variables.width,
@@ -156,13 +155,13 @@ export default function NftMedia({
             controls={true}
             minLoadRetryCount={3}
             repeat={true}
-            resizeMode={shouldAutoScaleHeight ? 'contain' : 'cover'}
+            resizeMode={shouldAutoScaleHeight ? ResizeMode.CONTAIN : ResizeMode.COVER}
           />
           {/* This is a hack to get the loading skeleton to overlay the media player while loading, nesting within the player doesn't work */}
           <View style={{ marginTop: -DEFAULT_HEIGHT }}>
             <Placeholder mediaType="video" testID={`${testID}/VideoPlaceholder`} />
           </View>
-        </>
+        </View>
       ) : (
         <FastImage
           key={`${nft.contractAddress}-${nft.tokenId}-${reloadAttempt}`}
