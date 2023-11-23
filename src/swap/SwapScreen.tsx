@@ -469,12 +469,14 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const showPriceImpactWarning = !!exchangeRate?.estimatedPriceImpact?.gte(
-    priceImpactWarningThreshold
-  )
+  const showPriceImpactWarning =
+    !exchangeRateUpdatePending &&
+    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
   const showMissingPriceImpactWarning =
-    (exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd))
+    !exchangeRateUpdatePending &&
+    !showPriceImpactWarning &&
+    ((exchangeRate && !exchangeRate.estimatedPriceImpact) ||
+      (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd)))
 
   const { networkFee, feeTokenId } = useMemo(() => {
     return getNetworkFee(exchangeRate, fromToken?.networkId)
@@ -536,27 +538,21 @@ export function SwapScreen({ route }: Props) {
               onPressCta={onPressLearnMoreFees}
             />
           )}
-
-          {!exchangeRateUpdatePending && (
-            <>
-              {showPriceImpactWarning ? (
-                <InLineNotification
-                  severity={Severity.Warning}
-                  title={t('swapScreen.priceImpactWarning.title')}
-                  description={t('swapScreen.priceImpactWarning.body')}
-                  style={styles.warning}
-                />
-              ) : (
-                showMissingPriceImpactWarning && (
-                  <InLineNotification
-                    severity={Severity.Warning}
-                    title={t('swapScreen.missingSwapImpactWarning.title')}
-                    description={t('swapScreen.missingSwapImpactWarning.body')}
-                    style={styles.warning}
-                  />
-                )
-              )}
-            </>
+          {showPriceImpactWarning && (
+            <InLineNotification
+              severity={Severity.Warning}
+              title={t('swapScreen.priceImpactWarning.title')}
+              description={t('swapScreen.priceImpactWarning.body')}
+              style={styles.warning}
+            />
+          )}
+          {showMissingPriceImpactWarning && (
+            <InLineNotification
+              severity={Severity.Warning}
+              title={t('swapScreen.missingSwapImpactWarning.title')}
+              description={t('swapScreen.missingSwapImpactWarning.body')}
+              style={styles.warning}
+            />
           )}
         </View>
         <Text style={styles.disclaimerText}>
