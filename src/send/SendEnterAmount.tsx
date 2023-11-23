@@ -505,7 +505,7 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Thick24,
   },
   reviewButtonText: {
-    ...typeScale.semiBoldMedium,
+    ...typeScale.labelSemiBoldMedium,
   },
   lowerAmountError: {
     color: Colors.warning,
