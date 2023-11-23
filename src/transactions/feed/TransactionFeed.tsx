@@ -7,6 +7,7 @@ import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
+import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   deduplicateTransactions,
@@ -74,6 +75,8 @@ function TransactionFeed() {
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV3':
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
+      case 'TokenApproval':
+        return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
     }
   }
 

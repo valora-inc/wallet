@@ -1965,5 +1965,12 @@
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Approval",
+    "estimatedNetworkFee": "Estimated network fee",
+    "networkFee": "Network fee",
+    "approvalDescription": "Approved {{approvedAmount}}{{tokenSymbol}} for trade",
+    "descriptionLabel": "Details"
   }
 }
