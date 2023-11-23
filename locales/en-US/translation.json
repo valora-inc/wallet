@@ -1667,6 +1667,7 @@
     "disclaimer": "Best rate determined by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
