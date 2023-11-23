@@ -577,7 +577,7 @@ const styles = StyleSheet.create({
   },
   switchCurrency: {
     ...fontStyles.large500,
-    color: colors.greenUI,
+    color: colors.primary,
     padding: Spacing.Smallest8,
   },
   noPaymentMethodsContainer: {

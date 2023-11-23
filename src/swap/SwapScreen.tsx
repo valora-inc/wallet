@@ -45,15 +45,18 @@ import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
-import { useTokenInfo } from 'src/tokens/hooks'
-import { swappableTokensSelector, tokensByIdSelector } from 'src/tokens/selectors'
-import { TokenBalanceWithAddress } from 'src/tokens/slice'
+import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
+
+const TAG = 'SwapScreen'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 200
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
@@ -105,7 +108,7 @@ export function SwapScreen({ route }: Props) {
   const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
   // sorted by USD balance and then alphabetical
-  const supportedTokens = useSelector(swappableTokensSelector)
+  const supportedTokens = useSwappableTokens()
 
   const swapInfo = useSelector(swapInfoSelector)
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
@@ -118,8 +121,8 @@ export function SwapScreen({ route }: Props) {
   const initialFromToken = initialFromTokenId
     ? supportedTokens.find((token) => token.tokenId === initialFromTokenId)
     : undefined
-  const [fromToken, setFromToken] = useState<TokenBalanceWithAddress | undefined>(initialFromToken)
-  const [toToken, setToToken] = useState<TokenBalanceWithAddress | undefined>()
+  const [fromToken, setFromToken] = useState<TokenBalance | undefined>(initialFromToken)
+  const [toToken, setToToken] = useState<TokenBalance | undefined>()
 
   // Raw input values (can contain region specific decimal separators)
   const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
@@ -181,8 +184,8 @@ export function SwapScreen({ route }: Props) {
       fromToken &&
       toToken &&
       exchangeRate &&
-      exchangeRate.toTokenAddress === toToken.address &&
-      exchangeRate.fromTokenAddress === fromToken.address &&
+      exchangeRate.toTokenId === toToken.tokenId &&
+      exchangeRate.fromTokenId === fromToken.tokenId &&
       exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField])
 
     const debouncedRefreshQuote = setTimeout(() => {
@@ -230,13 +233,26 @@ export function SwapScreen({ route }: Props) {
         }),
       })
 
+      const fromToken = tokensById[exchangeRate.fromTokenId]
+      const toToken = tokensById[exchangeRate.toTokenId]
+
+      if (!fromToken || !toToken) {
+        // Should never happen
+        Logger.error(TAG, 'fromToken or toToken not found')
+        return
+      }
+
       if (
         !exchangeRate.estimatedPriceImpact ||
         exchangeRate.estimatedPriceImpact.gte(priceImpactWarningThreshold)
       ) {
         ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
-          toToken: exchangeRate.toTokenAddress,
-          fromToken: exchangeRate.fromTokenAddress,
+          toToken: toToken.address,
+          toTokenId: toToken.tokenId,
+          toTokenNetworkId: toToken.networkId,
+          fromToken: fromToken.address,
+          fromTokenId: fromToken.tokenId,
+          fromTokenNetworkId: fromToken?.networkId,
           amount: parsedSwapAmount[updatedField].toString(),
           amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
           priceImpact: exchangeRate.estimatedPriceImpact?.toString(),
@@ -251,14 +267,22 @@ export function SwapScreen({ route }: Props) {
   )
 
   const handleConfirmSwap = () => {
-    if (!toToken || !fromToken || !exchangeRate) {
+    if (!exchangeRate) {
       return // this should never happen, because the button must be disabled in that cases
+    }
+
+    const fromToken = tokensById[exchangeRate.fromTokenId]
+    const toToken = tokensById[exchangeRate.toTokenId]
+
+    if (!fromToken || !toToken) {
+      // Should never happen
+      return
     }
 
     if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
       setFromSwapAmountError(true)
       showMaxCeloSwapWarning()
-      dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken?.symbol })))
+      dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken.symbol })))
       return
     }
 
@@ -292,7 +316,11 @@ export function SwapScreen({ route }: Props) {
         case 'possible':
           ValoraAnalytics.track(SwapEvents.swap_review_submit, {
             toToken: toToken.address,
+            toTokenId: toToken.tokenId,
+            toTokenNetworkId: toToken.networkId,
             fromToken: fromToken.address,
+            fromTokenId: fromToken.tokenId,
+            fromTokenNetworkId: fromToken.networkId,
             amount: swapAmount[updatedField],
             amountType: swapAmountParam,
             usdTotal: exchangeRate.swapAmount.multipliedBy(exchangeRate.price).toNumber(),
@@ -336,7 +364,11 @@ export function SwapScreen({ route }: Props) {
 
     ValoraAnalytics.track(SwapEvents.swap_review_submit, {
       toToken: toToken.address,
+      toTokenId: toToken.tokenId,
+      toTokenNetworkId: toToken.networkId,
       fromToken: fromToken.address,
+      fromTokenId: fromToken.tokenId,
+      fromTokenNetworkId: fromToken.networkId,
       amount: swapAmount[updatedField],
       amountType: swapAmountParam,
       usdTotal: new BigNumber(swapResponse.unvalidatedSwapTransaction[swapAmountParam])
@@ -372,18 +404,19 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const handleSelectToken = ({ address: tokenAddress }: TokenBalanceWithAddress) => {
-    const selectedToken = supportedTokens.find((token) => token.address === tokenAddress)
+  const handleSelectToken = (selectedToken: TokenBalance) => {
     if (selectedToken && selectingToken) {
       ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
         fieldType: selectingToken,
         tokenSymbol: selectedToken.symbol,
+        tokenId: selectedToken.tokenId,
+        tokenNetworkId: selectedToken.networkId,
       })
     }
 
     if (
-      (selectingToken === Field.FROM && toToken?.address === tokenAddress) ||
-      (selectingToken === Field.TO && fromToken?.address === tokenAddress)
+      (selectingToken === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
+      (selectingToken === Field.TO && fromToken?.tokenId === selectedToken.tokenId)
     ) {
       setFromToken(toToken)
       setToToken(fromToken)
@@ -435,8 +468,14 @@ export function SwapScreen({ route }: Props) {
       }),
     }))
     showMaxCeloSwapWarning()
+    if (!fromToken) {
+      // Should never happen
+      return
+    }
     ValoraAnalytics.track(SwapEvents.swap_screen_max_swap_amount, {
-      tokenSymbol: fromToken?.symbol,
+      tokenSymbol: fromToken.symbol,
+      tokenId: fromToken.tokenId,
+      tokenNetworkId: fromToken.networkId,
     })
   }
 
@@ -446,9 +485,17 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
+  const exchangeRateUpdatePending =
+    (exchangeRate &&
+      (exchangeRate.fromTokenId !== fromToken?.tokenId ||
+        exchangeRate.toTokenId !== toToken?.tokenId ||
+        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+    fetchingSwapQuote
+
   const allowSwap = useMemo(
-    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
-    [parsedSwapAmount, fetchingSwapQuote]
+    () =>
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !exchangeRateUpdatePending,
+    [parsedSwapAmount, exchangeRateUpdatePending]
   )
 
   const onPressLearnMore = () => {
@@ -461,20 +508,14 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const exchangeRateUpdatePending =
-    (exchangeRate &&
-      (exchangeRate.fromTokenAddress !== fromToken?.address ||
-        exchangeRate.toTokenAddress !== toToken?.address ||
-        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
-    fetchingSwapQuote
-
-  const showMissingPriceImpactWarning =
-    (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd))
   const showPriceImpactWarning =
-    !fetchingSwapQuote &&
-    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
-    !showMissingPriceImpactWarning
+    !exchangeRateUpdatePending &&
+    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
+  const showMissingPriceImpactWarning =
+    !exchangeRateUpdatePending &&
+    !showPriceImpactWarning &&
+    ((exchangeRate && !exchangeRate.estimatedPriceImpact) ||
+      (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd)))
 
   const { networkFee, feeTokenId } = useMemo(() => {
     return getNetworkFee(exchangeRate, fromToken?.networkId)
@@ -647,7 +688,7 @@ const styles = StyleSheet.create({
   },
   disclaimerLink: {
     textDecorationLine: 'underline',
-    color: colors.greenUI,
+    color: colors.primary,
   },
   warning: {
     marginTop: Spacing.Thick24,

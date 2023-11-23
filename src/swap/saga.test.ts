@@ -12,7 +12,7 @@ import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/typ
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { Actions, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { TokenTransactionTypeV2 } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -309,7 +309,11 @@ describe(swapSubmitSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
       toToken: mockCeloAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenNetworkId: NetworkId['celo-alfajores'],
       fromToken: mockCeurAddress,
+      fromTokenId: mockCeurTokenId,
+      fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10000000000000000',
       amountType: 'buyAmount',
       price: '1',
@@ -396,7 +400,11 @@ describe(swapSubmitSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
       toToken: mockCeloAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenNetworkId: NetworkId['celo-alfajores'],
       fromToken: mockCeurAddress,
+      fromTokenId: mockCeurTokenId,
+      fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10000000000000000',
       amountType: 'buyAmount',
       price: '1',
@@ -427,7 +435,11 @@ describe(swapSubmitSaga, () => {
       price: '1',
       guaranteedPrice: '1.021',
       toToken: mockCeloAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenNetworkId: NetworkId['celo-alfajores'],
       fromToken: mockCeurAddress,
+      fromTokenId: mockCeurTokenId,
+      fromTokenNetworkId: NetworkId['celo-alfajores'],
     })
   })
 })
@@ -518,7 +530,11 @@ describe(swapSubmitPreparedSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
       toToken: mockCeloAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenNetworkId: NetworkId['celo-alfajores'],
       fromToken: mockCeurAddress,
+      fromTokenId: mockCeurTokenId,
+      fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10000000000000000',
       amountType: 'buyAmount',
       price: '1',
@@ -666,7 +682,11 @@ describe(swapSubmitPreparedSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
       toToken: mockCeloAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenNetworkId: NetworkId['celo-alfajores'],
       fromToken: mockCeurAddress,
+      fromTokenId: mockCeurTokenId,
+      fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10000000000000000',
       amountType: 'buyAmount',
       price: '1',

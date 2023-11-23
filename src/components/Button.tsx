@@ -163,25 +163,25 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let opacity
   switch (type) {
     case BtnTypes.PRIMARY:
-      textColor = colors.light
-      backgroundColor = disabled ? colors.greenFaint : colors.greenUI
+      textColor = colors.white
+      backgroundColor = disabled ? colors.greenFaint : colors.primary
       break
     case BtnTypes.SECONDARY:
-      textColor = disabled ? colors.gray4 : colors.dark
+      textColor = disabled ? colors.gray4 : colors.black
       backgroundColor = colors.beige
       break
     case BtnTypes.TERTIARY:
-      textColor = colors.light
+      textColor = colors.white
       backgroundColor = disabled ? colors.goldFaint : colors.goldUI
       break
     case BtnTypes.ONBOARDING:
-      textColor = colors.light
+      textColor = colors.white
       backgroundColor = colors.onboardingGreen
       opacity = disabled ? 0.5 : 1.0
       break
     case BtnTypes.ONBOARDING_SECONDARY:
       textColor = colors.onboardingGreen
-      backgroundColor = colors.light
+      backgroundColor = colors.white
       opacity = disabled ? 0.5 : 1.0
       break
   }
