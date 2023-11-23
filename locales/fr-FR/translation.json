@@ -1667,6 +1667,7 @@
     "disclaimer": "Le meilleur tarif est déterminé par les partenaires du réseau. <0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
