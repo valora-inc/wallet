@@ -60,7 +60,7 @@ export default function NftGallery() {
             <RefreshControl
               tintColor={colors.greenBrand}
               colors={[colors.greenBrand]}
-              style={{ backgroundColor: colors.light }}
+              style={{ backgroundColor: colors.white }}
               refreshing={loading}
               onRefresh={() => dispatch(fetchNfts())}
             />

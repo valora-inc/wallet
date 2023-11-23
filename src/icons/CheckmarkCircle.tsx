@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Checkmark from 'src/icons/Checkmark'
 import colors from 'src/styles/colors'
 
@@ -16,7 +16,7 @@ export default class CheckmarkCircle extends React.PureComponent<Props> {
     checkHeight: 22,
     checkWidth: 22,
     checkColor: colors.white,
-    backgroundColor: colors.greenUI,
+    backgroundColor: colors.primary,
     radius: 50,
   }
 

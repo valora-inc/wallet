@@ -114,11 +114,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   link: {
     textDecorationLine: 'underline',
-    color: colors.greenUI,
+    color: colors.primary,
     flexWrap: 'wrap',
   },
   qrContainer: {

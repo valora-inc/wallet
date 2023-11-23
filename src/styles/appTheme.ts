@@ -6,7 +6,7 @@ const appTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: colors.light,
+    background: colors.white,
   },
 }
 

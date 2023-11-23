@@ -75,7 +75,7 @@ const InviteModal = ({
         ) : null}
         <Button
           testID="InviteModalShareButton"
-          icon={<ShareIcon color={colors.light} height={24} />}
+          icon={<ShareIcon color={colors.white} height={24} />}
           iconPositionLeft={false}
           size={BtnSizes.SMALL}
           text={buttonLabel}
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     position: 'absolute',
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     padding: Spacing.Thick24,
   },
   contentContainer: {
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   helpLink: {
-    color: colors.onboardingBlue,
+    color: colors.infoDark,
     flexWrap: 'wrap',
     textDecorationLine: 'underline',
   },
