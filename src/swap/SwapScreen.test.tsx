@@ -355,8 +355,14 @@ describe('SwapScreen', () => {
       '1 CELO ≈ 1.23456 cUSD'
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
+      '~₱21.43'
+    )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
+    )
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
+      '~₱2.03'
     )
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
@@ -585,6 +591,40 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 CELO ≈ 13.12345 cUSD'
     )
+    expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
+  })
+
+  it('should prioritise showing the price impact warning when there is no priceUsd for a token', async () => {
+    mockFetch.mockResponseOnce(
+      JSON.stringify({
+        ...defaultQuote,
+        unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
+          estimatedPriceImpact: 5, // above warning threshold
+        },
+      })
+    )
+
+    const {
+      tokenBottomSheet,
+      swapFromContainer,
+      swapToContainer,
+      getByText,
+      queryByText,
+      getByTestId,
+    } = renderScreen({})
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'POOF', tokenBottomSheet) // no priceUsd
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '100')
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
+      '1 CELO ≈ 1.23456 POOF'
+    )
+    expect(getByText('swapScreen.priceImpactWarning.title')).toBeTruthy()
     expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
 

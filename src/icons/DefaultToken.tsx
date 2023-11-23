@@ -9,7 +9,7 @@ export interface Props {
 }
 
 export default function DefaultToken({
-  color = Colors.dark,
+  color = Colors.black,
   size = 32,
   testID = 'DefaultToken',
 }: Props) {

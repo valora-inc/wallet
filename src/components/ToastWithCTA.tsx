@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   toast: {
-    backgroundColor: Colors.dark,
+    backgroundColor: Colors.black,
     borderRadius: 8,
     marginHorizontal: Spacing.Regular16,
     padding: Spacing.Regular16,
@@ -95,11 +95,11 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.small600,
-    color: Colors.light,
+    color: Colors.white,
   },
   message: {
     ...fontStyles.small,
-    color: Colors.light,
+    color: Colors.white,
   },
   labelCta: {
     ...fontStyles.small600,

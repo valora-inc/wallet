@@ -134,7 +134,7 @@ function goToAccountKeyGuide() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   introContainer: {
     flexGrow: 1,

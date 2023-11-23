@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
   bodyText: {
     ...typeScale.bodyXSmall,
     lineHeight: 18,
-    color: Colors.dark,
+    color: Colors.black,
   },
   ctaLabel: {
     ...typeScale.labelSmall,

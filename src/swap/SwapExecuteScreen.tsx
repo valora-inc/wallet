@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   contactSupportLink: {
-    color: colors.onboardingBlue,
+    color: colors.infoDark,
     textDecorationLine: 'underline',
   },
   iconContainer: {

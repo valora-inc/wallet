@@ -31,7 +31,7 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
       {searchTerm !== '' && (
         <View style={styles.searchContainer}>
           <View style={styles.iconContainer}>
-            <InfoIcon color={Colors.onboardingBlue} />
+            <InfoIcon color={Colors.infoDark} />
           </View>
           <View style={styles.searchTextContainer}>
             <Text style={styles.text}>
@@ -72,7 +72,7 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
 
 const styles = StyleSheet.create({
   searchedText: {
-    color: Colors.dark,
+    color: Colors.black,
     fontWeight: 'bold',
   },
   text: {
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   },
   filterText: {
     ...fontStyles.small500,
-    color: Colors.onboardingBlue,
+    color: Colors.infoDark,
   },
   filterAppliedText: {
     ...fontStyles.small500,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   removeFilterText: {
     ...fontStyles.small500,
-    color: Colors.onboardingBlue,
+    color: Colors.infoDark,
   },
 })
 

@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
   },
   dropDownText: {
     ...fontStyles.regular,

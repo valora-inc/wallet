@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 20,
     flex: 1,
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   loadingContainer: {
     flex: 1,

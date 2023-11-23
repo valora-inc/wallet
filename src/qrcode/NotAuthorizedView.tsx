@@ -36,11 +36,11 @@ const styles = StyleSheet.create({
   title: {
     ...fontStyles.h2,
     marginBottom: 8,
-    color: colors.light,
+    color: colors.white,
   },
   description: {
     ...fontStyles.regular,
-    color: colors.light,
+    color: colors.white,
     textAlign: 'center',
     marginBottom: 16,
   },
