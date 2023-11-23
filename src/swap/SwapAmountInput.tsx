@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -12,11 +11,10 @@ import {
   ViewStyle,
 } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
-import { useSelector } from 'react-redux'
 import TextInput from 'src/components/TextInput'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -52,8 +50,6 @@ const SwapAmountInput = ({
   editable = true,
 }: Props) => {
   const { t } = useTranslation()
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
   // the startPosition and textInputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -67,7 +63,6 @@ const SwapAmountInput = ({
     }
   }
 
-  const swapAmount = inputValue ? new BigNumber(inputValue) : undefined
   return (
     <View style={[styles.container, style]} testID="SwapAmountInput">
       <Text style={styles.label}>{label}</Text>
@@ -154,13 +149,14 @@ const SwapAmountInput = ({
         </Touchable>
       </View>
       <View testID="SwapAmountInput/FiatValue">
-        <Text style={[styles.fiatValue, { opacity: loading || !swapAmount || !token ? 0 : 1 }]}>
-          {token?.priceUsd && swapAmount?.gt(0) && localCurrencyExchangeRate
-            ? `≈${localCurrencySymbol}${swapAmount
-                .multipliedBy(token.priceUsd)
-                .multipliedBy(localCurrencyExchangeRate)
-                .toFormat(2, BigNumber.ROUND_DOWN)}`
-            : t('swapScreen.tokenUSDValueUnknown')}
+        <Text style={[styles.fiatValue, { opacity: loading || !inputValue || !token ? 0 : 1 }]}>
+          <TokenDisplay
+            amount={inputValue ?? 0}
+            showLocalAmount
+            showApprox
+            errorFallback={t('swapScreen.tokenUsdValueUnknown') ?? undefined}
+            tokenId={token?.tokenId}
+          />
         </Text>
         {loading && (
           <View style={styles.loaderContainer}>
