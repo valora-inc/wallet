@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   heading: {
     padding: 10,
     paddingBottom: 10, // overwrite h1
-    color: colors.dark,
+    color: colors.black,
     alignSelf: 'center',
   },
 })

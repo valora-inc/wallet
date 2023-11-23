@@ -44,20 +44,19 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { getShadowStyle, Shadow, Spacing } from 'src/styles/styles'
+import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
 import SegmentedControl from 'src/tokens/SegmentedControl'
-import { visualizeNFTsEnabledInHomeAssetsPageSelector } from 'src/tokens/selectors'
-import { TokenBalance } from 'src/tokens/slice'
-import { sortByUsdBalance } from 'src/tokens/utils'
-import networkConfig from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
 import {
   useTokenPricesAreStale,
-  useTotalTokenBalance,
   useTokensWithTokenBalance,
+  useTotalTokenBalance,
 } from 'src/tokens/hooks'
-import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
+import { visualizeNFTsEnabledInHomeAssetsPageSelector } from 'src/tokens/selectors'
+import { TokenBalance } from 'src/tokens/slice'
+import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
+import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenBalances>
 interface SectionData {
@@ -333,7 +332,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
                 </Text>
                 <View style={styles.nftBannerCtaContainer}>
                   <Text style={styles.nftBannerText}>{t('open')}</Text>
-                  {!shouldShowNftGallery && <OpenLinkIcon color={Colors.greenUI} />}
+                  {!shouldShowNftGallery && <OpenLinkIcon color={Colors.primary} />}
                 </View>
               </View>
             </Touchable>
@@ -406,7 +405,7 @@ const styles = StyleSheet.create({
   },
   nftBannerText: {
     ...fontStyles.small500,
-    color: Colors.greenUI,
+    color: Colors.primary,
     marginRight: 4,
   },
   nftBannerCtaContainer: {
@@ -417,7 +416,7 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     position: 'absolute',
     width: '100%',
     zIndex: 1,
@@ -437,7 +436,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   footerContainer: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     position: 'absolute',
     bottom: 0,
     left: 10, // so the scroll bar is still visible

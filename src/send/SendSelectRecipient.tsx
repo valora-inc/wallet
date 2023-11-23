@@ -113,7 +113,7 @@ const getStartedStyles = StyleSheet.create({
   },
   optionNumText: {
     ...typeScale.labelXSmall,
-    color: colors.dark,
+    color: colors.black,
   },
   optionText: {
     paddingLeft: Spacing.Smallest8,
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
     padding: Spacing.Thick24,
     paddingBottom: Spacing.Regular16,
-    color: colors.dark,
+    color: colors.black,
   },
   header: {
     alignItems: 'center',

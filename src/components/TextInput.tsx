@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   },
   input: {
     ...typeScale.bodyMedium,
-    color: Colors.dark,
+    color: Colors.black,
     flex: 1,
     paddingVertical: Spacing.Small12,
     paddingHorizontal: 0,

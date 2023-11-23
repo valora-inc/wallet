@@ -2,12 +2,10 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
-import { getLocalCurrencySymbol, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -38,8 +36,6 @@ export function SwapTransactionDetails({
   fetchingSwapQuote,
 }: Props) {
   const { t } = useTranslation()
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-  const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
 
   const placeholder = '-'
   return (
@@ -124,17 +120,6 @@ export function SwapTransactionDetails({
         <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
         <Text testID={'SwapFee'} style={styles.value}>
           {t('swapScreen.transactionDetails.swapFeeWaived')}
-        </Text>
-      </View>
-      <View style={styles.row} testID="SwapTransactionDetails/EstimatedValue">
-        <Text style={styles.label}>{t('swapScreen.transactionDetails.estimatedValue')}</Text>
-        <Text style={styles.value}>
-          {fromToken?.priceUsd && swapAmount?.gt(0) && localCurrencyExchangeRate
-            ? `${localCurrencySymbol}${swapAmount
-                .multipliedBy(fromToken.priceUsd)
-                .multipliedBy(localCurrencyExchangeRate)
-                .toFormat(2, BigNumber.ROUND_DOWN)}`
-            : placeholder}
         </Text>
       </View>
       <View style={styles.row} testID="SwapTransactionDetails/Slippage">

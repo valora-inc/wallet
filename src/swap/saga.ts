@@ -167,7 +167,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
   const defaultSwapExecuteProps = {
     toToken: buyTokenAddress,
+    toTokenId: toToken.tokenId,
+    toTokenNetworkId: toToken.networkId,
     fromToken: sellTokenAddress,
+    fromTokenId: fromToken.tokenId,
+    fromTokenNetworkId: fromToken.networkId,
     amount,
     amountType,
     price,
@@ -203,7 +207,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         price,
         guaranteedPrice,
         toToken: buyTokenAddress,
+        toTokenId: toToken.tokenId,
+        toTokenNetworkId: toToken.networkId,
         fromToken: sellTokenAddress,
+        fromTokenId: fromToken.tokenId,
+        fromTokenNetworkId: fromToken.networkId,
       })
       return
     }
@@ -406,7 +414,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
   const defaultSwapExecuteProps = {
     toToken: buyTokenAddress,
+    toTokenId: toToken.tokenId,
+    toTokenNetworkId: toToken.networkId,
     fromToken: sellTokenAddress,
+    fromTokenId: fromToken.tokenId,
+    fromTokenNetworkId: fromToken.networkId,
     amount,
     amountType,
     price,

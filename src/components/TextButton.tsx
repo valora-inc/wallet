@@ -17,6 +17,6 @@ export default function TextButton({ style, ...passThroughProps }: Props) {
 const styles = StyleSheet.create({
   text: {
     ...fontStyles.regular600,
-    color: colors.greenUI,
+    color: colors.primary,
   },
 })

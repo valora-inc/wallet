@@ -29,7 +29,7 @@ function ForwardChevron({ color, height }: Props) {
 
 ForwardChevron.defaultProps = {
   height: 16,
-  color: colors.dark,
+  color: colors.black,
 }
 
 export default ForwardChevron

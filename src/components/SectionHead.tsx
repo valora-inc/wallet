@@ -19,7 +19,7 @@ export default function SectionheadNew({ text, style }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     paddingHorizontal: variables.contentPadding,
     paddingVertical: 8,
     flexDirection: 'row',

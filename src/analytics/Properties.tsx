@@ -1220,8 +1220,22 @@ interface CoinbasePayEventsProperties {
 }
 
 interface SwapEvent {
-  toToken: string
-  fromToken: string
+  /**
+   * Address of the to token
+   *
+   * @deprecated use toTokenId instead
+   */
+  toToken: string | null | undefined
+  toTokenId: string
+  toTokenNetworkId: string
+  /**
+   * Address of the from token
+   *
+   * @deprecated use fromTokenId instead
+   */
+  fromToken: string | null | undefined
+  fromTokenId: string
+  fromTokenNetworkId: string
   amount: string | null
   amountType: 'buyAmount' | 'sellAmount'
 }
@@ -1294,9 +1308,13 @@ interface SwapEventsProperties {
   [SwapEvents.swap_screen_confirm_token]: {
     fieldType: Field
     tokenSymbol: string
+    tokenId: string
+    tokenNetworkId: string
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
+    tokenId: string
+    tokenNetworkId: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
   [SwapEvents.swap_review_submit]: SwapQuoteEvent &
@@ -1308,7 +1326,11 @@ interface SwapEventsProperties {
     price: string
     guaranteedPrice: string
     toToken: string
+    toTokenId: string
+    toTokenNetworkId: string
     fromToken: string
+    fromTokenId: string
+    fromTokenNetworkId: string
   }
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
     SwapTimeMetrics &

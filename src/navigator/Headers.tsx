@@ -84,12 +84,12 @@ export const styles = StyleSheet.create({
   floatingButton: {
     alignItems: 'center',
     backgroundColor: colors.white,
-    borderColor: colors.dark,
+    borderColor: colors.black,
     borderRadius: 100,
     elevation: 4,
     height: 32,
     justifyContent: 'center',
-    shadowColor: colors.dark,
+    shadowColor: colors.black,
     shadowOffset: {
       height: 2,
       width: 0,
@@ -133,7 +133,7 @@ export const emptyHeader: NativeStackNavigationOptions = {
   headerShadowVisible: false,
   headerTitleAlign: 'center',
   headerStyle: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
 }
 
