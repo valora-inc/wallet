@@ -50,10 +50,13 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
+
+const TAG = 'SwapScreen'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 200
 const DEFAULT_SWAP_AMOUNT: SwapAmount = {
@@ -235,6 +238,7 @@ export function SwapScreen({ route }: Props) {
 
       if (!fromToken || !toToken) {
         // Should never happen
+        Logger.error(TAG, 'fromToken or toToken not found')
         return
       }
 
