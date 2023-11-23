@@ -9,7 +9,6 @@ export enum Colors {
   onboardingBackground = '#F9F6F0',
   onboardingGreen = '#178154',
   greenBackground = '#DEF8EA',
-  lightGreen = '#E6F7EC',
 
   // finalised colors
   error = '#EA6042',
