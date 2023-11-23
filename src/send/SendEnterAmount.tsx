@@ -26,8 +26,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
-import { FeeType } from 'src/fees/reducer'
+import { useFeeCurrencies } from 'src/fees/hooks'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -119,7 +118,6 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -140,8 +138,11 @@ function SendEnterAmount({ route }: Props) {
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  const onMaxAmountPress = () => {
-    setAmount(maxAmount.toString())
+  const onMaxAmountPress = async () => {
+    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
+    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
+    // if there is not enough for gas
+    setAmount(token.balance.toString())
     textInputRef.current?.blur()
     ValoraAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
