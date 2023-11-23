@@ -291,8 +291,6 @@
     "typescript-json-schema": "^0.59.0"
   },
   "resolutions": {
-    "node-gyp": "5.1.1",
-    "tar": "4.4.19",
     "lodash": "~4.17.21",
     "**/extend": "^3.0.2",
     "**/cross-fetch": "^4.0.0",
@@ -301,7 +299,6 @@
     "@types/prettier": "^2.7.3",
     "eslint-utils": "^3.0.0",
     "set-value": "^4.1.0",
-    "https-proxy-agent": "^5.0.1",
     "mixin-deep": "^2.0.1",
     "js-yaml": "^3.14.1",
     "logkitty": "^0.7.1",
@@ -316,7 +313,6 @@
     "react-native-flipper": "^0.212.0",
     "y18n": "5.0.8",
     "normalize-url": "6.1.0",
-    "trim-newlines": "^4.1.1",
     "glob-parent": "^5.1.2",
     "node-fetch": "^2.7.0",
     "simple-get": "^4.0.1",
