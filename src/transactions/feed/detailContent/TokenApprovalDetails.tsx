@@ -38,11 +38,6 @@ export default function TokenApprovalDetails({ transaction }: Props) {
 }
 
 const styles = StyleSheet.create({
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
   description: {
     ...typeScale.bodyMedium,
     color: Colors.black,
