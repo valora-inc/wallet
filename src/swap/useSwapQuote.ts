@@ -7,6 +7,7 @@ import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import {
   PreparedTransactionsResult,
@@ -111,13 +112,11 @@ export async function prepareSwapTransactions(
   })
 }
 
-const useSwapQuote = (slippagePercentage: string) => {
+function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
-
-  // TODO use the networkId from the fromToken
-  const feeCurrencies = useFeeCurrencies(networkConfig.defaultNetworkId)
+  const feeCurrencies = useFeeCurrencies(networkId)
 
   const refreshQuote = useAsyncCallback(
     async (
