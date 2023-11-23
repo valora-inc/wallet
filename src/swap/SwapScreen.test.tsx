@@ -356,13 +356,13 @@ describe('SwapScreen', () => {
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      '≈₱21.42'
+      '~₱21.43'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
     )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
-      '≈₱2.02'
+      '~₱2.03'
     )
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
