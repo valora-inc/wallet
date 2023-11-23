@@ -1,7 +1,6 @@
 // Designer Created Figma Colors
 export enum Colors {
   // to be updated
-  greenLight = '#D0F4E1',
   greenFaint = '#97DFC1', // green disabled
   goldBrand = '#FBCC5C',
   beige = '#F1F0EB',
