@@ -389,6 +389,7 @@ export function* sendAndMonitorTransaction({
         transactionHash: receipt.transactionHash,
         block: receipt.blockNumber.toString(),
         status: receipt.status === 'success',
+        gasCost: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
       })
     )
     if (receipt.status === 'reverted') {

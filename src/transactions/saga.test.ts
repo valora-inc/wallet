@@ -149,6 +149,8 @@ describe('watchPendingTransactions', () => {
       status: 'reverted',
       blockNumber: BigInt(123),
       transactionHash,
+      gasUsed: 2,
+      effectiveGasPrice: 100,
     }
 
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
@@ -170,6 +172,7 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: false,
+          gasCost: '200',
         })
       )
       .run()
@@ -180,6 +183,8 @@ describe('watchPendingTransactions', () => {
       status: 'success',
       blockNumber: BigInt(123),
       transactionHash,
+      gasUsed: 3,
+      effectiveGasPrice: 100,
     }
 
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
@@ -201,6 +206,7 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: true,
+          gasCost: '300',
         })
       )
       .run()

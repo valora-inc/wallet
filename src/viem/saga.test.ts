@@ -505,7 +505,13 @@ describe('getSendTxFeeDetails', () => {
 
 describe('sendAndMonitorTransaction', () => {
   const mockTxHash: `0x${string}` = '0x12345678901234'
-  const mockTxReceipt = { status: 'success', transactionHash: mockTxHash, blockNumber: 123 }
+  const mockTxReceipt = {
+    status: 'success',
+    transactionHash: mockTxHash,
+    blockNumber: 123,
+    gasUsed: 2,
+    effectiveGasPrice: 100,
+  }
 
   const mockArgs = {
     context: { id: 'txId' },
@@ -526,6 +532,7 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: true,
+          gasCost: '200',
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))
@@ -538,7 +545,13 @@ describe('sendAndMonitorTransaction', () => {
       .provide([
         [
           matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
-          { status: 'reverted', blockNumber: BigInt(123), transactionHash: mockTxHash },
+          {
+            status: 'reverted',
+            blockNumber: BigInt(123),
+            transactionHash: mockTxHash,
+            gasUsed: 3,
+            effectiveGasPrice: 100,
+          },
         ],
       ])
       .put(
@@ -546,6 +559,7 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: false,
+          gasCost: '300',
         })
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

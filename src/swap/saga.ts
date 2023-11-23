@@ -103,6 +103,8 @@ function* handleSendSwapTransaction(
       transactionHash: receipt.transactionHash,
       block: receipt.blockNumber.toString(),
       status: receipt.status,
+      gasCost: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
+      feeCurrency: receipt.feeCurrency,
     })
   )
 }
@@ -526,6 +528,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         transactionHash: swapTxReceipt.transactionHash,
         block: swapTxReceipt.blockNumber.toString(),
         status: swapTxReceipt.status === 'success',
+        gasCost: (swapTxReceipt.gasUsed * swapTxReceipt.effectiveGasPrice).toString(),
+        // Implement feeCurrency when it's available in the viem client
       })
     )
 

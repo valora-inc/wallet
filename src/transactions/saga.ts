@@ -164,6 +164,7 @@ export function* sendAndMonitorTransaction<T>(
         transactionHash: txReceipt.transactionHash,
         block: txReceipt.blockNumber.toString(),
         status: txReceipt.status,
+        gasCost: (txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString(),
       })
     )
 
@@ -254,6 +255,7 @@ export function* getTransactionReceipt(
           transactionHash: receipt.transactionHash,
           block: receipt.blockNumber.toString(),
           status: receipt.status == 'success',
+          gasCost: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
         })
       )
     }
