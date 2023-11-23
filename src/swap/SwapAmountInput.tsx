@@ -12,10 +12,11 @@ import {
 } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import TextInput from 'src/components/TextInput'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
@@ -102,7 +103,7 @@ const SwapAmountInput = ({
             }
           />
           {loading && (
-            <View style={styles.loaderContainer}>
+            <View style={[styles.loaderContainer, { paddingVertical: Spacing.Small12 }]}>
               <SkeletonPlaceholder
                 borderRadius={100} // ensure rounded corners with font scaling
                 backgroundColor={Colors.gray2}
@@ -147,6 +148,29 @@ const SwapAmountInput = ({
           )}
         </Touchable>
       </View>
+      <View testID="SwapAmountInput/FiatValue">
+        <Text style={[styles.fiatValue, { opacity: loading || !inputValue || !token ? 0 : 1 }]}>
+          <TokenDisplay
+            amount={inputValue ?? 0}
+            showLocalAmount
+            showApprox
+            errorFallback={t('swapScreen.tokenUsdValueUnknown') ?? undefined}
+            tokenId={token?.tokenId}
+          />
+        </Text>
+        {loading && (
+          <View style={styles.loaderContainer}>
+            <SkeletonPlaceholder
+              borderRadius={100} // ensure rounded corners with font scaling
+              backgroundColor={Colors.gray2}
+              highlightColor={Colors.white}
+              testID="SwapAmountInput/FiatValueLoader"
+            >
+              <View style={styles.fiatValueLoader} />
+            </SkeletonPlaceholder>
+          </View>
+        )}
+      </View>
     </View>
   )
 }
@@ -183,13 +207,16 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    paddingVertical: Spacing.Small12,
     width: '100%',
     height: '100%',
   },
   loader: {
     height: '100%',
     width: '100%',
+  },
+  fiatValueLoader: {
+    height: '100%',
+    width: '40%',
   },
   maxButton: {
     backgroundColor: Colors.white,
@@ -228,6 +255,10 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     borderRadius: 12,
+  },
+  fiatValue: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray4,
   },
 })
 
