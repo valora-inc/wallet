@@ -21,10 +21,10 @@ export default function Logo({ height = 25, type = LogoTypes.COLOR, testID, styl
   let mainColor
   switch (type) {
     case LogoTypes.DARK:
-      mainColor = colors.dark
+      mainColor = colors.black
       break
     case LogoTypes.LIGHT:
-      mainColor = colors.light
+      mainColor = colors.white
       break
     default:
       break

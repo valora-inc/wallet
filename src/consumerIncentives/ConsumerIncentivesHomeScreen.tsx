@@ -198,7 +198,7 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
 
   return (
     <>
-      <Text style={[styles.title, { color: colors.greenUI }]} testID="ClaimSuperchargeDescription">
+      <Text style={[styles.title, { color: colors.primary }]} testID="ClaimSuperchargeDescription">
         {rewardStrings.length > 1
           ? t('superchargeRewardsAvailableMultipleTokens', { amounts: rewardStrings.join(' & ') })
           : t('superchargeRewardsAvailable', {
@@ -268,7 +268,7 @@ export default function ConsumerIncentivesHomeScreen() {
         <Header />
         <Image style={styles.image} source={boostRewards} />
         {showLoadingIndicator ? (
-          <ActivityIndicator size="small" color={colors.greenUI} testID="SuperchargeLoading" />
+          <ActivityIndicator size="small" color={colors.primary} testID="SuperchargeLoading" />
         ) : canClaimRewards ? (
           <ClaimSuperchargeRewards rewards={superchargeRewards} />
         ) : isSupercharging ? (

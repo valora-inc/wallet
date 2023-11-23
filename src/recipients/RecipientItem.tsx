@@ -38,7 +38,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading }: Props) {
         </View>
         <View style={styles.rightIconContainer}>
           {loading ? (
-            <ActivityIndicator size="small" color={colors.greenUI} />
+            <ActivityIndicator size="small" color={colors.primary} />
           ) : recipient.address ? (
             <Logo type={LogoTypes.GREEN} />
           ) : null}
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  name: { ...fontStyles.regular500, color: colors.dark },
+  name: { ...fontStyles.regular500, color: colors.black },
   phone: {
     ...fontStyles.small,
     color: colors.gray4,

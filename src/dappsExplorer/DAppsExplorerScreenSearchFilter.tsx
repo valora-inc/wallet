@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   sectionList: {
     flex: 1,

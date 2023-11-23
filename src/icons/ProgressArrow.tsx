@@ -10,7 +10,7 @@ interface Props {
   width?: number
 }
 
-function ProgressArrowIcon({ color = colors.dark, style, height = 12, width = 8 }: Props) {
+function ProgressArrowIcon({ color = colors.black, style, height = 12, width = 8 }: Props) {
   return (
     <View style={style}>
       <Svg

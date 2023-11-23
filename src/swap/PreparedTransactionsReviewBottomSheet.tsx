@@ -127,7 +127,7 @@ function PreparedTransactionsNotEnoughBalanceForGasBottomSheet({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: Colors.yellowFaint,
+    backgroundColor: Colors.warningLight,
     borderRadius: 4,
     marginTop: Spacing.Regular16,
     marginBottom: Spacing.Thick24,

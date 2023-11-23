@@ -1657,6 +1657,7 @@
   "swapScreen": {
     "title": "交换",
     "review": "查看",
+    "confirmSwap": "确认交换",
     "swapFrom": "自",
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",

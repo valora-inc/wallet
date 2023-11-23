@@ -46,7 +46,7 @@ export default function SendToAddressWarning({
         <Text style={styles.body}>{t('sendToAddressWarning.body')}</Text>
         <View style={styles.toggle}>
           <Switch
-            trackColor={{ true: colors.greenUI, false: colors.gray5 }}
+            trackColor={{ true: colors.primary, false: colors.gray5 }}
             thumbColor={colors.gray2}
             value={true}
             onValueChange={turnOffWarning}

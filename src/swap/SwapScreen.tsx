@@ -446,9 +446,17 @@ export function SwapScreen({ route }: Props) {
     }
   }
 
+  const exchangeRateUpdatePending =
+    (exchangeRate &&
+      (exchangeRate.fromTokenAddress !== fromToken?.address ||
+        exchangeRate.toTokenAddress !== toToken?.address ||
+        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+    fetchingSwapQuote
+
   const allowSwap = useMemo(
-    () => Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !fetchingSwapQuote,
-    [parsedSwapAmount, fetchingSwapQuote]
+    () =>
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !exchangeRateUpdatePending,
+    [parsedSwapAmount, exchangeRateUpdatePending]
   )
 
   const onPressLearnMore = () => {
@@ -461,20 +469,14 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const exchangeRateUpdatePending =
-    (exchangeRate &&
-      (exchangeRate.fromTokenAddress !== fromToken?.address ||
-        exchangeRate.toTokenAddress !== toToken?.address ||
-        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
-    fetchingSwapQuote
-
-  const showMissingPriceImpactWarning =
-    (!fetchingSwapQuote && exchangeRate && !exchangeRate.estimatedPriceImpact) ||
-    (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd))
   const showPriceImpactWarning =
-    !fetchingSwapQuote &&
-    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold) &&
-    !showMissingPriceImpactWarning
+    !exchangeRateUpdatePending &&
+    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
+  const showMissingPriceImpactWarning =
+    !exchangeRateUpdatePending &&
+    !showPriceImpactWarning &&
+    ((exchangeRate && !exchangeRate.estimatedPriceImpact) ||
+      (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd)))
 
   const { networkFee, feeTokenId } = useMemo(() => {
     return getNetworkFee(exchangeRate, fromToken?.networkId)
@@ -647,7 +649,7 @@ const styles = StyleSheet.create({
   },
   disclaimerLink: {
     textDecorationLine: 'underline',
-    color: colors.greenUI,
+    color: colors.primary,
   },
   warning: {
     marginTop: Spacing.Thick24,

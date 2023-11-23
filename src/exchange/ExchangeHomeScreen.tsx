@@ -199,12 +199,12 @@ const styles = StyleSheet.create({
   },
   goldPriceWentUp: {
     ...fontStyles.regular,
-    color: colors.greenUI,
+    color: colors.primary,
   },
   goldPriceWentDown: {
     ...fontStyles.regular,
     marginLeft: 4,
-    color: colors.warning,
+    color: colors.error,
   },
   goldPriceWentUpHeader: {
     ...fontStyles.small600,
@@ -212,6 +212,6 @@ const styles = StyleSheet.create({
   },
   goldPriceWentDownHeader: {
     ...fontStyles.small600,
-    color: colors.warning,
+    color: colors.error,
   },
 })
