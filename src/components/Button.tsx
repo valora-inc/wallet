@@ -23,7 +23,6 @@ const DEBOUNCE_OPTIONS = {
 export enum BtnTypes {
   PRIMARY = 'Primary',
   SECONDARY = 'Secondary',
-  TERTIARY = 'Tertiary',
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
 }
@@ -169,10 +168,6 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
     case BtnTypes.SECONDARY:
       textColor = disabled ? colors.gray4 : colors.black
       backgroundColor = colors.beige
-      break
-    case BtnTypes.TERTIARY:
-      textColor = colors.white
-      backgroundColor = disabled ? colors.goldFaint : colors.goldUI
       break
     case BtnTypes.ONBOARDING:
       textColor = colors.white

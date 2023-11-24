@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   authFactorsContainer: {
     borderBottomWidth: 1,
-    borderBottomColor: colors.dark_0_2,
+    borderBottomColor: `${colors.black}33`, // alpha 0.2 (20% opacity)
     paddingBottom: variables.contentPadding,
     marginHorizontal: 16,
   },

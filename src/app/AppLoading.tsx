@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import Button, { BtnTypes } from 'src/components/Button'
 import { withTranslation } from 'src/i18n'
 import colors from 'src/styles/colors'
-import { restartApp, RESTART_APP_I18N_KEY } from 'src/utils/AppRestart'
+import { RESTART_APP_I18N_KEY, restartApp } from 'src/utils/AppRestart'
 
 const SHOW_RESTART_BUTTON_TIMEOUT = 10000
 
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
     width: '100%',
-    backgroundColor: colors.greenBrand,
+    backgroundColor: colors.primary,
   },
 
   button: {

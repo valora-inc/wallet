@@ -1671,6 +1671,7 @@
     "disclaimer": "Najlepsza stawka ustalana przez partnerów sieciowych. <0>Dowiedz się więcej</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
