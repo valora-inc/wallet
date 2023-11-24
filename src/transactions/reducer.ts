@@ -113,7 +113,7 @@ export const reducer = (
                 transactionHash,
                 block,
                 timestamp: Date.now(),
-                fees: useGasFees({ gasFee, feeCurrencyId }),
+                fees: buildGasFees({ gasFee, feeCurrencyId }),
               }
             }
             return standbyTransaction
@@ -226,7 +226,7 @@ export const transactionHashesByNetworkIdSelector = createSelector(
   }
 )
 
-export const useGasFees = ({
+const buildGasFees = ({
   gasFee,
   feeCurrencyId,
 }: {

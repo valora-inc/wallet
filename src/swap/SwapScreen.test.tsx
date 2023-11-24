@@ -1015,7 +1015,6 @@ describe('SwapScreen', () => {
       getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
     ).toBeTruthy()
     expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent(
-      // '₱0.38 (0.022 CELO)'
       '₱0.016 (0.0009 CELO)'
     ) // matches gas * gasPrice in defaultQuoteResponse
   })
