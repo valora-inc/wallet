@@ -36,7 +36,7 @@ import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {
   inviteTransactionsSelector,
   recentTxRecipientsCacheSelector,
-} from 'src/transactions/reducer'
+} from 'src/transactions/selector'
 import {
   LocalAmount,
   TokenTransactionTypeV2,

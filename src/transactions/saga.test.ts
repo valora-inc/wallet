@@ -172,7 +172,7 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: false,
-          gasCost: '200',
+          gasFee: '200',
         })
       )
       .run()
@@ -206,7 +206,7 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: true,
-          gasCost: '300',
+          gasFee: '300',
         })
       )
       .run()

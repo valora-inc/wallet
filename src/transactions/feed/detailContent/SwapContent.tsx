@@ -9,6 +9,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
 import { TokenExchange, TransactionStatus } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 export interface Props {
   exchange: TokenExchange
 }
@@ -24,6 +25,10 @@ export default function SwapContent({ exchange }: Props) {
   const toTokenSymbol = tokensList.find(
     (token) => token.tokenId === exchange.inAmount.tokenId
   )?.symbol
+
+  React.useEffect(() => {
+    Logger.info('DIEGO - swap content', JSON.stringify(exchange.fees))
+  }, [])
 
   return (
     <View style={styles.contentContainer}>
@@ -60,6 +65,7 @@ export default function SwapContent({ exchange }: Props) {
           )} ${toTokenSymbol}`}
         </Text>
       </View>
+
       {exchange.fees[0] && (
         <>
           <View style={styles.row}>

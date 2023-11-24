@@ -21,13 +21,13 @@ import {
   updateRecentTxRecipientsCache,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
+import { KnownFeedTransactionsType } from 'src/transactions/reducer'
 import {
-  KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   pendingStandbyTransactionsSelector,
   standbyTransactionsSelector,
-} from 'src/transactions/reducer'
+} from 'src/transactions/selector'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
   Network,
@@ -164,7 +164,7 @@ export function* sendAndMonitorTransaction<T>(
         transactionHash: txReceipt.transactionHash,
         block: txReceipt.blockNumber.toString(),
         status: txReceipt.status,
-        gasCost: (txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString(),
+        gasFee: (txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString(),
       })
     )
 
@@ -255,7 +255,7 @@ export function* getTransactionReceipt(
           transactionHash: receipt.transactionHash,
           block: receipt.blockNumber.toString(),
           status: receipt.status == 'success',
-          gasCost: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
+          gasFee: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
         })
       )
     }

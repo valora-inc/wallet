@@ -532,7 +532,7 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: true,
-          gasCost: '200',
+          gasFee: '200',
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))
@@ -559,7 +559,7 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: false,
-          gasCost: '300',
+          gasFee: '300',
         })
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

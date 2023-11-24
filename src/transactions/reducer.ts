@@ -1,11 +1,11 @@
-import { createSelector } from 'reselect'
+import BigNumber from 'bignumber.js'
 import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { RootState } from 'src/redux/reducers'
+import { getTokenId } from 'src/tokens/utils'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
-  ConfirmedStandbyTransaction,
+  Fee,
   NetworkId,
   StandbyTransaction,
   TokenTransaction,
@@ -99,7 +99,7 @@ export const reducer = (
         ),
       }
     case Actions.TRANSACTION_CONFIRMED: {
-      const { status, transactionHash, block } = action.receipt
+      const { status, transactionHash, block, gasFee, feeCurrency } = action.receipt
 
       return {
         ...state,
@@ -112,7 +112,7 @@ export const reducer = (
                 transactionHash,
                 block,
                 timestamp: Date.now(),
-                fees: [],
+                fees: getGasFees({ gasFee, feeCurrency, networkId: standbyTransaction.networkId }),
               }
             }
             return standbyTransaction
@@ -163,64 +163,27 @@ export const reducer = (
   }
 }
 
-export const standbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+export const getGasFees = ({
+  networkId,
+  gasFee,
+  feeCurrency,
+}: {
+  networkId: NetworkId
+  gasFee: string
+  feeCurrency?: string
+}): Fee[] => {
+  const feeCurrencyId = getTokenId(networkId, feeCurrency)
 
-export const pendingStandbyTransactionsSelector = createSelector(
-  [standbyTransactionsSelector],
-  (transactions) => {
-    return transactions
-      .filter((transaction) => transaction.status === TransactionStatus.Pending)
-      .map((transaction) => ({
-        ...transaction,
-        transactionHash: transaction.transactionHash || '',
-        block: '',
-        fees: [],
-      }))
-  }
-)
+  const gasFeeInDecimals = new BigNumber(gasFee).shiftedBy(0)
 
-export const confirmedStandbyTransactionsSelector = createSelector(
-  [standbyTransactionsSelector],
-  (transactions) => {
-    return transactions.filter(
-      (transaction): transaction is ConfirmedStandbyTransaction =>
-        transaction.status === TransactionStatus.Complete ||
-        transaction.status === TransactionStatus.Failed
-    )
-  }
-)
-
-export const knownFeedTransactionsSelector = (state: RootState) =>
-  state.transactions.knownFeedTransactions
-
-export const recentTxRecipientsCacheSelector = (state: RootState) =>
-  state.transactions.recentTxRecipientsCache
-
-export const transactionsByNetworkIdSelector = (state: RootState) =>
-  state.transactions.transactionsByNetworkId
-
-export const transactionsSelector = createSelector(
-  [transactionsByNetworkIdSelector],
-  (transactions) => {
-    const transactionsForAllNetworks = Object.values(transactions).flat()
-    return transactionsForAllNetworks.sort((a, b) => b.timestamp - a.timestamp)
-  }
-)
-
-export const inviteTransactionsSelector = (state: RootState) =>
-  state.transactions.inviteTransactions
-
-export const transactionHashesByNetworkIdSelector = createSelector(
-  [transactionsByNetworkIdSelector],
-  (transactions) => {
-    const hashesByNetwork: {
-      [networkId in NetworkId]?: Set<string>
-    } = {}
-    Object.entries(transactions).forEach(([networkId, txs]) => {
-      hashesByNetwork[networkId as NetworkId] = new Set(txs.map((tx) => tx.transactionHash))
-    })
-
-    return hashesByNetwork
-  }
-)
+  return [
+    {
+      type: 'SECURITY_FEE',
+      amount: {
+        value: gasFee,
+        tokenAddress: feeCurrency,
+        tokenId: feeCurrencyId,
+      },
+    },
+  ]
+}
