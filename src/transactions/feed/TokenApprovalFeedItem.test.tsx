@@ -6,7 +6,7 @@ import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import { mockApprovalTransaction } from 'test/values'
 
 describe('TokenApprovalFeedItem', () => {
-  it('should display the feed item title and opens the details screen', () => {
+  it('should display the feed item title and open the details screen on press', () => {
     const tree = render(<TokenApprovalFeedItem transaction={mockApprovalTransaction} />)
 
     expect(tree.getByText('transactionFeed.approvalTransactionTitle')).toBeTruthy()
