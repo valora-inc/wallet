@@ -490,7 +490,10 @@ export function SwapScreen({ route }: Props) {
         left={<BackButton />}
         title={t('swapScreen.title')}
       />
-      <ScrollView contentContainerStyle={styles.contentContainer}>
+      <ScrollView
+        contentContainerStyle={styles.contentContainer}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
