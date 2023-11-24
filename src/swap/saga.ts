@@ -475,17 +475,16 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
 
     const txHashes: Hash[] = []
-    const preparedTransaction = preparedTransactions[1]
-    // for (const preparedTransaction of preparedTransactions) {
-    const signedTx = yield* call([wallet, 'signTransaction'], {
-      ...preparedTransaction,
-      nonce: nonce++,
-    } as any)
-    const hash = yield* call([wallet, 'sendRawTransaction'], {
-      serializedTransaction: signedTx,
-    })
-    txHashes.push(hash)
-    // }
+    for (const preparedTransaction of preparedTransactions) {
+      const signedTx = yield* call([wallet, 'signTransaction'], {
+        ...preparedTransaction,
+        nonce: nonce++,
+      } as any)
+      const hash = yield* call([wallet, 'sendRawTransaction'], {
+        serializedTransaction: signedTx,
+      })
+      txHashes.push(hash)
+    }
 
     for (let i = 0; i < txHashes.length; i++) {
       trackedTxs[i].txHash = txHashes[i]

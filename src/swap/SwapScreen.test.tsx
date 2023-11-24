@@ -985,7 +985,7 @@ describe('SwapScreen', () => {
   })
 
   // TODO remove this test when viem is enabled by default for swaps
-  it.only('should display the correct transaction details', async () => {
+  it('should display the correct transaction details', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { getByTestId, getByText, swapFromContainer, swapToContainer, tokenBottomSheet } =
       renderScreen({
