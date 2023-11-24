@@ -1,6 +1,8 @@
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -16,21 +18,31 @@ export interface Props {
 export default function TokenApprovalDetails({ transaction }: Props) {
   const { t } = useTranslation()
   const tokensList = useTokensList()
+  const token = tokensList.find((token) => token.tokenId === transaction.tokenId)
 
-  const tokenSymbol = tokensList.find((token) => token.tokenId === transaction.tokenId)?.symbol
-  const approvedAmount = transaction.approvedAmount
+  let description = '-'
+  if (token) {
+    const tokenSymbol = token?.symbol
+    const tokenDecimals = token?.decimals
+
+    if (transaction.approvedAmount === null) {
+      description = t('transactionFeed.infiniteApprovalDescription', { tokenSymbol })
+    } else if (transaction.approvedAmount === 0) {
+      description = t('transactionFeed.revokeApprovalDescription', { tokenSymbol })
+    } else if (tokenDecimals) {
+      description = t('transactionFeed.finiteApprovalDescription', {
+        tokenSymbol,
+        approvedAmount: formatValueToDisplay(
+          new BigNumber(transaction.approvedAmount).shiftedBy(tokenDecimals)
+        ),
+      })
+    }
+  }
 
   return (
     <View>
       <Text style={typeScale.labelSmall}>{t('transactionFeed.descriptionLabel')}</Text>
-      <Text style={styles.description}>
-        {tokenSymbol
-          ? t('transactionFeed.approvalDescription', {
-              tokenSymbol,
-              approvedAmount: approvedAmount ?? '',
-            })
-          : '-'}
-      </Text>
+      <Text style={styles.description}>{description}</Text>
 
       <NetworkFeeRowItem fees={transaction.fees} transactionStatus={transaction.status} />
     </View>

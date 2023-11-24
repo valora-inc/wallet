@@ -1401,7 +1401,7 @@ export const mockApprovalTransaction: TokenApproval = {
     {
       type: 'SECURITY_FEE',
       amount: {
-        tokenId: 'ethereum-mainnet:native',
+        tokenId: 'ethereum-sepolia:native',
         value: '0.00103133153065659',
       },
     },

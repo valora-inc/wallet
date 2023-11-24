@@ -359,7 +359,7 @@ describe('TransactionDetailsScreen', () => {
               networkId: NetworkId['ethereum-sepolia'],
               tokenId: 'ethereum-sepolia:native',
               decimals: 18,
-              priceFetchedAt: 1700756887633,
+              priceFetchedAt: Date.now(),
               symbol: 'ETH',
             },
           },
@@ -368,7 +368,7 @@ describe('TransactionDetailsScreen', () => {
     })
 
     expect(
-      getByText('transactionFeed.approvalDescription, {"tokenSymbol":"USDC","approvedAmount":""}')
+      getByText('transactionFeed.infiniteApprovalDescription, {"tokenSymbol":"USDC"}')
     ).toBeTruthy()
     expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.001 ETH')
     expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱2.81')

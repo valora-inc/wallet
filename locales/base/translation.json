@@ -1970,7 +1970,9 @@
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
     "networkFee": "Network fee",
-    "approvalDescription": "Approved {{approvedAmount}}{{tokenSymbol}} for trade",
+    "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
+    "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
+    "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details"
   }
 }
