@@ -1667,6 +1667,7 @@
     "disclaimer": "La tariffa migliore è determinata dai partner della rete. <0>Per saperne di più</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Scambio dell’importo MAX",
       "body": "Assicurati di avere CELO nel portafoglio, per coprire le commissioni gas per le transazioni future",

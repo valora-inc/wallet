@@ -1667,6 +1667,7 @@
     "disclaimer": "Der beste Tarif wird von den Netzwerkpartnern bestimmt. <0>Mehr erfahren</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",

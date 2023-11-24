@@ -1671,6 +1671,7 @@
     "disclaimer": "Лучшая ставка определяется партнёрами сети. <0>Узнать больше</0>",
     "swapFromTokenSelection": "ОБМЕНЯТЬ С",
     "swapToTokenSelection": "ОБМЕНЯТЬ НА",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Обмен МАКС. суммы",
       "body": "Убедитесь, что в вашем кошельке достаточно CELO для покрытия газа для будущих транзакций",

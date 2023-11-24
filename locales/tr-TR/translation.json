@@ -1667,6 +1667,7 @@
     "disclaimer": "En iyi fiyat ağ ortakları tarafından belirlenir. <0>Daha fazla bilgi</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
