@@ -31,7 +31,7 @@ export default function NetworkFeeRowItem({ fees, transactionStatus }: Props) {
               showLocalAmount={false}
               showSymbol={true}
               hideSign={true}
-              testID="TransactionDetails/EstimatedFee"
+              testID="TransactionDetails/NetworkFee"
             />
           </View>
           <TokenDisplay
@@ -41,7 +41,7 @@ export default function NetworkFeeRowItem({ fees, transactionStatus }: Props) {
             showLocalAmount={true}
             showSymbol={true}
             hideSign={true}
-            testID="TransactionDetails/EstimatedFeeLocalAmount"
+            testID="TransactionDetails/NetworkFeeLocalCurrency"
           />
         </>
       )}

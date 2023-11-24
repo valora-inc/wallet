@@ -265,10 +265,10 @@ describe('TransactionDetailsScreen', () => {
     expect(getElementText(rate)).toEqual('1 cUSD ≈ 2.00 cEUR')
 
     // Includes the fee
-    const estimatedFee = getByTestId('TransactionDetails/EstimatedFee')
+    const estimatedFee = getByTestId('TransactionDetails/NetworkFee')
     expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
 
-    const estimatedFeeInLocalCurrency = getByTestId('TransactionDetails/EstimatedFeeLocalAmount')
+    const estimatedFeeInLocalCurrency = getByTestId('TransactionDetails/NetworkFeeLocalCurrency')
     expect(getElementText(estimatedFeeInLocalCurrency)).toEqual('₱0.13')
   })
 
@@ -344,13 +344,11 @@ describe('TransactionDetailsScreen', () => {
           tokenBalances: {
             'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
               name: 'USD Coin',
-              priceUsd: '0.999687051758409',
               balance: '0',
               tokenId: 'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
               networkId: NetworkId['ethereum-sepolia'],
               decimals: 6,
               address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
-              priceFetchedAt: 1700756887633,
               symbol: 'USDC',
             },
             'ethereum-sepolia:native': {
@@ -372,8 +370,8 @@ describe('TransactionDetailsScreen', () => {
     expect(
       getByText('transactionFeed.approvalDescription, {"tokenSymbol":"USDC","approvedAmount":""}')
     ).toBeTruthy()
-    expect(getByTestId('TransactionDetails/EstimatedFee')).toHaveTextContent('0.001 ETH')
-    expect(getByTestId('TransactionDetails/EstimatedFeeLocalAmount')).toHaveTextContent('₱2.81')
+    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.001 ETH')
+    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱2.81')
   })
 
   it(`renders retry action for failed ${TokenTransactionTypeV2.Sent} transacton`, () => {
