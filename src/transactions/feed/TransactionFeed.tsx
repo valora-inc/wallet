@@ -17,7 +17,7 @@ import {
   confirmedStandbyTransactionsSelector,
   pendingStandbyTransactionsSelector,
   transactionsSelector,
-} from 'src/transactions/selector'
+} from 'src/transactions/reducer'
 import { TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import { groupFeedItemsInSections } from 'src/transactions/utils'
 

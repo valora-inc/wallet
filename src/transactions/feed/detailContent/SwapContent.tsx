@@ -60,7 +60,6 @@ export default function SwapContent({ exchange }: Props) {
           )} ${toTokenSymbol}`}
         </Text>
       </View>
-
       {exchange.fees[0] && (
         <>
           <View style={styles.row}>

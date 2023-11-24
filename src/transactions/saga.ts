@@ -21,13 +21,13 @@ import {
   updateRecentTxRecipientsCache,
 } from 'src/transactions/actions'
 import { TxPromises } from 'src/transactions/contract-utils'
-import { KnownFeedTransactionsType } from 'src/transactions/reducer'
 import {
+  KnownFeedTransactionsType,
   inviteTransactionsSelector,
   knownFeedTransactionsSelector,
   pendingStandbyTransactionsSelector,
   standbyTransactionsSelector,
-} from 'src/transactions/selector'
+} from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
   Network,
