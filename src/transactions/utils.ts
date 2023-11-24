@@ -87,7 +87,6 @@ export function* buildBaseTransactionReceipt(
         feeCurrencyId: feeTokenInfo.tokenId,
         gasFee: gasFeeInWei.shiftedBy(-feeTokenInfo.decimals).toFixed(),
       }
-  Logger.info('esto seria una locura')
 
   return {
     ...baseDetails,

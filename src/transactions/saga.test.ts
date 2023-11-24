@@ -27,7 +27,7 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { mockAccount, mockCeloTokenId, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -149,8 +149,8 @@ describe('watchPendingTransactions', () => {
       status: 'reverted',
       blockNumber: BigInt(123),
       transactionHash,
-      gasUsed: 2,
-      effectiveGasPrice: 100,
+      gasUsed: 200_000,
+      effectiveGasPrice: 1e9,
     }
 
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
@@ -171,9 +171,9 @@ describe('watchPendingTransactions', () => {
         transactionConfirmed(transactionId, {
           transactionHash,
           block: '123',
-          status: false,
-          gasFee: '200',
-          feeCurrencyId: '',
+          status: TransactionStatus.Failed,
+          gasFee: '0.0002',
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()
@@ -184,8 +184,8 @@ describe('watchPendingTransactions', () => {
       status: 'success',
       blockNumber: BigInt(123),
       transactionHash,
-      gasUsed: 3,
-      effectiveGasPrice: 100,
+      gasUsed: 2_000_000,
+      effectiveGasPrice: 1e9,
     }
 
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
@@ -206,9 +206,9 @@ describe('watchPendingTransactions', () => {
         transactionConfirmed(transactionId, {
           transactionHash,
           block: '123',
-          status: true,
-          gasFee: '300',
-          feeCurrencyId: '',
+          status: TransactionStatus.Complete,
+          gasFee: '0.002',
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()
