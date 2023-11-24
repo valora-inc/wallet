@@ -523,6 +523,17 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     priceFetchedAt: Date.now(),
     isNative: true,
   },
+  [mockUSDCTokenId]: {
+    name: 'USDC coin',
+    networkId: NetworkId['ethereum-sepolia'],
+    tokenId: mockUSDCTokenId,
+    address: mockUSDCAddress,
+    symbol: 'USDC',
+    decimals: 18,
+    imageUrl: '',
+    balance: '10',
+    priceUsd: '1',
+  },
 }
 
 export const mockCeloTokenBalance: TokenBalance = {

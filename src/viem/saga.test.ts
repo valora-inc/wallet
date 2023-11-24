@@ -23,6 +23,7 @@ import {
   NetworkId,
   PendingStandbyTransfer,
   TokenTransactionTypeV2,
+  TransactionStatus,
 } from 'src/transactions/types'
 import { UnlockResult, unlockAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
@@ -35,6 +36,7 @@ import {
   mockCusdTokenId,
   mockEthTokenId,
   mockFeeInfo,
+  mockTokenBalances,
   mockUSDCAddress,
   mockUSDCTokenId,
 } from 'test/values'
@@ -59,9 +61,21 @@ const mockViemWallet = {
   sendTransaction: jest.fn(),
 } as any as ViemWallet
 
+const storeStateWithTokens = createMockStore({
+  tokens: {
+    tokenBalances: mockTokenBalances,
+  },
+})
+
 describe('sendPayment', () => {
   const mockTxHash: `0x${string}` = '0x12345678901234'
-  const mockTxReceipt = { status: 'success', transactionHash: mockTxHash, blockNumber: 123 }
+  const mockTxReceipt = {
+    status: 'success',
+    transactionHash: mockTxHash,
+    blockNumber: 123,
+    gasUsed: BigInt(1e6),
+    effectiveGasPrice: BigInt(1e9),
+  }
 
   const simulateContractCeloSpy = jest.spyOn(publicClient.celo, 'simulateContract')
   // We need to mock this outright for Ethereum, since for some reason, the viem simulation on Ethereum
@@ -123,7 +137,7 @@ describe('sendPayment', () => {
 
   it('sends a payment successfully for stable token', async () => {
     await expectSaga(sendPayment, mockSendPaymentArgs)
-      .withState(createMockStore().getState())
+      .withState(storeStateWithTokens.getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(encryptComment), 'encryptedComment'],
@@ -147,6 +161,15 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
         })
       )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          gasFee: '0.001',
+          feeCurrencyId: mockCeloTokenId,
+        })
+      )
       .returns(mockTxReceipt)
       .run()
 
@@ -162,7 +185,7 @@ describe('sendPayment', () => {
 
   it('sends a payment successfully for non stable token', async () => {
     await expectSaga(sendPayment, { ...mockSendPaymentArgs, tokenId: mockCeloTokenId })
-      .withState(createMockStore().getState())
+      .withState(storeStateWithTokens.getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(getSendTxFeeDetails), mockViemFeeInfo],
@@ -188,6 +211,15 @@ describe('sendPayment', () => {
             tokenId: mockCeloTokenId,
           },
           transactionHash: mockTxHash,
+        })
+      )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          gasFee: '0.001',
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -304,6 +336,15 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
         })
       )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          gasFee: '0.001',
+          feeCurrencyId: mockEthTokenId,
+        })
+      )
       .returns(mockTxReceipt)
       .run()
 
@@ -322,27 +363,8 @@ describe('sendPayment', () => {
       tokenId: mockUSDCTokenId,
       comment: '',
     }
-    const mockUSDCTokenBalance = {
-      name: 'USDC coin',
-      networkId: NetworkId['ethereum-sepolia'],
-      tokenId: mockUSDCTokenId,
-      address: mockUSDCAddress,
-      symbol: 'USDC',
-      decimals: 18,
-      imageUrl: '',
-      balance: '10',
-      priceUsd: '1',
-    }
     await expectSaga(sendPayment, mockSendUSDCPaymentArgs)
-      .withState(
-        createMockStore({
-          tokens: {
-            tokenBalances: {
-              [mockUSDCTokenId]: mockUSDCTokenBalance,
-            },
-          },
-        }).getState()
-      )
+      .withState(storeStateWithTokens.getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
@@ -364,6 +386,15 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+        })
+      )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          gasFee: '0.001',
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -509,8 +540,8 @@ describe('sendAndMonitorTransaction', () => {
     status: 'success',
     transactionHash: mockTxHash,
     blockNumber: 123,
-    gasUsed: 2,
-    effectiveGasPrice: 100,
+    gasUsed: 1e6,
+    effectiveGasPrice: 1e10,
   }
 
   const mockArgs = {
@@ -526,13 +557,15 @@ describe('sendAndMonitorTransaction', () => {
   })
   it('confirms a transaction if successfully executed', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
+      .withState(storeStateWithTokens.getState())
       .provide([[matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt]])
       .put(
         transactionConfirmed('txId', {
           transactionHash: mockTxHash,
           block: '123',
-          status: true,
-          gasFee: '200',
+          status: TransactionStatus.Complete,
+          gasFee: '0.01',
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))
@@ -542,6 +575,7 @@ describe('sendAndMonitorTransaction', () => {
 
   it('throws and confirms a transaction as failed if receipt status is reverted', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
+      .withState(storeStateWithTokens.getState())
       .provide([
         [
           matchers.call.fn(publicClient.celo.waitForTransactionReceipt),
@@ -549,8 +583,8 @@ describe('sendAndMonitorTransaction', () => {
             status: 'reverted',
             blockNumber: BigInt(123),
             transactionHash: mockTxHash,
-            gasUsed: 3,
-            effectiveGasPrice: 100,
+            gasUsed: 1e4,
+            effectiveGasPrice: 1e10,
           },
         ],
       ])
@@ -558,8 +592,9 @@ describe('sendAndMonitorTransaction', () => {
         transactionConfirmed('txId', {
           transactionHash: mockTxHash,
           block: '123',
-          status: false,
-          gasFee: '300',
+          status: TransactionStatus.Failed,
+          gasFee: '0.0001',
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

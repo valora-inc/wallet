@@ -12,7 +12,7 @@ import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/typ
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { Actions, removeStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -48,7 +48,13 @@ const contractKit = {
 }
 
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: jest.fn(() => ({ transactionHash: '0x123', blockNumber: '1234', status: true })),
+  sendTransaction: jest.fn(() => ({
+    transactionHash: '0x123',
+    blockNumber: '1234',
+    status: true,
+    effectiveGasPrice: 5_000_000_000,
+    gasUsed: 371_674,
+  })),
 }))
 
 const mockSwapTransaction: SwapTransaction = {
@@ -298,7 +304,7 @@ describe(swapSubmitSaga, () => {
           receipt: {
             transactionHash: '0x123',
             block: '1234',
-            status: true,
+            status: TransactionStatus.Complete,
           },
         },
       })
@@ -517,7 +523,9 @@ describe(swapSubmitPreparedSaga, () => {
           receipt: {
             transactionHash: '0x2',
             block: '1234',
-            status: true,
+            status: TransactionStatus.Complete,
+            feeCurrencyId: mockCeloTokenId,
+            gasFee: '0.00185837',
           },
         },
       })
