@@ -1667,6 +1667,7 @@
     "disclaimer": "La mejor tarifa la determinan los socios de la red. <0>Más información</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",

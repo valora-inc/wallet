@@ -1665,6 +1665,7 @@
     "disclaimer": "最优惠价格由网络合作伙伴决定。<0>了解更多信息</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",

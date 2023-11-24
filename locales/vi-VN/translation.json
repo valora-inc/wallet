@@ -1665,6 +1665,7 @@
     "disclaimer": "Best rate determined by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
