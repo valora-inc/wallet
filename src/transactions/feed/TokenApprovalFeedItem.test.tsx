@@ -5,7 +5,7 @@ import { Screens } from 'src/navigator/Screens'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
 import { mockApprovalTransaction } from 'test/values'
 
-describe('NftFeedItem', () => {
+describe('TokenApprovalFeedItem', () => {
   it('should display the feed item title and opens the details screen', () => {
     const tree = render(<TokenApprovalFeedItem transaction={mockApprovalTransaction} />)
 
