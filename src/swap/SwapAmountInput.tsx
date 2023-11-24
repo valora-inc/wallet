@@ -152,7 +152,14 @@ const SwapAmountInput = ({
         </Touchable>
       </View>
       <View testID="SwapAmountInput/FiatValue">
-        <Text style={[styles.fiatValue, { opacity: loading || !inputValue || !token ? 0 : 1 }]}>
+        <Text
+          style={[
+            styles.fiatValue,
+            {
+              opacity: loading || !parsedInputValue?.gt(0) || !token ? 0 : 1,
+            },
+          ]}
+        >
           <TokenDisplay
             amount={parsedInputValue ?? 0}
             showLocalAmount
