@@ -1,8 +1,6 @@
-import BigNumber from 'bignumber.js'
 import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
-import { getTokenId } from 'src/tokens/utils'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   Fee,
@@ -99,7 +97,7 @@ export const reducer = (
         ),
       }
     case Actions.TRANSACTION_CONFIRMED: {
-      const { status, transactionHash, block, gasFee, feeCurrency } = action.receipt
+      const { status, transactionHash, block, gasFee, feeCurrencyId } = action.receipt
 
       return {
         ...state,
@@ -112,7 +110,7 @@ export const reducer = (
                 transactionHash,
                 block,
                 timestamp: Date.now(),
-                fees: getGasFees({ gasFee, feeCurrency, networkId: standbyTransaction.networkId }),
+                fees: useGasFees({ gasFee, feeCurrencyId }),
               }
             }
             return standbyTransaction
@@ -163,25 +161,22 @@ export const reducer = (
   }
 }
 
-export const getGasFees = ({
-  networkId,
+export const useGasFees = ({
   gasFee,
-  feeCurrency,
+  feeCurrencyId,
 }: {
-  networkId: NetworkId
-  gasFee: string
-  feeCurrency?: string
+  gasFee?: string
+  feeCurrencyId?: string
 }): Fee[] => {
-  const feeCurrencyId = getTokenId(networkId, feeCurrency)
-
-  const gasFeeInDecimals = new BigNumber(gasFee).shiftedBy(0)
+  if (!gasFee || !feeCurrencyId) {
+    return []
+  }
 
   return [
     {
       type: 'SECURITY_FEE',
       amount: {
         value: gasFee,
-        tokenAddress: feeCurrency,
         tokenId: feeCurrencyId,
       },
     },

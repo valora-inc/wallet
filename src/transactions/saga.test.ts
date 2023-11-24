@@ -173,6 +173,7 @@ describe('watchPendingTransactions', () => {
           block: '123',
           status: false,
           gasFee: '200',
+          feeCurrencyId: '',
         })
       )
       .run()
@@ -207,6 +208,7 @@ describe('watchPendingTransactions', () => {
           block: '123',
           status: true,
           gasFee: '300',
+          feeCurrencyId: '',
         })
       )
       .run()

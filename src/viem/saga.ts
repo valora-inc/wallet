@@ -18,6 +18,7 @@ import { tokenSupportsComments } from 'src/tokens/utils'
 import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
+import { buildBaseTransactionReceipt } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
@@ -384,14 +385,13 @@ export function* sendAndMonitorTransaction({
       sendTxMethod,
       context
     )) as unknown as TransactionReceipt
-    yield* put(
-      transactionConfirmed(context.id, {
-        transactionHash: receipt.transactionHash,
-        block: receipt.blockNumber.toString(),
-        status: receipt.status === 'success',
-        gasFee: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
-      })
+
+    const baseTransactionReceipt = yield* call(
+      buildBaseTransactionReceipt,
+      receipt,
+      networkConfig.networkToNetworkId[network]
     )
+    yield* put(transactionConfirmed(context.id, baseTransactionReceipt))
     if (receipt.status === 'reverted') {
       throw new Error('transaction reverted')
     }

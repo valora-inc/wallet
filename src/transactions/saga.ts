@@ -35,6 +35,7 @@ import {
   TokenTransactionTypeV2,
   TransactionContext,
 } from 'src/transactions/types'
+import { buildBaseTransactionReceipt } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
@@ -159,14 +160,13 @@ export function* sendAndMonitorTransaction<T>(
       context
     )) as unknown as CeloTxReceipt
 
-    yield* put(
-      transactionConfirmed(context.id, {
-        transactionHash: txReceipt.transactionHash,
-        block: txReceipt.blockNumber.toString(),
-        status: txReceipt.status,
-        gasFee: (txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString(),
-      })
+    const baseTransactionReceipt = yield* call(
+      buildBaseTransactionReceipt,
+      txReceipt,
+      networkConfig.defaultNetworkId
     )
+
+    yield* put(transactionConfirmed(context.id, baseTransactionReceipt))
 
     yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
@@ -249,15 +249,14 @@ export function* getTransactionReceipt(
       hash: transactionHash as Hash,
     })
 
+    const baseTransactionReceipt = yield* call(
+      buildBaseTransactionReceipt,
+      receipt,
+      networkConfig.networkToNetworkId[network]
+    )
+
     if (receipt) {
-      yield* put(
-        transactionConfirmed(transaction.context.id, {
-          transactionHash: receipt.transactionHash,
-          block: receipt.blockNumber.toString(),
-          status: receipt.status == 'success',
-          gasFee: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
-        })
-      )
+      yield* put(transactionConfirmed(transaction.context.id, baseTransactionReceipt))
     }
   } catch (e) {
     Logger.warn(

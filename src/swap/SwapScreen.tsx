@@ -30,9 +30,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -105,7 +105,8 @@ export function SwapScreen({ route }: Props) {
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).maxSlippagePercentage
 
-  const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
+  // const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
+  const useViemForSwap = true
 
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSwappableTokens()

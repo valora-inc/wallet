@@ -5,6 +5,7 @@ import {
   PendingStandbySwap,
   PendingStandbyTransfer,
   TokenTransaction,
+  TransactionStatus,
 } from 'src/transactions/types'
 
 export enum Actions {
@@ -40,12 +41,12 @@ export interface AddHashToStandbyTransactionAction {
 
 // this type would ideally be TransactionReceipt from viem however the numbers
 // are of type bigint which is not serializable and causes problems at runtime
-type BaseTransactionReceipt = {
-  status: boolean
+export type BaseTransactionReceipt = {
+  status: TransactionStatus
   block: string
   transactionHash: string
-  feeCurrency?: string
-  gasFee: string
+  feeCurrencyId?: string
+  gasFee?: string
 }
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED

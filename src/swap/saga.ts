@@ -43,6 +43,7 @@ import {
   TransactionContext,
   newTransactionContext,
 } from 'src/transactions/types'
+import { buildBaseTransactionReceipt } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
@@ -78,12 +79,14 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  const networkId = networkConfig.defaultNetworkId
+
   const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
       __typename: 'TokenExchangeV3',
-      networkId: networkConfig.defaultNetworkId,
+      networkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       inAmount: {
         value: outValue.multipliedBy(rawTx.guaranteedPrice),
@@ -98,15 +101,9 @@ function* handleSendSwapTransaction(
 
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
 
-  yield* put(
-    transactionConfirmed(transactionContext.id, {
-      transactionHash: receipt.transactionHash,
-      block: receipt.blockNumber.toString(),
-      status: receipt.status,
-      gasFee: (receipt.gasUsed * receipt.effectiveGasPrice).toString(),
-      feeCurrency: receipt.feeCurrency,
-    })
-  )
+  const baseTransactionReceipt = yield* call(buildBaseTransactionReceipt, receipt, networkId)
+
+  yield* put(transactionConfirmed(transactionContext.id, baseTransactionReceipt))
 }
 
 function calculateEstimatedUsdValue({
@@ -478,16 +475,17 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
 
     const txHashes: Hash[] = []
-    for (const preparedTransaction of preparedTransactions) {
-      const signedTx = yield* call([wallet, 'signTransaction'], {
-        ...preparedTransaction,
-        nonce: nonce++,
-      } as any)
-      const hash = yield* call([wallet, 'sendRawTransaction'], {
-        serializedTransaction: signedTx,
-      })
-      txHashes.push(hash)
-    }
+    const preparedTransaction = preparedTransactions[1]
+    // for (const preparedTransaction of preparedTransactions) {
+    const signedTx = yield* call([wallet, 'signTransaction'], {
+      ...preparedTransaction,
+      nonce: nonce++,
+    } as any)
+    const hash = yield* call([wallet, 'sendRawTransaction'], {
+      serializedTransaction: signedTx,
+    })
+    txHashes.push(hash)
+    // }
 
     for (let i = 0; i < txHashes.length; i++) {
       trackedTxs[i].txHash = txHashes[i]
@@ -497,12 +495,14 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
     const swapTxHash = txHashes[txHashes.length - 1]
 
+    const networkId = networkConfig.defaultNetworkId
+
     const outValue = valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals)
     yield* put(
       addStandbyTransaction({
         context: swapExecuteContext,
         __typename: 'TokenExchangeV3',
-        networkId: networkConfig.defaultNetworkId,
+        networkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
           value: outValue.multipliedBy(guaranteedPrice),
@@ -535,15 +535,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       Logger.warn(TAG, 'Error getting approve transaction receipt', e)
     }
 
-    yield* put(
-      transactionConfirmed(swapExecuteContext.id, {
-        transactionHash: swapTxReceipt.transactionHash,
-        block: swapTxReceipt.blockNumber.toString(),
-        status: swapTxReceipt.status === 'success',
-        gasFee: (swapTxReceipt.gasUsed * swapTxReceipt.effectiveGasPrice).toString(),
-        // Implement feeCurrency when it's available in the viem client
-      })
+    const baseTransactionReceipt = yield* call(
+      buildBaseTransactionReceipt,
+      swapTxReceipt,
+      networkId
     )
+
+    yield* put(transactionConfirmed(swapExecuteContext.id, baseTransactionReceipt))
 
     if (swapTxReceipt.status !== 'success') {
       throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
