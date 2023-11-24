@@ -167,7 +167,7 @@ export default function CurrencyDisplay({
   const color = useColors
     ? amountCurrency === Currency.Celo
       ? colors.goldBrand
-      : colors.greenBrand
+      : colors.primary
     : StyleSheet.flatten(style)?.color
 
   if (type === DisplayType.Big) {

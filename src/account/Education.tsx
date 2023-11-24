@@ -207,6 +207,9 @@ const Education = (props: Props) => {
           onPress={nextStep}
           text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
           type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
+          touchableStyle={
+            currentIndex === stepInfo.length - 1 ? { backgroundColor: '#EEB93C' } : undefined
+          }
         />
       </View>
     </SafeAreaView>

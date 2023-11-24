@@ -10,8 +10,8 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  View,
   TouchableOpacity,
+  View,
 } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Persona from 'src/account/Persona'
@@ -52,7 +52,7 @@ export default function KycLanding(
   if (personaInProgress) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator testID="personaInProgress" size="large" color={Colors.greenBrand} />
+        <ActivityIndicator testID="personaInProgress" size="large" color={Colors.primary} />
       </View>
     )
   }

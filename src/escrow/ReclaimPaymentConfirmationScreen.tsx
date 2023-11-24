@@ -12,13 +12,14 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ReviewHeader from 'src/components/ReviewHeader'
-import { reclaimEscrowPayment, reclaimEscrowPaymentCancel } from 'src/escrow/actions'
 import ReclaimPaymentConfirmationCard from 'src/escrow/ReclaimPaymentConfirmationCard'
-import { estimateFee, FeeType } from 'src/fees/reducer'
+import { reclaimEscrowPayment, reclaimEscrowPaymentCancel } from 'src/escrow/actions'
+import { FeeType, estimateFee } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { RecipientType } from 'src/recipients/recipient'
 import { isAppConnected } from 'src/redux/selectors'
 import useSelector from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -26,7 +27,6 @@ import colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { RecipientType } from 'src/recipients/recipient'
 
 const TAG = 'escrow/ReclaimPaymentConfirmationScreen'
 
@@ -87,7 +87,7 @@ export default function ReclaimPaymentConfirmationScreen({ navigation, route }: 
   }
 
   const renderFooter = () => {
-    return isReclaiming ? <ActivityIndicator size="large" color={colors.greenBrand} /> : null
+    return isReclaiming ? <ActivityIndicator size="large" color={colors.primary} /> : null
   }
 
   const payment = getReclaimPaymentInput()

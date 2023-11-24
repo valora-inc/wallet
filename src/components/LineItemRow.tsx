@@ -46,7 +46,7 @@ export default function LineItemRow({
       )}
       {isLoading && (
         <View style={styles.loadingContainer} testID="LineItemLoading">
-          <ActivityIndicator size="small" color={colors.greenBrand} />
+          <ActivityIndicator size="small" color={colors.primary} />
         </View>
       )}
     </View>
