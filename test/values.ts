@@ -531,7 +531,7 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     symbol: 'USDC',
     decimals: 18,
     imageUrl: '',
-    balance: '10',
+    balance: '0',
     priceUsd: '1',
   },
 }
