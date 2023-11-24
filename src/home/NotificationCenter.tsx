@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
     ...fontStyles.large600,
     fontSize: 24,
     lineHeight: 32,
-    color: colors.dark,
+    color: colors.black,
     margin: Spacing.Thick24,
     marginTop: Spacing.Smallest8,
   },

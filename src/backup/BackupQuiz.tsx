@@ -321,7 +321,7 @@ function DeleteWord({
   }
   return (
     <Touchable borderless={true} onPress={onPressBackspace} style={styles.backWord}>
-      <Backspace color={colors.greenUI} />
+      <Backspace color={colors.primary} />
     </Touchable>
   )
 }
@@ -349,7 +349,7 @@ const styles = StyleSheet.create({
   bodyText: {
     marginTop: 20,
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
     textAlign: 'center',
   },
   bodyTextBold: {
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
   mnemonicWordButtonOutterRim: {
     borderRadius: 100,
     borderWidth: 1.5,
-    borderColor: colors.greenUI,
+    borderColor: colors.primary,
     overflow: 'hidden',
     marginVertical: 4,
     marginHorizontal: 4,
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
   },
   mnemonicWordButonText: {
     textAlign: 'center',
-    color: colors.greenUI,
+    color: colors.primary,
   },
   backWord: {
     paddingRight: 24,

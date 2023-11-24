@@ -8,11 +8,11 @@ import QRCode from 'src/qrcode/QRGen'
 import { useQRContent } from 'src/qrcode/utils'
 import { RootState } from 'src/redux/reducers'
 import { SVG } from 'src/send/actions'
+import { QRCodeDataType } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { currentAccountSelector } from 'src/web3/selectors'
-import { QRCodeDataType } from 'src/statsig/types'
 
 interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   qrContainer: {
     paddingTop: 16,

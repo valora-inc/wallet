@@ -25,7 +25,7 @@ function HiddenEyeIcon({ color, size }: Props) {
 
 HiddenEyeIcon.defaultProps = {
   size: 24,
-  color: Colors.dark,
+  color: Colors.black,
 }
 
 export default HiddenEyeIcon

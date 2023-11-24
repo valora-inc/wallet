@@ -18,7 +18,7 @@ import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { fetchSimplexPaymentData } from 'src/fiatExchanges/utils'
 import i18n from 'src/i18n'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { emptyHeader, HeaderTitleWithBalance } from 'src/navigator/Headers'
+import { HeaderTitleWithBalance, emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -131,7 +131,7 @@ function SimplexScreen({ route, navigation }: Props) {
             onPress={onButtonPress}
             disabled={!simplexPaymentRequest?.paymentId}
             showLoading={asyncSimplexPaymentData.status === 'loading'}
-            loadingColor={colors.light}
+            loadingColor={colors.white}
           />
         </View>
       ) : (

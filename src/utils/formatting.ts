@@ -133,7 +133,7 @@ export const getBalanceColor = (accountBalance: BigNumber): string => {
     return colors.greenBrand
   }
   if (accountBalance.isLessThan(0)) {
-    return colors.warning
+    return colors.error
   }
-  return colors.dark
+  return colors.black
 }

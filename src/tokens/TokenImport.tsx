@@ -182,6 +182,6 @@ const styles = StyleSheet.create({
   },
   errorLabel: {
     ...typeScale.labelSmall,
-    color: Colors.warning,
+    color: Colors.error,
   },
 })
