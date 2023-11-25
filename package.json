@@ -300,7 +300,7 @@
     "eslint-utils": "^3.0.0",
     "set-value": "^4.1.0",
     "mixin-deep": "^2.0.1",
-    "js-yaml": "^3.14.1",
+    "js-yaml": "^4.1.0",
     "logkitty": "^0.7.1",
     "minimist": "^1.2.8",
     "websocket-extensions": "^0.1.4",
