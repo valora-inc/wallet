@@ -126,6 +126,38 @@ const getStartedStyles = StyleSheet.create({
   },
 })
 
+function SendOrInviteButton({
+  recipient,
+  recipientVerificationStatus,
+  onPress,
+}: {
+  recipient: Recipient | null
+  recipientVerificationStatus: RecipientVerificationStatus
+  onPress: (shouldInviteRecipient: boolean) => void
+}) {
+  const { t } = useTranslation()
+  const sendOrInviteButtonDisabled =
+    !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
+  const shouldInviteRecipient =
+    !sendOrInviteButtonDisabled &&
+    !!recipient?.e164PhoneNumber &&
+    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
+  return (
+    <Button
+      testID="SendOrInviteButton"
+      style={styles.sendOrInviteButton}
+      onPress={() => onPress(shouldInviteRecipient)}
+      disabled={sendOrInviteButtonDisabled}
+      text={shouldInviteRecipient ? t('invite') : t('send')}
+      size={BtnSizes.FULL}
+    />
+  )
+}
+enum SelectRecipientView {
+  Recent = 'Recent',
+  Contacts = 'Contacts',
+}
+
 function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -133,10 +165,13 @@ function SendSelectRecipient({ route }: Props) {
   const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
 
-  const [sendOrInviteButtonHidden, setSendOrInviteButtonHidden] = useState(true)
-  const [showInviteModal, setShowInviteModal] = useState(false)
-  const [showContacts, setShowContacts] = useState(false)
+  const [showSendOrInviteButton, setShowSendOrInviteButton] = useState(false)
+
   const [showSearchResults, setShowSearchResults] = useState(false)
+
+  const [activeView, setActiveView] = useState(SelectRecipientView.Recent)
+
+  const [showInviteModal, setShowInviteModal] = useState(false)
 
   const onSearch = (searchQuery: string) => {
     // Always unset the selected recipient and hide the send/invite button
@@ -144,7 +179,7 @@ function SendSelectRecipient({ route }: Props) {
     // where the button appears but is bound to a recipient that is
     // not present on the page.
     unsetSelectedRecipient()
-    setSendOrInviteButtonHidden(true)
+    setShowSendOrInviteButton(false)
     setShowSearchResults(!!searchQuery)
   }
   const { contactRecipients, recentRecipients } = useSendRecipients()
@@ -155,56 +190,58 @@ function SendSelectRecipient({ route }: Props) {
 
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
     setSelectedRecipient(selectedRecipient)
-    setSendOrInviteButtonHidden(false)
+    setShowSendOrInviteButton(true)
   }
 
   const onContactsPermissionGranted = () => {
     dispatch(importContacts())
-    setShowContacts(true)
+    setActiveView(SelectRecipientView.Contacts)
   }
 
   const shouldShowClipboard = (content: string) => {
     return content !== searchQuery && isAddressFormat(content)
   }
 
-  const showGetStarted = !recentRecipients.length
+  const onSelectRecentRecipient = (recentRecipient: Recipient) => {
+    setSelectedRecipient(recentRecipient)
+    navigateToSendAmount(recentRecipient)
+  }
 
-  const sendOrInviteButtonDisabled =
-    !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
-  const shouldInviteRecipient =
-    !sendOrInviteButtonDisabled &&
-    recipient?.e164PhoneNumber &&
-    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
-  const onPressSendOrInvite = () => {
+  const navigateToSendAmount = (selectedRecipient: Recipient | null) => {
+    if (selectedRecipient?.address) {
+      navigate(Screens.SendEnterAmount, {
+        isFromScan: false,
+        defaultTokenIdOverride,
+        forceTokenId,
+        recipient: selectedRecipient,
+        origin: SendOrigin.AppSendFlow,
+      })
+    }
+  }
+
+  const onPressSendOrInvite = (shouldInviteRecipient: boolean) => {
+    console.log(recipient)
     if (!recipient) {
       return
     }
     if (shouldInviteRecipient) {
       setShowInviteModal(true)
-    } else {
-      navigate(Screens.SendAmount, {
-        isFromScan: false,
-        defaultTokenIdOverride,
-        forceTokenId,
-        recipient,
-        origin: SendOrigin.AppSendFlow,
-      })
+    } else if (recipient.address) {
+      navigateToSendAmount(recipient)
     }
   }
+
   const renderSendOrInviteButton = () => {
-    if (sendOrInviteButtonHidden) {
-      return <></>
+    if (showSendOrInviteButton) {
+      return (
+        <SendOrInviteButton
+          recipient={recipient}
+          recipientVerificationStatus={recipientVerificationStatus}
+          onPress={onPressSendOrInvite}
+        />
+      )
     }
-    return (
-      <Button
-        testID="SendOrInviteButton"
-        style={styles.sendOrInviteButton}
-        onPress={onPressSendOrInvite}
-        disabled={sendOrInviteButtonDisabled}
-        text={shouldInviteRecipient ? t('invite') : t('send')}
-        size={BtnSizes.FULL}
-      />
-    )
+    return null
   }
 
   const onCloseInviteModal = () => {
@@ -259,10 +296,11 @@ function SendSelectRecipient({ route }: Props) {
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
           value={''}
+          getIosContent={true}
         />
         {showSearchResults ? (
           renderSearchResults()
-        ) : showContacts ? (
+        ) : activeView === SelectRecipientView.Contacts ? (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
             <RecipientPicker
@@ -280,20 +318,20 @@ function SendSelectRecipient({ route }: Props) {
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
             <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
-            {showGetStarted ? (
-              <GetStartedSection />
-            ) : (
+            {activeView === SelectRecipientView.Recent && recentRecipients.length ? (
               <RecipientPicker
                 testID={'SelectRecipient/RecentRecipientPicker'}
                 recipients={recentRecipients}
                 title={t('sendSelectRecipient.recents')}
-                onSelectRecipient={setSelectedRecipientWrapper}
+                onSelectRecipient={onSelectRecentRecipient}
                 selectedRecipient={recipient}
                 isSelectedRecipientLoading={
                   !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
                 }
                 style={styles.recentRecipientPicker}
               />
+            ) : (
+              <GetStartedSection />
             )}
           </>
         )}

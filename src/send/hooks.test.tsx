@@ -132,20 +132,29 @@ describe('mergeRecipients', () => {
         name: 'some other name',
       },
     ]
-    const mergedRecipients = mergeRecipients(
+    const mergedRecipients = mergeRecipients({
       contactRecipients,
       recentRecipients,
       resolvedRecipients,
-      mockRecipient4
-    )
+      uniqueSearchRecipient: mockRecipient4,
+    })
     expect(mergedRecipients).toEqual([mockRecipient3, mockRecipient2, mockRecipient])
   })
   it('uses the unique recipient if none other available', () => {
-    const mergedRecipients = mergeRecipients([], [], [], mockRecipient4)
+    const mergedRecipients = mergeRecipients({
+      contactRecipients: [],
+      recentRecipients: [],
+      resolvedRecipients: [],
+      uniqueSearchRecipient: mockRecipient4,
+    })
     expect(mergedRecipients).toEqual([mockRecipient4])
   })
   it('returns empty list when no recipients available', () => {
-    const mergedRecipients = mergeRecipients([], [], [])
+    const mergedRecipients = mergeRecipients({
+      contactRecipients: [],
+      recentRecipients: [],
+      resolvedRecipients: [],
+    })
     expect(mergedRecipients).toEqual([])
   })
 })

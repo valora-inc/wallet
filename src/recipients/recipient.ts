@@ -269,6 +269,7 @@ export function filterRecipients(recipients: Recipient[], query: string, shouldS
 }
 
 export function filterRecipientFactory(recipients: Recipient[], shouldSort: boolean) {
+  console.log(recipients)
   const preparedRecipients = recipients.map((r) => ({
     ...r,
     displayPrepared: fuzzysort.prepare(r.name!),

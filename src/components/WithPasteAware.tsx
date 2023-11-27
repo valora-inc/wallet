@@ -13,6 +13,7 @@ interface PasteAwareProps {
   shouldShowClipboard: (value: string) => boolean
   onChangeText: (text: string) => void
   leftIcon?: React.ReactNode
+  getIosContent?: boolean
 }
 
 export interface PasteAwareWrappedElementProps {
@@ -63,15 +64,18 @@ export function withPasteAware<P extends ViewProps>(
         if (!this._isMounted) {
           return
         }
+        const { shouldShowClipboard, value, getIosContent } = this.props
 
         if (deviceIsIos14OrNewer()) {
           const clipboardHasContent = await Clipboard.hasString()
-          this.setState({ isPasteIconVisible: clipboardHasContent, clipboardContent: null })
-          return
+          if (!(getIosContent && clipboardHasContent)) {
+            this.setState({ isPasteIconVisible: clipboardHasContent, clipboardContent: null })
+            return
+          }
         }
 
         const clipboardContent = await Clipboard.getString()
-        const { shouldShowClipboard, value } = this.props
+
         if (
           clipboardContent &&
           !(value && clipboardContent.toLowerCase().includes(value.toLowerCase())) &&

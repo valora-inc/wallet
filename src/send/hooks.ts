@@ -35,9 +35,7 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
 
   const { contactRecipients, recentRecipients } = useSendRecipients()
 
-  const [contactsFiltered, setContactsFiltered] = useState(() =>
-    sortRecipients([...contactRecipients])
-  )
+  const [contactsFiltered, setContactsFiltered] = useState(() => contactRecipients)
   const [recentFiltered, setRecentFiltered] = useState(() => recentRecipients)
 
   const recentRecipientsFilter = useMemo(
@@ -45,7 +43,7 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
     [recentRecipients]
   )
   const contactRecipientsFilter = useMemo(
-    () => filterRecipientFactory([...contactRecipients], true),
+    () => filterRecipientFactory(contactRecipients, true),
     [contactRecipients]
   )
 
@@ -63,11 +61,17 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
   }, [recentRecipients, contactRecipients])
 
   const resolvedRecipients = useResolvedRecipients(searchQuery)
-  const uniqueRecipient = useUniqueSearchRecipient(searchQuery)
+  const uniqueSearchRecipient = useUniqueSearchRecipient(searchQuery)
 
   const mergedRecipients = useMemo(
-    () => mergeRecipients(contactsFiltered, recentFiltered, resolvedRecipients, uniqueRecipient),
-    [contactsFiltered, recentFiltered, resolvedRecipients, uniqueRecipient]
+    () =>
+      mergeRecipients({
+        contactRecipients: contactsFiltered,
+        recentRecipients: recentFiltered,
+        resolvedRecipients,
+        uniqueSearchRecipient,
+      }),
+    [contactsFiltered, recentFiltered, resolvedRecipients, uniqueSearchRecipient]
   )
 
   return {
@@ -133,12 +137,17 @@ export function useSendRecipients() {
  * If there are any duplicated recipients (by phone number or address), they are dedpulicated,
  * picking the recipient to show based on the precedence listed above.
  */
-export function mergeRecipients(
-  contactRecipients: Recipient[],
-  recentRecipients: Recipient[],
-  resolvedRecipients: Recipient[],
+export function mergeRecipients({
+  contactRecipients,
+  recentRecipients,
+  resolvedRecipients,
+  uniqueSearchRecipient,
+}: {
+  contactRecipients: Recipient[]
+  recentRecipients: Recipient[]
+  resolvedRecipients: Recipient[]
   uniqueSearchRecipient?: Recipient
-): Recipient[] {
+}): Recipient[] {
   const allRecipients: Recipient[] = []
   allRecipients.push(...resolvedRecipients)
   allRecipients.push(...recentRecipients)
@@ -171,7 +180,6 @@ export function mergeRecipients(
  * other recipient lookup.
  */
 export function useUniqueSearchRecipient(searchQuery: string): Recipient | undefined {
-  const { t } = useTranslation()
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
   const recipientInfo = useSelector(recipientInfoSelector)
 
@@ -181,7 +189,6 @@ export function useUniqueSearchRecipient(searchQuery: string): Recipient | undef
       displayNumber: parsedNumber.displayNumber,
       e164PhoneNumber: parsedNumber.e164Number,
       recipientType: RecipientType.PhoneNumber,
-      name: t('sendToMobileNumber'),
     }
   }
   if (isValidAddress(searchQuery)) {

@@ -13,6 +13,7 @@ const useFetchRecipientVerificationStatus = () => {
   )
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  console.log(e164NumberToAddress)
   const dispatch = useDispatch()
 
   const unsetSelectedRecipient = () => {
