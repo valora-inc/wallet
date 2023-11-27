@@ -16,6 +16,7 @@ import { updateTransactions } from 'src/transactions/actions'
 import { transactionHashesByNetworkIdSelector } from 'src/transactions/reducer'
 import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { gql } from 'src/utils/gql'
 import config from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -364,9 +365,19 @@ async function queryChainTransactionsFeed({
   }
 }
 
-export const TRANSACTIONS_QUERY = `
-  query UserTransactions($address: Address!, $localCurrencyCode: String, $afterCursor: String, $networkId: NetworkId!) {
-    tokenTransactionsV3(address: $address, localCurrencyCode: $localCurrencyCode, afterCursor: $afterCursor, networkId: $networkId) {
+export const TRANSACTIONS_QUERY = gql`
+  query UserTransactions(
+    $address: Address!
+    $localCurrencyCode: String
+    $afterCursor: String
+    $networkId: NetworkId!
+  ) {
+    tokenTransactionsV3(
+      address: $address
+      localCurrencyCode: $localCurrencyCode
+      afterCursor: $afterCursor
+      networkId: $networkId
+    ) {
       pageInfo {
         startCursor
         endCursor

@@ -151,6 +151,6 @@ const styles = StyleSheet.create({
   },
   saveButton: {
     ...fontStyles.regular,
-    color: colors.greenUI,
+    color: colors.primary,
   },
 })

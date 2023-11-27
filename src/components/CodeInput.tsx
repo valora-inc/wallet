@@ -175,11 +175,11 @@ export default function CodeInput({
           </View>
           {showStatus && (
             <View style={styles.statusContainer}>
-              {showSpinner && <ActivityIndicator size="small" color={colors.greenUI} />}
+              {showSpinner && <ActivityIndicator size="small" color={colors.primary} />}
               {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
               {showError && (
                 <InfoIcon
-                  color={colors.warning}
+                  color={colors.error}
                   testID={testID ? `${testID}/ErrorIcon` : undefined}
                 />
               )}

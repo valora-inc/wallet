@@ -1,45 +1,60 @@
 # Mobile (Valora)
 
-- [Overview](#overview)
-- [Architecture](#architecture)
-- [Setup](#setup)
-  - [Prerequisites](#prerequisites)
-  - [Repository secrets](#repository-secrets)
-  - [iOS](#ios)
-    - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
-    - [Install Xcode](#install-xcode)
-    - [Install Ruby, Cocoapods, Bundler, and download project dependencies](#install-ruby-cocoapods-bundler-and-download-project-dependencies)
-    - [Install Rosetta (M1 macs only)](#install-rosetta-m1-macs-only)
-  - [Android](#android)
-    - [MacOS](#macos)
-    - [Linux](#linux)
-- [Running the mobile wallet](#running-the-mobile-wallet)
-  - [iOS](#ios-1)
-  - [Android](#android-1)
-- [Debugging & App Profiling](#debugging--app-profiling)
-  - [Debugging](#debugging)
-    - [Optional: Flipper](#install-flipper)
-  - [App Profiling with react-devtools](#app-profiling-with-react-devtools)
-  - [App Profiling with android-profiler](#app-profiling-with-android-profiler)
-- [Testing](#testing)
-  - [Snapshot testing](#snapshot-testing)
-  - [React component unit testing](#react-component-unit-testing)
-  - [Saga testing](#saga-testing)
-  - [End-to-End testing](#end-to-end-testing)
-- [Building APKs / Bundles](#building-apks--bundles)
-  - [Creating a fake keystore](#creating-a-fake-keystore)
-  - [Building an APK or Bundle](#building-an-apk-or-bundle)
-- [Other](#other)
-  - [Localization (l10n) / translation process](#localization-l10n--translation-process)
-  - [Redux state migration](#redux-state-migration)
-  - [Redux-Saga pitfalls](#redux-saga-pitfalls)
-  - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
-  - [Generating GraphQL Types](#generating-graphql-types)
-  - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
-  - [Helpful hints for development](#helpful-hints-for-development)
-  - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
-  - [Troubleshooting](#troubleshooting)
-    - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
+- [Mobile (Valora)](#mobile-valora)
+  - [Overview](#overview)
+  - [Architecture](#architecture)
+  - [Setup](#setup)
+    - [Prerequisites](#prerequisites)
+    - [Repository secrets](#repository-secrets)
+      - [For Valora employees only](#for-valora-employees-only)
+      - [For External contributors](#for-external-contributors)
+    - [iOS](#ios)
+      - [Enroll in the Apple Developer Program](#enroll-in-the-apple-developer-program)
+      - [Install Xcode](#install-xcode)
+      - [Install Ruby, Cocoapods, Bundler, and download project dependencies](#install-ruby-cocoapods-bundler-and-download-project-dependencies)
+      - [Install Rosetta (M1 macs only)](#install-rosetta-m1-macs-only)
+    - [Android](#android)
+      - [MacOS](#macos)
+      - [Linux](#linux)
+        - [Optional: Install an Android emulator](#optional-install-an-android-emulator)
+        - [Configure an emulator using the Android SDK Manager](#configure-an-emulator-using-the-android-sdk-manager)
+        - [Install Genymotion Emulator Manager](#install-genymotion-emulator-manager)
+          - [MacOS](#macos-1)
+          - [Linux](#linux-1)
+  - [Running the mobile wallet](#running-the-mobile-wallet)
+    - [iOS](#ios-1)
+    - [Android](#android-1)
+    - [Running on Mainnet](#running-on-mainnet)
+    - [Reinstalling the app without building](#reinstalling-the-app-without-building)
+  - [Debugging \& App Profiling](#debugging--app-profiling)
+    - [Debugging](#debugging)
+      - [Install Flipper](#install-flipper)
+    - [App Profiling with react-devtools](#app-profiling-with-react-devtools)
+    - [App Profiling with Android Profiler](#app-profiling-with-android-profiler)
+  - [Testing](#testing)
+    - [Snapshot testing](#snapshot-testing)
+    - [React component unit testing](#react-component-unit-testing)
+    - [Saga testing](#saga-testing)
+    - [End-to-End testing](#end-to-end-testing)
+  - [Building APKs / Bundles](#building-apks--bundles)
+    - [Creating a fake keystore](#creating-a-fake-keystore)
+    - [Building an APK or Bundle](#building-an-apk-or-bundle)
+  - [Other](#other)
+    - [Localization (l10n) / translation process](#localization-l10n--translation-process)
+    - [Configuring the SMS Retriever](#configuring-the-sms-retriever)
+    - [Redux state migration](#redux-state-migration)
+      - [When is a migration or new schema version needed?](#when-is-a-migration-or-new-schema-version-needed)
+      - [What do to when test/RootStateSchema.json needs an update?](#what-do-to-when-testrootstateschemajson-needs-an-update)
+    - [Redux-Saga pitfalls](#redux-saga-pitfalls)
+    - [Error bubbling](#error-bubbling)
+    - [Why do we use http(s) provider?](#why-do-we-use-https-provider)
+    - [Helpful hints for development](#helpful-hints-for-development)
+    - [Vulnerabilities found in dependencies](#vulnerabilities-found-in-dependencies)
+    - [Branding (for Valora employees only)](#branding-for-valora-employees-only)
+    - [Troubleshooting](#troubleshooting)
+      - [Postinstall script](#postinstall-script)
+      - [`Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`](#activity-class-orgcelomobilestagingorgcelomobilemainactivity-does-not-exist)
+      - [Podfile changes not picked up by iOS build](#podfile-changes-not-picked-up-by-ios-build)
 
 ## Overview
 
@@ -308,6 +323,16 @@ The below steps should help you successfully run the mobile wallet on either a U
 
 By default, the mobile wallet app runs on celo's testnet `alfajores`. To run the app on `mainnet`, supply an env flag, eg. `yarn run dev:ios -e mainnet`. The command will then run the app with the env file `.env.mainnet`.
 
+### Reinstalling the app without building
+
+To test some scenarios (e.g., native permissions modals which appear only once),
+you may require a fresh install of the app. Instead of rebuilding the app to get
+a fresh install, you can drag drop the generated app into the simulator after
+uninstalling the app. It is typically available in the following paths:
+
+- For iOS: `$HOME/Library/Developer/Xcode/DerivedData/celo-<randomid>/Build/Products/Debug-iphonesimulator/celo.app`
+- For Android: `<path-to-wallet>/android/app/build/outputs/apk/alfajoresdev/debug/app-alfajoresdev-debug.apk`
+
 ## Debugging & App Profiling
 
 ### Debugging
@@ -462,10 +487,6 @@ The service that route SMS messages to the app needs to be configured to [append
 1.  Go to the play console for the relevant app, Release management > App signing, and download the App signing certificate.
 2.  Use this script to generate the hash code: https://github.com/michalbrz/sms-retriever-hash-generator
 
-### Generating GraphQL Types
-
-We're using [GraphQL Code Generator][graphql code generator] to properly type GraphQL queries. If you make a change to a query, run `yarn build:gen-graphql-types` to update the typings in the `typings` directory.
-
 ### Redux state migration
 
 We're using [redux-persist](https://github.com/rt2zz/redux-persist) to persist the state of the app across launches.
@@ -582,6 +603,12 @@ If they do not have fixes and they do not apply to production, you may ignore th
 1. run: `yarn audit --json --groups dependencies --level high | grep auditAdvisory > yarn-audit-known-issues`
 2. commit `yarn-audit-known-issues` and open a PR
 
+### Branding (for Valora employees only)
+
+Images and icons in Valora are stored in the [branding repo](https://github.com/valora-inc/valora-app-branding). When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone this repo into `branding/valora`, and these assets are then put into `src/images` and `src/icons`. If you do not have access to the branding repo, assets are pulled from `branding/celo`, and are displayed as pink squares instead. The jest tests and CircleCI pipeline also use these default assets.
+
+When adding new images to the [branding repo](https://github.com/valora-inc/valora-app-branding), we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size. After making changes to the remote repo, find the commit hash and update it in `scripts/sync_branding.sh`. Make sure to also add the corresponding pink square version of the images to `branding/celo/src/images`. You can do this by copying one of the existing files and renaming it.
+
 ### Troubleshooting
 
 #### Postinstall script
@@ -630,16 +657,6 @@ total size is 1465080  speedup is 13198.92
 ✨  Done in 12.77s.
 ```
 
-#### Google Cloud Setup (for cLabs employees only)
-
-Make sure to follow the steps [here](https://github.com/celo-org/celo-labs/blob/master/packages/docs/eng-setup.md) to set up Google Cloud correctly with the wallet.
-
-### Branding (for Valora employees only)
-
-Images and icons in Valora are stored in the [branding repo](https://github.com/valora-inc/valora-app-branding). When running `yarn install`, the script `scripts/sync_branding.sh` is run to clone this repo into `branding/valora`, and these assets are then put into `src/images` and `src/icons`. If you do not have access to the branding repo, assets are pulled from `branding/celo`, and are displayed as pink squares instead. The jest tests and CircleCI pipeline also use these default assets.
-
-When adding new images to the [branding repo](https://github.com/valora-inc/valora-app-branding), we also include the 1.5x, 2x, 3x, and 4x versions. The app will automatically download the appropriate size. After making changes to the remote repo, find the commit hash and update it in `scripts/sync_branding.sh`. Make sure to also add the corresponding pink square version of the images to `branding/celo/src/images`. You can do this by copying one of the existing files and renaming it.
-
 #### `Activity class {org.celo.mobile.staging/org.celo.mobile.MainActivity} does not exist.`
 
 From time to time the app refuses to start showing this error:
@@ -661,13 +678,22 @@ $ adb kill-server && adb start-server
 * daemon started successfully
 ```
 
+#### Podfile changes not picked up by iOS build
+
+Some [Podfile](ios/Podfile) changes may not be picked up by an iOS build (e.g.,
+add new permissions with react-native-permissions [here](ios/Podfile#L37)) and
+will need cleaning the XCode derived data folder.
+
+```console
+rm -rf $HOME/Library/Developer/Xcode/DerivedData/*
+```
+
 [celo platform]: https://celo.org
 [wallet]: https://github.com/valora-inc/wallet
 [celo-blockchain]: https://github.com/celo-org/celo-blockchain
 [apple developer program]: https://developer.apple.com/programs/
 [detox]: https://github.com/wix/Detox
 [e2e readme]: ./e2e/README.md
-[graphql code generator]: https://github.com/dotansimha/graphql-code-generator
 [protocol readme]: ../protocol/README.md
 [react native]: https://facebook.github.io/react-native/
 [flipper]: https://fbflipper.com

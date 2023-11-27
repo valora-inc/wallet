@@ -16,7 +16,12 @@ const getSizing = (baseSize: number = 16, maxSize: number = 28) => {
     : maxSize
 }
 
-function InfoIcon({ size = 16, scaledSize = getSizing(size), color = colors.dark, testID }: Props) {
+function InfoIcon({
+  size = 16,
+  scaledSize = getSizing(size),
+  color = colors.black,
+  testID,
+}: Props) {
   return (
     <Svg width={scaledSize} height={scaledSize} viewBox="0 0 16 16" fill="none" testID={testID}>
       <Circle cx="8" cy="8" r="7" stroke={color} strokeWidth="1.25" />

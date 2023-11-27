@@ -90,7 +90,7 @@ function TransactionFeed() {
       />
       {fetchingMoreTransactions && (
         <View style={styles.centerContainer}>
-          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.greenBrand} />
+          <ActivityIndicator style={styles.loadingIcon} size="large" color={colors.primary} />
         </View>
       )}
     </>

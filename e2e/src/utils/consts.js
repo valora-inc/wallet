@@ -7,6 +7,10 @@ export const SAMPLE_WALLET_ADDRESS = '0x6131a6d616a4be3737b38988847270a64bc10caa
 export const SAMPLE_BACKUP_KEY_VERIFIED =
   'embody siege middle glory soda solar nasty report swap now never any'
 export const SAMPLE_WALLET_ADDRESS_VERIFIED = '0x86b8f44386cb2d457db79c3dab8cf42f9d8a3fc0' // corresponds to the backup key above
+export const SAMPLE_BACKUP_KEY_VERIFIED_2 =
+  'bench album relax truth pond orchard diet unaware cloud tackle twin tongue'
+export const SAMPLE_WALLET_ADDRESS_VERIFIED_2 = '0x5fe1407f47b1310ff232a8d368b36099eff61604' // corresponds to the backup key above
+export const VERIFIED_PHONE_NUMBER = '+15203140983' // all verified addresses are using this number
 export const SAMPLE_BACKUP_KEY_12_WORDS =
   'cheese size muscle either false spend price lunar undo share kite whisper'
 export const SAMPLE_WALLET_ADDRESS_12_WORDS = '0x19cf37810fd5933bd63e02388e37203841c703de' // corresponds to the backup key above

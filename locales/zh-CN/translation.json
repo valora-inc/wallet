@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "每周获得加密货币奖励。开始 Supercharge 吧！",
   "startSuperchargingNotificationStart": "获取奖励",
   "cashIn": "添加 {{currency}}",
-  "connectNumber": "连接号码",
+  "connectNumber": "关联号码",
   "connectToWallet": "关联到 {{dappName}}",
   "confirmTransaction": "确认交易",
   "allow": "允许",
@@ -1559,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "服务提供商正在处理您的订单。",
-      "description": "这可能是由于网络连接不畅造成的。检查块资源管理器是否有更新。"
+      "description": "这可能是由于网络连接不畅造成的。请检查区块资源管理器是否有更新。"
     }
   },
   "fiatExchangeFlow": {
@@ -1657,6 +1657,7 @@
   "swapScreen": {
     "title": "交换",
     "review": "查看",
+    "confirmSwap": "确认交换",
     "swapFrom": "自",
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
@@ -1664,6 +1665,7 @@
     "disclaimer": "最优惠价格由网络合作伙伴决定。<0>了解更多信息</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
@@ -1680,12 +1682,12 @@
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "{{tokenSymbol}} 余额不足",
-      "description": "您没有足够的 {{tokenSymbol}} 来支付汽油费。您想交换较少的金额吗？",
-      "confirmDecreaseButton": "少量交换"
+      "description": "您没有足够的 {{tokenSymbol}} 来支付手续费。您想交换较少的金额吗？",
+      "confirmDecreaseButton": "交换较少金额"
     },
     "notEnoughBalanceForGas": {
-      "title": "气体令牌余额不足",
-      "description": "您没有足够的 {{feeCurrencies}} 来支付汽油费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交换。",
+      "title": "手续费代币余额不足",
+      "description": "您没有足够的 {{feeCurrencies}} 来支付手续费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交换。",
       "dismissButton": "忽略"
     },
     "transactionDetails": {
@@ -1693,8 +1695,8 @@
       "networkFeeNoNetwork": "网络费用",
       "swapFee": "{{appName}} 费用",
       "swapFeeWaived": "免费",
-      "slippagePercentage": "滑动公差",
-      "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付估计的网络费。该费用可确保您的交易安全，并用于维持网络运行。",
+      "slippagePercentage": "滑点调整",
+      "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
@@ -1704,7 +1706,7 @@
     "swapFrom": "交换自",
     "swapTo": "交换至",
     "rate": "费率",
-    "estimatedFee": "估计网络费",
+    "estimatedFee": "预估网络费用",
     "networkFee": "网络费用",
     "viewOnExplorer": "在 CeloExplorer 上查看"
   },
@@ -1846,7 +1848,7 @@
       "collectibles": "藏品",
       "dappPositions": "Dapp 持仓"
     },
-    "importToken": "进口"
+    "importToken": "导入"
   },
   "notificationCenterSpotlight": {
     "message": "我们正在推出一种新方法，让您可在同一个地方领取奖励、查看提醒和更新信息",
@@ -1862,23 +1864,40 @@
       "swap": "交换",
       "add": "买入",
       "withdraw": "提取",
-      "more": "更多信息"
+      "more": "更多"
     },
-    "moreActions": "更多行动",
+    "moreActions": "更多操作",
     "actionDescriptions": {
-      "send": "使用任何 Celo 地址、域名、电话号码等。",
+      "send": "使用任意 Celo 地址、域、电话号码等。",
       "swap": "无需离开钱包即可交换代币",
       "add": "使用我们值得信赖的供应商之一购买代币",
-      "withdraw": "将代币转入银行账户、移动支付、礼品卡等。"
+      "withdraw": "将代币转入银行账户、移动钱包、礼品卡等。"
     }
   },
+  "tokenImport": {
+    "title": "导入令牌",
+    "notification": "任何人都可以创建令牌，包括现有令牌的伪造版本。请在导入前确认令牌地址是否正确。",
+    "input": {
+      "tokenAddress": "令牌地址",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "代币符号",
+      "network": "网络"
+    },
+    "error": {
+      "invalidToken": "令牌无效。请重试或联系支持人员",
+      "alreadyImported": "之前已经添加了令牌。",
+      "alreadySupported": "已支持令牌。"
+    },
+    "importSuccess": "成功导入 {{tokenSymbol}} 令牌",
+    "importButton": "导入"
+  },
   "sendSelectRecipient": {
-    "searchText": "按姓名、电话、钱包搜索...",
-    "title": "选择收件人",
+    "searchText": "按姓名、电话、钱包等搜索",
+    "title": "选择接收人",
     "contactsTitle": "选择联系人",
-    "recents": "近期活动",
+    "recents": "最近",
     "qr": {
-      "title": "扫描或显示 QR 码",
+      "title": "扫描或显示二维码",
       "subtitle": "快速查找 Valora 上的地址"
     },
     "invite": {
@@ -1886,26 +1905,34 @@
       "subtitle": "从联系人列表中邀请朋友"
     },
     "getStarted": {
-      "title": "在 Valora 上汇款的方式",
+      "title": "在 Valora 上发送资金的方式",
       "subtitle": "开始",
       "options": {
         "one": {
           "title": "钱包地址",
-          "subtitle": "输入 Celo 或以太坊兼容的钱包地址（例如 0x123...abcde）"
+          "subtitle": "输入与 Celo 或 Ethereum 兼容的钱包地址（例如 0x123...abcde）"
         },
         "two": {
           "title": "手机号码",
-          "subtitle": "如果某人拥有 Valora，可直接发送至其电话号码"
+          "subtitle": "直接发送到某人的电话号码（如果该人有 Valora）"
         },
         "three": {
           "title": "ENS",
-          "subtitle": "将以太坊资产发送至某人的 ENS 手柄"
+          "subtitle": "将 Ethereum 资产发送至某人的 ENS 句柄"
         },
         "four": {
-          "title": "简介名称",
+          "title": "个人资料名称",
           "subtitle": "您可以搜索 Valora 上的现有用户"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "启用联系人继续",
+      "description": "请进入设置更新联系人，并开始向朋友发送信息"
+    },
+    "connectPhoneNumberModal": {
+      "title": "关联您的手机号码",
+      "description": "您需要连接您的电话号码，以便开始向朋友发送加密货币"
     }
   },
   "transactionStatus": {
@@ -1923,16 +1950,16 @@
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
-    "selectToken": "选择令牌",
+    "selectToken": "选择代币",
     "networkFee": "{{networkName}} 网络费用",
     "lowerAmount": "输入较低的金额",
     "maxAmountWarning": {
-      "title": "发送最高金额",
-      "description": "调整发送量，以确保您有足够的 {{feeTokenSymbol}} 用于加油"
+      "title": "发送最大金额",
+      "description": "调整发送金额，以确保您有足够的 {{feeTokenSymbol}} 用于支付手续费"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "您需要更多 {{feeTokenSymbol}} 来获取天然气",
-      "description": "添加 {{feeTokenSymbol}} 以支付汽油费或调整发送金额"
+      "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
+      "description": "添加 {{feeTokenSymbol}} 来支付手续费或调整发送金额"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
