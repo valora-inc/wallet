@@ -104,7 +104,6 @@ export function SwapScreen({ route }: Props) {
   const slippagePercentage = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).maxSlippagePercentage
-  const parsedSlippagePercentage = new BigNumber(slippagePercentage).toFormat()
 
   const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
@@ -529,16 +528,12 @@ export function SwapScreen({ route }: Props) {
         left={<BackButton />}
         title={t('swapScreen.title')}
       />
-      <ScrollView
-        contentContainerStyle={styles.contentContainer}
-        keyboardShouldPersistTaps="handled"
-      >
+      <ScrollView contentContainerStyle={styles.contentContainer}>
         <View style={styles.swapAmountsContainer}>
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
             onInputChange={handleChangeAmount(Field.FROM)}
             inputValue={swapAmount[Field.FROM]}
-            parsedInputValue={parsedSwapAmount[Field.FROM]}
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             style={styles.fromSwapAmountInput}
@@ -551,7 +546,6 @@ export function SwapScreen({ route }: Props) {
           <SwapAmountInput
             label={t('swapScreen.swapTo')}
             onInputChange={handleChangeAmount(Field.TO)}
-            parsedInputValue={parsedSwapAmount[Field.TO]}
             inputValue={swapAmount[Field.TO]}
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
@@ -565,7 +559,7 @@ export function SwapScreen({ route }: Props) {
             networkFee={networkFee}
             networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
             feeTokenId={feeTokenId}
-            slippagePercentage={parsedSlippagePercentage}
+            slippagePercentage={slippagePercentage}
             fromToken={fromToken}
             toToken={toToken}
             exchangeRatePrice={exchangeRate?.price}

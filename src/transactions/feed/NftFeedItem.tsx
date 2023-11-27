@@ -15,7 +15,7 @@ import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
+import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -49,7 +49,7 @@ function NftFeedItem({ transaction }: Props) {
           <NftMedia
             nft={nfts[0]}
             ErrorComponent={
-              <View style={styles.errorCircleIcon}>
+              <View style={[styles.circleIcon, styles.errorCircleIcon]}>
                 <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
               </View>
             }
@@ -65,35 +65,39 @@ function NftFeedItem({ transaction }: Props) {
         ) : (
           <NftSentIcon />
         )}
-        <Text style={styles.title}>
-          {transaction.type === TokenTransactionTypeV2.NftReceived
-            ? t('receivedNft')
-            : t('sentNft')}
-        </Text>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.title}>
+            {transaction.type === TokenTransactionTypeV2.NftReceived
+              ? t('receivedNft')
+              : t('sentNft')}
+          </Text>
+        </View>
       </View>
     </Touchable>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-    paddingVertical: Spacing.Small12,
-    paddingHorizontal: variables.contentPadding,
-  },
-  errorCircleIcon: {
+  circleIcon: {
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: colors.gray2,
-    alignItems: 'center',
+  },
+  container: {
+    flexDirection: 'row',
+    paddingVertical: Spacing.Small12,
+    paddingHorizontal: variables.contentPadding,
+  },
+  descriptionContainer: {
+    marginLeft: variables.contentPadding,
     justifyContent: 'center',
   },
+  errorCircleIcon: {
+    backgroundColor: colors.gray2,
+    padding: 5,
+  },
   title: {
-    ...typeScale.labelMedium,
-    marginLeft: Spacing.Regular16,
+    ...fontStyles.regular500,
   },
 })
 
