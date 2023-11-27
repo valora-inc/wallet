@@ -216,14 +216,6 @@ export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2:
 }
 
 /**
- * @deprecated use swappableTokensByNetworkIdSelector or useSwappableTokens hook
- */
-export const swappableTokensSelector = createSelector(
-  (state: RootState) => swappableTokensByNetworkIdSelector(state, [networkConfig.defaultNetworkId]),
-  (tokens) => tokens.filter((tokenInfo) => !!tokenInfo.address) as TokenBalanceWithAddress[]
-)
-
-/**
  * @deprecated
  */
 export const tokensByCurrencySelector = createSelector(

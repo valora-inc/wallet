@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   goldPriceWentUpHeader: {
     ...fontStyles.small600,
-    color: colors.greenBrand,
+    color: colors.primary,
   },
   goldPriceWentDownHeader: {
     ...fontStyles.small600,

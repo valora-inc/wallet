@@ -16,10 +16,10 @@ import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import Colors from 'src/styles/colors'
+import fontStyles from 'src/styles/fonts'
 
 function ActionsCarousel() {
   const { t } = useTranslation()
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     width: 84,
     marginHorizontal: 6,
     padding: 0,
-    backgroundColor: '#E8FCEF',
+    backgroundColor: Colors.greenBackground,
     borderRadius: 10,
   },
   touchable: {

@@ -205,13 +205,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     case SendingFiatAccountStatus.Sending:
       return (
         <View testID="spinner" style={styles.activityIndicatorContainer}>
-          <ActivityIndicator size="large" color={colors.greenBrand} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       )
     case SendingFiatAccountStatus.KycApproved:
       return (
         <View testID="checkmark" style={styles.activityIndicatorContainer}>
-          <Checkmark color={colors.greenBrand} />
+          <Checkmark color={colors.primary} />
         </View>
       )
     case SendingFiatAccountStatus.NotSending:

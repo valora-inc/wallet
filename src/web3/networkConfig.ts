@@ -39,7 +39,7 @@ interface NetworkConfig {
   fetchExchangesUrl: string
   nftsValoraAppUrl: string
   celoExplorerBaseNFTUrl: string
-  approveSwapUrl: string
+  getSwapQuoteUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
   verifyPhoneNumberUrl: string
@@ -173,7 +173,7 @@ const RESOLVE_ID_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/resolveId`
 
 const NFTS_VALORA_APP_URL = 'https://nfts.valoraapp.com/'
 
-const APPROVE_SWAP_URL = `${CLOUD_FUNCTIONS_MAINNET}/approveSwap`
+const GET_SWAP_QUOTE_URL = `${CLOUD_FUNCTIONS_MAINNET}/getSwapQuote`
 
 const HOOKS_API_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/hooks-api`
 const HOOKS_API_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api`
@@ -229,7 +229,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     celoExplorerBaseNFTUrl: 'https://explorer.celo.org/alfajores/token/',
-    approveSwapUrl: APPROVE_SWAP_URL,
+    getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
@@ -293,7 +293,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     celoExplorerBaseNFTUrl: 'https://explorer.celo.org/mainnet/token/',
-    approveSwapUrl: APPROVE_SWAP_URL,
+    getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
