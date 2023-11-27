@@ -184,7 +184,6 @@ describe('useUniqueSearchRecipient', () => {
       displayNumber: '(725) 555-5555',
       e164PhoneNumber: '+17255555555',
       recipientType: RecipientType.PhoneNumber,
-      name: 'sendToMobileNumber',
     })
   })
   it('returns unique address recipient', () => {

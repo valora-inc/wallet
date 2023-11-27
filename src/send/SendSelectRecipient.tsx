@@ -29,6 +29,7 @@ import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import Button, { BtnSizes } from 'src/components/Button'
 import { useSendRecipients, useMergedSearchRecipients } from 'src/send/hooks'
 import { Screens } from 'src/navigator/Screens'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
@@ -229,9 +230,12 @@ function SendSelectRecipient({ route }: Props) {
       return
     }
     if (shouldInviteRecipient) {
+      ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press)
       setShowInviteModal(true)
+    } else {
+      ValoraAnalytics.track(SendEvents.send_select_recipient_send_press)
+      navigateToSendAmount(recipient)
     }
-    navigateToSendAmount(recipient)
   }
 
   const renderSendOrInviteButton = () => {

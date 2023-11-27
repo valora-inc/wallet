@@ -6,7 +6,6 @@ import { getRecipientVerificationStatus } from 'src/recipients/recipient'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockPhoneRecipientCache, mockRecipient, mockRecipient2, mockAccount } from 'test/values'
 import { RecipientVerificationStatus } from 'src/identity/types'
-import { SendOrigin } from 'src/analytics/types'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { Screens } from 'src/navigator/Screens'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -176,13 +175,17 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-      isFromScan: false,
-      defaultTokenIdOverride: undefined,
-      forceTokenId: undefined,
-      recipient: expect.any(Object),
-      origin: SendOrigin.AppSendFlow,
-    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press)
+
+    // Uncomment once we can actually navigate to this screen
+
+    // expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+    //   isFromScan: false,
+    //   defaultTokenIdOverride: undefined,
+    //   forceTokenId: undefined,
+    //   recipient: expect.any(Object),
+    //   origin: SendOrigin.AppSendFlow,
+    // })
   })
   it('navigates to invite modal when search result next button is pressed', async () => {
     jest

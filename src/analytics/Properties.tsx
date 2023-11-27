@@ -640,6 +640,8 @@ interface SendEventsProperties {
   [SendEvents.request_contacts_permission_completed]: {
     permissionStatus: PermissionStatus
   }
+  [SendEvents.send_select_recipient_send_press]: undefined
+  [SendEvents.send_select_recipient_invite_press]: undefined
 }
 
 interface RequestEventsProperties {
