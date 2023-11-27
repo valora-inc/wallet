@@ -663,9 +663,16 @@ describe('SwapScreen', () => {
       '1 CELO ≈ 1,23456 cUSD'
     )
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
+    expect(within(swapFromContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
+      '~₱21,43'
+    )
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1,5234566652'
     )
+    expect(within(swapToContainer).getByTestId('SwapAmountInput/FiatValue')).toHaveTextContent(
+      '~₱2,03'
+    )
+    expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0,3%')
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
