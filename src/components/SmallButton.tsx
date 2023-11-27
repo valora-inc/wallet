@@ -41,7 +41,7 @@ export default class SmallButton extends React.Component<ButtonProps> {
             accessibilityLabel={accessibilityLabel}
             style={[
               styles.text,
-              solid ? { color: colors.light } : { color: colors.greenBrand },
+              solid ? { color: colors.white } : { color: colors.primary },
               children ? styles.textPadding : null,
               textStyle,
             ]}
@@ -67,14 +67,14 @@ const styles = StyleSheet.create({
     borderRadius: 2,
   },
   solid: {
-    backgroundColor: colors.greenBrand,
+    backgroundColor: colors.primary,
     paddingVertical: PADDING_VERTICAL + 2,
     paddingHorizontal: PADDING_HORIZONTAL + 2,
   },
   hollow: {
     backgroundColor: 'transparent',
     borderWidth: 2,
-    borderColor: colors.greenBrand,
+    borderColor: colors.primary,
   },
   text: {
     ...fontStyles.regular500,

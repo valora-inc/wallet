@@ -39,7 +39,7 @@ exports[`RewardsPill renders correctly 1`] = `
     style={
       {
         "alignItems": "center",
-        "backgroundColor": "#DEF8EA",
+        "backgroundColor": "#E8FCEF",
         "borderRadius": 15,
         "flexDirection": "row",
         "height": 30,

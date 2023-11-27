@@ -6,7 +6,8 @@ import erc20 from 'src/abis/IERC20'
 import { useFeeCurrencies } from 'src/fees/hooks'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
-import { TokenBalance, TokenBalanceWithAddress } from 'src/tokens/slice'
+import { TokenBalance } from 'src/tokens/slice'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import {
   PreparedTransactionsResult,
@@ -22,8 +23,8 @@ import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
 const DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER = 1.2
 
 export interface QuoteResult {
-  toTokenAddress: string
-  fromTokenAddress: string
+  toTokenId: string
+  fromTokenId: string
   swapAmount: BigNumber
   price: string
   provider: string
@@ -37,7 +38,7 @@ export interface QuoteResult {
 }
 
 function createBaseSwapTransactions(
-  fromToken: TokenBalanceWithAddress,
+  fromToken: TokenBalance,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction
 ) {
@@ -89,7 +90,7 @@ function createBaseSwapTransactions(
 }
 
 export async function prepareSwapTransactions(
-  fromToken: TokenBalanceWithAddress,
+  fromToken: TokenBalance,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
   price: string,
@@ -111,18 +112,16 @@ export async function prepareSwapTransactions(
   })
 }
 
-const useSwapQuote = (slippagePercentage: string) => {
+function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
-
-  // TODO use the networkId from the fromToken
-  const feeCurrencies = useFeeCurrencies(networkConfig.defaultNetworkId)
+  const feeCurrencies = useFeeCurrencies(networkId)
 
   const refreshQuote = useAsyncCallback(
     async (
-      fromToken: TokenBalanceWithAddress,
-      toToken: TokenBalanceWithAddress,
+      fromToken: TokenBalance,
+      toToken: TokenBalance,
       swapAmount: ParsedSwapAmount,
       updatedField: Field,
       shouldPrepareTransactions: boolean
@@ -139,14 +138,18 @@ const useSwapQuote = (slippagePercentage: string) => {
 
       const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
       const params = {
-        buyToken: toToken.address,
-        sellToken: fromToken.address,
+        ...(toToken.address && { buyToken: toToken.address }),
+        buyIsNative: (toToken.isNative ?? false).toString(),
+        buyNetworkId: toToken.networkId,
+        ...(fromToken.address && { sellToken: fromToken.address }),
+        sellIsNative: (fromToken.isNative ?? false).toString(),
+        sellNetworkId: fromToken.networkId,
         [swapAmountParam]: swapAmountInWei.toFixed(0, BigNumber.ROUND_DOWN),
         userAddress: walletAddress ?? '',
         slippagePercentage,
       }
       const queryParams = new URLSearchParams({ ...params }).toString()
-      const requestUrl = `${networkConfig.approveSwapUrl}?${queryParams}`
+      const requestUrl = `${networkConfig.getSwapQuoteUrl}?${queryParams}`
       const response = await fetch(requestUrl)
 
       if (!response.ok) {
@@ -163,8 +166,8 @@ const useSwapQuote = (slippagePercentage: string) => {
           : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
       const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
       const quoteResult: QuoteResult = {
-        toTokenAddress: toToken.address,
-        fromTokenAddress: fromToken.address,
+        toTokenId: toToken.tokenId,
+        fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
 

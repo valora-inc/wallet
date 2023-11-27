@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
   incorrect: {
     ...fontStyles.regular500,
     textAlign: 'center',
-    color: colors.warning,
+    color: colors.error,
   },
 })

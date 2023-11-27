@@ -58,9 +58,9 @@ export default function NftGallery() {
           scrollIndicatorInsets={{ top: 0.01 }}
           refreshControl={
             <RefreshControl
-              tintColor={colors.greenBrand}
-              colors={[colors.greenBrand]}
-              style={{ backgroundColor: colors.light }}
+              tintColor={colors.primary}
+              colors={[colors.primary]}
+              style={{ backgroundColor: colors.white }}
               refreshing={loading}
               onRefresh={() => dispatch(fetchNfts())}
             />

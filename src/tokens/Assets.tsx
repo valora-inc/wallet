@@ -549,7 +549,7 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     position: 'absolute',
     width: '100%',
     zIndex: 1,
@@ -567,7 +567,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
   },
   footerContainer: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     position: 'absolute',
     bottom: 0,
     left: 10, // so the scroll bar is still visible
@@ -587,7 +587,7 @@ const styles = StyleSheet.create({
   },
   tabBarItemSelected: {
     ...typeScale.labelMedium,
-    color: Colors.dark,
+    color: Colors.black,
   },
   topBarTextButton: {
     ...typeScale.bodyMedium,

@@ -7,7 +7,7 @@ export interface Props {
   testID?: string
 }
 
-function UpIndicator({ color = colors.greenUI, testID }: Props) {
+function UpIndicator({ color = colors.primary, testID }: Props) {
   return (
     <Svg width="10" height="10" viewBox="0 0 10 10" fill="none" testID={testID}>
       <Path d="M5.631 10H4.37V2.424L.896 5.896 0 5l5-5 5 5-.896.896L5.63 2.424V10Z" fill={color} />

@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.small600,
-    color: colors.greenUI,
+    color: colors.primary,
   },
 })
 

@@ -28,9 +28,7 @@ export const PasteButton = ({ onPress }: Props) => {
 
 const styles = StyleSheet.create({
   text: {
-    ...typeScale.semiBoldMedium,
-    fontSize: 14,
-    lineHeight: 18,
-    color: Colors.greenUI,
+    ...typeScale.labelSemiBoldSmall,
+    color: Colors.primary,
   },
 })

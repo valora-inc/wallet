@@ -402,7 +402,7 @@ export const Account = ({ navigation, route }: Props) => {
               }
               testID="KeylessBackup"
               ctaText={cloudBackupCompleted ? t('delete') : t('setup')}
-              ctaColor={cloudBackupCompleted ? colors.warning : colors.greenUI}
+              ctaColor={cloudBackupCompleted ? colors.error : colors.primary}
               showChevron={!cloudBackupCompleted}
             />
           )}

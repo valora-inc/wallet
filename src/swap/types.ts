@@ -17,9 +17,9 @@ export interface ParsedSwapAmount {
 }
 
 export interface SwapUserInput {
-  fromToken: string
+  fromTokenId: string
   swapAmount: SwapAmount
-  toToken: string
+  toTokenId: string
   updatedField: Field
 }
 
