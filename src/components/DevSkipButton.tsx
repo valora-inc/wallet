@@ -103,10 +103,10 @@ const styles = StyleSheet.create({
     height: 25,
   },
   skipButton: {
-    backgroundColor: colors.warning,
+    backgroundColor: colors.error,
   },
   debugButton: {
-    backgroundColor: colors.onboardingBlue,
+    backgroundColor: colors.infoDark,
   },
   hiddenButton: {
     flex: 1,

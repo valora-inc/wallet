@@ -38,7 +38,7 @@ function TransferFeedItem({ transfer }: Props) {
   const showTokenAmount = !amount.localAmount && !tokenInfo?.priceUsd
   const { title, subtitle, recipient, customLocalAmount } = useTransferFeedDetails(transfer)
 
-  const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.greenUI } : {}
+  const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
   const hideBalance =

@@ -145,7 +145,7 @@ function CustomDrawerItemList({
         focused={focused}
         labelStyle={[
           fontStyles.regular,
-          { color: colors.dark, marginLeft: -20, fontWeight: 'normal' },
+          { color: colors.black, marginLeft: -20, fontWeight: 'normal' },
         ]}
         style={focused && { backgroundColor: colors.gray2 }}
         to={buildLink(route.name, route.params)}

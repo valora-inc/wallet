@@ -212,7 +212,7 @@ export default function FiatConnectReviewScreen({ route, navigation }: Props) {
   if (fiatConnectQuotesLoading) {
     return (
       <View style={styles.activityIndicatorContainer}>
-        <ActivityIndicator size="large" color={colors.greenBrand} />
+        <ActivityIndicator size="large" color={colors.primary} />
       </View>
     )
   }

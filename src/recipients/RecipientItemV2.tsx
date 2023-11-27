@@ -51,7 +51,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
             style={styles.avatar}
             recipient={recipient}
             backgroundColor={Colors.gray1}
-            foregroundColor={Colors.dark}
+            foregroundColor={Colors.black}
             borderColor={Colors.gray2}
             DefaultIcon={() => <QuestionIcon />} // no need to honor color props here since the color we need match the defaults
           />
@@ -74,7 +74,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
           <View style={styles.rightIconContainer}>
             <ActivityIndicator
               size="small"
-              color={colors.greenUI}
+              color={colors.primary}
               testID="RecipientItem/ActivityIndicator"
             />
           </View>
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
   },
-  name: { ...typeScale.labelMedium, color: colors.dark },
+  name: { ...typeScale.labelMedium, color: colors.black },
   phone: {
     ...typeScale.bodySmall,
     color: colors.gray4,

@@ -48,6 +48,7 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -87,7 +88,7 @@ export default function TokenDetailsScreen({ route }: Props) {
         {!token.isStableCoin && <PriceInfo token={token} />}
         {token.isNative && token.symbol === 'CELO' && (
           <CeloGoldHistoryChart
-            color={Colors.dark}
+            color={Colors.black}
             containerStyle={styles.chartContainer}
             chartPadding={Spacing.Thick24}
             testID="TokenDetails/Chart"
@@ -321,14 +322,14 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelLarge,
-    color: Colors.dark,
+    color: Colors.black,
   },
   tokenImg: {
     marginRight: Spacing.Tiny4,
   },
   assetValue: {
     ...typeScale.titleLarge,
-    color: Colors.dark,
+    color: Colors.black,
     marginHorizontal: Spacing.Thick24,
   },
   chartContainer: {
@@ -353,7 +354,7 @@ const styles = StyleSheet.create({
   },
   yourBalance: {
     ...typeScale.labelMedium,
-    color: Colors.dark,
+    color: Colors.black,
     marginTop: Spacing.Regular16,
     marginHorizontal: Spacing.Thick24,
   },

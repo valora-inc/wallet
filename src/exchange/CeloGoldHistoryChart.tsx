@@ -185,7 +185,7 @@ function Loader({ color }: { color: colors }) {
 function CeloGoldHistoryChart({
   testID,
   i18n,
-  color = colors.goldUI,
+  color = colors.goldBrand,
   containerStyle,
   chartPadding = variables.contentPadding,
 }: Props) {

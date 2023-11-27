@@ -17,6 +17,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { CICOFlow, FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import i18n from 'src/i18n'
 import RadioButton from 'src/icons/RadioButton'
@@ -87,7 +88,7 @@ function CurrencyRadioItem({
         style={[
           styles.currencyItemContainer,
           containerStyle,
-          { borderColor: selected ? colors.greenUI : colors.gray3 },
+          { borderColor: selected ? colors.primary : colors.gray3 },
         ]}
       >
         <RadioButton selected={selected} disabled={!enabled} />
@@ -214,7 +215,7 @@ const styles = StyleSheet.create({
   },
   topContainer: {
     paddingHorizontal: variables.contentPadding,
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   titleContainer: {
     flexWrap: 'wrap',

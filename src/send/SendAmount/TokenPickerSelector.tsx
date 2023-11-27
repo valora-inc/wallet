@@ -30,7 +30,7 @@ function TokenPickerSelector({ tokenId, onChangeToken }: Props) {
         <Text allowFontScaling={false} style={styles.token}>
           {tokenInfo?.symbol}
         </Text>
-        <DownArrowIcon height={16} color={colors.greenUI} />
+        <DownArrowIcon height={16} color={colors.primary} />
       </View>
     </Touchable>
   )
@@ -44,12 +44,12 @@ const styles = StyleSheet.create({
     marginRight: 16,
     paddingRight: 8,
     borderRadius: 14,
-    backgroundColor: colors.lightGreen,
+    backgroundColor: colors.greenBackground,
   },
   token: {
     paddingVertical: 8,
     paddingLeft: 8,
-    color: colors.greenUI,
+    color: colors.primary,
   },
 })
 

@@ -154,7 +154,7 @@ function WalletHome() {
   }
 
   const refresh: React.ReactElement<RefreshControlProps> = (
-    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.greenUI]} />
+    <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
   ) as React.ReactElement<RefreshControlProps>
 
   const sections = []

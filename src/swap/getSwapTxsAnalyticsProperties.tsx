@@ -1,11 +1,13 @@
 import { SwapTxsProperties } from 'src/analytics/Properties'
-import { TokenBalancesWithAddress } from 'src/tokens/slice'
+import { TokenBalances } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import { TransactionRequest, getFeeCurrency, getMaxGasFee } from 'src/viem/prepareTransactions'
 
 export function getSwapTxsAnalyticsProperties(
   preparedTransactions: TransactionRequest[] | undefined,
-  tokensByAddress: TokenBalancesWithAddress,
-  celoAddress: string | undefined
+  networkId: NetworkId,
+  tokensById: TokenBalances
 ): SwapTxsProperties | null {
   if (!preparedTransactions) {
     return null
@@ -13,8 +15,7 @@ export function getSwapTxsAnalyticsProperties(
 
   // undefined means the fee currency is the native currency
   const feeCurrency = getFeeCurrency(preparedTransactions)
-  const feeCurrencyAddress = feeCurrency || celoAddress
-  const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
+  const feeCurrencyToken = tokensById[getTokenId(networkId, feeCurrency)]
   const maxGasFee = feeCurrencyToken
     ? getMaxGasFee(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
     : undefined

@@ -84,7 +84,7 @@ export default function ReviewFees({
         <Text style={[fontStyles.large600]}>{t('providerFeesDialog.title')}</Text>
         {'\n\n'}
         <Text style={[fontStyles.regular]}>{t('providerFeesDialog.body1')}</Text>
-        <Text style={{ color: colors.greenUI }} onPress={openProviderFeeUrl}>
+        <Text style={{ color: colors.primary }} onPress={openProviderFeeUrl}>
           {t('providerFeesDialog.body2', { providerName: provider })}
         </Text>
       </Dialog>
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   feeWaivedText: {
     ...fontStyles.regular,
-    color: colors.greenUI,
+    color: colors.primary,
   },
   reviewLineTextAlt: {
     color: colors.gray4,

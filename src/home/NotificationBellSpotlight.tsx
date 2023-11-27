@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: `${Colors.dark}CC`, // 80% opacity
+    backgroundColor: `${Colors.black}CC`, // 80% opacity
   },
   bellContainer: {
     borderRadius: 100,
@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
     right: HORIZONTAL_TOP_BAR_OFFSET,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
   },
   arrow: {
     position: 'absolute',
@@ -111,13 +111,13 @@ const styles = StyleSheet.create({
     height: 0,
     borderWidth: ARROW_SIZE,
     borderColor: 'transparent',
-    borderBottomColor: Colors.light,
+    borderBottomColor: Colors.white,
   },
   messageContainer: {
     width: '75%',
     position: 'absolute',
     right: HORIZONTAL_TOP_BAR_OFFSET,
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderRadius: 12,
     padding: Spacing.Regular16,
   },

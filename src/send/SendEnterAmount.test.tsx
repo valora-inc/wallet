@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
-import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
@@ -311,7 +311,6 @@ describe('SendEnterAmount', () => {
   })
 
   it('pressing max fills in max available amount', () => {
-    jest.mocked(useMaxSendAmount).mockReturnValue(new BigNumber(5))
     const store = createMockStore(mockStore)
 
     const { getByTestId } = render(
