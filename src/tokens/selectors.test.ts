@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenToSendSelector,
+  spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -25,6 +26,7 @@ jest.mock('src/web3/networkConfig', () => {
     default: {
       ...originalModule.default,
       defaultNetworkId: 'celo-alfajores',
+      spendTokenIds: ['celo-alfajores:0xusd', 'celo-alfajores:0xeur', 'ethereum-sepolia:native'],
     },
   }
 })
@@ -372,5 +374,20 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
     expect(tokensWithNonZeroBalanceAndShowZeroBalanceSelector.recomputations()).toEqual(
       prevComputations + 1
     )
+  })
+})
+
+describe(spendTokensByNetworkIdSelector, () => {
+  describe('when fetching spend tokens', () => {
+    it('returns the right tokens', () => {
+      const tokens = spendTokensByNetworkIdSelector(state, [
+        NetworkId['celo-alfajores'],
+        NetworkId['ethereum-sepolia'],
+      ])
+      expect(tokens.length).toEqual(3)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+      expect(tokens.find((t) => t.tokenId === mockEthTokenId)?.name).toEqual('Ether')
+    })
   })
 })

@@ -377,6 +377,11 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
     )
 )
 
+export const spendTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => tokens.filter((tokenInfo) => networkConfig.spendTokenIds.includes(tokenInfo.tokenId))
+)
+
 export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>

@@ -11,7 +11,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { typeScale } from 'src/styles/fonts'
-import { useCashInTokens, useCashOutTokens } from 'src/tokens/hooks'
+import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
@@ -24,7 +24,13 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   const { flow } = route.params
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
-  const tokenList = flow === FiatExchangeFlow.CashIn ? cashInTokens : cashOutTokens
+  const spendTokens = useSpendTokens()
+  const tokenList =
+    flow === FiatExchangeFlow.CashIn
+      ? cashInTokens
+      : flow === FiatExchangeFlow.CashOut
+      ? cashOutTokens
+      : spendTokens
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {
@@ -42,9 +48,10 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
         })
       }
       navigate(Screens.FiatExchangeAmount, {
-        currency: resolveCICOCurrency(symbol),
         tokenId: tokenId,
         flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
+        // TODO: Remove after merging other refactor PR
+        currency: resolveCICOCurrency(symbol),
         network: CiCoCurrencyNetworkMap[resolveCICOCurrency(symbol)],
       })
     }

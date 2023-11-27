@@ -8,6 +8,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
+  spendTokensByNetworkIdSelector,
   swappableTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByCurrencySelector,
@@ -105,6 +106,13 @@ export function useCashOutTokens(showZeroBalanceTokens: boolean = false) {
   return useSelector((state) =>
     cashOutTokensByNetworkIdSelector(state, networkIdsForCico, showZeroBalanceTokens)
   )
+}
+
+export function useSpendTokens() {
+  const networkIdsForCico = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showCico
+  return useSelector((state) => spendTokensByNetworkIdSelector(state, networkIdsForCico))
 }
 
 export function useTokenInfo(tokenId?: string): TokenBalance | undefined {
