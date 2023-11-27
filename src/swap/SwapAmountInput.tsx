@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -25,7 +24,6 @@ interface Props {
   label: string
   onInputChange(value: string): void
   inputValue?: string | null
-  parsedInputValue?: BigNumber | null
   onPressMax?(): void
   onSelectToken(): void
   token?: TokenBalance
@@ -41,7 +39,6 @@ const SwapAmountInput = ({
   label,
   onInputChange,
   inputValue,
-  parsedInputValue,
   onPressMax,
   onSelectToken,
   token,
@@ -152,16 +149,9 @@ const SwapAmountInput = ({
         </Touchable>
       </View>
       <View testID="SwapAmountInput/FiatValue">
-        <Text
-          style={[
-            styles.fiatValue,
-            {
-              opacity: loading || !parsedInputValue?.gt(0) || !token ? 0 : 1,
-            },
-          ]}
-        >
+        <Text style={[styles.fiatValue, { opacity: loading || !inputValue || !token ? 0 : 1 }]}>
           <TokenDisplay
-            amount={parsedInputValue ?? 0}
+            amount={inputValue ?? 0}
             showLocalAmount
             showApprox
             errorFallback={t('swapScreen.tokenUsdValueUnknown') ?? undefined}
