@@ -5,7 +5,11 @@ import { Provider } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateHome,
+  navigateToFiatCurrencySelection,
+} from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import { AdventureCardName } from 'src/onboarding/types'
@@ -13,6 +17,11 @@ import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+
+// jest.mock('src/navigator/NavigationService', () => ({
+//   ...jest.requireActual('src/navigator/NavigationService'),
+//   navigateToFiatCurrencySelection: jest.fn(),
+// }))
 
 describe('ChooseYourAdventure', () => {
   const orderOptions = [
@@ -88,9 +97,7 @@ describe('ChooseYourAdventure', () => {
     })
     fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.add'))
     expect(navigateHome).toHaveBeenLastCalledWith()
-    expect(navigate).toHaveBeenLastCalledWith(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    expect(navigateToFiatCurrencySelection).toHaveBeenLastCalledWith(FiatExchangeFlow.CashIn)
 
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 2,

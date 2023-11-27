@@ -234,7 +234,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
 
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
       flow: FiatExchangeFlow.CashIn,
     })
   })

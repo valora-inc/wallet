@@ -9,8 +9,8 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore } from 'test/utils'
 import { getFeatureGate } from 'src/statsig'
+import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
