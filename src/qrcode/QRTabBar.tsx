@@ -35,7 +35,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
 
   const animatedColor = Animated.interpolateColors(position, {
     inputRange: [0.9, 1],
-    outputColorRange: [colors.dark, colors.light],
+    outputColorRange: [colors.black, colors.white],
   })
 
   // using `animatedColor` with animated svg causes android crash since
@@ -46,7 +46,7 @@ export default function QRTabBar({ state, descriptors, navigation, position, qrS
   // https://github.com/software-mansion/react-native-svg/issues/1976
   // https://github.com/software-mansion/react-native-reanimated/issues/3775
   const color =
-    Platform.OS === 'ios' ? animatedColor : state.index === 0 ? colors.dark : colors.light
+    Platform.OS === 'ios' ? animatedColor : state.index === 0 ? colors.black : colors.white
 
   const onPressClose = () => {
     navigation.getParent()?.goBack()

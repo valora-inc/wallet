@@ -46,7 +46,7 @@ export default function TokenDetailsMoreActions({
             testID={`TokenDetailsMoreActions/${action.name}`}
           >
             <>
-              <action.iconComponent color={Colors.dark} />
+              <action.iconComponent color={Colors.black} />
               <View style={{ flex: 1 }}>
                 <Text style={styles.actionTitle}>{action.title}</Text>
                 <Text style={styles.actionDetails}>{action.details}</Text>

@@ -197,7 +197,7 @@ export default function NftsInfoCarousel({ route }: Props) {
 const styles = StyleSheet.create({
   attributeText: {
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
   },
   attributeTitle: {
     ...fontStyles.small500,

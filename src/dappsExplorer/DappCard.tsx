@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   title: {
     ...fontStyles.small500,
     lineHeight: 24,
-    color: Colors.dark,
+    color: Colors.black,
   },
   subtitle: {
     ...fontStyles.xsmall,

@@ -105,7 +105,7 @@ const BottomSheet = ({
 
 const styles = StyleSheet.create({
   handle: {
-    backgroundColor: Colors.gray6,
+    backgroundColor: Colors.gray2,
     width: 40,
   },
   headerContentSpacing: {

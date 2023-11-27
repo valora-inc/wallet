@@ -1661,6 +1661,7 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Review",
+    "confirmSwap": "Confirm Swap",
     "swapFrom": "FROM",
     "swapTo": "TO",
     "insufficientFunds": "Insufficient {{token}} balance. Try a smaller amount or choose a different asset.",
@@ -1668,6 +1669,7 @@
     "disclaimer": "Best rate determined by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",

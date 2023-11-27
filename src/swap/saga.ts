@@ -28,13 +28,9 @@ import {
 } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
-import {
-  celoAddressSelector,
-  tokensByAddressSelector,
-  tokensByIdSelector,
-} from 'src/tokens/selectors'
-import { TokenBalance, TokenBalancesWithAddress } from 'src/tokens/slice'
-import { getTokenId } from 'src/tokens/utils'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { TokenBalance, TokenBalances } from 'src/tokens/slice'
+import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import {
   addStandbyTransaction,
   removeStandbyTransaction,
@@ -42,6 +38,7 @@ import {
 } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import {
+  NetworkId,
   TokenTransactionTypeV2,
   TransactionContext,
   newTransactionContext,
@@ -138,13 +135,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const amount = action.payload.unvalidatedSwapTransaction[amountType]
   const { quoteReceivedAt } = action.payload
 
-  const tokens = yield* select((state) =>
+  const tokensById = yield* select((state) =>
     tokensByIdSelector(state, [networkConfig.defaultNetworkId])
   )
-  const fromToken =
-    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.fromToken)]
-  const toToken =
-    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.toToken)]
+  const fromToken = tokensById[action.payload.userInput.fromTokenId]
+  const toToken = tokensById[action.payload.userInput.toTokenId]
 
   if (!fromToken || !toToken) {
     Logger.error(
@@ -170,7 +165,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
   const defaultSwapExecuteProps = {
     toToken: buyTokenAddress,
+    toTokenId: toToken.tokenId,
+    toTokenNetworkId: toToken.networkId,
     fromToken: sellTokenAddress,
+    fromTokenId: fromToken.tokenId,
+    fromTokenNetworkId: fromToken.networkId,
     amount,
     amountType,
     price,
@@ -206,7 +205,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         price,
         guaranteedPrice,
         toToken: buyTokenAddress,
+        toTokenId: toToken.tokenId,
+        toTokenNetworkId: toToken.networkId,
         fromToken: sellTokenAddress,
+        fromTokenId: fromToken.tokenId,
+        fromTokenNetworkId: fromToken.networkId,
       })
       return
     }
@@ -282,12 +285,11 @@ interface TrackedTx {
 
 function getTxReceiptAnalyticsProperties(
   { tx, txHash, txReceipt }: TrackedTx,
-  tokensByAddress: TokenBalancesWithAddress,
-  celoAddress: string | undefined
+  networkId: NetworkId,
+  tokensById: TokenBalances
 ): Partial<TxReceiptProperties> {
   const txFeeCurrency = tx && getFeeCurrency(tx)
-  const feeCurrencyAddress = txFeeCurrency || celoAddress
-  const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
+  const feeCurrencyToken = tokensById[getTokenId(networkId, txFeeCurrency)]
 
   const txMaxGasFee =
     tx && feeCurrencyToken ? getMaxGasFee([tx]).shiftedBy(-feeCurrencyToken.decimals) : undefined
@@ -339,11 +341,11 @@ function getPrefixedTxAnalyticsProperties<Prefix extends string>(
 
 function getSwapTxsReceiptAnalyticsProperties(
   trackedTxs: TrackedTx[],
-  tokensByAddress: TokenBalancesWithAddress,
-  celoAddress: string | undefined
+  networkId: NetworkId,
+  tokensById: TokenBalances
 ): SwapTxsReceiptProperties {
   const txs = trackedTxs.map((trackedTx) =>
-    getTxReceiptAnalyticsProperties(trackedTx, tokensByAddress, celoAddress)
+    getTxReceiptAnalyticsProperties(trackedTx, networkId, tokensById)
   )
 
   const approveTx = trackedTxs.length > 1 ? txs[0] : undefined
@@ -380,13 +382,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
   const preparedTransactions = getPreparedTransactions(action.payload.quote.preparedTransactions)
   const quoteReceivedAt = action.payload.quote.receivedAt
 
-  const tokens = yield* select((state) =>
-    tokensByIdSelector(state, [networkConfig.defaultNetworkId])
+  const tokensById = yield* select((state) =>
+    tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
   )
-  const fromToken =
-    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.fromToken)]
-  const toToken =
-    tokens[getTokenId(networkConfig.defaultNetworkId, action.payload.userInput.toToken)]
+  const fromToken = tokensById[action.payload.userInput.fromTokenId]
+  const toToken = tokensById[action.payload.userInput.toTokenId]
 
   if (!fromToken || !toToken) {
     Logger.error(
@@ -410,12 +410,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
 
-  const tokensByAddress = yield* select(tokensByAddressSelector)
-  const celoAddress = yield* select(celoAddressSelector)
-
   const defaultSwapExecuteProps = {
     toToken: buyTokenAddress,
+    toTokenId: toToken.tokenId,
+    toTokenNetworkId: toToken.networkId,
     fromToken: sellTokenAddress,
+    fromTokenId: fromToken.tokenId,
+    fromTokenNetworkId: fromToken.networkId,
     amount,
     amountType,
     price,
@@ -428,7 +429,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     estimatedSellTokenUsdValue,
     estimatedBuyTokenUsdValue,
     web3Library: 'viem' as const,
-    ...getSwapTxsAnalyticsProperties(preparedTransactions, tokensByAddress, celoAddress),
+    ...getSwapTxsAnalyticsProperties(preparedTransactions, fromToken.networkId, tokensById),
   }
 
   let quoteToTransactionElapsedTimeInMs: number | undefined
@@ -551,7 +552,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, tokensByAddress, celoAddress),
+      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, fromToken.networkId, tokensById),
     })
   } catch (err) {
     const error = ensureError(err)
@@ -561,7 +562,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, tokensByAddress, celoAddress),
+      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, fromToken.networkId, tokensById),
       error: error.message,
     })
     yield* put(swapError())

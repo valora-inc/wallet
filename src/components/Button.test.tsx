@@ -71,12 +71,6 @@ describe('Button', () => {
       expect(tree).toMatchSnapshot()
     })
   })
-  describe('when type is TERTIARY', () => {
-    it('renders', () => {
-      const tree = render(<Button onPress={jest.fn()} text="Button" type={BtnTypes.TERTIARY} />)
-      expect(tree).toMatchSnapshot()
-    })
-  })
   describe('when type not given', () => {
     it('defaults to primary', () => {
       const tree = render(<Button onPress={jest.fn()} text={'Button'} />)

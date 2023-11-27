@@ -70,7 +70,7 @@ exports[`renders properly 1`] = `
           <circle
             cx={21}
             cy={150}
-            fill="#EEB93C"
+            fill="#FBCC5C"
             r="4"
           />
         </g>
@@ -100,7 +100,7 @@ exports[`renders properly 1`] = `
           <circle
             cx={729}
             cy={29.999999999999993}
-            fill="#EEB93C"
+            fill="#FBCC5C"
             r="4"
           />
         </g>
@@ -134,7 +134,7 @@ exports[`renders properly 1`] = `
           fill="none"
           role="presentation"
           shapeRendering="auto"
-          stroke="#EEB93C"
+          stroke="#FBCC5C"
           strokeWidth={2}
           width={4}
         />
@@ -273,7 +273,7 @@ exports[`renders while update is in progress 1`] = `
           <circle
             cx={21}
             cy={89.99999999999999}
-            fill="#EEB93C"
+            fill="#FBCC5C"
             r="4"
           />
         </g>
@@ -292,7 +292,7 @@ exports[`renders while update is in progress 1`] = `
           <circle
             cx={729.0000000000001}
             cy={89.99999999999999}
-            fill="#EEB93C"
+            fill="#FBCC5C"
             r="4"
           />
         </g>
@@ -326,7 +326,7 @@ exports[`renders while update is in progress 1`] = `
           fill="none"
           role="presentation"
           shapeRendering="auto"
-          stroke="#EEB93C"
+          stroke="#FBCC5C"
           strokeWidth={2}
           width={4}
         />
@@ -407,7 +407,7 @@ exports[`renders without history 1`] = `
   }
 >
   <ActivityIndicator
-    color="#EEB93C"
+    color="#FBCC5C"
     size="large"
   />
 </View>

@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     margin: 0,
   },
   centerContainer: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   // Needed to add icons in the pressable buttons
   pressable: {

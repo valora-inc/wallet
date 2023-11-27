@@ -25,7 +25,7 @@ function SelectRecipientButton({ title, subtitle, onPress, icon, testID, showChe
         </CircledIcon>
         {showCheckmark && (
           <View style={styles.checkmark} testID={`${testID}/checkmark`}>
-            <Checkmark height={12} width={12} color={colors.dark} />
+            <Checkmark height={12} width={12} color={colors.black} />
           </View>
         )}
         <View style={styles.textSection}>
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.labelMedium,
-    color: colors.dark,
+    color: colors.black,
   },
   body: {
     flexDirection: 'row',

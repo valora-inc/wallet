@@ -1657,6 +1657,7 @@
   "swapScreen": {
     "title": "交换",
     "review": "查看",
+    "confirmSwap": "确认交换",
     "swapFrom": "自",
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
@@ -1664,6 +1665,7 @@
     "disclaimer": "最优惠价格由网络合作伙伴决定。<0>了解更多信息</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",

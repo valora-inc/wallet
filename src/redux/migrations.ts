@@ -1424,4 +1424,9 @@ export const migrations = {
       rampCashInButtonExpEnabled: false,
     },
   }),
+  168: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'swapUserInput'),
+  }),
+  169: (state: any) => state,
 }

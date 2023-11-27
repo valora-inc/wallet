@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     ...fontStyles.h2,
     fontSize: 30,
     lineHeight: 36,
-    color: colors.light,
+    color: colors.white,
     marginTop: Spacing.Regular16,
     marginBottom: 30,
     shadowOffset: { width: 0, height: 1 },

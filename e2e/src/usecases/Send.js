@@ -1,10 +1,19 @@
 import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, inputNumberKeypad, addComment } from '../utils/utils'
+import {
+  enterPinUiIfNecessary,
+  inputNumberKeypad,
+  addComment,
+  quickOnboarding,
+} from '../utils/utils'
 const faker = require('@faker-js/faker')
 import jestExpect from 'expect'
 
 export default Send = () => {
+  beforeAll(async () => {
+    await quickOnboarding()
+  })
+
   let randomComment = faker.lorem.words()
   describe.each([{ web3Library: 'contract-kit' }, { web3Library: 'viem' }])(
     'When multi-token send flow (with $web3Library)',

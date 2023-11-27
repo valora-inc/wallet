@@ -42,10 +42,10 @@ function PercentageIndicator({
   let color: Colors
 
   if (comparison > 0) {
-    color = Colors.greenUI
+    color = Colors.primary
     indicator = <UpIcon color={color} testID={`${testID}:UpIndicator`} />
   } else if (comparison < 0) {
-    color = Colors.warning
+    color = Colors.error
     indicator = <DownIcon color={color} testID={`${testID}:DownIndicator`} />
   } else {
     color = Colors.gray3
