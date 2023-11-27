@@ -25,7 +25,7 @@ export default function Card({ style, rounded = false, shadow = Shadow.Soft, ...
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     padding: 16,
   },
   rounded: {

@@ -8,7 +8,7 @@ export interface Props {
   strokeWidth?: number
 }
 
-function Share({ color = colors.greenUI, height = 32, strokeWidth = 2.5 }: Props) {
+function Share({ color = colors.primary, height = 32, strokeWidth = 2.5 }: Props) {
   return (
     <Svg width={height} height={height} viewBox="0 0 32 32" fill="none">
       <Path

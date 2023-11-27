@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -24,6 +25,7 @@ interface Props {
   label: string
   onInputChange(value: string): void
   inputValue?: string | null
+  parsedInputValue?: BigNumber | null
   onPressMax?(): void
   onSelectToken(): void
   token?: TokenBalance
@@ -39,6 +41,7 @@ const SwapAmountInput = ({
   label,
   onInputChange,
   inputValue,
+  parsedInputValue,
   onPressMax,
   onSelectToken,
   token,
@@ -149,9 +152,16 @@ const SwapAmountInput = ({
         </Touchable>
       </View>
       <View testID="SwapAmountInput/FiatValue">
-        <Text style={[styles.fiatValue, { opacity: loading || !inputValue || !token ? 0 : 1 }]}>
+        <Text
+          style={[
+            styles.fiatValue,
+            {
+              opacity: loading || !parsedInputValue?.gt(0) || !token ? 0 : 1,
+            },
+          ]}
+        >
           <TokenDisplay
-            amount={inputValue ?? 0}
+            amount={parsedInputValue ?? 0}
             showLocalAmount
             showApprox
             errorFallback={t('swapScreen.tokenUsdValueUnknown') ?? undefined}
@@ -195,7 +205,7 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Smallest8,
   },
   inputError: {
-    color: Colors.warning,
+    color: Colors.error,
   },
   inputText: {
     ...fontStyles.h2,
@@ -219,7 +229,7 @@ const styles = StyleSheet.create({
     width: '40%',
   },
   maxButton: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 4,
@@ -235,7 +245,7 @@ const styles = StyleSheet.create({
   tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 100,
@@ -249,7 +259,7 @@ const styles = StyleSheet.create({
   tokenNamePlaceholder: {
     ...fontStyles.small600,
     paddingHorizontal: 4,
-    color: Colors.greenUI,
+    color: Colors.primary,
   },
   tokenImage: {
     width: 24,

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.h2,
-    color: colors.dark,
+    color: colors.black,
   },
 })
 

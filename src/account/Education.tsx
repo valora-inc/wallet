@@ -154,7 +154,7 @@ const Education = (props: Props) => {
             <TopBarIconButton
               testID={`Education/${currentIndex === 0 ? 'Close' : 'Back'}Icon`}
               onPress={goBack}
-              icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.dark} />}
+              icon={currentIndex === 0 ? <Times /> : <BackChevron color={colors.black} />}
             />
           </View>
         )
@@ -207,6 +207,9 @@ const Education = (props: Props) => {
           onPress={nextStep}
           text={currentIndex === stepInfo.length - 1 ? finalButtonText : buttonText}
           type={currentIndex === stepInfo.length - 1 ? finalButtonType : buttonType}
+          touchableStyle={
+            currentIndex === stepInfo.length - 1 ? { backgroundColor: '#EEB93C' } : undefined
+          }
         />
       </View>
     </SafeAreaView>

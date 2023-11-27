@@ -99,7 +99,7 @@ function NoResults({
   return (
     <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
-        <InfoIcon color={Colors.onboardingBlue} />
+        <InfoIcon color={Colors.infoDark} />
       </View>
       <Text style={styles.noResultsText}>
         <Trans i18nKey="tokenBottomSheet.noTokenInResult" tOptions={{ searchTerm }}>

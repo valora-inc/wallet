@@ -180,8 +180,8 @@ export function DAppsExplorerScreenSearchFilter() {
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
-                tintColor={colors.greenBrand}
-                colors={[colors.greenBrand]}
+                tintColor={colors.primary}
+                colors={[colors.primary]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
@@ -363,7 +363,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
   },
   sectionList: {
     flex: 1,
