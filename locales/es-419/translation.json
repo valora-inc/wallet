@@ -1774,7 +1774,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
-      "body": "Parece que {{contactName}} no está en Valora. Aún puedes enviar un pago si conoces la dirección de su billetera, o enviar una invitación. \n\n Después de que descargue Valora, que conecte su número de teléfono y añada 5 cUSD a su billetera, ambos recibirán 0.50 cUSD hasta agotar fondos."
+      "body": "Parece que {{contactName}} no está en Valora. Si conoces su dirección de wallet, envía los fondos directamente a su dirección, o bien envíale una invitación a nuestra app. \n\nUna vez que descargue Valora, conecte su número de teléfono y agregue fondos, ambos obtendrán 0,50 cUSD mientras la promoción esté vigente."
     }
   },
   "celoNews": {
