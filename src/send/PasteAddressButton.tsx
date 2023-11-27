@@ -13,10 +13,10 @@ type Props = PasteAwareWrappedElementProps
 
 function PasteAddressButton(props: Props) {
   const { isPasteIconVisible, onPressPaste, clipboardContent } = props
+  const { t } = useTranslation()
   if (!isPasteIconVisible) {
     return null
   }
-  const { t } = useTranslation()
   return (
     <View style={styles.wrapper}>
       <Touchable

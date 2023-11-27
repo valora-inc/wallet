@@ -151,7 +151,6 @@ export function* fetchAddressesAndValidateSaga({
     )
     const oldAddresses = oldE164NumberToAddress[e164Number] || []
 
-    console.log(e164Number, oldAddresses)
     // Clear existing entries for those numbers so our mapping consumers know new status is pending.
     yield* put(updateE164PhoneNumberAddresses({ [e164Number]: undefined }, {}))
 

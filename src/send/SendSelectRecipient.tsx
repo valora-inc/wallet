@@ -207,28 +207,31 @@ function SendSelectRecipient({ route }: Props) {
     navigateToSendAmount(recentRecipient)
   }
 
-  const navigateToSendAmount = (selectedRecipient: Recipient | null) => {
-    if (selectedRecipient?.address) {
+  const navigateToSendAmount = (selectedRecipient: Recipient) => {
+    // TODO (ACT-973): Ensure we're able to to navigate to the next screen
+    // no matter what the contents of the recipient are.
+    if (selectedRecipient.address) {
       navigate(Screens.SendEnterAmount, {
         isFromScan: false,
         defaultTokenIdOverride,
         forceTokenId,
-        recipient: selectedRecipient,
+        recipient: {
+          ...selectedRecipient,
+          address: selectedRecipient.address,
+        },
         origin: SendOrigin.AppSendFlow,
       })
     }
   }
 
   const onPressSendOrInvite = (shouldInviteRecipient: boolean) => {
-    console.log(recipient)
     if (!recipient) {
       return
     }
     if (shouldInviteRecipient) {
       setShowInviteModal(true)
-    } else if (recipient.address) {
-      navigateToSendAmount(recipient)
     }
+    navigateToSendAmount(recipient)
   }
 
   const renderSendOrInviteButton = () => {
@@ -281,7 +284,7 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.body} edges={['top']}>
+    <SafeAreaView style={styles.body} edges={['top', 'bottom']}>
       <View style={styles.header}>
         <TopBarIconButton
           icon={<Times />}
