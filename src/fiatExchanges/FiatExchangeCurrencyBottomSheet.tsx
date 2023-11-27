@@ -23,7 +23,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   const dispatch = useDispatch()
   const { flow } = route.params
   const cashInTokens = useCashInTokens()
-  const cashOutTokens = useCashOutTokens()
+  const cashOutTokens = useCashOutTokens(true)
   const spendTokens = useSpendTokens()
   const tokenList =
     flow === FiatExchangeFlow.CashIn
