@@ -264,7 +264,7 @@
   "connectToWallet": "Conectarse a {{dappName}}",
   "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
-  "address": "Dirección de billetera",
+  "address": "Dirección de wallet",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
@@ -631,7 +631,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que se registren y añadan 5 cUSD a su billetera {{appName}}, ambos recibirán 0,50 cUSD."
+    "body": "Una vez que se registren y depositen 5 cUSD en su wallet {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -639,7 +639,7 @@
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
     "share": "Hola, regístrate en la cartera {{appName}} . Yo la utilizo para hacer crecer mis ahorros en USD y criptomonedas, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
-    "help": "Para reclamar esta recompensa, el invitado debe descargar a través del enlace de recomendación, conectar su número de teléfono y mantener 5 cUSD o más en su billetera {{appName}} durante 7 días. <0>Ver todas las condiciones</0>",
+    "help": "Para reclamar esta recompensa, el invitado debe descargar la app a través del link de invitación, conectar su número de teléfono y depositar 5 cUSD o más en su wallet {{appName}} durante 7 días. <0>Ver las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
@@ -1422,12 +1422,12 @@
     "card": "Tarjeta de crédito/débito",
     "bank": "Cuenta bancaria",
     "mobileMoney": "Dinero digital",
-    "airtime": "Tiempo aire",
+    "airtime": "Datos móviles",
     "minFee": "Tarifa mínima",
     "numProviders": "{{count}} proveedores",
     "fee": "Tarifas",
     "idRequired": "Requiere identificación",
-    "mobileCarrierRequirement": "{{carrier}} Requerido",
+    "mobileCarrierRequirement": "Requiere {{carrier}}",
     "numDays": "1-3 días",
     "oneHour": "Menos de 1 hora",
     "xHours": "Menos de {{upperBound}} horas",
@@ -1683,13 +1683,13 @@
     },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Saldo de {{tokenSymbol}} insuficiente",
-      "description": "No tienes suficientes {{tokenSymbol}} para cubrir los gastos de gasolina. ¿Te gustaría intercambiar un monto menor?",
-      "confirmDecreaseButton": "Intercambia un monto menor"
+      "title": "Saldo en {{tokenSymbol}} insuficiente",
+      "description": "No tienes suficientes {{tokenSymbol}} para cubrir las tarifas de transacción. ¿Te gustaría intercambiar un monto menor?",
+      "confirmDecreaseButton": "Intercambiar monto menor"
     },
     "notEnoughBalanceForGas": {
-      "title": "Saldo insuficiente de tokens para gasolina",
-      "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, añade {{feeCurrencies}} a tu billetera para completar este intercambio.",
+      "title": "Saldo insuficiente para cubrir tarifas de transacción",
+      "description": "No tienes suficientes {{feeCurrencies}} para cubrir las tarifas de transacción. Deposita {{feeCurrencies}} en tu wallet para completar este intercambio.",
       "dismissButton": "Ignorar"
     },
     "transactionDetails": {
@@ -1697,8 +1697,8 @@
       "networkFeeNoNetwork": "Tarifa de red",
       "swapFee": "Tarifa de {{appName}}",
       "swapFeeWaived": "Gratis",
-      "slippagePercentage": "Tolerancia al deslizamiento",
-      "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nEsta tarifa de red estimada es necesaria para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener operativa la red.",
+      "slippagePercentage": "Tolerancia al slippage",
+      "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
       "estimatedValue": "Valor estimado"
@@ -1843,12 +1843,12 @@
   },
   "assets": {
     "claimRewards": "Reclamar recompensas",
-    "bridge": "Puenteado a través de {{bridge}}",
+    "bridge": "Envuelto en bridge a través de {{bridge}}",
     "networkName": "Red {{networkName}}",
     "tabBar": {
       "tokens": "Tokens",
       "collectibles": "Coleccionables",
-      "dappPositions": "Posiciones Dapp"
+      "dappPositions": "Posiciones en dapps"
     },
     "importToken": "Importar"
   },
@@ -1870,9 +1870,9 @@
     },
     "moreActions": "Más acciones",
     "actionDescriptions": {
-      "send": "Utiliza cualquier dirección de Celo, dominio, número de teléfono, etc.",
-      "swap": "Intercambia tus tokens sin salir de tu billetera",
-      "add": "Compra tokens utilizando uno de nuestros proveedores de confianza",
+      "send": "Utiliza cualquier dominio, número de teléfono, dirección Celo, etc.",
+      "swap": "Intercambia tus tokens sin salir de tu wallet",
+      "add": "Compra tokens a uno de nuestros proveedores de confianza",
       "withdraw": "Transfiere tokens a una cuenta bancaria, dinero móvil, tarjeta de regalo, etc."
     }
   },
@@ -1894,7 +1894,7 @@
     "importButton": "Importa"
   },
   "sendSelectRecipient": {
-    "searchText": "Busca por nombre, teléfono, billetera...",
+    "searchText": "Busca por nombre, teléfono, wallet...",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
     "recents": "Recientes",
@@ -1908,11 +1908,11 @@
     },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
-      "subtitle": "EMPEZAR",
+      "subtitle": "COMIENZA AHORA MISMO",
       "options": {
         "one": {
-          "title": "Dirección de billetera",
-          "subtitle": "Introduce una dirección de billetera compatible con Celo o Ethereum (ej. 0x123...abcde)"
+          "title": "Dirección de wallet",
+          "subtitle": "Ingresa una dirección de wallet compatible con Celo o Ethereum (ej. 0x123...abcde)"
         },
         "two": {
           "title": "Número de teléfono",
@@ -1920,11 +1920,11 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Enviar activos Ethereum al nombre ENS de alguien"
+          "subtitle": "Envía activos Ethereum a un alias ENS"
         },
         "four": {
-          "title": "Nombre del perfil",
-          "subtitle": "Puedes buscar usuarios existentes en Valora"
+          "title": "Nombre de perfil",
+          "subtitle": "Puedes buscar usuarios de Valora por su nombre de perfil"
         }
       }
     },
@@ -1939,8 +1939,8 @@
   },
   "transactionStatus": {
     "transactionIsCompleted": "Finalizada",
-    "transactionIsPending": "Pendientes",
-    "transactionIsFailed": "Falló"
+    "transactionIsPending": "Pendiente",
+    "transactionIsFailed": "Fallida"
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Detalles",
@@ -1951,17 +1951,17 @@
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
   "sendEnterAmountScreen": {
-    "title": "Introduce el monto",
-    "selectToken": "Selecciona un Token",
+    "title": "Ingresa el monto",
+    "selectToken": "Selecciona un token",
     "networkFee": "Tarifa de red de {{networkName}}",
-    "lowerAmount": "Introduce un monto menor",
+    "lowerAmount": "Ingresa un monto menor",
     "maxAmountWarning": {
-      "title": "Enviar el monto máximo",
-      "description": "Ajusta el monto que envías para asegurarte de que tienes suficientes {{feeTokenSymbol}} para gasolina"
+      "title": "Envío de monto máximo",
+      "description": "Ajusta el monto a enviar para asegurarte de tener suficiente {{feeTokenSymbol}} para cubrir las tarifas de transacción"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Necesitas más {{feeTokenSymbol}} para la gasolina",
-      "description": "Añade {{feeTokenSymbol}} para cubrir los gastos de gasolina o ajusta el monto que envías"
+      "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
+      "description": "Deposita {{feeTokenSymbol}} para cubrir los las tarifas de transacción o ajusta el monto a enviar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
