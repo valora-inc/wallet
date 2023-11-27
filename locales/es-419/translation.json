@@ -1539,7 +1539,7 @@
     },
     "cashIn": {
       "cancel": "Cancelar acción",
-      "contactSupportPrefill": "Tengo problemas para agregar fondos."
+      "contactSupportPrefill": "Tengo problemas para depositar fondos."
     },
     "success": {
       "header": "Operación exitosa",
@@ -1743,7 +1743,7 @@
     },
     "swapCompleteSection": {
       "title": "Cambio exitoso",
-      "subtitle": "Tus activos intercambiados aparecerán en tu billetera en breve",
+      "subtitle": "Tus activos intercambiados aparecerán en tu wallet en breve",
       "done": "Listo"
     },
     "swapErrorSection": {
@@ -1770,7 +1770,7 @@
     "shareMessage": "¡Hola! Estoy usando la wallet cripto de {{appName}} y me gustaría invitarte a que la pruebes. Si descargas la app y conectas tu número de teléfono, ambos obtendremos un NFT. Usa este enlace: {{link}}",
     "rewardsActive": {
       "title": "Invita a {{contactName}} a {{appName}}. ¡Ambos recibirán un NFT!",
-      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección de wallet, envíale el pago a su billetera, o bien envíale una invitación. \n\nUna vez de que descargue la app y conecte su número de teléfono, ambos obtendrán un NFT exclusivo."
+      "body": "Parece que {{contactName}} no está en {{appName}}. Si conoces su dirección de wallet, envía los fondos directamente a su dirección, o bien envíale una invitación a nuestra app. \n\nUna vez que descargue {{appName}} y conecte su número de teléfono, ambos recibirán un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
@@ -1817,7 +1817,7 @@
   },
   "nftGallery": {
     "title": "Coleccionables",
-    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu billetera"
+    "noNfts": "Tus NFT se mostrarán aquí una vez que tengas uno en tu wallet"
   },
   "nftInfoCarousel": {
     "viewOnCeloExplorer": "Ver en Celo Explorer",
@@ -1843,7 +1843,7 @@
   },
   "assets": {
     "claimRewards": "Reclamar recompensas",
-    "bridge": "Envuelto en bridge a través de {{bridge}}",
+    "bridge": "Por puente a través de {{bridge}}",
     "networkName": "Red {{networkName}}",
     "tabBar": {
       "tokens": "Tokens",
@@ -1871,7 +1871,7 @@
     "moreActions": "Más acciones",
     "actionDescriptions": {
       "send": "Utiliza cualquier dominio, número de teléfono, dirección Celo, etc.",
-      "swap": "Intercambia tus tokens sin salir de tu wallet",
+      "swap": "Intercambia tokens sin salir de tu wallet",
       "add": "Compra tokens a uno de nuestros proveedores de confianza",
       "withdraw": "Transfiere tokens a una cuenta bancaria, dinero móvil, tarjeta de regalo, etc."
     }
