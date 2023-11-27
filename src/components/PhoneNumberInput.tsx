@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
     width: 80,
     paddingHorizontal: 12,
     alignItems: 'stretch',
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     borderRadius: 8,
   },
   countryFlagContainer: {

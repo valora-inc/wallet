@@ -56,7 +56,7 @@ export function SettingsItemTextValue({
             </Text>
           )}
           {(value || showChevron) && (
-            <ForwardChevron color={isValueActionable ? colors.greenUI : undefined} />
+            <ForwardChevron color={isValueActionable ? colors.primary : undefined} />
           )}
         </View>
       </View>
@@ -130,7 +130,7 @@ export function SettingsItemInput({
   placeholder,
 }: SettingsItemInputProps) {
   const onFocus = () => {
-    setInputColor(colors.dark)
+    setInputColor(colors.black)
   }
   const onBlur = () => {
     setInputColor(colors.gray4)
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
   },
   value: {
     ...fontStyles.regular,
@@ -212,7 +212,7 @@ const styles = StyleSheet.create({
   },
   valueActionable: {
     ...fontStyles.regular,
-    color: colors.greenUI,
+    color: colors.primary,
     marginRight: 8,
   },
   details: {

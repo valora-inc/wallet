@@ -34,14 +34,14 @@ export default function SegmentedControl({ position, values, selectedIndex = 0, 
   // https://github.com/software-mansion/react-native-reanimated/issues/1354
   const color = Animated.interpolateColors(position, {
     inputRange: [0.5, 1],
-    outputColorRange: [colors.greenUI, colors.light],
+    outputColorRange: [colors.primary, colors.white],
   }) as any
 
   // TODO: remove 'as any' when this is released:
   // https://github.com/software-mansion/react-native-reanimated/issues/1354
   const colorInverted = Animated.interpolateColors(position, {
     inputRange: [0.5, 1],
-    outputColorRange: [colors.light, colors.dark],
+    outputColorRange: [colors.white, colors.black],
   }) as any
 
   const onLayout = ({
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     height: HEIGHT,
     borderRadius: HEIGHT / 2,
     borderWidth: 1,
-    borderColor: colors.greenUI,
+    borderColor: colors.primary,
     overflow: 'hidden',
     marginHorizontal: 30,
   },
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     left: 0,
-    backgroundColor: colors.greenUI,
+    backgroundColor: colors.primary,
   },
   maskedContainer: {
     // Transparent background because mask is based off alpha channel.
@@ -158,6 +158,6 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.small600,
     fontSize: 12,
-    color: colors.greenUI,
+    color: colors.primary,
   },
 })

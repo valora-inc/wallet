@@ -32,7 +32,7 @@ function SendHeader() {
       title={t('send')}
       right={
         <TopBarIconButton
-          icon={<QRCodeBorderlessIcon height={32} color={colors.greenUI} />}
+          icon={<QRCodeBorderlessIcon height={32} color={colors.primary} />}
           eventName={SendEvents.send_scan}
           onPress={goToQRScanner}
           style={styles.buttonContainer}

@@ -26,7 +26,7 @@ export default function CommentTextInput({ testID, onCommentChange, comment, onB
       onChangeText={onCommentChange}
       value={comment}
       placeholder={t('addDescription') ?? undefined}
-      placeholderTextColor={colors.greenUI}
+      placeholderTextColor={colors.primary}
       returnKeyType={'done'}
       onBlur={onBlur}
       blurOnSubmit={true}

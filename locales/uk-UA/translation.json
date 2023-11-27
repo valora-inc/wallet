@@ -1663,6 +1663,7 @@
   "swapScreen": {
     "title": "Обміняти",
     "review": "Перегляд",
+    "confirmSwap": "Підтвердити обмін",
     "swapFrom": "З",
     "swapTo": "НА",
     "insufficientFunds": "{{token}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив.",
@@ -1670,6 +1671,7 @@
     "disclaimer": "Найкращий тариф визначають партнери мережі. <0>Дізнатися більше</0>",
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Обмін МАКС. суми",
       "body": "Переконайтеся, що у вашому гаманці є CELO, щоб покрити комісії за газ для подальших транзакцій",

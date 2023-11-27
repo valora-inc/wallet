@@ -106,12 +106,12 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyMedium,
-    color: Colors.dark,
+    color: Colors.black,
     width: '40%',
   },
   currencyAmountPrimaryText: {
     ...typeScale.bodyMedium,
-    color: Colors.dark,
+    color: Colors.black,
     width: '60%',
     textAlign: 'right',
   },
