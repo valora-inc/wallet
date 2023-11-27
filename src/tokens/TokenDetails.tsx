@@ -48,7 +48,6 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
