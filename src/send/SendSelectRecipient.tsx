@@ -284,7 +284,7 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   return (
-    <SafeAreaView style={styles.body} edges={['top', 'bottom']}>
+    <SafeAreaView style={styles.body} edges={['top']}>
       <View style={styles.header}>
         <TopBarIconButton
           icon={<Times />}
@@ -369,6 +369,7 @@ const styles = StyleSheet.create({
   },
   body: {
     flex: 1,
+    paddingBottom: variables.contentPadding,
   },
   recentRecipientPicker: {
     paddingTop: Spacing.Large32,
