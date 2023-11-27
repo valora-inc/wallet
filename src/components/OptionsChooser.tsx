@@ -24,7 +24,7 @@ function OptionsChooser({
   options,
   includeCancelButton,
   isLastOptionDestructive,
-  buttonsColor = colors.greenUI,
+  buttonsColor = colors.primary,
   onOptionChosen,
   onCancel,
 }: Props) {
@@ -72,7 +72,7 @@ function OptionsChooser({
       {fullOptions.map((option, index) => {
         const extraStyles = {
           ...(index === cancelButtonIndex ? fontStyles.large600 : fontStyles.large),
-          color: index === destructiveButtonIndex ? colors.warning : buttonsColor,
+          color: index === destructiveButtonIndex ? colors.error : buttonsColor,
         }
         return (
           <>

@@ -39,6 +39,7 @@ interface Props {
   localAmount?: LocalAmount
   style?: StyleProp<TextStyle>
   testID?: string
+  errorFallback?: string
 }
 
 function TokenDisplay({
@@ -52,6 +53,7 @@ function TokenDisplay({
   localAmount,
   style,
   testID,
+  errorFallback = '-',
 }: Props) {
   const tokenInfo = useTokenInfo(tokenId)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -75,7 +77,7 @@ function TokenDisplay({
   return (
     <Text style={style} testID={testID}>
       {showError ? (
-        '-'
+        errorFallback
       ) : (
         <>
           {showApprox && '~'}

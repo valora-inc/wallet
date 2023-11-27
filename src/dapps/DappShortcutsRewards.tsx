@@ -241,7 +241,7 @@ const styles = StyleSheet.create({
     width: 18,
     height: 18,
     marginRight: Spacing.Smallest8,
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderRadius: 100,
   },
   dappName: {
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     marginTop: Spacing.Smallest8,
-    backgroundColor: Colors.onboardingLightBlue,
+    backgroundColor: Colors.infoLight,
     paddingVertical: 2,
     paddingHorizontal: Spacing.Smallest8,
     borderRadius: 100,

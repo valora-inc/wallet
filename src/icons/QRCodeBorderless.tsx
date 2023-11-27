@@ -10,7 +10,7 @@ interface Props {
 export default class QRCodeBorderless extends React.PureComponent<Props> {
   static defaultProps = {
     height: 32,
-    color: colors.greenBrand,
+    color: colors.primary,
   }
 
   render() {

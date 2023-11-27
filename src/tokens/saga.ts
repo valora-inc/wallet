@@ -1,13 +1,11 @@
 import { StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
-import { gql } from 'apollo-boost'
 import BigNumber from 'bignumber.js'
 import * as erc20 from 'src/abis/IERC20.json'
 import * as stableToken from 'src/abis/StableToken.json'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { apolloClient } from 'src/apollo'
 import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
@@ -31,6 +29,7 @@ import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { gql } from 'src/utils/gql'
 import { safely } from 'src/utils/safely'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
@@ -133,26 +132,39 @@ export async function fetchTokenBalancesForAddress(
 ): Promise<FetchedTokenBalance[]> {
   const chainsToFetch = getSupportedNetworkIdsForTokenBalances()
   const userBalances = await Promise.all(
-    chainsToFetch.map((networkId) => {
-      return apolloClient.query<UserBalancesResponse, { address: string; networkId: string }>({
-        query: gql`
-          query FetchUserBalances($address: Address!, $networkId: NetworkId) {
-            userBalances(address: $address, networkId: $networkId) {
-              balances {
-                tokenId
-                tokenAddress
-                balance
+    chainsToFetch.map(async (networkId) => {
+      const response = await fetch(`${networkConfig.blockchainApiUrl}/graphql`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          query: gql`
+            query FetchUserBalances($address: Address!, $networkId: NetworkId) {
+              userBalances(address: $address, networkId: $networkId) {
+                balances {
+                  tokenId
+                  tokenAddress
+                  balance
+                }
               }
             }
-          }
-        `,
-        variables: {
-          address,
-          networkId: networkId.replaceAll('-', '_'), // GraphQL does not support hyphens in enum values
-        },
-        fetchPolicy: 'network-only',
-        errorPolicy: 'all',
+          `,
+          variables: {
+            address,
+            networkId: networkId.replaceAll('-', '_'), // GraphQL does not support hyphens in enum values
+          },
+        }),
       })
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch token balances for ${networkId}: ${response.status} ${response.statusText}`
+        )
+      }
+
+      return (await response.json()) as { data: UserBalancesResponse }
     })
   )
   return userBalances.reduce(

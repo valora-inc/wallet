@@ -2802,6 +2802,23 @@ export const v167Schema = {
   },
 }
 
+export const v168Schema = {
+  ...v167Schema,
+  _persist: {
+    ...v167Schema._persist,
+    version: 168,
+  },
+  swap: _.omit(v167Schema.swap, 'swapUserInput'),
+}
+
+export const v169Schema = {
+  ...v168Schema,
+  _persist: {
+    ...v168Schema._persist,
+    version: 169,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v167Schema as Partial<RootState>
+  return v169Schema as Partial<RootState>
 }

@@ -250,7 +250,9 @@ exports[`Education renders correctly 1`] = `
                 "paddingHorizontal": 24,
                 "paddingVertical": 5,
               },
-              undefined,
+              {
+                "backgroundColor": "#EEB93C",
+              },
             ]
           }
           testID="Education/progressButton"

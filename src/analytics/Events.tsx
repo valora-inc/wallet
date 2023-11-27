@@ -312,6 +312,12 @@ export enum SendEvents {
   // events specific to send select recipient screen
   send_select_recipient_scan_qr = 'send_select_recipient_scan_qr',
   send_select_recipient_contacts = 'send_select_recipient_contacts',
+  send_phone_number_modal_connect = 'send_phone_number_modal_connect',
+  send_phone_number_modal_dismiss = 'send_phone_number_modal_dismiss',
+  send_contacts_modal_settings = 'send_contacts_modal_settings',
+  send_contacts_modal_dismiss = 'send_contacts_modal_dismiss',
+  request_contacts_permission_started = 'request_contacts_permission_started',
+  request_contacts_permission_completed = 'request_contacts_permission_completed',
 }
 
 export enum QrScreenEvents {
@@ -578,14 +584,14 @@ export enum SwapEvents {
   swap_screen_confirm_token = 'swap_screen_confirm_token',
   swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
-  swap_screen_review_swap = 'swap_screen_review_swap',
-  swap_review_screen_open = 'swap_review_screen_open',
   swap_review_submit = 'swap_review_submit',
   swap_execute_price_change = 'swap_execute_price_change',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
+  swap_again = 'swap_again',
+  swap_try_again = 'swap_try_again',
 }
 
 export enum CeloNewsEvents {

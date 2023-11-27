@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Smallest8,
   },
   viewAllIcon: {
-    backgroundColor: Colors.greenLight,
+    backgroundColor: Colors.greenBackground,
     alignItems: 'center',
     justifyContent: 'center',
   },

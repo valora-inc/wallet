@@ -57,12 +57,6 @@ export const ExperimentConfigs = {
       cashInBottomSheetEnabled: true,
     },
   },
-  [StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS]: {
-    experimentName: StatsigExperiments.SWAPPING_NON_NATIVE_TOKENS,
-    defaultValues: {
-      swappingNonNativeTokensEnabled: false,
-    },
-  },
   [StatsigExperiments.DAPP_RANKINGS]: {
     experimentName: StatsigExperiments.DAPP_RANKINGS,
     defaultValues: {
@@ -106,6 +100,7 @@ export const DynamicConfigs = {
       showSend: [networkConfig.defaultNetworkId],
       showSwap: [networkConfig.defaultNetworkId],
       showTransfers: [networkConfig.defaultNetworkId],
+      showWalletConnect: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {

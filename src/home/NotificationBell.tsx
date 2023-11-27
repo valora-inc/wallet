@@ -19,7 +19,7 @@ export default function NotificationBell({ style, size, testID }: Props) {
   const notifications = useNotifications()
 
   const hasNotifications = notifications.length > 0
-  const notificationMark = hasNotifications ? colors.greenUI : undefined
+  const notificationMark = hasNotifications ? colors.primary : undefined
 
   const onPress = () => {
     ValoraAnalytics.track(HomeEvents.notification_bell_pressed, {

@@ -1,3 +1,4 @@
+import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
@@ -12,10 +13,11 @@ import {
 } from 'react-native'
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import TextInput from 'src/components/TextInput'
+import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
@@ -23,6 +25,7 @@ interface Props {
   label: string
   onInputChange(value: string): void
   inputValue?: string | null
+  parsedInputValue?: BigNumber | null
   onPressMax?(): void
   onSelectToken(): void
   token?: TokenBalance
@@ -38,6 +41,7 @@ const SwapAmountInput = ({
   label,
   onInputChange,
   inputValue,
+  parsedInputValue,
   onPressMax,
   onSelectToken,
   token,
@@ -102,7 +106,7 @@ const SwapAmountInput = ({
             }
           />
           {loading && (
-            <View style={styles.loaderContainer}>
+            <View style={[styles.loaderContainer, { paddingVertical: Spacing.Small12 }]}>
               <SkeletonPlaceholder
                 borderRadius={100} // ensure rounded corners with font scaling
                 backgroundColor={Colors.gray2}
@@ -147,6 +151,36 @@ const SwapAmountInput = ({
           )}
         </Touchable>
       </View>
+      <View testID="SwapAmountInput/FiatValue">
+        <Text
+          style={[
+            styles.fiatValue,
+            {
+              opacity: loading || !parsedInputValue?.gt(0) || !token ? 0 : 1,
+            },
+          ]}
+        >
+          <TokenDisplay
+            amount={parsedInputValue ?? 0}
+            showLocalAmount
+            showApprox
+            errorFallback={t('swapScreen.tokenUsdValueUnknown') ?? undefined}
+            tokenId={token?.tokenId}
+          />
+        </Text>
+        {loading && (
+          <View style={styles.loaderContainer}>
+            <SkeletonPlaceholder
+              borderRadius={100} // ensure rounded corners with font scaling
+              backgroundColor={Colors.gray2}
+              highlightColor={Colors.white}
+              testID="SwapAmountInput/FiatValueLoader"
+            >
+              <View style={styles.fiatValueLoader} />
+            </SkeletonPlaceholder>
+          </View>
+        )}
+      </View>
     </View>
   )
 }
@@ -171,7 +205,7 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Smallest8,
   },
   inputError: {
-    color: Colors.warning,
+    color: Colors.error,
   },
   inputText: {
     ...fontStyles.h2,
@@ -183,7 +217,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    paddingVertical: Spacing.Small12,
     width: '100%',
     height: '100%',
   },
@@ -191,8 +224,12 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
   },
+  fiatValueLoader: {
+    height: '100%',
+    width: '40%',
+  },
   maxButton: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 4,
@@ -208,7 +245,7 @@ const styles = StyleSheet.create({
   tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 100,
@@ -222,12 +259,16 @@ const styles = StyleSheet.create({
   tokenNamePlaceholder: {
     ...fontStyles.small600,
     paddingHorizontal: 4,
-    color: Colors.greenUI,
+    color: Colors.primary,
   },
   tokenImage: {
     width: 24,
     height: 24,
     borderRadius: 12,
+  },
+  fiatValue: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray4,
   },
 })
 

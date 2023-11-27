@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Obtenez des récompenses crypto chaque semaine. Commencez avec Supercharge !",
   "startSuperchargingNotificationStart": "Commencer",
   "cashIn": "Ajouter {{currency}}",
-  "connectNumber": "Numéro de connexion",
+  "connectNumber": "Connecter le numéro",
   "connectToWallet": "Connectez-vous à {{dappName}}",
   "confirmTransaction": "Confirmer la transaction",
   "allow": "Autoriser",
@@ -1561,7 +1561,7 @@
     },
     "txProcessing": {
       "title": "Votre transaction est en cours de traitement.",
-      "description": "Cela peut être dû à une mauvaise connexion Internet. Vérifie s'il y a des mises à jour dans l'explorateur de blocs."
+      "description": "Cela peut être dû à une mauvaise connexion Internet. Vérifiez s'il y a des mises à jour dans l'explorateur de blocs."
     }
   },
   "fiatExchangeFlow": {
@@ -1659,6 +1659,7 @@
   "swapScreen": {
     "title": "Échanger",
     "review": "Vérifier",
+    "confirmSwap": "Confirmer l'échange",
     "swapFrom": "DE",
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
@@ -1666,6 +1667,7 @@
     "disclaimer": "Le meilleur tarif est déterminé par les partenaires du réseau. <0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
@@ -1681,22 +1683,22 @@
     },
     "estimatedExchangeRate": "Taux estimé ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Solde insuffisant de {{tokenSymbol}}",
-      "description": "Tu n'as pas assez de {{tokenSymbol}} pour couvrir les frais d'essence. Veux-tu échanger une plus petite somme ?",
-      "confirmDecreaseButton": "Échanger une petite quantité"
+      "title": "Solde de {{tokenSymbol}} insuffisant",
+      "description": "Vous n'avez pas assez de {{tokenSymbol}} pour couvrir vos frais de gas. Voulez-vous échanger un montant moins élevé ?",
+      "confirmDecreaseButton": "Échanger une plus petite quantité"
     },
     "notEnoughBalanceForGas": {
-      "title": "Solde insuffisant des jetons de gaz",
-      "description": "Tu n'as pas assez de {{feeCurrencies}} pour couvrir les frais d'essence. Merci d'ajouter {{feeCurrencies}} à ton portefeuille pour réaliser cet échange.",
+      "title": "Solde de jetons de gas insuffisant",
+      "description": "Vous n'avez pas assez de {{feeCurrencies}} pour couvrir les frais de gas. Veuillez ajouter {{feeCurrencies}} à votre portefeuille pour réaliser cet échange.",
       "dismissButton": "Refuser"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Frais de réseau",
+      "networkFee": "Frais de réseau {{networkName}}",
       "networkFeeNoNetwork": "Frais de réseau",
       "swapFee": "Frais de {{appName}}",
       "swapFeeWaived": "Gratuit",
       "slippagePercentage": "Tolérance de glissement",
-      "networkFeeInfo": "Tu es en train d'échanger sur le réseau {{networkName}} .\n\nCette redevance estimée est nécessaire pour effectuer une transaction sur le réseau {{networkName}} . Ces frais sécurisent ta transaction et servent à maintenir le réseau opérationnel.",
+      "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
       "estimatedValue": "Valeur estimée"
@@ -1706,7 +1708,7 @@
     "swapFrom": "Échanger de",
     "swapTo": "Échanger pour",
     "rate": "Taux",
-    "estimatedFee": "Frais de réseau Est",
+    "estimatedFee": "Frais de réseau estimés",
     "networkFee": "Frais de réseau",
     "viewOnExplorer": "Voir sur CeloExplorer"
   },
@@ -1848,14 +1850,14 @@
       "collectibles": "Objets de collection",
       "dappPositions": "Positions de Dapp"
     },
-    "importToken": "Importation"
+    "importToken": "Importer"
   },
   "notificationCenterSpotlight": {
     "message": "Découvrez une nouvelle façon de profiter de récompenses, de voir les alertes et de consulter les dernières infos en un seul endroit",
     "cta": "J'ai compris"
   },
   "tokenDetails": {
-    "yourBalance": "Ton équilibre",
+    "yourBalance": "Votre solde",
     "learnMore": "En savoir plus sur {{tokenName}}",
     "priceUnavailable": "Prix non disponible",
     "priceDeltaSuffix": "Aujourd'hui",
@@ -1864,28 +1866,45 @@
       "swap": "Échanger",
       "add": "Acheter",
       "withdraw": "Retirer",
-      "more": "Plus d'informations"
+      "more": "Plus"
     },
     "moreActions": "Plus d'actions",
     "actionDescriptions": {
-      "send": "Utilise n'importe quelle adresse Celo, domaine, numéro de téléphone, etc.",
-      "swap": "Échange tes jetons sans quitter ton portefeuille.",
-      "add": "Achète des jetons en utilisant l'un de nos fournisseurs de confiance.",
-      "withdraw": "Transfère des jetons vers un compte bancaire, de l'argent mobile, une carte cadeau, etc."
+      "send": "Utilisez n'importe quelle adresse Celo, domaine, numéro de téléphone, etc.",
+      "swap": "Échangez vos jetons sans quitter votre portefeuille",
+      "add": "Achetez des jetons en passant par l'un de nos fournisseurs de confiance",
+      "withdraw": "Transférez des jetons vers un compte bancaire ou transformez-les en argent mobile, cartes-cadeaux, etc."
     }
   },
+  "tokenImport": {
+    "title": "Importer un jeton",
+    "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifie que l'adresse de ton token est correcte avant de l'importer.",
+    "input": {
+      "tokenAddress": "Adresse du jeton",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Symbole du jeton",
+      "network": "Réseau"
+    },
+    "error": {
+      "invalidToken": "Jeton invalide. Essaie à nouveau ou contacte l'assistance",
+      "alreadyImported": "Le jeton a déjà été ajouté auparavant.",
+      "alreadySupported": "Le jeton est déjà pris en charge."
+    },
+    "importSuccess": "Importation réussie du jeton {{tokenSymbol}}",
+    "importButton": "Importation"
+  },
   "sendSelectRecipient": {
-    "searchText": "Recherche par nom, téléphone, portefeuille...",
-    "title": "Sélectionne un destinataire",
-    "contactsTitle": "Sélectionne un contact",
+    "searchText": "Recherchez par nom, téléphone, portefeuille...",
+    "title": "Sélectionnez un destinataire",
+    "contactsTitle": "Sélectionnez un contact",
     "recents": "Récents",
     "qr": {
-      "title": "Scanner ou montrer le code QR",
-      "subtitle": "Trouver rapidement des adresses sur Valora"
+      "title": "Scanner ou afficher le code QR",
+      "subtitle": "Trouvez rapidement des adresses sur Valora"
     },
     "invite": {
-      "title": "Envoie de la crypto à tes amis",
-      "subtitle": "Invite des amis à partir de ta liste de contacts"
+      "title": "Envoyez des crypto à vos amis",
+      "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
@@ -1893,21 +1912,29 @@
       "options": {
         "one": {
           "title": "Adresse du portefeuille",
-          "subtitle": "Saisis une adresse de portefeuille compatible avec Celo ou Ethereum (ex. 0x123...abcde)."
+          "subtitle": "Saisissez une adresse de portefeuille compatible avec Celo ou Ethereum (ex. 0x123...abcde)"
         },
         "two": {
           "title": "Numéro de téléphone",
-          "subtitle": "Envoie directement au numéro de téléphone de quelqu'un s'il a Valora."
+          "subtitle": "Envoyer directement vers le numéro de téléphone d'une personne disposant déjà de Valora"
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Envoie des actifs Ethereum au compte ENS de quelqu'un."
+          "subtitle": "Envoyez des actifs Ethereum vers le compte ENS d'une personne"
         },
         "four": {
           "title": "Nom du profil",
-          "subtitle": "Tu peux rechercher des utilisateurs existants sur Valora"
+          "subtitle": "Vous pouvez rechercher les utilisateurs présents sur Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Autorise les contacts à continuer",
+      "description": "Va dans les paramètres pour mettre à jour tes contacts et commencer à envoyer des messages à tes amis."
+    },
+    "connectPhoneNumberModal": {
+      "title": "Connectez votre numéro de téléphone",
+      "description": "Tu dois connecter ton numéro de téléphone pour pouvoir commencer à envoyer de la crypto à tes amis."
     }
   },
   "transactionStatus": {
@@ -1917,24 +1944,24 @@
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Détails",
-    "checkPendingTransactionStatus": "Vérifier l'état",
+    "checkPendingTransactionStatus": "Vérifier le statut",
     "retryFailedTransaction": "Réessayer"
   },
   "viewOnCeloBlockExplorer": "Voir sur CeloExplorer",
   "viewOnCeloScan": "Voir sur CeloScan",
   "viewOnEthereumBlockExplorer": "Voir sur Etherscan",
   "sendEnterAmountScreen": {
-    "title": "Saisir le montant",
-    "selectToken": "Sélectionne un jeton",
-    "networkFee": "{{networkName}} Frais de réseau",
-    "lowerAmount": "Saisis un montant inférieur",
+    "title": "Saisissez le montant",
+    "selectToken": "Sélectionnez un jeton",
+    "networkFee": "Frais de réseau {{networkName}}",
+    "lowerAmount": "Saisissez un montant inférieur",
     "maxAmountWarning": {
       "title": "Envoyer le montant maximum",
-      "description": "Ajuste le montant que tu envoies pour t'assurer que tu as assez de {{feeTokenSymbol}} pour le gaz."
+      "description": "Ajuster le montant envoyé pour vous garantir de disposer d'assez de {{feeTokenSymbol}} pour les frais de gas"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Tu as besoin de plus de {{feeTokenSymbol}} pour le gaz",
-      "description": "Ajoute {{feeTokenSymbol}} pour couvrir tes frais d'essence ou ajuste le montant que tu envoies."
+      "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
+      "description": "Ajoutez {{feeTokenSymbol}} pour couvrir vos frais de gas ou modifiez le montant que vous envoyez"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

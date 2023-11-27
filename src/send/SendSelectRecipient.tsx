@@ -5,29 +5,24 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import SelectRecipientButton from 'src/components/SelectRecipientButton'
 import CircledIcon from 'src/icons/CircledIcon'
-import QRCode from 'src/icons/QRCode'
-import Social from 'src/icons/Social'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
 import { sortRecipients } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
+import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { requestContactsPermission } from 'src/utils/permissions'
 
 const SEARCH_THROTTLE_TIME = 100
 
@@ -118,7 +113,7 @@ const getStartedStyles = StyleSheet.create({
   },
   optionNumText: {
     ...typeScale.labelXSmall,
-    color: colors.dark,
+    color: colors.black,
   },
   optionText: {
     paddingLeft: Spacing.Smallest8,
@@ -158,21 +153,9 @@ function SendSelectRecipient() {
 
   const dispatch = useDispatch()
 
-  const onPressContacts = async () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_contacts)
-    const permissionGranted = await requestContactsPermission()
-    // TODO(satish): show modal if permissions are rejected
-    if (permissionGranted) {
-      dispatch(importContacts())
-      setShowContacts(true)
-    }
-  }
-
-  const onPressQR = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_scan_qr)
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-    })
+  const onContactsPermissionGranted = () => {
+    dispatch(importContacts())
+    setShowContacts(true)
   }
 
   return (
@@ -203,20 +186,7 @@ function SendSelectRecipient() {
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
-            <SelectRecipientButton
-              testID={'SelectRecipient/QR'}
-              title={t('sendSelectRecipient.qr.title')}
-              subtitle={t('sendSelectRecipient.qr.subtitle')}
-              onPress={onPressQR}
-              icon={<QRCode />}
-            />
-            <SelectRecipientButton
-              testID={'SelectRecipient/Contacts'}
-              title={t('sendSelectRecipient.invite.title')}
-              subtitle={t('sendSelectRecipient.invite.subtitle')}
-              onPress={onPressContacts}
-              icon={<Social />}
-            />
+            <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
             {showGetStarted ? (
               <GetStartedSection />
             ) : (
@@ -251,7 +221,7 @@ const styles = StyleSheet.create({
     ...typeScale.titleSmall,
     padding: Spacing.Thick24,
     paddingBottom: Spacing.Regular16,
-    color: colors.dark,
+    color: colors.black,
   },
   header: {
     alignItems: 'center',

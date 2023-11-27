@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: 84,
     marginHorizontal: 6,
     padding: 0,
-    backgroundColor: '#E8FCEF',
+    backgroundColor: Colors.greenBackground,
     borderRadius: 10,
   },
   touchable: {

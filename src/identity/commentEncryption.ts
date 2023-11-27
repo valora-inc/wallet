@@ -99,7 +99,7 @@ interface DecryptedComment {
 }
 
 // Memoize to avoid computing decryptions more than once per comment
-// TODO investigate whether its worth it to save this in persisted state, maybe Apollo cache?
+// TODO investigate whether its worth it to save this in persisted state
 export const decryptComment = memoize(_decryptComment, (...args) => values(args).join('_'))
 
 function _decryptComment(

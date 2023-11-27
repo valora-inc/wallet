@@ -13,7 +13,7 @@ export default class Checkmark extends React.PureComponent<Props> {
   static defaultProps = {
     height: 32,
     width: 32,
-    color: colors.greenBrand,
+    color: colors.primary,
     testID: undefined,
   }
 

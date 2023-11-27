@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...typeScale.titleSmall,
-    color: Colors.dark,
+    color: Colors.black,
   },
   dateTime: {
     ...typeScale.bodyXSmall,

@@ -7,7 +7,7 @@ export interface Props {
   testID?: string
 }
 
-function DownIndicator({ color = colors.warning, testID }: Props) {
+function DownIndicator({ color = colors.error, testID }: Props) {
   return (
     <Svg width="10" height="10" viewBox="0 0 10 10" fill="none" testID={testID}>
       <Path
