@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     color: colors.gray4,
   },
   textRed: {
-    color: colors.warning,
+    color: colors.error,
   },
 })
 

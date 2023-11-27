@@ -6,26 +6,28 @@ import * as React from 'react'
 import {
   NativeSyntheticEvent,
   Platform,
+  TextInput as RNTextInput,
+  TextInputProps as RNTextInputProps,
   StyleProp,
   StyleSheet,
-  TextInput as RNTextInput,
   TextInputFocusEventData,
-  TextInputProps as RNTextInputProps,
   View,
   ViewStyle,
 } from 'react-native'
 import CircleButton from 'src/components/CircleButton'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { Colors } from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 export const LINE_HEIGHT = Platform.select({ android: 22, default: 20 })
 
-type Props = Omit<RNTextInputProps, 'style'> & {
+export type Props = Omit<RNTextInputProps, 'style'> & {
   style?: StyleProp<ViewStyle>
   inputStyle?: RNTextInputProps['style']
   onChangeText: (value: string) => void
   testID?: string
   showClearButton?: boolean
+  rightElement?: React.ReactNode
   forwardedRef?:
     | ((instance: RNTextInput | null) => void)
     | React.MutableRefObject<RNTextInput | null>
@@ -64,6 +66,7 @@ export class CTextInput extends React.Component<Props, State> {
       inputStyle,
       value = '',
       showClearButton = true,
+      rightElement,
       forwardedRef,
       ...passThroughProps
     } = this.props
@@ -90,10 +93,11 @@ export class CTextInput extends React.Component<Props, State> {
             onPress={this.onClear}
             solid={true}
             size={20}
-            activeColor={colors.gray5}
-            inactiveColor={colors.gray1}
+            activeColor={Colors.gray5}
+            inactiveColor={Colors.gray1}
           />
         )}
+        {rightElement}
       </View>
     )
   }
@@ -112,16 +116,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    gap: Spacing.Smallest8,
   },
   input: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
+    color: Colors.black,
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: Spacing.Small12,
     paddingHorizontal: 0,
     lineHeight: LINE_HEIGHT, // vertical align = center
   },
   icon: {
-    marginLeft: 8,
     zIndex: 100,
   },
 })

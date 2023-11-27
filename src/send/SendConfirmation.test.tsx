@@ -67,6 +67,21 @@ const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   isFromScan: false,
 })
 
+const mockScreenPropsWithPreparedTx = getMockStackScreenProps(Screens.SendConfirmation, {
+  transactionData: {
+    ...mockTokenTransactionData,
+  },
+  origin: SendOrigin.AppSendFlow,
+  isFromScan: false,
+  preparedTransaction: {
+    from: '0xfrom',
+    to: '0xto',
+    data: '0xdata',
+  },
+  feeAmount: '0.004',
+  feeTokenId: mockCeloTokenId,
+})
+
 const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: mockTokenInviteTransactionData,
   origin: SendOrigin.AppSendFlow,
@@ -176,7 +191,7 @@ describe('SendConfirmation', () => {
   }
 
   it('renders correctly', async () => {
-    const tree = renderScreen()
+    const tree = renderScreen({}, mockScreenPropsWithPreparedTx)
     expect(tree).toMatchSnapshot()
   })
 
@@ -198,16 +213,10 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('renders correctly for send payment confirmation, sending cUSD, fee in CELO (new UI)', async () => {
-    const { getByText, getByTestId } = renderScreen()
+  it('renders correctly for send payment confirmation with fees from props (new UI)', async () => {
+    const { getByTestId } = renderScreen({}, mockScreenPropsWithPreparedTx)
 
-    fireEvent.press(getByText('feeEstimate'))
-
-    await act(() => {
-      jest.runAllTimers()
-    })
-
-    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee')
+    const feeComponent = getByTestId('LineItemRow/SendConfirmation/fee')
     expect(getElementText(feeComponent)).toEqual('0.004 CELO')
 
     const totalComponent = getByTestId('TotalLineItem/Total')
@@ -258,7 +267,8 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('shows --- for fee when fee estimate fails', async () => {
+  it('shows --- for fee when fee estimate fails (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId, getByText } = renderScreen({
       fees: {
         estimates: {
@@ -276,7 +286,8 @@ describe('SendConfirmation', () => {
     expect(getByText('---')).toBeTruthy()
   })
 
-  it('shows loading for fee while fee estimate loads', async () => {
+  it('shows loading for fee while fee estimate loads (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId, getByTestId } = renderScreen({
       fees: {
         estimates: {
@@ -503,7 +514,8 @@ describe('SendConfirmation', () => {
     )
   })
 
-  it('dispatches fee estimation if not already done', async () => {
+  it('dispatches fee estimation if not already done for old send flow', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { store } = renderScreen({ fees: { estimates: emptyFees } })
 
     expect(store.getActions()).toMatchInlineSnapshot(`
@@ -524,5 +536,11 @@ describe('SendConfirmation', () => {
         },
       ]
     `)
+  })
+
+  it('does not dispatch fee estimate action for new send flow', async () => {
+    const { store } = renderScreen({ fees: { estimates: emptyFees } })
+
+    expect(store.getActions()).toEqual([])
   })
 })

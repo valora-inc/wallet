@@ -6,13 +6,16 @@ import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
-import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
+import { useFeeCurrencies } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
@@ -24,8 +27,6 @@ import {
   mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
-import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 
 jest.mock('src/tokens/utils', () => ({
   ...jest.requireActual('src/tokens/utils'),
@@ -73,7 +74,6 @@ describe('SendEnterAmount', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
@@ -82,7 +82,6 @@ describe('SendEnterAmount', () => {
         from: '0xfrom',
         to: '0xto',
         data: '0xdata',
-        type: 'cip42',
         gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
@@ -313,7 +312,6 @@ describe('SendEnterAmount', () => {
   })
 
   it('pressing max fills in max available amount', () => {
-    jest.mocked(useMaxSendAmount).mockReturnValue(new BigNumber(5))
     const store = createMockStore(mockStore)
 
     const { getByTestId } = render(
@@ -448,6 +446,11 @@ describe('SendEnterAmount', () => {
         tokenAddress: mockCeloAddress,
         tokenAmount: new BigNumber(8),
       },
+      feeAmount: '0.006',
+      feeTokenId: mockCeloTokenId,
+      preparedTransaction: getSerializablePreparedTransaction(
+        mockPrepareTransactionsResultPossible.transactions[0]
+      ),
     })
   })
 

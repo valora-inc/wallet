@@ -1,13 +1,13 @@
-import { TransactionRequestCIP42 } from 'node_modules/viem/_types/chains/celo/types'
 import { SwapTxsProperties } from 'src/analytics/Properties'
-import { getFeeCurrency } from 'src/swap/getFeeCurrency'
-import { TokenBalancesWithAddress } from 'src/tokens/slice'
-import { getMaxGasFee } from 'src/viem/prepareTransactions'
+import { TokenBalances } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
+import { TransactionRequest, getFeeCurrency, getMaxGasFee } from 'src/viem/prepareTransactions'
 
 export function getSwapTxsAnalyticsProperties(
-  preparedTransactions: TransactionRequestCIP42[] | undefined,
-  tokensByAddress: TokenBalancesWithAddress,
-  celoAddress: string | undefined
+  preparedTransactions: TransactionRequest[] | undefined,
+  networkId: NetworkId,
+  tokensById: TokenBalances
 ): SwapTxsProperties | null {
   if (!preparedTransactions) {
     return null
@@ -15,8 +15,7 @@ export function getSwapTxsAnalyticsProperties(
 
   // undefined means the fee currency is the native currency
   const feeCurrency = getFeeCurrency(preparedTransactions)
-  const feeCurrencyAddress = feeCurrency || celoAddress
-  const feeCurrencyToken = feeCurrencyAddress ? tokensByAddress[feeCurrencyAddress] : undefined
+  const feeCurrencyToken = tokensById[getTokenId(networkId, feeCurrency)]
   const maxGasFee = feeCurrencyToken
     ? getMaxGasFee(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
     : undefined

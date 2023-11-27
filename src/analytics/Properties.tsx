@@ -4,7 +4,7 @@ import {
   FiatConnectError,
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
-import { check } from 'react-native-permissions'
+import { PermissionStatus } from 'react-native-permissions'
 import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
@@ -71,9 +71,7 @@ import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
-import { Awaited } from 'src/utils/typescript'
 
-type PermissionStatus = Awaited<ReturnType<typeof check>>
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
 interface AppEventsProperties {
@@ -630,7 +628,18 @@ interface SendEventsProperties {
   [SendEvents.check_account_alert_back]: undefined
   [SendEvents.check_account_alerts_continue]: undefined
   [SendEvents.send_select_recipient_scan_qr]: undefined
-  [SendEvents.send_select_recipient_contacts]: undefined
+  [SendEvents.send_select_recipient_contacts]: {
+    contactsPermissionStatus: PermissionStatus
+    phoneNumberVerified: boolean
+  }
+  [SendEvents.send_phone_number_modal_connect]: undefined
+  [SendEvents.send_phone_number_modal_dismiss]: undefined
+  [SendEvents.send_contacts_modal_settings]: undefined
+  [SendEvents.send_contacts_modal_dismiss]: undefined
+  [SendEvents.request_contacts_permission_started]: undefined
+  [SendEvents.request_contacts_permission_completed]: {
+    permissionStatus: PermissionStatus
+  }
 }
 
 interface RequestEventsProperties {
@@ -1211,8 +1220,22 @@ interface CoinbasePayEventsProperties {
 }
 
 interface SwapEvent {
-  toToken: string
-  fromToken: string
+  /**
+   * Address of the to token
+   *
+   * @deprecated use toTokenId instead
+   */
+  toToken: string | null | undefined
+  toTokenId: string
+  toTokenNetworkId: string
+  /**
+   * Address of the from token
+   *
+   * @deprecated use fromTokenId instead
+   */
+  fromToken: string | null | undefined
+  fromTokenId: string
+  fromTokenNetworkId: string
   amount: string | null
   amountType: 'buyAmount' | 'sellAmount'
 }
@@ -1285,13 +1308,15 @@ interface SwapEventsProperties {
   [SwapEvents.swap_screen_confirm_token]: {
     fieldType: Field
     tokenSymbol: string
+    tokenId: string
+    tokenNetworkId: string
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
+    tokenId: string
+    tokenNetworkId: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
-  [SwapEvents.swap_screen_review_swap]: undefined
-  [SwapEvents.swap_review_screen_open]: SwapEvent & Web3LibraryProps & Partial<SwapTxsProperties>
   [SwapEvents.swap_review_submit]: SwapQuoteEvent &
     Web3LibraryProps &
     Partial<SwapTxsProperties> & {
@@ -1301,7 +1326,11 @@ interface SwapEventsProperties {
     price: string
     guaranteedPrice: string
     toToken: string
+    toTokenId: string
+    toTokenNetworkId: string
     fromToken: string
+    fromTokenId: string
+    fromTokenNetworkId: string
   }
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
     SwapTimeMetrics &
@@ -1331,6 +1360,8 @@ interface SwapEventsProperties {
     provider: string
     priceImpact?: string
   }
+  [SwapEvents.swap_again]: undefined
+  [SwapEvents.swap_try_again]: undefined
 }
 
 interface CeloNewsEventsProperties {
@@ -1394,6 +1425,13 @@ interface AssetsEventsProperties {
   [AssetsEvents.tap_token_details_bottom_sheet_action]: {
     action: TokenDetailsActionName
   } & TokenProperties
+  [AssetsEvents.import_token_screen_open]: undefined
+  [AssetsEvents.import_token_submit]: {
+    tokenAddress: string
+    tokenSymbol: string
+    networkId: string
+  }
+  [AssetsEvents.import_token_paste]: undefined
 }
 
 interface NftsEventsProperties {

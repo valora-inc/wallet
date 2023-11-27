@@ -26,6 +26,7 @@ import QuickActionsMore from 'src/icons/quick-actions/More'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -60,6 +61,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   if (!token) throw new Error(`token with id ${tokenId} not found`)
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   return (
     <SafeAreaView style={styles.container}>
@@ -77,15 +79,16 @@ export default function TokenDetailsScreen({ route }: Props) {
           </Text>
         </View>
         <TokenDisplay
-          amount={token.balance}
+          amount={1}
           tokenId={tokenId}
-          style={styles.balance}
-          testID="TokenDetails/Balance"
+          style={styles.assetValue}
+          testID="TokenDetails/AssetValue"
+          errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
         {token.isNative && token.symbol === 'CELO' && (
           <CeloGoldHistoryChart
-            color={Colors.dark}
+            color={Colors.black}
             containerStyle={styles.chartContainer}
             chartPadding={Spacing.Thick24}
             testID="TokenDetails/Chart"
@@ -321,14 +324,14 @@ const styles = StyleSheet.create({
   },
   tokenName: {
     ...typeScale.labelLarge,
-    color: Colors.dark,
+    color: Colors.black,
   },
   tokenImg: {
     marginRight: Spacing.Tiny4,
   },
-  balance: {
+  assetValue: {
     ...typeScale.titleLarge,
-    color: Colors.dark,
+    color: Colors.black,
     marginHorizontal: Spacing.Thick24,
   },
   chartContainer: {
@@ -353,7 +356,7 @@ const styles = StyleSheet.create({
   },
   yourBalance: {
     ...typeScale.labelMedium,
-    color: Colors.dark,
+    color: Colors.black,
     marginTop: Spacing.Regular16,
     marginHorizontal: Spacing.Thick24,
   },

@@ -225,7 +225,7 @@ function WebViewScreen({ route, navigation }: Props) {
           disabled={!canGoBack}
           testID="WebViewScreen/GoBack"
         >
-          <BackChevron color={canGoBack ? colors.dark : colors.gray3} />
+          <BackChevron color={canGoBack ? colors.black : colors.gray3} />
         </Touchable>
         <Touchable
           onPress={handleGoForward}
@@ -233,17 +233,17 @@ function WebViewScreen({ route, navigation }: Props) {
           disabled={!canGoForward}
           testID="WebViewScreen/GoForward"
         >
-          <ForwardChevron color={canGoForward ? colors.dark : colors.gray3} />
+          <ForwardChevron color={canGoForward ? colors.black : colors.gray3} />
         </Touchable>
         <Touchable onPress={handleRefresh} hitSlop={iconHitslop} testID="WebViewScreen/Refresh">
-          <Refresh height={20} color={colors.dark} />
+          <Refresh height={20} color={colors.black} />
         </Touchable>
         <Touchable
           onPress={openActionSheet}
           hitSlop={iconHitslop}
           testID="WebViewScreen/OpenBottomSheet"
         >
-          <TripleDotVertical color={colors.dark} />
+          <TripleDotVertical color={colors.black} />
         </Touchable>
       </View>
     </SafeAreaView>

@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   author: {
     ...fontStyles.label,
-    color: colors.goldDark,
+    color: colors.warningDark,
     marginBottom: Spacing.Small12,
   },
   row: {

@@ -11,9 +11,17 @@ interface Props {
   style?: StyleProp<ViewStyle>
   testID?: string
   onBackgroundPress?: () => void
+  onModalHide?: () => void
 }
 
-export default function Modal({ children, isVisible, style, testID, onBackgroundPress }: Props) {
+export default function Modal({
+  children,
+  isVisible,
+  style,
+  testID,
+  onBackgroundPress,
+  onModalHide,
+}: Props) {
   const { height } = useSafeAreaFrame()
 
   return (
@@ -26,6 +34,7 @@ export default function Modal({ children, isVisible, style, testID, onBackground
       // `useSafeAreaFrame()` seems to work better
       deviceHeight={height}
       statusBarTranslucent={true}
+      onModalHide={onModalHide}
     >
       <SafeAreaView>
         <Card style={[styles.root, style]} rounded={true}>
@@ -38,7 +47,7 @@ export default function Modal({ children, isVisible, style, testID, onBackground
 
 const styles = StyleSheet.create({
   root: {
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     padding: 24,
     maxHeight: '100%',
   },

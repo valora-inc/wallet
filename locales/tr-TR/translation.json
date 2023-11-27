@@ -260,11 +260,11 @@
   "startSuperchargingNotificationBody": "Haftalık kripto para ödülleri kazanın. Supercharge'lamaya başlayın!",
   "startSuperchargingNotificationStart": " Ödül almak",
   "cashIn": "{{currency}} ekle",
-  "connectNumber": "Telefon Numarası Bağla",
+  "connectNumber": "Numarayı bağla",
   "connectToWallet": "{{dappName}} uygulamasına bağlanın",
   "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
-  "address": "Cüzdan adresi",
+  "address": "Cüzdan Adresi",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "{{appName}} cüzdanlarını kurup 10 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
+    "body": "{{appName}} cüzdanlarını kurup 5 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
     "body": "{{appName}}'da arkadaşlarınız ve ailenizle bağlantı kurun ve varlıklar paylaşın.",
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
-    "share": "Merhaba, kripto para cüzdanıdır {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{shareUrl}}",
-    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 10 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
+    "share": "Hey! {{appName}} cüzdanına kaydolun. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: {{shareUrl}}.",
+    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 5 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "Valora Davet Ödülleri ile cUSD kazanın",
-      "body": "En fazla 25 arkadaşınızı {{appName}} uygulamasına katılmaya davet edin. 10 cUSD veya daha fazla yatırdıklarında, para cüzdanda kaldığı sürece her biriniz 0,50 cUSD kazanacaksınız."
+      "title": "SADECE SINIRLI BİR SÜRE İÇİN GEÇERLİ. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
+      "body": "{{appName}} uygulamasına davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Fon eklediklerinde ve 7 gün boyunca 5 cUSD tuttuklarında ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Merhaba! 👋 Valora, her yerdeki sevdiklerinize para göndermenin en kolay yoludur. Tek ihtiyacınız olan bir telefon numarası. Bu bağlantı üzerinden indirin, telefon numaranızı bağlayın ve 0,50 $ kazanmak için yeni cüzdanınıza 10 cUSD para yatırın 💫 \n\n{{link}} \n\nŞimdi harekete geçin, davet ödülleri sınırlıdır.",
+  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanına kaydolur ve fon yatırırsanız ikimiz de ücretsiz 0,50 cUSD ödül kazanabiliriz. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAcele edin, davet promosyonu yakında sona eriyor.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1659,13 +1659,15 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
+    "confirmSwap": "Takası Onayla",
     "swapFrom": "KAYNAK",
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
     "fetchSwapQuoteFailed": "Gecikme için üzgünüz! En iyi döviz kurunu almak normalden daha uzun sürüyor. Lütfen birkaç dakika içinde tekrar deneyin.",
-    "disclaimer": "Celo'daki ortaklar tarafından desteklenen takaslar. <0>Daha fazla bilgi</0>",
+    "disclaimer": "En iyi fiyat ağ ortakları tarafından belirlenir. <0>Daha fazla bilgi</0>",
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
@@ -1681,13 +1683,13 @@
     },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Yetersiz {{tokenSymbol}} dengesi",
-      "description": "Benzin ücretlerini karşılamak için yeterli {{tokenSymbol}} adresiniz yok. Daha küçük bir miktar takas etmek ister misiniz?",
-      "confirmDecreaseButton": "Daha küçük miktarda takas"
+      "title": "Yetersiz {{tokenSymbol}} bakiyesi",
+      "description": "Gas ücretlerini karşılamak için yeterli {{tokenSymbol}} bakiyeniz yok. Daha az bir tutarı swap etmek ister misiniz?",
+      "confirmDecreaseButton": "Daha düşük bir tutarı swap edin"
     },
     "notEnoughBalanceForGas": {
-      "title": "Yetersiz gaz jetonu dengesi",
-      "description": "Benzin ücretini karşılamak için yeterli {{feeCurrencies}} adresiniz yok. Bu takası tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin.",
+      "title": "Yetersiz gas token bakiyesi",
+      "description": "Gas ücretini karşılamak için yeterli {{feeCurrencies}} bakiyeniz yok. Bu swap işlemini tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin.",
       "dismissButton": "Yoksay"
     },
     "transactionDetails": {
@@ -1695,16 +1697,18 @@
       "networkFeeNoNetwork": "Ağ Ücreti",
       "swapFee": "{{appName}} Ücreti",
       "swapFeeWaived": "Ücretsiz",
-      "slippagePercentage": "Kayma Toleransı",
-      "networkFeeInfo": "{{networkName}} Ağında takas yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
-      "networkFeeInfoDismissButton": "Anladım"
+      "slippagePercentage": "Slipaj Toleransı",
+      "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
+      "networkFeeInfoDismissButton": "Anladım",
+      "exchangeRate": "Döviz Kuru",
+      "estimatedValue": "Tahmini Değer"
     }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Takas kaynağı",
     "swapTo": "Takas hedefi",
     "rate": "Oran",
-    "estimatedFee": "Est Ağ Ücreti",
+    "estimatedFee": "Tah Ağ Ücreti",
     "networkFee": "Ağ Ücreti",
     "viewOnExplorer": "CeloExplorer'da görüntüle"
   },
@@ -1770,7 +1774,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 10 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
+      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 5 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1804,7 +1808,7 @@
     "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı"
   },
   "homeActions": {
-    "add": "Ekle",
+    "add": "Satın Al",
     "receive": "Almak",
     "request": "İste",
     "send": "Gönder",
@@ -1846,7 +1850,7 @@
       "collectibles": "Koleksiyon Ürünleri",
       "dappPositions": "Dapp Pozisyonları"
     },
-    "importToken": "İthalat"
+    "importToken": "İçe Aktar"
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
@@ -1854,29 +1858,46 @@
   },
   "tokenDetails": {
     "yourBalance": "Bakiyeniz",
-    "learnMore": "{{tokenName}}hakkında daha fazla bilgi edinin",
+    "learnMore": "{{tokenName}} hakkında daha fazla bilgi edinin",
     "priceUnavailable": "Fiyat Mevcut Değil",
     "priceDeltaSuffix": "Bugün",
     "actions": {
       "send": "Gönder",
       "swap": "Swap",
-      "add": "Ekle",
+      "add": "Satın Al",
       "withdraw": "Çek",
       "more": "Daha fazla"
     },
     "moreActions": "Daha Fazla Eylem",
     "actionDescriptions": {
       "send": "Herhangi bir Celo adresi, alan adı, telefon numarası vb. kullanın.",
-      "swap": "Jetonlarınızı cüzdanınızdan çıkmadan takas edin",
+      "swap": "Tokenlerinizi cüzdanınızdan çıkmadan swap edin",
       "add": "Güvenilir sağlayıcılarımızdan birini kullanarak token satın alın",
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
     }
+  },
+  "tokenImport": {
+    "title": "İçe Aktarma Belirteci",
+    "notification": "Mevcut belirteçlerin sahte sürümleri de dahil olmak üzere herkes bir belirteç oluşturabilir. İçe aktarmadan önce token adresinizin doğru olduğunu doğrulayın.",
+    "input": {
+      "tokenAddress": "Belirteç Adresi",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Jeton Sembolü",
+      "network": "Ağ"
+    },
+    "error": {
+      "invalidToken": "Geçersiz belirteç. Tekrar deneyin veya desteğe başvurun",
+      "alreadyImported": "Token daha önce zaten eklenmişti.",
+      "alreadySupported": "Token zaten desteklenmektedir."
+    },
+    "importSuccess": "{{tokenSymbol}} belirteci başarıyla içe aktarıldı",
+    "importButton": "İthalat"
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
-    "recents": "Son Zamanlar",
+    "recents": "En sonuncular",
     "qr": {
       "title": "QR Kodunu Tarayın veya Gösterin",
       "subtitle": "Valora'daki adresleri hızlıca bulun"
@@ -1886,16 +1907,16 @@
       "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
     },
     "getStarted": {
-      "title": "Valora'da para gönderme yolları",
+      "title": "Valora'da fon gönderme yolları",
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
-          "title": "Cüzdan adresi",
+          "title": "Cüzdan Adresi",
           "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
         },
         "two": {
           "title": "Telefon Numarası",
-          "subtitle": "Valora'sı olan birinin telefon numarasına doğrudan gönderme"
+          "subtitle": "Valora kullanan birinin telefon numarasına doğrudan gönderin"
         },
         "three": {
           "title": "ENS",
@@ -1906,6 +1927,14 @@
           "subtitle": "Valora'da mevcut kullanıcıları arayabilirsiniz"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Devam etmek için kişileri etkinleştirin",
+      "description": "Kişilerinizi güncellemek ve arkadaşlarınıza göndermeye başlamak için lütfen ayarlara gidin"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Telefon numaranı bağla",
+      "description": "Arkadaşlarınıza kripto göndermeye başlayabilmeniz için telefon numaranızı bağlamanız gerekir"
     }
   },
   "transactionStatus": {
@@ -1923,16 +1952,16 @@
   "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
-    "selectToken": "Bir Belirteç Seçin",
+    "selectToken": "Bir Token seçin",
     "networkFee": "{{networkName}} Ağ Ücreti",
-    "lowerAmount": "Daha düşük bir miktar girin",
+    "lowerAmount": "Daha düşük bir tutar girin",
     "maxAmountWarning": {
-      "title": "Maksimum tutarın gönderilmesi",
-      "description": "Gönderdiğiniz miktarı gaz için yeterli {{feeTokenSymbol}} olduğundan emin olacak şekilde ayarlayın"
+      "title": "Maksimum tutar gönderiliyor",
+      "description": "Gönderdiğiniz tutarı gas için yeterli {{feeTokenSymbol}} olmasını sağlayacak şekilde ayarlayın"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Gaz için daha fazla {{feeTokenSymbol}} adresine ihtiyacınız var",
-      "description": "Gaz ücretlerinizi karşılamak için {{feeTokenSymbol}} adresini ekleyin veya gönderdiğiniz miktarı ayarlayın"
+      "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
+      "description": "Gas ücretlerinizi karşılamak için {{feeTokenSymbol}} ekleyin veya gönderdiğiniz tutarı ayarlayın"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

@@ -205,13 +205,13 @@ const FiatDetailsScreen = ({ route, navigation }: Props) => {
     case SendingFiatAccountStatus.Sending:
       return (
         <View testID="spinner" style={styles.activityIndicatorContainer}>
-          <ActivityIndicator size="large" color={colors.greenBrand} />
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       )
     case SendingFiatAccountStatus.KycApproved:
       return (
         <View testID="checkmark" style={styles.activityIndicatorContainer}>
-          <Checkmark color={colors.greenBrand} />
+          <Checkmark color={colors.primary} />
         </View>
       )
     case SendingFiatAccountStatus.NotSending:
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
   },
   formInput: {
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
   },
   formSelectInput: {
     ...fontStyles.regular,
@@ -398,7 +398,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.gray2,
     marginBottom: 4,
-    color: colors.dark,
+    color: colors.black,
     paddingHorizontal: 8,
     paddingVertical: 12,
     lineHeight: LINE_HEIGHT,

@@ -27,7 +27,7 @@ import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -227,7 +227,10 @@ function AssetsScreen({ navigation, route }: Props) {
       headerRight: () =>
         getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
           <TopBarTextButton
-            onPress={navigateBack}
+            onPress={() => {
+              ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
+              navigate(Screens.TokenImport)
+            }}
             title={t('assets.importToken')}
             style={styles.topBarTextButton}
           />
@@ -546,7 +549,7 @@ const styles = StyleSheet.create({
     ...getShadowStyle(Shadow.SoftLight),
     padding: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     position: 'absolute',
     width: '100%',
     zIndex: 1,
@@ -564,7 +567,7 @@ const styles = StyleSheet.create({
     paddingBottom: Spacing.Thick24,
   },
   footerContainer: {
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     position: 'absolute',
     bottom: 0,
     left: 10, // so the scroll bar is still visible
@@ -584,7 +587,7 @@ const styles = StyleSheet.create({
   },
   tabBarItemSelected: {
     ...typeScale.labelMedium,
-    color: Colors.dark,
+    color: Colors.black,
   },
   topBarTextButton: {
     ...typeScale.bodyMedium,

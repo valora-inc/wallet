@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
   },
   subTitle: {
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
     paddingBottom: Spacing.Thick24,
   },
 
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
   },
   appName: {
     ...fontStyles.regular,
-    color: colors.dark,
+    color: colors.black,
   },
   disconnectButton: {
     ...fontStyles.small,

@@ -103,7 +103,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
       ) : (
         <ActivityIndicator
           testID="DappShortcutTransactionRequest/Loading"
-          color={Colors.greenBrand}
+          color={Colors.primary}
           style={styles.loader}
         />
       )}

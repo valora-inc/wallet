@@ -207,7 +207,7 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
               hitSlop={variables.iconHitslop}
               testID="AssetsTokenBalance/Info"
             >
-              <InfoIcon color={Colors.greenUI} />
+              <InfoIcon color={Colors.primary} />
             </TouchableOpacity>
           )}
         </View>
@@ -280,7 +280,7 @@ export function HomeTokenBalance() {
           tokenBalances.length >= 1) && (
           <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
             <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
-            <ProgressArrow style={styles.arrow} color={Colors.greenUI} />
+            <ProgressArrow style={styles.arrow} color={Colors.primary} />
           </TouchableOpacity>
         )}
       </View>
@@ -348,12 +348,12 @@ const styles = StyleSheet.create({
     width: 190,
     paddingVertical: Spacing.Smallest8,
     paddingHorizontal: Spacing.Regular16,
-    backgroundColor: Colors.dark,
+    backgroundColor: Colors.black,
     borderRadius: 8,
   },
   totalAssetsInfoText: {
     ...fontStyles.small,
-    color: Colors.light,
+    color: Colors.white,
     textAlign: 'center',
   },
   title: {
@@ -382,7 +382,7 @@ const styles = StyleSheet.create({
   },
   viewBalances: {
     ...fontStyles.label,
-    color: Colors.greenUI,
+    color: Colors.primary,
     paddingRight: 8,
   },
   arrow: {
@@ -396,7 +396,7 @@ const styles = StyleSheet.create({
   },
   totalBalance: {
     ...typeScale.titleLarge,
-    color: Colors.dark,
+    color: Colors.black,
   },
   exchangeBalance: {
     ...fontStyles.large500,

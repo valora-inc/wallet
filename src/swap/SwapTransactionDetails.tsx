@@ -10,29 +10,58 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { NetworkId } from 'src/transactions/types'
+import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
-  networkId?: NetworkId
   networkFee?: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippagePercentage: string
   feeTokenId: string
+  fromToken?: TokenBalance
+  toToken?: TokenBalance
+  exchangeRatePrice?: string
+  swapAmount?: BigNumber
+  fetchingSwapQuote: boolean
 }
 
 export function SwapTransactionDetails({
-  networkId,
   networkFee,
   networkFeeInfoBottomSheetRef,
   feeTokenId,
   slippagePercentage,
+  fromToken,
+  toToken,
+  exchangeRatePrice,
+  swapAmount,
+  fetchingSwapQuote,
 }: Props) {
   const { t } = useTranslation()
 
+  const placeholder = '-'
   return (
     <View style={styles.container} testID="SwapTransactionDetails">
-      <View style={styles.row}>
-        {networkId ? (
+      <View style={styles.row} testID="SwapTransactionDetails/ExchangeRate">
+        <Text style={styles.label}>{t('swapScreen.transactionDetails.exchangeRate')}</Text>
+        <Text style={styles.value}>
+          {!fetchingSwapQuote && fromToken && toToken && exchangeRatePrice ? (
+            <>
+              {`1 ${fromToken.symbol} ≈ `}
+              <Text style={styles.value}>
+                {`${new BigNumber(exchangeRatePrice).toFormat(5, BigNumber.ROUND_DOWN)} ${
+                  toToken.symbol
+                }`}
+              </Text>
+            </>
+          ) : (
+            <Text style={styles.value}>
+              {fromToken ? `1 ${fromToken.symbol} ≈ ` : ''}
+              {placeholder}
+            </Text>
+          )}
+        </Text>
+      </View>
+      <View style={styles.row} testID="SwapTransactionDetails/NetworkFee">
+        {fromToken?.networkId ? (
           <>
             <Touchable
               style={styles.touchableRow}
@@ -44,7 +73,7 @@ export function SwapTransactionDetails({
               <>
                 <Text style={styles.label}>
                   {t('swapScreen.transactionDetails.networkFee', {
-                    networkName: NETWORK_NAMES[networkId],
+                    networkName: NETWORK_NAMES[fromToken.networkId],
                   })}
                 </Text>
                 <InfoIcon
@@ -54,17 +83,28 @@ export function SwapTransactionDetails({
                 />
               </>
             </Touchable>
-            {networkFee ? (
-              <TokenDisplay
-                style={styles.value}
-                amount={networkFee}
-                showApprox
-                tokenId={feeTokenId}
-                showLocalAmount={true}
-                testID="SwapTransactionDetails/NetworkFee/Value"
-              />
+            {!fetchingSwapQuote && networkFee ? (
+              <View style={styles.networkFeeContainer}>
+                <TokenDisplay
+                  style={styles.value}
+                  amount={networkFee}
+                  showApprox
+                  tokenId={feeTokenId}
+                  showLocalAmount={true}
+                />
+                <Text style={[styles.value, { fontWeight: '400' }]}>
+                  {` (`}
+                  <TokenDisplay
+                    amount={networkFee}
+                    tokenId={feeTokenId}
+                    showSymbol={true}
+                    showLocalAmount={false}
+                  />
+                  {')'}
+                </Text>
+              </View>
             ) : (
-              <Text style={styles.value}>-</Text>
+              <Text style={styles.value}>{placeholder}</Text>
             )}
           </>
         ) : (
@@ -72,9 +112,7 @@ export function SwapTransactionDetails({
             <Text style={styles.label}>
               {t('swapScreen.transactionDetails.networkFeeNoNetwork')}
             </Text>
-            <Text style={styles.value} testID="SwapTransactionDetails/NetworkFee/Value">
-              -
-            </Text>
+            <Text style={styles.value}>{placeholder}</Text>
           </>
         )}
       </View>
@@ -114,6 +152,9 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: colors.gray4,
     marginRight: Spacing.Tiny4,
+  },
+  networkFeeContainer: {
+    flexDirection: 'row',
   },
 })
 

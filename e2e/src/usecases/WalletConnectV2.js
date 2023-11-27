@@ -208,33 +208,50 @@ export default WalletConnect = () => {
         await verifySuccessfulConnection()
       })
 
-      it('Then is able to send a transaction (eth_sendTransaction)', async () => {
-        const tx = await formatTestTransaction(walletAddress, web3Library)
-        const [session] = walletConnectClient.session.map.values()
-        const requestPromise = walletConnectClient.request({
-          topic: session.topic,
-          chainId: 'eip155:44787',
-          request: {
-            method: 'eth_sendTransaction',
-            params: [tx],
-          },
-        })
+      it(
+        'Then is able to send a transaction (eth_sendTransaction)',
+        async () => {
+          const tx = await formatTestTransaction(walletAddress, web3Library)
+          const [session] = walletConnectClient.session.map.values()
+          const requestPromise = walletConnectClient.request({
+            topic: session.topic,
+            chainId: 'eip155:44787',
+            request: {
+              method: 'eth_sendTransaction',
+              params: [tx],
+            },
+          })
 
-        await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
-          .toBeVisible()
-          .withTimeout(15 * 1000)
-        await verifySuccessfulTransaction('Send transaction', tx)
+          await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
+            .toBeVisible()
+            .withTimeout(15 * 1000)
+          await verifySuccessfulTransaction('Send transaction', tx)
 
-        const txHash = await requestPromise
-        console.log('Received tx hash', txHash)
+          const txHash = await requestPromise
+          console.log('Received tx hash', txHash)
 
-        // Wait for transaction and get receipt
-        const { status, from, to } = await kit.connection.getTransactionReceipt(txHash)
+          // Wait for the transaction to be mined
+          // TODO: switch to viem waitForTransactionReceipt once we can upgrade to node 20+
+          let receipt
+          for (let i = 0; i < 30; i++) {
+            receipt = await kit.connection.getTransactionReceipt(txHash)
+            if (receipt) {
+              break
+            }
+            await sleep(1000)
+          }
 
-        jestExpect(status).toStrictEqual(true)
-        jestExpect(from).toStrictEqual(walletAddress)
-        jestExpect(to).toStrictEqual(walletAddress)
-      })
+          console.log('Received receipt', receipt)
+          jestExpect(receipt).toBeTruthy()
+          const { status, from, to } = receipt
+
+          jestExpect(status).toStrictEqual(true)
+          jestExpect(from).toStrictEqual(walletAddress)
+          jestExpect(to).toStrictEqual(walletAddress)
+        },
+        // Increase timeout for this test, since it's waiting for a transaction to be mined
+        60 * 1000
+      )
 
       it('Then is able to sign a transaction (eth_signTransaction)', async () => {
         const tx = await formatTestTransaction(walletAddress, web3Library)

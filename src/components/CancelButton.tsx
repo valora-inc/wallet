@@ -44,6 +44,6 @@ export default function CancelButton({ eventName, onCancel, style, buttonType = 
 
 const styles = StyleSheet.create({
   title: {
-    color: colors.dark,
+    color: colors.black,
   },
 })

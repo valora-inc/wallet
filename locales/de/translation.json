@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Lade Freunde ein und werde belohnt",
-    "body": "Sobald die Person ihre {{appName}} Wallet eingerichtet und 10 cUSD darauf eingezahlt hat, erhaltet ihr beide 0,50 cUSD."
+    "body": "Sobald die Person ihre {{appName}} Wallet eingerichtet und 5 cUSD darauf eingezahlt hat, erhaltet ihr beide 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
     "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf {{appName}}.",
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
-    "share": "Hallo! Ich habe {{appName}} Krypto Wallet benutzt. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{shareUrl}}",
-    "help": "Um diesen Reward zu erhalten, muss die eingeladene Person den Download über den Empfehlungslink durchführen, ihre Telefonnummer angeben und 10 cUSD oder mehr für mindestens 7 Tage in ihren {{appName}} Wallet haben. <0>Alle Bedingungen anzeigen</0>",
+    "share": "Hey! Melde dich bei {{appName}} wallet an. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren, und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: {{shareUrl}}.",
+    "help": "Um diesen Reward zu erhalten, muss die eingeladene Person den Download über den Empfehlungslink durchführen, ihre Telefonnummer angeben und 5 cUSD oder mehr für mindestens 7 Tage in ihren {{appName}} Wallet haben. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "Erhalte cUSD mit den Empfehlungs-Rewards von Valora",
-      "body": "Lade bis zu 25 Freunde zu {{appName}} ein und ihr erhaltet jedes Mal 0,50 cUSD, wenn die eingeladenen Personen 10 cUSD hinzufügen oder erhalten, solange das Guthaben reicht."
+      "title": "NUR FÜR KURZE ZEIT. Erhalte kostenlose cUSD für die Einladung von Freunden zu Valora!",
+      "body": "Du bekommst 0,50 cUSD für jeden Freund, den du auf {{appName}}einlädst. Sobald er/sie Geld hinzufügt und 5 cUSD für 7 Tage hält, bekommt ihr beide 0,50 cUSD. Beeil dich, das Guthaben ist begrenzt! (Limit 25 Freunde)."
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
-  "inviteWithRewardsCUSD": "Hi! 👋 Valora ist der einfachste Weg, Menschen, die dir wichtig sind, Geld zu schicken, egal wo sie sind. Alles, was du brauchst, ist eine Telefonnummer. Lade Valora über diesen Link herunter, verknüpfe deine Telefonnummer und lade dein neues Wallet mit 10 cUSD auf, um $0,50 zu erhalten 💫 \n\n{{link}} \n\nHandle jetzt, die Empfehlungs-Rewards sind begrenzt.",
+  "inviteWithRewardsCUSD": "Hey! Im Moment können wir beide eine kostenlose 0,50 cUSD-Prämie bekommen, wenn du dich anmeldest und deine Valora-Brieftasche auffüllst. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren, und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: \n\n{{link}} \n\nAber beeil dich, denn die Werbeaktion endet bald.",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1193,7 +1193,7 @@
   "feedItemNetworkFeeInfo": "Netzwerkgebühr",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Bestätigungsrewards",
-  "feedItemFailedTransaction": "Gescheiterte Transaktion",
+  "feedItemFailedTransaction": "Fehlgeschlagene Transaktion",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "{{faucet}} Faucet",
   "feedItemFaucetInfo_noTestnet": "Faucet",
@@ -1552,7 +1552,7 @@
       "descriptionXtoYDays": "Deine Transaktionsanfrage wurde gesendet und du erhältst dein Guthaben in {{lowerBound}} bis {{upperBound}} Tagen.",
       "baseDescription": "Deine Transaktionsanfrage wurde gesendet.",
       "txDetails": "Auf CeloExplorer anzeigen",
-      "viewOnCeloScan": "Ansicht auf CeloScan",
+      "viewOnCeloScan": "Auf CeloScan anzeigen",
       "continue": "Weiter"
     },
     "requestNotCompleted": {
@@ -1561,7 +1561,7 @@
     },
     "txProcessing": {
       "title": "Der Dienstleister bearbeitet deine Bestellung.",
-      "description": "Das kann an einer schlechten Internetverbindung liegen. Überprüfe den Block-Explorer auf Updates."
+      "description": "Das kann an einer schlechten Internetverbindung liegen. Überprüfe den Block-Explorer auf Aktualisierungen."
     }
   },
   "fiatExchangeFlow": {
@@ -1659,13 +1659,15 @@
   "swapScreen": {
     "title": "Tauschen",
     "review": "Überprüfen",
+    "confirmSwap": "Tausch bestätigen",
     "swapFrom": "VON",
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Swaps powered by Partner auf Celo. <0>Mehr erfahren</0>",
+    "disclaimer": "Der beste Tarif wird von den Netzwerkpartnern bestimmt. <0>Mehr erfahren</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
@@ -1681,23 +1683,25 @@
     },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Unzureichendes {{tokenSymbol}} Gleichgewicht",
-      "description": "Du hast nicht genug {{tokenSymbol}} , um die Gaskosten zu decken. Möchtest du einen kleineren Betrag tauschen?",
-      "confirmDecreaseButton": "Kleinere Menge tauschen"
+      "title": "Unzureichendes {{tokenSymbol}}-Guthaben",
+      "description": "Du hast nicht genug {{tokenSymbol}}, um die Gasgebühr damit zu begleichen. Möchtest du einen kleineren Betrag tauschen?",
+      "confirmDecreaseButton": "Kleineren Betrag tauschen"
     },
     "notEnoughBalanceForGas": {
-      "title": "Unzureichende Gas-Token-Bilanz",
-      "description": "Du hast nicht genug {{feeCurrencies}} , um die Benzinkosten zu decken. Bitte füge {{feeCurrencies}} zu deinem Geldbeutel hinzu, um diesen Tausch abzuschließen.",
+      "title": "Unzureichendes Gas-Token-Guthaben",
+      "description": "Du hast nicht genug {{feeCurrencies}}, um die Gasgebühren zu begleichen. Bitte füge {{feeCurrencies}} zu deiner Wallet hinzu, um diesen Tausch abzuschließen.",
       "dismissButton": "Verwerfen"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Netzwerk-Gebühr",
+      "networkFee": "{{networkName}} Netzwerkgebühr",
       "networkFeeNoNetwork": "Netzwerkgebühr",
       "swapFee": "{{appName}}-Gebühr",
       "swapFeeWaived": "Kostenlos",
-      "slippagePercentage": "Schlupftoleranz",
-      "networkFeeInfo": "Du tauschst über das {{networkName}} Netzwerk.\n\nDiese geschätzte Netzwerkgebühr ist erforderlich, um eine Transaktion über das {{networkName}} Netzwerk durchzuführen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, den Betrieb des Netzwerks aufrechtzuerhalten.",
-      "networkFeeInfoDismissButton": "Verstanden"
+      "slippagePercentage": "Slippage-Toleranz",
+      "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
+      "networkFeeInfoDismissButton": "Verstanden",
+      "exchangeRate": "Umtauschkurs",
+      "estimatedValue": "Geschätzter Wert"
     }
   },
   "swapTransactionDetailPage": {
@@ -1770,7 +1774,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Lade {{contactName}} zu {{appName}} ein und erhalte 0,50 cUSD",
-      "body": "Es sieht so aus, dass {{contactName}} nicht auf Valora ist. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden.\n\nNachdem die Person Valora heruntergeladen hat, ihre Telefonnummer verknüpft hat und 10 cUSD auf ihr Wallet eingezahlt hat, erhaltet ihr beide 0,50 cUSD, solange das Guthaben reicht."
+      "body": "Es sieht so aus, dass {{contactName}} nicht auf Valora ist. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden.\n\nNachdem die Person Valora heruntergeladen hat, ihre Telefonnummer verknüpft hat und 5 cUSD auf ihr Wallet eingezahlt hat, erhaltet ihr beide 0,50 cUSD, solange das Guthaben reicht."
     }
   },
   "celoNews": {
@@ -1804,7 +1808,7 @@
     "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>„{{searchTerm}}”</0>"
   },
   "homeActions": {
-    "add": "Hinzufügen",
+    "add": "Kaufen",
     "receive": "Erhalten",
     "request": "Anfragen",
     "send": "Senden",
@@ -1854,85 +1858,110 @@
   },
   "tokenDetails": {
     "yourBalance": "Dein Saldo",
-    "learnMore": "Erfahre mehr über {{tokenName}}",
+    "learnMore": "Mehr erfahren über {{tokenName}}.",
     "priceUnavailable": "Preis nicht verfügbar",
     "priceDeltaSuffix": "Heute",
     "actions": {
       "send": "Senden",
       "swap": "Tauschen",
-      "add": "Hinzufügen",
+      "add": "Kaufen",
       "withdraw": "Abheben",
       "more": "Mehr"
     },
-    "moreActions": "Mehr Aktionen",
+    "moreActions": "Weitere Aktionen",
     "actionDescriptions": {
-      "send": "Verwende eine beliebige Celo Adresse, Domain, Telefonnummer, etc.",
-      "swap": "Tausche deine Token, ohne dein Portemonnaie zu verlassen",
-      "add": "Kaufe Token über einen unserer vertrauenswürdigen Anbieter",
+      "send": "Verwende eine beliebige Celo-Adresse, -Domain, -Telefonnummer usw.",
+      "swap": "Tausche deine Token, ohne deine Wallet zu verlassen.",
+      "add": "Kaufe Token über einen unserer vertrauenswürdigen Anbieter.",
       "withdraw": "Überweise Token auf ein Bankkonto, mobiles Geld, eine Geschenkkarte usw."
     }
   },
+  "tokenImport": {
+    "title": "Token importieren",
+    "notification": "Jeder kann einen Token erstellen, auch gefälschte Versionen von bestehenden Token. Vergewissere dich vor dem Import, dass die Adresse deines Tokens korrekt ist.",
+    "input": {
+      "tokenAddress": "Token Adresse",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Netzwerk"
+    },
+    "error": {
+      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere den Support",
+      "alreadyImported": "Das Token wurde bereits vorher hinzugefügt.",
+      "alreadySupported": "Token wird bereits unterstützt."
+    },
+    "importSuccess": "Erfolgreich importiertes {{tokenSymbol}} Token",
+    "importButton": "Importieren"
+  },
   "sendSelectRecipient": {
-    "searchText": "Suche nach Name, Telefon, Geldbeutel...",
-    "title": "Wähle einen Empfänger",
-    "contactsTitle": "Wähle einen Kontakt",
-    "recents": "Aktuelle",
+    "searchText": "Suche nach Name, Telefon, Wallet ...",
+    "title": "Einen Empfänger auswählen",
+    "contactsTitle": "Kontakt wählen",
+    "recents": "Zuletzt",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
-      "subtitle": "Schnelles Finden von Adressen auf Valora"
+      "subtitle": "Finde Adressen schnell auf Valora."
     },
     "invite": {
-      "title": "Sende Krypto an deine Freunde",
-      "subtitle": "Freunde aus deiner Kontaktliste einladen"
+      "title": "Sende Krypto an deine Freunde.",
+      "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
     },
     "getStarted": {
-      "title": "Möglichkeiten, Geld auf Valora zu senden",
-      "subtitle": "ANFANGEN",
+      "title": "So kannst du Guthaben auf Valora senden.",
+      "subtitle": "ERSTE SCHRITTE",
       "options": {
         "one": {
           "title": "Wallet-Adresse",
-          "subtitle": "Gib eine Celo oder Ethereum kompatible Wallet Adresse ein (z.B. 0x123...abcde)"
+          "subtitle": "Gib eine Wallet-Adresse ein, die mit Celo oder Ethereum kompatibel ist (z. B. 0x123...abcde)."
         },
         "two": {
           "title": "Telefonnummer",
-          "subtitle": "Direkt an die Telefonnummer einer Person senden, wenn diese Valora hat"
+          "subtitle": "Sende direkt an die Telefonnummer von jemandem, wenn diese Person Valora hat."
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Ethereum-Vermögenswerte an das ENS-Handle von jemandem senden"
+          "subtitle": "Sende Ethereum-Vermögen an das ENS-Handle einer Person."
         },
         "four": {
-          "title": "Profil Name",
-          "subtitle": "Du kannst nach bestehenden Benutzern auf Valora suchen"
+          "title": "Profilname",
+          "subtitle": "Du kannst auf Valora nach anderen Nutzern suchen."
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Kontakte zum Fortfahren freigeben",
+      "description": "Bitte gehe zu den Einstellungen, um deine Kontakte zu aktualisieren und mit dem Senden an Freunde zu beginnen"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Verbinden Sie Ihre Telefonnummer",
+      "description": "Du musst deine Telefonnummer angeben, damit du Kryptowährungen an deine Freunde schicken kannst."
     }
   },
   "transactionStatus": {
     "transactionIsCompleted": "Fertiggestellt",
     "transactionIsPending": "Ausstehend",
-    "transactionIsFailed": "Gescheitert"
+    "transactionIsFailed": "Fehlgeschlagen"
   },
   "transactionDetailsActions": {
     "showCompletedTransactionDetails": "Details",
-    "checkPendingTransactionStatus": "Status prüfen",
+    "checkPendingTransactionStatus": "Status überprüfen",
     "retryFailedTransaction": "Erneut versuchen"
   },
   "viewOnCeloBlockExplorer": "Auf CeloExplorer anzeigen",
-  "viewOnCeloScan": "Ansicht auf CeloScan",
-  "viewOnEthereumBlockExplorer": "Ansicht auf Etherscan",
+  "viewOnCeloScan": "Auf CeloScan anzeigen",
+  "viewOnEthereumBlockExplorer": "Auf Etherscan anzeigen",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
-    "networkFee": "{{networkName}} Netzwerk-Gebühr",
-    "lowerAmount": "Einen niedrigeren Betrag eingeben",
+    "networkFee": "Netzwerkgebühr für {{networkName}}",
+    "lowerAmount": "Gib einen niedrigeren Betrag ein.",
     "maxAmountWarning": {
-      "title": "Den Höchstbetrag senden",
-      "description": "Passe den Betrag an, den du sendest, um sicherzustellen, dass du genug {{feeTokenSymbol}} für Gas hast."
+      "title": "Der Höchstbetrag wird gesendet.",
+      "description": "Passe den Betrag an, den du senden möchtest, um sicherzustellen, dass du genug {{feeTokenSymbol}} für Gas hast."
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "Du brauchst mehr {{feeTokenSymbol}} für Gas",
-      "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu decken oder passe den Betrag an, den du sendest"
+      "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
+      "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu begleichen, oder passe den Betrag an, den du senden möchtest."
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

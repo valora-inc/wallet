@@ -26,8 +26,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies, useMaxSendAmount } from 'src/fees/hooks'
-import { FeeType } from 'src/fees/reducer'
+import { useFeeCurrencies } from 'src/fees/hooks'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -46,6 +45,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
@@ -119,7 +119,6 @@ function SendEnterAmount({ route }: Props) {
 
   const [token, setToken] = useState<TokenBalance>(defaultToken)
   const [amount, setAmount] = useState<string>('')
-  const maxAmount = useMaxSendAmount(token.tokenId, FeeType.SEND) // TODO(ACT-946): update to use viem (via prepareTransactions)
 
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
@@ -140,8 +139,11 @@ function SendEnterAmount({ route }: Props) {
     // NOTE: analytics is already fired by the bottom sheet, don't need one here
   }
 
-  const onMaxAmountPress = () => {
-    setAmount(maxAmount.toString())
+  const onMaxAmountPress = async () => {
+    // eventually we may want to do something smarter here, like subtracting gas fees from the max amount if
+    // this is a gas-paying token. for now, we are just showing a warning to the user prompting them to lower the amount
+    // if there is not enough for gas
+    setAmount(token.balance.toString())
     textInputRef.current?.blur()
     ValoraAnalytics.track(SendEvents.max_pressed, {
       tokenId: token.tokenId,
@@ -151,7 +153,10 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
-    // TODO(ACT-955): pass fees as props for confirmation screen
+    if (!sendIsPossible) {
+      // should never happen because button is disabled if send is not possible
+      throw new Error('Send is not possible')
+    }
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
@@ -163,6 +168,11 @@ function SendEnterAmount({ route }: Props) {
         tokenAddress: token.address!,
         tokenAmount: parsedAmount,
       },
+      preparedTransaction: getSerializablePreparedTransaction(
+        prepareTransactionsResult.transactions[0]
+      ),
+      feeAmount: feeAmount?.toString(),
+      feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
       origin,
@@ -278,7 +288,7 @@ function SendEnterAmount({ route }: Props) {
                 inputStyle={[
                   styles.inputText,
                   Platform.select({ ios: { lineHeight: undefined } }),
-                  showLowerAmountError && { color: Colors.warning },
+                  showLowerAmountError && { color: Colors.error },
                 ]}
                 testID="SendEnterAmount/Input"
                 onBlur={() => {
@@ -438,7 +448,7 @@ const styles = StyleSheet.create({
   tokenSelectButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: TOKEN_SELECTOR_BORDER_RADIUS,
@@ -504,10 +514,10 @@ const styles = StyleSheet.create({
     paddingVertical: Spacing.Thick24,
   },
   reviewButtonText: {
-    ...typeScale.semiBoldMedium,
+    ...typeScale.labelSemiBoldMedium,
   },
   lowerAmountError: {
-    color: Colors.warning,
+    color: Colors.error,
     ...typeScale.labelXSmall,
     paddingLeft: Spacing.Regular16,
   },

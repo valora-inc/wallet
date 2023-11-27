@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
   defaultTokenToSendSelector,
-  swappableTokensSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -339,54 +338,6 @@ describe(totalTokenBalanceSelector, () => {
         },
       } as any
       expect(totalTokenBalanceSelector(errorState, [NetworkId['celo-alfajores']])).toBeNull()
-    })
-  })
-
-  describe(swappableTokensSelector, () => {
-    it('should return the tokens that are swappable', () => {
-      expect(swappableTokensSelector(state)).toMatchInlineSnapshot(`
-        [
-          {
-            "address": "0xeur",
-            "balance": "50",
-            "isSupercharged": true,
-            "lastKnownPriceUsd": "0.5",
-            "minimumAppVersionToSwap": "1.0.0",
-            "name": "cEUR",
-            "networkId": "celo-alfajores",
-            "priceFetchedAt": 1588200517518,
-            "priceUsd": "0.5",
-            "symbol": "cEUR",
-            "tokenId": "celo-alfajores:0xeur",
-          },
-          {
-            "address": "0x4",
-            "balance": "50",
-            "isSupercharged": true,
-            "lastKnownPriceUsd": null,
-            "minimumAppVersionToSwap": "1.10.0",
-            "name": "0x4 token",
-            "networkId": "celo-alfajores",
-            "priceFetchedAt": 1588200517518,
-            "priceUsd": null,
-            "symbol": "TT",
-            "tokenId": "celo-alfajores:0x4",
-          },
-          {
-            "address": "0xusd",
-            "balance": "0",
-            "isSwappable": true,
-            "lastKnownPriceUsd": "1",
-            "name": "cUSD",
-            "networkId": "celo-alfajores",
-            "priceFetchedAt": 1588200517518,
-            "priceUsd": "1",
-            "showZeroBalance": true,
-            "symbol": "cUSD",
-            "tokenId": "celo-alfajores:0xusd",
-          },
-        ]
-      `)
     })
   })
 })

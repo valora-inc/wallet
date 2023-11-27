@@ -260,7 +260,7 @@
   "startSuperchargingNotificationBody": "Nhận thưởng hằng tuần bằng tiền điện tử. Hãy bắt đầu với chương trình Supercharge!",
   "startSuperchargingNotificationStart": "Nhận tiền thưởng",
   "cashIn": "Nạp {{currency}}",
-  "connectNumber": "Kết nối số",
+  "connectNumber": "Kết nối số điện thoại",
   "connectToWallet": "Kết nối với {{dappName}}",
   "confirmTransaction": "Xác nhận giao dịch",
   "allow": "Cho phép",
@@ -631,22 +631,22 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi họ thiết lập và nạp 10 cUSD vào ví {{appName}} của mình, cả hai bạn đều sẽ nhận được 0,50 cUSD."
+    "body": "Sau khi họ thiết lập và nạp 5 cUSD vào ví {{appName}} của mình, cả hai bạn đều sẽ nhận được 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
     "body": "Kết nối và chia sẻ giá trị với bạn bè và gia đình trên {{appName}}.",
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
-    "share": "Xin chào! Tôi đang sử dụng {{appName}} làm ví tiền điện tử. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{shareUrl}}",
-    "help": "Để thu thập tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và duy trì 10 cUSD trở lên trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
+    "share": "Hey! Sign up to {{appName}} wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: {{shareUrl}}.",
+    "help": "Để thu thập tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và duy trì 5 cUSD trở lên trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "Nhận cUSD với Tiền thưởng giới thiệu Valora",
-      "body": "Mời đến 25 người bạn tham gia {{appName}}. Trong thời gian quỹ tiền thưởng vẫn còn hiệu lực, mỗi người sẽ nhận được 0,50 cUSD khi họ nạp hoặc nhận 10 cUSD trở lên."
+      "title": "LIMITED TIME ONLY. Get free cUSD for inviting friends to Valora!",
+      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they add funds, and hold 5 cUSD for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Nhận ${{reward}}",
@@ -960,7 +960,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Chào bạn! 👋 Valora là cách đơn giản nhất để gửi tiền cho những người bạn quan tâm, bất kể họ ở đâu. Bạn chỉ cần có số điện thoại. Hãy tải xuống bằng đường liên kết này, kết nối số điện thoại và nạp 10 cUSD vào ví mới của bạn để được nhận 0,50 USD 💫 \n\n{{link}} \n\nHãy nhanh tay lên, tiền thưởng giới thiệu có hạn.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free 0.50 cUSD reward if you sign up and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\nHurry though, the referral promotion ends soon.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -1191,7 +1191,7 @@
   "feedItemNetworkFeeInfo": "Phí mạng lưới",
   "feedItemVerificationRewardTitle": "Celo",
   "feedItemVerificationRewardInfo": "Tiền thưởng cho người xác nhận",
-  "feedItemFailedTransaction": "Failed Transaction",
+  "feedItemFailedTransaction": "Giao dịch không thành công",
   "feedItemFaucetTitle": "Celo",
   "feedItemFaucetInfo": "Faucet {{faucet}}",
   "feedItemFaucetInfo_noTestnet": "Faucet",
@@ -1550,7 +1550,7 @@
       "descriptionXtoYDays": "Yêu cầu giao dịch của bạn đã được gửi đi và tiền của bạn sẽ đến sau {{lowerBound}}-{{upperBound}} ngày.",
       "baseDescription": "Yêu cầu giao dịch của bạn đã được gửi.",
       "txDetails": "Xem trên CeloExplorer",
-      "viewOnCeloScan": "View on CeloScan",
+      "viewOnCeloScan": "Xem trên CeloScan",
       "continue": "Tiếp tục"
     },
     "requestNotCompleted": {
@@ -1559,7 +1559,7 @@
     },
     "txProcessing": {
       "title": "Nhà cung cấp dịch vụ đang xử lý đơn hàng của bạn.",
-      "description": "This might be due to poor internet connection. Check the block explorer for updates."
+      "description": "Nguyên nhân có thể là kết nối Internet kém. Hãy xem thông tin cập nhật trên trình khám phá khối."
     }
   },
   "fiatExchangeFlow": {
@@ -1657,13 +1657,15 @@
   "swapScreen": {
     "title": "Trao đổi",
     "review": "Xem lại",
+    "confirmSwap": "Confirm Swap",
     "swapFrom": "TỪ",
     "swapTo": "SANG",
     "insufficientFunds": "Không đủ số dư {{token}}. Hãy thử số tiền nhỏ hơn hoặc chọn một tài sản khác.",
     "fetchSwapQuoteFailed": "Xin lỗi vì sự chậm trễ này! Hệ thống đang mất nhiều thời gian hơn bình thường để có được tỷ giá quy đổi tốt nhất. Vui lòng thử lại trong vài phút nữa.",
-    "disclaimer": "Swaps powered by partners on Celo. <0>Learn more</0>",
+    "disclaimer": "Best rate determined by network partners. <0>Learn more</0>",
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
+    "tokenUsdValueUnknown": "-",
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
@@ -1679,30 +1681,32 @@
     },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
-      "title": "Insufficient {{tokenSymbol}} balance",
-      "description": "You don't have enough {{tokenSymbol}} to cover gas fees. Would you like to swap a smaller amount?",
-      "confirmDecreaseButton": "Swap smaller amount"
+      "title": "Số dư {{tokenSymbol}} không đủ",
+      "description": "Bạn không có đủ {{tokenSymbol}} để trả phí gas. Bạn có muốn trao đổi một số tiền nhỏ hơn không?",
+      "confirmDecreaseButton": "Trao đổi số tiền nhỏ hơn"
     },
     "notEnoughBalanceForGas": {
-      "title": "Insufficient gas token balance",
-      "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this swap.",
+      "title": "Số dư token gas không đủ",
+      "description": "Bạn không có đủ {{feeCurrencies}} để trả phí gas. Vui lòng nạp thêm {{feeCurrencies}} vào ví để hoàn tất giao dịch trao đổi này.",
       "dismissButton": "Loại bỏ"
     },
     "transactionDetails": {
-      "networkFee": "{{networkName}} Network Fee",
+      "networkFee": "Phí mạng lưới {{networkName}}",
       "networkFeeNoNetwork": "Phí mạng lưới",
       "swapFee": "Phí {{appName}}",
       "swapFeeWaived": "Miễn phí",
-      "slippagePercentage": "Slippage Tolerance",
-      "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
-      "networkFeeInfoDismissButton": "Đã hiểu"
+      "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
+      "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
+      "networkFeeInfoDismissButton": "Đã hiểu",
+      "exchangeRate": "Tỷ giá quy đổi",
+      "estimatedValue": "Estimated Value"
     }
   },
   "swapTransactionDetailPage": {
     "swapFrom": "Trao đổi từ",
     "swapTo": "Trao đổi sang",
     "rate": "Tỷ giá",
-    "estimatedFee": "Est Network Fee",
+    "estimatedFee": "Phí mạng lưới ước tính",
     "networkFee": "Phí mạng lưới",
     "viewOnExplorer": "Xem trên CeloExplorer"
   },
@@ -1768,7 +1772,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 10 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
+      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 5 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
     }
   },
   "celoNews": {
@@ -1802,7 +1806,7 @@
     "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
-    "add": "Nạp",
+    "add": "Mua",
     "receive": "Nhận được",
     "request": "Yêu cầu",
     "send": "Gửi",
@@ -1844,93 +1848,118 @@
       "collectibles": "Các bộ sưu tập",
       "dappPositions": "Lệnh giao dịch trên Dapp"
     },
-    "importToken": "Import"
+    "importToken": "Nhập"
   },
   "notificationCenterSpotlight": {
     "message": "Giới thiệu phương thức mới để nhận tiền thưởng, xem thông báo và xem thông tin cập nhật ở cùng một nơi",
     "cta": "Đã hiểu"
   },
   "tokenDetails": {
-    "yourBalance": "Your balance",
-    "learnMore": "Learn more about {{tokenName}}",
-    "priceUnavailable": "Price Unavailable",
-    "priceDeltaSuffix": "Today",
+    "yourBalance": "Số dư của bạn",
+    "learnMore": "Tìm hiểu thêm về {{tokenName}}",
+    "priceUnavailable": "Không có giá",
+    "priceDeltaSuffix": "Hôm nay",
     "actions": {
       "send": "Gửi",
       "swap": "Trao đổi",
-      "add": "Nạp",
+      "add": "Mua",
       "withdraw": "Rút tiền",
-      "more": "More"
+      "more": "Thêm"
     },
-    "moreActions": "More Actions",
+    "moreActions": "Thao tác khác",
     "actionDescriptions": {
-      "send": "Use any Celo address, domain, phone number, etc.",
-      "swap": "Swap your tokens without leaving your wallet",
-      "add": "Buy tokens using one of our trusted providers",
-      "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
+      "send": "Sử dụng địa chỉ Celo, tên miền, số điện thoại, v.v.",
+      "swap": "Trao đổi token mà không phải thoát khỏi ví",
+      "add": "Mua token qua một trong những nhà cung cấp uy tín của chúng tôi",
+      "withdraw": "Chuyển token vào tài khoản ngân hàng, ví di động, thẻ quà tặng, v.v."
     }
   },
+  "tokenImport": {
+    "title": "Import Token",
+    "notification": "Anyone can create a token, including fake versions of existing tokens. Verify your token address is correct before you import.",
+    "input": {
+      "tokenAddress": "Token Address",
+      "tokenAddressPlaceholder": "0x…",
+      "tokenSymbol": "Token Symbol",
+      "network": "Mạng lưới"
+    },
+    "error": {
+      "invalidToken": "Invalid token. Try again or contact support",
+      "alreadyImported": "Token was added already before.",
+      "alreadySupported": "Token is already supported."
+    },
+    "importSuccess": "Successfully imported {{tokenSymbol}} token",
+    "importButton": "Import"
+  },
   "sendSelectRecipient": {
-    "searchText": "Search by name, phone, wallet...",
-    "title": "Select a recipient",
-    "contactsTitle": "Select a contact",
-    "recents": "Recents",
+    "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
+    "title": "Chọn người nhận",
+    "contactsTitle": "Chọn một liên hệ",
+    "recents": "Gần đây",
     "qr": {
-      "title": "Scan or Show QR Code",
-      "subtitle": "Quickly find addresses on Valora"
+      "title": "Quét hoặc hiển thị mã QR",
+      "subtitle": "Tìm nhanh địa chỉ trên Valora"
     },
     "invite": {
-      "title": "Send crypto to your friends",
-      "subtitle": "Invite friends from your contacts list"
+      "title": "Gửi tiền điện tử cho bạn bè",
+      "subtitle": "Mời bạn bè từ danh bạ"
     },
     "getStarted": {
-      "title": "Ways to send funds on Valora",
-      "subtitle": "GET STARTED",
+      "title": "Các phương thức gửi tiền trên Valora",
+      "subtitle": "BẮT ĐẦU",
       "options": {
         "one": {
           "title": "Địa chỉ ví",
-          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+          "subtitle": "Nhập địa chỉ ví tương thích với Celo hoặc Ethereum (ví dụ: 0x123...abcde)"
         },
         "two": {
           "title": "Số điện thoại",
-          "subtitle": "Send directly to someone's phone number if they have Valora"
+          "subtitle": "Gửi trực tiếp đến số điện thoại của một người khác nếu họ có Valora"
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send Ethereum assets to someone's ENS handle"
+          "subtitle": "Gửi tài sản Ethereum tới địa chỉ ENS của một người"
         },
         "four": {
-          "title": "Profile Name",
-          "subtitle": "You can search for existing users on Valora"
+          "title": "Tên hồ sơ",
+          "subtitle": "Bạn có thể tìm kiếm người dùng hiện có trên Valora"
         }
       }
+    },
+    "enableContactsModal": {
+      "title": "Enable contacts to continue",
+      "description": "Please go to settings to update your contacts and start sending to friends"
+    },
+    "connectPhoneNumberModal": {
+      "title": "Kết nối số điện thoại của bạn",
+      "description": "You need to connect your phone number so you can start sending crypto to your friends"
     }
   },
   "transactionStatus": {
     "transactionIsCompleted": "Đã hoàn tất",
     "transactionIsPending": "Đang chờ xử lý",
-    "transactionIsFailed": "Failed"
+    "transactionIsFailed": "Không thành công"
   },
   "transactionDetailsActions": {
-    "showCompletedTransactionDetails": "Details",
-    "checkPendingTransactionStatus": "Check Status",
+    "showCompletedTransactionDetails": "Chi tiết",
+    "checkPendingTransactionStatus": "Kiểm tra trạng thái",
     "retryFailedTransaction": "Thử lại"
   },
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
-  "viewOnCeloScan": "View on CeloScan",
-  "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "viewOnCeloScan": "Xem trên CeloScan",
+  "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
   "sendEnterAmountScreen": {
-    "title": "Enter Amount",
-    "selectToken": "Select a Token",
-    "networkFee": "{{networkName}} Network Fee",
-    "lowerAmount": "Enter a lower amount",
+    "title": "Nhập số tiền",
+    "selectToken": "Chọn token",
+    "networkFee": "Phí mạng lưới {{networkName}}",
+    "lowerAmount": "Nhập số tiền thấp hơn",
     "maxAmountWarning": {
-      "title": "Sending the maximum amount",
-      "description": "Adjust the amount you are sending to make sure you have enough {{feeTokenSymbol}} for gas"
+      "title": "Đang gửi số tiền tối đa",
+      "description": "Điều chỉnh số tiền cần gửi để đảm bảo bạn có đủ {{feeTokenSymbol}} để trả phí gas"
     },
     "notEnoughBalanceForGasWarning": {
-      "title": "You need more {{feeTokenSymbol}} for gas",
-      "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+      "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
+      "description": "Nạp thêm {{feeTokenSymbol}} để trả phí gas hoặc điều chỉnh số tiền cần gửi"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"

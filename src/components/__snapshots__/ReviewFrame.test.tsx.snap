@@ -93,13 +93,13 @@ exports[`ReviewFrame renders correctly 1`] = `
                 "justifyContent": "center",
               },
               {
-                "backgroundColor": "#42D689",
+                "backgroundColor": "#1AB775",
               },
               {
                 "borderWidth": 0,
               },
               {
-                "borderColor": "#42D689",
+                "borderColor": "#1AB775",
                 "borderRadius": 25,
                 "height": 50,
                 "width": 50,
