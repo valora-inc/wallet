@@ -62,11 +62,5 @@ export const superchargeRewardsLoadingSelector = (state: RootState) => state.sup
 
 export const availableRewardsSelector = (state: RootState) => state.supercharge.availableRewards
 
-export const superchargeV2EnabledSelector = (state: RootState) =>
-  state.supercharge.superchargeV2Enabled
-
 export const superchargeRewardContractAddressSelector = (state: RootState) =>
   state.supercharge.superchargeRewardContractAddress
-
-export const superchargeV1AddressesSelector = (state: RootState) =>
-  state.supercharge.superchargeV1Addresses
