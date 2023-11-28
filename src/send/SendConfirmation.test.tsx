@@ -4,8 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
 import { FeeType } from 'src/fees/reducer'
-import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
-import { navigate } from 'src/navigator/NavigationService'
+import { AddressValidationType } from 'src/identity/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RecipientType } from 'src/recipients/recipient'
@@ -25,8 +24,6 @@ import {
   emptyFees,
   mockAccount,
   mockAccount2,
-  mockAccount2Invite,
-  mockAccountInvite,
   mockCeloAddress,
   mockCeloTokenId,
   mockCeurAddress,
@@ -38,7 +35,6 @@ import {
   mockGasPrice,
   mockTestTokenAddress,
   mockTestTokenTokenId,
-  mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
 
@@ -80,12 +76,6 @@ const mockScreenPropsWithPreparedTx = getMockStackScreenProps(Screens.SendConfir
   },
   feeAmount: '0.004',
   feeTokenId: mockCeloTokenId,
-})
-
-const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-  transactionData: mockTokenInviteTransactionData,
-  origin: SendOrigin.AppSendFlow,
-  isFromScan: false,
 })
 
 type ScreenProps = NativeStackScreenProps<
@@ -305,29 +295,6 @@ describe('SendConfirmation', () => {
     expect(getByTestId('LineItemLoading')).toBeTruthy()
   })
 
-  it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
-    }
-
-    const { getByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164Number]: {
-              addressValidationType: AddressValidationType.FULL,
-              address: mockAccount2Invite,
-            },
-          },
-        },
-      },
-      mockInviteScreenProps
-    )
-
-    expect(getByTestId('accountEditButton')).toBeTruthy()
-  })
-
   it('updates the comment/reason', () => {
     const { getByTestId, queryAllByDisplayValue } = renderScreen({
       fees: {
@@ -397,55 +364,6 @@ describe('SendConfirmation', () => {
     )
 
     expect(queryByTestId('commentInput/send')).toBeTruthy()
-  })
-
-  it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
-    }
-    const mockAddressValidationType = AddressValidationType.PARTIAL
-
-    const { getByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164Number]: {
-              addressValidationType: mockAddressValidationType,
-              address: mockAccount2Invite,
-            },
-          },
-        },
-      },
-      mockInviteScreenProps
-    )
-
-    fireEvent.press(getByTestId('accountEditButton'))
-    expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
-      origin: SendOrigin.AppSendFlow,
-      transactionData: mockTokenInviteTransactionData,
-      addressValidationType: mockAddressValidationType,
-    })
-  })
-
-  it('does nothing when trying to press "edit" when user has not gone through Secure Send', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164Number]: [mockAccount2Invite],
-    }
-
-    const { queryByTestId } = renderScreen({
-      identity: {
-        e164NumberToAddress: mockE164NumberToAddress,
-        secureSendPhoneNumberMapping: {
-          [mockE164Number]: {
-            addressValidationType: AddressValidationType.NONE,
-            address: undefined,
-          },
-        },
-      },
-    })
-
-    expect(queryByTestId('accountEditButton')).toBeNull()
   })
 
   it('dispatches an action when the confirm button is pressed', async () => {
