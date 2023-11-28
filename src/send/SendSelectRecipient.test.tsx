@@ -11,6 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
+import { RecipientType } from 'src/recipients/recipient'
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -175,7 +176,12 @@ describe('SendSelectRecipient', () => {
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_send_press)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SendEvents.send_select_recipient_send_press,
+      {
+        recipientType: RecipientType.PhoneNumber,
+      }
+    )
 
     // Uncomment once we can actually navigate to this screen
 
