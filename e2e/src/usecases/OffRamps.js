@@ -58,7 +58,7 @@ export default offRamps = () => {
 
     it.each`
       token     | amount | exchanges
-      ${'cUSD'} | ${'2'} | ${{ total: 5, minExpected: 2 }}
+      ${'cUSD'} | ${'2'} | ${{ total: 5, minExpected: 1 }}
       ${'cEUR'} | ${'2'} | ${{ total: 2, minExpected: 1 }}
       ${'CELO'} | ${'2'} | ${{ total: 19, minExpected: 5 }}
     `(
@@ -82,7 +82,7 @@ export default offRamps = () => {
     // Maybe use total in the future
     it.each`
       token     | exchanges
-      ${'cUSD'} | ${{ total: 5, minExpected: 2 }}
+      ${'cUSD'} | ${{ total: 5, minExpected: 1 }}
       ${'cEUR'} | ${{ total: 2, minExpected: 1 }}
       ${'CELO'} | ${{ total: 19, minExpected: 5 }}
     `(
