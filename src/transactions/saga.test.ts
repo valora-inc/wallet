@@ -263,10 +263,4 @@ describe('watchPendingTransactions', () => {
         expect(spawnCalls[0].payload.args[0]).toEqual(Network.Celo)
       })
   })
-
-  // describe('handleTransactionConfirmed', () => {
-  //   it('should parse viem response', async () => {
-
-  //   })
-  // })
 })
