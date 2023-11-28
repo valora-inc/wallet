@@ -350,8 +350,6 @@ export function* handleTransactionReceiptReceived(
           fees: buildGasFees(feeTokenInfo, gasFeeInWei),
         }
 
-  Logger.info(JSON.stringify(feeDetails.fees))
-
   yield* put(
     transactionConfirmed(txId, {
       ...baseDetails,
