@@ -275,7 +275,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_secure_submit]: `when an account is submitted for validation`,
   [SendEvents.send_secure_incorrect]: `when there's been an error validating the account`,
   [SendEvents.send_secure_complete]: `when an account has been validated`,
-  [SendEvents.send_secure_edit]: `when "edit" address button is pressed to manually initiate secure send flow`,
   [SendEvents.send_tx_start]: `issued from the sendPayment saga, after a user confirms their intent to send and right before we build and send the transaction to the network`,
   [SendEvents.send_tx_complete]: `when a send transaction has successfully completed`,
   [SendEvents.send_tx_error]: `when there is an error sending a transaction`,
