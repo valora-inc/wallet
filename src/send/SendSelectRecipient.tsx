@@ -204,6 +204,9 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   const onSelectRecentRecipient = (recentRecipient: Recipient) => {
+    ValoraAnalytics.track(SendEvents.send_select_recipient_recent_press, {
+      recipientType: recentRecipient.recipientType,
+    })
     setSelectedRecipient(recentRecipient)
     navigateToSendAmount(recentRecipient)
   }
@@ -230,10 +233,14 @@ function SendSelectRecipient({ route }: Props) {
       return
     }
     if (shouldInviteRecipient) {
-      ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press)
+      ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press, {
+        recipientType: recipient.recipientType,
+      })
       setShowInviteModal(true)
     } else {
-      ValoraAnalytics.track(SendEvents.send_select_recipient_send_press)
+      ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
+        recipientType: recipient.recipientType,
+      })
       navigateToSendAmount(recipient)
     }
   }
@@ -274,15 +281,13 @@ function SendSelectRecipient({ route }: Props) {
       )
     } else {
       return (
-        <>
-          <View testID={'SelectRecipient/NoResults'} style={styles.noResultsWrapper}>
-            <Text style={styles.noResultsTitle}>
-              {t('noResultsFor')}
-              <Text style={styles.noResultsTitle}>{` "${searchQuery}"`}</Text>
-            </Text>
-            <Text style={styles.noResultsSubtitle}>{t('searchForSomeone')}</Text>
-          </View>
-        </>
+        <View testID={'SelectRecipient/NoResults'} style={styles.noResultsWrapper}>
+          <Text style={styles.noResultsTitle}>
+            {t('noResultsFor')}
+            <Text style={styles.noResultsTitle}>{` "${searchQuery}"`}</Text>
+          </Text>
+          <Text style={styles.noResultsSubtitle}>{t('searchForSomeone')}</Text>
+        </View>
       )
     }
   }
@@ -303,7 +308,7 @@ function SendSelectRecipient({ route }: Props) {
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
           value={''}
-          getIosContent={true}
+          checkIosContent={true}
         />
         {showSearchResults ? (
           renderSearchResults()

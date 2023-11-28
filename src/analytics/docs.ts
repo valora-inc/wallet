@@ -301,6 +301,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.request_contacts_permission_completed]: `When the request to contact permission completes, includes a property on the permission status`,
   [SendEvents.send_select_recipient_send_press]: `When the send button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_invite_press]: `When the invite button is pressed after selecting a recipient`,
+  [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,

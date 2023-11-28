@@ -320,6 +320,7 @@ export enum SendEvents {
   request_contacts_permission_completed = 'request_contacts_permission_completed',
   send_select_recipient_invite_press = 'send_select_recipient_invite_press',
   send_select_recipient_send_press = 'send_select_recipient_send_press',
+  send_select_recipient_recent_press = 'send_select_recipient_recent_press',
 }
 
 export enum QrScreenEvents {
