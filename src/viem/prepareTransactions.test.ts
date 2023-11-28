@@ -12,11 +12,11 @@ import {
   getFeeCurrencyAndAmount,
   getMaxGasFee,
   prepareERC20TransferTransaction,
+  prepareSendNativeAssetTransaction,
   prepareTransactions,
   prepareTransferWithCommentTransaction,
   tryEstimateTransaction,
   tryEstimateTransactions,
-  prepareSendNativeAssetTransaction,
 } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance, mockEthTokenBalance } from 'test/values'
 import {
@@ -704,7 +704,7 @@ describe('prepareTransactions module', () => {
         feeAmount: undefined,
       })
     })
-    it('returns undefined fee currency and fee amount if prepare transactions result is not enough balance for gas', () => {
+    it("returns undefined fee currency and fee amount if prepare transactions result is 'not-enough-balance-for-gas'", () => {
       expect(
         getFeeCurrencyAndAmount({
           type: 'not-enough-balance-for-gas',
@@ -715,7 +715,7 @@ describe('prepareTransactions module', () => {
         feeAmount: undefined,
       })
     })
-    it('returns fee currency and amount if prepare transactions result is possible', () => {
+    it("returns fee currency and amount if prepare transactions result is 'possible'", () => {
       expect(
         getFeeCurrencyAndAmount({
           type: 'possible',
@@ -747,12 +747,12 @@ describe('prepareTransactions module', () => {
         feeAmount: new BigNumber(6),
       })
     })
-    it('returns fee currency and amount if prepare transactions result is need decrease spend amount for gas', () => {
+    it("returns fee currency and amount if prepare transactions result is 'need-decrease-spend-amount-for-gas'", () => {
       expect(
         getFeeCurrencyAndAmount({
           type: 'need-decrease-spend-amount-for-gas',
           feeCurrency: mockCeloTokenBalance,
-          maxGasFeeInDecimal: new BigNumber(10).exponentiatedBy(17),
+          maxGasFeeInDecimal: new BigNumber(0.1),
           decreasedSpendAmount: new BigNumber(4),
         })
       ).toStrictEqual({

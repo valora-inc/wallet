@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import React from 'react'
 import { Provider } from 'react-redux'
@@ -168,7 +168,12 @@ describe('TransactionFeed', () => {
     expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
     expect(tree.queryByTestId('NoActivity/error')).toBeNull()
     expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(tree).toMatchSnapshot()
+    expect(tree.getAllByTestId('TransferFeedItem').length).toBe(1)
+    expect(
+      within(tree.getByTestId('TransferFeedItem')).getByTestId('TransferFeedItem/title')
+    ).toHaveTextContent(
+      'feedItemReceivedTitle, {"displayName":"feedItemAddress, {\\"address\\":\\"0xd683...ea33\\"}"}'
+    )
   })
 
   it('renders correctly with completed standby transactions', async () => {

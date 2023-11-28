@@ -12,7 +12,8 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
@@ -41,10 +42,10 @@ function SwapFeedItem({ exchange }: Props) {
       <View style={styles.container}>
         <TransactionFeedItemImage status={exchange.status} transactionType={exchange.__typename} />
         <View style={styles.contentContainer}>
-          <Text style={styles.title} testID={'SwapFeedItem/title'}>
+          <Text style={styles.title} testID={'SwapFeedItem/title'} numberOfLines={1}>
             {t('swapScreen.title')}
           </Text>
-          <Text style={styles.subtitle} testID={'SwapFeedItem/subtitle'}>
+          <Text style={styles.subtitle} testID={'SwapFeedItem/subtitle'} numberOfLines={1}>
             {t('feedItemSwapPath', {
               token1: outgoingTokenInfo?.symbol,
               token2: incomingTokenInfo?.symbol,
@@ -60,7 +61,7 @@ function SwapFeedItem({ exchange }: Props) {
               showSymbol={true}
               showExplicitPositiveSign={true}
               hideSign={false}
-              style={[styles.amount, { color: colors.primary }]}
+              style={styles.amount}
               testID={'SwapFeedItem/incomingAmount'}
             />
             <TokenDisplay
@@ -82,8 +83,9 @@ function SwapFeedItem({ exchange }: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
   },
   contentContainer: {
@@ -91,29 +93,24 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   title: {
-    ...fontStyles.regular500,
-    flexShrink: 1,
+    ...typeScale.labelMedium,
   },
   subtitle: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingTop: 2,
   },
   tokenAmountContainer: {
-    flex: 1,
-    marginLeft: variables.contentPadding,
-    paddingLeft: 10,
-    alignItems: 'flex-end',
+    maxWidth: '50%',
   },
   amount: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
+    color: colors.primary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
   tokenAmount: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingTop: 2,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
