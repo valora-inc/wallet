@@ -166,6 +166,7 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
+          fees: [],
         })
       )
       .returns(mockTxReceipt)
@@ -216,6 +217,7 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
+          fees: [],
         })
       )
       .returns(mockTxReceipt)
@@ -574,6 +576,7 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
+          fees: [],
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))
@@ -601,6 +604,7 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Failed,
+          fees: [],
         })
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
