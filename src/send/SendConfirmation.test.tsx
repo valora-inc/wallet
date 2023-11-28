@@ -449,6 +449,23 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches an action with fee info from redux when the confirm button is pressed (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
+
+    expect(store.getActions().length).toEqual(0)
+
+    fireEvent.press(getByTestId('ConfirmButton'))
+
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, mockFeeInfo),
+      ])
+    )
+  })
+
+  it('dispatches an action with prepared transaction when the confirm button is pressed (new UI)', async () => {
     const { store, getByTestId } = renderScreen(
       { fees: { estimates: emptyFees } },
       mockScreenPropsWithPreparedTx
@@ -466,22 +483,6 @@ describe('SendConfirmation', () => {
         to: '0xto',
         data: '0xdata',
       })
-    )
-  })
-
-  it('dispatches an action with prepared transaction when the confirm button is pressed (new UI)', async () => {
-    const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
-
-    expect(store.getActions().length).toEqual(0)
-
-    fireEvent.press(getByTestId('ConfirmButton'))
-
-    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
-
-    expect(store.getActions()).toEqual(
-      expect.arrayContaining([
-        sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, mockFeeInfo),
-      ])
     )
   })
 
