@@ -421,20 +421,19 @@ export function prepareSendNativeAssetTransaction(
 export function getFeeCurrencyAndAmount(
   prepareTransactionsResult: PreparedTransactionsResult | undefined
 ): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
-  let feeAmountSmallestUnits = undefined
+  let feeAmountInDecimal = undefined
   let feeCurrency = undefined
   if (prepareTransactionsResult?.type === 'possible') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
+    feeAmountInDecimal = getMaxGasFee(prepareTransactionsResult.transactions).shiftedBy(
+      -feeCurrency.decimals
+    )
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFeeInDecimal
+    feeAmountInDecimal = prepareTransactionsResult.maxGasFeeInDecimal
   }
   return {
-    feeAmount:
-      feeAmountSmallestUnits &&
-      feeCurrency &&
-      feeAmountSmallestUnits.shiftedBy(-feeCurrency.decimals),
+    feeAmount: feeAmountInDecimal,
     feeCurrency,
   }
 }
