@@ -524,8 +524,6 @@ describe(swapSubmitPreparedSaga, () => {
             transactionHash: '0x2',
             block: '1234',
             status: TransactionStatus.Complete,
-            feeCurrencyId: mockCeloTokenId,
-            gasFee: '0.00185837',
           },
         },
       })

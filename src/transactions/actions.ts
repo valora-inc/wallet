@@ -1,6 +1,7 @@
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
 import {
+  Fee,
   NetworkId,
   PendingStandbySwap,
   PendingStandbyTransfer,
@@ -45,8 +46,7 @@ export type BaseTransactionReceipt = {
   status: TransactionStatus
   block: string
   transactionHash: string
-  feeCurrencyId?: string
-  gasFee?: string
+  fees?: Fee[]
 }
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED

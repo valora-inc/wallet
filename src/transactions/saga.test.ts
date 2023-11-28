@@ -27,7 +27,7 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCeloTokenId, mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { mockAccount, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -172,8 +172,6 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: TransactionStatus.Failed,
-          gasFee: '0.0002',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()
@@ -207,8 +205,6 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: TransactionStatus.Complete,
-          gasFee: '0.002',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()
@@ -267,4 +263,10 @@ describe('watchPendingTransactions', () => {
         expect(spawnCalls[0].payload.args[0]).toEqual(Network.Celo)
       })
   })
+
+  // describe('handleTransactionConfirmed', () => {
+  //   it('should parse viem response', async () => {
+
+  //   })
+  // })
 })

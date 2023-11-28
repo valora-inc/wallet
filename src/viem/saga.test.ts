@@ -166,8 +166,6 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          gasFee: '0.001',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -218,8 +216,6 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          gasFee: '0.001',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -341,8 +337,15 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          gasFee: '0.001',
-          feeCurrencyId: mockEthTokenId,
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockEthTokenId,
+              },
+            },
+          ],
         })
       )
       .returns(mockTxReceipt)
@@ -393,8 +396,15 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          gasFee: '0.001',
-          feeCurrencyId: mockEthTokenId,
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockEthTokenId,
+              },
+            },
+          ],
         })
       )
       .returns(mockTxReceipt)
@@ -564,8 +574,6 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          gasFee: '0.01',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))
@@ -593,8 +601,6 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Failed,
-          gasFee: '0.0001',
-          feeCurrencyId: mockCeloTokenId,
         })
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

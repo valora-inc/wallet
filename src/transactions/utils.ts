@@ -1,13 +1,6 @@
-import { CeloTxReceipt } from '@celo/connect'
-import BigNumber from 'bignumber.js'
 import i18n from 'src/i18n'
-import { tokensByIdSelector } from 'src/tokens/selectors'
-import { getTokenId } from 'src/tokens/utils'
-import { NetworkId, TokenTransaction, TransactionStatus } from 'src/transactions/types'
-import Logger from 'src/utils/Logger'
+import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
-import { select } from 'typed-redux-saga'
-import { TransactionReceipt } from 'viem'
 
 // Groupings:
 // Recent -> Last 7 days (pending transactions always at the top, followed by recent confirmed transactions).
@@ -53,43 +46,4 @@ export function groupFeedItemsInSections(
       title: key,
       data: value.data,
     }))
-}
-
-export function* buildBaseTransactionReceipt(
-  receipt: TransactionReceipt | CeloTxReceipt,
-  networkId: NetworkId
-) {
-  const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
-
-  // Receipt gas information is based on the native token (there is no feeCurrency)
-  const feeCurrencyId = getTokenId(networkId)
-  const feeTokenInfo = tokensById[feeCurrencyId]
-
-  const gasFeeInWei = new BigNumber(receipt.gasUsed.toString()).times(
-    new BigNumber(receipt.effectiveGasPrice.toString())
-  )
-
-  if (!feeTokenInfo) {
-    Logger.warn(`No information found for token ${feeCurrencyId}`)
-  }
-
-  const baseDetails = {
-    status:
-      receipt.status === 'reverted' || !receipt.status
-        ? TransactionStatus.Failed
-        : TransactionStatus.Complete,
-    block: receipt.blockNumber.toString(),
-    transactionHash: receipt.transactionHash,
-  }
-  const feeDetails = !feeTokenInfo
-    ? {}
-    : {
-        feeCurrencyId: feeTokenInfo.tokenId,
-        gasFee: gasFeeInWei.shiftedBy(-feeTokenInfo.decimals).toFixed(),
-      }
-
-  return {
-    ...baseDetails,
-    ...feeDetails,
-  }
 }

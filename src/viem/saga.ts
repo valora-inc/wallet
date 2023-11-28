@@ -15,10 +15,10 @@ import {
   tokenBalanceHasAddress,
 } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
-import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
+import { addStandbyTransaction } from 'src/transactions/actions'
+import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
-import { buildBaseTransactionReceipt } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
@@ -386,12 +386,13 @@ export function* sendAndMonitorTransaction({
       context
     )) as unknown as TransactionReceipt
 
-    const baseTransactionReceipt = yield* call(
-      buildBaseTransactionReceipt,
+    yield* call(
+      handleTransactionReceiptReceived,
+      context.id,
       receipt,
       networkConfig.networkToNetworkId[network]
     )
-    yield* put(transactionConfirmed(context.id, baseTransactionReceipt))
+
     if (receipt.status === 'reverted') {
       throw new Error('transaction reverted')
     }
