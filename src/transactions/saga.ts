@@ -326,10 +326,10 @@ export function* handleTransactionReceiptReceived(
   const feeTokenInfo = tokensById[feeCurrencyId]
 
   if (!feeTokenInfo) {
-    Logger.warn(`No information found for token ${feeCurrencyId} in network ${networkId}`)
+    Logger.error(TAG, `No information found for token ${feeCurrencyId} in network ${networkId}`)
   }
 
-  const gasFeeInWei = new BigNumber(receipt.gasUsed.toString()).times(
+  const gasFeeInSmallestUnit = new BigNumber(receipt.gasUsed.toString()).times(
     new BigNumber(receipt.effectiveGasPrice.toString())
   )
 
@@ -342,29 +342,26 @@ export function* handleTransactionReceiptReceived(
         : TransactionStatus.Complete,
   }
 
-  // Only add fee data in non-celo transactions
-  const feeDetails =
-    !feeTokenInfo || networkId === networkConfig.defaultNetworkId
-      ? {}
-      : {
-          fees: buildGasFees(feeTokenInfo, gasFeeInWei),
-        }
-
   yield* put(
     transactionConfirmed(txId, {
       ...baseDetails,
-      ...feeDetails,
+      // Only add fee data in non-celo transactions
+      fees:
+        !feeTokenInfo || networkId === networkConfig.defaultNetworkId
+          ? []
+          : buildGasFees(feeTokenInfo, gasFeeInSmallestUnit),
     })
   )
 }
 
-const buildGasFees = (feeCurrencyInfo: BaseToken, gasFeeInWei: BigNumber): Fee[] => [
-  //
-  {
-    type: 'SECURITY_FEE',
-    amount: {
-      value: gasFeeInWei.shiftedBy(-feeCurrencyInfo.decimals).toFixed(),
-      tokenId: feeCurrencyInfo.tokenId,
+function buildGasFees(feeCurrencyInfo: BaseToken, gasFeeInSmallestUnit: BigNumber): Fee[] {
+  return [
+    {
+      type: 'SECURITY_FEE',
+      amount: {
+        value: gasFeeInSmallestUnit.shiftedBy(-feeCurrencyInfo.decimals).toFixed(),
+        tokenId: feeCurrencyInfo.tokenId,
+      },
     },
-  },
-]
+  ]
+}
