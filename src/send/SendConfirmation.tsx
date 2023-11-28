@@ -13,8 +13,8 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
-import FeeDrawer from 'src/components/FeeDrawer'
 import LegacyFeeDrawer from 'src/components/LegacyFeeDrawer'
+import LineItemRow from 'src/components/LineItemRow'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
 import TextButton from 'src/components/TextButton'
@@ -48,8 +48,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
-import { celoAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -101,6 +100,8 @@ function SendConfirmation(props: Props) {
       comment: commentFromParams,
       tokenId,
     },
+    feeAmount,
+    feeTokenId,
   } = props.route.params
 
   const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
@@ -144,54 +145,47 @@ function SendConfirmation(props: Props) {
     })
   }
 
-  // TODO (ACT-922): Update all fee-related code below to work with native tokens
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
 
-  // TODO (ACT-922): Actually disable Ethereum sends if no fee information exists
+  // TODO (satish): check and use preparedTransaction
   const disableSend = isSending || (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo)
 
   useEffect(() => {
-    if (!feeEstimate && tokenAddress) {
+    if (!newSendScreen && !feeEstimate && tokenAddress) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
-  }, [feeEstimate])
+  }, [feeEstimate, newSendScreen])
 
   useEffect(() => {
-    if (!isDekRegistered && tokenAddress) {
+    if (!newSendScreen && !isDekRegistered && tokenAddress) {
       dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
     }
-  }, [isDekRegistered])
+  }, [isDekRegistered, newSendScreen])
 
   const securityFeeInUsd = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
   const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
   const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
-  const celoAddress = useSelector(celoAddressSelector)
-  const feeTokenAddress = feeEstimate?.feeInfo?.feeCurrency ?? celoAddress
-  const feeTokenInfoFromEstimate = useTokenInfoByAddress(feeTokenAddress)
-  const feeTokenInfo = newSendScreen ? feeTokenInfoFromEstimate : tokenInfo
-  const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const totalFeeInFeeToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
 
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
         {newSendScreen ? (
-          <FeeDrawer
-            testID={'feeDrawer/SendConfirmation'}
-            isEstimate={true}
-            securityFee={securityFeeInToken}
-            showDekfee={!isDekRegistered}
-            dekFee={dekFeeInToken}
-            feeLoading={feeEstimate?.loading || storedDekFee?.loading}
-            feeHasError={feeEstimate?.error || storedDekFee?.error}
-            totalFee={totalFeeInFeeToken}
-            showLocalAmount={false}
-            tokenId={feeTokenInfo?.tokenId}
-          />
+          feeAmount && (
+            <LineItemRow
+              testID="SendConfirmation/fee"
+              title={t('feeEstimate')}
+              amount={
+                <TokenDisplay
+                  amount={new BigNumber(feeAmount)}
+                  tokenId={feeTokenId}
+                  showLocalAmount={false}
+                />
+              }
+            />
+          )
         ) : (
           <LegacyFeeDrawer
             testID={'feeDrawer/SendConfirmation'}
@@ -240,7 +234,7 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
-    // TODO (ACT-922): Remove Celo network check once we have Ethereum fees
+    // TODO (satish): Use preparedTransaction for new send flow
     if (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))

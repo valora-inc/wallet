@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 169,
+          "version": 170,
         },
         "account": {
           "acceptedTerms": false,
@@ -325,8 +325,6 @@ describe('store state', () => {
           "fetchAvailableRewardsLoading": false,
           "loading": false,
           "superchargeRewardContractAddress": "",
-          "superchargeV1Addresses": [],
-          "superchargeV2Enabled": false,
         },
         "swap": {
           "guaranteedSwapPriceEnabled": false,
