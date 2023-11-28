@@ -35,7 +35,7 @@ function BottomSheet({
   onBackgroundPress,
   testID = 'BottomSheetContainer',
   opacity = 0.5,
-  backgroundColor = colors.modalBackdrop,
+  backgroundColor = '#1B392F',
   stickyHeader,
   fullHeight = false,
 }: Props) {

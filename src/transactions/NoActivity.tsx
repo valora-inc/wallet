@@ -30,7 +30,7 @@ export class NoActivity extends React.PureComponent<Props> {
           <ActivityIndicator
             style={styles.icon}
             size="large"
-            color={colors.greenBrand}
+            color={colors.primary}
             testID="NoActivity/loading"
           />
         )}
