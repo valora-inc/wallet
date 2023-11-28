@@ -31,11 +31,8 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
-import {
-  addStandbyTransaction,
-  removeStandbyTransaction,
-  transactionConfirmed,
-} from 'src/transactions/actions'
+import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
   NetworkId,
@@ -43,7 +40,6 @@ import {
   TransactionContext,
   newTransactionContext,
 } from 'src/transactions/types'
-import { buildBaseTransactionReceipt } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
@@ -100,10 +96,7 @@ function* handleSendSwapTransaction(
   )
 
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
-
-  const baseTransactionReceipt = yield* call(buildBaseTransactionReceipt, receipt, networkId)
-
-  yield* put(transactionConfirmed(transactionContext.id, baseTransactionReceipt))
+  yield* call(handleTransactionReceiptReceived, transactionContext.id, receipt, networkId)
 }
 
 function calculateEstimatedUsdValue({
@@ -534,13 +527,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       Logger.warn(TAG, 'Error getting approve transaction receipt', e)
     }
 
-    const baseTransactionReceipt = yield* call(
-      buildBaseTransactionReceipt,
-      swapTxReceipt,
-      networkId
-    )
-
-    yield* put(transactionConfirmed(swapExecuteContext.id, baseTransactionReceipt))
+    yield* call(handleTransactionReceiptReceived, swapExecuteContext.id, swapTxReceipt, networkId)
 
     if (swapTxReceipt.status !== 'success') {
       throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)

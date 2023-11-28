@@ -9,8 +9,13 @@ import { AddressToE164NumberType } from 'src/identity/reducer'
 import { addressToE164NumberSelector } from 'src/identity/selectors'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
-import { fetchTokenBalances } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { BaseToken, fetchTokenBalances } from 'src/tokens/slice'
+import {
+  getSupportedNetworkIdsForSend,
+  getSupportedNetworkIdsForSwap,
+  getTokenId,
+} from 'src/tokens/utils'
 import {
   Actions,
   UpdateTransactionsAction,
@@ -30,19 +35,21 @@ import {
 } from 'src/transactions/reducer'
 import { sendTransactionPromises, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import {
+  Fee,
   Network,
+  NetworkId,
   StandbyTransaction,
   TokenTransactionTypeV2,
   TransactionContext,
+  TransactionStatus,
 } from 'src/transactions/types'
-import { buildBaseTransactionReceipt } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
-import { Hash } from 'viem'
+import { Hash, TransactionReceipt } from 'viem'
 
 const TAG = 'transactions/saga'
 
@@ -160,13 +167,12 @@ export function* sendAndMonitorTransaction<T>(
       context
     )) as unknown as CeloTxReceipt
 
-    const baseTransactionReceipt = yield* call(
-      buildBaseTransactionReceipt,
+    yield* call(
+      handleTransactionReceiptReceived,
+      context.id,
       txReceipt,
       networkConfig.defaultNetworkId
     )
-
-    yield* put(transactionConfirmed(context.id, baseTransactionReceipt))
 
     yield* put(fetchTokenBalances({ showLoading: true }))
     return { receipt: txReceipt }
@@ -249,14 +255,13 @@ export function* getTransactionReceipt(
       hash: transactionHash as Hash,
     })
 
-    const baseTransactionReceipt = yield* call(
-      buildBaseTransactionReceipt,
-      receipt,
-      networkConfig.networkToNetworkId[network]
-    )
-
     if (receipt) {
-      yield* put(transactionConfirmed(transaction.context.id, baseTransactionReceipt))
+      yield* call(
+        handleTransactionReceiptReceived,
+        transaction.context.id,
+        receipt,
+        networkConfig.networkToNetworkId[network]
+      )
     }
   } catch (e) {
     Logger.warn(
@@ -308,3 +313,60 @@ export function* transactionSaga() {
   yield* spawn(watchAddressToE164PhoneNumberUpdate)
   yield* spawn(watchPendingTransactions)
 }
+
+export function* handleTransactionReceiptReceived(
+  txId: string,
+  receipt: TransactionReceipt | CeloTxReceipt,
+  networkId: NetworkId
+) {
+  const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
+
+  // TODO: Receive feeCurrencyId from transaction request.
+  const feeCurrencyId = getTokenId(networkId)
+  const feeTokenInfo = tokensById[feeCurrencyId]
+
+  if (!feeTokenInfo) {
+    Logger.warn(`No information found for token ${feeCurrencyId} in network ${networkId}`)
+  }
+
+  const gasFeeInWei = new BigNumber(receipt.gasUsed.toString()).times(
+    new BigNumber(receipt.effectiveGasPrice.toString())
+  )
+
+  const baseDetails = {
+    transactionHash: receipt.transactionHash,
+    block: receipt.blockNumber.toString(),
+    status:
+      receipt.status === 'reverted' || !receipt.status
+        ? TransactionStatus.Failed
+        : TransactionStatus.Complete,
+  }
+
+  // Only add fee data in non-celo transactions
+  const feeDetails =
+    !feeTokenInfo || networkId === networkConfig.defaultNetworkId
+      ? {}
+      : {
+          fees: buildGasFees(feeTokenInfo, gasFeeInWei),
+        }
+
+  Logger.info(JSON.stringify(feeDetails.fees))
+
+  yield* put(
+    transactionConfirmed(txId, {
+      ...baseDetails,
+      ...feeDetails,
+    })
+  )
+}
+
+const buildGasFees = (feeCurrencyInfo: BaseToken, gasFeeInWei: BigNumber): Fee[] => [
+  //
+  {
+    type: 'SECURITY_FEE',
+    amount: {
+      value: gasFeeInWei.shiftedBy(-feeCurrencyInfo.decimals).toFixed(),
+      tokenId: feeCurrencyInfo.tokenId,
+    },
+  },
+]

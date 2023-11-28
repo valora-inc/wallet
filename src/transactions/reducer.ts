@@ -6,7 +6,6 @@ import { RootState } from 'src/redux/reducers'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   ConfirmedStandbyTransaction,
-  Fee,
   NetworkId,
   StandbyTransaction,
   TokenTransaction,
@@ -225,25 +224,3 @@ export const transactionHashesByNetworkIdSelector = createSelector(
     return hashesByNetwork
   }
 )
-
-const buildGasFees = ({
-  gasFee,
-  feeCurrencyId,
-}: {
-  gasFee?: string
-  feeCurrencyId?: string
-}): Fee[] => {
-  if (!gasFee || !feeCurrencyId) {
-    return []
-  }
-
-  return [
-    {
-      type: 'SECURITY_FEE',
-      amount: {
-        value: gasFee,
-        tokenId: feeCurrencyId,
-      },
-    },
-  ]
-}
