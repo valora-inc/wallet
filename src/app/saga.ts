@@ -22,8 +22,8 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
-  SetAppState,
   phoneNumberVerificationMigrated,
+  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -261,9 +261,7 @@ export interface RemoteConfigValues {
   dappsMinimalDisclaimerEnabled: boolean
   guaranteedSwapPriceEnabled: boolean
   priceImpactWarningThreshold: number
-  superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
-  superchargeV1Addresses: string[]
 }
 
 export function* appRemoteFeatureFlagSaga() {

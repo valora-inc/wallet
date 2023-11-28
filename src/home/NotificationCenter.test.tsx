@@ -6,12 +6,14 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
+import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { Spacing } from 'src/styles/styles'
+import { NetworkId } from 'src/transactions/types'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
@@ -21,7 +23,6 @@ import {
   mockE164NumberPepper,
   mockEscrowedPayment,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -84,15 +85,6 @@ const storeDataNotificationsDisabled = {
   },
 }
 
-const testReward = {
-  amount: '2',
-  contractAddress: 'contractAddress',
-  createdAt: Date.now(),
-  index: 0,
-  proof: [],
-  tokenAddress: '0xcusd',
-}
-
 const superchargeSetUp = {
   ...storeDataNotificationsDisabled,
   web3: {
@@ -102,7 +94,7 @@ const superchargeSetUp = {
     phoneNumberVerified: true,
   },
   supercharge: {
-    availableRewards: [testReward],
+    availableRewards: [ONE_CUSD_REWARD_RESPONSE],
   },
 }
 

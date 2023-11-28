@@ -7,10 +7,7 @@ import { MockStoreEnhanced } from 'redux-mock-store'
 import { SUPERCHARGE_LEARN_MORE } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import { State, initialState } from 'src/consumerIncentives/slice'
-import {
-  ONE_CUSD_REWARD_RESPONSE,
-  ONE_CUSD_REWARD_RESPONSE_V2,
-} from 'src/consumerIncentives/testValues'
+import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -130,7 +127,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
           numberVerifiedCentrally: false,
           supercharge: {
             ...initialState,
-            superchargeV2Enabled: true,
           },
         })}
       >
@@ -153,7 +149,6 @@ describe('ConsumerIncentivesHomeScreen', () => {
           numberVerifiedCentrally: false,
           supercharge: {
             ...initialState,
-            superchargeV2Enabled: true,
           },
         })}
       >
@@ -180,7 +175,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
     expectVisibleMainComponents(queryByTestId, 'SuperchargingInfo')
   })
 
-  it('renders available v1 rewards to claim when they are available', () => {
+  it('renders available rewards to claim when they are available', () => {
     const { queryByTestId, getByText } = render(
       <Provider
         store={createStore({
@@ -188,28 +183,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: ONE_CUSD_REWARD_RESPONSE,
-          },
-        })}
-      >
-        <ConsumerIncentivesHomeScreen />
-      </Provider>
-    )
-
-    expectVisibleMainComponents(queryByTestId, 'ClaimSuperchargeDescription')
-    expect(getByText('superchargeRewardsAvailable, {"token":"cUSD","amount":"1.00"}')).toBeTruthy()
-  })
-
-  it('renders available v2 rewards to claim when they are available', () => {
-    const { queryByTestId, getByText } = render(
-      <Provider
-        store={createStore({
-          numberVerified: true,
-          tokenBalances: ONLY_CUSD_BALANCE,
-          supercharge: {
-            ...initialState,
-            superchargeV2Enabled: true,
-            availableRewards: [ONE_CUSD_REWARD_RESPONSE_V2],
+            availableRewards: [ONE_CUSD_REWARD_RESPONSE],
           },
         })}
       >
@@ -284,7 +258,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
           tokenBalances: ONLY_CUSD_BALANCE,
           supercharge: {
             ...initialState,
-            availableRewards: ONE_CUSD_REWARD_RESPONSE,
+            availableRewards: [ONE_CUSD_REWARD_RESPONSE],
           },
         })}
       >
@@ -306,12 +280,17 @@ describe('ConsumerIncentivesHomeScreen', () => {
       {
         "payload": [
           {
-            "amount": "de0b6b3a7640000",
-            "contractAddress": "0xdistributorContract",
-            "createdAt": 1645591363099,
-            "index": 0,
-            "proof": [],
-            "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
+            "details": {
+              "amount": "1000000000000000000",
+              "tokenAddress": "0x874069fa1eb16d44d622f2e0ca25eea172369bc1",
+            },
+            "transaction": {
+              "chainId": 42220,
+              "data": "0x0000000someEncodedData",
+              "from": "0x0000000000000000000000000000000000007E57",
+              "gas": 1234,
+              "to": "0xsuperchargeContract",
+            },
           },
         ],
         "type": "supercharge/claimRewards",
