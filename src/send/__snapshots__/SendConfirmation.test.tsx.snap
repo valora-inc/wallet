@@ -344,161 +344,64 @@ exports[`SendConfirmation renders correctly 1`] = `
         }
       }
     >
-      <View>
+      <View
+        style={
+          [
+            {
+              "flexDirection": "row",
+              "flexWrap": "wrap",
+              "justifyContent": "space-between",
+              "marginVertical": 5,
+            },
+            undefined,
+          ]
+        }
+      >
         <View
-          accessibilityState={
+          style={
             {
-              "busy": undefined,
-              "checked": undefined,
-              "disabled": undefined,
-              "expanded": undefined,
-              "selected": undefined,
+              "alignItems": "center",
+              "flexDirection": "row",
+              "marginRight": 5,
             }
           }
-          accessibilityValue={
-            {
-              "max": undefined,
-              "min": undefined,
-              "now": undefined,
-              "text": undefined,
-            }
-          }
-          accessible={true}
-          focusable={true}
-          nativeBackgroundAndroid={
-            {
-              "attribute": "selectableItemBackground",
-              "rippleRadius": undefined,
-              "type": "ThemeAttrAndroid",
-            }
-          }
-          onClick={[Function]}
-          onResponderGrant={[Function]}
-          onResponderMove={[Function]}
-          onResponderRelease={[Function]}
-          onResponderTerminate={[Function]}
-          onResponderTerminationRequest={[Function]}
-          onStartShouldSetResponder={[Function]}
-          testID="feeDrawer/SendConfirmation"
         >
-          <View
+          <Text
             style={
-              {
-                "flexDirection": "row",
-                "justifyContent": "space-between",
-              }
+              [
+                {
+                  "color": "#2E3338",
+                  "fontFamily": "Inter-Regular",
+                  "fontSize": 16,
+                  "lineHeight": 22,
+                },
+                undefined,
+              ]
             }
+            testID="LineItemRowTitle/SendConfirmation/fee"
           >
-            <View
-              style={
-                [
-                  {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <Text
-                style={
-                  {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 16,
-                    "lineHeight": 22,
-                  }
-                }
-              >
-                feeEstimate
-              </Text>
-              <View
-                style={
-                  {
-                    "marginLeft": 7,
-                    "transform": [
-                      {
-                        "rotate": "0deg",
-                      },
-                    ],
-                  }
-                }
-              >
-                <svg
-                  fill="none"
-                  height={16}
-                  viewBox="0 0 16 16"
-                  width={16}
-                >
-                  <path
-                    d="M3 6l5 5 5-5"
-                    stroke="#757575"
-                  />
-                </svg>
-              </View>
-            </View>
-            <View
-              style={
-                [
-                  {
-                    "flexDirection": "row",
-                    "flexWrap": "wrap",
-                    "justifyContent": "space-between",
-                    "marginVertical": 5,
-                  },
-                  undefined,
-                ]
-              }
-            >
-              <View
-                style={
-                  {
-                    "alignItems": "center",
-                    "flexDirection": "row",
-                    "marginRight": 5,
-                  }
-                }
-              >
-                <Text
-                  style={
-                    [
-                      {
-                        "color": "#2E3338",
-                        "fontFamily": "Inter-Regular",
-                        "fontSize": 16,
-                        "lineHeight": 22,
-                      },
-                      undefined,
-                    ]
-                  }
-                  testID="LineItemRowTitle/undefined"
-                />
-              </View>
-              <Text
-                style={
-                  [
-                    {
-                      "color": "#2E3338",
-                      "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
-                      "lineHeight": 22,
-                    },
-                    undefined,
-                  ]
-                }
-                testID="LineItemRow/undefined"
-              >
-                <Text
-                  testID="feeDrawer/SendConfirmation/totalFee"
-                >
-                  0.004
-                   CELO
-                </Text>
-              </Text>
-            </View>
-          </View>
+            feeEstimate
+          </Text>
         </View>
+        <Text
+          style={
+            [
+              {
+                "color": "#2E3338",
+                "fontFamily": "Inter-Regular",
+                "fontSize": 16,
+                "lineHeight": 22,
+              },
+              undefined,
+            ]
+          }
+          testID="LineItemRow/SendConfirmation/fee"
+        >
+          <Text>
+            0.004
+             CELO
+          </Text>
+        </Text>
       </View>
       <View
         style={
