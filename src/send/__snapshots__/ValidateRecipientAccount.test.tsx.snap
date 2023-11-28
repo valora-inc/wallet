@@ -226,6 +226,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
           {
             "alignItems": "center",
             "flexDirection": "row",
+            "paddingBottom": 24,
           }
         }
       >
@@ -726,6 +727,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
           {
             "alignItems": "center",
             "flexDirection": "row",
+            "paddingBottom": 24,
           }
         }
       >
