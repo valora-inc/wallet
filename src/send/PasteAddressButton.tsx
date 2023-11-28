@@ -14,7 +14,9 @@ type Props = PasteAwareWrappedElementProps
 function PasteAddressButton(props: Props) {
   const { isPasteIconVisible, onPressPaste, clipboardContent } = props
   const { t } = useTranslation()
-  if (!isPasteIconVisible) {
+  // TODO: We need to check clipboardContent here since for iOS 14+
+  // isPasteIconVisible is set to true while clipboardContent is always null.
+  if (!(isPasteIconVisible && clipboardContent)) {
     return null
   }
   return (

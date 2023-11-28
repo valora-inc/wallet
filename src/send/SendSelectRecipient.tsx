@@ -308,7 +308,6 @@ function SendSelectRecipient({ route }: Props) {
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
           value={''}
-          checkIosContent={true}
         />
         {showSearchResults ? (
           renderSearchResults()
