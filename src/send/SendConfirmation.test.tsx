@@ -448,7 +448,28 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('accountEditButton')).toBeNull()
   })
 
-  it('dispatches an action when the confirm button is pressed', async () => {
+  it('dispatches an action with fee info from redux when the confirm button is pressed (old UI)', async () => {
+    const { store, getByTestId } = renderScreen(
+      { fees: { estimates: emptyFees } },
+      mockScreenPropsWithPreparedTx
+    )
+
+    expect(store.getActions().length).toEqual(0)
+
+    fireEvent.press(getByTestId('ConfirmButton'))
+
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
+
+    expect(store.getActions()[0]).toEqual(
+      sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, undefined, {
+        from: '0xfrom',
+        to: '0xto',
+        data: '0xdata',
+      })
+    )
+  })
+
+  it('dispatches an action with prepared transaction when the confirm button is pressed (new UI)', async () => {
     const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
 
     expect(store.getActions().length).toEqual(0)
@@ -465,6 +486,7 @@ describe('SendConfirmation', () => {
   })
 
   it('dispatches the send action with the right address when going through Secure Send', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { store, getByTestId } = renderScreen(
       {
         identity: {
