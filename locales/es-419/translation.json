@@ -638,15 +638,15 @@
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
-    "share": "Hola, regístrate en la cartera {{appName}} . Yo la utilizo para hacer crecer mis ahorros en USD y criptomonedas, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
+    "share": "Hola, regístrate en la billetera {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
     "help": "Para reclamar esta recompensa, el invitado debe descargar la app a través del link de invitación, conectar su número de teléfono y depositar 5 cUSD o más en su wallet {{appName}} durante 7 días. <0>Ver las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "SÓLO POR TIEMPO LIMITADO. ¡Consigue cUSD gratis por invitar a tus amigos a Valora!",
-      "body": "Consigue 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que añadan fondos y mantengan 5 cUSD durante 7 días, ambos obtendréis 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
+      "title": "SÓLO POR TIEMPO LIMITADO. ¡Obtén cUSD gratis por invitar a tus amigos a Valora!",
+      "body": "Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen fondos y mantengan 5 cUSD durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "Hola! Ahora mismo ambos podemos obtener una recompensa gratuita de 0,50 cUSD si te registras y depositas fondos en tu monedero Valora. Yo lo utilizo para hacer crecer mis ahorros en USD y criptomonedas, y puedes configurarlo en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de recomendación aquí: \n\n{{link}} \n\nPero date prisa, la promoción de recomendación termina pronto.",
+  "inviteWithRewardsCUSD": "¡Hola! Ahora ambos podemos obtener una recompensa gratuita de 0,50 cUSD si te registras y depositas fondos en tu billetera Valora. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nPero date prisa, la promoción de referencia termina pronto.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1877,21 +1877,21 @@
     }
   },
   "tokenImport": {
-    "title": "Importar Token",
+    "title": "Importar token",
     "notification": "Cualquiera puede crear un token, incluso versiones falsas de tokens existentes. Comprueba que la dirección de tu token es correcta antes de importarlo.",
     "input": {
       "tokenAddress": "Dirección del token",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Símbolo de ficha",
+      "tokenSymbol": "Símbolo del token",
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token no válido. Inténtalo de nuevo o ponte en contacto con el servicio de asistencia",
-      "alreadyImported": "La ficha ya se había añadido antes.",
-      "alreadySupported": "Token ya es compatible."
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
+      "alreadyImported": "El token ya se ha agregado antes.",
+      "alreadySupported": "El token ya es compatible."
     },
-    "importSuccess": "Importado con éxito el token {{tokenSymbol}}",
-    "importButton": "Importa"
+    "importSuccess": "Token {{tokenSymbol}} importado con éxito",
+    "importButton": "Importar"
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
@@ -1934,7 +1934,7 @@
     },
     "connectPhoneNumberModal": {
       "title": "Conecta tu número de teléfono",
-      "description": "Tienes que conectar tu número de teléfono para poder empezar a enviar criptomonedas a tus amigos"
+      "description": "Tienes que conectar tu número de teléfono para empezar a enviar cripto a tus amigos"
     }
   },
   "transactionStatus": {
