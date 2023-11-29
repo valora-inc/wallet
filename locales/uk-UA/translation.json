@@ -1968,6 +1968,15 @@
       "description": "Додайте {{feeTokenSymbol}}, щоб покрити комісію на газ або скоригувати суму, яку ви надсилаєте"
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Затвердження",
+    "estimatedNetworkFee": "Орієнтовна плата за користування мережею",
+    "networkFee": "Мережева плата",
+    "finiteApprovalDescription": "Затверджено {{approvedAmount}} {{tokenSymbol}} для торгівлі",
+    "infiniteApprovalDescription": "Затверджено {{tokenSymbol}} для торгівлі",
+    "revokeApprovalDescription": "Відкликано {{tokenSymbol}} для торгівлі",
+    "descriptionLabel": "Подробиці"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
