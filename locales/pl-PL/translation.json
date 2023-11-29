@@ -1968,6 +1968,15 @@
       "description": "Dodaj {{feeTokenSymbol}}, aby pokryć opłaty za gaz lub dostosuj wysyłaną kwotę"
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Zatwierdzenie",
+    "estimatedNetworkFee": "Szacunkowa opłata sieciowa",
+    "networkFee": "Opłata sieciowa",
+    "finiteApprovalDescription": "Zatwierdzony {{approvedAmount}} {{tokenSymbol}} dla handlu",
+    "infiniteApprovalDescription": "Zatwierdzony {{tokenSymbol}} dla handlu",
+    "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} dla handlu",
+    "descriptionLabel": "Szczegóły"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
