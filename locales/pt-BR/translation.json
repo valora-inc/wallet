@@ -638,15 +638,15 @@
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
-    "share": "Ei, inscreva-se na carteira {{appName}} . Eu a uso para aumentar minhas economias em dólares americanos e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Não se esqueça de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
+    "share": "Oi! Inscreva-se na carteira {{appName}}. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
     "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de indicação, conectar o número de celular e manter 5 cUSD ou mais em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "POR TEMPO LIMITADO. Você pode ganhar cUSD grátis ao convidar amigos para o Valora!",
-      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para {{appName}}. Quando ele adicionar fundos e mantiver 5 cUSD por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
+      "title": "POR TEMPO LIMITADO. Você pode ganhar cUSD grátis ao convidar amigos para a Valora!",
+      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para a {{appName}}. Quando seu amigo adicionar fundos e mantiver 5 cUSD por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Neste momento, nós dois podemos receber uma recompensa gratuita de 0,50 cUSD se você se inscrever e depositar fundos na sua carteira Valora. Eu a uso para aumentar minhas economias em dólares e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Certifique-se de que você se inscreva com meu link de indicação aqui: \n\n{{link}} \n\nMas corra, pois a promoção de indicação termina em breve.",
+  "inviteWithRewardsCUSD": "Oi! Nós dois podemos receber uma recompensa gratuita de 0,50 cUSD se você se inscrever e depositar fundos na sua carteira Valora. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: \n\n{{link}} \n\nMas corra, pois a promoção de indicação termina em breve.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1664,7 +1664,7 @@
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
-    "disclaimer": "A melhor tarifa é determinada pelos parceiros da rede. <0>Saiba mais</0>",
+    "disclaimer": "A melhor taxa é determinada pelos parceiros da rede. <0>Saiba mais</0>",
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
@@ -1877,7 +1877,7 @@
     }
   },
   "tokenImport": {
-    "title": "Token de importação",
+    "title": "Importar token",
     "notification": "Qualquer pessoa pode criar um token, inclusive versões falsas de tokens existentes. Verifique se o endereço do token está correto antes de você importar.",
     "input": {
       "tokenAddress": "Endereço do token",
@@ -1886,12 +1886,12 @@
       "network": "Rede"
     },
     "error": {
-      "invalidToken": "Token inválido. Tente novamente ou entre em contato com o suporte",
+      "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte",
       "alreadyImported": "O token já foi adicionado anteriormente.",
-      "alreadySupported": "O token já é compatível."
+      "alreadySupported": "O token já é suportado."
     },
-    "importSuccess": "Você importou com sucesso o token {{tokenSymbol}}",
-    "importButton": "Importação"
+    "importSuccess": "Token {{tokenSymbol}} importado com sucesso",
+    "importButton": "Importar"
   },
   "sendSelectRecipient": {
     "searchText": "Pesquise por nome, telefone, carteira...",
@@ -1929,12 +1929,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Permitir que os contatos continuem",
-      "description": "Vá para as configurações para atualizar seus contatos e começar a enviar para amigos"
+      "title": "Habilite os contatos para continuar",
+      "description": "Acesse as configurações para atualizar seus contatos e começar a enviar aos amigos"
     },
     "connectPhoneNumberModal": {
       "title": "Conecte seu número de celular",
-      "description": "Você precisa conectar seu número de telefone para poder começar a enviar criptografia para seus amigos"
+      "description": "Você precisa conectar seu número de celular para poder começar a enviar cripto para seus amigos"
     }
   },
   "transactionStatus": {
