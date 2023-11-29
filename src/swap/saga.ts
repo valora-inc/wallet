@@ -53,7 +53,7 @@ import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
+import { applyChainIdWorkaround, buildTxo, getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
@@ -445,7 +445,12 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     // Navigate to swap pending screen
     navigate(Screens.SwapExecuteScreen)
 
-    const wallet = yield* call(getViemWallet, networkConfig.viemChain.celo)
+    const network = getNetworkFromNetworkId(fromToken.networkId)
+    if (!network) {
+      throw new Error('Unknown token network')
+    }
+
+    const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
     if (!wallet.account) {
       // this should never happen
       throw new Error('no account found in the wallet')
@@ -500,7 +505,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       addStandbyTransaction({
         context: swapExecuteContext,
         __typename: 'TokenExchangeV3',
-        networkId: networkConfig.defaultNetworkId,
+        networkId: fromToken.networkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
           value: outValue.multipliedBy(guaranteedPrice),
@@ -514,7 +519,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       })
     )
 
-    const swapTxReceipt = yield* call([publicClient.celo, 'waitForTransactionReceipt'], {
+    const swapTxReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
       hash: swapTxHash,
     })
     Logger.debug('Got swap transaction receipt', swapTxReceipt)
@@ -523,7 +528,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     // Also get the receipt of the first transaction (approve), for tracking purposes
     try {
       if (txHashes.length > 1) {
-        const approveTxReceipt = yield* call([publicClient.celo, 'getTransactionReceipt'], {
+        const approveTxReceipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
           hash: txHashes[0],
         })
         Logger.debug('Got approve transaction receipt', approveTxReceipt)
