@@ -271,7 +271,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cusdTokenId: CUSD_TOKEN_ID_STAGING,
     ceurTokenId: CEUR_TOKEN_ID_STAGING,
     crealTokenId: CREAL_TOKEN_ID_STAGING,
-    celoTokenId: CUSD_TOKEN_ID_STAGING,
+    celoTokenId: CELO_TOKEN_ID_STAGING,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -340,7 +340,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cusdTokenId: CUSD_TOKEN_ID_MAINNET,
     ceurTokenId: CEUR_TOKEN_ID_MAINNET,
     crealTokenId: CREAL_TOKEN_ID_MAINNET,
-    celoTokenId: CUSD_TOKEN_ID_MAINNET,
+    celoTokenId: CELO_TOKEN_ID_MAINNET,
   },
 }
 
