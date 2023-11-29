@@ -638,15 +638,15 @@
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
-    "share": "Hey ! Inscris-toi à {{appName}} wallet. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : {{shareUrl}}.",
+    "share": "Hello ! Inscris-toi pour profiter d'un portefeuille {{appName}}. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. N'oublie pas d'utiliser mon lien de parrainage ici : {{shareUrl}} pour ton inscription.",
     "help": "Pour obtenir cette récompense, l'invité doit télécharger l'application depuis le lien de parrainage, connecter son numéro de téléphone et conserver 5 cUSD ou plus dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
     "rewardsActive": {
       "title": "Invitez des amis et collectez des NFTs",
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "DURÉE LIMITÉE. Obtenez des cUSD gratuits en invitant des amis à Valora !",
-      "body": "Obtenez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois qu'il aura ajouté des fonds et conservé 5 cUSD pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêche-toi, les fonds sont limités ! (Limite de 25 amis)."
+      "title": "OFFRE A DURÉE LIMITÉE. Recevez des cUSD gratuits en invitant des amis sur Valora !",
+      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté des fonds et conservé 5 cUSD pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités ! (Limite de 25 amis)."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
   "inviteWithRewards": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux un NFT en édition spéciale comme récompense. 💫 \n\nUtilisez ce lien pour télécharger : {{link}}",
-  "inviteWithRewardsCUSD": "Hé ! En ce moment, nous pouvons tous les deux obtenir une récompense gratuite de 0,50 cUSD si tu t'inscris et que tu alimentes ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : \n\n{{link}} \n\nDépêche-toi cependant, la promotion de parrainage se termine bientôt.",
+  "inviteWithRewardsCUSD": "Salut ! En ce moment, nous pouvons tous les deux recevoir une récompense de 0,50 cUSD si tu t'inscris et que tu déposes des fonds sur ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. Utilise mon lien de parrainage pour t'inscrire ici : \n\n{{link}} \n\nDépêche-toi car cete offre de parrainage se termine bientôt.",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1878,7 +1878,7 @@
   },
   "tokenImport": {
     "title": "Importer un jeton",
-    "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifie que l'adresse de ton token est correcte avant de l'importer.",
+    "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifiez que l'adresse de votre jeton est correcte avant de l'importer.",
     "input": {
       "tokenAddress": "Adresse du jeton",
       "tokenAddressPlaceholder": "0x…",
@@ -1886,11 +1886,11 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidToken": "Jeton invalide. Essaie à nouveau ou contacte l'assistance",
-      "alreadyImported": "Le jeton a déjà été ajouté auparavant.",
+      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
+      "alreadyImported": "Le jeton a déjà été ajouté.",
       "alreadySupported": "Le jeton est déjà pris en charge."
     },
-    "importSuccess": "Importation réussie du jeton {{tokenSymbol}}",
+    "importSuccess": "Importation du jeton {{tokenSymbol}} réussie",
     "importButton": "Importation"
   },
   "sendSelectRecipient": {
@@ -1929,12 +1929,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Autorise les contacts à continuer",
-      "description": "Va dans les paramètres pour mettre à jour tes contacts et commencer à envoyer des messages à tes amis."
+      "title": "Autoriser les contacts à continuer",
+      "description": "Allez dans vos paramètres pour mettre à jour vos contacts et commencer à envoyer des messages à vos amis"
     },
     "connectPhoneNumberModal": {
       "title": "Connectez votre numéro de téléphone",
-      "description": "Tu dois connecter ton numéro de téléphone pour pouvoir commencer à envoyer de la crypto à tes amis."
+      "description": "Connectez votre numéro de téléphone pour commencer à envoyer de la crypto à vos amis"
     }
   },
   "transactionStatus": {
