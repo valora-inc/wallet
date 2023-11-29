@@ -1962,5 +1962,14 @@
       "description": "添加 {{feeTokenSymbol}} 来支付手续费或调整发送金额"
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "批准",
+    "estimatedNetworkFee": "估计网络费用",
+    "networkFee": "网络费用",
+    "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}}",
+    "infiniteApprovalDescription": "{{tokenSymbol}}",
+    "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
+    "descriptionLabel": "详细信息"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
