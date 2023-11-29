@@ -22,6 +22,11 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
+import { TransactionRequest } from 'src/viem/prepareTransactions'
+import {
+  SerializableTransactionRequest,
+  getPreparedTransaction,
+} from 'src/viem/preparedTransactionSerialization'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
@@ -50,6 +55,7 @@ export function* sendPayment({
   tokenId,
   comment,
   feeInfo,
+  preparedTransaction,
 }: {
   context: TransactionContext
   recipientAddress: string
@@ -57,6 +63,7 @@ export function* sendPayment({
   tokenId: string
   comment: string
   feeInfo?: FeeInfo
+  preparedTransaction?: SerializableTransactionRequest
 }) {
   const tokenInfo = yield* call(getTokenInfo, tokenId)
   const network = getNetworkFromNetworkId(tokenInfo?.networkId)
@@ -128,6 +135,7 @@ export function* sendPayment({
         recipientAddress,
         comment,
         feeInfo,
+        preparedTransaction,
       })
 
       const { request } = yield* call(simulateContractMethod)
@@ -153,6 +161,18 @@ export function* sendPayment({
     } else {
       const convertedAmount = BigInt(tokenAmountInSmallestUnit(amount, tokenInfo.decimals))
 
+      let feeFields: Pick<TransactionRequest, 'gas' | 'maxFeePerGas'> = {
+        gas: undefined,
+        maxFeePerGas: undefined,
+      }
+      if (preparedTransaction) {
+        const preparedTx = getPreparedTransaction(preparedTransaction)
+        feeFields = {
+          gas: preparedTx.gas,
+          maxFeePerGas: preparedTx.maxFeePerGas,
+        }
+      }
+
       // This call method will throw an error if there are issues with the TX (namely,
       // if there are insufficient funds to pay for gas).
       const callMethod = () =>
@@ -160,7 +180,16 @@ export function* sendPayment({
           account: wallet.account,
           to: getAddress(recipientAddress),
           value: convertedAmount,
+          ...feeFields,
         })
+
+      Logger.debug(TAG, 'Invoking call for native token transfer', {
+        recipientAddress,
+        convertedAmount: convertedAmount.toString(),
+        network,
+        gas: feeFields.gas?.toString(),
+        maxFeePerGas: feeFields.maxFeePerGas?.toString(),
+      })
 
       yield* call(callMethod)
       yield* call(unlockWallet)
@@ -175,6 +204,7 @@ export function* sendPayment({
           to: getAddress(recipientAddress),
           value: convertedAmount,
           chain: networkConfig.viemChain[network],
+          ...feeFields,
         })
 
         yield* call(addPendingStandbyTransaction, hash)
@@ -212,6 +242,7 @@ function* getTransferSimulateContract({
   recipientAddress,
   comment,
   feeInfo,
+  preparedTransaction,
 }: {
   wallet: ViemWallet
   tokenInfo: TokenBalanceWithAddress
@@ -219,6 +250,7 @@ function* getTransferSimulateContract({
   amount: BigNumber
   comment: string
   feeInfo?: FeeInfo
+  preparedTransaction?: SerializableTransactionRequest
 }) {
   if (!wallet.account) {
     // this should never happen
@@ -236,29 +268,35 @@ function* getTransferSimulateContract({
     throw new Error('invalid network for transfer')
   }
 
-  // TODO (ACT-922): Remove this check once fee info is available for all sends
-  if (!feeInfo && network === Network.Celo) {
-    throw new Error('Celo sends must include fee info')
+  let feeFields: Pick<TransactionRequest, 'gas' | 'maxFeePerGas'> & { feeCurrency?: string } = {
+    gas: undefined,
+    maxFeePerGas: undefined,
+  }
+  if (preparedTransaction) {
+    const preparedTx = getPreparedTransaction(preparedTransaction)
+    feeFields = {
+      gas: preparedTx.gas,
+      maxFeePerGas: preparedTx.maxFeePerGas,
+    }
+    if (preparedTx.type === 'cip42' && preparedTx.feeCurrency) {
+      feeFields.feeCurrency = preparedTx.feeCurrency
+    }
+  } else if (feeInfo) {
+    feeFields = yield* call(getSendTxFeeDetails, {
+      recipientAddress,
+      amount,
+      tokenAddress: tokenInfo.address,
+      feeInfo,
+      encryptedComment: encryptedComment || '',
+    })
   }
 
-  // TODO (ACT-922): Use real fee estimation for Ethereum
-  const feeFields = feeInfo
-    ? yield* call(getSendTxFeeDetails, {
-        recipientAddress,
-        amount,
-        tokenAddress: tokenInfo.address,
-        feeInfo,
-        encryptedComment: encryptedComment || '',
-      })
-    : {
-        gas: undefined,
-        maxFeePerGas: undefined,
-      }
-
   if (tokenSupportsComments(tokenInfo)) {
-    Logger.debug(TAG, 'Calling simulate contract for transferWithComment with new fee fields', {
+    Logger.debug(TAG, 'Calling simulate contract for transferWithComment', {
       recipientAddress,
-      convertedAmount,
+      convertedAmount: convertedAmount.toString(),
+      tokenAddress: tokenInfo.address,
+      network,
       feeCurrency: feeFields.feeCurrency,
       gas: feeFields.gas?.toString(),
       maxFeePerGas: feeFields.maxFeePerGas?.toString(),
@@ -275,9 +313,11 @@ function* getTransferSimulateContract({
       })
   }
 
-  Logger.debug(TAG, 'Calling simulate contract for transfer with new fee fields', {
+  Logger.debug(TAG, 'Calling simulate contract for transfer', {
     recipientAddress,
-    convertedAmount,
+    convertedAmount: convertedAmount.toString(),
+    tokenAddress: tokenInfo.address,
+    network,
     feeCurrency: feeFields.feeCurrency,
     gas: feeFields.gas?.toString(),
     maxFeePerGas: feeFields.maxFeePerGas?.toString(),
@@ -298,6 +338,7 @@ function* getTransferSimulateContract({
  * Helper function to call chooseTxFeeDetails for send transactions (aka
  * transfer contract calls) using parameters that are not specific to contractkit
  *
+ * @deprecated will be cleaned up when old send flow is removed
  * @param options the getSendTxFeeDetails options
  * @returns an object with the feeInfo compatible with viem
  */
@@ -321,14 +362,12 @@ export function* getSendTxFeeDetails({
     recipientAddress,
     encryptedComment || ''
   )
-  // TODO(ACT-926): port this logic over from contractkit to use viem
   const { feeCurrency, gas, gasPrice } = yield* call(
     chooseTxFeeDetails,
     celoTx.txo,
     feeInfo.feeCurrency,
     // gas and gasPrice can either be BigNumber or string. Since these are
     // stored in redux, BigNumbers are serialized as strings.
-    // TODO(ACT-925): ensure type is consistent when fee is read from redux
     Number(feeInfo.gas),
     feeInfo.gasPrice
   )
