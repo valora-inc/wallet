@@ -47,7 +47,12 @@ import {
 } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
-import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
+import {
+  NetworkId,
+  TokenApproval,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
@@ -1381,4 +1386,25 @@ export const mockTypedData = {
     },
     contents: 'Hello, Bob!',
   },
+}
+
+export const mockApprovalTransaction: TokenApproval = {
+  tokenId: 'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+  __typename: 'TokenApproval',
+  timestamp: 1695389027000,
+  type: TokenTransactionTypeV2.Approval,
+  networkId: NetworkId['ethereum-sepolia'],
+  block: '18191655',
+  approvedAmount: null,
+  transactionHash: '0xdad953e4a5dbc282b8e966aeb03a9b2361b60a6ccec4bc97fa0213d8ca67d3ee',
+  fees: [
+    {
+      type: 'SECURITY_FEE',
+      amount: {
+        tokenId: 'ethereum-sepolia:native',
+        value: '0.00103133153065659',
+      },
+    },
+  ],
+  status: TransactionStatus.Complete,
 }
