@@ -558,12 +558,12 @@
     "thứ 29",
     "thứ 30"
   ],
-  "addressValidationError": "Thông tin tài khoản đã nhập không hợp lệ",
-  "addressValidationNoMatch": "Thông tin tài khoản đã nhập không khớp với bất kỳ thông tin nào liên quan đến người liên hệ của bạn",
-  "addressValidationFullPoorlyFormatted": "Địa chỉ tài khoản bắt đầu bằng \"0x\", chỉ chứa số và chữ cái, có độ dài 42 ký tự. Nhấn vào đường liên kết bên dưới để được trợ giúp",
-  "addressValidationPartialPoorlyFormatted": "Địa chỉ tài khoản chỉ chứa số và chữ cái, vui lòng cung cấp 4 chữ số cuối. Nhấn vào đường liên kết bên dưới để được trợ giúp",
-  "addressValidationFullOwnAddress": "Vui lòng nhập Địa chỉ tài khoản của người liên hệ chứ không phải của bạn. Nhấn vào đường liên kết bên dưới để được trợ giúp",
-  "addressValidationPartialOwnAddress": "Vui lòng nhập 4 chữ số cuối trong Địa chỉ tài khoản của người liên hệ chứ không phải của bạn. Nhấn vào đường liên kết bên dưới để được trợ giúp",
+  "addressValidationError": "Incorrect wallet address",
+  "addressValidationNoMatch": "Incorrect wallet address",
+  "addressValidationFullPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationPartialPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationFullOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
+  "addressValidationPartialOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
   "providerRateFetchFailed": "Không thể tìm nạp tỷ giá của nhà cung cấp. Bạn có thể tiếp tục mà không cần tỷ giá điền sẵn.",
   "helpFindAccount": "Giúp người liên hệ của bạn tìm Địa chỉ tài khoản của họ",
   "close": "Đóng",
@@ -999,32 +999,31 @@
     "importing": "Đang nhập..."
   },
   "confirmAccount": {
-    "header": "Vui lòng xác nhận tài khoản của {{displayName}}",
-    "headerNoDisplayName": "Vui lòng xác nhận tài khoản của người liên hệ",
-    "button": "Xác nhận Địa chỉ tài khoản"
+    "header": "{{displayName}} has multiple wallets.",
+    "headerNoDisplayName": "This phone number has multiple wallets.",
+    "button": "Confirm Wallet Address"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} đang kết nối với nhiều tài khoản. Có thể {{displayName}} đã tạo tài khoản {{appName}} mới hoặc mất điện thoại hoặc tài khoản của họ bị xâm phạm.",
-    "body1NoDisplayName": "Người liên hệ của bạn đang kết nối với nhiều tài khoản. Có thể người liên hệ của bạn đã tạo tài khoản {{appName}} mới hoặc mất điện thoại hoặc tài khoản của họ bị xâm phạm.",
+    "body1": "There are multiple wallets associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their wallet address.",
     "body2": "Bạn phải quét mã QR của họ hoặc xác nhận Địa chỉ tài khoản của họ trước khi giao dịch."
   },
   "confirmAccountNumber": {
-    "title": "Xác nhận Địa chỉ tài khoản",
-    "bodyPartial": "Vui lòng hỏi {{displayName}} để biết 4 chữ số cuối trong Địa chỉ tài khoản của họ. Cách an toàn nhất là hỏi trực tiếp hoặc qua điện thoại.",
-    "bodyPartialNoDisplayName": "Vui lòng hỏi người liên hệ để biết 4 chữ số cuối trong Địa chỉ tài khoản của họ. Cách an toàn nhất là hỏi trực tiếp hoặc qua điện thoại.",
-    "body1Full": "Vui lòng hỏi {{displayName}} để biết Địa chỉ tài khoản của họ.",
-    "body1FullNoDisplayName": "Vui lòng hỏi người liên hệ để biết Địa chỉ tài khoản của họ.",
-    "body2Full": "Tốt nhất bạn nên hỏi trực tiếp hoặc qua điện thoại, WhatsApp, Messenger hoặc email. Vì lý do bảo mật, vui lòng không sử dụng tin nhắn văn bản (SMS).",
-    "help": "Giúp tìm Địa chỉ tài khoản",
+    "title": "Confirm Wallet Address",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "body1Full": "Please ask {{displayName}} for their Wallet Address.",
+    "body1FullNoDisplayName": "Please ask your contact for their Wallet Address.",
+    "body2Full": "The safest way to do this is in person. For security, please do not use text messaging (SMS).",
+    "help": "Where can I find a Wallet Address?",
     "submit": "Gửi"
   },
   "accountInputHeaderPartial": "4 chữ số cuối",
   "accountInputHeaderFull": "Địa chỉ tài khoản",
   "helpModal": {
-    "header": "Đang tìm Địa chỉ tài khoản",
-    "body1": "Địa chỉ tài khoản (còn được gọi là địa chỉ) nằm trong menu. Ở Màn hình chính, hãy mở menu bằng cách nhấn vào biểu tượng ở góc trên cùng bên trái.",
-    "body2": "Địa chỉ tài khoản nằm ở gần cuối menu.",
-    "body3": "Địa chỉ tài khoản bắt đầu bằng \"0x\" và dài 42 ký tự"
+    "header": "Locating a wallet address",
+    "body1": "Your wallet address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
+    "body2": "Your wallet address is near the bottom of the menu.",
+    "body3": "Wallet addresses begin with \"0x\" and are 42 characters long"
   },
   "transferAddressChanged": "Người liên hệ này đã thay đổi Địa chỉ tài khoản sau giao dịch. Khoản thanh toán này đã được gửi đến:",
   "addressConfirmed": "Đã xác nhận Địa chỉ tài khoản",
