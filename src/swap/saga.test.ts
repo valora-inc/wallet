@@ -600,20 +600,20 @@ describe(swapSubmitPreparedSaga, () => {
     {
       network: Network.Celo,
       networkId: NetworkId['celo-alfajores'],
-      sellTokenId: mockCeloTokenId,
-      buyTokenId: mockCeurTokenId,
-      sellTokenAddress: mockCeloAddress,
-      buyTokenAddress: mockCeurAddress,
+      fromTokenId: mockCeurTokenId,
+      fromTokenAddress: mockCeurAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenAddress: mockCeloAddress,
       feeCurrencySymbol: 'CELO',
       swapPrepared: mockSwapPrepared,
     },
     {
       network: Network.Ethereum,
       networkId: NetworkId['ethereum-sepolia'],
-      sellTokenId: mockEthTokenId,
-      buyTokenId: mockUSDCTokenId,
-      sellTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      buyTokenAddress: mockUSDCAddress,
+      fromTokenId: mockUSDCTokenId,
+      fromTokenAddress: mockUSDCAddress,
+      toTokenId: mockEthTokenId,
+      toTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
       feeCurrencySymbol: 'ETH',
       swapPrepared: mockSwapPreparedEthereum,
     },
@@ -624,10 +624,10 @@ describe(swapSubmitPreparedSaga, () => {
     async ({
       network,
       networkId,
-      sellTokenId,
-      buyTokenId,
-      sellTokenAddress,
-      buyTokenAddress,
+      fromTokenId,
+      fromTokenAddress,
+      toTokenId,
+      toTokenAddress,
       feeCurrencySymbol,
       swapPrepared,
     }) => {
@@ -653,11 +653,11 @@ describe(swapSubmitPreparedSaga, () => {
             type: TokenTransactionTypeV2.SwapTransaction,
             inAmount: {
               value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
-              tokenId: sellTokenId,
+              tokenId: toTokenId,
             },
             outAmount: {
               value: BigNumber('0.01'),
-              tokenId: buyTokenId,
+              tokenId: fromTokenId,
             },
             transactionHash: mockSwapTxReceipt.transactionHash,
           })
@@ -678,11 +678,11 @@ describe(swapSubmitPreparedSaga, () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-        toToken: sellTokenAddress,
-        toTokenId: sellTokenId,
+        toToken: toTokenAddress,
+        toTokenId: toTokenId,
         toTokenNetworkId: networkId,
-        fromToken: buyTokenAddress,
-        fromTokenId: buyTokenId,
+        fromToken: fromTokenAddress,
+        fromTokenId: fromTokenId,
         fromTokenNetworkId: networkId,
         amount: '10000000000000000',
         amountType: 'buyAmount',
