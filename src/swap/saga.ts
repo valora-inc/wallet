@@ -556,17 +556,18 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     })
   } catch (err) {
     const error = ensureError(err)
-    const timeMetrics = getTimeMetrics()
+    // dispatch the error early, in case the rest of the handling throws
+    // and leaves the app in a bad state
+    yield* put(swapError())
+    vibrateError()
 
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
-      ...timeMetrics,
+      ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, fromToken.networkId, tokensById),
       error: error.message,
     })
-    yield* put(swapError())
-    vibrateError()
   }
 }
 
