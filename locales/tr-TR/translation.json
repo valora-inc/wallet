@@ -1964,6 +1964,15 @@
       "description": "Gas ücretlerinizi karşılamak için {{feeTokenSymbol}} ekleyin veya gönderdiğiniz tutarı ayarlayın"
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Onay",
+    "estimatedNetworkFee": "Tahmini ağ ücreti",
+    "networkFee": "Ağ ücreti",
+    "finiteApprovalDescription": "Ticaret için onaylanmış {{approvedAmount}} {{tokenSymbol}}",
+    "infiniteApprovalDescription": "Ticaret için onaylanmış {{tokenSymbol}}",
+    "revokeApprovalDescription": "Ticaret için iptal edilmiş {{tokenSymbol}}",
+    "descriptionLabel": "Detaylar"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
