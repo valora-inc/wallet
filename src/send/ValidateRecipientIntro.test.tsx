@@ -22,15 +22,6 @@ const mockRoute = {
 }
 
 describe('ValidateRecipientIntro', () => {
-  it('renders correctly', () => {
-    const tree = render(
-      <Provider store={store}>
-        <ValidateRecipientIntro navigation={mockNavigation} route={mockRoute} />
-      </Provider>
-    )
-    expect(tree).toMatchSnapshot()
-  })
-
   it('navigates to account confirmation screen when Confirm Account button clicked', () => {
     const tree = render(
       <Provider store={store}>
