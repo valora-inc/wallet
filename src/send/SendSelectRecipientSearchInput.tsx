@@ -1,13 +1,9 @@
-import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
 import TextInput from 'src/components/TextInput'
-import withTextSearchPasteAware from 'src/components/WithTextSearchPasteAware'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-
-const SearchInput = withTextSearchPasteAware(TextInput)
 
 interface SendSelectRecipientSearchInputProps {
   input: string
@@ -21,14 +17,12 @@ export function SendSelectRecipientSearchInput({
   const { t } = useTranslation()
   return (
     <View testID="SendSelectRecipientSearchInput" style={styles.textInputContainer}>
-      <SearchInput
-        shouldShowClipboard={isValidAddress}
+      <TextInput
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
         value={input}
         onChangeText={onChangeText}
         style={styles.search}
         inputStyle={styles.input}
-        leftIcon={<></>}
         placeholderTextColor={colors.gray4}
         allowFontScaling={false}
       />
@@ -40,13 +34,18 @@ const styles = StyleSheet.create({
   textInputContainer: {
     ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingRight: 24,
-    paddingTop: 16,
+    marginRight: 24,
+    paddingRight: 10,
     paddingBottom: 12,
     flex: 1,
+    borderWidth: 1,
+    borderColor: colors.gray2,
+    borderRadius: 100,
+    height: 44,
   },
   search: {
-    alignItems: 'center',
+    paddingLeft: 20,
+    paddingTop: 10,
     borderColor: colors.gray2,
     borderRadius: 100,
   },

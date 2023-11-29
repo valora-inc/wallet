@@ -2,12 +2,40 @@ import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
-import { createMockStore } from 'test/utils'
-import { mockPhoneRecipientCache, mockRecipient, mockRecipient2 } from 'test/values'
+import { getRecipientVerificationStatus } from 'src/recipients/recipient'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockPhoneRecipientCache, mockRecipient, mockRecipient2, mockAccount } from 'test/values'
+import { RecipientVerificationStatus } from 'src/identity/types'
+import Clipboard from '@react-native-clipboard/clipboard'
+import { Screens } from 'src/navigator/Screens'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendEvents } from 'src/analytics/Events'
+import { navigate } from 'src/navigator/NavigationService'
+import { RecipientType } from 'src/recipients/recipient'
+
+jest.mock('@react-native-clipboard/clipboard')
+jest.mock('src/utils/IosVersionUtils')
+jest.mock('src/recipients/RecipientPicker')
+jest.mock('src/recipients/recipient', () => ({
+  ...(jest.requireActual('src/recipients/recipient') as any),
+  getRecipientVerificationStatus: jest.fn(),
+}))
 
 jest.mock('react-native-device-info', () => ({ getFontScaleSync: () => 1 }))
 // this mock defaults to granting all permissions
 jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
+
+const mockScreenProps = ({
+  defaultTokenIdOverride,
+  forceTokenId,
+}: {
+  defaultTokenIdOverride?: string
+  forceTokenId?: boolean
+}) =>
+  getMockStackScreenProps(Screens.SendSelectRecipient, {
+    defaultTokenIdOverride,
+    forceTokenId,
+  })
 
 const defaultStore = {
   send: {
@@ -21,6 +49,8 @@ const defaultStore = {
 describe('SendSelectRecipient', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(Clipboard.getString).mockResolvedValue('')
+    jest.mocked(Clipboard.hasString).mockResolvedValue(false)
   })
 
   it('shows contacts when send to contacts button is pressed and conditions are satisfied', async () => {
@@ -28,7 +58,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     await act(() => {
@@ -45,7 +75,7 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     await act(() => {
@@ -54,12 +84,27 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('SelectRecipient/RecentRecipientPicker')).toBeTruthy()
     expect(queryByTestId('SelectRecipient/ContactRecipientPicker')).toBeFalsy()
   })
+
+  it('navigates to QR screen when QR button is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    fireEvent.press(getByTestId('SelectRecipient/QR'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
+    expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
+      screen: Screens.QRScanner,
+    })
+  })
   it('shows QR, sync contacts and get started section when no prior recipients', async () => {
     const store = createMockStore({})
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
@@ -71,11 +116,134 @@ describe('SendSelectRecipient', () => {
 
     const { getByTestId } = render(
       <Provider store={store}>
-        <SendSelectRecipient />
+        <SendSelectRecipient {...mockScreenProps({})} />
       </Provider>
     )
     expect(getByTestId('SelectRecipient/Contacts')).toBeTruthy()
     expect(getByTestId('SelectRecipient/QR')).toBeTruthy()
     expect(getByTestId('SelectRecipient/RecentRecipientPicker')).toBeTruthy()
+  })
+  it('shows search when text is entered and result is present', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+    await act(() => {
+      fireEvent.changeText(searchInput, 'John Doe')
+    })
+    expect(getByTestId('SelectRecipient/AllRecipientsPicker')).toBeTruthy()
+  })
+  it('shows no results available when text is entered and no results', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+    await act(() => {
+      fireEvent.changeText(searchInput, 'Fake Name')
+    })
+    expect(getByTestId('SelectRecipient/NoResults')).toBeTruthy()
+  })
+  it('navigates to send amount when search result next button is pressed', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, 'George Bogart')
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SendEvents.send_select_recipient_send_press,
+      {
+        recipientType: RecipientType.PhoneNumber,
+      }
+    )
+
+    // Uncomment once we can actually navigate to this screen
+
+    // expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+    //   isFromScan: false,
+    //   defaultTokenIdOverride: undefined,
+    //   forceTokenId: undefined,
+    //   recipient: expect.any(Object),
+    //   origin: SendOrigin.AppSendFlow,
+    // })
+  })
+  it('navigates to invite modal when search result next button is pressed', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
+
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, 'George Bogart')
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+
+    expect(getByTestId('InviteModalContainer')).toBeTruthy()
+  })
+  it('shows paste button if clipboard has address content', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { findByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await act(() => {
+      jest.mocked(Clipboard.getString).mockResolvedValue(mockAccount)
+      jest.mocked(Clipboard.hasString).mockResolvedValue(true)
+    })
+
+    jest.runOnlyPendingTimers()
+    const pasteButton = await findByTestId('PasteAddressButton')
+    expect(pasteButton).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(pasteButton)
+    })
+    const pasteButtonAfterPress = findByTestId('PasteAddressButton')
+    await expect(pasteButtonAfterPress).rejects.toThrow()
   })
 })

@@ -1897,9 +1897,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
+    "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
     "recents": "Recents",
+    "results": "Results",
     "qr": {
       "title": "Scan or Show QR Code",
       "subtitle": "Quickly find addresses on Valora"
@@ -1913,8 +1915,8 @@
       "subtitle": "GET STARTED",
       "options": {
         "one": {
-          "title": "Wallet Address",
-          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+          "title": "Wallet address",
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "Phone Number",
