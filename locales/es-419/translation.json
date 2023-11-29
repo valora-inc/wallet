@@ -1964,6 +1964,15 @@
       "description": "Deposita {{feeTokenSymbol}} para cubrir los las tarifas de transacción o ajusta el monto a enviar"
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Aprobación",
+    "estimatedNetworkFee": "Tasa de red estimada",
+    "networkFee": "Tasa de red",
+    "finiteApprovalDescription": "Aprobado {{approvedAmount}} {{tokenSymbol}} para el comercio",
+    "infiniteApprovalDescription": "Aprobado {{tokenSymbol}} para el comercio",
+    "revokeApprovalDescription": "Revocada {{tokenSymbol}} para el comercio",
+    "descriptionLabel": "Detalles"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
