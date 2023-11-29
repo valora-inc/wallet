@@ -1659,7 +1659,7 @@
   "swapScreen": {
     "title": "Swap",
     "review": "Gözden Geçir",
-    "confirmSwap": "Takası Onayla",
+    "confirmSwap": "Swap'ı Onayla",
     "swapFrom": "KAYNAK",
     "swapTo": "HEDEF",
     "insufficientFunds": "Yetersiz {{token}}. Lütfen daha küçük bir miktar girin veya farklı bir varlık seçin.",
@@ -1877,21 +1877,21 @@
     }
   },
   "tokenImport": {
-    "title": "İçe Aktarma Belirteci",
-    "notification": "Mevcut belirteçlerin sahte sürümleri de dahil olmak üzere herkes bir belirteç oluşturabilir. İçe aktarmadan önce token adresinizin doğru olduğunu doğrulayın.",
+    "title": "Tokeni İçe Aktar",
+    "notification": "Mevcut tokenlerin sahte sürümleri de dahil olmak üzere herkes bir token oluşturabilir. İçe aktarmadan önce token adresinizin doğru olduğunu doğrulayın.",
     "input": {
-      "tokenAddress": "Belirteç Adresi",
+      "tokenAddress": "Token Adresi",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Jeton Sembolü",
+      "tokenSymbol": "Token Sembolü",
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz belirteç. Tekrar deneyin veya desteğe başvurun",
-      "alreadyImported": "Token daha önce zaten eklenmişti.",
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
+      "alreadyImported": "Token daha önce zaten eklenmiş.",
       "alreadySupported": "Token zaten desteklenmektedir."
     },
-    "importSuccess": "{{tokenSymbol}} belirteci başarıyla içe aktarıldı",
-    "importButton": "İthalat"
+    "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
+    "importButton": "İçe Aktar"
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
@@ -1934,7 +1934,7 @@
     },
     "connectPhoneNumberModal": {
       "title": "Telefon numaranı bağla",
-      "description": "Arkadaşlarınıza kripto göndermeye başlayabilmeniz için telefon numaranızı bağlamanız gerekir"
+      "description": "Arkadaşlarınıza kripto göndermeye başlayabilmek için telefon numaranızı bağlamanız gerekir"
     }
   },
   "transactionStatus": {
@@ -1968,9 +1968,9 @@
     "approvalTransactionTitle": "Onay",
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
-    "finiteApprovalDescription": "Ticaret için onaylanmış {{approvedAmount}} {{tokenSymbol}}",
-    "infiniteApprovalDescription": "Ticaret için onaylanmış {{tokenSymbol}}",
-    "revokeApprovalDescription": "Ticaret için iptal edilmiş {{tokenSymbol}}",
+    "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
+    "infiniteApprovalDescription": "{{tokenSymbol}} işlem için onaylandı",
+    "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
