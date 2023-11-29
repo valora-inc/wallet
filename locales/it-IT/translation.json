@@ -638,15 +638,15 @@
     "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
-    "share": "Ehi! Iscriviti a {{appName}} wallet. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: {{shareUrl}}.",
+    "share": "Ehi! Iscriviti al portafoglio {{appName}}. Io lo uso per far aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi semplicemente con un numero telefonico. Assicurati di iscriverti con il mio link di riferimento qui: {{shareUrl}}.",
     "help": "Per ricevere questa ricompensa, la persona invitata deve eseguire il download dal link del referente, collegare il proprio numero telefonico e detenere nel proprio portafoglio {{appName}} almeno 5 cUSD per 7 giorni. <0>Visualizza tutti i Termini</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti gli amici a Valora!",
-      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e avrà mantenuto 5 cUSD per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
+      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti amici in Valora!",
+      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e avrà detenuto 5 cUSD per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Ehi! In questo momento possiamo entrambi ricevere una ricompensa gratuita di 0,50 cUSD se ti iscrivi e fondi il tuo portafoglio Valora. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\nAffrettati però, la promozione termina presto.",
+  "inviteWithRewardsCUSD": "Ehi! Proprio adesso possiamo ricevere entrambi una ricompensa gratuita di 0,50 cUSD se ti iscrivi e aggiungi fondi al tuo portafoglio Valora. Io lo uso per far aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi semplicemente con un numero telefonico. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\nAffrettati però, la promozione termina presto.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1664,7 +1664,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "La tariffa migliore è determinata dai partner della rete. <0>Per saperne di più</0>",
+    "disclaimer": "La tariffa migliore è determinata dai partner della rete. <0>Altre informazioni</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "tokenUsdValueUnknown": "-",
@@ -1877,21 +1877,21 @@
     }
   },
   "tokenImport": {
-    "title": "Importazione del token",
-    "notification": "Chiunque può creare un token, anche versioni false di token esistenti. Verifica che l'indirizzo del token sia corretto prima di effettuare l'importazione.",
+    "title": "Importa token",
+    "notification": "Chiunque può creare un token, incluse versioni false di token esistenti. Prima di effettuare l'importazione, verifica che l'indirizzo del token sia corretto.",
     "input": {
       "tokenAddress": "Indirizzo del token",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Simbolo del gettone",
+      "tokenSymbol": "Simbolo del token",
       "network": "Rete"
     },
     "error": {
-      "invalidToken": "Token non valido. Riprova o contatta l'assistenza",
-      "alreadyImported": "Il token è già stato aggiunto in precedenza.",
+      "invalidToken": "Token non valido. Riprova o contatta il Supporto tecnico",
+      "alreadyImported": "Il token è già stato aggiunto precedentemente.",
       "alreadySupported": "Il token è già supportato."
     },
-    "importSuccess": "Importazione riuscita del token {{tokenSymbol}}",
-    "importButton": "Importazione"
+    "importSuccess": "Token {{tokenSymbol}} importato correttamente",
+    "importButton": "Importa"
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
@@ -1930,11 +1930,11 @@
     },
     "enableContactsModal": {
       "title": "Abilita i contatti per continuare",
-      "description": "Vai alle impostazioni per aggiornare i tuoi contatti e iniziare ad inviare agli amici"
+      "description": "Vai alle impostazioni per aggiornare i tuoi contatti e iniziare a inviare agli amici"
     },
     "connectPhoneNumberModal": {
       "title": "Collega il tuo numero telefonico",
-      "description": "Devi collegare il tuo numero di telefono per poter iniziare a inviare criptovalute ai tuoi amici."
+      "description": "Devi collegare il tuo numero telefonico per poter iniziare a inviare criptovalute ai tuoi amici"
     }
   },
   "transactionStatus": {
