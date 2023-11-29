@@ -192,8 +192,6 @@ export const useActions = (token: TokenBalance) => {
       iconComponent: QuickActionsAdd,
       onPress: () => {
         const tokenSymbol = token.symbol
-        // this should always be true given that we only show Add / Withdraw if a
-        // token is CiCoCurrency, but adding it here to ensure type safety
         if (isCicoToken(tokenSymbol)) {
           navigate(Screens.FiatExchangeAmount, {
             tokenId: token.tokenId,

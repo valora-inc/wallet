@@ -13,7 +13,6 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -320,19 +319,6 @@ export const filterProvidersByPaymentMethod = (
 }
 
 export const isUserInputCrypto = (flow: CICOFlow): boolean => flow === CICOFlow.CashOut
-
-export function resolveCloudFunctionDigitalAsset(
-  currency: CiCoCurrency
-): CloudFunctionDigitalAsset {
-  const mapping: Record<CiCoCurrency, CloudFunctionDigitalAsset> = {
-    [CiCoCurrency.CELO]: CloudFunctionDigitalAsset.CELO,
-    [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
-    [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
-    [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
-    [CiCoCurrency.ETH]: CloudFunctionDigitalAsset.ETH,
-  }
-  return mapping[currency]
-}
 
 /**
  * Get analytics data for provider selection.
