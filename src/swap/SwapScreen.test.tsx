@@ -277,10 +277,6 @@ describe('SwapScreen', () => {
         decimalSeparator: '.',
       },
     })
-
-    mockExperimentParams.mockReturnValue({
-      swapBuyAmountEnabled: true,
-    })
   })
 
   it('should display the correct elements on load', () => {
@@ -398,47 +394,6 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
       '1.5234566652'
     )
-    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
-  })
-
-  it('should keep the from amount in sync with the exchange rate', async () => {
-    mockFetch.mockResponse(
-      JSON.stringify({
-        ...defaultQuote,
-        unvalidatedSwapTransaction: {
-          ...defaultQuote.unvalidatedSwapTransaction,
-          price: '0.12345678',
-        },
-      })
-    )
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, getByTestId } =
-      renderScreen({})
-
-    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
-    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
-    fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-
-    await act(() => {
-      jest.runOnlyPendingTimers()
-    })
-    expect(mockFetch.mock.calls.length).toEqual(1)
-    expect(mockFetch.mock.calls[0][0]).toEqual(
-      `${
-        networkConfig.getSwapQuoteUrl
-      }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
-        NetworkId['celo-alfajores']
-      }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
-        NetworkId['celo-alfajores']
-      }&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
-    )
-
-    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 8.10000 cUSD'
-    )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '0.15234566652'
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1.234')
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
@@ -673,55 +628,6 @@ describe('SwapScreen', () => {
       '~₱2,03'
     )
     expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0,3%')
-    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
-  })
-
-  it('should support to amount with comma as the decimal separator', async () => {
-    // This only changes the display format, the input is parsed with getNumberFormatSettings
-    BigNumber.config({
-      FORMAT: {
-        decimalSeparator: ',',
-      },
-    })
-    mockGetNumberFormatSettings.mockReturnValue({ decimalSeparator: ',' })
-    mockFetch.mockResponse(
-      JSON.stringify({
-        ...defaultQuote,
-        unvalidatedSwapTransaction: {
-          ...defaultQuote.unvalidatedSwapTransaction,
-          price: '0.12345678',
-        },
-      })
-    )
-    const { tokenBottomSheet, swapFromContainer, swapToContainer, getByText, getByTestId } =
-      renderScreen({})
-
-    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
-    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
-    fireEvent.changeText(within(swapToContainer).getByTestId('SwapAmountInput/Input'), '1,234')
-
-    await act(() => {
-      jest.runOnlyPendingTimers()
-    })
-
-    expect(mockFetch.mock.calls.length).toEqual(1)
-    expect(mockFetch.mock.calls[0][0]).toEqual(
-      `${
-        networkConfig.getSwapQuoteUrl
-      }?buyToken=${mockCusdAddress}&buyIsNative=false&buyNetworkId=${
-        NetworkId['celo-alfajores']
-      }&sellToken=${mockCeloAddress}&sellIsNative=true&sellNetworkId=${
-        NetworkId['celo-alfajores']
-      }&buyAmount=1234000000000000000&userAddress=${mockAccount.toLowerCase()}&slippagePercentage=0.3`
-    )
-
-    expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
-      '1 CELO ≈ 8,10000 cUSD'
-    )
-    expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.value).toBe(
-      '0,15234566652'
-    )
-    expect(within(swapToContainer).getByTestId('SwapAmountInput/Input').props.value).toBe('1,234')
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
@@ -981,10 +887,7 @@ describe('SwapScreen', () => {
     expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
   })
 
-  it('should disable buy amount input when swap buy amount experiment is set is false', () => {
-    mockExperimentParams.mockReturnValue({
-      swapBuyAmountEnabled: false,
-    })
+  it('should disable buy amount input', () => {
     const { swapFromContainer, swapToContainer } = renderScreen({})
 
     expect(within(swapFromContainer).getByTestId('SwapAmountInput/Input').props.editable).toBe(true)

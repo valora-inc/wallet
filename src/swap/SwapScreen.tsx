@@ -30,9 +30,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -98,9 +98,6 @@ export function SwapScreen({ route }: Props) {
 
   const { decimalSeparator } = getNumberFormatSettings()
 
-  const { swapBuyAmountEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.SWAP_BUY_AMOUNT]
-  )
   const slippagePercentage = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).maxSlippagePercentage
@@ -558,7 +555,7 @@ export function SwapScreen({ route }: Props) {
             style={styles.toSwapAmountInput}
             loading={updatedField === Field.FROM && exchangeRateUpdatePending}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
-            editable={swapBuyAmountEnabled}
+            editable={false}
           />
 
           <SwapTransactionDetails
