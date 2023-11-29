@@ -634,6 +634,73 @@ describe('sendPayment', () => {
       maxFeePerGas: BigInt(1000000),
     })
   })
+
+  it('sends a payment successfully for a non-Celo ERC20 with prepared transaction', async () => {
+    const mockSendUSDCPaymentArgs = {
+      context: { id: 'txId' },
+      recipientAddress: mockAccount2,
+      amount: BigNumber(2),
+      tokenId: mockUSDCTokenId,
+      comment: '',
+      preparedTransaction: mockEthPreparedTransaction,
+    }
+    const mockUSDCTokenBalance = {
+      name: 'USDC coin',
+      networkId: NetworkId['ethereum-sepolia'],
+      tokenId: mockUSDCTokenId,
+      address: mockUSDCAddress,
+      symbol: 'USDC',
+      decimals: 18,
+      imageUrl: '',
+      balance: '10',
+      priceUsd: '1',
+    }
+    await expectSaga(sendPayment, mockSendUSDCPaymentArgs)
+      .withState(
+        createMockStore({
+          tokens: {
+            tokenBalances: {
+              [mockUSDCTokenId]: mockUSDCTokenBalance,
+            },
+          },
+        }).getState()
+      )
+      .provide([
+        [matchers.call.fn(getViemWallet), mockViemWallet],
+        [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
+        [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
+        [matchers.call.fn(publicClient.ethereum.waitForTransactionReceipt), mockTxReceipt],
+      ])
+      .not.call.fn(encryptComment)
+      .call(getViemWallet, networkConfig.viemChain.ethereum)
+      .put(
+        addStandbyTransaction({
+          ...expectedStandbyTransaction,
+          networkId: NetworkId['ethereum-sepolia'],
+          amount: {
+            value: BigNumber(2).negated().toString(),
+            tokenAddress: mockUSDCAddress,
+            tokenId: mockUSDCTokenId,
+          },
+          metadata: {
+            comment: '',
+          },
+          transactionHash: mockTxHash,
+        })
+      )
+      .returns(mockTxReceipt)
+      .run()
+
+    expect(mockSimulateContractEthereum).toHaveBeenCalledWith({
+      address: getAddress(mockUSDCAddress),
+      abi: erc20.abi,
+      functionName: 'transfer',
+      account: mockViemWallet.account,
+      args: [getAddress(mockSendPaymentArgs.recipientAddress), BigInt(2e18)],
+      gas: BigInt(2000),
+      maxFeePerGas: BigInt(1000000),
+    })
+  })
 })
 
 describe('getSendTxFeeDetails', () => {
