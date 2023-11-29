@@ -245,11 +245,10 @@ export async function prepareTransactions({
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
-    const spendAmountDecimal = spendToken
-      ? spendTokenAmount.shiftedBy(-spendToken.decimals)
-      : spendTokenAmount
+    const spendAmountDecimal = spendTokenAmount.shiftedBy(-(spendToken?.decimals ?? 0))
     if (
-      spendToken?.tokenId === feeCurrency.tokenId &&
+      spendToken &&
+      spendToken.tokenId === feeCurrency.tokenId &&
       spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance)
     ) {
       // Not enough balance to pay for gas, try next fee currency
