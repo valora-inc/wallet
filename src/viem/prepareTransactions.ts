@@ -249,8 +249,7 @@ export async function prepareTransactions({
       ? spendTokenAmount.shiftedBy(-spendToken.decimals)
       : spendTokenAmount
     if (
-      spendToken &&
-      spendToken.tokenId === feeCurrency.tokenId &&
+      spendToken?.tokenId === feeCurrency.tokenId &&
       spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance)
     ) {
       // Not enough balance to pay for gas, try next fee currency
@@ -267,17 +266,14 @@ export async function prepareTransactions({
   }
 
   // So far not enough balance to pay for gas
-  // if no spend amount is provided, we conclude that the user does not have enough balance to pay for gas
-  if (!spendToken) {
-    return {
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies,
-    } satisfies PreparedTransactionsNotEnoughBalanceForGas
-  }
-
   // let's see if we can decrease the spend amount, if provided
-  const result = maxGasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
-  if (!result || result.maxGasFeeInDecimal.isGreaterThan(result.feeCurrency.balance)) {
+  // if no spend amount is provided, we conclude that the user does not have enough balance to pay for gas
+  const result = maxGasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken?.tokenId)
+  if (
+    !spendToken ||
+    !result ||
+    result.maxGasFeeInDecimal.isGreaterThan(result.feeCurrency.balance)
+  ) {
     // Can't decrease the spend amount
     return {
       type: 'not-enough-balance-for-gas',
