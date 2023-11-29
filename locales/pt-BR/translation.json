@@ -558,12 +558,12 @@
     "vigésimo nono",
     "trigésimo"
   ],
-  "addressValidationError": "As informações da conta inseridas não eram válidas",
-  "addressValidationNoMatch": "As informações da conta inseridas não correspondem a nenhuma conta associada ao seu contato",
-  "addressValidationFullPoorlyFormatted": "Os Endereços da Conta começam com \"0x\", contém apenas números e letras e tem 42 caracteres. Pressione o link abaixo para ajuda.",
-  "addressValidationPartialPoorlyFormatted": "Os Endereços de Conta contém apenas números e letras, por favor forneça os últimos 4 dígitos. Pressione o link abaixo para obter ajuda.",
-  "addressValidationFullOwnAddress": "Digite o Endereço de Conta de contato, não o seu. Pressione o link abaixo para obter ajuda.",
-  "addressValidationPartialOwnAddress": "Digite os 4 últimos dígitos do Endereço de Conta do contato, não o seu. Pressione o link abaixo para obter ajuda.",
+  "addressValidationError": "Endereço incorreto da carteira",
+  "addressValidationNoMatch": "Endereço incorreto da carteira",
+  "addressValidationFullPoorlyFormatted": "Os endereços de carteira começam com \"0x\" e têm 42 caracteres",
+  "addressValidationPartialPoorlyFormatted": "Os endereços de carteira começam com \"0x\" e têm 42 caracteres",
+  "addressValidationFullOwnAddress": "Este é o endereço da sua carteira, digite o endereço da carteira do seu contato.",
+  "addressValidationPartialOwnAddress": "Este é o endereço da sua carteira, digite o endereço da carteira do seu contato.",
   "providerRateFetchFailed": "Não foi possível buscar a taxa do fornecedor. Você pode continuar sem uma taxa pré-preenchida.",
   "helpFindAccount": "Ajude o seu contato a encontrar o Endereço de Conta",
   "close": "Fechar",
@@ -1001,32 +1001,31 @@
     "importing": "Importando..."
   },
   "confirmAccount": {
-    "header": "Confirme a conta de {{displayName}} ",
-    "headerNoDisplayName": "Confirme a conta do seu contato",
-    "button": "Confirmar o Endereço de Conta"
+    "header": "{{displayName}} tem várias carteiras.",
+    "headerNoDisplayName": "Esse número de telefone tem várias carteiras.",
+    "button": "Confirmar endereço da carteira"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta na {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
-    "body1NoDisplayName": "Seu contato possui várias contas associadas a ele. Seu contato pode ter criado uma nova conta na {{appName}}, pode ter perdido o celular ou teve a conta comprometida.",
+    "body1": "Há várias carteiras associadas a {{e164PhoneNumber}}. Para confirmar que você tem a conta certa, leia o código QR ou digite o endereço da carteira.",
     "body2": "Você deve digitalizar o código QR deles ou confirmar seu Endereço de Conta antes de transar."
   },
   "confirmAccountNumber": {
-    "title": "Confirmar o Endereço de Conta",
-    "bodyPartial": "Por favor, peça para {{displayName}} os quatro últimos dígitos do Endereço de Conta. É mais seguro fazer isso em pessoa ou no telefone.",
-    "bodyPartialNoDisplayName": "Por favor, pergunte ao seu contato para os quatro últimos dígitos do Endereço de Conta. É mais seguro fazer isso em pessoa ou por telefone.",
-    "body1Full": "Peça o Endereço de Conta de {{displayName}}.",
-    "body1FullNoDisplayName": "Peça ao seu contato o Endereço de Conta.",
-    "body2Full": "Recomendamos que você pergunte pessoalmente, por telefone, WhatsApp, Messenger ou e-mail. Por segurança, não use mensagens de texto (SMS).",
-    "help": "Ajuda a localizar um Endereço de Conta",
+    "title": "Confirmar endereço da carteira",
+    "bodyPartial": "Solicite a {{displayName}} os quatro últimos dígitos do endereço de sua carteira. É mais seguro fazer isso pessoalmente ou por telefone.",
+    "bodyPartialNoDisplayName": "Peça ao seu contato os quatro últimos dígitos do endereço da carteira. É mais seguro fazer isso pessoalmente ou por telefone.",
+    "body1Full": "Solicite a {{displayName}} o endereço da carteira.",
+    "body1FullNoDisplayName": "Peça ao seu contato o endereço da carteira.",
+    "body2Full": "A maneira mais segura de fazer isso é pessoalmente. Por segurança, não use mensagens de texto (SMS).",
+    "help": "Onde posso encontrar um endereço de carteira?",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Últimos 4 dígitos",
   "accountInputHeaderFull": "Endereço de Conta",
   "helpModal": {
-    "header": "Ajuda para localizar o Endereço de Conta",
-    "body1": "Os Endereço de Conta estão localizados no menu. Na Tela inicial, abra o menu ao tocar no ícone no canto superior esquerdo.",
-    "body2": "O Endereço de Conta está perto do final do menu.",
-    "body3": "O Endereço de Conta começa com \"0x\" e tem 42 caracteres."
+    "header": "Localizando um endereço de carteira",
+    "body1": "O endereço de sua carteira está localizado no menu. Para abrir o menu, toque no ícone do menu no canto superior esquerdo.",
+    "body2": "O endereço da sua carteira está próximo à parte inferior do menu.",
+    "body3": "Os endereços de carteira começam com \"0x\" e têm 42 caracteres"
   },
   "transferAddressChanged": "Este contato mudou o Endereço de Conta desde a transação. Este pagamento foi enviado para:",
   "addressConfirmed": "Endereço de Conta confirmado",
