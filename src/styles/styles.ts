@@ -9,6 +9,7 @@ export enum Spacing {
   Regular16 = BASE_UNIT * 2,
   Thick24 = BASE_UNIT * 3,
   Large32 = BASE_UNIT * 4,
+  XLarge48 = BASE_UNIT * 6,
 }
 
 export enum Shadow {
