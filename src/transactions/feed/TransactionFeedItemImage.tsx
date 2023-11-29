@@ -1,5 +1,6 @@
 import React from 'react'
 import ContactCircle from 'src/components/ContactCircle'
+import Activity from 'src/icons/Activity'
 import Alert from 'src/icons/Alert'
 import CircledIcon from 'src/icons/CircledIcon'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
@@ -21,6 +22,10 @@ type Props =
       transactionType: 'TokenTransferV3'
       recipient: Recipient
     }
+  | {
+      status: TransactionStatus
+      transactionType: 'TokenApproval'
+    }
 
 function TransactionFeedItemImage(props: Props) {
   const { status, transactionType } = props
@@ -38,7 +43,13 @@ function TransactionFeedItemImage(props: Props) {
   if (transactionType === 'TokenExchangeV3') {
     return <SwapIcon />
   }
-
+  if (transactionType === 'TokenApproval') {
+    return (
+      <CircledIcon backgroundColor={Colors.successLight} radius={AVATAR_SIZE}>
+        <Activity />
+      </CircledIcon>
+    )
+  }
   if (transactionType === 'TokenTransferV3') {
     return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
   }

@@ -3,6 +3,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { Currency } from 'src/utils/currencies'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Svg } from 'svgs'
 
 export interface QrCode {
@@ -44,6 +45,7 @@ export interface SendPaymentAction {
   recipient: Recipient
   fromModal: boolean
   feeInfo?: FeeInfo
+  preparedTransaction?: SerializableTransactionRequest
 }
 
 export interface SendPaymentSuccessAction {
@@ -93,8 +95,6 @@ export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
   qrCodeSvg,
 })
 
-// TODO (ACT-922): Make feeInfo a required field again once Ethereum fee estimation exists
-// This will require a few cascading changes, namely in the Viem send saga
 export const sendPayment = (
   amount: BigNumber,
   tokenId: string,
@@ -102,7 +102,8 @@ export const sendPayment = (
   comment: string,
   recipient: Recipient,
   fromModal: boolean,
-  feeInfo?: FeeInfo
+  feeInfo?: FeeInfo,
+  preparedTransaction?: SerializableTransactionRequest
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
@@ -112,6 +113,7 @@ export const sendPayment = (
   recipient,
   fromModal,
   feeInfo,
+  preparedTransaction,
 })
 
 export const sendPaymentSuccess = ({
