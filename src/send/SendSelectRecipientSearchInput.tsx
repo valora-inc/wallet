@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native'
 import TextInput from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface SendSelectRecipientSearchInputProps {
   input: string
@@ -24,7 +25,6 @@ export function SendSelectRecipientSearchInput({
         style={styles.search}
         inputStyle={styles.input}
         placeholderTextColor={colors.gray4}
-        allowFontScaling={false}
       />
     </View>
   )
@@ -35,21 +35,19 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: colors.gray4,
     marginRight: 24,
-    paddingRight: 10,
-    paddingBottom: 12,
     flex: 1,
+    paddingHorizontal: Spacing.Regular16,
     borderWidth: 1,
     borderColor: colors.gray2,
     borderRadius: 100,
-    height: 44,
   },
   search: {
-    paddingLeft: 20,
-    paddingTop: 10,
     borderColor: colors.gray2,
     borderRadius: 100,
   },
   input: {
     ...typeScale.bodySmall,
+    // Unset lineHeight to avoid font scaling issues
+    lineHeight: undefined,
   },
 })
