@@ -558,12 +558,12 @@
     "ventinovesima",
     "trentesima"
   ],
-  "addressValidationError": "Le informazioni sul conto immesse non sono valide.",
-  "addressValidationNoMatch": "Le informazioni sul conto immesse non corrispondono a nessun conto associato al tuo contatto.",
-  "addressValidationFullPoorlyFormatted": "L’Indirizzo del conto inizia con \"0x\", contiene solo numeri e lettere ed è composto da 42 caratteri. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialPoorlyFormatted": "L’Indirizzo del conto contiene solo numeri e lettere, immetti le ultime 4 cifre. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationFullOwnAddress": "Immetti l’Indirizzo del conto del tuo contatto, non il tuo. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialOwnAddress": "Immetti le ultime 4 cifre dell'Indirizzo del conto del tuo contatto, non del tuo. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationError": "Indirizzo del portafoglio non corretto",
+  "addressValidationNoMatch": "Indirizzo del portafoglio non corretto",
+  "addressValidationFullPoorlyFormatted": "Gli indirizzi dei portafogli iniziano con \"0x\" e sono lunghi 42 caratteri.",
+  "addressValidationPartialPoorlyFormatted": "Gli indirizzi dei portafogli iniziano con \"0x\" e sono lunghi 42 caratteri.",
+  "addressValidationFullOwnAddress": "Questo è l'indirizzo del tuo portafoglio, inserisci l'indirizzo del portafoglio del tuo contatto.",
+  "addressValidationPartialOwnAddress": "Questo è l'indirizzo del tuo portafoglio, inserisci l'indirizzo del portafoglio del tuo contatto.",
   "providerRateFetchFailed": "Impossibile recuperare il tasso del provider. Puoi continuare senza un tasso precompilato.",
   "helpFindAccount": "Aiuta il tuo contatto a trovare il suo Indirizzo del conto",
   "close": "Chiudi",
@@ -1001,32 +1001,31 @@
     "importing": "Importazione in corso..."
   },
   "confirmAccount": {
-    "header": "Conferma il conto di {{displayName}}",
-    "headerNoDisplayName": "Conferma il conto del tuo contatto",
-    "button": "Conferma l’Indirizzo del conto"
+    "header": "{{displayName}} ha più portafogli.",
+    "headerNoDisplayName": "Questo numero di telefono ha più portafogli.",
+    "button": "Conferma l'indirizzo del portafoglio"
   },
   "secureSendExplanation": {
-    "body1": "A {{e164PhoneNumber}} sono associati più conti. {{displayName}} potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è stato compromesso.",
-    "body1NoDisplayName": "Al tuo contatto sono associati più conti. Il tuo contatto potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è compromesso.",
+    "body1": "Ci sono più portafogli associati a {{e164PhoneNumber}}. Per confermare di essere in possesso dell'account giusto, scansiona il codice QR o inserisci l'indirizzo del portafoglio.",
     "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare il suo Indirizzo del conto."
   },
   "confirmAccountNumber": {
-    "title": "Conferma l’Indirizzo del conto",
-    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
-    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
-    "body1Full": "Chiedi a {{displayName}} il suo Indirizzo del conto.",
-    "body1FullNoDisplayName": "Chiedi al tuo contatto il suo Indirizzo del conto.",
-    "body2Full": "È consigliabile chiedere di persona o per telefono, tramite WhatsApp o Messenger, oppure per e-mail. Per sicurezza, non utilizzare messaggi di testo (SMS).",
-    "help": "Guida per individuare un Indirizzo del conto",
+    "title": "Conferma l'indirizzo del portafoglio",
+    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell'indirizzo del portafoglio. È più sicuro farlo di persona o per telefono.",
+    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell'indirizzo del suo portafoglio. È più sicuro farlo di persona o tramite una telefonata.",
+    "body1Full": "Chiedi a {{displayName}} l'indirizzo del portafoglio.",
+    "body1FullNoDisplayName": "Chiedi al tuo contatto l'indirizzo del suo portafoglio.",
+    "body2Full": "Il modo più sicuro per farlo è di persona. Per sicurezza, ti preghiamo di non utilizzare i messaggi di testo (SMS).",
+    "help": "Dove posso trovare un indirizzo di portafoglio?",
     "submit": "Invia"
   },
   "accountInputHeaderPartial": "Ultime 4 cifre",
   "accountInputHeaderFull": "Indirizzo del conto",
   "helpModal": {
-    "header": "Individuazione di un Indirizzo del conto",
-    "body1": "Gli Indirizzi del conto (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
-    "body2": "L’Indirizzo del conto si trova vicino alla parte inferiore del menu.",
-    "body3": "Gli Indirizzi del conto iniziano con \"0x\" e sono composti da 42 caratteri."
+    "header": "Individuare l'indirizzo di un portafoglio",
+    "body1": "L'indirizzo del tuo portafoglio si trova nel menu. Apri il menu toccando l'icona del menu nell'angolo in alto a sinistra.",
+    "body2": "L'indirizzo del tuo portafoglio si trova in fondo al menu.",
+    "body3": "Gli indirizzi dei portafogli iniziano con \"0x\" e sono lunghi 42 caratteri."
   },
   "transferAddressChanged": "Questo contatto ha cambiato il suo Indirizzo del conto dopo la transazione. Questo pagamento è stato inviato a:",
   "addressConfirmed": "Indirizzo del conto confermato",
