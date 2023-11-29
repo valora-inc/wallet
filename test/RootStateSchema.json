@@ -4577,6 +4577,62 @@
             ],
             "type": "object"
         },
+        "TokenApproval": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenApproval",
+                    "type": "string"
+                },
+                "approvedAmount": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "APPROVAL",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "__typename",
+                "approvedAmount",
+                "block",
+                "fees",
+                "networkId",
+                "status",
+                "timestamp",
+                "tokenId",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "TokenExchange": {
             "additionalProperties": false,
             "properties": {
@@ -4654,11 +4710,15 @@
                 },
                 {
                     "$ref": "#/definitions/NftTransfer"
+                },
+                {
+                    "$ref": "#/definitions/TokenApproval"
                 }
             ]
         },
         "TokenTransactionTypeV2": {
             "enum": [
+                "APPROVAL",
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
