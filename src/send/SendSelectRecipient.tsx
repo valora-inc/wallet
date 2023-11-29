@@ -378,6 +378,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
+    paddingVertical: 10,
   },
   content: {
     flex: 1,
