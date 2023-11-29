@@ -558,12 +558,12 @@
     "vigésimonovena",
     "trigésima"
   ],
-  "addressValidationError": "La información de cuenta ingresada es inválida",
-  "addressValidationNoMatch": "La información de cuenta ingresada no coincide con ninguna cuenta asociada a tu contacto",
-  "addressValidationFullPoorlyFormatted": "Las direcciones de cuenta comienzan con \"0x\", contienen solo números y letras, y tienen 42 caracteres de longitud. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationPartialPoorlyFormatted": "Las direcciones de cuenta contienen solo números y letras, ingresa los últimos 4 dígitos. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationFullOwnAddress": "Ingresa la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationPartialOwnAddress": "Ingresa los últimos 4 dígitos de la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
+  "addressValidationError": "Dirección incorrecta del monedero",
+  "addressValidationNoMatch": "Dirección incorrecta del monedero",
+  "addressValidationFullPoorlyFormatted": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres",
+  "addressValidationPartialPoorlyFormatted": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres",
+  "addressValidationFullOwnAddress": "Esta es la dirección de tu monedero, introduce la dirección del monedero de tu contacto.",
+  "addressValidationPartialOwnAddress": "Esta es la dirección de tu monedero, introduce la dirección del monedero de tu contacto.",
   "providerRateFetchFailed": "No se pudo obtener la tasa del proveedor. Puedes continuar sin una tasa precargada.",
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
@@ -1001,32 +1001,31 @@
     "importing": "Importando..."
   },
   "confirmAccount": {
-    "header": "Confirma la cuenta de {{displayName}}",
-    "headerNoDisplayName": "Confirma la cuenta de tu contacto",
-    "button": "Confirma la Dirección de cuenta"
+    "header": "{{displayName}} tiene varios monederos.",
+    "headerNoDisplayName": "Este número de teléfono tiene varias carteras.",
+    "button": "Confirmar la dirección de la Cartera"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tiene multipes cuentas asociadas. Es posible que {{displayName}} haya creado una cuenta nueva de {{appName}}, que haya perdido su teléfono o su cuenta puede haber sido interceptada o comprometida.",
-    "body1NoDisplayName": "Tu contacto tiene varias cuentas asociadas. Es posible que tu contacto haya creado una cuenta nueva de {{appName}}, que haya perdido su teléfono o su cuenta puede haber sido interceptada o comprometida.",
+    "body1": "Hay varios monederos asociados a {{e164PhoneNumber}}. Para confirmar que tienes la cuenta correcta, escanea su código QR o introduce la dirección de su monedero.",
     "body2": "Debes escanear un código QR o confirmar la Dirección de cuenta antes de realizar una transacción."
   },
   "confirmAccountNumber": {
-    "title": "Confirma la Dirección de cuenta",
-    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su Dirección de cuenta. Lo más seguro es hacerlo en persona o por teléfono.",
-    "bodyPartialNoDisplayName": "Solicita a tu contacto los últimos cuatro dígitos de su Dirección de cuenta. Lo más seguro es hacerlo en persona o por teléfono.",
-    "body1Full": "Solicita a {{displayName}} su número de cuenta",
-    "body1FullNoDisplayName": "Solicita a tu contacto su número de cuenta.",
-    "body2Full": "Te recomendamos pedir esta información en persona o por teléfono, o bien a través de WhastApp, Messenger o por correo electrónico. Por seguridad, recomendamos no usar mensajes de texto (SMS).",
-    "help": "Ayuda a localizar una Dirección de cuenta",
+    "title": "Confirmar la dirección de la Cartera",
+    "bodyPartial": "Pide a {{displayName}} los cuatro últimos dígitos de la dirección de su monedero. Lo más seguro es hacerlo en persona o por teléfono.",
+    "bodyPartialNoDisplayName": "Pide a tu contacto los cuatro últimos dígitos de la dirección de su monedero. Lo más seguro es hacerlo en persona o por teléfono.",
+    "body1Full": "Pregunta a {{displayName}} por la dirección de su monedero.",
+    "body1FullNoDisplayName": "Pide a tu contacto la dirección de su cartera.",
+    "body2Full": "La forma más segura de hacerlo es en persona. Por seguridad, no utilices mensajes de texto (SMS).",
+    "help": "¿Dónde puedo encontrar una Dirección de Cartera?",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Los últimos 4 dígitos",
   "accountInputHeaderFull": "Dirección de cuenta",
   "helpModal": {
-    "header": "Localizando la Dirección de cuenta",
-    "body1": "Las direcciones de la cuenta se encuentran en el menú. Desde la pantalla de inicio, abre el menú tocando el icono en la esquina superior izquierda.",
-    "body2": "La Dirección de cuenta está cerca de la parte inferior del menú.",
-    "body3": "Las direcciones de cuenta comienzan con 0x y tienen 42 caracteres."
+    "header": "Localizar una dirección de monedero",
+    "body1": "La dirección de tu monedero se encuentra en el menú. Abre el menú pulsando el icono del menú en la esquina superior izquierda.",
+    "body2": "La dirección de tu monedero está cerca de la parte inferior del menú.",
+    "body3": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres"
   },
   "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
