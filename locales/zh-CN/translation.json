@@ -558,12 +558,12 @@
     "第二十九个",
     "第三十个"
   ],
-  "addressValidationError": "输入的账户信息无效",
-  "addressValidationNoMatch": "输入的账户信息未匹配到您的任何联系人",
-  "addressValidationFullPoorlyFormatted": "账户地址以“0x”开头，只包含数字和字母，长度为 42 个字符。如需帮助，请按下方链接",
-  "addressValidationPartialPoorlyFormatted": "账户地址只包含数字和字母，请提供最后 4 位数字。如需帮助，请按下方链接",
-  "addressValidationFullOwnAddress": "请输入您的联系人的账户地址，而不是您自己的账户地址。如需帮助，请按下方链接",
-  "addressValidationPartialOwnAddress": "请输入您联系人账户地址的最后 4 位数字，而不是您自己的。如需帮助，请按下方链接",
+  "addressValidationError": "钱包地址不正确",
+  "addressValidationNoMatch": "钱包地址不正确",
+  "addressValidationFullPoorlyFormatted": "钱包地址以 \"0x \"开头，长度为 42 个字符",
+  "addressValidationPartialPoorlyFormatted": "钱包地址以 \"0x \"开头，长度为 42 个字符",
+  "addressValidationFullOwnAddress": "这是您的钱包地址，请输入联系人的钱包地址。",
+  "addressValidationPartialOwnAddress": "这是您的钱包地址，请输入联系人的钱包地址。",
   "providerRateFetchFailed": "无法获取提供商费率。您可以在没有预填费率的情况下继续。",
   "helpFindAccount": "帮助您的联系人找到其账户地址",
   "close": "关闭",
@@ -999,32 +999,31 @@
     "importing": "正在导入..."
   },
   "confirmAccount": {
-    "header": "请确认 {{displayName}} 的账户",
-    "headerNoDisplayName": "请确认您的联系人的账户",
-    "button": "确认账户地址"
+    "header": "{{displayName}} 有多个钱包。",
+    "headerNoDisplayName": "这个电话号码有多个钱包。",
+    "button": "确认钱包地址"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} 有多个关联账户。{{displayName}} 可能已经创建了一个新的 {{appName}} 账户，或者可能丢失了手机或账户被盗。",
-    "body1NoDisplayName": "您的联系人有多个关联账户。您的联系人可能已经创建了一个新的 {{appName}} 账户，或者可能丢失了手机或账户被盗。",
+    "body1": "{{e164PhoneNumber}}有多个相关钱包。为了确认您拥有正确的账户，请扫描其二维码或输入其钱包地址。",
     "body2": "您必须在扫描对方的二维码或确认其账户地址后才能进行交易。"
   },
   "confirmAccountNumber": {
-    "title": "确认账户地址",
-    "bodyPartial": "请询问 {{displayName}} 的账户地址的最后四位数字。最安全的方式是当面或打电话询问。",
-    "bodyPartialNoDisplayName": "请询问您的联系人的账户地址的最后四位数字。最安全的方式是当面或打电话询问。",
-    "body1Full": "请询问 {{displayName}} 的账户地址。",
-    "body1FullNoDisplayName": "请询问您的联系人的账户地址。",
-    "body2Full": "强烈建议您当面或打电话询问，或者通过 WhatsApp、Messenger 或电子邮件询问。为了安全起见，请不要使用短信。",
-    "help": "帮助查找账户地址",
+    "title": "确认钱包地址",
+    "bodyPartial": "请向 {{displayName}} 询问其钱包地址的最后四位数字。最安全的做法是当面或打电话询问。",
+    "bodyPartialNoDisplayName": "请向联系人询问其钱包地址的最后四位数字。当面或通过电话询问最为安全。",
+    "body1Full": "请向 {{displayName}} 询问他们的钱包地址。",
+    "body1FullNoDisplayName": "请向联系人索取他们的钱包地址。",
+    "body2Full": "最安全的方式是亲自前往。为安全起见，请勿使用短信（SMS）。",
+    "help": "在哪里可以找到钱包地址？",
     "submit": "提交"
   },
   "accountInputHeaderPartial": "最后 4 位数字",
   "accountInputHeaderFull": "账户地址",
   "helpModal": {
-    "header": "正在查找账户地址",
-    "body1": "账户地址（也称地址）位于菜单中。在主屏幕上点按左上角的图标即可打开菜单。",
-    "body2": "账户地址位于菜单底部附近。",
-    "body3": "账户地址以“0x”开头，长度为 42 个字符"
+    "header": "查找钱包地址",
+    "body1": "您的钱包地址位于菜单中。点击左上角的菜单图标打开菜单。",
+    "body2": "您的钱包地址位于菜单底部附近。",
+    "body3": "钱包地址以 \"0x \"开头，长度为 42 个字符"
   },
   "transferAddressChanged": "此联系人自交易后已更改其账户地址。此付款已被发送至：",
   "addressConfirmed": "账户地址已确认",
