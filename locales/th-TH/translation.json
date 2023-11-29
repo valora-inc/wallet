@@ -558,12 +558,12 @@
     "ที่ยี่สิบเก้า",
     "ที่สามสิบ"
   ],
-  "addressValidationError": "ข้อมูลบัญชีที่ป้อนไม่ถูกต้อง",
-  "addressValidationNoMatch": "ข้อมูลบัญชีที่ป้อนไม่ตรงกับข้อมูลบัญชีที่เกี่ยวข้องกับผู้ติดต่อของคุณ",
-  "addressValidationFullPoorlyFormatted": "ที่อยู่บัญชีเริ่มต้นด้วย \"0x\" ประกอบด้วยตัวเลขและตัวอักษรเท่านั้น และมีความยาวอักขระ 42 ตัว กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
-  "addressValidationPartialPoorlyFormatted": "ที่อยู่บัญชีประกอบด้วยตัวเลขและตัวอักษรเท่านั้น โปรดป้อน 4 ตัวสุดท้าย กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
-  "addressValidationFullOwnAddress": "โปรดป้อนที่อยู่บัญชีของผู้ติดต่อของคุณ ไม่ใช่ที่อยู่บัญชีของคุณเอง กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
-  "addressValidationPartialOwnAddress": "โปรดป้อนที่อยู่บัญชี 4 ตัวสุดท้ายของผู้ติดต่อของคุณ ไม่ใช่ที่อยู่บัญชีของคุณเอง กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
+  "addressValidationError": "Incorrect wallet address",
+  "addressValidationNoMatch": "Incorrect wallet address",
+  "addressValidationFullPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationPartialPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationFullOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
+  "addressValidationPartialOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
   "providerRateFetchFailed": "ไม่สามารถเรียกดูอัตราของผู้ให้บริการได้ คุณสามารถดำเนินการต่อโดยไม่มีอัตราที่กรอกไว้ล่วงหน้า",
   "helpFindAccount": "ช่วยผู้ติดต่อของคุณค้นหาที่อยู่บัญชีของตนเอง",
   "close": "ปิด",
@@ -999,32 +999,31 @@
     "importing": "กำลังนำเข้า..."
   },
   "confirmAccount": {
-    "header": "โปรดยืนยันบัญชีของ {{displayName}}",
-    "headerNoDisplayName": "โปรดยืนยันบัญชีของผู้ติดต่อของคุณ",
-    "button": "ยืนยันที่อยู่บัญชี"
+    "header": "{{displayName}} has multiple wallets.",
+    "headerNoDisplayName": "This phone number has multiple wallets.",
+    "button": "Confirm Wallet Address"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} เกี่ยวข้องกับหลายบัญชี {{displayName}} อาจสร้างบัญชี {{appName}} ใหม่หรืออาจทำโทรศัพท์หาย หรือบัญชีอาจเสียหาย",
-    "body1NoDisplayName": "ผู้ติดต่อของคุณเกี่ยวข้องกับหลายบัญชี ผู้ติดต่อของคุณอาจสร้างบัญชี {{appName}} ใหม่หรืออาจทำโทรศัพท์หาย หรือบัญชีอาจเสียหาย",
+    "body1": "There are multiple wallets associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their wallet address.",
     "body2": "คุณต้องสแกน QR Code หรือยืนยันที่อยู่บัญชีก่อนทำธุรกรรม"
   },
   "confirmAccountNumber": {
-    "title": "ยืนยันที่อยู่บัญชี",
-    "bodyPartial": "โปรดขอตัวเลขสี่หลักสุดท้ายของที่อยู่บัญชีจาก {{displayName}} เพื่อความปลอดภัย ควรสอบถามโดยตรงหรือทางโทรศัพท์",
-    "bodyPartialNoDisplayName": "โปรดขอตัวเลขสี่หลักสุดท้ายของที่อยู่บัญชีจากผู้ติดต่อของคุณ เพื่อความปลอดภัย ควรสอบถามโดยตรงหรือทางโทรศัพท์",
-    "body1Full": "โปรดขอที่อยู่บัญชีจาก {{displayName}}",
-    "body1FullNoDisplayName": "โปรดขอที่อยู่บัญชีจากผู้ติดต่อของคุณ",
-    "body2Full": "เราขอแนะนำอย่างยิ่งให้คุณสอบถามโดยตรงหรือทางโทรศัพท์ ผ่าน WhatsApp หรือ Messenger หรือทางอีเมล เพื่อความปลอดภัย โปรดอย่าใช้การส่งข้อความ (SMS)",
-    "help": "ช่วยค้นหาที่อยู่บัญชี",
+    "title": "Confirm Wallet Address",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "body1Full": "Please ask {{displayName}} for their Wallet Address.",
+    "body1FullNoDisplayName": "Please ask your contact for their Wallet Address.",
+    "body2Full": "The safest way to do this is in person. For security, please do not use text messaging (SMS).",
+    "help": "Where can I find a Wallet Address?",
     "submit": "ส่ง"
   },
   "accountInputHeaderPartial": "4 ตัวสุดท้าย",
   "accountInputHeaderFull": "ที่อยู่บัญชี",
   "helpModal": {
-    "header": "การค้นหาที่อยู่บัญชี",
-    "body1": "สามารถดูที่อยู่บัญชี (หรือที่เรียกว่าที่อยู่) ในเมนู จากหน้าหลัก ให้เปิดเมนูโดยแตะไอคอนที่มุมซ้ายบน",
-    "body2": "ที่อยู่บัญชีจะอยู่ใกล้กับด้านล่างของเมนู",
-    "body3": "ที่อยู่บัญชีจะเริ่มต้นด้วย \"0x\" และมีความยาวอักขระ 42 ตัว"
+    "header": "Locating a wallet address",
+    "body1": "Your wallet address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
+    "body2": "Your wallet address is near the bottom of the menu.",
+    "body3": "Wallet addresses begin with \"0x\" and are 42 characters long"
   },
   "transferAddressChanged": "ผู้ติดต่อรายนี้ได้เปลี่ยนแปลงที่อยู่บัญชีนับตั้งแต่ทำธุรกรรมดังกล่าว การชำระเงินนี้ถูกส่งไปยัง:",
   "addressConfirmed": "ยืนยันที่อยู่บัญชีแล้ว",
