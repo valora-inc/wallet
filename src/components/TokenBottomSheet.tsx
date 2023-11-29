@@ -37,9 +37,12 @@ interface Props<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
 }
 
-export interface TokenOptionProps {
+export interface TokenBalanceItemOptionProps {
   tokenInfo: TokenBalance
   onPress: () => void
+}
+
+export interface TokenOptionProps extends TokenBalanceItemOptionProps {
   index: number
 }
 
@@ -79,7 +82,7 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
   )
 }
 
-export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps) {
+export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenBalanceItemOptionProps) {
   return (
     <TokenBalanceItem
       token={tokenInfo}

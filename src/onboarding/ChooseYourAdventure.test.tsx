@@ -18,11 +18,6 @@ import { mockAccount, mockAccount2 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
-// jest.mock('src/navigator/NavigationService', () => ({
-//   ...jest.requireActual('src/navigator/NavigationService'),
-//   navigateToFiatCurrencySelection: jest.fn(),
-// }))
-
 describe('ChooseYourAdventure', () => {
   const orderOptions = [
     {

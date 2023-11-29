@@ -252,9 +252,8 @@ export function navigateToError(errorMessage: string, error?: Error) {
 }
 
 export function navigateToFiatCurrencySelection(flow: FiatExchangeFlow) {
-  if (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)) {
-    navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow })
-  } else {
-    navigate(Screens.FiatExchangeCurrency, { flow })
-  }
+  const screen = getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
+    ? Screens.FiatExchangeCurrencyBottomSheet
+    : Screens.FiatExchangeCurrency
+  navigate(screen, { flow })
 }

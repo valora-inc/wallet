@@ -369,9 +369,8 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
   (tokens, showZeroBalanceTokens) =>
     tokens.filter(
       (tokenInfo) =>
-        (showZeroBalanceTokens
-          ? tokenInfo.showZeroBalance
-          : tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
+        ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
+          tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
         tokenInfo.isCashOutEligible &&
         isCicoToken(tokenInfo.symbol)
     )

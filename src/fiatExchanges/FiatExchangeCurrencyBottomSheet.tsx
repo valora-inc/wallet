@@ -59,16 +59,12 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   return (
     <BottomSheetScrollView>
       <Text style={styles.selectDigitalCurrency}>{t('sendEnterAmountScreen.selectToken')}</Text>
-      {tokenList.length == 0
+      {!tokenList.length
         ? null
-        : tokenList.map((tokenInfo, index) => {
+        : tokenList.map((tokenInfo) => {
             return (
-              <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-                <TokenBalanceItemOption
-                  tokenInfo={tokenInfo}
-                  onPress={onTokenPressed(tokenInfo)}
-                  index={index}
-                />
+              <React.Fragment key={`token-${tokenInfo.tokenId}`}>
+                <TokenBalanceItemOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
               </React.Fragment>
             )
           })}
