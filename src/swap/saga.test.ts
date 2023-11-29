@@ -596,257 +596,168 @@ describe(swapSubmitPreparedSaga, () => {
     })
   })
 
-  it('should complete swap on Celo', async () => {
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
-
-    await expectSaga(swapSubmitPreparedSaga, mockSwapPrepared)
-      .withState(store.getState())
-      .provide(createDefaultProviders(Network.Celo))
-      .not.put(swapApprove())
-      .put(swapExecute())
-      .put(
-        addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Execute',
-            tag: 'swap/saga',
-            description: 'Swap/Execute',
-          },
-          __typename: 'TokenExchangeV3',
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.SwapTransaction,
-          inAmount: {
-            value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
-            tokenId: mockCeloTokenId,
-          },
-          outAmount: {
-            value: BigNumber('0.01'),
-            tokenId: mockCeurTokenId,
-          },
-          transactionHash: mockSwapTxReceipt.transactionHash,
-        })
-      )
-      .put(
-        transactionConfirmed('id-swap/saga-Swap/Execute', {
-          transactionHash: mockSwapTxReceipt.transactionHash,
-          block: mockSwapTxReceipt.blockNumber.toString(),
-          status: true,
-        })
-      )
-      .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x2' })
-      .run()
-    expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
-    expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
-    expect(loggerErrorSpy).not.toHaveBeenCalled()
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-      toToken: mockCeloAddress,
-      toTokenId: mockCeloTokenId,
-      toTokenNetworkId: NetworkId['celo-alfajores'],
-      fromToken: mockCeurAddress,
-      fromTokenId: mockCeurTokenId,
-      fromTokenNetworkId: NetworkId['celo-alfajores'],
-      amount: '10000000000000000',
-      amountType: 'buyAmount',
-      price: '1',
-      allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
-      estimatedPriceImpact: '0.1',
-      provider: '0x',
-      fromTokenBalance: '10000000000000000000',
-      swapApproveTxId: 'id-swap/saga-Swap/Approve',
-      swapExecuteTxId: 'id-swap/saga-Swap/Execute',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
-      quoteToTransactionElapsedTimeInMs: 10_000,
-      estimatedBuyTokenUsdValue: 0.005,
-      estimatedSellTokenUsdValue: 0.01,
-      web3Library: 'viem',
-      gas: 1384480,
-      maxGasFee: 0.01661376,
-      maxGasFeeUsd: 0.00830688,
-      gasUsed: 423252,
-      gasFee: 0.00211626,
-      gasFeeUsd: 0.00105813,
-      feeCurrency: undefined,
+  const testCases = [
+    {
+      network: Network.Celo,
+      networkId: NetworkId['celo-alfajores'],
+      sellTokenId: mockCeloTokenId,
+      buyTokenId: mockCeurTokenId,
+      sellTokenAddress: mockCeloAddress,
+      buyTokenAddress: mockCeurAddress,
       feeCurrencySymbol: 'CELO',
-      txCount: 2,
-      approveTxCumulativeGasUsed: 3_129_217,
-      approveTxEffectiveGasPrice: 5_000_000_000,
-      approveTxFeeCurrency: undefined,
-      approveTxFeeCurrencySymbol: 'CELO',
-      approveTxGas: 59_480,
-      approveTxMaxGasFee: 0.00071376,
-      approveTxMaxGasFeeUsd: 0.00035688,
-      approveTxGasUsed: 51_578,
-      approveTxGasFee: 0.00025789,
-      approveTxGasFeeUsd: 0.000128945,
-      approveTxHash: '0x1',
-      swapTxCumulativeGasUsed: 3_899_547,
-      swapTxEffectiveGasPrice: 5_000_000_000,
-      swapTxFeeCurrency: undefined,
-      swapTxFeeCurrencySymbol: 'CELO',
-      swapTxGas: 1_325_000,
-      swapTxMaxGasFee: 0.0159,
-      swapTxMaxGasFeeUsd: 0.00795,
-      swapTxGasUsed: 371_674,
-      swapTxGasFee: 0.00185837,
-      swapTxGasFeeUsd: 0.000929185,
-      swapTxHash: '0x2',
-    })
-    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
-    expect(analyticsProps.gas).toBeCloseTo(
-      analyticsProps.approveTxGas + analyticsProps.swapTxGas,
-      8
-    )
-    expect(analyticsProps.maxGasFee).toBeCloseTo(
-      analyticsProps.approveTxMaxGasFee + analyticsProps.swapTxMaxGasFee,
-      8
-    )
-    expect(analyticsProps.maxGasFeeUsd).toBeCloseTo(
-      analyticsProps.approveTxMaxGasFeeUsd + analyticsProps.swapTxMaxGasFeeUsd,
-      8
-    )
-    expect(analyticsProps.gasUsed).toBeCloseTo(
-      analyticsProps.approveTxGasUsed + analyticsProps.swapTxGasUsed,
-      8
-    )
-    expect(analyticsProps.gasFee).toBeCloseTo(
-      analyticsProps.approveTxGasFee + analyticsProps.swapTxGasFee,
-      8
-    )
-    expect(analyticsProps.gasFeeUsd).toBeCloseTo(
-      analyticsProps.approveTxGasFeeUsd + analyticsProps.swapTxGasFeeUsd,
-      8
-    )
-  })
-
-  it('should complete swap on Ethereum', async () => {
-    jest
-      .spyOn(Date, 'now')
-      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
-      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
-
-    await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedEthereum)
-      .withState(store.getState())
-      .provide(createDefaultProviders(Network.Ethereum))
-      .not.put(swapApprove())
-      .put(swapExecute())
-      .put(
-        addStandbyTransaction({
-          context: {
-            id: 'id-swap/saga-Swap/Execute',
-            tag: 'swap/saga',
-            description: 'Swap/Execute',
-          },
-          __typename: 'TokenExchangeV3',
-          networkId: NetworkId['ethereum-sepolia'],
-          type: TokenTransactionTypeV2.SwapTransaction,
-          inAmount: {
-            value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
-            tokenId: mockEthTokenId,
-          },
-          outAmount: {
-            value: BigNumber('0.01'),
-            tokenId: mockUSDCTokenId,
-          },
-          transactionHash: mockSwapTxReceipt.transactionHash,
-        })
-      )
-      .put(
-        transactionConfirmed('id-swap/saga-Swap/Execute', {
-          transactionHash: mockSwapTxReceipt.transactionHash,
-          block: mockSwapTxReceipt.blockNumber.toString(),
-          status: true,
-        })
-      )
-      .call([publicClient.ethereum, 'waitForTransactionReceipt'], { hash: '0x2' })
-      .run()
-    expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
-    expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
-    expect(loggerErrorSpy).not.toHaveBeenCalled()
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
-      toToken: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-      toTokenId: mockEthTokenId,
-      toTokenNetworkId: NetworkId['ethereum-sepolia'],
-      fromToken: mockUSDCAddress,
-      fromTokenId: mockUSDCTokenId,
-      fromTokenNetworkId: NetworkId['ethereum-sepolia'],
-      amount: '10000000000000000',
-      amountType: 'buyAmount',
-      price: '1',
-      allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
-      estimatedPriceImpact: '0.1',
-      provider: '0x',
-      fromTokenBalance: '10000000000000000000',
-      swapApproveTxId: 'id-swap/saga-Swap/Approve',
-      swapExecuteTxId: 'id-swap/saga-Swap/Execute',
-      quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
-      quoteToTransactionElapsedTimeInMs: 10_000,
-      estimatedBuyTokenUsdValue: 0.005,
-      estimatedSellTokenUsdValue: 0.01,
-      web3Library: 'viem',
-      gas: 1384480,
-      maxGasFee: 0.01661376,
-      maxGasFeeUsd: 0.00830688,
-      gasUsed: 423252,
-      gasFee: 0.00211626,
-      gasFeeUsd: 0.00105813,
-      feeCurrency: undefined,
+      swapPrepared: mockSwapPrepared,
+    },
+    {
+      network: Network.Ethereum,
+      networkId: NetworkId['ethereum-sepolia'],
+      sellTokenId: mockEthTokenId,
+      buyTokenId: mockUSDCTokenId,
+      sellTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      buyTokenAddress: mockUSDCAddress,
       feeCurrencySymbol: 'ETH',
-      txCount: 2,
-      approveTxCumulativeGasUsed: 3_129_217,
-      approveTxEffectiveGasPrice: 5_000_000_000,
-      approveTxFeeCurrency: undefined,
-      approveTxFeeCurrencySymbol: 'ETH',
-      approveTxGas: 59_480,
-      approveTxMaxGasFee: 0.00071376,
-      approveTxMaxGasFeeUsd: 0.00035688,
-      approveTxGasUsed: 51_578,
-      approveTxGasFee: 0.00025789,
-      approveTxGasFeeUsd: 0.000128945,
-      approveTxHash: '0x1',
-      swapTxCumulativeGasUsed: 3_899_547,
-      swapTxEffectiveGasPrice: 5_000_000_000,
-      swapTxFeeCurrency: undefined,
-      swapTxFeeCurrencySymbol: 'ETH',
-      swapTxGas: 1_325_000,
-      swapTxMaxGasFee: 0.0159,
-      swapTxMaxGasFeeUsd: 0.00795,
-      swapTxGasUsed: 371_674,
-      swapTxGasFee: 0.00185837,
-      swapTxGasFeeUsd: 0.000929185,
-      swapTxHash: '0x2',
-    })
-    const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
-    expect(analyticsProps.gas).toBeCloseTo(
-      analyticsProps.approveTxGas + analyticsProps.swapTxGas,
-      8
-    )
-    expect(analyticsProps.maxGasFee).toBeCloseTo(
-      analyticsProps.approveTxMaxGasFee + analyticsProps.swapTxMaxGasFee,
-      8
-    )
-    expect(analyticsProps.maxGasFeeUsd).toBeCloseTo(
-      analyticsProps.approveTxMaxGasFeeUsd + analyticsProps.swapTxMaxGasFeeUsd,
-      8
-    )
-    expect(analyticsProps.gasUsed).toBeCloseTo(
-      analyticsProps.approveTxGasUsed + analyticsProps.swapTxGasUsed,
-      8
-    )
-    expect(analyticsProps.gasFee).toBeCloseTo(
-      analyticsProps.approveTxGasFee + analyticsProps.swapTxGasFee,
-      8
-    )
-    expect(analyticsProps.gasFeeUsd).toBeCloseTo(
-      analyticsProps.approveTxGasFeeUsd + analyticsProps.swapTxGasFeeUsd,
-      8
-    )
-  })
+      swapPrepared: mockSwapPreparedEthereum,
+    },
+  ]
+
+  it.each(testCases)(
+    'should complete swap on $network',
+    async ({
+      network,
+      networkId,
+      sellTokenId,
+      buyTokenId,
+      sellTokenAddress,
+      buyTokenAddress,
+      feeCurrencySymbol,
+      swapPrepared,
+    }) => {
+      jest
+        .spyOn(Date, 'now')
+        .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+        .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
+
+      await expectSaga(swapSubmitPreparedSaga, swapPrepared)
+        .withState(store.getState())
+        .provide(createDefaultProviders(network))
+        .not.put(swapApprove())
+        .put(swapExecute())
+        .put(
+          addStandbyTransaction({
+            context: {
+              id: 'id-swap/saga-Swap/Execute',
+              tag: 'swap/saga',
+              description: 'Swap/Execute',
+            },
+            __typename: 'TokenExchangeV3',
+            networkId,
+            type: TokenTransactionTypeV2.SwapTransaction,
+            inAmount: {
+              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              tokenId: sellTokenId,
+            },
+            outAmount: {
+              value: BigNumber('0.01'),
+              tokenId: buyTokenId,
+            },
+            transactionHash: mockSwapTxReceipt.transactionHash,
+          })
+        )
+        .put(
+          transactionConfirmed('id-swap/saga-Swap/Execute', {
+            transactionHash: mockSwapTxReceipt.transactionHash,
+            block: mockSwapTxReceipt.blockNumber.toString(),
+            status: true,
+          })
+        )
+        .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x2' })
+        .run()
+
+      expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
+      expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
+      expect(loggerErrorSpy).not.toHaveBeenCalled()
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
+        toToken: sellTokenAddress,
+        toTokenId: sellTokenId,
+        toTokenNetworkId: networkId,
+        fromToken: buyTokenAddress,
+        fromTokenId: buyTokenId,
+        fromTokenNetworkId: networkId,
+        amount: '10000000000000000',
+        amountType: 'buyAmount',
+        price: '1',
+        allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
+        estimatedPriceImpact: '0.1',
+        provider: '0x',
+        fromTokenBalance: '10000000000000000000',
+        swapApproveTxId: 'id-swap/saga-Swap/Approve',
+        swapExecuteTxId: 'id-swap/saga-Swap/Execute',
+        quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
+        quoteToTransactionElapsedTimeInMs: 10_000,
+        estimatedBuyTokenUsdValue: 0.005,
+        estimatedSellTokenUsdValue: 0.01,
+        web3Library: 'viem',
+        gas: 1384480,
+        maxGasFee: 0.01661376,
+        maxGasFeeUsd: 0.00830688,
+        gasUsed: 423252,
+        gasFee: 0.00211626,
+        gasFeeUsd: 0.00105813,
+        feeCurrency: undefined,
+        feeCurrencySymbol,
+        txCount: 2,
+        approveTxCumulativeGasUsed: 3_129_217,
+        approveTxEffectiveGasPrice: 5_000_000_000,
+        approveTxFeeCurrency: undefined,
+        approveTxFeeCurrencySymbol: feeCurrencySymbol,
+        approveTxGas: 59_480,
+        approveTxMaxGasFee: 0.00071376,
+        approveTxMaxGasFeeUsd: 0.00035688,
+        approveTxGasUsed: 51_578,
+        approveTxGasFee: 0.00025789,
+        approveTxGasFeeUsd: 0.000128945,
+        approveTxHash: '0x1',
+        swapTxCumulativeGasUsed: 3_899_547,
+        swapTxEffectiveGasPrice: 5_000_000_000,
+        swapTxFeeCurrency: undefined,
+        swapTxFeeCurrencySymbol: feeCurrencySymbol,
+        swapTxGas: 1_325_000,
+        swapTxMaxGasFee: 0.0159,
+        swapTxMaxGasFeeUsd: 0.00795,
+        swapTxGasUsed: 371_674,
+        swapTxGasFee: 0.00185837,
+        swapTxGasFeeUsd: 0.000929185,
+        swapTxHash: '0x2',
+      })
+
+      const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
+      expect(analyticsProps.gas).toBeCloseTo(
+        analyticsProps.approveTxGas + analyticsProps.swapTxGas,
+        8
+      )
+      expect(analyticsProps.maxGasFee).toBeCloseTo(
+        analyticsProps.approveTxMaxGasFee + analyticsProps.swapTxMaxGasFee,
+        8
+      )
+      expect(analyticsProps.maxGasFeeUsd).toBeCloseTo(
+        analyticsProps.approveTxMaxGasFeeUsd + analyticsProps.swapTxMaxGasFeeUsd,
+        8
+      )
+      expect(analyticsProps.gasUsed).toBeCloseTo(
+        analyticsProps.approveTxGasUsed + analyticsProps.swapTxGasUsed,
+        8
+      )
+      expect(analyticsProps.gasFee).toBeCloseTo(
+        analyticsProps.approveTxGasFee + analyticsProps.swapTxGasFee,
+        8
+      )
+      expect(analyticsProps.gasFeeUsd).toBeCloseTo(
+        analyticsProps.approveTxGasFeeUsd + analyticsProps.swapTxGasFeeUsd,
+        8
+      )
+    }
+  )
 
   it('should complete swap without approval for native sell token', async () => {
     await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedWithNativeSellToken)
