@@ -1657,7 +1657,7 @@
   "swapScreen": {
     "title": "สว็อป",
     "review": "ตรวจสอบ",
-    "confirmSwap": "Confirm Swap",
+    "confirmSwap": "ยืนยันสว็อป",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
@@ -1875,21 +1875,21 @@
     }
   },
   "tokenImport": {
-    "title": "Import Token",
-    "notification": "Anyone can create a token, including fake versions of existing tokens. Verify your token address is correct before you import.",
+    "title": "นำเข้าโทเค็น",
+    "notification": "ใครก็สร้างโทเค็นได้ รวมถึงโทเค็นที่มีอยู่ในเวอร์ชันปลอมด้วย ตรวจสอบที่อยู่โทเค็นของคุณให้ถูกต้องก่อนนำเข้า",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "ที่อยู่โทเค็น",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "สัญลักษณ์โทเค็น",
       "network": "เครือข่าย"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
-      "alreadyImported": "Token was added already before.",
-      "alreadySupported": "Token is already supported."
+      "invalidToken": "โทเค็นไม่ถูกต้อง โปรดลองใหม่อีกครั้งหรือติดต่อฝ่ายบริการลูกค้า",
+      "alreadyImported": "มีการเติมโทเค็นไปก่อนหน้านี้แล้ว",
+      "alreadySupported": "รองรับโทเค็นเรียบร้อยแล้ว"
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
-    "importButton": "Import"
+    "importSuccess": "นำเข้าโทเค็น {{tokenSymbol}} สำเร็จ",
+    "importButton": "นำเข้า"
   },
   "sendSelectRecipient": {
     "searchText": "ค้นหาด้วยชื่อ โทรศัพท์ กระเป๋าเงิน...",
@@ -1927,12 +1927,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Enable contacts to continue",
-      "description": "Please go to settings to update your contacts and start sending to friends"
+      "title": "เปิดใช้งานผู้ติดต่อเพื่อดำเนินการต่อ",
+      "description": "โปรดไปที่การตั้งค่าเพื่ออัปเดตผู้ติดต่อของคุณและเริ่มส่งให้เพื่อน"
     },
     "connectPhoneNumberModal": {
       "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
-      "description": "You need to connect your phone number so you can start sending crypto to your friends"
+      "description": "คุณจำเป็นต้องเชื่อมหมายเลขโทรศัพท์ของคุณจึงจะสามารถส่งคริปโตให้เพื่อนได้"
     }
   },
   "transactionStatus": {
