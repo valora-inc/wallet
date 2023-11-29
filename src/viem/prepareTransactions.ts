@@ -85,15 +85,13 @@ export async function tryEstimateTransaction({
   baseTransaction,
   maxFeePerGas,
   maxPriorityFeePerGas,
-  feeCurrencySymbol,
-  feeCurrencyAddress,
+  feeCurrency,
 }: {
   client: Client
   baseTransaction: TransactionRequest
   maxFeePerGas: bigint
   maxPriorityFeePerGas?: bigint
-  feeCurrencySymbol: string
-  feeCurrencyAddress?: Address
+  feeCurrency: TokenBalance
 }) {
   const tx = {
     ...baseTransaction,
@@ -101,17 +99,19 @@ export async function tryEstimateTransaction({
     maxPriorityFeePerGas,
     // Don't include the feeCurrency field if not present.
     // See https://github.com/wagmi-dev/viem/blob/e0149711da5894ac5f0719414b4ecc06ccaecb7b/src/chains/celo/serializers.ts#L164-L168
-    ...(feeCurrencyAddress && { feeCurrency: feeCurrencyAddress }),
+    ...(!feeCurrency.isNative &&
+      feeCurrency.address && { feeCurrency: feeCurrency.address as Address }),
   }
 
-  // TODO maybe cache this? and add static padding when using non-native fee currency
+  // TODO maybe cache this?
   try {
-    tx.gas = await estimateGas(client, {
+    const estimatedGas = await estimateGas(client, {
       ...(tx as TransactionRequestBase),
       account: tx.from,
     })
+    tx.gas = estimatedGas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING)
     Logger.info(TAG, `estimateGas results`, {
-      feeCurrency: tx.feeCurrency,
+      feeCurrency: feeCurrency.address,
       gas: tx.gas,
       maxFeePerGas,
       maxPriorityFeePerGas,
@@ -124,7 +124,7 @@ export async function tryEstimateTransaction({
           /transfer value exceeded balance of sender/.test(e.cause.details)))
     ) {
       // too much gas was needed
-      Logger.warn(TAG, `Couldn't estimate gas with feeCurrency ${feeCurrencySymbol}`, e)
+      Logger.warn(TAG, `Couldn't estimate gas with feeCurrency ${feeCurrency.symbol}`, e)
       return null
     }
     throw e
@@ -166,8 +166,7 @@ export async function tryEstimateTransactions(
       const tx = await tryEstimateTransaction({
         client,
         baseTransaction: baseTx,
-        feeCurrencySymbol: feeCurrency.symbol,
-        feeCurrencyAddress,
+        feeCurrency,
         maxFeePerGas,
         maxPriorityFeePerGas,
       })

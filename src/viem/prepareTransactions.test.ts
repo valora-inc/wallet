@@ -362,12 +362,20 @@ describe('prepareTransactions module', () => {
         maxPriorityFeePerGas: BigInt(2),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(500))
+      const feeCurrencies = [
+        mockFeeCurrencies[0],
+        {
+          ...mockFeeCurrencies[1],
+          balance: new BigNumber(101_000), // total gas needed is 100.6k units
+          decimals: 3,
+        },
+      ]
 
       // for fee1 (native): gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
       // for fee2 (non-native): gas fee is 0.5k units from first transaction, plus 50.1k ((50k * 1) + 0.1k) units from second transaction
 
       const result = await prepareTransactions({
-        feeCurrencies: mockFeeCurrencies,
+        feeCurrencies,
         spendToken: mockFeeCurrencies[0],
         spendTokenAmount: mockFeeCurrencies[0].balance.shiftedBy(mockFeeCurrencies[0].decimals),
         decreasedAmountGasFeeMultiplier: 1,
@@ -376,6 +384,7 @@ describe('prepareTransactions module', () => {
             from: '0xfrom' as Address,
             to: '0xto' as Address,
             data: '0xdata',
+            // mock estimateGas returns 500, 50k units added for non-native fee currency
           },
           {
             from: '0xfrom' as Address,
@@ -394,10 +403,10 @@ describe('prepareTransactions module', () => {
             to: '0xto',
             data: '0xdata',
 
-            gas: BigInt(500),
+            gas: BigInt(50_500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
-            feeCurrency: mockFeeCurrencies[1].address,
+            feeCurrency: feeCurrencies[1].address,
           },
           {
             from: '0xfrom',
@@ -407,11 +416,11 @@ describe('prepareTransactions module', () => {
             gas: BigInt(50_100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
-            feeCurrency: mockFeeCurrencies[1].address,
+            feeCurrency: feeCurrencies[1].address,
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('50.6'),
-        feeCurrency: mockFeeCurrencies[1],
+        maxGasFeeInDecimal: new BigNumber('100.6'),
+        feeCurrency: feeCurrencies[1],
       })
     })
     it("returns a 'possible' result when spending the max balance of a token that isn't a feeCurrency when there's another feeCurrency to pay for the fee", async () => {
@@ -586,7 +595,10 @@ describe('prepareTransactions module', () => {
         baseTransaction,
         maxFeePerGas: BigInt(456),
         maxPriorityFeePerGas: BigInt(2),
-        feeCurrencySymbol: 'FEE',
+        feeCurrency: {
+          ...mockFeeCurrencies[0],
+          address: null,
+        },
       })
       expect(estimateTransactionOutput && 'feeCurrency' in estimateTransactionOutput).toEqual(false)
       expect(estimateTransactionOutput).toStrictEqual({
@@ -603,15 +615,14 @@ describe('prepareTransactions module', () => {
         client: mockPublicClient,
         baseTransaction,
         maxFeePerGas: BigInt(456),
-        feeCurrencySymbol: 'FEE',
-        feeCurrencyAddress: '0xabc',
+        feeCurrency: mockFeeCurrencies[1],
         maxPriorityFeePerGas: BigInt(789),
       })
       expect(estimateTransactionOutput).toStrictEqual({
         from: '0x123',
-        gas: BigInt(123),
+        gas: BigInt(50_123),
         maxFeePerGas: BigInt(456),
-        feeCurrency: '0xabc',
+        feeCurrency: '0xfee2',
         maxPriorityFeePerGas: BigInt(789),
       })
     })
@@ -622,8 +633,7 @@ describe('prepareTransactions module', () => {
         client: mockPublicClient,
         baseTransaction,
         maxFeePerGas: BigInt(456),
-        feeCurrencySymbol: 'FEE',
-        feeCurrencyAddress: '0xabc',
+        feeCurrency: mockFeeCurrencies[0],
         maxPriorityFeePerGas: BigInt(789),
       })
       expect(estimateTransactionOutput).toEqual(null)
@@ -636,8 +646,7 @@ describe('prepareTransactions module', () => {
           client: mockPublicClient,
           baseTransaction,
           maxFeePerGas: BigInt(456),
-          feeCurrencySymbol: 'FEE',
-          feeCurrencyAddress: '0xabc',
+          feeCurrency: mockFeeCurrencies[0],
           maxPriorityFeePerGas: BigInt(789),
         })
       ).rejects.toThrowError(EstimateGasExecutionError)
