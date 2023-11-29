@@ -558,12 +558,12 @@
     "neunundzwanzigste",
     "dreißigste"
   ],
-  "addressValidationError": "Die eingegebenen Kontoinformationen waren ungültig",
-  "addressValidationNoMatch": "Die eingegebenen Kontoinformationen stimmen mit keinem Kontakt überein",
-  "addressValidationFullPoorlyFormatted": "Konto-Adressen beginnen mit „0x“, enthalten nur Zahlen und Buchstaben und sind 42 Zeichen lang. Drücke auf den Link unten, um Hilfe zu erhalten",
-  "addressValidationPartialPoorlyFormatted": "Konto-Adressen enthalten nur Zahlen und Buchstaben, bitte gib die letzten 4 Ziffern an. Klicke auf den Link unten, um Hilfe zu erhalten",
-  "addressValidationFullOwnAddress": "Bitte gib die Konto-Adresse deines Kontakts ein, nicht deine eigene. Klicke auf den Link unten, um Hilfe zu erhalten",
-  "addressValidationPartialOwnAddress": "Bitte gib die letzten 4 Ziffern der Konto-Adresse deines Kontakts ein, nicht deine eigene. Klicke unten auf den Link, um Hilfe zu erhalten",
+  "addressValidationError": "Falsche Brieftaschenadresse",
+  "addressValidationNoMatch": "Falsche Brieftaschenadresse",
+  "addressValidationFullPoorlyFormatted": "Wallet-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang",
+  "addressValidationPartialPoorlyFormatted": "Wallet-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang",
+  "addressValidationFullOwnAddress": "Dies ist die Adresse deiner Brieftasche. Bitte gib die Adresse der Brieftasche deines Kontakts ein.",
+  "addressValidationPartialOwnAddress": "Dies ist die Adresse deiner Brieftasche. Bitte gib die Adresse der Brieftasche deines Kontakts ein.",
   "providerRateFetchFailed": "Der Anbieterpreis konnte nicht abgerufen werden. Du kannst ohne einen ausgefüllten Tarif fortfahren.",
   "helpFindAccount": "Hilf deinem Kontakt, seine Adresse zu finden",
   "close": "Schließen",
@@ -1001,32 +1001,31 @@
     "importing": "Importieren..."
   },
   "confirmAccount": {
-    "header": "Bitte bestätige das Konto von {{displayName}}",
-    "headerNoDisplayName": "Bitte bestätige das Konto deines Kontakts",
-    "button": "Konto-Adresse bestätigen"
+    "header": "{{displayName}} hat mehrere Geldbörsen.",
+    "headerNoDisplayName": "Diese Rufnummer hat mehrere Geldbörsen.",
+    "button": "Brieftaschenadresse bestätigen"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} hat mehrere Accounts damit verknüpft. {{displayName}} könnte ein neues {{appName}} Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
-    "body1NoDisplayName": "Dein Kontakt hat mehrere Accounts zugeordnet. Dein Kontakt könnte ein neues {{appName}}-Konto erstellt haben, oder sein Telefon verloren haben oder sein Konto kompromittiert haben.",
+    "body1": "Es gibt mehrere Geldbörsen, die mit {{e164PhoneNumber}}verbunden sind. Um zu überprüfen, ob du das richtige Konto hast, scanne bitte den QR-Code oder gib die Wallet-Adresse ein.",
     "body2": "Du musst ihren QR-Code scannen oder ihre Konto-Adresse vor der Transaktion bestätigen."
   },
   "confirmAccountNumber": {
-    "title": "Konto-Adresse bestätigen",
-    "bodyPartial": "Bitte frag {{displayName}} nach den letzten vier Ziffern ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "bodyPartialNoDisplayName": "Bitte frage deinen Kontakt nach den letzten vier Ziffern ihrer Konto-Adresse. Es ist am sichersten, dies persönlich oder telefonisch zu tun.",
-    "body1Full": "Bitte frage {{displayName}} nach der Konto-Adresse.",
-    "body1FullNoDisplayName": "Bitte frage deinen Kontakt nach der Konto-Adresse.",
-    "body2Full": "Wir empfehlen dringend, persönlich oder telefonisch über WhatsApp oder Messenger oder per E-Mail zu fragen. Zur Sicherheit verwende bitte keine Textnachrichten (SMS).",
-    "help": "Hilfe beim Auffinden einer Konto-Adresse",
+    "title": "Brieftaschenadresse bestätigen",
+    "bodyPartial": "Bitte frage {{displayName}} nach den letzten vier Ziffern der Adresse deiner Geldbörse. Am sichersten ist es, dies persönlich oder per Telefon zu tun.",
+    "bodyPartialNoDisplayName": "Bitte deine Kontaktperson um die letzten vier Ziffern ihrer Brieftaschenadresse. Am sichersten ist es, dies persönlich oder per Telefon zu tun.",
+    "body1Full": "Bitte frage {{displayName}} nach ihrer Wallet-Adresse.",
+    "body1FullNoDisplayName": "Bitte frage deine Kontaktperson nach ihrer Wallet-Adresse.",
+    "body2Full": "Der sicherste Weg, dies zu tun, ist persönlich. Aus Sicherheitsgründen solltest du keine Textnachrichten (SMS) verwenden.",
+    "help": "Wo kann ich eine Wallet-Adresse finden?",
     "submit": "Versenden"
   },
   "accountInputHeaderPartial": "Die letzten 4 Zahlen",
   "accountInputHeaderFull": "Konto-Adresse",
   "helpModal": {
-    "header": "Lokalisierung einer Konto-Adresse",
-    "body1": "Konto-Adressen (auch als Adressen bekannt) befinden sich im Menü. Öffne das Menü vom Startbildschirm, indem du auf das Symbol in der oberen linken Ecke tippst.",
-    "body2": "Die Konto-Adresse befindet sich am unteren Ende des Menüs.",
-    "body3": "Konto-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang"
+    "header": "Eine Brieftaschenadresse ausfindig machen",
+    "body1": "Die Adresse deiner Geldbörse findest du im Menü. Öffne das Menü, indem du auf das Menü-Symbol in der oberen linken Ecke tippst.",
+    "body2": "Die Adresse deiner Geldbörse findest du ganz unten im Menü.",
+    "body3": "Wallet-Adressen beginnen mit \"0x\" und sind 42 Zeichen lang"
   },
   "transferAddressChanged": "Dieser Kontakt hat seine Konto-Adresse seit der Transaktion geändert. Diese Zahlung wurde gesendet an:",
   "addressConfirmed": "Konto-Adresse bestätigt",
