@@ -558,12 +558,12 @@
     "dwudzieste dziewiąte",
     "trzydzieste"
   ],
-  "addressValidationError": "Wprowadzone dane konta są nieprawidłowe",
-  "addressValidationNoMatch": "Wprowadzone dane konta nie pokrywają się z informacjami dotyczącymi Twojego kontaktu",
-  "addressValidationFullPoorlyFormatted": "Adresy kont zaczynają się od „0x”, zawierają tylko cyfry i litery oraz mają długość 42 znaków. Kliknij poniższy link, aby uzyskać pomoc",
-  "addressValidationPartialPoorlyFormatted": "Adresy kont zawierają tylko cyfry i litery, podaj 4 ostatnie cyfry. Kliknij poniższy link, aby uzyskać pomoc",
-  "addressValidationFullOwnAddress": "Wpisz adres konta swojego kontaktu, a nie własnego konta. Kliknij poniższy link, aby uzyskać pomoc",
-  "addressValidationPartialOwnAddress": "Podaj 4 ostatnie cyfry adresu konta swojego kontaktu, a nie własnego konta. Kliknij poniższy link, aby uzyskać pomoc",
+  "addressValidationError": "Nieprawidłowy adres portfela",
+  "addressValidationNoMatch": "Nieprawidłowy adres portfela",
+  "addressValidationFullPoorlyFormatted": "Adresy portfeli zaczynają się od \"0x\" i składają się z 42 znaków",
+  "addressValidationPartialPoorlyFormatted": "Adresy portfeli zaczynają się od \"0x\" i składają się z 42 znaków",
+  "addressValidationFullOwnAddress": "To jest adres portfela, wprowadź adres portfela swojego kontaktu.",
+  "addressValidationPartialOwnAddress": "To jest adres portfela, wprowadź adres portfela swojego kontaktu.",
   "providerRateFetchFailed": "Nie można pobrać stawki dostawcy. Możesz kontynuować bez wstępnego podawania stawki.",
   "helpFindAccount": "Pomóż swojemu kontaktowi znaleźć adres konta",
   "close": "Zamknij",
@@ -1005,32 +1005,31 @@
     "importing": "Importowanie..."
   },
   "confirmAccount": {
-    "header": "Potwierdź konto należące do {{displayName}}",
-    "headerNoDisplayName": "Potwierdź konto osoby z listy kontaktów",
-    "button": "Potwierdź adres konta"
+    "header": "{{displayName}} ma wiele portfeli.",
+    "headerNoDisplayName": "Ten numer telefonu ma wiele portfeli.",
+    "button": "Potwierdź adres portfela"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} ma wiele powiązanych kont. Użytkownik {{displayName}} prawdopodobnie utworzył nowe konto w aplikacji {{appName}}, zgubił telefon lub jego konto zostało naruszone.",
-    "body1NoDisplayName": "Twój kontakt ma wiele powiązanych kont. Osoba ta prawdopodobnie utworzyła nowe konto w aplikacji {{appName}}, zgubiła telefon lub jej konto zostało naruszone.",
+    "body1": "Istnieje wiele portfeli powiązanych z {{e164PhoneNumber}}. Aby potwierdzić, że masz właściwe konto, zeskanuj jego kod QR lub wprowadź adres portfela.",
     "body2": "Przed dokonaniem transakcji musisz zeskanować jej kod QR lub potwierdzić adres jej konta."
   },
   "confirmAccountNumber": {
-    "title": "Potwierdź adres konta",
-    "bodyPartial": "Poproś użytkownika {{displayName}} o podanie ostatnich czterech cyfr adresu konta. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
-    "bodyPartialNoDisplayName": "Poproś swój kontakt o podanie ostatnich czterech cyfr adresu konta. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
-    "body1Full": "Poproś użytkownika {{displayName}} o adres konta.",
-    "body1FullNoDisplayName": "Poproś swój kontakt o adres konta.",
-    "body2Full": "Zdecydowanie zalecamy uzyskanie takich danych osobiście lub przez telefon, za pośrednictwem aplikacji WhatsApp lub Messenger albo przez e-mail. Ze względów bezpieczeństwa nie korzystaj w tym celu z wiadomości tekstowych (SMS-ów).",
-    "help": "Pomóż zlokalizować adres konta",
+    "title": "Potwierdź adres portfela",
+    "bodyPartial": "Poproś {{displayName}} o podanie czterech ostatnich cyfr adresu portfela. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
+    "bodyPartialNoDisplayName": "Poproś osobę kontaktową o podanie czterech ostatnich cyfr adresu portfela. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
+    "body1Full": "Zapytaj {{displayName}} o adres portfela.",
+    "body1FullNoDisplayName": "Poproś osobę kontaktową o podanie adresu portfela.",
+    "body2Full": "Najbezpieczniej jest zrobić to osobiście. Ze względów bezpieczeństwa nie korzystaj z wiadomości tekstowych (SMS).",
+    "help": "Gdzie mogę znaleźć adres portfela?",
     "submit": "Prześlij"
   },
   "accountInputHeaderPartial": "4 ostatnie cyfry",
   "accountInputHeaderFull": "Adres konta",
   "helpModal": {
-    "header": "Znajdowanie adresu konta",
-    "body1": "Adresy kont (zwane też adresami) znajdują się w menu. Na ekranie Strony głównej otwórz menu, naciskając ikonę w lewym górnym rogu.",
-    "body2": "Adres konta znajduje się na samym dole menu.",
-    "body3": "Adresy kont zaczynają się od „0x” i składają się z 42 znaków"
+    "header": "Lokalizowanie adresu portfela",
+    "body1": "Adres Twojego portfela znajduje się w menu. Otwórz menu, dotykając ikony menu w lewym górnym rogu.",
+    "body2": "Adres Twojego portfela znajduje się w dolnej części menu.",
+    "body3": "Adresy portfeli zaczynają się od \"0x\" i składają się z 42 znaków"
   },
   "transferAddressChanged": "Ten kontakt zmienił adres swojego konta od momentu dokonania transakcji. Płatność została wysłana na adres:",
   "addressConfirmed": "Adres konta potwierdzony",
