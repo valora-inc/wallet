@@ -1964,6 +1964,15 @@
       "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu begleichen, oder passe den Betrag an, den du senden möchtest."
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Genehmigung",
+    "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
+    "networkFee": "Netzwerkgebühr",
+    "finiteApprovalDescription": "Zugelassen {{approvedAmount}} {{tokenSymbol}} für den Handel",
+    "infiniteApprovalDescription": "Zugelassen {{tokenSymbol}} für den Handel",
+    "revokeApprovalDescription": "Widerrufen {{tokenSymbol}} für den Handel",
+    "descriptionLabel": "Details"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
