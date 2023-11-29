@@ -55,7 +55,6 @@ export default class ExternalQuote extends NormalizedQuote {
     tokenId: string
   }) {
     super()
-    this.tokenId = tokenId
     if (provider.restricted) {
       throw new Error(`Error: ${provider.name}. Quote is restricted`)
     }
@@ -73,6 +72,7 @@ export default class ExternalQuote extends NormalizedQuote {
     this.quote = quote
     this.provider = provider
     this.flow = flow
+    this.tokenId = tokenId
   }
 
   getPaymentMethod(): PaymentMethod {
@@ -80,9 +80,7 @@ export default class ExternalQuote extends NormalizedQuote {
   }
 
   getCryptoType(): string {
-    return isSimplexQuote(this.quote)
-      ? this.quote.digital_money.currency!
-      : this.quote.digitalAsset!
+    return isSimplexQuote(this.quote) ? this.quote.digital_money.currency : this.quote.digitalAsset
   }
 
   getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {

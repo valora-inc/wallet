@@ -5,7 +5,6 @@ import { SettlementTime } from 'src/fiatExchanges/quotes/constants'
 import { CICOFlow, PaymentMethod, RawProviderQuote, SimplexQuote } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { NetworkId } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 import {
@@ -114,7 +113,7 @@ describe('ExternalQuote', () => {
       const quote = new ExternalQuote({
         quote: {
           paymentMethod: PaymentMethod.Card,
-          digitalAsset: CiCoCurrency.cUSD,
+          digitalAsset: 'cUSD',
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
@@ -147,7 +146,7 @@ describe('ExternalQuote', () => {
       const quote = new ExternalQuote({
         quote: {
           paymentMethod: PaymentMethod.Card,
-          digitalAsset: CiCoCurrency.cUSD,
+          digitalAsset: 'cUSD',
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,
@@ -302,7 +301,7 @@ describe('ExternalQuote', () => {
       const quote = new ExternalQuote({
         quote: {
           paymentMethod: PaymentMethod.Bank,
-          digitalAsset: CiCoCurrency.CELO,
+          digitalAsset: 'CELO',
           returnedAmount: 20,
         },
         provider: mockProviders[1],
@@ -316,7 +315,7 @@ describe('ExternalQuote', () => {
       const quote = new ExternalQuote({
         quote: {
           paymentMethod: PaymentMethod.Bank,
-          digitalAsset: CiCoCurrency.CELO,
+          digitalAsset: 'CELO',
         },
         provider: mockProviders[1],
         flow: CICOFlow.CashIn,

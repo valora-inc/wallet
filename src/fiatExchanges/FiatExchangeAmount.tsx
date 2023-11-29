@@ -43,7 +43,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import { useLocalToTokenAmount, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
-import { CiCoCurrency, symbolToAnalyticsCurrency } from 'src/utils/currencies'
+import { tokenSymbolToAnalyticsCurrency } from 'src/utils/currencies'
 import { roundUp } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 import { CICOFlow, isUserInputCrypto } from './utils'
@@ -85,7 +85,7 @@ function FiatExchangeAmount({ route }: Props) {
 
   const inputSymbol = inputIsCrypto ? '' : localCurrencySymbol
 
-  const cUSDToken = useTokenInfo(networkConfig.currencyToTokenId[CiCoCurrency.cUSD])!
+  const cUSDToken = useTokenInfo(networkConfig.cusdTokenId)!
   const localCurrencyMaxAmount =
     useTokenToLocalAmount(new BigNumber(DOLLAR_ADD_FUNDS_MAX_AMOUNT), cUSDToken.tokenId) ||
     new BigNumber(0)
@@ -111,7 +111,7 @@ function FiatExchangeAmount({ route }: Props) {
   function goToProvidersScreen() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen, {
       amount: inputCryptoAmount.toNumber(),
-      currency: symbolToAnalyticsCurrency(tokenSymbol),
+      currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
       flow,
     })
     const amount = {
@@ -123,7 +123,7 @@ function FiatExchangeAmount({ route }: Props) {
 
     const previousFiatAccount = cachedFiatAccountUses.find(
       (account) =>
-        account.cryptoType.toString() === tokenSymbol &&
+        account.cryptoType === tokenSymbol &&
         account.fiatType === convertToFiatConnectFiatCurrency(localCurrencyCode)
     )
     if (previousFiatAccount) {
@@ -157,7 +157,7 @@ function FiatExchangeAmount({ route }: Props) {
         setShowingInvalidAmountDialog(true)
         ValoraAnalytics.track(FiatExchangeEvents.cico_amount_chosen_invalid, {
           amount: inputCryptoAmount.toNumber(),
-          currency: symbolToAnalyticsCurrency(tokenSymbol),
+          currency: tokenSymbolToAnalyticsCurrency(tokenSymbol),
           flow,
         })
         return

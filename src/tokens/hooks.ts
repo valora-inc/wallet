@@ -137,17 +137,6 @@ export function useLocalToTokenAmount(
   })
 }
 
-/**
- * @deprecated use useLocalToTokenAmount
- */
-export function useLocalToTokenAmountByAddress(
-  localAmount: BigNumber,
-  tokenAddress?: string | null
-): BigNumber | null {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useLocalToTokenAmount(localAmount, tokenInfo?.tokenId)
-}
-
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
   tokenId: string | undefined
@@ -161,31 +150,12 @@ export function useTokenToLocalAmount(
   })
 }
 
-/**
- * @deprecated use useLocalToTokenAmount
- */
-export function useTokenToLocalAmountByAddress(
-  tokenAmount: BigNumber,
-  tokenAddress?: string | null
-): BigNumber | null {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useTokenToLocalAmount(tokenAmount, tokenInfo?.tokenId)
-}
-
 export function useAmountAsUsd(amount: BigNumber, tokenId: string | undefined) {
   const tokenInfo = useTokenInfo(tokenId)
   if (!tokenInfo?.priceUsd) {
     return null
   }
   return amount.multipliedBy(tokenInfo.priceUsd)
-}
-
-/**
- * @deprecated use useAmountAsUsd
- */
-export function useAmountAsUsdByAddress(amount: BigNumber, tokenAddress: string) {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useAmountAsUsd(amount, tokenInfo?.tokenId)
 }
 
 export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {

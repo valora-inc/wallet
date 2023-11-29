@@ -133,9 +133,9 @@ describe('FiatExchangeAmount cashIn', () => {
   })
 
   it.each([
-    { currency: CiCoCurrency.cUSD, tokenId: mockCusdTokenId },
-    { currency: CiCoCurrency.cEUR, tokenId: mockCeurTokenId },
-    { currency: CiCoCurrency.ETH, tokenId: mockEthTokenId },
+    { currency: 'cUSD', tokenId: mockCusdTokenId },
+    { currency: 'cEUR', tokenId: mockCeurTokenId },
+    { currency: 'ETH', tokenId: mockEthTokenId },
   ])(`disables the next button if the $currency amount is 0`, ({ tokenId, currency }) => {
     const mockScreenProps = getMockStackScreenProps(Screens.FiatExchangeAmount, {
       tokenId,
@@ -154,17 +154,17 @@ describe('FiatExchangeAmount cashIn', () => {
 
   it.each([
     {
-      currency: CiCoCurrency.cUSD,
+      currency: 'cUSD',
       tokenId: mockCusdTokenId,
       store: storeWithUSD,
     },
     {
-      currency: CiCoCurrency.cEUR,
+      currency: 'cEUR',
       tokenId: mockCeurTokenId,
       store: storeWithPHP,
     },
     {
-      currency: CiCoCurrency.ETH,
+      currency: 'ETH',
       tokenId: mockEthTokenId,
       store: storeWithUSD,
     },
@@ -395,7 +395,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(store.dispatch).toHaveBeenLastCalledWith(
       attemptReturnUserFlow({
         flow: CICOFlow.CashOut,
-        selectedCrypto: CiCoCurrency.cUSD,
+        selectedCrypto: 'cUSD',
         amount: {
           crypto: 750,
           fiat: 750,
@@ -446,7 +446,7 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(store.dispatch).toHaveBeenLastCalledWith(
       attemptReturnUserFlow({
         flow: CICOFlow.CashOut,
-        selectedCrypto: CiCoCurrency.cUSD,
+        selectedCrypto: 'cUSD',
         amount: {
           crypto: 750,
           fiat: 750,

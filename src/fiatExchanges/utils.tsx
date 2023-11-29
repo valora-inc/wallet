@@ -13,7 +13,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency, celoTokenSymbol, cusdTokenSymbol } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -260,12 +260,12 @@ export const filterLegacyMobileMoneyProviders = (
   providers: LegacyMobileMoneyProvider[] | undefined,
   flow: CICOFlow,
   userCountry: string | null,
-  selectedCurrency: string
+  selectedTokenId: string
 ) => {
   if (
     !providers ||
     !userCountry ||
-    ![cusdTokenSymbol, celoTokenSymbol].includes(selectedCurrency)
+    ![networkConfig.cusdTokenId, networkConfig.celoTokenId].includes(selectedTokenId)
   ) {
     return []
   }
@@ -277,7 +277,9 @@ export const filterLegacyMobileMoneyProviders = (
   )
 
   return activeProviders.filter((provider) =>
-    provider[selectedCurrency === cusdTokenSymbol ? 'cusd' : 'celo'].countries.includes(userCountry)
+    provider[selectedTokenId === networkConfig.cusdTokenId ? 'cusd' : 'celo'].countries.includes(
+      userCountry
+    )
   )
 }
 

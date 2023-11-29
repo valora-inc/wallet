@@ -57,8 +57,8 @@ import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { celoTokenSymbol, cusdTokenSymbol } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
+import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 import {
   CICOFlow,
@@ -166,7 +166,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         rawLegacyMobileMoneyProviders,
         flow,
         userLocation.countryCodeAlpha2,
-        tokenInfo.symbol
+        tokenInfo.tokenId
       )
       return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
@@ -200,7 +200,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     !coinbaseProvider.restricted &&
     coinbasePayEnabled &&
     appId &&
-    tokenInfo.symbol === celoTokenSymbol
+    tokenInfo.tokenId === networkConfig.celoTokenId
 
   const anyProviders =
     normalizedQuotes.length ||
@@ -307,7 +307,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         tokenInfo.networkId === NetworkId['celo-alfajores']) && (
         <LegacyMobileMoneySection
           providers={legacyMobileMoneyProviders || []}
-          tokenSymbol={tokenInfo.symbol}
+          tokenId={tokenInfo.tokenId}
           flow={flow}
           analyticsData={analyticsData}
         />
@@ -497,12 +497,12 @@ function ExchangesSection({
 
 function LegacyMobileMoneySection({
   providers,
-  tokenSymbol,
+  tokenId,
   flow,
   analyticsData,
 }: {
   providers: LegacyMobileMoneyProvider[]
-  tokenSymbol: string
+  tokenId: string
   flow: CICOFlow
   analyticsData: ProviderSelectionAnalyticsData
 }) {
@@ -536,7 +536,7 @@ function LegacyMobileMoneySection({
       isLowestFee: undefined,
       ...analyticsData,
     })
-    navigateToURI(provider[tokenSymbol === cusdTokenSymbol ? 'cusd' : 'celo'].url)
+    navigateToURI(provider[tokenId === networkConfig.cusdTokenId ? 'cusd' : 'celo'].url)
   }
 
   if (!provider) {
