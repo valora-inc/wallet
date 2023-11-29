@@ -11,8 +11,11 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
@@ -24,8 +27,6 @@ import {
   mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
-import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
-import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
 
 jest.mock('src/tokens/utils', () => ({
   ...jest.requireActual('src/tokens/utils'),
@@ -445,6 +446,11 @@ describe('SendEnterAmount', () => {
         tokenAddress: mockCeloAddress,
         tokenAmount: new BigNumber(8),
       },
+      feeAmount: '0.006',
+      feeTokenId: mockCeloTokenId,
+      preparedTransaction: getSerializablePreparedTransaction(
+        mockPrepareTransactionsResultPossible.transactions[0]
+      ),
     })
   })
 

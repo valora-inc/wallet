@@ -15,7 +15,7 @@ import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NftTransfer, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -49,7 +49,7 @@ function NftFeedItem({ transaction }: Props) {
           <NftMedia
             nft={nfts[0]}
             ErrorComponent={
-              <View style={[styles.circleIcon, styles.errorCircleIcon]}>
+              <View style={styles.errorCircleIcon}>
                 <ImageErrorIcon size={30} testID="NftFeedItem/NftErrorIcon" />
               </View>
             }
@@ -65,39 +65,35 @@ function NftFeedItem({ transaction }: Props) {
         ) : (
           <NftSentIcon />
         )}
-        <View style={styles.descriptionContainer}>
-          <Text style={styles.title}>
-            {transaction.type === TokenTransactionTypeV2.NftReceived
-              ? t('receivedNft')
-              : t('sentNft')}
-          </Text>
-        </View>
+        <Text style={styles.title}>
+          {transaction.type === TokenTransactionTypeV2.NftReceived
+            ? t('receivedNft')
+            : t('sentNft')}
+        </Text>
       </View>
     </Touchable>
   )
 }
 
 const styles = StyleSheet.create({
-  circleIcon: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
     paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
   },
-  descriptionContainer: {
-    marginLeft: variables.contentPadding,
+  errorCircleIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: colors.gray2,
+    alignItems: 'center',
     justifyContent: 'center',
   },
-  errorCircleIcon: {
-    backgroundColor: colors.gray2,
-    padding: 5,
-  },
   title: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
+    marginLeft: Spacing.Regular16,
   },
 })
 

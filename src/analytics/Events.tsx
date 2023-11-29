@@ -292,8 +292,6 @@ export enum SendEvents {
   send_secure_incorrect = 'send_secure_incorrect',
   send_secure_complete = 'send_secure_complete',
 
-  send_secure_edit = 'send_secure_edit',
-
   send_tx_start = 'send_tx_start',
   send_tx_complete = 'send_tx_complete',
   send_tx_error = 'send_tx_error',

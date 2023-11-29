@@ -3,9 +3,11 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
+import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import NotificationBox from 'src/home/NotificationBox'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockCusdAddress,
@@ -14,7 +16,6 @@ import {
   mockE164NumberPepper,
   mockTokenBalances,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
@@ -79,15 +80,6 @@ const storeDataNotificationsDisabled = {
   },
 }
 
-const testReward = {
-  amount: '2',
-  contractAddress: 'contractAddress',
-  createdAt: Date.now(),
-  index: 0,
-  proof: [],
-  tokenAddress: '0xcusd',
-}
-
 const superchargeSetUp = {
   web3: {
     account: 'account',
@@ -96,7 +88,7 @@ const superchargeSetUp = {
     phoneNumberVerified: true,
   },
   supercharge: {
-    availableRewards: [testReward],
+    availableRewards: [ONE_CUSD_REWARD_RESPONSE],
   },
 }
 
