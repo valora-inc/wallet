@@ -1964,6 +1964,15 @@
       "description": "Adicione {{feeTokenSymbol}} para cobrir suas taxas de Gas ou ajuste a quantia que você está enviando"
     }
   },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Aprovação",
+    "estimatedNetworkFee": "Taxa de rede estimada",
+    "networkFee": "Taxa de rede",
+    "finiteApprovalDescription": "Aprovado {{approvedAmount}} {{tokenSymbol}} para comércio",
+    "infiniteApprovalDescription": "Aprovado {{tokenSymbol}} para comércio",
+    "revokeApprovalDescription": "Revogado {{tokenSymbol}} para comércio",
+    "descriptionLabel": "Detalhes"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
