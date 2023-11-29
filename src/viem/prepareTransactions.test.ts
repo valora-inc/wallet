@@ -469,7 +469,7 @@ describe('prepareTransactions module', () => {
         feeCurrency: mockFeeCurrencies[0],
       })
     })
-    it("returns a 'possible' result when no spendToken and spendAmount are provided but the user has some fee currency balance ", async () => {
+    it("returns a 'possible' result when no spendToken and spendAmount are provided but the user has some fee currency balance", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
@@ -520,7 +520,7 @@ describe('prepareTransactions module', () => {
         feeCurrency: mockFeeCurrencies[0],
       })
     })
-    it("returns a 'not-enough-balance-for-gas' result when no spendToken and spendAmount are provided, and the user has no fee currency balance ", async () => {
+    it("returns a 'not-enough-balance-for-gas' result when no spendToken and spendAmount are provided, and the user has no fee currency balance", async () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
