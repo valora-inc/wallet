@@ -638,15 +638,15 @@
     "body": "Verbinde und teile Wert mit deinen Freunden und Familie auf {{appName}}.",
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
-    "share": "Hey! Melde dich bei {{appName}} wallet an. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren, und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: {{shareUrl}}.",
+    "share": "Hey! Melde dich bei {{appName}}-Wallet an. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: {{shareUrl}}.",
     "help": "Um diesen Reward zu erhalten, muss die eingeladene Person den Download über den Empfehlungslink durchführen, ihre Telefonnummer angeben und 5 cUSD oder mehr für mindestens 7 Tage in ihren {{appName}} Wallet haben. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "NUR FÜR KURZE ZEIT. Erhalte kostenlose cUSD für die Einladung von Freunden zu Valora!",
-      "body": "Du bekommst 0,50 cUSD für jeden Freund, den du auf {{appName}}einlädst. Sobald er/sie Geld hinzufügt und 5 cUSD für 7 Tage hält, bekommt ihr beide 0,50 cUSD. Beeil dich, das Guthaben ist begrenzt! (Limit 25 Freunde)."
+      "title": "NUR FÜR KURZE ZEIT. Erhalte kostenlose cUSD für das Einladen deiner Freunde zu Valora!",
+      "body": "Erhalte 0,50 cUSD für jeden Freund, den du zu {{appName}} einlädst. Sobald dieser Guthaben hinzufügt und 5 cUSD für 7 Tage hält, erhaltet ihr beide 0,50 cUSD. Beeil dich, das Guthaben ist begrenzt! (Limit 25 Freunde)."
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Im Moment können wir beide eine kostenlose 0,50 cUSD-Prämie bekommen, wenn du dich anmeldest und deine Valora-Brieftasche auffüllst. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren, und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: \n\n{{link}} \n\nAber beeil dich, denn die Werbeaktion endet bald.",
+  "inviteWithRewardsCUSD": "Hey! Im Moment können wir beide eine kostenlose 0,50 cUSD-Prämie bekommen, wenn du dich anmeldest und deine Valora-Wallet auffüllst. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an:\n\n{{link}} \n\nAber beeil dich, denn die Empfehlungsaktion endet bald.",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1664,7 +1664,7 @@
     "swapTo": "ZU",
     "insufficientFunds": "Unzureichendes {{token}}-Guthaben. Versuche es mit einem kleineren Betrag oder wähle ein anderes Vermögen.",
     "fetchSwapQuoteFailed": "Entschuldige die Verzögerung! Es dauert länger als üblich, um den besten Wechselkurs zu ermitteln. Bitte versuche es in ein paar Minuten erneut.",
-    "disclaimer": "Der beste Tarif wird von den Netzwerkpartnern bestimmt. <0>Mehr erfahren</0>",
+    "disclaimer": "Bester von Netzwerkpartnern bestimmter Kurs. <0>Mehr erfahren</0>",
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "tokenUsdValueUnknown": "-",
@@ -1878,19 +1878,19 @@
   },
   "tokenImport": {
     "title": "Token importieren",
-    "notification": "Jeder kann einen Token erstellen, auch gefälschte Versionen von bestehenden Token. Vergewissere dich vor dem Import, dass die Adresse deines Tokens korrekt ist.",
+    "notification": "Jeder kann einen Token erstellen, einschließlich gefälschte Versionen von bestehenden Token. Vergewissere dich vor dem Import, dass die Adresse deines Tokens korrekt ist.",
     "input": {
-      "tokenAddress": "Token Adresse",
+      "tokenAddress": "Token-Adresse",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "Token-Symbol",
       "network": "Netzwerk"
     },
     "error": {
-      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere den Support",
-      "alreadyImported": "Das Token wurde bereits vorher hinzugefügt.",
+      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team",
+      "alreadyImported": "Token wurde bereits vorher hinzugefügt.",
       "alreadySupported": "Token wird bereits unterstützt."
     },
-    "importSuccess": "Erfolgreich importiertes {{tokenSymbol}} Token",
+    "importSuccess": "{{tokenSymbol}} Token erfolgreich importiert",
     "importButton": "Importieren"
   },
   "sendSelectRecipient": {
@@ -1929,12 +1929,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Kontakte zum Fortfahren freigeben",
+      "title": "Kontakte aktivieren, um fortzufahren",
       "description": "Bitte gehe zu den Einstellungen, um deine Kontakte zu aktualisieren und mit dem Senden an Freunde zu beginnen"
     },
     "connectPhoneNumberModal": {
       "title": "Verbinden Sie Ihre Telefonnummer",
-      "description": "Du musst deine Telefonnummer angeben, damit du Kryptowährungen an deine Freunde schicken kannst."
+      "description": "Du musst deine Telefonnummer verbinden, damit du Kryptowährungen an deine Freunde senden kannst"
     }
   },
   "transactionStatus": {
