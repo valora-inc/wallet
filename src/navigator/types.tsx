@@ -183,6 +183,7 @@ export type StackParamList = {
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
+  [Screens.MultichainBeta]: undefined
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }
