@@ -310,7 +310,7 @@ function SendSelectRecipient({ route }: Props) {
         />
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
-      <ScrollView style={styles.content}>
+      <ScrollView contentContainerStyle={styles.content}>
         <PasteAddressButton
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
@@ -381,7 +381,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
   },
   content: {
-    flex: 1,
+    flexGrow: 1,
   },
   body: {
     flex: 1,
