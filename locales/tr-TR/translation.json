@@ -558,12 +558,12 @@
     "yirmi dokuzuncu",
     "otuzuncu"
   ],
-  "addressValidationError": "Girilen hesap bilgileri geçerli değil",
-  "addressValidationNoMatch": "Girilen hesap bilgileri kişi listenizdeki bilgilerle eşleşmiyor",
-  "addressValidationFullPoorlyFormatted": "Hesap Adresleri \"0x\" ile başlar, sadece rakam ve harflerden oluşur ve 42 karakter uzunluğundadır. Yardım için aşağıdaki bağlantıya tıklayın",
-  "addressValidationPartialPoorlyFormatted": "Hesap Adresleri sadece rakam ve harfleri içerir, lütfen son 4 haneyi giriniz. Yardım için aşağıdaki bağlantıya tıklayın",
-  "addressValidationFullOwnAddress": "Lütfen kendinizin değil, kişi listenizdeki kişinin Hesap Adresini girin. Yardım için aşağıdaki bağlantıya tıklayın",
-  "addressValidationPartialOwnAddress": "Lütfen kendinizin değil, kişi listenizdeki kişiye ait Hesap Adresininin son 4 hanesini girin. Yardım için aşağıdaki bağlantıya tıklayın",
+  "addressValidationError": "Yanlış cüzdan adresi",
+  "addressValidationNoMatch": "Yanlış cüzdan adresi",
+  "addressValidationFullPoorlyFormatted": "Cüzdan adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır",
+  "addressValidationPartialPoorlyFormatted": "Cüzdan adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır",
+  "addressValidationFullOwnAddress": "Bu sizin cüzdan adresinizdir, lütfen kişinizin cüzdan adresini girin.",
+  "addressValidationPartialOwnAddress": "Bu sizin cüzdan adresinizdir, lütfen kişinizin cüzdan adresini girin.",
   "providerRateFetchFailed": "Sağlayıcıdan oran bilgileri alınamadı. Önceden belirlenmiş oranlar olmadan devam edebilirsiniz.",
   "helpFindAccount": "Kişilerinizin Hesap Adresinizi bulmalarına yardımcı olun",
   "close": "Kapat",
@@ -1001,32 +1001,31 @@
     "importing": "İçe Aktarılıyor..."
   },
   "confirmAccount": {
-    "header": "Lütfen {{displayName}} hesabını onaylayın",
-    "headerNoDisplayName": "Lütfen kişinizin hesabını onaylayın",
-    "button": "Hesap Adresini Onaylayın"
+    "header": "{{displayName}} birden fazla cüzdanı vardır.",
+    "headerNoDisplayName": "Bu telefon numarasının birden fazla cüzdanı var.",
+    "button": "Cüzdan Adresini Onayla"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} ile ilişkilendirilmiş birden fazla hesap bulunuyor. {{displayName}}, yeni bir {{appName}} hesabı oluşturmuş olabilir veya telefonunu kaybetmiş veya hesaplarının güvenliği ihlal edilmiş olabilir.",
-    "body1NoDisplayName": "Kişinizle ilişkilendirilmiş birden fazla hesap bulunuyor. Kişiniz yeni bir {{appName}} hesabı oluşturmuş olabilir veya telefonunu kaybetmiş veya hesabının güvenliği ihlal edilmiş olabilir.",
+    "body1": "{{e164PhoneNumber}}ile ilişkili birden fazla cüzdan vardır. Doğru hesaba sahip olduğunuzu doğrulamak için lütfen QR kodlarını tarayın veya cüzdan adreslerini girin.",
     "body2": "İşlem yapmadan önce kare kodu taramanız veya Hesap Adreslerini onaylamanız gerekiyor."
   },
   "confirmAccountNumber": {
-    "title": "Hesap Adresini Onaylayın",
-    "bodyPartial": "Lütfen {{displayName}}'dan Hesap Adreslerinin son dört hanesini isteyin. Bunu yüzyüze veya telefonla yapmak en güvenli yöntemdir.",
-    "bodyPartialNoDisplayName": "Lütfen ilgili kişiden Hesap Adresinin son dört hanesini isteyin. Bunu yüzyüze veya telefonla yapmak en güvenli yöntemdir.",
-    "body1Full": "Lütfen {{displayName}}'dan Hesap Adreslerini isteyin.",
-    "body1FullNoDisplayName": "Lütfen ilgili kişiden Hesap Adresini isteyin.",
-    "body2Full": "Yüzyüze, telefonla, WhatsApp, Messenger veya e-posta aracılığı ile sormanızı özellikle tavsiye ederiz. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
-    "help": "Hesap Adresi bulma konusunda yardım",
+    "title": "Cüzdan Adresini Onayla",
+    "bodyPartial": "Lütfen {{displayName}} adresinden cüzdan adreslerinin son dört hanesini isteyin. Bunu şahsen veya telefonla yapmak en güvenli yoldur.",
+    "bodyPartialNoDisplayName": "Lütfen irtibat kurduğunuz kişiden cüzdan adresinin son dört hanesini isteyin. Bunu şahsen veya telefon görüşmesi ile yapmak en güvenli yoldur.",
+    "body1Full": "Lütfen {{displayName}} adresinden Cüzdan Adreslerini isteyin.",
+    "body1FullNoDisplayName": "Lütfen irtibat kişinizden Cüzdan Adreslerini isteyin.",
+    "body2Full": "Bunu yapmanın en güvenli yolu yüz yüze görüşmektir. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
+    "help": "Bir Cüzdan Adresini nerede bulabilirim?",
     "submit": "Kaydet"
   },
   "accountInputHeaderPartial": "Son 4 Hane",
   "accountInputHeaderFull": "Hesap Adresi",
   "helpModal": {
-    "header": "Bir Hesap Adresini bulma",
-    "body1": "Hesap Adresleri (adresler) menüde bulunur. Ana ekrandan, sol üst köşedeki simgeye dokunarak menüyü açın.",
-    "body2": "Hesap Adresi, menünün alt kısmındadır.",
-    "body3": "Hesap Adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır"
+    "header": "Bir cüzdan adresi bulma",
+    "body1": "Cüzdan adresiniz menüde yer almaktadır. Sol üst köşedeki menü simgesine dokunarak menüyü açın.",
+    "body2": "Cüzdan adresiniz menünün alt kısmına yakındır.",
+    "body3": "Cüzdan adresleri \"0x\" ile başlar ve 42 karakter uzunluğundadır"
   },
   "transferAddressChanged": "Bu kişi işlemden sonra Hesap Adresini değiştirdi. Bu ödeme şu adrese gönderildi:",
   "addressConfirmed": "Hesap Adresi onaylandı",
