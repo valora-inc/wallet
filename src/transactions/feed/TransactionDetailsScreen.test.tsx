@@ -12,6 +12,7 @@ import {
   FeeType,
   NetworkId,
   TokenAmount,
+  TokenApproval,
   TokenExchange,
   TokenExchangeMetadata,
   TokenTransaction,
@@ -29,6 +30,7 @@ import {
 } from 'test/utils'
 import {
   mockAccount,
+  mockApprovalTransaction,
   mockCeloAddress,
   mockCeloTokenId,
   mockCeurAddress,
@@ -164,6 +166,15 @@ describe('TransactionDetailsScreen', () => {
     }
   }
 
+  function approvalTransaction({
+    status = TransactionStatus.Complete,
+  }: Partial<TokenApproval>): TokenApproval {
+    return {
+      ...mockApprovalTransaction,
+      status,
+    }
+  }
+
   it('renders correctly for sends', async () => {
     const { getByTestId } = renderScreen({
       transaction: tokenTransfer({
@@ -254,10 +265,10 @@ describe('TransactionDetailsScreen', () => {
     expect(getElementText(rate)).toEqual('1 cUSD ≈ 2.00 cEUR')
 
     // Includes the fee
-    const estimatedFee = getByTestId('SwapContent/estimatedFee')
+    const estimatedFee = getByTestId('TransactionDetails/NetworkFee')
     expect(getElementText(estimatedFee)).toEqual('0.10 cUSD')
 
-    const estimatedFeeInLocalCurrency = getByTestId('SwapContent/estimatedFeeLocalAmount')
+    const estimatedFeeInLocalCurrency = getByTestId('TransactionDetails/NetworkFeeLocalCurrency')
     expect(getElementText(estimatedFeeInLocalCurrency)).toEqual('₱0.13')
   })
 
@@ -311,6 +322,56 @@ describe('TransactionDetailsScreen', () => {
     })
 
     expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+  })
+
+  it(`renders check status action for pending ${TokenTransactionTypeV2.Approval} transacton`, () => {
+    const { getByText } = renderScreen({
+      transaction: approvalTransaction({
+        status: TransactionStatus.Pending,
+      }),
+    })
+
+    expect(getByText('transactionDetailsActions.checkPendingTransactionStatus')).toBeTruthy()
+  })
+
+  it(`renders the correct details for ${TokenTransactionTypeV2.Approval} transacton`, () => {
+    const { getByText, getByTestId } = renderScreen({
+      transaction: approvalTransaction({
+        status: TransactionStatus.Complete,
+      }),
+      storeOverrides: {
+        tokens: {
+          tokenBalances: {
+            'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48': {
+              name: 'USD Coin',
+              balance: '0',
+              tokenId: 'ethereum-sepolia:0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+              networkId: NetworkId['ethereum-sepolia'],
+              decimals: 6,
+              address: '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',
+              symbol: 'USDC',
+            },
+            'ethereum-sepolia:native': {
+              name: 'Ether',
+              isNative: true,
+              priceUsd: '2051.31',
+              balance: '0',
+              networkId: NetworkId['ethereum-sepolia'],
+              tokenId: 'ethereum-sepolia:native',
+              decimals: 18,
+              priceFetchedAt: Date.now(),
+              symbol: 'ETH',
+            },
+          },
+        },
+      },
+    })
+
+    expect(
+      getByText('transactionFeed.infiniteApprovalDescription, {"tokenSymbol":"USDC"}')
+    ).toBeTruthy()
+    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.001 ETH')
+    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱2.81')
   })
 
   it(`renders retry action for failed ${TokenTransactionTypeV2.Sent} transacton`, () => {

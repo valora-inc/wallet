@@ -342,6 +342,12 @@ export function* handleTransactionReceiptReceived(
         : TransactionStatus.Complete,
   }
 
+  if (feeTokenInfo) {
+    Logger.info('DIEGO ACA:', gasFeeInSmallestUnit.shiftedBy(-feeTokenInfo.decimals).toFixed())
+  } else {
+    Logger.info('DIEGO ACA NO')
+  }
+
   yield* put(
     transactionConfirmed(txId, {
       ...baseDetails,
