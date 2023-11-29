@@ -27,7 +27,9 @@ export function usePaidFees(fees: Fee[]) {
   const securityFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.SecurityFee)
   const dekFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.EncryptionFee)
   const feeCurrencyInfo = Object.entries(tokensByCurrency).find(
-    ([_, tokenInfo]) => tokenInfo?.address === securityFeeAmount?.amount.tokenAddress
+    ([_, tokenInfo]) =>
+      tokenInfo?.address === securityFeeAmount?.amount.tokenAddress ||
+      tokenInfo?.tokenId === securityFeeAmount?.amount.tokenId
   )
 
   const securityFee = securityFeeAmount ? new BigNumber(securityFeeAmount.amount.value) : undefined
@@ -36,7 +38,9 @@ export function usePaidFees(fees: Fee[]) {
   const totalFee = totalFeeOrZero.isZero() ? undefined : totalFeeOrZero
 
   return {
-    feeTokenAddress: securityFeeAmount?.amount.tokenAddress,
+    feeTokenAddress: feeCurrencyInfo
+      ? feeCurrencyInfo[1]?.address
+      : securityFeeAmount?.amount.tokenAddress,
     feeCurrency: feeCurrencyInfo ? (feeCurrencyInfo[0] as Currency) : undefined,
     securityFee,
     dekFee,

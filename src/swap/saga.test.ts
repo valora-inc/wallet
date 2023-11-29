@@ -18,7 +18,12 @@ import {
   transactionConfirmed,
 } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
+import {
+  Network,
+  NetworkId,
+  TokenTransactionTypeV2,
+  TransactionStatus,
+} from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
@@ -60,7 +65,13 @@ const contractKit = {
 }
 
 jest.mock('src/transactions/send', () => ({
-  sendTransaction: jest.fn(() => ({ transactionHash: '0x123', blockNumber: '1234', status: true })),
+  sendTransaction: jest.fn(() => ({
+    transactionHash: '0x123',
+    blockNumber: '1234',
+    status: true,
+    effectiveGasPrice: 5_000_000_000,
+    gasUsed: 371_674,
+  })),
 }))
 
 jest.mock('src/transactions/types', () => {
@@ -404,7 +415,7 @@ describe(swapSubmitSaga, () => {
           receipt: {
             transactionHash: '0x123',
             block: '1234',
-            status: true,
+            status: TransactionStatus.Complete,
           },
         },
       })
@@ -606,6 +617,7 @@ describe(swapSubmitPreparedSaga, () => {
       toTokenAddress: mockCeloAddress,
       feeCurrencySymbol: 'CELO',
       swapPrepared: mockSwapPrepared,
+      expectedFees: [],
     },
     {
       network: Network.Ethereum,
@@ -616,6 +628,15 @@ describe(swapSubmitPreparedSaga, () => {
       toTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
       feeCurrencySymbol: 'ETH',
       swapPrepared: mockSwapPreparedEthereum,
+      expectedFees: [
+        {
+          type: 'SECURITY_FEE',
+          amount: {
+            value: '0.00185837',
+            tokenId: mockEthTokenId,
+          },
+        },
+      ],
     },
   ]
 
@@ -630,6 +651,7 @@ describe(swapSubmitPreparedSaga, () => {
       toTokenAddress,
       feeCurrencySymbol,
       swapPrepared,
+      expectedFees,
     }) => {
       jest
         .spyOn(Date, 'now')
@@ -666,7 +688,8 @@ describe(swapSubmitPreparedSaga, () => {
           transactionConfirmed('id-swap/saga-Swap/Execute', {
             transactionHash: mockSwapTxReceipt.transactionHash,
             block: mockSwapTxReceipt.blockNumber.toString(),
-            status: true,
+            status: TransactionStatus.Complete,
+            fees: expectedFees,
           })
         )
         .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x2' })

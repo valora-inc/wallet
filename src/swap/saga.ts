@@ -31,11 +31,8 @@ import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
-import {
-  addStandbyTransaction,
-  removeStandbyTransaction,
-  transactionConfirmed,
-} from 'src/transactions/actions'
+import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { sendTransaction } from 'src/transactions/send'
 import {
   NetworkId,
@@ -78,12 +75,14 @@ function* handleSendSwapTransaction(
   const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
   const txo = buildTxo(kit, tx)
 
+  const networkId = networkConfig.defaultNetworkId
+
   const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
   yield* put(
     addStandbyTransaction({
       context: transactionContext,
       __typename: 'TokenExchangeV3',
-      networkId: networkConfig.defaultNetworkId,
+      networkId,
       type: TokenTransactionTypeV2.SwapTransaction,
       inAmount: {
         value: outValue.multipliedBy(rawTx.guaranteedPrice),
@@ -97,14 +96,7 @@ function* handleSendSwapTransaction(
   )
 
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
-
-  yield* put(
-    transactionConfirmed(transactionContext.id, {
-      transactionHash: receipt.transactionHash,
-      block: receipt.blockNumber.toString(),
-      status: receipt.status,
-    })
-  )
+  yield* call(handleTransactionReceiptReceived, transactionContext.id, receipt, networkId)
 }
 
 function calculateEstimatedUsdValue({
@@ -440,12 +432,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
   })
 
   const trackedTxs: TrackedTx[] = []
+  const networkId = fromToken.networkId
 
   try {
     // Navigate to swap pending screen
     navigate(Screens.SwapExecuteScreen)
 
-    const network = getNetworkFromNetworkId(fromToken.networkId)
+    const network = getNetworkFromNetworkId(networkId)
     if (!network) {
       throw new Error('Unknown token network')
     }
@@ -505,7 +498,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       addStandbyTransaction({
         context: swapExecuteContext,
         __typename: 'TokenExchangeV3',
-        networkId: fromToken.networkId,
+        networkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
           value: outValue.multipliedBy(guaranteedPrice),
@@ -538,13 +531,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       Logger.warn(TAG, 'Error getting approve transaction receipt', e)
     }
 
-    yield* put(
-      transactionConfirmed(swapExecuteContext.id, {
-        transactionHash: swapTxReceipt.transactionHash,
-        block: swapTxReceipt.blockNumber.toString(),
-        status: swapTxReceipt.status === 'success',
-      })
-    )
+    yield* call(handleTransactionReceiptReceived, swapExecuteContext.id, swapTxReceipt, networkId)
 
     if (swapTxReceipt.status !== 'success') {
       throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
@@ -557,7 +544,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, fromToken.networkId, tokensById),
+      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
   } catch (err) {
     const error = ensureError(err)
@@ -567,7 +554,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
       ...timeMetrics,
-      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, fromToken.networkId, tokensById),
+      ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
       error: error.message,
     })
     yield* put(swapError())
