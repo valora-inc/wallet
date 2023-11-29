@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { getDynamicConfigParams } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -110,10 +111,7 @@ jest.mock('src/web3/networkConfig', () => {
 })
 
 jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(() => true),
-  getDynamicConfigParams: jest.fn(() => ({
-    showCico: ['celo-alfajores', 'ethereum-sepolia'],
-  })),
+  getDynamicConfigParams: jest.fn(),
 }))
 
 describe(FiatExchangeCurrencyBottomSheet, () => {
@@ -121,7 +119,8 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
-  it('shows the correct tokens for cash in', () => {
+  it('shows the correct tokens for cash in (multichain disabled, no ETH)', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ showCico: ['celo-alfajores'] })
     const { queryByTestId } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -132,7 +131,26 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
         />
       </Provider>
     )
-
+    expect(queryByTestId('cUSDSymbol')).toBeTruthy()
+    expect(queryByTestId('cEURSymbol')).toBeTruthy()
+    expect(queryByTestId('cREALSymbol')).toBeTruthy()
+    expect(queryByTestId('CELOSymbol')).toBeTruthy()
+    expect(queryByTestId('ETHSymbol')).toBeFalsy()
+  })
+  it('shows the correct tokens for cash in (multichain)', () => {
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValue({ showCico: ['celo-alfajores', 'ethereum-sepolia'] })
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{
+            flow: FiatExchangeFlow.CashIn,
+          }}
+        />
+      </Provider>
+    )
     expect(queryByTestId('cUSDSymbol')).toBeTruthy()
     expect(queryByTestId('cEURSymbol')).toBeTruthy()
     expect(queryByTestId('cREALSymbol')).toBeTruthy()
@@ -140,6 +158,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     expect(queryByTestId('ETHSymbol')).toBeTruthy()
   })
   it('shows the correct tokens for cash out', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ showCico: ['celo-alfajores'] })
     const { queryByTestId } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -150,7 +169,25 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
         />
       </Provider>
     )
-
+    expect(queryByTestId('cUSDSymbol')).toBeTruthy()
+    expect(queryByTestId('cEURSymbol')).toBeFalsy()
+    expect(queryByTestId('cREALSymbol')).toBeFalsy()
+    expect(queryByTestId('CELOSymbol')).toBeTruthy()
+  })
+  it('shows the correct tokens for cash out (multichain)', () => {
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValue({ showCico: ['celo-alfajores', 'ethereum-sepolia'] })
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{
+            flow: FiatExchangeFlow.CashOut,
+          }}
+        />
+      </Provider>
+    )
     expect(queryByTestId('cUSDSymbol')).toBeTruthy()
     expect(queryByTestId('cEURSymbol')).toBeFalsy()
     expect(queryByTestId('cREALSymbol')).toBeFalsy()
@@ -158,6 +195,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     expect(queryByTestId('ETHSymbol')).toBeFalsy()
   })
   it('shows the correct tokens for cash spend', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ showCico: ['celo-alfajores'] })
     const { queryByTestId } = render(
       <Provider store={mockStore}>
         <MockedNavigator
@@ -168,7 +206,25 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
         />
       </Provider>
     )
-
+    expect(queryByTestId('cUSDSymbol')).toBeTruthy()
+    expect(queryByTestId('cEURSymbol')).toBeTruthy()
+    expect(queryByTestId('cREALSymbol')).toBeFalsy()
+    expect(queryByTestId('CELOSymbol')).toBeFalsy()
+  })
+  it('shows the correct tokens for cash spend (multichain)', () => {
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValue({ showCico: ['celo-alfajores', 'ethereum-sepolia'] })
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{
+            flow: FiatExchangeFlow.Spend,
+          }}
+        />
+      </Provider>
+    )
     expect(queryByTestId('cUSDSymbol')).toBeTruthy()
     expect(queryByTestId('cEURSymbol')).toBeTruthy()
     expect(queryByTestId('cREALSymbol')).toBeFalsy()
