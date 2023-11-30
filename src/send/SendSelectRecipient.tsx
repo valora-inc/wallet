@@ -302,7 +302,7 @@ function SendSelectRecipient({ route }: Props) {
         />
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView keyboardDismissMode="on-drag">
         <PasteAddressButton
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
