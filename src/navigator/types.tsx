@@ -341,6 +341,7 @@ export type QRTabParamList = {
     | {
         qrCodeDataType?: QRCodeDataType
         qrCodeStyle?: QRCodeStyle
+        scanIsForSecureSend?: true
       }
     | undefined
   [Screens.QRScanner]:
