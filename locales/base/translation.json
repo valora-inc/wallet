@@ -558,12 +558,12 @@
     "twenty-ninth",
     "thirtieth"
   ],
-  "addressValidationError": "The account information entered was not valid",
-  "addressValidationNoMatch": "The account information entered does not match any associated with your contact",
-  "addressValidationFullPoorlyFormatted": "Account Addresses begin with \"0x\", contain only numbers and letters, and are 42 characters long. Press the link below for help",
-  "addressValidationPartialPoorlyFormatted": "Account Addresses only contain numbers and letters, please provide the last 4 digits. Press the link below for help",
-  "addressValidationFullOwnAddress": "Please enter your contact's Account Address, not your own. Press the link below for help",
-  "addressValidationPartialOwnAddress": "Please enter the last 4 digits of your contact's Account Address, not your own. Press the link below for help",
+  "addressValidationError": "Incorrect wallet address",
+  "addressValidationNoMatch": "Incorrect wallet address",
+  "addressValidationFullPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationPartialPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationFullOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
+  "addressValidationPartialOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
   "providerRateFetchFailed": "Could not fetch provider rate. You can continue without a prefilled rate.",
   "helpFindAccount": "Help your contact find their Account Address",
   "close": "Close",
@@ -1003,32 +1003,31 @@
     "importing": "Importing..."
   },
   "confirmAccount": {
-    "header": "Please confirm {{displayName}}'s account",
-    "headerNoDisplayName": "Please confirm your contact's account",
-    "button": "Confirm Account Address"
+    "header": "{{displayName}} has multiple wallets.",
+    "headerNoDisplayName": "This phone number has multiple wallets.",
+    "button": "Confirm Wallet Address"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} has multiple accounts associated with it. {{displayName}} could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
-    "body1NoDisplayName": "Your contact has multiple accounts associated with it. Your contact could have created a new {{appName}} account, or may have lost their phone or had their account compromised.",
+    "body1": "There are multiple wallets associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their wallet address.",
     "body2": "You must scan their QR code or confirm their Account Address before transacting."
   },
   "confirmAccountNumber": {
-    "title": "Confirm Account Address",
-    "bodyPartial": "Please ask {{displayName}} for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their Account Address. It's safest to do this in person or by phone.",
-    "body1Full": "Please ask {{displayName}} for their Account Address.",
-    "body1FullNoDisplayName": "Please ask your contact for their Account Address.",
-    "body2Full": "We strongly recommend asking in person or over the phone, through WhatsApp or Messenger, or by email. For security, please do not use text messaging (SMS).",
-    "help": "Help locating an Account Address",
+    "title": "Confirm Wallet Address",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "body1Full": "Please ask {{displayName}} for their Wallet Address.",
+    "body1FullNoDisplayName": "Please ask your contact for their Wallet Address.",
+    "body2Full": "The safest way to do this is in person. For security, please do not use text messaging (SMS).",
+    "help": "Where can I find a Wallet Address?",
     "submit": "Submit"
   },
   "accountInputHeaderPartial": "Last 4 Digits",
   "accountInputHeaderFull": "Account Address",
   "helpModal": {
-    "header": "Locating an Account Address",
-    "body1": "Account Addresses (also known as addresses) are located in the menu. From the Home screen, open the menu by tapping the icon in the top left corner.",
-    "body2": "The Account Address is near the bottom of the menu.",
-    "body3": "Account Addresses begin with \"0x\" and are 42 characters long"
+    "header": "Locating a wallet address",
+    "body1": "Your wallet address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
+    "body2": "Your wallet address is near the bottom of the menu.",
+    "body3": "Wallet addresses begin with \"0x\" and are 42 characters long"
   },
   "transferAddressChanged": "This contact changed their Account Address since the transaction. This payment was sent to:",
   "addressConfirmed": "Account Address confirmed",
@@ -1967,5 +1966,14 @@
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Approval",
+    "estimatedNetworkFee": "Estimated network fee",
+    "networkFee": "Network fee",
+    "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
+    "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
+    "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
+    "descriptionLabel": "Details"
   }
 }

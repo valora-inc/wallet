@@ -291,6 +291,15 @@ describe(sendPaymentSaga, () => {
     feeInfo: mockFeeInfo,
   }
 
+  const sendActionWithPreparedTx: SendPaymentAction = {
+    ...sendAction,
+    preparedTransaction: {
+      from: '0xfrom',
+      to: '0xto',
+      data: '0xdata',
+    },
+  }
+
   beforeAll(() => {
     ;(toTransactionObject as jest.Mock).mockImplementation(() => jest.fn())
   })
@@ -339,7 +348,7 @@ describe(sendPaymentSaga, () => {
 
   it('sends a payment successfully with viem', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    await expectSaga(sendPaymentSaga, sendAction)
+    await expectSaga(sendPaymentSaga, sendActionWithPreparedTx)
       .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedUnlockedAccount), mockAccount],
@@ -347,11 +356,12 @@ describe(sendPaymentSaga, () => {
       ])
       .call(viemSendPayment, {
         context: { id: 'mock' },
-        recipientAddress: sendAction.recipient.address,
-        amount: sendAction.amount,
-        tokenId: sendAction.tokenId,
-        comment: sendAction.comment,
-        feeInfo: sendAction.feeInfo,
+        recipientAddress: sendActionWithPreparedTx.recipient.address,
+        amount: sendActionWithPreparedTx.amount,
+        tokenId: sendActionWithPreparedTx.tokenId,
+        comment: sendActionWithPreparedTx.comment,
+        feeInfo: sendActionWithPreparedTx.feeInfo,
+        preparedTransaction: sendActionWithPreparedTx.preparedTransaction,
       })
       .not.call.fn(sendAndMonitorTransaction)
       .run()
