@@ -166,12 +166,12 @@ describe('normalizeExternalProviders', () => {
     jest.clearAllMocks()
   })
   it('logs when normalization fails', () => {
-    const normalizedExternalQuotes = normalizeExternalProviders(
-      CICOFlow.CashIn,
-      [mockProviders[3]],
-      mockCusdTokenId,
-      'cUSD'
-    )
+    const normalizedExternalQuotes = normalizeExternalProviders({
+      flow: CICOFlow.CashIn,
+      input: [mockProviders[3]],
+      tokenId: mockCusdTokenId,
+      tokenSymbol: 'cUSD',
+    })
     expect(Logger.warn).toHaveBeenCalledWith(
       'NormalizeQuotes',
       Error('Error: Xanpool. Quote is restricted')
@@ -180,34 +180,34 @@ describe('normalizeExternalProviders', () => {
   })
   it('returns normalized quotes when quote is an array', () => {
     // Moonpay with two quotes
-    const normalizedExternalQuotes = normalizeExternalProviders(
-      CICOFlow.CashIn,
-      [mockProviders[1]],
-      mockCusdTokenId,
-      'cUSD'
-    )
+    const normalizedExternalQuotes = normalizeExternalProviders({
+      flow: CICOFlow.CashIn,
+      input: [mockProviders[1]],
+      tokenId: mockCusdTokenId,
+      tokenSymbol: 'cUSD',
+    })
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(2)
   })
   it('returns normalized quotes when quote is not an array', () => {
     // Simplex quote
-    const normalizedExternalQuotes = normalizeExternalProviders(
-      CICOFlow.CashIn,
-      [mockProviders[0]],
-      mockCusdTokenId,
-      'cUSD'
-    )
+    const normalizedExternalQuotes = normalizeExternalProviders({
+      flow: CICOFlow.CashIn,
+      input: [mockProviders[0]],
+      tokenId: mockCusdTokenId,
+      tokenSymbol: 'cUSD',
+    })
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(1)
   })
   it('returns normalized quotes when quote is an empty array, but provider is available', () => {
     // Ramp quote, Bank and Card
-    const normalizedExternalQuotes = normalizeExternalProviders(
-      CICOFlow.CashOut,
-      [mockProviders[6]],
-      mockCusdTokenId,
-      'cUSD'
-    )
+    const normalizedExternalQuotes = normalizeExternalProviders({
+      flow: CICOFlow.CashOut,
+      input: [mockProviders[6]],
+      tokenId: mockCusdTokenId,
+      tokenSymbol: 'cUSD',
+    })
     expect(Logger.warn).not.toHaveBeenCalled()
     expect(normalizedExternalQuotes).toHaveLength(2)
   })

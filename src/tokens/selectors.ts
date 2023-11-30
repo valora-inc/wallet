@@ -20,7 +20,6 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
-  isCicoToken,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
   usdBalance,
@@ -356,18 +355,14 @@ export const swappableTokensByNetworkIdSelector = createSelector(
 
 export const cashInTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) =>
-    tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
+  (tokens) => tokens.filter((tokenInfo) => tokenInfo.isCashInEligible)
 )
 
 export const cashOutTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>
     tokens.filter(
-      (tokenInfo) =>
-        tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
-        tokenInfo.isCashOutEligible &&
-        isCicoToken(tokenInfo.symbol)
+      (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) && tokenInfo.isCashOutEligible
     )
 )
 

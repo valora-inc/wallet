@@ -27,7 +27,7 @@ export function normalizeQuotes(
 ): NormalizedQuote[] {
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes, tokenId),
-    ...normalizeExternalProviders(flow, externalProviders, tokenId, tokenSymbol),
+    ...normalizeExternalProviders({ flow, input: externalProviders, tokenId, tokenSymbol }),
   ].sort(
     getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
       ? quotesByReceiveAmountComparator
@@ -98,12 +98,17 @@ export function normalizeFiatConnectQuotes(
   return normalizedQuotes
 }
 
-export function normalizeExternalProviders(
-  flow: CICOFlow,
-  input: FetchProvidersOutput[],
-  tokenId: string,
+export function normalizeExternalProviders({
+  flow,
+  input,
+  tokenId,
+  tokenSymbol,
+}: {
+  flow: CICOFlow
+  input: FetchProvidersOutput[]
+  tokenId: string
   tokenSymbol: string
-): NormalizedQuote[] {
+}): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
   input.forEach((provider) => {
     try {
