@@ -558,12 +558,12 @@
     "第二十九个",
     "第三十个"
   ],
-  "addressValidationError": "输入的账户信息无效",
-  "addressValidationNoMatch": "输入的账户信息未匹配到您的任何联系人",
-  "addressValidationFullPoorlyFormatted": "账户地址以“0x”开头，只包含数字和字母，长度为 42 个字符。如需帮助，请按下方链接",
-  "addressValidationPartialPoorlyFormatted": "账户地址只包含数字和字母，请提供最后 4 位数字。如需帮助，请按下方链接",
-  "addressValidationFullOwnAddress": "请输入您的联系人的账户地址，而不是您自己的账户地址。如需帮助，请按下方链接",
-  "addressValidationPartialOwnAddress": "请输入您联系人账户地址的最后 4 位数字，而不是您自己的。如需帮助，请按下方链接",
+  "addressValidationError": "钱包地址不正确",
+  "addressValidationNoMatch": "钱包地址不正确",
+  "addressValidationFullPoorlyFormatted": "钱包地址以 \"0x \"开头，长度为 42 个字符",
+  "addressValidationPartialPoorlyFormatted": "钱包地址以 \"0x \"开头，长度为 42 个字符",
+  "addressValidationFullOwnAddress": "这是您的钱包地址，请输入联系人的钱包地址。",
+  "addressValidationPartialOwnAddress": "这是您的钱包地址，请输入联系人的钱包地址。",
   "providerRateFetchFailed": "无法获取提供商费率。您可以在没有预填费率的情况下继续。",
   "helpFindAccount": "帮助您的联系人找到其账户地址",
   "close": "关闭",
@@ -638,15 +638,15 @@
     "body": "在 {{appName}} 上关联您的朋友和家人并分享价值。",
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
-    "share": "嘿！注册 {{appName}} 钱包。我用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成设置。请确保使用我的推荐链接注册： {{shareUrl}}。",
+    "share": "嘿！快来注册 {{appName}} 钱包。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：{{shareUrl}}。",
     "help": "要领取这笔奖励，受邀者必须通过推荐链接下载钱包应用，关联手机号码并向其 {{appName}} 钱包至少转入 5 cUSD，并且 7 天之内不转出资金。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "限时限量。邀请好友访问 Valora，即可获得免费 cUSD！",
-      "body": "每邀请一位朋友登录 {{appName}}，即可获得 0.50 cUSD。一旦他们添加资金，并在 7 天内持有 5 cUSD，你们都将获得 0.50 cUSD。请抓紧时间，资金有限！(仅限 25 位好友）。"
+      "title": "时间有限，先到先得。邀请朋友注册 Valora，赚取免费 cUSD！",
+      "body": "每邀请一位朋友注册 {{appName}}，即可赚取 0.50 cUSD。朋友添加资金，并持有 5 cUSD 达 7 天后，你们都将获得 0.50 cUSD 奖励。资金有限，先到先得！（仅限 25 位朋友）。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -960,7 +960,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嘿！现在，如果你注册并为 Valora 钱包充值，我们都可以免费获得 0.50 cUSD 的奖励。我用它来增加我的美元和加密货币储蓄，只需一个电话号码，您就可以在几秒钟内完成设置。请确保使用我的推荐链接注册： \n\n{{link}} \n\n不过要抓紧时间，推荐促销活动马上就要结束了。",
+  "inviteWithRewardsCUSD": "嘿！如果你现在注册 Valora 钱包并存入资金，我们就都能免费获得 0.50 cUSD 奖励。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：\n\n{{link}}\n\n心动不如行动，推荐活动马上就要结束了。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -999,32 +999,31 @@
     "importing": "正在导入..."
   },
   "confirmAccount": {
-    "header": "请确认 {{displayName}} 的账户",
-    "headerNoDisplayName": "请确认您的联系人的账户",
-    "button": "确认账户地址"
+    "header": "{{displayName}} 有多个钱包。",
+    "headerNoDisplayName": "这个电话号码有多个钱包。",
+    "button": "确认钱包地址"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} 有多个关联账户。{{displayName}} 可能已经创建了一个新的 {{appName}} 账户，或者可能丢失了手机或账户被盗。",
-    "body1NoDisplayName": "您的联系人有多个关联账户。您的联系人可能已经创建了一个新的 {{appName}} 账户，或者可能丢失了手机或账户被盗。",
+    "body1": "{{e164PhoneNumber}}有多个相关钱包。为了确认您拥有正确的账户，请扫描其二维码或输入其钱包地址。",
     "body2": "您必须在扫描对方的二维码或确认其账户地址后才能进行交易。"
   },
   "confirmAccountNumber": {
-    "title": "确认账户地址",
-    "bodyPartial": "请询问 {{displayName}} 的账户地址的最后四位数字。最安全的方式是当面或打电话询问。",
-    "bodyPartialNoDisplayName": "请询问您的联系人的账户地址的最后四位数字。最安全的方式是当面或打电话询问。",
-    "body1Full": "请询问 {{displayName}} 的账户地址。",
-    "body1FullNoDisplayName": "请询问您的联系人的账户地址。",
-    "body2Full": "强烈建议您当面或打电话询问，或者通过 WhatsApp、Messenger 或电子邮件询问。为了安全起见，请不要使用短信。",
-    "help": "帮助查找账户地址",
+    "title": "确认钱包地址",
+    "bodyPartial": "请向 {{displayName}} 询问其钱包地址的最后四位数字。最安全的做法是当面或打电话询问。",
+    "bodyPartialNoDisplayName": "请向联系人询问其钱包地址的最后四位数字。当面或通过电话询问最为安全。",
+    "body1Full": "请向 {{displayName}} 询问他们的钱包地址。",
+    "body1FullNoDisplayName": "请向联系人索取他们的钱包地址。",
+    "body2Full": "最安全的方式是亲自前往。为安全起见，请勿使用短信（SMS）。",
+    "help": "在哪里可以找到钱包地址？",
     "submit": "提交"
   },
   "accountInputHeaderPartial": "最后 4 位数字",
   "accountInputHeaderFull": "账户地址",
   "helpModal": {
-    "header": "正在查找账户地址",
-    "body1": "账户地址（也称地址）位于菜单中。在主屏幕上点按左上角的图标即可打开菜单。",
-    "body2": "账户地址位于菜单底部附近。",
-    "body3": "账户地址以“0x”开头，长度为 42 个字符"
+    "header": "查找钱包地址",
+    "body1": "您的钱包地址位于菜单中。点击左上角的菜单图标打开菜单。",
+    "body2": "您的钱包地址位于菜单底部附近。",
+    "body3": "钱包地址以 \"0x \"开头，长度为 42 个字符"
   },
   "transferAddressChanged": "此联系人自交易后已更改其账户地址。此付款已被发送至：",
   "addressConfirmed": "账户地址已确认",
@@ -1662,7 +1661,7 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "最优惠价格由网络合作伙伴决定。<0>了解更多信息</0>",
+    "disclaimer": "网络合作伙伴确定的最佳费率。<0>了解更多信息</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
@@ -1875,20 +1874,20 @@
     }
   },
   "tokenImport": {
-    "title": "导入令牌",
-    "notification": "任何人都可以创建令牌，包括现有令牌的伪造版本。请在导入前确认令牌地址是否正确。",
+    "title": "导入代币",
+    "notification": "任何人都可以创建代币，包括现有代币的虚假版本。导入前请验证您的代币地址是否正确。",
     "input": {
-      "tokenAddress": "令牌地址",
+      "tokenAddress": "代币地址",
       "tokenAddressPlaceholder": "0x…",
       "tokenSymbol": "代币符号",
       "network": "网络"
     },
     "error": {
-      "invalidToken": "令牌无效。请重试或联系支持人员",
-      "alreadyImported": "之前已经添加了令牌。",
-      "alreadySupported": "已支持令牌。"
+      "invalidToken": "代币无效。请重试或联系支持人员",
+      "alreadyImported": "代币已被添加。",
+      "alreadySupported": "代币已获支持。"
     },
-    "importSuccess": "成功导入 {{tokenSymbol}} 令牌",
+    "importSuccess": "成功导入 {{tokenSymbol}} 代币",
     "importButton": "导入"
   },
   "sendSelectRecipient": {
@@ -1927,12 +1926,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "启用联系人继续",
-      "description": "请进入设置更新联系人，并开始向朋友发送信息"
+      "title": "启用联系人以继续",
+      "description": "请前往设置更新您的联系人，并开始发送给朋友"
     },
     "connectPhoneNumberModal": {
       "title": "关联您的手机号码",
-      "description": "您需要连接您的电话号码，以便开始向朋友发送加密货币"
+      "description": "您需要关联您的电话号码，以便开始向您的朋友发送加密货币"
     }
   },
   "transactionStatus": {
@@ -1961,6 +1960,15 @@
       "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
       "description": "添加 {{feeTokenSymbol}} 来支付手续费或调整发送金额"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "批准",
+    "estimatedNetworkFee": "估计网络费用",
+    "networkFee": "网络费用",
+    "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}}",
+    "infiniteApprovalDescription": "{{tokenSymbol}}",
+    "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
+    "descriptionLabel": "详细信息"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
