@@ -4,13 +4,14 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import { TokenBalanceItemOption } from 'src/components/TokenBottomSheet'
 import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
+import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
@@ -57,17 +58,16 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
     }
 
   return (
-    <BottomSheetScrollView>
+    <BottomSheetScrollView containerStyle={{ padding: undefined }}>
       <Text style={styles.selectDigitalCurrency}>{t('sendEnterAmountScreen.selectToken')}</Text>
-      {!tokenList.length
-        ? null
-        : tokenList.map((tokenInfo) => {
-            return (
-              <React.Fragment key={`token-${tokenInfo.tokenId}`}>
-                <TokenBalanceItemOption tokenInfo={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
-              </React.Fragment>
-            )
-          })}
+      {tokenList.length &&
+        tokenList.map((tokenInfo) => {
+          return (
+            <React.Fragment key={`token-${tokenInfo.tokenId}`}>
+              <TokenBalanceItem token={tokenInfo} onPress={onTokenPressed(tokenInfo)} />
+            </React.Fragment>
+          )
+        })}
     </BottomSheetScrollView>
   )
 }
@@ -75,7 +75,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
 const styles = StyleSheet.create({
   selectDigitalCurrency: {
     ...typeScale.titleSmall,
-    marginRight: 12,
+    paddingHorizontal: Spacing.Thick24,
   },
 })
 
