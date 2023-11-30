@@ -50,6 +50,7 @@ const MOCK_STORE_DATA = {
         priceFetchedAt: mockDate,
         showZeroBalance: true,
         isCashInEligible: true,
+        isCashOutEligible: true,
       },
       [mockCeloTokenId]: {
         tokenId: mockCeloTokenId,
@@ -170,7 +171,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
       </Provider>
     )
     expect(queryByTestId('cUSDSymbol')).toBeTruthy()
-    expect(queryByTestId('cEURSymbol')).toBeFalsy()
+    expect(queryByTestId('cEURSymbol')).toBeTruthy()
     expect(queryByTestId('cREALSymbol')).toBeFalsy()
     expect(queryByTestId('CELOSymbol')).toBeTruthy()
   })
@@ -189,7 +190,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
       </Provider>
     )
     expect(queryByTestId('cUSDSymbol')).toBeTruthy()
-    expect(queryByTestId('cEURSymbol')).toBeFalsy()
+    expect(queryByTestId('cEURSymbol')).toBeTruthy()
     expect(queryByTestId('cREALSymbol')).toBeFalsy()
     expect(queryByTestId('CELOSymbol')).toBeTruthy()
     expect(queryByTestId('ETHSymbol')).toBeFalsy()
