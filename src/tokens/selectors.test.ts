@@ -1,7 +1,9 @@
 import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import {
+  cashOutTokensByNetworkIdSelector,
   defaultTokenToSendSelector,
+  spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -25,6 +27,7 @@ jest.mock('src/web3/networkConfig', () => {
     default: {
       ...originalModule.default,
       defaultNetworkId: 'celo-alfajores',
+      spendTokenIds: ['celo-alfajores:0xusd', 'celo-alfajores:0xeur'],
     },
   }
 })
@@ -51,6 +54,7 @@ const state: any = {
         priceFetchedAt: mockDate,
         isSwappable: true,
         showZeroBalance: true,
+        isCashOutEligible: true,
       },
       ['celo-alfajores:0xeur']: {
         tokenId: 'celo-alfajores:0xeur',
@@ -63,6 +67,7 @@ const state: any = {
         isSupercharged: true,
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.0.0',
+        isCashOutEligible: true,
       },
       ['celo-alfajores:0x1']: {
         tokenId: 'celo-alfajores:0x1',
@@ -226,6 +231,7 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0xeur",
           "balance": "50",
+          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
@@ -239,6 +245,7 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0xusd",
           "balance": "0",
+          "isCashOutEligible": true,
           "isSwappable": true,
           "lastKnownPriceUsd": "1",
           "name": "cUSD",
@@ -285,6 +292,7 @@ describe('tokensWithUsdValueSelector', () => {
         {
           "address": "0xeur",
           "balance": "50",
+          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
@@ -372,5 +380,43 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
     expect(tokensWithNonZeroBalanceAndShowZeroBalanceSelector.recomputations()).toEqual(
       prevComputations + 1
     )
+  })
+})
+
+describe(cashOutTokensByNetworkIdSelector, () => {
+  describe('when fetching cash out tokens', () => {
+    it('returns the right tokens without zero balance included', () => {
+      const tokens = cashOutTokensByNetworkIdSelector(
+        state,
+        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        false
+      )
+      expect(tokens.length).toEqual(1)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
+    it('returns the right tokens with zero balance included', () => {
+      const tokens = cashOutTokensByNetworkIdSelector(
+        state,
+        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        true
+      )
+      expect(tokens.length).toEqual(2)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
+  })
+})
+
+describe(spendTokensByNetworkIdSelector, () => {
+  describe('when fetching spend tokens', () => {
+    it('returns the right tokens', () => {
+      const tokens = spendTokensByNetworkIdSelector(state, [
+        NetworkId['celo-alfajores'],
+        NetworkId['ethereum-sepolia'],
+      ])
+      expect(tokens.length).toEqual(2)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
   })
 })

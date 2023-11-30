@@ -361,14 +361,24 @@ export const cashInTokensByNetworkIdSelector = createSelector(
 )
 
 export const cashOutTokensByNetworkIdSelector = createSelector(
-  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) =>
+  [
+    (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+    (_state: RootState, _networkIds: NetworkId[], showZeroBalanceTokens: boolean) =>
+      showZeroBalanceTokens,
+  ],
+  (tokens, showZeroBalanceTokens) =>
     tokens.filter(
       (tokenInfo) =>
-        tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) &&
+        ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
+          tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
         tokenInfo.isCashOutEligible &&
         isCicoToken(tokenInfo.symbol)
     )
+)
+
+export const spendTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => tokens.filter((tokenInfo) => networkConfig.spendTokenIds.includes(tokenInfo.tokenId))
 )
 
 export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector(

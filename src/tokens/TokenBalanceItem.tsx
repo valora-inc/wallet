@@ -25,7 +25,11 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
         <TokenIcon token={token} viewStyle={styles.marginRight} />
         <View style={styles.textContainer}>
           <View style={styles.line}>
-            <Text numberOfLines={1} style={[styles.label, styles.marginRight]}>
+            <Text
+              numberOfLines={1}
+              style={[styles.label, styles.marginRight]}
+              testID={`${token.symbol}Symbol`}
+            >
               {token.name}
             </Text>
             <TokenDisplay
@@ -35,6 +39,7 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
               showSymbol={true}
               hideSign={true}
               showLocalAmount={false}
+              testID={`${token.symbol}Balance`}
             />
           </View>
           <View style={styles.line}>
