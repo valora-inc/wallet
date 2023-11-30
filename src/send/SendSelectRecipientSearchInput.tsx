@@ -35,21 +35,17 @@ const styles = StyleSheet.create({
     color: colors.gray4,
     marginRight: 24,
     paddingRight: 10,
-    paddingBottom: 12,
     flex: 1,
     borderWidth: 1,
     borderColor: colors.gray2,
     borderRadius: 100,
-    height: 44,
   },
   search: {
     paddingLeft: 20,
-    paddingTop: 10,
     borderColor: colors.gray2,
     borderRadius: 100,
   },
   input: {
     ...typeScale.bodySmall,
-    height: 44,
   },
 })
