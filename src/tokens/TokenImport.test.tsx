@@ -2,7 +2,10 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
+import { getTokenId } from 'src/tokens/utils'
+import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockCusdAddress, mockPoofAddress } from 'test/values'
 import TokenImportScreen from './TokenImport'
 
 const mockScreenProps = getMockStackScreenProps(Screens.TokenImport)
@@ -25,17 +28,22 @@ describe('TokenImport', () => {
 
   it('enables the import button when form is filled', () => {
     const store = createMockStore({})
-    const { getByText } = render(
+    const { getByText, getByPlaceholderText, getByTestId } = render(
       <Provider store={store}>
         <TokenImportScreen {...mockScreenProps} />
       </Provider>
     )
 
-    fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), '0x123')
-    fireEvent.changeText(getByText('tokenImport.input.tokenSymbol'), 'ABC')
+    const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
+    fireEvent.changeText(tokenAddressInput, mockPoofAddress)
+    expect(getByTestId('tokenSymbol')).toBeDisabled()
+    fireEvent(tokenAddressInput, 'blur')
 
-    const importButton = getByText('tokenImport.importButton')
-    expect(importButton.props.disabled).toBeFalsy()
+    expect(getByTestId('tokenSymbol')).toBeEnabled()
+    expect(getByText('tokenImport.importButton')).toBeDisabled()
+    fireEvent.changeText(getByTestId('tokenSymbol'), 'ABC')
+
+    expect(getByText('tokenImport.importButton')).toBeEnabled()
   })
 
   it('updates the token address input when changed', () => {
@@ -47,7 +55,8 @@ describe('TokenImport', () => {
     )
     const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
     expect(tokenAddressInput.props.value).toBe('')
-    fireEvent.changeText(tokenAddressInput, '0xABC')
+
+    fireEvent.changeText(tokenAddressInput, 'ABC')
     expect(tokenAddressInput.props.value).toBe('0xABC')
   })
 
@@ -58,13 +67,63 @@ describe('TokenImport', () => {
         <TokenImportScreen {...mockScreenProps} />
       </Provider>
     )
-    const symbolInput = getByTestId('tokenSymbol')
-    expect(symbolInput.props.editable).toBeFalsy()
-    fireEvent.changeText(
-      getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder'),
-      '0xef4229c8c3250C675F21BCefa42f58EfbfF6002a'
-    )
 
-    expect(symbolInput.props.editable).toBeTruthy()
+    expect(getByTestId('tokenSymbol')).toBeDisabled()
+    const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
+    fireEvent.changeText(tokenAddressInput, mockPoofAddress)
+    fireEvent(tokenAddressInput, 'blur')
+
+    expect(getByTestId('tokenSymbol')).toBeEnabled()
+  })
+
+  describe('renderErrorMessage when token address', () => {
+    it('is already supported', () => {
+      const store = createMockStore({})
+      const { getByText } = render(
+        <Provider store={store}>
+          <TokenImportScreen {...mockScreenProps} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), mockCusdAddress)
+      fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
+
+      expect(getByText('tokenImport.error.alreadySupported')).toBeTruthy()
+      expect(getByText('tokenImport.importButton')).toBeDisabled()
+    })
+
+    it('is already imported', () => {
+      const store = createMockStore({
+        tokens: {
+          importedTokenIds: [getTokenId(networkConfig.defaultNetworkId, mockPoofAddress)],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <TokenImportScreen {...mockScreenProps} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), mockPoofAddress)
+      fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
+
+      expect(getByText('tokenImport.error.alreadyImported')).toBeTruthy()
+      expect(getByText('tokenImport.importButton')).toBeDisabled()
+    })
+
+    it('is invalid', () => {
+      const store = createMockStore({})
+      const { getByText } = render(
+        <Provider store={store}>
+          <TokenImportScreen {...mockScreenProps} />
+        </Provider>
+      )
+
+      fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), 'invalid')
+      fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
+
+      expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
+      expect(getByText('tokenImport.importButton')).toBeDisabled()
+    })
   })
 })

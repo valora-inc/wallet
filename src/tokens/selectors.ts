@@ -82,6 +82,11 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
+export const importTokenIdsSelector = createSelector(
+  [(state: RootState) => state.tokens.importedTokenIds],
+  (storedTokenIds) => storedTokenIds
+)
+
 /**
  * Get an object mapping token addresses to token metadata, the user's balance, and its price
  *

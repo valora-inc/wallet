@@ -100,6 +100,7 @@ export interface TokenBalancesWithAddress {
 
 export interface State {
   tokenBalances: StoredTokenBalances
+  importedTokenIds: string[]
   loading: boolean
   error: boolean
 }
@@ -114,8 +115,9 @@ export function isNativeTokenBalance(tokenInfo: TokenBalance): tokenInfo is Nati
   return !!tokenInfo.isNative
 }
 
-export const initialState = {
+export const initialState: State = {
   tokenBalances: {},
+  importedTokenIds: [],
   loading: false,
   error: false,
 }
@@ -127,6 +129,18 @@ const slice = createSlice({
     setTokenBalances: (state, action: PayloadAction<StoredTokenBalances>) => ({
       ...state,
       tokenBalances: action.payload,
+      loading: false,
+      error: false,
+    }),
+    addImportedTokenId: (state, action: PayloadAction<string>) => ({
+      ...state,
+      importedTokenIds: [...new Set(state.importedTokenIds.concat(action.payload))],
+      loading: false,
+      error: false,
+    }),
+    removeImportedTokenId: (state, action: PayloadAction<string>) => ({
+      ...state,
+      importedTokenIds: state.importedTokenIds.filter((id) => id !== action.payload),
       loading: false,
       error: false,
     }),
@@ -156,6 +170,8 @@ const slice = createSlice({
 
 export const {
   setTokenBalances,
+  addImportedTokenId,
+  removeImportedTokenId,
   fetchTokenBalances,
   fetchTokenBalancesSuccess,
   fetchTokenBalancesFailure,

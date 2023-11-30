@@ -2828,6 +2828,18 @@ export const v170Schema = {
   supercharge: _.omit(v169Schema.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
 }
 
+export const v171Schema = {
+  ...v170Schema,
+  _persist: {
+    ...v170Schema._persist,
+    version: 171,
+  },
+  tokens: {
+    ...v170Schema.tokens,
+    importedTokenIds: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v170Schema as Partial<RootState>
+  return v171Schema as Partial<RootState>
 }

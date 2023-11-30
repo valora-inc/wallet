@@ -1,4 +1,4 @@
-import { isValidAddress } from '@celo/utils/lib/address'
+import { ensureLeading0x } from '@celo/utils/lib/address'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -18,23 +18,74 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
+import { addImportTokenId } from 'src/tokens/actions'
+import { importTokenIdsSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import { getTokenId } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
+import { isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
+
+enum AddressState {
+  Incomplete,
+  Invalid,
+  AlreadySupported,
+  AlreadyImported,
+  Valid,
+}
 
 export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const [addressState, setAddressState] = useState(AddressState.Incomplete)
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
   const [networkId] = useState(networkConfig.defaultNetworkId)
+
+  const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
+
+  const importedTokens = useSelector((state) => importTokenIdsSelector(state))
+
+  const handleChangeTokenAddress = (address: string) => {
+    setTokenAddress(ensureLeading0x(address))
+  }
+
+  const handleAddressFocus = () => {
+    setAddressState(AddressState.Incomplete)
+  }
+
+  const validateAddress = (address: string) => {
+    if (isAddress(address)) {
+      const tokenId = getTokenId(networkId, address)
+      if (supportedTokens[tokenId]) {
+        setAddressState(AddressState.AlreadySupported)
+      } else if (importedTokens.includes(tokenId)) {
+        setAddressState(AddressState.AlreadyImported)
+      } else {
+        setAddressState(AddressState.Valid)
+      }
+    } else {
+      setAddressState(AddressState.Invalid)
+    }
+  }
+
+  const handleAddressBlur = () => {
+    validateAddress(tokenAddress)
+  }
+
+  const handlePaste = (address: string) => {
+    handleChangeTokenAddress(address)
+    validateAddress(address)
+    ValoraAnalytics.track(AssetsEvents.import_token_paste)
+  }
 
   const handleImportToken = () => {
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
@@ -42,19 +93,23 @@ export default function TokenImportScreen(_: Props) {
       tokenSymbol,
       networkId,
     })
-    navigateBack()
+    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
+    dispatch(addImportTokenId(tokenId))
     // TODO RET-891: do this only when actually imported
+    navigateBack()
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
   }
 
   const renderErrorMessage = (): ReactElement<Text> => {
-    // TODO RET-892: when states and validation are added, choose appropriate error or return null
-    const errors = [
-      t('tokenImport.error.invalidToken'),
-      t('tokenImport.error.alreadySupported'),
-      t('tokenImport.error.alreadyImported'),
-    ]
-    return <Text style={styles.errorLabel}>{errors[0]}</Text>
+    // TODO RET-892: add more error messages
+    const errors: { [key in AddressState]?: string | null } = {
+      [AddressState.AlreadySupported]: t('tokenImport.error.alreadySupported'),
+      [AddressState.AlreadyImported]: t('tokenImport.error.alreadyImported'),
+      [AddressState.Invalid]: t('tokenImport.error.invalidToken'),
+    }
+
+    const error = errors[addressState]
+    return error ? <Text style={styles.errorLabel}>{error}</Text> : <></>
   }
 
   return (
@@ -75,18 +130,12 @@ export default function TokenImportScreen(_: Props) {
           <TextInputGroup
             label={t('tokenImport.input.tokenAddress')}
             value={tokenAddress}
-            onChangeText={setTokenAddress}
+            onChangeText={handleChangeTokenAddress}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
-            rightElement={
-              !tokenAddress && (
-                <PasteButton
-                  onPress={(address) => {
-                    setTokenAddress(address)
-                    ValoraAnalytics.track(AssetsEvents.import_token_paste)
-                  }}
-                />
-              )
-            }
+            rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
+            onFocus={handleAddressFocus}
+            onBlur={handleAddressBlur}
+            returnKeyType={'search'}
             maxLength={42} // 0x prefix and 20 bytes
           />
 
@@ -95,9 +144,11 @@ export default function TokenImportScreen(_: Props) {
             label={t('tokenImport.input.tokenSymbol')}
             value={tokenSymbol}
             onChangeText={setTokenSymbol}
-            editable={isValidAddress(tokenAddress)}
+            editable={addressState === AddressState.Valid}
             // TODO RET-892: once loaded, hide the spinner
-            rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />}
+            rightElement={
+              addressState === AddressState.Valid && <GreenLoadingSpinner height={32} />
+            }
             errorElement={renderErrorMessage()}
             testID={'tokenSymbol'}
           />

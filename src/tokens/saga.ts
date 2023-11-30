@@ -10,6 +10,7 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { Actions, AddImportTokenIdAction } from 'src/tokens/actions'
 import {
   lastKnownTokenBalancesSelector,
   tokensListSelector,
@@ -19,6 +20,7 @@ import {
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
+  addImportedTokenId,
   fetchTokenBalances,
   fetchTokenBalancesFailure,
   setTokenBalances,
@@ -273,7 +275,16 @@ export function* watchAccountFundedOrLiquidated() {
   }
 }
 
+function* addImportTokenIdSaga(action: AddImportTokenIdAction) {
+  yield* put(addImportedTokenId(action.tokenId))
+}
+
+function* watchAddImportTokenId() {
+  yield* takeEvery(Actions.ADD_IMPORT_TOKEN_ID, addImportTokenIdSaga)
+}
+
 export function* tokensSaga() {
   yield* spawn(watchFetchBalance)
   yield* spawn(watchAccountFundedOrLiquidated)
+  yield* spawn(watchAddImportTokenId)
 }
