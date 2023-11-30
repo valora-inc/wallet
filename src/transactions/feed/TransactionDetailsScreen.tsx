@@ -21,10 +21,12 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAction'
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
+import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
   Network,
   NetworkId,
+  TokenApproval,
   TokenExchange,
   TokenTransaction,
   TokenTransactionTypeV2,
@@ -79,6 +81,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('transactionHeaderNftSent')
     case TokenTransactionTypeV2.SwapTransaction:
       return t('swapScreen.title')
+    case TokenTransactionTypeV2.Approval:
+      return t('transactionFeed.approvalTransactionTitle')
   }
 }
 
@@ -119,6 +123,9 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent exchange={transaction as TokenExchange} />
       retryHandler = () => navigate(Screens.SwapScreenWithBack)
+      break
+    case TokenTransactionTypeV2.Approval:
+      content = <TokenApprovalDetails transaction={transaction as TokenApproval} />
       break
   }
 

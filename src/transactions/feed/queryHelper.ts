@@ -388,6 +388,7 @@ export const TRANSACTIONS_QUERY = gql`
         ...TokenTransferItemV3
         ...NftTransferItemV3
         ...TokenExchangeItemV3
+        ...TokenApprovalItem
       }
     }
   }
@@ -490,6 +491,29 @@ export const TRANSACTIONS_QUERY = gql`
         exchangeRate
       }
     }
+    fees {
+      type
+      amount {
+        value
+        tokenAddress
+        tokenId
+        localAmount {
+          value
+          currencyCode
+          exchangeRate
+        }
+      }
+    }
+  }
+
+  fragment TokenApprovalItem on TokenApproval {
+    __typename
+    type
+    timestamp
+    block
+    transactionHash
+    tokenId
+    approvedAmount
     fees {
       type
       amount {

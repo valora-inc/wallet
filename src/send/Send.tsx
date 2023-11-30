@@ -39,9 +39,9 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { useTokensForSend } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
+import Logger from 'src/utils/Logger'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { requestContactsPermission } from 'src/utils/permissions'
-import Logger from 'src/utils/Logger'
 
 const SEARCH_THROTTLE_TIME = 100
 const TAG = 'send/Send'

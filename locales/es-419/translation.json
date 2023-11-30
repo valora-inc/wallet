@@ -558,12 +558,12 @@
     "vigésimonovena",
     "trigésima"
   ],
-  "addressValidationError": "La información de cuenta ingresada es inválida",
-  "addressValidationNoMatch": "La información de cuenta ingresada no coincide con ninguna cuenta asociada a tu contacto",
-  "addressValidationFullPoorlyFormatted": "Las direcciones de cuenta comienzan con \"0x\", contienen solo números y letras, y tienen 42 caracteres de longitud. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationPartialPoorlyFormatted": "Las direcciones de cuenta contienen solo números y letras, ingresa los últimos 4 dígitos. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationFullOwnAddress": "Ingresa la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
-  "addressValidationPartialOwnAddress": "Ingresa los últimos 4 dígitos de la Dirección de cuenta de tu contacto, no la tuya. Sigue el enlace a continuación para obtener ayuda.",
+  "addressValidationError": "Dirección incorrecta del monedero",
+  "addressValidationNoMatch": "Dirección incorrecta del monedero",
+  "addressValidationFullPoorlyFormatted": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres",
+  "addressValidationPartialPoorlyFormatted": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres",
+  "addressValidationFullOwnAddress": "Esta es la dirección de tu monedero, introduce la dirección del monedero de tu contacto.",
+  "addressValidationPartialOwnAddress": "Esta es la dirección de tu monedero, introduce la dirección del monedero de tu contacto.",
   "providerRateFetchFailed": "No se pudo obtener la tasa del proveedor. Puedes continuar sin una tasa precargada.",
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
@@ -638,15 +638,15 @@
     "body": "Conéctate y comparte valor con tus amigos y familiares en {{appName}}.",
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
-    "share": "Hola, regístrate en la cartera {{appName}} . Yo la utilizo para hacer crecer mis ahorros en USD y criptomonedas, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
+    "share": "Hola, regístrate en la billetera {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
     "help": "Para reclamar esta recompensa, el invitado debe descargar la app a través del link de invitación, conectar su número de teléfono y depositar 5 cUSD o más en su wallet {{appName}} durante 7 días. <0>Ver las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "SÓLO POR TIEMPO LIMITADO. ¡Consigue cUSD gratis por invitar a tus amigos a Valora!",
-      "body": "Consigue 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que añadan fondos y mantengan 5 cUSD durante 7 días, ambos obtendréis 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
+      "title": "SÓLO POR TIEMPO LIMITADO. ¡Obtén cUSD gratis por invitar a tus amigos a Valora!",
+      "body": "Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen fondos y mantengan 5 cUSD durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "Hola! Ahora mismo ambos podemos obtener una recompensa gratuita de 0,50 cUSD si te registras y depositas fondos en tu monedero Valora. Yo lo utilizo para hacer crecer mis ahorros en USD y criptomonedas, y puedes configurarlo en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de recomendación aquí: \n\n{{link}} \n\nPero date prisa, la promoción de recomendación termina pronto.",
+  "inviteWithRewardsCUSD": "¡Hola! Ahora ambos podemos obtener una recompensa gratuita de 0,50 cUSD si te registras y depositas fondos en tu billetera Valora. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nPero date prisa, la promoción de referencia termina pronto.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1001,32 +1001,31 @@
     "importing": "Importando..."
   },
   "confirmAccount": {
-    "header": "Confirma la cuenta de {{displayName}}",
-    "headerNoDisplayName": "Confirma la cuenta de tu contacto",
-    "button": "Confirma la Dirección de cuenta"
+    "header": "{{displayName}} tiene varios monederos.",
+    "headerNoDisplayName": "Este número de teléfono tiene varias carteras.",
+    "button": "Confirmar la dirección de la Cartera"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tiene multipes cuentas asociadas. Es posible que {{displayName}} haya creado una cuenta nueva de {{appName}}, que haya perdido su teléfono o su cuenta puede haber sido interceptada o comprometida.",
-    "body1NoDisplayName": "Tu contacto tiene varias cuentas asociadas. Es posible que tu contacto haya creado una cuenta nueva de {{appName}}, que haya perdido su teléfono o su cuenta puede haber sido interceptada o comprometida.",
+    "body1": "Hay varios monederos asociados a {{e164PhoneNumber}}. Para confirmar que tienes la cuenta correcta, escanea su código QR o introduce la dirección de su monedero.",
     "body2": "Debes escanear un código QR o confirmar la Dirección de cuenta antes de realizar una transacción."
   },
   "confirmAccountNumber": {
-    "title": "Confirma la Dirección de cuenta",
-    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su Dirección de cuenta. Lo más seguro es hacerlo en persona o por teléfono.",
-    "bodyPartialNoDisplayName": "Solicita a tu contacto los últimos cuatro dígitos de su Dirección de cuenta. Lo más seguro es hacerlo en persona o por teléfono.",
-    "body1Full": "Solicita a {{displayName}} su número de cuenta",
-    "body1FullNoDisplayName": "Solicita a tu contacto su número de cuenta.",
-    "body2Full": "Te recomendamos pedir esta información en persona o por teléfono, o bien a través de WhastApp, Messenger o por correo electrónico. Por seguridad, recomendamos no usar mensajes de texto (SMS).",
-    "help": "Ayuda a localizar una Dirección de cuenta",
+    "title": "Confirmar la dirección de la Cartera",
+    "bodyPartial": "Pide a {{displayName}} los cuatro últimos dígitos de la dirección de su monedero. Lo más seguro es hacerlo en persona o por teléfono.",
+    "bodyPartialNoDisplayName": "Pide a tu contacto los cuatro últimos dígitos de la dirección de su monedero. Lo más seguro es hacerlo en persona o por teléfono.",
+    "body1Full": "Pregunta a {{displayName}} por la dirección de su monedero.",
+    "body1FullNoDisplayName": "Pide a tu contacto la dirección de su cartera.",
+    "body2Full": "La forma más segura de hacerlo es en persona. Por seguridad, no utilices mensajes de texto (SMS).",
+    "help": "¿Dónde puedo encontrar una Dirección de Cartera?",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Los últimos 4 dígitos",
   "accountInputHeaderFull": "Dirección de cuenta",
   "helpModal": {
-    "header": "Localizando la Dirección de cuenta",
-    "body1": "Las direcciones de la cuenta se encuentran en el menú. Desde la pantalla de inicio, abre el menú tocando el icono en la esquina superior izquierda.",
-    "body2": "La Dirección de cuenta está cerca de la parte inferior del menú.",
-    "body3": "Las direcciones de cuenta comienzan con 0x y tienen 42 caracteres."
+    "header": "Localizar una dirección de monedero",
+    "body1": "La dirección de tu monedero se encuentra en el menú. Abre el menú pulsando el icono del menú en la esquina superior izquierda.",
+    "body2": "La dirección de tu monedero está cerca de la parte inferior del menú.",
+    "body3": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres"
   },
   "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
@@ -1877,21 +1876,21 @@
     }
   },
   "tokenImport": {
-    "title": "Importar Token",
+    "title": "Importar token",
     "notification": "Cualquiera puede crear un token, incluso versiones falsas de tokens existentes. Comprueba que la dirección de tu token es correcta antes de importarlo.",
     "input": {
       "tokenAddress": "Dirección del token",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Símbolo de ficha",
+      "tokenSymbol": "Símbolo del token",
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token no válido. Inténtalo de nuevo o ponte en contacto con el servicio de asistencia",
-      "alreadyImported": "La ficha ya se había añadido antes.",
-      "alreadySupported": "Token ya es compatible."
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
+      "alreadyImported": "El token ya se ha agregado antes.",
+      "alreadySupported": "El token ya es compatible."
     },
-    "importSuccess": "Importado con éxito el token {{tokenSymbol}}",
-    "importButton": "Importa"
+    "importSuccess": "Token {{tokenSymbol}} importado con éxito",
+    "importButton": "Importar"
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
@@ -1934,7 +1933,7 @@
     },
     "connectPhoneNumberModal": {
       "title": "Conecta tu número de teléfono",
-      "description": "Tienes que conectar tu número de teléfono para poder empezar a enviar criptomonedas a tus amigos"
+      "description": "Tienes que conectar tu número de teléfono para empezar a enviar cripto a tus amigos"
     }
   },
   "transactionStatus": {
@@ -1963,6 +1962,15 @@
       "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
       "description": "Deposita {{feeTokenSymbol}} para cubrir los las tarifas de transacción o ajusta el monto a enviar"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Aprobación",
+    "estimatedNetworkFee": "Tasa de red estimada",
+    "networkFee": "Tasa de red",
+    "finiteApprovalDescription": "Aprobado {{approvedAmount}} {{tokenSymbol}} para el comercio",
+    "infiniteApprovalDescription": "Aprobado {{tokenSymbol}} para el comercio",
+    "revokeApprovalDescription": "Revocada {{tokenSymbol}} para el comercio",
+    "descriptionLabel": "Detalles"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

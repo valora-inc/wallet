@@ -558,12 +558,12 @@
     "vingt-neuvième",
     "trentième"
   ],
-  "addressValidationError": "Les informations de compte saisies ne sont pas valides",
-  "addressValidationNoMatch": "Les informations de compte saisies ne correspondent à pas celles associées à votre contact",
-  "addressValidationFullPoorlyFormatted": "Les Adresses du compte client commencent par \"0x\", ne contiennent que des chiffres et des lettres, et sont composées de 42 caractères. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationPartialPoorlyFormatted": "Les Adresses du compte ne contiennent que des chiffres et des lettres, veuillez fournir les 4 derniers chiffres. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationFullOwnAddress": "Veuillez saisir l'Adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
-  "addressValidationPartialOwnAddress": "Veuillez saisir les 4 derniers chiffres de l'Adresse du compte de votre contact, pas la vôtre. Appuyez sur le lien ci-dessous pour obtenir de l'aide",
+  "addressValidationError": "Adresse incorrecte du portefeuille",
+  "addressValidationNoMatch": "Adresse incorrecte du portefeuille",
+  "addressValidationFullPoorlyFormatted": "Les adresses des portefeuilles commencent par \"0x\" et sont composées de 42 caractères.",
+  "addressValidationPartialPoorlyFormatted": "Les adresses des portefeuilles commencent par \"0x\" et sont composées de 42 caractères.",
+  "addressValidationFullOwnAddress": "Il s'agit de l'adresse de ton portefeuille, saisis l'adresse du portefeuille de ton contact.",
+  "addressValidationPartialOwnAddress": "Il s'agit de l'adresse de ton portefeuille, saisis l'adresse du portefeuille de ton contact.",
   "providerRateFetchFailed": "Impossible de récupérer le taux du prestataire. Vous pouvez continuer sans un taux prérempli.",
   "helpFindAccount": "Aidez votre contact à trouver son Adresse du compte",
   "close": "Fermer",
@@ -638,15 +638,15 @@
     "body": "Connectez et partagez des valeurs avec vos amis et votre famille sur {{appName}}.",
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
-    "share": "Hey ! Inscris-toi à {{appName}} wallet. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : {{shareUrl}}.",
+    "share": "Hello ! Inscris-toi pour profiter d'un portefeuille {{appName}}. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. N'oublie pas d'utiliser mon lien de parrainage ici : {{shareUrl}} pour ton inscription.",
     "help": "Pour obtenir cette récompense, l'invité doit télécharger l'application depuis le lien de parrainage, connecter son numéro de téléphone et conserver 5 cUSD ou plus dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
     "rewardsActive": {
       "title": "Invitez des amis et collectez des NFTs",
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "DURÉE LIMITÉE. Obtenez des cUSD gratuits en invitant des amis à Valora !",
-      "body": "Obtenez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois qu'il aura ajouté des fonds et conservé 5 cUSD pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêche-toi, les fonds sont limités ! (Limite de 25 amis)."
+      "title": "OFFRE A DURÉE LIMITÉE. Recevez des cUSD gratuits en invitant des amis sur Valora !",
+      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté des fonds et conservé 5 cUSD pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités ! (Limite de 25 amis)."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
   "inviteWithRewards": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux un NFT en édition spéciale comme récompense. 💫 \n\nUtilisez ce lien pour télécharger : {{link}}",
-  "inviteWithRewardsCUSD": "Hé ! En ce moment, nous pouvons tous les deux obtenir une récompense gratuite de 0,50 cUSD si tu t'inscris et que tu alimentes ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : \n\n{{link}} \n\nDépêche-toi cependant, la promotion de parrainage se termine bientôt.",
+  "inviteWithRewardsCUSD": "Salut ! En ce moment, nous pouvons tous les deux recevoir une récompense de 0,50 cUSD si tu t'inscris et que tu déposes des fonds sur ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. Utilise mon lien de parrainage pour t'inscrire ici : \n\n{{link}} \n\nDépêche-toi car cete offre de parrainage se termine bientôt.",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1001,32 +1001,31 @@
     "importing": "Importation en cours..."
   },
   "confirmAccount": {
-    "header": "Veuillez confirmer le compte de {{displayName}}",
-    "headerNoDisplayName": "Veuillez confirmer le compte de votre contact",
-    "button": "Confirmer l'Adresse du compte"
+    "header": "{{displayName}} possède plusieurs portefeuilles.",
+    "headerNoDisplayName": "Ce numéro de téléphone a plusieurs portefeuilles.",
+    "button": "Confirmer l'adresse du portefeuille"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} a plusieurs comptes associés. {{displayName}} a peut-être créé un nouveau compte {{appName}}, ou a peut-être perdu son téléphone ou son compte a été compromis.",
-    "body1NoDisplayName": "Votre contact a plusieurs comptes associés à celui-ci. Votre contact a peut-être créé un nouveau compte {{appName}}, ou a peut-être perdu son téléphone ou son compte a été compromis.",
+    "body1": "Il existe plusieurs portefeuilles associés à {{e164PhoneNumber}}. Afin de confirmer que tu as le bon compte, scanne son code QR ou saisis l'adresse de son portefeuille.",
     "body2": "Vous devez scanner son QR code ou confirmer son Adresse du compte avant de procéder à la transaction."
   },
   "confirmAccountNumber": {
-    "title": "Confirmer l'Adresse du compte",
-    "bodyPartial": "Demandez à {{displayName}} les quatre derniers chiffres de son Adresse du compte. Il est plus sûr de le faire en personne ou par téléphone.",
-    "bodyPartialNoDisplayName": "Demandez à votre contact les quatre derniers chiffres de son Adresse du compte. Il est plus sûr de le faire en personne ou par téléphone.",
-    "body1Full": "Veuillez demander à {{displayName}} son Adresse du compte.",
-    "body1FullNoDisplayName": "Demandez à votre contact son Adresse du compte.",
-    "body2Full": "Nous vous recommandons fortement de le lui demander en personne ou par téléphone, par WhatsApp ou Messenger, ou par e-mail. Pour des raisons de sécurité, veuillez ne pas le faire par SMS.",
-    "help": "Aide pour trouver une Adresse du compte",
+    "title": "Confirmer l'adresse du portefeuille",
+    "bodyPartial": "Demande à {{displayName}} les quatre derniers chiffres de l'adresse de son portefeuille. Il est plus sûr de le faire en personne ou par appel téléphonique.",
+    "bodyPartialNoDisplayName": "Demande à ton contact les quatre derniers chiffres de son adresse de portefeuille. Il est plus sûr de le faire en personne ou par appel téléphonique.",
+    "body1Full": "Demande à {{displayName}} l'adresse de leur portefeuille.",
+    "body1FullNoDisplayName": "Demande à ton contact l'adresse de son portefeuille.",
+    "body2Full": "Le moyen le plus sûr est de le faire en personne. Pour des raisons de sécurité, n'utilise pas la messagerie texte (SMS).",
+    "help": "Où puis-je trouver une adresse de portefeuille ?",
     "submit": "Envoyer"
   },
   "accountInputHeaderPartial": "4 derniers chiffres",
   "accountInputHeaderFull": "Adresse du compte",
   "helpModal": {
-    "header": "Trouver une Adresse du compte",
-    "body1": "Les Adresses du compte (également connues sous le nom d'adresses) se trouvent dans le menu. À partir de l'écran d'Accueil, ouvrez le menu en appuyant sur l'icône en haut à gauche.",
-    "body2": "L'Adresse du compte client se trouve en bas du menu.",
-    "body3": "Les Adresses du compte client commencent par \"0x\" et sont composées de 42 caractères"
+    "header": "Localiser l'adresse d'un portefeuille",
+    "body1": "L'adresse de ton portefeuille se trouve dans le menu. Ouvre le menu en tapant sur l'icône du menu dans le coin supérieur gauche.",
+    "body2": "L'adresse de ton portefeuille se trouve en bas du menu.",
+    "body3": "Les adresses des portefeuilles commencent par \"0x\" et sont composées de 42 caractères."
   },
   "transferAddressChanged": "Ce contact a changé l'Adresse du compte depuis la transaction. Ce paiement a été envoyé à :",
   "addressConfirmed": "Adresse du compte confirmée",
@@ -1878,7 +1877,7 @@
   },
   "tokenImport": {
     "title": "Importer un jeton",
-    "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifie que l'adresse de ton token est correcte avant de l'importer.",
+    "notification": "N'importe qui peut créer un jeton, y compris de fausses versions de jetons existants. Vérifiez que l'adresse de votre jeton est correcte avant de l'importer.",
     "input": {
       "tokenAddress": "Adresse du jeton",
       "tokenAddressPlaceholder": "0x…",
@@ -1886,11 +1885,11 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidToken": "Jeton invalide. Essaie à nouveau ou contacte l'assistance",
-      "alreadyImported": "Le jeton a déjà été ajouté auparavant.",
+      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
+      "alreadyImported": "Le jeton a déjà été ajouté.",
       "alreadySupported": "Le jeton est déjà pris en charge."
     },
-    "importSuccess": "Importation réussie du jeton {{tokenSymbol}}",
+    "importSuccess": "Importation du jeton {{tokenSymbol}} réussie",
     "importButton": "Importation"
   },
   "sendSelectRecipient": {
@@ -1929,12 +1928,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Autorise les contacts à continuer",
-      "description": "Va dans les paramètres pour mettre à jour tes contacts et commencer à envoyer des messages à tes amis."
+      "title": "Autoriser les contacts à continuer",
+      "description": "Allez dans vos paramètres pour mettre à jour vos contacts et commencer à envoyer des messages à vos amis"
     },
     "connectPhoneNumberModal": {
       "title": "Connectez votre numéro de téléphone",
-      "description": "Tu dois connecter ton numéro de téléphone pour pouvoir commencer à envoyer de la crypto à tes amis."
+      "description": "Connectez votre numéro de téléphone pour commencer à envoyer de la crypto à vos amis"
     }
   },
   "transactionStatus": {
@@ -1963,6 +1962,15 @@
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
       "description": "Ajoutez {{feeTokenSymbol}} pour couvrir vos frais de gas ou modifiez le montant que vous envoyez"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Approbation",
+    "estimatedNetworkFee": "Estimation des frais de réseau",
+    "networkFee": "Frais de réseau",
+    "finiteApprovalDescription": "Approuvé {{approvedAmount}} {{tokenSymbol}} pour le commerce",
+    "infiniteApprovalDescription": "Approuvé {{tokenSymbol}} pour le commerce",
+    "revokeApprovalDescription": "Révoqué {{tokenSymbol}} pour le commerce",
+    "descriptionLabel": "Détails"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

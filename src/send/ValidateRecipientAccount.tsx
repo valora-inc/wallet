@@ -320,6 +320,7 @@ const styles = StyleSheet.create({
   helpContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingBottom: 24,
   },
   askHelpText: {
     ...fontStyles.small,

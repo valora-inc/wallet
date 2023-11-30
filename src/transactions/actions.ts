@@ -1,10 +1,12 @@
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { InviteTransactions } from 'src/transactions/reducer'
 import {
+  Fee,
   NetworkId,
   PendingStandbySwap,
   PendingStandbyTransfer,
   TokenTransaction,
+  TransactionStatus,
 } from 'src/transactions/types'
 
 export enum Actions {
@@ -40,10 +42,11 @@ export interface AddHashToStandbyTransactionAction {
 
 // this type would ideally be TransactionReceipt from viem however the numbers
 // are of type bigint which is not serializable and causes problems at runtime
-type BaseTransactionReceipt = {
-  status: boolean
+export type BaseTransactionReceipt = {
+  status: TransactionStatus
   block: string
   transactionHash: string
+  fees?: Fee[]
 }
 export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED

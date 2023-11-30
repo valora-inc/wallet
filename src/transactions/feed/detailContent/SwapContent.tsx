@@ -8,7 +8,8 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokensList } from 'src/tokens/hooks'
-import { TokenExchange, TransactionStatus } from 'src/transactions/types'
+import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
+import { TokenExchange } from 'src/transactions/types'
 export interface Props {
   exchange: TokenExchange
 }
@@ -60,37 +61,7 @@ export default function SwapContent({ exchange }: Props) {
           )} ${toTokenSymbol}`}
         </Text>
       </View>
-      {exchange.fees[0] && (
-        <>
-          <View style={styles.row}>
-            <Text style={styles.bodyText}>
-              {exchange.status === TransactionStatus.Pending
-                ? t('swapTransactionDetailPage.estimatedFee')
-                : t('swapTransactionDetailPage.networkFee')}
-            </Text>
-            <TokenDisplay
-              style={styles.currencyAmountPrimaryText}
-              amount={exchange.fees[0].amount.value}
-              tokenId={exchange.fees[0].amount.tokenId}
-              showLocalAmount={false}
-              showSymbol={true}
-              hideSign={true}
-              testID="SwapContent/estimatedFee"
-            />
-          </View>
-          <View style={styles.row}>
-            <TokenDisplay
-              style={styles.currencyAmountSecondaryText}
-              amount={exchange.fees[0].amount.value}
-              tokenId={exchange.fees[0].amount.tokenId}
-              showLocalAmount={true}
-              showSymbol={true}
-              hideSign={true}
-              testID="SwapContent/estimatedFeeLocalAmount"
-            />
-          </View>
-        </>
-      )}
+      <NetworkFeeRowItem fees={exchange.fees} transactionStatus={exchange.status} />
     </View>
   )
 }
@@ -114,10 +85,5 @@ const styles = StyleSheet.create({
     color: Colors.black,
     width: '60%',
     textAlign: 'right',
-  },
-  currencyAmountSecondaryText: {
-    ...typeScale.bodySmall,
-    color: Colors.gray4,
-    marginLeft: 'auto',
   },
 })
