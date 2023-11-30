@@ -199,6 +199,7 @@ function SendSelectRecipient({ route }: Props) {
     useFetchRecipientVerificationStatus()
 
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
+    Keyboard.dismiss()
     setSelectedRecipient(selectedRecipient)
     setShowSendOrInviteButton(true)
   }
