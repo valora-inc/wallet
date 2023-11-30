@@ -99,7 +99,7 @@ export const reducer = (
         ),
       }
     case Actions.TRANSACTION_CONFIRMED: {
-      const { status, transactionHash, block } = action.receipt
+      const { status, transactionHash, block, fees } = action.receipt
 
       return {
         ...state,
@@ -112,7 +112,7 @@ export const reducer = (
                 transactionHash,
                 block,
                 timestamp: Date.now(),
-                fees: [],
+                fees: fees || [],
               }
             }
             return standbyTransaction

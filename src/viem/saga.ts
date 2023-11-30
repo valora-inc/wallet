@@ -15,7 +15,8 @@ import {
   tokenBalanceHasAddress,
 } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
-import { addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
+import { addStandbyTransaction } from 'src/transactions/actions'
+import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
 import { Network, TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -423,13 +424,14 @@ export function* sendAndMonitorTransaction({
       sendTxMethod,
       context
     )) as unknown as TransactionReceipt
-    yield* put(
-      transactionConfirmed(context.id, {
-        transactionHash: receipt.transactionHash,
-        block: receipt.blockNumber.toString(),
-        status: receipt.status === 'success',
-      })
+
+    yield* call(
+      handleTransactionReceiptReceived,
+      context.id,
+      receipt,
+      networkConfig.networkToNetworkId[network]
     )
+
     if (receipt.status === 'reverted') {
       throw new Error('transaction reverted')
     }
