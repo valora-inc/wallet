@@ -47,5 +47,6 @@ const styles = StyleSheet.create({
   },
   input: {
     ...typeScale.bodySmall,
+    lineHeight: undefined,
   },
 })
