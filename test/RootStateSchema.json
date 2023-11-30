@@ -2480,6 +2480,7 @@
                 "FiatDetailsScreen",
                 "FiatExchangeAmount",
                 "FiatExchangeCurrency",
+                "FiatExchangeCurrencyBottomSheet",
                 "GoldEducation",
                 "ImportWallet",
                 "Invite",
@@ -3501,20 +3502,10 @@
             "additionalProperties": false,
             "properties": {
                 "availableRewards": {
-                    "anyOf": [
-                        {
-                            "items": {
-                                "$ref": "#/definitions/SuperchargePendingReward"
-                            },
-                            "type": "array"
-                        },
-                        {
-                            "items": {
-                                "$ref": "#/definitions/SuperchargePendingRewardV2"
-                            },
-                            "type": "array"
-                        }
-                    ]
+                    "items": {
+                        "$ref": "#/definitions/SuperchargePendingReward"
+                    },
+                    "type": "array"
                 },
                 "error": {
                     "type": "boolean"
@@ -3530,15 +3521,6 @@
                 },
                 "superchargeRewardContractAddress": {
                     "type": "string"
-                },
-                "superchargeV1Addresses": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "superchargeV2Enabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
@@ -3547,9 +3529,7 @@
                 "fetchAvailableRewardsError",
                 "fetchAvailableRewardsLoading",
                 "loading",
-                "superchargeRewardContractAddress",
-                "superchargeV1Addresses",
-                "superchargeV2Enabled"
+                "superchargeRewardContractAddress"
             ],
             "type": "object"
         },
@@ -4293,41 +4273,6 @@
         "SuperchargePendingReward": {
             "additionalProperties": false,
             "properties": {
-                "amount": {
-                    "type": "string"
-                },
-                "contractAddress": {
-                    "type": "string"
-                },
-                "createdAt": {
-                    "type": "number"
-                },
-                "index": {
-                    "type": "number"
-                },
-                "proof": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "tokenAddress": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "amount",
-                "contractAddress",
-                "createdAt",
-                "index",
-                "proof",
-                "tokenAddress"
-            ],
-            "type": "object"
-        },
-        "SuperchargePendingRewardV2": {
-            "additionalProperties": false,
-            "properties": {
                 "details": {
                     "additionalProperties": false,
                     "properties": {
@@ -4633,6 +4578,62 @@
             ],
             "type": "object"
         },
+        "TokenApproval": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenApproval",
+                    "type": "string"
+                },
+                "approvedAmount": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "const": "APPROVAL",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "__typename",
+                "approvedAmount",
+                "block",
+                "fees",
+                "networkId",
+                "status",
+                "timestamp",
+                "tokenId",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "TokenExchange": {
             "additionalProperties": false,
             "properties": {
@@ -4710,11 +4711,15 @@
                 },
                 {
                     "$ref": "#/definitions/NftTransfer"
+                },
+                {
+                    "$ref": "#/definitions/TokenApproval"
                 }
             ]
         },
         "TokenTransactionTypeV2": {
             "enum": [
+                "APPROVAL",
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",

@@ -44,7 +44,7 @@ import {
   usdToLocalCurrencyRateSelector,
 } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -256,9 +256,9 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   }
 
   const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
+    navigateToFiatCurrencySelection(
+      flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut
+    )
 
   if (!anyProviders) {
     return (

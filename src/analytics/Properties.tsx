@@ -587,7 +587,6 @@ interface SendEventsProperties {
   [SendEvents.send_secure_info_dismissed]: {
     partialAddressValidation: boolean
   }
-  [SendEvents.send_secure_edit]: undefined
 
   [SendEvents.send_tx_start]: Web3LibraryProps
   [SendEvents.send_tx_complete]: Web3LibraryProps & {

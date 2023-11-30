@@ -21,7 +21,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.ValidateRecipientInt
 
 export const validateRecipientIntroScreenNavOptions = () => ({
   ...emptyHeader,
-  headerLeft: () => <CancelButton eventName={SendEvents.send_secure_cancel} />,
+  headerLeft: () => <CancelButton eventName={SendEvents.send_secure_cancel} buttonType="icon" />,
 })
 
 const ValidateRecipientIntro = ({ route }: Props) => {
@@ -66,25 +66,20 @@ const ValidateRecipientIntro = ({ route }: Props) => {
             ? t('confirmAccount.headerNoDisplayName')
             : t('confirmAccount.header', { displayName })}
         </Text>
-        <Text style={styles.body}>
-          {!recipient.name
-            ? t('secureSendExplanation.body1NoDisplayName')
-            : t('secureSendExplanation.body1', { e164PhoneNumber, displayName })}
-        </Text>
-        <Text style={styles.body}>{t('secureSendExplanation.body2')}</Text>
+        <Text style={styles.body}>{t('secureSendExplanation.body1', { e164PhoneNumber })}</Text>
+        <View style={styles.buttonContainer}>
+          <TextButton style={styles.button} onPress={onPressScanCode} testID={'scanQRCode'}>
+            {t('scanQRCode')}
+          </TextButton>
+          <TextButton
+            style={styles.button}
+            onPress={onPressConfirmAccount}
+            testID={'confirmAccountButton'}
+          >
+            {t('confirmAccount.button')}
+          </TextButton>
+        </View>
       </ScrollView>
-      <View style={styles.buttonContainer}>
-        <TextButton style={styles.button} onPress={onPressScanCode} testID={'scanQRCode'}>
-          {t('scanQRCode')}
-        </TextButton>
-        <TextButton
-          style={styles.button}
-          onPress={onPressConfirmAccount}
-          testID={'confirmAccountButton'}
-        >
-          {t('confirmAccount.button')}
-        </TextButton>
-      </View>
     </SafeAreaView>
   )
 }
@@ -101,7 +96,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   iconContainer: {
-    paddingTop: 20,
     alignItems: 'center',
   },
   buttonContainer: {
@@ -113,14 +107,13 @@ const styles = StyleSheet.create({
   },
   validationHeader: {
     ...fontStyles.h2,
-    paddingVertical: 20,
-    paddingHorizontal: 5,
+    paddingVertical: 16,
     textAlign: 'center',
   },
   body: {
     ...fontStyles.small,
     textAlign: 'center',
-    paddingBottom: 20,
+    paddingBottom: 16,
   },
 })
 

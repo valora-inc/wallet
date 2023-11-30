@@ -216,7 +216,14 @@ export default function QRNavigator({ route }: Props) {
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
-  const tabBar = (props: MaterialTopTabBarProps) => <QRTabBar {...props} qrSvgRef={qrSvgRef} />
+  const tabBar = (props: MaterialTopTabBarProps) => (
+    <QRTabBar
+      {...props}
+      qrSvgRef={qrSvgRef}
+      canSwitch={!route.params?.params?.scanIsForSecureSend}
+      leftIcon={route.params?.params?.scanIsForSecureSend ? 'back' : 'times'}
+    />
+  )
 
   return (
     <Tab.Navigator

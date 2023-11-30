@@ -23,19 +23,18 @@ import {
   superchargeRewardsLoadingSelector,
 } from 'src/consumerIncentives/selectors'
 import { claimRewards, fetchAvailableRewards } from 'src/consumerIncentives/slice'
-import {
-  SuperchargePendingReward,
-  SuperchargePendingRewardV2,
-  SuperchargeTokenConfig,
-  isSuperchargePendingRewardsV2,
-} from 'src/consumerIncentives/types'
+import { SuperchargePendingReward, SuperchargeTokenConfig } from 'src/consumerIncentives/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateBack,
+  navigateToFiatCurrencySelection,
+} from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -182,33 +181,19 @@ function SuperchargingInfo() {
   )
 }
 
-function ClaimSuperchargeRewards({
-  rewards,
-}: {
-  rewards: SuperchargePendingReward[] | SuperchargePendingRewardV2[]
-}) {
+function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingReward[] }) {
   const tokens = useSelector(tokensByAddressSelector)
   const { t } = useTranslation()
 
   const rewardsByToken: { [tokenAddress: string]: BigNumber } = {}
 
-  if (isSuperchargePendingRewardsV2(rewards)) {
-    rewards.forEach((reward) => {
-      const tokenAddress = reward.details.tokenAddress.toLowerCase()
+  rewards.forEach((reward) => {
+    const tokenAddress = reward.details.tokenAddress.toLowerCase()
 
-      rewardsByToken[tokenAddress] = (rewardsByToken[tokenAddress] || new BigNumber(0)).plus(
-        new BigNumber(reward.details.amount).div(WEI_PER_TOKEN)
-      )
-    })
-  } else {
-    rewards.forEach((reward) => {
-      const tokenAddress = reward.tokenAddress.toLowerCase()
-
-      rewardsByToken[tokenAddress] = (rewardsByToken[tokenAddress] || new BigNumber(0)).plus(
-        new BigNumber(reward.amount, 16).div(WEI_PER_TOKEN)
-      )
-    })
-  }
+    rewardsByToken[tokenAddress] = (rewardsByToken[tokenAddress] || new BigNumber(0)).plus(
+      new BigNumber(reward.details.amount).div(WEI_PER_TOKEN)
+    )
+  })
 
   const rewardStrings = Object.entries(rewardsByToken).map(
     ([token, amount]) => `${amount?.toFixed(2)} ${tokens[token]?.symbol}`
@@ -266,7 +251,7 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
-      navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+      navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })

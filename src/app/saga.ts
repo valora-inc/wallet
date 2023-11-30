@@ -22,8 +22,8 @@ import {
   OpenDeepLink,
   openDeepLink,
   OpenUrlAction,
-  SetAppState,
   phoneNumberVerificationMigrated,
+  SetAppState,
   setAppState,
   setSupportedBiometryType,
   updateRemoteConfigValues,
@@ -65,7 +65,11 @@ import {
 import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import {
+  navigate,
+  navigateHome,
+  navigateToFiatCurrencySelection,
+} from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -261,9 +265,7 @@ export interface RemoteConfigValues {
   dappsMinimalDisclaimerEnabled: boolean
   guaranteedSwapPriceEnabled: boolean
   priceImpactWarningThreshold: number
-  superchargeV2Enabled: boolean
   superchargeRewardContractAddress: string
-  superchargeV1Addresses: string[]
 }
 
 export function* appRemoteFeatureFlagSaga() {
@@ -342,7 +344,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
-      navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn })
+      navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {

@@ -532,8 +532,9 @@ describe('TransferFeedItem', () => {
       expectedTitleSections: ['feedItemSentTitle', formatShortenedAddress(MOCK_ADDRESS)],
       expectedSubtitleSections: ['feedItemSentInfo', 'noComment'],
       expectedAmount: '+10.00 TT',
-      expectedTokenAmount: null,
+      expectedTokenAmount: '10.00 TT',
     })
+    expect(getByTestId('TransferFeedItem/tokenAmount').props.style[1]).toHaveProperty('opacity', 0)
   })
 
   it('renders the localAmount correctly when set', async () => {

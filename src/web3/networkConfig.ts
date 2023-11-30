@@ -50,7 +50,6 @@ interface NetworkConfig {
   revokePhoneNumberUrl: string
   migratePhoneVerificationUrl: string
   fetchAvailableSuperchargeRewards: string
-  fetchAvailableSuperchargeRewardsV2: string
   resolveId: string
   getNftsByOwnerAddressUrl: string
   cabIssueSmsCodeUrl: string
@@ -71,6 +70,7 @@ interface NetworkConfig {
   ceurTokenId: string
   crealTokenId: string
   celoTokenId: string
+  spendTokenIds: string[]
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -170,10 +170,8 @@ const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumbe
 const MIGRATE_PHONE_VERIFICATION_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/migrateASv1Verification`
 const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateASv1Verification`
 
-const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/fetchAvailableSuperchargeRewards`
-const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/fetchAvailableSuperchargeRewards`
-const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2 = `${CLOUD_FUNCTIONS_STAGING}/getSuperchargeRewards`
-const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2 = `${CLOUD_FUNCTIONS_MAINNET}/getSuperchargeRewards`
+const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getSuperchargeRewards`
+const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getSuperchargeRewards`
 
 const RESOLVE_ID_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/resolveId`
 const RESOLVE_ID_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/resolveId`
@@ -247,7 +245,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
-    fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES_V2,
     resolveId: RESOLVE_ID_ALFAJORES,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
@@ -272,6 +269,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     ceurTokenId: CEUR_TOKEN_ID_STAGING,
     crealTokenId: CREAL_TOKEN_ID_STAGING,
     celoTokenId: CELO_TOKEN_ID_STAGING,
+    spendTokenIds: [CUSD_TOKEN_ID_STAGING, CEUR_TOKEN_ID_STAGING],
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -316,7 +314,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
-    fetchAvailableSuperchargeRewardsV2: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET_V2,
     resolveId: RESOLVE_ID_MAINNET,
     getNftsByOwnerAddressUrl: GET_NFTS_BY_OWNER_ADDRESS_MAINNET,
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
@@ -341,6 +338,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     ceurTokenId: CEUR_TOKEN_ID_MAINNET,
     crealTokenId: CREAL_TOKEN_ID_MAINNET,
     celoTokenId: CELO_TOKEN_ID_MAINNET,
+    spendTokenIds: [CUSD_TOKEN_ID_MAINNET, CEUR_TOKEN_ID_MAINNET],
   },
 }
 

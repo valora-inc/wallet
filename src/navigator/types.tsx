@@ -113,6 +113,9 @@ export type StackParamList = {
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
   }
+  [Screens.FiatExchangeCurrencyBottomSheet]: {
+    flow: FiatExchangeFlow
+  }
   [Screens.FiatConnectLinkAccount]: {
     quote: FiatConnectQuote
     flow: CICOFlow
@@ -340,6 +343,7 @@ export type QRTabParamList = {
     | {
         qrCodeDataType?: QRCodeDataType
         qrCodeStyle?: QRCodeStyle
+        scanIsForSecureSend?: true
       }
     | undefined
   [Screens.QRScanner]:
