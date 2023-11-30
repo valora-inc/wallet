@@ -9,6 +9,8 @@ import {
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   TokenBalance,
   TokenBalanceWithAddress,
@@ -20,6 +22,7 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
+  isCicoToken,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
   usdBalance,
@@ -355,7 +358,14 @@ export const swappableTokensByNetworkIdSelector = createSelector(
 
 export const cashInTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) => tokens.filter((tokenInfo) => tokenInfo.isCashInEligible)
+  (tokens) =>
+    tokens.filter(
+      (tokenInfo) =>
+        tokenInfo.isCashInEligible &&
+        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) //TODO: Remove after CiCo currency bottom sheet is rolled out
+          ? isCicoToken(tokenInfo.symbol)
+          : true)
+    )
 )
 
 export const cashOutTokensByNetworkIdSelector = createSelector(
@@ -369,7 +379,10 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
       (tokenInfo) =>
         ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
           tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
-        tokenInfo.isCashOutEligible
+        tokenInfo.isCashOutEligible &&
+        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) //TODO: Remove after CiCo currency bottom sheet is rolled out
+          ? isCicoToken(tokenInfo.symbol)
+          : true)
     )
 )
 

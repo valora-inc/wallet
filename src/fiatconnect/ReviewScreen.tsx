@@ -435,17 +435,17 @@ function TransactionDetails({
     })
   const { t } = useTranslation()
   let tokenDisplay: string
-  switch (normalizedQuote.getTokenId()) {
-    case networkConfig.cusdTokenId:
+  switch (tokenInfo?.name) {
+    case 'cUSD':
       tokenDisplay = t('celoDollar')
       break
-    case networkConfig.ceurTokenId:
+    case 'cEUR':
       tokenDisplay = t('celoEuro')
       break
-    case networkConfig.crealTokenId:
+    case 'cREAL':
       tokenDisplay = t('celoReal')
       break
-    case networkConfig.celoTokenId:
+    case 'Celo':
       tokenDisplay = 'CELO'
       break
     default:
