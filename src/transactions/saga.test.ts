@@ -27,7 +27,13 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { getContractKit, getContractKitAsync } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockCusdAddress, mockCusdTokenId } from 'test/values'
+import {
+  mockAccount,
+  mockCusdAddress,
+  mockCusdTokenId,
+  mockEthTokenId,
+  mockTokenBalances,
+} from 'test/values'
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
@@ -149,6 +155,8 @@ describe('watchPendingTransactions', () => {
       status: 'reverted',
       blockNumber: BigInt(123),
       transactionHash,
+      gasUsed: 200_000,
+      effectiveGasPrice: 1e9,
     }
 
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
@@ -169,17 +177,20 @@ describe('watchPendingTransactions', () => {
         transactionConfirmed(transactionId, {
           transactionHash,
           block: '123',
-          status: false,
+          status: TransactionStatus.Failed,
+          fees: [],
         })
       )
       .run()
   })
 
   it('updates the pending standby transaction when successful', async () => {
-    const revertedReceipt = {
+    const successReceipt = {
       status: 'success',
       blockNumber: BigInt(123),
       transactionHash,
+      gasUsed: 2_000_000,
+      effectiveGasPrice: 1e9,
     }
 
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
@@ -193,14 +204,65 @@ describe('watchPendingTransactions', () => {
       .provide([
         [
           call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
-          revertedReceipt,
+          successReceipt,
         ],
       ])
       .put(
         transactionConfirmed(transactionId, {
           transactionHash,
           block: '123',
-          status: true,
+          status: TransactionStatus.Complete,
+          fees: [],
+        })
+      )
+      .run()
+  })
+
+  it('updates the pending standby transaction when successful with fee details', async () => {
+    const successReceipt = {
+      status: 'success',
+      blockNumber: BigInt(123),
+      transactionHash,
+      gasUsed: 2_000_000,
+      effectiveGasPrice: 1e9,
+    }
+
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Ethereum)
+      .withState(
+        createMockStore({
+          transactions: {
+            standbyTransactions: [
+              {
+                ...pendingTransaction,
+                networkId: NetworkId['ethereum-sepolia'],
+              },
+            ],
+          },
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        }).getState()
+      )
+      .provide([
+        [
+          call([publicClient.ethereum, 'getTransactionReceipt'], { hash: transactionHash }),
+          successReceipt,
+        ],
+      ])
+      .put(
+        transactionConfirmed(transactionId, {
+          transactionHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.002',
+                tokenId: mockEthTokenId,
+              },
+            },
+          ],
         })
       )
       .run()

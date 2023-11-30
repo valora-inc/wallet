@@ -100,6 +100,7 @@ function SendConfirmation(props: Props) {
     },
     feeAmount,
     feeTokenId,
+    preparedTransaction,
   } = props.route.params
 
   const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
@@ -134,8 +135,14 @@ function SendConfirmation(props: Props) {
   const feeType = FeeType.SEND
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
 
-  // TODO (satish): check and use preparedTransaction
-  const disableSend = isSending || (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo)
+  // for new send flow, preparedTransaction must be present
+  // for old send flow, feeEstimate must be present if network is celo
+  // when old send flow is cleaned up, we can make preparedTransaction a
+  // required field and remove this check
+  const isFeeAvailable = newSendScreen
+    ? !!preparedTransaction
+    : tokenNetwork !== Network.Celo || !!feeEstimate?.feeInfo
+  const disableSend = isSending || !isFeeAvailable
 
   useEffect(() => {
     if (!newSendScreen && !feeEstimate && tokenAddress) {
@@ -219,8 +226,7 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
-    // TODO (satish): Use preparedTransaction for new send flow
-    if (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo) {
+    if (!isFeeAvailable) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
@@ -248,7 +254,8 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         fromModal,
-        feeEstimate?.feeInfo
+        feeEstimate?.feeInfo,
+        preparedTransaction
       )
     )
   }

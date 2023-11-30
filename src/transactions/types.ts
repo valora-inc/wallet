@@ -73,7 +73,7 @@ export enum TransactionStatus {
   Failed = 'Failed',
 }
 
-export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer
+export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer | TokenApproval
 
 export interface TokenAmount {
   value: BigNumber.Value
@@ -97,6 +97,7 @@ export enum TokenTransactionTypeV2 {
   NftReceived = 'NFT_RECEIVED',
   NftSent = 'NFT_SENT',
   SwapTransaction = 'SWAP_TRANSACTION',
+  Approval = 'APPROVAL',
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -162,4 +163,17 @@ export enum FeeType {
 export interface Fee {
   type: string
   amount: TokenAmount
+}
+
+export interface TokenApproval {
+  __typename: 'TokenApproval'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2.Approval
+  timestamp: number
+  block: string
+  transactionHash: string
+  tokenId: string
+  approvedAmount: number | null // null represents infinite approval
+  fees: Fee[]
+  status: TransactionStatus
 }
