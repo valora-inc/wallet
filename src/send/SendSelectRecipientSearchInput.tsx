@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import TextInput from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -25,6 +25,8 @@ export function SendSelectRecipientSearchInput({
         style={styles.search}
         inputStyle={styles.input}
         placeholderTextColor={colors.gray4}
+        // Font scaling is causing issues on Android
+        allowFontScaling={Platform.OS === 'ios'}
       />
     </View>
   )
