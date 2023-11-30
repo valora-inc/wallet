@@ -158,8 +158,9 @@ export function mergeRecipients({
     if (
       !mergedRecipients.find(
         (mergedRecipient) =>
-          mergedRecipient.e164PhoneNumber === potentialRecipient.e164PhoneNumber ||
-          mergedRecipient.address === potentialRecipient.address
+          (mergedRecipient.e164PhoneNumber === potentialRecipient.e164PhoneNumber &&
+            mergedRecipient.e164PhoneNumber) ||
+          (mergedRecipient.address === potentialRecipient.address && mergedRecipient.address)
       )
     ) {
       mergedRecipients.push(potentialRecipient)

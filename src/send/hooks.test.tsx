@@ -157,6 +157,64 @@ describe('mergeRecipients', () => {
     })
     expect(mergedRecipients).toEqual([])
   })
+  it('does not dedpulicate undefined address', () => {
+    const mergedRecipients = mergeRecipients({
+      contactRecipients: [
+        {
+          ...mockRecipient,
+          address: undefined,
+        },
+      ],
+      recentRecipients: [
+        {
+          ...mockRecipient2,
+          e164PhoneNumber: 'fake phone number',
+          address: undefined,
+        },
+      ],
+      resolvedRecipients: [],
+    })
+    expect(mergedRecipients).toEqual([
+      {
+        ...mockRecipient2,
+        e164PhoneNumber: 'fake phone number',
+        address: undefined,
+      },
+      {
+        ...mockRecipient,
+        address: undefined,
+      },
+    ])
+  })
+  it('does not dedpulicate undefined phone number', () => {
+    const mergedRecipients = mergeRecipients({
+      contactRecipients: [
+        {
+          ...mockRecipient,
+          e164PhoneNumber: undefined,
+        },
+      ],
+      recentRecipients: [
+        {
+          ...mockRecipient2,
+          e164PhoneNumber: undefined,
+          address: 'some fake address',
+        },
+      ],
+      resolvedRecipients: [],
+    })
+    expect(mergedRecipients).toEqual([
+      {
+        ...mockRecipient2,
+        address: 'some fake address',
+        e164PhoneNumber: undefined,
+      },
+      {
+        ...mockRecipient,
+        e164PhoneNumber: undefined,
+      },
+    ])
+  })
 })
 
 describe('useUniqueSearchRecipient', () => {
