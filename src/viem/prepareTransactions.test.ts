@@ -12,11 +12,11 @@ import {
   getFeeCurrencyAndAmount,
   getMaxGasFee,
   prepareERC20TransferTransaction,
+  prepareSendNativeAssetTransaction,
   prepareTransactions,
   prepareTransferWithCommentTransaction,
   tryEstimateTransaction,
   tryEstimateTransactions,
-  prepareSendNativeAssetTransaction,
 } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance, mockEthTokenBalance } from 'test/values'
 import {
@@ -469,6 +469,113 @@ describe('prepareTransactions module', () => {
         feeCurrency: mockFeeCurrencies[0],
       })
     })
+    it("returns a 'possible' result when no spendToken and spendAmount are provided but the user has some fee currency balance", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: BigInt(2),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(500))
+
+      // for fee1 (native): gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
+      const result = await prepareTransactions({
+        feeCurrencies: mockFeeCurrencies,
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+          },
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'possible',
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+
+            gas: BigInt(500),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: BigInt(2),
+          },
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+
+            gas: BigInt(100),
+            maxFeePerGas: BigInt(1),
+            maxPriorityFeePerGas: BigInt(2),
+          },
+        ],
+        maxGasFeeInDecimal: new BigNumber('6'),
+        feeCurrency: mockFeeCurrencies[0],
+      })
+    })
+    it("returns a 'not-enough-balance-for-gas' result when no spendToken and spendAmount are provided, and the user has no fee currency balance", async () => {
+      mocked(estimateFeesPerGas).mockResolvedValue({
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: BigInt(2),
+      })
+      mocked(estimateGas).mockResolvedValue(BigInt(500))
+      const mockInsufficientFeeCurrencies = [
+        {
+          // native gas token, need 500 units for gas
+          ...mockFeeCurrencies[0],
+          balance: new BigNumber(4),
+          decimals: 2,
+        },
+        {
+          // non-native gas token, need 50.5k units for gas (500 units of gas + 50k inflation buffer)
+          ...mockFeeCurrencies[1],
+          balance: new BigNumber(50),
+          decimals: 3,
+        },
+      ]
+
+      const result = await prepareTransactions({
+        feeCurrencies: mockInsufficientFeeCurrencies,
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [
+          {
+            from: '0xfrom' as Address,
+            to: '0xto' as Address,
+            data: '0xdata',
+            gas: BigInt(500),
+          },
+        ],
+      })
+      expect(result).toStrictEqual({
+        type: 'not-enough-balance-for-gas',
+        feeCurrencies: mockInsufficientFeeCurrencies,
+      })
+    })
+    it('throws if spendAmount is provided and the spendToken is not', async () => {
+      await expect(() =>
+        prepareTransactions({
+          feeCurrencies: mockFeeCurrencies,
+          spendTokenAmount: new BigNumber(20),
+          decreasedAmountGasFeeMultiplier: 1,
+          baseTransactions: [
+            {
+              from: '0xfrom' as Address,
+              to: '0xto' as Address,
+              data: '0xdata',
+            },
+          ],
+        })
+      ).rejects.toThrowError(
+        'prepareTransactions requires a spendToken if spendTokenAmount is greater than 0'
+      )
+    })
   })
   describe('tryEstimateTransaction', () => {
     it('does not include feeCurrency if address is undefined', async () => {
@@ -704,7 +811,7 @@ describe('prepareTransactions module', () => {
         feeAmount: undefined,
       })
     })
-    it('returns undefined fee currency and fee amount if prepare transactions result is not enough balance for gas', () => {
+    it("returns undefined fee currency and fee amount if prepare transactions result is 'not-enough-balance-for-gas'", () => {
       expect(
         getFeeCurrencyAndAmount({
           type: 'not-enough-balance-for-gas',
@@ -715,7 +822,7 @@ describe('prepareTransactions module', () => {
         feeAmount: undefined,
       })
     })
-    it('returns fee currency and amount if prepare transactions result is possible', () => {
+    it("returns fee currency and amount if prepare transactions result is 'possible'", () => {
       expect(
         getFeeCurrencyAndAmount({
           type: 'possible',
@@ -747,12 +854,12 @@ describe('prepareTransactions module', () => {
         feeAmount: new BigNumber(6),
       })
     })
-    it('returns fee currency and amount if prepare transactions result is need decrease spend amount for gas', () => {
+    it("returns fee currency and amount if prepare transactions result is 'need-decrease-spend-amount-for-gas'", () => {
       expect(
         getFeeCurrencyAndAmount({
           type: 'need-decrease-spend-amount-for-gas',
           feeCurrency: mockCeloTokenBalance,
-          maxGasFeeInDecimal: new BigNumber(10).exponentiatedBy(17),
+          maxGasFeeInDecimal: new BigNumber(0.1),
           decreasedSpendAmount: new BigNumber(4),
         })
       ).toStrictEqual({

@@ -558,12 +558,12 @@
     "dwudzieste dziewiąte",
     "trzydzieste"
   ],
-  "addressValidationError": "Wprowadzone dane konta są nieprawidłowe",
-  "addressValidationNoMatch": "Wprowadzone dane konta nie pokrywają się z informacjami dotyczącymi Twojego kontaktu",
-  "addressValidationFullPoorlyFormatted": "Adresy kont zaczynają się od „0x”, zawierają tylko cyfry i litery oraz mają długość 42 znaków. Kliknij poniższy link, aby uzyskać pomoc",
-  "addressValidationPartialPoorlyFormatted": "Adresy kont zawierają tylko cyfry i litery, podaj 4 ostatnie cyfry. Kliknij poniższy link, aby uzyskać pomoc",
-  "addressValidationFullOwnAddress": "Wpisz adres konta swojego kontaktu, a nie własnego konta. Kliknij poniższy link, aby uzyskać pomoc",
-  "addressValidationPartialOwnAddress": "Podaj 4 ostatnie cyfry adresu konta swojego kontaktu, a nie własnego konta. Kliknij poniższy link, aby uzyskać pomoc",
+  "addressValidationError": "Nieprawidłowy adres portfela",
+  "addressValidationNoMatch": "Nieprawidłowy adres portfela",
+  "addressValidationFullPoorlyFormatted": "Adresy portfeli zaczynają się od \"0x\" i składają się z 42 znaków",
+  "addressValidationPartialPoorlyFormatted": "Adresy portfeli zaczynają się od \"0x\" i składają się z 42 znaków",
+  "addressValidationFullOwnAddress": "To jest adres portfela, wprowadź adres portfela swojego kontaktu.",
+  "addressValidationPartialOwnAddress": "To jest adres portfela, wprowadź adres portfela swojego kontaktu.",
   "providerRateFetchFailed": "Nie można pobrać stawki dostawcy. Możesz kontynuować bez wstępnego podawania stawki.",
   "helpFindAccount": "Pomóż swojemu kontaktowi znaleźć adres konta",
   "close": "Zamknij",
@@ -638,7 +638,7 @@
     "body": "Kontaktuj i dziel się środkami z przyjaciółmi i rodziną dzięki aplikacji {{appName}}.",
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
-    "share": "Zarejestruj się na {{appName}} wallet. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: {{shareUrl}}.",
+    "share": "Cześć! Zarejestruj się do portfela {{appName}}. Ja używam go do powiększania moich oszczędności w USD i kryptowalutach, a jego konfiguracja jest możliwa w kilka sekund – wystarczy podać numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: {{shareUrl}}.",
     "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i przez 7 dni posiadać w swoim portfelu {{appName}} kwotę 5 cUSD lub wyższą. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
@@ -646,7 +646,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "TYLKO PRZEZ OGRANICZONY CZAS. Zdobądź darmowe cUSD za zaproszenie znajomych do Valory!",
-      "body": "Zdobądź 0,50 cUSD za każdego znajomego, którego zaprosisz na {{appName}}. Gdy dodadzą środki i utrzymają 5 cUSD przez 7 dni, oboje otrzymacie 0,50 cUSD. Pospiesz się, środki są ograniczone! (Limit 25 znajomych)."
+      "body": "Zdobądź 0,50 cUSD za każdego znajomego, którego zaprosisz do aplikacji {{appName}}. Gdy znajomy doda środki i utrzyma 5 cUSD przez 7 dni, każdy z was otrzyma po 0,50 cUSD. Pospiesz się, środki są ograniczone! (obowiązuje limit do 25 znajomych)."
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -966,7 +966,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Hej! W tej chwili oboje możemy otrzymać darmową nagrodę w wysokości 0,50 cUSD, jeśli zarejestrujesz się i zasilisz swój portfel Valora. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\nPośpiesz się, promocja kończy się wkrótce.",
+  "inviteWithRewardsCUSD": "Cześć! Teraz każdy z nas może otrzymać darmową nagrodę w wysokości 0,50 cUSD, jeśli zarejestrujesz się i zasilisz swój portfel Valora. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a jego konfiguracja jest możliwa w kilka sekund – wystarczy podać numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\nPośpiesz się, promocja wkrótce się skończy.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1005,32 +1005,31 @@
     "importing": "Importowanie..."
   },
   "confirmAccount": {
-    "header": "Potwierdź konto należące do {{displayName}}",
-    "headerNoDisplayName": "Potwierdź konto osoby z listy kontaktów",
-    "button": "Potwierdź adres konta"
+    "header": "{{displayName}} ma wiele portfeli.",
+    "headerNoDisplayName": "Ten numer telefonu ma wiele portfeli.",
+    "button": "Potwierdź adres portfela"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} ma wiele powiązanych kont. Użytkownik {{displayName}} prawdopodobnie utworzył nowe konto w aplikacji {{appName}}, zgubił telefon lub jego konto zostało naruszone.",
-    "body1NoDisplayName": "Twój kontakt ma wiele powiązanych kont. Osoba ta prawdopodobnie utworzyła nowe konto w aplikacji {{appName}}, zgubiła telefon lub jej konto zostało naruszone.",
+    "body1": "Istnieje wiele portfeli powiązanych z {{e164PhoneNumber}}. Aby potwierdzić, że masz właściwe konto, zeskanuj jego kod QR lub wprowadź adres portfela.",
     "body2": "Przed dokonaniem transakcji musisz zeskanować jej kod QR lub potwierdzić adres jej konta."
   },
   "confirmAccountNumber": {
-    "title": "Potwierdź adres konta",
-    "bodyPartial": "Poproś użytkownika {{displayName}} o podanie ostatnich czterech cyfr adresu konta. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
-    "bodyPartialNoDisplayName": "Poproś swój kontakt o podanie ostatnich czterech cyfr adresu konta. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
-    "body1Full": "Poproś użytkownika {{displayName}} o adres konta.",
-    "body1FullNoDisplayName": "Poproś swój kontakt o adres konta.",
-    "body2Full": "Zdecydowanie zalecamy uzyskanie takich danych osobiście lub przez telefon, za pośrednictwem aplikacji WhatsApp lub Messenger albo przez e-mail. Ze względów bezpieczeństwa nie korzystaj w tym celu z wiadomości tekstowych (SMS-ów).",
-    "help": "Pomóż zlokalizować adres konta",
+    "title": "Potwierdź adres portfela",
+    "bodyPartial": "Poproś {{displayName}} o podanie czterech ostatnich cyfr adresu portfela. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
+    "bodyPartialNoDisplayName": "Poproś osobę kontaktową o podanie czterech ostatnich cyfr adresu portfela. Najbezpieczniej jest zrobić to osobiście lub telefonicznie.",
+    "body1Full": "Zapytaj {{displayName}} o adres portfela.",
+    "body1FullNoDisplayName": "Poproś osobę kontaktową o podanie adresu portfela.",
+    "body2Full": "Najbezpieczniej jest zrobić to osobiście. Ze względów bezpieczeństwa nie korzystaj z wiadomości tekstowych (SMS).",
+    "help": "Gdzie mogę znaleźć adres portfela?",
     "submit": "Prześlij"
   },
   "accountInputHeaderPartial": "4 ostatnie cyfry",
   "accountInputHeaderFull": "Adres konta",
   "helpModal": {
-    "header": "Znajdowanie adresu konta",
-    "body1": "Adresy kont (zwane też adresami) znajdują się w menu. Na ekranie Strony głównej otwórz menu, naciskając ikonę w lewym górnym rogu.",
-    "body2": "Adres konta znajduje się na samym dole menu.",
-    "body3": "Adresy kont zaczynają się od „0x” i składają się z 42 znaków"
+    "header": "Lokalizowanie adresu portfela",
+    "body1": "Adres Twojego portfela znajduje się w menu. Otwórz menu, dotykając ikony menu w lewym górnym rogu.",
+    "body2": "Adres Twojego portfela znajduje się w dolnej części menu.",
+    "body3": "Adresy portfeli zaczynają się od \"0x\" i składają się z 42 znaków"
   },
   "transferAddressChanged": "Ten kontakt zmienił adres swojego konta od momentu dokonania transakcji. Płatność została wysłana na adres:",
   "addressConfirmed": "Adres konta potwierdzony",
@@ -1663,12 +1662,12 @@
   "swapScreen": {
     "title": "Zamieniaj",
     "review": "Analizuj",
-    "confirmSwap": "Potwierdź zamianę",
+    "confirmSwap": "Potwierdź swap",
     "swapFrom": "Z",
     "swapTo": "NA",
     "insufficientFunds": "Niewystarczające saldo {{token}}. Spróbuj wpłacić mniejszą kwotę lub wybierz inny aktyw.",
     "fetchSwapQuoteFailed": "Przepraszamy za opóźnienie! Przetwarzanie trwa dłużej niż zwykle, aby uzyskać najlepszy kurs wymiany. Spróbuj ponownie za kilka minut.",
-    "disclaimer": "Najlepsza stawka ustalana przez partnerów sieciowych. <0>Dowiedz się więcej</0>",
+    "disclaimer": "Najlepsza stawka określona przez partnerów sieciowych. <0>Dowiedz się więcej</0>",
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "tokenUsdValueUnknown": "-",
@@ -1882,7 +1881,7 @@
   },
   "tokenImport": {
     "title": "Importuj token",
-    "notification": "Każdy może utworzyć token, w tym fałszywe wersje istniejących tokenów. Przed importem sprawdź, czy adres tokena jest prawidłowy.",
+    "notification": "Każdy może utworzyć token, w tym fałszywe wersje istniejących tokenów. Przed importem sprawdź, czy adres tokena jest poprawny.",
     "input": {
       "tokenAddress": "Adres tokena",
       "tokenAddressPlaceholder": "0x…",
@@ -1890,7 +1889,7 @@
       "network": "Sieć"
     },
     "error": {
-      "invalidToken": "Nieprawidłowy token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
+      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
       "alreadyImported": "Token został dodany już wcześniej.",
       "alreadySupported": "Token jest już obsługiwany."
     },
@@ -1934,7 +1933,7 @@
     },
     "enableContactsModal": {
       "title": "Włącz kontakty, aby kontynuować",
-      "description": "Przejdź do ustawień, aby zaktualizować kontakty i rozpocząć wysyłanie do znajomych."
+      "description": "Przejdź do ustawień, aby zaktualizować kontakty i rozpocząć wysyłanie środków do znajomych"
     },
     "connectPhoneNumberModal": {
       "title": "Podłącz swój numer telefonu",
@@ -1967,6 +1966,15 @@
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
       "description": "Dodaj {{feeTokenSymbol}}, aby pokryć opłaty za gaz lub dostosuj wysyłaną kwotę"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Zatwierdzenie",
+    "estimatedNetworkFee": "Szacunkowa opłata sieciowa",
+    "networkFee": "Opłata sieciowa",
+    "finiteApprovalDescription": "Zatwierdzony {{approvedAmount}} {{tokenSymbol}} dla handlu",
+    "infiniteApprovalDescription": "Zatwierdzony {{tokenSymbol}} dla handlu",
+    "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} dla handlu",
+    "descriptionLabel": "Szczegóły"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

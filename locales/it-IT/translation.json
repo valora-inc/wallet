@@ -558,12 +558,12 @@
     "ventinovesima",
     "trentesima"
   ],
-  "addressValidationError": "Le informazioni sul conto immesse non sono valide.",
-  "addressValidationNoMatch": "Le informazioni sul conto immesse non corrispondono a nessun conto associato al tuo contatto.",
-  "addressValidationFullPoorlyFormatted": "L’Indirizzo del conto inizia con \"0x\", contiene solo numeri e lettere ed è composto da 42 caratteri. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialPoorlyFormatted": "L’Indirizzo del conto contiene solo numeri e lettere, immetti le ultime 4 cifre. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationFullOwnAddress": "Immetti l’Indirizzo del conto del tuo contatto, non il tuo. Per indicazioni, premi il collegamento di seguito.",
-  "addressValidationPartialOwnAddress": "Immetti le ultime 4 cifre dell'Indirizzo del conto del tuo contatto, non del tuo. Per indicazioni, premi il collegamento di seguito.",
+  "addressValidationError": "Indirizzo del portafoglio non corretto",
+  "addressValidationNoMatch": "Indirizzo del portafoglio non corretto",
+  "addressValidationFullPoorlyFormatted": "Gli indirizzi dei portafogli iniziano con \"0x\" e sono lunghi 42 caratteri.",
+  "addressValidationPartialPoorlyFormatted": "Gli indirizzi dei portafogli iniziano con \"0x\" e sono lunghi 42 caratteri.",
+  "addressValidationFullOwnAddress": "Questo è l'indirizzo del tuo portafoglio, inserisci l'indirizzo del portafoglio del tuo contatto.",
+  "addressValidationPartialOwnAddress": "Questo è l'indirizzo del tuo portafoglio, inserisci l'indirizzo del portafoglio del tuo contatto.",
   "providerRateFetchFailed": "Impossibile recuperare il tasso del provider. Puoi continuare senza un tasso precompilato.",
   "helpFindAccount": "Aiuta il tuo contatto a trovare il suo Indirizzo del conto",
   "close": "Chiudi",
@@ -638,15 +638,15 @@
     "body": "Collegati e condividi valore con amici e familiari su {{appName}}.",
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
-    "share": "Ehi! Iscriviti a {{appName}} wallet. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: {{shareUrl}}.",
+    "share": "Ehi! Iscriviti al portafoglio {{appName}}. Io lo uso per far aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi semplicemente con un numero telefonico. Assicurati di iscriverti con il mio link di riferimento qui: {{shareUrl}}.",
     "help": "Per ricevere questa ricompensa, la persona invitata deve eseguire il download dal link del referente, collegare il proprio numero telefonico e detenere nel proprio portafoglio {{appName}} almeno 5 cUSD per 7 giorni. <0>Visualizza tutti i Termini</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti gli amici a Valora!",
-      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e avrà mantenuto 5 cUSD per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
+      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti amici in Valora!",
+      "body": "Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e avrà detenuto 5 cUSD per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
     }
   },
   "getReward": "Ricevi ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Ehi! In questo momento possiamo entrambi ricevere una ricompensa gratuita di 0,50 cUSD se ti iscrivi e fondi il tuo portafoglio Valora. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\nAffrettati però, la promozione termina presto.",
+  "inviteWithRewardsCUSD": "Ehi! Proprio adesso possiamo ricevere entrambi una ricompensa gratuita di 0,50 cUSD se ti iscrivi e aggiungi fondi al tuo portafoglio Valora. Io lo uso per far aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi semplicemente con un numero telefonico. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\nAffrettati però, la promozione termina presto.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1001,32 +1001,31 @@
     "importing": "Importazione in corso..."
   },
   "confirmAccount": {
-    "header": "Conferma il conto di {{displayName}}",
-    "headerNoDisplayName": "Conferma il conto del tuo contatto",
-    "button": "Conferma l’Indirizzo del conto"
+    "header": "{{displayName}} ha più portafogli.",
+    "headerNoDisplayName": "Questo numero di telefono ha più portafogli.",
+    "button": "Conferma l'indirizzo del portafoglio"
   },
   "secureSendExplanation": {
-    "body1": "A {{e164PhoneNumber}} sono associati più conti. {{displayName}} potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è stato compromesso.",
-    "body1NoDisplayName": "Al tuo contatto sono associati più conti. Il tuo contatto potrebbe aver creato un nuovo conto {{appName}} o potrebbe aver smarrito il telefono oppure il suo conto è compromesso.",
+    "body1": "Ci sono più portafogli associati a {{e164PhoneNumber}}. Per confermare di essere in possesso dell'account giusto, scansiona il codice QR o inserisci l'indirizzo del portafoglio.",
     "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare il suo Indirizzo del conto."
   },
   "confirmAccountNumber": {
-    "title": "Conferma l’Indirizzo del conto",
-    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
-    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre del suo Indirizzo del conto. È più sicuro farlo di persona o per telefono.",
-    "body1Full": "Chiedi a {{displayName}} il suo Indirizzo del conto.",
-    "body1FullNoDisplayName": "Chiedi al tuo contatto il suo Indirizzo del conto.",
-    "body2Full": "È consigliabile chiedere di persona o per telefono, tramite WhatsApp o Messenger, oppure per e-mail. Per sicurezza, non utilizzare messaggi di testo (SMS).",
-    "help": "Guida per individuare un Indirizzo del conto",
+    "title": "Conferma l'indirizzo del portafoglio",
+    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell'indirizzo del portafoglio. È più sicuro farlo di persona o per telefono.",
+    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell'indirizzo del suo portafoglio. È più sicuro farlo di persona o tramite una telefonata.",
+    "body1Full": "Chiedi a {{displayName}} l'indirizzo del portafoglio.",
+    "body1FullNoDisplayName": "Chiedi al tuo contatto l'indirizzo del suo portafoglio.",
+    "body2Full": "Il modo più sicuro per farlo è di persona. Per sicurezza, ti preghiamo di non utilizzare i messaggi di testo (SMS).",
+    "help": "Dove posso trovare un indirizzo di portafoglio?",
     "submit": "Invia"
   },
   "accountInputHeaderPartial": "Ultime 4 cifre",
   "accountInputHeaderFull": "Indirizzo del conto",
   "helpModal": {
-    "header": "Individuazione di un Indirizzo del conto",
-    "body1": "Gli Indirizzi del conto (o semplicemente “indirizzi”) si trovano nel menu. Nella schermata Home, apri il menu toccando l’icona nell’angolo superiore sinistro.",
-    "body2": "L’Indirizzo del conto si trova vicino alla parte inferiore del menu.",
-    "body3": "Gli Indirizzi del conto iniziano con \"0x\" e sono composti da 42 caratteri."
+    "header": "Individuare l'indirizzo di un portafoglio",
+    "body1": "L'indirizzo del tuo portafoglio si trova nel menu. Apri il menu toccando l'icona del menu nell'angolo in alto a sinistra.",
+    "body2": "L'indirizzo del tuo portafoglio si trova in fondo al menu.",
+    "body3": "Gli indirizzi dei portafogli iniziano con \"0x\" e sono lunghi 42 caratteri."
   },
   "transferAddressChanged": "Questo contatto ha cambiato il suo Indirizzo del conto dopo la transazione. Questo pagamento è stato inviato a:",
   "addressConfirmed": "Indirizzo del conto confermato",
@@ -1664,7 +1663,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo {{token}} insufficiente. Immetti un importo inferiore o scegli un altro asset.",
     "fetchSwapQuoteFailed": "Ci scusiamo per il ritardo! Ottenere il miglior tasso di cambio sta richiedendo più tempo del solito. Riprova più tardi.",
-    "disclaimer": "La tariffa migliore è determinata dai partner della rete. <0>Per saperne di più</0>",
+    "disclaimer": "La tariffa migliore è determinata dai partner della rete. <0>Altre informazioni</0>",
     "swapFromTokenSelection": "SCAMBIA DA",
     "swapToTokenSelection": "SCAMBIA CON",
     "tokenUsdValueUnknown": "-",
@@ -1877,21 +1876,21 @@
     }
   },
   "tokenImport": {
-    "title": "Importazione del token",
-    "notification": "Chiunque può creare un token, anche versioni false di token esistenti. Verifica che l'indirizzo del token sia corretto prima di effettuare l'importazione.",
+    "title": "Importa token",
+    "notification": "Chiunque può creare un token, incluse versioni false di token esistenti. Prima di effettuare l'importazione, verifica che l'indirizzo del token sia corretto.",
     "input": {
       "tokenAddress": "Indirizzo del token",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Simbolo del gettone",
+      "tokenSymbol": "Simbolo del token",
       "network": "Rete"
     },
     "error": {
-      "invalidToken": "Token non valido. Riprova o contatta l'assistenza",
-      "alreadyImported": "Il token è già stato aggiunto in precedenza.",
+      "invalidToken": "Token non valido. Riprova o contatta il Supporto tecnico",
+      "alreadyImported": "Il token è già stato aggiunto precedentemente.",
       "alreadySupported": "Il token è già supportato."
     },
-    "importSuccess": "Importazione riuscita del token {{tokenSymbol}}",
-    "importButton": "Importazione"
+    "importSuccess": "Token {{tokenSymbol}} importato correttamente",
+    "importButton": "Importa"
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
@@ -1930,11 +1929,11 @@
     },
     "enableContactsModal": {
       "title": "Abilita i contatti per continuare",
-      "description": "Vai alle impostazioni per aggiornare i tuoi contatti e iniziare ad inviare agli amici"
+      "description": "Vai alle impostazioni per aggiornare i tuoi contatti e iniziare a inviare agli amici"
     },
     "connectPhoneNumberModal": {
       "title": "Collega il tuo numero telefonico",
-      "description": "Devi collegare il tuo numero di telefono per poter iniziare a inviare criptovalute ai tuoi amici."
+      "description": "Devi collegare il tuo numero telefonico per poter iniziare a inviare criptovalute ai tuoi amici"
     }
   },
   "transactionStatus": {
@@ -1963,6 +1962,15 @@
       "title": "Sono necessari più {{feeTokenSymbol}} per le commissioni sulle transazioni",
       "description": "Aggiungi {{feeTokenSymbol}} per coprire le commissioni sulle transazioni o modifica l'importo che stai inviando"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Approvazione",
+    "estimatedNetworkFee": "Costo stimato della rete",
+    "networkFee": "Costo della rete",
+    "finiteApprovalDescription": "Approvato {{approvedAmount}} {{tokenSymbol}} per il commercio",
+    "infiniteApprovalDescription": "Approvato {{tokenSymbol}} per il commercio",
+    "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per il commercio",
+    "descriptionLabel": "Dettagli"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

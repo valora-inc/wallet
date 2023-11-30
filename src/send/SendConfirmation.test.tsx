@@ -4,8 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
 import { FeeType } from 'src/fees/reducer'
-import { AddressValidationType, E164NumberToAddressType } from 'src/identity/reducer'
-import { navigate } from 'src/navigator/NavigationService'
+import { AddressValidationType } from 'src/identity/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RecipientType } from 'src/recipients/recipient'
@@ -25,8 +24,6 @@ import {
   emptyFees,
   mockAccount,
   mockAccount2,
-  mockAccount2Invite,
-  mockAccountInvite,
   mockCeloAddress,
   mockCeloTokenId,
   mockCeurAddress,
@@ -38,7 +35,6 @@ import {
   mockGasPrice,
   mockTestTokenAddress,
   mockTestTokenTokenId,
-  mockTokenInviteTransactionData,
   mockTokenTransactionData,
 } from 'test/values'
 
@@ -67,10 +63,19 @@ const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   isFromScan: false,
 })
 
-const mockInviteScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
-  transactionData: mockTokenInviteTransactionData,
+const mockScreenPropsWithPreparedTx = getMockStackScreenProps(Screens.SendConfirmation, {
+  transactionData: {
+    ...mockTokenTransactionData,
+  },
   origin: SendOrigin.AppSendFlow,
   isFromScan: false,
+  preparedTransaction: {
+    from: '0xfrom',
+    to: '0xto',
+    data: '0xdata',
+  },
+  feeAmount: '0.004',
+  feeTokenId: mockCeloTokenId,
 })
 
 type ScreenProps = NativeStackScreenProps<
@@ -176,7 +181,7 @@ describe('SendConfirmation', () => {
   }
 
   it('renders correctly', async () => {
-    const tree = renderScreen()
+    const tree = renderScreen({}, mockScreenPropsWithPreparedTx)
     expect(tree).toMatchSnapshot()
   })
 
@@ -198,16 +203,10 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('renders correctly for send payment confirmation, sending cUSD, fee in CELO (new UI)', async () => {
-    const { getByText, getByTestId } = renderScreen()
+  it('renders correctly for send payment confirmation with fees from props (new UI)', async () => {
+    const { getByTestId } = renderScreen({}, mockScreenPropsWithPreparedTx)
 
-    fireEvent.press(getByText('feeEstimate'))
-
-    await act(() => {
-      jest.runAllTimers()
-    })
-
-    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee')
+    const feeComponent = getByTestId('LineItemRow/SendConfirmation/fee')
     expect(getElementText(feeComponent)).toEqual('0.004 CELO')
 
     const totalComponent = getByTestId('TotalLineItem/Total')
@@ -258,7 +257,8 @@ describe('SendConfirmation', () => {
     expect(getElementText(totalComponent)).toEqual('₱1.36')
   })
 
-  it('shows --- for fee when fee estimate fails', async () => {
+  it('shows --- for fee when fee estimate fails (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId, getByText } = renderScreen({
       fees: {
         estimates: {
@@ -276,7 +276,8 @@ describe('SendConfirmation', () => {
     expect(getByText('---')).toBeTruthy()
   })
 
-  it('shows loading for fee while fee estimate loads', async () => {
+  it('shows loading for fee while fee estimate loads (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId, getByTestId } = renderScreen({
       fees: {
         estimates: {
@@ -292,29 +293,6 @@ describe('SendConfirmation', () => {
     const feeComponent = queryByTestId('feeDrawer/SendConfirmation/totalFee/value')
     expect(feeComponent).toBeFalsy()
     expect(getByTestId('LineItemLoading')).toBeTruthy()
-  })
-
-  it('renders correctly when there are multiple user addresses (should show edit button)', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
-    }
-
-    const { getByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164Number]: {
-              addressValidationType: AddressValidationType.FULL,
-              address: mockAccount2Invite,
-            },
-          },
-        },
-      },
-      mockInviteScreenProps
-    )
-
-    expect(getByTestId('accountEditButton')).toBeTruthy()
   })
 
   it('updates the comment/reason', () => {
@@ -388,56 +366,8 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeTruthy()
   })
 
-  it('navigates to ValidateRecipientIntro when "edit" button is pressed', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164Number]: [mockAccountInvite, mockAccount2Invite],
-    }
-    const mockAddressValidationType = AddressValidationType.PARTIAL
-
-    const { getByTestId } = renderScreen(
-      {
-        identity: {
-          e164NumberToAddress: mockE164NumberToAddress,
-          secureSendPhoneNumberMapping: {
-            [mockE164Number]: {
-              addressValidationType: mockAddressValidationType,
-              address: mockAccount2Invite,
-            },
-          },
-        },
-      },
-      mockInviteScreenProps
-    )
-
-    fireEvent.press(getByTestId('accountEditButton'))
-    expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
-      origin: SendOrigin.AppSendFlow,
-      transactionData: mockTokenInviteTransactionData,
-      addressValidationType: mockAddressValidationType,
-    })
-  })
-
-  it('does nothing when trying to press "edit" when user has not gone through Secure Send', async () => {
-    const mockE164NumberToAddress: E164NumberToAddressType = {
-      [mockE164Number]: [mockAccount2Invite],
-    }
-
-    const { queryByTestId } = renderScreen({
-      identity: {
-        e164NumberToAddress: mockE164NumberToAddress,
-        secureSendPhoneNumberMapping: {
-          [mockE164Number]: {
-            addressValidationType: AddressValidationType.NONE,
-            address: undefined,
-          },
-        },
-      },
-    })
-
-    expect(queryByTestId('accountEditButton')).toBeNull()
-  })
-
-  it('dispatches an action when the confirm button is pressed', async () => {
+  it('dispatches an action with fee info from redux when the confirm button is pressed (old UI)', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { store, getByTestId } = renderScreen({ web3: { isDekRegistered: true } })
 
     expect(store.getActions().length).toEqual(0)
@@ -453,7 +383,29 @@ describe('SendConfirmation', () => {
     )
   })
 
+  it('dispatches an action with prepared transaction when the confirm button is pressed (new UI)', async () => {
+    const { store, getByTestId } = renderScreen(
+      { fees: { estimates: emptyFees } },
+      mockScreenPropsWithPreparedTx
+    )
+
+    expect(store.getActions().length).toEqual(0)
+
+    fireEvent.press(getByTestId('ConfirmButton'))
+
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
+
+    expect(store.getActions()[0]).toEqual(
+      sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, undefined, {
+        from: '0xfrom',
+        to: '0xto',
+        data: '0xdata',
+      })
+    )
+  })
+
   it('dispatches the send action with the right address when going through Secure Send', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { store, getByTestId } = renderScreen(
       {
         identity: {
@@ -503,7 +455,8 @@ describe('SendConfirmation', () => {
     )
   })
 
-  it('dispatches fee estimation if not already done', async () => {
+  it('dispatches fee estimation if not already done for old send flow', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { store } = renderScreen({ fees: { estimates: emptyFees } })
 
     expect(store.getActions()).toMatchInlineSnapshot(`
@@ -524,5 +477,11 @@ describe('SendConfirmation', () => {
         },
       ]
     `)
+  })
+
+  it('does not dispatch fee estimate action for new send flow', async () => {
+    const { store } = renderScreen({ fees: { estimates: emptyFees } })
+
+    expect(store.getActions()).toEqual([])
   })
 })

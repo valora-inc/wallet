@@ -21,6 +21,7 @@ import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { Network, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
@@ -34,6 +35,9 @@ interface SendConfirmationParams {
   origin: SendOrigin
   transactionData: TransactionDataInput
   isFromScan: boolean
+  preparedTransaction?: SerializableTransactionRequest
+  feeAmount?: string
+  feeTokenId?: string
 }
 
 export type StackParamList = {
@@ -340,6 +344,7 @@ export type QRTabParamList = {
     | {
         qrCodeDataType?: QRCodeDataType
         qrCodeStyle?: QRCodeStyle
+        scanIsForSecureSend?: true
       }
     | undefined
   [Screens.QRScanner]:

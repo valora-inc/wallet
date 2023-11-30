@@ -199,24 +199,32 @@ export async function tryEstimateTransactions(
 export async function prepareTransactions({
   feeCurrencies,
   spendToken,
-  spendTokenAmount,
+  spendTokenAmount = new BigNumber(0),
   decreasedAmountGasFeeMultiplier,
   baseTransactions,
   throwOnSpendTokenAmountExceedsBalance = true,
 }: {
   feeCurrencies: TokenBalance[]
-  spendToken: TokenBalance
-  spendTokenAmount: BigNumber
+  spendToken?: TokenBalance
+  spendTokenAmount?: BigNumber
   decreasedAmountGasFeeMultiplier: number
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
   throwOnSpendTokenAmountExceedsBalance?: boolean
 }): Promise<PreparedTransactionsResult> {
+  if (!spendToken && spendTokenAmount.isGreaterThan(0)) {
+    throw new Error(
+      `prepareTransactions requires a spendToken if spendTokenAmount is greater than 0. spendTokenAmount: ${spendTokenAmount.toString()}`
+    )
+  }
   if (
     throwOnSpendTokenAmountExceedsBalance &&
+    spendToken &&
     spendTokenAmount.isGreaterThan(spendToken.balance.shiftedBy(spendToken.decimals))
   ) {
     throw new Error(
-      `Cannot prepareTransactions for amount greater than balance. Amount: ${spendTokenAmount}, Balance: ${spendToken.balance}, Decimals: ${spendToken.decimals}`
+      `Cannot prepareTransactions for amount greater than balance. Amount: ${spendTokenAmount.toString()}, Balance: ${spendToken.balance.toString()}, Decimals: ${
+        spendToken.decimals
+      }`
     )
   }
   const maxGasFees: Array<{ feeCurrency: TokenBalance; maxGasFeeInDecimal: BigNumber }> = []
@@ -237,8 +245,9 @@ export async function prepareTransactions({
       // Not enough balance to pay for gas, try next fee currency
       continue
     }
-    const spendAmountDecimal = spendTokenAmount.shiftedBy(-spendToken.decimals)
+    const spendAmountDecimal = spendTokenAmount.shiftedBy(-(spendToken?.decimals ?? 0))
     if (
+      spendToken &&
       spendToken.tokenId === feeCurrency.tokenId &&
       spendAmountDecimal.plus(maxGasFeeInDecimal).isGreaterThan(spendToken.balance)
     ) {
@@ -256,9 +265,14 @@ export async function prepareTransactions({
   }
 
   // So far not enough balance to pay for gas
-  // let's see if we can decrease the spend amount
-  const result = maxGasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken.tokenId)
-  if (!result || result.maxGasFeeInDecimal.isGreaterThan(result.feeCurrency.balance)) {
+  // let's see if we can decrease the spend amount, if provided
+  // if no spend amount is provided, we conclude that the user does not have enough balance to pay for gas
+  const result = maxGasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken?.tokenId)
+  if (
+    !spendToken ||
+    !result ||
+    result.maxGasFeeInDecimal.isGreaterThan(result.feeCurrency.balance)
+  ) {
     // Can't decrease the spend amount
     return {
       type: 'not-enough-balance-for-gas',
@@ -421,20 +435,19 @@ export function prepareSendNativeAssetTransaction(
 export function getFeeCurrencyAndAmount(
   prepareTransactionsResult: PreparedTransactionsResult | undefined
 ): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
-  let feeAmountSmallestUnits = undefined
+  let feeAmountInDecimal = undefined
   let feeCurrency = undefined
   if (prepareTransactionsResult?.type === 'possible') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = getMaxGasFee(prepareTransactionsResult.transactions)
+    feeAmountInDecimal = getMaxGasFee(prepareTransactionsResult.transactions).shiftedBy(
+      -feeCurrency.decimals
+    )
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountSmallestUnits = prepareTransactionsResult.maxGasFeeInDecimal
+    feeAmountInDecimal = prepareTransactionsResult.maxGasFeeInDecimal
   }
   return {
-    feeAmount:
-      feeAmountSmallestUnits &&
-      feeCurrency &&
-      feeAmountSmallestUnits.shiftedBy(-feeCurrency.decimals),
+    feeAmount: feeAmountInDecimal,
     feeCurrency,
   }
 }

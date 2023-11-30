@@ -13,11 +13,10 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
-import FeeDrawer from 'src/components/FeeDrawer'
 import LegacyFeeDrawer from 'src/components/LegacyFeeDrawer'
+import LineItemRow from 'src/components/LineItemRow'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
-import TextButton from 'src/components/TextButton'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
@@ -26,7 +25,7 @@ import { FeeType, estimateFee } from 'src/fees/reducer'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
-import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
+import { getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
   e164NumberToAddressSelector,
@@ -34,7 +33,6 @@ import {
 } from 'src/identity/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
@@ -48,8 +46,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo, useTokenInfoByAddress } from 'src/tokens/hooks'
-import { celoAddressSelector } from 'src/tokens/selectors'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
@@ -101,6 +98,9 @@ function SendConfirmation(props: Props) {
       comment: commentFromParams,
       tokenId,
     },
+    feeAmount,
+    feeTokenId,
+    preparedTransaction,
   } = props.route.params
 
   const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
@@ -125,73 +125,59 @@ function SendConfirmation(props: Props) {
   const dispatch = useDispatch()
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const addressValidationType = getAddressValidationType(
-    paramRecipient,
-    secureSendPhoneNumberMapping
-  )
   const validatedRecipientAddress = getSecureSendAddress(
     paramRecipient,
     secureSendPhoneNumberMapping
   )
   const recipient = useRecipientToSendTo(paramRecipient)
 
-  const onEditAddressClick = () => {
-    ValoraAnalytics.track(SendEvents.send_secure_edit)
-    navigate(Screens.ValidateRecipientIntro, {
-      transactionData: props.route.params.transactionData,
-      addressValidationType,
-      origin: props.route.params.origin,
-    })
-  }
-
-  // TODO (ACT-922): Update all fee-related code below to work with native tokens
   const feeEstimates = useSelector(feeEstimatesSelector)
   const feeType = FeeType.SEND
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
 
-  // TODO (ACT-922): Actually disable Ethereum sends if no fee information exists
-  const disableSend = isSending || (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo)
+  // for new send flow, preparedTransaction must be present
+  // for old send flow, feeEstimate must be present if network is celo
+  // when old send flow is cleaned up, we can make preparedTransaction a
+  // required field and remove this check
+  const isFeeAvailable = newSendScreen
+    ? !!preparedTransaction
+    : tokenNetwork !== Network.Celo || !!feeEstimate?.feeInfo
+  const disableSend = isSending || !isFeeAvailable
 
   useEffect(() => {
-    if (!feeEstimate && tokenAddress) {
+    if (!newSendScreen && !feeEstimate && tokenAddress) {
       dispatch(estimateFee({ feeType, tokenAddress }))
     }
-  }, [feeEstimate])
+  }, [feeEstimate, newSendScreen])
 
   useEffect(() => {
-    if (!isDekRegistered && tokenAddress) {
+    if (!newSendScreen && !isDekRegistered && tokenAddress) {
       dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
     }
-  }, [isDekRegistered])
+  }, [isDekRegistered, newSendScreen])
 
   const securityFeeInUsd = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
   const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
   const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
   const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
-  const celoAddress = useSelector(celoAddressSelector)
-  const feeTokenAddress = feeEstimate?.feeInfo?.feeCurrency ?? celoAddress
-  const feeTokenInfoFromEstimate = useTokenInfoByAddress(feeTokenAddress)
-  const feeTokenInfo = newSendScreen ? feeTokenInfoFromEstimate : tokenInfo
-  const securityFeeInToken = securityFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const dekFeeInToken = dekFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
-  const totalFeeInFeeToken = totalFeeInUsd?.dividedBy(feeTokenInfo?.priceUsd ?? 0)
 
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
         {newSendScreen ? (
-          <FeeDrawer
-            testID={'feeDrawer/SendConfirmation'}
-            isEstimate={true}
-            securityFee={securityFeeInToken}
-            showDekfee={!isDekRegistered}
-            dekFee={dekFeeInToken}
-            feeLoading={feeEstimate?.loading || storedDekFee?.loading}
-            feeHasError={feeEstimate?.error || storedDekFee?.error}
-            totalFee={totalFeeInFeeToken}
-            showLocalAmount={false}
-            tokenId={feeTokenInfo?.tokenId}
-          />
+          feeAmount && (
+            <LineItemRow
+              testID="SendConfirmation/fee"
+              title={t('feeEstimate')}
+              amount={
+                <TokenDisplay
+                  amount={new BigNumber(feeAmount)}
+                  tokenId={feeTokenId}
+                  showLocalAmount={false}
+                />
+              }
+            />
+          )
         ) : (
           <LegacyFeeDrawer
             testID={'feeDrawer/SendConfirmation'}
@@ -240,8 +226,7 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
-    // TODO (ACT-922): Remove Celo network check once we have Ethereum fees
-    if (!feeEstimate?.feeInfo && tokenNetwork === Network.Celo) {
+    if (!isFeeAvailable) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
@@ -269,7 +254,8 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         fromModal,
-        feeEstimate?.feeInfo
+        feeEstimate?.feeInfo,
+        preparedTransaction
       )
     )
   }
@@ -312,15 +298,8 @@ function SendConfirmation(props: Props) {
                 {getDisplayName(recipient, t)}
               </Text>
               {validatedRecipientAddress && (
-                <View style={styles.editContainer}>
+                <View style={styles.addressContainer}>
                   <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
-                  <TextButton
-                    style={styles.editButton}
-                    testID={'accountEditButton'}
-                    onPress={onEditAddressClick}
-                  >
-                    {t('edit')}
-                  </TextButton>
                 </View>
               )}
             </View>
@@ -393,18 +372,13 @@ const styles = StyleSheet.create({
   displayName: {
     ...fontStyles.regular500,
   },
-  editContainer: {
+  addressContainer: {
     flexDirection: 'row',
   },
   address: {
     ...fontStyles.small,
     color: colors.gray5,
     paddingRight: 4,
-  },
-  editButton: {
-    ...fontStyles.small,
-    color: colors.gray5,
-    textDecorationLine: 'underline',
   },
   amount: {
     paddingVertical: 8,

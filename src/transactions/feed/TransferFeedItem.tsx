@@ -12,7 +12,8 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
@@ -21,7 +22,6 @@ import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { TokenTransfer } from 'src/transactions/types'
 
 export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
-
 interface Props {
   transfer: FeedTokenTransfer
 }
@@ -45,7 +45,7 @@ function TransferFeedItem({ transfer }: Props) {
     getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideHomeBalanceState
 
   return (
-    <Touchable testID="TransferFeedItem" disabled={false} onPress={openTransferDetails}>
+    <Touchable testID="TransferFeedItem" onPress={openTransferDetails}>
       <View style={styles.container}>
         <TransactionFeedItemImage
           recipient={recipient}
@@ -53,10 +53,10 @@ function TransferFeedItem({ transfer }: Props) {
           transactionType={transfer.__typename}
         />
         <View style={styles.contentContainer}>
-          <Text style={styles.title} testID={'TransferFeedItem/title'}>
+          <Text style={styles.title} testID={'TransferFeedItem/title'} numberOfLines={1}>
             {title}
           </Text>
-          <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'}>
+          <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'} numberOfLines={1}>
             {subtitle}
           </Text>
         </View>
@@ -71,17 +71,15 @@ function TransferFeedItem({ transfer }: Props) {
               style={[styles.amount, colorStyle]}
               testID={'TransferFeedItem/amount'}
             />
-            {!showTokenAmount && (
-              <TokenDisplay
-                amount={amount.value}
-                tokenId={amount.tokenId}
-                showLocalAmount={false}
-                showSymbol={true}
-                hideSign={true}
-                style={styles.tokenAmount}
-                testID={'TransferFeedItem/tokenAmount'}
-              />
-            )}
+            <TokenDisplay
+              amount={amount.value}
+              tokenId={amount.tokenId}
+              showLocalAmount={false}
+              showSymbol={true}
+              hideSign={true}
+              style={[styles.tokenAmount, { opacity: showTokenAmount ? 0 : 1 }]}
+              testID={'TransferFeedItem/tokenAmount'}
+            />
           </View>
         )}
       </View>
@@ -92,38 +90,34 @@ function TransferFeedItem({ transfer }: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
+    alignItems: 'center',
     flex: 1,
-    paddingVertical: 12,
+    paddingVertical: Spacing.Small12,
     paddingHorizontal: variables.contentPadding,
   },
   contentContainer: {
-    paddingHorizontal: variables.contentPadding,
     flex: 1,
-    flexGrow: 1,
+    paddingHorizontal: variables.contentPadding,
   },
   amountContainer: {
-    alignItems: 'flex-end',
-    flex: 0,
-    maxWidth: '35%',
+    maxWidth: '50%',
   },
   title: {
-    ...fontStyles.regular500,
-    flexShrink: 1,
+    ...typeScale.labelMedium,
   },
   subtitle: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingTop: 2,
   },
   amount: {
-    ...fontStyles.regular500,
+    ...typeScale.labelMedium,
+    color: colors.primary,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
   tokenAmount: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingTop: 2,
     flexWrap: 'wrap',
     textAlign: 'right',
   },
