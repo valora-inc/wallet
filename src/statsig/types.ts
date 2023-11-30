@@ -42,6 +42,7 @@ export enum StatsigFeatureGates {
   USE_NEW_SEND_FLOW = 'use_new_send_flow',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
+  USE_CICO_CURRENCY_BOTTOM_SHEET = 'use_cico_currency_bottom_sheet',
 }
 
 export enum StatsigExperiments {

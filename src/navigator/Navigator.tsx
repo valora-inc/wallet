@@ -41,6 +41,7 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeCurrency'
+import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
@@ -660,6 +661,10 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
       <BottomSheet.Screen
         name={Screens.DappShortcutTransactionRequest}
         component={DappShortcutTransactionRequest}
+      />
+      <BottomSheet.Screen
+        name={Screens.FiatExchangeCurrencyBottomSheet}
+        component={FiatExchangeCurrencyBottomSheet}
       />
     </>
   )
