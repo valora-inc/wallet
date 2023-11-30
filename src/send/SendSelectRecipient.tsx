@@ -379,9 +379,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingVertical: 10,
   },
-  content: {
-    flexGrow: 1,
-  },
   body: {
     flex: 1,
     paddingBottom: variables.contentPadding,
