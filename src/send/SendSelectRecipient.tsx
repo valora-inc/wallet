@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, Platform, StyleSheet, Text, View } from 'react-native'
 import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -11,6 +11,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
+import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
@@ -238,11 +240,14 @@ function SendSelectRecipient({ route }: Props) {
   const onPressSendOrInvite = (shouldInviteRecipient: boolean) => {
     if (!recipient) {
       return
+    } else {
+      Keyboard.dismiss()
     }
     if (shouldInviteRecipient) {
       ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press, {
         recipientType: recipient.recipientType,
       })
+      setShowSendOrInviteButton(false)
       setShowInviteModal(true)
     } else {
       ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
@@ -250,19 +255,6 @@ function SendSelectRecipient({ route }: Props) {
       })
       navigateToSendAmount(recipient)
     }
-  }
-
-  const renderSendOrInviteButton = () => {
-    if (showSendOrInviteButton) {
-      return (
-        <SendOrInviteButton
-          recipient={recipient}
-          recipientVerificationStatus={recipientVerificationStatus}
-          onPress={onPressSendOrInvite}
-        />
-      )
-    }
-    return null
   }
 
   const onCloseInviteModal = () => {
@@ -283,7 +275,6 @@ function SendSelectRecipient({ route }: Props) {
               !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
             }
           />
-          {renderSendOrInviteButton()}
         </>
       )
     } else {
@@ -310,7 +301,7 @@ function SendSelectRecipient({ route }: Props) {
         />
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
-      <ScrollView contentContainerStyle={styles.content}>
+      <KeyboardAwareScrollView>
         <PasteAddressButton
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
@@ -330,7 +321,6 @@ function SendSelectRecipient({ route }: Props) {
                 !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
               }
             />
-            {renderSendOrInviteButton()}
           </>
         ) : (
           <>
@@ -353,10 +343,18 @@ function SendSelectRecipient({ route }: Props) {
             )}
           </>
         )}
-      </ScrollView>
+      </KeyboardAwareScrollView>
       {showInviteModal && recipient && (
         <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
       )}
+      {showSendOrInviteButton && (
+        <SendOrInviteButton
+          recipient={recipient}
+          recipientVerificationStatus={recipientVerificationStatus}
+          onPress={onPressSendOrInvite}
+        />
+      )}
+      <KeyboardSpacer />
     </SafeAreaView>
   )
 }
