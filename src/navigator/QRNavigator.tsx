@@ -24,7 +24,7 @@ import NewQRCode from 'src/qrcode/NewQRCode'
 import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
-import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
+import { handleQRCodeDetected, QrCode, SVG } from 'src/send/actions'
 import { LayerParams } from 'src/statsig/constants'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
 import { CiCoCurrency } from 'src/utils/currencies'
@@ -126,7 +126,9 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
 // Component doing our custom transition for the QR scanner
 function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerSceneProps) {
   const lastScannedQR = useRef('')
-
+  const dispatch = useDispatch()
+  const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))
+  const { onQRCodeDetected = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
   const [isPartiallyVisible, setIsPartiallyVisible] = useState(false)
@@ -184,23 +186,20 @@ function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerScen
   // react-native-camera.
   const enableCamera = isFocused || (isPartiallyVisible && (hasAskedCameraPermission || wasFocused))
 
-  const dispatch = useDispatch()
-  const { scanIsForSecureSend, transactionData, requesterAddress } = route.params || {}
-
-  const onBarCodeDetected = (qrCode: QrCode) => {
+  const _onQRCodeDetected = (qrCode: QrCode) => {
     if (lastScannedQR.current === qrCode.data) {
       return
     }
 
     Logger.debug('QRScanner', 'Bar code detected')
-    dispatch(handleBarcodeDetected(qrCode, scanIsForSecureSend, transactionData, requesterAddress))
+    onQRCodeDetected(qrCode)
     lastScannedQR.current = qrCode.data
   }
 
   return (
     <Animated.View style={animatedStyle}>
       {isFocused && <StatusBar barStyle="light-content" />}
-      {enableCamera && <QRScanner onBarCodeDetected={onBarCodeDetected} />}
+      {enableCamera && <QRScanner onQRCodeDetected={_onQRCodeDetected} />}
     </Animated.View>
   )
 }

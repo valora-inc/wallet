@@ -7,14 +7,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
-import { RecipientInfo } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
+import { handleQRCodeDefault, shareSVGImage } from 'src/qrcode/utils'
 import {
   Actions,
-  HandleBarcodeDetectedAction,
   SendPaymentAction,
   ShareQRCodeAction,
   sendPaymentFailure,
@@ -48,40 +44,10 @@ import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
-
-export function* watchQrCodeDetections() {
-  while (true) {
-    const action = (yield* take(Actions.BARCODE_DETECTED)) as HandleBarcodeDetectedAction
-    Logger.debug(TAG, 'Barcode detected in watcher')
-    const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
-
-    const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
-    let secureSendTxData
-    let requesterAddress
-
-    if (action.scanIsForSecureSend) {
-      secureSendTxData = action.transactionData
-      requesterAddress = action.requesterAddress
-    }
-
-    try {
-      yield* call(
-        handleBarcode,
-        action.data,
-        e164NumberToAddress,
-        recipientInfo,
-        secureSendTxData,
-        requesterAddress
-      )
-    } catch (error) {
-      Logger.error(TAG, 'Error handling the barcode', error)
-    }
-  }
-}
 
 export function* watchQrCodeShare() {
   while (true) {
@@ -322,6 +288,10 @@ export function* sendPaymentSaga({
 
 export function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
+}
+
+export function* watchQrCodeDetections() {
+  yield* takeEvery(Actions.BARCODE_DETECTED, safely(handleQRCodeDefault))
 }
 
 export function* sendSaga() {

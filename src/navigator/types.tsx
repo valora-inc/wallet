@@ -15,6 +15,7 @@ import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
+import { QrCode } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetTabType } from 'src/tokens/Assets'
@@ -351,8 +352,7 @@ export type QRTabParamList = {
   [Screens.QRScanner]:
     | {
         scanIsForSecureSend?: true
-        transactionData?: TransactionDataInput
-        requesterAddress?: string
+        onQRCodeDetected?: (qrCode: QrCode) => void
       }
     | undefined
 }

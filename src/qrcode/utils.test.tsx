@@ -3,21 +3,34 @@ import * as React from 'react'
 import 'react-native'
 import { View } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
-import { HooksEnablePreviewOrigin } from 'src/analytics/types'
+import { call, select } from 'redux-saga-test-plan/matchers'
+import { showError } from 'src/alert/actions'
+import { HooksEnablePreviewOrigin, SendOrigin } from 'src/analytics/types'
+import { ErrorMessages } from 'src/app/ErrorMessages'
+import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { urlFromUriData } from 'src/qrcode/schema'
-import { BarcodeTypes, handleBarcode, useQRContent } from 'src/qrcode/utils'
+
+import {
+  QRCodeTypes,
+  handleQRCodeDefault,
+  handleQRCodeSecureSend,
+  handleSecureSend,
+  useQRContent,
+} from 'src/qrcode/utils'
 import { QrCode } from 'src/send/actions'
 import { QRCodeDataType } from 'src/statsig/types'
 import {
   mockAccount,
+  mockAccount2,
   mockE164Number,
   mockE164NumberToAddress,
   mockName,
-  mockRecipientInfo,
+  mockTransactionData,
 } from 'test/values'
-import { select } from 'typed-redux-saga'
 
 jest.mock('src/positions/saga')
 
@@ -55,12 +68,12 @@ describe('useQRContent', () => {
   })
 })
 
-describe('handleBarcode', () => {
+describe('handleQRCodeDefault', () => {
   it('handles hooks enable preview links', async () => {
     const link = 'celo://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000'
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: link }
+    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
 
-    await expectSaga(handleBarcode, data, mockE164NumberToAddress, mockRecipientInfo)
+    await expectSaga(handleQRCodeDefault, data)
       .provide([[select(allowHooksPreviewSelector), true]])
       .run()
 
@@ -68,5 +81,39 @@ describe('handleBarcode', () => {
       link,
       HooksEnablePreviewOrigin.Scan
     )
+  })
+})
+
+describe('handleQRCodeSecureSend', () => {
+  it('handles a valid address and navigates to send confirmation', async () => {
+    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
+    await expectSaga(handleQRCodeSecureSend, data, mockTransactionData, mockAccount2)
+      .provide([
+        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [
+          call(
+            handleSecureSend,
+            mockAccount.toLowerCase(),
+            mockE164NumberToAddress,
+            mockTransactionData,
+            mockAccount2
+          ),
+          true,
+        ],
+      ])
+      .run()
+    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+      transactionData: mockTransactionData,
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+    })
+  })
+  it('handles an invalid address', async () => {
+    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: 'invalid-address' }
+    await expectSaga(handleQRCodeSecureSend, data, mockTransactionData, mockAccount2)
+      .provide([[select(e164NumberToAddressSelector), mockE164NumberToAddress]])
+      .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+      .run()
+    expect(navigate).not.toHaveBeenCalled()
   })
 })
