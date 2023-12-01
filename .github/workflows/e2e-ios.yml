@@ -39,6 +39,13 @@ jobs:
         run: bundle install --path vendor/bundle
       - name: Fail if someone forgot to commit "Gemfile.lock"
         run: git diff --exit-code
+      - name: Install macOS dependencies
+        run: |
+          brew tap wix/brew
+          brew install applesimutils
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
       - name: Install CocoaPods dependencies
         working-directory: ios
         run: bundle exec pod install || bundle exec pod install --repo-update
