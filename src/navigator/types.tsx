@@ -114,6 +114,9 @@ export type StackParamList = {
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
   }
+  [Screens.FiatExchangeCurrencyBottomSheet]: {
+    flow: FiatExchangeFlow
+  }
   [Screens.FiatConnectLinkAccount]: {
     quote: FiatConnectQuote
     flow: CICOFlow

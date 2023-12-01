@@ -7,10 +7,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { createMockStore } from 'test/utils'
 import { getFeatureGate } from 'src/statsig'
+import { createMockStore } from 'test/utils'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn().mockReturnValue(false),
@@ -58,7 +58,6 @@ describe('ActionsCarousel', () => {
   it.each([
     [HomeActionName.Send, 'send', Screens.Send, undefined],
     [HomeActionName.Receive, 'receive', Screens.QRNavigator, { screen: Screens.QRCode }],
-    [HomeActionName.Add, 'add', Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashIn }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(
@@ -75,7 +74,6 @@ describe('ActionsCarousel', () => {
       ).toBeTruthy()
 
       fireEvent.press(getByTestId(`HomeAction-${name}`))
-
       expect(navigate).toHaveBeenCalledTimes(1)
       // NOTE: cannot use calledWith(screen, screenOptions) because undefined
       // isn't explicitly passed for screens with no options and the expect fails
@@ -88,6 +86,25 @@ describe('ActionsCarousel', () => {
       })
     }
   )
+  it('renders title and navigates to appropriate screen for add', () => {
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <ActionsCarousel />
+      </Provider>
+    )
+
+    expect(
+      within(getByTestId(`HomeAction/Title-${HomeActionName.Add}`)).getByText(`homeActions.add`)
+    ).toBeTruthy()
+
+    fireEvent.press(getByTestId(`HomeAction-${HomeActionName.Add}`))
+    expect(navigateToFiatCurrencySelection).toHaveBeenCalledWith(FiatExchangeFlow.CashIn)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
+      action: HomeActionName.Add,
+    })
+  })
   it('navigates to send redesign if feature gate is true', () => {
     jest.mocked(getFeatureGate).mockReturnValueOnce(true)
     const { getByTestId } = render(
