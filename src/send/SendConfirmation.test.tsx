@@ -74,7 +74,7 @@ const mockScreenPropsWithPreparedTx = getMockStackScreenProps(Screens.SendConfir
     to: '0xto',
     data: '0xdata',
   },
-  feeAmount: '0.004',
+  feeAmount: '0.01',
   feeTokenId: mockCeloTokenId,
 })
 
@@ -207,10 +207,10 @@ describe('SendConfirmation', () => {
     const { getByTestId } = renderScreen({}, mockScreenPropsWithPreparedTx)
 
     const feeComponent = getByTestId('LineItemRow/SendConfirmation/fee')
-    expect(getElementText(feeComponent)).toEqual('0.004 CELO')
+    expect(getElementText(feeComponent)).toEqual('0.01 CELO')
 
     const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('~1.02 cUSD')
+    expect(getElementText(totalComponent)).toEqual('~1.05 cUSD')
   })
 
   it('renders correctly for send payment confirmation with cEUR fees (old UI)', async () => {
