@@ -17,8 +17,6 @@ import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { useTranslation } from 'react-i18next'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import { resolveId } from 'src/recipients/RecipientPicker'
-import { importContactsProgressSelector } from 'src/identity/selectors'
-import { ImportContactsStatus } from 'src/identity/types'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100
@@ -58,7 +56,6 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
 
   useEffect(() => {
     // Clear search when recipients change to avoid tricky states
-    onSearch('')
     setSearchQuery('')
   }, [recentRecipients, contactRecipients])
 
@@ -115,17 +112,10 @@ export function useResolvedRecipients(searchQuery: string): Recipient[] {
  */
 export function useSendRecipients() {
   const contactsCache = useSelector(phoneRecipientCacheSelector)
-  const importContactsStatus = useSelector(importContactsProgressSelector)
-  const contactRecipients = useMemo(() => {
-    if (
-      ![ImportContactsStatus.Stopped, ImportContactsStatus.Done].includes(
-        importContactsStatus.status
-      )
-    ) {
-      return []
-    }
-    return sortRecipients(Object.values(contactsCache))
-  }, [contactsCache, importContactsStatus])
+  const contactRecipients = useMemo(
+    () => sortRecipients(Object.values(contactsCache)),
+    [contactsCache]
+  )
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
   return {
     contactRecipients,
