@@ -45,6 +45,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
   [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
   [StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET]: false,
+  [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
 }
 
 export const ExperimentConfigs = {
