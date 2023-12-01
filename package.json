@@ -393,6 +393,13 @@
           "os": "iOS 14.5"
         }
       },
+      "simulator.16.4": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone SE (2nd generation)",
+          "os": "iOS 16.4"
+        }
+      },
       "emulator": {
         "type": "android.emulator",
         "device": {
