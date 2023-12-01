@@ -87,6 +87,22 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   return usdBalance(token2).comparedTo(usdBalance(token1))
 }
 
+export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): number {
+  const cicoTokenInfo = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.CICO_TOKEN_INFO]
+  )
+  if (!cicoTokenInfo.cicoOrder[token1.tokenId] && !cicoTokenInfo.cicoOrder[token2.tokenId]) {
+    return sortFirstStableThenCeloThenOthersByUsdBalance(token1, token2)
+  }
+  if (!cicoTokenInfo.cicoOrder[token1.tokenId]) {
+    return 1
+  }
+  if (!cicoTokenInfo.cicoOrder[token2.tokenId]) {
+    return -1
+  }
+  return cicoTokenInfo.cicoOrder[token1.tokenId] < cicoTokenInfo.cicoOrder[token2.tokenId] ? -1 : 1
+}
+
 export function usdBalance(token: TokenBalance): BigNumber {
   return token.balance.times(token.priceUsd ?? 0)
 }

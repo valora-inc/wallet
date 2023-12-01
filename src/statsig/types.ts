@@ -18,6 +18,7 @@ export enum StatsigDynamicConfigs {
   MULTI_CHAIN_FEATURES = 'multi_chain_features',
   DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
   SWAP_CONFIG = 'swap_config',
+  CICO_TOKEN_INFO = 'cico_token_info',
 }
 
 export enum StatsigFeatureGates {

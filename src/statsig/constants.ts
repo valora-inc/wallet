@@ -115,4 +115,10 @@ export const DynamicConfigs = {
       maxSlippagePercentage: '0.3',
     },
   },
+  [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {
+    configName: StatsigDynamicConfigs.CICO_TOKEN_INFO,
+    defaultValues: {
+      cicoOrder: {} as { [key: string]: number },
+    },
+  },
 }

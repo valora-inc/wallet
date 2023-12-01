@@ -14,7 +14,7 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { sortFirstStableThenCeloThenOthersByUsdBalance } from 'src/tokens/utils'
+import { sortCicoTokens } from 'src/tokens/utils'
 import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
@@ -34,10 +34,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
       ? cashOutTokens
       : spendTokens
 
-  const tokenList = useMemo(
-    () => unsortedTokenList.sort(sortFirstStableThenCeloThenOthersByUsdBalance),
-    [unsortedTokenList]
-  )
+  const tokenList = useMemo(() => unsortedTokenList.sort(sortCicoTokens), [unsortedTokenList])
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {
