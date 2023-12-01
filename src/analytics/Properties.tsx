@@ -142,6 +142,9 @@ interface AppEventsProperties {
   [AppEvents.in_app_review_error]: {
     error: string
   }
+  [AppEvents.multichain_beta_opt_in]: undefined
+  [AppEvents.multichain_beta_opt_out]: undefined
+  [AppEvents.multichain_beta_contact_support]: undefined
 }
 
 interface HomeEventsProperties {
