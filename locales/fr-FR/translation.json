@@ -1972,6 +1972,14 @@
     "revokeApprovalDescription": "Révoqué {{tokenSymbol}} pour le commerce",
     "descriptionLabel": "Détails"
   },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Nouveau ! Ethereum est sur Valora",
+    "description1": "Nous ouvrons d'abord cette fonction à un groupe de personnes sélectionnées. Tu fais partie des heureux élus !",
+    "description2": "C'est encore nouveau, et notre équipe travaille encore dur pour rendre les choses parfaites. Nous serions ravis d'entendre tes commentaires.",
+    "primaryCta": "Essaie-le maintenant",
+    "secondaryCta": "Non merci"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

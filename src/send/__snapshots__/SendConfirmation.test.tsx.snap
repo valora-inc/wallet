@@ -398,7 +398,7 @@ exports[`SendConfirmation renders correctly 1`] = `
           testID="LineItemRow/SendConfirmation/fee"
         >
           <Text>
-            0.004
+            0.01
              CELO
           </Text>
         </Text>
@@ -470,7 +470,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="TotalLineItem/Total"
           >
             ~
-            1.02
+            1.05
              cUSD
           </Text>
         </Text>
@@ -560,7 +560,7 @@ exports[`SendConfirmation renders correctly 1`] = `
             testID="TotalLineItem/Subtotal"
           >
             ₱
-            1.36
+            1.40
           </Text>
         </Text>
       </View>
