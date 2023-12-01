@@ -36,7 +36,7 @@ function RecipientPicker({
           <RecipientItem
             recipient={item}
             onSelectRecipient={onSelectRecipient}
-            selected={selectedRecipient === item}
+            selected={item.contactId === selectedRecipient?.contactId || selectedRecipient === item}
             loading={selectedRecipient === item && isSelectedRecipientLoading}
           />
         )}

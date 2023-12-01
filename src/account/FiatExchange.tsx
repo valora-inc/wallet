@@ -11,8 +11,7 @@ import { FUNDING_LINK } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -43,23 +42,21 @@ export function FiatExchangeSection({
   }, [appState])
 
   function goToAddFunds() {
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashIn,
     })
   }
 
   function goToCashOut() {
-    navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.CashOut })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.CashOut)
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.CashOut,
     })
   }
 
   function goToSpend() {
-    navigate(Screens.FiatExchangeCurrency, { flow: FiatExchangeFlow.Spend })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.Spend)
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_select_flow, {
       flow: FiatExchangeFlow.Spend,
     })

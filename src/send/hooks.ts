@@ -56,7 +56,6 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
 
   useEffect(() => {
     // Clear search when recipients change to avoid tricky states
-    onSearch('')
     setSearchQuery('')
   }, [recentRecipients, contactRecipients])
 

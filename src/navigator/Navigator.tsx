@@ -17,6 +17,7 @@ import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
+import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
@@ -41,6 +42,7 @@ import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
 import FiatExchangeCurrency, {
   fiatExchangesOptionsScreenOptions,
 } from 'src/fiatExchanges/FiatExchangeCurrency'
+import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
 import Spend, { spendScreenOptions } from 'src/fiatExchanges/Spend'
@@ -504,6 +506,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={NotificationCenter}
       options={headerWithBackButton}
     />
+    <Navigator.Screen
+      name={Screens.MultichainBeta}
+      component={MultichainBeta}
+      options={MultichainBeta.navigationOptions}
+    />
   </>
 )
 
@@ -660,6 +667,10 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
       <BottomSheet.Screen
         name={Screens.DappShortcutTransactionRequest}
         component={DappShortcutTransactionRequest}
+      />
+      <BottomSheet.Screen
+        name={Screens.FiatExchangeCurrencyBottomSheet}
+        component={FiatExchangeCurrencyBottomSheet}
       />
     </>
   )

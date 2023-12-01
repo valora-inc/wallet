@@ -114,6 +114,9 @@ export type StackParamList = {
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
   }
+  [Screens.FiatExchangeCurrencyBottomSheet]: {
+    flow: FiatExchangeFlow
+  }
   [Screens.FiatConnectLinkAccount]: {
     quote: FiatConnectQuote
     flow: CICOFlow
@@ -183,6 +186,7 @@ export type StackParamList = {
   [Screens.Licenses]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
+  [Screens.MultichainBeta]: undefined
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[] }

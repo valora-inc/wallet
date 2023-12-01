@@ -1970,5 +1970,13 @@
     "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
     "descriptionLabel": "详细信息"
   },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "新消息！以太坊登陆 Valora",
+    "description1": "我们将首先向特定人群开放这项功能。你是幸运儿之一！",
+    "description2": "这还是个新产品，我们的团队仍在努力使其更加完美。我们希望听到您的反馈意见。",
+    "primaryCta": "立即试用",
+    "secondaryCta": "不，谢谢"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
