@@ -56,9 +56,9 @@ jobs:
           profile: pixel
           arch: x86_64
           avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
-          force-avd-creation: false
+          force-avd-creation: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
-          disable-animations: false
+          disable-animations: true
           script: echo "Generated AVD snapshot for caching."
       - name: Run Detox
         uses: reactivecircus/android-emulator-runner@v2
