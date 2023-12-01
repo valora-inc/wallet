@@ -396,7 +396,7 @@
       "simulator.16.4": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone SE (2nd generation)",
+          "type": "iPhone SE (3rd generation)",
           "os": "iOS 16.4"
         }
       },
