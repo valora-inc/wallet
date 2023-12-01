@@ -599,6 +599,7 @@ interface SendEventsProperties {
     usdAmount: string | undefined
     tokenAddress: string | undefined
     tokenId: string
+    networkId: string
   }
   [SendEvents.send_tx_error]: {
     error: string
