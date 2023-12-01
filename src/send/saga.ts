@@ -261,6 +261,7 @@ function* sendPayment(
       tokenAddress: tokenInfo.address ?? undefined,
       tokenId: tokenInfo.tokenId,
       web3Library,
+      networkId: tokenInfo.networkId,
     })
   } catch (err) {
     const error = ensureError(err)
