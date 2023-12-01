@@ -362,9 +362,8 @@ export const cashInTokensByNetworkIdSelector = createSelector(
     tokens.filter(
       (tokenInfo) =>
         tokenInfo.isCashInEligible &&
-        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) //TODO: Remove after CiCo currency bottom sheet is rolled out
-          ? isCicoToken(tokenInfo.symbol)
-          : true)
+        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) ?? //TODO: Remove after CiCo currency bottom sheet is rolled out
+          isCicoToken(tokenInfo.symbol))
     )
 )
 
@@ -380,9 +379,8 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
         ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
           tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
         tokenInfo.isCashOutEligible &&
-        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) //TODO: Remove after CiCo currency bottom sheet is rolled out
-          ? isCicoToken(tokenInfo.symbol)
-          : true)
+        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) ?? //TODO: Remove after CiCo currency bottom sheet is rolled out
+          isCicoToken(tokenInfo.symbol))
     )
 )
 

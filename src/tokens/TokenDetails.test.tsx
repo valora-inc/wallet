@@ -26,6 +26,7 @@ jest.mock('src/statsig', () => ({
       showSwap: ['celo-alfajores', 'ethereum-sepolia'],
     }
   }),
+  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 describe('TokenDetails', () => {

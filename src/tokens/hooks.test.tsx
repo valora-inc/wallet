@@ -35,17 +35,7 @@ jest.mock('src/statsig', () => ({
       showBalances: ['celo-alfajores'],
     }
   }),
-}))
-
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(() => {
-    return {
-      showCico: ['celo-alfajores'],
-      showSend: ['celo-alfajores'],
-      showSwap: ['celo-alfajores'],
-      showBalances: ['celo-alfajores'],
-    }
-  }),
+  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 const tokenAddressWithPriceAndBalance = '0x001'
