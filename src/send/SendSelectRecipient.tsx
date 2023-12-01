@@ -7,7 +7,7 @@ import { SendEvents } from 'src/analytics/Events'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
-import { RecipientVerificationStatus } from 'src/identity/types'
+import { ImportContactsStatus, RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack, navigate } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
@@ -30,6 +30,8 @@ import Button, { BtnSizes } from 'src/components/Button'
 import { useSendRecipients, useMergedSearchRecipients } from 'src/send/hooks'
 import { Screens } from 'src/navigator/Screens'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { importContactsProgressSelector } from 'src/identity/selectors'
+import useSelector from 'src/redux/useSelector'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
@@ -174,6 +176,8 @@ function SendSelectRecipient({ route }: Props) {
 
   const [showInviteModal, setShowInviteModal] = useState(false)
 
+  const importContactsProgress = useSelector(importContactsProgressSelector)
+
   const onSearch = (searchQuery: string) => {
     // Always unset the selected recipient and hide the send/invite button
     // when the search query is changed in order to prevent edge cases
@@ -190,6 +194,16 @@ function SendSelectRecipient({ route }: Props) {
     useFetchRecipientVerificationStatus()
 
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
+    // If we're on the contacts screen, ensure the import is finished in order to
+    // avoid a race condition where the send button appears for a moment and disappears
+    // once import is complete.
+    if (
+      activeView === SelectRecipientView.Contacts &&
+      importContactsProgress.status !== ImportContactsStatus.Done
+    ) {
+      return
+    }
+
     setSelectedRecipient(selectedRecipient)
     setShowSendOrInviteButton(true)
   }
