@@ -36,6 +36,10 @@ jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
 }))
 
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn().mockReturnValue(true),
+}))
+
 beforeAll(() => {
   jest.useFakeTimers({ now: mockDate })
 })
