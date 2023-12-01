@@ -40,15 +40,36 @@ jobs:
           export CELO_TEST_CONFIG=e2e
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ inputs.android-api-level }}
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.android-api-level }}
+          profile: pixel
+          arch: x86_64
+          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          force-avd-creation: false
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: false
+          script: echo "Generated AVD snapshot for caching."
       - name: Run Detox
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: ${{ inputs.android-api-level }}
           profile: pixel
-          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
-          # force-avd-creation: false
-          # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
           arch: x86_64
+          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          force-avd-creation: false
+          emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
+          disable-animations: true
           script: >
             yarn detox test
             --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
@@ -59,7 +80,7 @@ jobs:
             --record-logs=failing
             --loglevel info
             --debug-synchronization 10000
-            --maxWorkers 1
+            --maxWorkers 3
             --headless
             --retries 3
             # --device-boot-args="-snapshot ci_boot"
