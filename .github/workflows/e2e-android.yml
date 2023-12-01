@@ -14,6 +14,16 @@ jobs:
     runs-on: buildjet-8vcpu-ubuntu-2204
     steps:
       - uses: actions/checkout@v3
+      - name: Step emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.android-api-level }}
+          profile: pixel
+          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          # force-avd-creation: false
+          # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
+          arch: x86_64
+          script: cd android; ./gradlew connectedCheck
       - uses: ./.github/actions/yarn-install
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
