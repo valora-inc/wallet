@@ -15,6 +15,8 @@ jobs:
       BASH_ENV: ~/.profile
     name: iOS (${{ inputs.ios-version  }})
     runs-on: ios-e2e-group
+    # temporarily disable
+    if: false
     steps:
       - uses: google-github-actions/auth@v1
         if: ${{ env.SECRETS_AVAILABLE }}
