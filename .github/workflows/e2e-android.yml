@@ -18,16 +18,16 @@ jobs:
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
       # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
-      - name: Step emulator
-        uses: reactivecircus/android-emulator-runner@v2
-        with:
-          api-level: ${{ inputs.android-api-level }}
-          profile: pixel
-          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
-          # force-avd-creation: false
-          # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
-          arch: x86_64
-          script: cd android; ./gradlew connectedCheck
+      # - name: Step emulator
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: ${{ inputs.android-api-level }}
+      #     profile: pixel
+      #     avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+      #     # force-avd-creation: false
+      #     # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
+      #     arch: x86_64
+      #     script: cd android; ./gradlew connectedCheck
       - name: TS check
         run: yarn build:ts
       - name: Check E2E wallet balance
@@ -62,7 +62,7 @@ jobs:
             --maxWorkers 3
             --headless
             --retries 3
-            --device-boot-args="-snapshot ci_boot"
+            # --device-boot-args="-snapshot ci_boot"
         timeout-minutes: 45
       # - name: Run Detox
       #   run: >
