@@ -1976,6 +1976,14 @@
     "revokeApprovalDescription": "Відкликано {{tokenSymbol}} для торгівлі",
     "descriptionLabel": "Подробиці"
   },
+  "multichainBeta": {
+    "beta": "БЕТА",
+    "title": "Новинка! Ethereum з'явився на Valora",
+    "description1": "Спочатку ми відкриваємо цю функцію для обраної групи людей. Ви один з тих, кому пощастило!",
+    "description2": "Це все ще нове, і наша команда все ще наполегливо працює над тим, щоб зробити все досконалим. Ми будемо раді почути ваші відгуки.",
+    "primaryCta": "Спробуйте зараз",
+    "secondaryCta": "Ні, дякую."
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
