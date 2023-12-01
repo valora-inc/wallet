@@ -4,7 +4,7 @@ import {
   PincodeType,
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
-import { AppState } from 'src/app/actions'
+import { AppState, MultichainBetaStatus } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
@@ -2828,6 +2828,18 @@ export const v170Schema = {
   supercharge: _.omit(v169Schema.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
 }
 
+export const v171Schema = {
+  ...v170Schema,
+  _persist: {
+    ...v170Schema._persist,
+    version: 171,
+  },
+  app: {
+    ...v170Schema.app,
+    multichainBetaStatus: MultichainBetaStatus.NotSeen,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v170Schema as Partial<RootState>
+  return v171Schema as Partial<RootState>
 }

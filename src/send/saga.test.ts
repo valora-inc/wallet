@@ -35,12 +35,14 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
+  mockAccount3,
   mockAccount2Invite,
   mockAccountInvite,
   mockContract,
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
+  mockE164Number3,
   mockE164NumberInvite,
   mockFeeInfo,
   mockName,
@@ -122,7 +124,8 @@ describe(watchQrCodeDetections, () => {
         address: mockAccount.toLowerCase(),
         name: mockName,
         e164PhoneNumber: mockE164Number,
-        contactId: undefined,
+        contactId: 'contactId',
+        displayNumber: '14155550000',
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
@@ -134,8 +137,8 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = {
       type: BarcodeTypes.QR_CODE,
       data: urlFromUriData({
-        address: mockQrCodeData.address,
-        e164PhoneNumber: mockQrCodeData.e164PhoneNumber,
+        address: mockAccount3,
+        e164PhoneNumber: mockE164Number3,
       }),
     }
 
@@ -151,8 +154,8 @@ describe(watchQrCodeDetections, () => {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
-        address: mockAccount.toLowerCase(),
-        e164PhoneNumber: mockE164Number,
+        address: mockAccount3.toLowerCase(),
+        e164PhoneNumber: mockE164Number3,
         contactId: undefined,
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
@@ -165,7 +168,7 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = {
       type: BarcodeTypes.QR_CODE,
       data: urlFromUriData({
-        address: mockQrCodeData.address,
+        address: mockAccount3,
         displayName: mockQrCodeData.displayName,
       }),
     }
@@ -182,7 +185,7 @@ describe(watchQrCodeDetections, () => {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
-        address: mockAccount.toLowerCase(),
+        address: mockAccount3.toLowerCase(),
         name: mockName,
         displayNumber: undefined,
         e164PhoneNumber: undefined,

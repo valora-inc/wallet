@@ -1,5 +1,8 @@
 import { PincodeType, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
+import { MultichainBetaStatus } from 'src/app/actions'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 export function getInitialRoute({
   choseToRestoreAccount,
@@ -9,6 +12,7 @@ export function getInitialRoute({
   account,
   hasSeenVerificationNux,
   recoveryPhraseInOnboardingStatus,
+  multichainBetaStatus,
 }: {
   choseToRestoreAccount: boolean | undefined
   language: string | null
@@ -17,6 +21,7 @@ export function getInitialRoute({
   account: string | null
   hasSeenVerificationNux: boolean
   recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus
+  multichainBetaStatus: MultichainBetaStatus
 }) {
   if (!language) {
     return Screens.Language
@@ -30,6 +35,11 @@ export function getInitialRoute({
     return Screens.ProtectWallet
   } else if (!hasSeenVerificationNux) {
     return Screens.VerificationStartScreen
+  } else if (
+    getFeatureGate(StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN) &&
+    multichainBetaStatus === MultichainBetaStatus.NotSeen
+  ) {
+    return Screens.MultichainBeta
   } else {
     return Screens.DrawerNavigator
   }
