@@ -599,6 +599,7 @@ interface SendEventsProperties {
     usdAmount: string | undefined
     tokenAddress: string | undefined
     tokenId: string
+    networkId: string
   }
   [SendEvents.send_tx_error]: {
     error: string
@@ -641,6 +642,15 @@ interface SendEventsProperties {
   [SendEvents.request_contacts_permission_started]: undefined
   [SendEvents.request_contacts_permission_completed]: {
     permissionStatus: PermissionStatus
+  }
+  [SendEvents.send_select_recipient_send_press]: {
+    recipientType: RecipientType
+  }
+  [SendEvents.send_select_recipient_invite_press]: {
+    recipientType: RecipientType
+  }
+  [SendEvents.send_select_recipient_recent_press]: {
+    recipientType: RecipientType
   }
 }
 

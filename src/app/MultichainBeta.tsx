@@ -3,8 +3,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { optMultichainBeta } from 'src/app/actions'
 import BetaTag from 'src/components/BetaTag'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
@@ -18,15 +20,19 @@ import { Spacing } from 'src/styles/styles'
 
 function MultichainBeta() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
-  // TODO(satish): handle state/statsig updates
+  // TODO(satish): handle statsig user updates and ensure home is loaded with
+  // right config
   const onOptIn = () => {
     ValoraAnalytics.track(AppEvents.multichain_beta_opt_in)
+    dispatch(optMultichainBeta(true))
     navigateHome()
   }
 
   const onOptOut = () => {
     ValoraAnalytics.track(AppEvents.multichain_beta_opt_out)
+    dispatch(optMultichainBeta(false))
     navigateHome()
   }
 
