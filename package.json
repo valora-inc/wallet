@@ -427,6 +427,10 @@
         "device": "simulator.15.0",
         "app": "ios.release"
       },
+      "ios.release.16.4": {
+        "device": "simulator.16.4",
+        "app": "ios.release"
+      },
       "android.debug": {
         "device": "emulator",
         "app": "android.debug"
