@@ -50,6 +50,7 @@ import {
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 jest.mock('@celo/connect')
 jest.mock('src/statsig')
@@ -365,6 +366,16 @@ describe(sendPaymentSaga, () => {
 
     expect(mockContract.methods.transferWithComment).not.toHaveBeenCalled()
     expect(mockContract.methods.transfer).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith('send_tx_complete', {
+      txId: mockContext.id,
+      recipientAddress: mockQRCodeRecipient.address,
+      amount: '10',
+      usdAmount: '10',
+      tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase(),
+      tokenId: mockCusdTokenId,
+      web3Library: 'viem',
+      networkId: 'celo-alfajores',
+    })
   })
 
   it('fails if user cancels PIN input', async () => {
