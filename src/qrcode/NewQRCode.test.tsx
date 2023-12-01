@@ -1,12 +1,11 @@
-import * as React from 'react'
-import { createMockStore } from 'test/utils'
-import { fireEvent, render } from '@testing-library/react-native'
-import { Provider } from 'react-redux'
-import { Screens } from 'src/navigator/Screens'
-import { navigate } from 'src/navigator/NavigationService'
 import Clipboard from '@react-native-clipboard/clipboard'
-import { QRCodeDataType } from 'src/statsig/types'
+import { fireEvent, render } from '@testing-library/react-native'
+import * as React from 'react'
+import { Provider } from 'react-redux'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import NewQRCode from 'src/qrcode/NewQRCode'
+import { createMockStore } from 'test/utils'
 import { mockExchanges } from 'test/values'
 
 jest.mock('@react-native-clipboard/clipboard', () => ({
@@ -26,7 +25,6 @@ function getProps() {
   return {
     qrSvgRef: jest.fn() as any,
     exchanges: mockExchanges,
-    dataType: QRCodeDataType.Address,
     onCloseBottomSheet: jest.fn(),
     onPressCopy: jest.fn(),
     onPressInfo: jest.fn(),

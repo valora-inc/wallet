@@ -10,7 +10,6 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import Paste from 'src/icons/Paste'
 import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { SVG } from 'src/send/actions'
-import { QRCodeDataType } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
@@ -21,7 +20,6 @@ import { walletAddressSelector } from 'src/web3/selectors'
 interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
   exchanges: ExternalExchangeProvider[]
-  dataType: QRCodeDataType
   onCloseBottomSheet?: () => void
   onPressCopy?: () => void
   onPressInfo?: () => void
@@ -30,7 +28,7 @@ interface Props {
 
 export default function NewQRCodeDisplay(props: Props) {
   const { t } = useTranslation()
-  const { exchanges, dataType, qrSvgRef } = props
+  const { exchanges, qrSvgRef } = props
   const address = useSelector(walletAddressSelector)
   const displayName = useSelector(nameSelector)
 
@@ -60,7 +58,7 @@ export default function NewQRCodeDisplay(props: Props) {
   return (
     <View style={styles.container}>
       <View style={styles.qrContainer}>
-        <StyledQRCode dataType={dataType} qrSvgRef={qrSvgRef} />
+        <StyledQRCode qrSvgRef={qrSvgRef} />
       </View>
 
       {displayName && (

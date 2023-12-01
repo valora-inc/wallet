@@ -1,16 +1,4 @@
-export enum QRCodeDataType {
-  ValoraDeepLink = 'ValoraDeepLink',
-  Address = 'Address',
-}
-
-export enum QRCodeStyle {
-  Legacy = 'Legacy',
-  New = 'New',
-}
-
-export enum StatsigLayers {
-  SEND_RECEIVE_QR_CODE = 'send_receive_qr_code',
-}
+export enum StatsigLayers {}
 
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',

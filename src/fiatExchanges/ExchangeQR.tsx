@@ -12,10 +12,9 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import { shareQRCode, SVG } from 'src/send/actions'
-import { CICOFlow } from './utils'
 import NewQRCode from 'src/qrcode/NewQRCode'
-import { QRCodeDataType } from 'src/statsig/types'
+import { SVG, shareQRCode } from 'src/send/actions'
+import { CICOFlow } from './utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeQR>
 
@@ -68,7 +67,6 @@ export default function ExchangeQR({ route, navigation }: Props) {
     <NewQRCode
       qrSvgRef={qrSvgRef}
       exchanges={exchanges}
-      dataType={QRCodeDataType.Address}
       onCloseBottomSheet={onCloseBottomSheet}
       onPressCopy={onPressCopy}
       onPressInfo={onPressInfo}

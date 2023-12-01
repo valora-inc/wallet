@@ -1,26 +1,7 @@
-import {
-  QRCodeDataType,
-  QRCodeStyle,
-  StatsigDynamicConfigs,
-  StatsigExperiments,
-  StatsigFeatureGates,
-  StatsigLayers,
-} from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import networkConfig from 'src/web3/networkConfig'
 
-export const LayerParams = {
-  // TODO(ACT-659): refactor to imitate defaultExperimentParamValues (more type safe, less boilerplate)
-  [StatsigLayers.SEND_RECEIVE_QR_CODE]: {
-    qrCodeStyle: {
-      paramName: 'qrCodeStyle',
-      defaultValue: QRCodeStyle.Legacy,
-    },
-    qrCodeDataType: {
-      paramName: 'qrCodeDataType',
-      defaultValue: QRCodeDataType.ValoraDeepLink,
-    },
-  },
-}
+export const LayerParams = {}
 
 export const FeatureGates = {
   [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
