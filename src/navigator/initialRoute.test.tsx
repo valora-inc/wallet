@@ -1,9 +1,13 @@
 import { PincodeType, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
+import { MultichainBetaStatus } from 'src/app/actions'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+
+jest.mock('src/statsig/index')
 
 describe('initialRoute', () => {
-  const defaultArgs = {
+  const defaultArgs: Parameters<typeof getInitialRoute>[0] = {
     choseToRestoreAccount: false,
     language: 'en',
     acceptedTerms: true,
@@ -11,7 +15,12 @@ describe('initialRoute', () => {
     account: '0x1234',
     hasSeenVerificationNux: true,
     recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.NotStarted,
+    multichainBetaStatus: MultichainBetaStatus.OptedOut,
   }
+
+  beforeEach(() => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+  })
 
   it('returns language screen if no language is set', () => {
     expect(getInitialRoute({ ...defaultArgs, language: null })).toEqual(Screens.Language)
@@ -72,6 +81,33 @@ describe('initialRoute', () => {
         ...defaultArgs,
         recoveryPhraseInOnboardingStatus: RecoveryPhraseInOnboardingStatus.Completed,
       })
+    ).toEqual(Screens.DrawerNavigator)
+  })
+
+  it('returns drawer navigator if all onboarding complete, multichain beta is not seen and feature gate is off', () => {
+    expect(
+      getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.NotSeen })
+    ).toEqual(Screens.DrawerNavigator)
+  })
+
+  it('returns multichain beta if all onboarding complete, multichain beta is not seen and feature gate is on', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    expect(
+      getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.NotSeen })
+    ).toEqual(Screens.MultichainBeta)
+  })
+
+  it('returns drawer navigator if all onboarding complete, multichain beta is opted in and feature gate is on', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    expect(
+      getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.OptedIn })
+    ).toEqual(Screens.DrawerNavigator)
+  })
+
+  it('returns drawer navigator if all onboarding complete, multichain beta is opted out and feature gate is on', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    expect(
+      getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.OptedOut })
     ).toEqual(Screens.DrawerNavigator)
   })
 })
