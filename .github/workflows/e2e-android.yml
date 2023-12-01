@@ -31,23 +31,47 @@ jobs:
           export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
       - name: Run Detox
-        run: >
-          export ANDROID_SDK_ROOT=$HOME/android-tools &&
-          export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
-          yarn detox test
-          --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
-          --configuration android.release
-          --artifacts-location e2e/artifacts
-          --take-screenshots=failing
-          --record-videos=failing
-          --record-logs=failing
-          --loglevel info
-          --debug-synchronization 10000
-          --maxWorkers 3
-          --headless
-          --retries 3
-          --device-boot-args="-snapshot ci_boot"
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.android-api-level }}
+          profile: pixel
+          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          # force-avd-creation: false
+          # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
+          arch: x86_64
+          script: |
+            yarn detox test
+            --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+            --configuration android.release
+            --artifacts-location e2e/artifacts
+            --take-screenshots=failing
+            --record-videos=failing
+            --record-logs=failing
+            --loglevel info
+            --debug-synchronization 10000
+            --maxWorkers 3
+            --headless
+            --retries 3
+            --device-boot-args="-snapshot ci_boot"
         timeout-minutes: 45
+      # - name: Run Detox
+      #   run: >
+      #     export ANDROID_SDK_ROOT=$HOME/android-tools &&
+      #     export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
+      #     yarn detox test
+      #     --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+      #     --configuration android.release
+      #     --artifacts-location e2e/artifacts
+      #     --take-screenshots=failing
+      #     --record-videos=failing
+      #     --record-logs=failing
+      #     --loglevel info
+      #     --debug-synchronization 10000
+      #     --maxWorkers 3
+      #     --headless
+      #     --retries 3
+      #     --device-boot-args="-snapshot ci_boot"
+      #   timeout-minutes: 45
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v3
