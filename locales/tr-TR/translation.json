@@ -1972,6 +1972,14 @@
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar"
   },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Yeni! Ethereum Valora'da",
+    "description1": "Bu özelliği ilk olarak seçkin bir grup insana açıyoruz. Siz şanslı olanlardan birisiniz!",
+    "description2": "Bu hala yeni ve ekibimiz işleri mükemmel hale getirmek için hala çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
+    "primaryCta": "Şimdi deneyin",
+    "secondaryCta": "Hayır, teşekkürler."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
