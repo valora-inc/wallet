@@ -25,6 +25,10 @@ export enum AppEvents {
 
   in_app_review_impression = 'in_app_review_impression',
   in_app_review_error = 'in_app_review_error',
+
+  multichain_beta_opt_in = 'multichain_beta_opt_in',
+  multichain_beta_opt_out = 'multichain_beta_opt_out',
+  multichain_beta_contact_support = 'multichain_beta_contact_support',
 }
 
 export enum HomeEvents {
