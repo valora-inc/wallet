@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 170,
+          "version": 171,
         },
         "account": {
           "acceptedTerms": false,
@@ -153,6 +153,7 @@ describe('store state', () => {
           "loggedIn": false,
           "maxSwapSlippagePercentage": 2,
           "minVersion": null,
+          "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
           "phoneNumberVerified": false,

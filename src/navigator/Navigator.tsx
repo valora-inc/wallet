@@ -565,6 +565,7 @@ const mapStateToProps = (state: RootState) => {
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
     recoveryPhraseInOnboardingStatus: state.account.recoveryPhraseInOnboardingStatus,
+    multichainBetaStatus: state.app.multichainBetaStatus,
   }
 }
 
@@ -582,6 +583,7 @@ export function MainStackScreen() {
       account,
       hasSeenVerificationNux,
       recoveryPhraseInOnboardingStatus,
+      multichainBetaStatus,
     } = mapStateToProps(store.getState())
 
     const initialRoute: InitialRouteName = getInitialRoute({
@@ -592,6 +594,7 @@ export function MainStackScreen() {
       account,
       hasSeenVerificationNux,
       recoveryPhraseInOnboardingStatus,
+      multichainBetaStatus,
     })
 
     setInitialRoute(initialRoute)
