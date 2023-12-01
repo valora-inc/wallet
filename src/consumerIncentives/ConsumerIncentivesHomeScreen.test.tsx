@@ -9,7 +9,7 @@ import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncenti
 import { State, initialState } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
@@ -208,9 +208,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
     )
 
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    expect(navigateToFiatCurrencySelection).toHaveBeenCalledWith(FiatExchangeFlow.CashIn)
   })
 
   it('navigates to Phone Confirmation screen if user is not verified and CTA is tapped', () => {
