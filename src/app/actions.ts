@@ -9,6 +9,12 @@ export enum AppState {
   Inactive = 'Inactive',
 }
 
+export enum MultichainBetaStatus {
+  NotSeen = 'NotSeen',
+  OptedIn = 'OptedIn',
+  OptedOut = 'OptedOut',
+}
+
 export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
@@ -39,6 +45,7 @@ export enum Actions {
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_HOME_BALANCES = 'APP/TOGGLE_HIDE_HOME_BALANCES',
+  OPT_MULTICHAIN_BETA = 'APP/OPT_MULTICHAIN_BETA',
 }
 
 export interface SetAppState {
@@ -174,6 +181,11 @@ interface ToggleHideHomeBalances {
   type: Actions.TOGGLE_HIDE_HOME_BALANCES
 }
 
+interface OptMultichainBeta {
+  type: Actions.OPT_MULTICHAIN_BETA
+  optedIn: boolean
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -202,6 +214,7 @@ export type ActionTypes =
   | inAppReviewRequested
   | NotificationSpotlightSeen
   | ToggleHideHomeBalances
+  | OptMultichainBeta
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -372,5 +385,12 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
 export const toggleHideHomeBalances = (): ToggleHideHomeBalances => {
   return {
     type: Actions.TOGGLE_HIDE_HOME_BALANCES,
+  }
+}
+
+export const optMultichainBeta = (optedIn: boolean): OptMultichainBeta => {
+  return {
+    type: Actions.OPT_MULTICHAIN_BETA,
+    optedIn,
   }
 }
