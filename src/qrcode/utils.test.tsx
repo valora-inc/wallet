@@ -21,14 +21,21 @@ import {
   handleSecureSend,
   useQRContent,
 } from 'src/qrcode/utils'
-import { QrCode } from 'src/send/actions'
+import { RecipientType } from 'src/recipients/recipient'
+import { recipientInfoSelector } from 'src/recipients/reducer'
+import { Actions, QrCode } from 'src/send/actions'
 import { QRCodeDataType } from 'src/statsig/types'
+import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
+  mockAccount3,
   mockE164Number,
+  mockE164Number3,
   mockE164NumberToAddress,
   mockName,
+  mockQrCodeData,
+  mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
 
@@ -81,6 +88,91 @@ describe('handleQRCodeDefault', () => {
       link,
       HooksEnablePreviewOrigin.Scan
     )
+  })
+  it('navigates to the send amount screen with a valid QR code', async () => {
+    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
+
+    await expectSaga(handleQRCodeDefault, data)
+      .withState(createMockStore({}).getState())
+      .provide([[select(recipientInfoSelector), mockRecipientInfo]])
+      .dispatch({ type: Actions.BARCODE_DETECTED, data })
+      .run()
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+      recipient: {
+        address: mockAccount.toLowerCase(),
+        name: mockName,
+        e164PhoneNumber: mockE164Number,
+        contactId: 'contactId',
+        displayNumber: '14155550000',
+        thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
+      },
+      forceTokenId: false,
+    })
+  })
+  it('navigates to the send amount screen with a qr code with an empty display name', async () => {
+    const data: QrCode = {
+      type: QRCodeTypes.QR_CODE,
+      data: urlFromUriData({
+        address: mockAccount3,
+        e164PhoneNumber: mockE164Number3,
+      }),
+    }
+
+    await expectSaga(handleQRCodeDefault, data)
+      .withState(createMockStore({}).getState())
+      .provide([
+        [select(e164NumberToAddressSelector), {}],
+        [select(recipientInfoSelector), mockRecipientInfo],
+      ])
+      .dispatch({ type: Actions.BARCODE_DETECTED, data })
+      .silentRun()
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+      recipient: {
+        address: mockAccount3.toLowerCase(),
+        e164PhoneNumber: mockE164Number3,
+        contactId: undefined,
+        thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
+      },
+      forceTokenId: false,
+    })
+  })
+  it('navigates to the send amount screen with a qr code with an empty phone number', async () => {
+    const data: QrCode = {
+      type: QRCodeTypes.QR_CODE,
+      data: urlFromUriData({
+        address: mockAccount3,
+        displayName: mockQrCodeData.displayName,
+      }),
+    }
+
+    await expectSaga(handleQRCodeDefault, data)
+      .withState(createMockStore({}).getState())
+      .provide([
+        [select(e164NumberToAddressSelector), {}],
+        [select(recipientInfoSelector), mockRecipientInfo],
+      ])
+      .dispatch({ type: Actions.BARCODE_DETECTED, data })
+      .silentRun()
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+      recipient: {
+        address: mockAccount3.toLowerCase(),
+        name: mockName,
+        displayNumber: undefined,
+        e164PhoneNumber: undefined,
+        contactId: undefined,
+        thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
+      },
+      forceTokenId: false,
+    })
   })
 })
 
