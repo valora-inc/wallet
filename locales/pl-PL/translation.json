@@ -1898,9 +1898,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Szukaj według nazwy, telefonu, portfela…",
+    "paste": "Wklej ze schowka",
     "title": "Wybierz odbiorcę",
     "contactsTitle": "Wybierz kontakt",
     "recents": "Najnowsze",
+    "results": "Wyniki",
     "qr": {
       "title": "Zeskanuj lub pokaż kod QR",
       "subtitle": "Szybko znajdź adresy w Valorze"
@@ -1915,7 +1917,7 @@
       "options": {
         "one": {
           "title": "Adres portfela",
-          "subtitle": "Wprowadź adres portfela zgodny z Celo lub Ethereum (np. 0x123…abcde)"
+          "subtitle": "Wprowadź adres portfela zgodny z siecią (np. 0x123...abcde)."
         },
         "two": {
           "title": "Numer telefonu",

@@ -1894,9 +1894,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
     "recents": "En sonuncular",
+    "results": "Sonuçlar",
     "qr": {
       "title": "QR Kodunu Tarayın veya Gösterin",
       "subtitle": "Valora'daki adresleri hızlıca bulun"
@@ -1910,8 +1912,8 @@
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
-          "title": "Cüzdan Adresi",
-          "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
+          "title": "Cüzdan adresi",
+          "subtitle": "Ağ uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
         },
         "two": {
           "title": "Telefon Numarası",
