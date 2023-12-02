@@ -20,7 +20,7 @@ import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import NewQRCode from 'src/qrcode/NewQRCode'
+import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
 import { handleBarcodeDetected, QrCode, SVG } from 'src/send/actions'
@@ -73,7 +73,7 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
     })
   }
   return (
-    <NewQRCode
+    <QRCode
       {...props}
       exchanges={asyncExchanges.result ?? []}
       qrSvgRef={qrSvgRef}

@@ -26,7 +26,7 @@ interface Props {
   onPressExchange?: (exchange: ExternalExchangeProvider) => void
 }
 
-export default function NewQRCodeDisplay(props: Props) {
+export default function QRCodeDisplay(props: Props) {
   const { t } = useTranslation()
   const { exchanges, qrSvgRef } = props
   const address = useSelector(walletAddressSelector)
@@ -57,7 +57,7 @@ export default function NewQRCodeDisplay(props: Props) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.qrContainer}>
+      <View testID="QRCode" style={styles.qrContainer}>
         <StyledQRCode qrSvgRef={qrSvgRef} />
       </View>
 

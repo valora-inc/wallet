@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import NewQRCode from 'src/qrcode/NewQRCode'
+import QRCode from 'src/qrcode/QRCode'
 import { createMockStore } from 'test/utils'
 import { mockExchanges } from 'test/values'
 
@@ -41,7 +41,7 @@ describe('ExchangeQR', () => {
   it('displays QR code, name, and address', () => {
     const { queryByTestId } = render(
       <Provider store={mockStore}>
-        <NewQRCode {...getProps()} />
+        <QRCode {...getProps()} />
       </Provider>
     )
     expect(queryByTestId('styledQRCode')).toBeTruthy()
@@ -61,7 +61,7 @@ describe('ExchangeQR', () => {
     store.dispatch = jest.fn()
     const { queryByTestId } = render(
       <Provider store={store}>
-        <NewQRCode {...getProps()} />
+        <QRCode {...getProps()} />
       </Provider>
     )
     expect(queryByTestId('displayName')).toBeFalsy()
@@ -71,7 +71,7 @@ describe('ExchangeQR', () => {
     const props = getProps()
     const { queryByTestId, getByTestId } = render(
       <Provider store={mockStore}>
-        <NewQRCode {...props} />
+        <QRCode {...props} />
       </Provider>
     )
 
@@ -85,7 +85,7 @@ describe('ExchangeQR', () => {
     const props = getProps()
     const { queryByTestId, getByTestId } = render(
       <Provider store={mockStore}>
-        <NewQRCode {...props} />
+        <QRCode {...props} />
       </Provider>
     )
 

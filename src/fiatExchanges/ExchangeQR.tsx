@@ -12,7 +12,7 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import NewQRCode from 'src/qrcode/NewQRCode'
+import QRCode from 'src/qrcode/QRCode'
 import { SVG, shareQRCode } from 'src/send/actions'
 import { CICOFlow } from './utils'
 
@@ -64,7 +64,7 @@ export default function ExchangeQR({ route, navigation }: Props) {
   }, [navigation])
 
   return (
-    <NewQRCode
+    <QRCode
       qrSvgRef={qrSvgRef}
       exchanges={exchanges}
       onCloseBottomSheet={onCloseBottomSheet}
