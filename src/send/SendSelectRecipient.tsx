@@ -12,7 +12,6 @@ import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
-import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
@@ -355,7 +354,6 @@ function SendSelectRecipient({ route }: Props) {
           onPress={onPressSendOrInvite}
         />
       )}
-      <KeyboardSpacer />
     </SafeAreaView>
   )
 }
