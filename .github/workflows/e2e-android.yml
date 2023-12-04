@@ -31,7 +31,7 @@ jobs:
           INI_LOCATION=~/.android/avd/Pixel_API_30_AOSP_x86_64.ini
           cat $INI_LOCATION
 
-          echo "hw.cpu.ncore=2" >> $INI_LOCATION
+          echo "hw.cpu.ncore=1" >> $INI_LOCATION
           echo "hw.ramSize=4096" >> $INI_LOCATION
           echo "hw.sdCard=yes" >> $INI_LOCATION
           echo "sdcard.size=1000M" >> $INI_LOCATION
