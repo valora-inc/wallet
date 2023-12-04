@@ -123,7 +123,7 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
 }
 
 // Component doing our custom transition for the QR scanner
-function AnimatedScannerScene({ route, position, ...props }: AnimatedScannerSceneProps) {
+function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
   const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))

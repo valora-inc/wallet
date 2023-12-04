@@ -26,12 +26,12 @@ export enum Actions {
 
 export interface HandleQRCodeDetectedAction {
   type: Actions.BARCODE_DETECTED
-  data: QrCode
+  qrCode: QrCode
 }
 
 export interface HandleQRCodeDetectedSecureSendAction {
   type: Actions.BARCODE_DETECTED_SECURE_SEND
-  data: QrCode
+  qrCode: QrCode
   transactionData: TransactionDataInput
   requesterAddress?: string
 }
@@ -83,18 +83,18 @@ export type ActionTypes =
   | UpdateLastUsedCurrencyAction
   | SetShowWarningAction
 
-export const handleQRCodeDetected = (data: QrCode): HandleQRCodeDetectedAction => ({
+export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
-  data,
+  qrCode,
 })
 
 export const handleQRCodeDetectedSecureSend = (
-  data: QrCode,
+  qrCode: QrCode,
   transactionData: TransactionDataInput,
   requesterAddress?: string
 ): HandleQRCodeDetectedSecureSendAction => ({
   type: Actions.BARCODE_DETECTED_SECURE_SEND,
-  data,
+  qrCode,
   transactionData,
   requesterAddress,
 })

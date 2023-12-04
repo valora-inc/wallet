@@ -25,7 +25,11 @@ import {
 } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { QrCode, SVG } from 'src/send/actions'
+import {
+  HandleQRCodeDetectedAction,
+  HandleQRCodeDetectedSecureSendAction,
+  SVG,
+} from 'src/send/actions'
 import { handleSendPaymentData } from 'src/send/utils'
 import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
@@ -125,7 +129,7 @@ export function* handleSecureSend(
 
 // Catch all handler for QR Codes
 // includes support for WalletConnect, hooks, and send flow (non-secure send)
-export function* handleQRCodeDefault(qrCode: QrCode) {
+export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, qrCode.data)
 
   // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)
@@ -161,11 +165,11 @@ export function* handleQRCodeDefault(qrCode: QrCode) {
   yield* call(handleSendPaymentData, qrData, true, cachedRecipient)
 }
 
-export function* handleQRCodeSecureSend(
-  qrCode: QrCode,
-  transactionData: TransactionDataInput,
-  requesterAddress?: string
-) {
+export function* handleQRCodeSecureSend({
+  qrCode,
+  transactionData,
+  requesterAddress,
+}: HandleQRCodeDetectedSecureSendAction) {
   const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
 
   // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)

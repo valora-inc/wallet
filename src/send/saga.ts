@@ -8,7 +8,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import { handleQRCodeDefault, shareSVGImage } from 'src/qrcode/utils'
+import { handleQRCodeDefault, handleQRCodeSecureSend, shareSVGImage } from 'src/qrcode/utils'
 import {
   Actions,
   SendPaymentAction,
@@ -291,11 +291,16 @@ export function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
 }
 
-export function* watchQrCodeDetections() {
+function* watchQrCodeDetections() {
   yield* takeEvery(Actions.BARCODE_DETECTED, safely(handleQRCodeDefault))
 }
 
+function* watchQrCodeDetectionsSecureSend() {
+  yield* takeEvery(Actions.BARCODE_DETECTED_SECURE_SEND, safely(handleQRCodeSecureSend))
+}
+
 export function* sendSaga() {
+  yield* spawn(watchQrCodeDetectionsSecureSend)
   yield* spawn(watchQrCodeDetections)
   yield* spawn(watchQrCodeShare)
   yield* spawn(watchSendPayment)

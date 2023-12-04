@@ -23,7 +23,7 @@ import {
 } from 'src/qrcode/utils'
 import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import { Actions, QrCode } from 'src/send/actions'
+import { QrCode, handleQRCodeDetected, handleQRCodeDetectedSecureSend } from 'src/send/actions'
 import { QRCodeDataType } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 import {
@@ -78,9 +78,9 @@ describe('useQRContent', () => {
 describe('handleQRCodeDefault', () => {
   it('handles hooks enable preview links', async () => {
     const link = 'celo://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000'
-    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
+    const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: link }
 
-    await expectSaga(handleQRCodeDefault, data)
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
       .provide([[select(allowHooksPreviewSelector), true]])
       .run()
 
@@ -90,12 +90,11 @@ describe('handleQRCodeDefault', () => {
     )
   })
   it('navigates to the send amount screen with a valid QR code', async () => {
-    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
+    const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
 
-    await expectSaga(handleQRCodeDefault, data)
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
       .withState(createMockStore({}).getState())
       .provide([[select(recipientInfoSelector), mockRecipientInfo]])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .run()
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       origin: SendOrigin.AppSendFlow,
@@ -113,7 +112,7 @@ describe('handleQRCodeDefault', () => {
     })
   })
   it('navigates to the send amount screen with a qr code with an empty display name', async () => {
-    const data: QrCode = {
+    const qrCode: QrCode = {
       type: QRCodeTypes.QR_CODE,
       data: urlFromUriData({
         address: mockAccount3,
@@ -121,13 +120,12 @@ describe('handleQRCodeDefault', () => {
       }),
     }
 
-    await expectSaga(handleQRCodeDefault, data)
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
       .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       origin: SendOrigin.AppSendFlow,
@@ -143,7 +141,7 @@ describe('handleQRCodeDefault', () => {
     })
   })
   it('navigates to the send amount screen with a qr code with an empty phone number', async () => {
-    const data: QrCode = {
+    const qrCode: QrCode = {
       type: QRCodeTypes.QR_CODE,
       data: urlFromUriData({
         address: mockAccount3,
@@ -151,13 +149,12 @@ describe('handleQRCodeDefault', () => {
       }),
     }
 
-    await expectSaga(handleQRCodeDefault, data)
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
       .withState(createMockStore({}).getState())
       .provide([
         [select(e164NumberToAddressSelector), {}],
         [select(recipientInfoSelector), mockRecipientInfo],
       ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
       .silentRun()
     expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
       origin: SendOrigin.AppSendFlow,
@@ -179,7 +176,10 @@ describe('handleQRCodeDefault', () => {
 describe('handleQRCodeSecureSend', () => {
   it('handles a valid address and navigates to send confirmation', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
-    await expectSaga(handleQRCodeSecureSend, data, mockTransactionData, mockAccount2)
+    await expectSaga(
+      handleQRCodeSecureSend,
+      handleQRCodeDetectedSecureSend(data, mockTransactionData, mockAccount2)
+    )
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
         [
@@ -202,7 +202,10 @@ describe('handleQRCodeSecureSend', () => {
   })
   it('handles an invalid address', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: 'invalid-address' }
-    await expectSaga(handleQRCodeSecureSend, data, mockTransactionData, mockAccount2)
+    await expectSaga(
+      handleQRCodeSecureSend,
+      handleQRCodeDetectedSecureSend(data, mockTransactionData, mockAccount2)
+    )
       .provide([[select(e164NumberToAddressSelector), mockE164NumberToAddress]])
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
       .run()
