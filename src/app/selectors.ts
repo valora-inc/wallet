@@ -119,3 +119,5 @@ export const showNotificationSpotlightSelector = (state: RootState) =>
   state.app.showNotificationSpotlight
 
 export const hideHomeBalancesSelector = (state: RootState) => state.app.hideHomeBalances
+
+export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus

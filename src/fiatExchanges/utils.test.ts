@@ -23,6 +23,7 @@ class MockNormalizedQuote extends NormalizedQuote {
   navigate = jest.fn()
   isProviderNew = jest.fn()
   getReceiveAmount = jest.fn()
+  getTokenId = jest.fn()
 }
 
 describe('fiatExchanges utils', () => {

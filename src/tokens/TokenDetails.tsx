@@ -47,8 +47,7 @@ import {
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
-import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
+import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -192,18 +191,11 @@ export const useActions = (token: TokenBalance) => {
       details: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
-        const tokenSymbol = token.symbol
-        // this should always be true given that we only show Add / Withdraw if a
-        // token is CiCoCurrency, but adding it here to ensure type safety
-        if (isCicoToken(tokenSymbol)) {
-          navigate(Screens.FiatExchangeAmount, {
-            // TODO(ACT-954): only pass token id
-            currency: tokenSymbol,
-            tokenId: token.tokenId,
-            flow: CICOFlow.CashIn,
-            network: networkIdToNetwork[token.networkId],
-          })
-        }
+        navigate(Screens.FiatExchangeAmount, {
+          tokenId: token.tokenId,
+          flow: CICOFlow.CashIn,
+          tokenSymbol: token.symbol,
+        })
       },
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },

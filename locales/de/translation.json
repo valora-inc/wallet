@@ -1894,9 +1894,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Suche nach Name, Telefon, Wallet ...",
+    "paste": "Einfügen aus der Zwischenablage",
     "title": "Einen Empfänger auswählen",
     "contactsTitle": "Kontakt wählen",
     "recents": "Zuletzt",
+    "results": "Ergebnisse",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
       "subtitle": "Finde Adressen schnell auf Valora."
@@ -1911,7 +1913,7 @@
       "options": {
         "one": {
           "title": "Wallet-Adresse",
-          "subtitle": "Gib eine Wallet-Adresse ein, die mit Celo oder Ethereum kompatibel ist (z. B. 0x123...abcde)."
+          "subtitle": "Gib eine netzwerkfähige Wallet-Adresse ein (z.B. 0x123...abcde)"
         },
         "two": {
           "title": "Telefonnummer",

@@ -180,6 +180,9 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
   )
 }
 
+/**
+ * @deprecated remove after CiCo currency bottom sheet is rolled out
+ */
 export function isCicoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
   return Object.values(CiCoCurrency).some((cicoSymbol) => cicoSymbol === tokenSymbol)
 }
