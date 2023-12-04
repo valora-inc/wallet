@@ -24,9 +24,6 @@ jobs:
           yes | sdkmanager "system-images;android-30;default;x86_64"
           set -o pipefail
           avdmanager create avd --force --name Pixel_API_30_AOSP_x86_64 --package "system-images;android-30;default;x86_64" --device pixel
-          emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -read-only &
-          emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -read-only &
-          exit 0
           emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim &
           echo "Waiting for device to be ready..."
           # Source: https://android.stackexchange.com/a/83747
@@ -62,32 +59,32 @@ jobs:
           done
 
         shell: bash
-      # - uses: ./.github/actions/yarn-install
-      # # Since the e2e runners have access to the Valora branding,
-      # # This check ensures there are no type errors there.
-      # # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
-      # # - name: Step emulator
-      # #   uses: reactivecircus/android-emulator-runner@v2
-      # #   with:
-      # #     api-level: ${{ inputs.android-api-level }}
-      # #     profile: pixel
-      # #     avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
-      # #     # force-avd-creation: false
-      # #     # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
-      # #     arch: x86_64
-      # #     script: cd android; ./gradlew connectedCheck
-      # - name: TS check
-      #   run: yarn build:ts
-      # - name: Check E2E wallet balance
-      #   run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
-      # - name: Create Android E2E .env File
-      #   working-directory: e2e
-      #   run: echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
-      # - name: Create Detox Build
-      #   run: |
-      #     export CELO_TEST_CONFIG=e2e
-      #     export ANDROID_SDK_ROOT=$HOME/android-tools
-      #     yarn detox build -c android.release
+      - uses: ./.github/actions/yarn-install
+      # Since the e2e runners have access to the Valora branding,
+      # This check ensures there are no type errors there.
+      # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
+      # - name: Step emulator
+      #   uses: reactivecircus/android-emulator-runner@v2
+      #   with:
+      #     api-level: ${{ inputs.android-api-level }}
+      #     profile: pixel
+      #     avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+      #     # force-avd-creation: false
+      #     # emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none -camera-front none -partition-size 2047
+      #     arch: x86_64
+      #     script: cd android; ./gradlew connectedCheck
+      - name: TS check
+        run: yarn build:ts
+      - name: Check E2E wallet balance
+        run: NODE_OPTIONS='--unhandled-rejections=strict' yarn ts-node ./e2e/scripts/check-e2e-wallet-balance.ts
+      - name: Create Android E2E .env File
+        working-directory: e2e
+        run: echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
+      - name: Create Detox Build
+        run: |
+          export CELO_TEST_CONFIG=e2e
+          # export ANDROID_SDK_ROOT=$HOME/android-tools
+          yarn detox build -c android.release
       # - name: AVD cache
       #   uses: actions/cache@v3
       #   id: avd-cache
@@ -133,39 +130,38 @@ jobs:
       #       --retries 3
       #       # --device-boot-args="-snapshot ci_boot"
       #   timeout-minutes: 45
-      # # - name: Run Detox
-      # #   run: >
-      # #     export ANDROID_SDK_ROOT=$HOME/android-tools &&
-      # #     export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
-      # #     yarn detox test
-      # #     --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
-      # #     --configuration android.release
-      # #     --artifacts-location e2e/artifacts
-      # #     --take-screenshots=failing
-      # #     --record-videos=failing
-      # #     --record-logs=failing
-      # #     --loglevel info
-      # #     --debug-synchronization 10000
-      # #     --maxWorkers 3
-      # #     --headless
-      # #     --retries 3
-      # #     --device-boot-args="-snapshot ci_boot"
-      # #   timeout-minutes: 45
-      # - name: Publish Android JUnit Report
-      #   if: always()
-      #   uses: mikepenz/action-junit-report@v3
-      #   with:
-      #     check_name: Android (${{ inputs.android-api-level }}) e2e Test Report
-      #     report_paths: 'e2e/test-results/junit.xml'
-      # - name: 'Upload Android E2E Artifacts'
-      #   if: failure()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: android-${{ inputs.android-api-level }}-e2e-artifact
-      #     path: e2e/artifacts
-      # - name: 'Upload Android E2E HTML Report'
-      #   if: always()
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: android-${{ inputs.android-api-level }}-e2e-test-report
-      #     path: e2e/test-results
+      - name: Run Detox
+        run: >
+          export PATH=$ANDROID_HOME/platform-tools:$PATH &&
+          yarn detox test
+          --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          --configuration android.release
+          --artifacts-location e2e/artifacts
+          --take-screenshots=failing
+          --record-videos=failing
+          --record-logs=failing
+          --loglevel info
+          --debug-synchronization 10000
+          --maxWorkers 3
+          --headless
+          --retries 3
+          --device-boot-args="-snapshot ci_boot"
+        timeout-minutes: 45
+      - name: Publish Android JUnit Report
+        if: always()
+        uses: mikepenz/action-junit-report@v3
+        with:
+          check_name: Android (${{ inputs.android-api-level }}) e2e Test Report
+          report_paths: 'e2e/test-results/junit.xml'
+      - name: 'Upload Android E2E Artifacts'
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-${{ inputs.android-api-level }}-e2e-artifact
+          path: e2e/artifacts
+      - name: 'Upload Android E2E HTML Report'
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: android-${{ inputs.android-api-level }}-e2e-test-report
+          path: e2e/test-results
