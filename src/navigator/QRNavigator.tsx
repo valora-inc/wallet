@@ -1,6 +1,6 @@
 import {
-  createMaterialTopTabNavigator,
   MaterialTopTabBarProps,
+  createMaterialTopTabNavigator,
 } from '@react-navigation/material-top-tabs'
 import { useIsFocused } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
@@ -8,7 +8,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
-import { check, PERMISSIONS, RESULTS } from 'react-native-permissions'
+import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
 import { useDispatch, useSelector } from 'react-redux'
@@ -24,10 +24,9 @@ import NewQRCode from 'src/qrcode/NewQRCode'
 import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
-import { handleQRCodeDetected, QrCode, SVG } from 'src/send/actions'
+import { QrCode, SVG, handleQRCodeDetected } from 'src/send/actions'
 import { LayerParams } from 'src/statsig/constants'
 import { QRCodeDataType, QRCodeStyle, StatsigLayers } from 'src/statsig/types'
-import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import { Statsig } from 'statsig-react-native'
@@ -82,7 +81,7 @@ export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
     try {
       const availableExchanges = await fetchExchanges(
         userLocation.countryCodeAlpha2,
-        CiCoCurrency.CELO // Default to CELO, since the user never makes a selection when arriving here
+        'CELO' // Default to CELO, since the user never makes a selection when arriving here
       )
       return availableExchanges
     } catch (error) {

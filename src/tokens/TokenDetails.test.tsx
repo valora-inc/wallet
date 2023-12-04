@@ -6,8 +6,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
-import { Network, NetworkId } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -27,6 +26,7 @@ jest.mock('src/statsig', () => ({
       showSwap: ['celo-alfajores', 'ethereum-sepolia'],
     }
   }),
+  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 describe('TokenDetails', () => {
@@ -365,10 +365,9 @@ describe('TokenDetails', () => {
     await waitFor(() => expect(getByTestId('TokenDetailsMoreActions')).toBeTruthy())
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Add'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.CELO,
       tokenId: mockCeloTokenId,
       flow: CICOFlow.CashIn,
-      network: Network.Celo,
+      tokenSymbol: 'CELO',
     })
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
@@ -404,10 +403,9 @@ describe('TokenDetails', () => {
 
     fireEvent.press(getByTestId('TokenDetails/Action/Add'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.ETH,
       tokenId: mockEthTokenId,
       flow: CICOFlow.CashIn,
-      network: Network.Ethereum,
+      tokenSymbol: 'ETH',
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })

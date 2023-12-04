@@ -1894,9 +1894,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Recherchez par nom, téléphone, portefeuille...",
+    "paste": "Coller à partir du presse-papiers",
     "title": "Sélectionnez un destinataire",
     "contactsTitle": "Sélectionnez un contact",
     "recents": "Récents",
+    "results": "Résultats",
     "qr": {
       "title": "Scanner ou afficher le code QR",
       "subtitle": "Trouvez rapidement des adresses sur Valora"
@@ -1910,8 +1912,8 @@
       "subtitle": "COMMENCER",
       "options": {
         "one": {
-          "title": "Adresse du portefeuille",
-          "subtitle": "Saisissez une adresse de portefeuille compatible avec Celo ou Ethereum (ex. 0x123...abcde)"
+          "title": "Adresse du wallet",
+          "subtitle": "Saisis une adresse de portefeuille compatible avec le réseau (ex. 0x123...abcde)."
         },
         "two": {
           "title": "Numéro de téléphone",
