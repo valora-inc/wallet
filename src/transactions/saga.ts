@@ -11,11 +11,7 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken, fetchTokenBalances } from 'src/tokens/slice'
-import {
-  getSupportedNetworkIdsForSend,
-  getSupportedNetworkIdsForSwap,
-  getTokenId,
-} from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   Actions,
   UpdateTransactionsAction,
@@ -42,9 +38,7 @@ import {
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
-  WatchableTransaction,
 } from 'src/transactions/types'
-import { isWatchableTransaction } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
@@ -169,12 +163,14 @@ export function* sendAndMonitorTransaction<T>(
       context
     )) as unknown as CeloTxReceipt
 
+    // This won't show fees in the standby tx.
+    // Getting the fee currency selected is hard since it happens inside of `sendTransactionPromises`.
+    // This code will be deprecated when we remove the contract kit dependency, so I think it's fine to leave it as is.
     yield* call(
       handleTransactionReceiptReceived,
       context.id,
       txReceipt,
-      networkConfig.defaultNetworkId,
-      getTokenId(networkConfig.defaultNetworkId, feeCurrency)
+      networkConfig.defaultNetworkId
     )
 
     yield* put(fetchTokenBalances({ showLoading: true }))
@@ -247,7 +243,10 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
-export function* getTransactionReceipt(transaction: WatchableTransaction, network: Network) {
+export function* getTransactionReceipt(
+  transaction: StandbyTransaction & { transactionHash: string },
+  network: Network
+) {
   const { feeCurrencyId, transactionHash } = transaction
 
   try {
@@ -276,13 +275,13 @@ export function* getTransactionReceipt(transaction: WatchableTransaction, networ
 // Exported for testing purposes
 export function* internalWatchPendingTransactionsInNetwork(network: Network) {
   const pendingStandbyTransactions = (yield* select(pendingStandbyTransactionsSelector)).filter(
-    (transaction) => transaction.networkId === networkConfig.networkToNetworkId[network]
+    (transaction) =>
+      transaction.networkId === networkConfig.networkToNetworkId[network] &&
+      transaction.transactionHash
   )
 
   for (const transaction of pendingStandbyTransactions) {
-    if (isWatchableTransaction(transaction)) {
-      yield* fork(getTransactionReceipt, transaction, network)
-    }
+    yield* fork(getTransactionReceipt, transaction, network)
   }
 }
 
@@ -321,11 +320,11 @@ export function* handleTransactionReceiptReceived(
   txId: string,
   receipt: TransactionReceipt | CeloTxReceipt,
   networkId: NetworkId,
-  feeCurrencyId: string
+  feeCurrencyId?: string
 ) {
   const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
 
-  const feeTokenInfo = tokensById[feeCurrencyId]
+  const feeTokenInfo = feeCurrencyId && tokensById[feeCurrencyId]
 
   if (!feeTokenInfo) {
     Logger.error(TAG, `No information found for token ${feeCurrencyId} in network ${networkId}`)

@@ -148,9 +148,10 @@ describe('watchPendingTransactions', () => {
     timestamp: 1000,
     status: TransactionStatus.Pending,
     transactionHash,
+    feeCurrencyId: mockCusdTokenId,
   }
 
-  it('updates the pending standby transaction when reverted', async () => {
+  it('updates the pending standby transaction when reverted without fee details', async () => {
     const revertedReceipt = {
       status: 'reverted',
       blockNumber: BigInt(123),
@@ -163,7 +164,12 @@ describe('watchPendingTransactions', () => {
       .withState(
         createMockStore({
           transactions: {
-            standbyTransactions: [pendingTransaction],
+            standbyTransactions: [
+              {
+                ...pendingTransaction,
+                feeCurrencyId: undefined,
+              },
+            ],
           },
         }).getState()
       )
@@ -184,7 +190,7 @@ describe('watchPendingTransactions', () => {
       .run()
   })
 
-  it('updates the pending standby transaction when successful', async () => {
+  it('updates the pending standby transaction when successful with fee details in Celo', async () => {
     const successReceipt = {
       status: 'success',
       blockNumber: BigInt(123),
@@ -212,13 +218,21 @@ describe('watchPendingTransactions', () => {
           transactionHash,
           block: '123',
           status: TransactionStatus.Complete,
-          fees: [],
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.002',
+                tokenId: mockCusdTokenId,
+              },
+            },
+          ],
         })
       )
       .run()
   })
 
-  it('updates the pending standby transaction when successful with fee details', async () => {
+  it('updates the pending standby transaction when successful with fee details in Ethereum', async () => {
     const successReceipt = {
       status: 'success',
       blockNumber: BigInt(123),
@@ -235,6 +249,7 @@ describe('watchPendingTransactions', () => {
               {
                 ...pendingTransaction,
                 networkId: NetworkId['ethereum-sepolia'],
+                feeCurrencyId: mockEthTokenId,
               },
             ],
           },

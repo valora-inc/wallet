@@ -42,11 +42,6 @@ export type StandbyTransaction =
   | PendingStandbyTransfer
   | ConfirmedStandbyTransaction
 
-export type WatchableTransaction = StandbyTransaction & {
-  transactionHash: string
-  feeCurrencyId: string
-}
-
 // Context used for logging the transaction execution flow.
 export interface TransactionContext {
   // Unique identifier used for tracking a transaction within logging.

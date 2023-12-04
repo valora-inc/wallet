@@ -1,5 +1,5 @@
 import i18n from 'src/i18n'
-import { StandbyTransaction, TokenTransaction, WatchableTransaction } from 'src/transactions/types'
+import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
 
 // Groupings:
@@ -46,10 +46,4 @@ export function groupFeedItemsInSections(
       title: key,
       data: value.data,
     }))
-}
-
-export function isWatchableTransaction(
-  transaction: StandbyTransaction
-): transaction is WatchableTransaction {
-  return !!transaction.transactionHash && !!transaction.feeCurrencyId
 }
