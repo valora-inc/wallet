@@ -14,7 +14,7 @@ jobs:
       SECRETS_AVAILABLE: ${{ secrets.SECRETS_AVAILABLE }}
       BASH_ENV: ~/.profile
     name: iOS (${{ inputs.ios-version  }})
-    runs-on: macos-13-xlarge
+    runs-on: macos-12-large #macos-13-xlarge
     steps:
       - uses: google-github-actions/auth@v1
         if: ${{ env.SECRETS_AVAILABLE }}
@@ -84,7 +84,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 1
+          --maxWorkers 6
           --retries 3
         timeout-minutes: 45
       - name: Publish iOS JUnit Report
