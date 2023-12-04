@@ -3,10 +3,9 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import ExternalExchanges from 'src/fiatExchanges/ExternalExchanges'
 import { Screens } from 'src/navigator/Screens'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockExchanges } from 'test/values'
+import { mockAccount, mockCusdTokenId, mockExchanges } from 'test/values'
 
 const mockStore = createMockStore({
   web3: {
@@ -29,7 +28,7 @@ describe('ExternalExchanges', () => {
   // ExternalExchanges Screen will always have providers passed in via props
   it('shows list of available exchanges', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
-      currency: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
       exchanges: mockExchanges,
     })
 

@@ -13,7 +13,6 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 
@@ -50,7 +49,7 @@ interface ProviderRequestData {
   userLocation: UserLocationData
   walletAddress: string
   fiatCurrency: LocalCurrencyCode
-  digitalAsset: CloudFunctionDigitalAsset
+  digitalAsset: string
   networkId?: NetworkId
   fiatAmount?: number
   digitalAssetAmount?: number
@@ -83,6 +82,7 @@ export interface RawProviderQuote {
   fiatFee?: number
   extraReqs?: { mobileCarrier: 'Safaricom' | 'MTN' }
 }
+
 export interface LegacyMobileMoneyProvider {
   name: string
   celo: {
@@ -259,12 +259,12 @@ export const filterLegacyMobileMoneyProviders = (
   providers: LegacyMobileMoneyProvider[] | undefined,
   flow: CICOFlow,
   userCountry: string | null,
-  selectedCurrency: CiCoCurrency
+  selectedTokenId: string
 ) => {
   if (
     !providers ||
     !userCountry ||
-    ![CiCoCurrency.cUSD, CiCoCurrency.CELO].includes(selectedCurrency)
+    ![networkConfig.cusdTokenId, networkConfig.celoTokenId].includes(selectedTokenId)
   ) {
     return []
   }
@@ -276,7 +276,7 @@ export const filterLegacyMobileMoneyProviders = (
   )
 
   return activeProviders.filter((provider) =>
-    provider[selectedCurrency === CiCoCurrency.cUSD ? 'cusd' : 'celo'].countries.includes(
+    provider[selectedTokenId === networkConfig.cusdTokenId ? 'cusd' : 'celo'].countries.includes(
       userCountry
     )
   )
@@ -284,7 +284,7 @@ export const filterLegacyMobileMoneyProviders = (
 
 export async function fetchExchanges(
   countryCodeAlpha2: string | null,
-  currency: CiCoCurrency
+  currency: string
 ): Promise<ExternalExchangeProvider[] | undefined> {
   // If user location data is not available, default fetching exchanges serving the US
   if (!countryCodeAlpha2) countryCodeAlpha2 = 'us'
@@ -320,19 +320,6 @@ export const filterProvidersByPaymentMethod = (
 
 export const isUserInputCrypto = (flow: CICOFlow): boolean => flow === CICOFlow.CashOut
 
-export function resolveCloudFunctionDigitalAsset(
-  currency: CiCoCurrency
-): CloudFunctionDigitalAsset {
-  const mapping: Record<CiCoCurrency, CloudFunctionDigitalAsset> = {
-    [CiCoCurrency.CELO]: CloudFunctionDigitalAsset.CELO,
-    [CiCoCurrency.cUSD]: CloudFunctionDigitalAsset.CUSD,
-    [CiCoCurrency.cEUR]: CloudFunctionDigitalAsset.CEUR,
-    [CiCoCurrency.cREAL]: CloudFunctionDigitalAsset.CREAL,
-    [CiCoCurrency.ETH]: CloudFunctionDigitalAsset.ETH,
-  }
-  return mapping[currency]
-}
-
 /**
  * Get analytics data for provider selection.
  *
@@ -356,7 +343,7 @@ export function getProviderSelectionAnalyticsData({
   centralizedExchanges?: ExternalExchangeProvider[]
   coinbasePayAvailable: boolean
   transferCryptoAmount: number
-  cryptoType: CiCoCurrency
+  cryptoType: string
 }): ProviderSelectionAnalyticsData {
   let lowestFeePaymentMethod: PaymentMethod | undefined = undefined
   let lowestFeeProvider: string | undefined = undefined

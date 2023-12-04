@@ -14,6 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -39,6 +40,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.ExternalExchanges>
 function ExternalExchanges({ route }: Props) {
   const { t } = useTranslation()
   const providers = route.params?.exchanges
+  const tokenInfo = useTokenInfo(route.params.tokenId)
 
   const goToExchange = (provider: ExternalExchangeProvider) => {
     const { name, link } = provider
@@ -56,7 +58,7 @@ function ExternalExchanges({ route }: Props) {
     <SafeAreaView style={styles.container}>
       <Text style={styles.pleaseSelectExchange}>
         {t('youCanTransferOut', {
-          digitalAsset: route.params.currency,
+          digitalAsset: tokenInfo?.symbol,
         })}
       </Text>
 
@@ -73,7 +75,7 @@ function ExternalExchanges({ route }: Props) {
         })}
       </ScrollView>
       {providers?.length ? (
-        <SendBar skipImport={true} selectedCurrency={route.params.currency} />
+        <SendBar skipImport={true} selectedTokenId={route.params.tokenId} />
       ) : (
         <></>
       )}
