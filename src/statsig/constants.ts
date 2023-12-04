@@ -1,8 +1,6 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import networkConfig from 'src/web3/networkConfig'
 
-export const LayerParams = {}
-
 export const FeatureGates = {
   [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
