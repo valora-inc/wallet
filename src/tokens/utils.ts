@@ -93,7 +93,7 @@ export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): numb
   )
   if (
     (!cicoTokenInfo.cicoOrder[token1.tokenId] && !cicoTokenInfo.cicoOrder[token2.tokenId]) ||
-    cicoTokenInfo.cicoOrder[token1.tokenId] < cicoTokenInfo.cicoOrder[token2.tokenId]
+    cicoTokenInfo.cicoOrder[token1.tokenId] === cicoTokenInfo.cicoOrder[token2.tokenId]
   ) {
     return sortFirstStableThenCeloThenOthersByUsdBalance(token1, token2)
   }
