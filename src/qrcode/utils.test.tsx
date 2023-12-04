@@ -13,7 +13,6 @@ import { Screens } from 'src/navigator/Screens'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { urlFromUriData } from 'src/qrcode/schema'
-
 import {
   QRCodeTypes,
   handleQRCodeDefault,
@@ -24,7 +23,6 @@ import {
 import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
 import { QrCode, handleQRCodeDetected, handleQRCodeDetectedSecureSend } from 'src/send/actions'
-import { QRCodeDataType } from 'src/statsig/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -52,25 +50,18 @@ describe('useQRContent', () => {
     e164PhoneNumber: mockE164Number,
   }
   const MockComponent = (props: {
-    dataType: QRCodeDataType
     data: {
       address: string
       displayName: string | undefined
       e164PhoneNumber: string | undefined
     }
   }) => {
-    const qrCodeString = useQRContent(props.dataType, props.data)
+    const qrCodeString = useQRContent(props.data)
     return <View testID="qrCodeString">{qrCodeString}</View>
   }
-  it('returns a url when dataType is ValoraDeepLink', () => {
-    const { getByTestId } = render(
-      <MockComponent dataType={QRCodeDataType.ValoraDeepLink} data={data} />
-    )
-    expect(getByTestId('qrCodeString').children[0]).toEqual(urlFromUriData(data))
-  })
 
   it('returns an address when dataType is address', () => {
-    const { getByTestId } = render(<MockComponent dataType={QRCodeDataType.Address} data={data} />)
+    const { getByTestId } = render(<MockComponent data={data} />)
     expect(getByTestId('qrCodeString').children[0]).toEqual(data.address)
   })
 })

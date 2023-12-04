@@ -17,7 +17,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
-import { UriData, uriDataFromUrl, urlFromUriData } from 'src/qrcode/schema'
+import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import {
   RecipientInfo,
   getRecipientFromAddress,
@@ -31,7 +31,6 @@ import {
   SVG,
 } from 'src/send/actions'
 import { handleSendPaymentData } from 'src/send/utils'
-import { QRCodeDataType } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
 import { handleLoadingWithTimeout } from 'src/walletConnect/walletConnect'
@@ -47,18 +46,12 @@ const QRFileName = '/celo-qr.png'
 
 // ValoraDeepLink generates a QR code that deeplinks into the walletconnect send flow of the valora app
 // Address generates a QR code that has the walletAddress as plaintext that is readable by wallets such as Coinbase and Metamask
-export function useQRContent(
-  dataType: QRCodeDataType,
-  data: {
-    address: string
-    displayName: string | undefined
-    e164PhoneNumber: string | undefined
-  }
-) {
-  return useMemo(
-    () => (dataType === QRCodeDataType.ValoraDeepLink ? urlFromUriData(data) : data.address),
-    [data.address, data.displayName, data.e164PhoneNumber, data]
-  )
+export function useQRContent(data: {
+  address: string
+  displayName: string | undefined
+  e164PhoneNumber: string | undefined
+}) {
+  return useMemo(() => data.address, [data.address, data.displayName, data.e164PhoneNumber, data])
 }
 
 export async function shareSVGImage(svg: SVG) {

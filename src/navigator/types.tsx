@@ -17,7 +17,6 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
@@ -343,8 +342,6 @@ export type StackParamList = {
 export type QRTabParamList = {
   [Screens.QRCode]:
     | {
-        qrCodeDataType?: QRCodeDataType
-        qrCodeStyle?: QRCodeStyle
         scanIsForSecureSend?: true
       }
     | undefined
