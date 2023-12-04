@@ -274,13 +274,12 @@ export function* getTransactionReceipt(
 
 // Exported for testing purposes
 export function* internalWatchPendingTransactionsInNetwork(network: Network) {
-  const pendingStandbyTransactions = (yield* select(pendingStandbyTransactionsSelector)).filter(
-    (transaction) =>
-      transaction.networkId === networkConfig.networkToNetworkId[network] &&
-      transaction.transactionHash
-  )
+  const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
+  const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
+    return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
+  })
 
-  for (const transaction of pendingStandbyTransactions) {
+  for (const transaction of filteredPendingTxs) {
     yield* fork(getTransactionReceipt, transaction, network)
   }
 }
