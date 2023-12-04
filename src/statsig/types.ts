@@ -1,17 +1,3 @@
-export enum QRCodeDataType {
-  ValoraDeepLink = 'ValoraDeepLink',
-  Address = 'Address',
-}
-
-export enum QRCodeStyle {
-  Legacy = 'Legacy',
-  New = 'New',
-}
-
-export enum StatsigLayers {
-  SEND_RECEIVE_QR_CODE = 'send_receive_qr_code',
-}
-
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
