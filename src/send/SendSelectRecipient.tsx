@@ -329,7 +329,6 @@ function SendSelectRecipient({ route }: Props) {
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
-            {/* TODO: move hasGivenContactPermission up out of SelectRecipientButtons to share state */}
             {inviteRewardsActive && <InviteRewardsCard />}
             <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
             {activeView === SelectRecipientView.Recent && recentRecipients.length ? (
