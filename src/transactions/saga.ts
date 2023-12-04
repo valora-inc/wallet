@@ -164,7 +164,7 @@ export function* sendAndMonitorTransaction<T>(
     )) as unknown as CeloTxReceipt
 
     // This won't show fees in the standby tx.
-    // Getting the fee currency selected is hard since it happens inside of `sendTransactionPromises`.
+    // Getting the selected fee currency is hard since it happens inside of `sendTransactionPromises`.
     // This code will be deprecated when we remove the contract kit dependency, so I think it's fine to leave it as is.
     yield* call(
       handleTransactionReceiptReceived,
@@ -272,7 +272,6 @@ export function* getTransactionReceipt(
   }
 }
 
-// Exported for testing purposes
 export function* internalWatchPendingTransactionsInNetwork(network: Network) {
   const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
   const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
