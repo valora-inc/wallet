@@ -102,18 +102,22 @@ export default class FiatConnectQuote extends NormalizedQuote {
   flow: CICOFlow
   quoteResponseFiatAccountSchema: QuoteResponseFiatAccountSchema
   quoteResponseKycSchema?: QuoteResponseKycSchema
+  tokenId: string
 
   constructor({
     quote,
     fiatAccountType,
     flow,
+    tokenId,
   }: {
     quote: FiatConnectQuoteSuccess
     fiatAccountType: keyof typeof quote.fiatAccount
     // TODO: Get flow from the quote object once it is added to the spec https://github.com/fiatconnect/specification/pull/67
     flow: CICOFlow
+    tokenId: string
   }) {
     super()
+    this.tokenId = tokenId
 
     // Check if we support the FiatAccountType
     const isFiatAccountTypeSupported = SUPPORTED_FIAT_ACCOUNT_TYPES.has(fiatAccountType)
@@ -297,12 +301,11 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return this.quote.quote.cryptoAmount
   }
 
-  getCryptoTypeString(): string {
-    // todo eventually rename this to getCryptoType and rename getCryptoType to getCryptoCurrency
+  getCryptoType(): string {
     return this.quote.quote.cryptoType
   }
 
-  getCryptoType(): CiCoCurrency {
+  getCryptoCurrency(): CiCoCurrency {
     return resolveCICOCurrency(this.quote.quote.cryptoType)
   }
 
@@ -332,5 +335,9 @@ export default class FiatConnectQuote extends NormalizedQuote {
     return new BigNumber(
       this.flow === CICOFlow.CashIn ? this.getCryptoAmount() : this.getFiatAmount()
     )
+  }
+
+  getTokenId(): string {
+    return this.tokenId
   }
 }
