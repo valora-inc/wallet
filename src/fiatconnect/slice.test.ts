@@ -1,10 +1,10 @@
 import { FiatAccountType, FiatType, KycSchema } from '@fiatconnect/fiatconnect-types'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { CiCoCurrency } from 'src/utils/currencies'
-import { mockFiatConnectQuotes } from 'test/values'
-import reducer, { cacheFiatConnectTransfer, cacheQuoteParams, initialState, State } from './slice'
+import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
+import reducer, { State, cacheFiatConnectTransfer, cacheQuoteParams, initialState } from './slice'
 
 describe('fiatconnect slices', () => {
   describe('cacheQuoteParams', () => {
@@ -42,6 +42,7 @@ describe('fiatconnect slices', () => {
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
     const txHash1 = '0x123'
     const txHash2 = '0x456'

@@ -1898,9 +1898,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Поиск по имени, телефону, кошельку...",
+    "paste": "Вставить из буфера обмена",
     "title": "Выберите получателя",
     "contactsTitle": "Выберите контакт",
     "recents": "Последние",
+    "results": "Результаты",
     "qr": {
       "title": "Сканировать или показать QR-код",
       "subtitle": "Быстрый поиск адресов на Valora"
@@ -1915,7 +1917,7 @@
       "options": {
         "one": {
           "title": "Адрес кошелька",
-          "subtitle": "Введите адрес кошелька, совместимого с Celo или Ethereum (например, 0x123...abcde)."
+          "subtitle": "Введи адрес кошелька, совместимый с сетью (например, 0x123...abcde)."
         },
         "two": {
           "title": "Номер телефона",
@@ -1975,6 +1977,14 @@
     "infiniteApprovalDescription": "Одобренный {{tokenSymbol}} для торговли",
     "revokeApprovalDescription": "Отмененный {{tokenSymbol}} для торговли",
     "descriptionLabel": "Подробности"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Новинка! Ethereum на Valora",
+    "description1": "Сначала мы открываем эту функцию для избранных. Ты - один из счастливчиков!",
+    "description2": "Это все еще новинка, и наша команда продолжает упорно работать над тем, чтобы сделать все идеально. Мы будем рады услышать твои отзывы.",
+    "primaryCta": "Попробуй прямо сейчас",
+    "secondaryCta": "Нет, спасибо"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

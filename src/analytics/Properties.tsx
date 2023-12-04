@@ -70,7 +70,7 @@ import { RecipientType } from 'src/recipients/recipient'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -142,6 +142,9 @@ interface AppEventsProperties {
   [AppEvents.in_app_review_error]: {
     error: string
   }
+  [AppEvents.multichain_beta_opt_in]: undefined
+  [AppEvents.multichain_beta_opt_out]: undefined
+  [AppEvents.multichain_beta_contact_support]: undefined
 }
 
 interface HomeEventsProperties {
@@ -596,6 +599,7 @@ interface SendEventsProperties {
     usdAmount: string | undefined
     tokenAddress: string | undefined
     tokenId: string
+    networkId: string
   }
   [SendEvents.send_tx_error]: {
     error: string
@@ -638,6 +642,15 @@ interface SendEventsProperties {
   [SendEvents.request_contacts_permission_started]: undefined
   [SendEvents.request_contacts_permission_completed]: {
     permissionStatus: PermissionStatus
+  }
+  [SendEvents.send_select_recipient_send_press]: {
+    recipientType: RecipientType
+  }
+  [SendEvents.send_select_recipient_invite_press]: {
+    recipientType: RecipientType
+  }
+  [SendEvents.send_select_recipient_recent_press]: {
+    recipientType: RecipientType
   }
 }
 
@@ -784,21 +797,21 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
   [FiatExchangeEvents.cico_currency_chosen]: {
     flow: FiatExchangeFlow
-    currency: AnalyticsCurrency
+    currency: string
   }
   [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_section_impression]: {
@@ -913,7 +926,7 @@ interface FiatExchangeEventsProperties {
   }
   [FiatExchangeEvents.cico_simplex_open_webview]: {
     amount: number
-    cryptoCurrency: CiCoCurrency
+    cryptoCurrency: string
     feeInFiat: number
     fiatCurrency: string
   }

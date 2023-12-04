@@ -11,10 +11,18 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { Network, NetworkId } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockExchanges, mockFiatConnectQuotes, mockProviders } from 'test/values'
+import {
+  mockAccount,
+  mockCeloTokenId,
+  mockCeurTokenId,
+  mockCusdTokenId,
+  mockExchanges,
+  mockFiatConnectQuotes,
+  mockProviders,
+} from 'test/values'
 import {
   CICOFlow,
   LegacyMobileMoneyProvider,
@@ -29,7 +37,7 @@ import mocked = jest.mocked
 const AMOUNT_TO_CASH_IN = 100
 const MOCK_IP_ADDRESS = '1.1.1.7'
 const FAKE_APP_ID = 'fake app id'
-const restrictedCurrencies = [CiCoCurrency.cEUR, CiCoCurrency.cUSD]
+const restrictedCurrenciesTokenIds = [mockCeurTokenId, mockCusdTokenId]
 
 jest.mock('./utils', () => ({
   ...(jest.requireActual('./utils') as any),
@@ -75,18 +83,14 @@ const mockLegacyProviders: LegacyMobileMoneyProvider[] = [
   },
 ]
 
-const mockScreenProps = (
-  flow: CICOFlow = CICOFlow.CashIn,
-  selectedCrypto: CiCoCurrency = CiCoCurrency.cUSD
-) =>
+const mockScreenProps = (flow: CICOFlow = CICOFlow.CashIn, tokenId: string = mockCusdTokenId) =>
   getMockStackScreenProps(Screens.SelectProvider, {
     flow,
-    selectedCrypto,
+    tokenId,
     amount: {
       crypto: AMOUNT_TO_CASH_IN,
       fiat: AMOUNT_TO_CASH_IN,
     },
-    network: Network.Celo,
   })
 
 const MOCK_STORE_DATA = {
@@ -364,7 +368,7 @@ describe(SelectProviderScreen, () => {
       fireEvent.press(getByText('selectProviderScreen.viewExchanges'))
       expect(navigate).toHaveBeenCalledTimes(1)
       expect(navigate).toHaveBeenCalledWith(Screens.ExternalExchanges, {
-        currency: Currency.Dollar,
+        tokenId: mockCusdTokenId,
         exchanges: mockExchanges,
       })
     })
@@ -451,15 +455,15 @@ describe(SelectProviderScreen, () => {
       })
       const { queryByText } = render(
         <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, CiCoCurrency.CELO)} />
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, mockCeloTokenId)} />
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
     })
 
-    it.each(restrictedCurrencies)(
+    it.each(restrictedCurrenciesTokenIds)(
       'does not show coinbase card if %s is selected',
-      async (currency) => {
+      async (tokenId) => {
         const mockProvidersAdjusted = mockProviders
         mockProvidersAdjusted.find((provider) => provider.name === 'CoinbasePay')!.restricted =
           false
@@ -472,7 +476,7 @@ describe(SelectProviderScreen, () => {
         })
         const { queryByText } = render(
           <Provider store={mockStore}>
-            <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, currency)} />
+            <SelectProviderScreen {...mockScreenProps(CICOFlow.CashIn, tokenId)} />
           </Provider>
         )
         await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())
@@ -491,7 +495,7 @@ describe(SelectProviderScreen, () => {
       })
       const { queryByText } = render(
         <Provider store={mockStore}>
-          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut, CiCoCurrency.CELO)} />
+          <SelectProviderScreen {...mockScreenProps(CICOFlow.CashOut, mockCeloTokenId)} />
         </Provider>
       )
       await waitFor(() => expect(queryByText('Coinbase Pay')).toBeFalsy())

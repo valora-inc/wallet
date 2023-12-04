@@ -1898,9 +1898,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Пошук за іменем, телефоном, гаманцем...",
+    "paste": "Вставити з буфера обміну",
     "title": "Вибрати отримувача",
     "contactsTitle": "Вибрати контакт",
     "recents": "Нещодавні",
+    "results": "Результати",
     "qr": {
       "title": "Сканувати або показати QR-код",
       "subtitle": "Швидко знайти адреси у Valora"
@@ -1915,7 +1917,7 @@
       "options": {
         "one": {
           "title": "Адреса гаманця",
-          "subtitle": "Введіть адресу гаманця, сумісного із Celo або Ethereum (напр., 0x123...abcde)"
+          "subtitle": "Введіть адресу гаманця, сумісну з мережею (наприклад, 0x123...abcde)"
         },
         "two": {
           "title": "Номер телефону",
@@ -1975,6 +1977,14 @@
     "infiniteApprovalDescription": "Затверджено {{tokenSymbol}} для торгівлі",
     "revokeApprovalDescription": "Відкликано {{tokenSymbol}} для торгівлі",
     "descriptionLabel": "Подробиці"
+  },
+  "multichainBeta": {
+    "beta": "БЕТА",
+    "title": "Новинка! Ethereum з'явився на Valora",
+    "description1": "Спочатку ми відкриваємо цю функцію для обраної групи людей. Ви один з тих, кому пощастило!",
+    "description2": "Це все ще нове, і наша команда все ще наполегливо працює над тим, щоб зробити все досконалим. Ми будемо раді почути ваші відгуки.",
+    "primaryCta": "Спробуйте зараз",
+    "secondaryCta": "Ні, дякую."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

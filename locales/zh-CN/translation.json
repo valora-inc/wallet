@@ -1892,9 +1892,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "按姓名、电话、钱包等搜索",
+    "paste": "从剪贴板粘贴",
     "title": "选择接收人",
     "contactsTitle": "选择联系人",
     "recents": "最近",
+    "results": "成果",
     "qr": {
       "title": "扫描或显示二维码",
       "subtitle": "快速查找 Valora 上的地址"
@@ -1909,7 +1911,7 @@
       "options": {
         "one": {
           "title": "钱包地址",
-          "subtitle": "输入与 Celo 或 Ethereum 兼容的钱包地址（例如 0x123...abcde）"
+          "subtitle": "输入网络兼容的钱包地址（例如 0x123...abcde）"
         },
         "two": {
           "title": "手机号码",
@@ -1969,6 +1971,14 @@
     "infiniteApprovalDescription": "{{tokenSymbol}}",
     "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
     "descriptionLabel": "详细信息"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "新消息！以太坊登陆 Valora",
+    "description1": "我们将首先向特定人群开放这项功能。你是幸运儿之一！",
+    "description2": "这还是个新产品，我们的团队仍在努力使其更加完美。我们希望听到您的反馈意见。",
+    "primaryCta": "立即试用",
+    "secondaryCta": "不，谢谢"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

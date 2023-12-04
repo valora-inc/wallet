@@ -1,6 +1,6 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
-import { Actions, ActionTypes, AppState } from 'src/app/actions'
+import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -55,6 +55,7 @@ export interface State {
   inAppReviewLastInteractionTimestamp: number | null
   showNotificationSpotlight: boolean
   hideHomeBalances: boolean
+  multichainBetaStatus: MultichainBetaStatus
 }
 
 const initialState = {
@@ -103,6 +104,7 @@ const initialState = {
   inAppReviewLastInteractionTimestamp: null,
   showNotificationSpotlight: false,
   hideHomeBalances: false,
+  multichainBetaStatus: MultichainBetaStatus.NotSeen,
 }
 
 export const appReducer = (
@@ -275,6 +277,13 @@ export const appReducer = (
       return {
         ...state,
         hideHomeBalances: !state.hideHomeBalances,
+      }
+    case Actions.OPT_MULTICHAIN_BETA:
+      return {
+        ...state,
+        multichainBetaStatus: action.optedIn
+          ? MultichainBetaStatus.OptedIn
+          : MultichainBetaStatus.OptedOut,
       }
     default:
       return state
