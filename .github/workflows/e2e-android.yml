@@ -33,6 +33,8 @@ jobs:
 
           echo "hw.cpu.ncore=2" >> $INI_LOCATION
           echo "hw.ramSize=4096" >> $INI_LOCATION
+          echo "hw.sdCard=yes" >> $INI_LOCATION
+          echo "sdcard.size=1000M" >> $INI_LOCATION
 
           cat $INI_LOCATION
 
