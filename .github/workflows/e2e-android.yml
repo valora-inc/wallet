@@ -38,7 +38,7 @@ jobs:
 
           cat $INI_LOCATION
 
-          emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim &
+          emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu host -noaudio -no-boot-anim &
           echo "Waiting for device to be ready..."
           # Source: https://android.stackexchange.com/a/83747
           adb wait-for-device
