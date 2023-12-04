@@ -91,7 +91,10 @@ export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): numb
   const cicoTokenInfo = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.CICO_TOKEN_INFO]
   )
-  if (!cicoTokenInfo.cicoOrder[token1.tokenId] && !cicoTokenInfo.cicoOrder[token2.tokenId]) {
+  if (
+    (!cicoTokenInfo.cicoOrder[token1.tokenId] && !cicoTokenInfo.cicoOrder[token2.tokenId]) ||
+    cicoTokenInfo.cicoOrder[token1.tokenId] < cicoTokenInfo.cicoOrder[token2.tokenId]
+  ) {
     return sortFirstStableThenCeloThenOthersByUsdBalance(token1, token2)
   }
   if (!cicoTokenInfo.cicoOrder[token1.tokenId]) {
