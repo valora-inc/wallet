@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     flexDirection: 'row',
     marginTop: 8,
-    backgroundColor: colors.beige,
+    backgroundColor: colors.onboardingBackground,
     borderRadius: 8,
     alignContent: 'center',
     justifyContent: 'center',

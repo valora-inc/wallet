@@ -168,7 +168,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       break
     case BtnTypes.SECONDARY:
       textColor = disabled ? colors.gray4 : colors.black
-      backgroundColor = colors.beige
+      backgroundColor = colors.onboardingBackground
       break
     case BtnTypes.SECONDARY_WHITE_BG:
       textColor = colors.gray3

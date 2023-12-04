@@ -2,7 +2,6 @@
 export enum Colors {
   // to be updated
   goldBrand = '#FBCC5C',
-  beige = '#F1F0EB', // this is more of a gray
   onboardingBrownLight = '#A49B80', // very dark beige
   onboardingBackground = '#F9F6F0', // light beigey grey, very similar to beige but slightly lighter
 
