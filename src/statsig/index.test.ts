@@ -1,4 +1,5 @@
 import { LaunchArguments } from 'react-native-launch-arguments'
+import { MultichainBetaStatus } from 'src/app/actions'
 import { store } from 'src/redux/store'
 import { DynamicConfigs, ExperimentConfigs, FeatureGates } from 'src/statsig/constants'
 import {
@@ -199,6 +200,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          multichainBetaStatus: MultichainBetaStatus.NotSeen,
           loadTime: 1234,
         },
       })
@@ -211,6 +213,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          multichainBetaStatus: MultichainBetaStatus.NotSeen,
           loadTime: 1234,
         },
       })
@@ -219,6 +222,7 @@ describe('Statsig helpers', () => {
       const statsigUser = {
         custom: {
           startOnboardingTime: 1680563880,
+          multichainBetaStatus: MultichainBetaStatus.OptedIn,
           otherCustomProperty: 'foo',
           loadTime: 12345,
         },
@@ -235,6 +239,7 @@ describe('Statsig helpers', () => {
         userID: 'some address',
         custom: {
           startOnboardingTime: 1680563880,
+          multichainBetaStatus: MultichainBetaStatus.OptedIn,
           otherCustomProperty: 'foo',
           loadTime: 12345,
         },
@@ -256,6 +261,7 @@ describe('Statsig helpers', () => {
         userID: MOCK_ACCOUNT.toLowerCase(),
         custom: {
           startOnboardingTime: MOCK_START_ONBOARDING_TIME,
+          multichainBetaStatus: MultichainBetaStatus.NotSeen,
           ...statsigUser.custom,
           loadTime: 1234,
         },
