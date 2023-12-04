@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Keyboard, Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, Text, View } from 'react-native'
 import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -198,7 +198,6 @@ function SendSelectRecipient({ route }: Props) {
     useFetchRecipientVerificationStatus()
 
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
-    Keyboard.dismiss()
     setSelectedRecipient(selectedRecipient)
     setShowSendOrInviteButton(true)
   }
@@ -240,8 +239,6 @@ function SendSelectRecipient({ route }: Props) {
   const onPressSendOrInvite = (shouldInviteRecipient: boolean) => {
     if (!recipient) {
       return
-    } else {
-      Keyboard.dismiss()
     }
     if (shouldInviteRecipient) {
       ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press, {
