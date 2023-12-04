@@ -102,6 +102,27 @@ describe('handleQRCodeDefault', () => {
       forceTokenId: false,
     })
   })
+  it('navigates to the send amount screen with a qr code with address as the data', async () => {
+    const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
+
+    await expectSaga(handleQRCodeDefault, handleQRCodeDetected(qrCode))
+      .withState(createMockStore({}).getState())
+      .provide([[select(recipientInfoSelector), mockRecipientInfo]])
+      .run()
+    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+      recipient: {
+        address: mockAccount.toLowerCase(),
+        name: mockName,
+        contactId: 'contactId',
+        displayNumber: '14155550000',
+        thumbnailPath: undefined,
+        recipientType: RecipientType.Address,
+      },
+      forceTokenId: false,
+    })
+  })
   it('navigates to the send amount screen with a qr code with an empty display name', async () => {
     const qrCode: QrCode = {
       type: QRCodeTypes.QR_CODE,
@@ -199,6 +220,28 @@ describe('handleQRCodeSecureSend', () => {
     )
       .provide([[select(e164NumberToAddressSelector), mockE164NumberToAddress]])
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+      .run()
+    expect(navigate).not.toHaveBeenCalled()
+  })
+  it('handles failed address lookup', async () => {
+    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
+    await expectSaga(
+      handleQRCodeSecureSend,
+      handleQRCodeDetectedSecureSend(data, mockTransactionData, mockAccount2)
+    )
+      .provide([
+        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [
+          call(
+            handleSecureSend,
+            mockAccount.toLowerCase(),
+            mockE164NumberToAddress,
+            mockTransactionData,
+            mockAccount2
+          ),
+          false,
+        ],
+      ])
       .run()
     expect(navigate).not.toHaveBeenCalled()
   })
