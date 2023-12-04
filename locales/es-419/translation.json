@@ -1894,9 +1894,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
+    "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
     "recents": "Recientes",
+    "results": "Resultados",
     "qr": {
       "title": "Escanear o mostrar código QR",
       "subtitle": "Encuentra rápidamente direcciones en Valora"
@@ -1911,7 +1913,7 @@
       "options": {
         "one": {
           "title": "Dirección de wallet",
-          "subtitle": "Ingresa una dirección de wallet compatible con Celo o Ethereum (ej. 0x123...abcde)"
+          "subtitle": "Introduce una dirección de monedero compatible con la red (ej. 0x123...abcde)"
         },
         "two": {
           "title": "Número de teléfono",

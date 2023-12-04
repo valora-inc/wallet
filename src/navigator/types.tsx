@@ -19,8 +19,8 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { Network, TokenTransaction } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { TokenTransaction } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
@@ -98,7 +98,7 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExternalExchanges]: {
-    currency: CiCoCurrency
+    tokenId: string
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.ExchangeQR]: {
@@ -106,10 +106,9 @@ export type StackParamList = {
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.FiatExchangeAmount]: {
-    currency: CiCoCurrency
     tokenId: string
     flow: CICOFlow
-    network: Network
+    tokenSymbol: string
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
@@ -162,6 +161,7 @@ export type StackParamList = {
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
+    tokenId: string
   }
   [Screens.GoldEducation]: undefined
   [Screens.ImportWallet]:
@@ -223,8 +223,7 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.SelectProvider]: {
     flow: CICOFlow
-    selectedCrypto: CiCoCurrency
-    network: Network
+    tokenId: string
     amount: {
       crypto: number
       fiat: number

@@ -1,6 +1,5 @@
 import { CryptoType, FiatType } from '@fiatconnect/fiatconnect-types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { CiCoCurrency } from 'src/utils/currencies'
 
 export const FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY: Record<FiatType, LocalCurrencyCode> = {
   [FiatType.ARS]: LocalCurrencyCode.ARS,
@@ -34,10 +33,9 @@ export const FIATCONNECT_CURRENCY_TO_WALLET_CURRENCY: Record<FiatType, LocalCurr
   [FiatType.ZAR]: LocalCurrencyCode.ZAR,
 }
 
-export const WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO: Record<CiCoCurrency, CryptoType | null> = {
-  [CiCoCurrency.CELO]: CryptoType.CELO,
-  [CiCoCurrency.cEUR]: CryptoType.cEUR,
-  [CiCoCurrency.cUSD]: CryptoType.cUSD,
-  [CiCoCurrency.cREAL]: CryptoType.cREAL,
-  [CiCoCurrency.ETH]: null,
+export const WALLET_CRYPTO_TO_FIATCONNECT_CRYPTO: Record<string, CryptoType | undefined> = {
+  CELO: CryptoType.CELO,
+  cEUR: CryptoType.cEUR,
+  cUSD: CryptoType.cUSD,
+  cREAL: CryptoType.cREAL,
 }

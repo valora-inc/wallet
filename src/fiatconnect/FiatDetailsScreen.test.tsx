@@ -14,7 +14,12 @@ import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectProviderIcon, mockFiatConnectQuotes, mockNavigation } from 'test/values'
+import {
+  mockCusdTokenId,
+  mockFiatConnectProviderIcon,
+  mockFiatConnectQuotes,
+  mockNavigation,
+} from 'test/values'
 import FiatDetailsScreen from './FiatDetailsScreen'
 
 jest.mock('src/alert/actions')
@@ -60,6 +65,7 @@ const quoteWithAllowedValues = new FiatConnectQuote({
   quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
   fiatAccountType: FiatAccountType.BankAccount,
   flow: CICOFlow.CashIn,
+  tokenId: mockCusdTokenId,
 })
 const mockScreenPropsWithAllowedValues = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   flow: CICOFlow.CashIn,
@@ -82,6 +88,7 @@ const quote = new FiatConnectQuote({
   quote: mockFcQuote,
   fiatAccountType: FiatAccountType.BankAccount,
   flow: CICOFlow.CashIn,
+  tokenId: mockCusdTokenId,
 })
 const mockScreenProps = getMockStackScreenProps(Screens.FiatDetailsScreen, {
   flow: CICOFlow.CashIn,
@@ -92,6 +99,7 @@ const mmQuote = new FiatConnectQuote({
   quote: _.cloneDeep(mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess),
   fiatAccountType: FiatAccountType.MobileMoney,
   flow: CICOFlow.CashIn,
+  tokenId: mockCusdTokenId,
 })
 
 describe('FiatDetailsScreen', () => {

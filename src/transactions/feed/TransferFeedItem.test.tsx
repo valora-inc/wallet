@@ -4,9 +4,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
@@ -19,7 +19,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
-import { createMockStore, getElementText, RecursivePartial } from 'test/utils'
+import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
@@ -584,6 +584,7 @@ describe('TransferFeedItem', () => {
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
     const { getByTestId } = renderScreen({
       type: TokenTransactionTypeV2.Sent,
@@ -599,7 +600,7 @@ describe('TransferFeedItem', () => {
               fiatAccountId,
               providerId: transferOutFcQuote.getProviderId(),
               flow: CICOFlow.CashOut,
-              cryptoType: transferOutFcQuote.getCryptoType(),
+              cryptoType: transferOutFcQuote.getCryptoCurrency(),
               fiatType: transferOutFcQuote.getFiatType(),
               fiatAccountType: transferOutFcQuote.getFiatAccountType(),
               fiatAccountSchema: transferOutFcQuote.getFiatAccountSchema(),
