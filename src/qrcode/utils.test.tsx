@@ -6,10 +6,8 @@ import { expectSaga } from 'redux-saga-test-plan'
 import { HooksEnablePreviewOrigin } from 'src/analytics/types'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
-import { urlFromUriData } from 'src/qrcode/schema'
 import { BarcodeTypes, handleBarcode, useQRContent } from 'src/qrcode/utils'
 import { QrCode } from 'src/send/actions'
-import { QRCodeDataType } from 'src/statsig/types'
 import {
   mockAccount,
   mockE164Number,
@@ -32,25 +30,18 @@ describe('useQRContent', () => {
     e164PhoneNumber: mockE164Number,
   }
   const MockComponent = (props: {
-    dataType: QRCodeDataType
     data: {
       address: string
       displayName: string | undefined
       e164PhoneNumber: string | undefined
     }
   }) => {
-    const qrCodeString = useQRContent(props.dataType, props.data)
+    const qrCodeString = useQRContent(props.data)
     return <View testID="qrCodeString">{qrCodeString}</View>
   }
-  it('returns a url when dataType is ValoraDeepLink', () => {
-    const { getByTestId } = render(
-      <MockComponent dataType={QRCodeDataType.ValoraDeepLink} data={data} />
-    )
-    expect(getByTestId('qrCodeString').children[0]).toEqual(urlFromUriData(data))
-  })
 
   it('returns an address when dataType is address', () => {
-    const { getByTestId } = render(<MockComponent dataType={QRCodeDataType.Address} data={data} />)
+    const { getByTestId } = render(<MockComponent data={data} />)
     expect(getByTestId('qrCodeString').children[0]).toEqual(data.address)
   })
 })
