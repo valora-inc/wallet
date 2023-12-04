@@ -31,7 +31,6 @@ function RecipientPicker({
       <FlatList
         scrollEnabled={false}
         data={recipients}
-        keyboardShouldPersistTaps="always"
         renderItem={({ item }) => (
           <RecipientItem
             recipient={item}
