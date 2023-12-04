@@ -15,50 +15,95 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       # - uses: valeriangalliat/action-sshd-cloudflared@v2
-      - name: Setup emulator
-        run: |
-          ls -l $ANDROID_HOME/cmdline-tools
-          export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator
-          # temporarily disable checking for EPIPE error and use yes to accept all licenses
-          set +o pipefail
-          yes | sdkmanager "system-images;android-30;default;x86_64"
-          set -o pipefail
-          avdmanager create avd --force --name Pixel_API_30_AOSP_x86_64 --package "system-images;android-30;default;x86_64" --device pixel
-          emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim &
-          echo "Waiting for device to be ready..."
-          # Source: https://android.stackexchange.com/a/83747
-          adb wait-for-device
-          A=$(adb shell getprop sys.boot_completed | tr -d '\r')
-          while [ "$A" != "1" ]; do
-                  sleep 2
-                  A=$(adb shell getprop sys.boot_completed | tr -d '\r')
-          done
-          # Install test butler
-          # Download test butler
-          curl -f -o ~/test-butler-2.2.1.apk https://repo1.maven.org/maven2/com/linkedin/testbutler/test-butler-app/2.2.1/test-butler-app-2.2.1.apk
-          adb install -r ~/test-butler-2.2.1.apk
-          echo "Installation compelete! Launching the TestButler background service..."
-          # Launch the test butler background service!
-          adb shell am startservice com.linkedin.android.testbutler/com.linkedin.android.testbutler.ButlerService
-          # Check that service is launched
-          until [ `adb shell ps | grep butler | wc -l` -gt 0 ]
-          do
-            sleep 3
-          done
+      # - name: Setup emulator
+      #   run: |
+      #     ls -l $ANDROID_HOME/cmdline-tools
+      #     export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator
+      #     # temporarily disable checking for EPIPE error and use yes to accept all licenses
+      #     set +o pipefail
+      #     yes | sdkmanager "system-images;android-30;default;x86_64"
+      #     set -o pipefail
+      #     avdmanager create avd --force --name Pixel_API_30_AOSP_x86_64 --package "system-images;android-30;default;x86_64" --device pixel
+      #     emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim &
+      #     echo "Waiting for device to be ready..."
+      #     # Source: https://android.stackexchange.com/a/83747
+      #     adb wait-for-device
+      #     A=$(adb shell getprop sys.boot_completed | tr -d '\r')
+      #     while [ "$A" != "1" ]; do
+      #             sleep 2
+      #             A=$(adb shell getprop sys.boot_completed | tr -d '\r')
+      #     done
+      # # Install test butler
+      # # Download test butler
+      # curl -f -o ~/test-butler-2.2.1.apk https://repo1.maven.org/maven2/com/linkedin/testbutler/test-butler-app/2.2.1/test-butler-app-2.2.1.apk
+      # adb install -r ~/test-butler-2.2.1.apk
+      # echo "Installation compelete! Launching the TestButler background service..."
+      # # Launch the test butler background service!
+      # adb shell am startservice com.linkedin.android.testbutler/com.linkedin.android.testbutler.ButlerService
+      # # Check that service is launched
+      # until [ `adb shell ps | grep butler | wc -l` -gt 0 ]
+      # do
+      #   sleep 3
+      # done
 
-          echo "Background service running! Saving snapshot..."
-          adb emu avd snapshot save ci_boot
+      # echo "Background service running! Saving snapshot..."
+      # adb emu avd snapshot save ci_boot
 
-          echo "Snapshot saved! Killing emulator..."
-          killall qemu-system-x86_64-headless
+      # echo "Snapshot saved! Killing emulator..."
+      # killall qemu-system-x86_64-headless
 
-          # Wait until the emulator is off
-          until [ `adb devices | grep emulator | wc -l` -gt 0 ]
-          do
-            sleep 3
-          done
+      # # Wait until the emulator is off
+      # until [ `adb devices | grep emulator | wc -l` -gt 0 ]
+      # do
+      #   sleep 3
+      # done
 
-        shell: bash
+      #   shell: bash
+      - name: AVD cache
+        uses: actions/cache@v3
+        id: avd-cache
+        with:
+          path: |
+            ~/.android/avd/*
+            ~/.android/adb*
+          key: avd-${{ inputs.android-api-level }}
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ inputs.android-api-level }}
+          profile: pixel
+          arch: x86_64
+          avd-name: Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
+          force-avd-creation: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
+          disable-animations: true
+          script: |
+            # Install test butler
+            # Download test butler
+            curl -f -o ~/test-butler-2.2.1.apk https://repo1.maven.org/maven2/com/linkedin/testbutler/test-butler-app/2.2.1/test-butler-app-2.2.1.apk
+            adb install -r ~/test-butler-2.2.1.apk
+            echo "Installation compelete! Launching the TestButler background service..."
+            # Launch the test butler background service!
+            adb shell am startservice com.linkedin.android.testbutler/com.linkedin.android.testbutler.ButlerService
+            # Check that service is launched
+            until [ `adb shell ps | grep butler | wc -l` -gt 0 ]
+            do
+              sleep 3
+            done
+
+            echo "Background service running! Saving snapshot..."
+            adb emu avd snapshot save ci_boot
+
+            echo "Snapshot saved! Killing emulator..."
+            killall qemu-system-x86_64-headless
+
+            # Wait until the emulator is off
+            until [ `adb devices | grep emulator | wc -l` -gt 0 ]
+            do
+              sleep 3
+            done
+
       - uses: ./.github/actions/yarn-install
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
@@ -142,7 +187,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 14
+          --maxWorkers 6
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"
