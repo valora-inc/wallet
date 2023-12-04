@@ -7,7 +7,7 @@ interface Props {
   color?: colors
 }
 
-function Edit({ size = 13, color = colors.onboardingGreen }: Props) {
+function Edit({ size = 13, color = colors.successDark }: Props) {
   return (
     <Svg
       width={size}

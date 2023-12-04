@@ -176,11 +176,11 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       break
     case BtnTypes.ONBOARDING:
       textColor = colors.white
-      backgroundColor = colors.onboardingGreen
+      backgroundColor = colors.successDark
       opacity = disabled ? 0.5 : 1.0
       break
     case BtnTypes.ONBOARDING_SECONDARY:
-      textColor = colors.onboardingGreen
+      textColor = colors.successDark
       backgroundColor = colors.white
       opacity = disabled ? 0.5 : 1.0
       break
