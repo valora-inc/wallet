@@ -2,7 +2,7 @@
 export enum Colors {
   error = '#EA6042',
   primary = '#1AB775',
-  primaryDisabled = `${primary}80`,
+  primaryDisabled = `${primary}80`, // 50% opacity
   white = '#FFFFFF',
   black = '#2E3338',
   gray5 = '#505050',
