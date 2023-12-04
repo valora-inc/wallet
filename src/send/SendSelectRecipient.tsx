@@ -23,6 +23,7 @@ import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
 import { Recipient } from 'src/recipients/recipient'
+import InviteRewardsCard from 'src/send/InviteRewardsCard'
 import PasteAddressButton from 'src/send/PasteAddressButton'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
@@ -170,6 +171,7 @@ enum SelectRecipientView {
 function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
 
   const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
@@ -325,6 +327,8 @@ function SendSelectRecipient({ route }: Props) {
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
+            {/* TODO: move hasGivenContactPermission up out of SelectRecipientButtons to share state */}
+            {inviteRewardsActive && <InviteRewardsCard />}
             <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
             {activeView === SelectRecipientView.Recent && recentRecipients.length ? (
               <RecipientPicker
