@@ -60,7 +60,7 @@ server](./README.md#community) is a great way to contact us.
 ## Contributing Issues
 
 If you are submitting an issue, please double check that there doesn’t
-already exist and issue for the work you have in mind.
+already exist an issue for the work you have in mind.
 
 - Has a clear detailed title such that it can’t be confused with other Valora issues.
 - Provides a comprehensive description of the current and expected

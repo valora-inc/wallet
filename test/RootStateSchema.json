@@ -1636,6 +1636,14 @@
             ],
             "type": "object"
         },
+        "MultichainBetaStatus": {
+            "enum": [
+                "NotSeen",
+                "OptedIn",
+                "OptedOut"
+            ],
+            "type": "string"
+        },
         "NetworkId": {
             "enum": [
                 "celo-alfajores",
@@ -2496,6 +2504,7 @@
                 "Licenses",
                 "Main",
                 "MainModal",
+                "MultichainBeta",
                 "NameAndPicture",
                 "NftGallery",
                 "NftsInfoCarousel",
@@ -2950,6 +2959,9 @@
                         "string"
                     ]
                 },
+                "multichainBetaStatus": {
+                    "$ref": "#/definitions/MultichainBetaStatus"
+                },
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
@@ -3060,6 +3072,7 @@
                 "loggedIn",
                 "maxSwapSlippagePercentage",
                 "minVersion",
+                "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",
                 "phoneNumberVerified",

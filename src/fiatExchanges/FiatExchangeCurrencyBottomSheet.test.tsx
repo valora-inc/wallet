@@ -113,6 +113,7 @@ jest.mock('src/web3/networkConfig', () => {
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(),
+  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 describe(FiatExchangeCurrencyBottomSheet, () => {

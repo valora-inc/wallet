@@ -1896,9 +1896,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
+    "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
     "recents": "Recents",
+    "results": "Results",
     "qr": {
       "title": "Scan or Show QR Code",
       "subtitle": "Quickly find addresses on Valora"
@@ -1912,8 +1914,8 @@
       "subtitle": "GET STARTED",
       "options": {
         "one": {
-          "title": "Wallet Address",
-          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+          "title": "Wallet address",
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "Phone Number",
@@ -1973,5 +1975,13 @@
     "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "New! Ethereum is on Valora",
+    "description1": "We’re opening up this feature to a select group of people first. You’re one of the lucky ones!",
+    "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
+    "primaryCta": "Try it now",
+    "secondaryCta": "No thanks"
   }
 }

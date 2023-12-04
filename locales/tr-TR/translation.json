@@ -1894,9 +1894,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "İsme, telefona, cüzdana göre arama yapın...",
+    "paste": "Panodan yapıştır",
     "title": "Bir alıcı seçin",
     "contactsTitle": "Bir kişi seçin",
     "recents": "En sonuncular",
+    "results": "Sonuçlar",
     "qr": {
       "title": "QR Kodunu Tarayın veya Gösterin",
       "subtitle": "Valora'daki adresleri hızlıca bulun"
@@ -1910,8 +1912,8 @@
       "subtitle": "BAŞLAYIN",
       "options": {
         "one": {
-          "title": "Cüzdan Adresi",
-          "subtitle": "Celo veya Ethereum uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
+          "title": "Cüzdan adresi",
+          "subtitle": "Ağ uyumlu bir cüzdan adresi girin (örn. 0x123...abcde)"
         },
         "two": {
           "title": "Telefon Numarası",
@@ -1971,6 +1973,14 @@
     "infiniteApprovalDescription": "{{tokenSymbol}} işlem için onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Yeni! Ethereum Valora'da",
+    "description1": "Bu özelliği ilk olarak seçkin bir grup insana açıyoruz. Siz şanslı olanlardan birisiniz!",
+    "description2": "Bu hala yeni ve ekibimiz işleri mükemmel hale getirmek için hala çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
+    "primaryCta": "Şimdi deneyin",
+    "secondaryCta": "Hayır, teşekkürler."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

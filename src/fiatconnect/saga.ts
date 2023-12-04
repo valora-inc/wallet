@@ -76,9 +76,8 @@ import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { TokenBalanceWithAddress } from 'src/tokens/slice'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { Network, newTransactionContext } from 'src/transactions/types'
+import { newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -114,7 +113,7 @@ export function* handleFetchFiatConnectQuotes({
  * Handles Refetching a single quote for the Review Screen.
  */
 export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refetchQuote>) {
-  const { flow, cryptoType, cryptoAmount, fiatAmount, providerId, fiatAccount } = params
+  const { flow, cryptoType, cryptoAmount, fiatAmount, providerId, fiatAccount, tokenId } = params
   try {
     const {
       normalizedQuote,
@@ -124,11 +123,12 @@ export function* handleRefetchQuote({ payload: params }: ReturnType<typeof refet
       selectedFiatAccount: FiatAccount
     } = yield* call(_getSpecificQuote, {
       flow,
-      digitalAsset: resolveCICOCurrency(cryptoType),
+      digitalAsset: cryptoType,
       cryptoAmount: parseFloat(cryptoAmount),
       fiatAmount: parseFloat(fiatAmount),
       providerId: providerId,
       fiatAccount: fiatAccount,
+      tokenId,
     })
 
     yield* put(refetchQuoteCompleted())
@@ -186,7 +186,7 @@ export function* handleSubmitFiatAccount({
         fiatAccountType,
         fiatAccountSchema,
         flow,
-        cryptoType: quote.getCryptoType(),
+        cryptoType: quote.getCryptoCurrency(),
         fiatType: quote.getFiatType(),
       })
     )
@@ -314,6 +314,7 @@ export function* handleAttemptReturnUserFlow({
     fiatAccountId,
     fiatAccountType,
     fiatAccountSchema,
+    tokenId,
   } = params
 
   const fiatConnectProviders: FiatConnectProviderInfo[] | null = yield* select(
@@ -339,6 +340,7 @@ export function* handleAttemptReturnUserFlow({
         flow,
         providerId,
         fiatAccount: fiatAccount,
+        tokenId,
       }
     )
     const kycSchema = normalizedQuote.getKycSchema()
@@ -404,9 +406,8 @@ export function* handleAttemptReturnUserFlow({
     // Navigate to Select Provider Screen
     navigate(Screens.SelectProvider, {
       flow,
-      selectedCrypto,
+      tokenId,
       amount,
-      network: Network.Celo,
     })
   }
 }
@@ -418,7 +419,7 @@ export function* _getQuotes({
   flow,
   providerIds,
 }: {
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   cryptoAmount: number
   fiatAmount: number
   flow: CICOFlow
@@ -544,13 +545,15 @@ export function* _getSpecificQuote({
   flow,
   providerId,
   fiatAccount,
+  tokenId,
 }: {
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   cryptoAmount: number
   fiatAmount: number
   flow: CICOFlow
   providerId: string
   fiatAccount?: FiatAccount
+  tokenId: string
 }) {
   // Despite fetching quotes for a single provider, there still may be multiple quotes, since a quote
   // object is generated for each Fiat Account Schema supported by the provider.
@@ -561,7 +564,7 @@ export function* _getSpecificQuote({
     fiatAmount,
     providerIds: [providerId],
   })
-  const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes)
+  const normalizedQuotes = normalizeFiatConnectQuotes(flow, quotes, tokenId)
 
   // If no account was provided, we need to fetch accounts from the provider and find a matching quote-account pair
   if (!fiatAccount) {
@@ -665,7 +668,7 @@ export function* handleSelectFiatConnectQuote({
                   cryptoAmount: quote.getCryptoAmount(),
                   fiatAmount: quote.getFiatAmount(),
                   flow: quote.flow,
-                  cryptoType: quote.getCryptoType(),
+                  cryptoType: quote.getCryptoCurrency(),
                   fiatType: quote.getFiatType(),
                 },
               })
@@ -733,9 +736,8 @@ export function* handleSelectFiatConnectQuote({
     }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
-      selectedCrypto: quote.getCryptoType(),
+      tokenId: quote.getTokenId(),
       amount: amount,
-      network: Network.Celo,
     })
   }
 }
@@ -763,7 +765,7 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
           cryptoAmount: quote.getCryptoAmount(),
           fiatAmount: quote.getFiatAmount(),
           flow: quote.flow,
-          cryptoType: quote.getCryptoType(),
+          cryptoType: quote.getCryptoCurrency(),
           fiatType: quote.getFiatType(),
         },
       })
@@ -787,9 +789,8 @@ export function* handlePostKyc({ payload }: ReturnType<typeof postKycAction>) {
     }
     navigate(Screens.SelectProvider, {
       flow: quote.flow,
-      selectedCrypto: quote.getCryptoType(),
+      tokenId: quote.getTokenId(),
       amount: amount,
-      network: Network.Celo,
     })
     yield* delay(500) // to avoid screen flash
     yield* put(personaFinished())
@@ -838,7 +839,7 @@ export function* _checkFiatAccountAndNavigate({
       fiatAccountType: quote.getFiatAccountType(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
       flow: quote.flow,
-      cryptoType: quote.getCryptoType(),
+      cryptoType: quote.getCryptoCurrency(),
       fiatType: quote.getFiatType(),
     })
   )
@@ -957,7 +958,7 @@ export function* _initiateSendTxToProvider({
   Logger.info(TAG, 'Starting transfer out transaction..')
 
   const tokenList: TokenBalanceWithAddress[] = yield* select(tokensListWithAddressSelector)
-  const cryptoType = fiatConnectQuote.getCryptoTypeString()
+  const cryptoType = fiatConnectQuote.getCryptoType()
   const tokenInfo = tokenList.find((token) => token.symbol === cryptoType)
   if (!tokenInfo) {
     // case where none of the tokens in tokenList, which should be from firebase and in sync with this https://github.com/valora-inc/address-metadata/blob/main/src/data/mainnet/tokens-info.json

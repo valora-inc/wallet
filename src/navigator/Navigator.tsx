@@ -17,6 +17,7 @@ import SupportContact from 'src/account/SupportContact'
 import AppLoading from 'src/app/AppLoading'
 import Debug from 'src/app/Debug'
 import ErrorScreen from 'src/app/ErrorScreen'
+import MultichainBeta from 'src/app/MultichainBeta'
 import SanctionedCountryErrorScreen from 'src/app/SanctionedCountryErrorScreen'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import BackupComplete from 'src/backup/BackupComplete'
@@ -505,6 +506,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={NotificationCenter}
       options={headerWithBackButton}
     />
+    <Navigator.Screen
+      name={Screens.MultichainBeta}
+      component={MultichainBeta}
+      options={MultichainBeta.navigationOptions}
+    />
   </>
 )
 
@@ -559,6 +565,7 @@ const mapStateToProps = (state: RootState) => {
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
     recoveryPhraseInOnboardingStatus: state.account.recoveryPhraseInOnboardingStatus,
+    multichainBetaStatus: state.app.multichainBetaStatus,
   }
 }
 
@@ -576,6 +583,7 @@ export function MainStackScreen() {
       account,
       hasSeenVerificationNux,
       recoveryPhraseInOnboardingStatus,
+      multichainBetaStatus,
     } = mapStateToProps(store.getState())
 
     const initialRoute: InitialRouteName = getInitialRoute({
@@ -586,6 +594,7 @@ export function MainStackScreen() {
       account,
       hasSeenVerificationNux,
       recoveryPhraseInOnboardingStatus,
+      multichainBetaStatus,
     })
 
     setInitialRoute(initialRoute)

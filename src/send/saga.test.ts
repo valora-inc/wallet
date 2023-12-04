@@ -35,12 +35,14 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
+  mockAccount3,
   mockAccount2Invite,
   mockAccountInvite,
   mockContract,
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
+  mockE164Number3,
   mockE164NumberInvite,
   mockFeeInfo,
   mockName,
@@ -50,6 +52,7 @@ import {
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 jest.mock('@celo/connect')
 jest.mock('src/statsig')
@@ -122,7 +125,8 @@ describe(watchQrCodeDetections, () => {
         address: mockAccount.toLowerCase(),
         name: mockName,
         e164PhoneNumber: mockE164Number,
-        contactId: undefined,
+        contactId: 'contactId',
+        displayNumber: '14155550000',
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
       },
@@ -134,8 +138,8 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = {
       type: BarcodeTypes.QR_CODE,
       data: urlFromUriData({
-        address: mockQrCodeData.address,
-        e164PhoneNumber: mockQrCodeData.e164PhoneNumber,
+        address: mockAccount3,
+        e164PhoneNumber: mockE164Number3,
       }),
     }
 
@@ -151,8 +155,8 @@ describe(watchQrCodeDetections, () => {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
-        address: mockAccount.toLowerCase(),
-        e164PhoneNumber: mockE164Number,
+        address: mockAccount3.toLowerCase(),
+        e164PhoneNumber: mockE164Number3,
         contactId: undefined,
         thumbnailPath: undefined,
         recipientType: RecipientType.Address,
@@ -165,7 +169,7 @@ describe(watchQrCodeDetections, () => {
     const data: QrCode = {
       type: BarcodeTypes.QR_CODE,
       data: urlFromUriData({
-        address: mockQrCodeData.address,
+        address: mockAccount3,
         displayName: mockQrCodeData.displayName,
       }),
     }
@@ -182,7 +186,7 @@ describe(watchQrCodeDetections, () => {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
       recipient: {
-        address: mockAccount.toLowerCase(),
+        address: mockAccount3.toLowerCase(),
         name: mockName,
         displayNumber: undefined,
         e164PhoneNumber: undefined,
@@ -365,6 +369,16 @@ describe(sendPaymentSaga, () => {
 
     expect(mockContract.methods.transferWithComment).not.toHaveBeenCalled()
     expect(mockContract.methods.transfer).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith('send_tx_complete', {
+      txId: mockContext.id,
+      recipientAddress: mockQRCodeRecipient.address,
+      amount: '10',
+      usdAmount: '10',
+      tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase(),
+      tokenId: mockCusdTokenId,
+      web3Library: 'viem',
+      networkId: 'celo-alfajores',
+    })
   })
 
   it('fails if user cancels PIN input', async () => {

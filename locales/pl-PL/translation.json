@@ -1898,9 +1898,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Szukaj według nazwy, telefonu, portfela…",
+    "paste": "Wklej ze schowka",
     "title": "Wybierz odbiorcę",
     "contactsTitle": "Wybierz kontakt",
     "recents": "Najnowsze",
+    "results": "Wyniki",
     "qr": {
       "title": "Zeskanuj lub pokaż kod QR",
       "subtitle": "Szybko znajdź adresy w Valorze"
@@ -1915,7 +1917,7 @@
       "options": {
         "one": {
           "title": "Adres portfela",
-          "subtitle": "Wprowadź adres portfela zgodny z Celo lub Ethereum (np. 0x123…abcde)"
+          "subtitle": "Wprowadź adres portfela zgodny z siecią (np. 0x123...abcde)."
         },
         "two": {
           "title": "Numer telefonu",
@@ -1975,6 +1977,14 @@
     "infiniteApprovalDescription": "Zatwierdzony {{tokenSymbol}} dla handlu",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} dla handlu",
     "descriptionLabel": "Szczegóły"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Nowość! Ethereum jest na Valora",
+    "description1": "Najpierw udostępniamy tę funkcję wybranej grupie osób. Jesteś jednym z tych szczęśliwców!",
+    "description2": "To wciąż nowość, a nasz zespół wciąż ciężko pracuje, aby wszystko było idealne. Chętnie poznamy Twoją opinię.",
+    "primaryCta": "Wypróbuj teraz",
+    "secondaryCta": "Nie, dziękuję"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

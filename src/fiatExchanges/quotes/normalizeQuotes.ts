@@ -13,7 +13,6 @@ import {
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
-import { CiCoCurrency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -23,11 +22,12 @@ export function normalizeQuotes(
   flow: CICOFlow,
   fiatConnectQuotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[] = [],
   externalProviders: FetchProvidersOutput[] = [],
-  digitalAsset: CiCoCurrency
+  tokenId: string,
+  tokenSymbol: string
 ): NormalizedQuote[] {
   return [
-    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes),
-    ...normalizeExternalProviders(flow, externalProviders, digitalAsset),
+    ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes, tokenId),
+    ...normalizeExternalProviders({ flow, input: externalProviders, tokenId, tokenSymbol }),
   ].sort(
     getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
       ? quotesByReceiveAmountComparator
@@ -68,7 +68,8 @@ const quoteHasErrors = (
 
 export function normalizeFiatConnectQuotes(
   flow: CICOFlow,
-  quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[]
+  quotes: (FiatConnectQuoteSuccess | FiatConnectQuoteError)[],
+  tokenId: string
 ): FiatConnectQuote[] {
   const normalizedQuotes: FiatConnectQuote[] = []
 
@@ -84,6 +85,7 @@ export function normalizeFiatConnectQuotes(
               quote,
               fiatAccountType: key as FiatAccountType,
               flow,
+              tokenId,
             })
             normalizedQuotes.push(normalizedQuote)
           } catch (err) {
@@ -96,13 +98,18 @@ export function normalizeFiatConnectQuotes(
   return normalizedQuotes
 }
 
-export function normalizeExternalProviders(
-  flow: CICOFlow,
-  input: FetchProvidersOutput[],
-  digitalAsset: CiCoCurrency
-): NormalizedQuote[] {
+export function normalizeExternalProviders({
+  flow,
+  input,
+  tokenId,
+  tokenSymbol,
+}: {
+  flow: CICOFlow
+  input: FetchProvidersOutput[]
+  tokenId: string
+  tokenSymbol: string
+}): NormalizedQuote[] {
   const normalizedQuotes: NormalizedQuote[] = []
-
   input.forEach((provider) => {
     try {
       const quotes: (RawProviderQuote | SimplexQuote)[] = []
@@ -119,7 +126,7 @@ export function normalizeExternalProviders(
           // for Simplex quotes, which are a special case.
           provider.paymentMethods.forEach((paymentMethod) =>
             quotes.push({
-              digitalAsset,
+              digitalAsset: tokenSymbol,
               paymentMethod,
             })
           )
@@ -131,7 +138,7 @@ export function normalizeExternalProviders(
       }
 
       quotes.forEach((quote: RawProviderQuote | SimplexQuote) => {
-        const normalizedQuote = new ExternalQuote({ quote, provider, flow })
+        const normalizedQuote = new ExternalQuote({ quote, provider, flow, tokenId })
         normalizedQuotes.push(normalizedQuote)
       })
     } catch (err) {

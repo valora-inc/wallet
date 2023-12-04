@@ -6,7 +6,20 @@ import RecipientPicker from 'src/recipients/RecipientPickerV2'
 import { createMockStore } from 'test/utils'
 import { mockRecipient, mockRecipient2, mockRecipient3 } from 'test/values'
 
-const mockRecipients = [mockRecipient, mockRecipient2, mockRecipient3]
+const mockRecipients = [
+  {
+    ...mockRecipient,
+    contactId: 'contactId1',
+  },
+  {
+    ...mockRecipient2,
+    contactId: 'contactId2',
+  },
+  {
+    ...mockRecipient3,
+    contactId: 'contactId3',
+  },
+]
 const store = createMockStore()
 
 describe('RecipientPickerV2', () => {
@@ -48,7 +61,7 @@ describe('RecipientPickerV2', () => {
         <RecipientPicker
           recipients={mockRecipients}
           onSelectRecipient={jest.fn()}
-          selectedRecipient={mockRecipient2}
+          selectedRecipient={mockRecipients[1]}
           isSelectedRecipientLoading={false}
         />
       </Provider>
@@ -73,7 +86,7 @@ describe('RecipientPickerV2', () => {
         <RecipientPicker
           recipients={mockRecipients}
           onSelectRecipient={jest.fn()}
-          selectedRecipient={mockRecipient}
+          selectedRecipient={mockRecipients[0]}
           isSelectedRecipientLoading={true}
         />
       </Provider>

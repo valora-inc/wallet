@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -15,7 +14,7 @@ import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { sortCicoTokens } from 'src/tokens/utils'
-import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
+import { resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
@@ -54,9 +53,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
       navigate(Screens.FiatExchangeAmount, {
         tokenId: tokenId,
         flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
-        // TODO: Remove after merging other refactor PR
-        currency: resolveCICOCurrency(symbol),
-        network: CiCoCurrencyNetworkMap[resolveCICOCurrency(symbol)],
+        tokenSymbol: symbol,
       })
     }
 

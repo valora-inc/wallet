@@ -1894,9 +1894,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Suche nach Name, Telefon, Wallet ...",
+    "paste": "Einfügen aus der Zwischenablage",
     "title": "Einen Empfänger auswählen",
     "contactsTitle": "Kontakt wählen",
     "recents": "Zuletzt",
+    "results": "Ergebnisse",
     "qr": {
       "title": "QR-Code scannen oder anzeigen",
       "subtitle": "Finde Adressen schnell auf Valora."
@@ -1911,7 +1913,7 @@
       "options": {
         "one": {
           "title": "Wallet-Adresse",
-          "subtitle": "Gib eine Wallet-Adresse ein, die mit Celo oder Ethereum kompatibel ist (z. B. 0x123...abcde)."
+          "subtitle": "Gib eine netzwerkfähige Wallet-Adresse ein (z.B. 0x123...abcde)"
         },
         "two": {
           "title": "Telefonnummer",
@@ -1971,6 +1973,14 @@
     "infiniteApprovalDescription": "Zugelassen {{tokenSymbol}} für den Handel",
     "revokeApprovalDescription": "Widerrufen {{tokenSymbol}} für den Handel",
     "descriptionLabel": "Details"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Neu! Ethereum ist auf Valora",
+    "description1": "Wir öffnen diese Funktion zuerst für eine ausgewählte Gruppe von Menschen. Du bist einer der Glücklichen!",
+    "description2": "Es ist noch neu und unser Team arbeitet noch hart daran, alles zu perfektionieren. Wir würden uns über dein Feedback freuen.",
+    "primaryCta": "Versuche es jetzt",
+    "secondaryCta": "Nein danke"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -1892,9 +1892,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
+    "paste": "Paste from clipboard",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",
     "recents": "Gần đây",
+    "results": "Results",
     "qr": {
       "title": "Quét hoặc hiển thị mã QR",
       "subtitle": "Tìm nhanh địa chỉ trên Valora"
@@ -1909,7 +1911,7 @@
       "options": {
         "one": {
           "title": "Địa chỉ ví",
-          "subtitle": "Nhập địa chỉ ví tương thích với Celo hoặc Ethereum (ví dụ: 0x123...abcde)"
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "Số điện thoại",
@@ -1969,6 +1971,14 @@
     "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Chi tiết"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "New! Ethereum is on Valora",
+    "description1": "We’re opening up this feature to a select group of people first. You’re one of the lucky ones!",
+    "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
+    "primaryCta": "Try it now",
+    "secondaryCta": "No thanks"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
