@@ -42,7 +42,9 @@ import {
   TokenTransactionTypeV2,
   TransactionContext,
   TransactionStatus,
+  WatchableTransaction,
 } from 'src/transactions/types'
+import { isWatchableTransaction } from 'src/transactions/utils'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
@@ -171,7 +173,8 @@ export function* sendAndMonitorTransaction<T>(
       handleTransactionReceiptReceived,
       context.id,
       txReceipt,
-      networkConfig.defaultNetworkId
+      networkConfig.defaultNetworkId,
+      getTokenId(networkConfig.defaultNetworkId, feeCurrency)
     )
 
     yield* put(fetchTokenBalances({ showLoading: true }))
@@ -244,11 +247,8 @@ function* watchAddressToE164PhoneNumberUpdate() {
   )
 }
 
-export function* getTransactionReceipt(
-  transaction: StandbyTransaction & { transactionHash: string },
-  network: Network
-) {
-  const { transactionHash } = transaction
+export function* getTransactionReceipt(transaction: WatchableTransaction, network: Network) {
+  const { feeCurrencyId, transactionHash } = transaction
 
   try {
     const receipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
@@ -260,7 +260,8 @@ export function* getTransactionReceipt(
         handleTransactionReceiptReceived,
         transaction.context.id,
         receipt,
-        networkConfig.networkToNetworkId[network]
+        networkConfig.networkToNetworkId[network],
+        feeCurrencyId
       )
     }
   } catch (e) {
@@ -272,14 +273,16 @@ export function* getTransactionReceipt(
   }
 }
 
+// Exported for testing purposes
 export function* internalWatchPendingTransactionsInNetwork(network: Network) {
-  const pendingStandbyTransactions = yield* select(pendingStandbyTransactionsSelector)
-  const filteredPendingTxs = pendingStandbyTransactions.filter((tx) => {
-    return tx.networkId === networkConfig.networkToNetworkId[network] && tx.transactionHash
-  })
+  const pendingStandbyTransactions = (yield* select(pendingStandbyTransactionsSelector)).filter(
+    (transaction) => transaction.networkId === networkConfig.networkToNetworkId[network]
+  )
 
-  for (const transaction of filteredPendingTxs) {
-    yield* fork(getTransactionReceipt, transaction, network)
+  for (const transaction of pendingStandbyTransactions) {
+    if (isWatchableTransaction(transaction)) {
+      yield* fork(getTransactionReceipt, transaction, network)
+    }
   }
 }
 
@@ -317,12 +320,11 @@ export function* transactionSaga() {
 export function* handleTransactionReceiptReceived(
   txId: string,
   receipt: TransactionReceipt | CeloTxReceipt,
-  networkId: NetworkId
+  networkId: NetworkId,
+  feeCurrencyId: string
 ) {
   const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
 
-  // TODO: Receive feeCurrencyId from transaction request.
-  const feeCurrencyId = getTokenId(networkId)
   const feeTokenInfo = tokensById[feeCurrencyId]
 
   if (!feeTokenInfo) {
@@ -345,11 +347,7 @@ export function* handleTransactionReceiptReceived(
   yield* put(
     transactionConfirmed(txId, {
       ...baseDetails,
-      // Only add fee data in non-celo transactions
-      fees:
-        !feeTokenInfo || networkId === networkConfig.defaultNetworkId
-          ? []
-          : buildGasFees(feeTokenInfo, gasFeeInSmallestUnit),
+      fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
     })
   )
 }

@@ -14,7 +14,7 @@ import {
   fetchTokenBalances,
   tokenBalanceHasAddress,
 } from 'src/tokens/slice'
-import { tokenSupportsComments } from 'src/tokens/utils'
+import { getTokenId, tokenSupportsComments } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
@@ -26,6 +26,7 @@ import { ViemWallet } from 'src/viem/getLockableWallet'
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
+  getFeeCurrency,
   getPreparedTransaction,
 } from 'src/viem/preparedTransactionSerialization'
 import { getViemWallet } from 'src/web3/contracts'
@@ -56,7 +57,7 @@ export function* sendPayment({
   tokenId,
   comment,
   feeInfo,
-  preparedTransaction,
+  preparedTransaction: preparedTransaction,
 }: {
   context: TransactionContext
   recipientAddress: string
@@ -71,6 +72,7 @@ export function* sendPayment({
   if (!tokenInfo || !network) {
     throw new Error('Unknown token network')
   }
+  const networkId = tokenInfo.networkId
 
   const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
 
@@ -99,13 +101,16 @@ export function* sendPayment({
     yield* call(unlockAccount, wallet.account.address)
   }
 
+  const feeCurrency: string | undefined = preparedTransaction && getFeeCurrency(preparedTransaction)
+  const feeCurrencyId = getTokenId(networkId, feeCurrency)
+
   const addPendingStandbyTransaction = function* (hash: string) {
     yield* put(
       addStandbyTransaction({
         __typename: 'TokenTransferV3',
         type: TokenTransactionTypeV2.Sent,
         context,
-        networkId: tokenInfo.networkId,
+        networkId,
         amount: {
           value: amount.negated().toString(),
           tokenAddress: tokenInfo.address ?? undefined,
@@ -116,6 +121,7 @@ export function* sendPayment({
           comment,
         },
         transactionHash: hash,
+        feeCurrencyId,
       })
     )
   }
@@ -136,7 +142,7 @@ export function* sendPayment({
         recipientAddress,
         comment,
         feeInfo,
-        preparedTransaction,
+        preparedTransaction: preparedTransaction,
       })
 
       const { request } = yield* call(simulateContractMethod)
@@ -156,6 +162,7 @@ export function* sendPayment({
         context,
         network,
         sendTx: sendContractTxMethod,
+        feeCurrencyId,
       })
 
       return receipt
@@ -217,6 +224,7 @@ export function* sendPayment({
         context,
         network,
         sendTx: sendNativeTxMethod,
+        feeCurrencyId,
       })
       return receipt
     }
@@ -388,10 +396,12 @@ export function* sendAndMonitorTransaction({
   context,
   network,
   sendTx,
+  feeCurrencyId,
 }: {
   context: TransactionContext
   network: Network
   sendTx: () => Generator<any, Hash, any>
+  feeCurrencyId: string
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
@@ -429,7 +439,8 @@ export function* sendAndMonitorTransaction({
       handleTransactionReceiptReceived,
       context.id,
       receipt,
-      networkConfig.networkToNetworkId[network]
+      networkConfig.networkToNetworkId[network],
+      feeCurrencyId
     )
 
     if (receipt.status === 'reverted') {

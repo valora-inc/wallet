@@ -156,12 +156,14 @@ export function* buildAndSendPayment(
     feeInfo
   )
 
+  const networkId = networkConfig.defaultNetworkId
+
   yield* put(
     addStandbyTransaction({
       __typename: 'TokenTransferV3',
       type: TokenTransactionTypeV2.Sent,
       context,
-      networkId: networkConfig.defaultNetworkId,
+      networkId,
       amount: {
         value: amount.negated().toString(),
         tokenAddress,
