@@ -1,7 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
+import { getFeatureGate } from 'src/statsig'
 import {
+  cashInTokensByNetworkIdSelector,
+  cashOutTokensByNetworkIdSelector,
   defaultTokenToSendSelector,
+  spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -25,6 +29,7 @@ jest.mock('src/web3/networkConfig', () => {
     default: {
       ...originalModule.default,
       defaultNetworkId: 'celo-alfajores',
+      spendTokenIds: ['celo-alfajores:0xusd', 'celo-alfajores:0xeur'],
     },
   }
 })
@@ -33,8 +38,16 @@ jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
 }))
 
+jest.mock('src/statsig', () => ({
+  getFeatureGate: jest.fn(),
+}))
+
 beforeAll(() => {
   jest.useFakeTimers({ now: mockDate })
+})
+
+beforeEach(() => {
+  jest.mocked(getFeatureGate).mockReturnValue(true)
 })
 
 const state: any = {
@@ -51,6 +64,8 @@ const state: any = {
         priceFetchedAt: mockDate,
         isSwappable: true,
         showZeroBalance: true,
+        isCashInEligible: true,
+        isCashOutEligible: true,
       },
       ['celo-alfajores:0xeur']: {
         tokenId: 'celo-alfajores:0xeur',
@@ -63,6 +78,8 @@ const state: any = {
         isSupercharged: true,
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.0.0',
+        isCashInEligible: true,
+        isCashOutEligible: true,
       },
       ['celo-alfajores:0x1']: {
         tokenId: 'celo-alfajores:0x1',
@@ -74,6 +91,8 @@ const state: any = {
         priceUsd: '10',
         priceFetchedAt: mockDate,
         minimumAppVersionToSwap: '1.20.0',
+        isCashInEligible: true,
+        isCashOutEligible: true,
       },
       ['celo-alfajores:0x2']: {
         tokenId: 'celo-alfajores:0x2',
@@ -215,6 +234,8 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x1",
           "balance": "10",
           "bridge": "somebridge",
+          "isCashInEligible": true,
+          "isCashOutEligible": true,
           "lastKnownPriceUsd": "10",
           "minimumAppVersionToSwap": "1.20.0",
           "name": "0x1 token (somebridge)",
@@ -226,6 +247,8 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0xeur",
           "balance": "50",
+          "isCashInEligible": true,
+          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
@@ -239,6 +262,8 @@ describe('tokensByUsdBalanceSelector', () => {
         {
           "address": "0xusd",
           "balance": "0",
+          "isCashInEligible": true,
+          "isCashOutEligible": true,
           "isSwappable": true,
           "lastKnownPriceUsd": "1",
           "name": "cUSD",
@@ -285,6 +310,8 @@ describe('tokensWithUsdValueSelector', () => {
         {
           "address": "0xeur",
           "balance": "50",
+          "isCashInEligible": true,
+          "isCashOutEligible": true,
           "isSupercharged": true,
           "lastKnownPriceUsd": "0.5",
           "minimumAppVersionToSwap": "1.0.0",
@@ -299,6 +326,8 @@ describe('tokensWithUsdValueSelector', () => {
           "address": "0x1",
           "balance": "10",
           "bridge": "somebridge",
+          "isCashInEligible": true,
+          "isCashOutEligible": true,
           "lastKnownPriceUsd": "10",
           "minimumAppVersionToSwap": "1.20.0",
           "name": "0x1 token",
@@ -372,5 +401,88 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
     expect(tokensWithNonZeroBalanceAndShowZeroBalanceSelector.recomputations()).toEqual(
       prevComputations + 1
     )
+  })
+})
+
+describe(cashInTokensByNetworkIdSelector, () => {
+  describe('when fetching cash in tokens', () => {
+    it('returns the right tokens when isCicoToken check used', () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      const tokens = cashInTokensByNetworkIdSelector(state, [NetworkId['celo-alfajores']])
+      expect(tokens.length).toEqual(2)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
+    it('returns the right tokens when isCicoToken check not used', () => {
+      const tokens = cashInTokensByNetworkIdSelector(state, [
+        NetworkId['celo-alfajores'],
+        NetworkId['ethereum-sepolia'],
+      ])
+      expect(tokens.length).toEqual(3)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x1')?.name).toEqual('0x1 token')
+    })
+  })
+})
+
+describe(cashOutTokensByNetworkIdSelector, () => {
+  describe('when fetching cash out tokens', () => {
+    it('returns the right tokens without zero balance included when isCicoToken check used', () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      const tokens = cashOutTokensByNetworkIdSelector(
+        state,
+        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        false
+      )
+      expect(tokens.length).toEqual(1)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
+    it('returns the right tokens with zero balance included when isCicoToken check used', () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      const tokens = cashOutTokensByNetworkIdSelector(
+        state,
+        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        true
+      )
+      expect(tokens.length).toEqual(2)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
+    it('returns the right tokens without zero balance included when isCicoToken check not used', () => {
+      const tokens = cashOutTokensByNetworkIdSelector(
+        state,
+        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        false
+      )
+      expect(tokens.length).toEqual(2)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x1')?.name).toEqual('0x1 token')
+    })
+    it('returns the right tokens with zero balance included when isCicoToken check not used', () => {
+      const tokens = cashOutTokensByNetworkIdSelector(
+        state,
+        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        true
+      )
+      expect(tokens.length).toEqual(3)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0x1')?.name).toEqual('0x1 token')
+    })
+  })
+})
+
+describe(spendTokensByNetworkIdSelector, () => {
+  describe('when fetching spend tokens', () => {
+    it('returns the right tokens', () => {
+      const tokens = spendTokensByNetworkIdSelector(state, [
+        NetworkId['celo-alfajores'],
+        NetworkId['ethereum-sepolia'],
+      ])
+      expect(tokens.length).toEqual(2)
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
+      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
+    })
   })
 })

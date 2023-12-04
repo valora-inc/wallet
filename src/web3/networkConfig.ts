@@ -66,6 +66,11 @@ interface NetworkConfig {
   }
   celoTokenAddress: string
   alchemyEthereumRpcUrl: string
+  cusdTokenId: string
+  ceurTokenId: string
+  crealTokenId: string
+  celoTokenId: string
+  spendTokenIds: string[]
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -260,6 +265,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_STAGING,
     alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
+    cusdTokenId: CUSD_TOKEN_ID_STAGING,
+    ceurTokenId: CEUR_TOKEN_ID_STAGING,
+    crealTokenId: CREAL_TOKEN_ID_STAGING,
+    celoTokenId: CELO_TOKEN_ID_STAGING,
+    spendTokenIds: [CUSD_TOKEN_ID_STAGING, CEUR_TOKEN_ID_STAGING],
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -324,6 +334,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
     alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
+    cusdTokenId: CUSD_TOKEN_ID_MAINNET,
+    ceurTokenId: CEUR_TOKEN_ID_MAINNET,
+    crealTokenId: CREAL_TOKEN_ID_MAINNET,
+    celoTokenId: CELO_TOKEN_ID_MAINNET,
+    spendTokenIds: [CUSD_TOKEN_ID_MAINNET, CEUR_TOKEN_ID_MAINNET],
   },
 }
 

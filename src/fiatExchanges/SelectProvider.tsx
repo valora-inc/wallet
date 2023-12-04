@@ -44,7 +44,7 @@ import {
   usdToLocalCurrencyRateSelector,
 } from 'src/localCurrency/selectors'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
@@ -54,10 +54,9 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
-import { Network } from 'src/transactions/types'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import networkConfig from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -72,7 +71,6 @@ import {
   filterLegacyMobileMoneyProviders,
   filterProvidersByPaymentMethod,
   getProviderSelectionAnalyticsData,
-  resolveCloudFunctionDigitalAsset,
 } from './utils'
 
 const TAG = 'SelectProviderScreen'
@@ -90,9 +88,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const dispatch = useDispatch()
   const {
     flow,
-    selectedCrypto: digitalAsset,
+    tokenId,
     amount: { crypto: cryptoAmount, fiat: fiatAmount },
-    network,
   } = route.params
   const userLocation = useSelector(userLocationDataSelector)
   const account = useSelector(currentAccountSelector)
@@ -103,7 +100,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const selectFiatConnectQuoteLoading = useSelector(selectFiatConnectQuoteLoadingSelector)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
-  const tokenInfo = useTokenInfoWithAddressBySymbol(digitalAsset)
+  const tokenInfo = useTokenInfo(tokenId)
+
+  if (!tokenInfo) {
+    throw new Error(`Token info not found for token ID ${tokenId}`)
+  }
 
   const { t } = useTranslation()
   const coinbasePayEnabled = useSelector(coinbasePayEnabledSelector)
@@ -114,12 +115,12 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     dispatch(
       fetchFiatConnectQuotes({
         flow,
-        digitalAsset,
+        digitalAsset: tokenInfo.symbol,
         cryptoAmount,
         fiatAmount,
       })
     )
-  }, [flow, digitalAsset, cryptoAmount])
+  }, [flow, tokenInfo.symbol, cryptoAmount])
 
   useEffect(() => {
     if (fiatConnectQuotesError) {
@@ -129,7 +130,10 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
 
   const asyncExchanges = useAsync(async () => {
     try {
-      const availableExchanges = await fetchExchanges(userLocation.countryCodeAlpha2, digitalAsset)
+      const availableExchanges = await fetchExchanges(
+        userLocation.countryCodeAlpha2,
+        tokenInfo.symbol
+      )
 
       return availableExchanges
     } catch (error) {
@@ -149,11 +153,11 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: resolveCloudFunctionDigitalAsset(digitalAsset),
+          digitalAsset: tokenInfo.symbol.toUpperCase(),
           fiatAmount,
           digitalAssetAmount: cryptoAmount,
           txType: flow === CICOFlow.CashIn ? 'buy' : 'sell',
-          networkId: networkConfig.networkToNetworkId[network],
+          networkId: tokenInfo.networkId,
         }),
         fetchLegacyMobileMoneyProviders(),
       ])
@@ -162,7 +166,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
         rawLegacyMobileMoneyProviders,
         flow,
         userLocation.countryCodeAlpha2,
-        digitalAsset
+        tokenInfo.tokenId
       )
       return { externalProviders, legacyMobileMoneyProviders }
     } catch (error) {
@@ -180,7 +184,8 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     flow,
     fiatConnectQuotes,
     asyncProviders.result?.externalProviders,
-    digitalAsset
+    tokenInfo.tokenId,
+    tokenInfo.symbol
   )
 
   const exchanges = asyncExchanges.result ?? []
@@ -195,7 +200,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     !coinbaseProvider.restricted &&
     coinbasePayEnabled &&
     appId &&
-    digitalAsset === CiCoCurrency.CELO
+    tokenInfo.tokenId === networkConfig.celoTokenId
 
   const anyProviders =
     normalizedQuotes.length ||
@@ -211,7 +216,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     centralizedExchanges: exchanges,
     coinbasePayAvailable: coinbasePayVisible,
     transferCryptoAmount: cryptoAmount,
-    cryptoType: digitalAsset,
+    cryptoType: tokenInfo.symbol,
   })
 
   useEffect(() => {
@@ -251,16 +256,16 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   }
 
   const switchCurrencyOnPress = () =>
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut,
-    })
+    navigateToFiatCurrencySelection(
+      flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut
+    )
 
   if (!anyProviders) {
     return (
       <View style={styles.noPaymentMethodsContainer}>
         <Text testID="NoPaymentMethods" style={styles.noPaymentMethods}>
           {t('noPaymentMethods', {
-            digitalAsset,
+            digitalAsset: tokenInfo.symbol,
           })}
         </Text>
         <TextButton
@@ -294,14 +299,15 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
           normalizedQuotes={normalizedQuotes}
           paymentMethod={paymentMethod}
           flow={flow}
-          cryptoType={digitalAsset}
+          tokenId={tokenId}
           analyticsData={analyticsData}
         />
       ))}
-      {network === Network.Celo && (
+      {(tokenInfo.networkId === NetworkId['celo-mainnet'] ||
+        tokenInfo.networkId === NetworkId['celo-alfajores']) && (
         <LegacyMobileMoneySection
           providers={legacyMobileMoneyProviders || []}
-          digitalAsset={digitalAsset}
+          tokenId={tokenInfo.tokenId}
           flow={flow}
           analyticsData={analyticsData}
         />
@@ -316,7 +322,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
       )}
       <ExchangesSection
         exchanges={exchanges}
-        selectedCurrency={digitalAsset}
+        selectedTokenId={tokenId}
         flow={flow}
         analyticsData={analyticsData}
       />
@@ -336,7 +342,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   )
 }
 
-function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['params']) {
+function AmountSpentInfo({ flow, tokenId, amount }: Props['route']['params']) {
   const localCurrency = useSelector(getLocalCurrencyCode)
   return (
     <View style={styles.amountSpentInfo} testID="AmountSpentInfo">
@@ -357,7 +363,7 @@ function AmountSpentInfo({ flow, selectedCrypto, amount }: Props['route']['param
           ) : (
             <CryptoAmount
               amount={amount.crypto}
-              currency={selectedCrypto}
+              tokenId={tokenId}
               testID="AmountSpentInfo/Crypto"
             />
           )}
@@ -413,12 +419,12 @@ function LimitedPaymentMethods({ flow }: { flow: CICOFlow }) {
 function ExchangesSection({
   exchanges = [],
   flow,
-  selectedCurrency,
+  selectedTokenId,
   analyticsData,
 }: {
   exchanges: ExternalExchangeProvider[]
   flow: CICOFlow
-  selectedCurrency: CiCoCurrency
+  selectedTokenId: string
   analyticsData: ProviderSelectionAnalyticsData
 }) {
   const { t } = useTranslation()
@@ -450,7 +456,7 @@ function ExchangesSection({
       navigate(Screens.ExchangeQR, { flow, exchanges })
     } else {
       navigate(Screens.ExternalExchanges, {
-        currency: selectedCurrency,
+        tokenId: selectedTokenId,
         exchanges,
       })
     }
@@ -491,12 +497,12 @@ function ExchangesSection({
 
 function LegacyMobileMoneySection({
   providers,
-  digitalAsset,
+  tokenId,
   flow,
   analyticsData,
 }: {
   providers: LegacyMobileMoneyProvider[]
-  digitalAsset: CiCoCurrency
+  tokenId: string
   flow: CICOFlow
   analyticsData: ProviderSelectionAnalyticsData
 }) {
@@ -530,7 +536,7 @@ function LegacyMobileMoneySection({
       isLowestFee: undefined,
       ...analyticsData,
     })
-    navigateToURI(provider[digitalAsset === CiCoCurrency.cUSD ? 'cusd' : 'celo'].url)
+    navigateToURI(provider[tokenId === networkConfig.cusdTokenId ? 'cusd' : 'celo'].url)
   }
 
   if (!provider) {

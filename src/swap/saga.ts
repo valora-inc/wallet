@@ -349,14 +349,14 @@ function getSwapTxsReceiptAnalyticsProperties(
   )
 
   const approveTx = trackedTxs.length > 1 ? txs[0] : undefined
-  const swapTx = txs[txs.length - 1]
+  const swapTx = trackedTxs.length > 0 ? txs[txs.length - 1] : undefined
 
   return {
     ...getPrefixedTxAnalyticsProperties(approveTx || {}, 'approve'),
-    ...getPrefixedTxAnalyticsProperties(swapTx, 'swap'),
-    gasUsed: swapTx.txGasUsed ? txs.reduce((sum, tx) => sum + (tx.txGasUsed || 0), 0) : undefined,
-    gasFee: swapTx.txGasFee ? txs.reduce((sum, tx) => sum + (tx.txGasFee || 0), 0) : undefined,
-    gasFeeUsd: swapTx.txGasFeeUsd
+    ...getPrefixedTxAnalyticsProperties(swapTx || {}, 'swap'),
+    gasUsed: swapTx?.txGasUsed ? txs.reduce((sum, tx) => sum + (tx.txGasUsed || 0), 0) : undefined,
+    gasFee: swapTx?.txGasFee ? txs.reduce((sum, tx) => sum + (tx.txGasFee || 0), 0) : undefined,
+    gasFeeUsd: swapTx?.txGasFeeUsd
       ? txs.reduce((sum, tx) => sum + (tx.txGasFeeUsd || 0), 0)
       : undefined,
   }
@@ -565,17 +565,18 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     })
   } catch (err) {
     const error = ensureError(err)
-    const timeMetrics = getTimeMetrics()
+    // dispatch the error early, in case the rest of the handling throws
+    // and leaves the app in a bad state
+    yield* put(swapError())
+    vibrateError()
 
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
       ...defaultSwapExecuteProps,
-      ...timeMetrics,
+      ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
       error: error.message,
     })
-    yield* put(swapError())
-    vibrateError()
   }
 }
 

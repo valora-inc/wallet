@@ -23,6 +23,7 @@ const DEBOUNCE_OPTIONS = {
 export enum BtnTypes {
   PRIMARY = 'Primary',
   SECONDARY = 'Secondary',
+  SECONDARY_WHITE_BG = 'SecondaryWhiteBg',
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
 }
@@ -112,7 +113,7 @@ export default React.memo(function Button(props: ButtonProps) {
                 maxFontSizeMultiplier={1}
                 accessibilityLabel={accessibilityLabel}
                 style={{
-                  ...fontStyle,
+                  ...fontStyle, // this has to be before color because the legacy font styles default to colors.dark, which will end up overriding the button type based colors
                   color: textColor,
                   marginLeft: icon && iconPositionLeft ? iconMargin : 0,
                   marginRight: icon && !iconPositionLeft ? iconMargin : 0,
@@ -168,6 +169,10 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
     case BtnTypes.SECONDARY:
       textColor = disabled ? colors.gray4 : colors.black
       backgroundColor = colors.beige
+      break
+    case BtnTypes.SECONDARY_WHITE_BG:
+      textColor = colors.gray3
+      backgroundColor = colors.white
       break
     case BtnTypes.ONBOARDING:
       textColor = colors.white

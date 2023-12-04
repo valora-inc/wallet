@@ -5,13 +5,13 @@ import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
 import { getDynamicConfigParams } from 'src/statsig'
 import {
-  useAmountAsUsdByAddress,
+  useAmountAsUsd,
   useCashInTokens,
   useCashOutTokens,
-  useLocalToTokenAmountByAddress,
+  useLocalToTokenAmount,
   useSwappableTokens,
   useTokenPricesAreStale,
-  useTokenToLocalAmountByAddress,
+  useTokenToLocalAmount,
   useTokensForSend,
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
@@ -35,17 +35,7 @@ jest.mock('src/statsig', () => ({
       showBalances: ['celo-alfajores'],
     }
   }),
-}))
-
-jest.mock('src/statsig', () => ({
-  getDynamicConfigParams: jest.fn(() => {
-    return {
-      showCico: ['celo-alfajores'],
-      showSend: ['celo-alfajores'],
-      showSwap: ['celo-alfajores'],
-      showBalances: ['celo-alfajores'],
-    }
-  }),
+  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 const tokenAddressWithPriceAndBalance = '0x001'
@@ -54,10 +44,10 @@ const tokenAddressWithoutBalance = '0x002'
 const tokenIdWithoutBalance = `celo-alfajores:${tokenAddressWithoutBalance}`
 const ethTokenId = 'ethereum-sepolia:native'
 
-function TestComponent({ tokenAddress }: { tokenAddress: string }) {
-  const tokenAmount = useLocalToTokenAmountByAddress(new BigNumber(1), tokenAddress)
-  const localAmount = useTokenToLocalAmountByAddress(new BigNumber(1), tokenAddress)
-  const usdAmount = useAmountAsUsdByAddress(new BigNumber(1), tokenAddress)
+function TestComponent({ tokenId }: { tokenId: string }) {
+  const tokenAmount = useLocalToTokenAmount(new BigNumber(1), tokenId)
+  const localAmount = useTokenToLocalAmount(new BigNumber(1), tokenId)
+  const usdAmount = useAmountAsUsd(new BigNumber(1), tokenId)
   const tokenPricesAreStale = useTokenPricesAreStale([NetworkId['celo-alfajores']])
 
   return (
@@ -139,7 +129,7 @@ describe('token to fiat exchanges', () => {
   it('maps correctly if all the info is available', async () => {
     const { getByTestId } = render(
       <Provider store={store('2', Date.now())}>
-        <TestComponent tokenAddress={tokenAddressWithPriceAndBalance} />
+        <TestComponent tokenId={tokenIdWithPriceAndBalance} />
       </Provider>
     )
 
@@ -156,7 +146,7 @@ describe('token to fiat exchanges', () => {
   it('returns undefined if there is no balance set', async () => {
     const { getByTestId } = render(
       <Provider store={store('2', Date.now())}>
-        <TestComponent tokenAddress={tokenAddressWithoutBalance} />
+        <TestComponent tokenId={tokenIdWithoutBalance} />
       </Provider>
     )
 
@@ -173,7 +163,7 @@ describe('token to fiat exchanges', () => {
   it('returns undefined if there is no exchange rate', async () => {
     const { getByTestId } = render(
       <Provider store={store(null, Date.now())}>
-        <TestComponent tokenAddress={tokenAddressWithPriceAndBalance} />
+        <TestComponent tokenId={tokenIdWithPriceAndBalance} />
       </Provider>
     )
 
@@ -192,7 +182,7 @@ describe('token to fiat exchanges', () => {
   it('returns undefined if the token doesnt exist', async () => {
     const { getByTestId } = render(
       <Provider store={store('2', Date.now())}>
-        <TestComponent tokenAddress={'0x000'} />
+        <TestComponent tokenId={'0x000'} />
       </Provider>
     )
 
@@ -209,7 +199,7 @@ describe('token to fiat exchanges', () => {
   it('shows prices are stale', async () => {
     const { getByTestId } = render(
       <Provider store={store('2', Date.now() - 100000000)}>
-        <TestComponent tokenAddress={tokenAddressWithPriceAndBalance} />
+        <TestComponent tokenId={tokenIdWithPriceAndBalance} />
       </Provider>
     )
 

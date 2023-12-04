@@ -483,6 +483,22 @@ describe('sendPayment', () => {
           ],
         })
       )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockEthTokenId,
+              },
+            },
+          ],
+        })
+      )
       .returns(mockTxReceipt)
       .run()
 
@@ -574,6 +590,22 @@ describe('sendPayment', () => {
           },
           transactionHash: mockTxHash,
           feeCurrencyId: mockEthTokenId,
+        })
+      )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockEthTokenId,
+              },
+            },
+          ],
         })
       )
       .put(

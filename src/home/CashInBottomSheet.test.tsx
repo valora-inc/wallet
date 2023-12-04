@@ -4,10 +4,13 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
+
+jest.mock('src/navigator/NavigationService', () => ({
+  navigateToFiatCurrencySelection: jest.fn(),
+}))
 
 const mockRampProvider = {
   name: 'Ramp',
@@ -69,9 +72,7 @@ describe('CashInBottomSheet', () => {
     await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
 
     fireEvent.press(getByTestId('cashInBtn'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    expect(navigateToFiatCurrencySelection).toHaveBeenCalledWith(FiatExchangeFlow.CashIn)
   })
 
   it.each`

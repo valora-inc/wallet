@@ -68,6 +68,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.account_liquidated]: ``,
   [AppEvents.in_app_review_impression]: `User sees an in-app review request`,
   [AppEvents.in_app_review_error]: `Error while attempting to display in-app review`,
+  [AppEvents.multichain_beta_opt_in]: `When the user taps the Try it Now button on the multichain beta screen`,
+  [AppEvents.multichain_beta_opt_out]: `When the user taps the No Thanks button on the multichain beta screen`,
+  [AppEvents.multichain_beta_contact_support]: `When the user taps the Contact Support button on the multichain beta screen`,
   [HomeEvents.home_send]: `when "send" button is pressed from home screen send or request bar (NOT from home screen actions)`,
   [HomeEvents.home_request]: ``,
   [HomeEvents.home_qr]: ``,
@@ -298,6 +301,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_contacts_modal_dismiss]: `When the dismiss action or background is pressed in the modal shown when the user clicks sync contacts but hasn't granted contacts permission yet`,
   [SendEvents.request_contacts_permission_started]: `When contacts permission is requested (for iOS this and the below fires only when the permission is requestable, for Android these fire when the permission is requstable or in a do not ask again state)`,
   [SendEvents.request_contacts_permission_completed]: `When the request to contact permission completes, includes a property on the permission status`,
+  [SendEvents.send_select_recipient_send_press]: `When the send button is pressed after selecting a recipient`,
+  [SendEvents.send_select_recipient_invite_press]: `When the invite button is pressed after selecting a recipient`,
+  [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,

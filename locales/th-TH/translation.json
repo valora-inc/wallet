@@ -558,12 +558,12 @@
     "ที่ยี่สิบเก้า",
     "ที่สามสิบ"
   ],
-  "addressValidationError": "ข้อมูลบัญชีที่ป้อนไม่ถูกต้อง",
-  "addressValidationNoMatch": "ข้อมูลบัญชีที่ป้อนไม่ตรงกับข้อมูลบัญชีที่เกี่ยวข้องกับผู้ติดต่อของคุณ",
-  "addressValidationFullPoorlyFormatted": "ที่อยู่บัญชีเริ่มต้นด้วย \"0x\" ประกอบด้วยตัวเลขและตัวอักษรเท่านั้น และมีความยาวอักขระ 42 ตัว กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
-  "addressValidationPartialPoorlyFormatted": "ที่อยู่บัญชีประกอบด้วยตัวเลขและตัวอักษรเท่านั้น โปรดป้อน 4 ตัวสุดท้าย กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
-  "addressValidationFullOwnAddress": "โปรดป้อนที่อยู่บัญชีของผู้ติดต่อของคุณ ไม่ใช่ที่อยู่บัญชีของคุณเอง กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
-  "addressValidationPartialOwnAddress": "โปรดป้อนที่อยู่บัญชี 4 ตัวสุดท้ายของผู้ติดต่อของคุณ ไม่ใช่ที่อยู่บัญชีของคุณเอง กดลิงก์ด้านล่างเพื่อขอความช่วยเหลือ",
+  "addressValidationError": "Incorrect wallet address",
+  "addressValidationNoMatch": "Incorrect wallet address",
+  "addressValidationFullPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationPartialPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
+  "addressValidationFullOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
+  "addressValidationPartialOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
   "providerRateFetchFailed": "ไม่สามารถเรียกดูอัตราของผู้ให้บริการได้ คุณสามารถดำเนินการต่อโดยไม่มีอัตราที่กรอกไว้ล่วงหน้า",
   "helpFindAccount": "ช่วยผู้ติดต่อของคุณค้นหาที่อยู่บัญชีของตนเอง",
   "close": "ปิด",
@@ -999,32 +999,31 @@
     "importing": "กำลังนำเข้า..."
   },
   "confirmAccount": {
-    "header": "โปรดยืนยันบัญชีของ {{displayName}}",
-    "headerNoDisplayName": "โปรดยืนยันบัญชีของผู้ติดต่อของคุณ",
-    "button": "ยืนยันที่อยู่บัญชี"
+    "header": "{{displayName}} has multiple wallets.",
+    "headerNoDisplayName": "This phone number has multiple wallets.",
+    "button": "Confirm Wallet Address"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} เกี่ยวข้องกับหลายบัญชี {{displayName}} อาจสร้างบัญชี {{appName}} ใหม่หรืออาจทำโทรศัพท์หาย หรือบัญชีอาจเสียหาย",
-    "body1NoDisplayName": "ผู้ติดต่อของคุณเกี่ยวข้องกับหลายบัญชี ผู้ติดต่อของคุณอาจสร้างบัญชี {{appName}} ใหม่หรืออาจทำโทรศัพท์หาย หรือบัญชีอาจเสียหาย",
+    "body1": "There are multiple wallets associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their wallet address.",
     "body2": "คุณต้องสแกน QR Code หรือยืนยันที่อยู่บัญชีก่อนทำธุรกรรม"
   },
   "confirmAccountNumber": {
-    "title": "ยืนยันที่อยู่บัญชี",
-    "bodyPartial": "โปรดขอตัวเลขสี่หลักสุดท้ายของที่อยู่บัญชีจาก {{displayName}} เพื่อความปลอดภัย ควรสอบถามโดยตรงหรือทางโทรศัพท์",
-    "bodyPartialNoDisplayName": "โปรดขอตัวเลขสี่หลักสุดท้ายของที่อยู่บัญชีจากผู้ติดต่อของคุณ เพื่อความปลอดภัย ควรสอบถามโดยตรงหรือทางโทรศัพท์",
-    "body1Full": "โปรดขอที่อยู่บัญชีจาก {{displayName}}",
-    "body1FullNoDisplayName": "โปรดขอที่อยู่บัญชีจากผู้ติดต่อของคุณ",
-    "body2Full": "เราขอแนะนำอย่างยิ่งให้คุณสอบถามโดยตรงหรือทางโทรศัพท์ ผ่าน WhatsApp หรือ Messenger หรือทางอีเมล เพื่อความปลอดภัย โปรดอย่าใช้การส่งข้อความ (SMS)",
-    "help": "ช่วยค้นหาที่อยู่บัญชี",
+    "title": "Confirm Wallet Address",
+    "bodyPartial": "Please ask {{displayName}} for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
+    "body1Full": "Please ask {{displayName}} for their Wallet Address.",
+    "body1FullNoDisplayName": "Please ask your contact for their Wallet Address.",
+    "body2Full": "The safest way to do this is in person. For security, please do not use text messaging (SMS).",
+    "help": "Where can I find a Wallet Address?",
     "submit": "ส่ง"
   },
   "accountInputHeaderPartial": "4 ตัวสุดท้าย",
   "accountInputHeaderFull": "ที่อยู่บัญชี",
   "helpModal": {
-    "header": "การค้นหาที่อยู่บัญชี",
-    "body1": "สามารถดูที่อยู่บัญชี (หรือที่เรียกว่าที่อยู่) ในเมนู จากหน้าหลัก ให้เปิดเมนูโดยแตะไอคอนที่มุมซ้ายบน",
-    "body2": "ที่อยู่บัญชีจะอยู่ใกล้กับด้านล่างของเมนู",
-    "body3": "ที่อยู่บัญชีจะเริ่มต้นด้วย \"0x\" และมีความยาวอักขระ 42 ตัว"
+    "header": "Locating a wallet address",
+    "body1": "Your wallet address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
+    "body2": "Your wallet address is near the bottom of the menu.",
+    "body3": "Wallet addresses begin with \"0x\" and are 42 characters long"
   },
   "transferAddressChanged": "ผู้ติดต่อรายนี้ได้เปลี่ยนแปลงที่อยู่บัญชีนับตั้งแต่ทำธุรกรรมดังกล่าว การชำระเงินนี้ถูกส่งไปยัง:",
   "addressConfirmed": "ยืนยันที่อยู่บัญชีแล้ว",
@@ -1657,7 +1656,7 @@
   "swapScreen": {
     "title": "สว็อป",
     "review": "ตรวจสอบ",
-    "confirmSwap": "Confirm Swap",
+    "confirmSwap": "ยืนยันสว็อป",
     "swapFrom": "จาก",
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
@@ -1875,27 +1874,29 @@
     }
   },
   "tokenImport": {
-    "title": "Import Token",
-    "notification": "Anyone can create a token, including fake versions of existing tokens. Verify your token address is correct before you import.",
+    "title": "นำเข้าโทเค็น",
+    "notification": "ใครก็สร้างโทเค็นได้ รวมถึงโทเค็นที่มีอยู่ในเวอร์ชันปลอมด้วย ตรวจสอบที่อยู่โทเค็นของคุณให้ถูกต้องก่อนนำเข้า",
     "input": {
-      "tokenAddress": "Token Address",
+      "tokenAddress": "ที่อยู่โทเค็น",
       "tokenAddressPlaceholder": "0x…",
-      "tokenSymbol": "Token Symbol",
+      "tokenSymbol": "สัญลักษณ์โทเค็น",
       "network": "เครือข่าย"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
-      "alreadyImported": "Token was added already before.",
-      "alreadySupported": "Token is already supported."
+      "invalidToken": "โทเค็นไม่ถูกต้อง โปรดลองใหม่อีกครั้งหรือติดต่อฝ่ายบริการลูกค้า",
+      "alreadyImported": "มีการเติมโทเค็นไปก่อนหน้านี้แล้ว",
+      "alreadySupported": "รองรับโทเค็นเรียบร้อยแล้ว"
     },
-    "importSuccess": "Successfully imported {{tokenSymbol}} token",
-    "importButton": "Import"
+    "importSuccess": "นำเข้าโทเค็น {{tokenSymbol}} สำเร็จ",
+    "importButton": "นำเข้า"
   },
   "sendSelectRecipient": {
     "searchText": "ค้นหาด้วยชื่อ โทรศัพท์ กระเป๋าเงิน...",
+    "paste": "Paste from clipboard",
     "title": "เลือกผู้รับ",
     "contactsTitle": "เลือกผู้ติดต่อ",
     "recents": "ล่าสุด",
+    "results": "Results",
     "qr": {
       "title": "สแกนหรือแสดง QR Code",
       "subtitle": "ค้นหาที่อยู่ได้รวดเร็วบน Valora"
@@ -1910,7 +1911,7 @@
       "options": {
         "one": {
           "title": "ที่อยู่กระเป๋าเงิน",
-          "subtitle": "ป้อนที่อยู่กระเป๋าเงินที่เข้ากันได้กับ Ethereum หรือ Celo (ตัวอย่าง 0x123...abcde)"
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "หมายเลขโทรศัพท์",
@@ -1927,12 +1928,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Enable contacts to continue",
-      "description": "Please go to settings to update your contacts and start sending to friends"
+      "title": "เปิดใช้งานผู้ติดต่อเพื่อดำเนินการต่อ",
+      "description": "โปรดไปที่การตั้งค่าเพื่ออัปเดตผู้ติดต่อของคุณและเริ่มส่งให้เพื่อน"
     },
     "connectPhoneNumberModal": {
       "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
-      "description": "You need to connect your phone number so you can start sending crypto to your friends"
+      "description": "คุณจำเป็นต้องเชื่อมหมายเลขโทรศัพท์ของคุณจึงจะสามารถส่งคริปโตให้เพื่อนได้"
     }
   },
   "transactionStatus": {
@@ -1961,6 +1962,23 @@
       "title": "คุณต้องใช้อีก {{feeTokenSymbol}} สำหรับค่าก๊าซ",
       "description": "เพิ่ม {{feeTokenSymbol}} เพื่อให้เพียงพอสำหรับค่าก๊าซหรือปรับจำนวนเงินที่คุณจะส่ง"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Approval",
+    "estimatedNetworkFee": "Estimated network fee",
+    "networkFee": "Network fee",
+    "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
+    "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
+    "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
+    "descriptionLabel": "รายละเอียด"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "New! Ethereum is on Valora",
+    "description1": "We’re opening up this feature to a select group of people first. You’re one of the lucky ones!",
+    "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
+    "primaryCta": "Try it now",
+    "secondaryCta": "No thanks"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

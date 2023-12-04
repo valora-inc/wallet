@@ -9,22 +9,17 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import Touchable from 'src/components/Touchable'
-import {
-  fetchProviders,
-  FiatExchangeFlow,
-  resolveCloudFunctionDigitalAsset,
-} from 'src/fiatExchanges/utils'
+import { fetchProviders, FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import Times from 'src/icons/Times'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -55,15 +50,14 @@ function CashInBottomSheet() {
         return
       }
       // Use cEUR if that is their local currency, otherwise default to cUSD
-      const currencyToBuy =
-        localCurrency === LocalCurrencyCode.EUR ? CiCoCurrency.cEUR : CiCoCurrency.cUSD
+      const currencyToBuy = localCurrency === LocalCurrencyCode.EUR ? 'CEUR' : 'CUSD'
 
       try {
         const providers = await fetchProviders({
           userLocation,
           walletAddress: account,
           fiatCurrency: localCurrency,
-          digitalAsset: resolveCloudFunctionDigitalAsset(currencyToBuy),
+          digitalAsset: currencyToBuy,
           fiatAmount: 20,
           digitalAssetAmount: 20,
           txType: 'buy',
@@ -110,9 +104,7 @@ function CashInBottomSheet() {
   const goToAddFunds = () => {
     onDismissBottomSheet()
 
-    navigate(Screens.FiatExchangeCurrency, {
-      flow: FiatExchangeFlow.CashIn,
-    })
+    navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_bottom_sheet_selected, {
       rampAvailable,
     })

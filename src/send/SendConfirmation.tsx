@@ -156,10 +156,19 @@ function SendConfirmation(props: Props) {
     }
   }, [isDekRegistered, newSendScreen])
 
+  // old flow fees
   const securityFeeInUsd = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
   const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
   const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
-  const totalFeeInUsd = securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
+
+  // new flow fee
+  const feeTokenInfo = useTokenInfo(feeTokenId)
+  const feeInUsd =
+    feeAmount && feeTokenInfo?.priceUsd
+      ? new BigNumber(feeAmount).times(feeTokenInfo.priceUsd)
+      : undefined
+
+  const totalFeeInUsd = newSendScreen ? feeInUsd : securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
 
   const FeeContainer = () => {
     return (

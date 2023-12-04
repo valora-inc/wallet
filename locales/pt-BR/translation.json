@@ -558,12 +558,12 @@
     "vigésimo nono",
     "trigésimo"
   ],
-  "addressValidationError": "As informações da conta inseridas não eram válidas",
-  "addressValidationNoMatch": "As informações da conta inseridas não correspondem a nenhuma conta associada ao seu contato",
-  "addressValidationFullPoorlyFormatted": "Os Endereços da Conta começam com \"0x\", contém apenas números e letras e tem 42 caracteres. Pressione o link abaixo para ajuda.",
-  "addressValidationPartialPoorlyFormatted": "Os Endereços de Conta contém apenas números e letras, por favor forneça os últimos 4 dígitos. Pressione o link abaixo para obter ajuda.",
-  "addressValidationFullOwnAddress": "Digite o Endereço de Conta de contato, não o seu. Pressione o link abaixo para obter ajuda.",
-  "addressValidationPartialOwnAddress": "Digite os 4 últimos dígitos do Endereço de Conta do contato, não o seu. Pressione o link abaixo para obter ajuda.",
+  "addressValidationError": "Endereço incorreto da carteira",
+  "addressValidationNoMatch": "Endereço incorreto da carteira",
+  "addressValidationFullPoorlyFormatted": "Os endereços de carteira começam com \"0x\" e têm 42 caracteres",
+  "addressValidationPartialPoorlyFormatted": "Os endereços de carteira começam com \"0x\" e têm 42 caracteres",
+  "addressValidationFullOwnAddress": "Este é o endereço da sua carteira, digite o endereço da carteira do seu contato.",
+  "addressValidationPartialOwnAddress": "Este é o endereço da sua carteira, digite o endereço da carteira do seu contato.",
   "providerRateFetchFailed": "Não foi possível buscar a taxa do fornecedor. Você pode continuar sem uma taxa pré-preenchida.",
   "helpFindAccount": "Ajude o seu contato a encontrar o Endereço de Conta",
   "close": "Fechar",
@@ -638,15 +638,15 @@
     "body": "Conecte-se e compartilhe valor com seus amigos e familiares na {{appName}}.",
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
-    "share": "Ei, inscreva-se na carteira {{appName}} . Eu a uso para aumentar minhas economias em dólares americanos e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Não se esqueça de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
+    "share": "Oi! Inscreva-se na carteira {{appName}}. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
     "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de indicação, conectar o número de celular e manter 5 cUSD ou mais em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "POR TEMPO LIMITADO. Você pode ganhar cUSD grátis ao convidar amigos para o Valora!",
-      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para {{appName}}. Quando ele adicionar fundos e mantiver 5 cUSD por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
+      "title": "POR TEMPO LIMITADO. Você pode ganhar cUSD grátis ao convidar amigos para a Valora!",
+      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para a {{appName}}. Quando seu amigo adicionar fundos e mantiver 5 cUSD por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -962,7 +962,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Neste momento, nós dois podemos receber uma recompensa gratuita de 0,50 cUSD se você se inscrever e depositar fundos na sua carteira Valora. Eu a uso para aumentar minhas economias em dólares e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Certifique-se de que você se inscreva com meu link de indicação aqui: \n\n{{link}} \n\nMas corra, pois a promoção de indicação termina em breve.",
+  "inviteWithRewardsCUSD": "Oi! Nós dois podemos receber uma recompensa gratuita de 0,50 cUSD se você se inscrever e depositar fundos na sua carteira Valora. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: \n\n{{link}} \n\nMas corra, pois a promoção de indicação termina em breve.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1001,32 +1001,31 @@
     "importing": "Importando..."
   },
   "confirmAccount": {
-    "header": "Confirme a conta de {{displayName}} ",
-    "headerNoDisplayName": "Confirme a conta do seu contato",
-    "button": "Confirmar o Endereço de Conta"
+    "header": "{{displayName}} tem várias carteiras.",
+    "headerNoDisplayName": "Esse número de telefone tem várias carteiras.",
+    "button": "Confirmar endereço da carteira"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}} tem várias contas associadas a ele. {{displayName}} pode ter criado uma nova conta na {{appName}}, pode ter perdido seu celular ou teve a conta comprometida.",
-    "body1NoDisplayName": "Seu contato possui várias contas associadas a ele. Seu contato pode ter criado uma nova conta na {{appName}}, pode ter perdido o celular ou teve a conta comprometida.",
+    "body1": "Há várias carteiras associadas a {{e164PhoneNumber}}. Para confirmar que você tem a conta certa, leia o código QR ou digite o endereço da carteira.",
     "body2": "Você deve digitalizar o código QR deles ou confirmar seu Endereço de Conta antes de transar."
   },
   "confirmAccountNumber": {
-    "title": "Confirmar o Endereço de Conta",
-    "bodyPartial": "Por favor, peça para {{displayName}} os quatro últimos dígitos do Endereço de Conta. É mais seguro fazer isso em pessoa ou no telefone.",
-    "bodyPartialNoDisplayName": "Por favor, pergunte ao seu contato para os quatro últimos dígitos do Endereço de Conta. É mais seguro fazer isso em pessoa ou por telefone.",
-    "body1Full": "Peça o Endereço de Conta de {{displayName}}.",
-    "body1FullNoDisplayName": "Peça ao seu contato o Endereço de Conta.",
-    "body2Full": "Recomendamos que você pergunte pessoalmente, por telefone, WhatsApp, Messenger ou e-mail. Por segurança, não use mensagens de texto (SMS).",
-    "help": "Ajuda a localizar um Endereço de Conta",
+    "title": "Confirmar endereço da carteira",
+    "bodyPartial": "Solicite a {{displayName}} os quatro últimos dígitos do endereço de sua carteira. É mais seguro fazer isso pessoalmente ou por telefone.",
+    "bodyPartialNoDisplayName": "Peça ao seu contato os quatro últimos dígitos do endereço da carteira. É mais seguro fazer isso pessoalmente ou por telefone.",
+    "body1Full": "Solicite a {{displayName}} o endereço da carteira.",
+    "body1FullNoDisplayName": "Peça ao seu contato o endereço da carteira.",
+    "body2Full": "A maneira mais segura de fazer isso é pessoalmente. Por segurança, não use mensagens de texto (SMS).",
+    "help": "Onde posso encontrar um endereço de carteira?",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Últimos 4 dígitos",
   "accountInputHeaderFull": "Endereço de Conta",
   "helpModal": {
-    "header": "Ajuda para localizar o Endereço de Conta",
-    "body1": "Os Endereço de Conta estão localizados no menu. Na Tela inicial, abra o menu ao tocar no ícone no canto superior esquerdo.",
-    "body2": "O Endereço de Conta está perto do final do menu.",
-    "body3": "O Endereço de Conta começa com \"0x\" e tem 42 caracteres."
+    "header": "Localizando um endereço de carteira",
+    "body1": "O endereço de sua carteira está localizado no menu. Para abrir o menu, toque no ícone do menu no canto superior esquerdo.",
+    "body2": "O endereço da sua carteira está próximo à parte inferior do menu.",
+    "body3": "Os endereços de carteira começam com \"0x\" e têm 42 caracteres"
   },
   "transferAddressChanged": "Este contato mudou o Endereço de Conta desde a transação. Este pagamento foi enviado para:",
   "addressConfirmed": "Endereço de Conta confirmado",
@@ -1664,7 +1663,7 @@
     "swapTo": "PARA",
     "insufficientFunds": "Saldo de {{token}} insuficiente. Insira um valor menor ou escolha um ativo diferente.",
     "fetchSwapQuoteFailed": "Lamentamos o atraso! A obtenção da melhor taxa de câmbio está demorando mais do que o normal. Tente novamente mais tarde.",
-    "disclaimer": "A melhor tarifa é determinada pelos parceiros da rede. <0>Saiba mais</0>",
+    "disclaimer": "A melhor taxa é determinada pelos parceiros da rede. <0>Saiba mais</0>",
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
@@ -1877,7 +1876,7 @@
     }
   },
   "tokenImport": {
-    "title": "Token de importação",
+    "title": "Importar token",
     "notification": "Qualquer pessoa pode criar um token, inclusive versões falsas de tokens existentes. Verifique se o endereço do token está correto antes de você importar.",
     "input": {
       "tokenAddress": "Endereço do token",
@@ -1886,18 +1885,20 @@
       "network": "Rede"
     },
     "error": {
-      "invalidToken": "Token inválido. Tente novamente ou entre em contato com o suporte",
+      "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte",
       "alreadyImported": "O token já foi adicionado anteriormente.",
-      "alreadySupported": "O token já é compatível."
+      "alreadySupported": "O token já é suportado."
     },
-    "importSuccess": "Você importou com sucesso o token {{tokenSymbol}}",
-    "importButton": "Importação"
+    "importSuccess": "Token {{tokenSymbol}} importado com sucesso",
+    "importButton": "Importar"
   },
   "sendSelectRecipient": {
     "searchText": "Pesquise por nome, telefone, carteira...",
+    "paste": "Colar da área de transferência",
     "title": "Selecione um destinatário",
     "contactsTitle": "Selecione um contato",
     "recents": "Recentes",
+    "results": "Resultados",
     "qr": {
       "title": "Escanear ou mostrar o código QR",
       "subtitle": "Encontre endereços rapidamente na Valora"
@@ -1911,8 +1912,8 @@
       "subtitle": "COMEÇAR",
       "options": {
         "one": {
-          "title": "Endereço da conta",
-          "subtitle": "Digite um endereço de carteira compatível com Celo ou Ethereum (por exemplo, 0x123...abcde)"
+          "title": "Endereço da carteira",
+          "subtitle": "Digite um endereço de carteira compatível com a rede (ex.: 0x123...abcde)"
         },
         "two": {
           "title": "Número de celular",
@@ -1929,12 +1930,12 @@
       }
     },
     "enableContactsModal": {
-      "title": "Permitir que os contatos continuem",
-      "description": "Vá para as configurações para atualizar seus contatos e começar a enviar para amigos"
+      "title": "Habilite os contatos para continuar",
+      "description": "Acesse as configurações para atualizar seus contatos e começar a enviar aos amigos"
     },
     "connectPhoneNumberModal": {
       "title": "Conecte seu número de celular",
-      "description": "Você precisa conectar seu número de telefone para poder começar a enviar criptografia para seus amigos"
+      "description": "Você precisa conectar seu número de celular para poder começar a enviar cripto para seus amigos"
     }
   },
   "transactionStatus": {
@@ -1963,6 +1964,23 @@
       "title": "Você precisa de mais {{feeTokenSymbol}} para o Gas",
       "description": "Adicione {{feeTokenSymbol}} para cobrir suas taxas de Gas ou ajuste a quantia que você está enviando"
     }
+  },
+  "transactionFeed": {
+    "approvalTransactionTitle": "Aprovação",
+    "estimatedNetworkFee": "Taxa de rede estimada",
+    "networkFee": "Taxa de rede",
+    "finiteApprovalDescription": "Aprovado {{approvedAmount}} {{tokenSymbol}} para comércio",
+    "infiniteApprovalDescription": "Aprovado {{tokenSymbol}} para comércio",
+    "revokeApprovalDescription": "Revogado {{tokenSymbol}} para comércio",
+    "descriptionLabel": "Detalhes"
+  },
+  "multichainBeta": {
+    "beta": "BETA",
+    "title": "Novo! Ethereum está em Valora",
+    "description1": "Primeiro, estamos abrindo esse recurso para um grupo seleto de pessoas. Você é um dos sortudos!",
+    "description2": "Isso ainda é novo, e nossa equipe ainda está trabalhando duro para aperfeiçoar as coisas. Gostaríamos muito de ouvir o feedback de vocês.",
+    "primaryCta": "Experimente agora",
+    "secondaryCta": "Não, obrigado"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

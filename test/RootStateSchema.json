@@ -1636,6 +1636,14 @@
             ],
             "type": "object"
         },
+        "MultichainBetaStatus": {
+            "enum": [
+                "NotSeen",
+                "OptedIn",
+                "OptedOut"
+            ],
+            "type": "string"
+        },
         "NetworkId": {
             "enum": [
                 "celo-alfajores",
@@ -2486,6 +2494,7 @@
                 "FiatDetailsScreen",
                 "FiatExchangeAmount",
                 "FiatExchangeCurrency",
+                "FiatExchangeCurrencyBottomSheet",
                 "GoldEducation",
                 "ImportWallet",
                 "Invite",
@@ -2501,6 +2510,7 @@
                 "Licenses",
                 "Main",
                 "MainModal",
+                "MultichainBeta",
                 "NameAndPicture",
                 "NftGallery",
                 "NftsInfoCarousel",
@@ -2961,6 +2971,9 @@
                         "string"
                     ]
                 },
+                "multichainBetaStatus": {
+                    "$ref": "#/definitions/MultichainBetaStatus"
+                },
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
@@ -3071,6 +3084,7 @@
                 "loggedIn",
                 "maxSwapSlippagePercentage",
                 "minVersion",
+                "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",
                 "phoneNumberVerified",
