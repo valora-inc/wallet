@@ -12,14 +12,15 @@ export default function InviteRewardsCard() {
   const { t } = useTranslation()
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
 
-  // Default to NFT invite rewards banner
-  let title = t('inviteRewardsBanner.title')
-  let bodyKey = 'inviteRewardsBanner.body'
-
-  if (inviteRewardsType === InviteRewardsType.CUSD) {
-    title = t('inviteRewardsBannerCUSD.title')
-    bodyKey = 'inviteRewardsBannerCUSD.body'
+  const inviteRewardsToTranslationPrefix: Record<InviteRewardsType, string> = {
+    [InviteRewardsType.CUSD]: 'inviteRewardsBannerCUSD',
+    [InviteRewardsType.NFT]: 'inviteRewardsBanner',
+    [InviteRewardsType.NONE]: 'inviteRewardsBanner',
   }
+
+  const inviteRewardsTranslationPrefix = inviteRewardsToTranslationPrefix[inviteRewardsType]
+  const title = t(`${inviteRewardsTranslationPrefix}.title`)
+  const bodyKey = `${inviteRewardsTranslationPrefix}.body`
 
   return (
     <View testID="InviteRewardsCardContainer" style={styles.container}>
