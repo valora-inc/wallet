@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import erc20 from 'src/abis/IERC20'
 import { showMessage } from 'src/alert/actions'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -26,8 +27,9 @@ import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
-import networkConfig from 'src/web3/networkConfig'
-import { isAddress, isHex } from 'viem'
+import { publicClient } from 'src/viem'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { Address, getContract, isAddress, isHex } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
@@ -36,7 +38,10 @@ enum AddressState {
   Invalid,
   AlreadySupported,
   AlreadyImported,
-  Valid,
+  FetchingContract,
+  LikelyERC20,
+  NotERC20,
+  NetworkIssue,
 }
 
 export default function TokenImportScreen(_: Props) {
@@ -63,11 +68,39 @@ export default function TokenImportScreen(_: Props) {
       if (supportedTokens[tokenId]) {
         setAddressState(AddressState.AlreadySupported)
       } else {
-        setAddressState(AddressState.Valid)
+        validateCheck(address)
       }
     } else {
       setAddressState(AddressState.Invalid)
     }
+  }
+
+  const validateCheck = async (address: Address) => {
+    setAddressState(AddressState.FetchingContract)
+
+    const contract = getContract({
+      abi: erc20.abi,
+      address,
+      publicClient: publicClient[networkIdToNetwork[networkId]],
+    })
+
+    const state = await Promise.race<AddressState>([
+      new Promise((resolve) => {
+        Promise.all([
+          contract.read.symbol(),
+          contract.read.decimals(),
+          contract.read.name(),
+          contract.read.totalSupply(),
+        ])
+          .then(([symbol, decimals, name, totalSupply]) => {
+            setTokenSymbol(symbol)
+            resolve(AddressState.LikelyERC20)
+          })
+          .catch(() => resolve(AddressState.NotERC20))
+      }),
+      new Promise((resolve) => setTimeout(() => resolve(AddressState.NetworkIssue), 5000)),
+    ])
+    setAddressState(state)
   }
 
   const handleEnteredAddress = (address: string) => {
@@ -97,11 +130,12 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const renderErrorMessage = (): ReactElement<Text> => {
-    // TODO RET-892: add more error messages
     const errors: { [key in AddressState]?: string | null } = {
       [AddressState.AlreadySupported]: t('tokenImport.error.alreadySupported'),
       [AddressState.AlreadyImported]: t('tokenImport.error.alreadyImported'),
       [AddressState.Invalid]: t('tokenImport.error.invalidToken'),
+      [AddressState.NotERC20]: t('tokenImport.error.notErc20Token'),
+      [AddressState.NetworkIssue]: t('tokenImport.error.timeout'),
     }
 
     const error = errors[addressState]
@@ -140,10 +174,9 @@ export default function TokenImportScreen(_: Props) {
             label={t('tokenImport.input.tokenSymbol')}
             value={tokenSymbol}
             onChangeText={setTokenSymbol}
-            editable={addressState === AddressState.Valid}
-            // TODO RET-892: once loaded, hide the spinner
+            editable={addressState === AddressState.LikelyERC20}
             rightElement={
-              addressState === AddressState.Valid && <GreenLoadingSpinner height={32} />
+              addressState === AddressState.FetchingContract && <GreenLoadingSpinner height={32} />
             }
             errorElement={renderErrorMessage()}
             testID={'tokenSymbol'}
@@ -162,7 +195,7 @@ export default function TokenImportScreen(_: Props) {
         size={BtnSizes.FULL}
         text={t('tokenImport.importButton')}
         showLoading={false}
-        disabled={tokenSymbol.length == 0} // TODO RET-892: enable button if the contract was loaded
+        disabled={addressState !== AddressState.LikelyERC20 || tokenSymbol.length == 0}
         onPress={handleImportToken}
         style={styles.buttonContainer}
       />
