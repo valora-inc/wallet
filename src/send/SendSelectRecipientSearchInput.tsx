@@ -1,9 +1,10 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import TextInput from 'src/components/TextInput'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 interface SendSelectRecipientSearchInputProps {
   input: string
@@ -24,6 +25,8 @@ export function SendSelectRecipientSearchInput({
         style={styles.search}
         inputStyle={styles.input}
         placeholderTextColor={colors.gray4}
+        // Font scaling is causing issues on Android
+        allowFontScaling={Platform.OS === 'ios'}
       />
     </View>
   )
@@ -34,19 +37,19 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: colors.gray4,
     marginRight: 24,
-    paddingRight: 10,
     flex: 1,
+    paddingHorizontal: Spacing.Regular16,
     borderWidth: 1,
     borderColor: colors.gray2,
     borderRadius: 100,
   },
   search: {
-    paddingLeft: 20,
     borderColor: colors.gray2,
     borderRadius: 100,
   },
   input: {
     ...typeScale.bodySmall,
+    // Unset lineHeight to avoid font scaling issues
     lineHeight: undefined,
   },
 })
