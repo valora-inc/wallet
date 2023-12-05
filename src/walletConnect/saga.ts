@@ -28,10 +28,10 @@ import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import {
-  PreparedTransactionsResult,
-  prepareTransactions,
-  TransactionRequest,
-} from 'src/viem/prepareTransactions'
+  getSerializablePreparedTransactions,
+  SerializablePreparedTransactionsResult,
+} from 'src/viem/preparedTransactionSerialization'
+import { prepareTransactions, TransactionRequest } from 'src/viem/prepareTransactions'
 import {
   AcceptRequest,
   AcceptSession,
@@ -354,7 +354,7 @@ function normalizeTransaction(rawTx: any): TransactionRequest {
     delete tx.gasPrice
   }
 
-  // TODO: strip out the gas param unless both gas and feeCurrency are set for Celo
+  // TODO: strip out the "gas" param unless both "gas" and "feeCurrency" are set for Celo
   // TODO: check if we need to add the nonce
 
   return tx
@@ -391,7 +391,8 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
 
   const supportedChains = yield* call(getSupportedChains)
 
-  let preparedTransactionsResult: PreparedTransactionsResult | undefined = undefined
+  let serializablePreparedTransactionsResult: SerializablePreparedTransactionsResult | undefined =
+    undefined
   if (
     method === SupportedActions.eth_signTransaction ||
     method === SupportedActions.eth_sendTransaction
@@ -399,11 +400,21 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
     const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, [networkId]))
     const normalizedTx = yield* call(normalizeTransaction, request.params.request.params[0])
-    preparedTransactionsResult = yield* call(prepareTransactions, {
+    const preparedTransactionsResult = yield* call(prepareTransactions, {
       feeCurrencies,
       decreasedAmountGasFeeMultiplier: 1,
       baseTransactions: [normalizedTx],
     })
+
+    serializablePreparedTransactionsResult =
+      'transactions' in preparedTransactionsResult
+        ? {
+            ...preparedTransactionsResult,
+            transactions: getSerializablePreparedTransactions(
+              preparedTransactionsResult.transactions
+            ),
+          }
+        : preparedTransactionsResult
   }
 
   navigate(Screens.WalletConnectRequest, {
@@ -411,7 +422,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     pendingAction: request,
     supportedChains,
     version: 2,
-    preparedTransactionsResult,
+    serializablePreparedTransactionsResult,
   })
 }
 

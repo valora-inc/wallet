@@ -1,7 +1,7 @@
 import { JsonRpcTypes, SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { WalletConnectPairingOrigin } from 'src/analytics/types'
-import { TransactionRequest } from 'src/viem/prepareTransactions'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
 export enum Actions {
   /**
@@ -70,7 +70,7 @@ export interface ShowRequestDetails {
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST
   request: Web3WalletTypes.EventArguments['session_request']
-  preparedTransactions?: TransactionRequest[]
+  preparedTransactions?: SerializableTransactionRequest[]
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
@@ -173,7 +173,7 @@ export const showRequestDetails = (
 
 export const acceptRequest = (
   request: Web3WalletTypes.EventArguments['session_request'],
-  preparedTransactions?: TransactionRequest[]
+  preparedTransactions?: SerializableTransactionRequest[]
 ): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
   request,

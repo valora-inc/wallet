@@ -10,7 +10,10 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { Network, newTransactionContext } from 'src/transactions/types'
 import { ViemWallet } from 'src/viem/getLockableWallet'
-import { TransactionRequest } from 'src/viem/prepareTransactions'
+import {
+  SerializableTransactionRequest,
+  getPreparedTransaction,
+} from 'src/viem/preparedTransactionSerialization'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getViemWallet, getWallet, getWeb3 } from 'src/web3/contracts'
 import networkConfig, { walletConnectChainIdToNetwork } from 'src/web3/networkConfig'
@@ -27,7 +30,7 @@ export function* handleRequest(
     request: { method, params },
     chainId,
   }: Web3WalletTypes.EventArguments['session_request']['params'],
-  preparedTransactions?: TransactionRequest[]
+  serializableTransactionRequests?: SerializableTransactionRequest[]
 ) {
   const network = walletConnectChainIdToNetwork[chainId]
   const useViem = yield* call(
@@ -49,18 +52,24 @@ export function* handleRequest(
   if (useViem) {
     switch (method) {
       case SupportedActions.eth_signTransaction: {
-        if (!preparedTransactions || preparedTransactions.length === 0) {
+        if (!serializableTransactionRequests || serializableTransactionRequests.length === 0) {
           throw new Error('preparedTransaction is required when using viem')
         }
-        // @ts-ignore TODO: fix types
-        return (yield* call([wallet, 'signTransaction'], preparedTransactions[0])) as string
+        return (yield* call(
+          // @ts-ignore TODO: fix types
+          [wallet, 'signTransaction'],
+          getPreparedTransaction(serializableTransactionRequests[0])
+        )) as string
       }
       case SupportedActions.eth_sendTransaction: {
-        if (!preparedTransactions || preparedTransactions.length === 0) {
+        if (!serializableTransactionRequests || serializableTransactionRequests.length === 0) {
           throw new Error('preparedTransaction is required when using viem')
         }
-        // @ts-ignore TODO: fix types
-        return (yield* call([wallet, 'sendTransaction'], preparedTransactions[0])) as string
+        return (yield* call(
+          // @ts-ignore TODO: fix types
+          [wallet, 'sendTransaction'],
+          getPreparedTransaction(serializableTransactionRequests[0])
+        )) as string
       }
       case SupportedActions.eth_signTypedData_v4:
       case SupportedActions.eth_signTypedData:

@@ -9,7 +9,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
-import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import { SerializablePreparedTransactionsResult } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { SupportedActions, getDescriptionAndTitleFromAction } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
@@ -18,14 +18,18 @@ import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/Reque
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { sessionsSelector } from 'src/walletConnect/selectors'
 
-interface Props {
+export interface ActionRequestProps {
   version: 2
   pendingAction: Web3WalletTypes.EventArguments['session_request']
   supportedChains: string[]
-  preparedTransactionsResult?: PreparedTransactionsResult
+  serializablePreparedTransactionsResult?: SerializablePreparedTransactionsResult
 }
 
-function ActionRequest({ pendingAction, supportedChains, preparedTransactionsResult }: Props) {
+function ActionRequest({
+  pendingAction,
+  supportedChains,
+  serializablePreparedTransactionsResult,
+}: ActionRequestProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -84,7 +88,7 @@ function ActionRequest({ pendingAction, supportedChains, preparedTransactionsRes
     )
   }
 
-  if (useViem && preparedTransactionsResult?.type === 'not-enough-balance-for-gas') {
+  if (useViem && serializablePreparedTransactionsResult?.type === 'not-enough-balance-for-gas') {
     return (
       <RequestContent
         type="dismiss"
@@ -99,7 +103,7 @@ function ActionRequest({ pendingAction, supportedChains, preparedTransactionsRes
           severity={Severity.Warning}
           title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
           description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
-            feeCurrencies: preparedTransactionsResult.feeCurrencies
+            feeCurrencies: serializablePreparedTransactionsResult.feeCurrencies
               .map((feeCurrency) => feeCurrency.symbol)
               .join(', '),
           })}
@@ -116,8 +120,8 @@ function ActionRequest({ pendingAction, supportedChains, preparedTransactionsRes
         dispatch(
           acceptRequest(
             pendingAction,
-            preparedTransactionsResult?.type === 'possible'
-              ? preparedTransactionsResult.transactions
+            serializablePreparedTransactionsResult?.type === 'possible'
+              ? serializablePreparedTransactionsResult.transactions
               : undefined
           )
         )
