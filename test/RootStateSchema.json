@@ -4163,6 +4163,12 @@
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
+                "verifiedAddresses": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "walletToAccountAddress": {
                     "$ref": "#/definitions/WalletToAccountAddressType"
                 }
@@ -4177,6 +4183,7 @@
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "secureSendPhoneNumberMapping",
+                "verifiedAddresses",
                 "walletToAccountAddress"
             ],
             "type": "object"

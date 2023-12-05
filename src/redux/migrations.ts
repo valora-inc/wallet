@@ -1441,4 +1441,11 @@ export const migrations = {
       multichainBetaStatus: MultichainBetaStatus.NotSeen,
     },
   }),
+  172: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      verifiedAddresses: [],
+    },
+  }),
 }

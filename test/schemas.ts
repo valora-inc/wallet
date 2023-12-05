@@ -2840,6 +2840,18 @@ export const v171Schema = {
   },
 }
 
+export const v172Schema = {
+  ...v171Schema,
+  _persist: {
+    ...v171Schema._persist,
+    version: 172,
+  },
+  identity: {
+    ...v171Schema.identity,
+    verifiedAddresses: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v171Schema as Partial<RootState>
+  return v172Schema as Partial<RootState>
 }
