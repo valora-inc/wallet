@@ -1,15 +1,15 @@
+import Clipboard from '@react-native-clipboard/clipboard'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
+import { Provider } from 'react-redux'
+import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
-import { fireEvent, render } from '@testing-library/react-native'
-import { Provider } from 'react-redux'
-import { Screens } from 'src/navigator/Screens'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
-import { FiatExchangeEvents } from 'src/analytics/Events'
-import Clipboard from '@react-native-clipboard/clipboard'
+import { Screens } from 'src/navigator/Screens'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),

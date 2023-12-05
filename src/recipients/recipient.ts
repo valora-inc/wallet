@@ -255,7 +255,7 @@ function executeFuzzySearch(
   shouldSort?: boolean
 ): FuzzyRecipient[] {
   const parsedQuery = query.replace(/[()-\s/\\]/g, '')
-  if (parsedQuery === '' || parsedQuery.length < 2) {
+  if (parsedQuery === '') {
     // fuzzysort does not handle empty string query
     if (shouldSort) {
       return sortRecipients(recipients)
