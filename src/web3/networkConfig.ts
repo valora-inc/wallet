@@ -391,6 +391,13 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['ethereum-sepolia']]: 'eip155:11155111',
 }
 
+export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
+  'eip155:44787': NetworkId['celo-alfajores'],
+  'eip155:42220': NetworkId['celo-mainnet'],
+  'eip155:1': NetworkId['ethereum-mainnet'],
+  'eip155:11155111': NetworkId['ethereum-sepolia'],
+}
+
 export const walletConnectChainIdToNetwork: Record<string, Network> = {
   'eip155:44787': Network.Celo,
   'eip155:42220': Network.Celo,
