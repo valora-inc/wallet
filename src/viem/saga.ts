@@ -23,10 +23,9 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
-import { TransactionRequest } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getFeeCurrency } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
-  getFeeCurrency,
   getPreparedTransaction,
 } from 'src/viem/preparedTransactionSerialization'
 import { getViemWallet } from 'src/web3/contracts'
@@ -57,7 +56,7 @@ export function* sendPayment({
   tokenId,
   comment,
   feeInfo,
-  preparedTransaction: preparedTransaction,
+  preparedTransaction,
 }: {
   context: TransactionContext
   recipientAddress: string
@@ -101,7 +100,8 @@ export function* sendPayment({
     yield* call(unlockAccount, wallet.account.address)
   }
 
-  const feeCurrency: string | undefined = preparedTransaction && getFeeCurrency(preparedTransaction)
+  const feeCurrency: string | undefined =
+    preparedTransaction && getFeeCurrency(getPreparedTransaction(preparedTransaction))
   const feeCurrencyId = getTokenId(networkId, feeCurrency)
 
   const addPendingStandbyTransaction = function* (hash: string) {
@@ -142,7 +142,7 @@ export function* sendPayment({
         recipientAddress,
         comment,
         feeInfo,
-        preparedTransaction: preparedTransaction,
+        preparedTransaction,
       })
 
       const { request } = yield* call(simulateContractMethod)

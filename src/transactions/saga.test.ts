@@ -190,7 +190,7 @@ describe('watchPendingTransactions', () => {
       .run()
   })
 
-  it('updates the pending standby transaction when successful with fee details in Celo', async () => {
+  it('updates the pending standby transaction when successful with fee details in cUSD', async () => {
     const successReceipt = {
       status: 'success',
       blockNumber: BigInt(123),
@@ -232,7 +232,7 @@ describe('watchPendingTransactions', () => {
       .run()
   })
 
-  it('updates the pending standby transaction when successful with fee details in Ethereum', async () => {
+  it('updates the pending standby transaction when successful with fee details in Ether', async () => {
     const successReceipt = {
       status: 'success',
       blockNumber: BigInt(123),

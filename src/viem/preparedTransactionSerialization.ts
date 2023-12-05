@@ -1,7 +1,6 @@
 // Helper functions making prepared transactions serializable
 // so they can be used in redux actions (or even stores).
 import { TransactionRequest } from 'src/viem/prepareTransactions'
-import { Address } from 'viem'
 
 const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas'] as const
 
@@ -60,15 +59,4 @@ export function getPreparedTransactions(
   preparedTransactions: SerializableTransactionRequest[]
 ): TransactionRequest[] {
   return preparedTransactions.map(getPreparedTransaction)
-}
-
-// Should we merge this logic with the one that's in the prepareTransaction file?
-export function getFeeCurrency(
-  prepareTransaction: SerializableTransactionRequest
-): Address | undefined {
-  if ('feeCurrency' in prepareTransaction) {
-    return prepareTransaction.feeCurrency
-  }
-
-  return undefined
 }
