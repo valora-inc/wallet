@@ -100,18 +100,20 @@ export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): numb
     DynamicConfigs[StatsigDynamicConfigs.CICO_TOKEN_INFO]
   )
   if (
-    (!cicoTokenInfo.cicoOrder[token1.tokenId] && !cicoTokenInfo.cicoOrder[token2.tokenId]) ||
-    cicoTokenInfo.cicoOrder[token1.tokenId] === cicoTokenInfo.cicoOrder[token2.tokenId]
+    (!cicoTokenInfo[token1.tokenId]?.cicoOrder && !cicoTokenInfo[token2.tokenId]?.cicoOrder) ||
+    cicoTokenInfo[token1.tokenId]?.cicoOrder === cicoTokenInfo[token2.tokenId]?.cicoOrder
   ) {
     return sortFirstStableThenCeloThenOthersByUsdBalance(token1, token2)
   }
-  if (!cicoTokenInfo.cicoOrder[token1.tokenId]) {
+  if (!cicoTokenInfo[token1.tokenId]?.cicoOrder) {
     return 1
   }
-  if (!cicoTokenInfo.cicoOrder[token2.tokenId]) {
+  if (!cicoTokenInfo[token2.tokenId]?.cicoOrder) {
     return -1
   }
-  return cicoTokenInfo.cicoOrder[token1.tokenId] < cicoTokenInfo.cicoOrder[token2.tokenId] ? -1 : 1
+  return cicoTokenInfo[token1.tokenId]?.cicoOrder < cicoTokenInfo[token2.tokenId]?.cicoOrder
+    ? -1
+    : 1
 }
 
 export function usdBalance(token: TokenBalance): BigNumber {
