@@ -21,4 +21,5 @@ export interface ProviderSelectionAnalyticsData {
   lowestFeeCryptoAmount: number | undefined
   lowestFeeProvider: string | undefined
   lowestFeePaymentMethod: PaymentMethod | undefined
+  networkId: string | undefined
 }
