@@ -342,12 +342,12 @@ export type StackParamList = {
 export type QRTabParamList = {
   [Screens.QRCode]:
     | {
-        scanIsForSecureSend?: true
+        showSecureSendStyling?: true
       }
     | undefined
   [Screens.QRScanner]:
     | {
-        scanIsForSecureSend?: true
+        showSecureSendStyling?: true
         onQRCodeDetected?: (qrCode: QrCode) => void
       }
     | undefined

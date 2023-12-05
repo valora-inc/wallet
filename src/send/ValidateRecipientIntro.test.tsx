@@ -50,7 +50,7 @@ describe('ValidateRecipientIntro', () => {
       screen: Screens.QRScanner,
       params: {
         onQRCodeDetected: expect.any(Function),
-        scanIsForSecureSend: true,
+        showSecureSendStyling: true,
       },
     })
   })

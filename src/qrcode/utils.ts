@@ -28,6 +28,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import {
   HandleQRCodeDetectedAction,
   HandleQRCodeDetectedSecureSendAction,
+  QrCode,
   SVG,
 } from 'src/send/actions'
 import { handleSendPaymentData } from 'src/send/utils'
@@ -120,15 +121,27 @@ export function* handleSecureSend(
   return true
 }
 
+function* extractQRAddressData(qrCode: QrCode) {
+  // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)
+  if (/^0x[a-f0-9]{40}$/gi.test(qrCode.data)) {
+    qrCode.data = `celo://wallet/pay?address=${qrCode.data}`
+  }
+  let qrData: UriData | null
+  try {
+    qrData = uriDataFromUrl(qrCode.data)
+  } catch (e) {
+    yield* put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
+    Logger.error(TAG, 'qr scan failed', e)
+    qrData = null
+  }
+  return qrData
+}
+
 // Catch all handler for QR Codes
 // includes support for WalletConnect, hooks, and send flow (non-secure send)
 export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
   const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, qrCode.data)
 
-  // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)
-  if (/^0x[a-f0-9]{40}$/gi.test(qrCode.data)) {
-    qrCode.data = `celo://wallet/pay?address=${qrCode.data}`
-  }
   // TODO there's some duplication with deep links handing
   // would be nice to refactor this
   if (qrCode.data.startsWith('wc:') && walletConnectEnabled) {
@@ -144,12 +157,8 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
     return
   }
 
-  let qrData: UriData
-  try {
-    qrData = uriDataFromUrl(qrCode.data)
-  } catch (e) {
-    yield* put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
-    Logger.error(TAG, 'qr scan failed', e)
+  const qrData = yield* call(extractQRAddressData, qrCode)
+  if (!qrData) {
     return
   }
   const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
@@ -165,17 +174,8 @@ export function* handleQRCodeSecureSend({
 }: HandleQRCodeDetectedSecureSendAction) {
   const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
 
-  // Regex matches any 40 hexadecimal characters prefixed with "0x" (case insensitive)
-  if (/^0x[a-f0-9]{40}$/gi.test(qrCode.data)) {
-    qrCode.data = `celo://wallet/pay?address=${qrCode.data}`
-  }
-
-  let qrData: UriData
-  try {
-    qrData = uriDataFromUrl(qrCode.data)
-  } catch (e) {
-    yield* put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
-    Logger.error(TAG, 'qr scan failed', e)
+  const qrData = yield* call(extractQRAddressData, qrCode)
+  if (!qrData) {
     return
   }
 

@@ -40,7 +40,7 @@ const ValidateRecipientIntro = ({ route }: Props) => {
       screen: Screens.QRScanner,
       params: {
         onQRCodeDetected,
-        scanIsForSecureSend: true,
+        showSecureSendStyling: true,
       },
     })
 
