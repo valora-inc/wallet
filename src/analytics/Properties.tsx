@@ -459,6 +459,13 @@ interface IdentityEventsProperties {
     error: string
   }
   [IdentityEvents.phone_number_lookup_purchase_skip]: undefined
+
+  [IdentityEvents.address_lookup_start]: undefined
+  [IdentityEvents.address_lookup_skip]: undefined
+  [IdentityEvents.address_lookup_complete]: undefined
+  [IdentityEvents.address_lookup_error]: {
+    error: string
+  }
 }
 
 interface AuthenticationEventsProperties {

@@ -30,6 +30,8 @@ export enum Actions {
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
+  FETCH_ADDRESS_VERIFICATION = 'IDENTITY/FETCH_ADDRESS_VERIFICATION',
+  UPDATE_VERIFIED_ADDRESSES = 'IDENTITY/UPDATE_VERIFIED_ADDRESSES',
 }
 
 export interface SetHasSeenVerificationNux {
@@ -130,6 +132,16 @@ export interface UpdateAddressDekMapAction {
   dataEncryptionKey: string | null
 }
 
+export interface FetchAddressVerificationAction {
+  type: Actions.FETCH_ADDRESS_VERIFICATION
+  address: string
+}
+
+export interface UpdateVerifiedAddressesAction {
+  type: Actions.UPDATE_VERIFIED_ADDRESSES
+  address: string
+}
+
 export type ActionTypes =
   | SetHasSeenVerificationNux
   | UpdateE164PhoneNumberAddressesAction
@@ -148,6 +160,8 @@ export type ActionTypes =
   | EndFetchingAddressesAction
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
+  | FetchAddressVerificationAction
+  | UpdateVerifiedAddressesAction
 
 export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
   type: Actions.SET_SEEN_VERIFICATION_NUX,
@@ -161,6 +175,16 @@ export const fetchAddressesAndValidate = (
   type: Actions.FETCH_ADDRESSES_AND_VALIDATION_STATUS,
   e164Number,
   requesterAddress,
+})
+
+export const updateVerifiedAddresses = (address: string): UpdateVerifiedAddressesAction => ({
+  type: Actions.UPDATE_VERIFIED_ADDRESSES,
+  address,
+})
+
+export const fetchAddressVerification = (address: string): FetchAddressVerificationAction => ({
+  type: Actions.FETCH_ADDRESS_VERIFICATION,
+  address,
 })
 
 export const endFetchingAddresses = (

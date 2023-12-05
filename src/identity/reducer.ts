@@ -83,6 +83,8 @@ export interface State {
   importContactsProgress: ImportContactProgress
   // Contacts found during the matchmaking process
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
+  // List of addresses known to be associated with a Valora wallet
+  verifiedAddresses: string[]
 }
 
 const initialState: State = {
@@ -100,6 +102,7 @@ const initialState: State = {
     total: 0,
   },
   secureSendPhoneNumberMapping: {},
+  verifiedAddresses: [],
 }
 
 export const reducer = (
@@ -256,6 +259,11 @@ export const reducer = (
         e164NumberToAddress: state.e164NumberToAddress,
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
+      }
+    case Actions.UPDATE_VERIFIED_ADDRESSES:
+      return {
+        ...state,
+        verifiedAddresses: [...state.verifiedAddresses, action.address],
       }
     default:
       return state

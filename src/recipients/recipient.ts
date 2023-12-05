@@ -174,10 +174,13 @@ export function getRecipientFromAddress(
 
 export function getRecipientVerificationStatus(
   recipient: Recipient,
-  e164NumberToAddress: E164NumberToAddressType
+  e164NumberToAddress: E164NumberToAddressType,
+  verifiedAddresses: string[]
 ): RecipientVerificationStatus {
   if (recipientHasAddress(recipient)) {
-    return RecipientVerificationStatus.VERIFIED
+    return verifiedAddresses.includes(recipient.address)
+      ? RecipientVerificationStatus.VERIFIED
+      : RecipientVerificationStatus.UNVERIFIED
   }
 
   if (!recipientHasNumber(recipient)) {
