@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 16,
     marginBottom: 8,
-    backgroundColor: colors.greenBackground,
+    backgroundColor: colors.successLight,
   },
   textContainer: {
     flex: 1,
