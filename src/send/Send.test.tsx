@@ -55,6 +55,9 @@ const defaultStore = {
       },
     },
   },
+  identity: {
+    verifiedAddresses: [mockRecipient.address],
+  },
 }
 
 jest.mock('src/statsig', () => {
