@@ -184,7 +184,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
                 <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
-                <OpenLinkIcon color={colors.onboardingGreen} />
+                <OpenLinkIcon color={colors.successDark} />
               </View>
             </Touchable>
           </View>
@@ -224,7 +224,7 @@ const styles = StyleSheet.create({
   },
   explorerLink: {
     ...fontStyles.small500,
-    color: colors.onboardingGreen,
+    color: colors.successDark,
     paddingRight: Spacing.Smallest8,
   },
   explorerLinkContainer: {
