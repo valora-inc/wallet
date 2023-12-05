@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import erc20 from 'src/abis/IERC20'
 import { showMessage } from 'src/alert/actions'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -27,23 +28,33 @@ import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
-import networkConfig from 'src/web3/networkConfig'
-import { isAddress } from 'viem'
+import { publicClient } from 'src/viem'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { Address, getContract, isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
+
+enum ContractState {
+  WaitingForAddress,
+  FetchingContract,
+  LikelyERC20,
+  NotERC20,
+  NetworkIssue,
+}
 
 export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
   const [isCompleteAddress, setIsCompleteAddress] = useState(false)
+  const [contractState, setContractState] = useState(ContractState.WaitingForAddress)
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [networkId] = useState(networkConfig.defaultNetworkId)
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
 
-  const validateAddress = (address: string) => {
+  const validateAddress = async (address: string) => {
     if (!address) return
 
     if (isAddress(address)) {
@@ -54,9 +65,44 @@ export default function TokenImportScreen(_: Props) {
         setError(t('tokenImport.error.alreadySupported'))
       } else {
         setError(null)
+        await validateCheck(address)
       }
     } else {
       setError(t('tokenImport.error.invalidToken'))
+    }
+  }
+
+  const validateCheck = async (address: Address) => {
+    setContractState(ContractState.FetchingContract)
+
+    const contract = getContract({
+      abi: erc20.abi,
+      address,
+      publicClient: publicClient[networkIdToNetwork[networkId]],
+    })
+
+    const state = await Promise.race<ContractState>([
+      new Promise((resolve) => {
+        Promise.all([
+          contract.read.symbol(),
+          contract.read.decimals(),
+          contract.read.name(),
+          contract.read.totalSupply(),
+        ])
+          .then(([symbol, decimals, name, totalSupply]) => {
+            setTokenSymbol(symbol)
+            resolve(ContractState.LikelyERC20)
+          })
+          .catch(() => resolve(ContractState.NotERC20))
+      }),
+      new Promise((resolve) => setTimeout(() => resolve(ContractState.NetworkIssue), 5000)),
+    ])
+    // setAddressState(state)
+    setContractState(state)
+    if (state === ContractState.NotERC20) {
+      setError(t('tokenImport.error.notErc20Token'))
+    } else if (state === ContractState.NetworkIssue) {
+      setError(t('tokenImport.error.timeout'))
     }
   }
 
@@ -68,16 +114,16 @@ export default function TokenImportScreen(_: Props) {
   const ensure0xPrefixOrEmpty = (address: string) =>
     !address || address.startsWith('0x') ? address : `0x${address}`
 
-  const handleAddressBlur = () => {
+  const handleAddressBlur = async () => {
     const address = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(address)
-    validateAddress(address)
+    await validateAddress(address)
   }
 
-  const handlePaste = (address: string) => {
+  const handlePaste = async (address: string) => {
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
     setTokenAddress(addressWith0xPrefix)
-    validateAddress(addressWith0xPrefix)
+    await validateAddress(addressWith0xPrefix)
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
   }
 
@@ -128,7 +174,12 @@ export default function TokenImportScreen(_: Props) {
             onChangeText={setTokenSymbol}
             editable={false}
             // TODO RET-892: once loaded, hide the spinner
-            rightElement={isCompleteAddress && !error && <GreenLoadingSpinner height={32} />}
+            rightElement={
+              contractState === ContractState.FetchingContract && (
+                <GreenLoadingSpinner height={32} />
+              )
+              // isCompleteAddress && !error && <GreenLoadingSpinner height={32} />
+            }
             errorElement={error ? <Text style={styles.errorLabel}>{error}</Text> : <></>}
             testID={'tokenSymbol'}
           />
@@ -146,7 +197,7 @@ export default function TokenImportScreen(_: Props) {
         size={BtnSizes.FULL}
         text={t('tokenImport.importButton')}
         showLoading={false}
-        disabled={tokenSymbol.length == 0} // TODO RET-892: enable button if the contract was loaded
+        disabled={!isCompleteAddress || !!error || tokenSymbol.length == 0}
         onPress={handleImportToken}
         style={styles.buttonContainer}
       />

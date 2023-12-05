@@ -1894,7 +1894,9 @@
     "error": {
       "invalidToken": "Invalid token. Try again or contact support",
       "alreadyImported": "Token was added already before.",
-      "alreadySupported": "Token is already supported."
+      "alreadySupported": "Token is already supported.",
+      "notErc20Token": "Unrecognized contract. Verify token details.",
+      "timeout": "Network timeout. Please retry."
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"
