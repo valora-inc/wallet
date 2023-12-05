@@ -6,6 +6,7 @@ import { notificationInvite } from 'src/images/Images'
 import { inviteRewardsTypeSelector } from 'src/send/selectors'
 import { InviteRewardsType } from 'src/send/types'
 import Colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export default function InviteRewardsCard() {
@@ -27,8 +28,8 @@ export default function InviteRewardsCard() {
       <View testID="InviteRewardsCard" style={styles.card}>
         <Image source={notificationInvite} />
         <View style={styles.textContainer}>
-          <Text>{title}</Text>
-          <Text>
+          <Text style={styles.title}>{title}</Text>
+          <Text style={styles.body}>
             <Trans i18nKey={bodyKey} />
           </Text>
         </View>
@@ -54,5 +55,11 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     gap: 4,
+  },
+  title: {
+    ...typeScale.labelSmall,
+  },
+  body: {
+    ...typeScale.bodySmall,
   },
 })
