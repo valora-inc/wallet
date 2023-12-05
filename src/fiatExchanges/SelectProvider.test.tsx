@@ -196,6 +196,7 @@ describe(SelectProviderScreen, () => {
       lowestFeePaymentMethod: undefined,
       lowestFeeProvider: undefined,
       lowestFeeCryptoAmount: undefined,
+      networkId: NetworkId['celo-alfajores'],
     }
     mocked(getProviderSelectionAnalyticsData).mockReturnValue(mockAnalyticsData)
     render(
