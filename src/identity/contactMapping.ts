@@ -212,19 +212,18 @@ export function* fetchAddressesAndValidateSaga({
 }
 
 export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificationAction) {
-  const verifiedAddresses = yield* select(verifiedAddressesSelector)
-  if (verifiedAddresses.includes(address)) {
-    ValoraAnalytics.track(IdentityEvents.address_lookup_skip)
-    return
-  }
   try {
-    ValoraAnalytics.track(IdentityEvents.address_lookup_start)
-    const addressVerified = yield* call(fetchAddressVerification, address)
-    if (addressVerified) {
-      yield* put(updateVerifiedAddresses([...verifiedAddresses, address]))
+    const verifiedAddresses = yield* select(verifiedAddressesSelector)
+    if (verifiedAddresses.includes(address)) {
+      ValoraAnalytics.track(IdentityEvents.address_lookup_skip)
+    } else {
+      ValoraAnalytics.track(IdentityEvents.address_lookup_start)
+      const addressVerified = yield* call(fetchAddressVerification, address)
+      if (addressVerified) {
+        yield* put(updateVerifiedAddresses([...verifiedAddresses, address]))
+      }
+      ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
     }
-    ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
-    yield* put(endFetchAddressVerification())
   } catch (err) {
     const error = ensureError(err)
     Logger.debug(
@@ -235,6 +234,8 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
       error: error.message,
     })
+  } finally {
+    yield* put(endFetchAddressVerification())
   }
 }
 

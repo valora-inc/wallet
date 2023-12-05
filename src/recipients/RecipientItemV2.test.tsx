@@ -4,7 +4,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import RecipientItem from 'src/recipients/RecipientItemV2'
 import { createMockStore } from 'test/utils'
-import { mockInvitableRecipient } from 'test/values'
+import { mockInvitableRecipient, mockRecipient } from 'test/values'
 
 describe('RecipientItemV2', () => {
   it('renders correctly with no valora icon if phone number recipient is not a known valora user (number never looked up)', () => {
@@ -64,6 +64,24 @@ describe('RecipientItemV2', () => {
     )
     expect(getByText(mockInvitableRecipient.name)).toBeTruthy()
     expect(getByText(mockInvitableRecipient.displayNumber)).toBeTruthy()
+    expect(getByTestId('RecipientItem/ValoraIcon')).toBeTruthy()
+    expect(queryByTestId('RecipientItem/ActivityIndicator')).toBeFalsy()
+  })
+
+  it('renders correctly with valora icon if address recipient is a valora user', () => {
+    const { queryByTestId, getByText, getByTestId } = render(
+      // default store includes a cached mapping
+      <Provider
+        store={createMockStore({
+          identity: {
+            verifiedAddresses: [mockRecipient.address],
+          },
+        })}
+      >
+        <RecipientItem recipient={mockRecipient} onSelectRecipient={jest.fn()} loading={false} />
+      </Provider>
+    )
+    expect(getByText(mockRecipient.name)).toBeTruthy()
     expect(getByTestId('RecipientItem/ValoraIcon')).toBeTruthy()
     expect(queryByTestId('RecipientItem/ActivityIndicator')).toBeFalsy()
   })

@@ -4,7 +4,13 @@ import { Provider } from 'react-redux'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import { getRecipientVerificationStatus } from 'src/recipients/recipient'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockPhoneRecipientCache, mockRecipient, mockRecipient2, mockAccount } from 'test/values'
+import {
+  mockPhoneRecipientCache,
+  mockRecipient,
+  mockRecipient2,
+  mockAccount,
+  mockAddressRecipient,
+} from 'test/values'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import Clipboard from '@react-native-clipboard/clipboard'
 import { Screens } from 'src/navigator/Screens'
@@ -12,6 +18,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendEvents } from 'src/analytics/Events'
 import { navigate } from 'src/navigator/NavigationService'
 import { RecipientType } from 'src/recipients/recipient'
+import { SendOrigin } from 'src/analytics/types'
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -192,6 +199,36 @@ describe('SendSelectRecipient', () => {
     //   recipient: expect.any(Object),
     //   origin: SendOrigin.AppSendFlow,
     // })
+  })
+  it('navigates to send amount when address recipient is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAddressRecipient.address)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: expect.any(Object),
+      origin: SendOrigin.AppSendFlow,
+    })
   })
   it('navigates to invite modal when search result next button is pressed', async () => {
     jest
