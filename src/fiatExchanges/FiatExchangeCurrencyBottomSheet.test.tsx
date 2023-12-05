@@ -29,7 +29,7 @@ const MOCK_STORE_DATA = {
         networkId: NetworkId['celo-alfajores'],
         name: 'cUSD',
         address: mockCusdAddress,
-        balance: '0',
+        balance: '50',
         priceUsd: '1',
         symbol: 'cUSD',
         priceFetchedAt: mockDate,
@@ -71,7 +71,7 @@ const MOCK_STORE_DATA = {
         networkId: NetworkId['celo-alfajores'],
         name: 'cREAL',
         address: mockCrealAddress,
-        balance: '0',
+        balance: '10',
         priceUsd: '0.75',
         symbol: 'cREAL',
         isSupercharged: true,
@@ -260,5 +260,29 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     expect(queryByTestId('CELOSymbol')).toBeFalsy()
     expect(queryByTestId('cREALSymbol')).toBeFalsy()
     expect(queryByTestId('ETHSymbol')).toBeFalsy()
+  })
+  it('shows the correct order when cicoOrder missing/same value', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showCico: ['celo-alfajores', 'ethereum-sepolia'],
+      cicoOrder: {
+        [mockCusdTokenId]: 1,
+        [mockCrealTokenId]: 1,
+      },
+    })
+    const { getAllByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{
+            flow: FiatExchangeFlow.CashIn,
+          }}
+        />
+      </Provider>
+    )
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('cUSD')
+    expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('cREAL')
+    expect(getAllByTestId('TokenBalanceItem')[2]).toHaveTextContent('cEUR')
+    expect(getAllByTestId('TokenBalanceItem')[3]).toHaveTextContent('CELO')
+    expect(getAllByTestId('TokenBalanceItem')[4]).toHaveTextContent('ETH')
   })
 })
