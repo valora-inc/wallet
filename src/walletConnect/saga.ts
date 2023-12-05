@@ -398,8 +398,13 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     method === SupportedActions.eth_sendTransaction
   ) {
     const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
-    const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, [networkId]))
     const normalizedTx = yield* call(normalizeTransaction, request.params.request.params[0])
+    const allFeeCurrencies = yield* select((state) => feeCurrenciesSelector(state, [networkId]))
+    const feeCurrencies =
+      'feeCurrency' in normalizedTx
+        ? allFeeCurrencies.filter((feeCurrency) => feeCurrency.address === normalizedTx.feeCurrency)
+        : allFeeCurrencies
+
     const preparedTransactionsResult = yield* call(prepareTransactions, {
       feeCurrencies,
       decreasedAmountGasFeeMultiplier: 1,
