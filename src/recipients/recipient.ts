@@ -177,26 +177,26 @@ export function getRecipientVerificationStatus(
   e164NumberToAddress: E164NumberToAddressType,
   verifiedAddresses: string[]
 ): RecipientVerificationStatus {
-  if (recipientHasAddress(recipient)) {
-    return verifiedAddresses.includes(recipient.address)
-      ? RecipientVerificationStatus.VERIFIED
-      : RecipientVerificationStatus.UNVERIFIED
-  }
-
   if (!recipientHasNumber(recipient)) {
-    return RecipientVerificationStatus.UNKNOWN
-  }
+    if (recipientHasAddress(recipient)) {
+      return verifiedAddresses.includes(recipient.address)
+        ? RecipientVerificationStatus.VERIFIED
+        : RecipientVerificationStatus.UNVERIFIED
+    } else {
+      return RecipientVerificationStatus.UNKNOWN
+    }
+  } else {
+    const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
+    if (addresses === undefined) {
+      return RecipientVerificationStatus.UNKNOWN
+    }
 
-  const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
-  if (addresses === undefined) {
-    return RecipientVerificationStatus.UNKNOWN
-  }
+    if (addresses === null) {
+      return RecipientVerificationStatus.UNVERIFIED
+    }
 
-  if (addresses === null) {
-    return RecipientVerificationStatus.UNVERIFIED
+    return RecipientVerificationStatus.VERIFIED
   }
-
-  return RecipientVerificationStatus.VERIFIED
 }
 
 type PreparedRecipient = Recipient & {
