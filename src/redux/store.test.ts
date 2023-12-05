@@ -263,6 +263,7 @@ describe('store state', () => {
           },
           "secureSendPhoneNumberMapping": {},
           "verifiedAddresses": [],
+          "verifiedAddressesLoading": false,
           "walletToAccountAddress": {},
         },
         "imports": {

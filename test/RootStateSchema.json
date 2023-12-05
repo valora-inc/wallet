@@ -4169,6 +4169,9 @@
                     },
                     "type": "array"
                 },
+                "verifiedAddressesLoading": {
+                    "type": "boolean"
+                },
                 "walletToAccountAddress": {
                     "$ref": "#/definitions/WalletToAccountAddressType"
                 }
@@ -4184,6 +4187,7 @@
                 "importContactsProgress",
                 "secureSendPhoneNumberMapping",
                 "verifiedAddresses",
+                "verifiedAddressesLoading",
                 "walletToAccountAddress"
             ],
             "type": "object"

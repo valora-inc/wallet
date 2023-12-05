@@ -1,7 +1,7 @@
 import React from 'react'
 import { FlatList, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import RecipientItem from 'src/recipients/RecipientItemV2'
-import { Recipient, RecipientType } from 'src/recipients/recipient'
+import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -26,35 +26,8 @@ function RecipientPicker({
   isSelectedRecipientLoading,
   style,
 }: Props) {
-  const isRecipientSelected = (recipient: Recipient) => {
-    if (recipient === selectedRecipient || isEqual(recipient, selectedRecipient)) {
-      return true
-    }
-
-    if (recipient.recipientType !== selectedRecipient?.recipientType) {
-      return false
-    }
-
-    if (
-      recipient.recipientType === RecipientType.Address &&
-      recipient.address &&
-      recipient.address === selectedRecipient.address
-    ) {
-      return true
-    }
-
-    if (
-      recipient.recipientType === RecipientType.PhoneNumber &&
-      recipient.contactId &&
-      recipient.contactId === selectedRecipient.contactId &&
-      recipient.e164PhoneNumber &&
-      recipient.e164PhoneNumber === selectedRecipient.e164PhoneNumber
-    ) {
-      return true
-    }
-    return false
-  }
-
+  const isRecipientSelected = (recipient: Recipient) =>
+    recipient === selectedRecipient || isEqual(recipient, selectedRecipient)
   return (
     <View style={[styles.body, style]} testID={testID}>
       {title && <Text style={styles.title}>{title}</Text>}
@@ -65,7 +38,7 @@ function RecipientPicker({
             recipient={item}
             onSelectRecipient={onSelectRecipient}
             selected={isRecipientSelected(item)}
-            loading={selectedRecipient === item && isSelectedRecipientLoading}
+            loading={isRecipientSelected(item) && isSelectedRecipientLoading}
           />
         )}
       />

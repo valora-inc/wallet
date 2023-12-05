@@ -1446,6 +1446,7 @@ export const migrations = {
     identity: {
       ...state.identity,
       verifiedAddresses: [],
+      verifiedAddressesLoading: false,
     },
   }),
 }

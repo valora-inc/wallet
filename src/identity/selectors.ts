@@ -5,6 +5,8 @@ import { RootState } from 'src/redux/reducers'
 
 export const e164NumberToAddressSelector = (state: RootState) => state.identity.e164NumberToAddress
 export const verifiedAddressesSelector = (state: RootState) => state.identity.verifiedAddresses
+export const verifiedAddressesLoadingSelector = (state: RootState) =>
+  state.identity.verifiedAddressesLoading
 export const addressToE164NumberSelector = (state: RootState) => state.identity.addressToE164Number
 export const walletToAccountAddressSelector = (state: RootState) =>
   state.identity.walletToAccountAddress

@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { fetchAddressesAndValidate, fetchAddressVerification } from 'src/identity/actions'
-import { e164NumberToAddressSelector, verifiedAddressesSelector } from 'src/identity/selectors'
+import {
+  e164NumberToAddressSelector,
+  verifiedAddressesSelector,
+  verifiedAddressesLoadingSelector,
+} from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
@@ -14,6 +18,7 @@ const useFetchRecipientVerificationStatus = () => {
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const verifiedAddresses = useSelector(verifiedAddressesSelector)
+  const verifiedAddressesLoading = useSelector(verifiedAddressesLoadingSelector)
   const dispatch = useDispatch()
 
   const unsetSelectedRecipient = () => {
@@ -37,14 +42,24 @@ const useFetchRecipientVerificationStatus = () => {
   }
 
   useEffect(() => {
-    if (recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
+    if (
+      recipient &&
+      recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN &&
+      !verifiedAddressesLoading
+    ) {
       // e164NumberToAddress is updated after a successful phone number lookup,
       // verifiedAddresses is updated after a successful address lookup
       setRecipientVerificationStatus(
         getRecipientVerificationStatus(recipient, e164NumberToAddress, verifiedAddresses)
       )
     }
-  }, [e164NumberToAddress, verifiedAddresses, recipient, recipientVerificationStatus])
+  }, [
+    e164NumberToAddress,
+    verifiedAddresses,
+    verifiedAddressesLoading,
+    recipient,
+    recipientVerificationStatus,
+  ])
 
   return {
     recipient,

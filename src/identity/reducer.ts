@@ -85,6 +85,8 @@ export interface State {
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
   // List of addresses known to be associated with a Valora wallet
   verifiedAddresses: string[]
+  // Whether or not verified addresses are currently being fetched
+  verifiedAddressesLoading: boolean
 }
 
 const initialState: State = {
@@ -103,6 +105,7 @@ const initialState: State = {
   },
   secureSendPhoneNumberMapping: {},
   verifiedAddresses: [],
+  verifiedAddressesLoading: false,
 }
 
 export const reducer = (
@@ -260,10 +263,20 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
+    case Actions.FETCH_ADDRESS_VERIFICATION:
+      return {
+        ...state,
+        verifiedAddressesLoading: true,
+      }
     case Actions.UPDATE_VERIFIED_ADDRESSES:
       return {
         ...state,
-        verifiedAddresses: [...state.verifiedAddresses, action.address],
+        verifiedAddresses: action.addresses,
+      }
+    case Actions.END_FETCH_ADDRESS_VERIFICATION:
+      return {
+        ...state,
+        verifiedAddressesLoading: false,
       }
     default:
       return state

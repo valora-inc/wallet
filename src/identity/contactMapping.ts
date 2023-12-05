@@ -21,6 +21,7 @@ import {
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
   updateVerifiedAddresses,
+  endFetchAddressVerification,
 } from 'src/identity/actions'
 import {
   AddressToE164NumberType,
@@ -220,9 +221,10 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     ValoraAnalytics.track(IdentityEvents.address_lookup_start)
     const addressVerified = yield* call(fetchAddressVerification, address)
     if (addressVerified) {
-      yield* put(updateVerifiedAddresses(address))
+      yield* put(updateVerifiedAddresses([...verifiedAddresses, address]))
     }
     ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
+    yield* put(endFetchAddressVerification())
   } catch (err) {
     const error = ensureError(err)
     Logger.debug(
@@ -304,8 +306,8 @@ function* fetchAddressVerification(address: string) {
     const { data }: { data: { addressVerified: boolean } } = yield* call([response, 'json'])
     return data.addressVerified
   } catch (error) {
-    Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
-    throw new Error('Unable to fetch wallet address for this phone number')
+    Logger.debug(`${TAG}/fetchAddressVerification`, 'Unable to look up address', error)
+    throw new Error('Unable to fetch verification status for this address')
   }
 }
 
