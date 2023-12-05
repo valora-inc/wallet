@@ -13,6 +13,10 @@ import { InviteRewardsType } from 'src/send/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
+/***
+ * @deprecated Used only in the old send flow (src/send/Send.tsx)
+ * Use InviteRewardsCard.tsx instead
+ */
 export function InviteRewardsBanner() {
   const { t } = useTranslation()
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
