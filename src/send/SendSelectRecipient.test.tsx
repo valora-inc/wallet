@@ -1,17 +1,16 @@
+import Clipboard from '@react-native-clipboard/clipboard'
 import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import SendSelectRecipient from 'src/send/SendSelectRecipient'
-import { getRecipientVerificationStatus } from 'src/recipients/recipient'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockPhoneRecipientCache, mockRecipient, mockRecipient2, mockAccount } from 'test/values'
-import { RecipientVerificationStatus } from 'src/identity/types'
-import Clipboard from '@react-native-clipboard/clipboard'
-import { Screens } from 'src/navigator/Screens'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { RecipientVerificationStatus } from 'src/identity/types'
 import { navigate } from 'src/navigator/NavigationService'
-import { RecipientType } from 'src/recipients/recipient'
+import { Screens } from 'src/navigator/Screens'
+import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
+import SendSelectRecipient from 'src/send/SendSelectRecipient'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockAccount, mockPhoneRecipientCache, mockRecipient, mockRecipient2 } from 'test/values'
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -245,5 +244,75 @@ describe('SendSelectRecipient', () => {
     })
     const pasteButtonAfterPress = findByTestId('PasteAddressButton')
     await expect(pasteButtonAfterPress).rejects.toThrow()
+  })
+
+  describe('Invite Rewards', () => {
+    it('shows invite rewards card when invite rewards are active and number is verified', async () => {
+      const store = createMockStore({
+        ...defaultStore,
+        send: {
+          ...defaultStore.send,
+          inviteRewardsVersion: 'v5',
+          inviteRewardCusd: 1,
+        },
+        app: {
+          phoneNumberVerified: true,
+        },
+      })
+
+      const { findByTestId } = render(
+        <Provider store={store}>
+          <SendSelectRecipient {...mockScreenProps({})} />
+        </Provider>
+      )
+
+      const inviteRewardsCard = await findByTestId('InviteRewardsCard')
+      expect(inviteRewardsCard).toHaveTextContent('inviteRewardsBannerCUSD.title')
+      expect(inviteRewardsCard).toHaveTextContent('inviteRewardsBannerCUSD.body')
+    })
+
+    it('does not show invite rewards card when invite rewards are not active', async () => {
+      const store = createMockStore({
+        ...defaultStore,
+        send: {
+          ...defaultStore.send,
+          inviteRewardsVersion: 'none',
+          inviteRewardCusd: 1,
+        },
+        app: {
+          phoneNumberVerified: true,
+        },
+      })
+
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <SendSelectRecipient {...mockScreenProps({})} />
+        </Provider>
+      )
+
+      expect(queryByTestId('InviteRewardsCard')).toBeFalsy()
+    })
+
+    it('does not show invite rewards card when invite rewards are active and number is not verified', async () => {
+      const store = createMockStore({
+        ...defaultStore,
+        send: {
+          ...defaultStore.send,
+          inviteRewardsVersion: 'v5',
+          inviteRewardCusd: 1,
+        },
+        app: {
+          phoneNumberVerified: false,
+        },
+      })
+
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <SendSelectRecipient {...mockScreenProps({})} />
+        </Provider>
+      )
+
+      expect(queryByTestId('InviteRewardsCard')).toBeFalsy()
+    })
   })
 })
