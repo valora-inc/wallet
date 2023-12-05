@@ -418,5 +418,37 @@ export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector
       })
 )
 
+/**
+ * Returns the list of currencies that can be used to pay fees
+ * Sorted by native currency first, then by USD balance, and balance otherwise
+ */
+export const feeCurrenciesSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => {
+    return tokens
+      .filter((token) => token.isCoreToken || token.isNative)
+      .sort((a, b) => {
+        if (a.isNative && !b.isNative) {
+          return -1
+        }
+        if (b.isNative && !a.isNative) {
+          return 1
+        }
+        if (a.priceUsd && b.priceUsd) {
+          const aBalanceUsd = a.balance.multipliedBy(a.priceUsd)
+          const bBalanceUsd = b.balance.multipliedBy(b.priceUsd)
+          return bBalanceUsd.comparedTo(aBalanceUsd)
+        }
+        if (a.priceUsd) {
+          return -1
+        }
+        if (b.priceUsd) {
+          return 1
+        }
+        return b.balance.comparedTo(a.balance)
+      })
+  }
+)
+
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage

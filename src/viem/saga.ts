@@ -200,7 +200,7 @@ export function* sendPayment({
           throw new Error('no account found in the wallet')
         }
 
-        const hash = yield* call(wallet.sendTransaction, {
+        const hash = yield* call([wallet, 'sendTransaction'], {
           account: wallet.account,
           to: getAddress(recipientAddress),
           value: convertedAmount,

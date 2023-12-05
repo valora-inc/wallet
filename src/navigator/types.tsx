@@ -21,6 +21,7 @@ import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
@@ -310,6 +311,7 @@ export type StackParamList = {
         version: 2
         pendingAction: Web3WalletTypes.EventArguments['session_request']
         supportedChains: string[]
+        preparedTransactionsResult?: PreparedTransactionsResult
       }
     | {
         type: WalletConnectRequestType.Session

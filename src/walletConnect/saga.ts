@@ -22,10 +22,16 @@ import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/Navi
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import {
+  PreparedTransactionsResult,
+  prepareTransactions,
+  TransactionRequest,
+} from 'src/viem/prepareTransactions'
 import {
   AcceptRequest,
   AcceptSession,
@@ -59,7 +65,10 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import networkConfig, { networkIdToWalletConnectChainId } from 'src/web3/networkConfig'
+import networkConfig, {
+  networkIdToWalletConnectChainId,
+  walletConnectChainIdToNetworkId,
+} from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import {
   call,
@@ -331,12 +340,33 @@ function getSupportedChains() {
   })
 }
 
+function normalizeTransaction(rawTx: any): TransactionRequest {
+  const tx = { ...rawTx }
+
+  // Handle `gasLimit` as a misnomer for `gas`
+  if (tx.gasLimit && tx.gas === undefined) {
+    tx.gas = tx.gasLimit
+    delete tx.gasLimit
+  }
+
+  // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
+  if (tx.gasPrice !== undefined) {
+    delete tx.gasPrice
+  }
+
+  // TODO: strip out the gas param unless both gas and feeCurrency are set for Celo
+  // TODO: check if we need to add the nonce
+
+  return tx
+}
+
 function* showActionRequest(request: Web3WalletTypes.EventArguments['session_request']) {
   if (!client) {
     throw new Error('missing client')
   }
 
-  if (!isSupportedAction(request.params.request.method)) {
+  const method = request.params.request.method
+  if (!isSupportedAction(method)) {
     // Directly deny unsupported requests
     yield* put(denyRequest(request, getSdkError('WC_METHOD_UNSUPPORTED')))
     return
@@ -361,11 +391,27 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
 
   const supportedChains = yield* call(getSupportedChains)
 
+  let preparedTransactionsResult: PreparedTransactionsResult | undefined = undefined
+  if (
+    method === SupportedActions.eth_signTransaction ||
+    method === SupportedActions.eth_sendTransaction
+  ) {
+    const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
+    const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, [networkId]))
+    const normalizedTx = yield* call(normalizeTransaction, request.params.request.params[0])
+    preparedTransactionsResult = yield* call(prepareTransactions, {
+      feeCurrencies,
+      decreasedAmountGasFeeMultiplier: 1,
+      baseTransactions: [normalizedTx],
+    })
+  }
+
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
     pendingAction: request,
     supportedChains,
     version: 2,
+    preparedTransactionsResult,
   })
 }
 
@@ -495,7 +541,7 @@ function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session
   return session
 }
 
-function* handleAcceptRequest({ request }: AcceptRequest) {
+function* handleAcceptRequest({ request, preparedTransactions }: AcceptRequest) {
   const session: SessionTypes.Struct = yield* call(getSessionFromRequest, request)
   const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
@@ -521,7 +567,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
       throw new Error(`Missing active session for topic ${topic}`)
     }
 
-    const result = yield* call(handleRequest, params)
+    const result = yield* call(handleRequest, params, preparedTransactions)
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
       (params.request.method = typeof result === 'string' ? result : result.raw)
