@@ -30,7 +30,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Send,
       title: t('homeActions.send'),
-      icon: <QuickActionsSend color={Colors.onboardingGreen} />,
+      icon: <QuickActionsSend color={Colors.successDark} />,
       onPress: () => {
         const shouldShowSelectRecipient = getFeatureGate(
           StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
@@ -42,7 +42,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Receive,
       title: t('homeActions.receive'),
-      icon: <QuickActionsReceive color={Colors.onboardingGreen} />,
+      icon: <QuickActionsReceive color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
@@ -52,7 +52,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Add,
       title: t('homeActions.add'),
-      icon: <QuickActionsAdd color={Colors.onboardingGreen} />,
+      icon: <QuickActionsAdd color={Colors.successDark} />,
       onPress: () => {
         navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
       },
@@ -60,7 +60,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Swap,
       title: t('homeActions.swap'),
-      icon: <QuickActionsSwap color={Colors.onboardingGreen} />,
+      icon: <QuickActionsSwap color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -69,7 +69,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Withdraw,
       title: t('homeActions.withdraw'),
-      icon: <QuickActionsWithdraw color={Colors.onboardingGreen} />,
+      icon: <QuickActionsWithdraw color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     width: 84,
     marginHorizontal: 6,
     padding: 0,
-    backgroundColor: Colors.greenBackground,
+    backgroundColor: Colors.successLight,
     borderRadius: 10,
   },
   touchable: {
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small500,
     lineHeight: 17,
     paddingTop: 8,
-    color: Colors.onboardingGreen,
+    color: Colors.successDark,
   },
 })
 

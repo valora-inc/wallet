@@ -161,7 +161,7 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   countryFlagStyle: {
-    backgroundColor: Colors.beige,
+    backgroundColor: Colors.onboardingBackground,
     marginRight: 8,
   },
 })

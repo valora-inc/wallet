@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
   },
   labelCta: {
     ...fontStyles.small600,
-    color: Colors.greenFaint,
+    color: Colors.primaryDisabled,
   },
   labelCtaAlignBottom: {
     alignSelf: 'flex-end',
