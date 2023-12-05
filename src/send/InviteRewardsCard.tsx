@@ -13,13 +13,18 @@ export default function InviteRewardsCard() {
   const { t } = useTranslation()
   const inviteRewardsType = useSelector(inviteRewardsTypeSelector)
 
-  const inviteRewardsToTranslationPrefix: Record<InviteRewardsType, string> = {
+  const inviteRewardsToTranslationPrefix: Record<InviteRewardsType, string | null> = {
     [InviteRewardsType.CUSD]: 'inviteRewardsBannerCUSD',
     [InviteRewardsType.NFT]: 'inviteRewardsBanner',
-    [InviteRewardsType.NONE]: 'inviteRewardsBanner',
+    [InviteRewardsType.NONE]: null,
+  }
+  const inviteRewardsTranslationPrefix = inviteRewardsToTranslationPrefix[inviteRewardsType]
+
+  // If no translations are available do not show the banner
+  if (inviteRewardsTranslationPrefix === null) {
+    return null
   }
 
-  const inviteRewardsTranslationPrefix = inviteRewardsToTranslationPrefix[inviteRewardsType]
   const title = t(`${inviteRewardsTranslationPrefix}.title`)
   const bodyKey = `${inviteRewardsTranslationPrefix}.body`
 
