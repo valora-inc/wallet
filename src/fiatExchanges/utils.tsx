@@ -284,15 +284,14 @@ export const filterLegacyMobileMoneyProviders = (
 
 export async function fetchExchanges(
   countryCodeAlpha2: string | null,
-  currency: string
+  tokenId: string
 ): Promise<ExternalExchangeProvider[] | undefined> {
   // If user location data is not available, default fetching exchanges serving the US
   if (!countryCodeAlpha2) countryCodeAlpha2 = 'us'
   // Standardize cGLD to CELO
-
   try {
     const resp = await fetchWithTimeout(
-      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&currency=${currency}`,
+      `${networkConfig.fetchExchangesUrl}?country=${countryCodeAlpha2}&tokenId=${tokenId}`,
       undefined,
       getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
         .cico * 1000
