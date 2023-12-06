@@ -3485,12 +3485,6 @@
                 "error": {
                     "type": "boolean"
                 },
-                "importedTokenIds": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -3500,7 +3494,6 @@
             },
             "required": [
                 "error",
-                "importedTokenIds",
                 "loading",
                 "tokenBalances"
             ],

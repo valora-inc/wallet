@@ -25,8 +25,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
-import { addImportTokenId } from 'src/tokens/actions'
-import { importTokenIdsSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
 import { isAddress } from 'viem'
@@ -52,8 +51,6 @@ export default function TokenImportScreen(_: Props) {
 
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
 
-  const importedTokens = useSelector((state) => importTokenIdsSelector(state))
-
   const handleChangeTokenAddress = (address: string) => {
     setTokenAddress(ensureLeading0x(address))
   }
@@ -65,10 +62,9 @@ export default function TokenImportScreen(_: Props) {
   const validateAddress = (address: string) => {
     if (isAddress(address)) {
       const tokenId = getTokenId(networkId, address)
+      // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
       if (supportedTokens[tokenId]) {
         setAddressState(AddressState.AlreadySupported)
-      } else if (importedTokens.includes(tokenId)) {
-        setAddressState(AddressState.AlreadyImported)
       } else {
         setAddressState(AddressState.Valid)
       }
@@ -88,14 +84,14 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const handleImportToken = () => {
+    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol,
       networkId,
+      tokenId
     })
-    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
-    dispatch(addImportTokenId(tokenId))
-    // TODO RET-891: do this only when actually imported
+    // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
   }

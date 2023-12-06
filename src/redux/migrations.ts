@@ -1433,11 +1433,4 @@ export const migrations = {
     ...state,
     supercharge: _.omit(state.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
   }),
-  171: (state: any) => ({
-    ...state,
-    tokens: {
-      ...state.tokens,
-      importedTokenIds: [],
-    },
-  }),
 }
