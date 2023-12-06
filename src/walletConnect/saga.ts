@@ -24,6 +24,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
+import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
@@ -67,6 +68,7 @@ import {
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 import networkConfig, {
   networkIdToWalletConnectChainId,
+  walletConnectChainIdToNetwork,
   walletConnectChainIdToNetworkId,
 } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
@@ -81,6 +83,7 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
+import { Hex, hexToBigInt, isHex } from 'viem'
 
 let client: IWeb3Wallet | null = null
 
@@ -340,13 +343,22 @@ function getSupportedChains() {
   })
 }
 
-function normalizeTransaction(rawTx: any): TransactionRequest {
-  const tx = { ...rawTx }
+function normalizeTransaction(rawTx: any, network: Network): TransactionRequest {
+  const tx: TransactionRequest = { ...rawTx }
 
-  // Handle `gasLimit` as a misnomer for `gas`
-  if (tx.gasLimit && tx.gas === undefined) {
-    tx.gas = tx.gasLimit
+  // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
+  if ('gasLimit' in tx && tx.gas === undefined) {
+    tx.gas = isHex(tx.gasLimit) ? hexToBigInt(tx.gasLimit as Hex) : (tx.gasLimit as bigint)
     delete tx.gasLimit
+  }
+
+  if (network === Network.Celo && !('feeCurrency' in tx)) {
+    // we should re-calculate the feeCurrency and gas unless both are provided
+    delete tx.gas
+  }
+
+  if (isHex(tx.gas)) {
+    tx.gas = hexToBigInt(tx.gas)
   }
 
   // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
@@ -354,7 +366,6 @@ function normalizeTransaction(rawTx: any): TransactionRequest {
     delete tx.gasPrice
   }
 
-  // TODO: strip out the "gas" param unless both "gas" and "feeCurrency" are set for Celo
   // TODO: check if we need to add the nonce
 
   return tx
@@ -398,11 +409,21 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     method === SupportedActions.eth_sendTransaction
   ) {
     const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
-    const normalizedTx = yield* call(normalizeTransaction, request.params.request.params[0])
+    const network = walletConnectChainIdToNetwork[request.params.chainId]
+    const normalizedTx = yield* call(
+      normalizeTransaction,
+      request.params.request.params[0],
+      network
+    )
     const allFeeCurrencies = yield* select((state) => feeCurrenciesSelector(state, [networkId]))
     const feeCurrencies =
       'feeCurrency' in normalizedTx
-        ? allFeeCurrencies.filter((feeCurrency) => feeCurrency.address === normalizedTx.feeCurrency)
+        ? allFeeCurrencies.filter((feeCurrency) => {
+            if (normalizedTx.feeCurrency === undefined) {
+              return feeCurrency.isNative
+            }
+            return feeCurrency.address === normalizedTx.feeCurrency
+          })
         : allFeeCurrencies
 
     const preparedTransactionsResult = yield* call(prepareTransactions, {
