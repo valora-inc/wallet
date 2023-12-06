@@ -359,13 +359,12 @@ function SendSelectRecipient({ route }: Props) {
         <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
       )}
       {showUnknownAddressInfo && (
-        <View style={styles.unknownAddressInfo}>
-          <InLineNotification
-            severity={Severity.Informational}
-            description={t('sendSelectRecipient.unknownAddressInfo')}
-            testID="UnknownAddressInfo"
-          />
-        </View>
+        <InLineNotification
+          severity={Severity.Informational}
+          description={t('sendSelectRecipient.unknownAddressInfo')}
+          testID="UnknownAddressInfo"
+          style={styles.unknownAddressInfo}
+        />
       )}
       {showSendOrInviteButton && (
         <SendOrInviteButton
@@ -432,8 +431,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   unknownAddressInfo: {
-    padding: Spacing.Thick24,
-    paddingBottom: Spacing.Smallest8,
+    margin: Spacing.Thick24,
+    marginBottom: Spacing.Smallest8,
   },
   sendOrInviteButton: {
     padding: Spacing.Thick24,
