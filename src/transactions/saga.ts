@@ -11,11 +11,7 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken, fetchTokenBalances } from 'src/tokens/slice'
-import {
-  getSupportedNetworkIdsForSend,
-  getSupportedNetworkIdsForSwap,
-  getTokenId,
-} from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   Actions,
   UpdateTransactionsAction,
@@ -167,6 +163,9 @@ export function* sendAndMonitorTransaction<T>(
       context
     )) as unknown as CeloTxReceipt
 
+    // This won't show fees in the standby tx.
+    // Getting the selected fee currency is hard since it happens inside of `sendTransactionPromises`.
+    // This code will be deprecated when we remove the contract kit dependency, so I think it's fine to leave it as is.
     yield* call(
       handleTransactionReceiptReceived,
       context.id,
@@ -248,7 +247,7 @@ export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
-  const { transactionHash } = transaction
+  const { feeCurrencyId, transactionHash } = transaction
 
   try {
     const receipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
@@ -260,7 +259,8 @@ export function* getTransactionReceipt(
         handleTransactionReceiptReceived,
         transaction.context.id,
         receipt,
-        networkConfig.networkToNetworkId[network]
+        networkConfig.networkToNetworkId[network],
+        feeCurrencyId
       )
     }
   } catch (e) {
@@ -317,13 +317,12 @@ export function* transactionSaga() {
 export function* handleTransactionReceiptReceived(
   txId: string,
   receipt: TransactionReceipt | CeloTxReceipt,
-  networkId: NetworkId
+  networkId: NetworkId,
+  feeCurrencyId?: string
 ) {
   const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
 
-  // TODO: Receive feeCurrencyId from transaction request.
-  const feeCurrencyId = getTokenId(networkId)
-  const feeTokenInfo = tokensById[feeCurrencyId]
+  const feeTokenInfo = feeCurrencyId && tokensById[feeCurrencyId]
 
   if (!feeTokenInfo) {
     Logger.error(TAG, `No information found for token ${feeCurrencyId} in network ${networkId}`)
@@ -350,11 +349,7 @@ export function* handleTransactionReceiptReceived(
       txId,
       {
         ...baseDetails,
-        // Only add fee data in non-celo transactions
-        fees:
-          !feeTokenInfo || networkId === networkConfig.defaultNetworkId
-            ? []
-            : buildGasFees(feeTokenInfo, gasFeeInSmallestUnit),
+        fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
       },
       blockTimestamp
     )

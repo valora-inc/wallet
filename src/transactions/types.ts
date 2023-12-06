@@ -18,12 +18,14 @@ export type PendingStandbySwap = {
   transactionHash?: string
   context: TransactionContext
   status: TransactionStatus.Pending
+  feeCurrencyId?: string
 } & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
 
 export type PendingStandbyTransfer = {
   transactionHash?: string
   context: TransactionContext
   status: TransactionStatus.Pending
+  feeCurrencyId?: string
 } & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
 
 export type ConfirmedStandbyTransaction = (
@@ -33,6 +35,7 @@ export type ConfirmedStandbyTransaction = (
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
+  feeCurrencyId?: string
 }
 
 export type PendingTokenApproval = {

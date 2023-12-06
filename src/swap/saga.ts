@@ -77,6 +77,7 @@ function* handleSendSwapTransaction(
   const txo = buildTxo(kit, tx)
 
   const networkId = networkConfig.defaultNetworkId
+  const feeCurrencyId = getTokenId(networkId, tx.feeCurrency)
 
   const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
   yield* put(
@@ -93,11 +94,18 @@ function* handleSendSwapTransaction(
         value: outValue,
         tokenId: fromToken.tokenId,
       },
+      feeCurrencyId,
     })
   )
 
   const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
-  yield* call(handleTransactionReceiptReceived, transactionContext.id, receipt, networkId)
+  yield* call(
+    handleTransactionReceiptReceived,
+    transactionContext.id,
+    receipt,
+    networkId,
+    feeCurrencyId
+  )
 }
 
 function calculateEstimatedUsdValue({
@@ -519,6 +527,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         )
       }
     }
+    const feeCurrencyId = getTokenId(networkId, getFeeCurrency(preparedTransactions))
 
     const swapTxHash = txHashes[txHashes.length - 1]
 
@@ -538,6 +547,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
           tokenId: fromToken.tokenId,
         },
         transactionHash: swapTxHash,
+        feeCurrencyId,
       })
     )
 
@@ -560,7 +570,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       Logger.warn(TAG, 'Error getting approve transaction receipt', e)
     }
 
-    yield* call(handleTransactionReceiptReceived, swapExecuteContext.id, swapTxReceipt, networkId)
+    yield* call(
+      handleTransactionReceiptReceived,
+      swapExecuteContext.id,
+      swapTxReceipt,
+      networkId,
+      feeCurrencyId
+    )
 
     if (swapTxReceipt.status !== 'success') {
       throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)

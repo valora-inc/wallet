@@ -1312,6 +1312,10 @@ export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
     feeCurrencySymbol: string | undefined // Fee currency symbol used
   }>
 
+export enum SwapShowInfoType {
+  NETWORK_FEE,
+  SLIPPAGE,
+}
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1374,6 +1378,9 @@ interface SwapEventsProperties {
   }
   [SwapEvents.swap_again]: undefined
   [SwapEvents.swap_try_again]: undefined
+  [SwapEvents.swap_show_info]: {
+    type: SwapShowInfoType
+  }
 }
 
 interface CeloNewsEventsProperties {
