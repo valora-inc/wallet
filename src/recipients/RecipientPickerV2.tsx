@@ -29,6 +29,7 @@ function RecipientPicker({
     <View style={[styles.body, style]} testID={testID}>
       {title && <Text style={styles.title}>{title}</Text>}
       <FlatList
+        keyboardShouldPersistTaps={'always'}
         scrollEnabled={false}
         data={recipients}
         renderItem={({ item }) => (
