@@ -8,14 +8,12 @@ import { Spacing } from 'src/styles/styles'
 
 interface SendSelectRecipientSearchInputProps {
   input: string
-  searchQueryRef?: React.RefObject<string>
   onChangeText: (value: string) => void
 }
 
 export function SendSelectRecipientSearchInput({
   input,
   onChangeText,
-  searchQueryRef,
 }: SendSelectRecipientSearchInputProps) {
   const { t } = useTranslation()
   return (
@@ -23,12 +21,7 @@ export function SendSelectRecipientSearchInput({
       <TextInput
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
         value={input}
-        // We check the ref to avoid triggering a re-render on Keyboard.dismiss() on iOS 16.4+
-        onChangeText={(text) => {
-          if (searchQueryRef && searchQueryRef.current !== text) {
-            onChangeText(text)
-          }
-        }}
+        onChangeText={onChangeText}
         style={styles.search}
         inputStyle={styles.input}
         placeholderTextColor={colors.gray4}

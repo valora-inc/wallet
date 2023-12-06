@@ -196,8 +196,7 @@ function SendSelectRecipient({ route }: Props) {
     setShowSearchResults(!!searchQuery)
   }
   const { contactRecipients, recentRecipients } = useSendRecipients()
-  const { mergedRecipients, searchQuery, setSearchQuery, searchQueryRef } =
-    useMergedSearchRecipients(onSearch)
+  const { mergedRecipients, searchQuery, setSearchQuery } = useMergedSearchRecipients(onSearch)
 
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
@@ -301,11 +300,7 @@ function SendSelectRecipient({ route }: Props) {
           eventName={SendEvents.send_cancel}
           style={styles.buttonContainer}
         />
-        <SendSelectRecipientSearchInput
-          input={searchQuery}
-          searchQueryRef={searchQueryRef}
-          onChangeText={setSearchQuery}
-        />
+        <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
       <KeyboardAwareScrollView keyboardDismissMode="on-drag">
         <PasteAddressButton
