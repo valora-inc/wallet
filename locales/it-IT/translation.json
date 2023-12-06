@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Gratuito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
+      "slippageToleranceInfo": "Tolleranza allo slippage\n\nIl tuo swap verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia più della tolleranza di slippage, {{appName}} ti protegge impedendo l'esecuzione dell'operazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
