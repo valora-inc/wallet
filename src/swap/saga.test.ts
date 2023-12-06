@@ -10,7 +10,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitPreparedSaga, swapSubmitSaga } from 'src/swap/saga'
-import { swapError, swapSuccess } from 'src/swap/slice'
+import { swapCancel, swapError, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import {
@@ -913,5 +913,20 @@ describe(swapSubmitPreparedSaga, () => {
       analyticsProps.approveTxMaxGasFeeUsd + analyticsProps.swapTxMaxGasFeeUsd,
       8
     )
+  })
+
+  it('should set swap state correctly when PIN input is cancelled', async () => {
+    // In reality it's not this method that throws this error, but it's the easiest way to test for now
+    jest.mocked(mockViemWallet.sendRawTransaction).mockImplementationOnce(() => {
+      throw 'CANCELLED_PIN_INPUT'
+    })
+    await expectSaga(swapSubmitPreparedSaga, mockSwapPrepared)
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .put(swapCancel('test-swap-id'))
+      .not.put(swapError('test-swap-id'))
+      .run()
+    expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 })

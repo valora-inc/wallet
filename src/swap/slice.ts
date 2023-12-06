@@ -70,6 +70,9 @@ export const slice = createSlice({
     swapError: (state, action: PayloadAction<string>) => {
       updateCurrentSwapStatus(state.currentSwap, action.payload, 'error')
     },
+    swapCancel: (state, action: PayloadAction<string>) => {
+      updateCurrentSwapStatus(state.currentSwap, action.payload, 'idle')
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -89,6 +92,6 @@ export const slice = createSlice({
   },
 })
 
-export const { swapStart, swapStartPrepared, swapSuccess, swapError } = slice.actions
+export const { swapStart, swapStartPrepared, swapSuccess, swapError, swapCancel } = slice.actions
 
 export default slice.reducer

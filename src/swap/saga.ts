@@ -14,9 +14,10 @@ import {
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { swapError, swapStart, swapStartPrepared, swapSuccess } from 'src/swap/slice'
+import { swapCancel, swapError, swapStart, swapStartPrepared, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -514,6 +515,11 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
   } catch (err) {
+    if (err === CANCELLED_PIN_INPUT) {
+      Logger.info(TAG, 'Swap cancelled by user')
+      yield* put(swapCancel(swapId))
+      return
+    }
     const error = ensureError(err)
     // dispatch the error early, in case the rest of the handling throws
     // and leaves the app in a bad state
