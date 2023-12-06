@@ -49,7 +49,8 @@ export default function TokenImportScreen(_: Props) {
   const [networkId] = useState(networkConfig.defaultNetworkId)
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
 
-  const ensureHex = (address: string) => (isHex(address) ? address : `0x${address}`)
+  const ensureHexOrEmpty = (address: string) =>
+    isHex(address) || !address ? address : `0x${address}`
 
   const handleAddressFocus = () => {
     setAddressState(AddressState.Incomplete)
@@ -70,14 +71,12 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const handleEnteredAddress = (address: string) => {
-    address = ensureHex(address)
+    address = ensureHexOrEmpty(address)
     setTokenAddress(address)
     validateAddress(address)
   }
 
-  const handleAddressBlur = () => {
-    handleEnteredAddress(tokenAddress)
-  }
+  const handleAddressBlur = () => handleEnteredAddress(tokenAddress)
 
   const handlePaste = (address: string) => {
     handleEnteredAddress(address)
