@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Kostenlos",
       "slippagePercentage": "Slippage-Toleranz",
       "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
+      "slippageToleranceInfo": "Slippage-Toleranz\n\nDein Swap wird innerhalb der Slippage-Toleranz in Prozent ausgeführt. Wenn sich der Kurs stärker als die Slippage-Toleranz verändert, schützt dich {{appName}} , indem es die Ausführung des Handels verhindert.",
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
       "estimatedValue": "Geschätzter Wert"
