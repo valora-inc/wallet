@@ -41,6 +41,7 @@ export type ConfirmedStandbyTransaction = (
 export type PendingTokenApproval = {
   context: TransactionContext
   status: TransactionStatus.Pending
+  feeCurrencyId: string
 } & Omit<TokenApproval, 'block' | 'fees' | 'status'>
 
 export type StandbyTransaction =

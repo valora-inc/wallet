@@ -523,6 +523,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
               .shiftedBy(-fromToken.decimals) // TODO this is madness
               .shiftedBy(-fromToken.decimals)
               .toNumber(),
+            feeCurrencyId: getTokenId(networkId, getFeeCurrency(preparedTransactions)),
           })
         )
       }
