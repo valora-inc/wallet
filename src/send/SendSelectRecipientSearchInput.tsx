@@ -23,6 +23,7 @@ export function SendSelectRecipientSearchInput({
       <TextInput
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
         value={input}
+        // We check the ref to avoid triggering a re-render on Keyboard.dismiss() on iOS 16.4+
         onChangeText={(text) => {
           if (searchQueryRef && searchQueryRef.current !== text) {
             onChangeText(text)
