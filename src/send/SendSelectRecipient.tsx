@@ -435,7 +435,7 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Smallest8,
   },
   sendOrInviteButton: {
-    padding: Spacing.Thick24,
+    margin: Spacing.Thick24,
   },
 })
 
