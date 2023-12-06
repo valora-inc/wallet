@@ -1294,6 +1294,7 @@ export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData 
   lowestFeeCryptoAmount: 1.0,
   lowestFeeProvider: 'mock-provider-1',
   lowestFeePaymentMethod: PaymentMethod.Bank,
+  networkId: NetworkId['celo-mainnet'],
 }
 
 export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {

@@ -22,6 +22,9 @@ const mockRoute = {
 }
 
 describe('ValidateRecipientIntro', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   it('navigates to account confirmation screen when Confirm Account button clicked', () => {
     const tree = render(
       <Provider store={store}>
@@ -46,8 +49,8 @@ describe('ValidateRecipientIntro', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
       params: {
-        transactionData: mockTransactionData,
-        scanIsForSecureSend: true,
+        onQRCodeDetected: expect.any(Function),
+        showSecureSendStyling: true,
       },
     })
   })

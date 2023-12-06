@@ -95,6 +95,7 @@ export function SwapScreen({ route }: Props) {
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -564,6 +565,7 @@ export function SwapScreen({ route }: Props) {
           <SwapTransactionDetails
             networkFee={networkFee}
             networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
+            slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
             feeTokenId={feeTokenId}
             slippagePercentage={parsedSlippagePercentage}
             fromToken={fromToken}
@@ -655,6 +657,21 @@ export function SwapScreen({ route }: Props) {
           style={styles.bottomSheetButton}
           onPress={() => {
             networkFeeInfoBottomSheetRef.current?.close()
+          }}
+          text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
+        />
+      </BottomSheet>
+      <BottomSheet
+        forwardedRef={slippageInfoBottomSheetRef}
+        description={t('swapScreen.transactionDetails.slippageToleranceInfo')}
+        testId="NetworkFeeInfoBottomSheet"
+      >
+        <Button
+          type={BtnTypes.SECONDARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            slippageInfoBottomSheetRef.current?.close()
           }}
           text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
         />

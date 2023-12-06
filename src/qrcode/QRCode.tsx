@@ -1,51 +1,140 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { shallowEqual, useSelector } from 'react-redux'
+import Clipboard from '@react-native-clipboard/clipboard'
+import React, { useState } from 'react'
+import { Trans, useTranslation } from 'react-i18next'
+import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
-import { AvatarSelf } from 'src/components/AvatarSelf'
-import QRCode from 'src/qrcode/QRGen'
-import { useQRContent } from 'src/qrcode/utils'
-import { RootState } from 'src/redux/reducers'
+import Button from 'src/components/Button'
+import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
+import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
+import Paste from 'src/icons/Paste'
+import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { SVG } from 'src/send/actions'
-import { QRCodeDataType } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { vibrateInformative } from 'src/styles/hapticFeedback'
 import variables from 'src/styles/variables'
-import { currentAccountSelector } from 'src/web3/selectors'
+import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
-  dataType: QRCodeDataType
+  exchanges: ExternalExchangeProvider[]
+  onCloseBottomSheet?: () => void
+  onPressCopy?: () => void
+  onPressInfo?: () => void
+  onPressExchange?: (exchange: ExternalExchangeProvider) => void
 }
 
-export const mapStateToProps = (state: RootState) => ({
-  address: currentAccountSelector(state)!,
-  displayName: nameSelector(state) || undefined,
-  e164PhoneNumber: state.account.e164PhoneNumber || undefined,
-})
+export default function QRCodeDisplay(props: Props) {
+  const { t } = useTranslation()
+  const { exchanges, qrSvgRef } = props
+  const address = useSelector(walletAddressSelector)
+  const displayName = useSelector(nameSelector)
 
-export default function QRCodeDisplay({ qrSvgRef, dataType }: Props) {
-  const data = useSelector(mapStateToProps, shallowEqual)
-  const qrContent = useQRContent(dataType, data)
+  const [bottomSheetVisible, setBottomSheetVisible] = useState(false)
+
+  const onCloseBottomSheet = () => {
+    props.onCloseBottomSheet?.()
+    setBottomSheetVisible(false)
+  }
+
+  const onPressCopy = () => {
+    props.onPressCopy?.()
+    Clipboard.setString(address || '')
+    Logger.showMessage(t('addressCopied'))
+    vibrateInformative()
+  }
+
+  const onPressInfo = () => {
+    props.onPressInfo?.()
+    setBottomSheetVisible(true)
+  }
+
+  const onPressExchange = (exchange: ExternalExchangeProvider) => {
+    props.onPressExchange?.(exchange)
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
-      <AvatarSelf iconSize={64} displayNameStyle={fontStyles.h2} />
+    <View style={styles.container}>
       <View testID="QRCode" style={styles.qrContainer}>
-        <QRCode value={qrContent} size={variables.width / 2} svgRef={qrSvgRef} />
+        <StyledQRCode qrSvgRef={qrSvgRef} />
       </View>
-    </SafeAreaView>
+
+      {displayName && (
+        <Text
+          style={[styles.name, fontStyles.displayName]}
+          numberOfLines={1}
+          ellipsizeMode="tail"
+          testID="displayName"
+        >
+          {displayName}
+        </Text>
+      )}
+      <Text testID="address" style={[fontStyles.mediumNumber, fontStyles.regular, styles.address]}>
+        {address}
+      </Text>
+      <Button
+        text={t('fiatExchangeFlow.exchange.copyAddress')}
+        onPress={onPressCopy}
+        icon={<Paste color={colors.white} />}
+        iconPositionLeft={false}
+        testID="copyButton"
+      />
+
+      <Text style={[styles.infoWrapper, fontStyles.regular, styles.exchangeText]}>
+        <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
+          <Text
+            testID="bottomSheetLink"
+            style={[fontStyles.regular600, styles.link]}
+            onPress={onPressInfo}
+          ></Text>
+        </Trans>
+      </Text>
+      <ExchangesBottomSheet
+        isVisible={!!bottomSheetVisible}
+        onClose={onCloseBottomSheet}
+        onExchangeSelected={onPressExchange}
+        exchanges={exchanges}
+      />
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  infoWrapper: {
+    position: 'absolute',
+    bottom: 20,
+    justifyContent: 'flex-end',
+  },
   container: {
     flex: 1,
-    alignItems: 'center',
+    flexDirection: 'column',
     justifyContent: 'center',
+    alignItems: 'center',
     backgroundColor: colors.white,
   },
+  link: {
+    textDecorationLine: 'underline',
+    color: colors.primary,
+    flexWrap: 'wrap',
+  },
   qrContainer: {
-    paddingTop: 16,
+    marginBottom: 20,
+  },
+  name: {
+    marginHorizontal: variables.width / 4,
+    marginBottom: 8,
+  },
+  address: {
+    color: colors.gray5,
+    marginHorizontal: variables.width / 4,
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  exchangeText: {
+    color: colors.gray5,
+    marginHorizontal: 20,
+    textAlign: 'center',
   },
 })
