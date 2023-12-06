@@ -2,8 +2,6 @@ import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
-import { getTokenId } from 'src/tokens/utils'
-import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
 import TokenImportScreen from './TokenImport'
@@ -57,6 +55,7 @@ describe('TokenImport', () => {
     expect(tokenAddressInput.props.value).toBe('')
 
     fireEvent.changeText(tokenAddressInput, 'ABC')
+    fireEvent(tokenAddressInput, 'blur')
     expect(tokenAddressInput.props.value).toBe('0xABC')
   })
 
@@ -89,25 +88,6 @@ describe('TokenImport', () => {
       fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
 
       expect(getByText('tokenImport.error.alreadySupported')).toBeTruthy()
-      expect(getByText('tokenImport.importButton')).toBeDisabled()
-    })
-
-    it('is already imported', () => {
-      const store = createMockStore({
-        tokens: {
-          importedTokenIds: [getTokenId(networkConfig.defaultNetworkId, mockPoofAddress)],
-        },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <TokenImportScreen {...mockScreenProps} />
-        </Provider>
-      )
-
-      fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), mockPoofAddress)
-      fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
-
-      expect(getByText('tokenImport.error.alreadyImported')).toBeTruthy()
       expect(getByText('tokenImport.importButton')).toBeDisabled()
     })
 

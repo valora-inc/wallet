@@ -1,4 +1,3 @@
-import { ensureLeading0x } from '@celo/utils/lib/address'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -28,7 +27,7 @@ import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
-import { isAddress } from 'viem'
+import { isAddress, isHex } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
@@ -48,12 +47,9 @@ export default function TokenImportScreen(_: Props) {
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
   const [networkId] = useState(networkConfig.defaultNetworkId)
-
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
 
-  const handleChangeTokenAddress = (address: string) => {
-    setTokenAddress(ensureLeading0x(address))
-  }
+  const ensureHex = (address: string) => (isHex(address) ? address : `0x${address}`)
 
   const handleAddressFocus = () => {
     setAddressState(AddressState.Incomplete)
@@ -61,7 +57,7 @@ export default function TokenImportScreen(_: Props) {
 
   const validateAddress = (address: string) => {
     if (isAddress(address)) {
-      const tokenId = getTokenId(networkId, address)
+      const tokenId = getTokenId(networkId, address.toLowerCase())
       // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
       if (supportedTokens[tokenId]) {
         setAddressState(AddressState.AlreadySupported)
@@ -73,13 +69,18 @@ export default function TokenImportScreen(_: Props) {
     }
   }
 
+  const handleEnteredAddress = (address: string) => {
+    address = ensureHex(address)
+    setTokenAddress(address)
+    validateAddress(address)
+  }
+
   const handleAddressBlur = () => {
-    validateAddress(tokenAddress)
+    handleEnteredAddress(tokenAddress)
   }
 
   const handlePaste = (address: string) => {
-    handleChangeTokenAddress(address)
-    validateAddress(address)
+    handleEnteredAddress(address)
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
   }
 
@@ -89,7 +90,7 @@ export default function TokenImportScreen(_: Props) {
       tokenAddress,
       tokenSymbol,
       networkId,
-      tokenId
+      tokenId,
     })
     // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()
@@ -126,7 +127,7 @@ export default function TokenImportScreen(_: Props) {
           <TextInputGroup
             label={t('tokenImport.input.tokenAddress')}
             value={tokenAddress}
-            onChangeText={handleChangeTokenAddress}
+            onChangeText={setTokenAddress}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
             rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
             onFocus={handleAddressFocus}
