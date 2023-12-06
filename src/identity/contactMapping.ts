@@ -219,6 +219,8 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     } else {
       ValoraAnalytics.track(IdentityEvents.address_lookup_start)
       const addressVerified = yield* call(fetchAddressVerification, address)
+      // Only cache verified addresses; unverified addresses will be looked up
+      // again on subsequent requests.
       if (addressVerified) {
         yield* put(updateVerifiedAddresses([...verifiedAddresses, address]))
       }
@@ -307,7 +309,7 @@ function* fetchAddressVerification(address: string) {
     const { data }: { data: { addressVerified: boolean } } = yield* call([response, 'json'])
     return data.addressVerified
   } catch (error) {
-    Logger.debug(`${TAG}/fetchAddressVerification`, 'Unable to look up address', error)
+    Logger.warn(`${TAG}/fetchAddressVerification`, 'Unable to look up address', error)
     throw new Error('Unable to fetch verification status for this address')
   }
 }

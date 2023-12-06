@@ -9,11 +9,17 @@ import {
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 const useFetchRecipientVerificationStatus = () => {
   const [recipient, setRecipient] = useState<Recipient | null>(null)
   const [recipientVerificationStatus, setRecipientVerificationStatus] = useState(
     RecipientVerificationStatus.UNKNOWN
+  )
+
+  const useNewAddressVerificationBehavior = getFeatureGate(
+    StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
   )
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
@@ -33,7 +39,10 @@ const useFetchRecipientVerificationStatus = () => {
     if (selectedRecipient?.e164PhoneNumber) {
       dispatch(fetchAddressesAndValidate(selectedRecipient.e164PhoneNumber))
     } else if (selectedRecipient?.address) {
-      if (verifiedAddresses.includes(selectedRecipient.address)) {
+      if (
+        verifiedAddresses.includes(selectedRecipient.address) ||
+        !useNewAddressVerificationBehavior
+      ) {
         setRecipientVerificationStatus(RecipientVerificationStatus.VERIFIED)
       } else {
         dispatch(fetchAddressVerification(selectedRecipient.address))

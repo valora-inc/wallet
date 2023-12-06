@@ -40,12 +40,8 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   const showValoraIcon = useMemo(() => {
     if (recipient.recipientType === RecipientType.PhoneNumber) {
       return recipient.e164PhoneNumber && !!e164NumberToAddress[recipient.e164PhoneNumber]
-    } else if (
-      recipient.recipientType === RecipientType.Address ||
-      recipient.recipientType === RecipientType.Nomspace
-    ) {
-      return recipient.address && verifiedAddresses.includes(recipient.address)
     }
+    return recipient.address && verifiedAddresses.includes(recipient.address)
   }, [e164NumberToAddress, recipient])
 
   return (

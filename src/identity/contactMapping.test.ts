@@ -33,6 +33,8 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockContactList, mockContactWithPhone2, mockE164Number } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { IdentityEvents } from 'src/analytics/Events'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
 const mockFetch = fetch as FetchMock
@@ -156,56 +158,57 @@ describe('Fetch Addresses Saga', () => {
 })
 
 describe('Fetch Address Verification Saga', () => {
-  describe('central lookup', () => {
-    beforeEach(() => {
-      mockFetch.resetMocks()
-    })
+  beforeEach(() => {
+    mockFetch.resetMocks()
+  })
 
-    it('fetches and stores verified address', async () => {
-      mockFetch.mockResponseOnce(JSON.stringify({ data: { addressVerified: true } }))
+  it('fetches and stores verified address', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { addressVerified: true } }))
 
-      await expectSaga(fetchAddressVerificationSaga, fetchAddressVerification(mockAccount))
-        .provide([
-          [select(verifiedAddressesSelector), []],
-          [select(walletAddressSelector), '0xxyz'],
-          [call(retrieveSignedMessage), 'some signed message'],
-        ])
-        .put(updateVerifiedAddresses([mockAccount]))
-        .put(endFetchAddressVerification())
-        .run()
+    await expectSaga(fetchAddressVerificationSaga, fetchAddressVerification(mockAccount))
+      .provide([
+        [select(verifiedAddressesSelector), []],
+        [select(walletAddressSelector), '0xxyz'],
+        [call(retrieveSignedMessage), 'some signed message'],
+      ])
+      .put(updateVerifiedAddresses([mockAccount]))
+      .put(endFetchAddressVerification())
+      .run()
 
-      expect(mockFetch).toHaveBeenCalledTimes(1)
-      expect(mockFetch).toHaveBeenCalledWith(
-        `${networkConfig.checkAddressVerifiedUrl}?address=${mockAccount}&clientPlatform=android&clientVersion=0.0.1`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization: `Valora 0xxyz:some signed message`,
-          },
-        }
-      )
-    })
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.checkAddressVerifiedUrl}?address=${mockAccount}&clientPlatform=android&clientVersion=0.0.1`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora 0xxyz:some signed message`,
+        },
+      }
+    )
+  })
 
-    it('skips fetching if address already known', async () => {
-      await expectSaga(fetchAddressVerificationSaga, fetchAddressVerification(mockAccount))
-        .provide([[select(verifiedAddressesSelector), [mockAccount]]])
-        .put(endFetchAddressVerification())
-        .run()
+  it('skips fetching if address already known', async () => {
+    await expectSaga(fetchAddressVerificationSaga, fetchAddressVerification(mockAccount))
+      .provide([[select(verifiedAddressesSelector), [mockAccount]]])
+      .put(endFetchAddressVerification())
+      .run()
 
-      expect(mockFetch).toHaveBeenCalledTimes(0)
-    })
+    expect(mockFetch).toHaveBeenCalledTimes(0)
+  })
 
-    it('handles errors gracefully', async () => {
-      mockFetch.mockReject()
-      await expectSaga(fetchAddressVerificationSaga, fetchAddressVerification(mockAccount))
-        .provide([
-          [select(verifiedAddressesSelector), []],
-          [select(walletAddressSelector), '0xxyz'],
-          [call(retrieveSignedMessage), 'some signed message'],
-        ])
-        .put(endFetchAddressVerification())
-        .run()
+  it('handles errors gracefully', async () => {
+    mockFetch.mockReject()
+    await expectSaga(fetchAddressVerificationSaga, fetchAddressVerification(mockAccount))
+      .provide([
+        [select(verifiedAddressesSelector), []],
+        [select(walletAddressSelector), '0xxyz'],
+        [call(retrieveSignedMessage), 'some signed message'],
+      ])
+      .put(endFetchAddressVerification())
+      .run()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(IdentityEvents.address_lookup_error, {
+      error: 'Unable to fetch verification status for this address',
     })
   })
 })

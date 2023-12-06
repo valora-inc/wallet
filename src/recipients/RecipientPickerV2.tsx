@@ -26,8 +26,6 @@ function RecipientPicker({
   isSelectedRecipientLoading,
   style,
 }: Props) {
-  const isRecipientSelected = (recipient: Recipient) =>
-    recipient === selectedRecipient || isEqual(recipient, selectedRecipient)
   return (
     <View style={[styles.body, style]} testID={testID}>
       {title && <Text style={styles.title}>{title}</Text>}
@@ -38,8 +36,8 @@ function RecipientPicker({
           <RecipientItem
             recipient={item}
             onSelectRecipient={onSelectRecipient}
-            selected={isRecipientSelected(item)}
-            loading={isRecipientSelected(item) && isSelectedRecipientLoading}
+            selected={isEqual(item, selectedRecipient)}
+            loading={isEqual(item, selectedRecipient) && isSelectedRecipientLoading}
           />
         )}
       />
