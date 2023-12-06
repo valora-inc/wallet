@@ -343,7 +343,7 @@ export function* handleTransactionReceiptReceived(
   }
 
   const block = yield* call([publicClient[networkIdToNetwork[networkId]], 'getBlock'])
-  const blockTimestamp = Number(block.timestamp)
+  const blockTimestamp = Number(block.timestamp) * 1000
 
   yield* put(
     transactionConfirmed(

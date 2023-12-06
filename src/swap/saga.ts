@@ -14,7 +14,7 @@ import {
 } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
@@ -512,6 +512,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
             transactionHash: approvalTxHash,
             tokenId: getTokenId(networkId, approvalTx.to ?? undefined),
             approvedAmount: BigNumber(approvedAmount.toString())
+              .shiftedBy(-fromToken.decimals) // TODO this is madness
               .shiftedBy(-fromToken.decimals)
               .toNumber(),
           })
