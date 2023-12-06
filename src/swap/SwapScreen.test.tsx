@@ -871,6 +871,7 @@ describe('SwapScreen', () => {
       expect.arrayContaining([
         swapStart({
           ...defaultQuote,
+          taskId: expect.any(String),
           userInput: {
             toTokenId: mockCusdTokenId,
             fromTokenId: mockCeloTokenId,
@@ -921,6 +922,7 @@ describe('SwapScreen', () => {
       expect.arrayContaining([
         swapStart({
           ...defaultQuote,
+          taskId: expect.any(String),
           userInput,
           quoteReceivedAt: quoteReceivedTimestamp,
         } as any),
@@ -1344,6 +1346,7 @@ describe('SwapScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           swapStartPrepared({
+            taskId: expect.any(String),
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,
@@ -1386,6 +1389,7 @@ describe('SwapScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           swapStartPrepared({
+            taskId: expect.any(String),
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,

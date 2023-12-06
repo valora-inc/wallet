@@ -41,7 +41,7 @@ import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactions
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
+import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
@@ -55,6 +55,7 @@ import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
+import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'SwapScreen'
 
@@ -92,6 +93,7 @@ function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const currentSwapId = useRef<string | null>(null)
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -111,7 +113,8 @@ export function SwapScreen({ route }: Props) {
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSwappableTokens()
 
-  const swapInfo = useSelector(swapInfoSelector)
+  const currentSwap = useSelector(currentSwapSelector)
+  const swapStatus = currentSwapId.current === currentSwap?.id ? currentSwap.status : null
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
   const tokensById = useSelector((state) =>
@@ -152,18 +155,6 @@ export function SwapScreen({ route }: Props) {
     }),
     [swapAmount]
   )
-
-  // Used to reset the swap when after a successful swap or error
-  useEffect(() => {
-    if (swapInfo === null) {
-      setSwapAmount(DEFAULT_SWAP_AMOUNT)
-      setUpdatedField(Field.FROM)
-      setSelectingToken(null)
-      setFromToken(initialFromToken)
-      setToToken(undefined)
-      clearQuote()
-    }
-  }, [swapInfo])
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
@@ -337,8 +328,10 @@ export function SwapScreen({ route }: Props) {
             ),
           })
 
+          currentSwapId.current = uuidv4()
           dispatch(
             swapStartPrepared({
+              taskId: currentSwapId.current,
               quote: {
                 preparedTransactions: getSerializablePreparedTransactions(
                   exchangeRate.preparedTransactions.transactions
@@ -383,11 +376,13 @@ export function SwapScreen({ route }: Props) {
       web3Library: 'contract-kit',
     })
 
+    currentSwapId.current = uuidv4()
     dispatch(
       swapStart({
         ...exchangeRate.rawSwapResponse,
         userInput,
         quoteReceivedAt: exchangeRate.receivedAt,
+        taskId: currentSwapId.current,
       })
     )
   }
@@ -493,10 +488,13 @@ export function SwapScreen({ route }: Props) {
         !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
     fetchingSwapQuote
 
+  const confirmSwapIsLoading = swapStatus === 'started'
   const allowSwap = useMemo(
     () =>
-      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !exchangeRateUpdatePending,
-    [parsedSwapAmount, exchangeRateUpdatePending]
+      !confirmSwapIsLoading &&
+      !exchangeRateUpdatePending &&
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
+    [parsedSwapAmount, exchangeRateUpdatePending, confirmSwapIsLoading]
   )
 
   const onPressLearnMore = () => {
@@ -610,6 +608,7 @@ export function SwapScreen({ route }: Props) {
           text={t('swapScreen.confirmSwap')}
           size={BtnSizes.FULL}
           disabled={!allowSwap}
+          showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
       <TokenBottomSheet

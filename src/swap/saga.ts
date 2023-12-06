@@ -12,20 +12,11 @@ import {
   TxReceiptProperties,
 } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import {
-  swapApprove,
-  swapError,
-  swapExecute,
-  swapPriceChange,
-  swapStart,
-  swapStartPrepared,
-  swapSuccess,
-} from 'src/swap/slice'
+import { swapError, swapStart, swapStartPrepared, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import { tokensByIdSelector } from 'src/tokens/selectors'
@@ -51,15 +42,11 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo, getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, put, select, takeLatest } from 'typed-redux-saga'
+import { call, put, select, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
-
-function getPercentageDifference(price1: number, price2: number) {
-  return (Math.abs(price1 - price2) / ((price1 + price2) / 2)) * 100
-}
 
 function* handleSendSwapTransaction(
   rawTx: SwapTransaction,
@@ -116,6 +103,7 @@ function calculateEstimatedUsdValue({
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
+  const taskId = action.payload.taskId
   const { price, guaranteedPrice, buyAmount, sellAmount, allowanceTarget, estimatedPriceImpact } =
     action.payload.unvalidatedSwapTransaction
   const buyTokenAddress = action.payload.unvalidatedSwapTransaction.buyTokenAddress.toLowerCase()
@@ -138,7 +126,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
     )
-    yield* put(swapError())
+    yield* put(swapError(taskId))
     return
   }
 
@@ -184,28 +172,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   })
 
   try {
-    // Navigate to swap pending screen
-    navigate(Screens.SwapExecuteScreen)
-
-    // Check that our guaranteedPrice is within 2%, maxSwapSlippagePercentage, of of the price
-    const maxSlippagePercent: number = yield* select(maxSwapSlippagePercentageSelector)
-
-    const priceDiff: number = yield* call(getPercentageDifference, +price, +guaranteedPrice)
-    if (priceDiff >= maxSlippagePercent) {
-      yield* put(swapPriceChange())
-      ValoraAnalytics.track(SwapEvents.swap_execute_price_change, {
-        price,
-        guaranteedPrice,
-        toToken: buyTokenAddress,
-        toTokenId: toToken.tokenId,
-        toTokenNetworkId: toToken.networkId,
-        fromToken: sellTokenAddress,
-        fromTokenId: fromToken.tokenId,
-        fromTokenNetworkId: fromToken.networkId,
-      })
-      return
-    }
-
     const walletAddress = yield* select(walletAddressSelector)
 
     // Approve transaction if the sell token is ERC-20
@@ -216,7 +182,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
           : sellAmount
 
       // Approve transaction
-      yield* put(swapApprove())
       Logger.debug(
         TAG,
         `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
@@ -232,7 +197,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     // Execute transaction
-    yield* put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
 
     const beforeSwapExecutionTimestamp = Date.now()
@@ -245,9 +209,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       toToken
     )
 
+    yield* call(navigate, Screens.WalletHome)
+
     const timeMetrics = getTimeMetrics()
 
-    yield* put(swapSuccess())
+    yield* put(swapSuccess(taskId))
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
@@ -263,7 +229,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...timeMetrics,
       error: error.message,
     })
-    yield* put(swapError())
+    yield* put(swapError(taskId))
     yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
@@ -356,6 +322,7 @@ function getSwapTxsReceiptAnalyticsProperties(
 
 export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>) {
   const swapSubmittedAt = Date.now()
+  const taskId = action.payload.taskId
   const {
     price,
     buyTokenAddress,
@@ -385,7 +352,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       TAG,
       `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
     )
-    yield* put(swapError())
+    yield* put(swapError(taskId))
     return
   }
 
@@ -434,10 +401,9 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
   const trackedTxs: TrackedTx[] = []
   const networkId = fromToken.networkId
 
-  try {
-    // Navigate to swap pending screen
-    navigate(Screens.SwapExecuteScreen)
+  let submitted = false
 
+  try {
     const network = getNetworkFromNetworkId(networkId)
     if (!network) {
       throw new Error('Unknown token network')
@@ -467,7 +433,6 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     yield* call(unlockAccount, wallet.account.address)
 
     // Execute transaction(s)
-    yield* put(swapExecute())
     Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
 
     const beforeSwapExecutionTimestamp = Date.now()
@@ -511,6 +476,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         transactionHash: swapTxHash,
       })
     )
+    yield* call(navigate, Screens.WalletHome)
+    submitted = true
 
     const swapTxReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
       hash: swapTxHash,
@@ -538,8 +505,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     }
 
     const timeMetrics = getTimeMetrics()
-
-    yield* put(swapSuccess())
+    yield* put(swapSuccess(taskId))
+    // TODO: do we need to vibrate here?
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
@@ -550,8 +517,13 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     const error = ensureError(err)
     // dispatch the error early, in case the rest of the handling throws
     // and leaves the app in a bad state
-    yield* put(swapError())
-    vibrateError()
+    yield* put(swapError(taskId))
+    // Only vibrate if we haven't already submitted the transaction
+    // since the user may be doing something else on the app by now
+    // (different screen or a new swap)
+    if (!submitted) {
+      vibrateError()
+    }
 
     Logger.error(TAG, 'Error while swapping', error)
     ValoraAnalytics.track(SwapEvents.swap_execute_error, {
@@ -565,9 +537,9 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
 export function* swapSaga() {
   // Legacy
-  yield* takeLatest(swapStart.type, safely(swapSubmitSaga))
+  yield* takeEvery(swapStart.type, safely(swapSubmitSaga))
   // New flow with prepared transactions
-  yield* takeLatest(swapStartPrepared.type, safely(swapSubmitPreparedSaga))
+  yield* takeEvery(swapStartPrepared.type, safely(swapSubmitPreparedSaga))
 }
 
 export function* sendApproveTx(
