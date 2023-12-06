@@ -98,7 +98,7 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
 export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): number {
   const cicoTokenInfo = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.CICO_TOKEN_INFO]
-  )
+  ).tokenInfo
   if (
     (!cicoTokenInfo[token1.tokenId]?.cicoOrder && !cicoTokenInfo[token2.tokenId]?.cicoOrder) ||
     cicoTokenInfo[token1.tokenId]?.cicoOrder === cicoTokenInfo[token2.tokenId]?.cicoOrder

@@ -97,6 +97,8 @@ export const DynamicConfigs = {
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {
     configName: StatsigDynamicConfigs.CICO_TOKEN_INFO,
-    defaultValues: {} as { [tokenId: string]: { cicoOrder: number } },
+    defaultValues: {
+      tokenInfo: {} as { [tokenId: string]: { cicoOrder: number } },
+    },
   },
 }

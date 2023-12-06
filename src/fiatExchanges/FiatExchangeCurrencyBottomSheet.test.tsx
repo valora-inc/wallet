@@ -122,11 +122,13 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     jest.clearAllMocks()
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores'],
-      [mockEthTokenId]: { cicoOrder: 1 },
-      [mockCeloTokenId]: { cicoOrder: 2 },
-      [mockCusdTokenId]: { cicoOrder: 3 },
-      [mockCeurTokenId]: { cicoOrder: 4 },
-      [mockCrealTokenId]: { cicoOrder: 5 },
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
+      },
     })
   })
   it('shows the correct tokens for cash in (multichain disabled, no ETH)', () => {
@@ -149,11 +151,13 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct tokens for cash in (multichain)', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      [mockEthTokenId]: { cicoOrder: 1 },
-      [mockCeloTokenId]: { cicoOrder: 2 },
-      [mockCusdTokenId]: { cicoOrder: 3 },
-      [mockCeurTokenId]: { cicoOrder: 4 },
-      [mockCrealTokenId]: { cicoOrder: 5 },
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
+      },
     })
     const { getAllByTestId } = render(
       <Provider store={mockStore}>
@@ -190,11 +194,13 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct tokens for cash out (multichain)', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      [mockEthTokenId]: { cicoOrder: 1 },
-      [mockCeloTokenId]: { cicoOrder: 2 },
-      [mockCusdTokenId]: { cicoOrder: 3 },
-      [mockCeurTokenId]: { cicoOrder: 4 },
-      [mockCrealTokenId]: { cicoOrder: 5 },
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
+      },
     })
     const { queryByTestId, getAllByTestId } = render(
       <Provider store={mockStore}>
@@ -231,11 +237,13 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct tokens for cash spend (multichain)', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      [mockEthTokenId]: { cicoOrder: 1 },
-      [mockCeloTokenId]: { cicoOrder: 2 },
-      [mockCusdTokenId]: { cicoOrder: 3 },
-      [mockCeurTokenId]: { cicoOrder: 4 },
-      [mockCrealTokenId]: { cicoOrder: 5 },
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
+      },
     })
     const { queryByTestId, getAllByTestId } = render(
       <Provider store={mockStore}>
@@ -256,8 +264,7 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct order when cicoOrder missing/same value', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      [mockCusdTokenId]: { cicoOrder: 1 },
-      [mockCrealTokenId]: { cicoOrder: 1 },
+      tokenInfo: { [mockCusdTokenId]: { cicoOrder: 1 }, [mockCrealTokenId]: { cicoOrder: 1 } },
     })
     const { getAllByTestId } = render(
       <Provider store={mockStore}>
