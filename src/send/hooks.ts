@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react'
 import { debounce, throttle } from 'lodash'
 import useSelector from 'src/redux/useSelector'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -32,6 +32,7 @@ const SEARCH_THROTTLE_TIME = 100
  */
 export function useMergedSearchRecipients(onSearch: (searchQuery: string) => void) {
   const [searchQuery, setSearchQuery] = useState('')
+  const searchQueryRef = useRef('')
 
   const { contactRecipients, recentRecipients } = useSendRecipients()
 
@@ -49,6 +50,7 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
 
   const throttledSearch = throttle((searchInput: string) => {
     onSearch(searchInput)
+    searchQueryRef.current = searchInput
     setSearchQuery(searchInput)
     setRecentFiltered(recentRecipientsFilter(searchInput))
     setContactsFiltered(contactRecipientsFilter(searchInput))
@@ -57,6 +59,7 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
   useEffect(() => {
     // Clear search when recipients change to avoid tricky states
     setSearchQuery('')
+    searchQueryRef.current = ''
   }, [recentRecipients, contactRecipients])
 
   const resolvedRecipients = useResolvedRecipients(searchQuery)
@@ -77,6 +80,7 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
     mergedRecipients,
     searchQuery,
     setSearchQuery: throttledSearch,
+    searchQueryRef,
   }
 }
 

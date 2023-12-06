@@ -8,12 +8,14 @@ import { Spacing } from 'src/styles/styles'
 
 interface SendSelectRecipientSearchInputProps {
   input: string
+  searchQueryRef?: React.RefObject<String>
   onChangeText: (value: string) => void
 }
 
 export function SendSelectRecipientSearchInput({
   input,
   onChangeText,
+  searchQueryRef,
 }: SendSelectRecipientSearchInputProps) {
   const { t } = useTranslation()
   return (
@@ -21,7 +23,11 @@ export function SendSelectRecipientSearchInput({
       <TextInput
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
         value={input}
-        onChangeText={onChangeText}
+        onChangeText={(text) => {
+          if (searchQueryRef && searchQueryRef.current !== text) {
+            onChangeText(text)
+          }
+        }}
         style={styles.search}
         inputStyle={styles.input}
         placeholderTextColor={colors.gray4}
