@@ -8,7 +8,7 @@ import { Spacing } from 'src/styles/styles'
 
 interface SendSelectRecipientSearchInputProps {
   input: string
-  searchQueryRef?: React.RefObject<String>
+  searchQueryRef?: React.RefObject<string>
   onChangeText: (value: string) => void
 }
 
