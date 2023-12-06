@@ -432,10 +432,11 @@ const styles = StyleSheet.create({
   },
   unknownAddressInfo: {
     margin: Spacing.Thick24,
-    marginBottom: Spacing.Smallest8,
+    marginBottom: variables.contentPadding,
   },
   sendOrInviteButton: {
     margin: Spacing.Thick24,
+    marginTop: variables.contentPadding,
   },
 })
 
