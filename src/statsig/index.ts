@@ -86,6 +86,12 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
+  if (
+    featureGateName === StatsigFeatureGates.USE_NEW_SEND_FLOW ||
+    featureGateName === StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
+  ) {
+    return false
+  }
   try {
     return Statsig.checkGate(featureGateName)
   } catch (error) {

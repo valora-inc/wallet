@@ -12,19 +12,23 @@ import {
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { E164NumberToAddressType } from 'src/identity/reducer'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import { getSecureSendAddress } from 'src/identity/secureSend'
+import {
+  e164NumberToAddressSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import {
+  Recipient,
   RecipientInfo,
   getRecipientFromAddress,
   recipientHasNumber,
 } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import { TransactionDataInput } from 'src/send/SendAmount'
 import {
   HandleQRCodeDetectedAction,
   HandleQRCodeDetectedSecureSendAction,
@@ -82,15 +86,15 @@ export async function shareSVGImage(svg: SVG) {
 export function* handleSecureSend(
   address: string,
   e164NumberToAddress: E164NumberToAddressType,
-  secureSendTxData: TransactionDataInput,
+  recipient: Recipient,
   requesterAddress?: string
 ) {
-  if (!recipientHasNumber(secureSendTxData.recipient)) {
+  if (!recipientHasNumber(recipient)) {
     throw Error('Invalid recipient type for Secure Send, has no mobile number')
   }
 
   const userScannedAddress = address.toLowerCase()
-  const { e164PhoneNumber } = secureSendTxData.recipient
+  const { e164PhoneNumber } = recipient
   const possibleReceivingAddresses = e164NumberToAddress[e164PhoneNumber]
   // This should never happen. Secure Send is triggered when there are
   // multiple addresses for a given phone number
@@ -171,6 +175,9 @@ export function* handleQRCodeSecureSend({
   qrCode,
   transactionData,
   requesterAddress,
+  recipient,
+  forceTokenId,
+  defaultTokenIdOverride,
 }: HandleQRCodeDetectedSecureSendAction) {
   const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
 
@@ -183,15 +190,36 @@ export function* handleQRCodeSecureSend({
     handleSecureSend,
     qrData.address,
     e164NumberToAddress,
-    transactionData,
+    recipient,
     requesterAddress
   )
   if (!success) {
     return
   }
-  navigate(Screens.SendConfirmation, {
-    transactionData,
-    origin: SendOrigin.AppSendFlow,
-    isFromScan: true,
-  })
+
+  if (transactionData) {
+    navigate(Screens.SendConfirmation, {
+      transactionData,
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: true,
+    })
+  } else {
+    const secureSendPhoneNumberMapping = yield* select(secureSendPhoneNumberMappingSelector)
+    const address = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
+    if (!address) {
+      // should never happen b/c if handleSecureSend succeeds then address should be there
+      Logger.error(TAG, `No secure send address found for recipient ${recipient}`)
+      return
+    }
+    navigate(Screens.SendEnterAmount, {
+      origin: SendOrigin.AppSendFlow,
+      recipient: {
+        ...recipient,
+        address,
+      },
+      isFromScan: true,
+      forceTokenId,
+      defaultTokenIdOverride,
+    })
+  }
 }

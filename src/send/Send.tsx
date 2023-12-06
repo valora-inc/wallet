@@ -33,6 +33,7 @@ import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
 import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
+import { hasAddressField } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -47,10 +48,6 @@ const SEARCH_THROTTLE_TIME = 100
 const TAG = 'send/Send'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Send>
-
-function hasAddressField(obj: Object): obj is { address: string } {
-  return 'address' in obj && !!obj.address
-}
 
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false

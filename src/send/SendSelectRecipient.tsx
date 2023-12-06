@@ -220,12 +220,10 @@ function SendSelectRecipient({ route }: Props) {
       recipientType: recentRecipient.recipientType,
     })
     setSelectedRecipient(recentRecipient)
-    navigateToSendAmount(recentRecipient)
+    nextScreen(recentRecipient)
   }
 
-  const navigateToSendAmount = (selectedRecipient: Recipient) => {
-    // TODO (ACT-973): Ensure we're able to to navigate to the next screen
-    // no matter what the contents of the recipient are.
+  const nextScreen = (selectedRecipient: Recipient) => {
     if (selectedRecipient.address) {
       navigate(Screens.SendEnterAmount, {
         isFromScan: false,
@@ -235,6 +233,13 @@ function SendSelectRecipient({ route }: Props) {
           ...selectedRecipient,
           address: selectedRecipient.address,
         },
+        origin: SendOrigin.AppSendFlow,
+      })
+    } else {
+      navigate(Screens.ValidateRecipientIntro, {
+        defaultTokenIdOverride,
+        forceTokenId,
+        recipient: selectedRecipient,
         origin: SendOrigin.AppSendFlow,
       })
     }
@@ -254,7 +259,7 @@ function SendSelectRecipient({ route }: Props) {
       ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
         recipientType: recipient.recipientType,
       })
-      navigateToSendAmount(recipient)
+      nextScreen(recipient)
     }
   }
 
