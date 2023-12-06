@@ -2,10 +2,9 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { useFeeCurrencies, useMaxSendAmountByAddress } from 'src/fees/hooks'
+import { useMaxSendAmountByAddress } from 'src/fees/hooks'
 import { FeeType, estimateFee } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
-import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import { RecursivePartial, createMockStore, getElementText } from 'test/utils'
@@ -17,7 +16,6 @@ import {
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
-  mockEthTokenId,
   mockFeeInfo,
 } from 'test/values'
 
@@ -212,90 +210,5 @@ describe('useMaxSendAmountByAddress', () => {
     )
     expect(store.dispatch).not.toHaveBeenCalled()
     expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
-  })
-})
-
-describe(useFeeCurrencies, () => {
-  beforeEach(() => {
-    jest.clearAllMocks()
-  })
-
-  function renderHook(storeOverrides: RecursivePartial<RootState> = {}) {
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockCusdTokenId]: {
-            address: mockCusdAddress,
-            tokenId: mockCusdTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'cUSD',
-            balance: '200',
-            priceUsd: '1',
-            isCoreToken: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockCeurTokenId]: {
-            address: mockCeurAddress,
-            tokenId: mockCeurTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'cEUR',
-            balance: '0',
-            priceUsd: '1.2',
-            isCoreToken: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockCeloTokenId]: {
-            address: mockCeloAddress,
-            tokenId: mockCeloTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'CELO',
-            balance: '200',
-            priceUsd: '5',
-            isCoreToken: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockEthTokenId]: {
-            tokenId: mockEthTokenId,
-            networkId: NetworkId['ethereum-sepolia'],
-            symbol: 'ETH',
-            balance: '200',
-            priceUsd: '10',
-            isCoreToken: true,
-            priceFetchedAt: Date.now(),
-          },
-        },
-      },
-      ...storeOverrides,
-    })
-    store.dispatch = jest.fn()
-
-    const result = jest.fn()
-
-    function TestComponent() {
-      const feeCurrencies = useFeeCurrencies(NetworkId['celo-alfajores'])
-      result(feeCurrencies)
-      return null
-    }
-
-    const tree = render(
-      <Provider store={store}>
-        <TestComponent />
-      </Provider>
-    )
-
-    return {
-      store,
-      result,
-      ...tree,
-    }
-  }
-
-  it('returns feeCurrencies sorted by native currency first, then by USD balance, and balance otherwise', () => {
-    const { result } = renderHook()
-    expect(result.mock.calls[0][0].map((curr: TokenBalance) => curr.tokenId)).toEqual([
-      mockCeloTokenId,
-      mockCusdTokenId,
-      mockCeurTokenId,
-    ])
   })
 })

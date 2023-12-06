@@ -5,6 +5,7 @@ import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
   defaultTokenToSendSelector,
+  feeCurrenciesSelector,
   spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
@@ -17,7 +18,7 @@ import {
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { mockEthTokenId } from 'test/values'
+import { mockCeloTokenId, mockEthTokenId, mockTokenBalances } from 'test/values'
 
 const mockDate = 1588200517518
 
@@ -484,5 +485,50 @@ describe(spendTokensByNetworkIdSelector, () => {
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
     })
+  })
+})
+
+describe('feeCurrenciesSelector', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const mockState: any = {
+    tokens: {
+      tokenBalances: {
+        ...state.tokens.tokenBalances,
+        ['celo-alfajores:0xusd']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xusd'],
+          isCoreToken: true,
+          balance: '200',
+        },
+        ['celo-alfajores:0xeur']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xeur'],
+          isCoreToken: true,
+          balance: '0',
+        },
+        [mockCeloTokenId]: {
+          ...mockTokenBalances[mockCeloTokenId],
+          isCoreToken: true,
+          isNative: true,
+          balance: '200',
+        },
+        [mockEthTokenId]: {
+          ...state.tokens.tokenBalances[mockEthTokenId],
+          isNative: true,
+          balance: '200',
+        },
+      },
+    },
+  }
+
+  it('returns feeCurrencies sorted by native currency first, then by USD balance, and balance otherwise', () => {
+    const result = feeCurrenciesSelector(mockState, [NetworkId['celo-alfajores']])
+
+    expect(result.map((currency) => currency.tokenId)).toEqual([
+      mockCeloTokenId,
+      'celo-alfajores:0xusd',
+      'celo-alfajores:0xeur',
+    ])
   })
 })
