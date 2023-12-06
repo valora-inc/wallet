@@ -18,6 +18,7 @@ describe('SwapTransactionDetails', () => {
         <SwapTransactionDetails
           networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
+          slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
           slippagePercentage={'0.5'}
           fetchingSwapQuote={false}
@@ -46,6 +47,7 @@ describe('SwapTransactionDetails', () => {
         <SwapTransactionDetails
           networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
+          slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
           slippagePercentage={'0.5'}
           fetchingSwapQuote={false}
@@ -64,6 +66,7 @@ describe('SwapTransactionDetails', () => {
         <SwapTransactionDetails
           networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
+          slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}
           slippagePercentage={'0.5'}
           fromToken={mockCeloTokenBalance}
@@ -80,5 +83,26 @@ describe('SwapTransactionDetails', () => {
     )
     expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo/Icon')).toBeTruthy()
     expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).not.toBeDisabled()
+  })
+
+  it('should render correctly with slippage info', () => {
+    const { getByText, getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <SwapTransactionDetails
+          networkFee={new BigNumber(0.0001)}
+          networkFeeInfoBottomSheetRef={{ current: null }}
+          slippageInfoBottomSheetRef={{ current: null }}
+          feeTokenId={mockCeloTokenId}
+          slippagePercentage={'0.5'}
+          fromToken={mockCeloTokenBalance}
+          fetchingSwapQuote={false}
+        />
+      </Provider>
+    )
+
+    expect(getByText('swapScreen.transactionDetails.slippagePercentage')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/Slippage')).toHaveTextContent('0.5%')
+    expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo/Icon')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/Slippage/MoreInfo')).not.toBeDisabled()
   })
 })
