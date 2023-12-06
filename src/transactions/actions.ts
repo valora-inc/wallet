@@ -5,6 +5,7 @@ import {
   NetworkId,
   PendingStandbySwap,
   PendingStandbyTransfer,
+  PendingTokenApproval,
   TokenTransaction,
   TransactionStatus,
 } from 'src/transactions/types'
@@ -23,6 +24,7 @@ export enum Actions {
 type BaseStandbyTransaction =
   | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
   | Omit<PendingStandbySwap, 'timestamp' | 'status'>
+  | Omit<PendingTokenApproval, 'timestamp' | 'status'>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
@@ -52,6 +54,7 @@ export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
   receipt: BaseTransactionReceipt
+  blockTimestamp: number
 }
 
 export interface UpdatedRecentTxRecipientsCacheAction {
@@ -100,11 +103,13 @@ export const updateRecentTxRecipientsCache = (
 
 export const transactionConfirmed = (
   txId: string,
-  receipt: BaseTransactionReceipt
+  receipt: BaseTransactionReceipt,
+  blockTimestamp: number
 ): TransactionConfirmedAction => ({
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
+  blockTimestamp,
 })
 
 export const addHashToStandbyTransaction = (

@@ -4,6 +4,7 @@ import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
+import erc20 from 'src/abis/IERC20'
 import { SwapEvents } from 'src/analytics/Events'
 import {
   PrefixedTxReceiptProperties,
@@ -13,7 +14,7 @@ import {
 } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { maxSwapSlippagePercentageSelector } from 'src/app/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
@@ -52,7 +53,7 @@ import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { applyChainIdWorkaround, buildTxo, getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeLatest } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, zeroAddress } from 'viem'
+import { Hash, TransactionReceipt, decodeFunctionData, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
@@ -490,6 +491,33 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     }
 
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
+
+    // if there is an approval transaction, add a standby transaction for it
+    if (preparedTransactions.length > 1) {
+      const approvalTx = preparedTransactions[0]
+      const { functionName, args } = decodeFunctionData({
+        abi: erc20.abi,
+        data: approvalTx.data ?? '0x0',
+      })
+      if (functionName === 'approve') {
+        const approvedAmount = args[1]
+        const approvalTxHash = txHashes[0]
+
+        yield* put(
+          addStandbyTransaction({
+            context: swapApproveContext,
+            __typename: 'TokenApproval',
+            networkId,
+            type: TokenTransactionTypeV2.Approval,
+            transactionHash: approvalTxHash,
+            tokenId: getTokenId(networkId, approvalTx.to ?? undefined),
+            approvedAmount: BigNumber(approvedAmount.toString())
+              .shiftedBy(-fromToken.decimals)
+              .toNumber(),
+          })
+        )
+      }
+    }
 
     const swapTxHash = txHashes[txHashes.length - 1]
 

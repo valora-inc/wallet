@@ -8,6 +8,7 @@ import { Network, NetworkId } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import { Address } from 'viem'
 import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
@@ -130,7 +131,7 @@ export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
     .showBalances
 }
 
-export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {
+export function getTokenId(networkId: NetworkId, tokenAddress?: string | Address): string {
   if (
     (networkId === networkConfig.networkToNetworkId[Network.Celo] &&
       tokenAddress === networkConfig.celoTokenAddress) ||

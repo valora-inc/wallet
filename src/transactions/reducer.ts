@@ -111,7 +111,7 @@ export const reducer = (
                 status: status ? TransactionStatus.Complete : TransactionStatus.Failed,
                 transactionHash,
                 block,
-                timestamp: Date.now(),
+                timestamp: action.blockTimestamp,
                 fees: fees || [],
               }
             }
