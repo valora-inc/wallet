@@ -209,7 +209,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       toToken
     )
 
-    yield* call(navigate, Screens.WalletHome)
+    navigate(Screens.WalletHome)
 
     const timeMetrics = getTimeMetrics()
 
@@ -476,7 +476,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         transactionHash: swapTxHash,
       })
     )
-    yield* call(navigate, Screens.WalletHome)
+    navigate(Screens.WalletHome)
     submitted = true
 
     const swapTxReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
