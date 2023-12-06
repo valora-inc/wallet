@@ -2113,6 +2113,9 @@
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
                 },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
                 "inAmount": {
                     "$ref": "#/definitions/TokenAmount"
                 },
@@ -2166,6 +2169,9 @@
                 },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
                 },
                 "metadata": {
                     "$ref": "#/definitions/TokenTransferMetadata"
@@ -2765,6 +2771,9 @@
                         "context": {
                             "$ref": "#/definitions/TransactionContext"
                         },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
                         "fees": {
                             "items": {
                                 "$ref": "#/definitions/Fee"
@@ -2833,6 +2842,9 @@
                         },
                         "context": {
                             "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
                         },
                         "fees": {
                             "items": {

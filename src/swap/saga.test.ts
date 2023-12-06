@@ -40,6 +40,8 @@ import {
   mockCeurAddress,
   mockCeurTokenId,
   mockContract,
+  mockCrealAddress,
+  mockCrealTokenId,
   mockEthTokenId,
   mockTokenBalances,
   mockUSDCAddress,
@@ -144,56 +146,62 @@ const mockSwap: PayloadAction<SwapInfo> = {
   },
 }
 
-const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
-  type: 'swap/swapStartPrepared',
-  payload: {
-    userInput: {
-      updatedField: Field.TO,
-      fromTokenId: mockCeurTokenId,
-      toTokenId: mockCeloTokenId,
-      swapAmount: {
-        [Field.FROM]: '100',
-        [Field.TO]: '200',
-      },
-    },
-    quote: {
-      preparedTransactions: getSerializablePreparedTransactions([
-        {
-          from: mockAccount,
-          to: mockCeurAddress as Address,
-          value: BigInt(0),
-          data: '0x0',
-          gas: BigInt(59_480),
-          maxFeePerGas: BigInt(12_000_000_000),
-        },
-        {
-          from: mockAccount,
-          to: mockSwapTransaction.allowanceTarget as Address,
-          value: BigInt(0),
-          data: '0x0',
-          gas: BigInt(1_325_000),
-          maxFeePerGas: BigInt(12_000_000_000),
-        },
-      ]),
-      rawSwapResponse: {
-        approveTransaction: {
-          gas: '59480',
-          from: mockAccount,
-          chainId: 42220,
-          data: '0x0',
-          to: '0xabc',
-        },
-        unvalidatedSwapTransaction: {
-          ...mockSwapTransaction,
-        },
-        details: {
-          swapProvider: '0x',
+const mockSwapPreparedWithFeeCurrency = (feeCurrency?: Address) => {
+  return {
+    type: 'swap/swapStartPrepared',
+    payload: {
+      userInput: {
+        updatedField: Field.TO,
+        fromTokenId: mockCeurTokenId,
+        toTokenId: mockCeloTokenId,
+        swapAmount: {
+          [Field.FROM]: '100',
+          [Field.TO]: '200',
         },
       },
-      receivedAt: mockQuoteReceivedTimestamp,
+      quote: {
+        preparedTransactions: getSerializablePreparedTransactions([
+          {
+            from: mockAccount,
+            to: mockCeurAddress as Address,
+            value: BigInt(0),
+            data: '0x0',
+            gas: BigInt(59_480),
+            maxFeePerGas: BigInt(12_000_000_000),
+            feeCurrency,
+          },
+          {
+            from: mockAccount,
+            to: mockSwapTransaction.allowanceTarget as Address,
+            value: BigInt(0),
+            data: '0x0',
+            gas: BigInt(1_325_000),
+            maxFeePerGas: BigInt(12_000_000_000),
+            feeCurrency,
+          },
+        ]),
+        rawSwapResponse: {
+          approveTransaction: {
+            gas: '59480',
+            from: mockAccount,
+            chainId: 42220,
+            data: '0x0',
+            to: '0xabc',
+          },
+          unvalidatedSwapTransaction: {
+            ...mockSwapTransaction,
+          },
+          details: {
+            swapProvider: '0x',
+          },
+        },
+        receivedAt: mockQuoteReceivedTimestamp,
+      },
     },
-  },
+  }
 }
+
+const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = mockSwapPreparedWithFeeCurrency()
 
 const mockSwapPreparedEthereum: PayloadAction<SwapInfoPrepared> = {
   type: 'swap/swapStartPrepared',
@@ -355,6 +363,11 @@ const store = createMockStore({
       },
       [mockEthTokenId]: {
         ...mockTokenBalances[mockEthTokenId],
+        priceUsd: '0.5',
+        balance: '10',
+      },
+      [mockCrealTokenId]: {
+        ...mockTokenBalances[mockCrealTokenId],
         priceUsd: '0.5',
         balance: '10',
       },
@@ -615,9 +628,39 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenAddress: mockCeurAddress,
       toTokenId: mockCeloTokenId,
       toTokenAddress: mockCeloAddress,
+      feeCurrencyId: mockCeloTokenId,
       feeCurrencySymbol: 'CELO',
       swapPrepared: mockSwapPrepared,
-      expectedFees: [],
+      expectedFees: [
+        {
+          type: 'SECURITY_FEE',
+          amount: {
+            value: '0.00185837',
+            tokenId: mockCeloTokenId,
+          },
+        },
+      ],
+    },
+    {
+      network: Network.Celo,
+      networkId: NetworkId['celo-alfajores'],
+      fromTokenId: mockCeurTokenId,
+      fromTokenAddress: mockCeurAddress,
+      toTokenId: mockCeloTokenId,
+      toTokenAddress: mockCeloAddress,
+      feeCurrencyAddress: mockCrealAddress,
+      feeCurrencyId: mockCrealTokenId,
+      feeCurrencySymbol: 'cREAL',
+      swapPrepared: mockSwapPreparedWithFeeCurrency(mockCrealAddress as Address),
+      expectedFees: [
+        {
+          type: 'SECURITY_FEE',
+          amount: {
+            value: '0.00185837',
+            tokenId: mockCrealTokenId,
+          },
+        },
+      ],
     },
     {
       network: Network.Ethereum,
@@ -626,6 +669,7 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenAddress: mockUSDCAddress,
       toTokenId: mockEthTokenId,
       toTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      feeCurrencyId: mockEthTokenId,
       feeCurrencySymbol: 'ETH',
       swapPrepared: mockSwapPreparedEthereum,
       expectedFees: [
@@ -641,7 +685,7 @@ describe(swapSubmitPreparedSaga, () => {
   ]
 
   it.each(testCases)(
-    'should complete swap on $network',
+    'should complete swap on $network with $feeCurrencySymbol as feeCurrency',
     async ({
       network,
       networkId,
@@ -649,6 +693,8 @@ describe(swapSubmitPreparedSaga, () => {
       fromTokenAddress,
       toTokenId,
       toTokenAddress,
+      feeCurrencyAddress,
+      feeCurrencyId,
       feeCurrencySymbol,
       swapPrepared,
       expectedFees,
@@ -682,6 +728,7 @@ describe(swapSubmitPreparedSaga, () => {
               tokenId: fromTokenId,
             },
             transactionHash: mockSwapTxReceipt.transactionHash,
+            feeCurrencyId,
           })
         )
         .put(
@@ -727,12 +774,12 @@ describe(swapSubmitPreparedSaga, () => {
         gasUsed: 423252,
         gasFee: 0.00211626,
         gasFeeUsd: 0.00105813,
-        feeCurrency: undefined,
+        feeCurrency: feeCurrencyAddress,
         feeCurrencySymbol,
         txCount: 2,
         approveTxCumulativeGasUsed: 3_129_217,
         approveTxEffectiveGasPrice: 5_000_000_000,
-        approveTxFeeCurrency: undefined,
+        approveTxFeeCurrency: feeCurrencyAddress,
         approveTxFeeCurrencySymbol: feeCurrencySymbol,
         approveTxGas: 59_480,
         approveTxMaxGasFee: 0.00071376,
@@ -743,7 +790,7 @@ describe(swapSubmitPreparedSaga, () => {
         approveTxHash: '0x1',
         swapTxCumulativeGasUsed: 3_899_547,
         swapTxEffectiveGasPrice: 5_000_000_000,
-        swapTxFeeCurrency: undefined,
+        swapTxFeeCurrency: feeCurrencyAddress,
         swapTxFeeCurrencySymbol: feeCurrencySymbol,
         swapTxGas: 1_325_000,
         swapTxMaxGasFee: 0.0159,
@@ -807,6 +854,7 @@ describe(swapSubmitPreparedSaga, () => {
             tokenId: mockCeurTokenId,
           },
           transactionHash: '0x1',
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x1' })
@@ -840,6 +888,7 @@ describe(swapSubmitPreparedSaga, () => {
             tokenId: mockCeurTokenId,
           },
           transactionHash: mockSwapTxReceipt.transactionHash,
+          feeCurrencyId: mockCeloTokenId,
         })
       )
       .run()

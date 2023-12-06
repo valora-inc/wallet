@@ -4,9 +4,9 @@ import { TransactionRequest } from 'src/viem/prepareTransactions'
 
 const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas'] as const
 
-type BigIntProps = (typeof bigIntProps)[number]
+export type BigIntProps = (typeof bigIntProps)[number]
 
-type MapValuesToString<T, K extends keyof T> = {
+export type MapValuesToString<T, K extends keyof T> = {
   [P in keyof T]: P extends K ? string : T[P]
 }
 
