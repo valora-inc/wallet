@@ -120,7 +120,7 @@ const mockQuoteReceivedTimestamp = 1_000_000_000_000
 const mockSwap: PayloadAction<SwapInfo> = {
   type: 'swap/swapStart',
   payload: {
-    taskId: 'test-swap-id',
+    swapId: 'test-swap-id',
     approveTransaction: {
       gas: '59480',
       from: mockAccount,
@@ -150,7 +150,7 @@ const mockSwap: PayloadAction<SwapInfo> = {
 const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
   type: 'swap/swapStartPrepared',
   payload: {
-    taskId: 'test-swap-id',
+    swapId: 'test-swap-id',
     userInput: {
       updatedField: Field.TO,
       fromTokenId: mockCeurTokenId,
@@ -202,7 +202,7 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = {
 const mockSwapPreparedEthereum: PayloadAction<SwapInfoPrepared> = {
   type: 'swap/swapStartPrepared',
   payload: {
-    taskId: 'test-swap-id',
+    swapId: 'test-swap-id',
     userInput: {
       updatedField: Field.TO,
       fromTokenId: mockUSDCTokenId,

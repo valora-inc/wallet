@@ -53,14 +53,14 @@ export const slice = createSlice({
     // Legacy
     swapStart: (state, action: PayloadAction<SwapInfo>) => {
       state.currentSwap = {
-        id: action.payload.taskId,
+        id: action.payload.swapId,
         status: 'started',
       }
     },
     // New flow with prepared transactions
     swapStartPrepared: (state, action: PayloadAction<SwapInfoPrepared>) => {
       state.currentSwap = {
-        id: action.payload.taskId,
+        id: action.payload.swapId,
         status: 'started',
       }
     },

@@ -871,7 +871,7 @@ describe('SwapScreen', () => {
       expect.arrayContaining([
         swapStart({
           ...defaultQuote,
-          taskId: expect.any(String),
+          swapId: expect.any(String),
           userInput: {
             toTokenId: mockCusdTokenId,
             fromTokenId: mockCeloTokenId,
@@ -922,7 +922,7 @@ describe('SwapScreen', () => {
       expect.arrayContaining([
         swapStart({
           ...defaultQuote,
-          taskId: expect.any(String),
+          swapId: expect.any(String),
           userInput,
           quoteReceivedAt: quoteReceivedTimestamp,
         } as any),
@@ -1052,7 +1052,7 @@ describe('SwapScreen', () => {
     fireEvent.press(getByText('swapScreen.confirmSwap'))
 
     const swapAction = store.getActions().find((action) => action.type === swapStart.type)
-    const swapId = swapAction.payload.taskId
+    const swapId = swapAction.payload.swapId
     expect(swapId).toBeTruthy()
 
     // Simulate swap in progress
@@ -1103,7 +1103,7 @@ describe('SwapScreen', () => {
     fireEvent.press(getByText('swapScreen.confirmSwap'))
 
     const swapAction = store.getActions().find((action) => action.type === swapStart.type)
-    const swapId = swapAction.payload.taskId
+    const swapId = swapAction.payload.swapId
     expect(swapId).toBeTruthy()
 
     expect(queryByText('swapScreen.confirmSwapFailedWarning.title')).toBeFalsy()
@@ -1458,7 +1458,7 @@ describe('SwapScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           swapStartPrepared({
-            taskId: expect.any(String),
+            swapId: expect.any(String),
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,
@@ -1501,7 +1501,7 @@ describe('SwapScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           swapStartPrepared({
-            taskId: expect.any(String),
+            swapId: expect.any(String),
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,

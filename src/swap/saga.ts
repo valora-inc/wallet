@@ -103,7 +103,7 @@ function calculateEstimatedUsdValue({
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
-  const taskId = action.payload.taskId
+  const swapId = action.payload.swapId
   const { price, guaranteedPrice, buyAmount, sellAmount, allowanceTarget, estimatedPriceImpact } =
     action.payload.unvalidatedSwapTransaction
   const buyTokenAddress = action.payload.unvalidatedSwapTransaction.buyTokenAddress.toLowerCase()
@@ -126,7 +126,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       TAG,
       `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
     )
-    yield* put(swapError(taskId))
+    yield* put(swapError(swapId))
     return
   }
 
@@ -213,7 +213,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const timeMetrics = getTimeMetrics()
 
-    yield* put(swapSuccess(taskId))
+    yield* put(swapSuccess(swapId))
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
@@ -229,7 +229,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       ...timeMetrics,
       error: error.message,
     })
-    yield* put(swapError(taskId))
+    yield* put(swapError(swapId))
     yield* put(removeStandbyTransaction(swapExecuteContext.id))
     vibrateError()
   }
@@ -322,7 +322,7 @@ function getSwapTxsReceiptAnalyticsProperties(
 
 export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>) {
   const swapSubmittedAt = Date.now()
-  const taskId = action.payload.taskId
+  const swapId = action.payload.swapId
   const {
     price,
     buyTokenAddress,
@@ -352,7 +352,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       TAG,
       `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
     )
-    yield* put(swapError(taskId))
+    yield* put(swapError(swapId))
     return
   }
 
@@ -505,7 +505,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     }
 
     const timeMetrics = getTimeMetrics()
-    yield* put(swapSuccess(taskId))
+    yield* put(swapSuccess(swapId))
     // TODO: do we need to vibrate here?
     vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
@@ -517,7 +517,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     const error = ensureError(err)
     // dispatch the error early, in case the rest of the handling throws
     // and leaves the app in a bad state
-    yield* put(swapError(taskId))
+    yield* put(swapError(swapId))
     // Only vibrate if we haven't already submitted the transaction
     // since the user may be doing something else on the app by now
     // (different screen or a new swap)

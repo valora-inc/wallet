@@ -92,13 +92,13 @@ export interface ApproveTransaction {
 }
 
 export type SwapInfo = FetchQuoteResponse & {
-  taskId: string
+  swapId: string
   userInput: SwapUserInput
   quoteReceivedAt: number
 }
 
 export interface SwapInfoPrepared {
-  taskId: string
+  swapId: string
   userInput: SwapUserInput
   quote: {
     preparedTransactions: SerializableTransactionRequest[]

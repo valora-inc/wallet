@@ -357,7 +357,7 @@ export function SwapScreen({ route }: Props) {
           setStartedSwapId(swapId)
           dispatch(
             swapStartPrepared({
-              taskId: swapId,
+              swapId,
               quote: {
                 preparedTransactions: getSerializablePreparedTransactions(
                   exchangeRate.preparedTransactions.transactions
@@ -409,7 +409,7 @@ export function SwapScreen({ route }: Props) {
         ...exchangeRate.rawSwapResponse,
         userInput,
         quoteReceivedAt: exchangeRate.receivedAt,
-        taskId: swapId,
+        swapId,
       })
     )
   }
