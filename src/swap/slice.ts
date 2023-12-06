@@ -68,7 +68,7 @@ export const slice = createSlice({
       updateCurrentSwapStatus(state.currentSwap, action.payload, 'success')
     },
     swapError: (state, action: PayloadAction<string>) => {
-      updateCurrentSwapStatus(state.currentSwap, action.payload, 'success')
+      updateCurrentSwapStatus(state.currentSwap, action.payload, 'error')
     },
   },
   extraReducers: (builder) => {
