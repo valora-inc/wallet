@@ -10,6 +10,7 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -22,7 +23,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { Recipient } from 'src/recipients/recipient'
+import { Recipient, RecipientType } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import InviteRewardsCard from 'src/send/InviteRewardsCard'
 import PasteAddressButton from 'src/send/PasteAddressButton'
@@ -201,6 +202,14 @@ function SendSelectRecipient({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
+  // TODO(satish/joe): update condition to not show this if the address
+  // recipient is not a known valora address
+  const showUnknownAddressInfo =
+    showSendOrInviteButton &&
+    showSearchResults &&
+    mergedRecipients.length === 1 &&
+    mergedRecipients[0].recipientType === RecipientType.Address
+
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
     setSelectedRecipient(selectedRecipient)
     setShowSendOrInviteButton(true)
@@ -349,6 +358,14 @@ function SendSelectRecipient({ route }: Props) {
       {showInviteModal && recipient && (
         <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
       )}
+      {showUnknownAddressInfo && (
+        <InLineNotification
+          severity={Severity.Informational}
+          description={t('sendSelectRecipient.unknownAddressInfo')}
+          testID="UnknownAddressInfo"
+          style={styles.unknownAddressInfo}
+        />
+      )}
       {showSendOrInviteButton && (
         <SendOrInviteButton
           recipient={recipient}
@@ -413,8 +430,13 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     textAlign: 'center',
   },
+  unknownAddressInfo: {
+    margin: Spacing.Thick24,
+    marginBottom: variables.contentPadding,
+  },
   sendOrInviteButton: {
-    padding: variables.contentPadding,
+    margin: Spacing.Thick24,
+    marginTop: variables.contentPadding,
   },
 })
 

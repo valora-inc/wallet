@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
     borderRadius: Spacing.Regular16,
-    width: '100%',
   },
   contentContainer: {
     flex: 1,
