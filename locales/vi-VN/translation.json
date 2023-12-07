@@ -1678,6 +1678,10 @@
       "title": "Trước khi trao đổi",
       "body": "Chúng tôi không thể ước tính giá trị của giao dịch trao đổi này. {{appName}} sẽ không chịu trách nhiệm nếu bạn chọn tiếp tục."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Đã xảy ra lỗi",
+      "body": "The network speed is slow or there is an unknown error. Please try again later"
+    },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Số dư {{tokenSymbol}} không đủ",
