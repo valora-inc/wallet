@@ -10,6 +10,7 @@ import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipi
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 
 const useFetchRecipientVerificationStatus = () => {
   const [recipient, setRecipient] = useState<Recipient | null>(null)
@@ -23,6 +24,7 @@ const useFetchRecipientVerificationStatus = () => {
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const dispatch = useDispatch()
 
   const unsetSelectedRecipient = () => {
@@ -42,8 +44,10 @@ const useFetchRecipientVerificationStatus = () => {
         !useNewAddressVerificationBehavior
       ) {
         setRecipientVerificationStatus(RecipientVerificationStatus.VERIFIED)
-      } else {
+      } else if (phoneNumberVerified) {
         dispatch(fetchAddressVerification(selectedRecipient.address))
+      } else {
+        setRecipientVerificationStatus(RecipientVerificationStatus.UNVERIFIED)
       }
     }
   }

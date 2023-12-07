@@ -30,7 +30,7 @@ export enum Actions {
   REQUIRE_SECURE_SEND = 'IDENTITY/REQUIRE_SECURE_SEND',
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
-  FETCH_ADDRESS_VERIFICATION = 'IDENTITY/FETCH_ADDRESS_VERIFICATION',
+  FETCH_ADDRESS_VERIFICATION_STATUS = 'IDENTITY/FETCH_ADDRESS_VERIFICATION_STATUS',
   ADDRESS_VERIFICATION_STATUS_RECEIVED = 'IDENTITY/ADDRESS_VERIFICATION_STATUS_RECEIVED',
 }
 
@@ -133,7 +133,7 @@ export interface UpdateAddressDekMapAction {
 }
 
 export interface FetchAddressVerificationAction {
-  type: Actions.FETCH_ADDRESS_VERIFICATION
+  type: Actions.FETCH_ADDRESS_VERIFICATION_STATUS
   address: string
 }
 
@@ -188,7 +188,7 @@ export const addressVerificationStatusReceived = (
 })
 
 export const fetchAddressVerification = (address: string): FetchAddressVerificationAction => ({
-  type: Actions.FETCH_ADDRESS_VERIFICATION,
+  type: Actions.FETCH_ADDRESS_VERIFICATION_STATUS,
   address,
 })
 

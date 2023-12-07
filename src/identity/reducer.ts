@@ -264,12 +264,14 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
-    case Actions.FETCH_ADDRESS_VERIFICATION:
+    case Actions.FETCH_ADDRESS_VERIFICATION_STATUS:
+      // If the current status is false or does not exist, we set it to undefined
+      // to mark it as being in a loading state.
       return {
         ...state,
         addressToVerificationStatus: {
           ...state.addressToVerificationStatus,
-          [action.address]: !state.addressToVerificationStatus[action.address] ? undefined : true,
+          [action.address]: state.addressToVerificationStatus[action.address] || undefined,
         },
       }
     case Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED:
