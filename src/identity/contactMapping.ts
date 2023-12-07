@@ -230,6 +230,9 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
       error: error.message,
     })
+    // Setting this address to "false" does not mean that the address
+    // if definitely unverified; we set it to false to indicate that
+    // the request is finished, and possibly unverified.
     yield* put(addressVerificationStatusReceived(address, false))
   }
 }
