@@ -477,6 +477,9 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       })
       if (functionName === 'approve' && approvalTx.to === fromToken.address) {
         const approvedAmountInSmallestUnit = args[1]
+        const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
+          .shiftedBy(-fromToken.decimals)
+          .toNumber()
         const approvalTxHash = txHashes[0]
 
         yield* put(
@@ -487,7 +490,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
             type: TokenTransactionTypeV2.Approval,
             transactionHash: approvalTxHash,
             tokenId: fromToken.tokenId,
-            approvedAmount: approvedAmountInSmallestUnit.toString(),
+            approvedAmount,
             feeCurrencyId,
           })
         )
