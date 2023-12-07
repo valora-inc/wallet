@@ -433,7 +433,7 @@ describe('SendAmount', () => {
           tokenAmount: mockTransactionData2.amount,
           tokenId: mockCusdTokenId,
         },
-        addressValidationType: AddressValidationType.FULL,
+        recipient: mockTransactionData2.recipient,
       })
     })
 
