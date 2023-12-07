@@ -4,7 +4,7 @@ import 'react-native'
 import { Provider } from 'react-redux'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { createMockStore, getMockI18nProps } from 'test/utils'
-import { exchangePriceHistory, mockCeloAddress, mockTokenBalances } from 'test/values'
+import { exchangePriceHistory, mockCeloTokenId, mockTokenBalances } from 'test/values'
 
 const SAMPLE_BALANCE = '55.00001'
 
@@ -14,8 +14,8 @@ it('renders without history', () => {
       store={createMockStore({
         tokens: {
           tokenBalances: {
-            [mockCeloAddress]: {
-              ...mockTokenBalances[mockCeloAddress],
+            [mockCeloTokenId]: {
+              ...mockTokenBalances[mockCeloTokenId],
               balance: SAMPLE_BALANCE,
             },
           },
@@ -53,8 +53,8 @@ it('renders while update is in progress', () => {
         },
         tokens: {
           tokenBalances: {
-            [mockCeloAddress]: {
-              ...mockTokenBalances[mockCeloAddress],
+            [mockCeloTokenId]: {
+              ...mockTokenBalances[mockCeloTokenId],
               balance: SAMPLE_BALANCE,
             },
           },
@@ -76,8 +76,8 @@ it('renders properly', () => {
         },
         tokens: {
           tokenBalances: {
-            [mockCeloAddress]: {
-              ...mockTokenBalances[mockCeloAddress],
+            [mockCeloTokenId]: {
+              ...mockTokenBalances[mockCeloTokenId],
               balance: SAMPLE_BALANCE,
             },
           },

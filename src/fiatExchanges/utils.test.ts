@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import {
-  mockCusdAddress,
+  mockCusdTokenId,
   mockExchanges,
   mockLegacyMobileMoneyProvider,
   mockTokenBalances,
@@ -23,6 +23,7 @@ class MockNormalizedQuote extends NormalizedQuote {
   navigate = jest.fn()
   isProviderNew = jest.fn()
   getReceiveAmount = jest.fn()
+  getTokenId = jest.fn()
 }
 
 describe('fiatExchanges utils', () => {
@@ -73,7 +74,7 @@ describe('fiatExchanges utils', () => {
         transferCryptoAmount,
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
-          ...mockTokenBalances[mockCusdAddress],
+          ...mockTokenBalances[mockCusdTokenId],
           lastKnownPriceUsd: new BigNumber('1'),
           priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
@@ -98,6 +99,7 @@ describe('fiatExchanges utils', () => {
           Coinbase: true,
           FiatConnectMobileMoney: true,
         },
+        networkId: 'celo-alfajores',
       })
     })
 
@@ -111,7 +113,7 @@ describe('fiatExchanges utils', () => {
         transferCryptoAmount,
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
-          ...mockTokenBalances[mockCusdAddress],
+          ...mockTokenBalances[mockCusdTokenId],
           lastKnownPriceUsd: new BigNumber('1'),
           priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
@@ -136,6 +138,7 @@ describe('fiatExchanges utils', () => {
           Coinbase: false,
           FiatConnectMobileMoney: true,
         },
+        networkId: 'celo-alfajores',
       })
     })
   })

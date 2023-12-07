@@ -148,7 +148,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
             }
             testID="LineItemRowTitle/subtotal"
           >
-            celoDollar @ 
+            cUSD @ 
             <Text>
               €
               0.86
@@ -193,7 +193,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
       }
     }
   >
-    disclaimerFiat, {"currency":"celoDollar"}
+    disclaimerFiat, {"currency":"cUSD"}
   </Text>
   <View
     style={
@@ -257,7 +257,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with EUR as app currency 1`
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#97DFC1",
+              "backgroundColor": "#1AB77580",
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
@@ -457,7 +457,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
             }
             testID="LineItemRowTitle/subtotal"
           >
-            celoDollar @ 
+            cUSD @ 
             <Text>
               $
               1.00
@@ -502,7 +502,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
       }
     }
   >
-    disclaimerFiat, {"currency":"celoDollar"}
+    disclaimerFiat, {"currency":"cUSD"}
   </Text>
   <View
     style={
@@ -566,7 +566,7 @@ exports[`FiatExchangeAmount cashIn renders correctly with USD as app currency 1`
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#97DFC1",
+              "backgroundColor": "#1AB77580",
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,

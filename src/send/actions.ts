@@ -15,6 +15,7 @@ export type SVG = typeof Svg
 
 export enum Actions {
   BARCODE_DETECTED = 'SEND/BARCODE_DETECTED',
+  BARCODE_DETECTED_SECURE_SEND = 'SEND/BARCODE_DETECTED_SECURE_SEND',
   QRCODE_SHARE = 'SEND/QRCODE_SHARE',
   SEND_PAYMENT = 'SEND/SEND_PAYMENT',
   SEND_PAYMENT_SUCCESS = 'SEND/SEND_PAYMENT_SUCCESS',
@@ -23,11 +24,15 @@ export enum Actions {
   SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
 
-export interface HandleBarcodeDetectedAction {
+export interface HandleQRCodeDetectedAction {
   type: Actions.BARCODE_DETECTED
-  data: QrCode
-  scanIsForSecureSend?: boolean
-  transactionData?: TransactionDataInput
+  qrCode: QrCode
+}
+
+export interface HandleQRCodeDetectedSecureSendAction {
+  type: Actions.BARCODE_DETECTED_SECURE_SEND
+  qrCode: QrCode
+  transactionData: TransactionDataInput
   requesterAddress?: string
 }
 
@@ -69,7 +74,8 @@ export interface SetShowWarningAction {
 }
 
 export type ActionTypes =
-  | HandleBarcodeDetectedAction
+  | HandleQRCodeDetectedAction
+  | HandleQRCodeDetectedSecureSendAction
   | ShareQRCodeAction
   | SendPaymentAction
   | SendPaymentSuccessAction
@@ -77,15 +83,18 @@ export type ActionTypes =
   | UpdateLastUsedCurrencyAction
   | SetShowWarningAction
 
-export const handleBarcodeDetected = (
-  data: QrCode,
-  scanIsForSecureSend?: boolean,
-  transactionData?: TransactionDataInput,
-  requesterAddress?: string
-): HandleBarcodeDetectedAction => ({
+export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
-  data,
-  scanIsForSecureSend,
+  qrCode,
+})
+
+export const handleQRCodeDetectedSecureSend = (
+  qrCode: QrCode,
+  transactionData: TransactionDataInput,
+  requesterAddress?: string
+): HandleQRCodeDetectedSecureSendAction => ({
+  type: Actions.BARCODE_DETECTED_SECURE_SEND,
+  qrCode,
   transactionData,
   requesterAddress,
 })

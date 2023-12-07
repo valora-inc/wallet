@@ -3,8 +3,8 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import ReviewFees from 'src/fiatExchanges/ReviewFees'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
+import { mockCeloTokenId } from 'test/values'
 
 const mockStore = createMockStore()
 
@@ -14,7 +14,7 @@ const cusdAmount = 25
 
 const mockScreenProps = (feeWaived: boolean) => ({
   provider: 'Simplex',
-  currencyToBuy: CiCoCurrency.CELO,
+  tokenIdToBuy: mockCeloTokenId,
   localCurrency: LocalCurrencyCode.USD,
   crypto: {
     amount: cusdAmount,

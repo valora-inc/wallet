@@ -106,7 +106,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
             testID={'protectWalletCopy'}
           >
             <View style={styles.copyIconStyle}>
-              <CopyIcon color={colors.onboardingGreen} />
+              <CopyIcon color={colors.successDark} />
             </View>
             {t('recoveryPhrase.copy')}
           </TextButton>
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'center',
     paddingBottom: 30,
-    color: colors.onboardingGreen,
+    color: colors.successDark,
   },
   buttonStyle: {
     marginTop: 37,

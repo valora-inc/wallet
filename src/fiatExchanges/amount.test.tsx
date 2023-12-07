@@ -2,28 +2,27 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
-import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
+import TokenDisplay from 'src/components/TokenDisplay'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockCusdTokenId } from 'test/values'
 
-jest.mock('src/components/LegacyTokenDisplay')
+jest.mock('src/components/TokenDisplay')
 jest.mock('src/components/CurrencyDisplay')
 
 describe('CryptoAmount', () => {
-  it('passes amount and token address to TokenDisplay', () => {
+  it('passes amount and tokenId to TokenDisplay', () => {
     render(
       <Provider store={createMockStore()}>
-        <CryptoAmount amount={10} currency={CiCoCurrency.cUSD} testID="cryptoAmt" />
+        <CryptoAmount amount={10} tokenId={mockCusdTokenId} testID="cryptoAmt" />
       </Provider>
     )
-    expect(LegacyTokenDisplay).toHaveBeenCalledWith(
+    expect(TokenDisplay).toHaveBeenCalledWith(
       {
         amount: 10,
-        showLocalAmount: false,
         testID: 'cryptoAmt',
-        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+        showLocalAmount: false,
       },
       {}
     )
