@@ -1680,6 +1680,10 @@
       "title": "Prima di uno scambio",
       "body": "Non possiamo stimare il valore di questo scambio. Qualora tu decida di procedere, {{appName}} non sarà responsabile."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Si è verificato un errore",
+      "body": "La velocità della rete è bassa o c'è un errore sconosciuto. Riprova più tardi"
+    },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Saldo insufficiente {{tokenSymbol}}",
