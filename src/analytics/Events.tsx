@@ -242,7 +242,6 @@ export enum IdentityEvents {
   phone_number_lookup_purchase_skip = 'phone_number_lookup_purchase_skip',
 
   address_lookup_start = 'address_lookup_start',
-  address_lookup_skip = 'address_lookup_skip',
   address_lookup_complete = 'address_lookup_complete',
   address_lookup_error = 'address_lookup_error',
 }

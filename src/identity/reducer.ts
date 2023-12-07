@@ -66,6 +66,10 @@ export interface SecureSendDetails {
   validationSuccessful?: boolean
 }
 
+export interface AddressToVerificationStatus {
+  [address: string]: boolean | undefined
+}
+
 export interface State {
   hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
@@ -83,10 +87,8 @@ export interface State {
   importContactsProgress: ImportContactProgress
   // Contacts found during the matchmaking process
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
-  // List of addresses known to be associated with a Valora wallet
-  verifiedAddresses: string[]
-  // Whether or not verified addresses are currently being fetched
-  verifiedAddressesLoading: boolean
+  // Mapping of address to verification status; undefined entries represent a loading state
+  addressToVerificationStatus: AddressToVerificationStatus
 }
 
 const initialState: State = {
@@ -104,8 +106,7 @@ const initialState: State = {
     total: 0,
   },
   secureSendPhoneNumberMapping: {},
-  verifiedAddresses: [],
-  verifiedAddressesLoading: false,
+  addressToVerificationStatus: {},
 }
 
 export const reducer = (
@@ -263,20 +264,10 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
-    case Actions.FETCH_ADDRESS_VERIFICATION:
+    case Actions.UPDATE_ADDRESS_TO_VERIFICATION_STATUS:
       return {
         ...state,
-        verifiedAddressesLoading: true,
-      }
-    case Actions.UPDATE_VERIFIED_ADDRESSES:
-      return {
-        ...state,
-        verifiedAddresses: action.addresses,
-      }
-    case Actions.END_FETCH_ADDRESS_VERIFICATION:
-      return {
-        ...state,
-        verifiedAddressesLoading: false,
+        addressToVerificationStatus: action.addressToVerificationStatus,
       }
     default:
       return state

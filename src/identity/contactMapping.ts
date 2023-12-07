@@ -20,8 +20,7 @@ import {
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
-  updateVerifiedAddresses,
-  endFetchAddressVerification,
+  updateAddressToVerificationStatus,
 } from 'src/identity/actions'
 import {
   AddressToE164NumberType,
@@ -33,7 +32,7 @@ import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
-  verifiedAddressesSelector,
+  addressToVerificationStatusSelector,
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -50,6 +49,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, take } from 'typed-redux-saga'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -213,17 +213,23 @@ export function* fetchAddressesAndValidateSaga({
 
 export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificationAction) {
   try {
-    const verifiedAddresses = yield* select(verifiedAddressesSelector)
-    if (verifiedAddresses.includes(address)) {
-      ValoraAnalytics.track(IdentityEvents.address_lookup_skip)
-    } else {
+    const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
+    if (!(address in addressToVerificationStatus && addressToVerificationStatus[address])) {
       ValoraAnalytics.track(IdentityEvents.address_lookup_start)
+      // An undefined value denotes that the result for this address is currently loading
+      yield* put(
+        updateAddressToVerificationStatus({
+          ...addressToVerificationStatus,
+          [address]: undefined,
+        })
+      )
       const addressVerified = yield* call(fetchAddressVerification, address)
-      // Only cache verified addresses; unverified addresses will be looked up
-      // again on subsequent requests.
-      if (addressVerified) {
-        yield* put(updateVerifiedAddresses([...verifiedAddresses, address]))
-      }
+      yield* put(
+        updateAddressToVerificationStatus({
+          ...addressToVerificationStatus,
+          [address]: addressVerified,
+        })
+      )
       ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
     }
   } catch (err) {
@@ -236,8 +242,6 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
       error: error.message,
     })
-  } finally {
-    yield* put(endFetchAddressVerification())
   }
 }
 
@@ -289,7 +293,7 @@ function* fetchAddressVerification(address: string) {
     }).toString()
 
     const response: Response = yield* call(
-      fetch,
+      fetchWithTimeout,
       `${networkConfig.checkAddressVerifiedUrl}?${addressVerificationQueryParams}`,
       {
         method: 'GET',

@@ -171,6 +171,12 @@
             },
             "type": "object"
         },
+        "AddressToVerificationStatus": {
+            "additionalProperties": {
+                "type": "boolean"
+            },
+            "type": "object"
+        },
         "AddressValidationType": {
             "enum": [
                 "full",
@@ -4145,6 +4151,9 @@
                 "addressToE164Number": {
                     "$ref": "#/definitions/AddressToE164NumberType"
                 },
+                "addressToVerificationStatus": {
+                    "$ref": "#/definitions/AddressToVerificationStatus"
+                },
                 "askedContactsPermission": {
                     "type": "boolean"
                 },
@@ -4163,15 +4172,6 @@
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
-                "verifiedAddresses": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "verifiedAddressesLoading": {
-                    "type": "boolean"
-                },
                 "walletToAccountAddress": {
                     "$ref": "#/definitions/WalletToAccountAddressType"
                 }
@@ -4180,14 +4180,13 @@
                 "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
+                "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
                 "e164NumberToSalt",
                 "hasSeenVerificationNux",
                 "importContactsProgress",
                 "secureSendPhoneNumberMapping",
-                "verifiedAddresses",
-                "verifiedAddressesLoading",
                 "walletToAccountAddress"
             ],
             "type": "object"

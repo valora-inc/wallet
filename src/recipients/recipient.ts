@@ -7,6 +7,7 @@ import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
   E164NumberToAddressType,
+  AddressToVerificationStatus,
 } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
@@ -175,13 +176,18 @@ export function getRecipientFromAddress(
 export function getRecipientVerificationStatus(
   recipient: Recipient,
   e164NumberToAddress: E164NumberToAddressType,
-  verifiedAddresses: string[]
+  addressToVerificationStatus: AddressToVerificationStatus
 ): RecipientVerificationStatus {
   if (!recipientHasNumber(recipient)) {
-    if (recipientHasAddress(recipient)) {
-      return verifiedAddresses.includes(recipient.address)
-        ? RecipientVerificationStatus.VERIFIED
-        : RecipientVerificationStatus.UNVERIFIED
+    if (recipientHasAddress(recipient) && recipient.address in addressToVerificationStatus) {
+      switch (addressToVerificationStatus[recipient.address]) {
+        case true:
+          return RecipientVerificationStatus.VERIFIED
+        case false:
+          return RecipientVerificationStatus.UNVERIFIED
+        case undefined:
+          return RecipientVerificationStatus.UNKNOWN
+      }
     } else {
       return RecipientVerificationStatus.UNKNOWN
     }

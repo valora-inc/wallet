@@ -241,7 +241,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [IdentityEvents.phone_number_lookup_purchase_error]: ``,
   [IdentityEvents.phone_number_lookup_purchase_skip]: ``,
   [IdentityEvents.address_lookup_start]: `When address verification lookup starts`,
-  [IdentityEvents.address_lookup_skip]: `When address verification is skipped because we already have data`,
   [IdentityEvents.address_lookup_complete]: `When address verification lookup is completed`,
   [IdentityEvents.address_lookup_error]: `When address verification lookup encounters an error`,
   [AuthenticationEvents.get_pincode_start]: ``,

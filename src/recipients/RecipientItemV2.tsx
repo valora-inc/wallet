@@ -5,7 +5,10 @@ import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { e164NumberToAddressSelector, verifiedAddressesSelector } from 'src/identity/selectors'
+import {
+  e164NumberToAddressSelector,
+  addressToVerificationStatusSelector,
+} from 'src/identity/selectors'
 import {
   Recipient,
   RecipientType,
@@ -34,14 +37,14 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   }
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  const verifiedAddresses = useSelector(verifiedAddressesSelector)
+  const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)
 
   // TODO(ACT-980): avoid icon flash when a known valora contact is clicked
   const showValoraIcon = useMemo(() => {
     if (recipient.recipientType === RecipientType.PhoneNumber) {
       return recipient.e164PhoneNumber && !!e164NumberToAddress[recipient.e164PhoneNumber]
     }
-    return recipient.address && verifiedAddresses.includes(recipient.address)
+    return recipient.address && addressToVerificationStatus[recipient.address]
   }, [e164NumberToAddress, recipient])
 
   return (

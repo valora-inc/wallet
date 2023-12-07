@@ -56,7 +56,9 @@ const defaultStore = {
     },
   },
   identity: {
-    verifiedAddresses: [mockRecipient.address],
+    addressToVerificationStatus: {
+      [mockRecipient.address]: true,
+    },
   },
 }
 

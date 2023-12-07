@@ -2848,8 +2848,7 @@ export const v172Schema = {
   },
   identity: {
     ...v171Schema.identity,
-    verifiedAddresses: [],
-    verifiedAddressesLoading: false,
+    addressToVerificationStatus: {},
   },
 }
 

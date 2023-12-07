@@ -3,8 +3,7 @@ import { useDispatch } from 'react-redux'
 import { fetchAddressesAndValidate, fetchAddressVerification } from 'src/identity/actions'
 import {
   e164NumberToAddressSelector,
-  verifiedAddressesSelector,
-  verifiedAddressesLoadingSelector,
+  addressToVerificationStatusSelector,
 } from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipient'
@@ -23,8 +22,7 @@ const useFetchRecipientVerificationStatus = () => {
   )
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  const verifiedAddresses = useSelector(verifiedAddressesSelector)
-  const verifiedAddressesLoading = useSelector(verifiedAddressesLoadingSelector)
+  const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)
   const dispatch = useDispatch()
 
   const unsetSelectedRecipient = () => {
@@ -40,7 +38,7 @@ const useFetchRecipientVerificationStatus = () => {
       dispatch(fetchAddressesAndValidate(selectedRecipient.e164PhoneNumber))
     } else if (selectedRecipient?.address) {
       if (
-        verifiedAddresses.includes(selectedRecipient.address) ||
+        addressToVerificationStatus[selectedRecipient.address] ||
         !useNewAddressVerificationBehavior
       ) {
         setRecipientVerificationStatus(RecipientVerificationStatus.VERIFIED)
@@ -51,24 +49,14 @@ const useFetchRecipientVerificationStatus = () => {
   }
 
   useEffect(() => {
-    if (
-      recipient &&
-      recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN &&
-      !verifiedAddressesLoading
-    ) {
+    if (recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
       // e164NumberToAddress is updated after a successful phone number lookup,
-      // verifiedAddresses is updated after a successful address lookup
+      // addressToVerificationStatus is updated after a successful address lookup
       setRecipientVerificationStatus(
-        getRecipientVerificationStatus(recipient, e164NumberToAddress, verifiedAddresses)
+        getRecipientVerificationStatus(recipient, e164NumberToAddress, addressToVerificationStatus)
       )
     }
-  }, [
-    e164NumberToAddress,
-    verifiedAddresses,
-    verifiedAddressesLoading,
-    recipient,
-    recipientVerificationStatus,
-  ])
+  }, [e164NumberToAddress, addressToVerificationStatus, recipient, recipientVerificationStatus])
 
   return {
     recipient,

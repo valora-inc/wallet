@@ -74,7 +74,9 @@ describe('RecipientItemV2', () => {
       <Provider
         store={createMockStore({
           identity: {
-            verifiedAddresses: [mockRecipient.address],
+            addressToVerificationStatus: {
+              [mockRecipient.address]: true,
+            },
           },
         })}
       >

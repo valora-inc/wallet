@@ -252,6 +252,7 @@ describe('store state', () => {
           "addressToDataEncryptionKey": {},
           "addressToDisplayName": {},
           "addressToE164Number": {},
+          "addressToVerificationStatus": {},
           "askedContactsPermission": false,
           "e164NumberToAddress": {},
           "e164NumberToSalt": {},
@@ -262,8 +263,6 @@ describe('store state', () => {
             "total": 0,
           },
           "secureSendPhoneNumberMapping": {},
-          "verifiedAddresses": [],
-          "verifiedAddressesLoading": false,
           "walletToAccountAddress": {},
         },
         "imports": {
