@@ -14,35 +14,13 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-export type PendingStandbySwap = {
-  transactionHash?: string
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId?: string
-} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
-
-export type PendingStandbyTransfer = {
-  transactionHash?: string
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId?: string
-} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
-
-export type ConfirmedStandbyTransaction = (
-  | Omit<TokenExchange, 'status'>
-  | Omit<TokenTransfer, 'status'>
-  | Omit<TokenApproval, 'status'>
-) & {
-  status: TransactionStatus.Complete | TransactionStatus.Failed
+export type PendingStandbySwap = BaseTokenExchange & BasePendingTransactionProperties
+export type PendingStandbyTransfer = BaseTokenTransfer & BasePendingTransactionProperties
+export type PendingTokenApproval = BaseTokenApproval & BasePendingTransactionProperties
+export type ConfirmedStandbyTransaction = (TokenExchange | TokenTransfer | TokenApproval) & {
   context: TransactionContext
   feeCurrencyId?: string
 }
-
-export type PendingTokenApproval = {
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId: string
-} & Omit<TokenApproval, 'block' | 'fees' | 'status'>
 
 export type StandbyTransaction =
   | PendingStandbySwap
@@ -111,20 +89,33 @@ export enum TokenTransactionTypeV2 {
   Approval = 'APPROVAL',
 }
 
-// Can we optional the fields `transactionHash` and `block`?
-export interface TokenTransfer {
-  __typename: 'TokenTransferV3'
+interface BasePendingTransactionProperties {
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash?: string
+  timestamp: number
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+}
+
+interface BaseConfirmedTransactionProperties {
   networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
   block: string
+  fees: Fee[]
+  status: TransactionStatus.Complete | TransactionStatus.Failed
+}
+
+interface BaseTokenTransfer {
+  __typename: 'TokenTransferV3'
   address: string
   amount: TokenAmount
   metadata: TokenTransferMetadata
-  fees: Fee[]
-  status: TransactionStatus
 }
+export type TokenTransfer = BaseTokenTransfer & BaseConfirmedTransactionProperties
 
 export interface TokenTransferMetadata {
   title?: string
@@ -133,32 +124,20 @@ export interface TokenTransferMetadata {
   comment?: string
 }
 
-export interface NftTransfer {
+interface BaseNftTransfer {
   __typename: 'NftTransferV3'
-  networkId: NetworkId
-  type: TokenTransactionTypeV2
-  transactionHash: string
-  timestamp: number
-  block: string
-  fees?: Fee[]
   nfts?: Nft[]
-  status: TransactionStatus
 }
+export type NftTransfer = BaseNftTransfer & BaseConfirmedTransactionProperties
 
-// Can we optional the fields `transactionHash` and `block`?
-export interface TokenExchange {
+interface BaseTokenExchange {
   __typename: 'TokenExchangeV3'
-  networkId: NetworkId
-  type: TokenTransactionTypeV2
-  transactionHash: string
-  timestamp: number
-  block: string
   inAmount: TokenAmount
   outAmount: TokenAmount
   metadata?: TokenExchangeMetadata
-  fees: Fee[]
-  status: TransactionStatus
 }
+
+export type TokenExchange = BaseTokenExchange & BaseConfirmedTransactionProperties
 
 export interface TokenExchangeMetadata {
   title?: string
@@ -176,15 +155,10 @@ export interface Fee {
   amount: TokenAmount
 }
 
-export interface TokenApproval {
+interface BaseTokenApproval {
   __typename: 'TokenApproval'
-  networkId: NetworkId
-  type: TokenTransactionTypeV2.Approval
-  timestamp: number
-  block: string
-  transactionHash: string
   tokenId: string
-  approvedAmount: number | null // null represents infinite approval
-  fees: Fee[]
-  status: TransactionStatus
+  approvedAmount: string | null // null represents infinite approval
 }
+
+export type TokenApproval = BaseConfirmedTransactionProperties & BaseTokenApproval

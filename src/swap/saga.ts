@@ -466,6 +466,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
 
+    const feeCurrencyId = getTokenId(networkId, getFeeCurrency(preparedTransactions))
+
     // if there is an approval transaction, add a standby transaction for it
     if (preparedTransactions.length > 1) {
       const approvalTx = preparedTransactions[0]
@@ -473,8 +475,8 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         abi: erc20.abi,
         data: approvalTx.data ?? '0x0',
       })
-      if (functionName === 'approve') {
-        const approvedAmount = args[1]
+      if (functionName === 'approve' && approvalTx.to === fromToken.address) {
+        const approvedAmountInSmallestUnit = args[1]
         const approvalTxHash = txHashes[0]
 
         yield* put(
@@ -484,20 +486,15 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
             networkId,
             type: TokenTransactionTypeV2.Approval,
             transactionHash: approvalTxHash,
-            tokenId: getTokenId(networkId, approvalTx.to ?? undefined),
-            approvedAmount: BigNumber(approvedAmount.toString())
-              .shiftedBy(-fromToken.decimals) // TODO this is madness
-              .shiftedBy(-fromToken.decimals)
-              .toNumber(),
-            feeCurrencyId: getTokenId(networkId, getFeeCurrency(preparedTransactions)),
+            tokenId: fromToken.tokenId,
+            approvedAmount: approvedAmountInSmallestUnit.toString(),
+            feeCurrencyId,
           })
         )
       }
     }
-    const feeCurrencyId = getTokenId(networkId, getFeeCurrency(preparedTransactions))
 
     const swapTxHash = txHashes[txHashes.length - 1]
-
     const outValue = valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals)
     yield* put(
       addStandbyTransaction({
