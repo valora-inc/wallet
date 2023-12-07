@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Gratuit",
       "slippagePercentage": "Tolérance de glissement",
       "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
+      "slippageToleranceInfo": "Tolérance de dérapage\n\nTon swap sera exécuté dans les limites du pourcentage de tolérance de dérapage. Si le prix varie plus que la tolérance de glissement, {{appName}} te protège en empêchant l'exécution de la transaction.",
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
       "estimatedValue": "Valeur estimée"
