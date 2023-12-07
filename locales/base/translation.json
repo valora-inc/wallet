@@ -1684,7 +1684,7 @@
     },
     "confirmSwapFailedWarning": {
       "title": "Something went wrong",
-      "body": "The network speed is slow or there is an unknown error. Please try again later."
+      "body": "The network speed is slow or there is an unknown error. Please try again later"
     },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
