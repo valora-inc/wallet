@@ -11,7 +11,7 @@ import {
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   fetchAddressVerification,
-  updateAddressToVerificationStatus,
+  addressVerificationStatusReceived,
 } from 'src/identity/actions'
 import {
   doImportContactsWrapper,
@@ -170,11 +170,7 @@ describe('Fetch Address Verification Saga', () => {
         [select(walletAddressSelector), '0xxyz'],
         [call(retrieveSignedMessage), 'some signed message'],
       ])
-      .put(
-        updateAddressToVerificationStatus({
-          [mockAccount]: true,
-        })
-      )
+      .put(addressVerificationStatusReceived(mockAccount, true))
       .run()
 
     expect(mockFetch).toHaveBeenCalledTimes(1)

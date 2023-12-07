@@ -7,7 +7,6 @@ import {
   E164NumberToAddressType,
   E164NumberToSaltType,
   WalletToAccountAddressType,
-  AddressToVerificationStatus,
 } from 'src/identity/reducer'
 import { ImportContactsStatus } from 'src/identity/types'
 import { Recipient } from 'src/recipients/recipient'
@@ -32,7 +31,7 @@ export enum Actions {
   FETCH_DATA_ENCRYPTION_KEY = 'IDENTITY/FETCH_DATA_ENCRYPTION_KEY',
   UPDATE_ADDRESS_DEK_MAP = 'IDENTITY/UPDATE_ADDRESS_DEK_MAP',
   FETCH_ADDRESS_VERIFICATION = 'IDENTITY/FETCH_ADDRESS_VERIFICATION',
-  UPDATE_ADDRESS_TO_VERIFICATION_STATUS = 'IDENTITY/UPDATE_ADDRESS_TO_VERIFICATION_STATUS',
+  ADDRESS_VERIFICATION_STATUS_RECEIVED = 'IDENTITY/ADDRESS_VERIFICATION_STATUS_RECEIVED',
 }
 
 export interface SetHasSeenVerificationNux {
@@ -138,9 +137,10 @@ export interface FetchAddressVerificationAction {
   address: string
 }
 
-export interface UpdateAddressToVerificationStatusAction {
-  type: Actions.UPDATE_ADDRESS_TO_VERIFICATION_STATUS
-  addressToVerificationStatus: AddressToVerificationStatus
+export interface AddressVerificationStatusReceivedAction {
+  type: Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED
+  address: string
+  addressVerified: boolean
 }
 
 export type ActionTypes =
@@ -162,7 +162,7 @@ export type ActionTypes =
   | FetchDataEncryptionKeyAction
   | UpdateAddressDekMapAction
   | FetchAddressVerificationAction
-  | UpdateAddressToVerificationStatusAction
+  | AddressVerificationStatusReceivedAction
 
 export const setHasSeenVerificationNux = (status: boolean): SetHasSeenVerificationNux => ({
   type: Actions.SET_SEEN_VERIFICATION_NUX,
@@ -178,11 +178,13 @@ export const fetchAddressesAndValidate = (
   requesterAddress,
 })
 
-export const updateAddressToVerificationStatus = (
-  addressToVerificationStatus: AddressToVerificationStatus
-): UpdateAddressToVerificationStatusAction => ({
-  type: Actions.UPDATE_ADDRESS_TO_VERIFICATION_STATUS,
-  addressToVerificationStatus,
+export const addressVerificationStatusReceived = (
+  address: string,
+  addressVerified: boolean
+): AddressVerificationStatusReceivedAction => ({
+  type: Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED,
+  address,
+  addressVerified,
 })
 
 export const fetchAddressVerification = (address: string): FetchAddressVerificationAction => ({

@@ -264,10 +264,21 @@ export const reducer = (
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
       }
-    case Actions.UPDATE_ADDRESS_TO_VERIFICATION_STATUS:
+    case Actions.FETCH_ADDRESS_VERIFICATION:
       return {
         ...state,
-        addressToVerificationStatus: action.addressToVerificationStatus,
+        addressToVerificationStatus: {
+          ...state.addressToVerificationStatus,
+          [action.address]: !state.addressToVerificationStatus[action.address] ? undefined : true,
+        },
+      }
+    case Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED:
+      return {
+        ...state,
+        addressToVerificationStatus: {
+          ...state.addressToVerificationStatus,
+          [action.address]: action.addressVerified,
+        },
       }
     default:
       return state

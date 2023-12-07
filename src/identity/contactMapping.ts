@@ -20,7 +20,7 @@ import {
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
-  updateAddressToVerificationStatus,
+  addressVerificationStatusReceived,
 } from 'src/identity/actions'
 import {
   AddressToE164NumberType,
@@ -212,24 +212,12 @@ export function* fetchAddressesAndValidateSaga({
 }
 
 export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificationAction) {
-  const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
   try {
+    const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
     if (!(address in addressToVerificationStatus && addressToVerificationStatus[address])) {
       ValoraAnalytics.track(IdentityEvents.address_lookup_start)
-      // An undefined value denotes that the result for this address is currently loading
-      yield* put(
-        updateAddressToVerificationStatus({
-          ...addressToVerificationStatus,
-          [address]: undefined,
-        })
-      )
       const addressVerified = yield* call(fetchAddressVerification, address)
-      yield* put(
-        updateAddressToVerificationStatus({
-          ...addressToVerificationStatus,
-          [address]: addressVerified,
-        })
-      )
+      yield* put(addressVerificationStatusReceived(address, addressVerified))
       ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
     }
   } catch (err) {
@@ -242,12 +230,7 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
       error: error.message,
     })
-    yield* put(
-      updateAddressToVerificationStatus({
-        ...addressToVerificationStatus,
-        [address]: false,
-      })
-    )
+    yield* put(addressVerificationStatusReceived(address, false))
   }
 }
 
