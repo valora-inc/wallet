@@ -14,10 +14,33 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
 }
 
-export type PendingStandbySwap = BaseTokenExchange & BasePendingTransactionProperties
-export type PendingStandbyTransfer = BaseTokenTransfer & BasePendingTransactionProperties
-export type PendingTokenApproval = BaseTokenApproval & BasePendingTransactionProperties
-export type ConfirmedStandbyTransaction = (TokenExchange | TokenTransfer | TokenApproval) & {
+export type PendingStandbySwap = {
+  transactionHash?: string
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+} & Omit<TokenExchange, 'block' | 'fees' | 'transactionHash' | 'status'>
+
+export type PendingStandbyTransfer = {
+  transactionHash?: string
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+} & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
+
+export type PendingStandbyApproval = {
+  transactionHash?: string
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+} & Omit<TokenApproval, 'block' | 'fees' | 'transactionHash' | 'status'>
+
+export type ConfirmedStandbyTransaction = (
+  | Omit<TokenExchange, 'status'>
+  | Omit<TokenTransfer, 'status'>
+  | Omit<TokenApproval, 'status'>
+) & {
+  status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
   feeCurrencyId?: string
 }
@@ -25,7 +48,7 @@ export type ConfirmedStandbyTransaction = (TokenExchange | TokenTransfer | Token
 export type StandbyTransaction =
   | PendingStandbySwap
   | PendingStandbyTransfer
-  | PendingTokenApproval
+  | PendingStandbyApproval
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
@@ -89,33 +112,20 @@ export enum TokenTransactionTypeV2 {
   Approval = 'APPROVAL',
 }
 
-interface BasePendingTransactionProperties {
-  networkId: NetworkId
-  type: TokenTransactionTypeV2
-  transactionHash?: string
-  timestamp: number
-  context: TransactionContext
-  status: TransactionStatus.Pending
-  feeCurrencyId?: string
-}
-
-interface BaseConfirmedTransactionProperties {
+// Can we optional the fields `transactionHash` and `block`?
+export interface TokenTransfer {
+  __typename: 'TokenTransferV3'
   networkId: NetworkId
   type: TokenTransactionTypeV2
   transactionHash: string
   timestamp: number
   block: string
-  fees: Fee[]
-  status: TransactionStatus.Complete | TransactionStatus.Failed
-}
-
-interface BaseTokenTransfer {
-  __typename: 'TokenTransferV3'
   address: string
   amount: TokenAmount
   metadata: TokenTransferMetadata
+  fees: Fee[]
+  status: TransactionStatus
 }
-export type TokenTransfer = BaseTokenTransfer & BaseConfirmedTransactionProperties
 
 export interface TokenTransferMetadata {
   title?: string
@@ -124,20 +134,32 @@ export interface TokenTransferMetadata {
   comment?: string
 }
 
-interface BaseNftTransfer {
+export interface NftTransfer {
   __typename: 'NftTransferV3'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  fees?: Fee[]
   nfts?: Nft[]
+  status: TransactionStatus
 }
-export type NftTransfer = BaseNftTransfer & BaseConfirmedTransactionProperties
 
-interface BaseTokenExchange {
+// Can we optional the fields `transactionHash` and `block`?
+export interface TokenExchange {
   __typename: 'TokenExchangeV3'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
   inAmount: TokenAmount
   outAmount: TokenAmount
   metadata?: TokenExchangeMetadata
+  fees: Fee[]
+  status: TransactionStatus
 }
-
-export type TokenExchange = BaseTokenExchange & BaseConfirmedTransactionProperties
 
 export interface TokenExchangeMetadata {
   title?: string
@@ -155,10 +177,15 @@ export interface Fee {
   amount: TokenAmount
 }
 
-interface BaseTokenApproval {
+export interface TokenApproval {
   __typename: 'TokenApproval'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  timestamp: number
+  block: string
+  transactionHash: string
   tokenId: string
-  approvedAmount: string | null // null represents infinite approval
+  approvedAmount: number | null // null represents infinite approval
+  fees: Fee[]
+  status: TransactionStatus
 }
-
-export type TokenApproval = BaseConfirmedTransactionProperties & BaseTokenApproval
