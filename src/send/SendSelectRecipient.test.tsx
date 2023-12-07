@@ -1,5 +1,5 @@
 import Clipboard from '@react-native-clipboard/clipboard'
-import { act, fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
@@ -10,7 +10,13 @@ import { Screens } from 'src/navigator/Screens'
 import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockPhoneRecipientCache, mockRecipient, mockRecipient2 } from 'test/values'
+import {
+  mockAccount,
+  mockE164Number2Invite,
+  mockPhoneRecipientCache,
+  mockRecipient,
+  mockRecipient2,
+} from 'test/values'
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -221,6 +227,60 @@ describe('SendSelectRecipient', () => {
     })
 
     expect(getByTestId('InviteModalContainer')).toBeTruthy()
+  })
+  it('shows info text when searching for unknown address', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAccount)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+  })
+  it('does not show info text when searching for phone number', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
+
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockE164Number2Invite)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(queryByTestId('UnknownAddressInfo')).toBeFalsy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
   it('shows paste button if clipboard has address content', async () => {
     const store = createMockStore(defaultStore)

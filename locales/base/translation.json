@@ -1943,7 +1943,8 @@
     "connectPhoneNumberModal": {
       "title": "Connect your phone number",
       "description": "You need to connect your phone number so you can start sending crypto to your friends"
-    }
+    },
+    "unknownAddressInfo": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Completed",

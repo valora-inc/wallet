@@ -1,6 +1,6 @@
-import { useState, useMemo, useEffect } from 'react'
 import { debounce, throttle } from 'lodash'
 import useSelector from 'src/redux/useSelector'
+import { useEffect, useMemo, useState } from 'react'
 import { useAsync } from 'react-async-hook'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { recipientInfoSelector } from 'src/recipients/reducer'
@@ -48,6 +48,9 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
   )
 
   const throttledSearch = throttle((searchInput: string) => {
+    // Prevents re-render if the searchQuery has not changed
+    // Such as with a Keyboard.dismiss() on iOS 16.4+
+    if (searchQuery === searchInput) return
     onSearch(searchInput)
     setSearchQuery(searchInput)
     setRecentFiltered(recentRecipientsFilter(searchInput))
