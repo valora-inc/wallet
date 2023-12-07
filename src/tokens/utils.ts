@@ -88,6 +88,35 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   return usdBalance(token2).comparedTo(usdBalance(token1))
 }
 
+/**
+ *
+ * Sorts by:
+ * 1. cicoOrder value, smallest first
+ *  1.1. If both tokens have cicoOrder value, sort by sortFirstStableThenCeloThenOthersByUsdBalance
+ * 2. If only one token has cicoOrder value, it goes first
+ * 3. If neither token has cicoOrder value, sort by sortFirstStableThenCeloThenOthersByUsdBalance
+ */
+export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): number {
+  const cicoTokenInfo = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.CICO_TOKEN_INFO]
+  ).tokenInfo
+  if (
+    (!cicoTokenInfo[token1.tokenId]?.cicoOrder && !cicoTokenInfo[token2.tokenId]?.cicoOrder) ||
+    cicoTokenInfo[token1.tokenId]?.cicoOrder === cicoTokenInfo[token2.tokenId]?.cicoOrder
+  ) {
+    return sortFirstStableThenCeloThenOthersByUsdBalance(token1, token2)
+  }
+  if (!cicoTokenInfo[token1.tokenId]?.cicoOrder) {
+    return 1
+  }
+  if (!cicoTokenInfo[token2.tokenId]?.cicoOrder) {
+    return -1
+  }
+  return cicoTokenInfo[token1.tokenId]?.cicoOrder < cicoTokenInfo[token2.tokenId]?.cicoOrder
+    ? -1
+    : 1
+}
+
 export function usdBalance(token: TokenBalance): BigNumber {
   return token.balance.times(token.priceUsd ?? 0)
 }

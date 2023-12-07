@@ -1441,4 +1441,11 @@ export const migrations = {
       multichainBetaStatus: MultichainBetaStatus.NotSeen,
     },
   }),
+  172: (state: any) => ({
+    ...state,
+    swap: {
+      ..._.omit(state.swap, 'swapInfo'),
+      currentSwap: null,
+    },
+  }),
 }

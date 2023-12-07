@@ -108,7 +108,7 @@ export const reducer = (
             if (standbyTransaction.context.id === action.txId) {
               return {
                 ...standbyTransaction,
-                status: status ? TransactionStatus.Complete : TransactionStatus.Failed,
+                status: status,
                 transactionHash,
                 block,
                 timestamp: action.blockTimestamp,

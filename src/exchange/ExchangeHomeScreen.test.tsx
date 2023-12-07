@@ -5,24 +5,20 @@ import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import { createMockStore } from 'test/utils'
 import {
   exchangePriceHistory,
-  mockCeloAddress,
-  mockCusdAddress,
+  mockCeloTokenId,
+  mockCusdTokenId,
   mockTokenBalances,
 } from 'test/values'
 
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockCusdAddress]: {
-        ...mockTokenBalances[mockCusdAddress],
+      [mockCusdTokenId]: {
+        ...mockTokenBalances[mockCusdTokenId],
         balance: '10',
       },
-      [mockCeloAddress]: {
-        ...mockTokenBalances[mockCeloAddress],
-        balance: '2',
-      },
-      [mockCeloAddress]: {
-        ...mockTokenBalances[mockCeloAddress],
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
         balance: '2',
       },
     },
