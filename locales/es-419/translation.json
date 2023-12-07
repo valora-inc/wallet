@@ -1937,7 +1937,8 @@
     "connectPhoneNumberModal": {
       "title": "Conecta tu número de teléfono",
       "description": "Tienes que conectar tu número de teléfono para empezar a enviar cripto a tus amigos"
-    }
+    },
+    "unknownAddressInfo": "Asegúrate de que esta dirección admite el activo que intentas enviar. Tus fondos pueden no ser recuperables si esta dirección no es válida."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Finalizada",
