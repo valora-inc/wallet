@@ -53,6 +53,7 @@ async function formatTestTransaction(address, web3Library) {
         maxFeePerGas: '0x1DCD65000',
         maxPriorityFeePerGas: '0x77359400',
         value: '0x01',
+        feeCurrency: undefined,
       }
     } else {
       return {
