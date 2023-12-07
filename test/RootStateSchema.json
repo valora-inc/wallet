@@ -2411,7 +2411,6 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
-                "SwapExecuteScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
                 "TokenDetails",
@@ -3694,16 +3693,12 @@
                 },
                 "priceImpactWarningThreshold": {
                     "type": "number"
-                },
-                "swapState": {
-                    "$ref": "#/definitions/SwapState"
                 }
             },
             "required": [
                 "currentSwap",
                 "guaranteedSwapPriceEnabled",
-                "priceImpactWarningThreshold",
-                "swapState"
+                "priceImpactWarningThreshold"
             ],
             "type": "object"
         },
@@ -4218,19 +4213,6 @@
                 "type": "object"
             },
             "type": "object"
-        },
-        "SwapState": {
-            "enum": [
-                "approve",
-                "complete",
-                "error",
-                "execute",
-                "price-change",
-                "quote",
-                "start",
-                "user-input"
-            ],
-            "type": "string"
         },
         "SwapStatus": {
             "enum": [
