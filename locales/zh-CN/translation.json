@@ -1935,7 +1935,8 @@
     "connectPhoneNumberModal": {
       "title": "关联您的手机号码",
       "description": "您需要关联您的电话号码，以便开始向您的朋友发送加密货币"
-    }
+    },
+    "unknownAddressInfo": "请确保该地址支持您要发送的资产。如果该地址无效，您的资金可能无法收回。"
   },
   "transactionStatus": {
     "transactionIsCompleted": "已完成",
