@@ -601,6 +601,7 @@ export enum SwapEvents {
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
   swap_again = 'swap_again',
   swap_try_again = 'swap_try_again',
+  swap_show_info = 'swap_show_info',
 }
 
 export enum CeloNewsEvents {

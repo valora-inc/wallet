@@ -526,6 +526,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SwapEvents.swap_price_impact_warning_displayed]: `When the price impact warning is displayed`,
   [SwapEvents.swap_again]: `When a user taps "Swap again" button after a successful swap`,
   [SwapEvents.swap_try_again]: `When a user taps "Try again" button after an unsuccessful swap`,
+  [SwapEvents.swap_show_info]: `When a user taps an info icon to show more information on the swap screen`,
   [CeloNewsEvents.celo_news_screen_open]: `When the screen is mounted`,
   [CeloNewsEvents.celo_news_article_tap]: `When a user taps on a news article`,
   [CeloNewsEvents.celo_news_bottom_read_more_tap]: `When a user taps on the read more button at the bottom of the screen`,

@@ -1,6 +1,6 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Keyboard, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
@@ -33,6 +33,7 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   const { t } = useTranslation()
 
   const onPress = () => {
+    Keyboard.dismiss()
     onSelectRecipient(recipient)
   }
 
