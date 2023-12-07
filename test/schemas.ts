@@ -2846,12 +2846,33 @@ export const v172Schema = {
     ...v171Schema._persist,
     version: 172,
   },
+  swap: {
+    ..._.omit(v171Schema.swap, 'swapInfo'),
+    currentSwap: null,
+  },
+}
+
+export const v173Schema = {
+  ...v172Schema,
+  _persist: {
+    ...v172Schema._persist,
+    version: 173,
+  },
+  swap: _.omit(v172Schema.swap, 'swapState'),
+}
+
+export const v174Schema = {
+  ...v173Schema,
+  _persist: {
+    ...v173Schema._persist,
+    version: 174,
+  },
   identity: {
-    ...v171Schema.identity,
+    ...v173Schema.identity,
     addressToVerificationStatus: {},
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v172Schema as Partial<RootState>
+  return v174Schema as Partial<RootState>
 }

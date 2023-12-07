@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Ücretsiz",
       "slippagePercentage": "Slipaj Toleransı",
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
+      "slippageToleranceInfo": "Kayma toleransı\n\nTakas işleminiz kayma toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat kayma toleransından daha fazla değişirse, {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
       "estimatedValue": "Tahmini Değer"

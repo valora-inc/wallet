@@ -271,7 +271,6 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
-  [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
