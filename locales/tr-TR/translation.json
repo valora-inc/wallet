@@ -1937,7 +1937,8 @@
     "connectPhoneNumberModal": {
       "title": "Telefon numaranı bağla",
       "description": "Arkadaşlarınıza kripto göndermeye başlayabilmek için telefon numaranızı bağlamanız gerekir"
-    }
+    },
+    "unknownAddressInfo": "Lütfen bu adresin göndermeye çalıştığınız varlığı desteklediğinden emin olun. Bu adres geçersizse fonlarınız kurtarılamayabilir."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Tamamlandı",
