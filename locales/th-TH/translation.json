@@ -1935,7 +1935,8 @@
     "connectPhoneNumberModal": {
       "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
       "description": "คุณจำเป็นต้องเชื่อมหมายเลขโทรศัพท์ของคุณจึงจะสามารถส่งคริปโตให้เพื่อนได้"
-    }
+    },
+    "unknownAddressInfo": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid."
   },
   "transactionStatus": {
     "transactionIsCompleted": "เสร็จสมบูรณ์",
