@@ -1941,7 +1941,8 @@
     "connectPhoneNumberModal": {
       "title": "Podłącz swój numer telefonu",
       "description": "Musisz połączyć swój numer telefonu, aby móc zacząć wysyłać kryptowaluty do znajomych"
-    }
+    },
+    "unknownAddressInfo": "Upewnij się, że ten adres obsługuje zasób, który próbujesz wysłać. Twoje środki mogą nie być możliwe do odzyskania, jeśli ten adres jest nieprawidłowy."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Zakończono",
