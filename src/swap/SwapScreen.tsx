@@ -41,7 +41,7 @@ import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactions
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { priceImpactWarningThresholdSelector, swapInfoSelector } from 'src/swap/selectors'
+import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
@@ -55,6 +55,7 @@ import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
+import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'SwapScreen'
 
@@ -112,7 +113,11 @@ export function SwapScreen({ route }: Props) {
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSwappableTokens()
 
-  const swapInfo = useSelector(swapInfoSelector)
+  // Keep track of which swap is currently being executed from this screen
+  // This is because there could be multiple swaps happening at the same time
+  const [startedSwapId, setStartedSwapId] = useState<string | null>(null)
+  const currentSwap = useSelector(currentSwapSelector)
+  const swapStatus = startedSwapId === currentSwap?.id ? currentSwap.status : null
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
   const tokensById = useSelector((state) =>
@@ -131,7 +136,7 @@ export function SwapScreen({ route }: Props) {
   const [updatedField, setUpdatedField] = useState(Field.FROM)
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
-  const [showMaxSwapAmountWarning, setShowMaxSwapAmountWarning] = useState(false)
+  const [shouldShowMaxSwapAmountWarning, setShouldShowMaxSwapAmountWarning] = useState(false)
 
   // TODO: remove this once we have viem enabled for everyone
   const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
@@ -154,17 +159,22 @@ export function SwapScreen({ route }: Props) {
     [swapAmount]
   )
 
-  // Used to reset the swap when after a successful swap or error
-  useEffect(() => {
-    if (swapInfo === null) {
-      setSwapAmount(DEFAULT_SWAP_AMOUNT)
-      setUpdatedField(Field.FROM)
-      setSelectingToken(null)
-      setFromToken(initialFromToken)
-      setToToken(undefined)
-      clearQuote()
-    }
-  }, [swapInfo])
+  const exchangeRateUpdatePending =
+    (exchangeRate &&
+      (exchangeRate.fromTokenId !== fromToken?.tokenId ||
+        exchangeRate.toTokenId !== toToken?.tokenId ||
+        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+    fetchingSwapQuote
+
+  const confirmSwapIsLoading = swapStatus === 'started'
+  const confirmSwapFailed = swapStatus === 'error'
+  const allowSwap = useMemo(
+    () =>
+      !confirmSwapIsLoading &&
+      !exchangeRateUpdatePending &&
+      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
+    [parsedSwapAmount, exchangeRateUpdatePending, confirmSwapIsLoading]
+  )
 
   useEffect(() => {
     ValoraAnalytics.track(SwapEvents.swap_screen_open)
@@ -178,6 +188,12 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     setFromSwapAmountError(false)
+    // This variable is intentionally left out of the dependency array
+    // so that the error message is cleared only when the user changes the input
+    if (confirmSwapFailed) {
+      // Basically clears the error message
+      setStartedSwapId(null)
+    }
     // since we use the calculated exchange rate to update the parsedSwapAmount,
     // this hook will be triggered after the exchange rate is first updated. this
     // variable prevents the exchange rate from needlessly being calculated
@@ -202,10 +218,10 @@ export function SwapScreen({ route }: Props) {
   }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
 
   useEffect(() => {
-    if (showMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
-      setShowMaxSwapAmountWarning(false)
+    if (shouldShowMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
+      setShouldShowMaxSwapAmountWarning(false)
     }
-  }, [fromToken, showMaxSwapAmountWarning])
+  }, [fromToken, shouldShowMaxSwapAmountWarning])
 
   useEffect(
     () => {
@@ -338,8 +354,11 @@ export function SwapScreen({ route }: Props) {
             ),
           })
 
+          const swapId = uuidv4()
+          setStartedSwapId(swapId)
           dispatch(
             swapStartPrepared({
+              swapId,
               quote: {
                 preparedTransactions: getSerializablePreparedTransactions(
                   exchangeRate.preparedTransactions.transactions
@@ -384,11 +403,14 @@ export function SwapScreen({ route }: Props) {
       web3Library: 'contract-kit',
     })
 
+    const swapId = uuidv4()
+    setStartedSwapId(swapId)
     dispatch(
       swapStart({
         ...exchangeRate.rawSwapResponse,
         userInput,
         quoteReceivedAt: exchangeRate.receivedAt,
+        swapId,
       })
     )
   }
@@ -452,7 +474,7 @@ export function SwapScreen({ route }: Props) {
       }))
     }
 
-    setShowMaxSwapAmountWarning(false)
+    setShouldShowMaxSwapAmountWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
@@ -483,22 +505,9 @@ export function SwapScreen({ route }: Props) {
 
   const showMaxCeloSwapWarning = () => {
     if (fromToken?.symbol === 'CELO') {
-      setShowMaxSwapAmountWarning(true)
+      setShouldShowMaxSwapAmountWarning(true)
     }
   }
-
-  const exchangeRateUpdatePending =
-    (exchangeRate &&
-      (exchangeRate.fromTokenId !== fromToken?.tokenId ||
-        exchangeRate.toTokenId !== toToken?.tokenId ||
-        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
-    fetchingSwapQuote
-
-  const allowSwap = useMemo(
-    () =>
-      Object.values(parsedSwapAmount).every((amount) => amount.gt(0)) && !exchangeRateUpdatePending,
-    [parsedSwapAmount, exchangeRateUpdatePending]
-  )
 
   const onPressLearnMore = () => {
     ValoraAnalytics.track(SwapEvents.swap_learn_more)
@@ -510,10 +519,13 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
+  const showMaxSwapAmountWarning = !confirmSwapFailed && shouldShowMaxSwapAmountWarning
   const showPriceImpactWarning =
+    !confirmSwapFailed &&
     !exchangeRateUpdatePending &&
     !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
   const showMissingPriceImpactWarning =
+    !confirmSwapFailed &&
     !exchangeRateUpdatePending &&
     !showPriceImpactWarning &&
     ((exchangeRate && !exchangeRate.estimatedPriceImpact) ||
@@ -601,6 +613,14 @@ export function SwapScreen({ route }: Props) {
               style={styles.warning}
             />
           )}
+          {confirmSwapFailed && (
+            <InLineNotification
+              severity={Severity.Warning}
+              title={t('swapScreen.confirmSwapFailedWarning.title')}
+              description={t('swapScreen.confirmSwapFailedWarning.body')}
+              style={styles.warning}
+            />
+          )}
         </View>
         <Text style={styles.disclaimerText}>
           <Trans i18nKey="swapScreen.disclaimer">
@@ -608,10 +628,12 @@ export function SwapScreen({ route }: Props) {
           </Trans>
         </Text>
         <Button
+          testID="ConfirmSwapButton"
           onPress={handleConfirmSwap}
           text={t('swapScreen.confirmSwap')}
           size={BtnSizes.FULL}
           disabled={!allowSwap}
+          showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
       <TokenBottomSheet

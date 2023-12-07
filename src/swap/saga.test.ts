@@ -6,9 +6,11 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitPreparedSaga, swapSubmitSaga } from 'src/swap/saga'
-import { swapApprove, swapError, swapExecute, swapPriceChange } from 'src/swap/slice'
+import { swapCancel, swapError, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
 import { getERC20TokenContract } from 'src/tokens/saga'
 import {
@@ -120,6 +122,7 @@ const mockQuoteReceivedTimestamp = 1_000_000_000_000
 const mockSwap: PayloadAction<SwapInfo> = {
   type: 'swap/swapStart',
   payload: {
+    swapId: 'test-swap-id',
     approveTransaction: {
       gas: '59480',
       from: mockAccount,
@@ -150,6 +153,7 @@ const mockSwapPreparedWithFeeCurrency = (feeCurrency?: Address) => {
   return {
     type: 'swap/swapStartPrepared',
     payload: {
+      swapId: 'test-swap-id',
       userInput: {
         updatedField: Field.TO,
         fromTokenId: mockCeurTokenId,
@@ -206,6 +210,7 @@ const mockSwapPrepared: PayloadAction<SwapInfoPrepared> = mockSwapPreparedWithFe
 const mockSwapPreparedEthereum: PayloadAction<SwapInfoPrepared> = {
   type: 'swap/swapStartPrepared',
   payload: {
+    swapId: 'test-swap-id',
     userInput: {
       updatedField: Field.TO,
       fromTokenId: mockUSDCTokenId,
@@ -403,8 +408,7 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide(defaultProviders)
-      .put(swapApprove())
-      .put(swapExecute())
+      .put(swapSuccess('test-swap-id'))
       .put.like({
         action: {
           type: Actions.ADD_STANDBY_TRANSACTION,
@@ -435,6 +439,7 @@ describe(swapSubmitSaga, () => {
       .run()
     expect(sendTransaction).toHaveBeenCalledTimes(2)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
@@ -489,8 +494,7 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwapWithNativeSellToken)
       .withState(store.getState())
       .provide(defaultProviders)
-      .not.put(swapApprove())
-      .put(swapExecute())
+      .put(swapSuccess('test-swap-id'))
       .put.like({
         action: {
           type: Actions.ADD_STANDBY_TRANSACTION,
@@ -512,6 +516,7 @@ describe(swapSubmitSaga, () => {
 
     expect(sendTransaction).toHaveBeenCalledTimes(1)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
   })
 
   it('should set swap state correctly on error', async () => {
@@ -522,10 +527,10 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwap)
       .withState(store.getState())
       .provide(defaultProviders)
-      .put(swapApprove())
-      .put(swapError())
+      .put(swapError('test-swap-id'))
       .put(removeStandbyTransaction('id-swap/saga-Swap/Execute'))
       .run()
+    expect(navigate).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
@@ -549,27 +554,6 @@ describe(swapSubmitSaga, () => {
       estimatedBuyTokenUsdValue: 0.005,
       estimatedSellTokenUsdValue: 0.01,
       web3Library: 'contract-kit',
-    })
-  })
-
-  it('should set swap state correctly on price change', async () => {
-    mockSwap.payload.unvalidatedSwapTransaction.guaranteedPrice = '1.021'
-    await expectSaga(swapSubmitSaga, mockSwap)
-      .withState(store.getState())
-      .provide(defaultProviders)
-      .put(swapPriceChange())
-      .run()
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_price_change, {
-      price: '1',
-      guaranteedPrice: '1.021',
-      toToken: mockCeloAddress,
-      toTokenId: mockCeloTokenId,
-      toTokenNetworkId: NetworkId['celo-alfajores'],
-      fromToken: mockCeurAddress,
-      fromTokenId: mockCeurTokenId,
-      fromTokenNetworkId: NetworkId['celo-alfajores'],
     })
   })
 })
@@ -707,8 +691,7 @@ describe(swapSubmitPreparedSaga, () => {
       await expectSaga(swapSubmitPreparedSaga, swapPrepared)
         .withState(store.getState())
         .provide(createDefaultProviders(network))
-        .not.put(swapApprove())
-        .put(swapExecute())
+        .put(swapSuccess('test-swap-id'))
         .put(
           addStandbyTransaction({
             context: {
@@ -745,6 +728,7 @@ describe(swapSubmitPreparedSaga, () => {
       expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
       expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
       expect(loggerErrorSpy).not.toHaveBeenCalled()
+      expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_success, {
@@ -833,8 +817,7 @@ describe(swapSubmitPreparedSaga, () => {
     await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedWithNativeSellToken)
       .withState(store.getState())
       .provide(createDefaultProviders(Network.Celo))
-      .not.put(swapApprove())
-      .put(swapExecute())
+      .put(swapSuccess('test-swap-id'))
       .put(
         addStandbyTransaction({
           context: {
@@ -863,6 +846,7 @@ describe(swapSubmitPreparedSaga, () => {
     expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(1)
     expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(1)
     expect(loggerErrorSpy).not.toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
   })
 
   it('should display the correct standby values for a swap with different decimals', async () => {
@@ -906,9 +890,9 @@ describe(swapSubmitPreparedSaga, () => {
     await expectSaga(swapSubmitPreparedSaga, mockSwapPrepared)
       .withState(store.getState())
       .provide(createDefaultProviders(Network.Celo))
-      .not.put(swapApprove())
-      .put(swapError())
+      .put(swapError('test-swap-id'))
       .run()
+    expect(navigate).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_execute_error, {
       error: 'fake error',
@@ -978,5 +962,20 @@ describe(swapSubmitPreparedSaga, () => {
       analyticsProps.approveTxMaxGasFeeUsd + analyticsProps.swapTxMaxGasFeeUsd,
       8
     )
+  })
+
+  it('should set swap state correctly when PIN input is cancelled', async () => {
+    // In reality it's not this method that throws this error, but it's the easiest way to test for now
+    jest.mocked(mockViemWallet.sendRawTransaction).mockImplementationOnce(() => {
+      throw 'CANCELLED_PIN_INPUT'
+    })
+    await expectSaga(swapSubmitPreparedSaga, mockSwapPrepared)
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .put(swapCancel('test-swap-id'))
+      .not.put(swapError('test-swap-id'))
+      .run()
+    expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 })
