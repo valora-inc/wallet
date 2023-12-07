@@ -51,7 +51,7 @@ import {
   mockWBTCAddress,
   mockWBTCTokenId,
 } from 'test/values'
-import { Address, zeroAddress } from 'viem'
+import { Address, decodeFunctionData, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
@@ -690,8 +690,30 @@ describe(swapSubmitPreparedSaga, () => {
 
       await expectSaga(swapSubmitPreparedSaga, swapPrepared)
         .withState(store.getState())
-        .provide(createDefaultProviders(network))
+        .provide([
+          ...createDefaultProviders(network),
+          [
+            matchers.call.fn(decodeFunctionData),
+            { functionName: 'approve', args: ['', BigInt(1e18)] },
+          ],
+        ])
         .put(swapSuccess('test-swap-id'))
+        .put(
+          addStandbyTransaction({
+            context: {
+              id: 'id-swap/saga-Swap/Approve',
+              tag: 'swap/saga',
+              description: 'Swap/Approve',
+            },
+            __typename: 'TokenApproval',
+            networkId,
+            type: TokenTransactionTypeV2.Approval,
+            transactionHash: mockApproveTxReceipt.transactionHash,
+            tokenId: fromTokenId,
+            approvedAmount: 1,
+            feeCurrencyId,
+          })
+        )
         .put(
           addStandbyTransaction({
             context: {
@@ -840,6 +862,14 @@ describe(swapSubmitPreparedSaga, () => {
           feeCurrencyId: mockCeloTokenId,
         })
       )
+      .not.put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenApproval',
+          },
+        },
+      })
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
 
@@ -852,7 +882,29 @@ describe(swapSubmitPreparedSaga, () => {
   it('should display the correct standby values for a swap with different decimals', async () => {
     await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedWithWBTCBuyToken)
       .withState(store.getState())
-      .provide(createDefaultProviders(Network.Celo))
+      .provide([
+        ...createDefaultProviders(Network.Celo),
+        [
+          matchers.call.fn(decodeFunctionData),
+          { functionName: 'approve', args: ['', BigInt(1e18)] },
+        ],
+      ])
+      .put(
+        addStandbyTransaction({
+          context: {
+            id: 'id-swap/saga-Swap/Approve',
+            tag: 'swap/saga',
+            description: 'Swap/Approve',
+          },
+          __typename: 'TokenApproval',
+          networkId: NetworkId['celo-alfajores'],
+          type: TokenTransactionTypeV2.Approval,
+          transactionHash: mockApproveTxReceipt.transactionHash,
+          tokenId: mockCeurTokenId,
+          approvedAmount: 1,
+          feeCurrencyId: mockCeloTokenId,
+        })
+      )
       .put(
         addStandbyTransaction({
           context: {
