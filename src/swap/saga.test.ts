@@ -397,6 +397,7 @@ describe(swapSubmitSaga, () => {
       call(getERC20TokenContract, mockSwap.payload.unvalidatedSwapTransaction.sellTokenAddress),
       mockContract,
     ],
+    [matchers.call.fn(publicClient[Network.Celo].getBlock), { timestamp: 1701102971 }],
   ]
 
   it('should complete swap', async () => {
@@ -592,6 +593,7 @@ describe(swapSubmitPreparedSaga, () => {
       [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockSwapTxReceipt],
       [matchers.call.fn(publicClient[network].getTransactionReceipt), mockApproveTxReceipt],
+      [matchers.call.fn(publicClient[network].getBlock), { timestamp: 1701102971 }],
     ]
 
     return defaultProviders
@@ -715,12 +717,16 @@ describe(swapSubmitPreparedSaga, () => {
           })
         )
         .put(
-          transactionConfirmed('id-swap/saga-Swap/Execute', {
-            transactionHash: mockSwapTxReceipt.transactionHash,
-            block: mockSwapTxReceipt.blockNumber.toString(),
-            status: TransactionStatus.Complete,
-            fees: expectedFees,
-          })
+          transactionConfirmed(
+            'id-swap/saga-Swap/Execute',
+            {
+              transactionHash: mockSwapTxReceipt.transactionHash,
+              block: mockSwapTxReceipt.blockNumber.toString(),
+              status: TransactionStatus.Complete,
+              fees: expectedFees,
+            },
+            1701102971000
+          )
         )
         .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x2' })
         .run()

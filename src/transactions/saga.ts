@@ -43,7 +43,7 @@ import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getContractKit } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 import { Hash, TransactionReceipt } from 'viem'
 
@@ -341,11 +341,20 @@ export function* handleTransactionReceiptReceived(
         : TransactionStatus.Complete,
   }
 
+  const blockDetails = yield* call([publicClient[networkIdToNetwork[networkId]], 'getBlock'], {
+    blockNumber: BigInt(receipt.blockNumber),
+  })
+  const blockTimestamp = Number(blockDetails.timestamp) * 1000 // milliseconds
+
   yield* put(
-    transactionConfirmed(txId, {
-      ...baseDetails,
-      fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
-    })
+    transactionConfirmed(
+      txId,
+      {
+        ...baseDetails,
+        fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
+      },
+      blockTimestamp
+    )
   )
 }
 
