@@ -522,13 +522,10 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
       throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
     }
 
-    const timeMetrics = getTimeMetrics()
     yield* put(swapSuccess(swapId))
-    // TODO: do we need to vibrate here?
-    vibrateSuccess()
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
-      ...timeMetrics,
+      ...getTimeMetrics(),
       ...getSwapTxsReceiptAnalyticsProperties(trackedTxs, networkId, tokensById),
     })
   } catch (err) {
