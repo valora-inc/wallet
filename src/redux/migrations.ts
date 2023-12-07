@@ -1448,4 +1448,8 @@ export const migrations = {
       currentSwap: null,
     },
   }),
+  173: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'swapState'),
+  }),
 }

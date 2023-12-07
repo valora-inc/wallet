@@ -4,17 +4,6 @@ import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { SwapInfo, SwapInfoPrepared } from 'src/swap/types'
 
-export enum SwapState {
-  USER_INPUT = 'user-input',
-  QUOTE = 'quote',
-  START = 'start',
-  APPROVE = 'approve',
-  EXECUTE = 'execute',
-  COMPLETE = 'complete',
-  PRICE_CHANGE = 'price-change',
-  ERROR = 'error',
-}
-
 type SwapStatus = 'idle' | 'started' | 'success' | 'error'
 
 interface SwapTask {
@@ -23,17 +12,12 @@ interface SwapTask {
 }
 
 export interface State {
-  /**
-   * @deprecated will be removed when SwapExecutionScreen is removed
-   */
-  swapState: SwapState
   currentSwap: SwapTask | null
   guaranteedSwapPriceEnabled: boolean
   priceImpactWarningThreshold: number
 }
 
 const initialState: State = {
-  swapState: SwapState.QUOTE,
   currentSwap: null,
   guaranteedSwapPriceEnabled: false,
   priceImpactWarningThreshold: 0.04,
@@ -86,7 +70,6 @@ export const slice = createSlice({
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
         ...state,
         ...getRehydratePayload(action, 'swap'),
-        swapState: SwapState.QUOTE,
         currentSwap: null,
       }))
   },
