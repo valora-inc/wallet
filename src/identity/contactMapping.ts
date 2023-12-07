@@ -212,8 +212,8 @@ export function* fetchAddressesAndValidateSaga({
 }
 
 export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificationAction) {
+  const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
   try {
-    const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
     if (!(address in addressToVerificationStatus && addressToVerificationStatus[address])) {
       ValoraAnalytics.track(IdentityEvents.address_lookup_start)
       // An undefined value denotes that the result for this address is currently loading
@@ -242,6 +242,12 @@ export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificat
     ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
       error: error.message,
     })
+    yield* put(
+      updateAddressToVerificationStatus({
+        ...addressToVerificationStatus,
+        [address]: false,
+      })
+    )
   }
 }
 

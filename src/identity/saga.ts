@@ -112,7 +112,7 @@ function* watchFetchDataEncryptionKey() {
 }
 
 function* watchFetchAddressVerification() {
-  yield* takeLeading(Actions.FETCH_ADDRESS_VERIFICATION, safely(fetchAddressVerificationSaga))
+  yield* takeEvery(Actions.FETCH_ADDRESS_VERIFICATION, safely(fetchAddressVerificationSaga))
 }
 
 export function* identitySaga() {
