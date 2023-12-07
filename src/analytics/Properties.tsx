@@ -1326,6 +1326,13 @@ interface SwapEventsProperties {
     tokenSymbol: string
     tokenId: string
     tokenNetworkId: string
+    fromTokenSymbol: string | undefined
+    fromTokenId: string | undefined
+    fromTokenNetworkId: string | undefined
+    toTokenSymbol: string | undefined
+    toTokenId: string | undefined
+    toTokenNetworkId: string | undefined
+    switchedNetworkId: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
