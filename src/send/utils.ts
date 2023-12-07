@@ -115,7 +115,3 @@ export function* handlePaymentDeeplink(deeplink: string) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
   }
 }
-
-export function hasAddressField(obj: Object): obj is { address: string } {
-  return 'address' in obj && !!obj.address
-}

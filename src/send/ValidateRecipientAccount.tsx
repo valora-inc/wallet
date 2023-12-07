@@ -72,9 +72,8 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const e164PhoneNumber = recipient.e164PhoneNumber
   const error = state.alert ? state.alert.underlyingError : null
   const secureSendPhoneNumberMapping = state.identity.secureSendPhoneNumberMapping
-  const validationSuccessful = e164PhoneNumber
-    ? !!secureSendPhoneNumberMapping[e164PhoneNumber]?.validationSuccessful
-    : false
+  const validationSuccessful =
+    !!e164PhoneNumber && !!secureSendPhoneNumberMapping[e164PhoneNumber]?.validationSuccessful
   const addressValidationType: AddressValidationType = getAddressValidationType(
     recipient,
     secureSendPhoneNumberMapping
@@ -123,7 +122,7 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
     const { validationSuccessful, transactionData, route, validatedAddress } = this.props
     const { singleDigitInputValueArr } = this.state
 
-    if (validationSuccessful && prevProps.validationSuccessful === false && validatedAddress) {
+    if (validationSuccessful && !prevProps.validationSuccessful && validatedAddress) {
       if (transactionData) {
         navigateToConfirmationScreen(transactionData, route.params.origin)
       } else {

@@ -24,7 +24,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
-import { Recipient, filterRecipientFactory, sortRecipients } from 'src/recipients/recipient'
+import {
+  Recipient,
+  filterRecipientFactory,
+  recipientHasAddress,
+  sortRecipients,
+} from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
@@ -33,7 +38,6 @@ import SendHeader from 'src/send/SendHeader'
 import { SendSearchInput } from 'src/send/SendSearchInput'
 import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
-import { hasAddressField } from 'src/send/utils'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -131,7 +135,7 @@ function Send({ route }: Props) {
     }
 
     if (getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
-      if (hasAddressField(recipient)) {
+      if (recipientHasAddress(recipient)) {
         navigate(Screens.SendEnterAmount, {
           isFromScan: false,
           defaultTokenIdOverride,
