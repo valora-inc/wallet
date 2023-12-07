@@ -111,7 +111,7 @@ export const reducer = (
                 status: status,
                 transactionHash,
                 block,
-                timestamp: action.blockTimestamp,
+                timestamp: Date.now(),
                 fees: fees || [],
               }
             }
