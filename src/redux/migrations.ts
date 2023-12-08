@@ -1443,6 +1443,17 @@ export const migrations = {
   }),
   172: (state: any) => ({
     ...state,
+    swap: {
+      ..._.omit(state.swap, 'swapInfo'),
+      currentSwap: null,
+    },
+  }),
+  173: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'swapState'),
+  }),
+  174: (state: any) => ({
+    ...state,
     tokens: {
       ...state.tokens,
       tokenBalances: _.mapValues(state.tokens.tokenBalances, (item: any) => {

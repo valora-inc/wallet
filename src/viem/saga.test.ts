@@ -110,6 +110,7 @@ describe('sendPayment', () => {
     metadata: {
       comment: 'comment',
     },
+    feeCurrencyId: mockCeloTokenId,
   }
 
   const mockSendEthPaymentArgs = {
@@ -184,7 +185,15 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          fees: [],
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockCeloTokenId,
+              },
+            },
+          ],
         })
       )
       .returns(mockTxReceipt)
@@ -220,6 +229,7 @@ describe('sendPayment', () => {
         addStandbyTransaction({
           ...expectedStandbyTransaction,
           transactionHash: mockTxHash,
+          feeCurrencyId: mockCusdTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -272,7 +282,15 @@ describe('sendPayment', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          fees: [],
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockCeloTokenId,
+              },
+            },
+          ],
         })
       )
       .returns(mockTxReceipt)
@@ -313,6 +331,23 @@ describe('sendPayment', () => {
             tokenId: mockCeloTokenId,
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockCusdTokenId,
+        })
+      )
+      .put(
+        transactionConfirmed('txId', {
+          transactionHash: mockTxHash,
+          block: '123',
+          status: TransactionStatus.Complete,
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockCusdTokenId,
+              },
+            },
+          ],
         })
       )
       .returns(mockTxReceipt)
@@ -429,6 +464,7 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .put(
@@ -491,6 +527,7 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -536,6 +573,7 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .put(
@@ -619,6 +657,7 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -765,7 +804,7 @@ describe('sendAndMonitorTransaction', () => {
     transactionHash: mockTxHash,
     blockNumber: 123,
     gasUsed: 1e6,
-    effectiveGasPrice: 1e10,
+    effectiveGasPrice: 1e9,
   }
 
   const mockArgs = {
@@ -774,6 +813,7 @@ describe('sendAndMonitorTransaction', () => {
     sendTx: function* () {
       return yield* mockTxHash
     },
+    feeCurrencyId: mockCeloTokenId,
   }
 
   beforeEach(() => {
@@ -788,7 +828,15 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Complete,
-          fees: [],
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.001',
+                tokenId: mockCeloTokenId,
+              },
+            },
+          ],
         })
       )
       .put(fetchTokenBalances({ showLoading: true }))
@@ -816,7 +864,15 @@ describe('sendAndMonitorTransaction', () => {
           transactionHash: mockTxHash,
           block: '123',
           status: TransactionStatus.Failed,
-          fees: [],
+          fees: [
+            {
+              type: 'SECURITY_FEE',
+              amount: {
+                value: '0.0001',
+                tokenId: mockCeloTokenId,
+              },
+            },
+          ],
         })
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))

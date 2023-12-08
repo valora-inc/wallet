@@ -2846,9 +2846,30 @@ export const v172Schema = {
     ...v171Schema._persist,
     version: 172,
   },
+  swap: {
+    ..._.omit(v171Schema.swap, 'swapInfo'),
+    currentSwap: null,
+  },
+}
+
+export const v173Schema = {
+  ...v172Schema,
+  _persist: {
+    ...v172Schema._persist,
+    version: 173,
+  },
+  swap: _.omit(v172Schema.swap, 'swapState'),
+}
+
+export const v174Schema = {
+  ...v173Schema,
+  _persist: {
+    ...v173Schema._persist,
+    version: 174,
+  },
   tokens: {
-    ...v171Schema.tokens,
-    tokenBalances: _.mapValues(v171Schema.tokens.tokenBalances, (item: any) => {
+    ...v173Schema.tokens,
+    tokenBalances: _.mapValues(v173Schema.tokens.tokenBalances, (item: any) => {
       const newItem = _.omit(item, 'isCoreToken')
       if (item.isCoreToken !== undefined) {
         newItem.isFeeCurrency = item.isCoreToken
@@ -2860,5 +2881,5 @@ export const v172Schema = {
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v172Schema as Partial<RootState>
+  return v174Schema as Partial<RootState>
 }

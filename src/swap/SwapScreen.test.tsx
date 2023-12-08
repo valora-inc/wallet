@@ -876,6 +876,7 @@ describe('SwapScreen', () => {
       expect.arrayContaining([
         swapStart({
           ...defaultQuote,
+          swapId: expect.any(String),
           userInput: {
             toTokenId: mockCusdTokenId,
             fromTokenId: mockCeloTokenId,
@@ -926,6 +927,7 @@ describe('SwapScreen', () => {
       expect.arrayContaining([
         swapStart({
           ...defaultQuote,
+          swapId: expect.any(String),
           userInput,
           quoteReceivedAt: quoteReceivedTimestamp,
         } as any),
@@ -1029,6 +1031,118 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent(
       '₱0.016 (0.0009 CELO)'
     ) // matches gas * gasPrice in defaultQuoteResponse
+  })
+
+  it('should disable the confirm button after a swap has been submitted', async () => {
+    mockFetch.mockResponse(defaultQuoteResponse)
+    const {
+      update,
+      getByText,
+      getByTestId,
+      swapToContainer,
+      swapFromContainer,
+      tokenBottomSheet,
+      store,
+    } = renderScreen({})
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+    const swapAction = store.getActions().find((action) => action.type === swapStart.type)
+    const swapId = swapAction.payload.swapId
+    expect(swapId).toBeTruthy()
+
+    // Simulate swap in progress
+    const state = store.getState()
+    const updatedStore = createMockStore({
+      ...state,
+      swap: {
+        ...state.swap,
+        currentSwap: {
+          id: swapId,
+          status: 'started',
+        },
+      },
+    })
+
+    update(
+      <Provider store={updatedStore}>
+        <MockedNavigator component={SwapScreen} />
+      </Provider>
+    )
+
+    // Using testID because the button is in loading state, not showing the text
+    expect(getByTestId('ConfirmSwapButton')).toBeDisabled()
+  })
+
+  it('should show and hide the error warning', async () => {
+    mockFetch.mockResponse(defaultQuoteResponse)
+    const {
+      update,
+      getByText,
+      getByTestId,
+      queryByText,
+      swapToContainer,
+      swapFromContainer,
+      tokenBottomSheet,
+      store,
+    } = renderScreen({})
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+    const swapAction = store.getActions().find((action) => action.type === swapStart.type)
+    const swapId = swapAction.payload.swapId
+    expect(swapId).toBeTruthy()
+
+    expect(queryByText('swapScreen.confirmSwapFailedWarning.title')).toBeFalsy()
+    expect(queryByText('swapScreen.confirmSwapFailedWarning.body')).toBeFalsy()
+
+    // Simulate swap error
+    const state = store.getState()
+    const updatedStore = createMockStore({
+      ...state,
+      swap: {
+        ...state.swap,
+        currentSwap: {
+          id: swapId,
+          status: 'error',
+        },
+      },
+    })
+
+    update(
+      <Provider store={updatedStore}>
+        <MockedNavigator component={SwapScreen} />
+      </Provider>
+    )
+
+    expect(getByText('swapScreen.confirmSwapFailedWarning.title')).toBeTruthy()
+    expect(getByText('swapScreen.confirmSwapFailedWarning.body')).toBeTruthy()
+    // NOT disabled, so users can retry
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+
+    // Now change some input, and the warning should disappear
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '2')
+
+    expect(queryByText('swapScreen.confirmSwapFailedWarning.title')).toBeFalsy()
+    expect(queryByText('swapScreen.confirmSwapFailedWarning.body')).toBeFalsy()
   })
 
   // When viem is enabled, it also uses the new fee estimation logic
@@ -1349,6 +1463,7 @@ describe('SwapScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           swapStartPrepared({
+            swapId: expect.any(String),
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,
@@ -1391,6 +1506,7 @@ describe('SwapScreen', () => {
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           swapStartPrepared({
+            swapId: expect.any(String),
             quote: {
               preparedTransactions,
               receivedAt: quoteReceivedTimestamp,
