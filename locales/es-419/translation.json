@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Gratis",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
+      "slippageToleranceInfo": "Tolerancia de deslizamiento\n\nTu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
       "estimatedValue": "Valor estimado"
@@ -1894,9 +1895,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
+    "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
     "recents": "Recientes",
+    "results": "Resultados",
     "qr": {
       "title": "Escanear o mostrar código QR",
       "subtitle": "Encuentra rápidamente direcciones en Valora"
@@ -1911,7 +1914,7 @@
       "options": {
         "one": {
           "title": "Dirección de wallet",
-          "subtitle": "Ingresa una dirección de wallet compatible con Celo o Ethereum (ej. 0x123...abcde)"
+          "subtitle": "Introduce una dirección de monedero compatible con la red (ej. 0x123...abcde)"
         },
         "two": {
           "title": "Número de teléfono",

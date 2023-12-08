@@ -1,35 +1,41 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
+import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { isAddressFormat } from 'src/account/utils'
 import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
+import Button, { BtnSizes } from 'src/components/Button'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InviteOptionsModal from 'src/components/InviteOptionsModal'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack, navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { Recipient } from 'src/recipients/recipient'
+import { Recipient, RecipientType } from 'src/recipients/recipient'
+import useSelector from 'src/redux/useSelector'
+import InviteRewardsCard from 'src/send/InviteRewardsCard'
+import PasteAddressButton from 'src/send/PasteAddressButton'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
+import { useMergedSearchRecipients, useSendRecipients } from 'src/send/hooks'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
-import { typeScale, fontStyles } from 'src/styles/fonts'
+import { fontStyles, typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import PasteAddressButton from 'src/send/PasteAddressButton'
-import { isAddressFormat } from 'src/account/utils'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { StackParamList } from 'src/navigator/types'
-import { SendOrigin } from 'src/analytics/types'
-import InviteOptionsModal from 'src/components/InviteOptionsModal'
-import Button, { BtnSizes } from 'src/components/Button'
-import { useSendRecipients, useMergedSearchRecipients } from 'src/send/hooks'
-import { Screens } from 'src/navigator/Screens'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
@@ -47,8 +53,14 @@ function GetStartedSection() {
   }) => {
     return (
       <View key={`getStartedOption-${optionNum}`} style={getStartedStyles.optionWrapper}>
-        <CircledIcon radius={24} style={getStartedStyles.optionNum} backgroundColor={colors.white}>
-          <Text style={getStartedStyles.optionNumText}>{optionNum}</Text>
+        <CircledIcon
+          radius={Math.min(24 * getFontScaleSync(), 50)}
+          style={getStartedStyles.optionNum}
+          backgroundColor={colors.white}
+        >
+          <Text adjustsFontSizeToFit={true} style={getStartedStyles.optionNumText}>
+            {optionNum}
+          </Text>
         </CircledIcon>
         <View style={getStartedStyles.optionText}>
           <Text style={getStartedStyles.optionTitle}>{title}</Text>
@@ -162,6 +174,7 @@ enum SelectRecipientView {
 function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
 
   const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
@@ -189,6 +202,14 @@ function SendSelectRecipient({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
+  // TODO(satish/joe): update condition to not show this if the address
+  // recipient is not a known valora address
+  const showUnknownAddressInfo =
+    showSendOrInviteButton &&
+    showSearchResults &&
+    mergedRecipients.length === 1 &&
+    mergedRecipients[0].recipientType === RecipientType.Address
+
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
     setSelectedRecipient(selectedRecipient)
     setShowSendOrInviteButton(true)
@@ -208,12 +229,10 @@ function SendSelectRecipient({ route }: Props) {
       recipientType: recentRecipient.recipientType,
     })
     setSelectedRecipient(recentRecipient)
-    navigateToSendAmount(recentRecipient)
+    nextScreen(recentRecipient)
   }
 
-  const navigateToSendAmount = (selectedRecipient: Recipient) => {
-    // TODO (ACT-973): Ensure we're able to to navigate to the next screen
-    // no matter what the contents of the recipient are.
+  const nextScreen = (selectedRecipient: Recipient) => {
     if (selectedRecipient.address) {
       navigate(Screens.SendEnterAmount, {
         isFromScan: false,
@@ -223,6 +242,13 @@ function SendSelectRecipient({ route }: Props) {
           ...selectedRecipient,
           address: selectedRecipient.address,
         },
+        origin: SendOrigin.AppSendFlow,
+      })
+    } else {
+      navigate(Screens.ValidateRecipientIntro, {
+        defaultTokenIdOverride,
+        forceTokenId,
+        recipient: selectedRecipient,
         origin: SendOrigin.AppSendFlow,
       })
     }
@@ -236,26 +262,14 @@ function SendSelectRecipient({ route }: Props) {
       ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press, {
         recipientType: recipient.recipientType,
       })
+      setShowSendOrInviteButton(false)
       setShowInviteModal(true)
     } else {
       ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
         recipientType: recipient.recipientType,
       })
-      navigateToSendAmount(recipient)
+      nextScreen(recipient)
     }
-  }
-
-  const renderSendOrInviteButton = () => {
-    if (showSendOrInviteButton) {
-      return (
-        <SendOrInviteButton
-          recipient={recipient}
-          recipientVerificationStatus={recipientVerificationStatus}
-          onPress={onPressSendOrInvite}
-        />
-      )
-    }
-    return null
   }
 
   const onCloseInviteModal = () => {
@@ -276,7 +290,6 @@ function SendSelectRecipient({ route }: Props) {
               !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
             }
           />
-          {renderSendOrInviteButton()}
         </>
       )
     } else {
@@ -303,7 +316,7 @@ function SendSelectRecipient({ route }: Props) {
         />
         <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
-      <View style={styles.content}>
+      <KeyboardAwareScrollView keyboardDismissMode="on-drag">
         <PasteAddressButton
           shouldShowClipboard={shouldShowClipboard}
           onChangeText={setSearchQuery}
@@ -323,11 +336,11 @@ function SendSelectRecipient({ route }: Props) {
                 !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
               }
             />
-            {renderSendOrInviteButton()}
           </>
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
+            {inviteRewardsActive && <InviteRewardsCard />}
             <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
             {activeView === SelectRecipientView.Recent && recentRecipients.length ? (
               <RecipientPicker
@@ -346,9 +359,24 @@ function SendSelectRecipient({ route }: Props) {
             )}
           </>
         )}
-      </View>
+      </KeyboardAwareScrollView>
       {showInviteModal && recipient && (
         <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
+      )}
+      {showUnknownAddressInfo && (
+        <InLineNotification
+          severity={Severity.Informational}
+          description={t('sendSelectRecipient.unknownAddressInfo')}
+          testID="UnknownAddressInfo"
+          style={styles.unknownAddressInfo}
+        />
+      )}
+      {showSendOrInviteButton && (
+        <SendOrInviteButton
+          recipient={recipient}
+          recipientVerificationStatus={recipientVerificationStatus}
+          onPress={onPressSendOrInvite}
+        />
       )}
     </SafeAreaView>
   )
@@ -371,9 +399,7 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
-  },
-  content: {
-    flex: 1,
+    paddingVertical: 10,
   },
   body: {
     flex: 1,
@@ -409,8 +435,13 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     textAlign: 'center',
   },
+  unknownAddressInfo: {
+    margin: Spacing.Thick24,
+    marginBottom: variables.contentPadding,
+  },
   sendOrInviteButton: {
-    padding: variables.contentPadding,
+    margin: Spacing.Thick24,
+    marginTop: variables.contentPadding,
   },
 })
 

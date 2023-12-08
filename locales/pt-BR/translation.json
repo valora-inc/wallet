@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Grátis",
       "slippagePercentage": "Tolerância do slippage",
       "networkFeeInfo": "Você está trocando na rede {{networkName}}.\n\nEsta taxa de rede estimada é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege a sua transação e visa manter a rede operacional.",
+      "slippageToleranceInfo": "Tolerância de slippage\n\nSeu swap será executado dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, o site {{appName}} protege você impedindo a execução da negociação.",
       "networkFeeInfoDismissButton": "Entendi",
       "exchangeRate": "Taxa de câmbio",
       "estimatedValue": "Valor estimado"
@@ -1894,9 +1895,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Pesquise por nome, telefone, carteira...",
+    "paste": "Colar da área de transferência",
     "title": "Selecione um destinatário",
     "contactsTitle": "Selecione um contato",
     "recents": "Recentes",
+    "results": "Resultados",
     "qr": {
       "title": "Escanear ou mostrar o código QR",
       "subtitle": "Encontre endereços rapidamente na Valora"
@@ -1910,8 +1913,8 @@
       "subtitle": "COMEÇAR",
       "options": {
         "one": {
-          "title": "Endereço da conta",
-          "subtitle": "Digite um endereço de carteira compatível com Celo ou Ethereum (por exemplo, 0x123...abcde)"
+          "title": "Endereço da carteira",
+          "subtitle": "Digite um endereço de carteira compatível com a rede (ex.: 0x123...abcde)"
         },
         "two": {
           "title": "Número de celular",

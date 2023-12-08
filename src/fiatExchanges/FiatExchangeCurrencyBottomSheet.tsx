@@ -1,10 +1,9 @@
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import { CiCoCurrencyNetworkMap } from 'src/fiatExchanges/types'
 import { fetchFiatConnectProviders } from 'src/fiatconnect/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -14,7 +13,8 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
+import { sortCicoTokens } from 'src/tokens/utils'
+import { resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
@@ -26,12 +26,14 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens(true)
   const spendTokens = useSpendTokens()
-  const tokenList =
+  const unsortedTokenList =
     flow === FiatExchangeFlow.CashIn
       ? cashInTokens
       : flow === FiatExchangeFlow.CashOut
       ? cashOutTokens
       : spendTokens
+
+  const tokenList = useMemo(() => unsortedTokenList.sort(sortCicoTokens), [unsortedTokenList])
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {
@@ -51,9 +53,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
       navigate(Screens.FiatExchangeAmount, {
         tokenId: tokenId,
         flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
-        // TODO: Remove after merging other refactor PR
-        currency: resolveCICOCurrency(symbol),
-        network: CiCoCurrencyNetworkMap[resolveCICOCurrency(symbol)],
+        tokenSymbol: symbol,
       })
     }
 

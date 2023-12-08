@@ -32,7 +32,6 @@ import {
   useAmountAsUsd,
   useLocalToTokenAmount,
   useTokenInfo,
-  useTokenInfoByAddress,
   useTokenToLocalAmount,
   useTokensForSend,
 } from 'src/tokens/hooks'
@@ -90,19 +89,6 @@ export function useInputAmounts(
     tokenAmount,
     usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
   }
-}
-
-/**
- * @deprecated Use useInputAmounts instead
- */
-export function useInputAmountsByAddress(
-  inputAmount: string,
-  usingLocalAmount: boolean,
-  tokenAddress?: string,
-  inputTokenAmount?: BigNumber
-) {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useInputAmounts(inputAmount, usingLocalAmount, tokenInfo?.tokenId, inputTokenAmount)
 }
 
 function formatWithMaxDecimals(value: BigNumber | null, decimals: number) {

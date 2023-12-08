@@ -94,7 +94,7 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { buildAndSendPayment } from 'src/send/saga'
 import { tokensListWithAddressSelector } from 'src/tokens/selectors'
 import { isTxPossiblyPending } from 'src/transactions/send'
-import { Network, TransactionContext, newTransactionContext } from 'src/transactions/types'
+import { TransactionContext, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -103,6 +103,7 @@ import {
   mockCeurAddress,
   mockCrealAddress,
   mockCusdAddress,
+  mockCusdTokenId,
   mockFeeInfo,
   mockFiatConnectProviderInfo,
   mockFiatConnectQuotes,
@@ -145,11 +146,13 @@ describe('Fiatconnect saga', () => {
     quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: mockCusdTokenId,
   })
   const normalizedQuoteKyc = new FiatConnectQuote({
     quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: mockCusdTokenId,
   })
   const expectedCacheQuoteParams = {
     providerId: normalizedQuoteKyc.getProviderId(),
@@ -158,7 +161,7 @@ describe('Fiatconnect saga', () => {
       cryptoAmount: normalizedQuoteKyc.getCryptoAmount(),
       fiatAmount: normalizedQuoteKyc.getFiatAmount(),
       flow: normalizedQuoteKyc.flow,
-      cryptoType: normalizedQuoteKyc.getCryptoType(),
+      cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
       fiatType: normalizedQuoteKyc.getFiatType(),
     },
   }
@@ -202,7 +205,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuote.flow,
-            cryptoType: normalizedQuote.getCryptoType(),
+            cryptoType: normalizedQuote.getCryptoCurrency(),
             fiatType: normalizedQuote.getFiatType(),
           })
         )
@@ -332,7 +335,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -394,7 +397,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -455,7 +458,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -515,7 +518,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -566,7 +569,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -626,7 +629,7 @@ describe('Fiatconnect saga', () => {
             fiatAccountType: mockObfuscatedAccount.fiatAccountType,
             fiatAccountSchema: mockObfuscatedAccount.fiatAccountSchema,
             flow: normalizedQuoteKyc.flow,
-            cryptoType: normalizedQuoteKyc.getCryptoType(),
+            cryptoType: normalizedQuoteKyc.getCryptoCurrency(),
             fiatType: normalizedQuoteKyc.getFiatType(),
           })
         )
@@ -962,12 +965,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuoteKyc.flow,
-        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
     it('invokes _checkFiatAccountAndNavigate directly if KYC is not required', async () => {
@@ -1003,12 +1005,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuote.flow,
-        selectedCrypto: normalizedQuote.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuote.getCryptoAmount()),
           fiat: parseFloat(normalizedQuote.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
   })
@@ -1048,12 +1049,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuoteKyc.flow,
-        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
     it('navigates to SelectProvider if _checkFiatAccountAndNavigate throws', async () => {
@@ -1078,12 +1078,11 @@ describe('Fiatconnect saga', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: normalizedQuoteKyc.flow,
-        selectedCrypto: normalizedQuoteKyc.getCryptoType(),
         amount: {
           crypto: parseFloat(normalizedQuoteKyc.getCryptoAmount()),
           fiat: parseFloat(normalizedQuoteKyc.getFiatAmount()),
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
   })
@@ -1109,7 +1108,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountType: quote.getFiatAccountType(),
       fiatAccountSchema: quote.getFiatAccountSchema(),
       flow: quote.flow,
-      cryptoType: quote.getCryptoType(),
+      cryptoType: quote.getCryptoCurrency(),
       fiatType: quote.getFiatType(),
     })
     it('navigates to step two of kyc landing if kyc is required and fiat account is not found', async () => {
@@ -1232,6 +1231,7 @@ describe('Fiatconnect saga', () => {
       flow: CICOFlow.CashOut,
       fiatAccountType: FiatAccountType.BankAccount,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+      tokenId: mockCusdTokenId,
     })
     const params = refetchQuote({
       flow: CICOFlow.CashOut,
@@ -1240,6 +1240,7 @@ describe('Fiatconnect saga', () => {
       fiatAmount: quote.getFiatAmount(),
       providerId: quote.getProviderId(),
       fiatAccount,
+      tokenId: quote.getTokenId(),
     })
     it('selects a cached fiat account from _getSpecificQuote if none is provided', async () => {
       const paramsWithoutFiatAccount = refetchQuote({
@@ -1248,6 +1249,7 @@ describe('Fiatconnect saga', () => {
         cryptoAmount: quote.getCryptoAmount(),
         fiatAmount: quote.getFiatAmount(),
         providerId: quote.getProviderId(),
+        tokenId: quote.getTokenId(),
       })
       await expectSaga(handleRefetchQuote, paramsWithoutFiatAccount)
         .provide([
@@ -1259,6 +1261,7 @@ describe('Fiatconnect saga', () => {
               fiatAmount: 100,
               providerId: params.payload.providerId,
               fiatAccount: undefined,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: quote,
@@ -1286,6 +1289,7 @@ describe('Fiatconnect saga', () => {
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
+              tokenId: mockCusdTokenId,
             }),
             throwError(new Error('Could not find quote')),
           ],
@@ -1304,6 +1308,7 @@ describe('Fiatconnect saga', () => {
               fiatAmount: 100,
               providerId: params.payload.providerId,
               fiatAccount,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: quote,
@@ -1329,8 +1334,7 @@ describe('Fiatconnect saga', () => {
         fiat: 2,
       },
       flow: CICOFlow.CashOut,
-      selectedCrypto: CiCoCurrency.cUSD,
-      network: Network.Celo,
+      tokenId: mockCusdTokenId,
     }
     const params = attemptReturnUserFlow({
       ...selectProviderParams,
@@ -1338,6 +1342,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
       fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      selectedCrypto: CiCoCurrency.cUSD,
     })
     const paramsKyc = attemptReturnUserFlow({
       ...selectProviderParams,
@@ -1345,6 +1350,7 @@ describe('Fiatconnect saga', () => {
       fiatAccountId: '123',
       fiatAccountType: FiatAccountType.BankAccount,
       fiatAccountSchema: FiatAccountSchema.AccountNumber,
+      selectedCrypto: CiCoCurrency.cUSD,
     })
     const fiatAccount = {
       fiatAccountId: '123',
@@ -1380,6 +1386,7 @@ describe('Fiatconnect saga', () => {
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
+              tokenId: mockCusdTokenId,
             }),
             throwError(new Error('Could not find quote')),
           ],
@@ -1405,6 +1412,7 @@ describe('Fiatconnect saga', () => {
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote,
@@ -1442,6 +1450,7 @@ describe('Fiatconnect saga', () => {
               flow: params.payload.flow,
               providerId: params.payload.providerId,
               fiatAccount,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote,
@@ -1478,6 +1487,7 @@ describe('Fiatconnect saga', () => {
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: normalizedQuoteKyc,
@@ -1522,6 +1532,7 @@ describe('Fiatconnect saga', () => {
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: normalizedQuoteKyc,
@@ -1565,6 +1576,7 @@ describe('Fiatconnect saga', () => {
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: normalizedQuoteKyc,
@@ -1607,6 +1619,7 @@ describe('Fiatconnect saga', () => {
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: normalizedQuoteKyc,
@@ -1649,6 +1662,7 @@ describe('Fiatconnect saga', () => {
               flow: paramsKyc.payload.flow,
               providerId: paramsKyc.payload.providerId,
               fiatAccount: fiatAccountKyc,
+              tokenId: mockCusdTokenId,
             }),
             {
               normalizedQuote: normalizedQuoteKyc,
@@ -1744,6 +1758,7 @@ describe('Fiatconnect saga', () => {
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
 
     const quoteId = transferOutFcQuote.getQuoteId()
@@ -1833,6 +1848,7 @@ describe('Fiatconnect saga', () => {
       flow: CICOFlow.CashOut,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
+      tokenId: mockCusdTokenId,
     })
     const TEST_FEE_INFO_CUSD = {
       ...mockFeeInfo,
@@ -1851,12 +1867,16 @@ describe('Fiatconnect saga', () => {
     it.each(Object.keys(CryptoType) as CryptoType[])(
       'able to send tx and get tx hash for CryptoType %s',
       async (cryptoType) => {
-        const quote = _.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess
+        const quote = {
+          ...(_.cloneDeep(mockFiatConnectQuotes[1]) as FiatConnectQuoteSuccess),
+          tokenId: mockCusdTokenId,
+        }
         quote.quote.cryptoType = cryptoType
         const fiatConnectQuote = new FiatConnectQuote({
           flow: CICOFlow.CashOut,
           quote,
           fiatAccountType: FiatAccountType.BankAccount,
+          tokenId: mockCusdTokenId,
         })
         const tokenAddress = cryptoTypeToAddress[cryptoType]
         await expectSaga(_initiateSendTxToProvider, {
@@ -2032,6 +2052,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       const transferAddress = '0x12345'
       it('calls transfer in', async () => {
@@ -2067,6 +2088,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       const transferAddress = '0x12345'
       const transactionHash = '0xabc'
@@ -2201,6 +2223,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       it('Handles thrown errors and logs them', async () => {
         const action = createFiatConnectTransfer({
@@ -2376,9 +2399,11 @@ describe('Fiatconnect saga', () => {
   })
 
   describe('_selectQuoteFromFiatAccount', () => {
-    const normalizedQuotes = normalizeFiatConnectQuotes(CICOFlow.CashOut, [
-      mockFiatConnectQuotes[1],
-    ])
+    const normalizedQuotes = normalizeFiatConnectQuotes(
+      CICOFlow.CashOut,
+      [mockFiatConnectQuotes[1]],
+      mockCusdTokenId
+    )
 
     it('selects a matching quote when one exists', () => {
       const fiatAccount = {
@@ -2414,7 +2439,11 @@ describe('Fiatconnect saga', () => {
   })
 
   describe('_selectQuoteAndFiatAccount', () => {
-    const normalizedQuotes = normalizeFiatConnectQuotes(CICOFlow.CashOut, mockFiatConnectQuotes)
+    const normalizedQuotes = normalizeFiatConnectQuotes(
+      CICOFlow.CashOut,
+      mockFiatConnectQuotes,
+      mockCusdTokenId
+    )
 
     const fiatAccounts = [
       {
@@ -2513,9 +2542,11 @@ describe('Fiatconnect saga', () => {
       providerId: 'provider-c',
     }
 
-    const normalizedQuote = normalizeFiatConnectQuotes(CICOFlow.CashOut, [
-      mockFiatConnectQuotes[1],
-    ])[0]
+    const normalizedQuote = normalizeFiatConnectQuotes(
+      CICOFlow.CashOut,
+      [mockFiatConnectQuotes[1]],
+      mockCusdTokenId
+    )[0]
 
     it('finds a suitable fiat account from on-file accounts if none is provided', async () => {
       await expectSaga(_getSpecificQuote, {
@@ -2524,6 +2555,7 @@ describe('Fiatconnect saga', () => {
         fiatAmount: 2,
         flow: CICOFlow.CashOut,
         providerId: 'provider-two',
+        tokenId: mockCusdTokenId,
       })
         .provide([
           [
@@ -2562,6 +2594,7 @@ describe('Fiatconnect saga', () => {
             fiatAmount: 2,
             flow: CICOFlow.CashOut,
             providerId: 'provider-two',
+            tokenId: mockCusdTokenId,
           })
             .provide([
               [
@@ -2593,6 +2626,7 @@ describe('Fiatconnect saga', () => {
         flow: CICOFlow.CashOut,
         providerId: 'provider-two',
         fiatAccount,
+        tokenId: mockCusdTokenId,
       })
         .provide([
           [
@@ -2625,6 +2659,7 @@ describe('Fiatconnect saga', () => {
             flow: CICOFlow.CashOut,
             providerId: 'provider-two',
             fiatAccount: duniaFiatAccount,
+            tokenId: mockCusdTokenId,
           })
             .provide([
               [
@@ -2648,6 +2683,7 @@ describe('Fiatconnect saga', () => {
       quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
       fiatAccountType: FiatAccountType.BankAccount,
       flow: CICOFlow.CashOut,
+      tokenId: mockCusdTokenId,
     })
     const flow = CICOFlow.CashOut
 
@@ -2687,6 +2723,7 @@ describe('Fiatconnect saga', () => {
             quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
             fiatAccountType: FiatAccountType.BankAccount,
             flow,
+            tokenId: mockCusdTokenId,
           }),
         })
       )

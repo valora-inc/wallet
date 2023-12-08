@@ -1,23 +1,10 @@
-export enum QRCodeDataType {
-  ValoraDeepLink = 'ValoraDeepLink',
-  Address = 'Address',
-}
-
-export enum QRCodeStyle {
-  Legacy = 'Legacy',
-  New = 'New',
-}
-
-export enum StatsigLayers {
-  SEND_RECEIVE_QR_CODE = 'send_receive_qr_code',
-}
-
 export enum StatsigDynamicConfigs {
   USERNAME_BLOCK_LIST = 'username_block_list',
   WALLET_NETWORK_TIMEOUT_SECONDS = 'wallet_network_timeout_seconds',
   MULTI_CHAIN_FEATURES = 'multi_chain_features',
   DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
   SWAP_CONFIG = 'swap_config',
+  CICO_TOKEN_INFO = 'cico_token_info',
 }
 
 export enum StatsigFeatureGates {
@@ -43,6 +30,7 @@ export enum StatsigFeatureGates {
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   USE_CICO_CURRENCY_BOTTOM_SHEET = 'use_cico_currency_bottom_sheet',
+  SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
 }
 
 export enum StatsigExperiments {

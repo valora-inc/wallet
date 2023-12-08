@@ -1696,6 +1696,7 @@
       "swapFeeWaived": "Miễn phí",
       "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
+      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
       "estimatedValue": "Giá trị ước tính"
@@ -1892,9 +1893,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
+    "paste": "Paste from clipboard",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",
     "recents": "Gần đây",
+    "results": "Results",
     "qr": {
       "title": "Quét hoặc hiển thị mã QR",
       "subtitle": "Tìm nhanh địa chỉ trên Valora"
@@ -1909,7 +1912,7 @@
       "options": {
         "one": {
           "title": "Địa chỉ ví",
-          "subtitle": "Nhập địa chỉ ví tương thích với Celo hoặc Ethereum (ví dụ: 0x123...abcde)"
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "Số điện thoại",

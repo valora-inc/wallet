@@ -104,7 +104,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import SwapExecuteScreen from 'src/swap/SwapExecuteScreen'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -517,11 +516,6 @@ const generalScreens = (Navigator: typeof Stack) => (
 const swapScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen name={Screens.SwapScreenWithBack} component={SwapScreen} options={noHeader} />
-    <Navigator.Screen
-      name={Screens.SwapExecuteScreen}
-      component={SwapExecuteScreen}
-      options={SwapExecuteScreen.navOptions}
-    />
   </>
 )
 
@@ -565,6 +559,7 @@ const mapStateToProps = (state: RootState) => {
     hasSeenVerificationNux: state.identity.hasSeenVerificationNux,
     askedContactsPermission: state.identity.askedContactsPermission,
     recoveryPhraseInOnboardingStatus: state.account.recoveryPhraseInOnboardingStatus,
+    multichainBetaStatus: state.app.multichainBetaStatus,
   }
 }
 
@@ -582,6 +577,7 @@ export function MainStackScreen() {
       account,
       hasSeenVerificationNux,
       recoveryPhraseInOnboardingStatus,
+      multichainBetaStatus,
     } = mapStateToProps(store.getState())
 
     const initialRoute: InitialRouteName = getInitialRoute({
@@ -592,6 +588,7 @@ export function MainStackScreen() {
       account,
       hasSeenVerificationNux,
       recoveryPhraseInOnboardingStatus,
+      multichainBetaStatus,
     })
 
     setInitialRoute(initialRoute)

@@ -8,15 +8,16 @@ import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import {
   DEFAULT_BANK_SETTLEMENT_ESTIMATION,
   DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION,
   SettlementTime,
 } from 'src/fiatExchanges/quotes/constants'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
+import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { createMockStore } from 'test/utils'
 import {
@@ -26,7 +27,6 @@ import {
   mockFiatConnectQuotes,
   mockProviderSelectionAnalyticsData,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/web3/contracts', () => ({
@@ -75,6 +75,7 @@ describe('FiatConnectQuote', () => {
             flow: CICOFlow.CashIn,
             quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
             fiatAccountType: 'Foo' as FiatAccountType,
+            tokenId: mockCusdTokenId,
           })
       ).toThrow()
     })
@@ -98,6 +99,7 @@ describe('FiatConnectQuote', () => {
             flow: CICOFlow.CashIn,
             quote: quoteData as FiatConnectQuoteSuccess,
             fiatAccountType: FiatAccountType.BankAccount,
+            tokenId: mockCusdTokenId,
           })
       ).toThrow()
     })
@@ -129,6 +131,7 @@ describe('FiatConnectQuote', () => {
               flow: CICOFlow.CashIn,
               quote: quoteData as FiatConnectQuoteSuccess,
               fiatAccountType,
+              tokenId: mockCusdTokenId,
             })
         ).not.toThrow()
       }
@@ -140,6 +143,7 @@ describe('FiatConnectQuote', () => {
             flow: CICOFlow.CashIn,
             quote: mockFiatConnectQuotes[2] as FiatConnectQuoteSuccess,
             fiatAccountType: 'Foo' as FiatAccountType,
+            tokenId: mockCusdTokenId,
           })
       ).toThrow()
     })
@@ -150,6 +154,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getPaymentMethod()).toEqual(PaymentMethod.Bank)
     })
@@ -158,6 +163,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.MobileMoney,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getPaymentMethod()).toEqual(PaymentMethod.FiatConnectMobileMoney)
     })
@@ -171,6 +177,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toBeNull()
     })
@@ -179,6 +186,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(0.53))
     })
@@ -187,6 +195,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInCrypto(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(0.265))
     })
@@ -200,6 +209,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toBeNull()
     })
@@ -208,6 +218,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(0.53))
     })
@@ -216,6 +227,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFeeInFiat(mockUsdToLocalRate, mockTokenInfo)).toEqual(new BigNumber(1.06))
     })
@@ -227,6 +239,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getKycInfo()).toBeNull()
     })
@@ -244,6 +257,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual(DEFAULT_BANK_SETTLEMENT_ESTIMATION)
     })
@@ -253,6 +267,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[4] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.MobileMoney,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual(DEFAULT_MOBILE_MONEY_SETTLEMENT_ESTIMATION)
     })
@@ -268,6 +283,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.LESS_THAN_ONE_HOUR,
@@ -285,6 +301,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.X_TO_Y_HOURS,
@@ -304,6 +321,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.LESS_THAN_X_HOURS,
@@ -322,6 +340,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.LESS_THAN_X_HOURS,
@@ -340,6 +359,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.LESS_THAN_X_HOURS,
@@ -358,6 +378,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.X_TO_Y_DAYS,
@@ -377,6 +398,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: quoteData,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getTimeEstimation()).toEqual({
         settlementTime: SettlementTime.LESS_THAN_X_DAYS,
@@ -391,6 +413,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       quote.onPress(
         CICOFlow.CashIn,
@@ -417,6 +440,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       quote.onPress(
         CICOFlow.CashIn,
@@ -443,6 +467,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       quote.onPress(
         CICOFlow.CashIn,
@@ -473,6 +498,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       quote.navigate(store.dispatch)
       expect(store.dispatch).toHaveBeenCalledWith(selectFiatConnectQuote({ quote }))
@@ -485,6 +511,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderInfo()).toEqual(mockFiatConnectProviderInfo[0])
     })
@@ -496,6 +523,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderName()).toEqual('Provider Two')
     })
@@ -507,6 +535,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderLogo()).toEqual(
         'https://firebasestorage.googleapis.com/v0/b/celo-mobile-mainnet.appspot.com/o/images%2Fsimplex.jpg?alt=media'
@@ -520,6 +549,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderId()).toEqual('provider-two')
     })
@@ -531,6 +561,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getProviderApiKey()).toEqual('fake-api-key')
     })
@@ -542,6 +573,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFiatAmount()).toEqual('100')
     })
@@ -553,6 +585,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFiatType()).toEqual(FiatType.USD)
     })
@@ -564,6 +597,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getCryptoAmount()).toEqual('100')
     })
@@ -575,6 +609,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getCryptoType()).toEqual(Currency.Dollar)
     })
@@ -586,6 +621,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFiatAccountSchema()).toEqual(FiatAccountSchema.AccountNumber)
     })
@@ -597,6 +633,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFiatAccountSchemaAllowedValues('institutionName')).toEqual([
         'Bank A',
@@ -608,6 +645,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getFiatAccountSchemaAllowedValues('testKey')).toEqual(['testDefaultValue'])
     })
@@ -619,6 +657,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[3] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getKycSchema()).toEqual(KycSchema.PersonalDataAndDocuments)
     })
@@ -627,6 +666,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getKycSchema()).toBeUndefined()
     })
@@ -638,6 +678,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.isProviderNew()).toEqual(true)
     })
@@ -647,6 +688,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.isProviderNew()).toEqual(false)
     })
@@ -658,6 +700,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashIn,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getReceiveAmount()).toEqual(new BigNumber(quote.getCryptoAmount()))
     })
@@ -666,6 +709,7 @@ describe('FiatConnectQuote', () => {
         flow: CICOFlow.CashOut,
         quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
         fiatAccountType: FiatAccountType.BankAccount,
+        tokenId: mockCusdTokenId,
       })
       expect(quote.getReceiveAmount()).toEqual(new BigNumber(quote.getFiatAmount()))
     })

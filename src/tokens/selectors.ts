@@ -9,6 +9,8 @@ import {
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   TokenBalance,
   TokenBalanceWithAddress,
@@ -357,7 +359,12 @@ export const swappableTokensByNetworkIdSelector = createSelector(
 export const cashInTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>
-    tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
+    tokens.filter(
+      (tokenInfo) =>
+        tokenInfo.isCashInEligible &&
+        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) ||
+          isCicoToken(tokenInfo.symbol)) //TODO: Remove after CiCo currency bottom sheet is rolled out
+    )
 )
 
 export const cashOutTokensByNetworkIdSelector = createSelector(
@@ -372,7 +379,8 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
         ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
           tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
         tokenInfo.isCashOutEligible &&
-        isCicoToken(tokenInfo.symbol)
+        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) ||
+          isCicoToken(tokenInfo.symbol)) //TODO: Remove after CiCo currency bottom sheet is rolled out
     )
 )
 

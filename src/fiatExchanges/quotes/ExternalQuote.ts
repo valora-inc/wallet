@@ -19,7 +19,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount } from 'src/tokens/utils'
-import { CiCoCurrency, resolveCICOCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 
 const strings = {
@@ -43,14 +42,17 @@ export default class ExternalQuote extends NormalizedQuote {
   quote: RawProviderQuote | SimplexQuote
   provider: FetchProvidersOutput
   flow: CICOFlow
+  tokenId: string
   constructor({
     quote,
     provider,
     flow,
+    tokenId,
   }: {
     quote: RawProviderQuote | SimplexQuote
     provider: FetchProvidersOutput
     flow: CICOFlow
+    tokenId: string
   }) {
     super()
     if (provider.restricted) {
@@ -70,16 +72,15 @@ export default class ExternalQuote extends NormalizedQuote {
     this.quote = quote
     this.provider = provider
     this.flow = flow
+    this.tokenId = tokenId
   }
 
   getPaymentMethod(): PaymentMethod {
     return isSimplexQuote(this.quote) ? this.provider.paymentMethods[0] : this.quote.paymentMethod
   }
 
-  getCryptoType(): CiCoCurrency {
-    return isSimplexQuote(this.quote)
-      ? resolveCICOCurrency(this.quote.digital_money.currency)!
-      : resolveCICOCurrency(this.quote.digitalAsset)!
+  getCryptoType(): string {
+    return isSimplexQuote(this.quote) ? this.quote.digital_money.currency : this.quote.digitalAsset
   }
 
   getFeeInCrypto(usdToLocalRate: string | null, tokenInfo: TokenBalance): BigNumber | null {
@@ -123,6 +124,7 @@ export default class ExternalQuote extends NormalizedQuote {
     if (isSimplexQuote(this.quote)) {
       navigate(Screens.Simplex, {
         simplexQuote: this.quote,
+        tokenId: this.tokenId,
       })
     } else {
       navigateToURI(this.provider.url!)
@@ -158,5 +160,9 @@ export default class ExternalQuote extends NormalizedQuote {
     return typeof this.quote.returnedAmount !== 'undefined'
       ? new BigNumber(this.quote.returnedAmount)
       : null
+  }
+
+  getTokenId(): string {
+    return this.tokenId
   }
 }

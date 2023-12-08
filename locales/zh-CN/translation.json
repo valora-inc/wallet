@@ -1696,6 +1696,7 @@
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
+      "slippageToleranceInfo": "滑点容差\n\n您的掉期将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
@@ -1892,9 +1893,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "按姓名、电话、钱包等搜索",
+    "paste": "从剪贴板粘贴",
     "title": "选择接收人",
     "contactsTitle": "选择联系人",
     "recents": "最近",
+    "results": "成果",
     "qr": {
       "title": "扫描或显示二维码",
       "subtitle": "快速查找 Valora 上的地址"
@@ -1909,7 +1912,7 @@
       "options": {
         "one": {
           "title": "钱包地址",
-          "subtitle": "输入与 Celo 或 Ethereum 兼容的钱包地址（例如 0x123...abcde）"
+          "subtitle": "输入网络兼容的钱包地址（例如 0x123...abcde）"
         },
         "two": {
           "title": "手机号码",

@@ -1696,6 +1696,7 @@
       "swapFeeWaived": "ฟรี",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
+      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
       "estimatedValue": "ค่าโดยประมาณ"
@@ -1892,9 +1893,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "ค้นหาด้วยชื่อ โทรศัพท์ กระเป๋าเงิน...",
+    "paste": "Paste from clipboard",
     "title": "เลือกผู้รับ",
     "contactsTitle": "เลือกผู้ติดต่อ",
     "recents": "ล่าสุด",
+    "results": "Results",
     "qr": {
       "title": "สแกนหรือแสดง QR Code",
       "subtitle": "ค้นหาที่อยู่ได้รวดเร็วบน Valora"
@@ -1909,7 +1912,7 @@
       "options": {
         "one": {
           "title": "ที่อยู่กระเป๋าเงิน",
-          "subtitle": "ป้อนที่อยู่กระเป๋าเงินที่เข้ากันได้กับ Ethereum หรือ Celo (ตัวอย่าง 0x123...abcde)"
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "หมายเลขโทรศัพท์",

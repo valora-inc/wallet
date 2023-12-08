@@ -3,8 +3,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch, useSelector } from 'react-redux'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { MultichainBetaStatus, optMultichainBeta } from 'src/app/actions'
+import { multichainBetaStatusSelector } from 'src/app/selectors'
 import BetaTag from 'src/components/BetaTag'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
@@ -12,21 +15,29 @@ import i18n from 'src/i18n'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { patchUpdateStatsigUser } from 'src/statsig'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 function MultichainBeta() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
-  // TODO(satish): handle state/statsig updates
-  const onOptIn = () => {
-    ValoraAnalytics.track(AppEvents.multichain_beta_opt_in)
-    navigateHome()
-  }
+  const multichainBetaStatus = useSelector(multichainBetaStatusSelector)
 
-  const onOptOut = () => {
-    ValoraAnalytics.track(AppEvents.multichain_beta_opt_out)
+  const onPressCta = async (optedIn: boolean) => {
+    ValoraAnalytics.track(
+      optedIn ? AppEvents.multichain_beta_opt_in : AppEvents.multichain_beta_opt_out
+    )
+    dispatch(optMultichainBeta(optedIn))
+    await patchUpdateStatsigUser({
+      custom: {
+        multichainBetaStatus: optedIn
+          ? MultichainBetaStatus.OptedIn
+          : MultichainBetaStatus.OptedOut,
+      },
+    })
     navigateHome()
   }
 
@@ -46,8 +57,10 @@ function MultichainBeta() {
             touchableStyle={styles.ctaTouchable}
             size={BtnSizes.FULL}
             text={t('multichainBeta.primaryCta')}
-            onPress={onOptIn}
+            onPress={() => onPressCta(true)}
             testID="MultichainBeta/OptIn"
+            disabled={multichainBetaStatus !== MultichainBetaStatus.NotSeen}
+            showLoading={multichainBetaStatus === MultichainBetaStatus.OptedIn}
           />
           <Button
             style={styles.cta}
@@ -56,8 +69,10 @@ function MultichainBeta() {
             type={BtnTypes.SECONDARY_WHITE_BG}
             size={BtnSizes.FULL}
             text={t('multichainBeta.secondaryCta')}
-            onPress={onOptOut}
+            onPress={() => onPressCta(false)}
             testID="MultichainBeta/OptOut"
+            disabled={multichainBetaStatus !== MultichainBetaStatus.NotSeen}
+            showLoading={multichainBetaStatus === MultichainBetaStatus.OptedOut}
           />
         </View>
       </ScrollView>

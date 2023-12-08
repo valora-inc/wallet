@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Free",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
+      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "Got it",
       "exchangeRate": "Exchange Rate",
       "estimatedValue": "Estimated Value"
@@ -1894,9 +1895,11 @@
   },
   "sendSelectRecipient": {
     "searchText": "Search by name, phone, wallet...",
+    "paste": "Paste from clipboard",
     "title": "Select a recipient",
     "contactsTitle": "Select a contact",
     "recents": "Recents",
+    "results": "Results",
     "qr": {
       "title": "Scan or Show QR Code",
       "subtitle": "Quickly find addresses on Valora"
@@ -1910,8 +1913,8 @@
       "subtitle": "GET STARTED",
       "options": {
         "one": {
-          "title": "Wallet Address",
-          "subtitle": "Enter a Celo or Ethereum compatible wallet address (ex. 0x123...abcde)"
+          "title": "Wallet address",
+          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
         },
         "two": {
           "title": "Phone Number",

@@ -1,5 +1,6 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
+import { MultichainBetaStatus } from 'src/app/actions'
 import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
@@ -1432,5 +1433,23 @@ export const migrations = {
   170: (state: any) => ({
     ...state,
     supercharge: _.omit(state.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
+  }),
+  171: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      multichainBetaStatus: MultichainBetaStatus.NotSeen,
+    },
+  }),
+  172: (state: any) => ({
+    ...state,
+    swap: {
+      ..._.omit(state.swap, 'swapInfo'),
+      currentSwap: null,
+    },
+  }),
+  173: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'swapState'),
   }),
 }
