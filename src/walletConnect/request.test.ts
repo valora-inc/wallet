@@ -33,12 +33,6 @@ jest.mock('src/web3/networkConfig', () => {
   }
 })
 
-const mockTransactionCount = jest.fn().mockResolvedValue(7)
-const mockEstimateFeePerGas = jest.fn().mockResolvedValue({
-  maxFeePerGas: BigInt(12345),
-  maxPriorityFeePerGas: undefined,
-})
-
 const signTransactionRequest = {
   request: {
     method: SupportedActions.eth_signTransaction,
