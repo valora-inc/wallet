@@ -16,7 +16,6 @@ interface Props {
   severity: Severity
   title?: string | null
   description?: string | JSX.Element | null
-  descriptionI18nKey?: string
   style?: StyleProp<ViewStyle>
   ctaLabel?: string | null
   onPressCta?: (event: GestureResponderEvent) => void

@@ -1,18 +1,11 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
 import QRNavigator, { QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockExchanges } from 'test/values'
 
 jest.mock('react-native-permissions', () => jest.fn())
-
-jest.mock('src/fiatExchanges/utils', () => ({
-  ...(jest.requireActual('src/fiatExchanges/utils') as any),
-  fetchExchanges: jest.fn(),
-}))
 
 jest.mock('src/qrcode/StyledQRGen', () => jest.fn().mockReturnValue(''))
 jest.mock('src/qrcode/QRGen', () => jest.fn().mockReturnValue(''))
@@ -50,8 +43,6 @@ describe('QRNavigator', () => {
     })
 
     it('renders the new style', async () => {
-      jest.mocked(fetchExchanges).mockResolvedValue(mockExchanges)
-
       const { queryByTestId } = render(
         <Provider store={mockStore}>
           <QRCodePicker {...getProps()} />
