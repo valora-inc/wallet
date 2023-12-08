@@ -66,6 +66,10 @@ export interface SecureSendDetails {
   validationSuccessful?: boolean
 }
 
+export interface AddressToVerificationStatus {
+  [address: string]: boolean | undefined
+}
+
 export interface State {
   hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
@@ -83,6 +87,8 @@ export interface State {
   importContactsProgress: ImportContactProgress
   // Contacts found during the matchmaking process
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
+  // Mapping of address to verification status; undefined entries represent a loading state
+  addressToVerificationStatus: AddressToVerificationStatus
 }
 
 const initialState: State = {
@@ -100,6 +106,7 @@ const initialState: State = {
     total: 0,
   },
   secureSendPhoneNumberMapping: {},
+  addressToVerificationStatus: {},
 }
 
 export const reducer = (
@@ -256,6 +263,24 @@ export const reducer = (
         e164NumberToAddress: state.e164NumberToAddress,
         e164NumberToSalt: state.e164NumberToSalt,
         secureSendPhoneNumberMapping: state.secureSendPhoneNumberMapping,
+      }
+    case Actions.FETCH_ADDRESS_VERIFICATION_STATUS:
+      // If the current status is false or does not exist, we set it to undefined
+      // to mark it as being in a loading state.
+      return {
+        ...state,
+        addressToVerificationStatus: {
+          ...state.addressToVerificationStatus,
+          [action.address]: state.addressToVerificationStatus[action.address] || undefined,
+        },
+      }
+    case Actions.ADDRESS_VERIFICATION_STATUS_RECEIVED:
+      return {
+        ...state,
+        addressToVerificationStatus: {
+          ...state.addressToVerificationStatus,
+          [action.address]: action.addressVerified,
+        },
       }
     default:
       return state

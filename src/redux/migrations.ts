@@ -1452,4 +1452,11 @@ export const migrations = {
     ...state,
     swap: _.omit(state.swap, 'swapState'),
   }),
+  174: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      addressToVerificationStatus: {},
+    },
+  }),
 }

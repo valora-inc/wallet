@@ -5,6 +5,7 @@ import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { isEqual } from 'lodash'
 
 interface Props {
   testID?: string
@@ -36,8 +37,8 @@ function RecipientPicker({
           <RecipientItem
             recipient={item}
             onSelectRecipient={onSelectRecipient}
-            selected={item.contactId === selectedRecipient?.contactId || selectedRecipient === item}
-            loading={selectedRecipient === item && isSelectedRecipientLoading}
+            selected={isEqual(item, selectedRecipient)}
+            loading={isEqual(item, selectedRecipient) && isSelectedRecipientLoading}
           />
         )}
       />

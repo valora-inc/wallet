@@ -2,21 +2,23 @@ import Clipboard from '@react-native-clipboard/clipboard'
 import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { RecipientVerificationStatus } from 'src/identity/types'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
-  mockAccount,
-  mockE164Number2Invite,
   mockPhoneRecipientCache,
   mockRecipient,
   mockRecipient2,
+  mockAccount,
+  mockAddressRecipient,
+  mockE164Number2Invite,
 } from 'test/values'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendEvents } from 'src/analytics/Events'
+import { RecipientVerificationStatus } from 'src/identity/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { SendOrigin } from 'src/analytics/types'
+import { Screens } from 'src/navigator/Screens'
+import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -198,6 +200,36 @@ describe('SendSelectRecipient', () => {
     //   recipient: expect.any(Object),
     //   origin: SendOrigin.AppSendFlow,
     // })
+  })
+  it('navigates to send amount when address recipient is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAddressRecipient.address)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: expect.any(Object),
+      origin: SendOrigin.AppSendFlow,
+    })
   })
   it('navigates to invite modal when search result next button is pressed', async () => {
     jest
