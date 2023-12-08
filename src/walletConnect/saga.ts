@@ -343,7 +343,7 @@ function getSupportedChains() {
   })
 }
 
-function normalizeTransaction(rawTx: any, network: Network): TransactionRequest {
+export function normalizeTransaction(rawTx: any, network: Network): TransactionRequest {
   const tx: TransactionRequest = { ...rawTx }
 
   // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
@@ -353,7 +353,7 @@ function normalizeTransaction(rawTx: any, network: Network): TransactionRequest 
   }
 
   // we should re-calculate the feeCurrency and gas unless both are provided
-  if (tx.type === 'cip42' && !('feeCurrency' in tx)) {
+  if (network === Network.Celo && !('feeCurrency' in tx)) {
     // TODO check if we need this block at all, it seems like feeCurrency is
     // stripped out of the params if it is undefined when it is passed from WC
     // to the wallet

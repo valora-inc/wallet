@@ -1,9 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
 import { call } from 'redux-saga/effects'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
-import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { handleRequest } from 'src/walletConnect/request'
@@ -20,8 +18,6 @@ import {
   mockTypedData,
   mockWallet,
 } from 'test/values'
-import { formatTransaction } from 'viem'
-import { getTransactionCount } from 'viem/actions'
 import { celoAlfajores, sepolia as ethereumSepolia } from 'viem/chains'
 
 jest.mock('src/statsig')
@@ -219,41 +215,6 @@ describe(handleRequest, () => {
   })
 
   describe('eth_signTransaction', () => {
-    // TODO: keep only Viem branch after feeCurrency estimation is ready
-    describe('transaction normalization (viem)', () => {
-      beforeAll(() => {
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-      })
-
-      it('ensures `gasLimit` value is moved to the `gas` parameter', async () => {
-        await expectSaga(
-          handleRequest,
-          createSignTransactionRequest([{ from: '0xTEST', data: '0xABC', gasLimit: '0x5208' }])
-        )
-          .provide([
-            [matchers.call.fn(getTransactionCount), mockTransactionCount],
-            [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
-          ])
-          .withState(state)
-          .call(formatTransaction, { from: '0xTEST', data: '0xABC', gas: '0x5208' })
-          .run()
-      })
-
-      it('ensures `gasPrice` is stripped away before preparing transaction request', async () => {
-        await expectSaga(
-          handleRequest,
-          createSignTransactionRequest([{ from: '0xTEST', data: '0xABC', gasPrice: '0x5208' }])
-        )
-          .provide([
-            [matchers.call.fn(getTransactionCount), mockTransactionCount],
-            [matchers.call.fn(estimateFeesPerGas), mockEstimateFeePerGas],
-          ])
-          .withState(state)
-          .call(formatTransaction, { from: '0xTEST', data: '0xABC' })
-          .run()
-      })
-    })
-
     describe('transaction normalization (legacy)', () => {
       beforeAll(() => {
         jest.mocked(getFeatureGate).mockReturnValue(false)
