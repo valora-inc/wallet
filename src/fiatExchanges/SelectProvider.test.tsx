@@ -390,9 +390,8 @@ describe(SelectProviderScreen, () => {
 
       fireEvent.press(getByText('selectProviderScreen.cryptoExchangeOrWallet'))
       expect(navigate).toHaveBeenCalledTimes(1)
-      expect(navigate).toHaveBeenCalledWith(Screens.ExchangeQR, {
-        flow: CICOFlow.CashIn,
-        exchanges: mockExchanges,
+      expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
+        screen: Screens.QRCode,
       })
     })
   })

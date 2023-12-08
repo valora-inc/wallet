@@ -30,7 +30,7 @@ function getProps() {
   }
 }
 
-describe('ExchangeQR', () => {
+describe('QRCode', () => {
   beforeEach(() => {
     mockStore.dispatch = jest.fn()
     jest.clearAllMocks()

@@ -453,7 +453,9 @@ function ExchangesSection({
       ...analyticsData,
     })
     if (exchangesLink === SelectProviderExchangesLink.ExchangeQRScreen) {
-      navigate(Screens.ExchangeQR, { flow, exchanges })
+      navigate(Screens.QRNavigator, {
+        screen: Screens.QRCode,
+      })
     } else {
       navigate(Screens.ExternalExchanges, {
         tokenId: selectedTokenId,

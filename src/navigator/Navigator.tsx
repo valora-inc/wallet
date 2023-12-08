@@ -34,7 +34,6 @@ import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmat
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
-import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -444,11 +443,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={headerWithBackButton}
       name={Screens.KycPending}
       component={KycPending}
-    />
-    <Navigator.Screen
-      options={ExchangeQR.navigationOptions}
-      name={Screens.ExchangeQR}
-      component={ExchangeQR}
     />
     <Navigator.Screen
       name={Screens.WalletSecurityPrimer}

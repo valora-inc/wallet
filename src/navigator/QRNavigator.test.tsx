@@ -1,9 +1,8 @@
-import { render, waitFor } from '@testing-library/react-native'
+import { render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import QRNavigator, { QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
-import { CiCoCurrency } from 'src/utils/currencies'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockExchanges } from 'test/values'
@@ -58,7 +57,6 @@ describe('QRNavigator', () => {
           <QRCodePicker {...getProps()} />
         </Provider>
       )
-      await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('US', CiCoCurrency.CELO))
       expect(queryByTestId('styledQRCode')).toBeTruthy()
     })
   })

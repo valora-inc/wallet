@@ -24,7 +24,6 @@ export enum Screens {
   EscrowedPaymentListScreen = 'EscrowedPaymentListScreen',
   ExchangeHomeScreen = 'ExchangeHomeScreen',
   ExternalExchanges = 'ExternalExchanges',
-  ExchangeQR = 'ExchangeQR',
   FiatExchangeAmount = 'FiatExchangeAmount',
   FiatExchangeCurrency = 'FiatExchangeCurrency',
   FiatExchangeCurrencyBottomSheet = 'FiatExchangeCurrencyBottomSheet',

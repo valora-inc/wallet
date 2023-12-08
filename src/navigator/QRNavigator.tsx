@@ -24,8 +24,6 @@ import { QrCode, SVG, handleQRCodeDetected } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 
-const TAG = 'QRNavigator'
-
 const Tab = createMaterialTopTabNavigator()
 
 const width = Dimensions.get('window').width
