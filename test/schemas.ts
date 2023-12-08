@@ -2861,6 +2861,18 @@ export const v173Schema = {
   swap: _.omit(v172Schema.swap, 'swapState'),
 }
 
+export const v174Schema = {
+  ...v173Schema,
+  _persist: {
+    ...v173Schema._persist,
+    version: 174,
+  },
+  identity: {
+    ...v173Schema.identity,
+    addressToVerificationStatus: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v173Schema as Partial<RootState>
+  return v174Schema as Partial<RootState>
 }

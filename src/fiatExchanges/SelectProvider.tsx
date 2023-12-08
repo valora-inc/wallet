@@ -132,7 +132,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     try {
       const availableExchanges = await fetchExchanges(
         userLocation.countryCodeAlpha2,
-        tokenInfo.symbol
+        tokenInfo.tokenId
       )
 
       return availableExchanges
