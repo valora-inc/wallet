@@ -29,10 +29,26 @@ export const validateRecipientIntroScreenNavOptions = () => ({
 const ValidateRecipientIntro = ({ route }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const { addressValidationType, transactionData, requesterAddress, origin } = route.params
+  const {
+    transactionData,
+    requesterAddress,
+    origin,
+    recipient,
+    forceTokenId,
+    defaultTokenIdOverride,
+  } = route.params
 
   const onQRCodeDetected = (data: QrCode) => {
-    dispatch(handleQRCodeDetectedSecureSend(data, transactionData, requesterAddress))
+    dispatch(
+      handleQRCodeDetectedSecureSend(
+        data,
+        recipient,
+        transactionData,
+        requesterAddress,
+        forceTokenId,
+        defaultTokenIdOverride
+      )
+    )
   }
 
   const onPressScanCode = () => {
@@ -50,15 +66,16 @@ const ValidateRecipientIntro = ({ route }: Props) => {
   const onPressConfirmAccount = () => {
     navigate(Screens.ValidateRecipientAccount, {
       transactionData,
-      addressValidationType,
       requesterAddress,
       origin,
+      recipient,
+      forceTokenId,
+      defaultTokenIdOverride,
     })
 
     ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
   }
 
-  const { recipient } = transactionData
   const displayName = getDisplayName(recipient, t)
   const e164PhoneNumber = recipient.e164PhoneNumber
 
