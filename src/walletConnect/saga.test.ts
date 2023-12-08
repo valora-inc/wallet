@@ -12,7 +12,7 @@ import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { NetworkId } from 'src/transactions/types'
+import { Network } from 'src/transactions/types'
 import {
   Actions,
   acceptSession as acceptSessionAction,
@@ -515,7 +515,7 @@ describe('normalizeTransaction', () => {
         gasLimit: '0x5208',
         feeCurrency: '0xcUSD',
       },
-      NetworkId['celo-alfajores']
+      Network.Celo
     )
 
     expect(normalizedTx).toStrictEqual({
@@ -529,7 +529,7 @@ describe('normalizeTransaction', () => {
   it('ensures `gasPrice` is stripped away', async () => {
     const normalizedTx = normalizeTransaction(
       { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
-      NetworkId['celo-alfajores']
+      Network.Celo
     )
 
     expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
@@ -538,7 +538,7 @@ describe('normalizeTransaction', () => {
   it('ensures `gas` is stripped away if fee currency is not provided for a Celo transaction request', async () => {
     const normalizedTx = normalizeTransaction(
       { from: '0xTEST', data: '0xABC', gas: '0x5208' },
-      NetworkId['celo-alfajores']
+      Network.Celo
     )
 
     expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
@@ -547,7 +547,7 @@ describe('normalizeTransaction', () => {
   it('does not strip away `gas` for non-Celo transaction request', async () => {
     const normalizedTx = normalizeTransaction(
       { from: '0xTEST', data: '0xABC', gas: '0x5208' },
-      NetworkId['ethereum-sepolia']
+      Network.Ethereum
     )
 
     expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC', gas: BigInt('0x5208') })
