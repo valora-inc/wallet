@@ -9,6 +9,7 @@ import { Screens } from 'src/navigator/Screens'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
+import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { TokenApproval } from 'src/transactions/types'
 
@@ -17,11 +18,16 @@ interface Props {
 }
 
 function TokenApprovalFeedItem({ transaction }: Props) {
+  const supportedNetworkIds = getSupportedNetworkIdsForApprovalTxsInHomefeed()
   const { t } = useTranslation()
 
   const handleOpenTransactionDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction })
     ValoraAnalytics.track(HomeEvents.transaction_feed_item_select)
+  }
+
+  if (!supportedNetworkIds.includes(transaction.networkId)) {
+    return null
   }
 
   return (

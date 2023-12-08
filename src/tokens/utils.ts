@@ -184,6 +184,11 @@ export function getSupportedNetworkIdsForWalletConnect(): NetworkId[] {
     .showWalletConnect
 }
 
+export function getSupportedNetworkIdsForApprovalTxsInHomefeed(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showApprovalTxsInHomefeed
+}
+
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
   return {
     symbol: token.symbol,
