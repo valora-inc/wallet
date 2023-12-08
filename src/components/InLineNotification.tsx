@@ -9,12 +9,14 @@ export enum Severity {
   Informational,
   Warning,
   Error,
+  SoftInformational,
 }
 
 interface Props {
   severity: Severity
   title?: string | null
-  description: string
+  description?: string | JSX.Element | null
+  descriptionI18nKey?: string
   style?: StyleProp<ViewStyle>
   ctaLabel?: string | null
   onPressCta?: (event: GestureResponderEvent) => void
@@ -63,7 +65,7 @@ export function InLineNotification({
         </View>
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
-          <Text style={[styles.bodyText]}>{description}</Text>
+          {<Text style={[styles.bodyText]}>{description}</Text>}
         </View>
       </View>
 
@@ -126,6 +128,10 @@ const severityColors: Record<Severity, CustomColors> = {
   [Severity.Error]: {
     primary: Colors.errorDark,
     secondary: Colors.errorLight,
+  },
+  [Severity.SoftInformational]: {
+    primary: Colors.black,
+    secondary: Colors.gray1,
   },
 }
 

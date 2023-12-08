@@ -306,9 +306,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
 
   // Events for the QR screen redesign
-  [QrScreenEvents.qr_screen_bottom_sheet_open]: ``,
-  [QrScreenEvents.qr_screen_bottom_sheet_close]: ``,
-  [QrScreenEvents.qr_screen_bottom_sheet_link_press]: ``,
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
   [RequestEvents.request_scan]: `when scan QR icon is selected from the request screen`,
