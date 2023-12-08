@@ -2840,6 +2840,27 @@ export const v171Schema = {
   },
 }
 
+export const v172Schema = {
+  ...v171Schema,
+  _persist: {
+    ...v171Schema._persist,
+    version: 172,
+  },
+  swap: {
+    ..._.omit(v171Schema.swap, 'swapInfo'),
+    currentSwap: null,
+  },
+}
+
+export const v173Schema = {
+  ...v172Schema,
+  _persist: {
+    ...v172Schema._persist,
+    version: 173,
+  },
+  swap: _.omit(v172Schema.swap, 'swapState'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v171Schema as Partial<RootState>
+  return v173Schema as Partial<RootState>
 }

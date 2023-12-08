@@ -24,7 +24,12 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker, { Section } from 'src/recipients/RecipientPicker'
-import { Recipient, filterRecipientFactory, sortRecipients } from 'src/recipients/recipient'
+import {
+  Recipient,
+  filterRecipientFactory,
+  recipientHasAddress,
+  sortRecipients,
+} from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
 import { InviteRewardsBanner } from 'src/send/InviteRewardsBanner'
@@ -47,10 +52,6 @@ const SEARCH_THROTTLE_TIME = 100
 const TAG = 'send/Send'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Send>
-
-function hasAddressField(obj: Object): obj is { address: string } {
-  return 'address' in obj && !!obj.address
-}
 
 function Send({ route }: Props) {
   const skipContactsImport = route.params?.skipContactsImport ?? false
@@ -134,7 +135,7 @@ function Send({ route }: Props) {
     }
 
     if (getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)) {
-      if (hasAddressField(recipient)) {
+      if (recipientHasAddress(recipient)) {
         navigate(Screens.SendEnterAmount, {
           isFromScan: false,
           defaultTokenIdOverride,

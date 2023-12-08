@@ -412,34 +412,6 @@
             ],
             "type": "object"
         },
-        "ApproveTransaction": {
-            "additionalProperties": false,
-            "properties": {
-                "chainId": {
-                    "type": "number"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "gas": {
-                    "type": "string"
-                },
-                "to": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "chainId",
-                "data",
-                "from",
-                "gas",
-                "to"
-            ],
-            "type": "object"
-        },
         "BaseToken": {
             "additionalProperties": false,
             "properties": {
@@ -1445,71 +1417,6 @@
             ],
             "type": "string"
         },
-        "Field": {
-            "enum": [
-                "FROM",
-                "TO"
-            ],
-            "type": "string"
-        },
-        "Fill": {
-            "additionalProperties": false,
-            "properties": {
-                "adjustedOutput": {
-                    "type": "string"
-                },
-                "gas": {
-                    "type": "number"
-                },
-                "input": {
-                    "type": "string"
-                },
-                "outPut": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "adjustedOutput",
-                "gas",
-                "input",
-                "outPut"
-            ],
-            "type": "object"
-        },
-        "FillData": {
-            "additionalProperties": false,
-            "properties": {
-                "makerAmount": {
-                    "type": "string"
-                },
-                "makerToken": {
-                    "type": "string"
-                },
-                "router": {
-                    "type": "string"
-                },
-                "takerAmount": {
-                    "type": "string"
-                },
-                "takerToken": {
-                    "type": "string"
-                },
-                "tokenAddress": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "type": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "router",
-                "tokenAddress"
-            ],
-            "type": "object"
-        },
         "HistoricalPricesUsd": {
             "additionalProperties": false,
             "properties": {
@@ -1907,46 +1814,6 @@
             "additionalProperties": {
                 "$ref": "#/definitions/ContactRecipient"
             },
-            "type": "object"
-        },
-        "Order": {
-            "additionalProperties": false,
-            "properties": {
-                "fill": {
-                    "$ref": "#/definitions/Fill"
-                },
-                "fillData": {
-                    "$ref": "#/definitions/FillData"
-                },
-                "makerAmount": {
-                    "type": "string"
-                },
-                "makerToken": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "takeToken": {
-                    "type": "string"
-                },
-                "takerAmount": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "fill",
-                "fillData",
-                "makerAmount",
-                "makerToken",
-                "source",
-                "takeToken",
-                "takerAmount",
-                "type"
-            ],
             "type": "object"
         },
         "Partial<Record<FiatAccountType,{fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;userActionType?:TransferInUserActionDetails|undefined;}[];settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;}>>": {
@@ -2544,7 +2411,6 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
-                "SwapExecuteScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
                 "TokenDetails",
@@ -2731,22 +2597,6 @@
                 "id",
                 "name",
                 "networks"
-            ],
-            "type": "object"
-        },
-        "Source": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "proportion": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "proportion"
             ],
             "type": "object"
         },
@@ -3828,31 +3678,27 @@
         "State_22": {
             "additionalProperties": false,
             "properties": {
-                "guaranteedSwapPriceEnabled": {
-                    "type": "boolean"
-                },
-                "priceImpactWarningThreshold": {
-                    "type": "number"
-                },
-                "swapInfo": {
+                "currentSwap": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/SwapInfo"
+                            "$ref": "#/definitions/SwapTask"
                         },
                         {
                             "type": "null"
                         }
                     ]
                 },
-                "swapState": {
-                    "$ref": "#/definitions/SwapState"
+                "guaranteedSwapPriceEnabled": {
+                    "type": "boolean"
+                },
+                "priceImpactWarningThreshold": {
+                    "type": "number"
                 }
             },
             "required": [
+                "currentSwap",
                 "guaranteedSwapPriceEnabled",
-                "priceImpactWarningThreshold",
-                "swapInfo",
-                "swapState"
+                "priceImpactWarningThreshold"
             ],
             "type": "object"
         },
@@ -4368,206 +4214,28 @@
             },
             "type": "object"
         },
-        "SwapAmount": {
-            "additionalProperties": false,
-            "properties": {
-                "FROM": {
-                    "type": "string"
-                },
-                "TO": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "FROM",
-                "TO"
-            ],
-            "type": "object"
-        },
-        "SwapInfo": {
-            "additionalProperties": false,
-            "properties": {
-                "approveTransaction": {
-                    "$ref": "#/definitions/ApproveTransaction"
-                },
-                "details": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "swapProvider": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "swapProvider"
-                    ],
-                    "type": "object"
-                },
-                "quoteReceivedAt": {
-                    "type": "number"
-                },
-                "unvalidatedSwapTransaction": {
-                    "$ref": "#/definitions/SwapTransaction"
-                },
-                "userInput": {
-                    "$ref": "#/definitions/SwapUserInput"
-                }
-            },
-            "required": [
-                "approveTransaction",
-                "details",
-                "quoteReceivedAt",
-                "unvalidatedSwapTransaction",
-                "userInput"
-            ],
-            "type": "object"
-        },
-        "SwapState": {
+        "SwapStatus": {
             "enum": [
-                "approve",
-                "complete",
                 "error",
-                "execute",
-                "price-change",
-                "quote",
-                "start",
-                "user-input"
+                "idle",
+                "started",
+                "success"
             ],
             "type": "string"
         },
-        "SwapTransaction": {
+        "SwapTask": {
             "additionalProperties": false,
             "properties": {
-                "allowanceTarget": {
+                "id": {
                     "type": "string"
                 },
-                "buyAmount": {
-                    "type": "string"
-                },
-                "buyTokenAddress": {
-                    "type": "string"
-                },
-                "buyTokenToEthRate": {
-                    "type": "string"
-                },
-                "chainId": {
-                    "type": "number"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "decodedUniqueId": {
-                    "type": "string"
-                },
-                "estimatedGas": {
-                    "type": "string"
-                },
-                "estimatedPriceImpact": {
-                    "type": "string"
-                },
-                "expectedSlippage": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "from": {
-                    "type": "string"
-                },
-                "gas": {
-                    "type": "string"
-                },
-                "gasPrice": {
-                    "type": "string"
-                },
-                "guaranteedPrice": {
-                    "type": "string"
-                },
-                "minimumProtocolFee": {
-                    "type": "string"
-                },
-                "orders": {
-                    "items": {
-                        "$ref": "#/definitions/Order"
-                    },
-                    "type": "array"
-                },
-                "price": {
-                    "type": "string"
-                },
-                "protocolFee": {
-                    "type": "string"
-                },
-                "sellAmount": {
-                    "type": "string"
-                },
-                "sellTokenAddress": {
-                    "type": "string"
-                },
-                "sellTokenToEthRate": {
-                    "type": "string"
-                },
-                "sources": {
-                    "items": {
-                        "$ref": "#/definitions/Source"
-                    },
-                    "type": "array"
-                },
-                "to": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
+                "status": {
+                    "$ref": "#/definitions/SwapStatus"
                 }
             },
             "required": [
-                "allowanceTarget",
-                "buyAmount",
-                "buyTokenAddress",
-                "buyTokenToEthRate",
-                "chainId",
-                "data",
-                "decodedUniqueId",
-                "estimatedGas",
-                "estimatedPriceImpact",
-                "expectedSlippage",
-                "from",
-                "gas",
-                "gasPrice",
-                "guaranteedPrice",
-                "minimumProtocolFee",
-                "orders",
-                "price",
-                "protocolFee",
-                "sellAmount",
-                "sellTokenAddress",
-                "sellTokenToEthRate",
-                "sources",
-                "to",
-                "value"
-            ],
-            "type": "object"
-        },
-        "SwapUserInput": {
-            "additionalProperties": false,
-            "properties": {
-                "fromTokenId": {
-                    "type": "string"
-                },
-                "swapAmount": {
-                    "$ref": "#/definitions/SwapAmount"
-                },
-                "toTokenId": {
-                    "type": "string"
-                },
-                "updatedField": {
-                    "$ref": "#/definitions/Field"
-                }
-            },
-            "required": [
-                "fromTokenId",
-                "swapAmount",
-                "toTokenId",
-                "updatedField"
+                "id",
+                "status"
             ],
             "type": "object"
         },
