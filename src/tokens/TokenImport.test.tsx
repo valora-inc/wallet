@@ -39,7 +39,7 @@ describe('TokenImport', () => {
     expect(tokenAddressInput.props.value).toBe('0xABC')
   })
 
-  describe('renderErrorMessage when token address', () => {
+  describe('error messages for token address', () => {
     it('is already supported', () => {
       const store = createMockStore({})
       const { getByText } = render(
