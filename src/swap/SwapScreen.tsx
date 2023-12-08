@@ -430,57 +430,60 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = (selectedToken: TokenBalance) => {
-    let switchedToNetworkId: NetworkId | null = null
-    let newFromToken: TokenBalance | undefined = fromToken
-    let newToToken: TokenBalance | undefined = toToken
+    if (!selectingToken) {
+      // Should never happen
+      Logger.error(TAG, 'handleSelectToken called without selectingToken')
+      return
+    }
+
+    let newSwitchedToNetworkId: NetworkId | null = null
+    let newFromToken = fromToken
+    let newToToken = toToken
+
     if (
       (selectingToken === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
       (selectingToken === Field.TO && fromToken?.tokenId === selectedToken.tokenId)
     ) {
       newFromToken = toToken
       newToToken = fromToken
-      setFromToken(newFromToken)
-      setToToken(newToToken)
     } else if (selectingToken === Field.FROM) {
       newFromToken = selectedToken
-      setFromToken(newFromToken)
-      switchedToNetworkId =
+      newSwitchedToNetworkId =
         toToken && toToken.networkId !== newFromToken.networkId ? newFromToken.networkId : null
-      setSwitchedToNetworkId(switchedToNetworkId)
-      if (switchedToNetworkId) {
+      if (newSwitchedToNetworkId) {
         // reset the toToken if the user is switching networks
-        setToToken(undefined)
+        newToToken = undefined
       }
     } else if (selectingToken === Field.TO) {
       newToToken = selectedToken
-      setToToken(newToToken)
-      switchedToNetworkId =
+      newSwitchedToNetworkId =
         fromToken && fromToken.networkId !== newToToken.networkId ? newToToken.networkId : null
-      setSwitchedToNetworkId(switchedToNetworkId)
-      if (switchedToNetworkId) {
+      if (newSwitchedToNetworkId) {
         // reset the fromToken if the user is switching networks
-        setFromToken(undefined)
+        newFromToken = undefined
       }
     }
 
-    if (switchedToNetworkId) {
-      clearQuote()
-    }
+    ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
+      fieldType: selectingToken,
+      tokenSymbol: selectedToken.symbol,
+      tokenId: selectedToken.tokenId,
+      tokenNetworkId: selectedToken.networkId,
+      fromTokenSymbol: newFromToken?.symbol,
+      fromTokenId: newFromToken?.tokenId,
+      fromTokenNetworkId: newFromToken?.networkId,
+      toTokenSymbol: newToToken?.symbol,
+      toTokenId: newToToken?.tokenId,
+      toTokenNetworkId: newToToken?.networkId,
+      switchedNetworkId: !!newSwitchedToNetworkId,
+    })
 
-    if (selectingToken) {
-      ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
-        fieldType: selectingToken,
-        tokenSymbol: selectedToken.symbol,
-        tokenId: selectedToken.tokenId,
-        tokenNetworkId: selectedToken.networkId,
-        fromTokenSymbol: newFromToken?.symbol,
-        fromTokenId: newFromToken?.tokenId,
-        fromTokenNetworkId: newFromToken?.networkId,
-        toTokenSymbol: newToToken?.symbol,
-        toTokenId: newToToken?.tokenId,
-        toTokenNetworkId: newToToken?.networkId,
-        switchedNetworkId: !!switchedToNetworkId,
-      })
+    setFromToken(newFromToken)
+    setToToken(newToToken)
+    setSwitchedToNetworkId(newSwitchedToNetworkId)
+
+    if (newSwitchedToNetworkId) {
+      clearQuote()
     }
 
     // use requestAnimationFrame so that the bottom sheet and keyboard dismiss
