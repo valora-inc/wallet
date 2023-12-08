@@ -56,7 +56,7 @@ const storeData = {
         symbol: 'cUSD',
         priceUsd: '1',
         balance: BALANCE_VALID,
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceFetchedAt: Date.now(),
       },
       [mockCeurTokenId]: {
@@ -66,7 +66,7 @@ const storeData = {
         symbol: 'cEUR',
         priceUsd: '1.2',
         balance: '10',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceFetchedAt: Date.now(),
       },
       [mockTestTokenTokenId]: {
@@ -244,7 +244,7 @@ describe('SendAmount', () => {
               symbol: 'cUSD',
               priceUsd: '1',
               balance: '22.85789012',
-              isCoreToken: true,
+              isFeeCurrency: true,
               priceFetchedAt: Date.now(),
             },
           },

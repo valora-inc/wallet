@@ -2840,6 +2840,25 @@ export const v171Schema = {
   },
 }
 
+export const v172Schema = {
+  ...v171Schema,
+  _persist: {
+    ...v171Schema._persist,
+    version: 172,
+  },
+  tokens: {
+    ...v171Schema.tokens,
+    tokenBalances: _.mapValues(v171Schema.tokens.tokenBalances, (item: any) => {
+      const newItem = _.omit(item, 'isCoreToken')
+      if (item.isCoreToken !== undefined) {
+        newItem.isFeeCurrency = item.isCoreToken
+        newItem.canTransferWithComment = item.isCoreToken
+      }
+      return newItem
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v171Schema as Partial<RootState>
+  return v172Schema as Partial<RootState>
 }

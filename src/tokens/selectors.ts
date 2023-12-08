@@ -187,7 +187,7 @@ export const tokensByUsdBalanceSelector = createSelector(
  * @deprecated
  */
 export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+  return tokens.filter((tokenInfo) => tokenInfo.isFeeCurrency === true)
 })
 
 /**

@@ -77,7 +77,7 @@ describe('useMaxSendAmountByAddress', () => {
             symbol: 'cUSD',
             balance: '200',
             priceUsd: '1',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
           [mockCeurTokenId]: {
@@ -87,7 +87,7 @@ describe('useMaxSendAmountByAddress', () => {
             symbol: 'cEUR',
             balance: '100',
             priceUsd: '1.2',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
           [mockCeloTokenId]: {
@@ -97,7 +97,7 @@ describe('useMaxSendAmountByAddress', () => {
             symbol: 'CELO',
             balance: '200',
             priceUsd: '5',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
         },
@@ -231,7 +231,7 @@ describe(useFeeCurrencies, () => {
             symbol: 'cUSD',
             balance: '200',
             priceUsd: '1',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
           [mockCeurTokenId]: {
@@ -241,7 +241,7 @@ describe(useFeeCurrencies, () => {
             symbol: 'cEUR',
             balance: '0',
             priceUsd: '1.2',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
           [mockCeloTokenId]: {
@@ -251,7 +251,7 @@ describe(useFeeCurrencies, () => {
             symbol: 'CELO',
             balance: '200',
             priceUsd: '5',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
           [mockEthTokenId]: {
@@ -260,7 +260,7 @@ describe(useFeeCurrencies, () => {
             symbol: 'ETH',
             balance: '200',
             priceUsd: '10',
-            isCoreToken: true,
+            isFeeCurrency: true,
             priceFetchedAt: Date.now(),
           },
         },

@@ -36,6 +36,7 @@ import {
   v166Schema,
   v167Schema,
   v16Schema,
+  v171Schema,
   v17Schema,
   v18Schema,
   v1Schema,
@@ -1409,5 +1410,52 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[168](oldSchema)
     const expectedSchema: any = _.omit(oldSchema, 'swap.swapUserInput')
     expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 171 to 172', () => {
+    const oldSchema = v171Schema
+    const migratedSchema = migrations[172](oldSchema)
+
+    // CELO
+    const celoToken = migratedSchema.tokens.tokenBalances['celo-alfajores:native']
+    expect(celoToken).not.toHaveProperty('isCoreToken')
+    expect(celoToken).toHaveProperty('isFeeCurrency', true)
+    expect(celoToken).toHaveProperty('canTransferWithComment', true)
+
+    // cUSD
+    const cUSDToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
+      ]
+    expect(cUSDToken).not.toHaveProperty('isCoreToken')
+    expect(cUSDToken).toHaveProperty('isFeeCurrency', true)
+    expect(cUSDToken).toHaveProperty('canTransferWithComment', true)
+
+    // cEUR
+    const cEURToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
+      ]
+    expect(cEURToken).not.toHaveProperty('isCoreToken')
+    expect(cEURToken).toHaveProperty('isFeeCurrency', true)
+    expect(cEURToken).toHaveProperty('canTransferWithComment', true)
+
+    // Test Token
+    const testToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x048f47d358ec521a6cf384461d674750a3cb58c8'
+      ]
+    expect(testToken).not.toHaveProperty('isCoreToken')
+    expect(testToken).not.toHaveProperty('isFeeCurrency')
+    expect(testToken).not.toHaveProperty('canTransferWithComment')
+
+    // Moola
+    const moolaToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x17700282592D6917F6A73D0bF8AcCf4D578c131e'
+      ]
+    expect(moolaToken).not.toHaveProperty('isCoreToken')
+    expect(moolaToken).not.toHaveProperty('isFeeCurrency')
+    expect(moolaToken).not.toHaveProperty('canTransferWithComment')
   })
 })

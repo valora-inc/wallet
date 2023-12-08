@@ -80,7 +80,7 @@ export function* buildSendTx(
   const kit: ContractKit = yield* call(getContractKit)
   return toTransactionObject(
     kit.connection,
-    tokenInfo?.isCoreToken && tokenInfo.symbol !== 'CELO'
+    tokenInfo?.canTransferWithComment && tokenInfo.symbol !== 'CELO'
       ? coreContract.methods.transferWithComment(
           recipientAddress,
           convertedAmount,

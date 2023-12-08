@@ -41,7 +41,7 @@ const state = (override?: { celoBalance: string }) =>
           address: mockCusdAddress,
           tokenId: mockCusdTokenId,
           networkId: NetworkId['celo-alfajores'],
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
         [mockCeurTokenId]: {
@@ -51,7 +51,7 @@ const state = (override?: { celoBalance: string }) =>
           address: mockCeurAddress,
           tokenId: mockCeurTokenId,
           networkId: NetworkId['celo-alfajores'],
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
         [mockCeloTokenId]: {
@@ -61,7 +61,7 @@ const state = (override?: { celoBalance: string }) =>
           address: mockCeloAddress,
           tokenId: mockCeloTokenId,
           networkId: NetworkId['celo-alfajores'],
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
       },
