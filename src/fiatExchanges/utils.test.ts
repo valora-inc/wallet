@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import {
   mockCusdTokenId,
   mockExchanges,
@@ -7,7 +8,7 @@ import {
 } from '../../test/values'
 import { CiCoCurrency } from '../utils/currencies'
 import NormalizedQuote from './quotes/NormalizedQuote'
-import { PaymentMethod, getProviderSelectionAnalyticsData } from './utils'
+import { PaymentMethod, fetchExchanges, getProviderSelectionAnalyticsData } from './utils'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
@@ -25,6 +26,12 @@ class MockNormalizedQuote extends NormalizedQuote {
   getReceiveAmount = jest.fn()
   getTokenId = jest.fn()
 }
+
+jest.mock('../utils/fetchWithTimeout')
+const mockGetExchangesResponse = [{ name: 'exchange-name', link: 'provider-link' }]
+jest
+  .mocked(fetchWithTimeout)
+  .mockResolvedValue(new Response(JSON.stringify(mockGetExchangesResponse)))
 
 describe('fiatExchanges utils', () => {
   const transferCryptoAmount = 10.0
@@ -140,6 +147,12 @@ describe('fiatExchanges utils', () => {
         },
         networkId: 'celo-alfajores',
       })
+    })
+  })
+  describe('fetchExchanges', () => {
+    it('fetchExchanges works as expected', async () => {
+      const exchanges = await fetchExchanges('US', 'mock-token-id')
+      expect(exchanges).toStrictEqual(mockGetExchangesResponse)
     })
   })
 })
