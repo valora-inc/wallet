@@ -239,7 +239,7 @@
     "@types/uuid": "^9.0.0",
     "@typescript-eslint/eslint-plugin": "^5.58.0",
     "@valora/eslint-config-typescript": "^1.0.2",
-    "@valora/resolve-kit": "^2.1.0",
+    "@valora/resolve-kit": "^2.1.1",
     "@walletconnect/legacy-types": "2.0.0",
     "@walletconnect/sign-client": "2.10.0",
     "@walletconnect/types": "2.10.0",
