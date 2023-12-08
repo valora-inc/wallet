@@ -1698,6 +1698,7 @@
       "swapFeeWaived": "Gratis",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
+      "slippageToleranceInfo": "Tolerancia de deslizamiento\n\nTu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
       "estimatedValue": "Valor estimado"

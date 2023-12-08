@@ -1,8 +1,7 @@
-import { isValidAddress } from '@celo/utils/lib/address'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
@@ -11,6 +10,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
@@ -18,13 +18,17 @@ import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getTokenId } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
+import { isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
@@ -32,29 +36,62 @@ export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const [isCompleteAddress, setIsCompleteAddress] = useState(false)
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
+  const [error, setError] = useState<string | null>(null)
   const [networkId] = useState(networkConfig.defaultNetworkId)
+  const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
+
+  const validateAddress = (address: string) => {
+    if (!address) return
+
+    if (isAddress(address)) {
+      setIsCompleteAddress(true)
+      // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
+      const tokenId = getTokenId(networkId, address.toLowerCase())
+      if (supportedTokens[tokenId]) {
+        setError(t('tokenImport.error.alreadySupported'))
+      } else {
+        setError(null)
+      }
+    } else {
+      setError(t('tokenImport.error.invalidToken'))
+    }
+  }
+
+  const handleAddressFocus = () => {
+    setIsCompleteAddress(false)
+    setError(null)
+  }
+
+  const ensure0xPrefixOrEmpty = (address: string) =>
+    !address || address.startsWith('0x') ? address : `0x${address}`
+
+  const handleAddressBlur = () => {
+    const address = ensure0xPrefixOrEmpty(tokenAddress)
+    setTokenAddress(address)
+    validateAddress(address)
+  }
+
+  const handlePaste = (address: string) => {
+    const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
+    setTokenAddress(addressWith0xPrefix)
+    validateAddress(addressWith0xPrefix)
+    ValoraAnalytics.track(AssetsEvents.import_token_paste)
+  }
 
   const handleImportToken = () => {
+    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol,
       networkId,
+      tokenId,
     })
+    // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()
-    // TODO RET-891: do this only when actually imported
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
-  }
-
-  const renderErrorMessage = (): ReactElement<Text> => {
-    // TODO RET-892: when states and validation are added, choose appropriate error or return null
-    const errors = [
-      t('tokenImport.error.invalidToken'),
-      t('tokenImport.error.alreadySupported'),
-      t('tokenImport.error.alreadyImported'),
-    ]
-    return <Text style={styles.errorLabel}>{errors[0]}</Text>
   }
 
   return (
@@ -64,7 +101,7 @@ export default function TokenImportScreen(_: Props) {
         left={<BackButton />}
         title={<Text style={styles.headerTitle}>{t('tokenImport.title')}</Text>}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContainer}>
         <InLineNotification
           severity={Severity.Informational}
           description={t('tokenImport.notification')}
@@ -77,16 +114,10 @@ export default function TokenImportScreen(_: Props) {
             value={tokenAddress}
             onChangeText={setTokenAddress}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
-            rightElement={
-              !tokenAddress && (
-                <PasteButton
-                  onPress={(address) => {
-                    setTokenAddress(address)
-                    ValoraAnalytics.track(AssetsEvents.import_token_paste)
-                  }}
-                />
-              )
-            }
+            rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
+            onFocus={handleAddressFocus}
+            onBlur={handleAddressBlur}
+            returnKeyType={'search'}
             maxLength={42} // 0x prefix and 20 bytes
           />
 
@@ -95,10 +126,10 @@ export default function TokenImportScreen(_: Props) {
             label={t('tokenImport.input.tokenSymbol')}
             value={tokenSymbol}
             onChangeText={setTokenSymbol}
-            editable={isValidAddress(tokenAddress)}
+            editable={false}
             // TODO RET-892: once loaded, hide the spinner
-            rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />}
-            errorElement={renderErrorMessage()}
+            rightElement={isCompleteAddress && !error && <GreenLoadingSpinner height={32} />}
+            errorElement={error ? <Text style={styles.errorLabel}>{error}</Text> : <></>}
             testID={'tokenSymbol'}
           />
 
@@ -110,7 +141,7 @@ export default function TokenImportScreen(_: Props) {
             editable={false}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <Button
         size={BtnSizes.FULL}
         text={t('tokenImport.importButton')}
@@ -136,6 +167,8 @@ const TextInputGroup = ({
       placeholderTextColor={Colors.gray4}
       numberOfLines={1}
       showClearButton={true}
+      autoCorrect={false}
+      spellCheck={false}
       {...textInputProps}
     />
     {errorElement}

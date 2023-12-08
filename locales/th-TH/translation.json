@@ -1696,6 +1696,7 @@
       "swapFeeWaived": "ฟรี",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
+      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
       "estimatedValue": "ค่าโดยประมาณ"

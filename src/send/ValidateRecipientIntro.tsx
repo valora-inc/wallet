@@ -3,6 +3,7 @@ import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import CancelButton from 'src/components/CancelButton'
@@ -13,6 +14,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
+import { QrCode, handleQRCodeDetectedSecureSend } from 'src/send/actions'
 import fontStyles from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64
@@ -26,14 +28,35 @@ export const validateRecipientIntroScreenNavOptions = () => ({
 
 const ValidateRecipientIntro = ({ route }: Props) => {
   const { t } = useTranslation()
-  const { addressValidationType, transactionData, requesterAddress, origin } = route.params
+  const dispatch = useDispatch()
+  const {
+    transactionData,
+    requesterAddress,
+    origin,
+    recipient,
+    forceTokenId,
+    defaultTokenIdOverride,
+  } = route.params
+
+  const onQRCodeDetected = (data: QrCode) => {
+    dispatch(
+      handleQRCodeDetectedSecureSend(
+        data,
+        recipient,
+        transactionData,
+        requesterAddress,
+        forceTokenId,
+        defaultTokenIdOverride
+      )
+    )
+  }
+
   const onPressScanCode = () => {
     navigate(Screens.QRNavigator, {
       screen: Screens.QRScanner,
       params: {
-        transactionData,
-        scanIsForSecureSend: true,
-        requesterAddress,
+        onQRCodeDetected,
+        showSecureSendStyling: true,
       },
     })
 
@@ -43,15 +66,16 @@ const ValidateRecipientIntro = ({ route }: Props) => {
   const onPressConfirmAccount = () => {
     navigate(Screens.ValidateRecipientAccount, {
       transactionData,
-      addressValidationType,
       requesterAddress,
       origin,
+      recipient,
+      forceTokenId,
+      defaultTokenIdOverride,
     })
 
     ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: false })
   }
 
-  const { recipient } = transactionData
   const displayName = getDisplayName(recipient, t)
   const e164PhoneNumber = recipient.e164PhoneNumber
 
