@@ -47,6 +47,7 @@ export default function TokenImportScreen(_: Props) {
     if (!address) return
 
     if (isAddress(address)) {
+      setIsCompleteAddress(true)
       // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
       const tokenId = getTokenId(networkId, address.toLowerCase())
       if (supportedTokens[tokenId]) {
@@ -71,14 +72,12 @@ export default function TokenImportScreen(_: Props) {
     const address = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(address)
     validateAddress(address)
-    setIsCompleteAddress(true)
   }
 
   const handlePaste = (address: string) => {
     address = ensure0xPrefixOrEmpty(address)
     setTokenAddress(address)
     validateAddress(address)
-    setIsCompleteAddress(true)
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
   }
 
