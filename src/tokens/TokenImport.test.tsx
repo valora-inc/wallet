@@ -24,9 +24,9 @@ describe('TokenImport', () => {
     mocked(getContract).mockReturnValue({
       read: {
         symbol: mockSymbol.mockResolvedValue('ABC'),
-        decimals: jest.fn().mockResolvedValue(6),
+        decimals: jest.fn().mockResolvedValue(18),
         name: jest.fn().mockResolvedValue('ABC Coin'),
-        totalSupply: jest.fn().mockResolvedValue(BigInt('22201138703500171')),
+        balanceOf: jest.fn().mockResolvedValue(BigInt('500000000000000000')),
       },
     } as unknown as GetContractReturnType<typeof erc20.abi, PublicClient, WalletClient>)
   })

@@ -28,9 +28,13 @@ import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
+import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, getContract, isAddress } from 'viem'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { Address, formatUnits, getContract, isAddress } from 'viem'
+
+const TAG = 'TokenImport'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 
@@ -47,6 +51,7 @@ export default function TokenImportScreen(_: Props) {
   const dispatch = useDispatch()
 
   const [isCompleteAddress, setIsCompleteAddress] = useState(false)
+  const walletAddress = useSelector(walletAddressSelector)
   const [contractState, setContractState] = useState(ContractState.WaitingForAddress)
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
@@ -73,6 +78,12 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const validateCheck = async (address: Address) => {
+    if (!walletAddress || !isAddress(walletAddress)) {
+      // should never happen
+      Logger.error('tokens/TokenImport', 'No wallet address found when fetching token details')
+      return
+    }
+
     setContractState(ContractState.FetchingContract)
 
     const contract = getContract({
@@ -87,9 +98,10 @@ export default function TokenImportScreen(_: Props) {
           contract.read.symbol(),
           contract.read.decimals(),
           contract.read.name(),
-          contract.read.totalSupply(),
+          contract.read.balanceOf([walletAddress]),
         ])
-          .then(([symbol, decimals, name, totalSupply]) => {
+          .then(([symbol, decimals, name, balance]) => {
+            Logger.debug(TAG, `Balance for ${name}: ${formatUnits(balance, decimals)} ${symbol}`)
             setTokenSymbol(symbol)
             resolve(ContractState.LikelyERC20)
           })
@@ -97,7 +109,6 @@ export default function TokenImportScreen(_: Props) {
       }),
       new Promise((resolve) => setTimeout(() => resolve(ContractState.NetworkIssue), 5000)),
     ])
-    // setAddressState(state)
     setContractState(state)
     if (state === ContractState.NotERC20) {
       setError(t('tokenImport.error.notErc20Token'))
