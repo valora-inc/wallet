@@ -4066,6 +4066,9 @@
                 "bridge": {
                     "type": "string"
                 },
+                "canTransferWithComment": {
+                    "type": "boolean"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -4084,7 +4087,7 @@
                 "isCashOutEligible": {
                     "type": "boolean"
                 },
-                "isCoreToken": {
+                "isFeeCurrency": {
                     "type": "boolean"
                 },
                 "isNative": {

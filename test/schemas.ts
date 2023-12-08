@@ -2861,6 +2861,25 @@ export const v173Schema = {
   swap: _.omit(v172Schema.swap, 'swapState'),
 }
 
+export const v174Schema = {
+  ...v173Schema,
+  _persist: {
+    ...v173Schema._persist,
+    version: 174,
+  },
+  tokens: {
+    ...v173Schema.tokens,
+    tokenBalances: _.mapValues(v173Schema.tokens.tokenBalances, (item: any) => {
+      const newItem = _.omit(item, 'isCoreToken')
+      if (item.isCoreToken !== undefined) {
+        newItem.isFeeCurrency = item.isCoreToken
+        newItem.canTransferWithComment = item.isCoreToken
+      }
+      return newItem
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v173Schema as Partial<RootState>
+  return v174Schema as Partial<RootState>
 }

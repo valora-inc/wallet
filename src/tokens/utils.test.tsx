@@ -5,33 +5,33 @@ import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
   getHigherBalanceCurrency,
+  getTokenId,
   isHistoricalPriceUpdated,
   sortFirstStableThenCeloThenOthersByUsdBalance,
-  getTokenId,
 } from 'src/tokens/utils'
-import { Currency } from 'src/utils/currencies'
 import { NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
+import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
+import networkConfig from 'src/web3/networkConfig'
 import { mockPoofTokenId, mockTokenBalances } from 'test/values'
 
 describe(getHigherBalanceCurrency, () => {
   const tokens = {
     [Currency.Dollar]: {
       symbol: 'cUSD',
-      isCoreToken: true,
+      isFeeCurrency: true,
       priceUsd: new BigNumber(1),
       balance: new BigNumber(2),
     },
     [Currency.Euro]: {
       symbol: 'cEUR',
-      isCoreToken: true,
+      isFeeCurrency: true,
       priceUsd: new BigNumber(1.5),
       balance: new BigNumber(1),
     },
     [Currency.Celo]: {
       symbol: 'CELO',
-      isCoreToken: true,
+      isFeeCurrency: true,
       priceUsd: new BigNumber(5),
       balance: new BigNumber(1),
     },
@@ -61,43 +61,43 @@ describe(sortFirstStableThenCeloThenOthersByUsdBalance, () => {
   const expectedOrder = [
     {
       symbol: 'cUSD',
-      isCoreToken: true,
+      isFeeCurrency: true,
       priceUsd: new BigNumber(1),
       balance: new BigNumber(2),
     },
     {
       symbol: 'cEUR',
-      isCoreToken: true,
+      isFeeCurrency: true,
       priceUsd: new BigNumber(1.5),
       balance: new BigNumber(1),
     },
     {
       symbol: 'CELO',
-      isCoreToken: true,
+      isFeeCurrency: true,
       priceUsd: new BigNumber(5),
       balance: new BigNumber(1),
     },
     {
       symbol: 'wBIT',
-      isCoreToken: false,
+      isFeeCurrency: false,
       priceUsd: new BigNumber(5000),
       balance: new BigNumber(1),
     },
     {
       symbol: 'wETH',
-      isCoreToken: false,
+      isFeeCurrency: false,
       priceUsd: new BigNumber(3000),
       balance: new BigNumber(1),
     },
     {
       symbol: 'TT2',
-      isCoreToken: false,
+      isFeeCurrency: false,
       priceUsd: undefined,
       balance: new BigNumber(5),
     },
     {
       symbol: 'TT',
-      isCoreToken: false,
+      isFeeCurrency: false,
       priceUsd: undefined,
       balance: new BigNumber(2),
     },

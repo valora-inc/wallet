@@ -1452,4 +1452,18 @@ export const migrations = {
     ...state,
     swap: _.omit(state.swap, 'swapState'),
   }),
+  174: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      tokenBalances: _.mapValues(state.tokens.tokenBalances, (item: any) => {
+        const newItem = _.omit(item, 'isCoreToken')
+        if (item.isCoreToken !== undefined) {
+          newItem.isFeeCurrency = item.isCoreToken
+          newItem.canTransferWithComment = item.isCoreToken
+        }
+        return newItem
+      }),
+    },
+  }),
 }
