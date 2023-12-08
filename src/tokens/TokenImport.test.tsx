@@ -40,7 +40,7 @@ describe('TokenImport', () => {
   })
 
   describe('error messages for token address', () => {
-    it('is already supported', () => {
+    it('should display the correct error when the token is already supported', () => {
       const store = createMockStore({})
       const { getByText } = render(
         <Provider store={store}>
