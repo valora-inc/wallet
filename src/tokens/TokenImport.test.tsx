@@ -55,7 +55,7 @@ describe('TokenImport', () => {
       expect(getByText('tokenImport.importButton')).toBeDisabled()
     })
 
-    it('is invalid', () => {
+    it('should display the correct error when the token address is invalid', () => {
       const store = createMockStore({})
       const { getByText } = render(
         <Provider store={store}>
