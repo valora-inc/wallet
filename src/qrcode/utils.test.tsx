@@ -7,7 +7,10 @@ import { call, select } from 'redux-saga-test-plan/matchers'
 import { showError } from 'src/alert/actions'
 import { HooksEnablePreviewOrigin, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import {
+  e164NumberToAddressSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
@@ -31,8 +34,10 @@ import {
   mockE164Number,
   mockE164Number3,
   mockE164NumberToAddress,
+  mockEthTokenId,
   mockName,
   mockQrCodeData,
+  mockRecipient,
   mockRecipientInfo,
   mockTransactionData,
 } from 'test/values'
@@ -186,11 +191,11 @@ describe('handleQRCodeDefault', () => {
 })
 
 describe('handleQRCodeSecureSend', () => {
-  it('handles a valid address and navigates to send confirmation', async () => {
+  it('handles a valid address and navigates to send confirmation with transaction data', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
     await expectSaga(
       handleQRCodeSecureSend,
-      handleQRCodeDetectedSecureSend(data, mockTransactionData, mockAccount2)
+      handleQRCodeDetectedSecureSend(data, mockRecipient, mockTransactionData, mockAccount2)
     )
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -199,7 +204,7 @@ describe('handleQRCodeSecureSend', () => {
             handleSecureSend,
             mockAccount.toLowerCase(),
             mockE164NumberToAddress,
-            mockTransactionData,
+            mockRecipient,
             mockAccount2
           ),
           true,
@@ -212,11 +217,58 @@ describe('handleQRCodeSecureSend', () => {
       isFromScan: true,
     })
   })
+  it('handles a valid address and navigates to send enter ammount when there is no transaction data', async () => {
+    const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
+    await expectSaga(
+      handleQRCodeSecureSend,
+      handleQRCodeDetectedSecureSend(
+        data,
+        mockRecipient,
+        undefined,
+        mockAccount2,
+        false,
+        mockEthTokenId
+      )
+    )
+      .provide([
+        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
+        [
+          select(secureSendPhoneNumberMappingSelector),
+          {
+            [mockRecipient.e164PhoneNumber]: {
+              address: mockAccount,
+              addressValidationType: undefined,
+            },
+          },
+        ],
+        [
+          call(
+            handleSecureSend,
+            mockAccount.toLowerCase(),
+            mockE164NumberToAddress,
+            mockRecipient,
+            mockAccount2
+          ),
+          true,
+        ],
+      ])
+      .run()
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      origin: SendOrigin.AppSendFlow,
+      recipient: {
+        ...mockRecipient,
+        address: mockAccount,
+      },
+      isFromScan: true,
+      forceTokenId: false,
+      defaultTokenIdOverride: mockEthTokenId,
+    })
+  })
   it('handles an invalid address', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: 'invalid-address' }
     await expectSaga(
       handleQRCodeSecureSend,
-      handleQRCodeDetectedSecureSend(data, mockTransactionData, mockAccount2)
+      handleQRCodeDetectedSecureSend(data, mockRecipient, mockTransactionData, mockAccount2)
     )
       .provide([[select(e164NumberToAddressSelector), mockE164NumberToAddress]])
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
@@ -227,7 +279,7 @@ describe('handleQRCodeSecureSend', () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
     await expectSaga(
       handleQRCodeSecureSend,
-      handleQRCodeDetectedSecureSend(data, mockTransactionData, mockAccount2)
+      handleQRCodeDetectedSecureSend(data, mockRecipient, mockTransactionData, mockAccount2)
     )
       .provide([
         [select(e164NumberToAddressSelector), mockE164NumberToAddress],
@@ -236,7 +288,7 @@ describe('handleQRCodeSecureSend', () => {
             handleSecureSend,
             mockAccount.toLowerCase(),
             mockE164NumberToAddress,
-            mockTransactionData,
+            mockRecipient,
             mockAccount2
           ),
           false,
