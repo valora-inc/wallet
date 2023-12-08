@@ -32,8 +32,11 @@ export interface HandleQRCodeDetectedAction {
 export interface HandleQRCodeDetectedSecureSendAction {
   type: Actions.BARCODE_DETECTED_SECURE_SEND
   qrCode: QrCode
-  transactionData: TransactionDataInput
+  transactionData?: TransactionDataInput
   requesterAddress?: string
+  recipient: Recipient
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
 }
 
 export interface ShareQRCodeAction {
@@ -90,13 +93,19 @@ export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction
 
 export const handleQRCodeDetectedSecureSend = (
   qrCode: QrCode,
-  transactionData: TransactionDataInput,
-  requesterAddress?: string
+  recipient: Recipient,
+  transactionData?: TransactionDataInput,
+  requesterAddress?: string,
+  forceTokenId?: boolean,
+  defaultTokenIdOverride?: string
 ): HandleQRCodeDetectedSecureSendAction => ({
   type: Actions.BARCODE_DETECTED_SECURE_SEND,
   qrCode,
   transactionData,
   requesterAddress,
+  recipient,
+  forceTokenId,
+  defaultTokenIdOverride,
 })
 
 export const shareQRCode = (qrCodeSvg: SVG): ShareQRCodeAction => ({
