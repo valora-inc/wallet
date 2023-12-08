@@ -1696,6 +1696,7 @@
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
+      "slippageToleranceInfo": "滑点容差\n\n您的掉期将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"

@@ -1,5 +1,5 @@
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { useDispatch } from 'react-redux'
@@ -13,6 +13,7 @@ import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
+import { sortCicoTokens } from 'src/tokens/utils'
 import { resolveCurrency } from 'src/utils/currencies'
 import { CICOFlow, FiatExchangeFlow } from './utils'
 
@@ -25,12 +26,14 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens(true)
   const spendTokens = useSpendTokens()
-  const tokenList =
+  const unsortedTokenList =
     flow === FiatExchangeFlow.CashIn
       ? cashInTokens
       : flow === FiatExchangeFlow.CashOut
       ? cashOutTokens
       : spendTokens
+
+  const tokenList = useMemo(() => unsortedTokenList.sort(sortCicoTokens), [unsortedTokenList])
 
   // Fetch FiatConnect providers silently in the background early in the CICO funnel
   useEffect(() => {

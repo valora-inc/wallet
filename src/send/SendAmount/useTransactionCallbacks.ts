@@ -140,8 +140,8 @@ function useTransactionCallbacks({
     if (addressValidationType !== AddressValidationType.NONE && !recipient.address) {
       navigate(Screens.ValidateRecipientIntro, {
         transactionData,
-        addressValidationType,
         origin,
+        recipient,
       })
     } else {
       ValoraAnalytics.track(SendEvents.send_amount_continue, continueAnalyticsParams)

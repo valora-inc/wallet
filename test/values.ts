@@ -568,8 +568,8 @@ export const mockTokenBalancesWithHistoricalPrices = {
       },
     },
   },
-  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-    ...mockTokenBalances['0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'],
+  [mockCeurTokenId]: {
+    ...mockTokenBalances[mockCeurTokenId],
     historicalPricesUsd: {
       lastDay: {
         price: '1.14',
@@ -577,8 +577,8 @@ export const mockTokenBalancesWithHistoricalPrices = {
       },
     },
   },
-  '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
-    ...mockTokenBalances['0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'],
+  [mockCusdTokenId]: {
+    ...mockTokenBalances[mockCusdTokenId],
     historicalPricesUsd: {
       lastDay: {
         price: '0.99',
@@ -1294,6 +1294,7 @@ export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData 
   lowestFeeCryptoAmount: 1.0,
   lowestFeeProvider: 'mock-provider-1',
   lowestFeePaymentMethod: PaymentMethod.Bank,
+  networkId: NetworkId['celo-mainnet'],
 }
 
 export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {

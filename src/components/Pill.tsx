@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 12,
     borderRadius: 15,
-    backgroundColor: colors.greenBackground,
+    backgroundColor: colors.successLight,
   },
   text: {
     ...fontStyles.small600,

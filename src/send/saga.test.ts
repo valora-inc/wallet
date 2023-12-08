@@ -3,22 +3,12 @@ import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
-import { showError, showMessage } from 'src/alert/actions'
-import { SendOrigin } from 'src/analytics/types'
+import { showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { validateRecipientAddressSuccess } from 'src/identity/actions'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { E164NumberToAddressType } from 'src/identity/reducer'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { urlFromUriData } from 'src/qrcode/schema'
-import { BarcodeTypes } from 'src/qrcode/utils'
-import { RecipientType } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
-import { Actions, HandleBarcodeDetectedAction, QrCode, SendPaymentAction } from 'src/send/actions'
-import { sendPaymentSaga, watchQrCodeDetections } from 'src/send/saga'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { Actions, SendPaymentAction } from 'src/send/actions'
+import { sendPaymentSaga } from 'src/send/saga'
+import { getFeatureGate } from 'src/statsig'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransactionAsync } from 'src/transactions/contract-utils'
@@ -35,22 +25,11 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
-  mockAccount3,
-  mockAccount2Invite,
-  mockAccountInvite,
   mockContract,
   mockCusdAddress,
   mockCusdTokenId,
-  mockE164Number,
-  mockE164Number3,
-  mockE164NumberInvite,
   mockFeeInfo,
-  mockName,
   mockQRCodeRecipient,
-  mockQrCodeData,
-  mockQrCodeData2,
-  mockRecipientInfo,
-  mockTransactionData,
 } from 'test/values'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
@@ -87,197 +66,6 @@ jest.mock('src/web3/networkConfig', () => {
 
 const mockContext = { id: 'mock' }
 mockNewTransactionContext.mockReturnValue(mockContext)
-
-const mockE164NumberToAddress: E164NumberToAddressType = {
-  [mockE164NumberInvite]: [mockAccountInvite, mockAccount2Invite],
-}
-
-describe(watchQrCodeDetections, () => {
-  beforeAll(() => {
-    jest.useRealTimers()
-  })
-
-  beforeEach(() => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      showSend: [NetworkId['celo-alfajores']],
-    })
-  })
-
-  afterEach(() => {
-    jest.clearAllMocks()
-  })
-
-  it('navigates to the send amount screen with a valid qr code', async () => {
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
-
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
-      .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: true,
-      recipient: {
-        address: mockAccount.toLowerCase(),
-        name: mockName,
-        e164PhoneNumber: mockE164Number,
-        contactId: 'contactId',
-        displayNumber: '14155550000',
-        thumbnailPath: undefined,
-        recipientType: RecipientType.Address,
-      },
-      forceTokenId: false,
-    })
-  })
-
-  it('navigates to the send amount screen with a qr code with an empty display name', async () => {
-    const data: QrCode = {
-      type: BarcodeTypes.QR_CODE,
-      data: urlFromUriData({
-        address: mockAccount3,
-        e164PhoneNumber: mockE164Number3,
-      }),
-    }
-
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), {}],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
-      .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: true,
-      recipient: {
-        address: mockAccount3.toLowerCase(),
-        e164PhoneNumber: mockE164Number3,
-        contactId: undefined,
-        thumbnailPath: undefined,
-        recipientType: RecipientType.Address,
-      },
-      forceTokenId: false,
-    })
-  })
-
-  it('navigates to the send amount screen with a qr code with an empty phone number', async () => {
-    const data: QrCode = {
-      type: BarcodeTypes.QR_CODE,
-      data: urlFromUriData({
-        address: mockAccount3,
-        displayName: mockQrCodeData.displayName,
-      }),
-    }
-
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), {}],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
-      .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendAmount, {
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: true,
-      recipient: {
-        address: mockAccount3.toLowerCase(),
-        name: mockName,
-        displayNumber: undefined,
-        e164PhoneNumber: undefined,
-        contactId: undefined,
-        thumbnailPath: undefined,
-        recipientType: RecipientType.Address,
-      },
-      forceTokenId: false,
-    })
-  })
-
-  it('displays an error when scanning an invalid qr code', async () => {
-    const INVALID_QR = 'not-json'
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: INVALID_QR }
-
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), {}],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
-      .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
-      .silentRun()
-    expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('displays an error when scanning a qr code with an invalid address', async () => {
-    const INVALID_QR_ADDRESS = {
-      address: 'not-an-address',
-      e164PhoneNumber: '+>19999907599',
-      displayName: 'Joe',
-    }
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(INVALID_QR_ADDRESS) }
-
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), {}],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch({ type: Actions.BARCODE_DETECTED, data })
-      .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
-      .silentRun()
-    expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it('navigates to the send confirmation screen when secure send scan is successful for a send', async () => {
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData2) }
-    const qrAction: HandleBarcodeDetectedAction = {
-      type: Actions.BARCODE_DETECTED,
-      data,
-      scanIsForSecureSend: true,
-      transactionData: mockTransactionData,
-    }
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch(qrAction)
-      .put(validateRecipientAddressSuccess(mockE164NumberInvite, mockAccount2Invite.toLowerCase()))
-      .silentRun()
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
-      origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionData,
-      isFromScan: true,
-    })
-  })
-
-  it("displays an error when QR code scanned for secure send doesn't map to the recipient", async () => {
-    const data: QrCode = { type: BarcodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
-    const qrAction: HandleBarcodeDetectedAction = {
-      type: Actions.BARCODE_DETECTED,
-      data,
-      scanIsForSecureSend: true,
-      transactionData: mockTransactionData,
-    }
-    await expectSaga(watchQrCodeDetections)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [select(e164NumberToAddressSelector), mockE164NumberToAddress],
-        [select(recipientInfoSelector), mockRecipientInfo],
-      ])
-      .dispatch(qrAction)
-      .put(showMessage(ErrorMessages.QR_FAILED_INVALID_RECIPIENT))
-      .silentRun()
-    expect(navigate).not.toHaveBeenCalled()
-  })
-})
 
 describe(sendPaymentSaga, () => {
   const amount = new BigNumber(10)
