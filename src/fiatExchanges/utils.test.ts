@@ -152,6 +152,11 @@ describe('fiatExchanges utils', () => {
   describe('fetchExchanges', () => {
     it('fetchExchanges works as expected', async () => {
       const exchanges = await fetchExchanges('US', 'mock-token-id')
+      expect(fetchWithTimeout).toHaveBeenCalledWith(
+        'https://api.alfajores.valora.xyz/getExchanges?country=US&tokenId=mock-token-id',
+        undefined,
+        30000
+      )
       expect(exchanges).toStrictEqual(mockGetExchangesResponse)
     })
   })
