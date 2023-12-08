@@ -75,9 +75,9 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const handlePaste = (address: string) => {
-    address = ensure0xPrefixOrEmpty(address)
-    setTokenAddress(address)
-    validateAddress(address)
+    const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
+    setTokenAddress(addressWith0xPrefix)
+    validateAddress(addressWith0xPrefix)
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
   }
 
