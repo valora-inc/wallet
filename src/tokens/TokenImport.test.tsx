@@ -3,7 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockCusdAddress, mockPoofAddress } from 'test/values'
+import { mockCusdAddress } from 'test/values'
 import TokenImportScreen from './TokenImport'
 
 const mockScreenProps = getMockStackScreenProps(Screens.TokenImport)
@@ -24,26 +24,6 @@ describe('TokenImport', () => {
     expect(getByText('tokenImport.importButton')).toBeTruthy()
   })
 
-  it('enables the import button when form is filled', () => {
-    const store = createMockStore({})
-    const { getByText, getByPlaceholderText, getByTestId } = render(
-      <Provider store={store}>
-        <TokenImportScreen {...mockScreenProps} />
-      </Provider>
-    )
-
-    const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
-    fireEvent.changeText(tokenAddressInput, mockPoofAddress)
-    expect(getByTestId('tokenSymbol')).toBeDisabled()
-    fireEvent(tokenAddressInput, 'blur')
-
-    expect(getByTestId('tokenSymbol')).toBeEnabled()
-    expect(getByText('tokenImport.importButton')).toBeDisabled()
-    fireEvent.changeText(getByTestId('tokenSymbol'), 'ABC')
-
-    expect(getByText('tokenImport.importButton')).toBeEnabled()
-  })
-
   it('updates the token address input when changed', () => {
     const store = createMockStore({})
     const { getByPlaceholderText } = render(
@@ -57,22 +37,6 @@ describe('TokenImport', () => {
     fireEvent.changeText(tokenAddressInput, 'ABC')
     fireEvent(tokenAddressInput, 'blur')
     expect(tokenAddressInput.props.value).toBe('0xABC')
-  })
-
-  it('makes token symbol editable when valid token address used', () => {
-    const store = createMockStore({})
-    const { getByPlaceholderText, getByTestId } = render(
-      <Provider store={store}>
-        <TokenImportScreen {...mockScreenProps} />
-      </Provider>
-    )
-
-    expect(getByTestId('tokenSymbol')).toBeDisabled()
-    const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
-    fireEvent.changeText(tokenAddressInput, mockPoofAddress)
-    fireEvent(tokenAddressInput, 'blur')
-
-    expect(getByTestId('tokenSymbol')).toBeEnabled()
   })
 
   describe('renderErrorMessage when token address', () => {

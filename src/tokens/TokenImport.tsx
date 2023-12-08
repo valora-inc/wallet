@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showMessage } from 'src/alert/actions'
@@ -10,6 +10,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
@@ -27,59 +28,57 @@ import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
-import { isAddress, isHex } from 'viem'
+import { isAddress } from 'viem'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
-
-enum AddressState {
-  Incomplete,
-  Invalid,
-  AlreadySupported,
-  AlreadyImported,
-  Valid,
-}
 
 export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const [addressState, setAddressState] = useState(AddressState.Incomplete)
+  const [isCompleteAddress, setIsCompleteAddress] = useState(false)
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
+  const [error, setError] = useState<string | null>(null)
   const [networkId] = useState(networkConfig.defaultNetworkId)
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
 
-  const ensureHexOrEmpty = (address: string) =>
-    isHex(address) || !address ? address : `0x${address}`
-
-  const handleAddressFocus = () => {
-    setAddressState(AddressState.Incomplete)
-  }
-
   const validateAddress = (address: string) => {
+    if (!address) return
+
     if (isAddress(address)) {
-      const tokenId = getTokenId(networkId, address.toLowerCase())
       // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
+      const tokenId = getTokenId(networkId, address.toLowerCase())
       if (supportedTokens[tokenId]) {
-        setAddressState(AddressState.AlreadySupported)
+        setError(t('tokenImport.error.alreadySupported'))
       } else {
-        setAddressState(AddressState.Valid)
+        setError(null)
       }
     } else {
-      setAddressState(AddressState.Invalid)
+      setError(t('tokenImport.error.invalidToken'))
     }
   }
 
-  const handleEnteredAddress = (address: string) => {
-    address = ensureHexOrEmpty(address)
-    setTokenAddress(address)
-    validateAddress(address)
+  const handleAddressFocus = () => {
+    setIsCompleteAddress(false)
+    setError(null)
   }
 
-  const handleAddressBlur = () => handleEnteredAddress(tokenAddress)
+  const ensure0xPrefixOrEmpty = (address: string) =>
+    !address || address.startsWith('0x') ? address : `0x${address}`
+
+  const handleAddressBlur = () => {
+    const address = ensure0xPrefixOrEmpty(tokenAddress)
+    setTokenAddress(address)
+    validateAddress(address)
+    setIsCompleteAddress(true)
+  }
 
   const handlePaste = (address: string) => {
-    handleEnteredAddress(address)
+    address = ensure0xPrefixOrEmpty(address)
+    setTokenAddress(address)
+    validateAddress(address)
+    setIsCompleteAddress(true)
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
   }
 
@@ -96,18 +95,6 @@ export default function TokenImportScreen(_: Props) {
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
   }
 
-  const renderErrorMessage = (): ReactElement<Text> => {
-    // TODO RET-892: add more error messages
-    const errors: { [key in AddressState]?: string | null } = {
-      [AddressState.AlreadySupported]: t('tokenImport.error.alreadySupported'),
-      [AddressState.AlreadyImported]: t('tokenImport.error.alreadyImported'),
-      [AddressState.Invalid]: t('tokenImport.error.invalidToken'),
-    }
-
-    const error = errors[addressState]
-    return error ? <Text style={styles.errorLabel}>{error}</Text> : <></>
-  }
-
   return (
     <SafeAreaView style={styles.container}>
       <CustomHeader
@@ -115,7 +102,7 @@ export default function TokenImportScreen(_: Props) {
         left={<BackButton />}
         title={<Text style={styles.headerTitle}>{t('tokenImport.title')}</Text>}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContainer}>
         <InLineNotification
           severity={Severity.Informational}
           description={t('tokenImport.notification')}
@@ -140,12 +127,10 @@ export default function TokenImportScreen(_: Props) {
             label={t('tokenImport.input.tokenSymbol')}
             value={tokenSymbol}
             onChangeText={setTokenSymbol}
-            editable={addressState === AddressState.Valid}
+            editable={false}
             // TODO RET-892: once loaded, hide the spinner
-            rightElement={
-              addressState === AddressState.Valid && <GreenLoadingSpinner height={32} />
-            }
-            errorElement={renderErrorMessage()}
+            rightElement={isCompleteAddress && !error && <GreenLoadingSpinner height={32} />}
+            errorElement={error ? <Text style={styles.errorLabel}>{error}</Text> : <></>}
             testID={'tokenSymbol'}
           />
 
@@ -157,7 +142,7 @@ export default function TokenImportScreen(_: Props) {
             editable={false}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <Button
         size={BtnSizes.FULL}
         text={t('tokenImport.importButton')}
@@ -183,6 +168,8 @@ const TextInputGroup = ({
       placeholderTextColor={Colors.gray4}
       numberOfLines={1}
       showClearButton={true}
+      autoCorrect={false}
+      spellCheck={false}
       {...textInputProps}
     />
     {errorElement}
