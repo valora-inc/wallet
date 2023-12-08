@@ -53,7 +53,6 @@ async function formatTestTransaction(address, web3Library) {
         maxFeePerGas: '0x1DCD65000',
         maxPriorityFeePerGas: '0x77359400',
         value: '0x01',
-        feeCurrency: undefined,
       }
     } else {
       return {
@@ -262,7 +261,12 @@ export default WalletConnect = () => {
           chainId: 'eip155:44787',
           request: {
             method: 'eth_signTransaction',
-            params: [tx],
+            params: [
+              {
+                ...tx,
+                feeCurrency: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9', // CELO native currency
+              },
+            ],
           },
         })
 

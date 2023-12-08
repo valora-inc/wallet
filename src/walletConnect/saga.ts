@@ -352,8 +352,11 @@ function normalizeTransaction(rawTx: any, network: Network): TransactionRequest 
     delete tx.gasLimit
   }
 
-  if (network === Network.Celo && !('feeCurrency' in tx)) {
-    // we should re-calculate the feeCurrency and gas unless both are provided
+  // we should re-calculate the feeCurrency and gas unless both are provided
+  if (tx.type === 'cip42' && !('feeCurrency' in tx)) {
+    // TODO check if we need this block at all, it seems like feeCurrency is
+    // stripped out of the params if it is undefined when it is passed from WC
+    // to the wallet
     delete tx.gas
   }
 
