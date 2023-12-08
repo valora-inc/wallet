@@ -12,6 +12,7 @@ import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import {
   Actions,
   acceptSession as acceptSessionAction,
@@ -26,6 +27,7 @@ import {
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
+  normalizeTransaction,
   walletConnectSaga,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -483,25 +485,71 @@ describe('acceptSession', () => {
 const v2ConnectionString =
   'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@2?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'
 
-describe('WalletConnect saga', () => {
-  describe('initialiseWalletConnect', () => {
-    const origin = WalletConnectPairingOrigin.Deeplink
+describe('initialiseWalletConnect', () => {
+  const origin = WalletConnectPairingOrigin.Deeplink
 
-    it('initializes v2 if enabled', async () => {
-      await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-        .provide([
-          [select(walletConnectEnabledSelector), { v1: true, v2: true }],
-          [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
-        ])
-        .call(initialiseWalletConnectV2, v2ConnectionString, origin)
-        .run()
-    })
+  it('initializes v2 if enabled', async () => {
+    await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
+      .provide([
+        [select(walletConnectEnabledSelector), { v1: true, v2: true }],
+        [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
+      ])
+      .call(initialiseWalletConnectV2, v2ConnectionString, origin)
+      .run()
+  })
 
-    it('doesnt initialize v2 if disabled', async () => {
-      await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-        .provide([[select(walletConnectEnabledSelector), { v1: true, v2: false }]])
-        .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
-        .run()
+  it('doesnt initialize v2 if disabled', async () => {
+    await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
+      .provide([[select(walletConnectEnabledSelector), { v1: true, v2: false }]])
+      .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
+      .run()
+  })
+})
+
+describe('normalizeTransaction', () => {
+  it('ensures `gasLimit` value is moved to the `gas` parameter', async () => {
+    const normalizedTx = normalizeTransaction(
+      {
+        from: '0xTEST',
+        data: '0xABC',
+        gasLimit: '0x5208',
+        feeCurrency: '0xcUSD',
+      },
+      NetworkId['celo-alfajores']
+    )
+
+    expect(normalizedTx).toStrictEqual({
+      from: '0xTEST',
+      data: '0xABC',
+      gas: BigInt('0x5208'),
+      feeCurrency: '0xcUSD',
     })
+  })
+
+  it('ensures `gasPrice` is stripped away', async () => {
+    const normalizedTx = normalizeTransaction(
+      { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
+      NetworkId['celo-alfajores']
+    )
+
+    expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
+  })
+
+  it('ensures `gas` is stripped away if fee currency is not provided for a Celo transaction request', async () => {
+    const normalizedTx = normalizeTransaction(
+      { from: '0xTEST', data: '0xABC', gas: '0x5208' },
+      NetworkId['celo-alfajores']
+    )
+
+    expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
+  })
+
+  it('does not strip away `gas` for non-Celo transaction request', async () => {
+    const normalizedTx = normalizeTransaction(
+      { from: '0xTEST', data: '0xABC', gas: '0x5208' },
+      NetworkId['ethereum-sepolia']
+    )
+
+    expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC', gas: BigInt('0x5208') })
   })
 })
