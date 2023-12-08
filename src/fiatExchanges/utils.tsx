@@ -389,5 +389,6 @@ export function getProviderSelectionAnalyticsData({
       (coinbasePayAvailable ? 1 : 0) +
       (legacyMobileMoneyProviders?.length ?? 0) +
       normalizedQuotes.length,
+    networkId: tokenInfo?.networkId,
   }
 }
