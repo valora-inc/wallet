@@ -47,6 +47,7 @@ interface NetworkConfig {
   getPublicDEKUrl: string
   lookupPhoneNumberUrl: string
   lookupAddressUrl: string
+  checkAddressVerifiedUrl: string
   revokePhoneNumberUrl: string
   migratePhoneVerificationUrl: string
   fetchAvailableSuperchargeRewards: string
@@ -170,6 +171,9 @@ const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumbe
 const MIGRATE_PHONE_VERIFICATION_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/migrateASv1Verification`
 const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateASv1Verification`
 
+const CHECK_ADDRESS_VERIFIED_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/checkAddressVerified`
+const CHECK_ADDRESS_VERIFIED_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/checkAddressVerified`
+
 const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getSuperchargeRewards`
 const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getSuperchargeRewards`
 
@@ -242,6 +246,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_ALFAJORES,
     lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
+    checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_ALFAJORES,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
@@ -311,6 +316,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_MAINNET,
     lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
+    checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_MAINNET,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
