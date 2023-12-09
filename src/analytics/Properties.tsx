@@ -1446,12 +1446,27 @@ interface AssetsEventsProperties {
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
-    tokenAddress: string
-    tokenSymbol: string
     networkId: string
     tokenId: string
+    tokenAddress: string
+    tokenSymbol: string
   }
   [AssetsEvents.import_token_paste]: undefined
+  [AssetsEvents.import_token_not_erc20]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+  }
+  [AssetsEvents.import_token_timeout]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+  }
+  [AssetsEvents.import_token_already_supported]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+  }
 }
 
 interface NftsEventsProperties {

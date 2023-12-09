@@ -624,6 +624,9 @@ export enum AssetsEvents {
   import_token_screen_open = 'import_token_screen_open',
   import_token_submit = 'import_token_submit',
   import_token_paste = 'import_token_paste',
+  import_token_already_supported = 'import_token_already_supported',
+  import_token_timeout = 'import_token_timeout',
+  import_token_not_erc20 = 'import_token_not_erc20',
 }
 
 export enum NftEvents {

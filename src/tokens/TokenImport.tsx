@@ -42,6 +42,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
 const FETCH_TOKEN_DETAILS_TIMEOUT_MS = 5_000
 
 interface TokenDetails {
+  address: string
   symbol: string
   decimals: number
   name: string
@@ -72,6 +73,11 @@ export default function TokenImportScreen(_: Props) {
     const tokenId = getTokenId(networkId, address.toLowerCase())
     if (supportedTokens[tokenId]) {
       setError(t('tokenImport.error.alreadySupported'))
+      ValoraAnalytics.track(AssetsEvents.import_token_already_supported, {
+        networkId,
+        tokenId,
+        tokenAddress,
+      })
       return false
     }
 
@@ -96,7 +102,7 @@ export default function TokenImportScreen(_: Props) {
       contract.read.balanceOf([walletAddress]),
     ])
 
-    return { symbol, decimals, name, balance }
+    return { address: tokenAddress, symbol, decimals, name, balance }
   }
 
   const validateContract = useAsyncCallback(
@@ -117,18 +123,29 @@ export default function TokenImportScreen(_: Props) {
       onSuccess: (details) => {
         Logger.info(
           TAG,
-          `Balance for ${details.name}: ${formatUnits(details.balance, details.decimals)} ${
+          `Wallet ${walletAddress} holds ${formatUnits(details.balance, details.decimals)} ${
             details.symbol
-          }`
+          } (${details.name} = ${details.address})})`
         )
         setTokenSymbol(details.symbol)
       },
       onError: (error) => {
         Logger.error(TAG, 'Could not fetch token details', error)
+        const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
         if (error.message === 'Timeout') {
           setError(t('tokenImport.error.timeout'))
+          ValoraAnalytics.track(AssetsEvents.import_token_timeout, {
+            networkId,
+            tokenId,
+            tokenAddress,
+          })
         } else {
           setError(t('tokenImport.error.notErc20Token'))
+          ValoraAnalytics.track(AssetsEvents.import_token_not_erc20, {
+            networkId,
+            tokenId,
+            tokenAddress,
+          })
         }
       },
     }
