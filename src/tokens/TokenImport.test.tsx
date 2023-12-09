@@ -114,7 +114,7 @@ describe('TokenImport', () => {
       expect(getByText('tokenImport.importButton')).toBeDisabled()
     })
 
-    it('not ERC-20', async () => {
+    it('should display the correct error when the token does not implement ERC-20', async () => {
       mockSymbol.mockRejectedValue(new Error('e.g. ContractFunctionZeroDataError'))
       const store = createMockStore({})
       const { getByText, getByPlaceholderText, getByTestId } = render(
@@ -138,7 +138,7 @@ describe('TokenImport', () => {
       })
     })
 
-    it('failed to resolve due to network timeout', async () => {
+    it('should display the correct error message due to network timeout', async () => {
       jest.useFakeTimers()
 
       const store = createMockStore({})
