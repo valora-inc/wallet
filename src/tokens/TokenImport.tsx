@@ -138,6 +138,9 @@ export default function TokenImportScreen(_: Props) {
     !address || address.startsWith('0x') ? address : `0x${address}`
 
   const handleAddressBlur = async () => {
+    if (validateContract.status !== 'not-requested') {
+      return
+    }
     const address = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(address)
     if (validateAddress(address)) {
