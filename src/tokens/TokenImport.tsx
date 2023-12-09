@@ -15,6 +15,7 @@ import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
+import Checkmark from 'src/icons/Checkmark'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
@@ -226,7 +227,8 @@ export default function TokenImportScreen(_: Props) {
             onChangeText={setTokenSymbol}
             editable={false}
             rightElement={
-              validateContract.status === 'loading' && <GreenLoadingSpinner height={32} />
+              (validateContract.status === 'loading' && <GreenLoadingSpinner height={32} />) ||
+              (validateContract.status === 'success' && <Checkmark />)
             }
             errorElement={error ? <Text style={styles.errorLabel}>{error}</Text> : <></>}
             testID={'tokenSymbol'}
