@@ -1665,6 +1665,11 @@
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "您已转至 {{networkName}} 网络",
+      "body_swapFrom": "在 {{networkName}} 网络上选择要交换的令牌，然后继续。",
+      "body_swapTo": "在 {{networkName}} 网络上选择一个要交换的令牌，然后继续。"
+    },
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
