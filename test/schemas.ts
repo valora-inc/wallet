@@ -2873,6 +2873,25 @@ export const v174Schema = {
   },
 }
 
+export const v175Schema = {
+  ...v174Schema,
+  _persist: {
+    ...v174Schema._persist,
+    version: 175,
+  },
+  tokens: {
+    ...v174Schema.tokens,
+    tokenBalances: _.mapValues(v174Schema.tokens.tokenBalances, (item: any) => {
+      const newItem = _.omit(item, 'isCoreToken')
+      if (item.isCoreToken !== undefined) {
+        newItem.isFeeCurrency = item.isCoreToken
+        newItem.canTransferWithComment = item.isCoreToken
+      }
+      return newItem
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v174Schema as Partial<RootState>
+  return v175Schema as Partial<RootState>
 }
