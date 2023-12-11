@@ -592,6 +592,10 @@ describe(swapSubmitPreparedSaga, () => {
       [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockSwapTxReceipt],
       [matchers.call.fn(publicClient[network].getTransactionReceipt), mockApproveTxReceipt],
+      [
+        matchers.call.fn(decodeFunctionData),
+        { functionName: 'approve', args: ['0xspenderAddress', BigInt(1e18)] },
+      ],
     ]
 
     return defaultProviders
@@ -690,13 +694,7 @@ describe(swapSubmitPreparedSaga, () => {
 
       await expectSaga(swapSubmitPreparedSaga, swapPrepared)
         .withState(store.getState())
-        .provide([
-          ...createDefaultProviders(network),
-          [
-            matchers.call.fn(decodeFunctionData),
-            { functionName: 'approve', args: ['', BigInt(1e18)] },
-          ],
-        ])
+        .provide(createDefaultProviders(network))
         .put(swapSuccess('test-swap-id'))
         .put(
           addStandbyTransaction({
@@ -882,13 +880,7 @@ describe(swapSubmitPreparedSaga, () => {
   it('should display the correct standby values for a swap with different decimals', async () => {
     await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedWithWBTCBuyToken)
       .withState(store.getState())
-      .provide([
-        ...createDefaultProviders(Network.Celo),
-        [
-          matchers.call.fn(decodeFunctionData),
-          { functionName: 'approve', args: ['', BigInt(1e18)] },
-        ],
-      ])
+      .provide(createDefaultProviders(Network.Celo))
       .put(
         addStandbyTransaction({
           context: {
