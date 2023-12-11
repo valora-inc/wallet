@@ -202,13 +202,12 @@ function SendSelectRecipient({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
-  // TODO(satish/joe): update condition to not show this if the address
-  // recipient is not a known valora address
   const showUnknownAddressInfo =
     showSendOrInviteButton &&
     showSearchResults &&
-    mergedRecipients.length === 1 &&
-    mergedRecipients[0].recipientType === RecipientType.Address
+    recipient &&
+    recipient.recipientType !== RecipientType.PhoneNumber &&
+    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
 
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
     setSelectedRecipient(selectedRecipient)

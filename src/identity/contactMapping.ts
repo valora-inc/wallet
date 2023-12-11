@@ -14,11 +14,13 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   Actions,
   FetchAddressesAndValidateAction,
+  FetchAddressVerificationAction,
   endFetchingAddresses,
   endImportContacts,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
+  addressVerificationStatusReceived,
 } from 'src/identity/actions'
 import {
   AddressToE164NumberType,
@@ -30,6 +32,7 @@ import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
+  addressToVerificationStatusSelector,
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -46,6 +49,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, take } from 'typed-redux-saga'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -207,6 +211,32 @@ export function* fetchAddressesAndValidateSaga({
   }
 }
 
+export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificationAction) {
+  try {
+    const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
+    if (!(address in addressToVerificationStatus && addressToVerificationStatus[address])) {
+      ValoraAnalytics.track(IdentityEvents.address_lookup_start)
+      const addressVerified = yield* call(fetchAddressVerification, address)
+      yield* put(addressVerificationStatusReceived(address, addressVerified))
+      ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
+    }
+  } catch (err) {
+    const error = ensureError(err)
+    Logger.debug(
+      TAG + '@fetchAddressVerificationSaga',
+      `Error fetching address verification`,
+      error
+    )
+    ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
+      error: error.message,
+    })
+    // Setting this address to "false" does not mean that the address
+    // if definitely unverified; we set it to false to indicate that
+    // the request is finished, and possibly unverified.
+    yield* put(addressVerificationStatusReceived(address, false))
+  }
+}
+
 function* fetchWalletAddresses(e164Number: string) {
   try {
     const address = yield* select(walletAddressSelector)
@@ -240,6 +270,43 @@ function* fetchWalletAddresses(e164Number: string) {
   } catch (error) {
     Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
     throw new Error('Unable to fetch wallet address for this phone number')
+  }
+}
+
+function* fetchAddressVerification(address: string) {
+  try {
+    const walletAddress = yield* select(walletAddressSelector)
+    const signedMessage = yield* call(retrieveSignedMessage)
+
+    const addressVerificationQueryParams = new URLSearchParams({
+      address,
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
+
+    const response: Response = yield* call(
+      fetchWithTimeout,
+      `${networkConfig.checkAddressVerifiedUrl}?${addressVerificationQueryParams}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${walletAddress}:${signedMessage}`,
+        },
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to look up address verification: ${response.status} ${response.statusText}`
+      )
+    }
+
+    const { data }: { data: { addressVerified: boolean } } = yield* call([response, 'json'])
+    return data.addressVerified
+  } catch (error) {
+    Logger.warn(`${TAG}/fetchAddressVerification`, 'Unable to look up address', error)
+    throw new Error('Unable to fetch verification status for this address')
   }
 }
 

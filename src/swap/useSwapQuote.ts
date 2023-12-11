@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
-import { useSelector } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
-import { useFeeCurrencies } from 'src/fees/hooks'
+import useSelector from 'src/redux/useSelector'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -115,8 +115,8 @@ export async function prepareSwapTransactions(
 function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
   const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
-  const feeCurrencies = useFeeCurrencies(networkId)
 
   const refreshQuote = useAsyncCallback(
     async (

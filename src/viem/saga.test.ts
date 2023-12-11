@@ -129,7 +129,7 @@ describe('sendPayment', () => {
     imageUrl: '',
     balance: '10',
     priceUsd: '1',
-    isCoreToken: true,
+    isNative: true,
   }
   const mockEthPreparedTransaction: SerializableTransactionRequest = {
     type: 'eip1559',
