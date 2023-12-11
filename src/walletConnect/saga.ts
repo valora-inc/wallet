@@ -352,16 +352,18 @@ export function normalizeTransaction(rawTx: any, network: Network): TransactionR
     delete tx.gasLimit
   }
 
-  // we should re-calculate the feeCurrency and gas unless both are provided
-  if (network === Network.Celo && !('feeCurrency' in tx)) {
-    // TODO check if we need this block at all, it seems like feeCurrency is
-    // stripped out of the params if it is undefined when it is passed from WC
-    // to the wallet
+  // we should re-calculate the feeCurrency and gas since it is not possible to
+  // tell from the request payload if the feeCurrency is set to undefined
+  // (native currency) explicitly or due to lack of feeCurrency support
+  if (network === Network.Celo) {
     delete tx.gas
-  }
-
-  if (isHex(tx.gas)) {
-    tx.gas = hexToBigInt(tx.gas)
+    if ('feeCurrency' in tx) {
+      delete tx.feeCurrency
+    }
+  } else {
+    if (isHex(tx.gas)) {
+      tx.gas = hexToBigInt(tx.gas)
+    }
   }
 
   // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
@@ -418,17 +420,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
       request.params.request.params[0],
       network
     )
-    const allFeeCurrencies = yield* select((state) => feeCurrenciesSelector(state, networkId))
-    const feeCurrencies =
-      'feeCurrency' in normalizedTx
-        ? allFeeCurrencies.filter((feeCurrency) => {
-            if (normalizedTx.feeCurrency === undefined) {
-              return feeCurrency.isNative
-            }
-            return feeCurrency.address === normalizedTx.feeCurrency
-          })
-        : allFeeCurrencies
-
+    const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, networkId))
     const preparedTransactionsResult = yield* call(prepareTransactions, {
       feeCurrencies,
       decreasedAmountGasFeeMultiplier: 1,

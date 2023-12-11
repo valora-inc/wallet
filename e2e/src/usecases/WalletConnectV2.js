@@ -261,12 +261,7 @@ export default WalletConnect = () => {
           chainId: 'eip155:44787',
           request: {
             method: 'eth_signTransaction',
-            params: [
-              {
-                ...tx,
-                feeCurrency: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9', // CELO native currency
-              },
-            ],
+            params: [tx],
           },
         })
 
@@ -284,7 +279,6 @@ export default WalletConnect = () => {
           const recoveredTx = parseTransactionCelo(signedTx)
           jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
           jestExpect(recoveredTx.to).toEqual(tx.to)
-          jestExpect(recoveredTx.gas).toEqual(BigInt(tx.gas))
           jestExpect(recoveredTx.value).toEqual(BigInt(tx.value))
         } else {
           const [recoveredTx, recoveredSigner] = recoverTransaction(signedTx)
