@@ -194,6 +194,7 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const handlePaste = async (address: string) => {
+    ValoraAnalytics.track(AssetsEvents.import_token_paste)
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
     setTokenAddress(addressWith0xPrefix)
     if (validateAddress(addressWith0xPrefix)) {
@@ -201,7 +202,6 @@ export default function TokenImportScreen(_: Props) {
       await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
     }
     Keyboard.dismiss()
-    ValoraAnalytics.track(AssetsEvents.import_token_paste)
   }
 
   const handleImportToken = () => {
