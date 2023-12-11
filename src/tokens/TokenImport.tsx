@@ -96,10 +96,16 @@ export default function TokenImportScreen(_: Props) {
     return true
   }
 
-  const fetchTokenDetails = async (
-    tokenAddress: Address,
-    walletAddress: Address
-  ): Promise<TokenDetails> => {
+  const fetchTokenDetails = async (): Promise<TokenDetails> => {
+    if (!isAddress(tokenAddress)) {
+      // shouldn't happen as this function is called only after validating the address
+      throw new Error('Invalid token address')
+    }
+    if (!walletAddress || !isAddress(walletAddress)) {
+      // should never happen
+      throw new Error('No wallet address found when fetching token details')
+    }
+
     const client = publicClient[networkIdToNetwork[networkId]]
     const contract = getContract({
       abi: erc20.abi,
@@ -119,89 +125,78 @@ export default function TokenImportScreen(_: Props) {
     return { address: tokenAddress, symbol, decimals, name, balance }
   }
 
-  const validateContract = useAsyncCallback(
-    async (address: Address): Promise<TokenDetails> => {
-      if (!walletAddress || !isAddress(walletAddress)) {
-        // should never happen
-        throw new Error('No wallet address found when fetching token details')
-      }
-      return fetchTokenDetails(address, walletAddress)
+  const validateContract = useAsyncCallback(fetchTokenDetails, {
+    onSuccess: (details) => {
+      Logger.info(
+        TAG,
+        `Wallet ${walletAddress} holds ${formatUnits(details.balance, details.decimals)} ${
+          details.symbol
+        } (${details.name} = ${details.address})})`
+      )
+      setTokenSymbol(details.symbol)
     },
-    {
-      onSuccess: (details) => {
-        Logger.info(
-          TAG,
-          `Wallet ${walletAddress} holds ${formatUnits(details.balance, details.decimals)} ${
-            details.symbol
-          } (${details.name} = ${details.address})})`
-        )
-        setTokenSymbol(details.symbol)
-      },
-      onError: (error) => {
-        Logger.error(TAG, `Could not fetch token details`, error)
-        const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
+    onError: (error) => {
+      Logger.error(TAG, `Could not fetch token details`, error)
+      const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
 
-        // it doesn't directly show if it's a timeout error, need to check cause recursively
-        const hasTimeout = (error: unknown): boolean =>
-          error instanceof BaseError &&
-          (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
-        if (hasTimeout(error)) {
-          setError(t('tokenImport.error.invalidToken'))
-          ValoraAnalytics.track(AssetsEvents.import_token_error, {
-            networkId,
-            tokenId,
-            tokenAddress,
-            error: Errors.Timeout,
-          })
-          return
-        }
-
-        if (error instanceof NotContractError) {
-          setError(t('tokenImport.error.invalidToken'))
-          ValoraAnalytics.track(AssetsEvents.import_token_error, {
-            networkId,
-            tokenId,
-            tokenAddress,
-            error: Errors.NotContract,
-          })
-          return
-        }
-
+      // it doesn't directly show if it's a timeout error, need to check cause recursively
+      const hasTimeout = (error: unknown): boolean =>
+        error instanceof BaseError &&
+        (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
+      if (hasTimeout(error)) {
         setError(t('tokenImport.error.invalidToken'))
         ValoraAnalytics.track(AssetsEvents.import_token_error, {
           networkId,
           tokenId,
           tokenAddress,
-          error: Errors.NotERC20,
+          error: Errors.Timeout,
         })
-      },
-    }
-  )
+        return
+      }
+
+      if (error instanceof NotContractError) {
+        setError(t('tokenImport.error.invalidToken'))
+        ValoraAnalytics.track(AssetsEvents.import_token_error, {
+          networkId,
+          tokenId,
+          tokenAddress,
+          error: Errors.NotContract,
+        })
+        return
+      }
+
+      setError(t('tokenImport.error.invalidToken'))
+      ValoraAnalytics.track(AssetsEvents.import_token_error, {
+        networkId,
+        tokenId,
+        tokenAddress,
+        error: Errors.NotERC20,
+      })
+    },
+  })
 
   const ensure0xPrefixOrEmpty = (address: string) =>
     !address || address.startsWith('0x') ? address : `0x${address}`
 
   const handleAddressBlur = async () => {
-    if (validateContract.status !== 'not-requested') {
-      return
-    }
+    if (validateContract.status !== 'not-requested') return
     const address = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(address)
     if (validateAddress(address)) {
       // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
-      await validateContract.execute(address).catch(() => undefined)
+      await validateContract.execute().catch(() => undefined)
     }
   }
 
   const handlePaste = async (address: string) => {
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
+    Keyboard.dismiss()
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
     setTokenAddress(addressWith0xPrefix)
     if (validateAddress(addressWith0xPrefix)) {
       // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
-      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
+      await validateContract.execute().catch(() => undefined)
     }
-    Keyboard.dismiss()
   }
 
   const handleImportToken = () => {
