@@ -288,7 +288,8 @@
     "ts-retry-promise": "^0.6.0",
     "twilio": "^3.69.0",
     "typescript": "^5.2.2",
-    "typescript-json-schema": "^0.59.0"
+    "typescript-json-schema": "^0.59.0",
+    "web3-eth-contract": "1.10.3"
   },
   "resolutions": {
     "lodash": "~4.17.21",
