@@ -699,12 +699,12 @@ describe('SwapScreen', () => {
 
   it('should show and hide the max warning', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByText, getByTestId, queryByText, tokenBottomSheet } =
-      renderScreen({})
+    const { swapFromContainer, getByText, getByTestId, queryByTestId, tokenBottomSheet } =
+      renderScreen({ celoBalance: '0', cUSDBalance: '10' }) // so that cUSD is the only feeCurrency with a balance
 
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
-    await waitFor(() => expect(getByText('swapScreen.maxSwapAmountWarning.body')).toBeTruthy())
+    await waitFor(() => expect(getByTestId('MaxSwapAmountWarning')).toBeTruthy())
 
     fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
@@ -712,7 +712,19 @@ describe('SwapScreen', () => {
     })
 
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
-    await waitFor(() => expect(queryByText('swapScreen.maxSwapAmountWarning.body')).toBeFalsy())
+    await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
+  })
+
+  it("shouldn't show the max warning when there's balance for more than 1 feeCurrency", async () => {
+    mockFetch.mockResponse(defaultQuoteResponse)
+    const { swapFromContainer, getByTestId, queryByTestId, tokenBottomSheet } = renderScreen({
+      celoBalance: '10',
+      cUSDBalance: '20',
+    })
+
+    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
+    await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
   })
 
   it('should fetch the quote if the amount is cleared and re-entered', async () => {
@@ -1096,7 +1108,7 @@ describe('SwapScreen', () => {
       swapToContainer,
       swapFromContainer,
       tokenBottomSheet,
-    } = renderScreen({})
+    } = renderScreen({ cUSDBalance: '0' })
 
     // First get a quote for a network
     selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
