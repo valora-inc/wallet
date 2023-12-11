@@ -27,7 +27,7 @@ export default function TokenApprovalDetails({ transaction }: Props) {
 
     if (transaction.approvedAmount === null) {
       description = t('transactionFeed.infiniteApprovalDescription', { tokenSymbol })
-    } else if (transaction.approvedAmount === 0) {
+    } else if (transaction.approvedAmount === '0') {
       description = t('transactionFeed.revokeApprovalDescription', { tokenSymbol })
     } else if (tokenDecimals) {
       description = t('transactionFeed.finiteApprovalDescription', {

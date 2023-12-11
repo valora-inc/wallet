@@ -708,7 +708,7 @@ describe(swapSubmitPreparedSaga, () => {
             type: TokenTransactionTypeV2.Approval,
             transactionHash: mockApproveTxReceipt.transactionHash,
             tokenId: fromTokenId,
-            approvedAmount: 1,
+            approvedAmount: '1',
             feeCurrencyId,
           })
         )
@@ -893,7 +893,7 @@ describe(swapSubmitPreparedSaga, () => {
           type: TokenTransactionTypeV2.Approval,
           transactionHash: mockApproveTxReceipt.transactionHash,
           tokenId: mockCeurTokenId,
-          approvedAmount: 1,
+          approvedAmount: '1',
           feeCurrencyId: mockCeloTokenId,
         })
       )

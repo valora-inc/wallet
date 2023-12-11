@@ -185,7 +185,7 @@ export interface TokenApproval {
   block: string
   transactionHash: string
   tokenId: string
-  approvedAmount: number | null // null represents infinite approval
+  approvedAmount: string | null // null represents infinite approval
   fees: Fee[]
   status: TransactionStatus
 }

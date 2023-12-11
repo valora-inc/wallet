@@ -479,7 +479,7 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
         const approvedAmountInSmallestUnit = args[1] as bigint
         const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
           .shiftedBy(-fromToken.decimals)
-          .toNumber()
+          .toString()
         const approvalTxHash = txHashes[0]
 
         yield* put(
