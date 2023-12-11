@@ -241,6 +241,7 @@ export default function TokenImportScreen(_: Props) {
               setTokenSymbol('')
               validateContract.reset()
             }}
+            editable={validateContract.status !== 'loading'}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
             rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
             onBlur={handleAddressBlur}
