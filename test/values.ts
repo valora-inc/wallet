@@ -260,6 +260,11 @@ export const mockPhoneRecipient: AddressRecipient = {
   recipientType: RecipientType.Address,
 }
 
+export const mockAddressRecipient: AddressRecipient = {
+  address: mockAccount3,
+  recipientType: RecipientType.Address,
+}
+
 export const mockE164NumberToInvitableRecipient = {
   [mockE164Number]: mockInvitableRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,

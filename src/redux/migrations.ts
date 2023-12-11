@@ -1464,6 +1464,9 @@ export const migrations = {
         }
         return newItem
       }),
+    identity: {
+      ...state.identity,
+      addressToVerificationStatus: {},
     },
   }),
 }

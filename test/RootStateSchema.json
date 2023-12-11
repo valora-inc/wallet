@@ -171,6 +171,12 @@
             },
             "type": "object"
         },
+        "AddressToVerificationStatus": {
+            "additionalProperties": {
+                "type": "boolean"
+            },
+            "type": "object"
+        },
         "AddressValidationType": {
             "enum": [
                 "full",
@@ -4003,6 +4009,9 @@
                 "addressToE164Number": {
                     "$ref": "#/definitions/AddressToE164NumberType"
                 },
+                "addressToVerificationStatus": {
+                    "$ref": "#/definitions/AddressToVerificationStatus"
+                },
                 "askedContactsPermission": {
                     "type": "boolean"
                 },
@@ -4029,6 +4038,7 @@
                 "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
+                "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
                 "e164NumberToSalt",

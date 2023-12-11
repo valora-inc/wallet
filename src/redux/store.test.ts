@@ -252,6 +252,7 @@ describe('store state', () => {
           "addressToDataEncryptionKey": {},
           "addressToDisplayName": {},
           "addressToE164Number": {},
+          "addressToVerificationStatus": {},
           "askedContactsPermission": false,
           "e164NumberToAddress": {},
           "e164NumberToSalt": {},

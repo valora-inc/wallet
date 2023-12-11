@@ -2877,6 +2877,9 @@ export const v174Schema = {
       }
       return newItem
     }),
+  identity: {
+    ...v173Schema.identity,
+    addressToVerificationStatus: {},
   },
 }
 
