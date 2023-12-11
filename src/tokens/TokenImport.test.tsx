@@ -5,7 +5,15 @@ import erc20 from 'src/abis/IERC20'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
-import { GetContractReturnType, PublicClient, WalletClient, getContract } from 'viem'
+import {
+  CallExecutionError,
+  ContractFunctionExecutionError,
+  GetContractReturnType,
+  PublicClient,
+  TimeoutError,
+  WalletClient,
+  getContract,
+} from 'viem'
 import TokenImportScreen from './TokenImport'
 import mocked = jest.mocked
 
@@ -140,6 +148,23 @@ describe('TokenImport', () => {
 
     it('should display the correct error message due to network timeout', async () => {
       jest.useFakeTimers()
+      mockSymbol.mockImplementation(
+        () =>
+          new Promise((resolve, reject) => {
+            const timeoutError = new TimeoutError({ body: {}, url: '' })
+            const callExecution = new CallExecutionError(timeoutError, {})
+            const contractFunctionExecutionError = new ContractFunctionExecutionError(
+              callExecution,
+              {
+                abi: erc20.abi,
+                args: [],
+                contractAddress: '0x7d91E51C8F218f7140188A155f5C75388630B6a8',
+                functionName: 'symbol',
+              }
+            )
+            setTimeout(() => reject(contractFunctionExecutionError), 10_000)
+          })
+      )
 
       const store = createMockStore({})
       const { getByText, getByPlaceholderText, getByTestId } = render(
@@ -156,7 +181,7 @@ describe('TokenImport', () => {
       expect(importButton).toBeDisabled()
       fireEvent(tokenAddressInput, 'blur')
 
-      jest.advanceTimersByTime(10_000)
+      jest.advanceTimersByTime(11_000)
       await waitFor(() => {
         expect(tokenSymbolInput).toBeDisabled()
         expect(getByText('tokenImport.error.timeout')).toBeTruthy()

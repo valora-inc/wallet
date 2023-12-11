@@ -34,13 +34,11 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, formatUnits, getContract, isAddress } from 'viem'
+import { Address, BaseError, TimeoutError, formatUnits, getContract, isAddress } from 'viem'
 
 const TAG = 'tokens/TokenImport'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
-
-const FETCH_TOKEN_DETAILS_TIMEOUT_MS = 5_000
 
 interface TokenDetails {
   address: string
@@ -102,7 +100,6 @@ export default function TokenImportScreen(_: Props) {
       contract.read.name(),
       contract.read.balanceOf([walletAddress]),
     ])
-
     return { address: tokenAddress, symbol, decimals, name, balance }
   }
 
@@ -112,13 +109,7 @@ export default function TokenImportScreen(_: Props) {
         // should never happen
         throw new Error('No wallet address found when fetching token details')
       }
-
-      const details = fetchTokenDetails(address, walletAddress)
-      const timeout = new Promise<never>((_, reject) =>
-        setTimeout(reject, FETCH_TOKEN_DETAILS_TIMEOUT_MS, new Error('Timeout'))
-      )
-
-      return Promise.race([timeout, details])
+      return fetchTokenDetails(address, walletAddress)
     },
     {
       onSuccess: (details) => {
@@ -131,9 +122,17 @@ export default function TokenImportScreen(_: Props) {
         setTokenSymbol(details.symbol)
       },
       onError: (error) => {
-        Logger.error(TAG, 'Could not fetch token details', error)
+        // should be ContractFunctionExecutionErrorType according to https://viem.sh/docs/error-handling.html
+        Logger.error(TAG, `Could not fetch token details`, error)
+
+        // it doesn't directly show if it's a timeout error, need to check cause recursively
+        const hasTimeout = (error: unknown): boolean =>
+          error instanceof BaseError &&
+          (error.name === TimeoutError.name ||
+            (error.cause !== undefined && hasTimeout(error.cause)))
+
         const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
-        if (error.message === 'Timeout') {
+        if (hasTimeout(error)) {
           setError(t('tokenImport.error.timeout'))
           ValoraAnalytics.track(AssetsEvents.import_token_timeout, {
             networkId,
