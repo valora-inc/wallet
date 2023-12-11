@@ -70,7 +70,7 @@ export interface ShowRequestDetails {
 export interface AcceptRequest {
   type: Actions.ACCEPT_REQUEST
   request: Web3WalletTypes.EventArguments['session_request']
-  preparedTransactions?: SerializableTransactionRequest[]
+  preparedTransaction?: SerializableTransactionRequest
 }
 export interface DenyRequest {
   type: Actions.DENY_REQUEST
@@ -173,11 +173,11 @@ export const showRequestDetails = (
 
 export const acceptRequest = (
   request: Web3WalletTypes.EventArguments['session_request'],
-  preparedTransactions?: SerializableTransactionRequest[]
+  preparedTransaction?: SerializableTransactionRequest
 ): AcceptRequest => ({
   type: Actions.ACCEPT_REQUEST,
   request,
-  preparedTransactions,
+  preparedTransaction,
 })
 
 export const denyRequest = (

@@ -30,7 +30,7 @@ export function* handleRequest(
     request: { method, params },
     chainId,
   }: Web3WalletTypes.EventArguments['session_request']['params'],
-  serializableTransactionRequests?: SerializableTransactionRequest[]
+  serializableTransactionRequest?: SerializableTransactionRequest
 ) {
   const network = walletConnectChainIdToNetwork[chainId]
   const useViem = yield* call(
@@ -52,23 +52,23 @@ export function* handleRequest(
   if (useViem) {
     switch (method) {
       case SupportedActions.eth_signTransaction: {
-        if (!serializableTransactionRequests || serializableTransactionRequests.length === 0) {
+        if (!serializableTransactionRequest) {
           throw new Error('preparedTransaction is required when using viem')
         }
         return (yield* call(
           // @ts-ignore TODO: fix types
           [wallet, 'signTransaction'],
-          getPreparedTransaction(serializableTransactionRequests[0])
+          getPreparedTransaction(serializableTransactionRequest)
         )) as string
       }
       case SupportedActions.eth_sendTransaction: {
-        if (!serializableTransactionRequests || serializableTransactionRequests.length === 0) {
+        if (!serializableTransactionRequest) {
           throw new Error('preparedTransaction is required when using viem')
         }
         return (yield* call(
           // @ts-ignore TODO: fix types
           [wallet, 'sendTransaction'],
-          getPreparedTransaction(serializableTransactionRequests[0])
+          getPreparedTransaction(serializableTransactionRequest)
         )) as string
       }
       case SupportedActions.eth_signTypedData_v4:

@@ -573,7 +573,7 @@ function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session
   return session
 }
 
-function* handleAcceptRequest({ request, preparedTransactions }: AcceptRequest) {
+function* handleAcceptRequest({ request, preparedTransaction }: AcceptRequest) {
   const session: SessionTypes.Struct = yield* call(getSessionFromRequest, request)
   const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
@@ -599,7 +599,7 @@ function* handleAcceptRequest({ request, preparedTransactions }: AcceptRequest) 
       throw new Error(`Missing active session for topic ${topic}`)
     }
 
-    const result = yield* call(handleRequest, params, preparedTransactions)
+    const result = yield* call(handleRequest, params, preparedTransaction)
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
       (params.request.method = typeof result === 'string' ? result : result.raw)

@@ -121,7 +121,7 @@ function ActionRequest({
           acceptRequest(
             pendingAction,
             serializablePreparedTransactionsResult?.type === 'possible'
-              ? serializablePreparedTransactionsResult.transactions
+              ? serializablePreparedTransactionsResult.transactions[0]
               : undefined
           )
         )
