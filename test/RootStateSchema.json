@@ -171,6 +171,12 @@
             },
             "type": "object"
         },
+        "AddressToVerificationStatus": {
+            "additionalProperties": {
+                "type": "boolean"
+            },
+            "type": "object"
+        },
         "AddressValidationType": {
             "enum": [
                 "full",
@@ -2462,7 +2468,6 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
-                "SwapExecuteScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
                 "TokenDetails",
@@ -3814,16 +3819,12 @@
                 },
                 "priceImpactWarningThreshold": {
                     "type": "number"
-                },
-                "swapState": {
-                    "$ref": "#/definitions/SwapState"
                 }
             },
             "required": [
                 "currentSwap",
                 "guaranteedSwapPriceEnabled",
-                "priceImpactWarningThreshold",
-                "swapState"
+                "priceImpactWarningThreshold"
             ],
             "type": "object"
         },
@@ -4128,6 +4129,9 @@
                 "addressToE164Number": {
                     "$ref": "#/definitions/AddressToE164NumberType"
                 },
+                "addressToVerificationStatus": {
+                    "$ref": "#/definitions/AddressToVerificationStatus"
+                },
                 "askedContactsPermission": {
                     "type": "boolean"
                 },
@@ -4154,6 +4158,7 @@
                 "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
+                "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
                 "e164NumberToSalt",
@@ -4338,19 +4343,6 @@
                 "type": "object"
             },
             "type": "object"
-        },
-        "SwapState": {
-            "enum": [
-                "approve",
-                "complete",
-                "error",
-                "execute",
-                "price-change",
-                "quote",
-                "start",
-                "user-input"
-            ],
-            "type": "string"
         },
         "SwapStatus": {
             "enum": [

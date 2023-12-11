@@ -10,7 +10,6 @@ import { FiatAccount } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
-import { AddressValidationType } from 'src/identity/reducer'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
@@ -38,6 +37,23 @@ interface SendConfirmationParams {
   preparedTransaction?: SerializableTransactionRequest
   feeAmount?: string
   feeTokenId?: string
+}
+
+interface SendEnterAmountParams {
+  recipient: Recipient & { address: string }
+  isFromScan: boolean
+  origin: SendOrigin
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
+}
+
+interface ValidateRecipientParams {
+  transactionData?: TransactionDataInput
+  requesterAddress?: string
+  origin: SendOrigin
+  recipient: Recipient
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
 }
 
 export type StackParamList = {
@@ -251,13 +267,7 @@ export type StackParamList = {
   }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
-  [Screens.SendEnterAmount]: {
-    recipient: Recipient & { address: string }
-    isFromScan: boolean
-    origin: SendOrigin
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
-  }
+  [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: {
@@ -271,7 +281,6 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
-  [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
@@ -279,18 +288,8 @@ export type StackParamList = {
     transaction: TokenTransaction
   }
   [Screens.UpgradeScreen]: undefined
-  [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInput
-    addressValidationType: AddressValidationType
-    requesterAddress?: string
-    origin: SendOrigin
-  }
-  [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInput
-    addressValidationType: AddressValidationType
-    requesterAddress?: string
-    origin: SendOrigin
-  }
+  [Screens.ValidateRecipientIntro]: ValidateRecipientParams
+  [Screens.ValidateRecipientAccount]: ValidateRecipientParams
   [Screens.VerificationStartScreen]:
     | {
         hideOnboardingStep?: boolean

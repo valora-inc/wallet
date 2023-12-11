@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 172,
+          "version": 174,
         },
         "account": {
           "acceptedTerms": false,
@@ -252,6 +252,7 @@ describe('store state', () => {
           "addressToDataEncryptionKey": {},
           "addressToDisplayName": {},
           "addressToE164Number": {},
+          "addressToVerificationStatus": {},
           "askedContactsPermission": false,
           "e164NumberToAddress": {},
           "e164NumberToSalt": {},
@@ -331,7 +332,6 @@ describe('store state', () => {
           "currentSwap": null,
           "guaranteedSwapPriceEnabled": false,
           "priceImpactWarningThreshold": 0.04,
-          "swapState": "quote",
         },
         "tokens": {
           "error": false,

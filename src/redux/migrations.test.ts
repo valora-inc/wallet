@@ -37,6 +37,7 @@ import {
   v167Schema,
   v16Schema,
   v171Schema,
+  v172Schema,
   v17Schema,
   v18Schema,
   v1Schema,
@@ -1418,6 +1419,14 @@ describe('Redux persist migrations', () => {
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.swap.swapInfo
     expectedSchema.swap.currentSwap = null
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 172 to 173', () => {
+    const oldSchema = v172Schema
+    const migratedSchema = migrations[173](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.swap.swapState
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

@@ -459,6 +459,12 @@ interface IdentityEventsProperties {
     error: string
   }
   [IdentityEvents.phone_number_lookup_purchase_skip]: undefined
+
+  [IdentityEvents.address_lookup_start]: undefined
+  [IdentityEvents.address_lookup_complete]: undefined
+  [IdentityEvents.address_lookup_error]: {
+    error: string
+  }
 }
 
 interface AuthenticationEventsProperties {
@@ -1326,6 +1332,13 @@ interface SwapEventsProperties {
     tokenSymbol: string
     tokenId: string
     tokenNetworkId: string
+    fromTokenSymbol: string | undefined
+    fromTokenId: string | undefined
+    fromTokenNetworkId: string | undefined
+    toTokenSymbol: string | undefined
+    toTokenId: string | undefined
+    toTokenNetworkId: string | undefined
+    switchedNetworkId: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1449,6 +1462,7 @@ interface AssetsEventsProperties {
     tokenAddress: string
     tokenSymbol: string
     networkId: string
+    tokenId: string
   }
   [AssetsEvents.import_token_paste]: undefined
 }
