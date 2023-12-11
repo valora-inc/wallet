@@ -1684,6 +1684,10 @@
       "title": "Zanim dokonasz swapu",
       "body": "Nie możemy oszacować wartości tego swapu. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Coś poszło nie tak",
+      "body": "Prędkość sieci jest niska lub wystąpił nieznany błąd. Spróbuj ponownie później"
+    },
     "estimatedExchangeRate": "Szacunkowa stopa procentowa ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Niewystarczające saldo {{tokenSymbol}}",
@@ -1702,6 +1706,7 @@
       "swapFeeWaived": "Bezpłatnie",
       "slippagePercentage": "Tolerancja poślizgu",
       "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
+      "slippageToleranceInfo": "Tolerancja poślizgu\n\nTwój swap zostanie zrealizowany w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
       "estimatedValue": "Szacunkowa wartość"
@@ -1940,7 +1945,8 @@
     "connectPhoneNumberModal": {
       "title": "Podłącz swój numer telefonu",
       "description": "Musisz połączyć swój numer telefonu, aby móc zacząć wysyłać kryptowaluty do znajomych"
-    }
+    },
+    "unknownAddressInfo": "Upewnij się, że ten adres obsługuje zasób, który próbujesz wysłać. Twoje środki mogą nie być możliwe do odzyskania, jeśli ten adres jest nieprawidłowy."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Zakończono",

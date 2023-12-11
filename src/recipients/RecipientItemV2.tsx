@@ -1,11 +1,14 @@
 import React, { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, Keyboard, StyleSheet, Text, View } from 'react-native'
 import ContactCircle from 'src/components/ContactCircle'
 import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import QuestionIcon from 'src/icons/QuestionIcon'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import {
+  e164NumberToAddressSelector,
+  addressToVerificationStatusSelector,
+} from 'src/identity/selectors'
 import {
   Recipient,
   RecipientType,
@@ -30,17 +33,19 @@ function RecipientItem({ recipient, onSelectRecipient, loading, selected }: Prop
   const { t } = useTranslation()
 
   const onPress = () => {
+    Keyboard.dismiss()
     onSelectRecipient(recipient)
   }
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)
 
   // TODO(ACT-980): avoid icon flash when a known valora contact is clicked
-  // TODO(ACT-950): show icon for address recipients
   const showValoraIcon = useMemo(() => {
     if (recipient.recipientType === RecipientType.PhoneNumber) {
       return recipient.e164PhoneNumber && !!e164NumberToAddress[recipient.e164PhoneNumber]
     }
+    return recipient.address && addressToVerificationStatus[recipient.address]
   }, [e164NumberToAddress, recipient])
 
   return (

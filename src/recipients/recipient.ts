@@ -7,6 +7,7 @@ import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
   E164NumberToAddressType,
+  AddressToVerificationStatus,
 } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
@@ -174,26 +175,34 @@ export function getRecipientFromAddress(
 
 export function getRecipientVerificationStatus(
   recipient: Recipient,
-  e164NumberToAddress: E164NumberToAddressType
+  e164NumberToAddress: E164NumberToAddressType,
+  addressToVerificationStatus: AddressToVerificationStatus
 ): RecipientVerificationStatus {
-  if (recipientHasAddress(recipient)) {
+  if (!recipientHasNumber(recipient)) {
+    if (recipientHasAddress(recipient) && recipient.address in addressToVerificationStatus) {
+      switch (addressToVerificationStatus[recipient.address]) {
+        case true:
+          return RecipientVerificationStatus.VERIFIED
+        case false:
+          return RecipientVerificationStatus.UNVERIFIED
+        case undefined:
+          return RecipientVerificationStatus.UNKNOWN
+      }
+    } else {
+      return RecipientVerificationStatus.UNKNOWN
+    }
+  } else {
+    const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
+    if (addresses === undefined) {
+      return RecipientVerificationStatus.UNKNOWN
+    }
+
+    if (addresses === null) {
+      return RecipientVerificationStatus.UNVERIFIED
+    }
+
     return RecipientVerificationStatus.VERIFIED
   }
-
-  if (!recipientHasNumber(recipient)) {
-    return RecipientVerificationStatus.UNKNOWN
-  }
-
-  const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
-  if (addresses === undefined) {
-    return RecipientVerificationStatus.UNKNOWN
-  }
-
-  if (addresses === null) {
-    return RecipientVerificationStatus.UNVERIFIED
-  }
-
-  return RecipientVerificationStatus.VERIFIED
 }
 
 type PreparedRecipient = Recipient & {
@@ -252,7 +261,7 @@ function executeFuzzySearch(
   shouldSort?: boolean
 ): FuzzyRecipient[] {
   const parsedQuery = query.replace(/[()-\s/\\]/g, '')
-  if (parsedQuery === '' || parsedQuery.length < 2) {
+  if (parsedQuery === '') {
     // fuzzysort does not handle empty string query
     if (shouldSort) {
       return sortRecipients(recipients)

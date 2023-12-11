@@ -240,6 +240,10 @@ export enum IdentityEvents {
   phone_number_lookup_purchase_complete = 'phone_number_lookup_purchase_complete',
   phone_number_lookup_purchase_error = 'phone_number_lookup_purchase_error',
   phone_number_lookup_purchase_skip = 'phone_number_lookup_purchase_skip',
+
+  address_lookup_start = 'address_lookup_start',
+  address_lookup_complete = 'address_lookup_complete',
+  address_lookup_error = 'address_lookup_error',
 }
 
 export enum AuthenticationEvents {
@@ -597,6 +601,7 @@ export enum SwapEvents {
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
   swap_again = 'swap_again',
   swap_try_again = 'swap_try_again',
+  swap_show_info = 'swap_show_info',
 }
 
 export enum CeloNewsEvents {

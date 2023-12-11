@@ -13,7 +13,7 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface QRScannerProps {
-  onBarCodeDetected: (qrCode: QrCode) => void
+  onQRCodeDetected: (qrCode: QrCode) => void
 }
 
 const SeeThroughOverlay = () => {
@@ -46,7 +46,7 @@ const SeeThroughOverlay = () => {
   )
 }
 
-export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
+export default function QRScanner({ onQRCodeDetected }: QRScannerProps) {
   const { t } = useTranslation()
   const inset = useSafeAreaInsets()
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -70,7 +70,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
 
   const submitModal = () => {
     Keyboard.dismiss()
-    onBarCodeDetected({ type: '', data: value })
+    onQRCodeDetected({ type: '', data: value })
     closeModal()
   }
 
@@ -88,7 +88,7 @@ export default function QRScanner({ onBarCodeDetected }: QRScannerProps) {
     <RNCamera
       style={styles.camera}
       type={RNCamera.Constants.Type.back}
-      onBarCodeRead={onBarCodeDetected}
+      onBarCodeRead={onQRCodeDetected}
       barCodeTypes={[RNCamera.Constants.BarCodeType.qr]}
       flashMode={RNCamera.Constants.FlashMode.auto}
       captureAudio={false}

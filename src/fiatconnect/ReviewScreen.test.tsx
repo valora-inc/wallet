@@ -128,7 +128,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           symbol: 'cUSD',
           balance: '200',
           priceUsd: '1',
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
         [mockCeurTokenId]: {
@@ -138,7 +138,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           symbol: 'cEUR',
           balance: '100',
           priceUsd: '1.2',
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
         [mockCeloTokenId]: {
@@ -148,7 +148,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           symbol: 'CELO',
           balance: '200',
           priceUsd: '5',
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
       },

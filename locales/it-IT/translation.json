@@ -1680,6 +1680,10 @@
       "title": "Prima di uno scambio",
       "body": "Non possiamo stimare il valore di questo scambio. Qualora tu decida di procedere, {{appName}} non sarà responsabile."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Si è verificato un errore",
+      "body": "La velocità della rete è bassa o c'è un errore sconosciuto. Riprova più tardi"
+    },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Saldo insufficiente {{tokenSymbol}}",
@@ -1698,6 +1702,7 @@
       "swapFeeWaived": "Gratuito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
+      "slippageToleranceInfo": "Tolleranza allo slippage\n\nIl tuo swap verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia più della tolleranza di slippage, {{appName}} ti protegge impedendo l'esecuzione dell'operazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
@@ -1936,7 +1941,8 @@
     "connectPhoneNumberModal": {
       "title": "Collega il tuo numero telefonico",
       "description": "Devi collegare il tuo numero telefonico per poter iniziare a inviare criptovalute ai tuoi amici"
-    }
+    },
+    "unknownAddressInfo": "Assicurati che questo indirizzo supporti il bene che stai cercando di inviare. I tuoi fondi potrebbero non essere recuperabili se l'indirizzo non è valido."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Completata",

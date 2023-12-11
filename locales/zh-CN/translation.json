@@ -1678,6 +1678,10 @@
       "title": "交换之前",
       "body": "我们无法估算本次交换的价值。如果您选择继续， {{appName}} 不承担任何责任。"
     },
+    "confirmSwapFailedWarning": {
+      "title": "出了问题",
+      "body": "网络速度慢或出现未知错误。请稍后再试"
+    },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "{{tokenSymbol}} 余额不足",
@@ -1696,6 +1700,7 @@
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
+      "slippageToleranceInfo": "滑点容差\n\n您的掉期将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
@@ -1934,7 +1939,8 @@
     "connectPhoneNumberModal": {
       "title": "关联您的手机号码",
       "description": "您需要关联您的电话号码，以便开始向您的朋友发送加密货币"
-    }
+    },
+    "unknownAddressInfo": "请确保该地址支持您要发送的资产。如果该地址无效，您的资金可能无法收回。"
   },
   "transactionStatus": {
     "transactionIsCompleted": "已完成",

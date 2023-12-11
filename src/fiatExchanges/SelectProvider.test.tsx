@@ -12,7 +12,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
@@ -161,7 +161,7 @@ describe(SelectProviderScreen, () => {
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
     )
-    await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', Currency.Dollar))
+    await waitFor(() => expect(fetchExchanges).toHaveBeenCalledWith('MX', mockCusdTokenId))
   })
   it('shows spinner and avoids publishing analytics event if quotes still loading', async () => {
     const { getByTestId } = render(
@@ -196,6 +196,7 @@ describe(SelectProviderScreen, () => {
       lowestFeePaymentMethod: undefined,
       lowestFeeProvider: undefined,
       lowestFeeCryptoAmount: undefined,
+      networkId: NetworkId['celo-alfajores'],
     }
     mocked(getProviderSelectionAnalyticsData).mockReturnValue(mockAnalyticsData)
     render(

@@ -2840,6 +2840,58 @@ export const v171Schema = {
   },
 }
 
+export const v172Schema = {
+  ...v171Schema,
+  _persist: {
+    ...v171Schema._persist,
+    version: 172,
+  },
+  swap: {
+    ..._.omit(v171Schema.swap, 'swapInfo'),
+    currentSwap: null,
+  },
+}
+
+export const v173Schema = {
+  ...v172Schema,
+  _persist: {
+    ...v172Schema._persist,
+    version: 173,
+  },
+  swap: _.omit(v172Schema.swap, 'swapState'),
+}
+
+export const v174Schema = {
+  ...v173Schema,
+  _persist: {
+    ...v173Schema._persist,
+    version: 174,
+  },
+  identity: {
+    ...v173Schema.identity,
+    addressToVerificationStatus: {},
+  },
+}
+
+export const v175Schema = {
+  ...v174Schema,
+  _persist: {
+    ...v174Schema._persist,
+    version: 175,
+  },
+  tokens: {
+    ...v174Schema.tokens,
+    tokenBalances: _.mapValues(v174Schema.tokens.tokenBalances, (item: any) => {
+      const newItem = _.omit(item, 'isCoreToken')
+      if (item.isCoreToken !== undefined) {
+        newItem.isFeeCurrency = item.isCoreToken
+        newItem.canTransferWithComment = item.isCoreToken
+      }
+      return newItem
+    }),
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v171Schema as Partial<RootState>
+  return v175Schema as Partial<RootState>
 }

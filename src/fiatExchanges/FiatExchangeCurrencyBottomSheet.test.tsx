@@ -29,7 +29,7 @@ const MOCK_STORE_DATA = {
         networkId: NetworkId['celo-alfajores'],
         name: 'cUSD',
         address: mockCusdAddress,
-        balance: '0',
+        balance: '50',
         priceUsd: '1',
         symbol: 'cUSD',
         priceFetchedAt: mockDate,
@@ -71,7 +71,7 @@ const MOCK_STORE_DATA = {
         networkId: NetworkId['celo-alfajores'],
         name: 'cREAL',
         address: mockCrealAddress,
-        balance: '0',
+        balance: '10',
         priceUsd: '0.75',
         symbol: 'cREAL',
         isSupercharged: true,
@@ -122,12 +122,12 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     jest.clearAllMocks()
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores'],
-      cicoOrder: {
-        [mockEthTokenId]: 1,
-        [mockCeloTokenId]: 2,
-        [mockCusdTokenId]: 3,
-        [mockCeurTokenId]: 4,
-        [mockCrealTokenId]: 5,
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
       },
     })
   })
@@ -151,12 +151,12 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct tokens for cash in (multichain)', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      cicoOrder: {
-        [mockEthTokenId]: 1,
-        [mockCeloTokenId]: 2,
-        [mockCusdTokenId]: 3,
-        [mockCeurTokenId]: 4,
-        [mockCrealTokenId]: 5,
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
       },
     })
     const { getAllByTestId } = render(
@@ -194,12 +194,12 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct tokens for cash out (multichain)', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      cicoOrder: {
-        [mockEthTokenId]: 1,
-        [mockCeloTokenId]: 2,
-        [mockCusdTokenId]: 3,
-        [mockCeurTokenId]: 4,
-        [mockCrealTokenId]: 5,
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
       },
     })
     const { queryByTestId, getAllByTestId } = render(
@@ -237,12 +237,12 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
   it('shows the correct tokens for cash spend (multichain)', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showCico: ['celo-alfajores', 'ethereum-sepolia'],
-      cicoOrder: {
-        [mockEthTokenId]: 1,
-        [mockCeloTokenId]: 2,
-        [mockCusdTokenId]: 3,
-        [mockCeurTokenId]: 4,
-        [mockCrealTokenId]: 5,
+      tokenInfo: {
+        [mockEthTokenId]: { cicoOrder: 1 },
+        [mockCeloTokenId]: { cicoOrder: 2 },
+        [mockCusdTokenId]: { cicoOrder: 3 },
+        [mockCeurTokenId]: { cicoOrder: 4 },
+        [mockCrealTokenId]: { cicoOrder: 5 },
       },
     })
     const { queryByTestId, getAllByTestId } = render(
@@ -260,5 +260,26 @@ describe(FiatExchangeCurrencyBottomSheet, () => {
     expect(queryByTestId('CELOSymbol')).toBeFalsy()
     expect(queryByTestId('cREALSymbol')).toBeFalsy()
     expect(queryByTestId('ETHSymbol')).toBeFalsy()
+  })
+  it('shows the correct order when cicoOrder missing/same value', () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showCico: ['celo-alfajores', 'ethereum-sepolia'],
+      tokenInfo: { [mockCusdTokenId]: { cicoOrder: 1 }, [mockCrealTokenId]: { cicoOrder: 1 } },
+    })
+    const { getAllByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={FiatExchangeCurrencyBottomSheet}
+          params={{
+            flow: FiatExchangeFlow.CashIn,
+          }}
+        />
+      </Provider>
+    )
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('cUSD')
+    expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('cREAL')
+    expect(getAllByTestId('TokenBalanceItem')[2]).toHaveTextContent('cEUR')
+    expect(getAllByTestId('TokenBalanceItem')[3]).toHaveTextContent('CELO')
+    expect(getAllByTestId('TokenBalanceItem')[4]).toHaveTextContent('ETH')
   })
 })

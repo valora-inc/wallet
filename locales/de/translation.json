@@ -1680,6 +1680,10 @@
       "title": "Bevor du tauschst",
       "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, fortzufahren."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Etwas ist schief gelaufen",
+      "body": "Die Netzwerkgeschwindigkeit ist langsam oder es liegt ein unbekannter Fehler vor. Bitte versuche es später noch einmal"
+    },
     "estimatedExchangeRate": "Geschätzter Kurs ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Unzureichendes {{tokenSymbol}}-Guthaben",
@@ -1698,6 +1702,7 @@
       "swapFeeWaived": "Kostenlos",
       "slippagePercentage": "Slippage-Toleranz",
       "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
+      "slippageToleranceInfo": "Slippage-Toleranz\n\nDein Swap wird innerhalb der Slippage-Toleranz in Prozent ausgeführt. Wenn sich der Kurs stärker als die Slippage-Toleranz verändert, schützt dich {{appName}} , indem es die Ausführung des Handels verhindert.",
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
       "estimatedValue": "Geschätzter Wert"
@@ -1936,7 +1941,8 @@
     "connectPhoneNumberModal": {
       "title": "Verbinden Sie Ihre Telefonnummer",
       "description": "Du musst deine Telefonnummer verbinden, damit du Kryptowährungen an deine Freunde senden kannst"
-    }
+    },
+    "unknownAddressInfo": "Bitte vergewissere dich, dass diese Adresse für den Vermögenswert, den du senden möchtest, geeignet ist. Wenn diese Adresse ungültig ist, kann dein Geld möglicherweise nicht zurückgefordert werden."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Fertiggestellt",

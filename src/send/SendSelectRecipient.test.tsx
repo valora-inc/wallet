@@ -1,17 +1,28 @@
-import { act, fireEvent, render } from '@testing-library/react-native'
+import Clipboard from '@react-native-clipboard/clipboard'
+import { act, fireEvent, render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import SendSelectRecipient from 'src/send/SendSelectRecipient'
-import { getRecipientVerificationStatus } from 'src/recipients/recipient'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockPhoneRecipientCache, mockRecipient, mockRecipient2, mockAccount } from 'test/values'
-import { RecipientVerificationStatus } from 'src/identity/types'
-import Clipboard from '@react-native-clipboard/clipboard'
-import { Screens } from 'src/navigator/Screens'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
+import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
+import { RecipientVerificationStatus } from 'src/identity/types'
 import { navigate } from 'src/navigator/NavigationService'
-import { RecipientType } from 'src/recipients/recipient'
+import { Screens } from 'src/navigator/Screens'
+import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
+import SendSelectRecipient from 'src/send/SendSelectRecipient'
+import { getFeatureGate } from 'src/statsig'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import {
+  mockAccount,
+  mockAccount2,
+  mockAddressRecipient,
+  mockDisplayNumber2Invite,
+  mockE164Number2Invite,
+  mockPhoneRecipientCache,
+  mockRecipient,
+  mockRecipient2,
+} from 'test/values'
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
@@ -21,8 +32,10 @@ jest.mock('src/recipients/recipient', () => ({
   getRecipientVerificationStatus: jest.fn(),
 }))
 
+jest.mock('react-native-device-info', () => ({ getFontScaleSync: () => 1 }))
 // this mock defaults to granting all permissions
 jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
+jest.mock('src/statsig')
 
 const mockScreenProps = ({
   defaultTokenIdOverride,
@@ -44,6 +57,10 @@ const defaultStore = {
     phoneRecipientCache: mockPhoneRecipientCache,
   },
 }
+const storeWithPhoneVerified = {
+  ...defaultStore,
+  app: { phoneNumberVerified: true },
+}
 
 describe('SendSelectRecipient', () => {
   beforeEach(() => {
@@ -53,7 +70,7 @@ describe('SendSelectRecipient', () => {
   })
 
   it('shows contacts when send to contacts button is pressed and conditions are satisfied', async () => {
-    const store = createMockStore({ ...defaultStore, app: { phoneNumberVerified: true } })
+    const store = createMockStore(storeWithPhoneVerified)
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
@@ -193,6 +210,36 @@ describe('SendSelectRecipient', () => {
     //   origin: SendOrigin.AppSendFlow,
     // })
   })
+  it('navigates to send amount when address recipient is pressed', async () => {
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAddressRecipient.address)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: expect.any(Object),
+      origin: SendOrigin.AppSendFlow,
+    })
+  })
   it('navigates to invite modal when search result next button is pressed', async () => {
     jest
       .mocked(getRecipientVerificationStatus)
@@ -222,6 +269,138 @@ describe('SendSelectRecipient', () => {
 
     expect(getByTestId('InviteModalContainer')).toBeTruthy()
   })
+  it('does not show unknown address info text when searching for known valora address', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+
+    const store = createMockStore(storeWithPhoneVerified)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAccount2)
+    })
+
+    expect(getByTestId('RecipientItem')).toHaveTextContent(
+      'feedItemAddress, {"address":"0x1ff4...bc42"}'
+    )
+
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(store.getActions()).toEqual([fetchAddressVerification(mockAccount2.toLowerCase())])
+    expect(queryByTestId('UnknownAddressInfo')).toBeFalsy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+  })
+  it('does not show unknown address info text when searching for phone number', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
+
+    const store = createMockStore(storeWithPhoneVerified)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockE164Number2Invite)
+    })
+    expect(getByTestId('RecipientItem')).toHaveTextContent(mockDisplayNumber2Invite)
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(store.getActions()).toEqual([fetchAddressesAndValidate(mockE164Number2Invite)])
+    expect(queryByTestId('UnknownAddressInfo')).toBeFalsy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+  })
+
+  it('shows unknown address info text when searching for unknown address after making address verification request', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
+
+    const store = createMockStore(storeWithPhoneVerified)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAccount2)
+    })
+
+    // ensure its an address recipient (not an address that's tied to a contact)
+    expect(getByTestId('RecipientItem')).toHaveTextContent(
+      'feedItemAddress, {"address":"0x1ff4...bc42"}'
+    )
+
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(store.getActions()).toEqual([fetchAddressVerification(mockAccount2.toLowerCase())])
+    expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+  })
+  it('shows unknown address info text and skips CPV request when searching for any address if PN not verified', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+
+    const store = createMockStore(defaultStore)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAccount2)
+    })
+
+    // ensure its an address recipient (not an address that's tied to a contact)
+    expect(getByTestId('RecipientItem')).toHaveTextContent(
+      'feedItemAddress, {"address":"0x1ff4...bc42"}'
+    )
+
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(store.getActions()).toEqual([])
+    expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+  })
   it('shows paste button if clipboard has address content', async () => {
     const store = createMockStore(defaultStore)
 
@@ -244,5 +423,66 @@ describe('SendSelectRecipient', () => {
     })
     const pasteButtonAfterPress = findByTestId('PasteAddressButton')
     await expect(pasteButtonAfterPress).rejects.toThrow()
+  })
+
+  describe('Invite Rewards', () => {
+    it('shows invite rewards card when invite rewards are active and number is verified', async () => {
+      const store = createMockStore({
+        ...storeWithPhoneVerified,
+        send: {
+          ...storeWithPhoneVerified.send,
+          inviteRewardsVersion: 'v5',
+          inviteRewardCusd: 1,
+        },
+      })
+
+      const { findByTestId } = render(
+        <Provider store={store}>
+          <SendSelectRecipient {...mockScreenProps({})} />
+        </Provider>
+      )
+
+      const inviteRewardsCard = await findByTestId('InviteRewardsCard')
+      expect(inviteRewardsCard).toHaveTextContent('inviteRewardsBannerCUSD.title')
+      expect(inviteRewardsCard).toHaveTextContent('inviteRewardsBannerCUSD.body')
+    })
+
+    it('does not show invite rewards card when invite rewards are not active', async () => {
+      const store = createMockStore({
+        ...storeWithPhoneVerified,
+        send: {
+          ...storeWithPhoneVerified.send,
+          inviteRewardsVersion: 'none',
+          inviteRewardCusd: 1,
+        },
+      })
+
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <SendSelectRecipient {...mockScreenProps({})} />
+        </Provider>
+      )
+
+      expect(queryByTestId('InviteRewardsCard')).toBeFalsy()
+    })
+
+    it('does not show invite rewards card when invite rewards are active and number is not verified', async () => {
+      const store = createMockStore({
+        ...defaultStore,
+        send: {
+          ...defaultStore.send,
+          inviteRewardsVersion: 'v5',
+          inviteRewardCusd: 1,
+        },
+      })
+
+      const { queryByTestId } = render(
+        <Provider store={store}>
+          <SendSelectRecipient {...mockScreenProps({})} />
+        </Provider>
+      )
+
+      expect(queryByTestId('InviteRewardsCard')).toBeFalsy()
+    })
   })
 })

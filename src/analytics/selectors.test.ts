@@ -1,8 +1,8 @@
 import { PincodeType } from 'src/account/reducer'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
 import { getFeatureGate } from 'src/statsig'
-import { getMockStoreData } from 'test/utils'
 import { NetworkId } from 'src/transactions/types'
+import { getMockStoreData } from 'test/utils'
 
 jest.mock('src/statsig')
 
@@ -42,7 +42,7 @@ describe('getCurrentUserTraits', () => {
             priceUsd: '1',
             balance: '10',
             priceFetchedAt: Date.now(),
-            isCoreToken: true,
+            isFeeCurrency: true,
           },
           'celo-alfajores:0xceur': {
             name: 'Celo Euros',
@@ -55,7 +55,7 @@ describe('getCurrentUserTraits', () => {
             priceUsd: '1.2345',
             balance: '21',
             priceFetchedAt: Date.now(),
-            isCoreToken: true,
+            isFeeCurrency: true,
           },
           'celo-alfajores:native': {
             name: 'Celo',
@@ -69,7 +69,7 @@ describe('getCurrentUserTraits', () => {
             balance: '0',
             isNative: true,
             priceFetchedAt: Date.now(),
-            isCoreToken: true,
+            isFeeCurrency: true,
           },
           'celo-alfajores:0xa': {
             name: 'a',

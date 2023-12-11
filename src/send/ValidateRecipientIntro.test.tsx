@@ -7,7 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ValidateRecipientIntro from 'src/send/ValidateRecipientIntro'
 import { createMockStore } from 'test/utils'
-import { mockNavigation, mockTransactionData } from 'test/values'
+import { mockEthTokenId, mockNavigation, mockTransactionData } from 'test/values'
 
 const store = createMockStore()
 
@@ -18,10 +18,15 @@ const mockRoute = {
     transactionData: mockTransactionData,
     addressValidationType: AddressValidationType.FULL,
     origin: SendOrigin.AppSendFlow,
+    recipient: mockTransactionData.recipient,
+    defaultTokenIdOverride: mockEthTokenId,
   },
 }
 
 describe('ValidateRecipientIntro', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
   it('navigates to account confirmation screen when Confirm Account button clicked', () => {
     const tree = render(
       <Provider store={store}>
@@ -32,7 +37,10 @@ describe('ValidateRecipientIntro', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientAccount, {
       origin: SendOrigin.AppSendFlow,
       transactionData: mockTransactionData,
-      addressValidationType: AddressValidationType.FULL,
+      defaultTokenIdOverride: mockEthTokenId,
+      forceTokenId: undefined,
+      requesterAddress: undefined,
+      recipient: mockTransactionData.recipient,
     })
   })
 
@@ -46,8 +54,8 @@ describe('ValidateRecipientIntro', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
       screen: Screens.QRScanner,
       params: {
-        transactionData: mockTransactionData,
-        scanIsForSecureSend: true,
+        onQRCodeDetected: expect.any(Function),
+        showSecureSendStyling: true,
       },
     })
   })

@@ -1678,6 +1678,10 @@
       "title": "ก่อนที่จะสว็อป",
       "body": "เราไม่สามารถประมาณมูลค่าของสว็อปนี้ได้ {{appName}} จะไม่รับผิดชอบหากคุณเลือกที่จะดำเนินการต่อ"
     },
+    "confirmSwapFailedWarning": {
+      "title": "Something went wrong",
+      "body": "The network speed is slow or there is an unknown error. Please try again later"
+    },
     "estimatedExchangeRate": "อัตราโดยประมาณ ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "ยอดคงเหลือ {{tokenSymbol}} ไม่เพียงพอ",
@@ -1696,6 +1700,7 @@
       "swapFeeWaived": "ฟรี",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
+      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
       "estimatedValue": "ค่าโดยประมาณ"
@@ -1934,7 +1939,8 @@
     "connectPhoneNumberModal": {
       "title": "เชื่อมต่อหมายเลขโทรศัพท์ของคุณ",
       "description": "คุณจำเป็นต้องเชื่อมหมายเลขโทรศัพท์ของคุณจึงจะสามารถส่งคริปโตให้เพื่อนได้"
-    }
+    },
+    "unknownAddressInfo": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid."
   },
   "transactionStatus": {
     "transactionIsCompleted": "เสร็จสมบูรณ์",

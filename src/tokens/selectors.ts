@@ -187,7 +187,7 @@ export const tokensByUsdBalanceSelector = createSelector(
  * @deprecated
  */
 export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+  return tokens.filter((tokenInfo) => tokenInfo.isFeeCurrency === true)
 })
 
 /**
@@ -416,6 +416,59 @@ export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector
 
         return token1.networkId.localeCompare(token2.networkId)
       })
+)
+
+const feeCurrenciesByNetworkIdSelector = createSelector(
+  (state: RootState) => tokensByIdSelector(state, Object.values(NetworkId)),
+  (tokens) => {
+    const feeCurrenciesByNetworkId: { [key in NetworkId]?: TokenBalance[] } = {}
+    // collect fee currencies
+    Object.values(tokens).forEach((token) => {
+      if (token?.isNative || token?.isFeeCurrency) {
+        feeCurrenciesByNetworkId[token.networkId] = [
+          ...(feeCurrenciesByNetworkId[token.networkId] ?? []),
+          token,
+        ]
+      }
+    })
+
+    // sort the fee currencies by native currency first, then by USD balance, and balance otherwise
+    Object.entries(feeCurrenciesByNetworkId).forEach(([networkId, tokens]) => {
+      feeCurrenciesByNetworkId[networkId as NetworkId] = tokens.sort((a, b) => {
+        if (a.isNative && !b.isNative) {
+          return -1
+        }
+        if (b.isNative && !a.isNative) {
+          return 1
+        }
+        if (a.priceUsd && b.priceUsd) {
+          const aBalanceUsd = a.balance.multipliedBy(a.priceUsd)
+          const bBalanceUsd = b.balance.multipliedBy(b.priceUsd)
+          return bBalanceUsd.comparedTo(aBalanceUsd)
+        }
+        if (a.priceUsd) {
+          return -1
+        }
+        if (b.priceUsd) {
+          return 1
+        }
+        return b.balance.comparedTo(a.balance)
+      })
+    })
+
+    return feeCurrenciesByNetworkId
+  }
+)
+
+// for testing
+export const _feeCurrenciesByNetworkIdSelector = feeCurrenciesByNetworkIdSelector
+
+export const feeCurrenciesSelector = createSelector(
+  feeCurrenciesByNetworkIdSelector,
+  (_state: RootState, networkId: NetworkId) => networkId,
+  (feeCurrencies, networkId) => {
+    return feeCurrencies[networkId] ?? []
+  }
 )
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>

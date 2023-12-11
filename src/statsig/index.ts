@@ -1,6 +1,7 @@
 import * as _ from 'lodash'
 import { LaunchArguments } from 'react-native-launch-arguments'
 import { startOnboardingTimeSelector } from 'src/account/selectors'
+import { multichainBetaStatusSelector } from 'src/app/selectors'
 import { FeatureGates } from 'src/statsig/constants'
 import {
   StatsigDynamicConfigs,
@@ -103,6 +104,7 @@ export function getDefaultStatsigUser(): StatsigUser {
     userID: walletAddressSelector(state) ?? undefined,
     custom: {
       startOnboardingTime: startOnboardingTimeSelector(state),
+      multichainBetaStatus: multichainBetaStatusSelector(state),
       loadTime: Date.now(),
     },
   }

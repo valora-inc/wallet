@@ -5,6 +5,7 @@ import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { isEqual } from 'lodash'
 
 interface Props {
   testID?: string
@@ -29,13 +30,15 @@ function RecipientPicker({
     <View style={[styles.body, style]} testID={testID}>
       {title && <Text style={styles.title}>{title}</Text>}
       <FlatList
+        keyboardShouldPersistTaps={'always'}
+        scrollEnabled={false}
         data={recipients}
         renderItem={({ item }) => (
           <RecipientItem
             recipient={item}
             onSelectRecipient={onSelectRecipient}
-            selected={item.contactId === selectedRecipient?.contactId || selectedRecipient === item}
-            loading={selectedRecipient === item && isSelectedRecipientLoading}
+            selected={isEqual(item, selectedRecipient)}
+            loading={isEqual(item, selectedRecipient) && isSelectedRecipientLoading}
           />
         )}
       />

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     paddingRight: 8,
     borderRadius: 14,
-    backgroundColor: colors.greenBackground,
+    backgroundColor: colors.successLight,
   },
   token: {
     paddingVertical: 8,

@@ -1680,6 +1680,10 @@
       "title": "Before you swap",
       "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Something went wrong",
+      "body": "The network speed is slow or there is an unknown error. Please try again later"
+    },
     "estimatedExchangeRate": "Estimated rate ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Insufficient {{tokenSymbol}} balance",
@@ -1698,6 +1702,7 @@
       "swapFeeWaived": "Free",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
+      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "Got it",
       "exchangeRate": "Exchange Rate",
       "estimatedValue": "Estimated Value"
@@ -1936,7 +1941,8 @@
     "connectPhoneNumberModal": {
       "title": "Connect your phone number",
       "description": "You need to connect your phone number so you can start sending crypto to your friends"
-    }
+    },
+    "unknownAddressInfo": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Completed",

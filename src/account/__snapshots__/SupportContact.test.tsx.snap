@@ -226,7 +226,7 @@ exports[`Contact withEmail renders correctly 1`] = `
               [
                 {
                   "alignItems": "center",
-                  "backgroundColor": "#97DFC1",
+                  "backgroundColor": "#1AB77580",
                   "flexDirection": "row",
                   "height": 48,
                   "justifyContent": "center",
