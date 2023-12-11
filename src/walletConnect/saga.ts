@@ -418,7 +418,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
       request.params.request.params[0],
       network
     )
-    const allFeeCurrencies = yield* select((state) => feeCurrenciesSelector(state, [networkId]))
+    const allFeeCurrencies = yield* select((state) => feeCurrenciesSelector(state, networkId))
     const feeCurrencies =
       'feeCurrency' in normalizedTx
         ? allFeeCurrencies.filter((feeCurrency) => {
