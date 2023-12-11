@@ -507,7 +507,7 @@ describe('initialiseWalletConnect', () => {
 })
 
 describe('normalizeTransaction', () => {
-  it('ensures `gasLimit` value is moved to the `gas` parameter', async () => {
+  it('ensures `gasLimit` value is removed', async () => {
     const normalizedTx = normalizeTransaction(
       {
         from: '0xTEST',
@@ -521,8 +521,6 @@ describe('normalizeTransaction', () => {
     expect(normalizedTx).toStrictEqual({
       from: '0xTEST',
       data: '0xABC',
-      gas: BigInt('0x5208'),
-      feeCurrency: '0xcUSD',
     })
   })
 
@@ -535,9 +533,9 @@ describe('normalizeTransaction', () => {
     expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
   })
 
-  it('ensures `gas` is stripped away if fee currency is not provided for a Celo transaction request', async () => {
+  it('ensures `gas` and `feeCurrency` is stripped away for a Celo transaction request', async () => {
     const normalizedTx = normalizeTransaction(
-      { from: '0xTEST', data: '0xABC', gas: '0x5208' },
+      { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
       Network.Celo
     )
 

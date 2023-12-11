@@ -352,9 +352,9 @@ export function normalizeTransaction(rawTx: any, network: Network): TransactionR
     delete tx.gasLimit
   }
 
-  // we should re-calculate the feeCurrency and gas since it is not possible to
-  // tell from the request payload if the feeCurrency is set to undefined
-  // (native currency) explicitly or due to lack of feeCurrency support
+  // re-calculate the feeCurrency and gas since it is not possible to tell from
+  // the request payload if the feeCurrency is set to undefined (native
+  // currency) explicitly or due to lack of feeCurrency support
   if (network === Network.Celo) {
     delete tx.gas
     if ('feeCurrency' in tx) {
