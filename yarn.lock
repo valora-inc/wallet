@@ -15550,17 +15550,17 @@ react-native-flipper@^0.212.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.212.0.tgz#b3fdd47676ecd09a25edd77a1466acace6276762"
   integrity sha512-bDRfIgE3v/jjEEdnvGP0T6maDD+bXhDAQ/SZUYTKd/CQ6YIU1c0EF+e0urU62LNMv6XEFQKz226McdddyVhYZA==
 
-react-native-fs@*, react-native-fs@^2.14.1, react-native-fs@^2.20.0:
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
-  integrity sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==
+react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
+  version "2.16.6"
+  resolved "git+https://github.com/celo-org/react-native-fs#aa6db0f1d9b82bfdf58ebf72450c28311414f45f"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-"react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
-  version "2.16.6"
-  resolved "git+https://github.com/celo-org/react-native-fs#aa6db0f1d9b82bfdf58ebf72450c28311414f45f"
+react-native-fs@^2.20.0:
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
+  integrity sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
