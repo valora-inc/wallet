@@ -35,7 +35,7 @@ const mockStore = createMockStore({
         priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
     },
   },

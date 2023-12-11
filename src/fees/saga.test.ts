@@ -43,7 +43,7 @@ const store = createMockStore({
         symbol: 'cUSD',
         priceUsd: '1',
         balance: '100',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceFetchedAt: Date.now(),
       },
       [mockCeurTokenId]: {
@@ -53,7 +53,7 @@ const store = createMockStore({
         symbol: 'cEUR',
         priceUsd: '1.2',
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceFetchedAt: Date.now(),
       },
     },

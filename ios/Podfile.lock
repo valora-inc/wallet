@@ -545,10 +545,10 @@ PODS:
     - Toast (~> 4.0.0)
   - react-native-splash-screen (3.3.0):
     - React-Core
-  - react-native-video (6.0.0-beta.0):
+  - react-native-video (6.0.0-beta.2):
     - React-Core
-    - react-native-video/Video (= 6.0.0-beta.0)
-  - react-native-video/Video (6.0.0-beta.0):
+    - react-native-video/Video (= 6.0.0-beta.2)
+  - react-native-video/Video (6.0.0-beta.2):
     - PromisesSwift
     - React-Core
   - react-native-webview (13.6.3):
@@ -637,7 +637,7 @@ PODS:
     - React-jsi (= 0.71.12)
     - React-logger (= 0.71.12)
     - React-perflogger (= 0.71.12)
-  - RNCAsyncStorage (1.19.8):
+  - RNCAsyncStorage (1.21.0):
     - React-Core
   - RNCClipboard (1.12.1):
     - React-Core
@@ -1193,7 +1193,7 @@ SPEC CHECKSUMS:
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
-  react-native-video: e9e6fe3ab11d515bd79abd5d81e07db538943c56
+  react-native-video: 806f18bba69b4bfe02e62679acb6b732c8355ee5
   react-native-webview: 88293a0f23eca8465c0433c023ec632930e644d0
   React-perflogger: 75b0e25075c67565a830985f3c373e2eae5389e0
   React-RCTActionSheet: a0c3e916b327e297d124d9ebe8b0c721840ee04d
@@ -1208,7 +1208,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: a283fefb8cc29d9740a7ff2e87f72ad10f25a433
   React-runtimeexecutor: 7902246857a4ead4166869e6c42d4df329ff721d
   ReactCommon: a023fdfe1c3bd4d465153915a45d8eda51172a45
-  RNCAsyncStorage: 687bb9e85dd3d45b966662440dcfc0cd962347e6
+  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
   RNCClipboard: d77213bfa269013bf4b857b7a9ca37ee062d8ef1
   RNCMaskedView: f7c74478c83c4fdfc5cf4df51f80c0dd5cf125c6
   RNCPicker: 529d564911e93598cc399b56cc0769ce3675f8c8

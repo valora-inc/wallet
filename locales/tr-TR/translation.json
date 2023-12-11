@@ -1680,6 +1680,10 @@
       "title": "Takas yapmadan önce",
       "body": "Bu takasın değerini tahmin edemiyoruz. Devam etmeyi seçerseniz {{appName}} sorumlu değildir."
     },
+    "confirmSwapFailedWarning": {
+      "title": "Bir şeyler ters gitti",
+      "body": "Ağ hızı yavaş veya bilinmeyen bir hata var. Lütfen daha sonra tekrar deneyin"
+    },
     "estimatedExchangeRate": "Tahmini oran ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
       "title": "Yetersiz {{tokenSymbol}} bakiyesi",
@@ -1937,7 +1941,8 @@
     "connectPhoneNumberModal": {
       "title": "Telefon numaranı bağla",
       "description": "Arkadaşlarınıza kripto göndermeye başlayabilmek için telefon numaranızı bağlamanız gerekir"
-    }
+    },
+    "unknownAddressInfo": "Lütfen bu adresin göndermeye çalıştığınız varlığı desteklediğinden emin olun. Bu adres geçersizse fonlarınız kurtarılamayabilir."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Tamamlandı",
