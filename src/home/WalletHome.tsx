@@ -12,6 +12,7 @@ import {
   phoneNumberVerifiedSelector,
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
+import BetaTag from 'src/components/BetaTag'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -194,6 +195,9 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
+  const showBetaTag = true // TODO: Replace with feautre gate
+  const topLeftElement = showBetaTag && <BetaTag />
+
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
       <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
@@ -205,7 +209,11 @@ function WalletHome() {
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
-      <DrawerTopBar rightElement={topRightElements} scrollPosition={scrollPosition} />
+      <DrawerTopBar
+        leftElement={topLeftElement}
+        rightElement={topRightElements}
+        scrollPosition={scrollPosition}
+      />
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
