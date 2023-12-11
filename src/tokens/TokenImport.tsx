@@ -79,7 +79,7 @@ export default function TokenImportScreen(_: Props) {
       return false
     }
 
-    // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
+    // TODO(RET-891): if already imported, set error
     const tokenId = getTokenId(networkId, address.toLowerCase())
     if (supportedTokens[tokenId]) {
       setError(t('tokenImport.error.invalidToken'))
