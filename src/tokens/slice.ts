@@ -14,9 +14,8 @@ export interface BaseToken {
   networkId: NetworkId
   priceFetchedAt?: number
   isNative?: boolean
-  // This field is for tokens that are part of the core contracts that allow paying for fees and
-  // making transfers with a comment.
-  isCoreToken?: boolean
+  isFeeCurrency?: boolean
+  canTransferWithComment?: boolean
   // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean
   minimumAppVersionToSwap?: string

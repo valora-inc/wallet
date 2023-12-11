@@ -123,7 +123,7 @@ export function useFeeCurrencies(networkId: NetworkId) {
   const result = useMemo(
     () =>
       networkTokens
-        .filter((token) => token.isCoreToken || token.isNative)
+        .filter((token) => token.isFeeCurrency || token.isNative)
         .sort((a, b) => {
           if (a.isNative && !b.isNative) {
             return -1
