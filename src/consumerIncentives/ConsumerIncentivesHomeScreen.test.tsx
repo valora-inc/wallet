@@ -32,7 +32,7 @@ const CUSD_TOKEN_BALANCE = {
   symbol: 'cUSD',
   decimals: 18,
   imageUrl: '',
-  isCoreToken: true,
+  isFeeCurrency: true,
   name: 'cUSD',
   priceFetchedAt: Date.now(),
 }

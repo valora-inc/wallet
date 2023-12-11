@@ -2072,15 +2072,15 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.21":
-  version "0.5.21"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.21.tgz#da3b307a1e179d24ebc632096b7933f9379c77e5"
-  integrity sha512-HNCRKJJp1munAB+aFWkHFzHUL0i0FgYQF7kTdJSc/ossDqaXKSuXQQDUvkwX+wGNS7LClj8PZA1ULvroQmqKig==
+"@fiatconnect/fiatconnect-sdk@^0.5.22":
+  version "0.5.22"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.22.tgz#9f1359c6e9859de4612f958be146e73dc6353712"
+  integrity sha512-GYBjovvNJc6lKBs7DRVOg2mqAlv+Kjjft2Jhs6ZNiLNo18WkForMxAZXnK7R8iEF2E81mtmzfA/PqOgM0fLTlg==
   dependencies:
     "@badrap/result" "^0.2.13"
     "@fiatconnect/fiatconnect-types" "^13.3.0"
     cross-fetch "^4.0.0"
-    ethers "^6.8.1"
+    ethers "^6.9.0"
     fetch-cookie "^2.1.0"
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
@@ -3667,10 +3667,10 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
-"@react-native-async-storage/async-storage@^1.19.7":
-  version "1.19.8"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.19.8.tgz#a29fc4f4aa5c85805f8b3edea84e19f797c59fdd"
-  integrity sha512-O25eaSbmH+LEmOobkpwf43bAGIkqE9YGzfWcirTszI90xk4ItaDWpgJsQx9LeAbeAKzVkn1h+Nq5Bo6I6q2oFA==
+"@react-native-async-storage/async-storage@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.21.0.tgz#d7e370028e228ab84637016ceeb495878b7a44c8"
+  integrity sha512-JL0w36KuFHFCvnbOXRekqVAUplmOyT/OuCQkogo6X98MtpSaJOKEAeZnYO8JB0U/RIEixZaGI5px73YbRm/oag==
   dependencies:
     merge-options "^3.0.4"
 
@@ -7365,10 +7365,10 @@ bip66@^1.1.5:
   dependencies:
     safe-buffer "^5.0.1"
 
-bl@^4.1.0, bl@^6.0.8:
-  version "6.0.8"
-  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.8.tgz#737d57f2d1e25b9ca45e0f4c5d84409731a86c04"
-  integrity sha512-HCRq8z0+3vrGCjEKrbnK6blpDZ1xzhfZKCCuyvPC7upGcfXZSmaCumpVao/jC8o1hs/fOqJoCSPMabl+CQTPXg==
+bl@^4.1.0, bl@^6.0.9:
+  version "6.0.9"
+  resolved "https://registry.yarnpkg.com/bl/-/bl-6.0.9.tgz#df8fcb2ef7be2e5ee8f65afa493502914e0d816f"
+  integrity sha512-Vh+M9HMfeTST9rkkQ1utRnOeABNcBO3i0dJMFkenCv7JIp76XWx8uQOGpaXyXVyenrLDZsdAHXbf0Cz18Eb0fw==
   dependencies:
     buffer "^6.0.3"
     inherits "^2.0.4"
@@ -9818,10 +9818,10 @@ ethers@^5.0.13, ethers@^5.7.2, ethers@~5.7.2:
     "@ethersproject/web" "5.7.1"
     "@ethersproject/wordlists" "5.7.0"
 
-ethers@^6.8.1:
-  version "6.8.1"
-  resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.8.1.tgz#ee2a1a39b5f62a13678f90ccd879175391d0a2b4"
-  integrity sha512-iEKm6zox5h1lDn6scuRWdIdFJUCGg3+/aQWu0F4K0GVyEZiktFkqrJbRjTn1FlYEPz7RKA707D6g5Kdk6j7Ljg==
+ethers@^6.9.0:
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.9.0.tgz#a4534bdcdfde306aee94ef32f3d5c70d7e33fcb9"
+  integrity sha512-pmfNyQzc2mseLe91FnT2vmNaTt8dDzhxZ/xItAV7uGsF4dI4ek2ufMu3rAkgQETL/TIs0GS5A+U05g9QyWnv3Q==
   dependencies:
     "@adraffy/ens-normalize" "1.10.0"
     "@noble/curves" "1.2.0"
@@ -11176,10 +11176,10 @@ i18next@^22.5.1:
   dependencies:
     "@babel/runtime" "^7.20.6"
 
-ibantools@^4.3.5:
-  version "4.3.5"
-  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.5.tgz#137a12e98e53074cc5d5d58aef4a0a185d6c5194"
-  integrity sha512-RIEM1nv01QfsazrvA7f9QswQaXPa+K70aNngGPm7ayoPiK8IDXJYZXC54+qsYOfSF4FqYEyu1o3p0ZLstyJWHg==
+ibantools@^4.3.7:
+  version "4.3.8"
+  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.8.tgz#d3ccac7be1bdc139a80f3515463f5dc433f022d1"
+  integrity sha512-YBdswuzvCSn3EyFPKj4aolOaJ8fnQ3m+8bCwTbZJaDg2lMWKlQ4C37PodHCrCh6GmzVPpC7b6H+nKcJTDblu/g==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -15550,17 +15550,17 @@ react-native-flipper@^0.212.0:
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.212.0.tgz#b3fdd47676ecd09a25edd77a1466acace6276762"
   integrity sha512-bDRfIgE3v/jjEEdnvGP0T6maDD+bXhDAQ/SZUYTKd/CQ6YIU1c0EF+e0urU62LNMv6XEFQKz226McdddyVhYZA==
 
-react-native-fs@*, react-native-fs@^2.14.1, react-native-fs@^2.20.0:
-  version "2.20.0"
-  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
-  integrity sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==
+react-native-fs@*, react-native-fs@^2.14.1, "react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
+  version "2.16.6"
+  resolved "git+https://github.com/celo-org/react-native-fs#aa6db0f1d9b82bfdf58ebf72450c28311414f45f"
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-"react-native-fs@git+https://github.com/celo-org/react-native-fs#aa6db0f":
-  version "2.16.6"
-  resolved "git+https://github.com/celo-org/react-native-fs#aa6db0f1d9b82bfdf58ebf72450c28311414f45f"
+react-native-fs@^2.20.0:
+  version "2.20.0"
+  resolved "https://registry.yarnpkg.com/react-native-fs/-/react-native-fs-2.20.0.tgz#05a9362b473bfc0910772c0acbb73a78dbc810f6"
+  integrity sha512-VkTBzs7fIDUiy/XajOSNk0XazFE9l+QlMAce7lGuebZcag5CnjszB+u4BdqzwaQOdcYb5wsJIsqq4kxInIRpJQ==
   dependencies:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
@@ -15813,10 +15813,10 @@ react-native-version@^3.1.0:
     resolve-from "^5.0.0"
     semver "^6.0.0"
 
-react-native-video@^6.0.0-beta.0:
-  version "6.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.0.tgz#c6c3c21f3d46e66dfc942f61dc65dc89ca6b5ff5"
-  integrity sha512-PZrwrbVKvIyDdRImV76T75/Cmilx5TC1H78D5/rPOsiE/LKabWWXUDNZeNx8hdwcmdPxtGHK77BdLq8S1qYAmQ==
+react-native-video@^6.0.0-beta.1:
+  version "6.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.2.tgz#b3dce837300a99c2e6db0adf0a1e215906472ad9"
+  integrity sha512-5BHUN82Q3Op9hN8Dwe2tv7xIzVBVYaYOFyS67jdkljVdUBa7V75lMka5ovE4OSycII4vk6p8pF6QuxrkAX+nIg==
 
 react-native-webview@^13.6.3:
   version "13.6.3"
