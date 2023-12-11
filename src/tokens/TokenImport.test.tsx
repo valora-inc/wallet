@@ -109,7 +109,7 @@ describe('TokenImport', () => {
       fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), mockCusdAddress)
       fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
 
-      expect(getByText('tokenImport.error.alreadySupported')).toBeTruthy()
+      expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
       expect(getByText('tokenImport.importButton')).toBeDisabled()
     })
 
@@ -147,7 +147,7 @@ describe('TokenImport', () => {
 
       await waitFor(() => {
         expect(tokenSymbolInput).toBeDisabled()
-        expect(getByText('tokenImport.error.notErc20Token')).toBeTruthy()
+        expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
         expect(importButton).toBeDisabled()
       })
     })
@@ -172,7 +172,7 @@ describe('TokenImport', () => {
 
       await waitFor(() => {
         expect(tokenSymbolInput).toBeDisabled()
-        expect(getByText('tokenImport.error.notContract')).toBeTruthy()
+        expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
         expect(importButton).toBeDisabled()
       })
     })
@@ -216,7 +216,7 @@ describe('TokenImport', () => {
       await waitFor(() => {
         jest.advanceTimersToNextTimer()
         expect(tokenSymbolInput).toBeDisabled()
-        expect(getByText('tokenImport.error.timeout')).toBeTruthy()
+        expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
         expect(importButton).toBeDisabled()
       })
     })

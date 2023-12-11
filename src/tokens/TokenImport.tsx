@@ -82,7 +82,7 @@ export default function TokenImportScreen(_: Props) {
     // TODO(RET-891): if already imported, set state as AddressState.AlreadyImported
     const tokenId = getTokenId(networkId, address.toLowerCase())
     if (supportedTokens[tokenId]) {
-      setError(t('tokenImport.error.alreadySupported'))
+      setError(t('tokenImport.error.invalidToken'))
       ValoraAnalytics.track(AssetsEvents.import_token_error, {
         networkId,
         tokenId,
@@ -146,7 +146,7 @@ export default function TokenImportScreen(_: Props) {
           error instanceof BaseError &&
           (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
         if (hasTimeout(error)) {
-          setError(t('tokenImport.error.timeout'))
+          setError(t('tokenImport.error.invalidToken'))
           ValoraAnalytics.track(AssetsEvents.import_token_error, {
             networkId,
             tokenId,
@@ -157,7 +157,7 @@ export default function TokenImportScreen(_: Props) {
         }
 
         if (error instanceof NotContractError) {
-          setError(t('tokenImport.error.notContract'))
+          setError(t('tokenImport.error.invalidToken'))
           ValoraAnalytics.track(AssetsEvents.import_token_error, {
             networkId,
             tokenId,
@@ -167,7 +167,7 @@ export default function TokenImportScreen(_: Props) {
           return
         }
 
-        setError(t('tokenImport.error.notErc20Token'))
+        setError(t('tokenImport.error.invalidToken'))
         ValoraAnalytics.track(AssetsEvents.import_token_error, {
           networkId,
           tokenId,
