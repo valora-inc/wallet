@@ -110,7 +110,7 @@ describe('KeychainWallet', () => {
   it('fails if you add an invalid private key', async () => {
     await expect(
       wallet.addAccount('this is not a valid private key', 'password')
-    ).rejects.toThrowError('private key length is invalid')
+    ).rejects.toThrowError('Expected private key to be an Uint8Array with length 32')
   })
 
   it('succeeds if you add a private key without 0x', async () => {
