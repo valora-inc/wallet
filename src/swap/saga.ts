@@ -469,13 +469,12 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
     const feeCurrencyId = getTokenId(networkId, getFeeCurrency(preparedTransactions))
 
     // if there is an approval transaction, add a standby transaction for it
-    if (preparedTransactions.length > 1) {
-      const approvalTx = preparedTransactions[0]
+    if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
       const { functionName, args } = yield* call(decodeFunctionData, {
         abi: erc20.abi,
-        data: approvalTx.data ?? '0x0',
+        data: preparedTransactions[0].data,
       })
-      if (functionName === 'approve' && approvalTx.to === fromToken.address && args) {
+      if (functionName === 'approve' && preparedTransactions[0].to === fromToken.address && args) {
         const approvedAmountInSmallestUnit = args[1] as bigint
         const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
           .shiftedBy(-fromToken.decimals)
