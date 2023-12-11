@@ -1867,7 +1867,7 @@
   dependencies:
     "@ethersproject/logger" "^5.7.0"
 
-"@ethersproject/providers@5.7.2":
+"@ethersproject/providers@5.7.2", "@ethersproject/providers@^5.7.2":
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/@ethersproject/providers/-/providers-5.7.2.tgz#f8b1a4f275d7ce58cf0a2eec222269a08beb18cb"
   integrity sha512-g34EWZ1WWAVgr4aptGlVBF8mhl3VWjv+8hoAnzStu8Ah22VHBsuGzP17eb6xDVRzw895G4W7vvx60lFFur/1Rg==
@@ -2573,25 +2573,30 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
-"@masa-finance/masa-contracts-identity@^1.7.0":
+"@masa-finance/masa-contracts-identity@^1.12.0-alpha.2":
   version "1.12.0"
   resolved "https://registry.yarnpkg.com/@masa-finance/masa-contracts-identity/-/masa-contracts-identity-1.12.0.tgz#29e83ad6d0c91f98f0bfdae1073cd5cbe6d1b045"
   integrity sha512-BUd7yuxZBuM08boBz77i7cXUlt51smcbjIOhw5dR82fYyis5LwzmokSE/5JJWdIO6M9VYgpeiAQrSWoh3LzHlA==
   dependencies:
     ethers "~5.7.2"
 
-"@masa-finance/masa-sdk@^2.2.2":
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/@masa-finance/masa-sdk/-/masa-sdk-2.2.2.tgz#88aac4a27e8395708c0f1ca0a4528205d72c900a"
-  integrity sha512-RdR3vauOgD9+gS3PvtE371C1yMUfOZqsrrC2EsIUXRMwi5nMyBb83e7O4YkFdYZopchuqE16Gd/o5dSkPYNiQA==
+"@masa-finance/masa-sdk@^3.14.4":
+  version "3.14.4"
+  resolved "https://registry.yarnpkg.com/@masa-finance/masa-sdk/-/masa-sdk-3.14.4.tgz#ae69639266979ade6001963e044cbcfd5e8fe77e"
+  integrity sha512-vTYEogee9/IK5bA1ruKuCb0qN0K8eHxF1SZCYFwXR/3zOCIl2iEm48BLik5LF1sNMB910KvINb8GpisUjmE3Wg==
   dependencies:
-    "@masa-finance/masa-contracts-identity" "^1.7.0"
+    "@ethersproject/abi" "^5.7.0"
+    "@ethersproject/abstract-provider" "^5.7.0"
+    "@ethersproject/abstract-signer" "^5.7.0"
+    "@ethersproject/bignumber" "^5.7.0"
+    "@ethersproject/providers" "^5.7.2"
+    "@masa-finance/masa-contracts-identity" "^1.12.0-alpha.2"
     "@masa-finance/masa-token" "^2.0.0"
     arweave "1.11.8"
     axios "^1.3.2"
     ethers "~5.7.2"
     grapheme-splitter "^1.0.4"
-    typescript "^5.0.2"
+    typescript "^5.3.2"
 
 "@masa-finance/masa-token@^2.0.0":
   version "2.0.0"
@@ -6294,16 +6299,16 @@
   dependencies:
     "@typescript-eslint/parser" "^5.62.0"
 
-"@valora/resolve-kit@^2.1.1":
-  version "2.1.1"
-  resolved "https://registry.yarnpkg.com/@valora/resolve-kit/-/resolve-kit-2.1.1.tgz#d9ed2079c1d2d05232569ffca7bc26f22077204b"
-  integrity sha512-JJ2X+qKd4M74tnDk9e+ysSjNZ9Gp7MvkvERHykjysmlQ/2CEBHudUyzhNU0XWBuu+Ig7w9TJiGLwPL7LCEnOFQ==
+"@valora/resolve-kit@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@valora/resolve-kit/-/resolve-kit-2.1.2.tgz#15cf69a85b1877aa08cf93e15c344425f0a8ac55"
+  integrity sha512-KDrAryWQkAMGkQ20Kog9gyJTppiCwm6RLFVeyUU4l2tt+bRuebIYTVjOuUFLrqTkBD5m1XkykK5FLvvx85Tj5Q==
   dependencies:
     "@celo/base" "^6.0.0"
     "@celo/identity" "^5.1.1"
     "@celo/utils" "^5.0.6"
     "@ensdomains/ensjs" "^2.1.0"
-    "@masa-finance/masa-sdk" "^2.2.2"
+    "@masa-finance/masa-sdk" "^3.14.4"
     eth-ens-namehash "^2.0.8"
     ethers "^5.7.2"
 
@@ -18076,6 +18081,11 @@ typescript@^5.0.2, typescript@^5.2.2:
   version "5.2.2"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
+
+typescript@^5.3.2:
+  version "5.3.3"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
+  integrity sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==
 
 typescript@~4.9.5:
   version "4.9.5"
