@@ -1454,6 +1454,13 @@ export const migrations = {
   }),
   174: (state: any) => ({
     ...state,
+    identity: {
+      ...state.identity,
+      addressToVerificationStatus: {},
+    },
+  }),
+  175: (state: any) => ({
+    ...state,
     tokens: {
       ...state.tokens,
       tokenBalances: _.mapValues(state.tokens.tokenBalances, (item: any) => {
@@ -1464,9 +1471,6 @@ export const migrations = {
         }
         return newItem
       }),
-    identity: {
-      ...state.identity,
-      addressToVerificationStatus: {},
     },
   }),
 }

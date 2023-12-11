@@ -38,7 +38,7 @@ import {
   v16Schema,
   v171Schema,
   v172Schema,
-  v173Schema,
+  v174Schema,
   v17Schema,
   v18Schema,
   v1Schema,
@@ -1431,9 +1431,9 @@ describe('Redux persist migrations', () => {
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 
-  it('works from 173 to 174', () => {
-    const oldSchema = v173Schema
-    const migratedSchema = migrations[174](oldSchema)
+  it('works from 174 to 175', () => {
+    const oldSchema = v174Schema
+    const migratedSchema = migrations[175](oldSchema)
 
     // CELO
     const celoToken = migratedSchema.tokens.tokenBalances['celo-alfajores:native']
