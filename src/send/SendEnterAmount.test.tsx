@@ -43,7 +43,7 @@ const mockStore = {
         ...mockTokenBalances[mockCeloTokenId],
         priceUsd: '0.5',
         balance: '0.5',
-      }, // fee currency, matches mockC
+      }, // fee currency, matches mockCeloTokenBalance
       [mockEthTokenId]: {
         tokenId: mockEthTokenId,
         balance: '0',
