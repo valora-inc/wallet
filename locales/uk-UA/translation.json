@@ -1671,6 +1671,11 @@
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Ви перейшли до мережі {{networkName}}",
+      "body_swapFrom": "Виберіть токен для обміну в мережі {{networkName}} , щоб продовжити.",
+      "body_swapTo": "Виберіть токен, на який ви хочете переключитися в мережі {{networkName}} , щоб продовжити."
+    },
     "maxSwapAmountWarning": {
       "title": "Обмін МАКС. суми",
       "body": "Переконайтеся, що у вашому гаманці є CELO, щоб покрити комісії за газ для подальших транзакцій",
