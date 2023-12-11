@@ -37,6 +37,7 @@ const config: KnipConfig = {
     '@types/jest',
     'husky',
     'react-native-randombytes', // not sure we need this; only referenced in iOS Podfile.lock
+    'web3-eth-contract', // otherwise we get type errors from different versions of Contract between versions 1.10.3, 1.10.0 used by different deps
   ],
 }
 
