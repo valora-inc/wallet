@@ -48,6 +48,17 @@ interface TokenDetails {
   balance: bigint
 }
 
+enum Errors {
+  AlreadyImported = 'AlreadyImported',
+  AlreadySupported = 'AlreadySupported',
+  NotContract = 'NotContract',
+  Timeout = 'Timeout',
+  NotERC20 = 'NotERC20',
+}
+class NotContractError extends Error {
+  name = 'NotContractError'
+}
+
 export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -72,10 +83,11 @@ export default function TokenImportScreen(_: Props) {
     const tokenId = getTokenId(networkId, address.toLowerCase())
     if (supportedTokens[tokenId]) {
       setError(t('tokenImport.error.alreadySupported'))
-      ValoraAnalytics.track(AssetsEvents.import_token_already_supported, {
+      ValoraAnalytics.track(AssetsEvents.import_token_error, {
         networkId,
         tokenId,
         tokenAddress,
+        error: Errors.AlreadySupported,
       })
       return false
     }
@@ -88,11 +100,15 @@ export default function TokenImportScreen(_: Props) {
     tokenAddress: Address,
     walletAddress: Address
   ): Promise<TokenDetails> => {
+    const client = publicClient[networkIdToNetwork[networkId]]
     const contract = getContract({
       abi: erc20.abi,
       address: tokenAddress,
-      publicClient: publicClient[networkIdToNetwork[networkId]],
+      publicClient: client,
     })
+
+    const contractCode = await client.getBytecode({ address: tokenAddress })
+    if (!contractCode) throw new NotContractError('Contract code is empty')
 
     const [symbol, decimals, name, balance] = await Promise.all([
       contract.read.symbol(),
@@ -122,31 +138,42 @@ export default function TokenImportScreen(_: Props) {
         setTokenSymbol(details.symbol)
       },
       onError: (error) => {
-        // should be ContractFunctionExecutionErrorType according to https://viem.sh/docs/error-handling.html
         Logger.error(TAG, `Could not fetch token details`, error)
+        const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
 
         // it doesn't directly show if it's a timeout error, need to check cause recursively
         const hasTimeout = (error: unknown): boolean =>
           error instanceof BaseError &&
-          (error.name === TimeoutError.name ||
-            (error.cause !== undefined && hasTimeout(error.cause)))
-
-        const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
+          (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
         if (hasTimeout(error)) {
           setError(t('tokenImport.error.timeout'))
-          ValoraAnalytics.track(AssetsEvents.import_token_timeout, {
+          ValoraAnalytics.track(AssetsEvents.import_token_error, {
             networkId,
             tokenId,
             tokenAddress,
+            error: Errors.Timeout,
           })
-        } else {
-          setError(t('tokenImport.error.notErc20Token'))
-          ValoraAnalytics.track(AssetsEvents.import_token_not_erc20, {
-            networkId,
-            tokenId,
-            tokenAddress,
-          })
+          return
         }
+
+        if (error instanceof NotContractError) {
+          setError(t('tokenImport.error.notContract'))
+          ValoraAnalytics.track(AssetsEvents.import_token_error, {
+            networkId,
+            tokenId,
+            tokenAddress,
+            error: Errors.NotContract,
+          })
+          return
+        }
+
+        setError(t('tokenImport.error.notErc20Token'))
+        ValoraAnalytics.track(AssetsEvents.import_token_error, {
+          networkId,
+          tokenId,
+          tokenAddress,
+          error: Errors.NotERC20,
+        })
       },
     }
   )

@@ -3,6 +3,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
 import { Screens } from 'src/navigator/Screens'
+import { publicClient } from 'src/viem'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
 import {
@@ -25,10 +27,14 @@ jest.mock('viem', () => ({
 const mockScreenProps = getMockStackScreenProps(Screens.TokenImport)
 
 describe('TokenImport', () => {
+  const mockBytecode = jest.fn()
   const mockSymbol = jest.fn()
+
   beforeEach(() => {
     jest.resetAllMocks()
+    const client = publicClient[networkIdToNetwork[networkConfig.defaultNetworkId]]
 
+    client.getBytecode = mockBytecode.mockResolvedValue('0xabc')
     mocked(getContract).mockReturnValue({
       read: {
         symbol: mockSymbol.mockResolvedValue('ABC'),
@@ -146,11 +152,37 @@ describe('TokenImport', () => {
       })
     })
 
+    it('should display the correct error message due to address not being a contract', async () => {
+      mockBytecode.mockResolvedValue(undefined)
+
+      const store = createMockStore({})
+      const { getByText, getByPlaceholderText, getByTestId } = render(
+        <Provider store={store}>
+          <TokenImportScreen {...mockScreenProps} />
+        </Provider>
+      )
+      const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
+      const tokenSymbolInput = getByTestId('tokenSymbol')
+      const importButton = getByText('tokenImport.importButton')
+
+      fireEvent.changeText(tokenAddressInput, mockPoofAddress)
+      expect(tokenSymbolInput).toBeDisabled()
+      expect(importButton).toBeDisabled()
+      fireEvent(tokenAddressInput, 'blur')
+
+      await waitFor(() => {
+        expect(tokenSymbolInput).toBeDisabled()
+        expect(getByText('tokenImport.error.notContract')).toBeTruthy()
+        expect(importButton).toBeDisabled()
+      })
+    })
+
     it('should display the correct error message due to network timeout', async () => {
       jest.useFakeTimers()
+      mockBytecode.mockResolvedValue('0xb0babeef')
       mockSymbol.mockImplementation(
         () =>
-          new Promise((resolve, reject) => {
+          new Promise((_, reject) => {
             const timeoutError = new TimeoutError({ body: {}, url: '' })
             const callExecution = new CallExecutionError(timeoutError, {})
             const contractFunctionExecutionError = new ContractFunctionExecutionError(
@@ -162,7 +194,7 @@ describe('TokenImport', () => {
                 functionName: 'symbol',
               }
             )
-            setTimeout(() => reject(contractFunctionExecutionError), 10_000)
+            setTimeout(() => reject(contractFunctionExecutionError), 5_000)
           })
       )
 
@@ -181,8 +213,8 @@ describe('TokenImport', () => {
       expect(importButton).toBeDisabled()
       fireEvent(tokenAddressInput, 'blur')
 
-      jest.advanceTimersByTime(11_000)
       await waitFor(() => {
+        jest.advanceTimersToNextTimer()
         expect(tokenSymbolInput).toBeDisabled()
         expect(getByText('tokenImport.error.timeout')).toBeTruthy()
         expect(importButton).toBeDisabled()

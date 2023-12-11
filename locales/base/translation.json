@@ -1896,7 +1896,8 @@
       "alreadyImported": "Token was added already before.",
       "alreadySupported": "Token is already supported.",
       "notErc20Token": "Unrecognized contract. Verify token details.",
-      "timeout": "Network timeout. Please retry."
+      "timeout": "Network timeout. Please retry.",
+      "notContract": "Address is not a contract address."
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"

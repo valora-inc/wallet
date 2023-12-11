@@ -1452,20 +1452,11 @@ interface AssetsEventsProperties {
     tokenSymbol: string
   }
   [AssetsEvents.import_token_paste]: undefined
-  [AssetsEvents.import_token_not_erc20]: {
+  [AssetsEvents.import_token_error]: {
     networkId: string
     tokenId: string
     tokenAddress: string
-  }
-  [AssetsEvents.import_token_timeout]: {
-    networkId: string
-    tokenId: string
-    tokenAddress: string
-  }
-  [AssetsEvents.import_token_already_supported]: {
-    networkId: string
-    tokenId: string
-    tokenAddress: string
+    error: string
   }
 }
 
