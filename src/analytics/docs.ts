@@ -541,6 +541,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AssetsEvents.import_token_screen_open]: `When a user taps on the "Import" top bar button in the Assets screen`,
   [AssetsEvents.import_token_submit]: `When a user taps on the "Import" button in the Import Token screen`,
   [AssetsEvents.import_token_paste]: `When a user taps on the "Paste" button in the Import Token screen`,
+  [AssetsEvents.import_token_error]: `When a user enters token address and validation fails in the Import Token screen`,
   [NftEvents.nft_error_screen_open]: `When the high level error screen is mounted`,
   [NftEvents.nft_media_load]: `When attempting to load NFT media`,
   [NftEvents.nft_gallery_screen_open]: `When the gallery screen is mounted`,
