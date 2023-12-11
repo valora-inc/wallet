@@ -179,7 +179,9 @@ export default function TokenImportScreen(_: Props) {
     !address || address.startsWith('0x') ? address : `0x${address}`
 
   const handleAddressBlur = async () => {
+    if (error) return
     if (validateContract.status !== 'not-requested') return
+
     const address = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(address)
     if (validateAddress(address)) {
@@ -190,9 +192,9 @@ export default function TokenImportScreen(_: Props) {
 
   const handlePaste = async (address: string) => {
     ValoraAnalytics.track(AssetsEvents.import_token_paste)
-    Keyboard.dismiss()
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
     setTokenAddress(addressWith0xPrefix)
+    Keyboard.dismiss()
     if (validateAddress(addressWith0xPrefix)) {
       // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
       await validateContract.execute().catch(() => undefined)
