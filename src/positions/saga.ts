@@ -83,7 +83,7 @@ async function fetchHooks(
     POSITIONS_FETCH_TIMEOUT
   )
   if (!response.ok) {
-    throw new Error(`Unable to fetch positions: ${response.status} ${response.statusText}`)
+    throw new Error(`Unable to fetch ${functionName}: ${response.status} ${response.statusText}`)
   }
   const json = await response.json()
   return json.data
