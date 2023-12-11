@@ -2,9 +2,11 @@ import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getFeatureGate } from 'src/statsig'
 import {
+  _feeCurrenciesByNetworkIdSelector,
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
   defaultTokenToSendSelector,
+  feeCurrenciesSelector,
   spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
@@ -17,7 +19,7 @@ import {
 } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
-import { mockEthTokenId } from 'test/values'
+import { mockCeloTokenId, mockEthTokenId, mockTokenBalances } from 'test/values'
 
 const mockDate = 1588200517518
 
@@ -172,9 +174,12 @@ describe(tokensByIdSelector, () => {
     })
     it('avoids unnecessary recomputation', () => {
       const tokensById = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
+      const tokensByIdSepolia = tokensByIdSelector(state, [NetworkId['ethereum-sepolia']])
       const tokensById2 = tokensByIdSelector(state, [NetworkId['celo-alfajores']])
+
+      expect(tokensByIdSepolia).not.toEqual(tokensById)
       expect(tokensById).toEqual(tokensById2)
-      expect(tokensByIdSelector.recomputations()).toEqual(1)
+      expect(tokensByIdSelector.recomputations()).toEqual(2) // once for each different networkId
     })
   })
 })
@@ -484,5 +489,60 @@ describe(spendTokensByNetworkIdSelector, () => {
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
       expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
     })
+  })
+})
+
+describe('feeCurrenciesSelector', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const mockState: any = {
+    tokens: {
+      tokenBalances: {
+        ...state.tokens.tokenBalances,
+        ['celo-alfajores:0xusd']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xusd'],
+          isFeeCurrency: true,
+          balance: '200',
+        },
+        ['celo-alfajores:0xeur']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xeur'],
+          isFeeCurrency: true,
+          balance: '0',
+        },
+        [mockCeloTokenId]: {
+          ...mockTokenBalances[mockCeloTokenId],
+          isFeeCurrency: true,
+          isNative: true,
+          balance: '200',
+        },
+        [mockEthTokenId]: {
+          ...state.tokens.tokenBalances[mockEthTokenId],
+          isNative: true,
+          balance: '200',
+        },
+      },
+    },
+  }
+
+  it('returns feeCurrencies sorted by native currency first, then by USD balance, and balance otherwise', () => {
+    const result = feeCurrenciesSelector(mockState, NetworkId['celo-alfajores'])
+
+    expect(result.map((currency) => currency.tokenId)).toEqual([
+      mockCeloTokenId,
+      'celo-alfajores:0xusd',
+      'celo-alfajores:0xeur',
+    ])
+  })
+
+  it('avoids unnecessary recomputations for calculating fee currencies', () => {
+    const resultAlfajores = feeCurrenciesSelector(mockState, NetworkId['celo-alfajores'])
+    const resultSepolia = feeCurrenciesSelector(mockState, NetworkId['ethereum-sepolia'])
+    const resultAlfajores2 = feeCurrenciesSelector(mockState, NetworkId['celo-alfajores'])
+
+    expect(resultAlfajores).toEqual(resultAlfajores2)
+    expect(resultAlfajores).not.toEqual(resultSepolia)
+    expect(_feeCurrenciesByNetworkIdSelector.recomputations()).toEqual(1)
   })
 })

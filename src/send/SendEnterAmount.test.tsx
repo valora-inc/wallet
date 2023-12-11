@@ -6,7 +6,6 @@ import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
-import { useFeeCurrencies } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
@@ -40,6 +39,11 @@ const mockStore = {
   tokens: {
     tokenBalances: {
       ...mockTokenBalances,
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
+        priceUsd: '0.5',
+        balance: '0.5',
+      }, // fee currency, matches mockC
       [mockEthTokenId]: {
         tokenId: mockEthTokenId,
         balance: '0',
@@ -103,7 +107,6 @@ describe('SendEnterAmount', () => {
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
-    jest.mocked(useFeeCurrencies).mockReturnValue(mockFeeCurrencies)
     jest.mocked(usePrepareSendTransactions).mockReturnValue(mockUsePrepareSendTransactionsOutput)
     BigNumber.config({
       FORMAT: {
