@@ -1897,9 +1897,7 @@
       "network": "Netzwerk"
     },
     "error": {
-      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team",
-      "alreadyImported": "Token wurde bereits vorher hinzugefügt.",
-      "alreadySupported": "Token wird bereits unterstützt."
+      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team"
     },
     "importSuccess": "{{tokenSymbol}} Token erfolgreich importiert",
     "importButton": "Importieren"
