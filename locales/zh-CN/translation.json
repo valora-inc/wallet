@@ -1895,9 +1895,7 @@
       "network": "网络"
     },
     "error": {
-      "invalidToken": "代币无效。请重试或联系支持人员",
-      "alreadyImported": "代币已被添加。",
-      "alreadySupported": "代币已获支持。"
+      "invalidToken": "代币无效。请重试或联系支持人员"
     },
     "importSuccess": "成功导入 {{tokenSymbol}} 代币",
     "importButton": "导入"
