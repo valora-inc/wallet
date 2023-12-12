@@ -1678,7 +1678,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
+      "titleV1_74": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
+      "bodyV1_74": "Upewnij się, że masz w portfelu {{tokenSymbol}} , aby pokryć opłaty za gaz w przyszłych transakcjach.",
       "learnMore": "Dowiedz się więcej"
     },
     "priceImpactWarning": {
