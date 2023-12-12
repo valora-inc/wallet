@@ -1981,7 +1981,7 @@
     "estimatedNetworkFee": "Costo stimato della rete",
     "networkFee": "Costo della rete",
     "finiteApprovalDescription": "Approvato {{approvedAmount}} {{tokenSymbol}} per il commercio",
-    "infiniteApprovalDescription": "Approvato {{tokenSymbol}} per il commercio",
+    "infiniteApprovalDescription": "Approvato infinito {{tokenSymbol}} per il commercio",
     "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per il commercio",
     "descriptionLabel": "Dettagli"
   },
