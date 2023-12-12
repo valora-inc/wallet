@@ -172,7 +172,7 @@ describe('SendSelectRecipient', () => {
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)
 
-    const store = createMockStore(defaultStore)
+    const store = createMockStore(storeWithPhoneVerified)
 
     const { getByTestId } = render(
       <Provider store={store}>
@@ -245,7 +245,7 @@ describe('SendSelectRecipient', () => {
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
 
-    const store = createMockStore(defaultStore)
+    const store = createMockStore(storeWithPhoneVerified)
 
     const { getByTestId } = render(
       <Provider store={store}>
@@ -400,6 +400,40 @@ describe('SendSelectRecipient', () => {
     expect(store.getActions()).toEqual([])
     expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+  })
+  it('shows unknown address info text and send button when searching for address with cached phone number but no longer connected to the phone number', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
+
+    const store = createMockStore(storeWithPhoneVerified)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    await waitFor(() => {
+      expect(getByTestId('SendSelectRecipientSearchInput')).toBeTruthy()
+    })
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockAccount)
+    })
+
+    expect(getByTestId('RecipientItem')).toHaveTextContent(mockRecipient.name)
+    expect(getByTestId('RecipientItem')).toHaveTextContent(mockRecipient.displayNumber)
+
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(store.getActions()).toEqual([fetchAddressVerification(mockAccount)])
+    expect(getByTestId('UnknownAddressInfo')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toHaveTextContent('send')
   })
   it('shows paste button if clipboard has address content', async () => {
     const store = createMockStore(defaultStore)
