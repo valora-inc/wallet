@@ -1981,7 +1981,7 @@
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
-    "infiniteApprovalDescription": "{{tokenSymbol}} işlem için onaylandı",
+    "infiniteApprovalDescription": "Ticaret için onaylanmış sonsuz {{tokenSymbol}}",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar"
   },
