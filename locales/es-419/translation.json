@@ -1674,7 +1674,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
+      "titleV1_74": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
+      "bodyV1_74": "Asegúrate de que tienes {{tokenSymbol}} en tu cartera para cubrir los gastos de gasolina en futuras transacciones",
       "learnMore": "Más información"
     },
     "priceImpactWarning": {
