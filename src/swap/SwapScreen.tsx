@@ -137,6 +137,7 @@ export function SwapScreen({ route }: Props) {
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [shouldShowMaxSwapAmountWarning, setShouldShowMaxSwapAmountWarning] = useState(false)
+  const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
 
   // TODO: remove this once we have viem enabled for everyone
   const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
@@ -429,28 +430,61 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = (selectedToken: TokenBalance) => {
-    if (selectedToken && selectingToken) {
-      ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
-        fieldType: selectingToken,
-        tokenSymbol: selectedToken.symbol,
-        tokenId: selectedToken.tokenId,
-        tokenNetworkId: selectedToken.networkId,
-      })
+    if (!selectingToken) {
+      // Should never happen
+      Logger.error(TAG, 'handleSelectToken called without selectingToken')
+      return
     }
+
+    let newSwitchedToNetworkId: NetworkId | null = null
+    let newFromToken = fromToken
+    let newToToken = toToken
 
     if (
       (selectingToken === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
       (selectingToken === Field.TO && fromToken?.tokenId === selectedToken.tokenId)
     ) {
-      setFromToken(toToken)
-      setToToken(fromToken)
+      newFromToken = toToken
+      newToToken = fromToken
     } else if (selectingToken === Field.FROM) {
-      setFromToken(selectedToken)
+      newFromToken = selectedToken
+      newSwitchedToNetworkId =
+        toToken && toToken.networkId !== newFromToken.networkId ? newFromToken.networkId : null
+      if (newSwitchedToNetworkId) {
+        // reset the toToken if the user is switching networks
+        newToToken = undefined
+      }
     } else if (selectingToken === Field.TO) {
-      setToToken(selectedToken)
+      newToToken = selectedToken
+      newSwitchedToNetworkId =
+        fromToken && fromToken.networkId !== newToToken.networkId ? newToToken.networkId : null
+      if (newSwitchedToNetworkId) {
+        // reset the fromToken if the user is switching networks
+        newFromToken = undefined
+      }
     }
 
-    setSelectingToken(null)
+    ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
+      fieldType: selectingToken,
+      tokenSymbol: selectedToken.symbol,
+      tokenId: selectedToken.tokenId,
+      tokenNetworkId: selectedToken.networkId,
+      fromTokenSymbol: newFromToken?.symbol,
+      fromTokenId: newFromToken?.tokenId,
+      fromTokenNetworkId: newFromToken?.networkId,
+      toTokenSymbol: newToToken?.symbol,
+      toTokenId: newToToken?.tokenId,
+      toTokenNetworkId: newToToken?.networkId,
+      switchedNetworkId: !!newSwitchedToNetworkId,
+    })
+
+    setFromToken(newFromToken)
+    setToToken(newToToken)
+    setSwitchedToNetworkId(newSwitchedToNetworkId)
+
+    if (newSwitchedToNetworkId) {
+      clearQuote()
+    }
 
     // use requestAnimationFrame so that the bottom sheet and keyboard dismiss
     // animation can be synchronised and starts after the state changes above.
@@ -519,7 +553,10 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const showMaxSwapAmountWarning = !confirmSwapFailed && shouldShowMaxSwapAmountWarning
+  const showSwitchedToNetworkWarning = !!switchedToNetworkId
+  const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
+  const showMaxSwapAmountWarning =
+    !confirmSwapFailed && !showSwitchedToNetworkWarning && shouldShowMaxSwapAmountWarning
   const showPriceImpactWarning =
     !confirmSwapFailed &&
     !exchangeRateUpdatePending &&
@@ -586,7 +623,20 @@ export function SwapScreen({ route }: Props) {
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={exchangeRateUpdatePending}
           />
-
+          {showSwitchedToNetworkWarning && (
+            <InLineNotification
+              severity={Severity.Informational}
+              title={t('swapScreen.switchedToNetworkWarning.title', {
+                networkName: switchedToNetworkName,
+              })}
+              description={t('swapScreen.switchedToNetworkWarning.body', {
+                networkName: switchedToNetworkName,
+                context: selectingToken === Field.FROM ? 'swapTo' : 'swapFrom',
+              })}
+              style={styles.warning}
+              testID="SwitchedToNetworkWarning"
+            />
+          )}
           {showMaxSwapAmountWarning && (
             <InLineNotification
               severity={Severity.Warning}
@@ -595,6 +645,7 @@ export function SwapScreen({ route }: Props) {
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
               style={styles.warning}
               onPressCta={onPressLearnMoreFees}
+              testID="MaxSwapAmountWarning"
             />
           )}
           {showPriceImpactWarning && (

@@ -7,6 +7,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
+import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
@@ -18,11 +19,10 @@ import {
   mockCusdTokenId,
   mockPositions,
   mockTestTokenAddress,
-  mockTokenBalances,
   mockTestTokenTokenId,
+  mockTokenBalances,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => {
   return {
@@ -91,7 +91,8 @@ const storeWithPositions = {
         name: 'Celo Euro',
         decimals: 18,
         balance: '5',
-        isCoreToken: true,
+        isFeeCurrency: true,
+        canTransferWithComment: true,
         priceFetchedAt: Date.now(),
       },
       [mockCusdTokenId]: {
@@ -105,7 +106,8 @@ const storeWithPositions = {
         name: 'Celo Dollar',
         decimals: 18,
         balance: '10',
-        isCoreToken: true,
+        isFeeCurrency: true,
+        canTransferWithComment: true,
         priceFetchedAt: Date.now(),
       },
     },
