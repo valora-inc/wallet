@@ -1983,7 +1983,7 @@
     "estimatedNetworkFee": "Estimated network fee",
     "networkFee": "Network fee",
     "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
-    "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
+    "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details"
   },
