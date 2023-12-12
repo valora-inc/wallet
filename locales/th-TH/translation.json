@@ -1672,7 +1672,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "การสว็อปจำนวนเงินสูงสุด",
+      "titleV1_74": "การสว็อปจำนวนเงินสูงสุด",
       "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
+      "bodyV1_74": "Make sure you have {{tokenSymbol}} in your wallet to cover gas fees for future transactions",
       "learnMore": "ดูข้อมูลเพิ่มเติม"
     },
     "priceImpactWarning": {
