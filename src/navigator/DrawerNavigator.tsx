@@ -195,9 +195,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         <Text style={styles.supportedNetworks}>
           {networks.length > 1
             ? t('supportedNetworks', {
-                networks: [networkNames.slice(0, -1).join(', '), networkNames.at(-1)].join(
-                  ` ${t('and')} `
-                ),
+                networks: `${networkNames.slice(0, -1).join(', ')} ${t('and')} ${networkNames.at(-1)}`,
               })
             : t('supportedNetwork', {
                 network: networkNames[0],
