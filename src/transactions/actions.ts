@@ -3,6 +3,7 @@ import { InviteTransactions } from 'src/transactions/reducer'
 import {
   Fee,
   NetworkId,
+  PendingStandbyApproval,
   PendingStandbySwap,
   PendingStandbyTransfer,
   TokenTransaction,
@@ -23,6 +24,7 @@ export enum Actions {
 type BaseStandbyTransaction =
   | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
   | Omit<PendingStandbySwap, 'timestamp' | 'status'>
+  | Omit<PendingStandbyApproval, 'timestamp' | 'status'>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
