@@ -1979,7 +1979,7 @@
     "estimatedNetworkFee": "估计网络费用",
     "networkFee": "网络费用",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}}",
-    "infiniteApprovalDescription": "{{tokenSymbol}}",
+    "infiniteApprovalDescription": "批准无限 {{tokenSymbol}} 用于贸易",
     "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
     "descriptionLabel": "详细信息"
   },
