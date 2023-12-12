@@ -82,6 +82,9 @@ describe('getRecipientVerificationStatus', () => {
       expect(getRecipientVerificationStatus(recipient, {}, { [recipient.address]: false })).toEqual(
         RecipientVerificationStatus.UNVERIFIED
       )
+      expect(
+        getRecipientVerificationStatus(recipient, {}, { [recipient.address]: undefined })
+      ).toEqual(RecipientVerificationStatus.UNKNOWN)
       expect(getRecipientVerificationStatus(recipient, {}, {})).toEqual(
         RecipientVerificationStatus.UNKNOWN
       )
