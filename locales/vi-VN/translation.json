@@ -1672,7 +1672,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
+      "titleV1_74": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
+      "bodyV1_74": "Make sure you have {{tokenSymbol}} in your wallet to cover gas fees for future transactions",
       "learnMore": "Tìm hiểu thêm"
     },
     "priceImpactWarning": {
