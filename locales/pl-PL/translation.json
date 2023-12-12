@@ -1985,7 +1985,7 @@
     "estimatedNetworkFee": "Szacunkowa opłata sieciowa",
     "networkFee": "Opłata sieciowa",
     "finiteApprovalDescription": "Zatwierdzony {{approvedAmount}} {{tokenSymbol}} dla handlu",
-    "infiniteApprovalDescription": "Zatwierdzony {{tokenSymbol}} dla handlu",
+    "infiniteApprovalDescription": "Zatwierdzony nieskończony {{tokenSymbol}} dla handlu",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} dla handlu",
     "descriptionLabel": "Szczegóły"
   },
