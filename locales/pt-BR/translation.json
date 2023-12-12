@@ -1674,7 +1674,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Trocando a quantia MÁX",
+      "titleV1_74": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
+      "bodyV1_74": "Certifique-se de que você tenha {{tokenSymbol}} em sua carteira para cobrir as taxas de gás em transações futuras",
       "learnMore": "Saiba mais"
     },
     "priceImpactWarning": {
