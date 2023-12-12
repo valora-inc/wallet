@@ -8,9 +8,9 @@ import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
+import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
-import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { SupportedActions, getDescriptionAndTitleFromAction } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
@@ -23,13 +23,17 @@ export interface ActionRequestProps {
   version: 2
   pendingAction: Web3WalletTypes.EventArguments['session_request']
   supportedChains: string[]
-  preparedTransactionsResult?: PreparedTransactionsResult | undefined
+  hasInsufficientGasFunds: boolean
+  feeCurrencies: TokenBalance[]
+  preparedTransaction?: SerializableTransactionRequest
 }
 
 function ActionRequest({
   pendingAction,
   supportedChains,
-  preparedTransactionsResult,
+  hasInsufficientGasFunds,
+  feeCurrencies,
+  preparedTransaction,
 }: ActionRequestProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -89,7 +93,7 @@ function ActionRequest({
     )
   }
 
-  if (useViem && preparedTransactionsResult?.type === 'not-enough-balance-for-gas') {
+  if (useViem && hasInsufficientGasFunds) {
     return (
       <RequestContent
         type="dismiss"
@@ -104,9 +108,7 @@ function ActionRequest({
           severity={Severity.Warning}
           title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
           description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
-            feeCurrencies: preparedTransactionsResult.feeCurrencies
-              .map((feeCurrency) => feeCurrency.symbol)
-              .join(', '),
+            feeCurrencies: feeCurrencies.map((feeCurrency) => feeCurrency.symbol).join(', '),
           })}
           style={styles.warning}
         />
@@ -117,16 +119,7 @@ function ActionRequest({
   return (
     <RequestContent
       type="confirm"
-      onAccept={() =>
-        dispatch(
-          acceptRequest(
-            pendingAction,
-            preparedTransactionsResult?.type === 'possible'
-              ? getSerializablePreparedTransaction(preparedTransactionsResult.transactions[0])
-              : undefined
-          )
-        )
-      }
+      onAccept={() => dispatch(acceptRequest(pendingAction, preparedTransaction))}
       onDeny={() => {
         dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))
       }}
