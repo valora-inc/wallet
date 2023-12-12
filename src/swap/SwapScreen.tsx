@@ -46,7 +46,7 @@ import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
-import { feeCurrenciesSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -88,18 +88,6 @@ function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
     networkFee: feeAmount,
     feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
   }
-}
-
-function useFeeCurrenciesWithBalances(networkId: NetworkId) {
-  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
-
-  const feeCurrenciesWithBalances = useMemo(() => {
-    return feeCurrencies.filter((feeCurrency) => {
-      return feeCurrency.balance.isGreaterThan(0)
-    })
-  }, [feeCurrencies])
-
-  return feeCurrenciesWithBalances
 }
 
 export function SwapScreen({ route }: Props) {
@@ -160,8 +148,11 @@ export function SwapScreen({ route }: Props) {
 
   const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
 
-  const feeCurrenciesWithBalances = useFeeCurrenciesWithBalances(
-    fromToken?.networkId || networkConfig.defaultNetworkId
+  const feeCurrenciesWithPositiveBalances = useSelector((state) =>
+    feeCurrenciesWithPositiveBalancesSelector(
+      state,
+      fromToken?.networkId || networkConfig.defaultNetworkId
+    )
   )
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
@@ -550,8 +541,8 @@ export function SwapScreen({ route }: Props) {
 
   const hideOrShowMaxFeeCurrencySwapWarning = (fromToken: TokenBalance | undefined) => {
     setShouldShowMaxSwapAmountWarning(
-      feeCurrenciesWithBalances.length === 1 &&
-        fromToken?.tokenId === feeCurrenciesWithBalances[0].tokenId
+      feeCurrenciesWithPositiveBalances.length === 1 &&
+        fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId
     )
   }
 
