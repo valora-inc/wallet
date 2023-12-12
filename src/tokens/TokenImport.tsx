@@ -92,8 +92,8 @@ export default function TokenImportScreen(_: Props) {
     return true
   }
 
-  const fetchTokenDetails = async (): Promise<TokenDetails> => {
-    if (!isAddress(tokenAddress)) {
+  const fetchTokenDetails = async (address: Address): Promise<TokenDetails> => {
+    if (!isAddress(address)) {
       // shouldn't happen as this function is called only after validating the address
       throw new Error('Invalid token address')
     }
@@ -105,7 +105,7 @@ export default function TokenImportScreen(_: Props) {
     const client = publicClient[networkIdToNetwork[networkId]]
     const contract = getContract({
       abi: erc20.abi,
-      address: tokenAddress,
+      address,
       publicClient: client,
     })
 
@@ -115,7 +115,7 @@ export default function TokenImportScreen(_: Props) {
       contract.read.name(),
       contract.read.balanceOf([walletAddress]),
     ])
-    return { address: tokenAddress, symbol, decimals, name, balance }
+    return { address, symbol, decimals, name, balance }
   }
 
   const validateContract = useAsyncCallback(fetchTokenDetails, {
@@ -153,13 +153,13 @@ export default function TokenImportScreen(_: Props) {
 
   const handleAddressBlur = async () => {
     // ignore when handlePaste has already started validation (note - blur is called when focussed and keyboard is dismissed)
-    if (validateContract.status === 'loading' || error) return
+    if (validateContract.status === 'loading' || error || tokenAddress.length === 0) return
 
-    const address = ensure0xPrefixOrEmpty(tokenAddress)
-    setTokenAddress(address)
-    if (validateAddress(address)) {
+    const addressWith0xPrefix = ensure0xPrefixOrEmpty(tokenAddress)
+    setTokenAddress(addressWith0xPrefix)
+    if (validateAddress(addressWith0xPrefix)) {
       // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
-      await validateContract.execute().catch(() => undefined)
+      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
     }
   }
 
@@ -170,7 +170,7 @@ export default function TokenImportScreen(_: Props) {
     Keyboard.dismiss()
     if (validateAddress(addressWith0xPrefix)) {
       // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
-      await validateContract.execute().catch(() => undefined)
+      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
     }
   }
 
