@@ -51,12 +51,8 @@ interface TokenDetails {
 enum Errors {
   AlreadyImported = 'AlreadyImported',
   AlreadySupported = 'AlreadySupported',
-  NotContract = 'NotContract',
   Timeout = 'Timeout',
   NotERC20 = 'NotERC20',
-}
-class NotContractError extends Error {
-  name = 'NotContractError'
 }
 
 export default function TokenImportScreen(_: Props) {
@@ -113,9 +109,6 @@ export default function TokenImportScreen(_: Props) {
       publicClient: client,
     })
 
-    const contractCode = await client.getBytecode({ address: tokenAddress })
-    if (!contractCode) throw new NotContractError('Contract code is empty')
-
     const [symbol, decimals, name, balance] = await Promise.all([
       contract.read.symbol(),
       contract.read.decimals(),
@@ -150,17 +143,6 @@ export default function TokenImportScreen(_: Props) {
           tokenId,
           tokenAddress,
           error: Errors.Timeout,
-        })
-        return
-      }
-
-      if (error instanceof NotContractError) {
-        setError(t('tokenImport.error.invalidToken'))
-        ValoraAnalytics.track(AssetsEvents.import_token_error, {
-          networkId,
-          tokenId,
-          tokenAddress,
-          error: Errors.NotContract,
         })
         return
       }

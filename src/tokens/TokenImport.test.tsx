@@ -3,8 +3,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
 import { Screens } from 'src/navigator/Screens'
+import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
 import {
@@ -32,7 +32,7 @@ describe('TokenImport', () => {
 
   beforeEach(() => {
     jest.resetAllMocks()
-    const client = publicClient[networkIdToNetwork[networkConfig.defaultNetworkId]]
+    const client = publicClient[Network.Celo]
 
     client.getBytecode = mockBytecode.mockResolvedValue('0xabc')
     mocked(getContract).mockReturnValue({
@@ -130,31 +130,6 @@ describe('TokenImport', () => {
 
     it('should display the correct error when the token does not implement ERC-20', async () => {
       mockSymbol.mockRejectedValue(new Error('e.g. ContractFunctionZeroDataError'))
-      const store = createMockStore({})
-      const { getByText, getByPlaceholderText, getByTestId } = render(
-        <Provider store={store}>
-          <TokenImportScreen {...mockScreenProps} />
-        </Provider>
-      )
-      const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
-      const tokenSymbolInput = getByTestId('tokenSymbol')
-      const importButton = getByText('tokenImport.importButton')
-
-      fireEvent.changeText(tokenAddressInput, mockPoofAddress)
-      expect(tokenSymbolInput).toBeDisabled()
-      expect(importButton).toBeDisabled()
-      fireEvent(tokenAddressInput, 'blur')
-
-      await waitFor(() => {
-        expect(tokenSymbolInput).toBeDisabled()
-        expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
-        expect(importButton).toBeDisabled()
-      })
-    })
-
-    it('should display the correct error message due to address not being a contract', async () => {
-      mockBytecode.mockResolvedValue(undefined)
-
       const store = createMockStore({})
       const { getByText, getByPlaceholderText, getByTestId } = render(
         <Provider store={store}>
