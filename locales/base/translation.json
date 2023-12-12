@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
   "address": "Wallet Address",
+  "supportedNetwork": "Supported Network: {{network}}",
+  "supportedNetworks": "Supported Networks: {{networks}}",
+  "and": "and",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",

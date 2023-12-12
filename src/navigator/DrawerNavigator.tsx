@@ -63,9 +63,11 @@ import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
+import { networkIdToNetworkDisplayName } from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'NavigationService'
@@ -163,6 +165,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
+  const networks = getSupportedNetworkIdsForTokenBalances()
+  const networkNames = networks.map((network) => networkIdToNetworkDisplayName[network])
 
   return (
     <DrawerContentScrollView {...props}>
@@ -188,6 +192,17 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+        <Text style={styles.supportedNetworks}>
+          {networks.length > 1
+            ? t('supportedNetworks', {
+                networks: [networkNames.slice(0, -1).join(', '), networkNames.at(-1)].join(
+                  ` ${t('and')} `
+                ),
+              })
+            : t('supportedNetwork', {
+                network: networkNames[0],
+              })}
+        </Text>
         <Text style={styles.smallLabel}>{t('version', { appVersion })}</Text>
       </View>
     </DrawerContentScrollView>
@@ -370,6 +385,10 @@ const styles = StyleSheet.create({
     ...fontStyles.small,
     color: colors.gray4,
     marginTop: 32,
+  },
+  supportedNetworks: {
+    ...typeScale.bodyXSmall,
+    color: colors.gray3,
   },
   itemStyle: {
     marginLeft: -20,
