@@ -7,6 +7,7 @@ import {
   cashOutTokensByNetworkIdSelector,
   defaultTokenToSendSelector,
   feeCurrenciesSelector,
+  feeCurrenciesWithPositiveBalancesSelector,
   spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
@@ -544,5 +545,68 @@ describe('feeCurrenciesSelector', () => {
     expect(resultAlfajores).toEqual(resultAlfajores2)
     expect(resultAlfajores).not.toEqual(resultSepolia)
     expect(_feeCurrenciesByNetworkIdSelector.recomputations()).toEqual(1)
+  })
+})
+
+describe('feeCurrenciesWithPositiveBalancesSelector', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const mockState: any = {
+    tokens: {
+      tokenBalances: {
+        ...state.tokens.tokenBalances,
+        ['celo-alfajores:0xusd']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xusd'],
+          isFeeCurrency: true,
+          balance: '200',
+        },
+        ['celo-alfajores:0xeur']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xeur'],
+          isFeeCurrency: true,
+          balance: '0',
+        },
+        [mockCeloTokenId]: {
+          ...mockTokenBalances[mockCeloTokenId],
+          isFeeCurrency: true,
+          isNative: true,
+          balance: '200',
+        },
+        [mockEthTokenId]: {
+          ...state.tokens.tokenBalances[mockEthTokenId],
+          isNative: true,
+          balance: '200',
+        },
+      },
+    },
+  }
+
+  it('returns the same as feeCurrenciesSelector but only with positive balances', () => {
+    const result = feeCurrenciesWithPositiveBalancesSelector(mockState, NetworkId['celo-alfajores'])
+
+    expect(result.map((currency) => currency.tokenId)).toEqual([
+      mockCeloTokenId,
+      'celo-alfajores:0xusd',
+    ])
+  })
+
+  it('avoids unnecessary recomputations for calculating fee currencies', () => {
+    const resultAlfajores = feeCurrenciesWithPositiveBalancesSelector(
+      mockState,
+      NetworkId['celo-alfajores']
+    )
+    const resultSepolia = feeCurrenciesWithPositiveBalancesSelector(
+      mockState,
+      NetworkId['ethereum-sepolia']
+    )
+    const resultAlfajores2 = feeCurrenciesWithPositiveBalancesSelector(
+      mockState,
+      NetworkId['celo-alfajores']
+    )
+
+    expect(resultAlfajores).toBe(resultAlfajores2)
+    expect(resultAlfajores).not.toBe(resultSepolia)
+    expect(feeCurrenciesWithPositiveBalancesSelector.recomputations()).toEqual(2)
   })
 })

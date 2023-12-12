@@ -35,6 +35,10 @@ export type CurrencyTokens = {
   [currency in Currency]: TokenBalanceWithAddress | undefined
 }
 
+// This is somewhat arbitrary, but appears to reliably prevent recalculation
+// for selectors using networkId as a parameter
+const DEFAULT_MEMOIZE_MAX_SIZE = 10
+
 function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
   return (
     networkIds.constructor === Array &&
@@ -79,7 +83,7 @@ export const tokensByIdSelector = createSelector(
         }
         return previousValue === currentValue
       },
-      maxSize: 10, // This is somewhat arbitrary, but appears to reliably prevent recalculation
+      maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
   }
 )
@@ -468,6 +472,19 @@ export const feeCurrenciesSelector = createSelector(
   (_state: RootState, networkId: NetworkId) => networkId,
   (feeCurrencies, networkId) => {
     return feeCurrencies[networkId] ?? []
+  }
+)
+
+// Note this takes a networkId as parameter
+export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
+  feeCurrenciesSelector,
+  (feeCurrencies) => {
+    return feeCurrencies.filter((token) => token.balance.gt(0))
+  },
+  {
+    memoizeOptions: {
+      maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
+    },
   }
 )
 
