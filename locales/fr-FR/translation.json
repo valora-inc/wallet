@@ -1674,7 +1674,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Échanger le montant MAX",
+      "titleV1_74": "Échanger le montant MAX",
       "body": "Assurez-vous d'avoir des CELO dans votre portefeuille pour couvrir les frais pour vos futures transactions",
+      "bodyV1_74": "Assure-toi d'avoir {{tokenSymbol}} dans ton portefeuille pour couvrir les frais d'essence pour les transactions futures.",
       "learnMore": "En savoir plus"
     },
     "priceImpactWarning": {
