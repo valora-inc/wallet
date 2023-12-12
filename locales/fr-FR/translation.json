@@ -1981,7 +1981,7 @@
     "estimatedNetworkFee": "Estimation des frais de réseau",
     "networkFee": "Frais de réseau",
     "finiteApprovalDescription": "Approuvé {{approvedAmount}} {{tokenSymbol}} pour le commerce",
-    "infiniteApprovalDescription": "Approuvé {{tokenSymbol}} pour le commerce",
+    "infiniteApprovalDescription": "Approuvé infini {{tokenSymbol}} pour le commerce",
     "revokeApprovalDescription": "Révoqué {{tokenSymbol}} pour le commerce",
     "descriptionLabel": "Détails"
   },
