@@ -1672,7 +1672,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
+      "titleV1_74": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
+      "bodyV1_74": "确保钱包里有 {{tokenSymbol}} ，以支付未来交易的汽油费",
       "learnMore": "了解更多"
     },
     "priceImpactWarning": {
