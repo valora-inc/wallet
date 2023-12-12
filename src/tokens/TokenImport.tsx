@@ -130,29 +130,20 @@ export default function TokenImportScreen(_: Props) {
     },
     onError: (error) => {
       Logger.error(TAG, `Could not fetch token details`, error)
-      const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
+      setError(t('tokenImport.error.invalidToken'))
 
       // it doesn't directly show if it's a timeout error, need to check cause recursively
       const hasTimeout = (error: unknown): boolean =>
         error instanceof BaseError &&
         (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
-      if (hasTimeout(error)) {
-        setError(t('tokenImport.error.invalidToken'))
-        ValoraAnalytics.track(AssetsEvents.import_token_error, {
-          networkId,
-          tokenId,
-          tokenAddress,
-          error: Errors.Timeout,
-        })
-        return
-      }
 
-      setError(t('tokenImport.error.invalidToken'))
+      const trackedError = hasTimeout(error) ? Errors.Timeout : Errors.NotERC20
+      const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
       ValoraAnalytics.track(AssetsEvents.import_token_error, {
         networkId,
         tokenId,
         tokenAddress,
-        error: Errors.NotERC20,
+        error: trackedError,
       })
     },
   })
