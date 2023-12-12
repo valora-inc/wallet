@@ -6,8 +6,8 @@ import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
-  E164NumberToAddressType,
   AddressToVerificationStatus,
+  E164NumberToAddressType,
 } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import Logger from 'src/utils/Logger'
@@ -178,20 +178,7 @@ export function getRecipientVerificationStatus(
   e164NumberToAddress: E164NumberToAddressType,
   addressToVerificationStatus: AddressToVerificationStatus
 ): RecipientVerificationStatus {
-  if (!recipientHasNumber(recipient)) {
-    if (recipientHasAddress(recipient) && recipient.address in addressToVerificationStatus) {
-      switch (addressToVerificationStatus[recipient.address]) {
-        case true:
-          return RecipientVerificationStatus.VERIFIED
-        case false:
-          return RecipientVerificationStatus.UNVERIFIED
-        case undefined:
-          return RecipientVerificationStatus.UNKNOWN
-      }
-    } else {
-      return RecipientVerificationStatus.UNKNOWN
-    }
-  } else {
+  if (recipient.recipientType === RecipientType.PhoneNumber && recipientHasNumber(recipient)) {
     const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
     if (addresses === undefined) {
       return RecipientVerificationStatus.UNKNOWN
@@ -202,6 +189,18 @@ export function getRecipientVerificationStatus(
     }
 
     return RecipientVerificationStatus.VERIFIED
+  }
+  if (recipientHasAddress(recipient) && recipient.address in addressToVerificationStatus) {
+    switch (addressToVerificationStatus[recipient.address]) {
+      case true:
+        return RecipientVerificationStatus.VERIFIED
+      case false:
+        return RecipientVerificationStatus.UNVERIFIED
+      case undefined:
+        return RecipientVerificationStatus.UNKNOWN
+    }
+  } else {
+    return RecipientVerificationStatus.UNKNOWN
   }
 }
 
