@@ -1674,7 +1674,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
+      "titleV1_74": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
+      "bodyV1_74": "Cüzdanınızda gelecekteki işlemlerin gaz ücretlerini karşılamak için {{tokenSymbol}} adresinin bulunduğundan emin olun",
       "learnMore": "Daha fazla bilgi edinin"
     },
     "priceImpactWarning": {
