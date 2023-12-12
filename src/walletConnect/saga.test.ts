@@ -529,7 +529,7 @@ describe('normalizeTransaction', () => {
   ]
 
   it('ensures `gasLimit` value is removed', async () => {
-    expectSaga(
+    await expectSaga(
       normalizeTransaction,
       {
         from: '0xTEST',
@@ -549,7 +549,7 @@ describe('normalizeTransaction', () => {
   })
 
   it('ensures `gasPrice` is stripped away', async () => {
-    expectSaga(
+    await expectSaga(
       normalizeTransaction,
       { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
       Network.Celo
@@ -564,7 +564,7 @@ describe('normalizeTransaction', () => {
   })
 
   it('ensures `gas` and `feeCurrency` is stripped away for a Celo transaction request', async () => {
-    expectSaga(
+    await expectSaga(
       normalizeTransaction,
       { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
       Network.Celo
@@ -579,7 +579,7 @@ describe('normalizeTransaction', () => {
   })
 
   it('does not strip away `gas` for non-Celo transaction request', async () => {
-    expectSaga(
+    await expectSaga(
       normalizeTransaction,
       { from: '0xTEST', data: '0xABC', gas: '0x5208' },
       Network.Ethereum
