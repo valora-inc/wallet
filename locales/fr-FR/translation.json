@@ -1897,9 +1897,7 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
-      "alreadyImported": "Le jeton a déjà été ajouté.",
-      "alreadySupported": "Le jeton est déjà pris en charge."
+      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance"
     },
     "importSuccess": "Importation du jeton {{tokenSymbol}} réussie",
     "importButton": "Importation"
