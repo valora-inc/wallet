@@ -1897,9 +1897,7 @@
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
-      "alreadyImported": "El token ya se ha agregado antes.",
-      "alreadySupported": "El token ya es compatible."
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
