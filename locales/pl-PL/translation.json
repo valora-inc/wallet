@@ -1901,9 +1901,7 @@
       "network": "Sieć"
     },
     "error": {
-      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
-      "alreadyImported": "Token został dodany już wcześniej.",
-      "alreadySupported": "Token jest już obsługiwany."
+      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną"
     },
     "importSuccess": "Pomyślnie zaimportowano token {{tokenSymbol}}",
     "importButton": "Import"
