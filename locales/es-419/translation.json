@@ -1667,6 +1667,11 @@
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Has cambiado a la red {{networkName}}",
+      "body_swapFrom": "Selecciona una ficha para intercambiar en la red {{networkName}} para continuar.",
+      "body_swapTo": "Selecciona un token al que cambiar en la red {{networkName}} para continuar."
+    },
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",

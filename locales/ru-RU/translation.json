@@ -1671,6 +1671,11 @@
     "swapFromTokenSelection": "ОБМЕНЯТЬ С",
     "swapToTokenSelection": "ОБМЕНЯТЬ НА",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Ты перешел на сеть {{networkName}} .",
+      "body_swapFrom": "Выбери токен для обмена в сети {{networkName}} , чтобы продолжить.",
+      "body_swapTo": "Выбери токен для обмена в сети {{networkName}} , чтобы продолжить."
+    },
     "maxSwapAmountWarning": {
       "title": "Обмен МАКС. суммы",
       "body": "Убедитесь, что в вашем кошельке достаточно CELO для покрытия газа для будущих транзакций",

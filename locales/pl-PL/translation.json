@@ -1671,6 +1671,11 @@
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Przełączyłeś się do sieci {{networkName}}",
+      "body_swapFrom": "Wybierz token do wymiany w sieci {{networkName}} , aby kontynuować.",
+      "body_swapTo": "Wybierz token do wymiany w sieci {{networkName}} , aby kontynuować."
+    },
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
