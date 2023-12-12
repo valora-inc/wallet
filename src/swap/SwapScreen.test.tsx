@@ -697,14 +697,16 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
   })
 
-  it('should show and hide the max warning', async () => {
+  it('should show and hide the max warning for fee currencies', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { swapFromContainer, getByText, getByTestId, queryByTestId, tokenBottomSheet } =
       renderScreen({ celoBalance: '0', cUSDBalance: '10' }) // so that cUSD is the only feeCurrency with a balance
 
-    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
+    selectToken(swapFromContainer, 'cUSD', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
-    await waitFor(() => expect(getByTestId('MaxSwapAmountWarning')).toBeTruthy())
+    await waitFor(() =>
+      expect(getByText('swapScreen.maxSwapAmountWarning.body, {"tokenSymbol":"cUSD"}')).toBeTruthy()
+    )
 
     fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
@@ -715,7 +717,7 @@ describe('SwapScreen', () => {
     await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
   })
 
-  it("shouldn't show the max warning when there's balance for more than 1 feeCurrency", async () => {
+  it("shouldn't show the max warning when there's balance for more than 1 fee currency", async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const { swapFromContainer, getByTestId, queryByTestId, tokenBottomSheet } = renderScreen({
       celoBalance: '10',
