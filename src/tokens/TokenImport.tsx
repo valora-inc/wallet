@@ -152,8 +152,8 @@ export default function TokenImportScreen(_: Props) {
     !address || address.startsWith('0x') ? address : `0x${address}`
 
   const handleAddressBlur = async () => {
-    if (error) return
-    if (validateContract.status !== 'not-requested') return
+    // ignore when handlePaste has already started validation (note - blur is called when focussed and keyboard is dismissed)
+    if (validateContract.status === 'loading' || error) return
 
     const address = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(address)
@@ -209,9 +209,8 @@ export default function TokenImportScreen(_: Props) {
               setTokenAddress(address)
               setError(null)
               setTokenSymbol('')
-              validateContract.reset()
             }}
-            editable={validateContract.status !== 'loading'}
+            editable={['not-requested', 'error'].includes(validateContract.status)}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
             rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
             onBlur={handleAddressBlur}
