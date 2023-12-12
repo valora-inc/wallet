@@ -1981,7 +1981,7 @@
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
     "networkFee": "Netzwerkgebühr",
     "finiteApprovalDescription": "Zugelassen {{approvedAmount}} {{tokenSymbol}} für den Handel",
-    "infiniteApprovalDescription": "Zugelassen {{tokenSymbol}} für den Handel",
+    "infiniteApprovalDescription": "Zugelassen unendlich {{tokenSymbol}} für den Handel",
     "revokeApprovalDescription": "Widerrufen {{tokenSymbol}} für den Handel",
     "descriptionLabel": "Details"
   },
