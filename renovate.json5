@@ -35,6 +35,8 @@
       // Allow renovate to update node
       matchDepTypes: ['engines'],
       enabled: true,
+      // a bit higher priority for node updates
+      prPriority: 3,
     },
     {
       // Group devDependencies updates
