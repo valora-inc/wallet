@@ -76,10 +76,8 @@ describe('TokenImport', () => {
     expect(importButton).toBeDisabled()
     fireEvent(tokenAddressInput, 'blur')
 
-    await waitFor(() => {
-      expect(tokenSymbolInput.props.value).toBe('ABC')
-      expect(importButton).toBeEnabled()
-    })
+    await waitFor(() => expect(tokenSymbolInput.props.value).toBe('ABC'))
+    expect(importButton).toBeEnabled()
   })
 
   it('updates the token address input when changed', () => {
@@ -145,11 +143,9 @@ describe('TokenImport', () => {
       expect(importButton).toBeDisabled()
       fireEvent(tokenAddressInput, 'blur')
 
-      await waitFor(() => {
-        expect(tokenSymbolInput).toBeDisabled()
-        expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
-        expect(importButton).toBeDisabled()
-      })
+      expect(tokenSymbolInput).toBeDisabled()
+      await waitFor(() => expect(getByText('tokenImport.error.invalidToken')).toBeTruthy())
+      expect(importButton).toBeDisabled()
     })
 
     it('should display the correct error message due to network timeout', async () => {
@@ -190,10 +186,10 @@ describe('TokenImport', () => {
 
       await waitFor(() => {
         jest.advanceTimersToNextTimer()
-        expect(tokenSymbolInput).toBeDisabled()
         expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
-        expect(importButton).toBeDisabled()
       })
+      expect(tokenSymbolInput).toBeDisabled()
+      expect(importButton).toBeDisabled()
     })
   })
 })
