@@ -28,6 +28,7 @@ import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import {
   PreparedTransactionsResult,
   prepareTransactions,
@@ -66,6 +67,7 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { getViemWallet } from 'src/web3/contracts'
 import networkConfig, {
   networkIdToWalletConnectChainId,
   walletConnectChainIdToNetwork,
@@ -83,7 +85,8 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
-import { Hex, hexToBigInt, isHex } from 'viem'
+import { GetTransactionCountParameters, Hex, hexToBigInt, isHex } from 'viem'
+import { getTransactionCount } from 'viem/actions'
 
 let client: IWeb3Wallet | null = null
 
@@ -343,7 +346,7 @@ function getSupportedChains() {
   })
 }
 
-export function normalizeTransaction(rawTx: any, network: Network): TransactionRequest {
+export function* normalizeTransaction(rawTx: any, network: Network) {
   const tx: TransactionRequest = { ...rawTx }
 
   // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
@@ -371,7 +374,19 @@ export function normalizeTransaction(rawTx: any, network: Network): TransactionR
     delete tx.gasPrice
   }
 
-  // TODO: check if we need to add the nonce
+  if (!tx.nonce) {
+    const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain[network])
+    if (!wallet.account) {
+      // this should never happen
+      throw new Error('no account found in the wallet')
+    }
+
+    const txCountParams: GetTransactionCountParameters = {
+      address: wallet.account.address,
+      blockTag: 'pending',
+    }
+    tx.nonce = yield* call(getTransactionCount, wallet, txCountParams)
+  }
 
   return tx
 }

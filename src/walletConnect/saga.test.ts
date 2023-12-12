@@ -2,6 +2,8 @@ import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -13,6 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network } from 'src/transactions/types'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import {
   Actions,
   acceptSession as acceptSessionAction,
@@ -31,8 +34,10 @@ import {
   walletConnectSaga,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { getViemWallet } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
+import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
 
@@ -507,8 +512,25 @@ describe('initialiseWalletConnect', () => {
 })
 
 describe('normalizeTransaction', () => {
+  const mockViemWallet = {
+    account: { address: mockAccount },
+    writeContract: jest.fn(),
+    sendTransaction: jest.fn(),
+  } as any as ViemWallet
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [matchers.call.fn(getViemWallet), mockViemWallet],
+    [
+      call(getTransactionCount, mockViemWallet, {
+        address: mockAccount,
+        blockTag: 'pending',
+      }),
+      123,
+    ],
+  ]
+
   it('ensures `gasLimit` value is removed', async () => {
-    const normalizedTx = normalizeTransaction(
+    expectSaga(
+      normalizeTransaction,
       {
         from: '0xTEST',
         data: '0xABC',
@@ -517,37 +539,58 @@ describe('normalizeTransaction', () => {
       },
       Network.Celo
     )
-
-    expect(normalizedTx).toStrictEqual({
-      from: '0xTEST',
-      data: '0xABC',
-    })
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        nonce: 123,
+      })
+      .run()
   })
 
   it('ensures `gasPrice` is stripped away', async () => {
-    const normalizedTx = normalizeTransaction(
+    expectSaga(
+      normalizeTransaction,
       { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
       Network.Celo
     )
-
-    expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        nonce: 123,
+      })
+      .run()
   })
 
   it('ensures `gas` and `feeCurrency` is stripped away for a Celo transaction request', async () => {
-    const normalizedTx = normalizeTransaction(
+    expectSaga(
+      normalizeTransaction,
       { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
       Network.Celo
     )
-
-    expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC' })
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        nonce: 123,
+      })
+      .run()
   })
 
   it('does not strip away `gas` for non-Celo transaction request', async () => {
-    const normalizedTx = normalizeTransaction(
+    expectSaga(
+      normalizeTransaction,
       { from: '0xTEST', data: '0xABC', gas: '0x5208' },
       Network.Ethereum
     )
-
-    expect(normalizedTx).toStrictEqual({ from: '0xTEST', data: '0xABC', gas: BigInt('0x5208') })
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        gas: BigInt('0x5208'),
+        nonce: 123,
+      })
+      .run()
   })
 })
