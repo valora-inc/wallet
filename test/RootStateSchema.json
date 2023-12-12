@@ -1986,7 +1986,7 @@
                 "approvedAmount": {
                     "type": [
                         "null",
-                        "number"
+                        "string"
                     ]
                 },
                 "context": {
@@ -2811,7 +2811,7 @@
                         "approvedAmount": {
                             "type": [
                                 "null",
-                                "number"
+                                "string"
                             ]
                         },
                         "block": {
@@ -4414,7 +4414,7 @@
                 "approvedAmount": {
                     "type": [
                         "null",
-                        "number"
+                        "string"
                     ]
                 },
                 "block": {
