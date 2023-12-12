@@ -14,6 +14,8 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
@@ -28,6 +30,8 @@ export function* handleSendPaymentData(
   isFromScan: boolean,
   cachedRecipient?: Recipient
 ) {
+  const useNewSendFlow = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
+  const sendAmountScreen = useNewSendFlow ? Screens.SendEnterAmount : Screens.SendAmount
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
     name: data.displayName || cachedRecipient?.name,
@@ -50,7 +54,7 @@ export function* handleSendPaymentData(
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
   if (!tokenInfo?.priceUsd) {
-    navigate(Screens.SendAmount, {
+    navigate(sendAmountScreen, {
       recipient,
       isFromScan,
       origin: SendOrigin.AppSendFlow,
@@ -97,7 +101,7 @@ export function* handleSendPaymentData(
     if (!canSendTokens) {
       throw new Error("Precondition failed: Can't send tokens from payment data")
     }
-    navigate(Screens.SendAmount, {
+    navigate(sendAmountScreen, {
       recipient,
       isFromScan,
       origin: SendOrigin.AppSendFlow,
