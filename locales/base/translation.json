@@ -1676,7 +1676,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
-      "body": "Make sure you have {{tokenSymbol}} in your wallet to cover gas fees for future transactions",
+      "titleV1_74": "Swapping the MAX amount",
+      "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "bodyV1_74": "Make sure you have {{tokenSymbol}} in your wallet to cover gas fees for future transactions",
       "learnMore": "Learn more"
     },
     "priceImpactWarning": {

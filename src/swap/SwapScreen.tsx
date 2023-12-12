@@ -643,8 +643,10 @@ export function SwapScreen({ route }: Props) {
           {showMaxSwapAmountWarning && (
             <InLineNotification
               severity={Severity.Warning}
-              title={t('swapScreen.maxSwapAmountWarning.title', { tokenSymbol: fromToken?.symbol })}
-              description={t('swapScreen.maxSwapAmountWarning.body', {
+              title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
+                tokenSymbol: fromToken?.symbol,
+              })}
+              description={t('swapScreen.maxSwapAmountWarning.bodyV1_74', {
                 tokenSymbol: fromToken?.symbol,
               })}
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}

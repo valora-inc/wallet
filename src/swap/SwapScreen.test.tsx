@@ -705,7 +705,9 @@ describe('SwapScreen', () => {
     selectToken(swapFromContainer, 'cUSD', tokenBottomSheet)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
     await waitFor(() =>
-      expect(getByText('swapScreen.maxSwapAmountWarning.body, {"tokenSymbol":"cUSD"}')).toBeTruthy()
+      expect(
+        getByText('swapScreen.maxSwapAmountWarning.bodyV1_74, {"tokenSymbol":"cUSD"}')
+      ).toBeTruthy()
     )
 
     fireEvent.press(getByText('swapScreen.maxSwapAmountWarning.learnMore'))
