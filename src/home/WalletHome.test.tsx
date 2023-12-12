@@ -293,15 +293,15 @@ describe('WalletHome', () => {
     expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
 
-  // TODO: Enable this test after implementing feature gate.
-  // it('shows beta tag when feature gate set to true', async () => {
-  //   jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+  it('shows beta tag when feature gate set to true', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
 
-  //   const { getByTestId } = renderScreen()
-  //   expect(getByTestId('BetaTag')).toBeTruthy()
-  // })
+    const { getByTestId } = renderScreen()
+    expect(getByTestId('BetaTag')).toBeTruthy()
+  })
 
   it('does not show beta tag when feature gate set to false', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen()
     expect(queryByTestId('BetaTag')).toBeFalsy()
   })

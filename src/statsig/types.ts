@@ -31,6 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   USE_CICO_CURRENCY_BOTTOM_SHEET = 'use_cico_currency_bottom_sheet',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
+  SHOW_BETA_TAG = 'show_beta_tag',
 }
 
 export enum StatsigExperiments {
