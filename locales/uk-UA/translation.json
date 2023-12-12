@@ -1985,7 +1985,7 @@
     "estimatedNetworkFee": "Орієнтовна плата за користування мережею",
     "networkFee": "Мережева плата",
     "finiteApprovalDescription": "Затверджено {{approvedAmount}} {{tokenSymbol}} для торгівлі",
-    "infiniteApprovalDescription": "Затверджено {{tokenSymbol}} для торгівлі",
+    "infiniteApprovalDescription": "Затверджено нескінченний {{tokenSymbol}} для торгівлі",
     "revokeApprovalDescription": "Відкликано {{tokenSymbol}} для торгівлі",
     "descriptionLabel": "Подробиці"
   },
