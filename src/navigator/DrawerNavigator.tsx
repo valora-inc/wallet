@@ -380,11 +380,12 @@ const styles = StyleSheet.create({
   drawerBottom: {
     marginVertical: 32,
     marginHorizontal: 16,
+    gap: Spacing.Smallest8,
   },
   smallLabel: {
     ...fontStyles.small,
     color: colors.gray4,
-    marginTop: 32,
+    marginTop: 24,
   },
   supportedNetworks: {
     ...typeScale.bodyXSmall,
