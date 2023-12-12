@@ -1665,6 +1665,11 @@
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "You switched to the {{networkName}} network",
+      "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
+      "body_swapTo": "Select a token to swap to on the {{networkName}} network to continue."
+    },
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
