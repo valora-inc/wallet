@@ -59,6 +59,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
@@ -67,7 +68,6 @@ import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { networkIdToNetworkDisplayName } from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 const TAG = 'NavigationService'
@@ -166,7 +166,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const appVersion = deviceInfoModule.getVersion()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const networks = getSupportedNetworkIdsForTokenBalances()
-  const networkNames = networks.map((network) => networkIdToNetworkDisplayName[network])
+  const networkNames = networks.map((network) => NETWORK_NAMES[network])
 
   return (
     <DrawerContentScrollView {...props}>

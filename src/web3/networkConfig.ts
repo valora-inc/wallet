@@ -384,13 +384,6 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['ethereum-sepolia']]: Network.Ethereum,
 }
 
-export const networkIdToNetworkDisplayName: Record<NetworkId, string> = {
-  [NetworkId['celo-mainnet']]: 'Celo',
-  [NetworkId['celo-alfajores']]: 'Celo Alfajores',
-  [NetworkId['ethereum-mainnet']]: 'Ethereum',
-  [NetworkId['ethereum-sepolia']]: 'Ethereum Sepolia',
-}
-
 export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['celo-alfajores']]: 'eip155:44787',
   [NetworkId['celo-mainnet']]: 'eip155:42220',
