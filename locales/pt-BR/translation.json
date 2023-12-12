@@ -1667,6 +1667,11 @@
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Você mudou para a rede {{networkName}}",
+      "body_swapFrom": "Selecione um token para trocar na rede {{networkName}} para continuar.",
+      "body_swapTo": "Selecione um token para trocar na rede {{networkName}} para continuar."
+    },
     "maxSwapAmountWarning": {
       "title": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",

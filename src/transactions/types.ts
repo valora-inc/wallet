@@ -28,9 +28,17 @@ export type PendingStandbyTransfer = {
   feeCurrencyId?: string
 } & Omit<TokenTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
 
+export type PendingStandbyApproval = {
+  transactionHash?: string
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+} & Omit<TokenApproval, 'block' | 'fees' | 'transactionHash' | 'status'>
+
 export type ConfirmedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>
+  | Omit<TokenApproval, 'status'>
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
@@ -40,6 +48,7 @@ export type ConfirmedStandbyTransaction = (
 export type StandbyTransaction =
   | PendingStandbySwap
   | PendingStandbyTransfer
+  | PendingStandbyApproval
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
@@ -171,12 +180,12 @@ export interface Fee {
 export interface TokenApproval {
   __typename: 'TokenApproval'
   networkId: NetworkId
-  type: TokenTransactionTypeV2.Approval
+  type: TokenTransactionTypeV2
   timestamp: number
   block: string
   transactionHash: string
   tokenId: string
-  approvedAmount: number | null // null represents infinite approval
+  approvedAmount: string | null // null represents infinite approval
   fees: Fee[]
   status: TransactionStatus
 }

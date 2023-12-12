@@ -357,9 +357,10 @@ async function queryChainTransactionsFeed({
       ...body.data,
       tokenTransactionsV3: {
         ...body.data.tokenTransactionsV3,
-        transactions: body.data.tokenTransactionsV3.transactions.map((tx) => {
-          return { ...tx, networkId }
-        }),
+        transactions:
+          body.data.tokenTransactionsV3?.transactions.map((tx) => {
+            return { ...tx, networkId }
+          }) ?? [],
       },
     },
   }
