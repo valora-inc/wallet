@@ -1667,6 +1667,11 @@
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Du bist zum Netzwerk {{networkName}} gewechselt",
+      "body_swapFrom": "Wähle einen Token aus, den du im {{networkName}} Netzwerk tauschen möchtest, um fortzufahren.",
+      "body_swapTo": "Wähle einen Token aus, auf den du im {{networkName}} Netzwerk wechseln kannst, um fortzufahren."
+    },
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",

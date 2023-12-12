@@ -1665,6 +1665,11 @@
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "You switched to the {{networkName}} network",
+      "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
+      "body_swapTo": "Select a token to swap to on the {{networkName}} network to continue."
+    },
     "maxSwapAmountWarning": {
       "title": "การสว็อปจำนวนเงินสูงสุด",
       "body": "โปรดตรวจสอบให้แน่ใจว่าคุณมี CELO ในกระเป๋าเงินเพียงพอที่จะจ่ายค่าก๊าซในครั้งต่อไป",
