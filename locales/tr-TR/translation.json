@@ -1897,9 +1897,7 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
-      "alreadyImported": "Token daha önce zaten eklenmiş.",
-      "alreadySupported": "Token zaten desteklenmektedir."
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"
