@@ -1674,7 +1674,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Den maximalen Betrag tauschen",
+      "titleV1_74": "Den maximalen Betrag tauschen",
       "body": "Stelle sicher, dass du CELO in deiner Wallet hast, um die Gasgebühren für zukünftige Transaktionen zu decken",
+      "bodyV1_74": "Stelle sicher, dass du {{tokenSymbol}} in deinem Portemonnaie hast, um die Gasgebühren für zukünftige Transaktionen zu decken.",
       "learnMore": "Mehr Infos"
     },
     "priceImpactWarning": {
