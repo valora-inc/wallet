@@ -1,10 +1,6 @@
 // Helper functions making prepared transactions serializable
 // so they can be used in redux actions (or even stores).
-import {
-  PreparedTransactionsPossible,
-  PreparedTransactionsResult,
-  TransactionRequest,
-} from 'src/viem/prepareTransactions'
+import { TransactionRequest } from 'src/viem/prepareTransactions'
 
 const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas'] as const
 
@@ -31,15 +27,6 @@ function mapBigIntsToStrings<T extends object, K extends keyof T>(
 }
 
 export type SerializableTransactionRequest = MapValuesToString<TransactionRequest, BigIntProps>
-type SerializablePreparedTransactionsPossible = Omit<
-  PreparedTransactionsPossible,
-  'transactions'
-> & {
-  transactions: SerializableTransactionRequest[]
-}
-export type SerializablePreparedTransactionsResult =
-  | Exclude<PreparedTransactionsResult, PreparedTransactionsPossible>
-  | SerializablePreparedTransactionsPossible
 
 export function getSerializablePreparedTransaction(
   preparedTransaction: TransactionRequest

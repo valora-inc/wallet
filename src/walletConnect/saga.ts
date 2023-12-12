@@ -29,10 +29,10 @@ import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import {
-  getSerializablePreparedTransactions,
-  SerializablePreparedTransactionsResult,
-} from 'src/viem/preparedTransactionSerialization'
-import { prepareTransactions, TransactionRequest } from 'src/viem/prepareTransactions'
+  PreparedTransactionsResult,
+  prepareTransactions,
+  TransactionRequest,
+} from 'src/viem/prepareTransactions'
 import {
   AcceptRequest,
   AcceptSession,
@@ -407,8 +407,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
 
   const supportedChains = yield* call(getSupportedChains)
 
-  let serializablePreparedTransactionsResult: SerializablePreparedTransactionsResult | undefined =
-    undefined
+  let preparedTransactionsResult: PreparedTransactionsResult | undefined = undefined
   if (
     method === SupportedActions.eth_signTransaction ||
     method === SupportedActions.eth_sendTransaction
@@ -421,29 +420,22 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
       network
     )
     const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, networkId))
-    const preparedTransactionsResult = yield* call(prepareTransactions, {
+    preparedTransactionsResult = yield* call(prepareTransactions, {
       feeCurrencies,
       decreasedAmountGasFeeMultiplier: 1,
       baseTransactions: [normalizedTx],
     })
-
-    serializablePreparedTransactionsResult =
-      'transactions' in preparedTransactionsResult
-        ? {
-            ...preparedTransactionsResult,
-            transactions: getSerializablePreparedTransactions(
-              preparedTransactionsResult.transactions
-            ),
-          }
-        : preparedTransactionsResult
   }
 
+  // TODO preparedTransactionsResult contains non-serializable values that we
+  // should avoid passing as navigation params (causes issues with state
+  // persistence and deep links)
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
     pendingAction: request,
     supportedChains,
     version: 2,
-    serializablePreparedTransactionsResult,
+    preparedTransactionsResult,
   })
 }
 

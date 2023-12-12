@@ -9,7 +9,8 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
-import { SerializablePreparedTransactionsResult } from 'src/viem/preparedTransactionSerialization'
+import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { SupportedActions, getDescriptionAndTitleFromAction } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
@@ -22,13 +23,13 @@ export interface ActionRequestProps {
   version: 2
   pendingAction: Web3WalletTypes.EventArguments['session_request']
   supportedChains: string[]
-  serializablePreparedTransactionsResult?: SerializablePreparedTransactionsResult
+  preparedTransactionsResult?: PreparedTransactionsResult | undefined
 }
 
 function ActionRequest({
   pendingAction,
   supportedChains,
-  serializablePreparedTransactionsResult,
+  preparedTransactionsResult,
 }: ActionRequestProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -88,7 +89,7 @@ function ActionRequest({
     )
   }
 
-  if (useViem && serializablePreparedTransactionsResult?.type === 'not-enough-balance-for-gas') {
+  if (useViem && preparedTransactionsResult?.type === 'not-enough-balance-for-gas') {
     return (
       <RequestContent
         type="dismiss"
@@ -103,7 +104,7 @@ function ActionRequest({
           severity={Severity.Warning}
           title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
           description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
-            feeCurrencies: serializablePreparedTransactionsResult.feeCurrencies
+            feeCurrencies: preparedTransactionsResult.feeCurrencies
               .map((feeCurrency) => feeCurrency.symbol)
               .join(', '),
           })}
@@ -120,8 +121,8 @@ function ActionRequest({
         dispatch(
           acceptRequest(
             pendingAction,
-            serializablePreparedTransactionsResult?.type === 'possible'
-              ? serializablePreparedTransactionsResult.transactions[0]
+            preparedTransactionsResult?.type === 'possible'
+              ? getSerializablePreparedTransaction(preparedTransactionsResult.transactions[0])
               : undefined
           )
         )
