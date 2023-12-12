@@ -32,6 +32,11 @@
       prPriority: 2,
     },
     {
+      // Allow renovate to update node
+      matchDepTypes: ['engines'],
+      enabled: true,
+    },
+    {
       // Group devDependencies updates
       matchDepTypes: ['devDependencies'],
       groupName: 'devDependencies',
