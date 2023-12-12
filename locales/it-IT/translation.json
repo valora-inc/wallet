@@ -1674,7 +1674,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Scambio dell’importo MAX",
+      "titleV1_74": "Scambio dell’importo MAX",
       "body": "Assicurati di avere CELO nel portafoglio, per coprire le commissioni gas per le transazioni future",
+      "bodyV1_74": "Assicurati di avere {{tokenSymbol}} nel tuo portafoglio per coprire le spese di benzina per le transazioni future.",
       "learnMore": "Ulteriori informazioni"
     },
     "priceImpactWarning": {
