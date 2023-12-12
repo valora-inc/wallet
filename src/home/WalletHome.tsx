@@ -195,7 +195,7 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
-  const showBetaTag = true // TODO: Replace with feautre gate
+  const showBetaTag = false // TODO: Replace with feautre gate -> getFeatureGate(StatsigFeatureGates.SHOW_BETA_TAG)
   const topLeftElement = showBetaTag && <BetaTag />
 
   const topRightElements = (
