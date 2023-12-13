@@ -1081,6 +1081,10 @@
       "title": "Nicht unterstützte Kette",
       "description": "{{dappName}} fordert diese Aktion auf einer Kette an, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Unzureichendes Gas-Token-Guthaben",
+      "description": "Du hast nicht genug {{feeCurrencies}} , um die Gasgebühren zu bezahlen. Bitte füge {{feeCurrencies}} zu deinem Geldbeutel hinzu, um diese Transaktion abzuschließen."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nicht unterstützte Kette",
