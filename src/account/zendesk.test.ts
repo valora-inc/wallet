@@ -4,9 +4,33 @@ import { ZENDESK_API_KEY } from 'src/config'
 
 const mockFetch = fetch as FetchMock
 
-jest.mock('src/utils/readFile', () => ({
-  readFileChunked: jest.fn((filepath) => Promise.resolve(`${filepath} contents`)),
-}))
+async function areBlobsEqual(blob1: Blob, blob2: Blob) {
+  return !Buffer.from(await blob1.arrayBuffer()).compare(Buffer.from(await blob2.arrayBuffer()))
+}
+
+expect.extend({
+  async toEqualBlob(received, expected) {
+    const pass = await areBlobsEqual(received, expected)
+    const message = () =>
+      this.utils.printDiffOrStringify(expected, received, 'Expected', 'Received', true)
+    return {
+      message,
+      pass,
+    }
+  },
+})
+
+interface CustomMatchers<R = unknown> {
+  toEqualBlob(blob: Blob): R
+}
+
+declare global {
+  namespace jest {
+    interface Matchers<R> extends CustomMatchers<R> {}
+    interface InverseAsymmetricMatchers extends CustomMatchers {}
+  }
+}
+
 describe('Zendesk', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
@@ -37,15 +61,25 @@ describe('Zendesk', () => {
       userName: 'foo',
       subject: 'subject of ticket',
     }
-    mockFetch.mockResponseOnce(JSON.stringify({ upload: { token: 'uploadToken' } }), {
-      status: 201,
-    })
-    mockFetch.mockResponseOnce(JSON.stringify({ upload: { token: 'uploadToken2' } }), {
-      status: 201,
+    mockFetch.mockResponse(async (req) => {
+      switch (req.url) {
+        case 'file://path1/':
+          return 'path1 contents'
+        case 'file://path2/':
+          return 'path2 contents'
+        case 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name1&binary=false':
+          return { status: 201, body: JSON.stringify({ upload: { token: 'uploadToken' } }) }
+        case 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name2&binary=false':
+          return { status: 201, body: JSON.stringify({ upload: { token: 'uploadToken2' } }) }
+        case 'https://valoraapp.zendesk.com/api/v2/requests':
+          return JSON.stringify({ request: { id: 1234 } })
+        default:
+          throw new Error(`unexpected url: ${req.url}`)
+      }
     })
 
     await sendSupportRequest(args)
-    expect(mockFetch.mock.calls.length).toEqual(3)
+    expect(mockFetch.mock.calls.length).toEqual(5)
     expect(mockFetch).toHaveBeenCalledWith(
       'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name1&binary=false',
       {
@@ -56,9 +90,15 @@ describe('Zendesk', () => {
             `${args.userEmail}/token:${ZENDESK_API_KEY}`
           ).toString('base64')}`,
         },
-        body: 'path1 contents',
+        body: expect.anything(),
       }
     )
+
+    const callName1 = mockFetch.mock.calls.find(
+      (call) =>
+        call[0] === 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name1&binary=false'
+    )
+    expect(callName1?.[1]?.body).toEqualBlob(new Blob(['path1 contents']))
 
     expect(mockFetch).toHaveBeenCalledWith(
       'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name2&binary=false',
@@ -70,9 +110,15 @@ describe('Zendesk', () => {
             `${args.userEmail}/token:${ZENDESK_API_KEY}`
           ).toString('base64')}`,
         },
-        body: 'path2 contents',
+        body: expect.anything(),
       }
     )
+
+    const callName2 = mockFetch.mock.calls.find(
+      (call) =>
+        call[0] === 'https://valoraapp.zendesk.com/api/v2/uploads.json?filename=name2&binary=false'
+    )
+    expect(callName2?.[1]?.body).toEqualBlob(new Blob(['path2 contents']))
 
     expect(mockFetch).toHaveBeenCalledWith('https://valoraapp.zendesk.com/api/v2/requests', {
       method: 'POST',
