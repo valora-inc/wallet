@@ -265,6 +265,9 @@
   "confirmTransaction": "Conferma la transazione",
   "allow": "Consenti",
   "address": "Indirizzo del wallet",
+  "supportedNetwork": "Rete supportata: {{network}}",
+  "supportedNetworks": "Reti supportate: {{networks}}",
+  "and": "e",
   "phoneNumber": "Numero telefonico",
   "transaction": {
     "operation": "Operazione",
