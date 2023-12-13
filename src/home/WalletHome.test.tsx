@@ -145,6 +145,7 @@ describe('WalletHome', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     mockFetch.mockResponse(
       JSON.stringify({
         data: {
@@ -295,13 +296,11 @@ describe('WalletHome', () => {
 
   it('shows beta tag when feature gate set to true', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-
     const { getByTestId } = renderScreen()
     expect(getByTestId('BetaTag')).toBeTruthy()
   })
 
   it('does not show beta tag when feature gate set to false', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
     const { queryByTestId } = renderScreen()
     expect(queryByTestId('BetaTag')).toBeFalsy()
   })
