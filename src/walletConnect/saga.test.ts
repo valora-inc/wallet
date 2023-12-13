@@ -2,6 +2,8 @@ import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
@@ -12,6 +14,8 @@ import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { Network } from 'src/transactions/types'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import {
   Actions,
   acceptSession as acceptSessionAction,
@@ -26,11 +30,14 @@ import {
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
   initialiseWalletConnectV2,
+  normalizeTransaction,
   walletConnectSaga,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
+import { getViemWallet } from 'src/web3/contracts'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
+import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
 
@@ -483,25 +490,107 @@ describe('acceptSession', () => {
 const v2ConnectionString =
   'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@2?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'
 
-describe('WalletConnect saga', () => {
-  describe('initialiseWalletConnect', () => {
-    const origin = WalletConnectPairingOrigin.Deeplink
+describe('initialiseWalletConnect', () => {
+  const origin = WalletConnectPairingOrigin.Deeplink
 
-    it('initializes v2 if enabled', async () => {
-      await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-        .provide([
-          [select(walletConnectEnabledSelector), { v1: true, v2: true }],
-          [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
-        ])
-        .call(initialiseWalletConnectV2, v2ConnectionString, origin)
-        .run()
-    })
+  it('initializes v2 if enabled', async () => {
+    await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
+      .provide([
+        [select(walletConnectEnabledSelector), { v1: true, v2: true }],
+        [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
+      ])
+      .call(initialiseWalletConnectV2, v2ConnectionString, origin)
+      .run()
+  })
 
-    it('doesnt initialize v2 if disabled', async () => {
-      await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-        .provide([[select(walletConnectEnabledSelector), { v1: true, v2: false }]])
-        .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
-        .run()
-    })
+  it('doesnt initialize v2 if disabled', async () => {
+    await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
+      .provide([[select(walletConnectEnabledSelector), { v1: true, v2: false }]])
+      .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
+      .run()
+  })
+})
+
+describe('normalizeTransaction', () => {
+  const mockViemWallet = {
+    account: { address: mockAccount },
+    writeContract: jest.fn(),
+    sendTransaction: jest.fn(),
+  } as any as ViemWallet
+  const defaultProviders: (EffectProviders | StaticProvider)[] = [
+    [matchers.call.fn(getViemWallet), mockViemWallet],
+    [
+      call(getTransactionCount, mockViemWallet, {
+        address: mockAccount,
+        blockTag: 'pending',
+      }),
+      123,
+    ],
+  ]
+
+  it('ensures `gasLimit` value is removed', async () => {
+    await expectSaga(
+      normalizeTransaction,
+      {
+        from: '0xTEST',
+        data: '0xABC',
+        gasLimit: '0x5208',
+        feeCurrency: '0xcUSD',
+      },
+      Network.Celo
+    )
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        nonce: 123,
+      })
+      .run()
+  })
+
+  it('ensures `gasPrice` is stripped away', async () => {
+    await expectSaga(
+      normalizeTransaction,
+      { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
+      Network.Celo
+    )
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        nonce: 123,
+      })
+      .run()
+  })
+
+  it('ensures `gas` and `feeCurrency` is stripped away for a Celo transaction request', async () => {
+    await expectSaga(
+      normalizeTransaction,
+      { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
+      Network.Celo
+    )
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        nonce: 123,
+      })
+      .run()
+  })
+
+  it('does not strip away `gas` for non-Celo transaction request', async () => {
+    await expectSaga(
+      normalizeTransaction,
+      { from: '0xTEST', data: '0xABC', gas: '0x5208' },
+      Network.Ethereum
+    )
+      .provide(defaultProviders)
+      .returns({
+        from: '0xTEST',
+        data: '0xABC',
+        gas: BigInt('0x5208'),
+        nonce: 123,
+      })
+      .run()
   })
 })

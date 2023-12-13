@@ -7,12 +7,19 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import {
   acceptRequest as acceptRequestV2,
   denyRequest as denyRequestV2,
 } from 'src/walletConnect/actions'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { createMockStore } from 'test/utils'
+import { mockCusdAddress } from 'test/values'
+import { Address } from 'viem'
+
+jest.mock('src/statsig')
 
 jest.mock('@react-native-clipboard/clipboard', () => ({
   setString: jest.fn(),
@@ -99,6 +106,96 @@ describe('ActionRequest with WalletConnect V2', () => {
 
   const supportedChains = ['eip155:44787']
 
+  describe('ActionRequest with viem', () => {
+    const store = createMockStore({
+      walletConnect: {
+        sessions: [v2Session],
+      },
+    })
+
+    beforeEach(() => {
+      jest.restoreAllMocks()
+      store.clearActions()
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
+        )
+    })
+
+    it('should display a dismiss-only bottom sheet if the user has insufficient gas funds', () => {
+      const { getByText, queryByText } = render(
+        <Provider store={store}>
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+            hasInsufficientGasFunds={true}
+            feeCurrenciesSymbols={['CELO']}
+          />
+        </Provider>
+      )
+
+      expect(getByText('walletConnectRequest.notEnoughBalanceForGas.title')).toBeTruthy()
+      expect(
+        getByText(
+          'walletConnectRequest.notEnoughBalanceForGas.description, {"feeCurrencies":"CELO"}'
+        )
+      ).toBeTruthy()
+      expect(queryByText('allow')).toBeFalsy()
+
+      fireEvent.press(getByText('dismiss'))
+      expect(store.getActions()).toEqual([
+        denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
+      ])
+    })
+
+    it('should accept the request with the prepared transaction', () => {
+      const preparedTransaction: SerializableTransactionRequest = {
+        type: 'cip42',
+        from: '0xfrom',
+        to: '0xto',
+        data: '0xdata',
+        gas: '2000',
+        maxFeePerGas: '1000000',
+        feeCurrency: mockCusdAddress as Address,
+      }
+      const sendTransactionAction = {
+        ...pendingAction,
+        params: {
+          ...pendingAction.params,
+          request: {
+            ...pendingAction.params.request,
+            method: 'eth_sendTransaction',
+          },
+        },
+      }
+      const { getByText, getByTestId } = render(
+        <Provider store={store}>
+          <ActionRequest
+            version={2}
+            pendingAction={sendTransactionAction}
+            supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
+            preparedTransaction={preparedTransaction}
+          />
+        </Provider>
+      )
+
+      expect(
+        within(getByTestId('WalletConnectRequest/ActionRequestPayload/Value')).getByText(
+          JSON.stringify(preparedTransaction)
+        )
+      ).toBeTruthy()
+
+      fireEvent.press(getByText('allow'))
+      expect(store.getActions()).toEqual([
+        acceptRequestV2(sendTransactionAction, preparedTransaction),
+      ])
+    })
+  })
+
   describe('personal_sign', () => {
     const store = createMockStore({
       walletConnect: {
@@ -120,6 +217,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -144,6 +243,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -160,6 +261,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -179,6 +282,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -197,6 +302,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -212,6 +319,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -264,6 +373,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -304,6 +415,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -344,6 +457,8 @@ describe('ActionRequest with WalletConnect V2', () => {
             version={2}
             pendingAction={pendingAction}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -377,6 +492,8 @@ describe('ActionRequest with WalletConnect V2', () => {
               },
             }}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -417,6 +534,8 @@ describe('ActionRequest with WalletConnect V2', () => {
               },
             }}
             supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
