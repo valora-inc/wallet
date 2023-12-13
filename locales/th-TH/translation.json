@@ -265,6 +265,9 @@
   "confirmTransaction": "ยืนยันธุรกรรม",
   "allow": "อนุญาต",
   "address": "ที่อยู่กระเป๋าเงิน",
+  "supportedNetwork": "Supported Network: {{network}}",
+  "supportedNetworks": "Supported Networks: {{networks}}",
+  "and": "and",
   "phoneNumber": "หมายเลขโทรศัพท์",
   "transaction": {
     "operation": "การดำเนินการ",
