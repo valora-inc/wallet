@@ -1081,6 +1081,10 @@
       "title": "Chain non supportata",
       "description": "{{dappName}} richiede di eseguire questa azione su una chain non supportata da {{appName}}. Assicurati che Celo sia la chain attiva sul lato Dapp."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Saldo di token per le commissioni insufficiente",
+      "description": "Non hai abbastanza {{feeCurrencies}} per coprire le spese di benzina. Aggiungi {{feeCurrencies}} al tuo portafoglio per completare la transazione."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chain non supportata",
