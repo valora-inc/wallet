@@ -74,13 +74,13 @@ export function* fetchDEKDecentrally(walletAddress: string) {
   return dek
 }
 
-export function* doFetchDataEncryptionKey(walletAddress: string) {
-  const address = yield* select(walletAddressSelector)
-  if (!address) {
+export function* doFetchDataEncryptionKey(addressToLookUp: string) {
+  const ownAddress = yield* select(walletAddressSelector)
+  if (!ownAddress) {
     throw new Error('No wallet address found')
   }
   const privateDataEncryptionKey = yield* select(dataEncryptionKeySelector)
-  if (walletAddress.toLowerCase() === address.toLowerCase() && privateDataEncryptionKey) {
+  if (addressToLookUp.toLowerCase() === ownAddress.toLowerCase() && privateDataEncryptionKey) {
     // we can generate the user's own public DEK without making any requests
     return compressedPubKey(hexToBuffer(privateDataEncryptionKey))
   }
@@ -88,7 +88,7 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   try {
     const signedMessage = yield* call(retrieveSignedMessage)
     const queryParams = new URLSearchParams({
-      address,
+      address: addressToLookUp,
       clientPlatform: Platform.OS,
       clientVersion: DeviceInfo.getVersion(),
     }).toString()
@@ -97,7 +97,7 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        authorization: `Valora ${address}:${signedMessage}`,
+        authorization: `Valora ${ownAddress}:${signedMessage}`,
       },
     })
 
@@ -113,13 +113,13 @@ export function* doFetchDataEncryptionKey(walletAddress: string) {
   } catch (error) {
     Logger.debug(
       `${TAG}/doFetchDataEncryptionKey`,
-      `Failed to get DEK for address ${walletAddress}`,
+      `Failed to get DEK for address ${addressToLookUp}`,
       error
     )
   }
 
   // fall back to decentralised fetch if the above fails to maintain backwards compatibility
-  return yield* call(fetchDEKDecentrally, walletAddress)
+  return yield* call(fetchDEKDecentrally, addressToLookUp)
 }
 
 export function* createAccountDek(mnemonic: string) {
