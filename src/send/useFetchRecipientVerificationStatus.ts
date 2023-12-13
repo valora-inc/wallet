@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { fetchAddressesAndValidate, fetchAddressVerification } from 'src/identity/actions'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
 import {
-  e164NumberToAddressSelector,
   addressToVerificationStatusSelector,
+  e164NumberToAddressSelector,
 } from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
-import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipient'
+import { Recipient, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 
 const useFetchRecipientVerificationStatus = () => {
   const [recipient, setRecipient] = useState<Recipient | null>(null)
@@ -18,9 +18,7 @@ const useFetchRecipientVerificationStatus = () => {
     RecipientVerificationStatus.UNKNOWN
   )
 
-  const useNewAddressVerificationBehavior = getFeatureGate(
-    StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
-  )
+  const useNewAddressVerificationBehavior = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
   const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)

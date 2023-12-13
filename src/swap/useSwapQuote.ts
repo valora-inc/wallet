@@ -55,6 +55,7 @@ function createBaseSwapTransactions(
       : BigInt(sellAmount)
 
   // Approve transaction if the sell token is ERC-20
+  // TODO skip this if the allowance is already enough
   if (allowanceTarget !== zeroAddress && fromToken.address) {
     const data = encodeFunctionData({
       abi: erc20.abi,

@@ -32,11 +32,11 @@ function ActionsCarousel() {
       title: t('homeActions.send'),
       icon: <QuickActionsSend color={Colors.successDark} />,
       onPress: () => {
-        const shouldShowSelectRecipient = getFeatureGate(
-          StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
+        navigate(
+          getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
+            ? Screens.SendSelectRecipient
+            : Screens.Send
         )
-        const sendScreen = shouldShowSelectRecipient ? Screens.SendSelectRecipient : Screens.Send
-        navigate(sendScreen)
       },
     },
     {
