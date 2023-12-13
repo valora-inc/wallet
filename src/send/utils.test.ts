@@ -12,6 +12,8 @@ import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RecipientType } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
 import { handlePaymentDeeplink, handleSendPaymentData } from 'src/send/utils'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount2,
@@ -25,10 +27,16 @@ import {
   mockUriData,
 } from 'test/values'
 
+jest.mock('src/statsig')
+
 describe('send/utils', () => {
   describe('handlePaymentDeeplink', () => {
     beforeEach(() => {
       jest.clearAllMocks()
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+        showSend: [NetworkId['celo-alfajores']],
+      })
     })
 
     const mockData: UriData = {
@@ -41,7 +49,21 @@ describe('send/utils', () => {
       comment: undefined,
     }
 
-    it('should navigate to SendAmount screen when no amount nor token is sent', async () => {
+    it('should navigate to SendEnterAmount screen when no amount nor token is sent', async () => {
+      await expectSaga(handleSendPaymentData, mockData, false, undefined)
+        .withState(createMockStore({}).getState())
+        .run()
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendEnterAmount,
+        expect.objectContaining({
+          origin: SendOrigin.AppSendFlow,
+          recipient: { address: mockData.address, recipientType: RecipientType.Address },
+          forceTokenId: false,
+        })
+      )
+    })
+    it('should navigate to SendAmount screen when no amount nor token is sent and useNewSend is false', async () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
       await expectSaga(handleSendPaymentData, mockData, false, undefined)
         .withState(createMockStore({}).getState())
         .run()
@@ -55,12 +77,12 @@ describe('send/utils', () => {
       )
     })
 
-    it('should navigate to SendAmount screen when no amount is sent but token is', async () => {
+    it('should navigate to SendEnterAmount screen when no amount is sent but token is', async () => {
       await expectSaga(handleSendPaymentData, { ...mockData, token: 'cEUR' }, false, undefined)
         .withState(createMockStore({}).getState())
         .run()
       expect(navigate).toHaveBeenCalledWith(
-        Screens.SendAmount,
+        Screens.SendEnterAmount,
         expect.objectContaining({
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
@@ -70,7 +92,7 @@ describe('send/utils', () => {
       )
     })
 
-    it('should navigate to SendAmount screen when amount and token are sent but not recognized', async () => {
+    it('should navigate to SendEnterAmount screen when amount and token are sent but not recognized', async () => {
       await expectSaga(
         handleSendPaymentData,
         { ...mockData, amount: '1', token: 'NOT_A_TOKEN' },
@@ -80,7 +102,7 @@ describe('send/utils', () => {
         .withState(createMockStore({}).getState())
         .run()
       expect(navigate).toHaveBeenCalledWith(
-        Screens.SendAmount,
+        Screens.SendEnterAmount,
         expect.objectContaining({
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
@@ -197,12 +219,12 @@ describe('send/utils', () => {
         jest.clearAllMocks()
       })
 
-      it('should navigate to SendAmount screen when only address & currencyCode are given', async () => {
+      it('should navigate to SendEnterAmount screen when only address & currencyCode are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[3], false, undefined)
           .withState(createMockStore({}).getState())
           .run()
         expect(navigate).toHaveBeenCalledWith(
-          Screens.SendAmount,
+          Screens.SendEnterAmount,
           expect.objectContaining({
             origin: SendOrigin.AppSendFlow,
             recipient: mockQRCodeRecipient,
@@ -293,12 +315,12 @@ describe('send/utils', () => {
         )
       })
 
-      it('should navigate to SendAmount screen when only address & token = CELO are given', async () => {
+      it('should navigate to SendEnterAmount screen when only address & token = CELO are given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[1], false, undefined)
           .withState(createMockStore({}).getState())
           .run()
         expect(navigate).toHaveBeenCalledWith(
-          Screens.SendAmount,
+          Screens.SendEnterAmount,
           expect.objectContaining({
             origin: SendOrigin.AppSendFlow,
             recipient: {
@@ -311,12 +333,12 @@ describe('send/utils', () => {
         )
       })
 
-      it('should navigate to SendAmount screen when an unsupported token is given', async () => {
+      it('should navigate to SendEnterAmount screen when an unsupported token is given', async () => {
         await expectSaga(handleSendPaymentData, mockUriData[2], false, undefined)
           .withState(createMockStore({}).getState())
           .run()
         expect(navigate).toHaveBeenCalledWith(
-          Screens.SendAmount,
+          Screens.SendEnterAmount,
           expect.objectContaining({
             origin: SendOrigin.AppSendFlow,
             recipient: {

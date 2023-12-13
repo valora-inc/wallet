@@ -1,45 +1,49 @@
+import { render, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import React from 'react'
 import { View } from 'react-native'
-import { render, waitForElementToBeRemoved } from '@testing-library/react-native'
 import { Provider } from 'react-redux'
+import { resolveId } from 'src/recipients/RecipientPicker'
+import { RecipientType } from 'src/recipients/recipient'
+import {
+  mergeRecipients,
+  useMapResolutionsToRecipients,
+  useResolvedRecipients,
+  useSendRecipients,
+  useUniqueSearchRecipient,
+} from 'src/send/hooks'
 import { createMockStore } from 'test/utils'
 import {
-  mockPhoneRecipientCache,
-  mockRecipient,
-  mockRecipient2,
-  mockRecipient3,
-  mockRecipient4,
   mockAccount,
   mockAddressToE164Number,
   mockE164NumberToAddress,
   mockInvitableRecipient2,
   mockInvitableRecipient3,
+  mockPhoneRecipientCache,
+  mockRecipient,
+  mockRecipient2,
+  mockRecipient3,
+  mockRecipient4,
 } from 'test/values'
-import {
-  useUniqueSearchRecipient,
-  useMapResolutionsToRecipients,
-  mergeRecipients,
-  useSendRecipients,
-  useResolvedRecipients,
-} from 'src/send/hooks'
-import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
-import { RecipientType } from 'src/recipients/recipient'
-import { resolveId } from 'src/recipients/RecipientPicker'
 
 jest.mock('src/recipients/RecipientPicker')
 
-const store = createMockStore({
-  send: {
-    recentRecipients: [mockRecipient, mockRecipient2],
-  },
-  recipients: {
-    phoneRecipientCache: mockPhoneRecipientCache,
-  },
-  identity: {
-    addressToE164Number: mockAddressToE164Number,
-    e164NumberToAddress: mockE164NumberToAddress,
-  },
-})
+const getStore = (phoneNumberVerified: boolean = true) =>
+  createMockStore({
+    app: {
+      phoneNumberVerified,
+    },
+    send: {
+      recentRecipients: [mockRecipient, mockRecipient2],
+    },
+    recipients: {
+      phoneRecipientCache: mockPhoneRecipientCache,
+    },
+    identity: {
+      addressToE164Number: mockAddressToE164Number,
+      e164NumberToAddress: mockE164NumberToAddress,
+    },
+  })
 
 describe('useResolvedRecipients', () => {
   beforeEach(() => {
@@ -67,7 +71,7 @@ describe('useResolvedRecipients', () => {
     }
 
     const { getByTestId } = render(
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <TestComponent />
       </Provider>
     )
@@ -94,7 +98,7 @@ describe('useResolvedRecipients', () => {
 })
 
 describe('useSendRecipients', () => {
-  function renderHook() {
+  function renderHook(phoneVerified: boolean) {
     const result = jest.fn()
 
     function TestComponent() {
@@ -102,9 +106,8 @@ describe('useSendRecipients', () => {
       result(recipients)
       return null
     }
-
     render(
-      <Provider store={store}>
+      <Provider store={getStore(phoneVerified)}>
         <TestComponent />
       </Provider>
     )
@@ -113,10 +116,18 @@ describe('useSendRecipients', () => {
   }
 
   it('gets sorted contact and recent recipients', () => {
-    const result = renderHook()
+    const result = renderHook(true)
     expect(result.mock.calls[0][0]).toEqual({
       recentRecipients: [mockRecipient, mockRecipient2],
       contactRecipients: [mockInvitableRecipient3, mockInvitableRecipient2, mockRecipient],
+    })
+  })
+
+  it('excludes contact recipients if phone number is not verified', () => {
+    const result = renderHook(false)
+    expect(result.mock.calls[0][0]).toEqual({
+      recentRecipients: [mockRecipient, mockRecipient2],
+      contactRecipients: [],
     })
   })
 })
@@ -228,7 +239,7 @@ describe('useUniqueSearchRecipient', () => {
     }
 
     render(
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <TestComponent />
       </Provider>
     )
@@ -269,7 +280,7 @@ describe('useMapResolutionsToRecipients', () => {
     }
 
     render(
-      <Provider store={store}>
+      <Provider store={getStore()}>
         <TestComponent />
       </Provider>
     )

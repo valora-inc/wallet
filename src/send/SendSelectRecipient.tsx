@@ -153,7 +153,7 @@ function SendOrInviteButton({
     !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
   const shouldInviteRecipient =
     !sendOrInviteButtonDisabled &&
-    !!recipient?.e164PhoneNumber &&
+    recipient?.recipientType === RecipientType.PhoneNumber &&
     recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
   return (
     <Button

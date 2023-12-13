@@ -1,8 +1,6 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
-import { SessionTypes } from '@walletconnect/types'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -21,6 +19,8 @@ import { AssetViewType } from 'src/tokens/TokenBalances'
 import { TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
+import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
@@ -305,19 +305,12 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:
     | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
-    | {
+    | ({
         type: WalletConnectRequestType.Action
-        version: 2
-        pendingAction: Web3WalletTypes.EventArguments['session_request']
-        supportedChains: string[]
-      }
-    | {
+      } & ActionRequestProps)
+    | ({
         type: WalletConnectRequestType.Session
-        version: 2
-        pendingSession: Web3WalletTypes.EventArguments['session_proposal']
-        namespacesToApprove: SessionTypes.Namespaces | null // if null, we need to reject the session
-        supportedChains: string[]
-      }
+      } & SessionRequestProps)
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined

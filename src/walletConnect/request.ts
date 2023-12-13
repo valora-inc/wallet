@@ -9,24 +9,29 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { Network, newTransactionContext } from 'src/transactions/types'
-import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { ViemWallet } from 'src/viem/getLockableWallet'
+import {
+  SerializableTransactionRequest,
+  getPreparedTransaction,
+} from 'src/viem/preparedTransactionSerialization'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getContractKit, getViemWallet, getWallet, getWeb3 } from 'src/web3/contracts'
 import networkConfig, { walletConnectChainIdToNetwork } from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { applyChainIdWorkaround, buildTxo } from 'src/web3/utils'
 import { call } from 'typed-redux-saga'
-import { GetTransactionCountParameters, SignMessageParameters, formatTransaction } from 'viem'
-import { getTransactionCount } from 'viem/actions'
+import { SignMessageParameters } from 'viem'
 import Web3 from 'web3'
 
 const TAG = 'WalletConnect/handle-request'
 
-export function* handleRequest({
-  request: { method, params },
-  chainId,
-}: Web3WalletTypes.EventArguments['session_request']['params']) {
+export function* handleRequest(
+  {
+    request: { method, params },
+    chainId,
+  }: Web3WalletTypes.EventArguments['session_request']['params'],
+  serializableTransactionRequest?: SerializableTransactionRequest
+) {
   const network = walletConnectChainIdToNetwork[chainId]
   const useViem = yield* call(
     getFeatureGate,
@@ -44,20 +49,27 @@ export function* handleRequest({
   // Call Sentry performance monitoring after entering pin if required
   SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_transaction)
 
-  // TODO: keep only Viem branch after feeCurrency estimation is ready
   if (useViem) {
     switch (method) {
       case SupportedActions.eth_signTransaction: {
-        const rawTx: any = { ...params[0] }
-        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
-        const txRequest: any = yield* call(prepareTransactionRequest, wallet, normalizedTx)
-        return (yield* call([wallet, 'signTransaction'], txRequest)) as string
+        if (!serializableTransactionRequest) {
+          throw new Error('preparedTransaction is required when using viem')
+        }
+        return yield* call(
+          [wallet, 'signTransaction'],
+          // TODO: fix types
+          getPreparedTransaction(serializableTransactionRequest) as any
+        )
       }
       case SupportedActions.eth_sendTransaction: {
-        const rawTx: any = { ...params[0] }
-        const normalizedTx: any = yield* call(normalizeTransaction, wallet, rawTx)
-        const txRequest: any = yield* call(prepareTransactionRequest, wallet, normalizedTx)
-        return (yield* call([wallet, 'sendTransaction'], txRequest)) as string
+        if (!serializableTransactionRequest) {
+          throw new Error('preparedTransaction is required when using viem')
+        }
+        return yield* call(
+          [wallet, 'sendTransaction'],
+          // TODO: fix types
+          getPreparedTransaction(serializableTransactionRequest) as any
+        )
       }
       case SupportedActions.eth_signTypedData_v4:
       case SupportedActions.eth_signTypedData:
@@ -160,56 +172,4 @@ export function* handleRequest({
     default:
       throw new Error('unsupported RPC method')
   }
-}
-
-function normalizeTransaction(wallet: ViemWallet, rawTx: any) {
-  const tx = { ...rawTx }
-
-  // Handle `gasLimit` as a misnomer for `gas`
-  if (tx.gasLimit && tx.gas === undefined) {
-    tx.gas = tx.gasLimit
-    delete tx.gasLimit
-  }
-
-  // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
-  if (tx.gasPrice !== undefined) {
-    delete tx.gasPrice
-  }
-
-  return tx
-}
-
-function* prepareTransactionRequest(wallet: ViemWallet, rawTx: any) {
-  // Convert hex values to numeric ones for Viem
-  // TODO: remove once Viem allows hex values as quanitites
-  const formattedTx: any = yield* call(formatTransaction, rawTx)
-
-  // TODO: inject fee currency for Celo when it's ready
-
-  // Fill in missing values, if any:
-  // - nonce
-  // - maxFeePerGas (with respect to feeCurrency)
-  // - maxPriorityFeePerGas (with repsect to feeCurrency)
-  if (!wallet.account) {
-    // this should never happen
-    throw new Error('no account found in the wallet')
-  }
-  const txCountParams: GetTransactionCountParameters = {
-    address: wallet.account.address,
-    blockTag: 'pending',
-  }
-  const nonce = formattedTx.nonce ?? (yield* call(getTransactionCount, wallet, txCountParams))
-  const { maxFeePerGas, maxPriorityFeePerGas } = yield* call(
-    estimateFeesPerGas,
-    wallet,
-    formattedTx.feeCurrency
-  )
-  const txRequest = {
-    ...formattedTx,
-    ...nonce,
-    ...(formattedTx.maxFeePerGas === undefined ? { maxFeePerGas } : {}),
-    ...(formattedTx.maxPriorityFeePerGas === undefined ? { maxPriorityFeePerGas } : {}),
-  }
-
-  return txRequest
 }
