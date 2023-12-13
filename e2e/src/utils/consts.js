@@ -11,6 +11,11 @@ export const SAMPLE_BACKUP_KEY_VERIFIED_2 =
   'bench album relax truth pond orchard diet unaware cloud tackle twin tongue'
 export const SAMPLE_WALLET_ADDRESS_VERIFIED_2 = '0x5fe1407f47b1310ff232a8d368b36099eff61604' // corresponds to the backup key above
 export const VERIFIED_PHONE_NUMBER = '+15203140983' // all verified addresses are using this number
+export const SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED =
+  'brain host balcony anger rail album spice lawn reject soldier sunny sell'
+export const SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED =
+  '0xada36efd0be614c8cbc8d38f56d91b32c54f51ba' // corresponds to the backup key above
+export const SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER = '' // is linked to the single address above
 export const SAMPLE_BACKUP_KEY_12_WORDS =
   'cheese size muscle either false spend price lunar undo share kite whisper'
 export const SAMPLE_WALLET_ADDRESS_12_WORDS = '0x19cf37810fd5933bd63e02388e37203841c703de' // corresponds to the backup key above
