@@ -1079,6 +1079,10 @@
       "title": "ไม่รองรับเครือข่าย",
       "description": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่า Celo เป็นเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp"
     },
+    "notEnoughBalanceForGas": {
+      "title": "ยอดคงเหลือโทเค็นก๊าซไม่เพียงพอ",
+      "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this transaction."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "ไม่รองรับเครือข่าย",
