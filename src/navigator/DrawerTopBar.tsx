@@ -45,13 +45,11 @@ function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition
 
   return (
     <Animated.View testID={testID} style={viewStyle}>
-      <View style={styles.hamburger}>
-        <View style={styles.leftElement}>
-          <TouchableOpacity onPress={onPressHamburger} hitSlop={iconHitslop}>
-            <Hamburger />
-          </TouchableOpacity>
-          {leftElement}
-        </View>
+      <View style={styles.leftElement}>
+        <TouchableOpacity onPress={onPressHamburger} hitSlop={iconHitslop}>
+          <Hamburger />
+        </TouchableOpacity>
+        {leftElement}
       </View>
       {middleElement}
       {rightElement && <View style={styles.rightElement}>{rightElement}</View>}
@@ -72,14 +70,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexShrink: 1,
   },
-  hamburger: {
+  leftElement: {
     position: 'absolute',
     left: 0,
     padding: 0,
     marginLeft: 16,
     marginBottom: 0,
-  },
-  leftElement: {
     flex: 1,
     flexDirection: 'row',
     gap: Spacing.Thick24,
