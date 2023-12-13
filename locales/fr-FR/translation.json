@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirmer la transaction",
   "allow": "Autoriser",
   "address": "Adresse du portefeuille",
+  "supportedNetwork": "Réseau pris en charge : {{network}}",
+  "supportedNetworks": "Réseaux pris en charge : {{networks}}",
+  "and": "et",
   "phoneNumber": "Numéro de téléphone",
   "transaction": {
     "operation": "Transaction",
