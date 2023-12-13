@@ -7,7 +7,7 @@ import {
   e164NumberToAddressSelector,
 } from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
-import { Recipient, getRecipientVerificationStatus } from 'src/recipients/recipient'
+import { Recipient, RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -34,7 +34,11 @@ const useFetchRecipientVerificationStatus = () => {
     setRecipient(selectedRecipient)
     setRecipientVerificationStatus(RecipientVerificationStatus.UNKNOWN)
 
-    if (selectedRecipient?.e164PhoneNumber) {
+    // phone recipients should always have a number, the extra check is to ensure typing
+    if (
+      selectedRecipient.recipientType === RecipientType.PhoneNumber &&
+      selectedRecipient.e164PhoneNumber
+    ) {
       dispatch(fetchAddressesAndValidate(selectedRecipient.e164PhoneNumber))
     } else if (selectedRecipient?.address) {
       if (
