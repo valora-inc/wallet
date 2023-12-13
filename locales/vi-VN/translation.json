@@ -1079,6 +1079,10 @@
       "title": "Chuỗi không được hỗ trợ",
       "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Số dư token gas không đủ",
+      "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this transaction."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chuỗi không được hỗ trợ",
