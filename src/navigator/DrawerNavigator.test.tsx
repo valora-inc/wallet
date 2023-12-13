@@ -3,7 +3,8 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
@@ -193,6 +194,45 @@ describe('DrawerNavigator', () => {
       )
 
       expect(queryByText('+1 302-306-1234')).toBeFalsy()
+    })
+  })
+
+  describe('network display', () => {
+    const testCases = [
+      {
+        testName: 'one network',
+        showBalances: [NetworkId['celo-alfajores']],
+        expectedText: 'supportedNetwork, {"network":"Celo Alfajores"}',
+      },
+      {
+        testName: 'two networks',
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        expectedText: 'supportedNetworks, {"networks":"Celo Alfajores and Ethereum Sepolia"}',
+      },
+      {
+        testName: 'three networks',
+        showBalances: [
+          NetworkId['celo-mainnet'],
+          NetworkId['ethereum-sepolia'],
+          NetworkId['celo-alfajores'],
+        ],
+        expectedText: 'supportedNetworks, {"networks":"Celo, Ethereum Sepolia and Celo Alfajores"}',
+      },
+    ]
+
+    it.each(testCases)('shows $testName correctly', ({ showBalances, expectedText }) => {
+      jest.mocked(getDynamicConfigParams).mockReturnValue({
+        showBalances,
+      })
+
+      const store = createMockStore({})
+      const { getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+
+      expect(getByText(expectedText)).toBeTruthy()
     })
   })
 })
