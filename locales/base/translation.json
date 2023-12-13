@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
   "address": "Wallet Address",
+  "supportedNetwork": "Supported Network: {{network}}",
+  "supportedNetworks": "Supported Networks: {{networks}}",
+  "and": "and",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -1899,9 +1902,7 @@
       "network": "Network"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
-      "alreadyImported": "Token was added already before.",
-      "alreadySupported": "Token is already supported."
+      "invalidToken": "Invalid token. Try again or contact support"
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"
