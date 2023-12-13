@@ -20,14 +20,12 @@ expect.extend({
   },
 })
 
-interface CustomMatchers<R = unknown> {
-  toEqualBlob(blob: Blob): R
-}
-
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace jest {
-    interface Matchers<R> extends CustomMatchers<R> {}
-    interface InverseAsymmetricMatchers extends CustomMatchers {}
+    interface Matchers<R> {
+      toEqualBlob(blob: Blob): R
+    }
   }
 }
 
