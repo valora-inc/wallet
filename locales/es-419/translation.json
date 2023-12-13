@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
   "address": "Dirección de wallet",
+  "supportedNetwork": "Red soportada: {{network}}",
+  "supportedNetworks": "Redes soportadas: {{networks}}",
+  "and": "y",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
