@@ -352,7 +352,14 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
 
   // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
   if ('gasLimit' in tx && tx.gas === undefined) {
-    tx.gas = isHex(tx.gasLimit) ? hexToBigInt(tx.gasLimit as Hex) : (tx.gasLimit as bigint)
+    tx.gas = isHex(tx.gasLimit)
+      ? hexToBigInt(tx.gasLimit as Hex)
+      : // make sure that we can safely parse the gasLimit as a BigInt
+      typeof tx.gasLimit === 'string' ||
+        typeof tx.gasLimit === 'number' ||
+        typeof tx.gasLimit === 'bigint'
+      ? BigInt(tx.gasLimit)
+      : undefined
     delete tx.gasLimit
   }
 
