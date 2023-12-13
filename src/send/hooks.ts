@@ -17,6 +17,7 @@ import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { useTranslation } from 'react-i18next'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
 import { resolveId } from 'src/recipients/RecipientPicker'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100
@@ -114,10 +115,11 @@ export function useResolvedRecipients(searchQuery: string): Recipient[] {
  * Returns recent and contact recipients from Redux.
  */
 export function useSendRecipients() {
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const contactsCache = useSelector(phoneRecipientCacheSelector)
   const contactRecipients = useMemo(
-    () => sortRecipients(Object.values(contactsCache)),
-    [contactsCache]
+    () => sortRecipients(phoneNumberVerified ? Object.values(contactsCache) : []),
+    [contactsCache, phoneNumberVerified]
   )
   const recentRecipients = useSelector((state) => state.send.recentRecipients)
   return {

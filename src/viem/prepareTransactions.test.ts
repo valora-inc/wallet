@@ -25,6 +25,7 @@ import {
   EstimateGasExecutionError,
   ExecutionRevertedError,
   InsufficientFundsError,
+  InvalidInputRpcError,
   encodeFunctionData,
 } from 'viem'
 import { estimateGas } from 'viem/actions'
@@ -63,6 +64,13 @@ describe('prepareTransactions module', () => {
     }),
     {}
   )
+  const mockInvalidInputRpcError = new EstimateGasExecutionError(
+    new InvalidInputRpcError(
+      new BaseError('test mock', { details: 'gas required exceeds allowance' })
+    ),
+    {}
+  )
+
   const mockFeeCurrencies: TokenBalanceWithAddress[] = [
     {
       address: '0xfee1',
@@ -617,6 +625,19 @@ describe('prepareTransactions module', () => {
     })
     it('returns null if estimateGas throws EstimateGasExecutionError with cause insufficient funds', async () => {
       mocked(estimateGas).mockRejectedValue(mockInsufficientFundsError)
+      const baseTransaction: TransactionRequest = { from: '0x123' }
+      const estimateTransactionOutput = await tryEstimateTransaction({
+        client: mockPublicClient,
+        baseTransaction,
+        maxFeePerGas: BigInt(456),
+        feeCurrencySymbol: 'FEE',
+        feeCurrencyAddress: '0xabc',
+        maxPriorityFeePerGas: BigInt(789),
+      })
+      expect(estimateTransactionOutput).toEqual(null)
+    })
+    it('returns null if estimateGas throws InvalidInputRpcError with gas required exceeds allowance', async () => {
+      mocked(estimateGas).mockRejectedValue(mockInvalidInputRpcError)
       const baseTransaction: TransactionRequest = { from: '0x123' }
       const estimateTransactionOutput = await tryEstimateTransaction({
         client: mockPublicClient,

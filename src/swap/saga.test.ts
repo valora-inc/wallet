@@ -51,7 +51,7 @@ import {
   mockWBTCAddress,
   mockWBTCTokenId,
 } from 'test/values'
-import { Address, zeroAddress } from 'viem'
+import { Address, decodeFunctionData, zeroAddress } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
@@ -592,6 +592,10 @@ describe(swapSubmitPreparedSaga, () => {
       [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockSwapTxReceipt],
       [matchers.call.fn(publicClient[network].getTransactionReceipt), mockApproveTxReceipt],
+      [
+        matchers.call.fn(decodeFunctionData),
+        { functionName: 'approve', args: ['0xspenderAddress', BigInt(1e18)] },
+      ],
     ]
 
     return defaultProviders
@@ -692,6 +696,22 @@ describe(swapSubmitPreparedSaga, () => {
         .withState(store.getState())
         .provide(createDefaultProviders(network))
         .put(swapSuccess('test-swap-id'))
+        .put(
+          addStandbyTransaction({
+            context: {
+              id: 'id-swap/saga-Swap/Approve',
+              tag: 'swap/saga',
+              description: 'Swap/Approve',
+            },
+            __typename: 'TokenApproval',
+            networkId,
+            type: TokenTransactionTypeV2.Approval,
+            transactionHash: mockApproveTxReceipt.transactionHash,
+            tokenId: fromTokenId,
+            approvedAmount: '1',
+            feeCurrencyId,
+          })
+        )
         .put(
           addStandbyTransaction({
             context: {
@@ -840,6 +860,14 @@ describe(swapSubmitPreparedSaga, () => {
           feeCurrencyId: mockCeloTokenId,
         })
       )
+      .not.put.like({
+        action: {
+          type: Actions.ADD_STANDBY_TRANSACTION,
+          transaction: {
+            __typename: 'TokenApproval',
+          },
+        },
+      })
       .call([publicClient.celo, 'waitForTransactionReceipt'], { hash: '0x1' })
       .run()
 
@@ -853,6 +881,22 @@ describe(swapSubmitPreparedSaga, () => {
     await expectSaga(swapSubmitPreparedSaga, mockSwapPreparedWithWBTCBuyToken)
       .withState(store.getState())
       .provide(createDefaultProviders(Network.Celo))
+      .put(
+        addStandbyTransaction({
+          context: {
+            id: 'id-swap/saga-Swap/Approve',
+            tag: 'swap/saga',
+            description: 'Swap/Approve',
+          },
+          __typename: 'TokenApproval',
+          networkId: NetworkId['celo-alfajores'],
+          type: TokenTransactionTypeV2.Approval,
+          transactionHash: mockApproveTxReceipt.transactionHash,
+          tokenId: mockCeurTokenId,
+          approvedAmount: '1',
+          feeCurrencyId: mockCeloTokenId,
+        })
+      )
       .put(
         addStandbyTransaction({
           context: {

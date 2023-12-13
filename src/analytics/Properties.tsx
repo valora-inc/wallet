@@ -1459,12 +1459,18 @@ interface AssetsEventsProperties {
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
-    tokenAddress: string
-    tokenSymbol: string
     networkId: string
     tokenId: string
+    tokenAddress: string
+    tokenSymbol: string
   }
   [AssetsEvents.import_token_paste]: undefined
+  [AssetsEvents.import_token_error]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+    error: string
+  }
 }
 
 interface NftsEventsProperties {

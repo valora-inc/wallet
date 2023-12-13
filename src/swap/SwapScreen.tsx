@@ -46,7 +46,7 @@ import { swapStart, swapStartPrepared } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
-import { tokensByIdSelector } from 'src/tokens/selectors'
+import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -148,6 +148,13 @@ export function SwapScreen({ route }: Props) {
 
   const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
 
+  const feeCurrenciesWithPositiveBalances = useSelector((state) =>
+    feeCurrenciesWithPositiveBalancesSelector(
+      state,
+      fromToken?.networkId || networkConfig.defaultNetworkId
+    )
+  )
+
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
     useSwapQuote(fromToken?.networkId || networkConfig.defaultNetworkId, slippagePercentage)
 
@@ -217,12 +224,6 @@ export function SwapScreen({ route }: Props) {
       clearTimeout(debouncedRefreshQuote)
     }
   }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
-
-  useEffect(() => {
-    if (shouldShowMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
-      setShouldShowMaxSwapAmountWarning(false)
-    }
-  }, [fromToken, shouldShowMaxSwapAmountWarning])
 
   useEffect(
     () => {
@@ -300,7 +301,7 @@ export function SwapScreen({ route }: Props) {
 
     if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
       setFromSwapAmountError(true)
-      showMaxCeloSwapWarning()
+      hideOrShowMaxFeeCurrencySwapWarning(fromToken)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken.symbol })))
       return
     }
@@ -481,6 +482,7 @@ export function SwapScreen({ route }: Props) {
     setFromToken(newFromToken)
     setToToken(newToToken)
     setSwitchedToNetworkId(newSwitchedToNetworkId)
+    hideOrShowMaxFeeCurrencySwapWarning(shouldShowMaxSwapAmountWarning ? newFromToken : undefined)
 
     if (newSwitchedToNetworkId) {
       clearQuote()
@@ -525,7 +527,7 @@ export function SwapScreen({ route }: Props) {
         decimalSeparator,
       }),
     }))
-    showMaxCeloSwapWarning()
+    hideOrShowMaxFeeCurrencySwapWarning(fromToken)
     if (!fromToken) {
       // Should never happen
       return
@@ -537,10 +539,11 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const showMaxCeloSwapWarning = () => {
-    if (fromToken?.symbol === 'CELO') {
-      setShouldShowMaxSwapAmountWarning(true)
-    }
+  const hideOrShowMaxFeeCurrencySwapWarning = (fromToken: TokenBalance | undefined) => {
+    setShouldShowMaxSwapAmountWarning(
+      feeCurrenciesWithPositiveBalances.length === 1 &&
+        fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId
+    )
   }
 
   const onPressLearnMore = () => {
@@ -640,8 +643,12 @@ export function SwapScreen({ route }: Props) {
           {showMaxSwapAmountWarning && (
             <InLineNotification
               severity={Severity.Warning}
-              title={t('swapScreen.maxSwapAmountWarning.title')}
-              description={t('swapScreen.maxSwapAmountWarning.body')}
+              title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
+                tokenSymbol: fromToken?.symbol,
+              })}
+              description={t('swapScreen.maxSwapAmountWarning.bodyV1_74', {
+                tokenSymbol: fromToken?.symbol,
+              })}
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
               style={styles.warning}
               onPressCta={onPressLearnMoreFees}
