@@ -16,7 +16,7 @@ import { isSupportedAction, isSupportedEvent } from 'src/walletConnect/constants
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import { currentAccountSelector } from 'src/web3/selectors'
 
-type Props = {
+export type SessionRequestProps = {
   version: 2
   pendingSession: Web3WalletTypes.EventArguments['session_proposal']
   namespacesToApprove: SessionTypes.Namespaces | null
@@ -24,7 +24,11 @@ type Props = {
 }
 
 // do not destructure props or else the type inference is lost
-function SessionRequest({ pendingSession, namespacesToApprove, supportedChains }: Props) {
+function SessionRequest({
+  pendingSession,
+  namespacesToApprove,
+  supportedChains,
+}: SessionRequestProps) {
   const { metadata } = pendingSession.params.proposer
 
   const { t } = useTranslation()

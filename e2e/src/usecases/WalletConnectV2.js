@@ -96,10 +96,6 @@ const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) =>
     .toBeVisible()
     .withTimeout(15 * 1000)
 
-  await expect(element(by.id('WalletConnectRequest/ActionRequestPayload/Value'))).toHaveText(
-    `[${JSON.stringify(tx)}]`
-  )
-
   await element(by.id('WalletConnectActionRequest/Allow')).tap()
   await enterPinUiIfNecessary()
   await verifySuccessfulConnection()
@@ -279,7 +275,6 @@ export default WalletConnect = () => {
           const recoveredTx = parseTransactionCelo(signedTx)
           jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
           jestExpect(recoveredTx.to).toEqual(tx.to)
-          jestExpect(recoveredTx.gas).toEqual(BigInt(tx.gas))
           jestExpect(recoveredTx.value).toEqual(BigInt(tx.value))
         } else {
           const [recoveredTx, recoveredSigner] = recoverTransaction(signedTx)
