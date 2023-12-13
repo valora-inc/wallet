@@ -265,6 +265,9 @@
   "confirmTransaction": "Xác nhận giao dịch",
   "allow": "Cho phép",
   "address": "Địa chỉ ví",
+  "supportedNetwork": "Supported Network: {{network}}",
+  "supportedNetworks": "Supported Networks: {{networks}}",
+  "and": "and",
   "phoneNumber": "Số điện thoại",
   "transaction": {
     "operation": "Hoạt động",
