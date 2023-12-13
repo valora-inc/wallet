@@ -265,6 +265,9 @@
   "confirmTransaction": "确认交易",
   "allow": "允许",
   "address": "钱包地址",
+  "supportedNetwork": "支持的网络： {{network}}",
+  "supportedNetworks": "支持的网络： {{networks}}",
+  "and": "和",
   "phoneNumber": "手机号码",
   "transaction": {
     "operation": "操作",
