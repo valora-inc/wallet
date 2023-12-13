@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   text: {
     ...fontStyles.small,
     color: colors.gray4,
-    marginVertical: 8,
+    marginBottom: 8,
   },
   link: {
     ...fontStyles.label,

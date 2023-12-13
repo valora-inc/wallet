@@ -59,12 +59,14 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -163,6 +165,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
+  const networks = getSupportedNetworkIdsForTokenBalances()
+  const networkNames = networks.map((network) => NETWORK_NAMES[network])
 
   return (
     <DrawerContentScrollView {...props}>
@@ -188,6 +192,17 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+        <Text style={styles.supportedNetworks}>
+          {networks.length > 1
+            ? t('supportedNetworks', {
+                networks: `${networkNames.slice(0, -1).join(', ')} ${t('and')} ${networkNames.at(
+                  -1
+                )}`,
+              })
+            : t('supportedNetwork', {
+                network: networkNames[0],
+              })}
+        </Text>
         <Text style={styles.smallLabel}>{t('version', { appVersion })}</Text>
       </View>
     </DrawerContentScrollView>
@@ -365,11 +380,16 @@ const styles = StyleSheet.create({
   drawerBottom: {
     marginVertical: 32,
     marginHorizontal: 16,
+    gap: Spacing.Smallest8,
   },
   smallLabel: {
     ...fontStyles.small,
     color: colors.gray4,
-    marginTop: 32,
+    marginTop: 24,
+  },
+  supportedNetworks: {
+    ...typeScale.bodyXSmall,
+    color: colors.gray3,
   },
   itemStyle: {
     marginLeft: -20,
