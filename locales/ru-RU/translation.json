@@ -265,6 +265,9 @@
   "confirmTransaction": "Подтвердить транзакцию",
   "allow": "Разрешить",
   "address": "Адрес кошелька",
+  "supportedNetwork": "Поддерживаемая сеть: {{network}}",
+  "supportedNetworks": "Поддерживаемые сети: {{networks}}",
+  "and": "и",
   "phoneNumber": "Номер телефона",
   "transaction": {
     "operation": "Операция",
