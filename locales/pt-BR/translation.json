@@ -1081,6 +1081,10 @@
       "title": "Cadeia não suportada",
       "description": "{{dappName}} está solicitando esta ação em uma cadeia não suportada pelo {{appName}}. Certifique-se de que Celo é a cadeia ativa no dapp."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Balanço insuficiente de tokens de Gas",
+      "description": "Você não tem {{feeCurrencies}} suficiente para cobrir as taxas de gasolina. Por favor, adicione {{feeCurrencies}} à sua carteira para concluir esta transação."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadeia não suportada",
