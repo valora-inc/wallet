@@ -1667,6 +1667,11 @@
     "swapFromTokenSelection": "ŞURADAN TAKAS",
     "swapToTokenSelection": "ŞUNA TAKAS",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "{{networkName}} ağına geçtiniz",
+      "body_swapFrom": "Devam etmek için {{networkName}} ağında takas edilecek bir token seçin.",
+      "body_swapTo": "Devam etmek için {{networkName}} ağında takas edilecek bir token seçin."
+    },
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",

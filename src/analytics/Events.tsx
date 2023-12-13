@@ -628,6 +628,7 @@ export enum AssetsEvents {
   import_token_screen_open = 'import_token_screen_open',
   import_token_submit = 'import_token_submit',
   import_token_paste = 'import_token_paste',
+  import_token_error = 'import_token_error',
 }
 
 export enum NftEvents {
