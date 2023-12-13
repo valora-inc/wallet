@@ -55,21 +55,21 @@ export function* handleRequest(
         if (!serializableTransactionRequest) {
           throw new Error('preparedTransaction is required when using viem')
         }
-        return (yield* call(
+        return yield* call(
           [wallet, 'signTransaction'],
           // TODO: fix types
           getPreparedTransaction(serializableTransactionRequest) as any
-        )) as string
+        )
       }
       case SupportedActions.eth_sendTransaction: {
         if (!serializableTransactionRequest) {
           throw new Error('preparedTransaction is required when using viem')
         }
-        return (yield* call(
+        return yield* call(
           [wallet, 'sendTransaction'],
           // TODO: fix types
           getPreparedTransaction(serializableTransactionRequest) as any
-        )) as string
+        )
       }
       case SupportedActions.eth_signTypedData_v4:
       case SupportedActions.eth_signTypedData:
