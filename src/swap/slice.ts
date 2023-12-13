@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { SwapInfo, SwapInfoPrepared } from 'src/swap/types'
+import { SwapInfo } from 'src/swap/types'
 
 type SwapStatus = 'idle' | 'started' | 'success' | 'error'
 
@@ -34,15 +34,7 @@ export const slice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
-    // Legacy
     swapStart: (state, action: PayloadAction<SwapInfo>) => {
-      state.currentSwap = {
-        id: action.payload.swapId,
-        status: 'started',
-      }
-    },
-    // New flow with prepared transactions
-    swapStartPrepared: (state, action: PayloadAction<SwapInfoPrepared>) => {
       state.currentSwap = {
         id: action.payload.swapId,
         status: 'started',
@@ -75,6 +67,6 @@ export const slice = createSlice({
   },
 })
 
-export const { swapStart, swapStartPrepared, swapSuccess, swapError, swapCancel } = slice.actions
+export const { swapStart, swapSuccess, swapError, swapCancel } = slice.actions
 
 export default slice.reducer

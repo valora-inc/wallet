@@ -91,13 +91,7 @@ export interface ApproveTransaction {
   to: string
 }
 
-export type SwapInfo = FetchQuoteResponse & {
-  swapId: string
-  userInput: SwapUserInput
-  quoteReceivedAt: number
-}
-
-export interface SwapInfoPrepared {
+export interface SwapInfo {
   swapId: string
   userInput: SwapUserInput
   quote: {
