@@ -16,7 +16,7 @@ import {
 } from 'src/walletConnect/actions'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { createMockStore } from 'test/utils'
-import { mockCeloTokenBalance, mockCusdAddress } from 'test/values'
+import { mockCusdAddress } from 'test/values'
 import { Address } from 'viem'
 
 jest.mock('src/statsig')
@@ -131,7 +131,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={true}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -177,7 +177,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={sendTransactionAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
             preparedTransaction={preparedTransaction}
           />
         </Provider>
@@ -218,7 +218,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -244,7 +244,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -262,7 +262,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -283,7 +283,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -303,7 +303,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -320,7 +320,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -374,7 +374,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -416,7 +416,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -458,7 +458,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             pendingAction={pendingAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -493,7 +493,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             }}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )
@@ -535,7 +535,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             }}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
-            feeCurrencies={[mockCeloTokenBalance]}
+            feeCurrenciesSymbols={['CELO']}
           />
         </Provider>
       )

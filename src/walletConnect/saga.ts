@@ -456,7 +456,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     supportedChains,
     version: 2,
     hasInsufficientGasFunds: preparedTransactionsResult?.type === 'not-enough-balance-for-gas',
-    feeCurrencies,
+    feeCurrenciesSymbols: feeCurrencies.map((token) => token.symbol),
     preparedTransaction:
       preparedTransactionsResult?.type === 'possible'
         ? getSerializablePreparedTransaction(preparedTransactionsResult.transactions[0])

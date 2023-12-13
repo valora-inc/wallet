@@ -8,7 +8,6 @@ import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
@@ -24,7 +23,7 @@ export interface ActionRequestProps {
   pendingAction: Web3WalletTypes.EventArguments['session_request']
   supportedChains: string[]
   hasInsufficientGasFunds: boolean
-  feeCurrencies: TokenBalance[]
+  feeCurrenciesSymbols: string[]
   preparedTransaction?: SerializableTransactionRequest
 }
 
@@ -32,7 +31,7 @@ function ActionRequest({
   pendingAction,
   supportedChains,
   hasInsufficientGasFunds,
-  feeCurrencies,
+  feeCurrenciesSymbols,
   preparedTransaction,
 }: ActionRequestProps) {
   const { t } = useTranslation()
@@ -108,7 +107,7 @@ function ActionRequest({
           severity={Severity.Warning}
           title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
           description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
-            feeCurrencies: feeCurrencies.map((feeCurrency) => feeCurrency.symbol).join(', '),
+            feeCurrencies: feeCurrenciesSymbols.join(', '),
           })}
           style={styles.warning}
         />
