@@ -86,7 +86,7 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
-import { GetTransactionCountParameters, Hex, hexToBigInt, isHex } from 'viem'
+import { GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 let client: IWeb3Wallet | null = null
@@ -347,19 +347,21 @@ function getSupportedChains() {
   })
 }
 
+function convertGasParamToExpectedType(gasParam: any) {
+  return isHex(gasParam)
+    ? hexToBigInt(gasParam)
+    : // make sure that we can safely parse the param as a BigInt
+    typeof gasParam === 'string' || typeof gasParam === 'number' || typeof gasParam === 'bigint'
+    ? BigInt(gasParam)
+    : undefined
+}
+
 export function* normalizeTransaction(rawTx: any, network: Network) {
   const tx: TransactionRequest = { ...rawTx }
 
   // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
   if ('gasLimit' in tx && tx.gas === undefined) {
-    tx.gas = isHex(tx.gasLimit)
-      ? hexToBigInt(tx.gasLimit as Hex)
-      : // make sure that we can safely parse the gasLimit as a BigInt
-      typeof tx.gasLimit === 'string' ||
-        typeof tx.gasLimit === 'number' ||
-        typeof tx.gasLimit === 'bigint'
-      ? BigInt(tx.gasLimit)
-      : undefined
+    tx.gas = convertGasParamToExpectedType(tx.gasLimit)
     delete tx.gasLimit
   }
 
@@ -372,9 +374,7 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
       delete tx.feeCurrency
     }
   } else {
-    if (isHex(tx.gas)) {
-      tx.gas = hexToBigInt(tx.gas)
-    }
+    tx.gas = convertGasParamToExpectedType(tx.gas)
   }
 
   // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
