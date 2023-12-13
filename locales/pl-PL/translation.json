@@ -265,6 +265,9 @@
   "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
   "address": "Adres portfela",
+  "supportedNetwork": "Obsługiwana sieć: {{network}}",
+  "supportedNetworks": "Obsługiwane sieci: {{networks}}",
+  "and": "i",
   "phoneNumber": "Numer telefonu",
   "transaction": {
     "operation": "Operacja",
