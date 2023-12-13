@@ -67,6 +67,7 @@ import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { QrCode } from 'src/send/actions'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
@@ -145,6 +146,12 @@ interface AppEventsProperties {
   [AppEvents.multichain_beta_opt_in]: undefined
   [AppEvents.multichain_beta_opt_out]: undefined
   [AppEvents.multichain_beta_contact_support]: undefined
+
+  [AppEvents.handle_deeplink]: {
+    pathStartsWith: string
+    fullPath: string | null
+    query: string | null
+  }
 }
 
 interface HomeEventsProperties {
@@ -1025,6 +1032,7 @@ interface QrScreenProperties {
     exchange: string
   }
   [QrScreenEvents.qr_scanner_open]: undefined
+  [QrScreenEvents.qr_scanner_scanned]: QrCode
 }
 
 interface FiatConnectKycProperties {

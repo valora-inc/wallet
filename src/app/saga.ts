@@ -339,6 +339,14 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     const pathParts = rawParams.path.split('/')
+    ValoraAnalytics.track(AppEvents.handle_deeplink, {
+      pathStartsWith: pathParts[1].split('?')[0],
+      fullPath:
+        pathParts[1] === 'jumpstart'
+          ? 'redacted-due-to-presense-of-private-key'
+          : rawParams.pathname,
+      query: rawParams.query,
+    })
     if (rawParams.path.startsWith('/pay')) {
       yield* call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {

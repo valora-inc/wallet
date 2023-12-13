@@ -29,6 +29,8 @@ export enum AppEvents {
   multichain_beta_opt_in = 'multichain_beta_opt_in',
   multichain_beta_opt_out = 'multichain_beta_opt_out',
   multichain_beta_contact_support = 'multichain_beta_contact_support',
+
+  handle_deeplink = 'handle_deeplink',
 }
 
 export enum HomeEvents {
@@ -336,6 +338,7 @@ export enum QrScreenEvents {
   qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
   qr_scanner_open = 'qr_scanner_open',
+  qr_scanner_scanned = 'qr_scanner_scanned',
 }
 
 export enum RequestEvents {

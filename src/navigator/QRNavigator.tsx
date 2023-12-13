@@ -151,7 +151,6 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     if (lastScannedQR.current === qrCode.data) {
       return
     }
-
     Logger.debug('QRScanner', 'Bar code detected')
     onQRCodeDetectedParam(qrCode)
     lastScannedQR.current = qrCode.data
