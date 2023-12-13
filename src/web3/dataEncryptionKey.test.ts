@@ -42,7 +42,7 @@ describe('doFetchDataEncryptionKey', () => {
 
     expect(mockFetch).toHaveBeenCalledTimes(1)
     expect(mockFetch).toHaveBeenCalledWith(
-      `${networkConfig.getPublicDEKUrl}?address=0xbcd&clientPlatform=android&clientVersion=0.0.1`,
+      `${networkConfig.getPublicDEKUrl}?address=0xabc&clientPlatform=android&clientVersion=0.0.1`,
       {
         method: 'GET',
         headers: {
