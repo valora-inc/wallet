@@ -1081,6 +1081,10 @@
       "title": "Desteklenmeyen zincir",
       "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Yetersiz gas token bakiyesi",
+      "description": "Benzin ücretlerini karşılamak için yeterli {{feeCurrencies}} adresiniz yok. Bu işlemi tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
