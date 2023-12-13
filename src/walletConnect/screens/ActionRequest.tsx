@@ -5,8 +5,11 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
 import { SupportedActions, getDescriptionAndTitleFromAction } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
@@ -15,13 +18,22 @@ import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/Reque
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { sessionsSelector } from 'src/walletConnect/selectors'
 
-interface Props {
+export interface ActionRequestProps {
   version: 2
   pendingAction: Web3WalletTypes.EventArguments['session_request']
   supportedChains: string[]
+  hasInsufficientGasFunds: boolean
+  feeCurrenciesSymbols: string[]
+  preparedTransaction?: SerializableTransactionRequest
 }
 
-function ActionRequest({ pendingAction, supportedChains }: Props) {
+function ActionRequest({
+  pendingAction,
+  supportedChains,
+  hasInsufficientGasFunds,
+  feeCurrenciesSymbols,
+  preparedTransaction,
+}: ActionRequestProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -31,6 +43,7 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
   }, [sessions])
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
   const isDappListed = useIsDappListed(url)
+  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS)
 
   if (!activeSession) {
     // should never happen
@@ -79,12 +92,33 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
     )
   }
 
+  if (useViem && hasInsufficientGasFunds) {
+    return (
+      <RequestContent
+        type="dismiss"
+        onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
+        dappName={dappName}
+        dappImageUrl={dappImageUrl}
+        title={title}
+        description={description}
+        testId="WalletConnectActionRequest"
+      >
+        <InLineNotification
+          severity={Severity.Warning}
+          title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
+          description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
+            feeCurrencies: feeCurrenciesSymbols.join(', '),
+          })}
+          style={styles.warning}
+        />
+      </RequestContent>
+    )
+  }
+
   return (
     <RequestContent
       type="confirm"
-      onAccept={() => {
-        dispatch(acceptRequest(pendingAction))
-      }}
+      onAccept={() => dispatch(acceptRequest(pendingAction, preparedTransaction))}
       onDeny={() => {
         dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))
       }}
@@ -94,7 +128,11 @@ function ActionRequest({ pendingAction, supportedChains }: Props) {
       description={description}
       testId="WalletConnectActionRequest"
     >
-      <ActionRequestPayload session={activeSession} request={pendingAction} />
+      <ActionRequestPayload
+        session={activeSession}
+        request={pendingAction}
+        preparedTransaction={preparedTransaction}
+      />
       <DappsDisclaimer isDappListed={isDappListed} />
     </RequestContent>
   )

@@ -22,10 +22,19 @@ import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/Navi
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
+import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
+import { ViemWallet } from 'src/viem/getLockableWallet'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import {
+  PreparedTransactionsResult,
+  prepareTransactions,
+  TransactionRequest,
+} from 'src/viem/prepareTransactions'
 import {
   AcceptRequest,
   AcceptSession,
@@ -59,7 +68,12 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import networkConfig, { networkIdToWalletConnectChainId } from 'src/web3/networkConfig'
+import { getViemWallet } from 'src/web3/contracts'
+import networkConfig, {
+  networkIdToWalletConnectChainId,
+  walletConnectChainIdToNetwork,
+  walletConnectChainIdToNetworkId,
+} from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
 import {
   call,
@@ -72,6 +86,8 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
+import { GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
+import { getTransactionCount } from 'viem/actions'
 
 let client: IWeb3Wallet | null = null
 
@@ -331,12 +347,65 @@ function getSupportedChains() {
   })
 }
 
+function convertGasParamToExpectedType(gasParam: any) {
+  return isHex(gasParam)
+    ? hexToBigInt(gasParam)
+    : // make sure that we can safely parse the param as a BigInt
+    typeof gasParam === 'string' || typeof gasParam === 'number' || typeof gasParam === 'bigint'
+    ? BigInt(gasParam)
+    : undefined
+}
+
+export function* normalizeTransaction(rawTx: any, network: Network) {
+  const tx: TransactionRequest = { ...rawTx }
+
+  // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
+  if ('gasLimit' in tx && tx.gas === undefined) {
+    tx.gas = convertGasParamToExpectedType(tx.gasLimit)
+    delete tx.gasLimit
+  }
+
+  // re-calculate the feeCurrency and gas since it is not possible to tell from
+  // the request payload if the feeCurrency is set to undefined (native
+  // currency) explicitly or due to lack of feeCurrency support
+  if (network === Network.Celo) {
+    delete tx.gas
+    if ('feeCurrency' in tx) {
+      delete tx.feeCurrency
+    }
+  } else {
+    tx.gas = convertGasParamToExpectedType(tx.gas)
+  }
+
+  // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
+  if (tx.gasPrice !== undefined) {
+    delete tx.gasPrice
+  }
+
+  if (!tx.nonce) {
+    const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain[network])
+    if (!wallet.account) {
+      // this should never happen
+      throw new Error('no account found in the wallet')
+    }
+
+    const txCountParams: GetTransactionCountParameters = {
+      address: wallet.account.address,
+      blockTag: 'pending',
+    }
+    tx.nonce = yield* call(getTransactionCount, wallet, txCountParams)
+  }
+
+  return tx
+}
+
 function* showActionRequest(request: Web3WalletTypes.EventArguments['session_request']) {
   if (!client) {
     throw new Error('missing client')
   }
 
-  if (!isSupportedAction(request.params.request.method)) {
+  const method = request.params.request.method
+  if (!isSupportedAction(method)) {
     // Directly deny unsupported requests
     yield* put(denyRequest(request, getSdkError('WC_METHOD_UNSUPPORTED')))
     return
@@ -361,11 +430,37 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
 
   const supportedChains = yield* call(getSupportedChains)
 
+  const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
+  const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, networkId))
+  let preparedTransactionsResult: PreparedTransactionsResult | undefined = undefined
+  if (
+    method === SupportedActions.eth_signTransaction ||
+    method === SupportedActions.eth_sendTransaction
+  ) {
+    const network = walletConnectChainIdToNetwork[request.params.chainId]
+    const normalizedTx = yield* call(
+      normalizeTransaction,
+      request.params.request.params[0],
+      network
+    )
+    preparedTransactionsResult = yield* call(prepareTransactions, {
+      feeCurrencies,
+      decreasedAmountGasFeeMultiplier: 1,
+      baseTransactions: [normalizedTx],
+    })
+  }
+
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
     pendingAction: request,
     supportedChains,
     version: 2,
+    hasInsufficientGasFunds: preparedTransactionsResult?.type === 'not-enough-balance-for-gas',
+    feeCurrenciesSymbols: feeCurrencies.map((token) => token.symbol),
+    preparedTransaction:
+      preparedTransactionsResult?.type === 'possible'
+        ? getSerializablePreparedTransaction(preparedTransactionsResult.transactions[0])
+        : undefined,
   })
 }
 
@@ -495,7 +590,7 @@ function* getSessionFromRequest(request: Web3WalletTypes.EventArguments['session
   return session
 }
 
-function* handleAcceptRequest({ request }: AcceptRequest) {
+function* handleAcceptRequest({ request, preparedTransaction }: AcceptRequest) {
   const session: SessionTypes.Struct = yield* call(getSessionFromRequest, request)
   const defaultSessionTrackedProperties: WalletConnect2Properties = yield* call(
     getDefaultSessionTrackedProperties,
@@ -521,7 +616,7 @@ function* handleAcceptRequest({ request }: AcceptRequest) {
       throw new Error(`Missing active session for topic ${topic}`)
     }
 
-    const result = yield* call(handleRequest, params)
+    const result = yield* call(handleRequest, params, preparedTransaction)
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
       (params.request.method = typeof result === 'string' ? result : result.raw)
