@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirmar transacção",
   "allow": "Permitir",
   "address": "Endereço da conta",
+  "supportedNetwork": "Rede suportada: {{network}}",
+  "supportedNetworks": "Redes suportadas: {{networks}}",
+  "and": "e",
   "phoneNumber": "Número de celular",
   "transaction": {
     "operation": "Operação",
