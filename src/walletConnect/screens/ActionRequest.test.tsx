@@ -160,11 +160,21 @@ describe('ActionRequest with WalletConnect V2', () => {
         maxFeePerGas: '1000000',
         feeCurrency: mockCusdAddress as Address,
       }
-      const { getByText } = render(
+      const sendTransactionAction = {
+        ...pendingAction,
+        params: {
+          ...pendingAction.params,
+          request: {
+            ...pendingAction.params.request,
+            method: 'eth_sendTransaction',
+          },
+        },
+      }
+      const { getByText, getByTestId } = render(
         <Provider store={store}>
           <ActionRequest
             version={2}
-            pendingAction={pendingAction}
+            pendingAction={sendTransactionAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
             feeCurrencies={[mockCeloTokenBalance]}
@@ -173,8 +183,16 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
+      expect(
+        within(getByTestId('WalletConnectRequest/ActionRequestPayload/Value')).getByText(
+          JSON.stringify(preparedTransaction)
+        )
+      ).toBeTruthy()
+
       fireEvent.press(getByText('allow'))
-      expect(store.getActions()).toEqual([acceptRequestV2(pendingAction, preparedTransaction)])
+      expect(store.getActions()).toEqual([
+        acceptRequestV2(sendTransactionAction, preparedTransaction),
+      ])
     })
   })
 

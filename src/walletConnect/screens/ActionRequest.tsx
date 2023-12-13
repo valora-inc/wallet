@@ -129,7 +129,11 @@ function ActionRequest({
       description={description}
       testId="WalletConnectActionRequest"
     >
-      <ActionRequestPayload session={activeSession} request={pendingAction} />
+      <ActionRequestPayload
+        session={activeSession}
+        request={pendingAction}
+        preparedTransaction={preparedTransaction}
+      />
       <DappsDisclaimer isDappListed={isDappListed} />
     </RequestContent>
   )
