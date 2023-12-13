@@ -1667,6 +1667,11 @@
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Has cambiado a la red {{networkName}}",
+      "body_swapFrom": "Selecciona una ficha para intercambiar en la red {{networkName}} para continuar.",
+      "body_swapTo": "Selecciona un token al que cambiar en la red {{networkName}} para continuar."
+    },
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
@@ -1679,6 +1684,10 @@
     "missingSwapImpactWarning": {
       "title": "Antes de cambiar",
       "body": "No podemos estimar el valor de este intercambio. {{appName}} no se hace responsable si decides proceder."
+    },
+    "confirmSwapFailedWarning": {
+      "title": "Algo salió mal",
+      "body": "La velocidad de la red es lenta o hay un error desconocido. Vuelve a intentarlo más tarde"
     },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1937,7 +1946,8 @@
     "connectPhoneNumberModal": {
       "title": "Conecta tu número de teléfono",
       "description": "Tienes que conectar tu número de teléfono para empezar a enviar cripto a tus amigos"
-    }
+    },
+    "unknownAddressInfo": "Asegúrate de que esta dirección admite el activo que intentas enviar. Tus fondos pueden no ser recuperables si esta dirección no es válida."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Finalizada",

@@ -1332,6 +1332,13 @@ interface SwapEventsProperties {
     tokenSymbol: string
     tokenId: string
     tokenNetworkId: string
+    fromTokenSymbol: string | undefined
+    fromTokenId: string | undefined
+    fromTokenNetworkId: string | undefined
+    toTokenSymbol: string | undefined
+    toTokenId: string | undefined
+    toTokenNetworkId: string | undefined
+    switchedNetworkId: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1452,12 +1459,18 @@ interface AssetsEventsProperties {
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
-    tokenAddress: string
-    tokenSymbol: string
     networkId: string
     tokenId: string
+    tokenAddress: string
+    tokenSymbol: string
   }
   [AssetsEvents.import_token_paste]: undefined
+  [AssetsEvents.import_token_error]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+    error: string
+  }
 }
 
 interface NftsEventsProperties {

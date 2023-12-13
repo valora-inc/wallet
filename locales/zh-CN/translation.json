@@ -1665,6 +1665,11 @@
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "您已转至 {{networkName}} 网络",
+      "body_swapFrom": "在 {{networkName}} 网络上选择要交换的令牌，然后继续。",
+      "body_swapTo": "在 {{networkName}} 网络上选择一个要交换的令牌，然后继续。"
+    },
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
@@ -1677,6 +1682,10 @@
     "missingSwapImpactWarning": {
       "title": "交换之前",
       "body": "我们无法估算本次交换的价值。如果您选择继续， {{appName}} 不承担任何责任。"
+    },
+    "confirmSwapFailedWarning": {
+      "title": "出了问题",
+      "body": "网络速度慢或出现未知错误。请稍后再试"
     },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1935,7 +1944,8 @@
     "connectPhoneNumberModal": {
       "title": "关联您的手机号码",
       "description": "您需要关联您的电话号码，以便开始向您的朋友发送加密货币"
-    }
+    },
+    "unknownAddressInfo": "请确保该地址支持您要发送的资产。如果该地址无效，您的资金可能无法收回。"
   },
   "transactionStatus": {
     "transactionIsCompleted": "已完成",

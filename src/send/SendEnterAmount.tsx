@@ -26,7 +26,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies } from 'src/fees/hooks'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -40,7 +39,10 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenToLocalAmount } from 'src/tokens/hooks'
-import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
+import {
+  feeCurrenciesSelector,
+  tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
@@ -204,7 +206,8 @@ function SendEnterAmount({ route }: Props) {
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
-  const feeCurrencies = useFeeCurrencies(token.networkId)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+
   useEffect(() => {
     if (!walletAddress) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')

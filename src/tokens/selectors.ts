@@ -35,6 +35,10 @@ export type CurrencyTokens = {
   [currency in Currency]: TokenBalanceWithAddress | undefined
 }
 
+// This is somewhat arbitrary, but appears to reliably prevent recalculation
+// for selectors using networkId as a parameter
+const DEFAULT_MEMOIZE_MAX_SIZE = 10
+
 function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
   return (
     networkIds.constructor === Array &&
@@ -79,7 +83,7 @@ export const tokensByIdSelector = createSelector(
         }
         return previousValue === currentValue
       },
-      maxSize: 10, // This is somewhat arbitrary, but appears to reliably prevent recalculation
+      maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
   }
 )
@@ -187,7 +191,7 @@ export const tokensByUsdBalanceSelector = createSelector(
  * @deprecated
  */
 export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
+  return tokens.filter((tokenInfo) => tokenInfo.isFeeCurrency === true)
 })
 
 /**
@@ -416,6 +420,72 @@ export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector
 
         return token1.networkId.localeCompare(token2.networkId)
       })
+)
+
+const feeCurrenciesByNetworkIdSelector = createSelector(
+  (state: RootState) => tokensByIdSelector(state, Object.values(NetworkId)),
+  (tokens) => {
+    const feeCurrenciesByNetworkId: { [key in NetworkId]?: TokenBalance[] } = {}
+    // collect fee currencies
+    Object.values(tokens).forEach((token) => {
+      if (token?.isNative || token?.isFeeCurrency) {
+        feeCurrenciesByNetworkId[token.networkId] = [
+          ...(feeCurrenciesByNetworkId[token.networkId] ?? []),
+          token,
+        ]
+      }
+    })
+
+    // sort the fee currencies by native currency first, then by USD balance, and balance otherwise
+    Object.entries(feeCurrenciesByNetworkId).forEach(([networkId, tokens]) => {
+      feeCurrenciesByNetworkId[networkId as NetworkId] = tokens.sort((a, b) => {
+        if (a.isNative && !b.isNative) {
+          return -1
+        }
+        if (b.isNative && !a.isNative) {
+          return 1
+        }
+        if (a.priceUsd && b.priceUsd) {
+          const aBalanceUsd = a.balance.multipliedBy(a.priceUsd)
+          const bBalanceUsd = b.balance.multipliedBy(b.priceUsd)
+          return bBalanceUsd.comparedTo(aBalanceUsd)
+        }
+        if (a.priceUsd) {
+          return -1
+        }
+        if (b.priceUsd) {
+          return 1
+        }
+        return b.balance.comparedTo(a.balance)
+      })
+    })
+
+    return feeCurrenciesByNetworkId
+  }
+)
+
+// for testing
+export const _feeCurrenciesByNetworkIdSelector = feeCurrenciesByNetworkIdSelector
+
+export const feeCurrenciesSelector = createSelector(
+  feeCurrenciesByNetworkIdSelector,
+  (_state: RootState, networkId: NetworkId) => networkId,
+  (feeCurrencies, networkId) => {
+    return feeCurrencies[networkId] ?? []
+  }
+)
+
+// Note this takes a networkId as parameter
+export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
+  feeCurrenciesSelector,
+  (feeCurrencies) => {
+    return feeCurrencies.filter((token) => token.balance.gt(0))
+  },
+  {
+    memoizeOptions: {
+      maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
+    },
+  }
 )
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>

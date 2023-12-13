@@ -8,7 +8,7 @@ exports[`AccountNumber renders correctly when touch disabled 1`] = `
       "fontFamily": "Inter-Regular",
       "fontSize": 14,
       "lineHeight": 18,
-      "marginVertical": 8,
+      "marginBottom": 8,
     }
   }
   testID="AccountNumber"
@@ -62,7 +62,7 @@ exports[`AccountNumber renders correctly when touch enabled 1`] = `
         "fontFamily": "Inter-Regular",
         "fontSize": 14,
         "lineHeight": 18,
-        "marginVertical": 8,
+        "marginBottom": 8,
       }
     }
     testID="AccountNumber"

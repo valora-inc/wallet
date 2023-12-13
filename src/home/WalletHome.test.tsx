@@ -10,6 +10,7 @@ import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { RecursivePartial, createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -20,7 +21,6 @@ import {
   mockCusdTokenId,
   mockProviders,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -44,7 +44,7 @@ const mockBalances = {
         symbol: 'cUSD',
         decimals: 18,
         balance: '1',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceUsd: '1',
         priceFetchedAt: Date.now(),
       },
@@ -56,7 +56,7 @@ const mockBalances = {
         decimals: 18,
         balance: '0',
         priceUsd: '1',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceFetchedAt: Date.now(),
       },
     },
@@ -73,7 +73,7 @@ const zeroBalances = {
         symbol: 'cUSD',
         decimals: 18,
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockCeurTokenId]: {
         address: mockCeurAddress,
@@ -82,7 +82,7 @@ const zeroBalances = {
         symbol: 'cEUR',
         decimals: 18,
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockCeloTokenId]: {
         address: mockCeloAddress,
@@ -91,7 +91,7 @@ const zeroBalances = {
         symbol: 'CELO',
         decimals: 18,
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
     },
   },
