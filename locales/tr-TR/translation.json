@@ -265,6 +265,9 @@
   "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
   "address": "Cüzdan Adresi",
+  "supportedNetwork": "Desteklenen Ağ: {{network}}",
+  "supportedNetworks": "Desteklenen Ağlar: {{networks}}",
+  "and": "ve",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
