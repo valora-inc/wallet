@@ -1085,6 +1085,10 @@
       "title": "Nieobsługiwany łańcuch",
       "description": "{{dappName}} żąda tej akcji w łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie dapp."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Niewystarczające saldo tokenów gazu",
+      "description": "Nie masz wystarczającej ilości {{feeCurrencies}} , aby pokryć opłaty za paliwo. Dodaj {{feeCurrencies}} do swojego portfela, aby sfinalizować tę transakcję."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nieobsługiwany łańcuch",
