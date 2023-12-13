@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
   "address": "Wallet Address",
+  "supportedNetwork": "Supported Network: {{network}}",
+  "supportedNetworks": "Supported Networks: {{networks}}",
+  "and": "and",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -1676,7 +1679,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
+      "titleV1_74": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "bodyV1_74": "Make sure you have {{tokenSymbol}} in your wallet to cover gas fees for future transactions",
       "learnMore": "Learn more"
     },
     "priceImpactWarning": {
@@ -1897,9 +1902,7 @@
       "network": "Network"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
-      "alreadyImported": "Token was added already before.",
-      "alreadySupported": "Token is already supported."
+      "invalidToken": "Invalid token. Try again or contact support"
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"
