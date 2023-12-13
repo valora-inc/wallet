@@ -10,12 +10,10 @@ async function areBlobsEqual(blob1: Blob, blob2: Blob) {
 
 expect.extend({
   async toEqualBlob(received, expected) {
-    const pass = await areBlobsEqual(received, expected)
-    const message = () =>
-      this.utils.printDiffOrStringify(expected, received, 'Expected', 'Received', true)
     return {
-      message,
-      pass,
+      message: () =>
+        this.utils.printDiffOrStringify(expected, received, 'Expected', 'Received', true),
+      pass: await areBlobsEqual(received, expected),
     }
   },
 })
