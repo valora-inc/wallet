@@ -1081,6 +1081,10 @@
       "title": "Cadena incompatible",
       "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Saldo insuficiente para cubrir tarifas de transacción",
+      "description": "No tienes suficiente {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, añade {{feeCurrencies}} a tu monedero para completar esta transacción."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadena incompatible",
