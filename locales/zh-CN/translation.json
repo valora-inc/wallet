@@ -1079,6 +1079,10 @@
       "title": "不受支持的区块链网络",
       "description": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 Celo 属于 dapp 上的活跃区块链。"
     },
+    "notEnoughBalanceForGas": {
+      "title": "手续费代币余额不足",
+      "description": "您没有足够的 {{feeCurrencies}} 来支付汽油费。请在您的钱包中添加 {{feeCurrencies}} 以完成交易。"
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "不受支持的区块链网络",
