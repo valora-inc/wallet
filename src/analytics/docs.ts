@@ -315,7 +315,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [QrScreenEvents.qr_screen_bottom_sheet_link_press]: ``,
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
-  [QrScreenEvents.qr_scanner_scanned]: `When a QR code has been successfully scanned`,
+  [QrScreenEvents.qr_scanned]: `When a QR code has been successfully scanned`,
   [RequestEvents.request_scan]: `when scan QR icon is selected from the request screen`,
   [RequestEvents.request_select_recipient]: `when recipient was selected`,
   [RequestEvents.request_cancel]: `when cancel is clicked after launching request flow`,

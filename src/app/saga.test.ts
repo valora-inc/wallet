@@ -72,7 +72,6 @@ import {
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 
-jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/sentry/Sentry')
@@ -252,7 +251,7 @@ describe('handleDeepLink', () => {
     expect(jumpstartLinkHandler).toHaveBeenCalledWith('0xPrivateKey', '0xwallet')
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'jumpstart',
-      fullPath: 'redacted-due-to-presense-of-private-key',
+      fullPath: null,
       query: null,
     })
   })

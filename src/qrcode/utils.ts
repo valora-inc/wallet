@@ -32,9 +32,9 @@ import { recipientInfoSelector } from 'src/recipients/reducer'
 import {
   HandleQRCodeDetectedAction,
   HandleQRCodeDetectedSecureSendAction,
-  QrCode,
   SVG,
 } from 'src/send/actions'
+import { QrCode } from 'src/send/types'
 import { handleSendPaymentData } from 'src/send/utils'
 import Logger from 'src/utils/Logger'
 import { initialiseWalletConnect, isWalletConnectEnabled } from 'src/walletConnect/saga'
@@ -144,7 +144,7 @@ function* extractQRAddressData(qrCode: QrCode) {
 // Catch all handler for QR Codes
 // includes support for WalletConnect, hooks, and send flow (non-secure send)
 export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
-  ValoraAnalytics.track(QrScreenEvents.qr_scanner_scanned, qrCode)
+  ValoraAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
 
   const walletConnectEnabled: boolean = yield* call(isWalletConnectEnabled, qrCode.data)
 
@@ -182,7 +182,7 @@ export function* handleQRCodeSecureSend({
   defaultTokenIdOverride,
 }: HandleQRCodeDetectedSecureSendAction) {
   const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
-  ValoraAnalytics.track(QrScreenEvents.qr_scanner_scanned, qrCode)
+  ValoraAnalytics.track(QrScreenEvents.qr_scanned, qrCode)
 
   const qrData = yield* call(extractQRAddressData, qrCode)
   if (!qrData) {

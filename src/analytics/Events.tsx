@@ -338,7 +338,7 @@ export enum QrScreenEvents {
   qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
   qr_scanner_open = 'qr_scanner_open',
-  qr_scanner_scanned = 'qr_scanner_scanned',
+  qr_scanned = 'qr_scanned',
 }
 
 export enum RequestEvents {

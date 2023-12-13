@@ -3,3 +3,8 @@ export enum InviteRewardsType {
   CUSD = 'cUSD',
   NONE = 'none',
 }
+
+export interface QrCode {
+  type: string
+  data: string
+}
