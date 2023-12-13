@@ -36,6 +36,7 @@ const useFetchRecipientVerificationStatus = () => {
     setRecipient(selectedRecipient)
     setRecipientVerificationStatus(RecipientVerificationStatus.UNKNOWN)
 
+    // phone recipients should always have a number, the extra check is to ensure typing
     if (
       selectedRecipient.recipientType === RecipientType.PhoneNumber &&
       selectedRecipient.e164PhoneNumber

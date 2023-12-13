@@ -178,6 +178,7 @@ export function getRecipientVerificationStatus(
   e164NumberToAddress: E164NumberToAddressType,
   addressToVerificationStatus: AddressToVerificationStatus
 ): RecipientVerificationStatus {
+  // phone recipients should always have a number, the extra check is to ensure typing
   if (recipient.recipientType === RecipientType.PhoneNumber && recipientHasNumber(recipient)) {
     const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
     if (addresses === undefined) {
