@@ -265,6 +265,9 @@
   "confirmTransaction": "Підтвердити транзакцію",
   "allow": "Дозволити",
   "address": "Адреса гаманця",
+  "supportedNetwork": "Підтримувана мережа: {{network}}",
+  "supportedNetworks": "Підтримувані мережі: {{networks}}",
+  "and": "і",
   "phoneNumber": "Номер телефону",
   "transaction": {
     "operation": "Операція",
