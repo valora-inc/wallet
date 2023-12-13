@@ -1081,6 +1081,10 @@
       "title": "Chaîne non prise en charge",
       "description": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que Celo est la chaîne active du côté de la dapp."
     },
+    "notEnoughBalanceForGas": {
+      "title": "Solde de jetons de gas insuffisant",
+      "description": "Tu n'as pas assez de {{feeCurrencies}} pour couvrir les frais d'essence. Merci d'ajouter {{feeCurrencies}} à ton porte-monnaie pour effectuer cette transaction."
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chaîne non prise en charge",
