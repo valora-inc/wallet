@@ -1,4 +1,4 @@
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
+import { DEFAULT_RECIPIENT_ADDRESS, SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER } from '../utils/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
@@ -156,6 +156,15 @@ export default Send = () => {
     beforeAll(async () => {
       await launchApp({
         newInstance: true,
+        launchArgs: {
+          statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true`,
+        },
+      })
+      // await quickOnboarding()
+    })
+    beforeAll(async () => {
+      await launchApp({
+        newInstance: false,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
       })
     })
@@ -185,7 +194,7 @@ export default Send = () => {
     })
 
     it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
-      await element(element(by.id('SendOrInviteButton'))).tap()
+      await element(by.id('SendOrInviteButton')).tap()
       await waitFor(element(by.id('SendEnterAmount/Input')))
         .toBeVisible()
         .withTimeout(30 * 1000)
@@ -193,20 +202,21 @@ export default Send = () => {
 
     it('Then should be able to change token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('CELOTouchable')).tap()
+      await element(by.id('CELOSymbol')).tap()
       await expect(element(by.text('CELO')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cUSDTouchable')).tap()
+      await element(by.id('cUSDSymbol')).tap()
       await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURTouchable')).tap()
+      await element(by.id('cEURSymbol')).tap()
       await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
     })
 
     it.todo('Then should be able to use max button')
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
-      await inputNumberKeypad('0.10')
+      await element(by.id('SendEnterAmount/Input')).tap()
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.10')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       await expect(element(by.id('ConfirmButton'))).toBeVisible()
     })
@@ -226,9 +236,8 @@ export default Send = () => {
     it('Then should be able to edit amount', async () => {
       await element(by.id('BackChevron')).tap()
       await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
-      await element(by.id('Backspace')).tap()
-      await element(by.id('Backspace')).tap()
-      await inputNumberKeypad('01')
+      await element(by.id('SendEnterAmount/Input')).tap()
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       let amount = await element(by.id('SendAmount')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
@@ -237,79 +246,6 @@ export default Send = () => {
       await addComment(randomComment)
       let comment = await element(by.id('commentInput/send')).getAttributes()
       jestExpect(comment.text).toEqual(randomComment)
-    })
-
-    it('Then should be able to send', async () => {
-      await element(by.id('ConfirmButton')).tap()
-      await enterPinUiIfNecessary()
-      await expect(element(by.id('errorBanner'))).not.toBeVisible()
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-    })
-
-    it.todo('Then should display transaction as pending')
-
-    it.todo('Then should display transaction as confirmed')
-
-    it.todo('Then should display correct transaction details')
-  })
-
-  describe('When multi-token send flow to phone number with one address (new flow)', () => {
-    beforeAll(async () => {
-      await launchApp({
-        newInstance: true,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
-      })
-    })
-
-    it('Then should navigate to send search input from home action', async () => {
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-      await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('SendSelectRecipientSearchInput')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
-    })
-
-    it('Then should be able to enter an address', async () => {
-      await element(by.id('SendSelectRecipientSearchInput')).tap()
-      await element(by.id('SendSelectRecipientSearchInput')).replaceText(
-        SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
-      )
-      await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
-      await expect(element(by.id('RecipientItem')).atIndex(0)).toBeVisible()
-    })
-
-    it('Then tapping a recipient should show send button', async () => {
-      await element(by.id('RecipientItem')).atIndex(0).tap()
-      await waitFor(element(by.id('SendOrInviteButton')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-    })
-
-    it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
-      await element(element(by.id('SendOrInviteButton'))).tap()
-      await waitFor(element(by.id('SendEnterAmount/Input')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-    })
-
-    it('Then should be able to select token', async () => {
-      await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURTouchable')).tap()
-      await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
-    })
-
-    it('Then should be able to enter amount and navigate to review screen', async () => {
-      await inputNumberKeypad('0.01')
-      await element(by.id('SendEnterAmount/ReviewButton')).tap()
-      await expect(element(by.id('ConfirmButton'))).toBeVisible()
-    })
-
-    it('Then should display correct recipient', async () => {
-      await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER))).toBeVisible()
     })
 
     it('Then should be able to send', async () => {
@@ -341,7 +277,7 @@ export default Send = () => {
         .toBeVisible()
         .withTimeout(30 * 1000)
       await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('0xe5f5...8846')))
+      await waitFor(element(by.text('0xe5f5...8846')))
         .toBeVisible()
         .withTimeout(10 * 1000)
     })
@@ -355,12 +291,13 @@ export default Send = () => {
 
     it('Then should be able to choose token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURTouchable')).tap()
+      await element(by.id('cEURSymbol')).tap()
       await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
-      await inputNumberKeypad('0.01')
+      await element(by.id('SendEnterAmount/Input')).tap()
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       await expect(element(by.id('ConfirmButton'))).toBeVisible()
     })
@@ -373,6 +310,80 @@ export default Send = () => {
       await addComment('Starting Comment ❤️')
       let comment = await element(by.id('commentInput/send')).getAttributes()
       jestExpect(comment.text).toEqual('Starting Comment ❤️')
+    })
+
+    it('Then should be able to send', async () => {
+      await element(by.id('ConfirmButton')).tap()
+      await enterPinUiIfNecessary()
+      await expect(element(by.id('errorBanner'))).not.toBeVisible()
+      await waitFor(element(by.id('HomeAction-Send')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+    })
+
+    it.todo('Then should display transaction as pending')
+
+    it.todo('Then should display transaction as confirmed')
+
+    it.todo('Then should display correct transaction details')
+  })
+
+  describe('When multi-token send flow to phone number with one address (new flow)', () => {
+    beforeAll(async () => {
+      await launchApp({
+        newInstance: false,
+        launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
+      })
+    })
+
+    it('Then should navigate to send search input from home action', async () => {
+      await waitFor(element(by.id('HomeAction-Send')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+      await element(by.id('HomeAction-Send')).tap()
+      await waitFor(element(by.id('SendSelectRecipientSearchInput')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+    })
+
+    it('Then should be able to enter a phone number', async () => {
+      await element(by.id('SendSelectRecipientSearchInput')).tap()
+      await element(by.id('SendSelectRecipientSearchInput')).replaceText(
+        SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
+      )
+      await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
+      await expect(element(by.id('RecipientItem')).atIndex(0)).toBeVisible()
+    })
+
+    it('Then tapping a recipient should show send button', async () => {
+      await element(by.id('RecipientItem')).atIndex(0).tap()
+      await waitFor(element(by.id('SendOrInviteButton')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+    })
+
+    it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
+      await element(by.id('SendOrInviteButton')).tap()
+      await waitFor(element(by.id('SendEnterAmount/Input')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+    })
+
+    it('Then should be able to select token', async () => {
+      await element(by.id('SendEnterAmount/TokenSelect')).tap()
+      await element(by.id('cEURSymbol')).tap()
+      await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
+    })
+
+    it('Then should be able to enter amount and navigate to review screen', async () => {
+      await element(by.id('SendEnterAmount/Input')).tap()
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/ReviewButton')).tap()
+      await expect(element(by.id('ConfirmButton'))).toBeVisible()
+    })
+
+    it('Then should display correct recipient', async () => {
+      await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER))).toBeVisible()
     })
 
     it('Then should be able to send', async () => {

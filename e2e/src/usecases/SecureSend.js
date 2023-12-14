@@ -84,6 +84,7 @@ export default SecureSend = () => {
         .withTimeout(60000)
     })
   })
+
   describe('Secure send flow with phone number lookup (new flow)', () => {
     beforeAll(async () => {
       // uninstall the app to remove secure send mapping
@@ -111,17 +112,8 @@ export default SecureSend = () => {
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
       await element(by.id('RecipientItem')).tap()
 
-      await element(element(by.id('SendOrInviteButton'))).toBeVisible()
-      await element(element(by.id('SendOrInviteButton'))).tap()
-
-      // Select the currency
-      await waitFor(element(by.id('SendEnterAmount/TokenSelect'))).toBeVisible()
-      await waitFor(element(by.id('cUSDTouchable'))).toBeVisible()
-      await element(by.id('cUSDTouchable')).tap()
-
-      // Enter the amount and review
-      await inputNumberKeypad(AMOUNT_TO_SEND)
-      await element(by.id('SendEnterAmount/ReviewButton')).tap()
+      await waitFor(element(by.id('SendOrInviteButton'))).toBeVisible()
+      await element(by.id('SendOrInviteButton')).tap()
 
       // Use the last digits of the account to confirm the sender.
       await waitFor(element(by.id('confirmAccountButton'))).toBeVisible()
@@ -138,6 +130,17 @@ export default SecureSend = () => {
       // Scroll to see submit button
       await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
       await element(by.id('ConfirmAccountButton')).tap()
+
+      // Select the currency
+      await waitFor(element(by.id('SendEnterAmount/TokenSelect'))).toBeVisible()
+      await element(by.id('SendEnterAmount/TokenSelect')).tap()
+      await waitFor(element(by.id('cUSDSymbol'))).toBeVisible()
+      await element(by.id('cUSDSymbol')).tap()
+
+      // Enter the amount and review
+      await element(by.id('SendEnterAmount/Input')).tap()
+      await element(by.id('SendEnterAmount/Input')).replaceText(AMOUNT_TO_SEND)
+      await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.
       await addComment(randomContent)
