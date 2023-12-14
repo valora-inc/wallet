@@ -49,7 +49,6 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
@@ -66,21 +65,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
-  // TODO remove this block once we have viem enabled for everyone. this block
-  // only services the contractKit (Celo) flow. the fee will be displayed in
-  // fiat value and will be very low, since it's an approximation anyway we'll
-  // simplify this logic to just use the fees from the quote.
-  if (quote && !quote.preparedTransactions) {
-    return {
-      networkFee: divideByWei(
-        new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
-          new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gasPrice)
-        )
-      ),
-      feeTokenId: getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
-    }
-  }
-
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(quote?.preparedTransactions)
   return {
     networkFee: feeAmount,
