@@ -101,3 +101,5 @@ export enum Screens {
   Welcome = 'Welcome',
   WithdrawSpend = 'WithdrawSpend',
 }
+
+export enum Unused {}
