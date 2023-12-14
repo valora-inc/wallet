@@ -2,7 +2,7 @@ import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Text, View } from 'react-native'
 import { Provider } from 'react-redux'
-import { useMaxSendAmountByAddress } from 'src/fees/hooks'
+import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType, estimateFee } from 'src/fees/reducer'
 import { RootState } from 'src/redux/reducers'
 import { NetworkId } from 'src/transactions/types'
@@ -33,11 +33,11 @@ jest.mock('src/web3/networkConfig', () => {
 
 interface ComponentProps {
   feeType: FeeType.SEND
-  tokenAddress?: string
+  tokenId?: string
   shouldRefresh: boolean
 }
-function TestComponent({ feeType, tokenAddress, shouldRefresh }: ComponentProps) {
-  const max = useMaxSendAmountByAddress(tokenAddress, feeType, shouldRefresh)
+function TestComponent({ feeType, tokenId, shouldRefresh }: ComponentProps) {
+  const max = useMaxSendAmount(tokenId, feeType, shouldRefresh)
   return (
     <View>
       <Text testID="maxSendAmount">{max.toString()}</Text>
@@ -56,7 +56,7 @@ const mockFeeEstimates = (error: boolean = false, lastUpdated: number = Date.now
   },
 })
 
-describe('useMaxSendAmountByAddress', () => {
+describe('useMaxSendAmount', () => {
   beforeEach(() => {
     jest.clearAllMocks()
   })
@@ -125,14 +125,14 @@ describe('useMaxSendAmountByAddress', () => {
   it('returns balance when feeCurrency is not the specified token', () => {
     const { getByTestId } = renderComponent(
       {},
-      { feeType: FeeType.SEND, tokenAddress: mockCusdAddress, shouldRefresh: true }
+      { feeType: FeeType.SEND, tokenId: mockCusdTokenId, shouldRefresh: true }
     )
     expect(getElementText(getByTestId('maxSendAmount'))).toBe('200')
   })
   it('returns a balance minus fee estimate when the feeCurrency matches the specified token', () => {
     const { getByTestId } = renderComponent(
       {},
-      { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: true }
+      { feeType: FeeType.SEND, tokenId: mockCeloTokenId, shouldRefresh: true }
     )
     expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
   })
@@ -151,7 +151,7 @@ describe('useMaxSendAmountByAddress', () => {
           },
         },
       },
-      { feeType: FeeType.SEND, tokenAddress: mockCusdAddress, shouldRefresh: true }
+      { feeType: FeeType.SEND, tokenId: mockCusdTokenId, shouldRefresh: true }
     )
     expect(store.dispatch).toHaveBeenCalledWith(
       estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
@@ -170,7 +170,7 @@ describe('useMaxSendAmountByAddress', () => {
           },
         },
       },
-      { feeType: FeeType.SEND, tokenAddress: mockCusdAddress, shouldRefresh: true }
+      { feeType: FeeType.SEND, tokenId: mockCusdTokenId, shouldRefresh: true }
     )
     expect(store.dispatch).toHaveBeenCalledWith(
       estimateFee({ feeType: FeeType.SEND, tokenAddress: mockCusdAddress })
@@ -189,7 +189,7 @@ describe('useMaxSendAmountByAddress', () => {
           },
         },
       },
-      { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: true }
+      { feeType: FeeType.SEND, tokenId: mockCeloTokenId, shouldRefresh: true }
     )
     expect(store.dispatch).not.toHaveBeenCalled()
     expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')
@@ -206,7 +206,7 @@ describe('useMaxSendAmountByAddress', () => {
           },
         },
       },
-      { feeType: FeeType.SEND, tokenAddress: mockCeloAddress, shouldRefresh: false }
+      { feeType: FeeType.SEND, tokenId: mockCeloTokenId, shouldRefresh: false }
     )
     expect(store.dispatch).not.toHaveBeenCalled()
     expect(getElementText(getByTestId('maxSendAmount'))).toBe('199.996')

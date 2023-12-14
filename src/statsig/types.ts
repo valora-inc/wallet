@@ -23,13 +23,13 @@ export enum StatsigFeatureGates {
   MULTI_CHAIN_SEND = 'multi_chain_send',
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
-  USE_VIEM_FOR_SWAP = 'use_viem_for_swap',
   USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS = 'use_viem_for_walletconnect_transactions',
   USE_NEW_SEND_FLOW = 'use_new_send_flow',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   USE_CICO_CURRENCY_BOTTOM_SHEET = 'use_cico_currency_bottom_sheet',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
+  SHOW_BETA_TAG = 'show_beta_tag',
 }
 
 export enum StatsigExperiments {
