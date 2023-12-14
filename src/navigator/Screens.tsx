@@ -103,3 +103,4 @@ export enum Screens {
 }
 
 export enum Unused {}
+export enum Unused2 {}
