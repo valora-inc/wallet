@@ -634,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Lade Freunde ein und werde belohnt",
-    "body": "Sobald die Person ihre {{appName}} Wallet eingerichtet und 5 cUSD darauf eingezahlt hat, erhaltet ihr beide 0,50 cUSD."
+    "body": "Sobald sie ihr {{appName}} Portemonnaie einrichten und Geld aufladen, erhaltet ihr beide 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Lade deine Freunde ein",
@@ -642,14 +642,14 @@
     "button": "Einladung senden",
     "error": "Es gab ein Problem beim Erstellen eines teilbaren Links",
     "share": "Hey! Melde dich bei {{appName}}-Wallet an. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: {{shareUrl}}.",
-    "help": "Um diesen Reward zu erhalten, muss die eingeladene Person den Download über den Empfehlungslink durchführen, ihre Telefonnummer angeben und 5 cUSD oder mehr für mindestens 7 Tage in ihren {{appName}} Wallet haben. <0>Alle Bedingungen anzeigen</0>",
+    "help": "Um diese Belohnung zu erhalten, muss der Eingeladene den Download über den Empfehlungslink durchführen, seine Telefonnummer angeben, Guthaben hinzufügen und es 7 Tage lang in seiner {{appName}} Geldbörse aufbewahren. <0>Alle Bedingungen anzeigen</0>",
     "rewardsActive": {
       "title": "Freunde einladen und NFTs sammeln",
       "body": "Lade deine Freunde und Familien ein, {{appName}} herunterzuladen. Jeder von euch erhält somit ein exklusives NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "NUR FÜR KURZE ZEIT. Erhalte kostenlose cUSD für das Einladen deiner Freunde zu Valora!",
-      "body": "Erhalte 0,50 cUSD für jeden Freund, den du zu {{appName}} einlädst. Sobald dieser Guthaben hinzufügt und 5 cUSD für 7 Tage hält, erhaltet ihr beide 0,50 cUSD. Beeil dich, das Guthaben ist begrenzt! (Limit 25 Freunde)."
+      "title": "LIMITED TIME. Erhalte kostenlose cUSD, wenn du Freunde zu Valora einlädst!",
+      "body": "Die Empfehlungsprämien sind zurück und noch einfacher als zuvor. Für jeden Freund, den du auf {{appName}}einlädst, erhältst du 0,50 cUSD. Sobald er oder sie ein Guthaben auflädt und dieses 7 Tage lang hält, erhaltet ihr beide 0,50 cUSD. Beeil dich, das Guthaben ist begrenzt! (Limit 25 Freunde)."
     }
   },
   "getReward": "Erhalte ${{reward}}",
@@ -965,7 +965,7 @@
   "inviteWithoutPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Es ist einfach zu versuchen und ich möchte dich einladen, es mit diesem Link zu sehen: {{link}}",
   "inviteWithEscrowedPayment": "Hallo! Ich habe {{appName}} benutzt, um Krypto weltweit zu überweisen. Ich habe dir gerade {{amount}} {{token}} geschickt. Bitte lade die {{appName}} App herunter und löse dein {{token}} mit diesem Link ein: {{link}}",
   "inviteWithRewards": "Hallo! 👋 Ich nutze {{appName}} als Krypto-Wallet. Du kannst die App super schnell herunterladen und deine Telefonnummer verbinden. Außerdem erhalten wir beide ein exklusives NFT als Reward. 💫 \n\nLade die App mit diesem Link herunter: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Im Moment können wir beide eine kostenlose 0,50 cUSD-Prämie bekommen, wenn du dich anmeldest und deine Valora-Wallet auffüllst. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an:\n\n{{link}} \n\nAber beeil dich, denn die Empfehlungsaktion endet bald.",
+  "inviteWithRewardsCUSD": "Hey! Im Moment können wir beide eine kostenlose $0,50-Belohnung bekommen, wenn du dich anmeldest und deine Valora-Brieftasche auffüllst. Ich verwende es, um meine Ersparnisse in USD und Kryptowährungen zu vermehren, und du kannst es in Sekundenschnelle mit nur einer Telefonnummer einrichten. Melde dich mit meinem Empfehlungslink hier an: \n\n{{link}} \n\n Beeil dich, die Empfehlungsaktion endet bald.",
   "loadingContacts": "Deine Kontakte finden",
   "myCode": "Mein Code",
   "scanCode": "Scannen",
@@ -1792,7 +1792,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Lade {{contactName}} zu {{appName}} ein und erhalte 0,50 cUSD",
-      "body": "Es sieht so aus, dass {{contactName}} nicht auf Valora ist. Du kannst trotzdem Geld für eine Zahlung senden, wenn du die Wallet-Adresse kennst. Du kannst stattdessen aber auch eine Einladung senden.\n\nNachdem die Person Valora heruntergeladen hat, ihre Telefonnummer verknüpft hat und 5 cUSD auf ihr Wallet eingezahlt hat, erhaltet ihr beide 0,50 cUSD, solange das Guthaben reicht."
+      "body": "Es sieht so aus, als ob {{contactName}} nicht auf Valora ist. Du kannst trotzdem eine Zahlung senden, wenn du ihre Wallet-Adresse kennst, oder stattdessen eine Einladung schicken. \n\n Wenn er Valora herunterlädt, seine Telefonnummer angibt, Guthaben hinzufügt und es 7 Tage lang in seinem Portemonnaie behält, bekommt ihr beide 0,50 cUSD, solange das Guthaben reicht."
     }
   },
   "celoNews": {
