@@ -44,7 +44,7 @@ if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
   const branchKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const branchKnipResults = parseKnipOutput(branchKnipOutput)
 
-  $.exec('git checkout main')
+  $.exec('git checkout HEAD^') // this should be the PR base branch
 
   const mainKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const mainKnipResults = parseKnipOutput(mainKnipOutput)
