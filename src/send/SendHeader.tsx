@@ -6,7 +6,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import QRCodeBorderlessIcon from 'src/icons/QRCodeBorderless'
 import Times from 'src/icons/Times'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
@@ -16,7 +16,7 @@ function SendHeader() {
 
   const goToQRScanner = () =>
     navigate(Screens.QRNavigator, {
-      tab: QRTabs.QRScanner,
+      tab: Screens.QRScanner,
     })
 
   return (

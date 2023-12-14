@@ -58,7 +58,9 @@ export enum Screens {
   PincodeSet = 'PincodeSet',
   Profile = 'Profile',
   ProtectWallet = 'ProtectWallet',
+  QRCode = 'QRCode',
   QRNavigator = 'QRNavigator',
+  QRScanner = 'QRScanner',
   ReclaimPaymentConfirmationScreen = 'ReclaimPaymentConfirmationScreen',
   RegulatoryTerms = 'RegulatoryTerms',
   SanctionedCountryErrorScreen = 'SanctionedCountryErrorScreen',
@@ -101,7 +103,4 @@ export enum Screens {
   WithdrawSpend = 'WithdrawSpend',
 }
 
-export enum QRTabs {
-  QRScanner = 'QRScanner',
-  QRCode = 'QRCode',
-}
+export enum QRTabs {}

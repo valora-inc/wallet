@@ -8,7 +8,7 @@ import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -95,7 +95,7 @@ function Sessions() {
 function HeaderRight() {
   const onPress = () =>
     navigate(Screens.QRNavigator, {
-      tab: QRTabs.QRScanner,
+      tab: Screens.QRScanner,
     })
 
   return <TopBarTextButton title={i18n.t('scan')} testID="ScanButton" onPress={onPress} />

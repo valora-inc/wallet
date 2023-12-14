@@ -2451,6 +2451,7 @@
                 "ReclaimPaymentConfirmationScreen",
                 "RegulatoryTerms",
                 "SanctionedCountryErrorScreen",
+                "ScanQRScreen",
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",

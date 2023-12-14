@@ -4,7 +4,7 @@ import { QrScreenEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import QrScanButton from 'src/components/QrScanButton'
 import { navigate } from 'src/navigator/NavigationService'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -16,6 +16,6 @@ describe('HeaderButtons', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanner_open)
     expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, { tab: QRTabs.QRScanner })
+    expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, { tab: Screens.QRScanner })
   })
 })

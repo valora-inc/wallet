@@ -17,7 +17,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { noHeader } from 'src/navigator/Headers'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import QRCode from 'src/qrcode/components/QRCode'
@@ -34,11 +34,11 @@ const Tab = createMaterialTopTabNavigator()
 const width = Dimensions.get('window').width
 const initialLayout = { width }
 
-export type QRCodeProps = NativeStackScreenProps<QRTabParamList, QRTabs.QRCode> & {
+export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode> & {
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
-type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, QRTabs.QRScanner> & {
+type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
   position: Animated.Value<number>
 }
 
@@ -188,7 +188,7 @@ export default function QRNavigator({ route }: Props) {
       sceneContainerStyle={styles.sceneContainerStyle}
       initialLayout={initialLayout}
     >
-      <Tab.Screen name={QRTabs.QRCode} options={{ title: t('myCode') ?? undefined }}>
+      <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') ?? undefined }}>
         {({ route, navigation }) => (
           <QRCodePicker
             navigation={navigation}
@@ -200,7 +200,7 @@ export default function QRNavigator({ route }: Props) {
           />
         )}
       </Tab.Screen>
-      <Tab.Screen name={QRTabs.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
+      <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
         {({ route, navigation }) => (
           <AnimatedScannerScene
             navigation={navigation}

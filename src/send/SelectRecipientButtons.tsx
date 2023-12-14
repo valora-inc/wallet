@@ -17,7 +17,7 @@ import SelectRecipientButton from 'src/components/SelectRecipientButton'
 import QRCode from 'src/icons/QRCode'
 import Social from 'src/icons/Social'
 import { navigate } from 'src/navigator/NavigationService'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
 import { navigateToPhoneSettings } from 'src/utils/linking'
@@ -108,7 +108,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
 
   const onPressQR = () => {
     ValoraAnalytics.track(SendEvents.send_select_recipient_scan_qr)
-    navigate(Screens.QRNavigator, { tab: QRTabs.QRScanner })
+    navigate(Screens.QRNavigator, { tab: Screens.QRScanner })
   }
 
   const onPressConnectPhoneNumber = () => {

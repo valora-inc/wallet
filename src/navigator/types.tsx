@@ -9,7 +9,7 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/actions'
@@ -335,6 +335,6 @@ export type StackParamList = {
 }
 
 export type QRTabParamList = {
-  [QRTabs.QRCode]: undefined
-  [QRTabs.QRScanner]: undefined
+  [Screens.QRCode]: undefined
+  [Screens.QRScanner]: undefined
 }

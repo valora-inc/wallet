@@ -8,7 +8,7 @@ import { SendOrigin } from 'src/analytics/types'
 import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { navigate } from 'src/navigator/NavigationService'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
 import { getFeatureGate } from 'src/statsig'
@@ -112,7 +112,7 @@ describe('SendSelectRecipient', () => {
     fireEvent.press(getByTestId('SelectRecipient/QR'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
-      tab: QRTabs.QRScanner,
+      tab: Screens.QRScanner,
     })
   })
   it('shows QR, sync contacts and get started section when no prior recipients', async () => {

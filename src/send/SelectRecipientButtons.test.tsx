@@ -6,7 +6,7 @@ import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
-import { QRTabs, Screens } from 'src/navigator/Screens'
+import { Screens } from 'src/navigator/Screens'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
@@ -56,7 +56,7 @@ describe('SelectRecipientButtons', () => {
     fireEvent.press(await findByTestId('SelectRecipient/QR'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_scan_qr)
     expect(navigate).toHaveBeenCalledWith(Screens.QRNavigator, {
-      tab: QRTabs.QRScanner,
+      tab: Screens.QRScanner,
     })
   })
   it('invokes permissions granted callback when contacts button is pressed with phone verified and contacts permission granted', async () => {
