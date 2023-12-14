@@ -5,18 +5,21 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { SupportedActions, getDescriptionAndTitleFromAction } from 'src/walletConnect/constants'
+import { SupportedActions, getDisplayTextFromAction } from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
+import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
 import { useIsDappListed } from 'src/walletConnect/screens/useIsDappListed'
 import { sessionsSelector } from 'src/walletConnect/selectors'
+import { walletConnectChainIdToNetworkId } from 'src/web3/networkConfig'
 
 export interface ActionRequestProps {
   version: 2
@@ -54,13 +57,16 @@ function ActionRequest({
     return null
   }
 
-  const { description, title } = getDescriptionAndTitleFromAction(
+  const chainId = pendingAction.params.chainId
+  const networkId = walletConnectChainIdToNetworkId[chainId]
+  const networkName = NETWORK_NAMES[networkId]
+
+  const { description, title, action } = getDisplayTextFromAction(
     t,
     pendingAction.params.request.method as SupportedActions,
-    dappName
+    dappName,
+    networkName
   )
-
-  const chainId = pendingAction.params.chainId
 
   // Reject and warn if the chain is not supported
   // Note: we still allow personal_sign on unsupported chains (Cred Protocol does this)
@@ -118,6 +124,7 @@ function ActionRequest({
   return (
     <RequestContent
       type="confirm"
+      buttonText={action}
       onAccept={() => dispatch(acceptRequest(pendingAction, preparedTransaction))}
       onDeny={() => {
         dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))
@@ -133,6 +140,9 @@ function ActionRequest({
         request={pendingAction}
         preparedTransaction={preparedTransaction}
       />
+      {preparedTransaction && (
+        <EstimatedNetworkFee networkId={networkId} transaction={preparedTransaction} />
+      )}
       <DappsDisclaimer isDappListed={isDappListed} />
     </RequestContent>
   )

@@ -3,17 +3,21 @@ import { getSdkError } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { dappConnectInfoSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { NETWORK_NAMES } from 'src/shared/conts'
+import Colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
 import { isSupportedAction, isSupportedEvent } from 'src/walletConnect/constants'
 import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
+import { walletConnectChainIdToNetworkId } from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 export type SessionRequestProps = {
@@ -38,12 +42,20 @@ function SessionRequest({
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const { dappName, dappImageUrl } = useDappMetadata(metadata)
 
+  const networkNames = supportedChains.map(
+    (chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]]
+  )
+
   const requestDetails =
     dappConnectInfo === DappConnectInfo.Basic
       ? [
           {
             label: t('address'),
             value: address,
+          },
+          {
+            label: t('walletConnectRequest.networksList'),
+            value: <NetworkChips networkNames={networkNames} />,
           },
         ]
       : []
@@ -82,6 +94,7 @@ function SessionRequest({
   return (
     <RequestContent
       type="confirm"
+      buttonText={t('walletConnectRequest.connectWalletAction')}
       onAccept={() => {
         SentryTransactionHub.startTransaction(SentryTransaction.wallet_connect_connection)
         dispatch(acceptSession(pendingSession, namespacesToApprove))
@@ -164,9 +177,32 @@ function NamespacesWarning({
   )
 }
 
+function NetworkChips({ networkNames }: { networkNames: string[] }) {
+  return (
+    <View style={styles.networkChipsContainer} testID="SessionRequest/NetworkChips">
+      {networkNames.map((networkName) => (
+        <Text style={styles.networkChip}>{networkName}</Text>
+      ))}
+    </View>
+  )
+}
+
 const styles = StyleSheet.create({
   warning: {
     marginBottom: Spacing.Thick24,
+  },
+  networkChipsContainer: {
+    flexDirection: 'row',
+    gap: Spacing.Tiny4,
+  },
+  networkChip: {
+    ...typeScale.labelXSmall,
+    color: Colors.black,
+    backgroundColor: Colors.gray2,
+    paddingVertical: Spacing.Tiny4,
+    paddingHorizontal: Spacing.Smallest8,
+    borderRadius: 8,
+    overflow: 'hidden',
   },
 })
 

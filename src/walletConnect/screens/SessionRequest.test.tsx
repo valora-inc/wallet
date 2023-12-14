@@ -77,7 +77,7 @@ describe(SessionRequest, () => {
 
   describe('new session', () => {
     it('renders the correct elements', () => {
-      const { getByText, queryByText } = render(
+      const { getByText, queryByText, queryByTestId } = render(
         <Provider store={store}>
           <SessionRequest
             version={2}
@@ -92,6 +92,7 @@ describe(SessionRequest, () => {
       expect(getByText('shareInfo')).toBeTruthy()
       expect(getByText('allow')).toBeTruthy()
       expect(queryByText('dismiss')).toBeFalsy()
+      expect(queryByTestId('SessionRequest/NetworkChips')).toHaveTextContent('Celo Alfajores')
       expect(getByText(mockAccount.toLowerCase())).toBeTruthy()
     })
 

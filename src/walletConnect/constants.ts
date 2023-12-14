@@ -22,41 +22,54 @@ export function isSupportedEvent(event: string) {
   return Object.values(SupportedEvents).includes(event as SupportedEvents)
 }
 
-export function getDescriptionAndTitleFromAction(
+export function getDisplayTextFromAction(
   t: TFunction,
   action: SupportedActions,
-  dappName: string
-): { description: string; title: string } {
-  const actionTranslations: { [x in SupportedActions]: { description: string; title: string } } = {
+  dappName: string,
+  networkName: string
+): { description: string; title: string; action: string } {
+  const actionTranslations: {
+    [x in SupportedActions]: { description: string; title: string; action: string }
+  } = {
     [SupportedActions.eth_signTransaction]: {
-      description: t('walletConnectRequest.signTransaction', { dappName }),
+      description: networkName
+        ? t('walletConnectRequest.signDappTransaction', { dappName, networkName })
+        : t('walletConnectRequest.signDappTransactionUnknownNetwork', { dappName }),
       title: t('walletConnectRequest.signTransactionTitle'),
+      action: t('walletConnectRequest.signTransactionAction'),
     },
     [SupportedActions.eth_sendTransaction]: {
-      description: t('walletConnectRequest.sendTransaction', { dappName }),
+      description: networkName
+        ? t('walletConnectRequest.sendDappTransaction', { dappName, networkName })
+        : t('walletConnectRequest.sendDappTransactionUnknownNetwork', { dappName }),
       title: t('walletConnectRequest.sendTransactionTitle'),
+      action: t('walletConnectRequest.sendTransactionAction'),
     },
     [SupportedActions.eth_signTypedData]: {
       description: t('walletConnectRequest.signPayload', { dappName }),
       title: t('walletConnectRequest.signPayloadTitle'),
+      action: t('allow'),
     },
     [SupportedActions.eth_signTypedData_v4]: {
       description: t('walletConnectRequest.signPayload', { dappName }),
       title: t('walletConnectRequest.signPayloadTitle'),
+      action: t('allow'),
     },
     [SupportedActions.eth_sign]: {
       description: t('walletConnectRequest.signPayload', { dappName }),
       title: t('walletConnectRequest.signPayloadTitle'),
+      action: t('allow'),
     },
     [SupportedActions.personal_sign]: {
       description: t('walletConnectRequest.signPayload', { dappName }),
       title: t('walletConnectRequest.signPayloadTitle'),
+      action: t('allow'),
     },
   }
 
   const translations = actionTranslations[action]
   if (!translations) {
-    return { description: '', title: '' }
+    return { description: '', title: '', action: '' }
   }
 
   return translations

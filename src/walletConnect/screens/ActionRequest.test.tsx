@@ -16,7 +16,7 @@ import {
 } from 'src/walletConnect/actions'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress } from 'test/values'
+import { mockAccount, mockAccount2, mockCusdAddress } from 'test/values'
 import { Address } from 'viem'
 
 jest.mock('src/statsig')
@@ -102,6 +102,16 @@ describe('ActionRequest with WalletConnect V2', () => {
         verifyUrl: '',
       },
     },
+  }
+
+  const preparedTransaction: SerializableTransactionRequest = {
+    from: mockAccount,
+    to: mockAccount2,
+    data: '0xTEST',
+    nonce: 100,
+    maxFeePerGas: '12000000000',
+    maxPriorityFeePerGas: '2000000000',
+    gas: '100000',
   }
 
   const supportedChains = ['eip155:44787']
@@ -219,6 +229,7 @@ describe('ActionRequest with WalletConnect V2', () => {
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
             feeCurrenciesSymbols={['CELO']}
+            preparedTransaction={preparedTransaction}
           />
         </Provider>
       )
@@ -234,6 +245,12 @@ describe('ActionRequest with WalletConnect V2', () => {
         )
       ).toBeTruthy()
       expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.estimatedNetworkFee, {"networkName":"Celo Alfajores"}')
+      ).toBeTruthy()
+      const fee = within(getByTestId('EstimatedNetworkFee'))
+      expect(fee.getByText('0.0012 CELO')).toBeTruthy()
+      expect(fee.getByText('₱0.008')).toBeTruthy()
     })
 
     it('copies the request payload', () => {
@@ -500,7 +517,9 @@ describe('ActionRequest with WalletConnect V2', () => {
 
       expect(getByText('walletConnectRequest.sendTransactionTitle')).toBeTruthy()
       expect(
-        getByText('walletConnectRequest.sendTransaction, {"dappName":"WalletConnect Example"}')
+        getByText(
+          'walletConnectRequest.sendDappTransaction, {"dappName":"WalletConnect Example","networkName":"Ethereum"}'
+        )
       ).toBeTruthy()
       expect(queryByText('allow')).toBeFalsy()
       expect(getByText('dismiss')).toBeTruthy()

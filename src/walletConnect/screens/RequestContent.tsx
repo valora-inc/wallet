@@ -1,19 +1,19 @@
 import { IClientMeta } from '@walletconnect/legacy-types'
 import { CoreTypes } from '@walletconnect/types'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ReactElement, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logos from 'src/walletConnect/screens/Logos'
 
 interface RequestDetail {
   label: string
-  value: string
+  value: ReactElement | string | null
 }
 
 interface BaseProps {
@@ -22,9 +22,10 @@ interface BaseProps {
   dappImageUrl?: string
   title: string
   description: string | null
-  requestDetails?: (Omit<RequestDetail, 'value'> & { value?: string | null })[]
+  requestDetails?: RequestDetail[]
   testId: string
   children?: React.ReactNode
+  buttonText?: string | null
 }
 
 interface ConfirmProps extends BaseProps {
@@ -80,8 +81,17 @@ export const useDappMetadata = (metadata?: IClientMeta | CoreTypes.Metadata | nu
 }
 
 function RequestContent(props: Props) {
-  const { type, dappName, dappImageUrl, title, description, requestDetails, testId, children } =
-    props
+  const {
+    type,
+    dappName,
+    dappImageUrl,
+    title,
+    description,
+    requestDetails,
+    testId,
+    children,
+    buttonText,
+  } = props
   const { t } = useTranslation()
   const [isPressed, setIsPressed] = useState(false)
   const isPressedRef = useRef(false)
@@ -145,9 +155,13 @@ function RequestContent(props: Props) {
                 >
                   {label}
                 </Text>
-                <Text style={styles.requestDetailValue} numberOfLines={1} ellipsizeMode="tail">
-                  {value}
-                </Text>
+                {React.isValidElement(value) ? (
+                  value
+                ) : (
+                  <Text style={styles.requestDetailValue} numberOfLines={1} ellipsizeMode="tail">
+                    {value}
+                  </Text>
+                )}
               </React.Fragment>
             ) : null
           )}
@@ -160,7 +174,7 @@ function RequestContent(props: Props) {
         <Button
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          text={t('allow')}
+          text={buttonText ?? t('allow')}
           showLoading={isPressed}
           disabled={isPressed}
           onPress={onPress}
@@ -171,7 +185,7 @@ function RequestContent(props: Props) {
         <Button
           type={BtnTypes.SECONDARY}
           size={BtnSizes.FULL}
-          text={t('dismiss')}
+          text={buttonText ?? t('dismiss')}
           showLoading={isPressed}
           disabled={isPressed}
           onPress={onPress}
@@ -187,21 +201,23 @@ const styles = StyleSheet.create({
     marginBottom: Spacing.Thick24,
   },
   header: {
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
+    color: Colors.black,
     paddingVertical: Spacing.Regular16,
   },
   description: {
-    ...fontStyles.small,
-    lineHeight: 20,
+    ...typeScale.bodySmall,
+    color: Colors.black,
     marginBottom: Spacing.Thick24,
   },
   requestDetailLabel: {
-    ...fontStyles.small,
-    color: Colors.gray5,
+    ...typeScale.labelXSmall,
+    color: Colors.gray4,
     marginBottom: 4,
   },
   requestDetailValue: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
+    color: Colors.black,
   },
 })
 
