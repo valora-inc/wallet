@@ -309,7 +309,6 @@ export function SwapScreen({ route }: Props) {
           fromTokenNetworkId: fromToken.networkId,
           amount: swapAmount[updatedField],
           amountType: swapAmountParam,
-          usdTotal: exchangeRate.swapAmount.multipliedBy(exchangeRate.price).toNumber(),
           allowanceTarget,
           estimatedPriceImpact,
           price,
