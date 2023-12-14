@@ -634,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invitez des amis pour être récompensé",
-    "body": "Une fois que votre contact aura paramétré son compte et ajouté 5 cUSD à son portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
+    "body": "Une fois qu'ils se seront installés et auront ajouté des fonds à leur portefeuille {{appName}} , vous recevrez tous les deux 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invitez des amis",
@@ -642,14 +642,14 @@
     "button": "Envoyer l'invitation",
     "error": "Une erreur s'est produite lors de la création d'un lien partageable.",
     "share": "Hello ! Inscris-toi pour profiter d'un portefeuille {{appName}}. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. N'oublie pas d'utiliser mon lien de parrainage ici : {{shareUrl}} pour ton inscription.",
-    "help": "Pour obtenir cette récompense, l'invité doit télécharger l'application depuis le lien de parrainage, connecter son numéro de téléphone et conserver 5 cUSD ou plus dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
+    "help": "Pour obtenir cette récompense, l'invité doit télécharger via le lien de parrainage, connecter son numéro de téléphone, ajouter des fonds et les conserver dans son portefeuille {{appName}} pendant 7 jours. <0>Voir toutes les conditions</0>",
     "rewardsActive": {
       "title": "Invitez des amis et collectez des NFTs",
       "body": "Invitez vos amis et votre famille à télécharger {{appName}} et chacun d'entre vous recevra un NFT exclusif"
     },
     "rewardsActiveCUSD": {
-      "title": "OFFRE A DURÉE LIMITÉE. Recevez des cUSD gratuits en invitant des amis sur Valora !",
-      "body": "Recevez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois que votre ami aura ajouté des fonds et conservé 5 cUSD pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêchez-vous, les fonds sont limités ! (Limite de 25 amis)."
+      "title": "DURÉE LIMITÉE. Obtiens des cUSD gratuits en invitant des amis à Valora !",
+      "body": "Les récompenses de parrainage sont de retour et encore plus faciles qu'avant. Obtenez 0,50 cUSD pour chaque ami que vous invitez sur {{appName}}. Une fois qu'il aura ajouté des fonds et les aura conservés pendant 7 jours, vous recevrez tous les deux 0,50 cUSD. Dépêche-toi, les fonds sont limités ! (Limite de 25 amis)."
     }
   },
   "getReward": "Obtenez {{reward}}$",
@@ -965,7 +965,7 @@
   "inviteWithoutPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. C'est facile, et je vous invite à découvrir également ce service en utilisant ce lien : {{link}}",
   "inviteWithEscrowedPayment": "Bonjour ! J'utilise {{appName}} pour envoyer des cryptomonnaies dans le monde entier. Je viens juste de vous envoyer {{amount}} {{token}}. Vous pouvez télécharger l'appli {{appName}} et échanger votre {{token}} en utilisant ce lien : {{link}}",
   "inviteWithRewards": "Bonjour ! 👋 J'utilise {{appName}} comme portefeuille de cryptomonnaies. Télécharger l'application est très rapide, tout comme connecter ton numéro de téléphone. En plus, si tu t'inscris, nous recevrons tous les deux un NFT en édition spéciale comme récompense. 💫 \n\nUtilisez ce lien pour télécharger : {{link}}",
-  "inviteWithRewardsCUSD": "Salut ! En ce moment, nous pouvons tous les deux recevoir une récompense de 0,50 cUSD si tu t'inscris et que tu déposes des fonds sur ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec un simple numéro de téléphone. Utilise mon lien de parrainage pour t'inscrire ici : \n\n{{link}} \n\nDépêche-toi car cete offre de parrainage se termine bientôt.",
+  "inviteWithRewardsCUSD": "Hé ! En ce moment, nous pouvons tous les deux obtenir une récompense gratuite de 0,50 $ si tu t'inscris et que tu alimentes ton portefeuille Valora. Je l'utilise pour faire fructifier mes économies en USD et en crypto, et tu peux le configurer en quelques secondes avec juste un numéro de téléphone. Assure-toi de t'inscrire avec mon lien de parrainage ici : \n\n{{link}} \n\n Dépêche-toi, la promotion de parrainage se termine bientôt.",
   "loadingContacts": "Trouver vos contacts",
   "myCode": "Mon code",
   "scanCode": "Scanner",
@@ -1792,7 +1792,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invitez {{contactName}} à {{appName}} et recevez 0.50 cUSD",
-      "body": "Il semble que {{contactName}} n'est pas sur Valora. Vous pouvez toujours lui envoyer un paiement direct si vous connaissez l'adresse de son wallet, ou lui faire parvenir une invitation. \n\nUne fois son compte configuré, son numéro de téléphone connecté et son portefeuille approvisionné avec 5 cUSD ou plus, vous recevrez tous les deux 0,50 cUSD jusqu'à épuisement des fonds."
+      "body": "On dirait que {{contactName}} n'est pas sur Valora. Tu peux toujours envoyer un paiement si tu connais l'adresse de son portefeuille, ou envoyer une invitation à la place. \n\n Après avoir téléchargé Valora, connecté son numéro de téléphone, ajouté des fonds et les avoir conservés dans son portefeuille pendant 7 jours, vous recevrez tous les deux 0,50 cUSD jusqu'à épuisement des fonds."
     }
   },
   "celoNews": {
