@@ -199,7 +199,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         )
       ).toBeTruthy()
 
-      fireEvent.press(getByText('allow'))
+      fireEvent.press(getByText('walletConnectRequest.sendTransactionAction'))
       expect(store.getActions()).toEqual([
         acceptRequestV2(sendTransactionAction, preparedTransaction),
       ])
