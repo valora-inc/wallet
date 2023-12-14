@@ -44,12 +44,11 @@ if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
   const branchKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const branchKnipResults = parseKnipOutput(branchKnipOutput)
 
+  $.exec('git log')
   $.exec('git checkout HEAD^') // this should be the PR base branch
 
   const mainKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const mainKnipResults = parseKnipOutput(mainKnipOutput)
-
-  $.exec(`git checkout ${branchName}`)
 
   if (compareKnipResults(mainKnipResults, branchKnipResults)) {
     console.log('Knip check failed. Branch reported more problems than main.')
