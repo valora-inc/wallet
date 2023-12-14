@@ -255,6 +255,79 @@ export default Send = () => {
     it.todo('Then should display correct transaction details')
   })
 
+  describe('When multi-token send flow to phone number with one address (new flow)', () => {
+    beforeAll(async () => {
+      await launchApp({
+        newInstance: true,
+        launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
+      })
+    })
+
+    it('Then should navigate to send search input from home action', async () => {
+      await waitFor(element(by.id('HomeAction-Send')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+      await element(by.id('HomeAction-Send')).tap()
+      await waitFor(element(by.id('SendSelectRecipientSearchInput')))
+        .toBeVisible()
+        .withTimeout(10 * 1000)
+    })
+
+    it('Then should be able to enter an address', async () => {
+      await element(by.id('SendSelectRecipientSearchInput')).tap()
+      await element(by.id('SendSelectRecipientSearchInput')).replaceText(
+        SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
+      )
+      await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
+      await expect(element(by.id('RecipientItem')).atIndex(0)).toBeVisible()
+    })
+
+    it('Then tapping a recipient should show send button', async () => {
+      await element(by.id('RecipientItem')).atIndex(0).tap()
+      await waitFor(element(by.id('SendOrInviteButton')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+    })
+
+    it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
+      await element(element(by.id('SendOrInviteButton'))).tap()
+      await waitFor(element(by.id('SendEnterAmount/Input')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+    })
+
+    it('Then should be able to select token', async () => {
+      await element(by.id('SendEnterAmount/TokenSelect')).tap()
+      await element(by.id('cEURTouchable')).tap()
+      await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
+    })
+
+    it('Then should be able to enter amount and navigate to review screen', async () => {
+      await inputNumberKeypad('0.01')
+      await element(by.id('SendEnterAmount/ReviewButton')).tap()
+      await expect(element(by.id('ConfirmButton'))).toBeVisible()
+    })
+
+    it('Then should display correct recipient', async () => {
+      await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER))).toBeVisible()
+    })
+
+    it('Then should be able to send', async () => {
+      await element(by.id('ConfirmButton')).tap()
+      await enterPinUiIfNecessary()
+      await expect(element(by.id('errorBanner'))).not.toBeVisible()
+      await waitFor(element(by.id('HomeAction-Send')))
+        .toBeVisible()
+        .withTimeout(30 * 1000)
+    })
+
+    it.todo('Then should display transaction as pending')
+
+    it.todo('Then should display transaction as confirmed')
+
+    it.todo('Then should display correct transaction details')
+  })
+
   describe('When multi-token send flow to recent recipient (new flow)', () => {
     beforeAll(async () => {
       await launchApp({
