@@ -34,7 +34,6 @@ import ReclaimPaymentConfirmationScreen from 'src/escrow/ReclaimPaymentConfirmat
 import BidaliScreen from 'src/fiatExchanges/BidaliScreen'
 import CashInSuccess from 'src/fiatExchanges/CashInSuccess'
 import CoinbasePayScreen from 'src/fiatExchanges/CoinbasePayScreen'
-import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
@@ -75,7 +74,6 @@ import {
   noHeader,
   nuxNavigationOptions,
 } from 'src/navigator/Headers'
-import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
@@ -91,6 +89,9 @@ import OnboardingSuccessScreen from 'src/onboarding/success/OnboardingSuccessScr
 import Welcome from 'src/onboarding/welcome/Welcome'
 import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
+import ExchangeQR from 'src/qrcode/ExchangeQRCode'
+import QRNavigator from 'src/qrcode/QRNavigator'
+import ScanQRScreen from 'src/qrcode/ScanQRScreen'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
 import Send from 'src/send/Send'
@@ -266,6 +267,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.SendEnterAmount}
       component={SendEnterAmount}
       options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.ScanQRScreen}
+      component={ScanQRScreen}
+      options={ScanQRScreen.navigationOptions}
     />
   </>
 )

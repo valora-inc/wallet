@@ -4,11 +4,11 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import ExchangeQR from 'src/fiatExchanges/ExchangeQR'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import ExchangeQR from 'src/qrcode/ExchangeQRCode'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('@react-native-clipboard/clipboard', () => ({

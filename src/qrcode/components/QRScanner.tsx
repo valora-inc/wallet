@@ -7,7 +7,7 @@ import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-cont
 import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
 import TextButton from 'src/components/TextButton'
-import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
+import NotAuthorizedView from 'src/qrcode/components/NotAuthorizedView'
 import { QrCode } from 'src/send/actions'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'

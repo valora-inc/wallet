@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import QRCode, { genMatrix } from 'src/qrcode/QRGen'
+import QRCode, { genMatrix } from 'src/qrcode/components/QRGen'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 
 describe('QRCode', () => {

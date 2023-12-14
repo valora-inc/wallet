@@ -17,12 +17,12 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { noHeader } from 'src/navigator/Headers'
-import { Screens } from 'src/navigator/Screens'
+import { QRTabs, Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import QRCode from 'src/qrcode/QRCode'
-import QRScanner from 'src/qrcode/QRScanner'
-import QRTabBar from 'src/qrcode/QRTabBar'
+import QRCode from 'src/qrcode/components/QRCode'
+import QRScanner from 'src/qrcode/components/QRScanner'
+import QRTabBar from 'src/qrcode/components/QRTabBar'
 import { QrCode, SVG, handleQRCodeDetected } from 'src/send/actions'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
@@ -34,11 +34,11 @@ const Tab = createMaterialTopTabNavigator()
 const width = Dimensions.get('window').width
 const initialLayout = { width }
 
-export type QRCodeProps = NativeStackScreenProps<QRTabParamList, Screens.QRCode> & {
+export type QRCodeProps = NativeStackScreenProps<QRTabParamList, QRTabs.QRCode> & {
   qrSvgRef: React.MutableRefObject<SVG>
 }
 
-type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.QRScanner> & {
+type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, QRTabs.QRScanner> & {
   position: Animated.Value<number>
 }
 
@@ -89,7 +89,6 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
   const lastScannedQR = useRef('')
   const dispatch = useDispatch()
   const defaultOnQRCodeDetected = (qrCode: QrCode) => dispatch(handleQRCodeDetected(qrCode))
-  const { onQRCodeDetected: onQRCodeDetectedParam = defaultOnQRCodeDetected } = route.params || {}
   const isFocused = useIsFocused()
   const [wasFocused, setWasFocused] = useState(isFocused)
   const [isPartiallyVisible, setIsPartiallyVisible] = useState(false)
@@ -153,7 +152,7 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     }
 
     Logger.debug('QRScanner', 'Bar code detected')
-    onQRCodeDetectedParam(qrCode)
+    defaultOnQRCodeDetected(qrCode)
     lastScannedQR.current = qrCode.data
   }
 
@@ -176,14 +175,7 @@ export default function QRNavigator({ route }: Props) {
   const qrSvgRef = useRef<SVG>()
   const { t } = useTranslation()
 
-  const tabBar = (props: MaterialTopTabBarProps) => (
-    <QRTabBar
-      {...props}
-      qrSvgRef={qrSvgRef}
-      canSwitch={!route.params?.params?.showSecureSendStyling}
-      leftIcon={route.params?.params?.showSecureSendStyling ? 'back' : 'times'}
-    />
-  )
+  const tabBar = (props: MaterialTopTabBarProps) => <QRTabBar {...props} qrSvgRef={qrSvgRef} />
 
   return (
     <Tab.Navigator
@@ -196,20 +188,29 @@ export default function QRNavigator({ route }: Props) {
       sceneContainerStyle={styles.sceneContainerStyle}
       initialLayout={initialLayout}
     >
-      <Tab.Screen name={Screens.QRCode} options={{ title: t('myCode') ?? undefined }}>
+      <Tab.Screen name={QRTabs.QRCode} options={{ title: t('myCode') ?? undefined }}>
         {({ route, navigation }) => (
           <QRCodePicker
             navigation={navigation}
             route={{
               ...route,
-              params: { ...route.params },
+              params: undefined,
             }}
             qrSvgRef={qrSvgRef}
           />
         )}
       </Tab.Screen>
-      <Tab.Screen name={Screens.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
-        {(props) => <AnimatedScannerScene {...props} position={position} />}
+      <Tab.Screen name={QRTabs.QRScanner} options={{ title: t('scanCode') ?? undefined }}>
+        {({ route, navigation }) => (
+          <AnimatedScannerScene
+            navigation={navigation}
+            route={{
+              ...route,
+              params: undefined,
+            }}
+            position={position}
+          />
+        )}
       </Tab.Screen>
     </Tab.Navigator>
   )

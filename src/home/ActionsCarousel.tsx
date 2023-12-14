@@ -14,7 +14,7 @@ import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
 import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { QRTabs, Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -45,7 +45,7 @@ function ActionsCarousel() {
       icon: <QuickActionsReceive color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
-          screen: Screens.QRCode,
+          tab: QRTabs.QRCode,
         })
       },
     },

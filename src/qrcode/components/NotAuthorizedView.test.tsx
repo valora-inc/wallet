@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react-native'
 import * as React from 'react'
-import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
+import NotAuthorizedView from 'src/qrcode/components/NotAuthorizedView'
 
 describe('NotAuthorizedView', () => {
   it('renders correctly', () => {

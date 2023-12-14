@@ -8,7 +8,7 @@ import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
+import { QRTabs, Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { createMockStore } from 'test/utils'
 
@@ -57,7 +57,7 @@ describe('ActionsCarousel', () => {
   })
   it.each([
     [HomeActionName.Send, 'send', Screens.Send, undefined],
-    [HomeActionName.Receive, 'receive', Screens.QRNavigator, { screen: Screens.QRCode }],
+    [HomeActionName.Receive, 'receive', Screens.QRNavigator, { tab: QRTabs.QRCode }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
   ])(

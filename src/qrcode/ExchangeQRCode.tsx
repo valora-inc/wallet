@@ -12,9 +12,9 @@ import { emptyHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import QRCode from 'src/qrcode/QRCode'
+import QRCode from 'src/qrcode/components/QRCode'
 import { SVG, shareQRCode } from 'src/send/actions'
-import { CICOFlow } from './utils'
+import { CICOFlow } from '../fiatExchanges/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ExchangeQR>
 

@@ -9,7 +9,7 @@ import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { Screens } from 'src/navigator/Screens'
+import { QRTabs, Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/actions'
@@ -26,8 +26,8 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 // Typed nested navigator params
 type NestedNavigatorParams<ParamList> = {
   [K in keyof ParamList]: undefined extends ParamList[K]
-    ? { screen: K; params?: ParamList[K] }
-    : { screen: K; params: ParamList[K] }
+    ? { tab: K; params?: ParamList[K] }
+    : { tab: K; params: ParamList[K] }
 }[keyof ParamList]
 
 interface SendConfirmationParams {
@@ -329,18 +329,12 @@ export type StackParamList = {
         activeTab: AssetTabType
       }
     | undefined
+  [Screens.ScanQRScreen]: {
+    onQRCodeDetected: (qrCode: QrCode) => void
+  }
 }
 
 export type QRTabParamList = {
-  [Screens.QRCode]:
-    | {
-        showSecureSendStyling?: true
-      }
-    | undefined
-  [Screens.QRScanner]:
-    | {
-        showSecureSendStyling?: true
-        onQRCodeDetected?: (qrCode: QrCode) => void
-      }
-    | undefined
+  [QRTabs.QRCode]: undefined
+  [QRTabs.QRScanner]: undefined
 }

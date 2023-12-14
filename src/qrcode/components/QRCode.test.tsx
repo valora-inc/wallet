@@ -4,7 +4,7 @@ import * as React from 'react'
 import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import QRCode from 'src/qrcode/QRCode'
+import QRCode from 'src/qrcode/components/QRCode'
 import { createMockStore } from 'test/utils'
 import { mockExchanges } from 'test/values'
 

@@ -52,13 +52,7 @@ const ValidateRecipientIntro = ({ route }: Props) => {
   }
 
   const onPressScanCode = () => {
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-      params: {
-        onQRCodeDetected,
-        showSecureSendStyling: true,
-      },
-    })
+    navigate(Screens.ScanQRScreen, { onQRCodeDetected })
 
     ValoraAnalytics.track(SendEvents.send_secure_start, { confirmByScan: true })
   }

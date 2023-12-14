@@ -1,36 +1,22 @@
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs'
 import React, { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { Dimensions, Platform, StyleSheet, Text, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import SegmentedControl from 'src/components/SegmentedControl'
-import BackChevron from 'src/icons/BackChevron'
 import Share from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { SVG, shareQRCode } from 'src/send/actions'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
 
 type Props = MaterialTopTabBarProps & {
   qrSvgRef: React.MutableRefObject<SVG>
-  leftIcon: 'times' | 'back'
-  canSwitch: boolean
 }
 
-export default function QRTabBar({
-  state,
-  descriptors,
-  navigation,
-  position,
-  qrSvgRef,
-  leftIcon = 'times',
-  canSwitch = true,
-}: Props) {
+export default function QRTabBar({ state, descriptors, navigation, position, qrSvgRef }: Props) {
   const dispatch = useDispatch()
-  const { t } = useTranslation()
   const values = useMemo(
     () =>
       state.routes.map((route) => {
@@ -91,33 +77,14 @@ export default function QRTabBar({
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
       <View style={styles.leftContainer}>
-        <TopBarIconButton
-          icon={leftIcon === 'times' ? <Times color={color} /> : <BackChevron color={color} />}
-          onPress={onPressClose}
-        />
+        <TopBarIconButton icon={<Times color={color} />} onPress={onPressClose} />
       </View>
-      {canSwitch ? (
-        <SegmentedControl
-          values={values}
-          selectedIndex={state.index}
-          position={position}
-          onChange={onChange}
-        />
-      ) : (
-        <View style={styles.headerTitleContainer}>
-          <Text
-            testID="HeaderTitle"
-            style={{
-              ...styles.headerTitle,
-              color: state.index === 0 ? colors.black : colors.white,
-            }}
-            numberOfLines={1}
-            allowFontScaling={false}
-          >
-            {state.index === 0 ? t('myCode') : t('scanCode')}
-          </Text>
-        </View>
-      )}
+      <SegmentedControl
+        values={values}
+        selectedIndex={state.index}
+        position={position}
+        onChange={onChange}
+      />
       <Animated.View
         style={[styles.rightContainer, { opacity: shareOpacity }]}
         pointerEvents={state.index > 0 ? 'none' : undefined}
@@ -145,14 +112,5 @@ const styles = StyleSheet.create({
   rightContainer: {
     width: 50,
     alignItems: 'center',
-  },
-  headerTitleContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
-  },
-  headerTitle: {
-    ...fontStyles.notificationHeadline,
-    maxWidth: Dimensions.get('window').width * 0.6,
   },
 })

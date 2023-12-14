@@ -2,7 +2,7 @@ import { render, waitFor } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { fetchExchanges } from 'src/fiatExchanges/utils'
-import QRNavigator, { QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigator'
+import QRNavigator, { QRCodePicker, QRCodeProps } from 'src/qrcode/QRNavigator'
 import { CiCoCurrency } from 'src/utils/currencies'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -15,8 +15,8 @@ jest.mock('src/fiatExchanges/utils', () => ({
   fetchExchanges: jest.fn(),
 }))
 
-jest.mock('src/qrcode/StyledQRGen', () => jest.fn().mockReturnValue(''))
-jest.mock('src/qrcode/QRGen', () => jest.fn().mockReturnValue(''))
+jest.mock('src/qrcode/components/StyledQRGen', () => jest.fn().mockReturnValue(''))
+jest.mock('src/qrcode/components/QRGen', () => jest.fn().mockReturnValue(''))
 
 const mockStore = createMockStore({
   networkInfo: {

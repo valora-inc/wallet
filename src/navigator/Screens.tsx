@@ -58,12 +58,11 @@ export enum Screens {
   PincodeSet = 'PincodeSet',
   Profile = 'Profile',
   ProtectWallet = 'ProtectWallet',
-  QRCode = 'QRCode',
   QRNavigator = 'QRNavigator',
-  QRScanner = 'QRScanner',
   ReclaimPaymentConfirmationScreen = 'ReclaimPaymentConfirmationScreen',
   RegulatoryTerms = 'RegulatoryTerms',
   SanctionedCountryErrorScreen = 'SanctionedCountryErrorScreen',
+  ScanQRScreen = 'ScanQRScreen',
   SelectCountry = 'SelectCountry',
   SelectLocalCurrency = 'SelectLocalCurrency',
   SelectProvider = 'SelectProvider',
@@ -100,4 +99,9 @@ export enum Screens {
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
   WithdrawSpend = 'WithdrawSpend',
+}
+
+export enum QRTabs {
+  QRScanner = 'QRScanner',
+  QRCode = 'QRCode',
 }
