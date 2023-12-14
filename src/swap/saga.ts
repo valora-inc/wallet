@@ -1,6 +1,3 @@
-import { CeloTransactionObject, CeloTx, Contract, toTransactionObject } from '@celo/connect'
-import { TxParamsNormalizer } from '@celo/connect/lib/utils/tx-params-normalizer'
-import { ContractKit } from '@celo/contractkit'
 import { valueToBigNumber } from '@celo/contractkit/lib/wrappers/BaseWrapper'
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
@@ -16,85 +13,31 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { vibrateError, vibrateSuccess } from 'src/styles/hapticFeedback'
+import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { swapCancel, swapError, swapStart, swapStartPrepared, swapSuccess } from 'src/swap/slice'
-import { Field, SwapInfo, SwapInfoPrepared, SwapTransaction } from 'src/swap/types'
-import { getERC20TokenContract } from 'src/tokens/saga'
+import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
+import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction, removeStandbyTransaction } from 'src/transactions/actions'
+import { addStandbyTransaction } from 'src/transactions/actions'
 import { handleTransactionReceiptReceived } from 'src/transactions/saga'
-import { sendTransaction } from 'src/transactions/send'
-import {
-  NetworkId,
-  TokenTransactionTypeV2,
-  TransactionContext,
-  newTransactionContext,
-} from 'src/transactions/types'
+import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { TransactionRequest, getFeeCurrency, getMaxGasFee } from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import { getContractKit, getViemWallet } from 'src/web3/contracts'
+import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { getConnectedUnlockedAccount, unlockAccount } from 'src/web3/saga'
-import { walletAddressSelector } from 'src/web3/selectors'
-import { applyChainIdWorkaround, buildTxo, getNetworkFromNetworkId } from 'src/web3/utils'
+import { unlockAccount } from 'src/web3/saga'
+import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, decodeFunctionData, zeroAddress } from 'viem'
+import { Hash, TransactionReceipt, decodeFunctionData } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
-
-function* handleSendSwapTransaction(
-  rawTx: SwapTransaction,
-  transactionContext: TransactionContext,
-  fromToken: TokenBalance,
-  toToken: TokenBalance
-) {
-  const kit: ContractKit = yield* call(getContractKit)
-  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
-  const normalizer = new TxParamsNormalizer(kit.connection)
-
-  applyChainIdWorkaround(rawTx, yield* call([kit.connection, 'chainId']))
-  const tx: CeloTx = yield* call(normalizer.populate.bind(normalizer), rawTx)
-  const txo = buildTxo(kit, tx)
-
-  const networkId = networkConfig.defaultNetworkId
-  const feeCurrencyId = getTokenId(networkId, tx.feeCurrency)
-
-  const outValue = valueToBigNumber(rawTx.sellAmount).shiftedBy(-fromToken.decimals)
-  yield* put(
-    addStandbyTransaction({
-      context: transactionContext,
-      __typename: 'TokenExchangeV3',
-      networkId,
-      type: TokenTransactionTypeV2.SwapTransaction,
-      inAmount: {
-        value: outValue.multipliedBy(rawTx.guaranteedPrice),
-        tokenId: toToken.tokenId,
-      },
-      outAmount: {
-        value: outValue,
-        tokenId: fromToken.tokenId,
-      },
-      feeCurrencyId,
-    })
-  )
-
-  const receipt = yield* call(sendTransaction, txo, walletAddress, transactionContext)
-  yield* call(
-    handleTransactionReceiptReceived,
-    transactionContext.id,
-    receipt,
-    networkId,
-    feeCurrencyId
-  )
-}
 
 function calculateEstimatedUsdValue({
   tokenInfo,
@@ -109,140 +52,6 @@ function calculateEstimatedUsdValue({
 
   const amount = valueToBigNumber(tokenAmount)
   return tokenInfo.priceUsd.times(amount.shiftedBy(-tokenInfo.decimals)).toNumber()
-}
-
-export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
-  const swapSubmittedAt = Date.now()
-  const swapId = action.payload.swapId
-  const { price, guaranteedPrice, buyAmount, sellAmount, allowanceTarget, estimatedPriceImpact } =
-    action.payload.unvalidatedSwapTransaction
-  const buyTokenAddress = action.payload.unvalidatedSwapTransaction.buyTokenAddress.toLowerCase()
-  const sellTokenAddress = action.payload.unvalidatedSwapTransaction.sellTokenAddress.toLowerCase()
-  const amountType =
-    action.payload.userInput.updatedField === Field.TO
-      ? ('buyAmount' as const)
-      : ('sellAmount' as const)
-  const amount = action.payload.unvalidatedSwapTransaction[amountType]
-  const { quoteReceivedAt } = action.payload
-
-  const tokensById = yield* select((state) =>
-    tokensByIdSelector(state, [networkConfig.defaultNetworkId])
-  )
-  const fromToken = tokensById[action.payload.userInput.fromTokenId]
-  const toToken = tokensById[action.payload.userInput.toTokenId]
-
-  if (!fromToken || !toToken) {
-    Logger.error(
-      TAG,
-      `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
-    )
-    yield* put(swapError(swapId))
-    return
-  }
-
-  const fromTokenBalance = fromToken.balance.shiftedBy(fromToken.decimals).toString()
-  const estimatedSellTokenUsdValue = calculateEstimatedUsdValue({
-    tokenInfo: fromToken,
-    tokenAmount: sellAmount,
-  })
-  const estimatedBuyTokenUsdValue = calculateEstimatedUsdValue({
-    tokenInfo: toToken,
-    tokenAmount: buyAmount,
-  })
-
-  const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
-  const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
-
-  const defaultSwapExecuteProps = {
-    toToken: buyTokenAddress,
-    toTokenId: toToken.tokenId,
-    toTokenNetworkId: toToken.networkId,
-    fromToken: sellTokenAddress,
-    fromTokenId: fromToken.tokenId,
-    fromTokenNetworkId: fromToken.networkId,
-    amount,
-    amountType,
-    price,
-    allowanceTarget,
-    estimatedPriceImpact,
-    provider: action.payload.details.swapProvider,
-    fromTokenBalance,
-    swapExecuteTxId: swapExecuteContext.id,
-    swapApproveTxId: swapApproveContext.id,
-    estimatedSellTokenUsdValue,
-    estimatedBuyTokenUsdValue,
-    web3Library: 'contract-kit' as const,
-  }
-
-  let quoteToTransactionElapsedTimeInMs: number | undefined
-
-  const getTimeMetrics = (): SwapTimeMetrics => ({
-    quoteToUserConfirmsSwapElapsedTimeInMs: swapSubmittedAt - quoteReceivedAt,
-    quoteToTransactionElapsedTimeInMs,
-  })
-
-  try {
-    const walletAddress = yield* select(walletAddressSelector)
-
-    // Approve transaction if the sell token is ERC-20
-    if (allowanceTarget !== zeroAddress && fromToken.address) {
-      const amountToApprove =
-        amountType === 'buyAmount'
-          ? valueToBigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0)
-          : sellAmount
-
-      // Approve transaction
-      Logger.debug(
-        TAG,
-        `Approving ${amountToApprove} of ${sellTokenAddress} for address: ${allowanceTarget}`
-      )
-
-      yield* call(
-        sendApproveTx,
-        fromToken.address,
-        amountToApprove,
-        allowanceTarget,
-        swapApproveContext
-      )
-    }
-
-    // Execute transaction
-    Logger.debug(TAG, `Starting to swap execute for address: ${walletAddress}`)
-
-    const beforeSwapExecutionTimestamp = Date.now()
-    quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    yield* call(
-      handleSendSwapTransaction,
-      { ...action.payload.unvalidatedSwapTransaction },
-      swapExecuteContext,
-      fromToken,
-      toToken
-    )
-
-    navigate(Screens.WalletHome)
-
-    const timeMetrics = getTimeMetrics()
-
-    yield* put(swapSuccess(swapId))
-    vibrateSuccess()
-    ValoraAnalytics.track(SwapEvents.swap_execute_success, {
-      ...defaultSwapExecuteProps,
-      ...timeMetrics,
-    })
-  } catch (err) {
-    const error = ensureError(err)
-    const timeMetrics = getTimeMetrics()
-
-    Logger.error(TAG, 'Error while swapping', error)
-    ValoraAnalytics.track(SwapEvents.swap_execute_error, {
-      ...defaultSwapExecuteProps,
-      ...timeMetrics,
-      error: error.message,
-    })
-    yield* put(swapError(swapId))
-    yield* put(removeStandbyTransaction(swapExecuteContext.id))
-    vibrateError()
-  }
 }
 
 interface TrackedTx {
@@ -330,7 +139,7 @@ function getSwapTxsReceiptAnalyticsProperties(
   }
 }
 
-export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>) {
+export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
   const swapId = action.payload.swapId
   const {
@@ -584,26 +393,5 @@ export function* swapSubmitPreparedSaga(action: PayloadAction<SwapInfoPrepared>)
 }
 
 export function* swapSaga() {
-  // Legacy
   yield* takeEvery(swapStart.type, safely(swapSubmitSaga))
-  // New flow with prepared transactions
-  yield* takeEvery(swapStartPrepared.type, safely(swapSubmitPreparedSaga))
-}
-
-export function* sendApproveTx(
-  tokenAddress: string,
-  amount: string,
-  recipientAddress: string,
-  transactionContext: TransactionContext
-) {
-  const kit: ContractKit = yield* call(getContractKit)
-  const contract: Contract = yield* call(getERC20TokenContract, tokenAddress)
-  const walletAddress: string = yield* call(getConnectedUnlockedAccount)
-
-  const tx: CeloTransactionObject<boolean> = toTransactionObject(
-    kit.connection,
-    contract.methods.approve(recipientAddress, amount)
-  )
-
-  yield* call(sendTransaction, tx.txo, walletAddress, transactionContext)
 }

@@ -17,7 +17,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.MULTI_CHAIN_SEND]: false,
   [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
-  [StatsigFeatureGates.USE_VIEM_FOR_SWAP]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
   [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
