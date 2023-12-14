@@ -1,6 +1,5 @@
 import { ZENDESK_API_KEY } from 'src/config'
 import Logger from 'src/utils/Logger'
-import { readFileChunked } from 'src/utils/readFile'
 
 const ZENDESK_PROJECT_NAME = 'valoraapp'
 
@@ -152,7 +151,9 @@ async function _uploadFile(
   { path, name }: { path: string; type: string; name: string },
   userEmail: string
 ) {
-  const blob = await readFileChunked(path)
+  // This reads the file into a blob, the actual data is kept on the native side
+  // and is not copied into JS memory, which is good for large files.
+  const blob = await fetch(`file://${path}`).then((r) => r.blob())
   const uploadFileResponse = await fetch(
     `https://${ZENDESK_PROJECT_NAME}.zendesk.com/api/v2/uploads.json?filename=${name}&binary=false`,
     {
