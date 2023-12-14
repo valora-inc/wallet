@@ -8,13 +8,23 @@ runs:
       with:
         node-version-file: 'package.json'
         check-latest: true
+    - run: |
+        env
+        which node
+        which yarn
+      shell: bash
+    - run: corepack install
+      shell: bash
     - uses: actions/cache@v3
       with:
         path: |
           node_modules
           */*/node_modules
         key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-    - run: env
+    - run: |
+        env
+        which node
+        which yarn
       shell: bash
     - name: Install Yarn dependencies
       run: |
