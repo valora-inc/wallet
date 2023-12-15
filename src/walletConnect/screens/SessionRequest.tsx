@@ -16,7 +16,10 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { acceptSession, denySession } from 'src/walletConnect/actions'
 import { isSupportedAction, isSupportedEvent } from 'src/walletConnect/constants'
-import RequestContent, { useDappMetadata } from 'src/walletConnect/screens/RequestContent'
+import RequestContent, {
+  RequestDetail,
+  useDappMetadata,
+} from 'src/walletConnect/screens/RequestContent'
 import { walletConnectChainIdToNetworkId } from 'src/web3/networkConfig'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -42,23 +45,27 @@ function SessionRequest({
   const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const { dappName, dappImageUrl } = useDappMetadata(metadata)
 
-  const networkNames = supportedChains.map(
+  const requestDetails: RequestDetail[] = [
+    {
+      label: t('address'),
+      value: address,
+    },
+  ]
+
+  const matchedSupportedChains = (namespacesToApprove?.['eip155']?.chains ?? []).filter((chainId) =>
+    supportedChains.includes(chainId)
+  )
+  const networkNames = matchedSupportedChains.map(
     (chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]]
   )
+  if (networkNames.length > 0) {
+    requestDetails.push({
+      label: t('walletConnectRequest.networksList'),
+      value: <NetworkChips networkNames={networkNames} />,
+    })
+  }
 
-  const requestDetails =
-    dappConnectInfo === DappConnectInfo.Basic
-      ? [
-          {
-            label: t('address'),
-            value: address,
-          },
-          {
-            label: t('walletConnectRequest.networksList'),
-            value: <NetworkChips networkNames={networkNames} />,
-          },
-        ]
-      : []
+  console.log('---', namespacesToApprove?.['eip155']?.chains, { supportedChains }, { networkNames })
 
   if (!namespacesToApprove) {
     // We couldn't build an namespace to approve, so we reject the session, showing the reason
@@ -110,7 +117,7 @@ function SessionRequest({
           : t('confirmTransaction', { dappName })
       }
       description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : null}
-      requestDetails={requestDetails}
+      requestDetails={dappConnectInfo === DappConnectInfo.Basic ? requestDetails : undefined}
       testId="WalletConnectSessionRequest"
     >
       <NamespacesWarning

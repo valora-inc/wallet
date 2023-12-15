@@ -11,7 +11,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logos from 'src/walletConnect/screens/Logos'
 
-interface RequestDetail {
+export interface RequestDetail {
   label: string
   value: ReactElement | string | null
 }
