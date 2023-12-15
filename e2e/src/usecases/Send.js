@@ -1,4 +1,8 @@
-import { DEFAULT_RECIPIENT_ADDRESS, SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER } from '../utils/consts'
+import {
+  DEFAULT_RECIPIENT_ADDRESS,
+  SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER,
+  SAMPLE_BACKUP_KEY_VERIFIED,
+} from '../utils/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import {
   enterPinUiIfNecessary,
@@ -160,7 +164,6 @@ export default Send = () => {
           statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true`,
         },
       })
-      // await quickOnboarding()
     })
     beforeAll(async () => {
       await launchApp({
@@ -307,9 +310,9 @@ export default Send = () => {
     })
 
     it('Then should be able to add a comment', async () => {
-      await addComment('Starting Comment ❤️')
+      await addComment(randomComment)
       let comment = await element(by.id('commentInput/send')).getAttributes()
-      jestExpect(comment.text).toEqual('Starting Comment ❤️')
+      jestExpect(comment.text).toEqual(randomComment)
     })
 
     it('Then should be able to send', async () => {
@@ -331,9 +334,10 @@ export default Send = () => {
   describe('When multi-token send flow to phone number with one address (new flow)', () => {
     beforeAll(async () => {
       await launchApp({
-        newInstance: false,
+        newInstance: true,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
       })
+      await quickOnboarding(SAMPLE_BACKUP_KEY_VERIFIED)
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -371,8 +375,8 @@ export default Send = () => {
 
     it('Then should be able to select token', async () => {
       await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await element(by.id('cEURSymbol')).tap()
-      await expect(element(by.text('cEUR')).atIndex(0)).toBeVisible()
+      await element(by.id('cUSDSymbol')).tap()
+      await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
     })
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
