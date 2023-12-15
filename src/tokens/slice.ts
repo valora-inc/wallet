@@ -155,7 +155,10 @@ const slice = createSlice({
       // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
       const token = state.tokenBalances[tokenId]
       if (token) {
-        token.historicalPricesUsd.priceHistoryStatus = 'loading'
+        token.historicalPricesUsd = {
+          ...token.historicalPricesUsd,
+          priceHistoryStatus: 'loading',
+        }
       }
     },
     fetchPriceHistorySuccess: (
