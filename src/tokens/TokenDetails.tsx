@@ -49,7 +49,7 @@ import { getHistoricalPricesUsdByTokenIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchPriceHistoryStart } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
-import { ONE_DAY_IN_MILLIS, ONE_MINUTE_IN_MILLIS } from 'src/utils/time'
+import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -68,6 +68,8 @@ export default function TokenDetailsScreen({ route }: Props) {
   // Price History Things
   const getPriceHistoryByTokenId = getHistoricalPricesUsdByTokenIdSelector(tokenId)
   const priceHistory = useSelector(getPriceHistoryByTokenId)
+  const lastPriceFetchAt = priceHistory.at(-1)?.priceFetchedAt
+
   // TODO(tomm): use this to display chart in various states
   // const getPriceHistoryStatusByTokenId = getPriceHistoryStatusByTokenIdSelector(tokenId)
   // const priceHistoryStatus = useSelector(getPriceHistoryStatusByTokenId)
@@ -75,16 +77,18 @@ export default function TokenDetailsScreen({ route }: Props) {
   // If Loading display previous data || placeholder
   // If Success display data
   // If Error display previous data || error
-  const lastPriceFetchAt = priceHistory.at(-1)?.priceFetchedAt
 
   useEffect(() => {
     // TODO(tomm): create real feature gate
     const dummyPriceHistoryFeatureGate = false
     if (!dummyPriceHistoryFeatureGate) return
-    const startTimestamp = Date.now() - ONE_DAY_IN_MILLIS * 30
+    const startTimestamp = Date.now() - ONE_DAY_IN_MILLIS * 30 // 30 Days ago
     const endTimestamp = Date.now()
-    // Fetch if we don't have any price history or if the last fetch was more than 5 minutes ago
-    if ((lastPriceFetchAt && lastPriceFetchAt < Date.now() - ONE_MINUTE_IN_MILLIS * 5) || !lastPriceFetchAt) {
+    // Fetch if we don't have any price history or if the last fetch was more than 1 Hour Ago
+    if (
+      (lastPriceFetchAt && lastPriceFetchAt < Date.now() - ONE_HOUR_IN_MILLIS) ||
+      !lastPriceFetchAt
+    ) {
       dispatch(fetchPriceHistoryStart({ tokenId, startTimestamp, endTimestamp }))
     }
   }, [tokenId])
