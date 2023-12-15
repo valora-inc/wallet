@@ -982,7 +982,6 @@ describe('SwapScreen', () => {
       fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10',
       amountType: 'sellAmount',
-      usdTotal: 12.345678,
       allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
       estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
       price: defaultQuote.unvalidatedSwapTransaction.price,

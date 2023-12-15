@@ -1346,21 +1346,7 @@ interface SwapEventsProperties {
     tokenNetworkId: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
-  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
-    Web3LibraryProps &
-    Partial<SwapTxsProperties> & {
-      usdTotal: number
-    }
-  [SwapEvents.swap_execute_price_change]: {
-    price: string
-    guaranteedPrice: string
-    toToken: string
-    toTokenId: string
-    toTokenNetworkId: string
-    fromToken: string
-    fromTokenId: string
-    fromTokenNetworkId: string
-  }
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
     SwapTimeMetrics &
     Web3LibraryProps &
@@ -1389,8 +1375,6 @@ interface SwapEventsProperties {
     provider: string
     priceImpact?: string
   }
-  [SwapEvents.swap_again]: undefined
-  [SwapEvents.swap_try_again]: undefined
   [SwapEvents.swap_show_info]: {
     type: SwapShowInfoType
   }
