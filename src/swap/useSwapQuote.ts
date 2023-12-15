@@ -29,7 +29,7 @@ export interface QuoteResult {
   price: string
   provider: string
   estimatedPriceImpact: BigNumber | null
-  preparedTransactions?: PreparedTransactionsResult
+  preparedTransactions: PreparedTransactionsResult
   /**
    * @deprecated Temporary until we remove the swap review screen
    */
@@ -124,8 +124,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       fromToken: TokenBalance,
       toToken: TokenBalance,
       swapAmount: ParsedSwapAmount,
-      updatedField: Field,
-      shouldPrepareTransactions: boolean
+      updatedField: Field
     ) => {
       if (!swapAmount[updatedField].gt(0)) {
         return null
@@ -166,6 +165,13 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
           ? swapPrice
           : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
       const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
+      const preparedTransactions = await prepareSwapTransactions(
+        fromToken,
+        updatedField,
+        quote.unvalidatedSwapTransaction,
+        price,
+        feeCurrencies
+      )
       const quoteResult: QuoteResult = {
         toTokenId: toToken.tokenId,
         fromTokenId: fromToken.tokenId,
@@ -176,20 +182,9 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
+        preparedTransactions,
         rawSwapResponse: quote,
         receivedAt: Date.now(),
-      }
-
-      // TODO: this branch will be part of the normal flow once viem is always used
-      if (shouldPrepareTransactions) {
-        const preparedTransactions = await prepareSwapTransactions(
-          fromToken,
-          updatedField,
-          quote.unvalidatedSwapTransaction,
-          price,
-          feeCurrencies
-        )
-        quoteResult.preparedTransactions = preparedTransactions
       }
 
       return quoteResult
