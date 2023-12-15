@@ -36,12 +36,7 @@ interface HistoricalPricesUsd {
     at: number
   }
   priceHistoryStatus?: PriceHistoryStatus
-  priceHistory?: [
-    {
-      priceUsd: BigNumber.Value
-      priceFetchedAt: number
-    }
-  ]
+  priceHistory?: TokenPriceHistoryEntry[]
 }
 
 // Stored variant stores numbers as strings because BigNumber is not serializable.

@@ -1441,6 +1441,21 @@
                         "price"
                     ],
                     "type": "object"
+                },
+                "priceHistory": {
+                    "items": {
+                        "$ref": "#/definitions/TokenPriceHistoryEntry"
+                    },
+                    "type": "array"
+                },
+                "priceHistoryStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
@@ -4524,6 +4539,22 @@
                     "type": "string"
                 }
             },
+            "type": "object"
+        },
+        "TokenPriceHistoryEntry": {
+            "additionalProperties": false,
+            "properties": {
+                "priceFetchedAt": {
+                    "type": "number"
+                },
+                "priceUsd": {
+                    "$ref": "#/definitions/BigNumber.Value"
+                }
+            },
+            "required": [
+                "priceFetchedAt",
+                "priceUsd"
+            ],
             "type": "object"
         },
         "TokenTransaction": {
