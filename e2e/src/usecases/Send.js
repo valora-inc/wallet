@@ -1,6 +1,7 @@
 import {
   DEFAULT_RECIPIENT_ADDRESS,
   SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER,
+  SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY,
   SAMPLE_BACKUP_KEY_VERIFIED,
 } from '../utils/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
@@ -387,7 +388,7 @@ export default Send = () => {
     })
 
     it('Then should display correct recipient', async () => {
-      await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER))).toBeVisible()
+      await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY))).toBeVisible()
     })
 
     it('Then should be able to send', async () => {

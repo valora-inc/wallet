@@ -16,6 +16,7 @@ export const SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED =
 export const SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED =
   '0x06502700eac7123676a7332ba2015dffba021af6' // corresponds to the backup key above
 export const SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER = '+14154980301' // is linked to the single address above
+export const SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY = '(415) 498-0301'
 export const SAMPLE_BACKUP_KEY_12_WORDS =
   'cheese size muscle either false spend price lunar undo share kite whisper'
 export const SAMPLE_WALLET_ADDRESS_12_WORDS = '0x19cf37810fd5933bd63e02388e37203841c703de' // corresponds to the backup key above
