@@ -36,7 +36,6 @@ export default function EstimatedNetworkFee({ networkId, transaction }: Props) {
       transaction,
       feeTokenInfo,
     })
-    // insufficient information to display fee details
     return null
   }
 
