@@ -65,8 +65,6 @@ function SessionRequest({
     })
   }
 
-  console.log('---', namespacesToApprove?.['eip155']?.chains, { supportedChains }, { networkNames })
-
   if (!namespacesToApprove) {
     // We couldn't build an namespace to approve, so we reject the session, showing the reason
     // Note: for now it can only be because it's not an EVM chain
