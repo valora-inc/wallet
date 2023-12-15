@@ -4,6 +4,8 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { NetworkId } from 'src/transactions/types'
 
+type PriceHistoryStatus = 'idle' | 'loading' | 'success' | 'error'
+
 export interface BaseToken {
   address: string | null
   tokenId: string
@@ -33,6 +35,13 @@ interface HistoricalPricesUsd {
     price: BigNumber.Value
     at: number
   }
+  priceHistoryStatus?: PriceHistoryStatus
+  priceHistory?: [
+    {
+      priceUsd: BigNumber.Value
+      priceFetchedAt: number
+    }
+  ]
 }
 
 // Stored variant stores numbers as strings because BigNumber is not serializable.
@@ -86,6 +95,11 @@ export interface TokenLoadingAction {
   showLoading: boolean
 }
 
+export interface TokenPriceHistoryEntry {
+  priceUsd: BigNumber.Value
+  priceFetchedAt: number
+}
+
 export interface TokenBalances {
   [tokenId: string]: TokenBalance | undefined
 }
@@ -129,6 +143,41 @@ const slice = createSlice({
       loading: false,
       error: false,
     }),
+    fetchPriceHistoryStart: (
+      state,
+      action: PayloadAction<{
+        tokenId: string
+        startTimestamp: number
+        endTimestamp: number
+      }>
+    ) => {
+      const { tokenId } = action.payload
+      // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
+      const token = state.tokenBalances[tokenId]
+      if (token) {
+        token.historicalPricesUsd.priceHistoryStatus = 'loading'
+      }
+    },
+    fetchPriceHistorySuccess: (
+      state,
+      action: PayloadAction<{ tokenId: string; priceHistory: [TokenPriceHistoryEntry] }>
+    ) => {
+      const { tokenId, priceHistory } = action.payload
+      // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
+      const token = state.tokenBalances[tokenId]
+      if (token && priceHistory) {
+        token.historicalPricesUsd.priceHistory = priceHistory
+        token.historicalPricesUsd.priceHistoryStatus = 'success'
+      }
+    },
+    fetchPriceHistoryFailure: (state, action: PayloadAction<{ tokenId: string }>) => {
+      const { tokenId } = action.payload
+      // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
+      const token = state.tokenBalances[tokenId]
+      if (token) {
+        token.historicalPricesUsd.priceHistoryStatus = 'error'
+      }
+    },
     fetchTokenBalances: (state, action: PayloadAction<TokenLoadingAction>) => ({
       ...state,
       loading: action.payload.showLoading,
@@ -155,6 +204,9 @@ const slice = createSlice({
 
 export const {
   setTokenBalances,
+  fetchPriceHistoryStart,
+  fetchPriceHistorySuccess,
+  fetchPriceHistoryFailure,
   fetchTokenBalances,
   fetchTokenBalancesSuccess,
   fetchTokenBalancesFailure,

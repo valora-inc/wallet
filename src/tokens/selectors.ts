@@ -490,3 +490,17 @@ export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage
+
+export const getHistoricalPricesUsdByTokenIdSelector = (tokenId: string) =>
+  createSelector(
+    (state: RootState) =>
+      state.tokens.tokenBalances[tokenId]?.historicalPricesUsd?.priceHistory ?? [],
+    (priceHistory) => priceHistory
+  )
+
+export const getPriceHistoryStatusByTokenIdSelector = (tokenId: string) =>
+  createSelector(
+    (state: RootState) =>
+      state.tokens.tokenBalances[tokenId]?.historicalPricesUsd?.priceHistoryStatus ?? 'idle', // default to 'idle
+    (priceHistoryStatus) => priceHistoryStatus
+  )

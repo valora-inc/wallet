@@ -19,6 +19,10 @@ import {
   StoredTokenBalance,
   StoredTokenBalances,
   TokenBalance,
+  TokenPriceHistoryEntry,
+  fetchPriceHistoryFailure,
+  fetchPriceHistoryStart,
+  fetchPriceHistorySuccess,
   fetchTokenBalances,
   fetchTokenBalancesFailure,
   setTokenBalances,
@@ -217,6 +221,44 @@ export function* fetchTokenBalancesSaga() {
   }
 }
 
+export async function fetchTokenPriceHistory(
+  tokenId: string,
+  startTimestamp?: number,
+  endTimestamp?: number
+): Promise<[TokenPriceHistoryEntry]> {
+  const queryParams = new URLSearchParams()
+  if (startTimestamp) {
+    queryParams.append('startTimestamp', `${startTimestamp}`)
+  }
+  if (endTimestamp) {
+    queryParams.append('endTimestamp', `${endTimestamp}`)
+  }
+
+  const url = `${
+    networkConfig.blockchainApiUrl
+  }/tokensInfo/${tokenId}/priceHistory?${queryParams.toString()}`
+  const response = await fetchWithTimeout(url)
+  if (!response.ok) {
+    throw new Error(
+      `Failed to fetch price history for ${tokenId}: ${response.status} ${response.statusText}`
+    )
+  }
+  return await response.json()
+}
+
+export function* fetchTokenPriceHistorySaga({
+  payload: { tokenId, startTimestamp, endTimestamp },
+}: any) {
+  try {
+    const priceHistory = yield* call(fetchTokenPriceHistory, tokenId, startTimestamp, endTimestamp)
+    yield* put(fetchPriceHistorySuccess({ tokenId, priceHistory }))
+  } catch (err) {
+    const error = ensureError(err)
+    Logger.error(TAG, 'error fetching token price history', error.message)
+    yield* put(fetchPriceHistoryFailure({ tokenId }))
+  }
+}
+
 export function tokenAmountInSmallestUnit(amount: BigNumber, decimals: number): string {
   const decimalFactor = new BigNumber(10).pow(decimals)
   return amount.multipliedBy(decimalFactor).toFixed(0)
@@ -273,7 +315,12 @@ export function* watchAccountFundedOrLiquidated() {
   }
 }
 
+export function* watchFetchTokenPriceHistory() {
+  yield* takeEvery(fetchPriceHistoryStart.type, safely(fetchTokenPriceHistorySaga))
+}
+
 export function* tokensSaga() {
   yield* spawn(watchFetchBalance)
   yield* spawn(watchAccountFundedOrLiquidated)
+  yield* spawn(watchFetchTokenPriceHistory)
 }

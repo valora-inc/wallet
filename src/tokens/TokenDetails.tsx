@@ -1,9 +1,9 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -45,9 +45,11 @@ import {
   useTokenInfo,
   useTokensForSend,
 } from 'src/tokens/hooks'
-import { TokenBalance } from 'src/tokens/slice'
+import { getHistoricalPricesUsdByTokenIdSelector } from 'src/tokens/selectors'
+import { TokenBalance, fetchPriceHistoryStart } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
+import { ONE_DAY_IN_MILLIS, ONE_MINUTE_IN_MILLIS } from 'src/utils/time'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -56,11 +58,36 @@ const MAX_ACTION_BUTTONS = 3
 export default function TokenDetailsScreen({ route }: Props) {
   const { tokenId } = route.params
   const { t } = useTranslation()
+  const dispatch = useDispatch()
   const token = useTokenInfo(tokenId)
   if (!token) throw new Error(`token with id ${tokenId} not found`)
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+
+  // Price History Things
+  const getPriceHistoryByTokenId = getHistoricalPricesUsdByTokenIdSelector(tokenId)
+  const priceHistory = useSelector(getPriceHistoryByTokenId)
+  // TODO(tomm): use this to display chart in various states
+  // const getPriceHistoryStatusByTokenId = getPriceHistoryStatusByTokenIdSelector(tokenId)
+  // const priceHistoryStatus = useSelector(getPriceHistoryStatusByTokenId)
+  // If Idle display placeholder
+  // If Loading display previous data || placeholder
+  // If Success display data
+  // If Error display previous data || error
+  const lastPriceFetchAt = priceHistory.at(-1)?.priceFetchedAt
+
+  useEffect(() => {
+    // TODO(tomm): create real feature gate
+    const dummyPriceHistoryFeatureGate = false
+    if (!dummyPriceHistoryFeatureGate) return
+    const startTimestamp = Date.now() - ONE_DAY_IN_MILLIS * 30
+    const endTimestamp = Date.now()
+    // Fetch if we don't have any price history or if the last fetch was more than 5 minutes ago
+    if ((lastPriceFetchAt && lastPriceFetchAt < Date.now() - ONE_MINUTE_IN_MILLIS * 5) || !lastPriceFetchAt) {
+      dispatch(fetchPriceHistoryStart({ tokenId, startTimestamp, endTimestamp }))
+    }
+  }, [tokenId])
 
   return (
     <SafeAreaView style={styles.container}>
