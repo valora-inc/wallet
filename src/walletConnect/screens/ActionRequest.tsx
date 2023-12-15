@@ -140,7 +140,7 @@ function ActionRequest({
         request={pendingAction}
         preparedTransaction={preparedTransaction}
       />
-      {preparedTransaction && (
+      {useViem && preparedTransaction && (
         <EstimatedNetworkFee networkId={networkId} transaction={preparedTransaction} />
       )}
       <DappsDisclaimer isDappListed={isDappListed} />
