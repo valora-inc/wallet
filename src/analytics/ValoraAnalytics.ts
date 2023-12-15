@@ -26,6 +26,7 @@ import { getDefaultStatsigUser } from 'src/statsig'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { Statsig } from 'statsig-react-native'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
 const TAG = 'ValoraAnalytics'
 
@@ -305,7 +306,7 @@ class ValoraAnalytics {
 
   // Super props, i.e. props sent with all events
   private getSuperProps() {
-    const traits = getCurrentUserTraits(store.getState())
+    const traits = getCurrentUserTraits(store.getState(), getSupportedNetworkIdsForTokenBalances()) // traits have token balance properties, so use the same networks as for balances shown to the user
     // Prefix super props with `s` so they don't clash with events props
     const prefixedSuperProps = Object.fromEntries(
       Object.entries({

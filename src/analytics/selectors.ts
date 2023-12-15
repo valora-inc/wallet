@@ -16,14 +16,14 @@ import {
   positionsByBalanceUsdSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
-import { coreTokensSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
-const tokensSelector = createSelector(
-  [tokensWithTokenBalanceAndAddressSelector, coreTokensSelector],
-  (tokens, coreTokens) => ({ tokens, coreTokens })
-)
+const tokensSelector = createSelector([tokensWithTokenBalanceSelector], (tokens) => ({
+  tokens,
+  feeTokens: tokens.filter(({ isFeeCurrency, isNative }) => isNative || isFeeCurrency),
+}))
 
 const positionsAnalyticsSelector = createSelector(
   [positionsByBalanceUsdSelector, totalPositionsBalanceUsdSelector, hooksPreviewApiUrlSelector],
@@ -88,7 +88,7 @@ export const getCurrentUserTraits = createSelector(
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
-    { tokens, coreTokens },
+    { tokens, feeTokens },
     {
       totalPositionsBalanceUsd,
       positionsCount,
@@ -105,7 +105,7 @@ export const getCurrentUserTraits = createSelector(
   ): // Enforce primitive types, TODO: check this using `satisfies` once we upgrade to TS >= 4.9
   // so we don't need to erase the named keys
   Record<string, string | boolean | number | null | undefined> => {
-    const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
+    const feeTokenIds = new Set(feeTokens.map(({ tokenId }) => tokenId))
     const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
 
     let totalBalanceUsd = new BigNumber(0)
@@ -132,7 +132,7 @@ export const getCurrentUserTraits = createSelector(
       totalBalanceUsd: totalBalanceUsd?.toNumber(), // Only tokens (with a USD price), no positions
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
-        .filter((token) => !coreTokensAddresses.has(token.address))
+        .filter((token) => !feeTokenIds.has(token.tokenId))
         .slice(0, 10)
         .map(
           (token) =>
@@ -145,10 +145,7 @@ export const getCurrentUserTraits = createSelector(
       // Map core tokens balances
       // Example: [Celo, cUSD, cEUR] to { celoBalance: X, cusdBalance: Y, ceurBalance: Z }
       ...Object.fromEntries(
-        coreTokens.map((token) => [
-          `${token.symbol.toLowerCase()}Balance`,
-          token.balance.toNumber(),
-        ])
+        feeTokens.map((token) => [`${token.symbol.toLowerCase()}Balance`, token.balance.toNumber()])
       ),
       totalPositionsBalanceUsd,
       positionsCount,
