@@ -32,6 +32,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import { RootState } from 'src/redux/reducers'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -45,7 +46,7 @@ import {
   useTokenInfo,
   useTokensForSend,
 } from 'src/tokens/hooks'
-import { getHistoricalPricesUsdByTokenIdSelector } from 'src/tokens/selectors'
+import { tokenPriceHistorySelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchPriceHistoryStart } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
 import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
@@ -66,13 +67,14 @@ export default function TokenDetailsScreen({ route }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   // Price History Things
-  const getPriceHistoryByTokenId = getHistoricalPricesUsdByTokenIdSelector(tokenId)
-  const priceHistory = useSelector(getPriceHistoryByTokenId)
+  const priceHistory = useSelector((state: RootState) => tokenPriceHistorySelector(state, tokenId))
+
   const lastPriceFetchAt = priceHistory.at(-1)?.priceFetchedAt
 
   // TODO(tomm): use this to display chart in various states
-  // const getPriceHistoryStatusByTokenId = getPriceHistoryStatusByTokenIdSelector(tokenId)
-  // const priceHistoryStatus = useSelector(getPriceHistoryStatusByTokenId)
+  // const priceHistoryStatus = useSelector((state: RootState) =>
+  //   tokenPriceHistoryStatusSelector(state, tokenId)
+  // )
   // If Idle display placeholder
   // If Loading display previous data || placeholder
   // If Success display data
