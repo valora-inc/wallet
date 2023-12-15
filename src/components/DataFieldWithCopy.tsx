@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import Touchable from 'src/components/Touchable'
 import CopyIcon from 'src/icons/CopyIcon'
-import colors, { Colors } from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
@@ -51,7 +51,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
-    backgroundColor: colors.gray1,
+    backgroundColor: Colors.gray1,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 12,
