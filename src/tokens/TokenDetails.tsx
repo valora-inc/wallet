@@ -66,7 +66,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
-  // Price History Things
+  // Price History Things - Maybe this should all move to the chart component and we just pass in the token id
   const priceHistory = useSelector((state: RootState) => tokenPriceHistorySelector(state, tokenId))
 
   const lastPriceFetchAt = priceHistory.at(-1)?.priceFetchedAt
