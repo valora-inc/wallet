@@ -12,7 +12,7 @@ import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
-export interface Props {
+interface Props {
   networkId: NetworkId
   transaction: SerializableTransactionRequest
 }
