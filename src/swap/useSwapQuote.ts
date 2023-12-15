@@ -17,7 +17,7 @@ import {
 } from 'src/viem/prepareTransactions'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, Hex, encodeFunctionData, isAddress, zeroAddress } from 'viem'
+import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
 
 // Apply a multiplier for the decreased swap amount to account for the
 // varying gas fees of different swap providers (or even the same swap)
@@ -42,7 +42,7 @@ async function createBaseSwapTransactions(
   fromToken: TokenBalance,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
-  walletAddress: Address
+  walletAddress: string
 ) {
   const baseTransactions: TransactionRequest[] = []
 
@@ -58,14 +58,14 @@ async function createBaseSwapTransactions(
 
   // If the sell token is ERC-20, we need to check the allowance and add an
   // approval transaction if necessary
-  if (allowanceTarget !== zeroAddress && fromToken.address && isAddress(fromToken.address)) {
+  if (allowanceTarget !== zeroAddress && fromToken.address) {
     const approvedAllowanceForSpender = await publicClient[
       networkIdToNetwork[fromToken.networkId]
     ].readContract({
-      address: fromToken.address,
+      address: fromToken.address as Address,
       abi: erc20.abi,
       functionName: 'allowance',
-      args: [walletAddress, allowanceTarget as Address],
+      args: [walletAddress as Address, allowanceTarget as Address],
     })
 
     if (approvedAllowanceForSpender < amountToApprove) {
@@ -108,7 +108,7 @@ async function prepareSwapTransactions(
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
   feeCurrencies: TokenBalance[],
-  walletAddress: Address
+  walletAddress: string
 ): Promise<PreparedTransactionsResult> {
   const { amountToApprove, baseTransactions } = await createBaseSwapTransactions(
     fromToken,
@@ -140,7 +140,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       swapAmount: ParsedSwapAmount,
       updatedField: Field
     ) => {
-      if (!walletAddress || !isAddress(walletAddress)) {
+      if (!walletAddress) {
         // should never happen
         Logger.error('SwapScreen@useSwapQuote', 'No wallet address found when refreshing quote')
         return null
