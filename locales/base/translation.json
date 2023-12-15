@@ -1074,7 +1074,7 @@
     "signTransactionTitle": "Sign transaction",
     "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
     "signDappTransaction": "{{dappName}} would like to sign a transaction on the {{networkName}} network.",
-    "signDappTransactionUnknownNetwork": "{{dappName}} would like to sign a transaction on the unkonwn network.",
+    "signDappTransactionUnknownNetwork": "{{dappName}} would like to sign a transaction on the unknown network.",
     "sendTransactionTitle": "Send transaction",
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
     "sendDappTransaction": "{{dappName}} would like to send a transaction on the {{networkName}} network.",
