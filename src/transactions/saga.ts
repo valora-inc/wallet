@@ -344,7 +344,7 @@ export function* handleTransactionReceiptReceived(
   const blockDetails = yield* call([publicClient[networkIdToNetwork[networkId]], 'getBlock'], {
     blockNumber: BigInt(receipt.blockNumber),
   })
-  const blockTimestamp = Number(blockDetails.timestamp) * 1000 // milliseconds
+  const blockTimestampInMs = Number(blockDetails.timestamp) * 1000
 
   yield* put(
     transactionConfirmed(
@@ -353,7 +353,7 @@ export function* handleTransactionReceiptReceived(
         ...baseDetails,
         fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
       },
-      blockTimestamp
+      blockTimestampInMs
     )
   )
 }

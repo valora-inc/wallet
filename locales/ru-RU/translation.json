@@ -1671,6 +1671,11 @@
     "swapFromTokenSelection": "ОБМЕНЯТЬ С",
     "swapToTokenSelection": "ОБМЕНЯТЬ НА",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Ты перешел на сеть {{networkName}} .",
+      "body_swapFrom": "Выбери токен для обмена в сети {{networkName}} , чтобы продолжить.",
+      "body_swapTo": "Выбери токен для обмена в сети {{networkName}} , чтобы продолжить."
+    },
     "maxSwapAmountWarning": {
       "title": "Обмен МАКС. суммы",
       "body": "Убедитесь, что в вашем кошельке достаточно CELO для покрытия газа для будущих транзакций",
@@ -1683,6 +1688,10 @@
     "missingSwapImpactWarning": {
       "title": "Перед обменом",
       "body": "Мы не можем оценить стоимость этого обмена. {{appName}} не несет ответственности, если вы решите продолжить."
+    },
+    "confirmSwapFailedWarning": {
+      "title": "Что-то пошло не так",
+      "body": "Скорость сети низкая или возникла неизвестная ошибка. Пожалуйста, повторите попытку позже"
     },
     "estimatedExchangeRate": "Расчетная ставка ≈ <0>0.00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1941,7 +1950,8 @@
     "connectPhoneNumberModal": {
       "title": "Подключите свой номер телефона",
       "description": "Нужно подключить свой номер телефона, чтобы начать отправку криптовалюты друзьям"
-    }
+    },
+    "unknownAddressInfo": "Убедись, что этот адрес поддерживает актив, который ты пытаешься отправить. Твои средства могут быть невозможны, если этот адрес недействителен."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Завершена",

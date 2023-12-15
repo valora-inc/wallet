@@ -171,6 +171,12 @@
             },
             "type": "object"
         },
+        "AddressToVerificationStatus": {
+            "additionalProperties": {
+                "type": "boolean"
+            },
+            "type": "object"
+        },
         "AddressValidationType": {
             "enum": [
                 "full",
@@ -1970,6 +1976,57 @@
             ],
             "type": "object"
         },
+        "PendingStandbyApproval": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenApproval",
+                    "type": "string"
+                },
+                "approvedAmount": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "approvedAmount",
+                "context",
+                "networkId",
+                "status",
+                "timestamp",
+                "tokenId",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbySwap": {
             "additionalProperties": false,
             "properties": {
@@ -2609,6 +2666,9 @@
                     "$ref": "#/definitions/PendingStandbyTransfer"
                 },
                 {
+                    "$ref": "#/definitions/PendingStandbyApproval"
+                },
+                {
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
@@ -2736,6 +2796,72 @@
                         "networkId",
                         "status",
                         "timestamp",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
+                            "const": "TokenApproval",
+                            "type": "string"
+                        },
+                        "approvedAmount": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "tokenId": {
+                            "type": "string"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "approvedAmount",
+                        "block",
+                        "context",
+                        "fees",
+                        "networkId",
+                        "status",
+                        "timestamp",
+                        "tokenId",
                         "transactionHash",
                         "type"
                     ],
@@ -4003,6 +4129,9 @@
                 "addressToE164Number": {
                     "$ref": "#/definitions/AddressToE164NumberType"
                 },
+                "addressToVerificationStatus": {
+                    "$ref": "#/definitions/AddressToVerificationStatus"
+                },
                 "askedContactsPermission": {
                     "type": "boolean"
                 },
@@ -4029,6 +4158,7 @@
                 "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
+                "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
                 "e164NumberToSalt",
@@ -4066,6 +4196,9 @@
                 "bridge": {
                     "type": "string"
                 },
+                "canTransferWithComment": {
+                    "type": "boolean"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -4084,7 +4217,7 @@
                 "isCashOutEligible": {
                     "type": "boolean"
                 },
-                "isCoreToken": {
+                "isFeeCurrency": {
                     "type": "boolean"
                 },
                 "isNative": {
@@ -4281,7 +4414,7 @@
                 "approvedAmount": {
                     "type": [
                         "null",
-                        "number"
+                        "string"
                     ]
                 },
                 "block": {
@@ -4309,8 +4442,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "const": "APPROVAL",
-                    "type": "string"
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
                 }
             },
             "required": [
@@ -4403,10 +4535,10 @@
                     "$ref": "#/definitions/TokenTransfer"
                 },
                 {
-                    "$ref": "#/definitions/NftTransfer"
+                    "$ref": "#/definitions/TokenApproval"
                 },
                 {
-                    "$ref": "#/definitions/TokenApproval"
+                    "$ref": "#/definitions/NftTransfer"
                 }
             ]
         },

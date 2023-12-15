@@ -240,6 +240,10 @@ export enum IdentityEvents {
   phone_number_lookup_purchase_complete = 'phone_number_lookup_purchase_complete',
   phone_number_lookup_purchase_error = 'phone_number_lookup_purchase_error',
   phone_number_lookup_purchase_skip = 'phone_number_lookup_purchase_skip',
+
+  address_lookup_start = 'address_lookup_start',
+  address_lookup_complete = 'address_lookup_complete',
+  address_lookup_error = 'address_lookup_error',
 }
 
 export enum AuthenticationEvents {
@@ -590,13 +594,10 @@ export enum SwapEvents {
   swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
   swap_review_submit = 'swap_review_submit',
-  swap_execute_price_change = 'swap_execute_price_change',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
-  swap_again = 'swap_again',
-  swap_try_again = 'swap_try_again',
   swap_show_info = 'swap_show_info',
 }
 
@@ -624,6 +625,7 @@ export enum AssetsEvents {
   import_token_screen_open = 'import_token_screen_open',
   import_token_submit = 'import_token_submit',
   import_token_paste = 'import_token_paste',
+  import_token_error = 'import_token_error',
 }
 
 export enum NftEvents {

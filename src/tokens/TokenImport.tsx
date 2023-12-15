@@ -1,32 +1,59 @@
-import { isValidAddress } from '@celo/utils/lib/address'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { ReactElement, useState } from 'react'
+import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import erc20 from 'src/abis/IERC20'
 import { showMessage } from 'src/alert/actions'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
+import Checkmark from 'src/icons/Checkmark'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
-import networkConfig from 'src/web3/networkConfig'
+import { tokensByIdSelector } from 'src/tokens/selectors'
+import { getTokenId } from 'src/tokens/utils'
+import Logger from 'src/utils/Logger'
+import { publicClient } from 'src/viem'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { Address, BaseError, TimeoutError, formatUnits, getContract, isAddress } from 'viem'
+
+const TAG = 'tokens/TokenImport'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenImport>
+
+interface TokenDetails {
+  address: string
+  symbol: string
+  decimals: number
+  name: string
+  balance: bigint
+}
+
+enum Errors {
+  AlreadyImported = 'AlreadyImported',
+  AlreadySupported = 'AlreadySupported',
+  Timeout = 'Timeout',
+  NotERC20 = 'NotERC20',
+}
 
 export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
@@ -34,27 +61,130 @@ export default function TokenImportScreen(_: Props) {
 
   const [tokenAddress, setTokenAddress] = useState('')
   const [tokenSymbol, setTokenSymbol] = useState('')
+  const [error, setError] = useState<string | null>(null)
   const [networkId] = useState(networkConfig.defaultNetworkId)
 
+  const walletAddress = useSelector(walletAddressSelector)
+  const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
+
+  const validateAddress = (address: string): address is Address => {
+    if (!address) return false
+
+    if (!isAddress(address)) {
+      setError(t('tokenImport.error.invalidToken'))
+      return false
+    }
+
+    // TODO(RET-891): if already imported, set error
+    const tokenId = getTokenId(networkId, address.toLowerCase())
+    if (supportedTokens[tokenId]) {
+      setError(t('tokenImport.error.invalidToken'))
+      ValoraAnalytics.track(AssetsEvents.import_token_error, {
+        networkId,
+        tokenId,
+        tokenAddress,
+        error: Errors.AlreadySupported,
+      })
+      return false
+    }
+
+    setError(null)
+    return true
+  }
+
+  const fetchTokenDetails = async (address: Address): Promise<TokenDetails> => {
+    if (!isAddress(address)) {
+      // shouldn't happen as this function is called only after validating the address
+      throw new Error('Invalid token address')
+    }
+    if (!walletAddress || !isAddress(walletAddress)) {
+      // should never happen
+      throw new Error('No wallet address found when fetching token details')
+    }
+
+    const client = publicClient[networkIdToNetwork[networkId]]
+    const contract = getContract({
+      abi: erc20.abi,
+      address,
+      publicClient: client,
+    })
+
+    const [symbol, decimals, name, balance] = await Promise.all([
+      contract.read.symbol(),
+      contract.read.decimals(),
+      contract.read.name(),
+      contract.read.balanceOf([walletAddress]),
+    ])
+    return { address, symbol, decimals, name, balance }
+  }
+
+  const validateContract = useAsyncCallback(fetchTokenDetails, {
+    onSuccess: (details) => {
+      Logger.info(
+        TAG,
+        `Wallet ${walletAddress} holds ${formatUnits(details.balance, details.decimals)} ${
+          details.symbol
+        } (${details.name} = ${details.address})})`
+      )
+      setTokenSymbol(details.symbol)
+    },
+    onError: (error) => {
+      Logger.error(TAG, `Could not fetch token details`, error)
+      setError(t('tokenImport.error.invalidToken'))
+
+      // it doesn't directly show if it's a timeout error, need to check cause recursively
+      const hasTimeout = (error: unknown): boolean =>
+        error instanceof BaseError &&
+        (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
+
+      const trackedError = hasTimeout(error) ? Errors.Timeout : Errors.NotERC20
+      const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
+      ValoraAnalytics.track(AssetsEvents.import_token_error, {
+        networkId,
+        tokenId,
+        tokenAddress,
+        error: trackedError,
+      })
+    },
+  })
+
+  const ensure0xPrefixOrEmpty = (address: string) =>
+    !address || address.startsWith('0x') ? address : `0x${address}`
+
+  const handleAddressBlur = async () => {
+    // ignore when handlePaste has already started validation (note - blur is called when focussed and keyboard is dismissed)
+    if (validateContract.status === 'loading' || error || tokenAddress.length === 0) return
+
+    const addressWith0xPrefix = ensure0xPrefixOrEmpty(tokenAddress)
+    setTokenAddress(addressWith0xPrefix)
+    if (validateAddress(addressWith0xPrefix)) {
+      // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
+      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
+    }
+  }
+
+  const handlePaste = async (address: string) => {
+    ValoraAnalytics.track(AssetsEvents.import_token_paste)
+    const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
+    setTokenAddress(addressWith0xPrefix)
+    Keyboard.dismiss()
+    if (validateAddress(addressWith0xPrefix)) {
+      // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
+      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
+    }
+  }
+
   const handleImportToken = () => {
+    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol,
       networkId,
+      tokenId,
     })
+    // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()
-    // TODO RET-891: do this only when actually imported
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
-  }
-
-  const renderErrorMessage = (): ReactElement<Text> => {
-    // TODO RET-892: when states and validation are added, choose appropriate error or return null
-    const errors = [
-      t('tokenImport.error.invalidToken'),
-      t('tokenImport.error.alreadySupported'),
-      t('tokenImport.error.alreadyImported'),
-    ]
-    return <Text style={styles.errorLabel}>{errors[0]}</Text>
   }
 
   return (
@@ -64,7 +194,7 @@ export default function TokenImportScreen(_: Props) {
         left={<BackButton />}
         title={<Text style={styles.headerTitle}>{t('tokenImport.title')}</Text>}
       />
-      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+      <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContainer}>
         <InLineNotification
           severity={Severity.Informational}
           description={t('tokenImport.notification')}
@@ -75,18 +205,16 @@ export default function TokenImportScreen(_: Props) {
           <TextInputGroup
             label={t('tokenImport.input.tokenAddress')}
             value={tokenAddress}
-            onChangeText={setTokenAddress}
+            onChangeText={(address) => {
+              setTokenAddress(address)
+              setError(null)
+              setTokenSymbol('')
+            }}
+            editable={['not-requested', 'error'].includes(validateContract.status)}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
-            rightElement={
-              !tokenAddress && (
-                <PasteButton
-                  onPress={(address) => {
-                    setTokenAddress(address)
-                    ValoraAnalytics.track(AssetsEvents.import_token_paste)
-                  }}
-                />
-              )
-            }
+            rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
+            onBlur={handleAddressBlur}
+            returnKeyType={'search'}
             maxLength={42} // 0x prefix and 20 bytes
           />
 
@@ -95,10 +223,12 @@ export default function TokenImportScreen(_: Props) {
             label={t('tokenImport.input.tokenSymbol')}
             value={tokenSymbol}
             onChangeText={setTokenSymbol}
-            editable={isValidAddress(tokenAddress)}
-            // TODO RET-892: once loaded, hide the spinner
-            rightElement={isValidAddress(tokenAddress) && <GreenLoadingSpinner height={32} />}
-            errorElement={renderErrorMessage()}
+            editable={false}
+            rightElement={
+              (validateContract.status === 'loading' && <GreenLoadingSpinner height={32} />) ||
+              (validateContract.status === 'success' && <Checkmark />)
+            }
+            errorElement={error ? <Text style={styles.errorLabel}>{error}</Text> : <></>}
             testID={'tokenSymbol'}
           />
 
@@ -110,12 +240,12 @@ export default function TokenImportScreen(_: Props) {
             editable={false}
           />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
       <Button
         size={BtnSizes.FULL}
         text={t('tokenImport.importButton')}
         showLoading={false}
-        disabled={tokenSymbol.length == 0} // TODO RET-892: enable button if the contract was loaded
+        disabled={validateContract.status !== 'success'}
         onPress={handleImportToken}
         style={styles.buttonContainer}
       />
@@ -136,6 +266,9 @@ const TextInputGroup = ({
       placeholderTextColor={Colors.gray4}
       numberOfLines={1}
       showClearButton={true}
+      autoCorrect={false}
+      spellCheck={false}
+      autoCapitalize={'none'}
       {...textInputProps}
     />
     {errorElement}

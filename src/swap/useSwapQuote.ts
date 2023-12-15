@@ -1,11 +1,11 @@
 import BigNumber from 'bignumber.js'
 import { useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
-import { useSelector } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
-import { useFeeCurrencies } from 'src/fees/hooks'
+import useSelector from 'src/redux/useSelector'
 import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -29,7 +29,7 @@ export interface QuoteResult {
   price: string
   provider: string
   estimatedPriceImpact: BigNumber | null
-  preparedTransactions?: PreparedTransactionsResult
+  preparedTransactions: PreparedTransactionsResult
   /**
    * @deprecated Temporary until we remove the swap review screen
    */
@@ -55,6 +55,7 @@ function createBaseSwapTransactions(
       : BigInt(sellAmount)
 
   // Approve transaction if the sell token is ERC-20
+  // TODO skip this if the allowance is already enough
   if (allowanceTarget !== zeroAddress && fromToken.address) {
     const data = encodeFunctionData({
       abi: erc20.abi,
@@ -115,16 +116,15 @@ export async function prepareSwapTransactions(
 function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
   const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
-  const feeCurrencies = useFeeCurrencies(networkId)
 
   const refreshQuote = useAsyncCallback(
     async (
       fromToken: TokenBalance,
       toToken: TokenBalance,
       swapAmount: ParsedSwapAmount,
-      updatedField: Field,
-      shouldPrepareTransactions: boolean
+      updatedField: Field
     ) => {
       if (!swapAmount[updatedField].gt(0)) {
         return null
@@ -165,6 +165,13 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
           ? swapPrice
           : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
       const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
+      const preparedTransactions = await prepareSwapTransactions(
+        fromToken,
+        updatedField,
+        quote.unvalidatedSwapTransaction,
+        price,
+        feeCurrencies
+      )
       const quoteResult: QuoteResult = {
         toTokenId: toToken.tokenId,
         fromTokenId: fromToken.tokenId,
@@ -175,20 +182,9 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         estimatedPriceImpact: estimatedPriceImpact
           ? new BigNumber(estimatedPriceImpact).dividedBy(100)
           : null,
+        preparedTransactions,
         rawSwapResponse: quote,
         receivedAt: Date.now(),
-      }
-
-      // TODO: this branch will be part of the normal flow once viem is always used
-      if (shouldPrepareTransactions) {
-        const preparedTransactions = await prepareSwapTransactions(
-          fromToken,
-          updatedField,
-          quote.unvalidatedSwapTransaction,
-          price,
-          feeCurrencies
-        )
-        quoteResult.preparedTransactions = preparedTransactions
       }
 
       return quoteResult

@@ -459,6 +459,12 @@ interface IdentityEventsProperties {
     error: string
   }
   [IdentityEvents.phone_number_lookup_purchase_skip]: undefined
+
+  [IdentityEvents.address_lookup_start]: undefined
+  [IdentityEvents.address_lookup_complete]: undefined
+  [IdentityEvents.address_lookup_error]: {
+    error: string
+  }
 }
 
 interface AuthenticationEventsProperties {
@@ -1326,6 +1332,13 @@ interface SwapEventsProperties {
     tokenSymbol: string
     tokenId: string
     tokenNetworkId: string
+    fromTokenSymbol: string | undefined
+    fromTokenId: string | undefined
+    fromTokenNetworkId: string | undefined
+    toTokenSymbol: string | undefined
+    toTokenId: string | undefined
+    toTokenNetworkId: string | undefined
+    switchedNetworkId: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1333,21 +1346,7 @@ interface SwapEventsProperties {
     tokenNetworkId: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
-  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
-    Web3LibraryProps &
-    Partial<SwapTxsProperties> & {
-      usdTotal: number
-    }
-  [SwapEvents.swap_execute_price_change]: {
-    price: string
-    guaranteedPrice: string
-    toToken: string
-    toTokenId: string
-    toTokenNetworkId: string
-    fromToken: string
-    fromTokenId: string
-    fromTokenNetworkId: string
-  }
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
     SwapTimeMetrics &
     Web3LibraryProps &
@@ -1376,8 +1375,6 @@ interface SwapEventsProperties {
     provider: string
     priceImpact?: string
   }
-  [SwapEvents.swap_again]: undefined
-  [SwapEvents.swap_try_again]: undefined
   [SwapEvents.swap_show_info]: {
     type: SwapShowInfoType
   }
@@ -1446,11 +1443,18 @@ interface AssetsEventsProperties {
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
+    networkId: string
+    tokenId: string
     tokenAddress: string
     tokenSymbol: string
-    networkId: string
   }
   [AssetsEvents.import_token_paste]: undefined
+  [AssetsEvents.import_token_error]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+    error: string
+  }
 }
 
 interface NftsEventsProperties {

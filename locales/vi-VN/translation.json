@@ -1665,6 +1665,11 @@
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "You switched to the {{networkName}} network",
+      "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
+      "body_swapTo": "Select a token to swap to on the {{networkName}} network to continue."
+    },
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
@@ -1677,6 +1682,10 @@
     "missingSwapImpactWarning": {
       "title": "Trước khi trao đổi",
       "body": "Chúng tôi không thể ước tính giá trị của giao dịch trao đổi này. {{appName}} sẽ không chịu trách nhiệm nếu bạn chọn tiếp tục."
+    },
+    "confirmSwapFailedWarning": {
+      "title": "Đã xảy ra lỗi",
+      "body": "The network speed is slow or there is an unknown error. Please try again later"
     },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1935,7 +1944,8 @@
     "connectPhoneNumberModal": {
       "title": "Kết nối số điện thoại của bạn",
       "description": "Bạn cần kết nối số điện thoại của mình để có thể bắt đầu gửi tiền điện tử cho bạn bè"
-    }
+    },
+    "unknownAddressInfo": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Đã hoàn tất",

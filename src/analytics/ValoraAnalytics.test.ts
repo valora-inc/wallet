@@ -4,6 +4,7 @@ import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
 import { getDefaultStatsigUser, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
 import {
@@ -17,7 +18,6 @@ import {
   mockTestTokenAddress,
   mockTestTokenTokenId,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('@segment/analytics-react-native')
 jest.mock('@segment/analytics-react-native-plugin-adjust')
@@ -62,7 +62,7 @@ const state = getMockStoreData({
         priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockCeurTokenId]: {
         address: mockCeurAddress,
@@ -72,7 +72,7 @@ const state = getMockStoreData({
         priceUsd: '1.2',
         balance: '20',
         priceFetchedAt: Date.now(),
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockCeloTokenId]: {
         address: mockCeloAddress,
@@ -82,7 +82,7 @@ const state = getMockStoreData({
         priceUsd: '5',
         balance: '0',
         priceFetchedAt: Date.now(),
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockTestTokenTokenId]: {
         address: mockTestTokenAddress,

@@ -153,7 +153,7 @@ function SendOrInviteButton({
     !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
   const shouldInviteRecipient =
     !sendOrInviteButtonDisabled &&
-    !!recipient?.e164PhoneNumber &&
+    recipient?.recipientType === RecipientType.PhoneNumber &&
     recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
   return (
     <Button
@@ -202,13 +202,12 @@ function SendSelectRecipient({ route }: Props) {
   const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
-  // TODO(satish/joe): update condition to not show this if the address
-  // recipient is not a known valora address
   const showUnknownAddressInfo =
     showSendOrInviteButton &&
     showSearchResults &&
-    mergedRecipients.length === 1 &&
-    mergedRecipients[0].recipientType === RecipientType.Address
+    recipient &&
+    recipient.recipientType !== RecipientType.PhoneNumber &&
+    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
 
   const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
     setSelectedRecipient(selectedRecipient)
@@ -229,12 +228,10 @@ function SendSelectRecipient({ route }: Props) {
       recipientType: recentRecipient.recipientType,
     })
     setSelectedRecipient(recentRecipient)
-    navigateToSendAmount(recentRecipient)
+    nextScreen(recentRecipient)
   }
 
-  const navigateToSendAmount = (selectedRecipient: Recipient) => {
-    // TODO (ACT-973): Ensure we're able to to navigate to the next screen
-    // no matter what the contents of the recipient are.
+  const nextScreen = (selectedRecipient: Recipient) => {
     if (selectedRecipient.address) {
       navigate(Screens.SendEnterAmount, {
         isFromScan: false,
@@ -244,6 +241,13 @@ function SendSelectRecipient({ route }: Props) {
           ...selectedRecipient,
           address: selectedRecipient.address,
         },
+        origin: SendOrigin.AppSendFlow,
+      })
+    } else {
+      navigate(Screens.ValidateRecipientIntro, {
+        defaultTokenIdOverride,
+        forceTokenId,
+        recipient: selectedRecipient,
         origin: SendOrigin.AppSendFlow,
       })
     }
@@ -263,7 +267,7 @@ function SendSelectRecipient({ route }: Props) {
       ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
         recipientType: recipient.recipientType,
       })
-      navigateToSendAmount(recipient)
+      nextScreen(recipient)
     }
   }
 

@@ -3,6 +3,7 @@ import { InviteTransactions } from 'src/transactions/reducer'
 import {
   Fee,
   NetworkId,
+  PendingStandbyApproval,
   PendingStandbySwap,
   PendingStandbyTransfer,
   TokenTransaction,
@@ -23,6 +24,7 @@ export enum Actions {
 type BaseStandbyTransaction =
   | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
   | Omit<PendingStandbySwap, 'timestamp' | 'status'>
+  | Omit<PendingStandbyApproval, 'timestamp' | 'status'>
 
 export interface AddStandbyTransactionAction {
   type: Actions.ADD_STANDBY_TRANSACTION
@@ -52,7 +54,7 @@ export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
   receipt: BaseTransactionReceipt
-  blockTimestamp: number
+  blockTimestampInMs: number
 }
 
 export interface UpdatedRecentTxRecipientsCacheAction {
@@ -102,12 +104,12 @@ export const updateRecentTxRecipientsCache = (
 export const transactionConfirmed = (
   txId: string,
   receipt: BaseTransactionReceipt,
-  blockTimestamp: number
+  blockTimestampInMs: number
 ): TransactionConfirmedAction => ({
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
-  blockTimestamp,
+  blockTimestampInMs,
 })
 
 export const addHashToStandbyTransaction = (

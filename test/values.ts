@@ -260,6 +260,11 @@ export const mockPhoneRecipient: AddressRecipient = {
   recipientType: RecipientType.Address,
 }
 
+export const mockAddressRecipient: AddressRecipient = {
+  address: mockAccount3,
+  recipientType: RecipientType.Address,
+}
+
 export const mockE164NumberToInvitableRecipient = {
   [mockE164Number]: mockInvitableRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,
@@ -461,7 +466,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo Euro',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
     isCashOutEligible: true,
@@ -477,7 +483,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
     isCashInEligible: true,
@@ -494,7 +501,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo native asset',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
     isCashInEligible: true,
@@ -512,7 +520,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo Real',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
   },

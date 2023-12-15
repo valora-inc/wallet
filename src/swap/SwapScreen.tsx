@@ -23,16 +23,14 @@ import TokenBottomSheet, {
 } from 'src/components/TokenBottomSheet'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
-import { useMaxSendAmountByAddress } from 'src/fees/hooks'
-import { FeeType } from 'src/fees/reducer'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -42,16 +40,15 @@ import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
-import { swapStart, swapStartPrepared } from 'src/swap/slice'
+import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
-import { tokensByIdSelector } from 'src/tokens/selectors'
+import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { divideByWei } from 'src/utils/formatting'
 import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
@@ -68,21 +65,6 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
-  // TODO remove this block once we have viem enabled for everyone. this block
-  // only services the contractKit (Celo) flow. the fee will be displayed in
-  // fiat value and will be very low, since it's an approximation anyway we'll
-  // simplify this logic to just use the fees from the quote.
-  if (quote && !quote.preparedTransactions) {
-    return {
-      networkFee: divideByWei(
-        new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gas).multipliedBy(
-          new BigNumber(quote.rawSwapResponse.unvalidatedSwapTransaction.gasPrice)
-        )
-      ),
-      feeTokenId: getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
-    }
-  }
-
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(quote?.preparedTransactions)
   return {
     networkFee: feeAmount,
@@ -107,8 +89,6 @@ export function SwapScreen({ route }: Props) {
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).maxSlippagePercentage
   const parsedSlippagePercentage = new BigNumber(slippagePercentage).toFormat()
-
-  const useViemForSwap = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SWAP)
 
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSwappableTokens()
@@ -137,15 +117,16 @@ export function SwapScreen({ route }: Props) {
   const [selectingToken, setSelectingToken] = useState<Field | null>(null)
   const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
   const [shouldShowMaxSwapAmountWarning, setShouldShowMaxSwapAmountWarning] = useState(false)
-
-  // TODO: remove this once we have viem enabled for everyone
-  const maxFromAmountUnchecked = useMaxSendAmountByAddress(fromToken?.address || '', FeeType.SWAP)
-  const maxFromAmount = maxFromAmountUnchecked.isLessThan(0)
-    ? new BigNumber(0)
-    : maxFromAmountUnchecked
-  // TODO: Check the user has enough balance in native tokens to pay for the gas fee
+  const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
 
   const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
+
+  const feeCurrenciesWithPositiveBalances = useSelector((state) =>
+    feeCurrenciesWithPositiveBalancesSelector(
+      state,
+      fromToken?.networkId || networkConfig.defaultNetworkId
+    )
+  )
 
   const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
     useSwapQuote(fromToken?.networkId || networkConfig.defaultNetworkId, slippagePercentage)
@@ -208,7 +189,7 @@ export function SwapScreen({ route }: Props) {
 
     const debouncedRefreshQuote = setTimeout(() => {
       if (fromToken && toToken && parsedSwapAmount[updatedField].gt(0) && !exchangeRateKnown) {
-        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField, useViemForSwap)
+        void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
 
@@ -216,12 +197,6 @@ export function SwapScreen({ route }: Props) {
       clearTimeout(debouncedRefreshQuote)
     }
   }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
-
-  useEffect(() => {
-    if (shouldShowMaxSwapAmountWarning && fromToken?.symbol !== 'CELO') {
-      setShouldShowMaxSwapAmountWarning(false)
-    }
-  }, [fromToken, shouldShowMaxSwapAmountWarning])
 
   useEffect(
     () => {
@@ -299,7 +274,7 @@ export function SwapScreen({ route }: Props) {
 
     if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
       setFromSwapAmountError(true)
-      showMaxCeloSwapWarning()
+      hideOrShowMaxFeeCurrencySwapWarning(fromToken)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken.symbol })))
       return
     }
@@ -314,105 +289,59 @@ export function SwapScreen({ route }: Props) {
       updatedField,
     }
 
-    const swapAmountDecimals = updatedField === Field.FROM ? toToken.decimals : fromToken.decimals
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
     const { estimatedPriceImpact, price, allowanceTarget } =
       exchangeRate.rawSwapResponse.unvalidatedSwapTransaction
 
-    if (useViemForSwap) {
-      if (!exchangeRate?.preparedTransactions) {
-        // Error already shown, do nothing
-        return
-      }
+    const resultType = exchangeRate.preparedTransactions.type
+    switch (resultType) {
+      case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
+      case 'not-enough-balance-for-gas':
+        preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
+        break
+      case 'possible':
+        ValoraAnalytics.track(SwapEvents.swap_review_submit, {
+          toToken: toToken.address,
+          toTokenId: toToken.tokenId,
+          toTokenNetworkId: toToken.networkId,
+          fromToken: fromToken.address,
+          fromTokenId: fromToken.tokenId,
+          fromTokenNetworkId: fromToken.networkId,
+          amount: swapAmount[updatedField],
+          amountType: swapAmountParam,
+          allowanceTarget,
+          estimatedPriceImpact,
+          price,
+          provider: exchangeRate.provider,
+          web3Library: 'viem',
+          ...getSwapTxsAnalyticsProperties(
+            exchangeRate.preparedTransactions.transactions,
+            fromToken.networkId,
+            tokensById
+          ),
+        })
 
-      const resultType = exchangeRate.preparedTransactions.type
-      switch (resultType) {
-        case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
-        case 'not-enough-balance-for-gas':
-          preparedTransactionsReviewBottomSheetRef.current?.snapToIndex(0)
-          break
-        case 'possible':
-          ValoraAnalytics.track(SwapEvents.swap_review_submit, {
-            toToken: toToken.address,
-            toTokenId: toToken.tokenId,
-            toTokenNetworkId: toToken.networkId,
-            fromToken: fromToken.address,
-            fromTokenId: fromToken.tokenId,
-            fromTokenNetworkId: fromToken.networkId,
-            amount: swapAmount[updatedField],
-            amountType: swapAmountParam,
-            usdTotal: exchangeRate.swapAmount.multipliedBy(exchangeRate.price).toNumber(),
-            allowanceTarget,
-            estimatedPriceImpact,
-            price,
-            provider: exchangeRate.provider,
-            web3Library: 'viem',
-            ...getSwapTxsAnalyticsProperties(
-              exchangeRate.preparedTransactions.transactions,
-              fromToken.networkId,
-              tokensById
-            ),
+        const swapId = uuidv4()
+        setStartedSwapId(swapId)
+        dispatch(
+          swapStart({
+            swapId,
+            quote: {
+              preparedTransactions: getSerializablePreparedTransactions(
+                exchangeRate.preparedTransactions.transactions
+              ),
+              receivedAt: exchangeRate.receivedAt,
+              rawSwapResponse: exchangeRate.rawSwapResponse,
+            },
+            userInput,
           })
-
-          const swapId = uuidv4()
-          setStartedSwapId(swapId)
-          dispatch(
-            swapStartPrepared({
-              swapId,
-              quote: {
-                preparedTransactions: getSerializablePreparedTransactions(
-                  exchangeRate.preparedTransactions.transactions
-                ),
-                receivedAt: exchangeRate.receivedAt,
-                rawSwapResponse: exchangeRate.rawSwapResponse,
-              },
-              userInput,
-            })
-          )
-          break
-        default:
-          // To catch any missing cases at compile time
-          const assertNever: never = resultType
-          return assertNever
-      }
-
-      return
+        )
+        break
+      default:
+        // To catch any missing cases at compile time
+        const assertNever: never = resultType
+        return assertNever
     }
-
-    // Legacy
-
-    const swapResponse = exchangeRate.rawSwapResponse
-
-    ValoraAnalytics.track(SwapEvents.swap_review_submit, {
-      toToken: toToken.address,
-      toTokenId: toToken.tokenId,
-      toTokenNetworkId: toToken.networkId,
-      fromToken: fromToken.address,
-      fromTokenId: fromToken.tokenId,
-      fromTokenNetworkId: fromToken.networkId,
-      amount: swapAmount[updatedField],
-      amountType: swapAmountParam,
-      usdTotal: new BigNumber(swapResponse.unvalidatedSwapTransaction[swapAmountParam])
-        .shiftedBy(-swapAmountDecimals)
-        .multipliedBy(swapResponse.unvalidatedSwapTransaction.price)
-        .toNumber(),
-      allowanceTarget,
-      estimatedPriceImpact,
-      price,
-      provider: swapResponse.details.swapProvider,
-      web3Library: 'contract-kit',
-    })
-
-    const swapId = uuidv4()
-    setStartedSwapId(swapId)
-    dispatch(
-      swapStart({
-        ...exchangeRate.rawSwapResponse,
-        userInput,
-        quoteReceivedAt: exchangeRate.receivedAt,
-        swapId,
-      })
-    )
   }
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
@@ -429,28 +358,62 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = (selectedToken: TokenBalance) => {
-    if (selectedToken && selectingToken) {
-      ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
-        fieldType: selectingToken,
-        tokenSymbol: selectedToken.symbol,
-        tokenId: selectedToken.tokenId,
-        tokenNetworkId: selectedToken.networkId,
-      })
+    if (!selectingToken) {
+      // Should never happen
+      Logger.error(TAG, 'handleSelectToken called without selectingToken')
+      return
     }
+
+    let newSwitchedToNetworkId: NetworkId | null = null
+    let newFromToken = fromToken
+    let newToToken = toToken
 
     if (
       (selectingToken === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
       (selectingToken === Field.TO && fromToken?.tokenId === selectedToken.tokenId)
     ) {
-      setFromToken(toToken)
-      setToToken(fromToken)
+      newFromToken = toToken
+      newToToken = fromToken
     } else if (selectingToken === Field.FROM) {
-      setFromToken(selectedToken)
+      newFromToken = selectedToken
+      newSwitchedToNetworkId =
+        toToken && toToken.networkId !== newFromToken.networkId ? newFromToken.networkId : null
+      if (newSwitchedToNetworkId) {
+        // reset the toToken if the user is switching networks
+        newToToken = undefined
+      }
     } else if (selectingToken === Field.TO) {
-      setToToken(selectedToken)
+      newToToken = selectedToken
+      newSwitchedToNetworkId =
+        fromToken && fromToken.networkId !== newToToken.networkId ? newToToken.networkId : null
+      if (newSwitchedToNetworkId) {
+        // reset the fromToken if the user is switching networks
+        newFromToken = undefined
+      }
     }
 
-    setSelectingToken(null)
+    ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
+      fieldType: selectingToken,
+      tokenSymbol: selectedToken.symbol,
+      tokenId: selectedToken.tokenId,
+      tokenNetworkId: selectedToken.networkId,
+      fromTokenSymbol: newFromToken?.symbol,
+      fromTokenId: newFromToken?.tokenId,
+      fromTokenNetworkId: newFromToken?.networkId,
+      toTokenSymbol: newToToken?.symbol,
+      toTokenId: newToToken?.tokenId,
+      toTokenNetworkId: newToToken?.networkId,
+      switchedNetworkId: !!newSwitchedToNetworkId,
+    })
+
+    setFromToken(newFromToken)
+    setToToken(newToToken)
+    setSwitchedToNetworkId(newSwitchedToNetworkId)
+    hideOrShowMaxFeeCurrencySwapWarning(shouldShowMaxSwapAmountWarning ? newFromToken : undefined)
+
+    if (newSwitchedToNetworkId) {
+      clearQuote()
+    }
 
     // use requestAnimationFrame so that the bottom sheet and keyboard dismiss
     // animation can be synchronised and starts after the state changes above.
@@ -481,17 +444,13 @@ export function SwapScreen({ route }: Props) {
     setUpdatedField(Field.FROM)
     setSwapAmount((prev) => ({
       ...prev,
-      [Field.FROM]: (useViemForSwap
-        ? // The viem flow uses the new fee currency selection logic
-          // which returns fully determined TXs (gas, feeCurrency, etc).
-          // We try the current balance first, and we will prompt the user if it's too high
-          fromTokenBalance
-        : maxFromAmount
-      ).toFormat({
-        decimalSeparator,
-      }),
+      [Field.FROM]:
+        // We try the current balance first, and we will prompt the user if it's too high
+        fromTokenBalance.toFormat({
+          decimalSeparator,
+        }),
     }))
-    showMaxCeloSwapWarning()
+    hideOrShowMaxFeeCurrencySwapWarning(fromToken)
     if (!fromToken) {
       // Should never happen
       return
@@ -503,10 +462,11 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const showMaxCeloSwapWarning = () => {
-    if (fromToken?.symbol === 'CELO') {
-      setShouldShowMaxSwapAmountWarning(true)
-    }
+  const hideOrShowMaxFeeCurrencySwapWarning = (fromToken: TokenBalance | undefined) => {
+    setShouldShowMaxSwapAmountWarning(
+      feeCurrenciesWithPositiveBalances.length === 1 &&
+        fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId
+    )
   }
 
   const onPressLearnMore = () => {
@@ -519,7 +479,10 @@ export function SwapScreen({ route }: Props) {
     navigate(Screens.WebViewScreen, { uri: TRANSACTION_FEES_LEARN_MORE })
   }
 
-  const showMaxSwapAmountWarning = !confirmSwapFailed && shouldShowMaxSwapAmountWarning
+  const showSwitchedToNetworkWarning = !!switchedToNetworkId
+  const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
+  const showMaxSwapAmountWarning =
+    !confirmSwapFailed && !showSwitchedToNetworkWarning && shouldShowMaxSwapAmountWarning
   const showPriceImpactWarning =
     !confirmSwapFailed &&
     !exchangeRateUpdatePending &&
@@ -586,15 +549,33 @@ export function SwapScreen({ route }: Props) {
             swapAmount={parsedSwapAmount[Field.FROM]}
             fetchingSwapQuote={exchangeRateUpdatePending}
           />
-
+          {showSwitchedToNetworkWarning && (
+            <InLineNotification
+              severity={Severity.Informational}
+              title={t('swapScreen.switchedToNetworkWarning.title', {
+                networkName: switchedToNetworkName,
+              })}
+              description={t('swapScreen.switchedToNetworkWarning.body', {
+                networkName: switchedToNetworkName,
+                context: selectingToken === Field.FROM ? 'swapTo' : 'swapFrom',
+              })}
+              style={styles.warning}
+              testID="SwitchedToNetworkWarning"
+            />
+          )}
           {showMaxSwapAmountWarning && (
             <InLineNotification
               severity={Severity.Warning}
-              title={t('swapScreen.maxSwapAmountWarning.title')}
-              description={t('swapScreen.maxSwapAmountWarning.body')}
+              title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
+                tokenSymbol: fromToken?.symbol,
+              })}
+              description={t('swapScreen.maxSwapAmountWarning.bodyV1_74', {
+                tokenSymbol: fromToken?.symbol,
+              })}
               ctaLabel={t('swapScreen.maxSwapAmountWarning.learnMore')}
               style={styles.warning}
               onPressCta={onPressLearnMoreFees}
+              testID="MaxSwapAmountWarning"
             />
           )}
           {showPriceImpactWarning && (
