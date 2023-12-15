@@ -198,6 +198,7 @@ describe('ActionRequest with WalletConnect V2', () => {
           JSON.stringify(preparedTransaction)
         )
       ).toBeTruthy()
+      expect(getByTestId('EstimatedNetworkFee')).toBeTruthy()
 
       fireEvent.press(getByText('walletConnectRequest.sendTransactionAction'))
       expect(store.getActions()).toEqual([
@@ -486,14 +487,25 @@ describe('ActionRequest with WalletConnect V2', () => {
   })
 
   describe('unsupported chain', () => {
-    it('should show a warning if the chain is not supported', () => {
+    it.each([
+      [
+        'eth_sendTransaction',
+        'walletConnectRequest.sendTransactionTitle',
+        'walletConnectRequest.sendDappTransactionUnknownNetwork',
+      ],
+      [
+        'eth_signTransaction',
+        'walletConnectRequest.signTransactionTitle',
+        'walletConnectRequest.signDappTransactionUnknownNetwork',
+      ],
+    ])('%s: should show a warning if the chain is not supported', (method, title, description) => {
       const store = createMockStore({
         walletConnect: {
           sessions: [v2Session],
         },
       })
 
-      const { getByText, queryByText } = render(
+      const { getByText, queryByText, queryByTestId } = render(
         <Provider store={store}>
           <ActionRequest
             version={2}
@@ -503,9 +515,9 @@ describe('ActionRequest with WalletConnect V2', () => {
                 ...pendingAction.params,
                 request: {
                   ...pendingAction.params.request,
-                  method: 'eth_sendTransaction',
+                  method,
                 },
-                chainId: 'eip155:1', // unsupported chain
+                chainId: 'eip155:123456', // unsupported chain
               },
             }}
             supportedChains={supportedChains}
@@ -515,19 +527,16 @@ describe('ActionRequest with WalletConnect V2', () => {
         </Provider>
       )
 
-      expect(getByText('walletConnectRequest.sendTransactionTitle')).toBeTruthy()
-      expect(
-        getByText(
-          'walletConnectRequest.sendDappTransaction, {"dappName":"WalletConnect Example","networkName":"Ethereum"}'
-        )
-      ).toBeTruthy()
+      expect(getByText(title)).toBeTruthy()
+      expect(getByText(`${description}, {"dappName":"WalletConnect Example"}`)).toBeTruthy()
       expect(queryByText('allow')).toBeFalsy()
       expect(getByText('dismiss')).toBeTruthy()
       expect(
         getByText(
-          'walletConnectRequest.unsupportedChain.title, {"dappName":"WalletConnect Example","chainId":"eip155:1"}'
+          'walletConnectRequest.unsupportedChain.title, {"dappName":"WalletConnect Example","chainId":"eip155:123456"}'
         )
       ).toBeTruthy()
+      expect(queryByTestId('EstimatedNetworkFee')).toBeFalsy()
     })
 
     it('should not show a warning if the chain is not supported and the method is personal_sign', () => {
