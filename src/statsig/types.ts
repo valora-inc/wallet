@@ -30,6 +30,7 @@ export enum StatsigFeatureGates {
   USE_CICO_CURRENCY_BOTTOM_SHEET = 'use_cico_currency_bottom_sheet',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
   SHOW_BETA_TAG = 'show_beta_tag',
+  USE_NEW_PRICE_HISTORY = 'use_new_price_history',
 }
 
 export enum StatsigExperiments {

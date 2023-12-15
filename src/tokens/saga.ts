@@ -10,6 +10,8 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   lastKnownTokenBalancesSelector,
   tokensListSelector,
@@ -250,6 +252,9 @@ export function* fetchTokenPriceHistorySaga({
   payload: { tokenId, startTimestamp, endTimestamp },
 }: any) {
   try {
+    if (!getFeatureGate(StatsigFeatureGates.USE_NEW_PRICE_HISTORY)) {
+      return
+    }
     const priceHistory = yield* call(fetchTokenPriceHistory, tokenId, startTimestamp, endTimestamp)
     yield* put(fetchPriceHistorySuccess({ tokenId, priceHistory }))
   } catch (err) {
