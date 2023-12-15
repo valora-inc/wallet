@@ -15,6 +15,7 @@ import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
+import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
@@ -225,6 +226,14 @@ describe('SwapScreen', () => {
 
     mockExperimentParams.mockReturnValue({
       swapBuyAmountEnabled: true,
+    })
+
+    const originalReadContract = publicClient.celo.readContract
+    jest.spyOn(publicClient.celo, 'readContract').mockImplementation(async (args) => {
+      if (args.functionName === 'allowance') {
+        return 0
+      }
+      return originalReadContract(args)
     })
   })
 
@@ -851,6 +860,56 @@ describe('SwapScreen', () => {
     )
   })
 
+  it('should start the swap without an approval transaction if the allowance is high enough', async () => {
+    jest.spyOn(publicClient.celo, 'readContract').mockResolvedValueOnce(BigInt(11 * 1e18)) // greater than swap amount of 10
+    mockFetch.mockResponse(
+      JSON.stringify({
+        ...defaultQuote,
+        unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
+          buyTokenAddress: mockCeloAddress,
+          sellTokenAddress: mockCusdAddress,
+        },
+      })
+    )
+    const { getByText, store, swapToContainer, swapFromContainer, tokenBottomSheet } = renderScreen(
+      {}
+    )
+
+    selectToken(swapFromContainer, 'cUSD', tokenBottomSheet)
+    selectToken(swapToContainer, 'CELO', tokenBottomSheet)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        swapStart({
+          swapId: expect.any(String),
+          quote: {
+            preparedTransactions: [preparedTransactions[1]], // no approval transaction
+            receivedAt: expect.any(Number),
+            rawSwapResponse: expect.any(Object),
+          },
+          userInput: {
+            toTokenId: mockCeloTokenId,
+            fromTokenId: mockCusdTokenId,
+            swapAmount: {
+              [Field.FROM]: '10',
+              [Field.TO]: '12.345678', // 10 * 1.2345678
+            },
+            updatedField: Field.FROM,
+          },
+        }),
+      ])
+    )
+  })
+
   it('should be able to start a swap when the entered value uses comma as the decimal separator', async () => {
     const quoteReceivedTimestamp = 1000
     jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
@@ -923,7 +982,6 @@ describe('SwapScreen', () => {
       fromTokenNetworkId: NetworkId['celo-alfajores'],
       amount: '10',
       amountType: 'sellAmount',
-      usdTotal: 12.345678,
       allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
       estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
       price: defaultQuote.unvalidatedSwapTransaction.price,
