@@ -142,8 +142,8 @@ export const getCurrentUserTraits = createSelector(
             )}`
         )
         .join(','),
-      // Map core tokens balances
-      // Example: [Celo, cUSD, cEUR] to { celoBalance: X, cusdBalance: Y, ceurBalance: Z }
+      // Map fee tokens balances
+      // Example: ...{ celoBalance: X, cusdBalance: Y, ceurBalance: Z, crealBalance: W, ethBalance: B }
       ...Object.fromEntries(
         feeTokens.map((token) => [`${token.symbol.toLowerCase()}Balance`, token.balance.toNumber()])
       ),
