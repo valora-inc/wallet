@@ -66,6 +66,24 @@ describe('ExchangeQR', () => {
     )
     expect(queryByTestId('displayName')).toBeFalsy()
   })
+  it('displays inline notification instead of exchange info when exchanges is not set', () => {
+    const store = createMockStore({
+      web3: {
+        account: '0x000',
+      },
+      account: {
+        name: undefined,
+      },
+    })
+    store.dispatch = jest.fn()
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <QRCode {...{ ...getProps(), exchanges: undefined }} />
+      </Provider>
+    )
+    expect(queryByTestId('bottomSheetLink')).toBeFalsy()
+    expect(queryByTestId('supportedNetworksNotification')).toBeTruthy()
+  })
 
   it('copies address when copy button pressed', async () => {
     const props = getProps()

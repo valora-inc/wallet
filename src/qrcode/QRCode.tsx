@@ -6,20 +6,26 @@ import { useSelector } from 'react-redux'
 import { nameSelector } from 'src/account/selectors'
 import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import Paste from 'src/icons/Paste'
 import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { SVG } from 'src/send/actions'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import variables from 'src/styles/variables'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
   qrSvgRef: React.MutableRefObject<SVG>
-  exchanges: ExternalExchangeProvider[]
+  exchanges?: ExternalExchangeProvider[]
   onCloseBottomSheet?: () => void
   onPressCopy?: () => void
   onPressInfo?: () => void
@@ -55,6 +61,28 @@ export default function QRCodeDisplay(props: Props) {
     props.onPressExchange?.(exchange)
   }
 
+  const getSupportedNetworks = () => {
+    const supportedNetworkIds = getDynamicConfigParams(
+      DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+    ).showBalances
+    const networks = supportedNetworkIds.map((id: NetworkId) => {
+      const network = networkIdToNetwork[id]
+      return network.charAt(0).toUpperCase() + network.slice(1)
+    })
+    return networks.join(', ')
+  }
+
+  const description = () => (
+    <Text style={styles.description}>
+      <Trans
+        i18nKey={'fiatExchangeFlow.exchange.informational'}
+        tOptions={{ networks: getSupportedNetworks() }}
+      >
+        <Text style={styles.bold} />
+      </Trans>
+    </Text>
+  )
+
   return (
     <View style={styles.container}>
       <View testID="QRCode" style={styles.qrContainer}>
@@ -82,21 +110,34 @@ export default function QRCodeDisplay(props: Props) {
         testID="copyButton"
       />
 
-      <Text style={[styles.infoWrapper, fontStyles.regular, styles.exchangeText]}>
-        <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
-          <Text
-            testID="bottomSheetLink"
-            style={[fontStyles.regular600, styles.link]}
-            onPress={onPressInfo}
-          ></Text>
-        </Trans>
-      </Text>
-      <ExchangesBottomSheet
-        isVisible={!!bottomSheetVisible}
-        onClose={onCloseBottomSheet}
-        onExchangeSelected={onPressExchange}
-        exchanges={exchanges}
-      />
+      {exchanges ? (
+        <>
+          <Text style={[styles.infoWrapper, fontStyles.regular, styles.exchangeText]}>
+            <Trans i18nKey="fiatExchangeFlow.exchange.informationText">
+              <Text
+                testID="bottomSheetLink"
+                style={[fontStyles.regular600, styles.link]}
+                onPress={onPressInfo}
+              ></Text>
+            </Trans>
+          </Text>
+          <ExchangesBottomSheet
+            isVisible={!!bottomSheetVisible}
+            onClose={onCloseBottomSheet}
+            onExchangeSelected={onPressExchange}
+            exchanges={exchanges}
+          />
+        </>
+      ) : (
+        <View style={styles.notificationWrapper}>
+          <InLineNotification
+            severity={Severity.Informational}
+            description={description()}
+            style={styles.link}
+            testID="supportedNetworksNotification"
+          />
+        </View>
+      )}
     </View>
   )
 }
@@ -106,6 +147,19 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     justifyContent: 'flex-end',
+  },
+  notificationWrapper: {
+    position: 'absolute',
+    bottom: 20,
+    justifyContent: 'flex-end',
+    width: '100%',
+    paddingHorizontal: 16,
+  },
+  bold: {
+    fontWeight: 'bold',
+  },
+  description: {
+    ...typeScale.bodyXSmall,
   },
   container: {
     flex: 1,
