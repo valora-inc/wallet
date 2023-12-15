@@ -223,7 +223,7 @@ describe('watchAccountFundedOrLiquidated', () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
-          select(lastKnownTokenBalancesSelector),
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
           dynamic(balances(new BigNumber(0), new BigNumber(10))),
         ],
       ])
@@ -239,7 +239,7 @@ describe('watchAccountFundedOrLiquidated', () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
-          select(lastKnownTokenBalancesSelector),
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
           dynamic(balances(new BigNumber(10), new BigNumber(0))),
         ],
       ])
@@ -254,7 +254,10 @@ describe('watchAccountFundedOrLiquidated', () => {
   it('does not dispatch the account funded event for an account restore', async () => {
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(lastKnownTokenBalancesSelector), dynamic(balances(null, new BigNumber(10)))],
+        [
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
+          dynamic(balances(null, new BigNumber(10))),
+        ],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })

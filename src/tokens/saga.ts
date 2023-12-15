@@ -11,9 +11,9 @@ import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
-  lastKnownTokenBalancesSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
+  lastKnownTokenBalancesSelector,
 } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
@@ -92,6 +92,7 @@ export async function getTokenContractFromAddress(tokenAddress: string) {
   ])
   return contracts.find((contract) => contract.address.toLowerCase() === tokenAddress.toLowerCase())
 }
+
 export interface TokenTransfer {
   recipientAddress: string
   amount: string
@@ -248,8 +249,10 @@ export function* watchAccountFundedOrLiquidated() {
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account
     // funded / liquidated status in this case
+    const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
     const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield* select(
-      lastKnownTokenBalancesSelector
+      lastKnownTokenBalancesSelector,
+      supportedNetworkIds
     )
 
     if (tokenBalance !== null && tokenBalance !== prevTokenBalance) {
