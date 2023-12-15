@@ -10,6 +10,7 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
 interface Props {
@@ -30,6 +31,11 @@ export default function EstimatedNetworkFee({ networkId, transaction }: Props) {
   const networkName = NETWORK_NAMES[networkId]
 
   if (!transaction.gas || !transaction.maxFeePerGas || !feeTokenInfo || !networkName) {
+    Logger.warn('WalletConnect', 'Insufficient information to display fee details', {
+      networkName,
+      transaction,
+      feeTokenInfo,
+    })
     // insufficient information to display fee details
     return null
   }
