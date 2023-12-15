@@ -9,6 +9,8 @@ import {
   feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
   spendTokensByNetworkIdSelector,
+  tokenPriceHistorySelector,
+  tokenPriceHistoryStatusSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -18,6 +20,7 @@ import {
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
+import { TokenPriceHistoryEntry } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { mockCeloTokenId, mockEthTokenId, mockTokenBalances } from 'test/values'
@@ -608,5 +611,71 @@ describe('feeCurrenciesWithPositiveBalancesSelector', () => {
     expect(resultAlfajores).toBe(resultAlfajores2)
     expect(resultAlfajores).not.toBe(resultSepolia)
     expect(feeCurrenciesWithPositiveBalancesSelector.recomputations()).toEqual(2)
+  })
+})
+
+describe('Price History Selectors', () => {
+  const celoPriceHistory = [
+    {
+      priceFetchedAt: 1702615273456,
+      priceUsd: '0.586264975645369',
+    },
+    {
+      timestamp: 1702619113312,
+      price: '0.586264975645369',
+    },
+  ] as TokenPriceHistoryEntry[]
+  const localState = {
+    ...state,
+    tokens: {
+      ...state.tokens,
+      tokenBalances: {
+        ...state.tokens.tokenBalances,
+        ['celo-alfajores:0xusd']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xusd'],
+          historicalPricesUsd: {
+            priceHistory: celoPriceHistory,
+            priceHistoryStatus: 'success',
+          },
+        },
+      },
+    },
+  }
+
+  describe('tokenPriceHistorySelector', () => {
+    it('returns the right tokens', () => {
+      const tokenPriceHistory = tokenPriceHistorySelector(localState, 'celo-alfajores:0xusd')
+      expect(tokenPriceHistory).toStrictEqual(celoPriceHistory)
+    })
+
+    it('avoids unnecessary recomputation', () => {
+      const tokenPriceHistory = tokenPriceHistorySelector(localState, 'celo-alfajores:0xusd')
+      const tokenPriceHistory2 = tokenPriceHistorySelector(localState, 'celo-alfajores:0xusd')
+      expect(tokenPriceHistory).toEqual(tokenPriceHistory2)
+      expect(tokenPriceHistorySelector.recomputations()).toEqual(1)
+    })
+  })
+
+  describe('tokenPriceHistoryStatusSelector', () => {
+    it('returns the right status', () => {
+      const tokenPriceHistoryStatus = tokenPriceHistoryStatusSelector(
+        localState,
+        'celo-alfajores:0xusd'
+      )
+      expect(tokenPriceHistoryStatus).toStrictEqual('success')
+    })
+
+    it('avoids unnecessary recomputation', () => {
+      const tokenPriceHistoryStatus = tokenPriceHistoryStatusSelector(
+        localState,
+        'celo-alfajores:0xusd'
+      )
+      const tokenPriceHistoryStatus2 = tokenPriceHistoryStatusSelector(
+        localState,
+        'celo-alfajores:0xusd'
+      )
+      expect(tokenPriceHistoryStatus).toEqual(tokenPriceHistoryStatus2)
+      expect(tokenPriceHistoryStatusSelector.recomputations()).toEqual(1)
+    })
   })
 })
