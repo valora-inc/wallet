@@ -8,7 +8,7 @@ import { Defs, Mask, Rect, Svg } from 'react-native-svg'
 import Modal from 'src/components/Modal'
 import TextButton from 'src/components/TextButton'
 import NotAuthorizedView from 'src/qrcode/NotAuthorizedView'
-import { QrCode } from 'src/send/actions'
+import { QrCode } from 'src/send/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 

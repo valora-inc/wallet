@@ -2,14 +2,10 @@ import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
+import { QrCode } from 'src/send/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Svg } from 'svgs'
-
-export interface QrCode {
-  type: string
-  data: string
-}
 
 export type SVG = typeof Svg
 

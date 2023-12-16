@@ -5,6 +5,8 @@ import { View } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { showError } from 'src/alert/actions'
+import { QrScreenEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { HooksEnablePreviewOrigin, SendOrigin } from 'src/analytics/types'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
@@ -25,7 +27,8 @@ import {
 } from 'src/qrcode/utils'
 import { RecipientType } from 'src/recipients/recipient'
 import { recipientInfoSelector } from 'src/recipients/reducer'
-import { QrCode, handleQRCodeDetected, handleQRCodeDetectedSecureSend } from 'src/send/actions'
+import { handleQRCodeDetected, handleQRCodeDetectedSecureSend } from 'src/send/actions'
+import { QrCode } from 'src/send/types'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -84,6 +87,7 @@ describe('handleQRCodeDefault', () => {
       link,
       HooksEnablePreviewOrigin.Scan
     )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
   })
   it('navigates to the send amount screen with a valid QR code', async () => {
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: urlFromUriData(mockQrCodeData) }
@@ -106,6 +110,7 @@ describe('handleQRCodeDefault', () => {
       },
       forceTokenId: false,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
   })
   it('navigates to the send amount screen with a qr code with address as the data', async () => {
     const qrCode: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
@@ -127,6 +132,7 @@ describe('handleQRCodeDefault', () => {
       },
       forceTokenId: false,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
   })
   it('navigates to the send amount screen with a qr code with an empty display name', async () => {
     const qrCode: QrCode = {
@@ -156,6 +162,7 @@ describe('handleQRCodeDefault', () => {
       },
       forceTokenId: false,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
   })
   it('navigates to the send amount screen with a qr code with an empty phone number', async () => {
     const qrCode: QrCode = {
@@ -187,6 +194,7 @@ describe('handleQRCodeDefault', () => {
       },
       forceTokenId: false,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, qrCode)
   })
 })
 
@@ -216,6 +224,7 @@ describe('handleQRCodeSecureSend', () => {
       origin: SendOrigin.AppSendFlow,
       isFromScan: true,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, data)
   })
   it('handles a valid address and navigates to send enter ammount when there is no transaction data', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
@@ -263,6 +272,7 @@ describe('handleQRCodeSecureSend', () => {
       forceTokenId: false,
       defaultTokenIdOverride: mockEthTokenId,
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, data)
   })
   it('handles an invalid address', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: 'invalid-address' }
@@ -274,6 +284,7 @@ describe('handleQRCodeSecureSend', () => {
       .put(showError(ErrorMessages.QR_FAILED_INVALID_ADDRESS))
       .run()
     expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, data)
   })
   it('handles failed address lookup', async () => {
     const data: QrCode = { type: QRCodeTypes.QR_CODE, data: mockAccount }
@@ -296,5 +307,6 @@ describe('handleQRCodeSecureSend', () => {
       ])
       .run()
     expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(QrScreenEvents.qr_scanned, data)
   })
 })
