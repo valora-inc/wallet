@@ -8,9 +8,10 @@ import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import Paste from 'src/icons/Paste'
+import CopyIcon from 'src/icons/CopyIcon'
 import StyledQRCode from 'src/qrcode/StyledQRCode'
 import { SVG } from 'src/send/actions'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -20,7 +21,6 @@ import { vibrateInformative } from 'src/styles/hapticFeedback'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 interface Props {
@@ -65,9 +65,8 @@ export default function QRCodeDisplay(props: Props) {
     const supportedNetworkIds = getDynamicConfigParams(
       DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
     ).showBalances
-    const networks = supportedNetworkIds.map((id: NetworkId) => {
-      const network = networkIdToNetwork[id]
-      return network.charAt(0).toUpperCase() + network.slice(1)
+    const networks = supportedNetworkIds.map((networkId: NetworkId) => {
+      return NETWORK_NAMES[networkId]
     })
     return networks.join(', ')
   }
@@ -105,7 +104,8 @@ export default function QRCodeDisplay(props: Props) {
       <Button
         text={t('fiatExchangeFlow.exchange.copyAddress')}
         onPress={onPressCopy}
-        icon={<Paste color={colors.white} />}
+        icon={<CopyIcon color={colors.white} />}
+        iconMargin={12}
         iconPositionLeft={false}
         testID="copyButton"
       />
@@ -156,7 +156,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
   },
   bold: {
-    fontWeight: 'bold',
+    ...typeScale.labelSemiBoldXSmall,
   },
   description: {
     ...typeScale.bodyXSmall,
