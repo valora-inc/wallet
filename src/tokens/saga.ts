@@ -252,7 +252,7 @@ export function* fetchTokenPriceHistorySaga({
   payload: { tokenId, startTimestamp, endTimestamp },
 }: any) {
   try {
-    if (!getFeatureGate(StatsigFeatureGates.USE_NEW_PRICE_HISTORY)) {
+    if (!getFeatureGate(StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API)) {
       return
     }
     const priceHistory = yield* call(fetchTokenPriceHistory, tokenId, startTimestamp, endTimestamp)
