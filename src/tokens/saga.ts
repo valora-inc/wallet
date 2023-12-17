@@ -250,7 +250,7 @@ export async function fetchTokenPriceHistory(
 
 export function* fetchTokenPriceHistorySaga({
   payload: { tokenId, startTimestamp, endTimestamp },
-}: any) {
+}: ReturnType<typeof fetchPriceHistoryStart>) {
   try {
     if (!getFeatureGate(StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API)) {
       return
