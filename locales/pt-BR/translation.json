@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirmar transacção",
   "allow": "Permitir",
   "address": "Endereço da conta",
+  "supportedNetwork": "Rede suportada: {{network}}",
+  "supportedNetworks": "Redes suportadas: {{networks}}",
+  "and": "e",
   "phoneNumber": "Número de celular",
   "transaction": {
     "operation": "Operação",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Convide amigos e receba recompensas",
-    "body": "Assim que a pessoa configurar e adicionar 5 cUSD à sua carteira {{appName}}, você dois receberão 0,50 cUSD."
+    "body": "Depois que eles configurarem e adicionarem fundos à carteira {{appName}} , vocês dois receberão 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Convide um amigo",
@@ -639,14 +642,14 @@
     "button": "Enviar convite",
     "error": "Ocorreu um erro ao criar um link compartilhável",
     "share": "Oi! Inscreva-se na carteira {{appName}}. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: {{shareUrl}}.",
-    "help": "Para receber esta recompensa, o convidado deve fazer o download através do link de indicação, conectar o número de celular e manter 5 cUSD ou mais em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
+    "help": "Para receber essa recompensa, o convidado deve fazer download por meio do link de indicação, conectar seu número de telefone, adicionar fundos e mantê-los em sua carteira {{appName}} por 7 dias. <0>Ver todos os termos</0>",
     "rewardsActive": {
       "title": "Convide amigos e colete NFTs",
       "body": "Convide seus amigos e familiares para baixar o app {{appName}} e cada um de vocês ganhará um NFT exclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "POR TEMPO LIMITADO. Você pode ganhar cUSD grátis ao convidar amigos para a Valora!",
-      "body": "Ganhe 0,50 cUSD para cada amigo que você convidar para a {{appName}}. Quando seu amigo adicionar fundos e mantiver 5 cUSD por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
+      "title": "TEMPO LIMITADO. Você ganha cUSD grátis ao convidar amigos para o Valora!",
+      "body": "Os prêmios de indicação estão de volta e ainda mais fáceis do que antes. Ganhe 0,50 cUSD para cada amigo que você convidar para {{appName}}. Quando ele adicionar fundos e mantê-los por 7 dias, vocês dois receberão 0,50 cUSD. Corra, pois os fundos são limitados! (Limite de 25 amigos)."
     }
   },
   "getReward": "Receba ${{reward}}",
@@ -962,7 +965,7 @@
   "inviteWithoutPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. É muito fácil de usar e eu gostaria de convidar você para conferir com este link: {{link}}",
   "inviteWithEscrowedPayment": "Olá! Estou usando a {{appName}} para enviar cripto para o mundo inteiro. Acabei de enviar {{amount}} {{token}} para você. Instale o aplicativo da {{appName}} e resgate seus {{token}} usando este link: {{link}}",
   "inviteWithRewards": "Oi! 👋 Estou usando a {{appName}} como minha carteira cripto. É super rápido baixar o app e conectar seu número de celular — além disso, nós dois receberemos um NFT de edição especial como recompensa. 💫 \n\nUse este link para baixar: {{link}}",
-  "inviteWithRewardsCUSD": "Oi! Nós dois podemos receber uma recompensa gratuita de 0,50 cUSD se você se inscrever e depositar fundos na sua carteira Valora. Com ela, eu aumento minhas economias em USD e cripto. Você só precisa de um número de celular para configurá-la em segundos. Não deixe de se inscrever com meu link de indicação aqui: \n\n{{link}} \n\nMas corra, pois a promoção de indicação termina em breve.",
+  "inviteWithRewardsCUSD": "Neste momento, nós dois podemos receber uma recompensa gratuita de US$ 0,50 se você se inscrever e depositar fundos na sua carteira Valora. Eu a uso para aumentar minhas economias em dólares americanos e criptomoedas, e você pode configurá-la em segundos com apenas um número de telefone. Não deixe de se cadastrar com meu link de indicação aqui: \n\n{{link}} \n\n Não perca tempo, pois a promoção de indicação termina em breve.",
   "loadingContacts": "Encontrar seus contatos",
   "myCode": "Meu código",
   "scanCode": "Escanear",
@@ -1077,6 +1080,10 @@
     "unsupportedChain": {
       "title": "Cadeia não suportada",
       "description": "{{dappName}} está solicitando esta ação em uma cadeia não suportada pelo {{appName}}. Certifique-se de que Celo é a cadeia ativa no dapp."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Balanço insuficiente de tokens de Gas",
+      "description": "Você não tem {{feeCurrencies}} suficiente para cobrir as taxas de gasolina. Por favor, adicione {{feeCurrencies}} à sua carteira para concluir esta transação."
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1674,7 +1681,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Trocando a quantia MÁX",
+      "titleV1_74": "Trocando a quantia MÁX",
       "body": "Certifique-se de ter CELO em sua carteira para cobrir as taxas de gas para transações futuras",
+      "bodyV1_74": "Certifique-se de que você tenha {{tokenSymbol}} em sua carteira para cobrir as taxas de gás em transações futuras",
       "learnMore": "Saiba mais"
     },
     "priceImpactWarning": {
@@ -1783,7 +1792,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Convide {{contactName}} para a {{appName}} e receba 0,50 cUSD",
-      "body": "Parece que {{contactName}} não está na Valora. Você ainda pode enviar um pagamento a essa pessoa se souber o endereço da carteira dela ou, em vez disso, enviar um convite. \n\n Depois que seu amigo baixar a Valora, conectar o número de celular e adicionar 5 cUSD à carteira, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
+      "body": "Parece que o {{contactName}} não está em Valora. Você ainda pode enviar um pagamento se souber o endereço da carteira dele ou enviar um convite. \n\n Depois que ele baixar o Valora, conectar seu número de telefone, adicionar fundos e mantê-los na carteira por 7 dias, vocês dois receberão 0,50 cUSD enquanto durarem os fundos."
     }
   },
   "celoNews": {
@@ -1895,9 +1904,7 @@
       "network": "Rede"
     },
     "error": {
-      "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte",
-      "alreadyImported": "O token já foi adicionado anteriormente.",
-      "alreadySupported": "O token já é suportado."
+      "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte"
     },
     "importSuccess": "Token {{tokenSymbol}} importado com sucesso",
     "importButton": "Importar"
@@ -1981,7 +1988,7 @@
     "estimatedNetworkFee": "Taxa de rede estimada",
     "networkFee": "Taxa de rede",
     "finiteApprovalDescription": "Aprovado {{approvedAmount}} {{tokenSymbol}} para comércio",
-    "infiniteApprovalDescription": "Aprovado {{tokenSymbol}} para comércio",
+    "infiniteApprovalDescription": "Aprovado infinito {{tokenSymbol}} para comércio",
     "revokeApprovalDescription": "Revogado {{tokenSymbol}} para comércio",
     "descriptionLabel": "Detalhes"
   },
