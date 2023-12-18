@@ -1,22 +1,24 @@
 import { useNavigation } from '@react-navigation/native'
 import * as React from 'react'
-import { Keyboard, processColor, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { Keyboard, StyleSheet, TouchableOpacity, View, processColor } from 'react-native'
 import Animated, { cond, greaterThan } from 'react-native-reanimated'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Hamburger from 'src/icons/Hamburger'
 import colors from 'src/styles/colors'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
+import { Spacing } from 'src/styles/styles'
 import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
+  leftElement?: React.ReactNode
   middleElement?: React.ReactNode
   rightElement?: React.ReactNode
   scrollPosition?: Animated.Value<number>
   testID?: string
 }
 
-function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: Props) {
+function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition, testID }: Props) {
   const navigation = useNavigation()
   const viewStyle = React.useMemo(
     () => ({
@@ -43,9 +45,12 @@ function DrawerTopBar({ middleElement, rightElement, scrollPosition, testID }: P
 
   return (
     <Animated.View testID={testID} style={viewStyle}>
-      <TouchableOpacity style={styles.hamburger} onPress={onPressHamburger} hitSlop={iconHitslop}>
-        <Hamburger />
-      </TouchableOpacity>
+      <View style={styles.leftElement}>
+        <TouchableOpacity onPress={onPressHamburger} hitSlop={iconHitslop}>
+          <Hamburger />
+        </TouchableOpacity>
+        {leftElement}
+      </View>
       {middleElement}
       {rightElement && <View style={styles.rightElement}>{rightElement}</View>}
     </Animated.View>
@@ -65,12 +70,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexShrink: 1,
   },
-  hamburger: {
+  leftElement: {
     position: 'absolute',
     left: 0,
     padding: 0,
     marginLeft: 16,
     marginBottom: 0,
+    flex: 1,
+    flexDirection: 'row',
+    gap: Spacing.Thick24,
   },
   rightElement: {
     position: 'absolute',

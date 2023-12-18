@@ -265,6 +265,9 @@
   "confirmTransaction": "确认交易",
   "allow": "允许",
   "address": "钱包地址",
+  "supportedNetwork": "支持的网络： {{network}}",
+  "supportedNetworks": "支持的网络： {{networks}}",
+  "and": "和",
   "phoneNumber": "手机号码",
   "transaction": {
     "operation": "操作",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "在他们成功设置 {{appName}} 钱包并转入 5 cUSD 后，你们都将获得 0.50 cUSD 的奖励。"
+    "body": "一旦他们设置并向 {{appName}} 钱包添加资金，你们都将收到 0.50 cUSD。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -639,14 +642,14 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嘿！快来注册 {{appName}} 钱包。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：{{shareUrl}}。",
-    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载钱包应用，关联手机号码并向其 {{appName}} 钱包至少转入 5 cUSD，并且 7 天之内不转出资金。<0>查看所有条款</0>",
+    "help": "要领取此奖励，受邀者必须通过推荐链接下载、连接电话号码、添加资金并在 {{appName}} 钱包中保留 7 天。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "时间有限，先到先得。邀请朋友注册 Valora，赚取免费 cUSD！",
-      "body": "每邀请一位朋友注册 {{appName}}，即可赚取 0.50 cUSD。朋友添加资金，并持有 5 cUSD 达 7 天后，你们都将获得 0.50 cUSD 奖励。资金有限，先到先得！（仅限 25 位朋友）。"
+      "title": "时间有限。邀请好友加入 Valora，即可免费获得 cUSD！",
+      "body": "推荐奖励又回来了，而且比以前更简单。每邀请一位朋友登录 {{appName}}，即可获得 0.50 cUSD。一旦他们添加资金并持有 7 天，你们都将获得 0.50 cUSD。快点，资金有限！(仅限 25 位好友）。"
     }
   },
   "getReward": "获得 ${{reward}}",
@@ -960,7 +963,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嘿！如果你现在注册 Valora 钱包并存入资金，我们就都能免费获得 0.50 cUSD 奖励。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：\n\n{{link}}\n\n心动不如行动，推荐活动马上就要结束了。",
+  "inviteWithRewardsCUSD": "嘿！现在，如果你注册并为 Valora 钱包充值，我们都可以免费获得 0.5 美元的奖励。我用它来增加我的美元和加密货币储蓄，只需一个电话号码，您就可以在几秒钟内完成设置。请确保使用我的推荐链接注册： \n\n{{link}} \n\n 快点，推荐促销即将结束。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1066,15 +1069,28 @@
     "signPayload": "{{dappName}} 想要验证您钱包的所有权。",
     "signTransactionTitle": "签署交易",
     "signTransaction": "{{dappName}} 想要签署一笔 Celo 交易。",
+    "signDappTransaction": "{{dappName}} 希望在 {{networkName}} 网络上签署一笔交易。",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} 想在不支持的网络上签署交易。",
     "sendTransactionTitle": "发送交易",
     "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
+    "sendDappTransaction": "{{dappName}} 希望在 {{networkName}} 网络上发送一笔交易。",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} 想在不支持的网络上发送交易。",
     "decryptPayloadTitle": "用钱包解密",
     "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
     "computeSharedSecret": "{{dappName}} 想要生成密钥。",
     "transactionDataCopied": "交易数据已复制",
+    "estimatedNetworkFee": "{{networkName}} 网络费用估算",
+    "networksList": "网络",
+    "connectWalletAction": "连接钱包",
+    "signTransactionAction": "标志",
+    "sendTransactionAction": "发送",
     "unsupportedChain": {
       "title": "不受支持的区块链网络",
       "description": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 Celo 属于 dapp 上的活跃区块链。"
+    },
+    "notEnoughBalanceForGas": {
+      "title": "手续费代币余额不足",
+      "description": "您没有足够的 {{feeCurrencies}} 来支付汽油费。请在您的钱包中添加 {{feeCurrencies}} 以完成交易。"
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1672,7 +1688,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
+      "titleV1_74": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
+      "bodyV1_74": "确保钱包里有 {{tokenSymbol}} ，以支付未来交易的汽油费",
       "learnMore": "了解更多"
     },
     "priceImpactWarning": {
@@ -1781,7 +1799,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转入 5 cUSD 之后，你们都将获得 0.50 cUSD 的奖励。数额有限，赠完即止。"
+      "body": "看来 {{contactName}} 不在 Valora 上。如果您知道他们的钱包地址，您仍然可以发送付款，或者发送邀请。 \n\n 在他们下载 Valora、连接电话号码、添加资金并在钱包中保留 7 天后，您和他们都将获得 0.50 cUSD，直到资金用完为止。"
     }
   },
   "celoNews": {
@@ -1893,9 +1911,7 @@
       "network": "网络"
     },
     "error": {
-      "invalidToken": "代币无效。请重试或联系支持人员",
-      "alreadyImported": "代币已被添加。",
-      "alreadySupported": "代币已获支持。"
+      "invalidToken": "代币无效。请重试或联系支持人员"
     },
     "importSuccess": "成功导入 {{tokenSymbol}} 代币",
     "importButton": "导入"
@@ -1979,7 +1995,7 @@
     "estimatedNetworkFee": "估计网络费用",
     "networkFee": "网络费用",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}}",
-    "infiniteApprovalDescription": "{{tokenSymbol}}",
+    "infiniteApprovalDescription": "批准无限 {{tokenSymbol}} 用于贸易",
     "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
     "descriptionLabel": "详细信息"
   },

@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
   "address": "Dirección de wallet",
+  "supportedNetwork": "Red soportada: {{network}}",
+  "supportedNetworks": "Redes soportadas: {{networks}}",
+  "and": "y",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que se registren y depositen 5 cUSD en su wallet {{appName}}, ambos recibirán 0,50 cUSD."
+    "body": "Una vez que se registren y añadan fondos a su monedero {{appName}} , ambos recibiréis 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -639,14 +642,14 @@
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
     "share": "Hola, regístrate en la billetera {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
-    "help": "Para reclamar esta recompensa, el invitado debe descargar la app a través del link de invitación, conectar su número de teléfono y depositar 5 cUSD o más en su wallet {{appName}} durante 7 días. <0>Ver las condiciones</0>",
+    "help": "Para cobrar esta recompensa, el invitado debe descargarse a través del enlace de recomendación, conectar su número de teléfono, añadir fondos y mantenerlos en su monedero {{appName}} durante 7 días. <0>Ver todas las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "SÓLO POR TIEMPO LIMITADO. ¡Obtén cUSD gratis por invitar a tus amigos a Valora!",
-      "body": "Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen fondos y mantengan 5 cUSD durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
+      "title": "TIEMPO LIMITADO. ¡Consigue cUSD gratis por invitar a tus amigos a Valora!",
+      "body": "Vuelven las Recompensas por Referidos y son aún más fáciles que antes. Consigue 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que añadan fondos, y los mantengan durante 7 días, ambos obtendréis 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
     }
   },
   "getReward": "Obtén ${{reward}}",
@@ -962,7 +965,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "¡Hola! Ahora ambos podemos obtener una recompensa gratuita de 0,50 cUSD si te registras y depositas fondos en tu billetera Valora. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nPero date prisa, la promoción de referencia termina pronto.",
+  "inviteWithRewardsCUSD": "Hola! Ahora mismo ambos podemos obtener una recompensa gratuita de 0,50 $ si te registras y financias tu monedero de Valora. Yo lo utilizo para hacer crecer mis ahorros en USD y criptomonedas, y puedes configurarlo en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de recomendación aquí: \n\n{{link}} \n\n Date prisa, la promoción de recomendación termina pronto.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1068,15 +1071,28 @@
     "signPayload": "{{dappName}} desea verificar la propiedad de tu wallet.",
     "signTransactionTitle": "Firmar transacción",
     "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
+    "signDappTransaction": "{{dappName}} desea firmar una transacción en la red {{networkName}} .",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} quiere firmar una transacción en una red no soportada.",
     "sendTransactionTitle": "Enviar transacción",
     "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
+    "sendDappTransaction": "{{dappName}} desea enviar una transacción a través de la red {{networkName}} .",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} quieres enviar una transacción en una red no soportada.",
     "decryptPayloadTitle": "Descifrar con wallet",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
     "computeSharedSecret": "{{dappName}} desea generar secretos.",
     "transactionDataCopied": "Datos de transacción copiados",
+    "estimatedNetworkFee": "Estimación de la cuota de la red {{networkName}}",
+    "networksList": "Redes",
+    "connectWalletAction": "Conectar monedero",
+    "signTransactionAction": "Firma",
+    "sendTransactionAction": "Enviar",
     "unsupportedChain": {
       "title": "Cadena incompatible",
       "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Saldo insuficiente para cubrir tarifas de transacción",
+      "description": "No tienes suficiente {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, añade {{feeCurrencies}} a tu monedero para completar esta transacción."
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1674,7 +1690,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
+      "titleV1_74": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
+      "bodyV1_74": "Asegúrate de que tienes {{tokenSymbol}} en tu cartera para cubrir los gastos de gasolina en futuras transacciones",
       "learnMore": "Más información"
     },
     "priceImpactWarning": {
@@ -1783,7 +1801,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
-      "body": "Parece que {{contactName}} no está en Valora. Si conoces su dirección de wallet, envía los fondos directamente a su dirección, o bien envíale una invitación a nuestra app. \n\nUna vez que descargue Valora, conecte su número de teléfono y agregue fondos, ambos obtendrán 0,50 cUSD mientras la promoción esté vigente."
+      "body": "Parece que {{contactName}} no está en Valora. Aún puedes enviar un pago si conoces la dirección de su monedero, o enviar una invitación en su lugar. \n\n Después de que descargue Valora, conecte su número de teléfono, añada fondos y los mantenga en su monedero durante 7 días, ambos recibiréis 0,50 cUSD mientras duren los fondos."
     }
   },
   "celoNews": {
@@ -1895,9 +1913,7 @@
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
-      "alreadyImported": "El token ya se ha agregado antes.",
-      "alreadySupported": "El token ya es compatible."
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
@@ -1981,7 +1997,7 @@
     "estimatedNetworkFee": "Tasa de red estimada",
     "networkFee": "Tasa de red",
     "finiteApprovalDescription": "Aprobado {{approvedAmount}} {{tokenSymbol}} para el comercio",
-    "infiniteApprovalDescription": "Aprobado {{tokenSymbol}} para el comercio",
+    "infiniteApprovalDescription": "Aprobado infinito {{tokenSymbol}} para el comercio",
     "revokeApprovalDescription": "Revocada {{tokenSymbol}} para el comercio",
     "descriptionLabel": "Detalles"
   },

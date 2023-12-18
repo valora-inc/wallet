@@ -67,6 +67,7 @@ import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
@@ -145,6 +146,12 @@ interface AppEventsProperties {
   [AppEvents.multichain_beta_opt_in]: undefined
   [AppEvents.multichain_beta_opt_out]: undefined
   [AppEvents.multichain_beta_contact_support]: undefined
+
+  [AppEvents.handle_deeplink]: {
+    pathStartsWith: string
+    fullPath: string | null
+    query: string | null
+  }
 }
 
 interface HomeEventsProperties {
@@ -1025,6 +1032,7 @@ interface QrScreenProperties {
     exchange: string
   }
   [QrScreenEvents.qr_scanner_open]: undefined
+  [QrScreenEvents.qr_scanned]: QrCode
 }
 
 interface FiatConnectKycProperties {
@@ -1346,21 +1354,7 @@ interface SwapEventsProperties {
     tokenNetworkId: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
-  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
-    Web3LibraryProps &
-    Partial<SwapTxsProperties> & {
-      usdTotal: number
-    }
-  [SwapEvents.swap_execute_price_change]: {
-    price: string
-    guaranteedPrice: string
-    toToken: string
-    toTokenId: string
-    toTokenNetworkId: string
-    fromToken: string
-    fromTokenId: string
-    fromTokenNetworkId: string
-  }
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
     SwapTimeMetrics &
     Web3LibraryProps &
@@ -1389,8 +1383,6 @@ interface SwapEventsProperties {
     provider: string
     priceImpact?: string
   }
-  [SwapEvents.swap_again]: undefined
-  [SwapEvents.swap_try_again]: undefined
   [SwapEvents.swap_show_info]: {
     type: SwapShowInfoType
   }

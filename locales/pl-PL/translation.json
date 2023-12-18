@@ -265,6 +265,9 @@
   "confirmTransaction": "Potwierdź transakcję",
   "allow": "Zezwól",
   "address": "Adres portfela",
+  "supportedNetwork": "Obsługiwana sieć: {{network}}",
+  "supportedNetworks": "Obsługiwane sieci: {{networks}}",
+  "and": "i",
   "phoneNumber": "Numer telefonu",
   "transaction": {
     "operation": "Operacja",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Zapraszaj znajomych i otrzymuj nagrody",
-    "body": "Po skonfigurowaniu i zasileniu portfela {{appName}} kwotą 5 cUSD Ty i znajomy otrzymacie 0,50 cUSD."
+    "body": "Po skonfigurowaniu i dodaniu środków do portfela {{appName}} , oboje otrzymacie 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Zaproś znajomego",
@@ -639,14 +642,14 @@
     "button": "Wyślij zaproszenie",
     "error": "Wystąpił błąd z tworzeniem linku",
     "share": "Cześć! Zarejestruj się do portfela {{appName}}. Ja używam go do powiększania moich oszczędności w USD i kryptowalutach, a jego konfiguracja jest możliwa w kilka sekund – wystarczy podać numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: {{shareUrl}}.",
-    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać aplikację za pośrednictwem linku polecającego, połączyć swój numer telefonu i przez 7 dni posiadać w swoim portfelu {{appName}} kwotę 5 cUSD lub wyższą. <0>Zobacz wszystkie warunki</0>",
+    "help": "Aby odebrać tę nagrodę, zaproszona osoba musi pobrać ją za pośrednictwem linku polecającego, połączyć swój numer telefonu, dodać środki i przechowywać je w portfelu {{appName}} przez 7 dni. <0>Zobacz wszystkie warunki</0>",
     "rewardsActive": {
       "title": "Zaproś znajomych i zbieraj NFT",
       "body": "Zaproś swoich znajomych i rodzinę do pobrania {{appName}}, a każdy z Was otrzyma ekskluzywny NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "TYLKO PRZEZ OGRANICZONY CZAS. Zdobądź darmowe cUSD za zaproszenie znajomych do Valory!",
-      "body": "Zdobądź 0,50 cUSD za każdego znajomego, którego zaprosisz do aplikacji {{appName}}. Gdy znajomy doda środki i utrzyma 5 cUSD przez 7 dni, każdy z was otrzyma po 0,50 cUSD. Pospiesz się, środki są ograniczone! (obowiązuje limit do 25 znajomych)."
+      "title": "OGRANICZONY CZAS. Zdobądź darmowe cUSD za zaproszenie znajomych do Valora!",
+      "body": "Nagrody za polecenie powracają i są jeszcze łatwiejsze niż wcześniej. Zdobądź 0,50 cUSD za każdego znajomego, którego zaprosisz na {{appName}}. Gdy dodadzą środki i utrzymają je przez 7 dni, oboje otrzymacie 0,50 cUSD. Pospiesz się, środki są ograniczone! (Limit 25 znajomych)."
     }
   },
   "getReward": "Otrzymaj ${{reward}}",
@@ -966,7 +969,7 @@
   "inviteWithoutPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. To bardzo proste. Może Ty też spróbujesz? Skorzystaj z tego linku: {{link}}",
   "inviteWithEscrowedPayment": "Cześć! Korzystam z aplikacji {{appName}} do przesyłania kryptowalut z dowolnego miejsca na świecie. Przesyłam Ci właśnie {{amount}} {{token}}. Pobierz aplikację {{appName}} i odbierz {{token}}, korzystając z tego linku: {{link}}",
   "inviteWithRewards": "Cześć! 👋 Używam {{appName}} jako mojego portfela kryptowalut. Aplikację możesz szybko pobrać i połączyć z Twoim numerem telefonu. Do tego w nagrodę otrzymamy specjalną edycję NFT. 💫 \n\nUżyj tego linku, aby pobrać: {{link}}",
-  "inviteWithRewardsCUSD": "Cześć! Teraz każdy z nas może otrzymać darmową nagrodę w wysokości 0,50 cUSD, jeśli zarejestrujesz się i zasilisz swój portfel Valora. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a jego konfiguracja jest możliwa w kilka sekund – wystarczy podać numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\nPośpiesz się, promocja wkrótce się skończy.",
+  "inviteWithRewardsCUSD": "Hej! W tej chwili oboje możemy otrzymać darmową nagrodę w wysokości 0,50 USD, jeśli zarejestrujesz się i zasilisz swój portfel Valora. Używam go do powiększania moich oszczędności w USD i kryptowalutach, a możesz go skonfigurować w kilka sekund, podając tylko numer telefonu. Zarejestruj się za pomocą mojego linku polecającego tutaj: \n\n{{link}} \n\n Pospiesz się, promocja dla polecających kończy się wkrótce.",
   "loadingContacts": "Wyszukiwanie kontaktów",
   "myCode": "Mój kod",
   "scanCode": "Skanuj",
@@ -1072,15 +1075,28 @@
     "signPayload": "{{dappName}} chce zweryfikować własność Twojego portfela.",
     "signTransactionTitle": "Podpisz transakcję",
     "signTransaction": "{{dappName}} chce podpisać transakcję Celo.",
+    "signDappTransaction": "{{dappName}} chciałby podpisać transakcję w sieci {{networkName}} .",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} chcesz podpisać transakcję w nieobsługiwanej sieci.",
     "sendTransactionTitle": "Wyślij transakcję",
     "sendTransaction": "{{dappName}} chce wysłać transakcję Celo.",
+    "sendDappTransaction": "{{dappName}} chcesz wysłać transakcję w sieci {{networkName}} .",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} chcesz wysłać transakcję w nieobsługiwanej sieci.",
     "decryptPayloadTitle": "Odszyfruj za pomocą portfela",
     "decryptPayload": "{{dappName}} chce odszyfrować ładunek danych.",
     "computeSharedSecret": "{{dappName}} chce wygenerować tajemnice.",
     "transactionDataCopied": "Dane transakcji zostały skopiowane",
+    "estimatedNetworkFee": "Szacunkowa opłata sieciowa {{networkName}}",
+    "networksList": "Sieci",
+    "connectWalletAction": "Połącz portfel",
+    "signTransactionAction": "Podpisz",
+    "sendTransactionAction": "Wysyłaj",
     "unsupportedChain": {
       "title": "Nieobsługiwany łańcuch",
       "description": "{{dappName}} żąda tej akcji w łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie dapp."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Niewystarczające saldo tokenów gazu",
+      "description": "Nie masz wystarczającej ilości {{feeCurrencies}} , aby pokryć opłaty za paliwo. Dodaj {{feeCurrencies}} do swojego portfela, aby sfinalizować tę transakcję."
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1678,7 +1694,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Swap kwoty MAX",
+      "titleV1_74": "Swap kwoty MAX",
       "body": "Upewnij się, że w swoim portfelu masz CELO, aby pokryć opłaty za gaz w przyszłych transakcjach",
+      "bodyV1_74": "Upewnij się, że masz w portfelu {{tokenSymbol}} , aby pokryć opłaty za gaz w przyszłych transakcjach.",
       "learnMore": "Dowiedz się więcej"
     },
     "priceImpactWarning": {
@@ -1787,7 +1805,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Zaproś {{contactName}} do {{appName}} i zdobądź 0,50 cUSD",
-      "body": "Wygląda na to, że {{contactName}} nie jest w Valorze. Nadal możesz wysłać płatność, jeśli znasz adres portfela tej osoby, lub zamiast tego wysłać zaproszenie. \n\nPo pobraniu Valory, połączeniu numeru telefonu i zasileniu portfela kwotą 5 cUSD otrzymacie po 0,50 cUSD przed wyczerpaniem środków."
+      "body": "Wygląda na to, że {{contactName}} nie jest na Valorze. Nadal możesz wysłać płatność, jeśli znasz adres ich portfela, lub zamiast tego wysłać zaproszenie. \n\n Po pobraniu Valory, podłączeniu numeru telefonu, dodaniu środków i utrzymaniu ich w portfelu przez 7 dni, oboje otrzymacie 0,50 cUSD do wyczerpania środków."
     }
   },
   "celoNews": {
@@ -1899,9 +1917,7 @@
       "network": "Sieć"
     },
     "error": {
-      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
-      "alreadyImported": "Token został dodany już wcześniej.",
-      "alreadySupported": "Token jest już obsługiwany."
+      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną"
     },
     "importSuccess": "Pomyślnie zaimportowano token {{tokenSymbol}}",
     "importButton": "Import"
@@ -1985,7 +2001,7 @@
     "estimatedNetworkFee": "Szacunkowa opłata sieciowa",
     "networkFee": "Opłata sieciowa",
     "finiteApprovalDescription": "Zatwierdzony {{approvedAmount}} {{tokenSymbol}} dla handlu",
-    "infiniteApprovalDescription": "Zatwierdzony {{tokenSymbol}} dla handlu",
+    "infiniteApprovalDescription": "Zatwierdzony nieskończony {{tokenSymbol}} dla handlu",
     "revokeApprovalDescription": "Cofnięto {{tokenSymbol}} dla handlu",
     "descriptionLabel": "Szczegóły"
   },
