@@ -567,9 +567,9 @@ describe('SendSelectRecipient', () => {
       defaultTokenIdOverride: undefined,
       forceTokenId: undefined,
       recipient: {
-        address: '0x1230000000000000000000000000000000007E57',
+        address: mockAccount3,
         displayNumber: '(415) 555-0123',
-        e164PhoneNumber: '+14155550123',
+        e164PhoneNumber: mockE164Number3,
         recipientType: 'PhoneNumber',
       },
       origin: SendOrigin.AppSendFlow,
@@ -670,9 +670,9 @@ describe('SendSelectRecipient', () => {
       defaultTokenIdOverride: undefined,
       forceTokenId: undefined,
       recipient: {
-        address: '0x1230000000000000000000000000000000007E57',
+        address: mockAccount3,
         displayNumber: '(415) 555-0123',
-        e164PhoneNumber: '+14155550123',
+        e164PhoneNumber: mockE164Number3,
         recipientType: 'PhoneNumber',
       },
       origin: SendOrigin.AppSendFlow,
