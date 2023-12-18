@@ -28,12 +28,20 @@ import { navigateHome } from 'src/navigator/NavigationService'
 import { tokensByAddressSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
+import { NetworkId } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
 import config from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
+import { createMockStore } from 'test/utils'
+import {
+  mockAccount,
+  mockCeurAddress,
+  mockCeurTokenId,
+  mockCusdAddress,
+  mockCusdTokenId,
+} from 'test/values'
 
 const mockBaseNonce = 10
 
@@ -105,6 +113,7 @@ describe('fetchAvailableRewardsSaga', () => {
     const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
@@ -124,6 +133,7 @@ describe('fetchAvailableRewardsSaga', () => {
     const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
+      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
@@ -147,6 +157,7 @@ describe('fetchAvailableRewardsSaga', () => {
     const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
@@ -161,16 +172,46 @@ describe('fetchAvailableRewardsSaga', () => {
 
   it('skips fetching rewards for an unverified user for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), false],
         [select(walletAddressSelector), userAddress],
       ])
-      .not.call(fetchWithTimeout)
+      .not.call.fn(fetchWithTimeout)
+      .run()
+  })
+
+  it('skips fetching rewards in absence of tokens with sufficient balance', async () => {
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .withState(
+        createMockStore({
+          tokens: {
+            tokenBalances: {
+              [mockCusdAddress]: {
+                networkId: NetworkId['celo-alfajores'],
+                tokenId: mockCusdTokenId,
+                balance: '0',
+              },
+              [mockCeurAddress]: {
+                networkId: NetworkId['celo-alfajores'],
+                tokenId: mockCeurTokenId,
+                balance: '0.00000001', // balance must be greater than this
+              },
+            },
+          },
+        }).getState()
+      )
+      .provide([
+        [select(phoneNumberVerifiedSelector), true],
+        [select(walletAddressSelector), userAddress],
+      ])
+      .not.call.fn(fetchWithTimeout)
       .run()
   })
 
   it('displays an error if a user is not properly verified for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],

@@ -19,8 +19,8 @@ import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
-import { getTokenId } from 'src/tokens/utils'
+import { tokensByAddressSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
+import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
@@ -149,6 +149,16 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
   const address = yield* select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
+    return
+  }
+
+  const supportedNetworkIds = yield* call(getSupportedNetworkIdsForTokenBalances)
+  const tokensWithTokenBalance = yield* select(tokensWithTokenBalanceSelector, supportedNetworkIds)
+  if (tokensWithTokenBalance.length === 0) {
+    Logger.debug(
+      TAG,
+      'Skipping fetching available rewards due to lack of tokens with sufficient balance'
+    )
     return
   }
 
