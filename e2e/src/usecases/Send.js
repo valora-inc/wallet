@@ -166,12 +166,6 @@ export default Send = () => {
         },
       })
     })
-    beforeAll(async () => {
-      await launchApp({
-        newInstance: false,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
-      })
-    })
 
     it('Then should navigate to send search input from home action', async () => {
       await waitFor(element(by.id('HomeAction-Send')))
@@ -334,6 +328,8 @@ export default Send = () => {
 
   describe('When multi-token send flow to phone number with one address (new flow)', () => {
     beforeAll(async () => {
+      await device.uninstallApp()
+      await device.installApp()
       await launchApp({
         newInstance: true,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
