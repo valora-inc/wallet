@@ -144,7 +144,7 @@ export interface AddressVerificationStatusReceivedAction {
   addressVerified: boolean
 }
 
-export interface ContactsSavedAction {
+interface ContactsSavedAction {
   type: Actions.CONTACTS_SAVED
   hash: string
 }
