@@ -29,12 +29,9 @@ export interface QuoteResult {
   swapAmount: BigNumber
   price: string
   provider: string
-  estimatedPriceImpact: BigNumber | null
+  estimatedPriceImpact: string | null
+  allowanceTarget: string
   preparedTransactions: PreparedTransactionsResult
-  /**
-   * @deprecated Temporary until we remove the swap review screen
-   */
-  rawSwapResponse: FetchQuoteResponse
   receivedAt: number
 }
 
@@ -197,13 +194,10 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
-
         provider: quote.details.swapProvider,
-        estimatedPriceImpact: estimatedPriceImpact
-          ? new BigNumber(estimatedPriceImpact).dividedBy(100)
-          : null,
+        estimatedPriceImpact,
+        allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
         preparedTransactions,
-        rawSwapResponse: quote,
         receivedAt: Date.now(),
       }
 

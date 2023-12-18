@@ -65,7 +65,10 @@ export interface SwapTransaction {
   data: string
   decodedUniqueId: string
   estimatedGas: string
-  estimatedPriceImpact: string
+  /**
+   * In percentage, between 0 and 100
+   */
+  estimatedPriceImpact: string | null
   expectedSlippage: string | null
   from: string
   gas: string
@@ -97,10 +100,10 @@ export interface SwapInfo {
   quote: {
     preparedTransactions: SerializableTransactionRequest[]
     receivedAt: number
-    /**
-     * @deprecated Temporary until we remove the swap review screen
-     */
-    rawSwapResponse: FetchQuoteResponse
+    price: string
+    provider: string
+    estimatedPriceImpact: string | null
+    allowanceTarget: string
   }
 }
 

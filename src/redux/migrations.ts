@@ -1473,4 +1473,13 @@ export const migrations = {
       }),
     },
   }),
+  176: (state: any) => ({
+    ...state,
+    swap: {
+      ...state.swap,
+      ...(state.swap.priceImpactWarningThreshold && {
+        priceImpactWarningThreshold: state.swap.priceImpactWarningThreshold * 100,
+      }),
+    },
+  }),
 }

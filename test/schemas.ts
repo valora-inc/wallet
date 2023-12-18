@@ -2892,6 +2892,18 @@ export const v175Schema = {
   },
 }
 
+export const v176Schema = {
+  ...v175Schema,
+  _persist: {
+    ...v175Schema._persist,
+    version: 176,
+  },
+  swap: {
+    ...v175Schema.swap,
+    priceImpactWarningThreshold: v175Schema.swap.priceImpactWarningThreshold * 100,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v175Schema as Partial<RootState>
+  return v176Schema as Partial<RootState>
 }
