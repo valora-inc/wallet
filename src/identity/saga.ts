@@ -10,8 +10,9 @@ import {
 import { checkTxsForIdentityMetadata } from 'src/identity/commentEncryption'
 import {
   doImportContactsWrapper,
-  fetchAddressesAndValidateSaga,
   fetchAddressVerificationSaga,
+  fetchAddressesAndValidateSaga,
+  saveContacts,
 } from 'src/identity/contactMapping'
 import { AddressValidationType } from 'src/identity/reducer'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
@@ -123,6 +124,7 @@ export function* identitySaga() {
     yield* spawn(watchNewFeedTransactions)
     yield* spawn(watchFetchDataEncryptionKey)
     yield* spawn(watchFetchAddressVerification)
+    yield* spawn(saveContacts)
   } catch (error) {
     Logger.error(TAG, 'Error initializing identity sagas', error)
   } finally {

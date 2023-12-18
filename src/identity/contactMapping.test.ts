@@ -5,39 +5,57 @@ import { call, select } from 'redux-saga/effects'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showError, showErrorOrFallback } from 'src/alert/actions'
+import { IdentityEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
+  Actions,
+  addressVerificationStatusReceived,
+  contactsSaved,
+  fetchAddressVerification,
   fetchAddressesAndValidate,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
-  fetchAddressVerification,
-  addressVerificationStatusReceived,
 } from 'src/identity/actions'
 import {
   doImportContactsWrapper,
-  fetchAddressesAndValidateSaga,
   fetchAddressVerificationSaga,
+  fetchAddressesAndValidateSaga,
+  saveContacts,
 } from 'src/identity/contactMapping'
 import { AddressValidationType } from 'src/identity/reducer'
 import {
-  e164NumberToAddressSelector,
-  secureSendPhoneNumberMappingSelector,
   addressToVerificationStatusSelector,
+  e164NumberToAddressSelector,
+  lastSavedContactsHashSelector,
+  secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { contactsToRecipients } from 'src/recipients/recipient'
-import { setPhoneRecipientCache } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector, setPhoneRecipientCache } from 'src/recipients/reducer'
+import { getFeatureGate } from 'src/statsig'
+import Logger from 'src/utils/Logger'
 import { getAllContacts } from 'src/utils/contacts'
+import { checkContactsPermission } from 'src/utils/permissions'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockContactList, mockContactWithPhone2, mockE164Number } from 'test/values'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { IdentityEvents } from 'src/analytics/Events'
+import {
+  mockAccount,
+  mockContactList,
+  mockContactWithPhone2,
+  mockE164Number,
+  mockE164Number2,
+  mockE164Number2Invite,
+  mockE164NumberInvite,
+  mockPhoneRecipientCache,
+} from 'test/values'
 
 const recipients = contactsToRecipients(mockContactList, '+1')
 const mockFetch = fetch as FetchMock
 jest.unmock('src/pincode/authentication')
+jest.mock('src/statsig')
 
 describe('Import Contacts Saga', () => {
   it('imports contacts and creates contact mappings correctly', async () => {
@@ -55,6 +73,7 @@ describe('Import Contacts Saga', () => {
         )
       )
       .put(setPhoneRecipientCache(recipients))
+      .spawn(saveContacts)
       .run()
   })
 
@@ -67,6 +86,7 @@ describe('Import Contacts Saga', () => {
         [select(e164NumberSelector), mockE164Number],
       ])
       .put(showError(ErrorMessages.IMPORT_CONTACTS_FAILED))
+      .not.spawn(saveContacts)
       .run()
   })
 })
@@ -207,5 +227,148 @@ describe('Fetch Address Verification Saga', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(IdentityEvents.address_lookup_error, {
       error: 'Unable to fetch verification status for this address',
     })
+  })
+})
+
+describe('saveContacts', () => {
+  const warnSpy = jest.spyOn(Logger, 'warn')
+  beforeEach(() => {
+    mockFetch.resetMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+  })
+
+  it('invokes saveContacts API and saves last posted hash if not already saved', async () => {
+    await expectSaga(saveContacts)
+      .provide([
+        [select(phoneNumberVerifiedSelector), true],
+        [call(checkContactsPermission), true],
+        [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
+        [select(e164NumberSelector), mockE164Number],
+        [select(lastSavedContactsHashSelector), undefined],
+        [select(walletAddressSelector), '0xxyz'],
+        [call(retrieveSignedMessage), 'some signed message'],
+      ])
+      .put(contactsSaved('72a546e3fc087906f225c620888cae129156a2413bbb1eb0f82f647cedde1350'))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(networkConfig.saveContactsUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora 0xxyz:some signed message`,
+      },
+      body: JSON.stringify({
+        phoneNumber: mockE164Number,
+        contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+      }),
+      signal: expect.any(AbortSignal),
+    })
+  })
+
+  it('invokes saveContacts API and saves last posted hash if contacts are different', async () => {
+    await expectSaga(saveContacts)
+      .provide([
+        [select(phoneNumberVerifiedSelector), true],
+        [call(checkContactsPermission), true],
+        [
+          select(phoneRecipientCacheSelector),
+          { ...mockPhoneRecipientCache, [mockE164Number2]: {} },
+        ],
+        [select(e164NumberSelector), mockE164Number],
+        [
+          select(lastSavedContactsHashSelector),
+          '72a546e3fc087906f225c620888cae129156a2413bbb1eb0f82f647cedde1350',
+        ],
+        [select(walletAddressSelector), '0xxyz'],
+        [call(retrieveSignedMessage), 'some signed message'],
+      ])
+      .put(contactsSaved('68498dee3633b92eb7b7107201e18a228b4a381b5cf222d59f6eaf75c19cca7d'))
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(networkConfig.saveContactsUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora 0xxyz:some signed message`,
+      },
+      body: JSON.stringify({
+        phoneNumber: mockE164Number,
+        contacts: [mockE164Number2, mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+      }),
+      signal: expect.any(AbortSignal),
+    })
+  })
+
+  it('skips if last saved contacts is the same as current', async () => {
+    await expectSaga(saveContacts)
+      .provide([
+        [select(phoneNumberVerifiedSelector), true],
+        [call(checkContactsPermission), true],
+        [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
+        [select(e164NumberSelector), mockE164Number],
+        [
+          select(lastSavedContactsHashSelector),
+          '72a546e3fc087906f225c620888cae129156a2413bbb1eb0f82f647cedde1350',
+        ],
+        [select(walletAddressSelector), '0xxyz'],
+        [call(retrieveSignedMessage), 'some signed message'],
+      ])
+      .not.put.actionType(Actions.CONTACTS_SAVED)
+      .run()
+
+    expect(mockFetch).toHaveBeenCalledTimes(0)
+  })
+
+  it.each([
+    { featureGate: false, phoneVerified: true, contactsEnabled: true, name: 'feature gate' },
+    { featureGate: true, phoneVerified: false, contactsEnabled: true, name: 'phone unverified' },
+    { featureGate: true, phoneVerified: true, contactsEnabled: false, name: 'contacts disabled' },
+  ])(
+    'skips if pre-conditions are not met - $name',
+    async ({ featureGate, phoneVerified, contactsEnabled }) => {
+      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
+      await expectSaga(saveContacts)
+        .provide([
+          [select(phoneNumberVerifiedSelector), phoneVerified],
+          [call(checkContactsPermission), contactsEnabled],
+        ])
+        .not.select(phoneRecipientCacheSelector)
+        .not.select(e164NumberSelector)
+        .run()
+
+      expect(mockFetch).toHaveBeenCalledTimes(0)
+    }
+  )
+
+  it('handles errors gracefully and logs a warning', async () => {
+    mockFetch.mockReject()
+    await expectSaga(saveContacts)
+      .provide([
+        [select(phoneNumberVerifiedSelector), true],
+        [call(checkContactsPermission), true],
+        [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
+        [select(e164NumberSelector), mockE164Number],
+        [select(lastSavedContactsHashSelector), undefined],
+        [select(walletAddressSelector), '0xxyz'],
+        [call(retrieveSignedMessage), 'some signed message'],
+      ])
+      .not.put.actionType(Actions.CONTACTS_SAVED)
+      .run()
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(networkConfig.saveContactsUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora 0xxyz:some signed message`,
+      },
+      body: JSON.stringify({
+        phoneNumber: mockE164Number,
+        contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+      }),
+      signal: expect.any(AbortSignal),
+    })
+    expect(warnSpy).toHaveBeenCalledTimes(1)
   })
 })

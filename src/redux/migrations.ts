@@ -1473,4 +1473,11 @@ export const migrations = {
       }),
     },
   }),
+  176: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      lastSavedContactsHash: undefined,
+    },
+  }),
 }
