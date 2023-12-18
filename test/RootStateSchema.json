@@ -1458,9 +1458,6 @@
                     "type": "string"
                 }
             },
-            "required": [
-                "lastDay"
-            ],
             "type": "object"
         },
         "IdToNotification": {
