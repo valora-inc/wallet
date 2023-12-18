@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, Draft, PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
@@ -31,7 +31,7 @@ export interface BaseToken {
 }
 
 interface HistoricalPricesUsd {
-  lastDay: {
+  lastDay?: {
     price: BigNumber.Value
     at: number
   }
@@ -139,7 +139,7 @@ const slice = createSlice({
       error: false,
     }),
     fetchPriceHistoryStart: (
-      state,
+      state: Draft<State>,
       action: PayloadAction<{
         tokenId: string
         startTimestamp: number
@@ -147,7 +147,6 @@ const slice = createSlice({
       }>
     ) => {
       const { tokenId } = action.payload
-      // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
       const token = state.tokenBalances[tokenId]
       if (token) {
         token.historicalPricesUsd = {
@@ -157,22 +156,20 @@ const slice = createSlice({
       }
     },
     fetchPriceHistorySuccess: (
-      state,
+      state: Draft<State>,
       action: PayloadAction<{ tokenId: string; priceHistory: [TokenPriceHistoryEntry] }>
     ) => {
       const { tokenId, priceHistory } = action.payload
-      // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
       const token = state.tokenBalances[tokenId]
-      if (token && priceHistory) {
+      if (priceHistory && token?.historicalPricesUsd) {
         token.historicalPricesUsd.priceHistory = priceHistory
         token.historicalPricesUsd.priceHistoryStatus = 'success'
       }
     },
-    fetchPriceHistoryFailure: (state, action: PayloadAction<{ tokenId: string }>) => {
+    fetchPriceHistoryFailure: (state: Draft<State>, action: PayloadAction<{ tokenId: string }>) => {
       const { tokenId } = action.payload
-      // @ts-expect-error 'string' can't be used to index type 'WritableDraft<{}>'
       const token = state.tokenBalances[tokenId]
-      if (token) {
+      if (token?.historicalPricesUsd) {
         token.historicalPricesUsd.priceHistoryStatus = 'error'
       }
     },

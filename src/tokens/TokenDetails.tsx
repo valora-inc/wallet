@@ -131,7 +131,7 @@ function PriceInfo({ token }: { token: TokenBalance }) {
     )
   }
 
-  if (!token.historicalPricesUsd || !isHistoricalPriceUpdated(token)) {
+  if (!token.historicalPricesUsd?.lastDay || !isHistoricalPriceUpdated(token)) {
     return null
   }
 

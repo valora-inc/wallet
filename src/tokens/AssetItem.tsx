@@ -120,7 +120,7 @@ export const TokenBalanceItem = ({
         {token.priceUsd?.gt(0) && (
           <View style={styles.tokenContainer}>
             {showPriceChangeIndicatorInBalances &&
-              token.historicalPricesUsd &&
+              token.historicalPricesUsd?.lastDay &&
               isHistoricalPriceUpdated(token) && (
                 <PercentageIndicator
                   testID={`percentageIndicator:${token.symbol}`}
