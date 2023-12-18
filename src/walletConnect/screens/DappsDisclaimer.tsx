@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux'
 import { dappConnectInfoSelector, dappsMinimalDisclaimerEnabledSelector } from 'src/dapps/selectors'
 import { DappConnectInfo } from 'src/dapps/types'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 interface Props {
@@ -34,8 +34,8 @@ const DappsDisclaimer = ({ isDappListed }: Props) => {
 
 const styles = StyleSheet.create({
   dappNotListedDisclaimer: {
-    ...fontStyles.small,
-    color: Colors.gray5,
+    ...typeScale.bodyXSmall,
+    color: Colors.gray4,
     marginBottom: Spacing.Thick24,
     textAlign: 'center',
   },
