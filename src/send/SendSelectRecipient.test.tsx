@@ -566,7 +566,12 @@ describe('SendSelectRecipient', () => {
       isFromScan: false,
       defaultTokenIdOverride: undefined,
       forceTokenId: undefined,
-      recipient: expect.any(Object),
+      recipient: {
+        address: '0x1230000000000000000000000000000000007E57',
+        displayNumber: '(415) 555-0123',
+        e164PhoneNumber: '+14155550123',
+        recipientType: 'PhoneNumber',
+      },
       origin: SendOrigin.AppSendFlow,
     })
   })
@@ -664,7 +669,12 @@ describe('SendSelectRecipient', () => {
       isFromScan: false,
       defaultTokenIdOverride: undefined,
       forceTokenId: undefined,
-      recipient: expect.any(Object),
+      recipient: {
+        address: '0x1230000000000000000000000000000000007E57',
+        displayNumber: '(415) 555-0123',
+        e164PhoneNumber: '+14155550123',
+        recipientType: 'PhoneNumber',
+      },
       origin: SendOrigin.AppSendFlow,
     })
   })
