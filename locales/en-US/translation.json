@@ -265,6 +265,9 @@
   "confirmTransaction": "Confirm transaction",
   "allow": "Allow",
   "address": "Wallet Address",
+  "supportedNetwork": "Supported Network: {{network}}",
+  "supportedNetworks": "Supported Networks: {{networks}}",
+  "and": "and",
   "phoneNumber": "Phone Number",
   "transaction": {
     "operation": "Operation",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invite friends and get rewarded",
-    "body": "Once they set up and add 5 cUSD to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
+    "body": "Once they set up and add funds to their {{appName}} wallet, you’ll both receive 0.50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invite a friend",
@@ -639,14 +642,14 @@
     "button": "Share Invite",
     "error": "There was an issue creating a sharable link",
     "share": "Hey! Sign up to {{appName}} wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: {{shareUrl}}.",
-    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number and hold 5 cUSD or more in their {{appName}} wallet for 7 days. <0>View all terms</0>",
+    "help": "To collect this reward, the invitee must download through the referral link, connect their phone number, add funds and keep them in their {{appName}} wallet for 7 days. <0>View all terms</0>",
     "rewardsActive": {
       "title": "Invite friends and collect NFTs",
       "body": "Invite your friends and family to download {{appName}} and each of you will get an exclusive NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "LIMITED TIME ONLY. Get free cUSD for inviting friends to Valora!",
-      "body": "Get 0.50 cUSD for every friend you invite to {{appName}}. Once they add funds, and hold 5 cUSD for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
+      "title": "LIMITED TIME. Get free cUSD for inviting friends to Valora!",
+      "body": "Referral Rewards are back and even easier than before. Get 0.50 cUSD for every friend you invite to {{appName}}. Once they add funds, and hold them for 7 days, you’ll both get 0.50 cUSD. Hurry, funds are limited! (Limit 25 friends)."
     }
   },
   "getReward": "Get ${{reward}}",
@@ -962,7 +965,7 @@
   "inviteWithoutPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. It’s easy to try and I want to invite you to check it out with this link: {{link}}",
   "inviteWithEscrowedPayment": "Hi! I’ve been using {{appName}} to send crypto worldwide. I just sent you {{amount}} {{token}}. Please download the {{appName}} App and redeem your {{token}} using this link: {{link}}",
   "inviteWithRewards": "Hi! 👋 I'm using {{appName}} as my crypto wallet. It's super quick to download the app and connect your phone number - plus, we both get a special edition NFT as a reward. 💫 \n\nUse this link to download: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free 0.50 cUSD reward if you sign up and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\nHurry though, the referral promotion ends soon.",
+  "inviteWithRewardsCUSD": "Hey! Right now we can both get a free $0.50 reward if you sign up and fund your Valora wallet. I use it to grow my savings in USD and crypto, and you can set it up in seconds with just a phone number. Make sure to sign up with my referral link here: \n\n{{link}} \n\n Hurry, the referral promotion ends soon.",
   "loadingContacts": "Finding your contacts",
   "myCode": "My Code",
   "scanCode": "Scan",
@@ -1068,15 +1071,28 @@
     "signPayload": "{{dappName}} would like to verify ownership of your wallet.",
     "signTransactionTitle": "Sign transaction",
     "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "signDappTransaction": "{{dappName}} would like to sign a transaction on the {{networkName}} network.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} would like to sign a transaction on an unsupported network.",
     "sendTransactionTitle": "Send transaction",
     "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "sendDappTransaction": "{{dappName}} would like to send a transaction on the {{networkName}} network.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} would like to send a transaction on an unsupported network.",
     "decryptPayloadTitle": "Decrypt with wallet",
     "decryptPayload": "{{dappName}} would like to decrypt a data payload.",
     "computeSharedSecret": "{{dappName}} would like to generate secrets.",
     "transactionDataCopied": "Transaction data copied",
+    "estimatedNetworkFee": "Estimated {{networkName}} Network Fee",
+    "networksList": "Networks",
+    "connectWalletAction": "Connect wallet",
+    "signTransactionAction": "Sign",
+    "sendTransactionAction": "Send",
     "unsupportedChain": {
       "title": "Unsupported chain",
       "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Insufficient gas token balance",
+      "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this transaction."
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1674,7 +1690,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "Swapping the MAX amount",
+      "titleV1_74": "Swapping the MAX amount",
       "body": "Make sure you have CELO in your wallet to cover gas fees for future transactions",
+      "bodyV1_74": "Make sure you have {{tokenSymbol}} in your wallet to cover gas fees for future transactions",
       "learnMore": "Learn more"
     },
     "priceImpactWarning": {
@@ -1783,7 +1801,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invite {{contactName}} to {{appName}} and get 0.50 cUSD",
-      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, and add 5 cUSD to their wallet, you will both get 0.50 cUSD while funds last."
+      "body": "Looks like {{contactName}} isn’t on Valora. You can still send a payment if you know their wallet address, or send an invite instead. \n\n After they download Valora, connect their phone number, add funds and keep them in their wallet for 7 days, you will both get 0.50 cUSD while funds last."
     }
   },
   "celoNews": {
@@ -1895,9 +1913,7 @@
       "network": "Network"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support",
-      "alreadyImported": "Token was added already before.",
-      "alreadySupported": "Token is already supported."
+      "invalidToken": "Invalid token. Try again or contact support"
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"
@@ -1981,7 +1997,7 @@
     "estimatedNetworkFee": "Estimated network fee",
     "networkFee": "Network fee",
     "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
-    "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
+    "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
     "descriptionLabel": "Details"
   },

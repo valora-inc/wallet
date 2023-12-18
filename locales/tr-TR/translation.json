@@ -265,6 +265,9 @@
   "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
   "address": "Cüzdan Adresi",
+  "supportedNetwork": "Desteklenen Ağ: {{network}}",
+  "supportedNetworks": "Desteklenen Ağlar: {{networks}}",
+  "and": "ve",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "{{appName}} cüzdanlarını kurup 5 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
+    "body": "{{appName}} cüzdanlarını kurup para eklediklerinde, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -639,14 +642,14 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Hey! {{appName}} cüzdanına kaydolun. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: {{shareUrl}}.",
-    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 5 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
+    "help": "Bu ödülü almak için davetlinin yönlendirme bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması, para eklemesi ve 7 gün boyunca {{appName}} cüzdanında tutması gerekir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "SADECE SINIRLI BİR SÜRE İÇİN GEÇERLİ. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
-      "body": "{{appName}} uygulamasına davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Fon eklediklerinde ve 7 gün boyunca 5 cUSD tuttuklarında ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
+      "title": "SINIRLI SÜRE. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
+      "body": "Tavsiye Ödülleri geri döndü ve eskisinden daha da kolay. {{appName}}adresine davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Para eklediklerinde ve 7 gün boyunca tuttuklarında, ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (Limit 25 arkadaş)."
     }
   },
   "getReward": "${{reward}} kazanın",
@@ -962,7 +965,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanına kaydolur ve fon yatırırsanız ikimiz de ücretsiz 0,50 cUSD ödül kazanabiliriz. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAcele edin, davet promosyonu yakında sona eriyor.",
+  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanınıza kaydolur ve para yatırırsanız ikimiz de ücretsiz 0,50 $ ödül alabiliriz. Birikimlerimi USD ve kripto olarak artırmak için kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki yönlendirme bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\n Acele edin, yönlendirme promosyonu yakında sona eriyor.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1068,15 +1071,28 @@
     "signPayload": "{{dappName}} cüzdanınızın sahipliğini doğrulamak istiyor.",
     "signTransactionTitle": "İşlemi imzala",
     "signTransaction": "{{dappName}} bir Celo işlemini imzalamak istiyor.",
+    "signDappTransaction": "{{dappName}} {{networkName}} ağında bir işlem imzalamak istiyor.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} desteklenmeyen bir ağda bir işlem imzalamak istiyor.",
     "sendTransactionTitle": "İşlem gönder",
     "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
+    "sendDappTransaction": "{{dappName}} {{networkName}} ağında bir işlem göndermek istiyor.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} desteklenmeyen bir ağda bir işlem göndermek istiyor.",
     "decryptPayloadTitle": "Cüzdan ile şifre çözme",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
     "transactionDataCopied": "İşlem verileri kopyalandı",
+    "estimatedNetworkFee": "Tahmini {{networkName}} Ağ Ücreti",
+    "networksList": "Ağlar",
+    "connectWalletAction": "Cüzdan bağlayın",
+    "signTransactionAction": "İşaret",
+    "sendTransactionAction": "Gönder",
     "unsupportedChain": {
       "title": "Desteklenmeyen zincir",
       "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Yetersiz gas token bakiyesi",
+      "description": "Benzin ücretlerini karşılamak için yeterli {{feeCurrencies}} adresiniz yok. Bu işlemi tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin."
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1674,7 +1690,9 @@
     },
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
+      "titleV1_74": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
+      "bodyV1_74": "Cüzdanınızda gelecekteki işlemlerin gaz ücretlerini karşılamak için {{tokenSymbol}} adresinin bulunduğundan emin olun",
       "learnMore": "Daha fazla bilgi edinin"
     },
     "priceImpactWarning": {
@@ -1783,7 +1801,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 5 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
+      "body": "Görünüşe göre {{contactName}} Valora'da değil. Cüzdan adreslerini biliyorsanız yine de bir ödeme gönderebilir veya bunun yerine bir davetiye gönderebilirsiniz. \n\n Valora'yı indirdikten, telefon numaralarını bağladıktan, para ekledikten ve 7 gün boyunca cüzdanlarında tuttuktan sonra, fonlar devam ettiği sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1895,9 +1913,7 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
-      "alreadyImported": "Token daha önce zaten eklenmiş.",
-      "alreadySupported": "Token zaten desteklenmektedir."
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"
@@ -1981,7 +1997,7 @@
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
-    "infiniteApprovalDescription": "{{tokenSymbol}} işlem için onaylandı",
+    "infiniteApprovalDescription": "Ticaret için onaylanmış sonsuz {{tokenSymbol}}",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar"
   },
