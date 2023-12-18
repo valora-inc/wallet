@@ -29,6 +29,8 @@ export enum AppEvents {
   multichain_beta_opt_in = 'multichain_beta_opt_in',
   multichain_beta_opt_out = 'multichain_beta_opt_out',
   multichain_beta_contact_support = 'multichain_beta_contact_support',
+
+  handle_deeplink = 'handle_deeplink',
 }
 
 export enum HomeEvents {
@@ -336,6 +338,7 @@ export enum QrScreenEvents {
   qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
   qr_scanner_open = 'qr_scanner_open',
+  qr_scanned = 'qr_scanned',
 }
 
 export enum RequestEvents {
@@ -594,13 +597,10 @@ export enum SwapEvents {
   swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
   swap_review_submit = 'swap_review_submit',
-  swap_execute_price_change = 'swap_execute_price_change',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
-  swap_again = 'swap_again',
-  swap_try_again = 'swap_try_again',
   swap_show_info = 'swap_show_info',
 }
 

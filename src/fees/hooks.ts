@@ -5,7 +5,7 @@ import { FeeType, estimateFee } from 'src/fees/reducer'
 import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
-import { useTokenInfo, useTokenInfoByAddress, useUsdToTokenAmount } from 'src/tokens/hooks'
+import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
 import {
   celoAddressSelector,
   tokensByCurrencySelector,
@@ -96,18 +96,4 @@ export function useMaxSendAmount(
     return balance
   }
   return balance.minus(feeEstimate)
-}
-
-// Returns the maximum amount a user can send, taking into account gas fees required for the transaction
-// also optionally fetches new fee estimations if the current ones are missing or out of date
-/**
- * @deprecated use useMaxSendAmount instead
- */
-export function useMaxSendAmountByAddress(
-  tokenAddress: string | undefined | null,
-  feeType: FeeType.SEND | FeeType.SWAP,
-  shouldRefresh: boolean = true
-) {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useMaxSendAmount(tokenInfo?.tokenId, feeType, shouldRefresh)
 }

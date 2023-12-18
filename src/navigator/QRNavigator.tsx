@@ -23,7 +23,8 @@ import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
-import { QrCode, SVG, handleQRCodeDetected } from 'src/send/actions'
+import { SVG, handleQRCodeDetected } from 'src/send/actions'
+import { QrCode } from 'src/send/types'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 
@@ -151,7 +152,6 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     if (lastScannedQR.current === qrCode.data) {
       return
     }
-
     Logger.debug('QRScanner', 'Bar code detected')
     onQRCodeDetectedParam(qrCode)
     lastScannedQR.current = qrCode.data

@@ -14,7 +14,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
-import { QrCode, handleQRCodeDetectedSecureSend } from 'src/send/actions'
+import { handleQRCodeDetectedSecureSend } from 'src/send/actions'
+import { QrCode } from 'src/send/types'
 import fontStyles from 'src/styles/fonts'
 
 const AVATAR_SIZE = 64

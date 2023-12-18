@@ -77,7 +77,7 @@ describe(SessionRequest, () => {
 
   describe('new session', () => {
     it('renders the correct elements', () => {
-      const { getByText, queryByText } = render(
+      const { getByText, queryByText, queryByTestId } = render(
         <Provider store={store}>
           <SessionRequest
             version={2}
@@ -90,12 +90,13 @@ describe(SessionRequest, () => {
 
       expect(getByText('connectToWallet, {"dappName":"React App"}')).toBeTruthy()
       expect(getByText('shareInfo')).toBeTruthy()
-      expect(getByText('allow')).toBeTruthy()
+      expect(getByText('walletConnectRequest.connectWalletAction')).toBeTruthy()
       expect(queryByText('dismiss')).toBeFalsy()
+      expect(queryByTestId('SessionRequest/NetworkChips')).toHaveTextContent('Celo Alfajores')
       expect(getByText(mockAccount.toLowerCase())).toBeTruthy()
     })
 
-    it('dispatches the correct action on press allow', () => {
+    it('dispatches the correct action on press connect wallet', () => {
       const { getByText } = render(
         <Provider store={store}>
           <SessionRequest
@@ -107,7 +108,7 @@ describe(SessionRequest, () => {
         </Provider>
       )
 
-      fireEvent.press(getByText('allow'))
+      fireEvent.press(getByText('walletConnectRequest.connectWalletAction'))
       expect(store.getActions()).toEqual([acceptSession(pendingSession, namespacesToApprove)])
     })
 
@@ -196,8 +197,8 @@ describe(SessionRequest, () => {
 
       expect(getByText('connectToWallet, {"dappName":"React App"}')).toBeTruthy()
       expect(getByText('shareInfo')).toBeTruthy()
-      // We still want to allow
-      expect(getByText('allow')).toBeTruthy()
+      // We still want to allow connection
+      expect(getByText('walletConnectRequest.connectWalletAction')).toBeTruthy()
       expect(queryByText('dismiss')).toBeFalsy()
       expect(queryByText(mockAccount.toLowerCase())).toBeTruthy()
       expect(
@@ -229,8 +230,8 @@ describe(SessionRequest, () => {
 
       expect(getByText('connectToWallet, {"dappName":"React App"}')).toBeTruthy()
       expect(getByText('shareInfo')).toBeTruthy()
-      // We still want to allow
-      expect(getByText('allow')).toBeTruthy()
+      // We still want to allow connection
+      expect(getByText('walletConnectRequest.connectWalletAction')).toBeTruthy()
       expect(queryByText('dismiss')).toBeFalsy()
       expect(queryByText(mockAccount.toLowerCase())).toBeTruthy()
       expect(
@@ -262,8 +263,8 @@ describe(SessionRequest, () => {
 
       expect(getByText('connectToWallet, {"dappName":"React App"}')).toBeTruthy()
       expect(getByText('shareInfo')).toBeTruthy()
-      // We still want to allow
-      expect(getByText('allow')).toBeTruthy()
+      // We still want to allow connection
+      expect(getByText('walletConnectRequest.connectWalletAction')).toBeTruthy()
       expect(queryByText('dismiss')).toBeFalsy()
       expect(queryByText(mockAccount.toLowerCase())).toBeTruthy()
       expect(

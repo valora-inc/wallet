@@ -200,7 +200,7 @@ export default WalletConnect = () => {
           .toBeVisible()
           .withTimeout(30 * 1000)
 
-        await element(by.text('Allow')).tap()
+        await element(by.text('Connect wallet')).tap()
         await verifySuccessfulConnection()
       })
 
@@ -218,7 +218,9 @@ export default WalletConnect = () => {
             },
           })
 
-          await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
+          await waitFor(
+            element(by.text(new RegExp(`^${dappName} would like to send a transaction.*`)))
+          )
             .toBeVisible()
             .withTimeout(15 * 1000)
           await verifySuccessfulTransaction('Send transaction', tx)
@@ -261,7 +263,9 @@ export default WalletConnect = () => {
           },
         })
 
-        await waitFor(element(by.text(`${dappName} would like to sign a Celo transaction.`)))
+        await waitFor(
+          element(by.text(new RegExp(`^${dappName} would like to sign a transaction.*`)))
+        )
           .toBeVisible()
           .withTimeout(15 * 1000)
         await verifySuccessfulTransaction('Sign transaction', tx)
