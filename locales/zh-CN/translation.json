@@ -1600,6 +1600,7 @@
       "selectCurrencyTitle": "消费资金"
     },
     "exchange": {
+      "informational": "为防止资金损失，请在与以下网络兼容的交易所或资产上使用此地址： <0>{{networks}}</0>",
       "copyAddress": "复制地址",
       "informationText": "只能使用<0>与 {{appName}}支持的网络兼容 </0>的交易所或资产，以防止资金损失",
       "bottomSheetTitle": "我可以通过哪些交易所存入资金？",
