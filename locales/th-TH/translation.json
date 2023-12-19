@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "เราเก็บรวบรวมข้อมูลเกี่ยวกับการใช้งาน {{appName}} ของคุณโดยไม่ระบุตัวตนเพื่อช่วยปรับปรุงแอปพลิเคชั่นสำหรับทุกคน",
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
-  "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณเชื่อมต่อกับเครือข่าย Celo ผ่านวิธีการที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในการตั้งค่าแอป",
+  "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "การกู้คืนด้วยอีเมลและโทรศัพท์",
   "setup": "ตั้งค่า",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "สำรองข้อมูลวลีกู้คืนรหัส",
   "introCompleteQuiz": "ทำแบบทดสอบการสำรองข้อมูลของเราเพื่อยืนยันว่าจะสามารถกู้คืนกระเป๋าเงินของคุณได้\n\nหากคุณจดบันทึกข้อมูลไม่ถูกต้อง คุณจะไม่สามารถเข้าถึงกระเป๋าเงินของคุณได้ หากมีอะไรเกิดขึ้นกับอุปกรณ์ของคุณ",
   "postSetupTitle": "วลีกู้คืนรหัสของคุณ",
-  "postSetupBody": "หากคุณทำวลีกู้คืนรหัสหาย คุณจะไม่สามารถเข้าถึง CELO และ Celo ดอลลาร์ทั้งหมดของคุณได้ ไม่มีใครหรือแม้แต่ {{appName}} ที่สามารถช่วยคุณกู้คืนบัญชีได้ หากไม่มีวลีกู้คืนรหัส โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัยและห้ามแบ่งปันให้ผู้อื่นทราบ",
+  "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your assets on {{appName}}. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
   "postSetupCTA": "เรียนรู้เกี่ยวกับวลีกู้คืนรหัสของคุณ",
   "failedFetchMnemonic": "ไม่สามารถเรียกดูวลีกู้คืนรหัสของคุณได้",
   "backupAndRecovery": "สำรองและกู้คืนข้อมูล",
@@ -358,16 +358,16 @@
   "payWithCard": "บัตรเดบิต",
   "payWithExchange": "การแลกเปลี่ยนคริปโตเคอร์เรนซี",
   "selectCashOutMethod": "เลือกวิธีการ:",
-  "receiveOnAddress": "ที่อยู่ Celo",
+  "receiveOnAddress": "ที่อยู่กระเป๋าเงิน",
   "receiveWithBidali": "บัตรของขวัญและการเติมเงินมือถือ",
   "fundingEducationDialog": {
     "title": "การฝากเงินเข้า {{appName}}",
-    "body": "{{appName}} ดำเนินการโดยเครือข่าย Celo {{appName}} ใช้ Celo ดอลลาร์ (cUSD) ซึ่งเป็นสกุลเงินดิจิทัลที่คงมูลค่าไว้เท่ากับดอลลาร์สหรัฐ\n\nหากต้องการฝากเงินไปยังกระเป๋าเงินของ {{appName}} ให้ซื้อ cUSD จากหนึ่งในผู้ให้บริการบุคคลที่สามที่มีอยู่ในพื้นที่ของคุณ สำหรับข้อมูลเพิ่มเติม โปรดเข้าไปที่ <0>{{link}}</0>",
+    "body": "To fund your {{appName}} wallet, purchase your preferred asset from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "ตกลง"
   },
   "cashOutEducationDialog": {
     "title": "ถอนจาก {{appName}}",
-    "body": "{{appName}} ดำเนินการโดยเครือข่าย Celo {{appName}} ใช้ Celo ดอลลาร์ (cUSD) ซึ่งเป็นสกุลเงินดิจิทัลที่คงมูลค่าไว้เท่ากับดอลลาร์สหรัฐ\n\nหากต้องการถอนเงินออกจากยอดคงเหลือของ {{appName}} ให้ขาย cUSD กับหนึ่งในผู้ให้บริการบุคคลที่สามที่มีอยู่ในพื้นที่ของคุณ สำหรับข้อมูลเพิ่มเติม โปรดเข้าไปที่ <0>{{link}}</0>",
+    "body": "To withdraw your {{appName}} balance, sell the desired asset with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "ตกลง"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "ยินดีต้อนรับสู่ {{appName}}",
   "chooseCountryCode": "รหัสประเทศ",
   "chooseCountry": "ประเทศ",
-  "joinText": "{{appName}} ช่วยให้คุณสามารถส่ง รับ และเก็บรักษามูลค่าบนเครือข่าย Celo ได้",
+  "joinText": "{{appName}} helps you to send, receive, and save value on the blockchain.",
   "terms": {
     "title": "ข้อกำหนดและเงื่อนไข",
     "heading1": "ข้อมูลและความเป็นส่วนตัว",
     "heading2": "สินทรัพย์ Celo และบัญชี {{appName}}",
     "info": "เพื่อใช้บริการของเรา โปรดอ่านและยอมรับ<0>ข้อกำหนดและข้อตกลงในการใช้บริการ</0> โดยคลิกปุ่มยอมรับด้านล่าง",
-    "privacy": "การเข้าร่วมเครือข่ายนี้แสดงว่าคุณให้อนุญาตเราเก็บรวบรวมข้อมูลโดยไม่ระบุตัวตนเกี่ยวกับการใช้งานแอปของคุณ นอกจากนี้ หากคุณเชื่อมต่อหมายเลขโทรศัพท์ของคุณ จะมีการจัดเก็บสำเนาแฮชบนเครือข่าย Celo หากคุณอนุญาตให้ Valora เข้าถึงรายชื่อผู้ติดต่อของคุณ Valora จะนำเข้าชื่อ หมายเลขโทรศัพท์ และรูปโปรไฟล์ของผู้ติดต่อแต่ละรายเพื่อให้ผู้ใช้สามารถเชื่อมต่อผ่านแอป Valora ได้ หากต้องการเรียนรู้วิธีการเก็บรวบรวมและใช้ข้อมูลนี้ของเรา โปรดตรวจสอบ<0>นโยบายความเป็นส่วนตัว</0>ของเรา",
-    "goldDisclaimer": "เมื่อคุณสร้าง \"บัญชี\" กับ Valora เท่ากับคุณกำลังสร้างกระเป๋าเงินดิจิทัลที่มีเพียงคุณผู้เดียวเท่านั้นที่เป็นผู้ถือกุญแจ ไม่มีบุคคลหรือหน่วยงานใด รวมถึง cLabs หรือ Valora ที่สามารถกู้คืนกุญแจของคุณ เปลี่ยนแปลงหรือยกเลิกธุรกรรม หรือเรียกคืนเงินที่สูญเสียไปได้ โปรดทราบว่า CELO, cUSD และ cEUR เป็นส่วนหนึ่งของประเภทสินทรัพย์ใหม่และมีความเสี่ยงที่จะเกิดผลขาดทุนการเงิน โปรดพิจารณาสถานการณ์ทางการเงินและความสามารถในการยอมรับความเสี่ยงทางการเงินของคุณอย่างรอบคอบก่อนซื้อสินทรัพย์ใดๆ"
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that cryptocurrencies are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any asset."
   },
   "fullNameOrPsuedonym": "ชื่อและนามสกุลหรือนามแฝง",
   "namePlaceholder": "ชื่อ",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "ลองเชื่อมต่ออีกครั้งด้วยโหมดประหยัดข้อมูล",
     "body1": "เกิดปัญหาขณะเชื่อมต่อหมายเลขโทรศัพท์ของคุณ เราขอแนะนำให้ลองอีกครั้งโดยเปิดใช้งานโหมดประหยัดข้อมูลไว้",
-    "body2": "โหมดประหยัดข้อมูลช่วยให้คุณสามารถเชื่อมต่อกับเครือข่าย Celo ได้อย่างสม่ำเสมอยิ่งขึ้นโดยใช้การเชื่อมต่อที่น่าเชื่อถือ",
+    "body2": "Data Saver mode allows you to communicate with the network more consistently using a trusted connection.",
     "retryButton": "ลองอีกครั้งด้วยโหมดประหยัดข้อมูล"
   },
   "congratsVerified": "ยินดีด้วย หมายเลขโทรศัพท์ของคุณได้รับการเชื่อมต่อแล้ว",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "คุณแน่ใจหรือไม่",
-    "body": "การเชื่อมต่อจะช่วยให้คุณสามารถส่งและรับเงินไปยังหมายเลขโทรศัพท์ใดก็ได้\n\nบัญชีที่ไม่ได้เชื่อมต่อจะสามารถส่งการชำระเงินโดยใช้ที่อยู่ Celo หรือ QR Code ได้เท่านั้น",
+    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using wallet addresses or QR codes.",
     "cancel": "ย้อนกลับ",
     "confirm": "ข้ามไปก่อน"
   },
@@ -942,7 +942,7 @@
   "commentLabel": "ข้อความ",
   "amountSent": "จำนวนเงินที่ส่ง",
   "amountCeloWithdrawn": "จำนวนเงิน (CELO)",
-  "feeEducation": "บล็อกเชน Celo เก็บค่าธรรมเนียมการทำธุรกรรมเพื่อให้เครือข่ายได้รับการสนับสนุนและทำงานอย่างราบรื่น",
+  "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "ตรวจสอบการชำระเงิน",
   "requestPayment": "ส่งคำขอการชำระเงิน",
   "max": "สูงสุด",
@@ -1054,8 +1054,8 @@
     "operation": "การดำเนินการ",
     "data": "ข้อมูล",
     "sign": "ปริมาณข้อมูลส่ง",
-    "signTransaction": "ลงนามธุรกรรม Celo",
-    "sendTransaction": "ส่งธุรกรรม Celo",
+    "signTransaction": "Sign a transaction",
+    "sendTransaction": "Send a transaction",
     "decrypt": "ถอดรหัสปริมาณข้อมูลส่ง",
     "accounts": "อ่านที่อยู่บัญชี {{appName}} ของคุณ",
     "details": "ดูข้อมูลธุรกรรม",
@@ -1068,11 +1068,11 @@
     "signPayloadTitle": "ยืนยันกระเป๋าเงิน",
     "signPayload": "{{dappName}} ต้องการยืนยันความเป็นเจ้าของกระเป๋าเงินของคุณ",
     "signTransactionTitle": "ลงนามธุรกรรม",
-    "signTransaction": "{{dappName}} ต้องการลงนามในธุรกรรม CELO",
+    "signTransaction": "{{dappName}} would like to sign a transaction.",
     "signDappTransaction": "{{dappName}} would like to sign a transaction on the {{networkName}} network.",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} would like to sign a transaction on an unsupported network.",
     "sendTransactionTitle": "ส่งธุรกรรม",
-    "sendTransaction": "{{dappName}} ต้องการส่งธุรกรรม CELO",
+    "sendTransaction": "{{dappName}} would like to send a transaction.",
     "sendDappTransaction": "{{dappName}} would like to send a transaction on the {{networkName}} network.",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} would like to send a transaction on an unsupported network.",
     "decryptPayloadTitle": "ถอดรหัสด้วยกระเป๋าเงิน",
@@ -1421,8 +1421,8 @@
   "noMoreTransactions": "ไม่มีธุรกรรมเพิ่มอีก",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "การซื้อดำเนินการโดยผู้ให้บริการที่เป็นพันธมิตรของเรา วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ ค่าธรรมเนียมอาจแตกต่างกันไป",
-    "disclaimerWithSomePaymentsUnavailable": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo ค่าธรรมเนียมอาจแตกต่างกันไป วิธีการชำระเงินบางอย่างอาจไม่สามารถใช้ได้ในประเทศของคุณ <0>ดูข้อมูลเพิ่มเติม</0>",
-    "disclaimer": "การชำระเงินดำเนินการโดยพันธมิตรบน Celo ค่าธรรมเนียมอาจแตกต่างกันไป <0>ดูข้อมูลเพิ่มเติม</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by network partners. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
+    "disclaimer": "Payments are powered by network partners. Fees may vary. <0>Learn more.</0>",
     "learnMore": "ดูข้อมูลเพิ่มเติม",
     "whyMissingPayments": "ทำไมฉันจึงเห็นวิธีการชำระเงินเพียงเท่านี้",
     "dismiss": "ปิด",
@@ -1601,9 +1601,9 @@
     },
     "exchange": {
       "copyAddress": "ที่อยู่คัดลอก",
-      "informationText": "ใช้การแลกเปลี่ยนหรือสินทรัพย์เท่านั้น <0> เข้ากันได้กับเครือข่าย CELO </0> เพื่อป้องกันการสูญเสียเงินทุน",
+      "informationText": "Only use exchanges or assets <0>compatible with networks supported by {{appName}}</0> to prevent loss of funds",
       "bottomSheetTitle": "ฉันสามารถใช้การแลกเปลี่ยนอะไรเพื่อฝากเงินได้?",
-      "bottomSheetInfo": "ตรวจสอบอีกครั้งว่าคุณกำลังส่งสินทรัพย์ที่เข้ากันได้กับเครือข่าย CELO"
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the the networks supported by {{appName}}."
     }
   },
   "fiatDetailsScreen": {
