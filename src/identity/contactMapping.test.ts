@@ -262,6 +262,8 @@ describe('saveContacts', () => {
       body: JSON.stringify({
         phoneNumber: mockE164Number,
         contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+        clientPlatform: 'android',
+        clientVersion: '0.0.1',
       }),
       signal: expect.any(AbortSignal),
     })
@@ -297,6 +299,8 @@ describe('saveContacts', () => {
       body: JSON.stringify({
         phoneNumber: mockE164Number,
         contacts: [mockE164Number2, mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+        clientPlatform: 'android',
+        clientVersion: '0.0.1',
       }),
       signal: expect.any(AbortSignal),
     })
@@ -367,6 +371,8 @@ describe('saveContacts', () => {
       body: JSON.stringify({
         phoneNumber: mockE164Number,
         contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+        clientPlatform: 'android',
+        clientVersion: '0.0.1',
       }),
       signal: expect.any(AbortSignal),
     })
