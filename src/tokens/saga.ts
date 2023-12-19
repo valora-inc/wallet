@@ -255,6 +255,9 @@ export function* fetchTokenPriceHistorySaga({
     if (!getFeatureGate(StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API)) {
       return
     }
+    if (!tokenId) {
+      throw new Error('TokenId is required')
+    }
     const priceHistory = yield* call(fetchTokenPriceHistory, tokenId, startTimestamp, endTimestamp)
     yield* put(fetchPriceHistorySuccess({ tokenId, priceHistory }))
   } catch (err) {
