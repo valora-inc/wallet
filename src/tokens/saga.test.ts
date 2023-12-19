@@ -5,10 +5,11 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import {
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
+  fetchTokenPriceHistorySaga,
   getTokensInfo,
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
@@ -22,6 +23,7 @@ import {
 } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockAccount,
@@ -261,5 +263,61 @@ describe('watchAccountFundedOrLiquidated', () => {
       .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+  })
+})
+
+describe('watchFetchTokenPriceHistory', () => {
+  const mockPriceHistory = [
+    {
+      priceFetchedAt: 1700378258000,
+      priceUsd: '0.97',
+    },
+    {
+      priceFetchedAt: 1701659858000,
+      priceUsd: '1.2',
+    },
+    {
+      priceFetchedAt: 1702941458000,
+      priceUsd: '1.4',
+    },
+  ]
+  beforeEach(() => {
+    mockFetch.resetMocks()
+  })
+
+  it('attempts to fetch token price history when feature gate is active', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    await expectSaga(fetchTokenPriceHistorySaga, {
+      payload: {
+        tokenId: mockCusdTokenId,
+        startTimestamp: 1700378258000,
+        endTimestamp: 1702941458000,
+      },
+    } as any).run()
+    mockFetch.mockResponseOnce(
+      JSON.stringify({
+        data: mockPriceHistory,
+      }),
+      {
+        status: 200,
+      }
+    )
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(mockFetch).toHaveBeenCalledWith(
+      `${networkConfig.blockchainApiUrl}/tokensInfo/${mockCusdTokenId}/priceHistory?startTimestamp=1700378258000&endTimestamp=1702941458000`,
+      expect.any(Object)
+    )
+  })
+
+  it('does not attempt to fetch token price history when feature gate is inactive', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    await expectSaga(fetchTokenPriceHistorySaga, {
+      payload: {
+        tokenId: mockCusdTokenId,
+        startTimestamp: 1700378258000,
+        endTimestamp: 1702941458000,
+      },
+    } as any).run()
+    expect(mockFetch).toHaveBeenCalledTimes(0)
   })
 })
