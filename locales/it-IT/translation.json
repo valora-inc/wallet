@@ -1602,6 +1602,7 @@
       "selectCurrencyTitle": "Spendi fondi"
     },
     "exchange": {
+      "informational": "Per evitare perdite di fondi, utilizza questo indirizzo su scambi o attività compatibili con le seguenti reti: <0>{{networks}}</0>",
       "copyAddress": "Copia Indirizzo",
       "informationText": "Utilizza solo scambi o attività <0>compatibili con le reti supportate da {{appName}}</0> per evitare perdite di fondi.",
       "bottomSheetTitle": "Quali exchange posso utilizzare per depositare i fondi?",
