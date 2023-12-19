@@ -227,7 +227,7 @@ export async function fetchTokenPriceHistory(
   tokenId: string,
   startTimestamp?: number,
   endTimestamp?: number
-): Promise<[TokenPriceHistoryEntry]> {
+): Promise<TokenPriceHistoryEntry[]> {
   const queryParams = new URLSearchParams()
   if (startTimestamp) {
     queryParams.append('startTimestamp', `${startTimestamp}`)
@@ -245,7 +245,8 @@ export async function fetchTokenPriceHistory(
       `Failed to fetch price history for ${tokenId}: ${response.status} ${response.statusText}`
     )
   }
-  return await response.json()
+  const { data } = await response.json()
+  return data
 }
 
 export function* fetchTokenPriceHistorySaga({

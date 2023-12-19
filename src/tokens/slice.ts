@@ -157,7 +157,7 @@ const slice = createSlice({
     },
     fetchPriceHistorySuccess: (
       state: Draft<State>,
-      action: PayloadAction<{ tokenId: string; priceHistory: [TokenPriceHistoryEntry] }>
+      action: PayloadAction<{ tokenId: string; priceHistory: TokenPriceHistoryEntry[] }>
     ) => {
       const { tokenId, priceHistory } = action.payload
       const token = state.tokenBalances[tokenId]
