@@ -33,8 +33,7 @@ import { getContractKit } from 'src/web3/contracts'
 import { default as config, default as networkConfig } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { createMockStore } from 'test/utils'
-import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockAccount, mockCeloTokenBalance, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockBaseNonce = 10
 
@@ -106,10 +105,13 @@ describe('fetchAvailableRewardsSaga', () => {
     const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
-      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
       ])
       .put(setAvailableRewards(expectedRewards))
@@ -126,10 +128,13 @@ describe('fetchAvailableRewardsSaga', () => {
     const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
-      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [
           call(
             fetchWithTimeout,
@@ -150,10 +155,13 @@ describe('fetchAvailableRewardsSaga', () => {
     const uri = `${config.fetchAvailableSuperchargeRewards}?address=${userAddress}`
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
-      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
       .not.put(setAvailableRewards(expect.anything()))
@@ -165,10 +173,13 @@ describe('fetchAvailableRewardsSaga', () => {
 
   it('skips fetching rewards for an unverified user for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
-      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), false],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
       ])
       .not.call.fn(fetchWithTimeout)
       .run()
@@ -178,8 +189,8 @@ describe('fetchAvailableRewardsSaga', () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(walletAddressSelector), userAddress],
-        [select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]), []],
         [select(phoneNumberVerifiedSelector), true],
+        [select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]), []],
       ])
       .not.call.fn(fetchWithTimeout)
       .run()
@@ -187,10 +198,13 @@ describe('fetchAvailableRewardsSaga', () => {
 
   it('displays an error if a user is not properly verified for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
-      .withState(createMockStore({}).getState())
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [
           call(
             fetchWithTimeout,
