@@ -72,6 +72,7 @@ interface NetworkConfig {
   crealTokenId: string
   celoTokenId: string
   spendTokenIds: string[]
+  saveContactsUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
@@ -204,6 +205,9 @@ const CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/storeEn
 const CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
 const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
 
+const SAVE_CONTACTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/saveContacts`
+const SAVE_CONTACTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/saveContacts`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
@@ -275,6 +279,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     crealTokenId: CREAL_TOKEN_ID_STAGING,
     celoTokenId: CELO_TOKEN_ID_STAGING,
     spendTokenIds: [CUSD_TOKEN_ID_STAGING, CEUR_TOKEN_ID_STAGING],
+    saveContactsUrl: SAVE_CONTACTS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
@@ -345,6 +350,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     crealTokenId: CREAL_TOKEN_ID_MAINNET,
     celoTokenId: CELO_TOKEN_ID_MAINNET,
     spendTokenIds: [CUSD_TOKEN_ID_MAINNET, CEUR_TOKEN_ID_MAINNET],
+    saveContactsUrl: SAVE_CONTACTS_MAINNET,
   },
 }
 

@@ -33,3 +33,6 @@ export const identifierToE164NumberSelector = createSelector(
     return identifierToE164Numbers
   }
 )
+
+export const lastSavedContactsHashSelector = (state: RootState) =>
+  state.identity.lastSavedContactsHash

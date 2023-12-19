@@ -6,6 +6,7 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
+import { AddressValidationType } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -16,9 +17,11 @@ import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
+  mockAccount3,
   mockAddressRecipient,
   mockDisplayNumber2Invite,
   mockE164Number2Invite,
+  mockE164Number3,
   mockPhoneRecipientCache,
   mockRecipient,
   mockRecipient2,
@@ -517,6 +520,162 @@ describe('SendSelectRecipient', () => {
       )
 
       expect(queryByTestId('InviteRewardsCard')).toBeFalsy()
+    })
+  })
+  it('navigates to send amount when phone number recipient with single address', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+
+    const store = createMockStore({
+      ...storeWithPhoneVerified,
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164Number3]: { addressValidationType: AddressValidationType.NONE },
+        },
+        e164NumberToAddress: { [mockE164Number3]: [mockAccount3] },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockE164Number3)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SendEvents.send_select_recipient_send_press,
+      {
+        recipientType: RecipientType.PhoneNumber,
+      }
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: {
+        address: mockAccount3,
+        displayNumber: '(415) 555-0123',
+        e164PhoneNumber: mockE164Number3,
+        recipientType: 'PhoneNumber',
+      },
+      origin: SendOrigin.AppSendFlow,
+    })
+  })
+  it('navigates to secure send flow when phone number recipient with multiple addresses, first time seeing it', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+
+    const store = createMockStore({
+      ...storeWithPhoneVerified,
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164Number3]: { addressValidationType: AddressValidationType.PARTIAL },
+        },
+        e164NumberToAddress: { [mockE164Number3]: [mockAccount2, mockAccount3] },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockE164Number3)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SendEvents.send_select_recipient_send_press,
+      {
+        recipientType: RecipientType.PhoneNumber,
+      }
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientIntro, {
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: expect.any(Object),
+      origin: SendOrigin.AppSendFlow,
+    })
+  })
+  it('navigates to send enter amount when phone number recipient with multiple addresses, already done secure send', async () => {
+    jest
+      .mocked(getRecipientVerificationStatus)
+      .mockReturnValue(RecipientVerificationStatus.VERIFIED)
+
+    const store = createMockStore({
+      ...storeWithPhoneVerified,
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164Number3]: {
+            addressValidationType: AddressValidationType.NONE,
+            address: mockAccount3,
+          },
+        },
+        e164NumberToAddress: { [mockE164Number3]: [mockAccount2, mockAccount3] },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <SendSelectRecipient {...mockScreenProps({})} />
+      </Provider>
+    )
+    const searchInput = getByTestId('SendSelectRecipientSearchInput')
+
+    await act(() => {
+      fireEvent.changeText(searchInput, mockE164Number3)
+    })
+    await act(() => {
+      fireEvent.press(getByTestId('RecipientItem'))
+    })
+
+    expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('SendOrInviteButton'))
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SendEvents.send_select_recipient_send_press,
+      {
+        recipientType: RecipientType.PhoneNumber,
+      }
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: {
+        address: mockAccount3,
+        displayNumber: '(415) 555-0123',
+        e164PhoneNumber: mockE164Number3,
+        recipientType: 'PhoneNumber',
+      },
+      origin: SendOrigin.AppSendFlow,
     })
   })
 })
