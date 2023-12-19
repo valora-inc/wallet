@@ -1600,6 +1600,7 @@
       "selectCurrencyTitle": "Chi tiêu tiền"
     },
     "exchange": {
+      "informational": "To prevent loss of funds, use this address on exchanges or assets compatible with the following networks: <0>{{networks}}</0>",
       "copyAddress": "Địa chỉ sao chép",
       "informationText": "Only use exchanges or assets <0>compatible with networks supported by {{appName}}</0> to prevent loss of funds",
       "bottomSheetTitle": "Tôi có thể sử dụng những trao đổi nào để gửi tiền?",
