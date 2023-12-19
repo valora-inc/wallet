@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
-  "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
+  "dataSaverDetail": "El modo de Ahorro de Datos te permite comunicarte con la red a través de un nodo de confianza. Siempre puedes cambiar este modo en los ajustes de la aplicación.",
   "keylessBackupSettingsTitle": "Recuperación de correo electrónico y teléfono",
   "setup": "Configurar",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Respalda tu frase de recuperación",
   "introCompleteQuiz": "Completa la prueba de respaldo para confirmar que podrás restaurar tu wallet si lo necesitas.\n\nSi no la anotaste correctamente, no podrás acceder a tu wallet en caso de que necesites restaurarla.",
   "postSetupTitle": "Esta es tu Frase de recuperación",
-  "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a tus activos Celo. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa frase. Guárdala en un lugar seguro y no la compartas con nadie.",
+  "postSetupBody": "Si pierdes tu Frase de Recuperación, perderás el acceso a todos tus activos en {{appName}}. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin tu Frase de Recuperación. Guárdala en un lugar seguro y no la compartas.",
   "postSetupCTA": "Conoce más sobre la Frase de recuperación",
   "failedFetchMnemonic": "Error al intentar obtener la Frase de recuperación",
   "backupAndRecovery": "Respaldo y recuperación",
@@ -358,16 +358,16 @@
   "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Seleccionar método:",
-  "receiveOnAddress": "Dirección Celo",
+  "receiveOnAddress": "Dirección de wallet",
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
     "title": "Agregar fondos a {{appName}}",
-    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dollars (cUSD), Celo Euros y Celo Real, monedas digitales estables sujetas al dólar estadounidense, el euro y el real brasileño.\n\nPara agregar fondos a tu cuenta de {{appName}}, compra cUSD, cEUR o cREAL de uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "Para financiar tu monedero {{appName}} , compra tu activo preferido a uno de los proveedores externos disponibles en tu localidad. Para más información, visita <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retira fondos de {{appName}}",
-    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dollars (cUSD), Celo Euros (cEUR) y Celo Real (cREAL), monedas digitales estables sujetas al dólar estadounidense, el euro y el real brasileño.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD, cEUR o cREAL a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "Para retirar tu saldo de {{appName}} , vende el activo deseado con uno de los proveedores externos disponibles en tu localidad. Para más información, visita <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
   "chooseCountryCode": "Código de país",
   "chooseCountry": "País",
-  "joinText": "{{appName}} te ayuda a enviar, recibir y guardar valor en la red Celo.",
+  "joinText": "{{appName}} te ayuda a enviar, recibir y guardar valor en la cadena de bloques.",
   "terms": {
     "title": "Condiciones de uso",
     "heading1": "Datos y privacidad",
     "heading2": "Activos Celo y cuenta de {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
-    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
+    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se almacenará una copia con hash del mismo. Si concedes a Valora acceso a tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de cada contacto para permitir que los usuarios se conecten a través de la app de Valora. Para saber cómo recopilamos y utilizamos esta información, consulta nuestra <0>Política de privacidad</0>.",
+    "goldDisclaimer": "Cuando creas una \"cuenta\" con Valora, estás creando un monedero digital del que sólo tú tienes las claves. Ninguna otra persona o entidad, incluida Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "fullNameOrPsuedonym": "Nombre o alias",
   "namePlaceholder": "p. ej. nombre",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "¿Quieres volver a intentarlo en modo de Ahorro de datos?",
     "body1": "Se ha producido un problema al intentar conectar tu número de teléfono. Te recomendamos volver a intentarlo en modo Ahorro de datos.",
-    "body2": "El modo de Ahorro de datos te permite comunicarte con la red Celo de manera más consistente a través de una conexión confiable.",
+    "body2": "El modo Ahorro de datos te permite comunicarte con la red de forma más constante utilizando una conexión de confianza.",
     "retryButton": "Reintentar con Ahorro de datos"
   },
   "congratsVerified": "¡Felicitaciones! tu número de teléfono está conectado.",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "¿Quieres omitir este paso?",
-    "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta Celo o códigos QR.",
+    "body": "La conexión te permite enviar y recibir fondos a cualquier número de teléfono.\n\nLas cuentas que no están conectadas sólo pueden enviar pagos utilizando direcciones de monedero o códigos QR.",
     "cancel": "Regresar",
     "confirm": "Omitir por ahora"
   },
@@ -944,7 +944,7 @@
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
-  "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
+  "feeEducation": "Las cadenas de bloques cobran una comisión por transacción para mantener las redes apoyadas y funcionando sin problemas.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "max": "MAX",
@@ -1056,8 +1056,8 @@
     "operation": "Operación",
     "data": "Datos",
     "sign": "Aprobar carga de datos",
-    "signTransaction": "Aprobar transacción Celo",
-    "sendTransaction": "Enviar transacción Celo",
+    "signTransaction": "Firmar una transacción",
+    "sendTransaction": "Enviar una transacción",
     "decrypt": "Descifrar payload de datos",
     "accounts": "Tu Dirección de cuenta de {{appName}}",
     "details": "Datos de la transacción",
@@ -1070,11 +1070,11 @@
     "signPayloadTitle": "Verificar wallet",
     "signPayload": "{{dappName}} desea verificar la propiedad de tu wallet.",
     "signTransactionTitle": "Firmar transacción",
-    "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
+    "signTransaction": "{{dappName}} te gustaría firmar una transacción.",
     "signDappTransaction": "{{dappName}} desea firmar una transacción en la red {{networkName}} .",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} quiere firmar una transacción en una red no soportada.",
     "sendTransactionTitle": "Enviar transacción",
-    "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
+    "sendTransaction": "{{dappName}} desea enviar una transacción.",
     "sendDappTransaction": "{{dappName}} desea enviar una transacción a través de la red {{networkName}} .",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} quieres enviar una transacción en una red no soportada.",
     "decryptPayloadTitle": "Descifrar con wallet",
@@ -1423,8 +1423,8 @@
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región.",
-    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
-    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. <0>Más información.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de socios de la red. Las comisiones pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
+    "disclaimer": "Los pagos se realizan a través de socios de la red. Las comisiones pueden variar. <0>Más información.</0>",
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
@@ -1603,9 +1603,9 @@
     },
     "exchange": {
       "copyAddress": "Copiar dirección",
-      "informationText": "Utiliza solo exchanges y activos <0>compatibles con la red Celo</0> para evitar la pérdida de fondos.",
+      "informationText": "Utiliza sólo bolsas o activos <0>compatibles con las redes soportadas por {{appName}}</0> para evitar la pérdida de fondos.",
       "bottomSheetTitle": "¿Qué exchanges puedo utilizar para depositar fondos?",
-      "bottomSheetInfo": "Comprueba que estás enviando activos compatibles con la red Celo."
+      "bottomSheetInfo": "Comprueba que envías activos compatibles con las redes que admite {{appName}}."
     }
   },
   "fiatDetailsScreen": {
