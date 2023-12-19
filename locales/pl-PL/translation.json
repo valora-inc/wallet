@@ -1606,6 +1606,7 @@
       "selectCurrencyTitle": "Wykorzystaj środki"
     },
     "exchange": {
+      "informational": "Aby zapobiec utracie środków, używaj tego adresu na giełdach lub aktywach kompatybilnych z następującymi sieciami: <0>{{networks}}</0>",
       "copyAddress": "Skopiuj adres",
       "informationText": "Korzystaj wyłącznie z giełd lub aktywów <0>kompatybilnych z sieciami obsługiwanymi przez {{appName}}</0>, aby zapobiec utracie środków.",
       "bottomSheetTitle": "Z jakich giełd mogę korzystać, aby wpłacać środki?",
