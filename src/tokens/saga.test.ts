@@ -18,6 +18,9 @@ import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
+  TokenPriceHistoryEntry,
+  fetchPriceHistoryFailure,
+  fetchPriceHistorySuccess,
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
@@ -280,20 +283,14 @@ describe('watchFetchTokenPriceHistory', () => {
       priceFetchedAt: 1702941458000,
       priceUsd: '1.4',
     },
-  ]
+  ] as TokenPriceHistoryEntry[]
+
   beforeEach(() => {
     mockFetch.resetMocks()
   })
 
-  it('attempts to fetch token price history when feature gate is active', async () => {
+  it('successfully fetches token price history when the feature gate is active', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    await expectSaga(fetchTokenPriceHistorySaga, {
-      payload: {
-        tokenId: mockCusdTokenId,
-        startTimestamp: 1700378258000,
-        endTimestamp: 1702941458000,
-      },
-    } as any).run()
     mockFetch.mockResponseOnce(
       JSON.stringify({
         data: mockPriceHistory,
@@ -302,6 +299,21 @@ describe('watchFetchTokenPriceHistory', () => {
         status: 200,
       }
     )
+    await expectSaga(fetchTokenPriceHistorySaga, {
+      payload: {
+        tokenId: mockCusdTokenId,
+        startTimestamp: 1700378258000,
+        endTimestamp: 1702941458000,
+      },
+    } as any)
+      .put(
+        fetchPriceHistorySuccess({
+          tokenId: mockCusdTokenId,
+          priceHistory: mockPriceHistory,
+        })
+      )
+      .run()
+
     expect(mockFetch).toHaveBeenCalledTimes(1)
     expect(mockFetch).toHaveBeenCalledWith(
       `${networkConfig.blockchainApiUrl}/tokensInfo/${mockCusdTokenId}/priceHistory?startTimestamp=1700378258000&endTimestamp=1702941458000`,
@@ -319,5 +331,32 @@ describe('watchFetchTokenPriceHistory', () => {
       },
     } as any).run()
     expect(mockFetch).toHaveBeenCalledTimes(0)
+  })
+
+  it('logs errors on failed fetches', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    mockFetch.mockResponseOnce('Internal Server Error', {
+      status: 500,
+    })
+
+    await expectSaga(fetchTokenPriceHistorySaga, {
+      payload: {
+        tokenId: mockCusdTokenId,
+        startTimestamp: 1700378258000,
+        endTimestamp: 1702941458000,
+      },
+    } as any)
+      .put(
+        fetchPriceHistoryFailure({
+          tokenId: mockCusdTokenId,
+        })
+      )
+      .run()
+
+    expect(Logger.error).toHaveBeenLastCalledWith(
+      'tokens/saga',
+      'error fetching token price history',
+      `Failed to fetch price history for ${mockCusdTokenId}: 500 Internal Server Error`
+    )
   })
 })
