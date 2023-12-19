@@ -2922,7 +2922,7 @@ export const v178Schema = {
     ...v177Schema._persist,
     version: 178,
   },
-  swap: _.omit(v172Schema.swap, 'guaranteedSwapPriceEnabled'),
+  swap: _.omit(v177Schema.swap, 'guaranteedSwapPriceEnabled'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
