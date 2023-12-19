@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
-  "dataSaverDetail": "Data Saver mode allows you to communicate with the Celo Network through a trusted node. You can always change this mode in app settings.",
+  "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "Email & Phone Recovery",
   "setup": "Set Up",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Back Up Recovery Phrase",
   "introCompleteQuiz": "Complete our backup quiz to verify that your wallet can be recovered.\n\nIf you wrote it down incorrectly, you won’t be able to access your wallet if anything happens to your device.",
   "postSetupTitle": "Your Recovery Phrase",
-  "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your Celo Dollars and CELO. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
+  "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your assets on {{appName}}. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
   "postSetupCTA": "Learn about your Recovery Phrase",
   "failedFetchMnemonic": "Failed to fetch your Recovery Phrase",
   "backupAndRecovery": "Backup and Recovery",
@@ -358,16 +358,16 @@
   "payWithCard": "Debit card",
   "payWithExchange": "Cryptocurrency exchange",
   "selectCashOutMethod": "Select method:",
-  "receiveOnAddress": "Celo address",
+  "receiveOnAddress": "Wallet address",
   "receiveWithBidali": "Gift Cards and Mobile Top Up",
   "fundingEducationDialog": {
     "title": "Funding your {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo fund your {{appName}} wallet, purchase cUSD from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
+    "body": "To fund your {{appName}} wallet, purchase your preferred asset from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Withdraw from {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo withdraw your {{appName}} balance, sell cUSD with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
+    "body": "To withdraw your {{appName}} balance, sell the desired asset with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "Welcome to {{appName}}",
   "chooseCountryCode": "Country Code",
   "chooseCountry": "Country",
-  "joinText": "{{appName}} helps you to send, receive, and save value on the Celo Network.",
+  "joinText": "{{appName}} helps you to send, receive, and save value on the blockchain.",
   "terms": {
     "title": "Terms and Conditions",
     "heading1": "Data and Privacy",
     "heading2": "Celo Assets and {{appName}} Account",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
-    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored on the Celo Network. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including cLabs or Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that CELO, cUSD and cEUR are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstance and tolerance for financial risk before purchasing any asset."
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that cryptocurrencies are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any asset."
   },
   "fullNameOrPsuedonym": "Full name or pseudonym",
   "namePlaceholder": "ex. name",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Retry Connection with Data Saver?",
     "body1": "An issue has occurred while connecting your phone number. We recommend trying again with Data Saver mode enabled.",
-    "body2": "Data Saver mode allows you to communicate with the Celo Network more consistently using a trusted connection.",
+    "body2": "Data Saver mode allows you to communicate with the network more consistently using a trusted connection.",
     "retryButton": "Retry with Data Saver"
   },
   "congratsVerified": "Congratulations, your phone number is now connected!",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Are you sure?",
-    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using Celo addresses or QR codes.",
+    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using wallet addresses or QR codes.",
     "cancel": "Go Back",
     "confirm": "Skip for now"
   },
@@ -946,7 +946,7 @@
   "commentLabel": "Message",
   "amountSent": "Amount Sent",
   "amountCeloWithdrawn": "Amount (CELO)",
-  "feeEducation": "The Celo Blockchain collects a transaction fee to keep the network supported and running smoothly.",
+  "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "Review Payment",
   "requestPayment": "Request Payment",
   "max": "MAX",
@@ -1058,8 +1058,8 @@
     "operation": "Operation",
     "data": "Data",
     "sign": "Sign a data payload",
-    "signTransaction": "Sign a Celo transaction",
-    "sendTransaction": "Send a Celo transaction",
+    "signTransaction": "Sign a transaction",
+    "sendTransaction": "Send a transaction",
     "decrypt": "Decrypt a data payload",
     "accounts": "Read your {{appName}} Account Address",
     "details": "View transaction data",
@@ -1072,11 +1072,11 @@
     "signPayloadTitle": "Verify wallet",
     "signPayload": "{{dappName}} would like to verify ownership of your wallet.",
     "signTransactionTitle": "Sign transaction",
-    "signTransaction": "{{dappName}} would like to sign a Celo transaction.",
+    "signTransaction": "{{dappName}} would like to sign a transaction.",
     "signDappTransaction": "{{dappName}} would like to sign a transaction on the {{networkName}} network.",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} would like to sign a transaction on an unsupported network.",
     "sendTransactionTitle": "Send transaction",
-    "sendTransaction": "{{dappName}} would like to send a Celo transaction.",
+    "sendTransaction": "{{dappName}} would like to send a transaction.",
     "sendDappTransaction": "{{dappName}} would like to send a transaction on the {{networkName}} network.",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} would like to send a transaction on an unsupported network.",
     "decryptPayloadTitle": "Decrypt with wallet",
@@ -1425,8 +1425,8 @@
   "noMoreTransactions": "There are no more transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Purchases are powered by our partner providers. Some payment methods are unavailable in your region.",
-    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by partners on Celo. Some payment methods are unavailable in your region. <0>Learn more.</0>",
-    "disclaimer": "Payments are powered by partners on Celo. <0>Learn more.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by network partners. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
+    "disclaimer": "Payments are powered by network partners. Fees may vary. <0>Learn more.</0>",
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
@@ -1605,9 +1605,9 @@
     },
     "exchange": {
       "copyAddress": "Copy Address",
-      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "informationText": "Only use exchanges or assets <0>compatible with networks supported by {{appName}}</0> to prevent loss of funds",
       "bottomSheetTitle": "What exchanges can I use to deposit funds?",
-      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the the networks supported by {{appName}}."
     }
   },
   "fiatDetailsScreen": {
