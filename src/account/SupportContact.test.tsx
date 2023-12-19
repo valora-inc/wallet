@@ -11,6 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { MultichainBetaStatus } from 'src/app/actions'
 
 const mockScreenProps = getMockStackScreenProps(Screens.SupportContact)
 jest.mock('src/account/zendesk')
@@ -67,7 +68,9 @@ describe('Contact', () => {
       mockedLogAttachments.mockResolvedValue(logAttachments)
 
       const { getByTestId } = render(
-        <Provider store={createMockStore({})}>
+        <Provider
+          store={createMockStore({ app: { multichainBetaStatus: MultichainBetaStatus.OptedIn } })}
+        >
           <SupportContact {...mockScreenProps} />
         </Provider>
       )
@@ -80,7 +83,7 @@ describe('Contact', () => {
       expect(Mailer.mail).toBeCalledWith(
         expect.objectContaining({
           isHTML: true,
-          body: 'Test Message<br/><br/><b>{"version":"0.0.1","systemVersion":"7.1","buildNumber":"1","apiLevel":-1,"os":"android","country":"US","region":null,"deviceId":"someDeviceId","deviceBrand":"someBrand","deviceModel":"someModel","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedCentralized":false,"hooksPreviewEnabled":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
+          body: 'Test Message<br/><br/><b>{"version":"0.0.1","systemVersion":"7.1","buildNumber":"1","apiLevel":-1,"os":"android","country":"US","region":null,"deviceId":"someDeviceId","deviceBrand":"someBrand","deviceModel":"someModel","address":"0x0000000000000000000000000000000000007e57","sessionId":"","numberVerifiedCentralized":false,"multichainBetaStatus":"OptedIn","hooksPreviewEnabled":false,"network":"alfajores"}</b><br/><br/><b>Support logs are attached...</b>',
           recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
           subject: i18n.t('supportEmailSubject', { appName: APP_NAME, user: '+1415555XXXX' }),
           attachments: logAttachments,
@@ -109,7 +112,9 @@ describe('Contact', () => {
       mockedLogAttachments.mockResolvedValue(logAttachments)
 
       const { getByTestId } = render(
-        <Provider store={createMockStore({})}>
+        <Provider
+          store={createMockStore({ app: { multichainBetaStatus: MultichainBetaStatus.OptedOut } })}
+        >
           <SupportContact {...mockScreenProps} />
         </Provider>
       )
@@ -134,6 +139,7 @@ describe('Contact', () => {
           deviceId: 'someDeviceId',
           deviceModel: 'someModel',
           hooksPreviewEnabled: false,
+          multichainBetaStatus: 'OptedOut',
           network: 'alfajores',
           numberVerifiedCentralized: false,
           os: 'android',
