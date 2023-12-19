@@ -1600,6 +1600,7 @@
       "selectCurrencyTitle": "ใช้เงิน"
     },
     "exchange": {
+      "informational": "To prevent loss of funds, use this address on exchanges or assets compatible with the following networks: <0>{{networks}}</0>",
       "copyAddress": "ที่อยู่คัดลอก",
       "informationText": "Only use exchanges or assets <0>compatible with networks supported by {{appName}}</0> to prevent loss of funds",
       "bottomSheetTitle": "ฉันสามารถใช้การแลกเปลี่ยนอะไรเพื่อฝากเงินได้?",
