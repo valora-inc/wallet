@@ -1602,6 +1602,7 @@
       "selectCurrencyTitle": "Guthaben ausgeben"
     },
     "exchange": {
+      "informational": "Um den Verlust von Geldern zu vermeiden, verwende diese Adresse für Tauschbörsen oder Anlagen, die mit den folgenden Netzwerken kompatibel sind: <0>{{networks}}</0>",
       "copyAddress": "Adresse kopieren",
       "informationText": "Verwende nur Börsen oder Vermögenswerte <0>, die mit den von {{appName}}unterstützten Netzwerken kompatibel </0> sind, um den Verlust von Geldern zu vermeiden.",
       "bottomSheetTitle": "Welche Börse kann ich für den Umtausch von Guthaben benutzen?",
