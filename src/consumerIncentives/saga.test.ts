@@ -25,23 +25,16 @@ import {
 } from 'src/consumerIncentives/testValues'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
-import { NetworkId } from 'src/transactions/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
-import config from 'src/web3/networkConfig'
+import { default as config, default as networkConfig } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import {
-  mockAccount,
-  mockCeurAddress,
-  mockCeurTokenId,
-  mockCusdAddress,
-  mockCusdTokenId,
-} from 'test/values'
+import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockBaseNonce = 10
 
@@ -183,27 +176,10 @@ describe('fetchAvailableRewardsSaga', () => {
 
   it('skips fetching rewards in absence of tokens with sufficient balance', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
-      .withState(
-        createMockStore({
-          tokens: {
-            tokenBalances: {
-              [mockCusdAddress]: {
-                networkId: NetworkId['celo-alfajores'],
-                tokenId: mockCusdTokenId,
-                balance: '0',
-              },
-              [mockCeurAddress]: {
-                networkId: NetworkId['celo-alfajores'],
-                tokenId: mockCeurTokenId,
-                balance: '0.00000001', // balance must be greater than this
-              },
-            },
-          },
-        }).getState()
-      )
       .provide([
-        [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]), []],
+        [select(phoneNumberVerifiedSelector), true],
       ])
       .not.call.fn(fetchWithTimeout)
       .run()
