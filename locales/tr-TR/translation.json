@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Uygulamayı herkes için iyileştirmeye yardımcı olmak için {{appName}}'yı nasıl kullandığınızla ilgili anonimleştirilmiş veriler topluyoruz.",
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
-  "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla Celo Ağı ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
+  "dataSaverDetail": "Veri Tasarrufu modu, ağ ile güvenilir bir düğüm üzerinden iletişim kurmanızı sağlar. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
   "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
   "setup": "Oluştur",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Kurtarma İfadesini Yedekle",
   "introCompleteQuiz": "Cüzdanınızın kurtarılabileceğini doğrulamak üzere yedekleme testimizi tamamlayın.\n\nYanlış not ettiyseniz cihazınıza bir şey olursa cüzdanınıza erişemezsiniz.",
   "postSetupTitle": "Kurtarma Kelimeleriniz",
-  "postSetupBody": "Kurtarma Kelimelerinizi kaybederseniz, tüm Celo Dollar ve CELO'nuza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma Kelimelerinizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
+  "postSetupBody": "Kurtarma İfadenizi kaybederseniz, {{appName}}adresindeki tüm varlıklarınıza erişiminizi kaybedersiniz. Kurtarma İfadeniz olmadan hiç kimse, hatta {{appName}}bile hesabınızı kurtarmanıza yardımcı olamaz. Güvenli bir yerde saklayın ve paylaşmayın.",
   "postSetupCTA": "Kurtarma Kelimeleriniz ile ilgili daha fazla bilgi edinin",
   "failedFetchMnemonic": "Kurtarma Kelimeleriniz kaydedilemedi",
   "backupAndRecovery": "Yedekleme ve Kurtarma",
@@ -358,16 +358,16 @@
   "payWithCard": "Banka kartı",
   "payWithExchange": "Kripto para borsası",
   "selectCashOutMethod": "Yöntem seçin:",
-  "receiveOnAddress": "Celo adresi",
+  "receiveOnAddress": "Cüzdan adresi",
   "receiveWithBidali": "Hediye Kartları ve Mobil Yükleme",
   "fundingEducationDialog": {
     "title": "{{appName}} için bakiye yükleme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen stabil bir dijital para birimi olan Celo Dollar (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza fon eklemek için bölgenize hizmet veren 3. taraf sağlayıcıların birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "body": "{{appName}} cüzdanınıza para yatırmak için, bulunduğunuz yerde mevcut olan 3. taraf sağlayıcılardan birinden tercih ettiğiniz varlığı satın alın. Daha fazla bilgi için lütfen ziyaret edin <0>{{link}}</0>",
     "dismiss": "Tamam"
   },
   "cashOutEducationDialog": {
     "title": "{{appName}} uygulamasından bakiye çekme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen stabil bir dijital para birimi olan Celo Dollar (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınızdan fon çekmek için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinde cUSD satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "body": "{{appName}} bakiyenizi çekmek için, bulunduğunuz yerde mevcut olan 3. taraf sağlayıcılardan biriyle istediğiniz varlığı satın. Daha fazla bilgi için lütfen ziyaret edin <0>{{link}}</0>",
     "dismiss": "Tamam"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
   "chooseCountryCode": "Ülke Kodu",
   "chooseCountry": "Ülke",
-  "joinText": "{{appName}} Celo Ağı üzerinde varlık almanızı, göndermenizi ve birikim yapmanızı sağlar.",
+  "joinText": "{{appName}} blok zincirinde değer göndermenize, almanıza ve kaydetmenize yardımcı olur.",
   "terms": {
     "title": "Şartlar ve koşullar",
     "heading1": "Veri ve Gizlilik",
     "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
-    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
+    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin vermiş olursunuz. Ayrıca, telefon numaranızı bağlarsanız, numaranızın karma bir kopyası saklanacaktır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her bir kişinin adını, telefon numarasını ve profil resmini içe aktaracaktır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
+    "goldDisclaimer": "Valora'da bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. Valora da dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz veya kaybedilen fonları geri alamaz. Kripto para birimlerinin yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "fullNameOrPsuedonym": "Tam ad veya takma ad",
   "namePlaceholder": "örn. isim",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Veri Tasarrufu ile Bağlantı Yeniden Denesin mi?",
     "body1": "Telefon numaranız bağlanırken bir sorun oluştu. Veri Tasarrufu modu etkin olarak tekrar denemenizi öneririz.",
-    "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak Celo Ağı ile daha tutarlı bir şekilde iletişim kurmanıza olanak tanır.",
+    "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak ağ ile daha tutarlı bir şekilde iletişim kurmanızı sağlar.",
     "retryButton": "Veri Tasarrufu modu ile tekrar dene"
   },
   "congratsVerified": "Tebrikler, telefon numaranız bağlandı!",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Emin misiniz?",
-    "body": "Bağlanmak, herhangi bir telefon numarasına para gönderip almanıza olanak tanır.\n\nBağlı olmayan hesaplar yalnızca Celo adreslerini veya QR kodlarını kullanarak ödeme gönderebilir.",
+    "body": "Bağlanmak, herhangi bir telefon numarasına para göndermenize ve almanıza olanak tanır.\n\nBağlı olmayan hesaplar yalnızca cüzdan adreslerini veya QR kodlarını kullanarak ödeme gönderebilir.",
     "cancel": "Geri Dön",
     "confirm": "Şimdilik Atla"
   },
@@ -944,7 +944,7 @@
   "commentLabel": "Mesaj",
   "amountSent": "Gönderilen Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
-  "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
+  "feeEducation": "Blok zincirleri, ağların desteklenmesini ve sorunsuz çalışmasını sağlamak için bir işlem ücreti toplar.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -1056,8 +1056,8 @@
     "operation": "İşlem",
     "data": "Veri",
     "sign": "Bir veri yükü onaylayın",
-    "signTransaction": "CELO işlemi",
-    "sendTransaction": "CELO işlemi gönder",
+    "signTransaction": "Bir işlem imzalayın",
+    "sendTransaction": "İşlem gönderme",
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
     "details": "İşlem verilerini görüntüle",
@@ -1070,11 +1070,11 @@
     "signPayloadTitle": "Cüzdanı doğrula",
     "signPayload": "{{dappName}} cüzdanınızın sahipliğini doğrulamak istiyor.",
     "signTransactionTitle": "İşlemi imzala",
-    "signTransaction": "{{dappName}} bir Celo işlemini imzalamak istiyor.",
+    "signTransaction": "{{dappName}} bir işlem imzalamak istiyor.",
     "signDappTransaction": "{{dappName}} {{networkName}} ağında bir işlem imzalamak istiyor.",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} desteklenmeyen bir ağda bir işlem imzalamak istiyor.",
     "sendTransactionTitle": "İşlem gönder",
-    "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
+    "sendTransaction": "{{dappName}} bir işlem göndermek istiyor.",
     "sendDappTransaction": "{{dappName}} {{networkName}} ağında bir işlem göndermek istiyor.",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} desteklenmeyen bir ağda bir işlem göndermek istiyor.",
     "decryptPayloadTitle": "Cüzdan ile şifre çözme",
@@ -1423,8 +1423,8 @@
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
-    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
-    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişiklik gösterebilir. Bazı ödeme yöntemleri bölgenizde kullanılamaz. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişiklik gösterebilir. <0>Daha fazla bilgi edinin.</0>",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1603,9 +1603,9 @@
     },
     "exchange": {
       "copyAddress": "Adresi Kopyala",
-      "informationText": "Fon kaybını önlemek için yalnızca <0>Celo ağıyla uyumlu</0> borsaları veya varlıkları kullanın",
+      "informationText": "Fon kaybını önlemek için yalnızca <0> {{appName}}tarafından desteklenen ağlarla uyumlu </0> borsaları veya varlıkları kullanın",
       "bottomSheetTitle": "Para yatırmak için hangi borsaları kullanabilirim?",
-      "bottomSheetInfo": "Celo ağı ile uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
+      "bottomSheetInfo": "{{appName}}tarafından desteklenen ağlarla uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
     }
   },
   "fiatDetailsScreen": {
