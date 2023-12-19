@@ -1602,6 +1602,7 @@
       "selectCurrencyTitle": "Gastar fondos"
     },
     "exchange": {
+      "informational": "Para evitar la pérdida de fondos, utiliza esta dirección en bolsas o activos compatibles con las siguientes redes: <0>{{networks}}</0>",
       "copyAddress": "Copiar dirección",
       "informationText": "Utiliza sólo bolsas o activos <0>compatibles con las redes soportadas por {{appName}}</0> para evitar la pérdida de fondos.",
       "bottomSheetTitle": "¿Qué exchanges puedo utilizar para depositar fondos?",
