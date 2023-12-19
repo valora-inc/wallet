@@ -10,6 +10,8 @@ import {
   inputNumberKeypad,
   scrollIntoView,
   quickOnboarding,
+  waitForElementId,
+  waitForElementByIdAndTap,
 } from '../utils/utils'
 const faker = require('@faker-js/faker')
 
@@ -37,14 +39,18 @@ export default SecureSend = () => {
         .toBeVisible()
         .withTimeout(30000)
       await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('SendSearchInput'))).toBeVisible()
+      await waitFor(element(by.id('SendSearchInput')))
+        .toBeVisible()
+        .withTimeout(30000)
 
       await element(by.id('SearchInput')).tap()
       await element(by.id('SearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
       await element(by.id('RecipientItem')).tap()
 
       // Select the currency
-      await waitFor(element(by.id('cUSDTouchable'))).toBeVisible()
+      await waitFor(element(by.id('cUSDTouchable')))
+        .toBeVisible()
+        .withTimeout(30000)
       await element(by.id('cUSDTouchable')).tap()
 
       // Enter the amount and review
@@ -52,7 +58,9 @@ export default SecureSend = () => {
       await element(by.id('Review')).tap()
 
       // Use the last digits of the account to confirm the sender.
-      await waitFor(element(by.id('confirmAccountButton'))).toBeVisible()
+      await waitFor(element(by.id('confirmAccountButton')))
+        .toBeVisible()
+        .withTimeout(30000)
       await element(by.id('confirmAccountButton')).tap()
       // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
       // for (let index = 0; index < 4; index++) {
@@ -102,22 +110,15 @@ export default SecureSend = () => {
 
     it('Send cUSD to phone number with multiple mappings', async () => {
       let randomContent = faker.lorem.words()
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30000)
-      await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('SendSelectRecipientSearchInput'))).toBeVisible()
-
-      await element(by.id('SendSelectRecipientSearchInput')).tap()
+      await waitForElementByIdAndTap('HomeAction-Send', 30000)
+      await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
       await element(by.id('RecipientItem')).tap()
 
-      await waitFor(element(by.id('SendOrInviteButton'))).toBeVisible()
-      await element(by.id('SendOrInviteButton')).tap()
+      await waitForElementByIdAndTap('SendOrInviteButton', 30000)
 
       // Use the last digits of the account to confirm the sender.
-      await waitFor(element(by.id('confirmAccountButton'))).toBeVisible()
-      await element(by.id('confirmAccountButton')).tap()
+      await waitForElementByIdAndTap('confirmAccountButton', 30000)
       // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
       // for (let index = 0; index < 4; index++) {
       //   const character = LAST_ACCOUNT_CHARACTERS[index]
@@ -132,10 +133,8 @@ export default SecureSend = () => {
       await element(by.id('ConfirmAccountButton')).tap()
 
       // Select the currency
-      await waitFor(element(by.id('SendEnterAmount/TokenSelect'))).toBeVisible()
-      await element(by.id('SendEnterAmount/TokenSelect')).tap()
-      await waitFor(element(by.id('cUSDSymbol'))).toBeVisible()
-      await element(by.id('cUSDSymbol')).tap()
+      await waitForElementByIdAndTap('SendEnterAmount/TokenSelect', 30000)
+      await waitForElementByIdAndTap('cUSDSymbol', 30000)
 
       // Enter the amount and review
       await element(by.id('SendEnterAmount/Input')).tap()
@@ -150,9 +149,7 @@ export default SecureSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('HomeAction-Send', 30000)
 
       await waitFor(element(by.text(`${randomContent}`)))
         .toBeVisible()

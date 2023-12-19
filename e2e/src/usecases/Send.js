@@ -10,6 +10,9 @@ import {
   inputNumberKeypad,
   addComment,
   quickOnboarding,
+  waitForElementByIdAndTap,
+  waitForElementId,
+  isElementVisible,
 } from '../utils/utils'
 const faker = require('@faker-js/faker')
 import jestExpect from 'expect'
@@ -168,13 +171,8 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-      await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('SendSelectRecipientSearchInput')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
+      await waitForElementByIdAndTap('HomeAction-Send', 30 * 1000)
+      await waitForElementId('SendSelectRecipientSearchInput', 30 * 1000)
     })
 
     it('Then should be able to enter an address', async () => {
@@ -186,16 +184,12 @@ export default Send = () => {
 
     it('Then tapping a recipient should show send button', async () => {
       await element(by.text('0xe5f5...8846')).atIndex(0).tap()
-      await waitFor(element(by.id('SendOrInviteButton')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('SendOrInviteButton', 30 * 1000)
     })
 
     it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
       await element(by.id('SendOrInviteButton')).tap()
-      await waitFor(element(by.id('SendEnterAmount/Input')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('SendEnterAmount/Input', 30 * 1000)
     })
 
     it('Then should be able to change token', async () => {
@@ -216,7 +210,7 @@ export default Send = () => {
       await element(by.id('SendEnterAmount/Input')).tap()
       await element(by.id('SendEnterAmount/Input')).replaceText('0.10')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
-      await expect(element(by.id('ConfirmButton'))).toBeVisible()
+      await isElementVisible('ConfirmButton')
     })
 
     it('Then should display correct recipient', async () => {
@@ -233,7 +227,7 @@ export default Send = () => {
 
     it('Then should be able to edit amount', async () => {
       await element(by.id('BackChevron')).tap()
-      await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
+      await isElementVisible('SendEnterAmount/ReviewButton')
       await element(by.id('SendEnterAmount/Input')).tap()
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
@@ -250,9 +244,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.id('errorBanner'))).not.toBeVisible()
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('HomeAction-Send', 30 * 1000)
     })
 
     it.todo('Then should display transaction as pending')
@@ -271,10 +263,7 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-      await element(by.id('HomeAction-Send')).tap()
+      await waitForElementByIdAndTap('HomeAction-Send', 30 * 1000)
       await waitFor(element(by.text('0xe5f5...8846')))
         .toBeVisible()
         .withTimeout(10 * 1000)
@@ -282,9 +271,7 @@ export default Send = () => {
 
     it('Then should be able to click on recent recipient', async () => {
       await element(by.text('0xe5f5...8846')).atIndex(0).tap()
-      await waitFor(element(by.id('SendEnterAmount/Input')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('SendEnterAmount/Input', 30 * 1000)
     })
 
     it('Then should be able to choose token', async () => {
@@ -297,7 +284,7 @@ export default Send = () => {
       await element(by.id('SendEnterAmount/Input')).tap()
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
-      await expect(element(by.id('ConfirmButton'))).toBeVisible()
+      await isElementVisible('ConfirmButton')
     })
 
     it('Then should display correct recipient', async () => {
@@ -314,9 +301,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.id('errorBanner'))).not.toBeVisible()
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('HomeAction-Send', 30 * 1000)
     })
 
     it.todo('Then should display transaction as pending')
@@ -338,13 +323,8 @@ export default Send = () => {
     })
 
     it('Then should navigate to send search input from home action', async () => {
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
-      await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('SendSelectRecipientSearchInput')))
-        .toBeVisible()
-        .withTimeout(10 * 1000)
+      await waitForElementByIdAndTap('HomeAction-Send', 30 * 1000)
+      await waitForElementId('SendSelectRecipientSearchInput', 10 * 1000)
     })
 
     it('Then should be able to enter a phone number', async () => {
@@ -353,21 +333,17 @@ export default Send = () => {
         SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
       )
       await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
-      await expect(element(by.id('RecipientItem')).atIndex(0)).toBeVisible()
+      await isElementVisible('RecipientItem', 0)
     })
 
     it('Then tapping a recipient should show send button', async () => {
       await element(by.id('RecipientItem')).atIndex(0).tap()
-      await waitFor(element(by.id('SendOrInviteButton')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('SendOrInviteButton', 30 * 1000)
     })
 
     it('Then tapping send button should navigate to Send Enter Amount screen', async () => {
       await element(by.id('SendOrInviteButton')).tap()
-      await waitFor(element(by.id('SendEnterAmount/Input')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('SendEnterAmount/Input', 30 * 1000)
     })
 
     it('Then should be able to select token', async () => {
@@ -380,7 +356,7 @@ export default Send = () => {
       await element(by.id('SendEnterAmount/Input')).tap()
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
-      await expect(element(by.id('ConfirmButton'))).toBeVisible()
+      await isElementVisible('ConfirmButton')
     })
 
     it('Then should display correct recipient', async () => {
@@ -391,9 +367,7 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.id('errorBanner'))).not.toBeVisible()
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30 * 1000)
+      await waitForElementId('HomeAction-Send', 30 * 1000)
     })
 
     it.todo('Then should display transaction as pending')
