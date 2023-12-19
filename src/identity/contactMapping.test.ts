@@ -235,6 +235,7 @@ describe('saveContacts', () => {
   beforeEach(() => {
     mockFetch.resetMocks()
     jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.clearAllMocks()
   })
 
   it('invokes saveContacts API and saves last posted hash if not already saved', async () => {
@@ -244,7 +245,7 @@ describe('saveContacts', () => {
         [call(checkContactsPermission), true],
         [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
         [select(e164NumberSelector), mockE164Number],
-        [select(lastSavedContactsHashSelector), undefined],
+        [select(lastSavedContactsHashSelector), null],
         [select(walletAddressSelector), '0xxyz'],
         [call(retrieveSignedMessage), 'some signed message'],
       ])

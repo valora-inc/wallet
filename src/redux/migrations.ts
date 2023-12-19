@@ -1477,7 +1477,7 @@ export const migrations = {
     ...state,
     identity: {
       ...state.identity,
-      lastSavedContactsHash: undefined,
+      lastSavedContactsHash: null,
     },
   }),
 }

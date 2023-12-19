@@ -124,7 +124,7 @@ export function* identitySaga() {
     yield* spawn(watchNewFeedTransactions)
     yield* spawn(watchFetchDataEncryptionKey)
     yield* spawn(watchFetchAddressVerification)
-    yield* spawn(saveContacts)
+    yield* spawn(saveContacts) // save contacts on app start
   } catch (error) {
     Logger.error(TAG, 'Error initializing identity sagas', error)
   } finally {

@@ -4148,7 +4148,10 @@
                     "$ref": "#/definitions/ImportContactProgress"
                 },
                 "lastSavedContactsHash": {
-                    "type": "string"
+                    "type": [
+                        "null",
+                        "string"
+                    ]
                 },
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"

@@ -2900,7 +2900,7 @@ export const v176Schema = {
   },
   identity: {
     ...v175Schema.identity,
-    lastSavedContactsHash: undefined,
+    lastSavedContactsHash: null,
   },
 }
 
