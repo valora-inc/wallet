@@ -2898,12 +2898,24 @@ export const v176Schema = {
     ...v175Schema._persist,
     version: 176,
   },
+  identity: {
+    ...v175Schema.identity,
+    lastSavedContactsHash: null,
+  },
+}
+
+export const v177Schema = {
+  ...v176Schema,
+  _persist: {
+    ...v176Schema._persist,
+    version: 177,
+  },
   swap: {
-    ...v175Schema.swap,
-    priceImpactWarningThreshold: v175Schema.swap.priceImpactWarningThreshold * 100,
+    ...v176Schema.swap,
+    priceImpactWarningThreshold: v176Schema.swap.priceImpactWarningThreshold * 100,
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v176Schema as Partial<RootState>
+  return v177Schema as Partial<RootState>
 }

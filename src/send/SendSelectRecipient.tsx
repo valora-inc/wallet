@@ -16,6 +16,13 @@ import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
+import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
+import { AddressValidationType } from 'src/identity/reducer'
+import { getAddressValidationType } from 'src/identity/secureSend'
+import {
+  e164NumberToAddressSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
@@ -175,6 +182,8 @@ function SendSelectRecipient({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
 
   const forceTokenId = route.params?.forceTokenId
   const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
@@ -232,22 +241,39 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   const nextScreen = (selectedRecipient: Recipient) => {
-    if (selectedRecipient.address) {
+    const addressValidationType: AddressValidationType = getAddressValidationType(
+      selectedRecipient,
+      secureSendPhoneNumberMapping
+    )
+    if (!selectedRecipient.address && addressValidationType !== AddressValidationType.NONE) {
+      navigate(Screens.ValidateRecipientIntro, {
+        defaultTokenIdOverride,
+        forceTokenId,
+        recipient: selectedRecipient,
+        origin: SendOrigin.AppSendFlow,
+      })
+    } else {
+      const address = selectedRecipient.e164PhoneNumber
+        ? getAddressFromPhoneNumber(
+            selectedRecipient.e164PhoneNumber,
+            e164NumberToAddress,
+            secureSendPhoneNumberMapping,
+            undefined
+          )
+        : selectedRecipient.address
+      if (!address) {
+        throw new Error(
+          'No address found, this should never happen. Should have routed to invite or secure send.'
+        )
+      }
       navigate(Screens.SendEnterAmount, {
         isFromScan: false,
         defaultTokenIdOverride,
         forceTokenId,
         recipient: {
           ...selectedRecipient,
-          address: selectedRecipient.address,
+          address,
         },
-        origin: SendOrigin.AppSendFlow,
-      })
-    } else {
-      navigate(Screens.ValidateRecipientIntro, {
-        defaultTokenIdOverride,
-        forceTokenId,
-        recipient: selectedRecipient,
         origin: SendOrigin.AppSendFlow,
       })
     }

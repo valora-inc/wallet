@@ -4148,6 +4148,12 @@
                 "importContactsProgress": {
                     "$ref": "#/definitions/ImportContactProgress"
                 },
+                "lastSavedContactsHash": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
@@ -4165,6 +4171,7 @@
                 "e164NumberToSalt",
                 "hasSeenVerificationNux",
                 "importContactsProgress",
+                "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
                 "walletToAccountAddress"
             ],
