@@ -1044,7 +1044,7 @@ export const migrations = {
     ...state,
     swap: {
       ...state.swap,
-      guaranteedSwapPriceEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.guaranteedSwapPriceEnabled,
+      guaranteedSwapPriceEnabled: false,
     },
   }),
   111: (state: any) => state,
@@ -1488,5 +1488,9 @@ export const migrations = {
         priceImpactWarningThreshold: state.swap.priceImpactWarningThreshold * 100,
       }),
     },
+  }),
+  178: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'guaranteedSwapPriceEnabled'),
   }),
 }
