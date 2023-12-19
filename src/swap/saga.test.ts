@@ -1,5 +1,4 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
@@ -9,8 +8,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
-import { swapCancel, swapError, swapSuccess } from 'src/swap/slice'
-import { Field, SwapInfo, SwapTransaction } from 'src/swap/types'
+import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
+import { Field, SwapInfo } from 'src/swap/types'
 import { Actions, addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
 import {
   Network,
@@ -41,7 +40,7 @@ import {
   mockWBTCAddress,
   mockWBTCTokenId,
 } from 'test/values'
-import { Address, decodeFunctionData, zeroAddress } from 'viem'
+import { Address, decodeFunctionData } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
@@ -61,37 +60,12 @@ jest.mock('src/transactions/types', () => {
   }
 })
 
-const mockSwapTransaction: SwapTransaction = {
-  buyAmount: '10000000000000000',
-  sellAmount: '10000000000000000',
-  buyTokenAddress: mockCeloAddress,
-  sellTokenAddress: mockCeurAddress,
-  price: '1',
-  guaranteedPrice: '1.02',
-  from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
-  gas: '460533',
-  allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
-  estimatedPriceImpact: '0.1',
-} as SwapTransaction // there are lots fields in this type that are not needed for testing
-
-const mockSwapTransactionEthereum: SwapTransaction = {
-  buyAmount: '10000000000000000',
-  sellAmount: '10000000000000000',
-  buyTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
-  sellTokenAddress: mockUSDCAddress,
-  price: '1',
-  guaranteedPrice: '1.02',
-  from: '0x078e54ad49b0865fff9086fd084b92b3dac0857d',
-  gas: '460533',
-  allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
-  estimatedPriceImpact: '0.1',
-} as SwapTransaction // there are lots fields in this type that are not needed for testing
-
+const mockAllowanceTarget = '0xdef1c0ded9bec7f1a1670819833240f027b25eff'
 const mockQuoteReceivedTimestamp = 1_000_000_000_000
 
-const mockSwapWithFeeCurrency = (feeCurrency?: Address) => {
+const mockSwapWithFeeCurrency = (feeCurrency?: Address): PayloadAction<SwapInfo> => {
   return {
-    type: 'swap/swapStartPrepared',
+    type: swapStart.type,
     payload: {
       swapId: 'test-swap-id',
       userInput: {
@@ -116,7 +90,7 @@ const mockSwapWithFeeCurrency = (feeCurrency?: Address) => {
           },
           {
             from: mockAccount,
-            to: mockSwapTransaction.allowanceTarget as Address,
+            to: mockAllowanceTarget,
             value: BigInt(0),
             data: '0x0',
             gas: BigInt(1_325_000),
@@ -124,31 +98,20 @@ const mockSwapWithFeeCurrency = (feeCurrency?: Address) => {
             feeCurrency,
           },
         ]),
-        rawSwapResponse: {
-          approveTransaction: {
-            gas: '59480',
-            from: mockAccount,
-            chainId: 42220,
-            data: '0x0',
-            to: '0xabc',
-          },
-          unvalidatedSwapTransaction: {
-            ...mockSwapTransaction,
-          },
-          details: {
-            swapProvider: '0x',
-          },
-        },
+        price: '1',
+        provider: '0x',
+        estimatedPriceImpact: '0.1',
+        allowanceTarget: mockAllowanceTarget,
         receivedAt: mockQuoteReceivedTimestamp,
       },
     },
   }
 }
 
-const mockSwap: PayloadAction<SwapInfo> = mockSwapWithFeeCurrency()
+const mockSwap = mockSwapWithFeeCurrency()
 
 const mockSwapEthereum: PayloadAction<SwapInfo> = {
-  type: 'swap/swapStartPrepared',
+  type: swapStart.type,
   payload: {
     swapId: 'test-swap-id',
     userInput: {
@@ -172,28 +135,17 @@ const mockSwapEthereum: PayloadAction<SwapInfo> = {
         },
         {
           from: mockAccount,
-          to: mockSwapTransaction.allowanceTarget as Address,
+          to: mockAllowanceTarget,
           value: BigInt(0),
           data: '0x0',
           gas: BigInt(1_325_000),
           maxFeePerGas: BigInt(12_000_000_000),
         },
       ]),
-      rawSwapResponse: {
-        approveTransaction: {
-          gas: '59480',
-          from: mockAccount,
-          chainId: 1,
-          data: '0x0',
-          to: '0xabc',
-        },
-        unvalidatedSwapTransaction: {
-          ...mockSwapTransactionEthereum,
-        },
-        details: {
-          swapProvider: '0x',
-        },
-      },
+      price: '1',
+      provider: '0x',
+      estimatedPriceImpact: '0.1',
+      allowanceTarget: mockAllowanceTarget,
       receivedAt: mockQuoteReceivedTimestamp,
     },
   },
@@ -208,20 +160,13 @@ const mockSwapWithNativeSellToken: PayloadAction<SwapInfo> = {
       preparedTransactions: getSerializablePreparedTransactions([
         {
           from: mockAccount,
-          to: mockSwapTransaction.allowanceTarget as Address,
+          to: mockAllowanceTarget,
           value: BigInt(0),
           data: '0x0',
           gas: BigInt(1_325_000),
           maxFeePerGas: BigInt(12_000_000_000),
         },
       ]),
-      rawSwapResponse: {
-        ...mockSwap.payload.quote.rawSwapResponse,
-        unvalidatedSwapTransaction: {
-          ...mockSwap.payload.quote.rawSwapResponse.unvalidatedSwapTransaction,
-          allowanceTarget: zeroAddress,
-        },
-      },
     },
   },
 }
@@ -233,16 +178,6 @@ const mockSwapWithWBTCBuyToken: PayloadAction<SwapInfo> = {
     userInput: {
       ...mockSwap.payload.userInput,
       toTokenId: mockWBTCTokenId,
-    },
-    quote: {
-      ...mockSwap.payload.quote,
-      rawSwapResponse: {
-        ...mockSwap.payload.quote.rawSwapResponse,
-        unvalidatedSwapTransaction: {
-          ...mockSwap.payload.quote.rawSwapResponse.unvalidatedSwapTransaction,
-          buyTokenAddress: mockWBTCAddress,
-        },
-      },
     },
   },
 }
@@ -401,7 +336,7 @@ describe(swapSubmitSaga, () => {
       fromTokenId: mockUSDCTokenId,
       fromTokenAddress: mockUSDCAddress,
       toTokenId: mockEthTokenId,
-      toTokenAddress: '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee',
+      toTokenAddress: null,
       feeCurrencyId: mockEthTokenId,
       feeCurrencySymbol: 'ETH',
       swapPrepared: mockSwapEthereum,
@@ -468,11 +403,11 @@ describe(swapSubmitSaga, () => {
             networkId,
             type: TokenTransactionTypeV2.SwapTransaction,
             inAmount: {
-              value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+              value: swapPrepared.payload.userInput.swapAmount[Field.TO],
               tokenId: toTokenId,
             },
             outAmount: {
-              value: BigNumber('0.01'),
+              value: swapPrepared.payload.userInput.swapAmount[Field.FROM],
               tokenId: fromTokenId,
             },
             transactionHash: mockSwapTxReceipt.transactionHash,
@@ -507,7 +442,7 @@ describe(swapSubmitSaga, () => {
         fromToken: fromTokenAddress,
         fromTokenId: fromTokenId,
         fromTokenNetworkId: networkId,
-        amount: '10000000000000000',
+        amount: swapPrepared.payload.userInput.swapAmount[Field.TO],
         amountType: 'buyAmount',
         price: '1',
         allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
@@ -518,8 +453,8 @@ describe(swapSubmitSaga, () => {
         swapExecuteTxId: 'id-swap/saga-Swap/Execute',
         quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
         quoteToTransactionElapsedTimeInMs: 10_000,
-        estimatedBuyTokenUsdValue: 0.005,
-        estimatedSellTokenUsdValue: 0.01,
+        estimatedBuyTokenUsdValue: 100,
+        estimatedSellTokenUsdValue: 100,
         web3Library: 'viem',
         gas: 1384480,
         maxGasFee: 0.01661376,
@@ -598,11 +533,11 @@ describe(swapSubmitSaga, () => {
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.SwapTransaction,
           inAmount: {
-            value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+            value: mockSwapWithNativeSellToken.payload.userInput.swapAmount[Field.TO],
             tokenId: mockCeloTokenId,
           },
           outAmount: {
-            value: BigNumber('0.01'),
+            value: mockSwapWithNativeSellToken.payload.userInput.swapAmount[Field.FROM],
             tokenId: mockCeurTokenId,
           },
           transactionHash: '0x1',
@@ -657,11 +592,11 @@ describe(swapSubmitSaga, () => {
           networkId: NetworkId['celo-alfajores'],
           type: TokenTransactionTypeV2.SwapTransaction,
           inAmount: {
-            value: BigNumber('0.0102'), // guaranteedPrice * sellAmount
+            value: mockSwapWithWBTCBuyToken.payload.userInput.swapAmount[Field.TO],
             tokenId: mockWBTCTokenId,
           },
           outAmount: {
-            value: BigNumber('0.01'),
+            value: mockSwapWithWBTCBuyToken.payload.userInput.swapAmount[Field.FROM],
             tokenId: mockCeurTokenId,
           },
           transactionHash: mockSwapTxReceipt.transactionHash,
@@ -695,7 +630,7 @@ describe(swapSubmitSaga, () => {
       fromToken: mockCeurAddress,
       fromTokenId: mockCeurTokenId,
       fromTokenNetworkId: NetworkId['celo-alfajores'],
-      amount: '10000000000000000',
+      amount: mockSwap.payload.userInput.swapAmount[Field.TO],
       amountType: 'buyAmount',
       price: '1',
       allowanceTarget: '0xdef1c0ded9bec7f1a1670819833240f027b25eff',
@@ -706,8 +641,8 @@ describe(swapSubmitSaga, () => {
       swapExecuteTxId: 'id-swap/saga-Swap/Execute',
       quoteToUserConfirmsSwapElapsedTimeInMs: 2_500,
       quoteToTransactionElapsedTimeInMs: 10_000,
-      estimatedBuyTokenUsdValue: 0.005,
-      estimatedSellTokenUsdValue: 0.01,
+      estimatedBuyTokenUsdValue: 100,
+      estimatedSellTokenUsdValue: 100,
       web3Library: 'viem',
       gas: 1384480,
       maxGasFee: 0.01661376,

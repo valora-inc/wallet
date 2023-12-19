@@ -237,7 +237,7 @@ export function SwapScreen({ route }: Props) {
 
       if (
         !exchangeRate.estimatedPriceImpact ||
-        exchangeRate.estimatedPriceImpact.gte(priceImpactWarningThreshold)
+        new BigNumber(exchangeRate.estimatedPriceImpact).gte(priceImpactWarningThreshold)
       ) {
         ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
           toToken: toToken.address,
@@ -248,7 +248,7 @@ export function SwapScreen({ route }: Props) {
           fromTokenNetworkId: fromToken?.networkId,
           amount: parsedSwapAmount[updatedField].toString(),
           amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
-          priceImpact: exchangeRate.estimatedPriceImpact?.toString(),
+          priceImpact: exchangeRate.estimatedPriceImpact,
           provider: exchangeRate.provider,
         })
       }
@@ -290,8 +290,7 @@ export function SwapScreen({ route }: Props) {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const { estimatedPriceImpact, price, allowanceTarget } =
-      exchangeRate.rawSwapResponse.unvalidatedSwapTransaction
+    const { estimatedPriceImpact, price, allowanceTarget } = exchangeRate
 
     const resultType = exchangeRate.preparedTransactions.type
     switch (resultType) {
@@ -331,7 +330,10 @@ export function SwapScreen({ route }: Props) {
                 exchangeRate.preparedTransactions.transactions
               ),
               receivedAt: exchangeRate.receivedAt,
-              rawSwapResponse: exchangeRate.rawSwapResponse,
+              price: exchangeRate.price,
+              provider: exchangeRate.provider,
+              estimatedPriceImpact,
+              allowanceTarget,
             },
             userInput,
           })
@@ -486,7 +488,9 @@ export function SwapScreen({ route }: Props) {
   const showPriceImpactWarning =
     !confirmSwapFailed &&
     !exchangeRateUpdatePending &&
-    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
+    (exchangeRate?.estimatedPriceImpact
+      ? new BigNumber(exchangeRate.estimatedPriceImpact).gte(priceImpactWarningThreshold)
+      : false)
   const showMissingPriceImpactWarning =
     !confirmSwapFailed &&
     !exchangeRateUpdatePending &&

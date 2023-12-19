@@ -39,6 +39,7 @@ import {
   v171Schema,
   v172Schema,
   v174Schema,
+  v176Schema,
   v17Schema,
   v18Schema,
   v1Schema,
@@ -1476,5 +1477,14 @@ describe('Redux persist migrations', () => {
     expect(moolaToken).not.toHaveProperty('isCoreToken')
     expect(moolaToken).not.toHaveProperty('isFeeCurrency')
     expect(moolaToken).not.toHaveProperty('canTransferWithComment')
+  })
+
+  it('works from 176 to 177', () => {
+    const oldSchema = v176Schema
+    const migratedSchema = migrations[177](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.swap.priceImpactWarningThreshold =
+      expectedSchema.swap.priceImpactWarningThreshold * 100
+    expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
