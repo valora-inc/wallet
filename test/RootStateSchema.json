@@ -3830,6 +3830,7 @@
                     "type": "boolean"
                 },
                 "priceImpactWarningThreshold": {
+                    "description": "In percentage, between 0 and 100",
                     "type": "number"
                 }
             },

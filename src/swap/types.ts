@@ -23,72 +23,25 @@ export interface SwapUserInput {
   updatedField: Field
 }
 
-interface Fill {
-  adjustedOutput: string
-  gas: number
-  input: string
-  outPut: string
-}
-
-interface FillData {
-  router: string
-  tokenAddress: Array<string>
-  makerAmount?: string
-  makerToken?: string
-  takerAmount?: string
-  takerToken?: string
-  type?: number
-}
-
-interface Order {
-  type: number
-  source: string
-  makerToken: string
-  takeToken: string
-  makerAmount: string
-  takerAmount: string
-  fill: Fill
-  fillData: FillData
-}
-
-interface Source {
-  name: string
-  proportion: string
-}
-
 export interface SwapTransaction {
-  allowanceTarget: string
-  buyAmount: string
-  buyTokenAddress: string
-  buyTokenToEthRate: string
   chainId: number
-  data: string
-  decodedUniqueId: string
-  estimatedGas: string
-  estimatedPriceImpact: string
-  expectedSlippage: string | null
-  from: string
-  gas: string
-  gasPrice: string
-  guaranteedPrice: string
-  minimumProtocolFee: string
-  orders: Array<Order>
+  buyAmount: string
+  sellAmount: string
+  buyTokenAddress: string
+  sellTokenAddress: string
   // be careful -- price means different things when using sellAmount vs buyAmount
   price: string
-  protocolFee: string
-  sellAmount: string
-  sellTokenAddress: string
-  sellTokenToEthRate: string
-  sources: Array<Source>
-  to: string
-  value: string
-}
-export interface ApproveTransaction {
-  chainId: number
-  data: string
-  from: string
+  guaranteedPrice: string
+  /**
+   * In percentage, between 0 and 100
+   */
+  estimatedPriceImpact: string | null
   gas: string
   to: string
+  value: string
+  data: string
+  from: string
+  allowanceTarget: string
 }
 
 export interface SwapInfo {
@@ -97,15 +50,14 @@ export interface SwapInfo {
   quote: {
     preparedTransactions: SerializableTransactionRequest[]
     receivedAt: number
-    /**
-     * @deprecated Temporary until we remove the swap review screen
-     */
-    rawSwapResponse: FetchQuoteResponse
+    price: string
+    provider: string
+    estimatedPriceImpact: string | null
+    allowanceTarget: string
   }
 }
 
 export interface FetchQuoteResponse {
-  approveTransaction: ApproveTransaction
   unvalidatedSwapTransaction: SwapTransaction
   details: {
     swapProvider: string
