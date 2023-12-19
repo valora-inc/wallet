@@ -24,6 +24,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET]: false,
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
+  [StatsigFeatureGates.SAVE_CONTACTS]: false,
 }
 
 export const ExperimentConfigs = {

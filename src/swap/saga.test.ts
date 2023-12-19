@@ -336,6 +336,7 @@ describe(swapSubmitSaga, () => {
       [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
       [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockSwapTxReceipt],
       [matchers.call.fn(publicClient[network].getTransactionReceipt), mockApproveTxReceipt],
+      [matchers.call.fn(publicClient[network].getBlock), { timestamp: 1701102971 }],
       [
         matchers.call.fn(decodeFunctionData),
         { functionName: 'approve', args: ['0xspenderAddress', BigInt(1e18)] },
@@ -479,12 +480,16 @@ describe(swapSubmitSaga, () => {
           })
         )
         .put(
-          transactionConfirmed('id-swap/saga-Swap/Execute', {
-            transactionHash: mockSwapTxReceipt.transactionHash,
-            block: mockSwapTxReceipt.blockNumber.toString(),
-            status: TransactionStatus.Complete,
-            fees: expectedFees,
-          })
+          transactionConfirmed(
+            'id-swap/saga-Swap/Execute',
+            {
+              transactionHash: mockSwapTxReceipt.transactionHash,
+              block: mockSwapTxReceipt.blockNumber.toString(),
+              status: TransactionStatus.Complete,
+              fees: expectedFees,
+            },
+            1701102971000 // milliseconds
+          )
         )
         .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x2' })
         .run()
