@@ -20,7 +20,7 @@ import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { tokensByAddressSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
-import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
+import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import { TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
@@ -152,7 +152,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
     return
   }
 
-  const supportedNetworkIds = yield* call(getSupportedNetworkIdsForTokenBalances)
+  const supportedNetworkIds = [networkConfig.defaultNetworkId] // rewards are only availabe on Celo
   const tokensWithTokenBalance = yield* select(tokensWithTokenBalanceSelector, supportedNetworkIds)
   if (tokensWithTokenBalance.length === 0) {
     Logger.debug(
