@@ -1602,6 +1602,7 @@
       "selectCurrencyTitle": "Dépenser des fonds"
     },
     "exchange": {
+      "informational": "Pour éviter la perte de fonds, utilise cette adresse sur des échanges ou des biens compatibles avec les réseaux suivants : <0>{{networks}}</0>",
       "copyAddress": "Copier l'adresse",
       "informationText": "N'utilise que des échanges ou des actifs <0>compatibles avec les réseaux pris en charge par {{appName}}</0> pour éviter la perte de fonds.",
       "bottomSheetTitle": "Quels échanges puis-je utiliser pour déposer des fonds ?",
