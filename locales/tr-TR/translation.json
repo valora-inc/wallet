@@ -1602,6 +1602,7 @@
       "selectCurrencyTitle": "Para Harcama"
     },
     "exchange": {
+      "informational": "Fon kaybını önlemek için, bu adresi aşağıdaki ağlarla uyumlu borsalarda veya varlıklarda kullanın: <0>{{networks}}</0>",
       "copyAddress": "Adresi Kopyala",
       "informationText": "Fon kaybını önlemek için yalnızca <0> {{appName}}tarafından desteklenen ağlarla uyumlu </0> borsaları veya varlıkları kullanın",
       "bottomSheetTitle": "Para yatırmak için hangi borsaları kullanabilirim?",
