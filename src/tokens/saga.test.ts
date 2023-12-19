@@ -291,14 +291,9 @@ describe('watchFetchTokenPriceHistory', () => {
 
   it('successfully fetches token price history when the feature gate is active', async () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    mockFetch.mockResponseOnce(
-      JSON.stringify({
-        data: mockPriceHistory,
-      }),
-      {
-        status: 200,
-      }
-    )
+    mockFetch.mockResponseOnce(JSON.stringify(mockPriceHistory), {
+      status: 200,
+    })
     await expectSaga(fetchTokenPriceHistorySaga, {
       payload: {
         tokenId: mockCusdTokenId,

@@ -245,8 +245,7 @@ export async function fetchTokenPriceHistory(
       `Failed to fetch price history for ${tokenId}: ${response.status} ${response.statusText}`
     )
   }
-  const { data } = await response.json()
-  return data
+  return await response.json()
 }
 
 export function* fetchTokenPriceHistorySaga({
