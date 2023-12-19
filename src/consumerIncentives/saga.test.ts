@@ -25,15 +25,15 @@ import {
 } from 'src/consumerIncentives/testValues'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
-import config from 'src/web3/networkConfig'
+import { default as config, default as networkConfig } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockAccount, mockCeloTokenBalance, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockBaseNonce = 10
 
@@ -108,6 +108,10 @@ describe('fetchAvailableRewardsSaga', () => {
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
       ])
       .put(setAvailableRewards(expectedRewards))
@@ -127,6 +131,10 @@ describe('fetchAvailableRewardsSaga', () => {
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [
           call(
             fetchWithTimeout,
@@ -150,6 +158,10 @@ describe('fetchAvailableRewardsSaga', () => {
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
       .not.put(setAvailableRewards(expect.anything()))
@@ -164,8 +176,23 @@ describe('fetchAvailableRewardsSaga', () => {
       .provide([
         [select(phoneNumberVerifiedSelector), false],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
       ])
-      .not.call(fetchWithTimeout)
+      .not.call.fn(fetchWithTimeout)
+      .run()
+  })
+
+  it('skips fetching rewards in absence of tokens with sufficient balance', async () => {
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .provide([
+        [select(walletAddressSelector), userAddress],
+        [select(phoneNumberVerifiedSelector), true],
+        [select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]), []],
+      ])
+      .not.call.fn(fetchWithTimeout)
       .run()
   })
 
@@ -174,6 +201,10 @@ describe('fetchAvailableRewardsSaga', () => {
       .provide([
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [
           call(
             fetchWithTimeout,
