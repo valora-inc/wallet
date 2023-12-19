@@ -50,8 +50,7 @@ function calculateEstimatedUsdValue({
     return undefined
   }
 
-  const amount = valueToBigNumber(tokenAmount)
-  return tokenInfo.priceUsd.times(amount.shiftedBy(-tokenInfo.decimals)).toNumber()
+  return valueToBigNumber(tokenAmount).times(tokenInfo.priceUsd).toNumber()
 }
 
 interface TrackedTx {
@@ -141,35 +140,30 @@ function getSwapTxsReceiptAnalyticsProperties(
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
-  const swapId = action.payload.swapId
+  const { swapId, userInput, quote } = action.payload
+  const { fromTokenId, toTokenId, updatedField, swapAmount } = userInput
   const {
+    provider,
     price,
-    buyTokenAddress,
-    sellTokenAddress,
-    buyAmount,
-    sellAmount,
     allowanceTarget,
     estimatedPriceImpact,
-    guaranteedPrice,
-  } = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction
-  const amountType =
-    action.payload.userInput.updatedField === Field.TO
-      ? ('buyAmount' as const)
-      : ('sellAmount' as const)
-  const amount = action.payload.quote.rawSwapResponse.unvalidatedSwapTransaction[amountType]
-  const preparedTransactions = getPreparedTransactions(action.payload.quote.preparedTransactions)
-  const quoteReceivedAt = action.payload.quote.receivedAt
+    preparedTransactions: serializablePreparedTransactions,
+    receivedAt: quoteReceivedAt,
+  } = quote
+  const amountType = updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
+  const amount = swapAmount[updatedField]
+  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
   const tokensById = yield* select((state) =>
     tokensByIdSelector(state, getSupportedNetworkIdsForSwap())
   )
-  const fromToken = tokensById[action.payload.userInput.fromTokenId]
-  const toToken = tokensById[action.payload.userInput.toTokenId]
+  const fromToken = tokensById[fromTokenId]
+  const toToken = tokensById[toTokenId]
 
   if (!fromToken || !toToken) {
     Logger.error(
       TAG,
-      `Could not find to or from token for swap from ${sellTokenAddress} to ${buyTokenAddress}`
+      `Could not find to or from token for swap from ${fromTokenId} to ${toTokenId}`
     )
     yield* put(swapError(swapId))
     return
@@ -178,21 +172,21 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const fromTokenBalance = fromToken.balance.shiftedBy(fromToken.decimals).toString()
   const estimatedSellTokenUsdValue = calculateEstimatedUsdValue({
     tokenInfo: fromToken,
-    tokenAmount: sellAmount,
+    tokenAmount: swapAmount[Field.FROM],
   })
   const estimatedBuyTokenUsdValue = calculateEstimatedUsdValue({
     tokenInfo: toToken,
-    tokenAmount: buyAmount,
+    tokenAmount: swapAmount[Field.TO],
   })
 
   const swapApproveContext = newTransactionContext(TAG, 'Swap/Approve')
   const swapExecuteContext = newTransactionContext(TAG, 'Swap/Execute')
 
   const defaultSwapExecuteProps = {
-    toToken: buyTokenAddress,
+    toToken: toToken.address,
     toTokenId: toToken.tokenId,
     toTokenNetworkId: toToken.networkId,
-    fromToken: sellTokenAddress,
+    fromToken: fromToken.address,
     fromTokenId: fromToken.tokenId,
     fromTokenNetworkId: fromToken.networkId,
     amount,
@@ -200,7 +194,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     price,
     allowanceTarget,
     estimatedPriceImpact,
-    provider: action.payload.quote.rawSwapResponse.details.swapProvider,
+    provider,
     fromTokenBalance,
     swapExecuteTxId: swapExecuteContext.id,
     swapApproveTxId: swapApproveContext.id,
@@ -306,7 +300,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     const swapTxHash = txHashes[txHashes.length - 1]
-    const outValue = valueToBigNumber(sellAmount).shiftedBy(-fromToken.decimals)
     yield* put(
       addStandbyTransaction({
         context: swapExecuteContext,
@@ -314,11 +307,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         networkId,
         type: TokenTransactionTypeV2.SwapTransaction,
         inAmount: {
-          value: outValue.multipliedBy(guaranteedPrice),
+          value: swapAmount[Field.TO],
           tokenId: toToken.tokenId,
         },
         outAmount: {
-          value: outValue,
+          value: swapAmount[Field.FROM],
           tokenId: fromToken.tokenId,
         },
         transactionHash: swapTxHash,
