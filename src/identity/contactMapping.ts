@@ -3,6 +3,7 @@ import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrap
 import { isValidAddress } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
+import crypto from 'crypto'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { setUserContactDetails } from 'src/account/actions'
@@ -11,16 +12,18 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
   Actions,
-  FetchAddressesAndValidateAction,
   FetchAddressVerificationAction,
+  FetchAddressesAndValidateAction,
+  addressVerificationStatusReceived,
+  contactsSaved,
   endFetchingAddresses,
   endImportContacts,
   requireSecureSend,
   updateE164PhoneNumberAddresses,
   updateImportContactsProgress,
-  addressVerificationStatusReceived,
 } from 'src/identity/actions'
 import {
   AddressToE164NumberType,
@@ -30,26 +33,29 @@ import {
 } from 'src/identity/reducer'
 import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
-  e164NumberToAddressSelector,
-  secureSendPhoneNumberMappingSelector,
   addressToVerificationStatusSelector,
+  e164NumberToAddressSelector,
+  lastSavedContactsHashSelector,
+  secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { NumberToRecipient, contactsToRecipients } from 'src/recipients/recipient'
-import { setPhoneRecipientCache } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector, setPhoneRecipientCache } from 'src/recipients/reducer'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { checkContactsPermission } from 'src/utils/permissions'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, delay, put, race, select, take } from 'typed-redux-saga'
-import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { call, delay, put, race, select, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -122,6 +128,8 @@ function* doImportContacts() {
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
   SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
+
+  yield* spawn(saveContacts)
 
   return true
 }
@@ -410,4 +418,70 @@ export function getAddressFromPhoneNumber(
 
   // Normal case when there is only one address in the mapping
   return addresses[0]
+}
+
+function calculateHash(str: string) {
+  const hash = crypto.createHash('sha256')
+  hash.update(str)
+  return hash.digest('hex')
+}
+
+export function* saveContacts() {
+  try {
+    const saveContactsGate = getFeatureGate(StatsigFeatureGates.SAVE_CONTACTS)
+    const phoneVerified = yield* select(phoneNumberVerifiedSelector)
+    // TODO(satish): use rn permissions
+    const contactsEnabled: boolean = yield* call(checkContactsPermission)
+
+    if (!saveContactsGate || !phoneVerified || !contactsEnabled) {
+      Logger.debug(`${TAG}/saveContacts`, "Skipping because pre conditions aren't met", {
+        saveContactsGate,
+        phoneVerified,
+        contactsEnabled,
+      })
+      return
+    }
+
+    const recipientCache = yield* select(phoneRecipientCacheSelector)
+    const ownPhoneNumber = yield* select(e164NumberSelector)
+    const contacts = Object.keys(recipientCache).sort()
+    const lastSavedContactsHash = yield* select(lastSavedContactsHashSelector)
+
+    const hash = calculateHash(`${ownPhoneNumber}:${contacts.join(',')}`)
+
+    if (hash === lastSavedContactsHash) {
+      Logger.debug(
+        `${TAG}/saveContacts`,
+        'Skipping because contacts have not changed since last post'
+      )
+      return
+    }
+
+    const walletAddress = yield* select(walletAddressSelector)
+    const signedMessage = yield* call(retrieveSignedMessage)
+
+    const response: Response = yield* call(fetchWithTimeout, `${networkConfig.saveContactsUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${walletAddress}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        phoneNumber: ownPhoneNumber,
+        contacts,
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to post contacts: ${response.status} ${yield* call([response, 'text'])}`
+      )
+    }
+
+    yield* put(contactsSaved(hash))
+  } catch (err) {
+    Logger.warn(`${TAG}/saveContacts`, 'Post contacts failed', err)
+  }
 }

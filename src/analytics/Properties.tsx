@@ -1262,12 +1262,19 @@ interface SwapEvent {
   fromToken: string | null | undefined
   fromTokenId: string
   fromTokenNetworkId: string
+  /**
+   * Starting with v1.74, this amount is always in decimal format
+   * Before that it was in token smallest unit or decimal format depending on the event.
+   */
   amount: string | null
   amountType: 'buyAmount' | 'sellAmount'
 }
 
 type SwapQuoteEvent = SwapEvent & {
   allowanceTarget: string
+  /**
+   * In percentage, between 0 and 100
+   */
   estimatedPriceImpact: string | null
   price: string
   provider: string
@@ -1381,7 +1388,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact?: string
+    priceImpact: string | null
   }
   [SwapEvents.swap_show_info]: {
     type: SwapShowInfoType
