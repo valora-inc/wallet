@@ -105,9 +105,11 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
       retryHandler = () =>
-        getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
-          ? Screens.SendSelectRecipient
-          : Screens.Send
+        navigate(
+          getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
+            ? Screens.SendSelectRecipient
+            : Screens.Send
+        )
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.InviteSent:
