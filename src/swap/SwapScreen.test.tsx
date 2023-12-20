@@ -457,7 +457,7 @@ describe('SwapScreen', () => {
         fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '100000',
         amountType: 'sellAmount',
-        priceImpact: '0.052',
+        priceImpact: '5.2',
         provider: 'someProvider',
       }
     )
@@ -531,7 +531,7 @@ describe('SwapScreen', () => {
         fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '100000',
         amountType: 'sellAmount',
-        priceImpact: undefined,
+        priceImpact: null,
         provider: 'someProvider',
       }
     )
@@ -844,7 +844,10 @@ describe('SwapScreen', () => {
           quote: {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
-            rawSwapResponse: defaultQuote as any,
+            price: defaultQuote.unvalidatedSwapTransaction.price,
+            provider: defaultQuote.details.swapProvider,
+            estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+            allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
           },
           userInput: {
             toTokenId: mockCusdTokenId,
@@ -894,7 +897,10 @@ describe('SwapScreen', () => {
           quote: {
             preparedTransactions: [preparedTransactions[1]], // no approval transaction
             receivedAt: expect.any(Number),
-            rawSwapResponse: expect.any(Object),
+            price: defaultQuote.unvalidatedSwapTransaction.price,
+            provider: defaultQuote.details.swapProvider,
+            estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+            allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
           },
           userInput: {
             toTokenId: mockCeloTokenId,
@@ -938,7 +944,10 @@ describe('SwapScreen', () => {
           quote: {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
-            rawSwapResponse: defaultQuote as any,
+            price: defaultQuote.unvalidatedSwapTransaction.price,
+            provider: defaultQuote.details.swapProvider,
+            estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+            allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
           },
           userInput: {
             toTokenId: mockCusdTokenId,

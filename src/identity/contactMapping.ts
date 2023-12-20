@@ -466,7 +466,12 @@ export function* saveContacts() {
         'Content-Type': 'application/json',
         authorization: `Valora ${walletAddress}:${signedMessage}`,
       },
-      body: JSON.stringify({ phoneNumber: ownPhoneNumber, contacts }),
+      body: JSON.stringify({
+        phoneNumber: ownPhoneNumber,
+        contacts,
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+      }),
     })
 
     if (!response.ok) {
