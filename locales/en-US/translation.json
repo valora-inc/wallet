@@ -1088,7 +1088,9 @@
     "sendTransactionAction": "Send",
     "unsupportedChain": {
       "title": "Unsupported chain",
-      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side."
+      "description": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure Celo is the active chain on the dapp side.",
+      "descriptionV1_74_one": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure {{supportedNetworkNames}} is the active chain on the dapp side.",
+      "descriptionV1_74_other": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure the active chain on the dapp is one of the following: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Insufficient gas token balance",
@@ -1097,11 +1099,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Unsupported chain",
-        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side."
+        "description": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure Celo is selected on the dapp side.",
+        "descriptionV1_74_one": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure {{supportedNetworkNames}} is selected on the dapp side.",
+        "descriptionV1_74_other": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure one of the following is selected on the dapp side: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Unsupported chain",
-        "description": "{{dappName}} did not specify Celo as a supported chain. Some features may not work as expected."
+        "description": "{{dappName}} did not specify Celo as a supported chain. Some features may not work as expected.",
+        "descriptionV1_74_one": "{{dappName}} didn't not specify {{supportedNetworkNames}} as a supported chain. Some features may not work as expected.",
+        "descriptionV1_74_other": "{{dappName}} didn't not specify any of the following as supported chains: {{supportedNetworkNames}}. Some features may not work as expected."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Unsupported methods",
@@ -1899,6 +1905,8 @@
     "moreActions": "More Actions",
     "actionDescriptions": {
       "send": "Use any Celo address, domain, phone number, etc.",
+      "sendV1_74_one": "Use any {{supportedNetworkNames}} address, domain, phone number, etc.",
+      "sendV1_74_other": "Use any address, domain, phone number on the following networks: {{supportedNetworkNames}}",
       "swap": "Swap your tokens without leaving your wallet",
       "add": "Buy tokens using one of our trusted providers",
       "withdraw": "Transfer tokens to a bank account, mobile money, gift card etc."
