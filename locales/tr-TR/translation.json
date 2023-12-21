@@ -1088,7 +1088,9 @@
     "sendTransactionAction": "Gönder",
     "unsupportedChain": {
       "title": "Desteklenmeyen zincir",
-      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun.",
+      "descriptionV1_74_one": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen {{supportedNetworkNames}} adresinin dapp tarafında aktif zincir olduğundan emin olun.",
+      "descriptionV1_74_other": "{{dappName}} bu eylemi {{appName}}tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen dapp üzerindeki aktif zincirin aşağıdakilerden biri olduğundan emin olun: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Yetersiz gas token bakiyesi",
@@ -1097,11 +1099,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen Celo'nun dapp tarafında seçili olduğundan emin olun."
+        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen Celo'nun dapp tarafında seçili olduğundan emin olun.",
+        "descriptionV1_74_one": "{{dappName}} {{appName}}tarafından desteklenmeyen bir zincir ile bağlantı kurmak istiyorum. Lütfen dapp tarafında {{supportedNetworkNames}} 'un seçili olduğundan emin olun.",
+        "descriptionV1_74_other": "{{dappName}} {{appName}}tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyorum. Lütfen dapp tarafında aşağıdakilerden birinin seçili olduğundan emin olun: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir."
+        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
+        "descriptionV1_74_one": "{{dappName}} desteklenen bir zincir olarak {{supportedNetworkNames}} belirtilmemiştir. Bazı özellikler beklendiği gibi çalışmayabilir.",
+        "descriptionV1_74_other": "{{dappName}} aşağıdakilerden herhangi birini desteklenen zincirler olarak belirtmemiştir: {{supportedNetworkNames}}. Bazı özellikler beklendiği gibi çalışmayabilir."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Desteklenmeyen yöntemler",
@@ -1899,6 +1905,8 @@
     "moreActions": "Daha Fazla Eylem",
     "actionDescriptions": {
       "send": "Herhangi bir Celo adresi, alan adı, telefon numarası vb. kullanın.",
+      "sendV1_74_one": "Herhangi bir {{supportedNetworkNames}} adresi, alan adı, telefon numarası vb. kullanın.",
+      "sendV1_74_other": "Aşağıdaki ağlarda herhangi bir adres, alan adı, telefon numarası kullanın: {{supportedNetworkNames}}",
       "swap": "Tokenlerinizi cüzdanınızdan çıkmadan swap edin",
       "add": "Güvenilir sağlayıcılarımızdan birini kullanarak token satın alın",
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
