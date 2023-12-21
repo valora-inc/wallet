@@ -6,6 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
 import {
   Fee,
@@ -42,6 +43,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -529,5 +531,30 @@ describe('TransactionDetailsScreen', () => {
         transactionStatus: TransactionStatus.Complete,
       }
     )
+  })
+
+  it.each([
+    {
+      testName: 'navigates to the send screen on retry tap (old flow)',
+      useNewSendFlow: false,
+      expectedScreen: Screens.Send,
+    },
+    {
+      testName: 'navigates to the send select recipient screen on retry tap (new flow)',
+      useNewSendFlow: true,
+      expectedScreen: Screens.SendSelectRecipient,
+    },
+  ])('$testName', async ({ useNewSendFlow, expectedScreen }) => {
+    jest.mocked(getFeatureGate).mockReturnValue(useNewSendFlow)
+
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    fireEvent.press(getByText('transactionDetailsActions.retryFailedTransaction'))
+    expect(navigate).toHaveBeenCalledWith(expectedScreen)
   })
 })

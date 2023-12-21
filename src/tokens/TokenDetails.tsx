@@ -32,6 +32,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -179,7 +181,12 @@ export const useActions = (token: TokenBalance) => {
       }),
       iconComponent: QuickActionsSend,
       onPress: () => {
-        navigate(Screens.Send, { defaultTokenIdOverride: token.tokenId })
+        navigate(
+          getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
+            ? Screens.SendSelectRecipient
+            : Screens.Send,
+          { defaultTokenIdOverride: token.tokenId }
+        )
       },
       visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
