@@ -112,7 +112,7 @@ export default SecureSend = () => {
       let randomContent = faker.lorem.words()
       await waitForElementByIdAndTap('HomeAction-Send', 30000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
-      await element(by.id('SendSelectRecipientSearchInput')).typeText(VERIFIED_PHONE_NUMBER)
+      await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
       await element(by.id('RecipientItem')).tap()
 
       await waitForElementByIdAndTap('SendOrInviteButton', 30000)
@@ -138,7 +138,7 @@ export default SecureSend = () => {
 
       // Enter the amount and review
       await element(by.id('SendEnterAmount/Input')).tap()
-      await element(by.id('SendEnterAmount/Input')).typeText(AMOUNT_TO_SEND)
+      await element(by.id('SendEnterAmount/Input')).replaceText(AMOUNT_TO_SEND)
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.
