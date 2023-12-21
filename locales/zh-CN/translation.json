@@ -1087,8 +1087,8 @@
     "unsupportedChain": {
       "title": "不受支持的区块链网络",
       "description": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 Celo 属于 dapp 上的活跃区块链。",
-      "descriptionV1_74_one": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 {{supportedNetworkNames}} 是 dapp 端的活动链。",
-      "descriptionV1_74_other": "{{dappName}} 请求在 {{appName}}不支持的链上执行此操作。请确保 dapp 上的活动链为以下之一： {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 {{supportedNetworkNames}} 属于 dapp 上的活跃区块链。",
+      "descriptionV1_74_other": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 dapp 上的活动链为以下之一： {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "手续费代币余额不足",
@@ -1098,13 +1098,13 @@
       "failUnsupportedNamespace": {
         "title": "不受支持的区块链网络",
         "description": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了 Celo。",
-        "descriptionV1_74_one": "{{dappName}} 希望连接 {{appName}}不支持的链。请确保在应用程序端选择了 {{supportedNetworkNames}}。",
-        "descriptionV1_74_other": "{{dappName}} 希望连接 {{appName}}不支持的链。请确保在 dapp 端选择了以下之一： {{supportedNetworkNames}}。"
+        "descriptionV1_74_one": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了 {{supportedNetworkNames}}。",
+        "descriptionV1_74_other": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了以下之一： {{supportedNetworkNames}}。"
       },
       "warnUnsupportedChains": {
         "title": "不受支持的区块链网络",
-        "description": "{{dappName}} 未指定 Celo 为支持链。某些功能可能无法按预期运行。",
-        "descriptionV1_74_one": "{{dappName}} 未指定 {{supportedNetworkNames}} 为支持链。某些功能可能无法按预期运行。",
+        "description": "{{dappName}} 没有将 Celo 指定为受支持的区块链网络。某些功能可能无法按预期运行。",
+        "descriptionV1_74_one": "{{dappName}} 没有将 {{supportedNetworkNames}} 指定为受支持的区块链网络。某些功能可能无法按预期运行。",
         "descriptionV1_74_other": "{{dappName}} 未指定以下任何链为支持链： {{supportedNetworkNames}}。某些功能可能无法按预期运行。"
       },
       "warnSomeUnsupportedMethods": {
@@ -1903,7 +1903,7 @@
     "moreActions": "更多操作",
     "actionDescriptions": {
       "send": "使用任意 Celo 地址、域、电话号码等。",
-      "sendV1_74_one": "使用任何 {{supportedNetworkNames}} 地址、域名、电话号码等。",
+      "sendV1_74_one": "使用任意 {{supportedNetworkNames}} 地址、域、电话号码等。",
       "sendV1_74_other": "在以下网络中使用任何地址、域名和电话号码： {{supportedNetworkNames}}",
       "swap": "无需离开钱包即可交换代币",
       "add": "使用我们值得信赖的供应商之一购买代币",
