@@ -1106,8 +1106,8 @@
       "warnUnsupportedChains": {
         "title": "Unsupported chain",
         "description": "{{dappName}} did not specify Celo as a supported chain. Some features may not work as expected.",
-        "descriptionV1_74_one": "{{dappName}} didn't not specify {{supportedNetworkNames}} as a supported chain. Some features may not work as expected.",
-        "descriptionV1_74_other": "{{dappName}} didn't not specify any of the following as supported chains: {{supportedNetworkNames}}. Some features may not work as expected."
+        "descriptionV1_74_one": "{{dappName}} did not specify {{supportedNetworkNames}} as a supported chain. Some features may not work as expected.",
+        "descriptionV1_74_other": "{{dappName}} did not specify any of the following as supported chains: {{supportedNetworkNames}}. Some features may not work as expected."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Unsupported methods",
