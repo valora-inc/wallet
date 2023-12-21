@@ -55,7 +55,7 @@ async function createBaseSwapTransactions(
 
   // If the sell token is ERC-20, we need to check the allowance and add an
   // approval transaction if necessary
-  if (allowanceTarget !== zeroAddress && fromToken.address) {
+  if (allowanceTarget !== zeroAddress && !fromToken.isNative) {
     const approvedAllowanceForSpender = await publicClient[
       networkIdToNetwork[fromToken.networkId]
     ].readContract({

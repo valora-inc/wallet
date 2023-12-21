@@ -328,8 +328,13 @@ export function* handleTransactionReceiptReceived(
     Logger.error(TAG, `No information found for token ${feeCurrencyId} in network ${networkId}`)
   }
 
+  // even though effectiveGasPrice is a number in the type definition, it has
+  // come through as null before in a Celo transaction (tx hash
+  // 0x48ab4e3aeef306cc2866429017bca067367c4f905eccb2dcf8ce770c346f7b00).
+  // Setting a default value here so that the function does not fail at this
+  // point
   const gasFeeInSmallestUnit = new BigNumber(receipt.gasUsed.toString()).times(
-    new BigNumber(receipt.effectiveGasPrice.toString())
+    new BigNumber((receipt.effectiveGasPrice ?? 0).toString())
   )
 
   const baseDetails = {
@@ -351,7 +356,10 @@ export function* handleTransactionReceiptReceived(
       txId,
       {
         ...baseDetails,
-        fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
+        fees:
+          feeTokenInfo && gasFeeInSmallestUnit.gt(0)
+            ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit)
+            : [],
       },
       blockTimestampInMs
     )
