@@ -209,6 +209,7 @@ export default Send = () => {
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await waitForElementByIdAndTap('SendEnterAmount/Input', 30 * 1000)
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30 * 1000)
       await isElementVisible('ConfirmButton')
     })
@@ -231,6 +232,7 @@ export default Send = () => {
       await element(by.id('SendEnterAmount/Input')).tap()
       await waitForElementByIdAndTap('SendEnterAmount/Input', 30 * 1000)
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30 * 1000)
       let amount = await element(by.id('SendAmount')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
@@ -284,6 +286,7 @@ export default Send = () => {
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await waitForElementByIdAndTap('SendEnterAmount/Input', 30 * 1000)
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30 * 1000)
       await isElementVisible('ConfirmButton')
     })
@@ -356,6 +359,7 @@ export default Send = () => {
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await waitForElementByIdAndTap('SendEnterAmount/Input', 30 * 1000)
       await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
       await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30 * 1000)
       await isElementVisible('ConfirmButton')
     })

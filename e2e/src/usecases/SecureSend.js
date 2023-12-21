@@ -139,6 +139,7 @@ export default SecureSend = () => {
       // Enter the amount and review
       await element(by.id('SendEnterAmount/Input')).tap()
       await element(by.id('SendEnterAmount/Input')).replaceText(AMOUNT_TO_SEND)
+      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.
