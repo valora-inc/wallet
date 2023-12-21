@@ -1088,7 +1088,9 @@
     "sendTransactionAction": "Enviar",
     "unsupportedChain": {
       "title": "Cadeia não suportada",
-      "description": "{{dappName}} está solicitando esta ação em uma cadeia não suportada pelo {{appName}}. Certifique-se de que Celo é a cadeia ativa no dapp."
+      "description": "{{dappName}} está solicitando esta ação em uma cadeia não suportada pelo {{appName}}. Certifique-se de que Celo é a cadeia ativa no dapp.",
+      "descriptionV1_74_one": "{{dappName}} está solicitando essa ação em uma cadeia não suportada por {{appName}}. Certifique-se de que {{supportedNetworkNames}} seja a cadeia ativa no lado do dapp.",
+      "descriptionV1_74_other": "{{dappName}} está solicitando essa ação em uma cadeia não suportada por {{appName}}. Certifique-se de que a cadeia ativa no dapp seja uma das seguintes: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Balanço insuficiente de tokens de Gas",
@@ -1097,11 +1099,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadeia não suportada",
-        "description": "{{dappName}} gostaria de se conectar com uma cadeia não suportada pelo {{appName}}. Certifique-se de que Celo esteja selecionada no dapp."
+        "description": "{{dappName}} gostaria de se conectar com uma cadeia não suportada pelo {{appName}}. Certifique-se de que Celo esteja selecionada no dapp.",
+        "descriptionV1_74_one": "{{dappName}} Você gostaria de se conectar com uma cadeia não suportada por {{appName}}. Certifique-se de que {{supportedNetworkNames}} esteja selecionado no lado do dapp.",
+        "descriptionV1_74_other": "{{dappName}} Você gostaria de se conectar com uma cadeia não suportada por {{appName}}. Certifique-se de que um dos seguintes itens esteja selecionado no lado do dapp: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Cadeia não suportada",
-        "description": "{{dappName}} não especificou Celo como uma cadeia suportada. Alguns recursos podem não funcionar como esperado."
+        "description": "{{dappName}} não especificou Celo como uma cadeia suportada. Alguns recursos podem não funcionar como esperado.",
+        "descriptionV1_74_one": "{{dappName}} você não especificou {{supportedNetworkNames}} como uma cadeia compatível. Alguns recursos podem não funcionar como esperado.",
+        "descriptionV1_74_other": "{{dappName}} você não especificou nenhuma das cadeias a seguir como compatíveis: {{supportedNetworkNames}}. Alguns recursos podem não funcionar como esperado."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Métodos não suportados",
@@ -1899,6 +1905,8 @@
     "moreActions": "Mais ações",
     "actionDescriptions": {
       "send": "Use qualquer endereço, domínio, número de celular etc. da Celo.",
+      "sendV1_74_one": "Use qualquer endereço {{supportedNetworkNames}} , domínio, número de telefone, etc.",
+      "sendV1_74_other": "Use qualquer endereço, domínio ou número de telefone nas seguintes redes: {{supportedNetworkNames}}",
       "swap": "Troque seus tokens sem sair da sua carteira",
       "add": "Compre tokens usando um de nossos fornecedores confiáveis",
       "withdraw": "Transfira tokens para uma conta bancária, dinheiro móvel, cartão-presente etc."
