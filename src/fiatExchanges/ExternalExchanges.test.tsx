@@ -2,11 +2,14 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ExternalExchanges from 'src/fiatExchanges/ExternalExchanges'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockCusdTokenId, mockExchanges } from 'test/values'
 
+jest.mock('src/statsig')
 const mockStore = createMockStore({
   web3: {
     account: mockAccount,
@@ -43,5 +46,43 @@ describe('ExternalExchanges', () => {
     expect(getByTestId('provider-2')).toBeTruthy()
     await fireEvent.press(getByTestId('provider-1'))
     expect(navigateToURI).toBeCalledWith('https://coinlist.co/asset/celo')
+  })
+
+  it.each([
+    {
+      testName: 'navigates to the correct screen when send is tapped (new flow)',
+      useNewSendFlow: true,
+      expectedScreen: Screens.SendSelectRecipient,
+      navParams: {
+        defaultTokenIdOverride: mockCusdTokenId,
+        forceTokenId: true,
+      },
+    },
+    {
+      testName: 'navigates to the correct screen when send is tapped (old flow)',
+      useNewSendFlow: false,
+      expectedScreen: Screens.Send,
+      navParams: {
+        skipContactsImport: true,
+        defaultTokenIdOverride: mockCusdTokenId,
+        forceTokenId: true,
+      },
+    },
+  ])('$testName', async ({ useNewSendFlow, expectedScreen, navParams }) => {
+    jest.mocked(getFeatureGate).mockReturnValue(useNewSendFlow)
+
+    const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
+      tokenId: mockCusdTokenId,
+      exchanges: mockExchanges,
+    })
+
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <ExternalExchanges {...mockScreenProps} />
+      </Provider>
+    )
+
+    await fireEvent.press(getByTestId('SendBar/SendButton'))
+    expect(navigate).toHaveBeenCalledWith(expectedScreen, navParams)
   })
 })
