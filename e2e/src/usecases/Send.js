@@ -208,8 +208,7 @@ export default Send = () => {
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await element(by.id('SendEnterAmount/Input')).tap()
-      // await element(by.id('SendEnterAmount/Input')).replaceText('0.10')
-      await inputNumberKeypad('0.10')
+      await element(by.id('SendEnterAmount/Input')).typeText('0.10')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       await isElementVisible('ConfirmButton')
     })
@@ -230,8 +229,8 @@ export default Send = () => {
       await element(by.id('BackChevron')).tap()
       await isElementVisible('SendEnterAmount/ReviewButton')
       await element(by.id('SendEnterAmount/Input')).tap()
-      // await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
-      await inputNumberKeypad('0.01')
+      await element(by.id('SendEnterAmount/Input')).clearText()
+      await element(by.id('SendEnterAmount/Input')).typeText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       let amount = await element(by.id('SendAmount')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
@@ -284,8 +283,7 @@ export default Send = () => {
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await element(by.id('SendEnterAmount/Input')).tap()
-      // await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
-      await inputNumberKeypad('0.01')
+      await element(by.id('SendEnterAmount/Input')).typeText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       await isElementVisible('ConfirmButton')
     })
@@ -357,8 +355,7 @@ export default Send = () => {
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await element(by.id('SendEnterAmount/Input')).tap()
-      // await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
-      await inputNumberKeypad('0.01')
+      await element(by.id('SendEnterAmount/Input')).typeText('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       await isElementVisible('ConfirmButton')
     })
