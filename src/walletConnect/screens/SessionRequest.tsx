@@ -65,6 +65,9 @@ function SessionRequest({
     })
   }
 
+  const supportedNetworkNames = supportedChains
+    .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
+    .join(', ')
   if (!namespacesToApprove) {
     // We couldn't build an namespace to approve, so we reject the session, showing the reason
     // Note: for now it can only be because it's not an EVM chain
@@ -87,8 +90,10 @@ function SessionRequest({
         <InLineNotification
           severity={Severity.Warning}
           title={t('walletConnectRequest.session.failUnsupportedNamespace.title', { dappName })}
-          description={t('walletConnectRequest.session.failUnsupportedNamespace.description', {
+          description={t('walletConnectRequest.session.failUnsupportedNamespace.descriptionV1_74', {
             dappName,
+            supportedNetworkNames,
+            count: supportedChains.length,
           })}
           style={styles.warning}
         />
@@ -121,6 +126,7 @@ function SessionRequest({
       <NamespacesWarning
         namespacesToApprove={namespacesToApprove}
         supportedChains={supportedChains}
+        supportedNetworkNames={supportedNetworkNames}
         dappName={dappName}
       />
     </RequestContent>
@@ -130,10 +136,12 @@ function SessionRequest({
 function NamespacesWarning({
   namespacesToApprove,
   supportedChains,
+  supportedNetworkNames,
   dappName,
 }: {
   namespacesToApprove: SessionTypes.Namespaces
   supportedChains: string[]
+  supportedNetworkNames: string
   dappName: string
 }) {
   const { t } = useTranslation()
@@ -153,8 +161,10 @@ function NamespacesWarning({
   )
   if (supportedChainsToApprove.length === 0) {
     title = t('walletConnectRequest.session.warnUnsupportedChains.title', { dappName })
-    description = t('walletConnectRequest.session.warnUnsupportedChains.description', {
+    description = t('walletConnectRequest.session.warnUnsupportedChains.descriptionV1_74', {
       dappName,
+      supportedNetworkNames,
+      count: supportedChains.length,
     })
   } else if (unsupportedMethods.length > 0) {
     title = t('walletConnectRequest.session.warnSomeUnsupportedMethods.title', { dappName })

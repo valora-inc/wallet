@@ -75,6 +75,10 @@ function ActionRequest({
     !supportedChains.includes(chainId) &&
     pendingAction.params.request.method !== SupportedActions.personal_sign
   ) {
+    const supportedNetworkNames = supportedChains
+      .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
+      .join(`, `)
+
     return (
       <RequestContent
         type="dismiss"
@@ -88,9 +92,11 @@ function ActionRequest({
         <InLineNotification
           severity={Severity.Warning}
           title={t('walletConnectRequest.unsupportedChain.title', { dappName, chainId })}
-          description={t('walletConnectRequest.unsupportedChain.description', {
+          description={t('walletConnectRequest.unsupportedChain.descriptionV1_74', {
             dappName,
             chainId,
+            supportedNetworkNames,
+            count: supportedChains.length,
           })}
           style={styles.warning}
         />
