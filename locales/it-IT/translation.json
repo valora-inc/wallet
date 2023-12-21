@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Raccogliamo dati anonimizzati sull'utilizzo di {{appName}} per migliorare l’app a beneficio di tutti.",
   "dataSaver": "Risparmio dati",
   "enableDataSaver": "Abilita Risparmio dati",
-  "dataSaverDetail": "La modalità Risparmio dati ti permette di comunicare con la rete attraverso un nodo fidato. Puoi sempre cambiare questa modalità nelle impostazioni dell'app.",
+  "dataSaverDetail": "La modalità Risparmio dati ti permette di comunicare con la rete attraverso un nodo attendibile. Puoi sempre cambiare questa modalità nelle impostazioni dell'app.",
   "keylessBackupSettingsTitle": "Recupero tramite e-mail e telefono",
   "setup": "Imposta",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Backup della Frase di recupero",
   "introCompleteQuiz": "Completa il quiz sul backup per verificare di poter recuperare il tuo portafoglio.\n\nSe l’hai annotata in modo errato, non sarai in grado di accedere al tuo portafoglio in caso di problemi con il dispositivo.",
   "postSetupTitle": "La tua Frase di recupero",
-  "postSetupBody": "Se perdi la tua Frase di Recupero, perderai l'accesso a tutte le tue risorse su {{appName}}. Nessuno, nemmeno {{appName}}, potrà aiutarti a recuperare il tuo account senza la tua Frase di Recupero. Conservala in un luogo sicuro e non condividerla.",
+  "postSetupBody": "Se perdi la tua Frase di Recupero, perderai l'accesso a tutti i tuoi asset su {{appName}}. Nessuno, nemmeno {{appName}}, potrà aiutarti a recuperare il tuo account senza la tua Frase di Recupero. Conservala in un luogo sicuro e non condividerla.",
   "postSetupCTA": "Maggiori informazioni sulla Frase di recupero",
   "failedFetchMnemonic": "Impossibile recuperare la Frase di recupero.",
   "backupAndRecovery": "Backup e ripristino",
@@ -362,12 +362,12 @@
   "receiveWithBidali": "Buoni regalo e ricariche per cellulare",
   "fundingEducationDialog": {
     "title": "Aggiunta di fondi in {{appName}}",
-    "body": "Per finanziare il tuo portafoglio {{appName}} , acquista il tuo asset preferito da uno dei fornitori terzi disponibili nella tua zona. Per maggiori informazioni visita il sito <0>{{link}}</0>",
+    "body": "Per finanziare il tuo portafoglio {{appName}}, acquista il tuo asset preferito da uno dei fornitori terzi disponibili nella tua area geografica. Per maggiori informazioni, visita il sito <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Preleva da {{appName}}",
-    "body": "Per prelevare il saldo di {{appName}} , vendi l'attività desiderata presso uno dei fornitori terzi disponibili nella tua località. Per maggiori informazioni visita il sito <0>{{link}}</0>",
+    "body": "Per prelevare il saldo di {{appName}}, vendi l'asset desiderato attraverso uno dei fornitori terzi disponibili nella tua area geografica. Per maggiori informazioni, visita il sito <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -634,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita amici e ricevi ricompense",
-    "body": "Una volta che si saranno registrati e avranno aggiunto fondi al loro portafoglio {{appName}} , riceverete entrambi 0,50 cUSD."
+    "body": "Una volta che si sarà registrato e avrà aggiunto fondi al portafoglio {{appName}}, riceverete entrambi 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita un amico",
@@ -642,28 +642,28 @@
     "button": "Invia l'invito",
     "error": "Si è verificato un errore nella creazione di un link condivisibile",
     "share": "Ehi! Iscriviti al portafoglio {{appName}}. Io lo uso per far aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi semplicemente con un numero telefonico. Assicurati di iscriverti con il mio link di riferimento qui: {{shareUrl}}.",
-    "help": "Per riscuotere questa ricompensa, l'invitato deve scaricare attraverso il link di riferimento, collegare il proprio numero di telefono, aggiungere fondi e tenerli nel proprio portafoglio {{appName}} per 7 giorni. <0>Visualizza tutti i termini</0>",
+    "help": "Per riscuotere questa ricompensa, l'invitato deve eseguire il download attraverso il link del referral, collegare il proprio numero telefonico, aggiungere fondi e conservarli nel proprio portafoglio {{appName}} per 7 giorni. <0>Visualizza tutti i Termini</0>",
     "rewardsActive": {
       "title": "Invita gli amici e colleziona NFT",
       "body": "Invita gli amici e i familiari a scaricare {{appName}} e ciascuno di voi riceverà un NFT esclusivo"
     },
     "rewardsActiveCUSD": {
-      "title": "TEMPO LIMITATO. Ricevi cUSD gratis se inviti gli amici a Valora!",
-      "body": "I premi di raccomandazione sono tornati e sono ancora più facili di prima. Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avranno aggiunto fondi e li avranno mantenuti per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
+      "title": "SOLO PER UN PERIODO LIMITATO. Ricevi cUSD gratis se inviti amici in Valora!",
+      "body": "Le ricompense dei referral sono tornate e sono ancora più facili che mai. Ricevi 0,50 cUSD per ogni amico che inviti su {{appName}}. Una volta che avrà aggiunto fondi e li avrà conservati per 7 giorni, riceverete entrambi 0,50 cUSD. Affrettati, i fondi sono limitati! (Limite di 25 amici)."
     }
   },
   "getReward": "Ricevi ${{reward}}",
   "welcomeCelo": "Ti diamo il benvenuto in {{appName}}",
   "chooseCountryCode": "Codice Paese",
   "chooseCountry": "Paese",
-  "joinText": "{{appName}} ti aiuta a inviare, ricevere e salvare valore sulla blockchain.",
+  "joinText": "{{appName}} ti aiuta a inviare, ricevere e conservare valore sulla blockchain.",
   "terms": {
     "title": "Termini e condizioni",
     "heading1": "Dati e privacy",
     "heading2": "Asset Celo e conto {{appName}}",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
-    "privacy": "Iscrivendoti a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'applicazione. Inoltre, se colleghi il tuo numero di telefono, ne verrà memorizzata una copia con hash. Se concedi a Valora l'accesso al tuo elenco di contatti, Valora importerà il nome, il numero di telefono e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app Valora. Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
-    "goldDisclaimer": "Quando crei un \"account\" con Valora stai creando un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare i fondi persi. Tieni presente che le criptovalute fanno parte di una nuova classe di attività e presentano un rischio di perdita finanziaria. Valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario prima di acquistare qualsiasi asset."
+    "privacy": "Partecipando a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'app. Inoltre, se colleghi il tuo numero telefonico, ne verrà memorizzata una copia con hash. Se concedi a Valora l'accesso al tuo elenco di contatti, Valora importerà il nome, il numero telefonico e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app Valora. Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
+    "goldDisclaimer": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
   },
   "fullNameOrPsuedonym": "Nome e cognome o alias",
   "namePlaceholder": "p. es. nome",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Riprovare il collegamento con la modalità Risparmio dati?",
     "body1": "Si è verificato un problema durante il collegamento del tuo numero telefonico. Ti consigliamo di riprovare con la modalità Risparmio dati attivata.",
-    "body2": "La modalità Data Saver ti permette di comunicare con la rete in modo più costante utilizzando una connessione affidabile.",
+    "body2": "La modalità Risparmio dati ti consente di comunicare con la rete in modo più costante utilizzando una connessione affidabile.",
     "retryButton": "Riprova con Risparmio dati"
   },
   "congratsVerified": "Congratulazioni, il tuo numero telefonico è ora collegato!",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Sei sicuro?",
-    "body": "La connessione ti permette di inviare e ricevere fondi a qualsiasi numero di telefono.\n\nGli account non connessi possono inviare pagamenti solo utilizzando gli indirizzi dei portafogli o i codici QR.",
+    "body": "La connessione ti permette di inviare e ricevere fondi verso e da qualsiasi numero telefonico.\n\nGli account non connessi possono inviare pagamenti solo utilizzando gli indirizzi dei portafogli o i codici QR.",
     "cancel": "Indietro",
     "confirm": "Salta per il momento"
   },
@@ -944,7 +944,7 @@
   "commentLabel": "Messaggio",
   "amountSent": "Importo inviato",
   "amountCeloWithdrawn": "Importo (CELO)",
-  "feeEducation": "Le blockchain raccolgono una commissione di transazione per mantenere le reti supportate e funzionanti.",
+  "feeEducation": "Le blockchain addebitano una commissione sulle transazioni per garantire il supporto e il funzionamento delle reti.",
   "reviewPayment": "Rivedi pagamento",
   "requestPayment": "Richiedi pagamento",
   "max": "MAX",
@@ -965,7 +965,7 @@
   "inviteWithoutPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Provare l'app è facile e desidero invitarti a scoprirla con questo collegamento: {{link}}",
   "inviteWithEscrowedPayment": "Ciao. Uso {{appName}} per inviare criptovalute in tutto il mondo. Ti ho appena inviato {{amount}} {{token}}. Scarica l’app {{appName}} e riscatta {{token}} tramite questo collegamento: {{link}}",
   "inviteWithRewards": "Ciao! 👋 Sto usando {{appName}} come portafoglio per criptovalute. Scaricare l'app e collegare il numero telefonico richiede pochissimo tempo e come ricompensa riceveremo entrambi un NFT in edizione speciale. 💫 \n\nUsa questo link per il download: {{link}}",
-  "inviteWithRewardsCUSD": "Ehi! In questo momento possiamo entrambi ricevere una ricompensa gratuita di 0,50$ se ti iscrivi e fondi il tuo portafoglio Valora. Io lo uso per far crescere i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero di telefono. Assicurati di iscriverti con il mio link di riferimento qui: \n\n{{link}} \n\n Affrettati, la promozione termina presto.",
+  "inviteWithRewardsCUSD": "Ehi! Possiamo ricevere entrambi una ricompensa gratuita di 0,50$ proprio adesso, se ti iscrivi e aggiungi fondi al tuo portafoglio Valora. Io lo uso per aumentare i miei risparmi in USD e criptovalute e tu puoi configurarlo in pochi secondi con un semplice numero telefonico. Assicurati di iscriverti utilizzando il mio link di riferimento di seguito: \n\n{{link}} \n\n Affrettati, la promozione terminerà presto.",
   "loadingContacts": "Ricerca dei contatti in corso",
   "myCode": "Il mio codice",
   "scanCode": "Inquadra",
@@ -1004,22 +1004,22 @@
     "importing": "Importazione in corso..."
   },
   "confirmAccount": {
-    "header": "{{displayName}} ha più portafogli.",
-    "headerNoDisplayName": "Questo numero di telefono ha più portafogli.",
+    "header": "{{displayName}} ha più di un portafoglio.",
+    "headerNoDisplayName": "A questo numero telefonico sono collegati più portafogli.",
     "button": "Conferma l'indirizzo del portafoglio"
   },
   "secureSendExplanation": {
-    "body1": "Ci sono più portafogli associati a {{e164PhoneNumber}}. Per confermare di essere in possesso dell'account giusto, scansiona il codice QR o inserisci l'indirizzo del portafoglio.",
+    "body1": "Al numero telefonico {{e164PhoneNumber}} sono associati più portafogli. Per confermare di essere in possesso dell'account corretto, inquadra il codice QR o inserisci l'indirizzo del portafoglio.",
     "body2": "Per eseguire transazioni devi prima inquadrare il suo codice QR o confermare il suo Indirizzo del conto."
   },
   "confirmAccountNumber": {
     "title": "Conferma l'indirizzo del portafoglio",
-    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell'indirizzo del portafoglio. È più sicuro farlo di persona o per telefono.",
-    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell'indirizzo del suo portafoglio. È più sicuro farlo di persona o tramite una telefonata.",
+    "bodyPartial": "Chiedi a {{displayName}} le ultime quattro cifre dell'indirizzo del portafoglio. È più sicuro eseguire questa operazione di persona o tramite una telefonata.",
+    "bodyPartialNoDisplayName": "Chiedi al tuo contatto le ultime quattro cifre dell'indirizzo del suo portafoglio. È più sicuro eseguire questa operazione di persona o tramite una telefonata.",
     "body1Full": "Chiedi a {{displayName}} l'indirizzo del portafoglio.",
-    "body1FullNoDisplayName": "Chiedi al tuo contatto l'indirizzo del suo portafoglio.",
-    "body2Full": "Il modo più sicuro per farlo è di persona. Per sicurezza, ti preghiamo di non utilizzare i messaggi di testo (SMS).",
-    "help": "Dove posso trovare un indirizzo di portafoglio?",
+    "body1FullNoDisplayName": "Chiedi al tuo contatto l'indirizzo del portafoglio.",
+    "body2Full": "Il modo più sicuro per eseguire questa operazione è di persona. Per prudenza, non utilizzare i messaggi di testo (SMS).",
+    "help": "Dove posso trovare l'indirizzo di un portafoglio?",
     "submit": "Invia"
   },
   "accountInputHeaderPartial": "Ultime 4 cifre",
@@ -1070,21 +1070,21 @@
     "signPayloadTitle": "Verifica portafoglio",
     "signPayload": "{{dappName}} vorrebbe verificare la proprietà del tuo portafoglio.",
     "signTransactionTitle": "Firma la transazione",
-    "signTransaction": "{{dappName}} desidera firmare una transazione.",
-    "signDappTransaction": "{{dappName}} desidera firmare una transazione sulla rete {{networkName}} .",
-    "signDappTransactionUnsupportedNetwork": "{{dappName}} desidera firmare una transazione su una rete non supportata.",
+    "signTransaction": "{{dappName}} vorrebbe firmare una transazione.",
+    "signDappTransaction": "{{dappName}} vorrebbe firmare una transazione sulla rete {{networkName}}.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} vorrebbe firmare una transazione su una rete non supportata.",
     "sendTransactionTitle": "Invia transazione",
-    "sendTransaction": "{{dappName}} desidera inviare una transazione.",
-    "sendDappTransaction": "{{dappName}} desidera inviare una transazione sulla rete {{networkName}} .",
-    "sendDappTransactionUnsupportedNetwork": "{{dappName}} desidera inviare una transazione su una rete non supportata.",
+    "sendTransaction": "{{dappName}} vorrebbe inviare una transazione.",
+    "sendDappTransaction": "{{dappName}} vorrebbe inviare una transazione sulla rete {{networkName}}.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} vorrebbe inviare una transazione su una rete non supportata.",
     "decryptPayloadTitle": "Decripta con il portafoglio",
     "decryptPayload": "{{dappName}} desidera decriptare un carico di dati.",
     "computeSharedSecret": "{{dappName}} desidera generare dei segreti.",
     "transactionDataCopied": "Dati della transazione copiati",
     "estimatedNetworkFee": "Costo stimato della rete {{networkName}}",
     "networksList": "Reti",
-    "connectWalletAction": "Connetti il portafoglio",
-    "signTransactionAction": "Segno",
+    "connectWalletAction": "Connetti portafoglio",
+    "signTransactionAction": "Firma",
     "sendTransactionAction": "Invia",
     "unsupportedChain": {
       "title": "Chain non supportata",
@@ -1094,7 +1094,7 @@
     },
     "notEnoughBalanceForGas": {
       "title": "Saldo di token per le commissioni insufficiente",
-      "description": "Non hai abbastanza {{feeCurrencies}} per coprire le spese di benzina. Aggiungi {{feeCurrencies}} al tuo portafoglio per completare la transazione."
+      "description": "Non hai abbastanza {{feeCurrencies}} per coprire le commissioni sulle transazioni. Aggiungi {{feeCurrencies}} al tuo portafoglio per completare la transazione."
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1105,9 +1105,9 @@
       },
       "warnUnsupportedChains": {
         "title": "Chain non supportata",
-        "description": "{{dappName}} non ha specificato Celo come chain supportata. Alcune funzionalità potrebbero non funzionare nel modo previsto.",
-        "descriptionV1_74_one": "{{dappName}} non ha specificato che {{supportedNetworkNames}} è una catena supportata. Alcune funzioni potrebbero non funzionare come previsto.",
-        "descriptionV1_74_other": "{{dappName}} non ha specificato una delle seguenti catene supportate: {{supportedNetworkNames}}. Alcune funzioni potrebbero non funzionare come previsto."
+        "description": "{{dappName}} non ha specificato Celo come catena supportata. Alcune funzioni potrebbero non funzionare come previsto.",
+        "descriptionV1_74_one": "{{dappName}} non ha specificato {{supportedNetworkNames}} come catena supportata. Alcune funzioni potrebbero non funzionare come previsto.",
+        "descriptionV1_74_other": "{{dappName}} non ha specificato nessuna delle seguenti catene supportate: {{supportedNetworkNames}}. Alcune funzioni potrebbero non funzionare come previsto."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Metodi non supportati",
@@ -1429,8 +1429,8 @@
   "noMoreTransactions": "Non ci sono altre transazioni",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Gli acquisti sono gestiti dai nostri fornitori partner. Le tariffe possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica.",
-    "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti da partner della rete. Le commissioni possono variare. Alcuni metodi di pagamento non sono disponibili nella tua regione. <0>Per saperne di più.</0>",
-    "disclaimer": "I pagamenti sono gestiti da partner della rete. Le commissioni possono variare. <0>Per saperne di più.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "I pagamenti sono gestiti da partner della rete. Le commissioni possono variare. Alcuni metodi di pagamento non sono disponibili nella tua area geografica. <0>Altre informazioni.</0>",
+    "disclaimer": "I pagamenti sono gestiti da partner della rete. Le commissioni possono variare. <0>Altre informazioni.</0>",
     "learnMore": "Scopri di più.",
     "whyMissingPayments": "Perché non vedo più metodi di pagamento?",
     "dismiss": "Ignora",
@@ -1608,11 +1608,11 @@
       "selectCurrencyTitle": "Spendi fondi"
     },
     "exchange": {
-      "informational": "Per evitare perdite di fondi, utilizza questo indirizzo su scambi o attività compatibili con le seguenti reti: <0>{{networks}}</0>",
+      "informational": "Per evitare di perdere fondi, utilizza questo indirizzo su exchange o per asset compatibili con le seguenti reti: <0>{{networks}}</0>",
       "copyAddress": "Copia Indirizzo",
-      "informationText": "Utilizza solo scambi o attività <0>compatibili con le reti supportate da {{appName}}</0> per evitare perdite di fondi.",
+      "informationText": "Per evitare di perdere fondi, utilizza solo exchange o asset <0>compatibili con le reti supportate da {{appName}}</0>.",
       "bottomSheetTitle": "Quali exchange posso utilizzare per depositare i fondi?",
-      "bottomSheetInfo": "Controlla che l'invio di risorse sia compatibile con le reti supportate da {{appName}}."
+      "bottomSheetInfo": "Controlla nuovamente che gli asset da inviare siano compatibili con le reti supportate da {{appName}}."
     }
   },
   "fiatDetailsScreen": {
@@ -1692,14 +1692,14 @@
     "tokenUsdValueUnknown": "-",
     "switchedToNetworkWarning": {
       "title": "Sei passato alla rete {{networkName}}",
-      "body_swapFrom": "Seleziona un token da scambiare sulla rete {{networkName}} per continuare.",
-      "body_swapTo": "Seleziona un token da scambiare con la rete {{networkName}} per continuare."
+      "body_swapFrom": "Per continuare, seleziona un token da cui eseguire lo scambio sulla rete {{networkName}}.",
+      "body_swapTo": "Per continuare, seleziona un token in cui eseguire lo scambio sulla rete {{networkName}}."
     },
     "maxSwapAmountWarning": {
       "title": "Scambio dell’importo MAX",
       "titleV1_74": "Scambio dell’importo MAX",
       "body": "Assicurati di avere CELO nel portafoglio, per coprire le commissioni gas per le transazioni future",
-      "bodyV1_74": "Assicurati di avere {{tokenSymbol}} nel tuo portafoglio per coprire le spese di benzina per le transazioni future.",
+      "bodyV1_74": "Assicurati di avere nel tuo portafoglio {{tokenSymbol}} per coprire le commissioni sulle transazioni in futuro.",
       "learnMore": "Ulteriori informazioni"
     },
     "priceImpactWarning": {
@@ -1712,7 +1712,7 @@
     },
     "confirmSwapFailedWarning": {
       "title": "Si è verificato un errore",
-      "body": "La velocità della rete è bassa o c'è un errore sconosciuto. Riprova più tardi"
+      "body": "La velocità della rete è bassa o si è verificato un errore sconosciuto. Riprova più tardi."
     },
     "estimatedExchangeRate": "Tasso di cambio stimato ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1732,7 +1732,7 @@
       "swapFeeWaived": "Gratuito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
-      "slippageToleranceInfo": "Tolleranza allo slippage\n\nIl tuo swap verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia più della tolleranza di slippage, {{appName}} ti protegge impedendo l'esecuzione dell'operazione.",
+      "slippageToleranceInfo": "Tolleranza slippage\n\nIl tuo scambio verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia oltre la tolleranza allo slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
@@ -1808,7 +1808,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita {{contactName}} in {{appName}} e riceverete 0.50 cUSD",
-      "body": "Sembra che {{contactName}} non sia su Valora. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avranno scaricato Valora, collegato il loro numero di telefono, aggiunto fondi e tenuto nel loro portafoglio per 7 giorni, riceverete entrambi 0,50 cUSD fino ad esaurimento fondi."
+      "body": "Sembra che {{contactName}} non sia su Valora. Puoi comunque inviare un pagamento se conosci l'indirizzo del suo portafoglio, oppure inviare un invito. \n\n Dopo che avrà scaricato Valora, collegato il suo numero telefonico, aggiunto e conservato fondi nel suo portafoglio per 7 giorni, riceverete entrambi 0,50 cUSD, fino ad esaurimento fondi."
     }
   },
   "celoNews": {
@@ -1929,7 +1929,7 @@
   },
   "sendSelectRecipient": {
     "searchText": "Cerca per nome, numero telefonico, portafoglio...",
-    "paste": "Incolla dalla clipboard",
+    "paste": "Incolla dagli Appunti",
     "title": "Seleziona un destinatario",
     "contactsTitle": "Seleziona un contatto",
     "recents": "Recenti",
@@ -1972,7 +1972,7 @@
       "title": "Collega il tuo numero telefonico",
       "description": "Devi collegare il tuo numero telefonico per poter iniziare a inviare criptovalute ai tuoi amici"
     },
-    "unknownAddressInfo": "Assicurati che questo indirizzo supporti il bene che stai cercando di inviare. I tuoi fondi potrebbero non essere recuperabili se l'indirizzo non è valido."
+    "unknownAddressInfo": "Assicurati che questo indirizzo supporti l'asset che vuoi inviare. Se l'indirizzo non è valido, i tuoi fondi potrebbero non essere recuperabili."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Completata",
@@ -2003,19 +2003,19 @@
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approvazione",
-    "estimatedNetworkFee": "Costo stimato della rete",
-    "networkFee": "Costo della rete",
-    "finiteApprovalDescription": "Approvato {{approvedAmount}} {{tokenSymbol}} per il commercio",
-    "infiniteApprovalDescription": "Approvato infinito {{tokenSymbol}} per il commercio",
-    "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per il commercio",
+    "estimatedNetworkFee": "Commissione di rete stimata",
+    "networkFee": "Commissione di rete",
+    "finiteApprovalDescription": "Somma di {{approvedAmount}} {{tokenSymbol}} approvata per la transazione",
+    "infiniteApprovalDescription": "Somma di {{tokenSymbol}} infiniti approvata per la transazione",
+    "revokeApprovalDescription": "Revoca di {{tokenSymbol}} per la transazione",
     "descriptionLabel": "Dettagli"
   },
   "multichainBeta": {
     "beta": "BETA",
     "title": "Novità! Ethereum è su Valora",
-    "description1": "Stiamo aprendo questa funzione a un gruppo selezionato di persone. Tu sei uno dei fortunati!",
-    "description2": "È ancora una novità e il nostro team sta lavorando duramente per rendere le cose perfette. Saremo lieti di ricevere il tuo feedback.",
-    "primaryCta": "Provalo ora",
+    "description1": "Inizialmente, stiamo rendendo disponibile questa funzionalità a un gruppo selezionato di persone. Tu sei tra i fortunati!",
+    "description2": "È ancora una novità e il nostro team si sta impegnando per rendere tutto perfetto. Saremo lieti di ricevere il tuo feedback.",
+    "primaryCta": "Provala ora",
     "secondaryCta": "No grazie"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
