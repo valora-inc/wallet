@@ -1086,7 +1086,9 @@
     "sendTransactionAction": "ส่ง",
     "unsupportedChain": {
       "title": "ไม่รองรับเครือข่าย",
-      "description": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่า Celo เป็นเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp"
+      "description": "{{dappName}} กำลังขอให้ดำเนินการนี้บนเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่า Celo เป็นเครือข่ายที่ใช้งานอยู่ในฝั่ง Dapp",
+      "descriptionV1_74_one": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure {{supportedNetworkNames}} is the active chain on the dapp side.",
+      "descriptionV1_74_other": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure the active chain on the dapp is one of the following: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "ยอดคงเหลือโทเค็นก๊าซไม่เพียงพอ",
@@ -1095,11 +1097,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "ไม่รองรับเครือข่าย",
-        "description": "{{dappName}} ต้องการเชื่อมต่อกับเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าได้เลือก Celo แล้วในฝั่ง Dapp"
+        "description": "{{dappName}} ต้องการเชื่อมต่อกับเครือข่ายที่ {{appName}} ไม่รองรับ โปรดตรวจสอบว่าได้เลือก Celo แล้วในฝั่ง Dapp",
+        "descriptionV1_74_one": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure {{supportedNetworkNames}} is selected on the dapp side.",
+        "descriptionV1_74_other": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure one of the following is selected on the dapp side: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "ไม่รองรับเครือข่าย",
-        "description": "{{dappName}} ไม่ได้ระบุว่า Celo เป็นเครือข่ายที่รองรับ คุณสมบัติบางอย่างอาจไม่ทำงานตามที่คาดไว้"
+        "description": "{{dappName}} ไม่ได้ระบุว่า Celo เป็นเครือข่ายที่รองรับ คุณสมบัติบางอย่างอาจไม่ทำงานตามที่คาดไว้",
+        "descriptionV1_74_one": "{{dappName}} didn't not specify {{supportedNetworkNames}} as a supported chain. Some features may not work as expected.",
+        "descriptionV1_74_other": "{{dappName}} didn't not specify any of the following as supported chains: {{supportedNetworkNames}}. Some features may not work as expected."
       },
       "warnSomeUnsupportedMethods": {
         "title": "ไม่รองรับวิธีการ",
@@ -1897,6 +1903,8 @@
     "moreActions": "ดำเนินการเพิ่มเติม",
     "actionDescriptions": {
       "send": "ใช้ที่อยู่ Celo โดเมน หมายเลขโทรศัพท์ เป็นต้น",
+      "sendV1_74_one": "Use any {{supportedNetworkNames}} address, domain, phone number, etc.",
+      "sendV1_74_other": "Use any address, domain, phone number on the following networks: {{supportedNetworkNames}}",
       "swap": "สว็อปโทเค็นโดยไม่ต้องออกจากกระเป๋าเงินของคุณ",
       "add": "ซื้อโทเค็นกับหนึ่งในผู้ให้บริการที่น่าเชื่อถือของเรา",
       "withdraw": "โอนโทเค็นไปยังบัญชีธนาคาร เงินในมือถือ บัตรของขวัญ เป็นต้น"
