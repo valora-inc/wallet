@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import erc20 from 'src/abis/IERC20'
 import useSelector from 'src/redux/useSelector'
@@ -128,7 +127,6 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
   const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
-  const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
 
   const refreshQuote = useAsyncCallback(
     async (
@@ -136,7 +134,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       toToken: TokenBalance,
       swapAmount: ParsedSwapAmount,
       updatedField: Field
-    ) => {
+    ): Promise<QuoteResult | null> => {
       if (!walletAddress) {
         // should never happen
         Logger.error('SwapScreen@useSwapQuote', 'No wallet address found when refreshing quote')
@@ -204,22 +202,20 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       return quoteResult
     },
     {
-      onSuccess: (updatedExchangeRate: QuoteResult | null) => {
-        setExchangeRate(updatedExchangeRate)
-      },
+      // Keep last result when refreshing
+      setLoading: (state) => ({ ...state, loading: true }),
       onError: (error: Error) => {
-        setExchangeRate(null)
         Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
       },
     }
   )
 
   const clearQuote = () => {
-    setExchangeRate(null)
+    refreshQuote.reset()
   }
 
   return {
-    exchangeRate,
+    quote: refreshQuote.result ?? null,
     refreshQuote: refreshQuote.execute,
     fetchSwapQuoteError: refreshQuote.status === 'error',
     fetchingSwapQuote: refreshQuote.loading,

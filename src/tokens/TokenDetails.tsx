@@ -34,6 +34,7 @@ import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -49,7 +50,11 @@ import {
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
-import { getTokenAnalyticsProps, isHistoricalPriceUpdated } from 'src/tokens/utils'
+import {
+  getSupportedNetworkIdsForSend,
+  getTokenAnalyticsProps,
+  isHistoricalPriceUpdated,
+} from 'src/tokens/utils'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -163,11 +168,17 @@ export const useActions = (token: TokenBalance) => {
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
+  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
   return [
     {
       name: TokenDetailsActionName.Send,
       title: t('tokenDetails.actions.send'),
-      details: t('tokenDetails.actionDescriptions.send'),
+      details: t('tokenDetails.actionDescriptions.sendV1_74', {
+        supportedNetworkNames: supportedNetworkIdsForSend
+          .map((networkId) => NETWORK_NAMES[networkId])
+          .join(', '),
+        count: supportedNetworkIdsForSend.length,
+      }),
       iconComponent: QuickActionsSend,
       onPress: () => {
         navigate(

@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Nous collectons des données anonymisées sur la façon dont vous utilisez {{appName}} pour permettre d'améliorer cette appli pour tous les utilisateurs.",
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
-  "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
+  "dataSaverDetail": "Le mode Économie de données te permet de communiquer avec le réseau par l'intermédiaire d'un nœud de confiance. Tu peux toujours changer ce mode dans les paramètres de l'application.",
   "keylessBackupSettingsTitle": "Récupération de l'e-mail et du téléphone",
   "setup": "Configuration",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Phrase de récupération de sauvegarde",
   "introCompleteQuiz": "Remplissez notre questionnaire de sauvegarde pour vérifier que votre portefeuille peut être récupéré.\n\nSi vous ne l'avez pas correctement enregistrée, vous ne pourrez pas accéder à votre portefeuille en cas de problème avec votre appareil.",
   "postSetupTitle": "Votre Phrase de récupération",
-  "postSetupBody": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos Dollars Celo et à vos CELO. Personne, même pas {{appName}}, ne pourra vous aider à récupérer votre compte sans votre Phrase de récupération. Conservez-la dans un endroit sûr et ne la partagez avec personne.",
+  "postSetupBody": "Si tu perds ta phrase de récupération, tu perdras l'accès à tous tes biens sur {{appName}}. Personne, pas même {{appName}}, ne pourra t'aider à récupérer ton compte sans ta phrase de récupération. Conserve-la en lieu sûr et ne la partage pas.",
   "postSetupCTA": "En savoir plus sur votre Phrase de récupération",
   "failedFetchMnemonic": "Impossible d'extraire votre Phrase de récupération",
   "backupAndRecovery": "Sauvegarde et restauration",
@@ -358,16 +358,16 @@
   "payWithCard": "Carte de débit",
   "payWithExchange": "Échange de cryptomonnaie",
   "selectCashOutMethod": "Sélectionnez la méthode :",
-  "receiveOnAddress": "Adresse Celo",
+  "receiveOnAddress": "Adresse du wallet",
   "receiveWithBidali": "Cartes Cadeaux et Recharge Mobile",
   "fundingEducationDialog": {
     "title": "Créditer votre {{appName}}",
-    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Celo Dollars (cUSD) et des Celo Euro (cEUR), deux monnaies numériques stables qui suivent le cours du dollar américain et de l'euro.\n\nPour approvisionner votre wallet {{appName}}, achetez des cUSD our cEUR auprès d'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>.",
+    "body": "Pour approvisionner ton portefeuille {{appName}} , achète ton actif préféré auprès de l'un des fournisseurs tiers disponibles dans ta région. Pour plus d'informations, visite le site <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retirer de {{appName}}",
-    "body": "{{appName}} fonctionne via le réseau Celo. {{appName}} fonctionne avec des Celo Dollars (cUSD) et des Celo Euro (cEUR), deux monnaies numériques stables qui suivent le cours du dollar américain et de l'euro.\n\nPour retirer des fonds de votre solde {{appName}}, vendez des cUSD ou cEUR à l'un des fournisseurs tiers disponibles dans votre pays. Pour plus d'informations, veuillez consulter <0>{{link}}</0>.",
+    "body": "Pour retirer ton solde {{appName}} , vends le bien désiré à l'un des fournisseurs tiers disponibles dans ta région. Pour plus d'informations, visite le site <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "Bienvenue sur {{appName}}",
   "chooseCountryCode": "Code pays",
   "chooseCountry": "Pays",
-  "joinText": "{{appName}} vous aide à envoyer, recevoir et économiser des valeurs sur le réseau Celo.",
+  "joinText": "{{appName}} t'aide à envoyer, recevoir et sauvegarder de la valeur sur la blockchain.",
   "terms": {
     "title": "Conditions générales",
     "heading1": "Données et confidentialité",
     "heading2": "Actifs Celo et Compte {{appName}}",
     "info": "Pour utiliser nos services, veuillez lire et accepter nos <0>Conditions d'utilisation</0> en cliquant sur le bouton ci-dessous.",
-    "privacy": "En rejoignant ce réseau, vous nous autorisez à collecter des informations anonymes sur votre utilisation de l'appli. De plus, si vous connectez votre numéro de téléphone, une copie hachée de celui-ci sera stockée sur le réseau Celo. Si vous accordez à Valora l'accès à votre liste de contacts, Valora importera le nom de chacun de vos contacts, leur numéro de téléphone et photo de profil pour permettre aux utilisateurs de se contacter sur l'appli Valora. Pour savoir comment nous recueillons et utilisons ces informations, veuillez consulter notre <0>Politique de confidentialité</0>.",
-    "goldDisclaimer": "Lorsque vous créez un \"compte\" chez Valora, vous créez un wallet dont vous seul détenez la clé. Aucune autre personne ni entité, y compris cLabs ou Valora, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs et présentent un risque de perte financière. Réfléhissez à votre situation financière et pesez le risque financier que vous prenez avant d'acheter un actif."
+    "privacy": "En rejoignant ce réseau, tu nous donnes la permission de collecter des informations anonymes sur ton utilisation de l'appli. De plus, si tu connectes ton numéro de téléphone, une copie hachée de celui-ci sera stockée. Si tu accordes à Valora l'accès à ta liste de contacts, Valora importera le nom, le numéro de téléphone et la photo de profil de chaque contact pour permettre aux utilisateurs de se connecter via l'appli Valora. Pour savoir comment nous recueillons et utilisons ces informations, consulte notre <0>politique de confidentialité</0>.",
+    "goldDisclaimer": "Lorsque tu crées un \"compte\" avec Valora, tu crées un portefeuille numérique dont tu es le seul à détenir les clés. Aucune autre personne ou entité, y compris Valora, ne peut récupérer ta clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sache que les crypto-monnaies font partie d'une nouvelle classe d'actifs et présentent un risque de perte financière. Examine attentivement ta situation financière et ta tolérance au risque financier avant d'acheter tout actif."
   },
   "fullNameOrPsuedonym": "Prénom et nom ou pseudonyme",
   "namePlaceholder": "p. ex. nom",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Réessayer la connexion avec l'économiseur de données ?",
     "body1": "Un problème est survenu lors de la connexion de votre numéro de téléphone. Nous vous recommandons d'essayer à nouveau avec le mode Économiseur de données activé.",
-    "body2": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo de façon plus stable en utilisant une connexion fiable.",
+    "body2": "Le mode d'économie de données te permet de communiquer avec le réseau de façon plus cohérente en utilisant une connexion de confiance.",
     "retryButton": "Réessayer avec l'économiseur de données"
   },
   "congratsVerified": "Félicitations, votre numéro de téléphone est maintenant connecté !",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Êtes-vous sûr ?",
-    "body": "La connexion de votre numéro vous permet d'envoyer et de recevoir facilement des fonds vers votre numéro de téléphone.\n\nLes comptes non connectés peuvent uniquement envoyer des paiements en utilisant des adresses Celo ou des codes QR.",
+    "body": "La connexion te permet d'envoyer et de recevoir des fonds à n'importe quel numéro de téléphone.\n\nLes comptes qui ne sont pas connectés peuvent uniquement envoyer des paiements à l'aide d'adresses de portefeuille ou de codes QR.",
     "cancel": "Retour en arrière",
     "confirm": "Ignorer pour l'instant"
   },
@@ -944,7 +944,7 @@
   "commentLabel": "Message",
   "amountSent": "Montant envoyé",
   "amountCeloWithdrawn": "Montant (CELO)",
-  "feeEducation": "La blockchain Celo perçoit des frais de transaction pour assurer le bon fonctionnement du réseau.",
+  "feeEducation": "Les blockchains perçoivent des frais de transaction pour que les réseaux soient soutenus et fonctionnent correctement.",
   "reviewPayment": "Consulter le paiement",
   "requestPayment": "Demander un paiement",
   "max": "MAX.",
@@ -1056,8 +1056,8 @@
     "operation": "Transaction",
     "data": "Données",
     "sign": "Effectuer charge utile de données",
-    "signTransaction": "Effectuer transaction Celo",
-    "sendTransaction": "Envoyer transaction Celo",
+    "signTransaction": "Signer une transaction",
+    "sendTransaction": "Envoyer une transaction",
     "decrypt": "Déchiffrer charge utile de données",
     "accounts": "Lire votre Adresse du compte {{appName}}",
     "details": "Afficher données de la transaction",
@@ -1070,11 +1070,11 @@
     "signPayloadTitle": "Vérifier le portefeuille",
     "signPayload": "{{dappName}} aimerait vérifier la propriété de votre portefeuille.",
     "signTransactionTitle": "Signer la transaction",
-    "signTransaction": "{{dappName}} demande à effectuer une transaction Celo.",
+    "signTransaction": "{{dappName}} souhaite signer une transaction.",
     "signDappTransaction": "{{dappName}} souhaite signer une transaction sur le réseau {{networkName}} .",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} souhaite signer une transaction sur un réseau non pris en charge.",
     "sendTransactionTitle": "Envoyer la transaction",
-    "sendTransaction": "{{dappName}} demande à envoyer une transaction Celo.",
+    "sendTransaction": "{{dappName}} souhaite envoyer une transaction.",
     "sendDappTransaction": "{{dappName}} souhaite envoyer une transaction sur le réseau {{networkName}} .",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} souhaite envoyer une transaction sur un réseau non pris en charge.",
     "decryptPayloadTitle": "Déchiffrer avec le portefeuille",
@@ -1423,8 +1423,8 @@
   "noMoreTransactions": "Il n'y a plus de transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Les achats sont effectués par nos prestataires partenaires. Les frais peuvent varier. Certains modes de paiement ne sont pas disponibles dans votre pays.",
-    "disclaimerWithSomePaymentsUnavailable": "Les paiements sont effectués par des partenaires sur Celo. Les frais peuvent varier. Certains modes de paiement ne sont pas disponibles dans votre pays. <0>En savoir plus.</0>",
-    "disclaimer": "Les paiements sont effectués par des partenaires sur Celo. Les frais peuvent varier. <0>En savoir plus.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Les paiements sont effectués par des partenaires du réseau. Les frais peuvent varier. Certains modes de paiement ne sont pas disponibles dans ta région. <0>En savoir plus.</0>",
+    "disclaimer": "Les paiements sont effectués par des partenaires du réseau. Les frais peuvent varier. <0>Tu peux en savoir plus.</0>",
     "learnMore": "En savoir plus.",
     "whyMissingPayments": "Pourquoi ne vois-je pas plus de modes de paiement ?",
     "dismiss": "Ignorer",
@@ -1602,10 +1602,11 @@
       "selectCurrencyTitle": "Dépenser des fonds"
     },
     "exchange": {
+      "informational": "Pour éviter la perte de fonds, utilise cette adresse sur des échanges ou des biens compatibles avec les réseaux suivants : <0>{{networks}}</0>",
       "copyAddress": "Copier l'adresse",
-      "informationText": "Utilisez uniquement des échanges et actifs <0>compatibles avec le réseau Celo</0> pour éviter la perte de fonds.",
+      "informationText": "N'utilise que des échanges ou des actifs <0>compatibles avec les réseaux pris en charge par {{appName}}</0> pour éviter la perte de fonds.",
       "bottomSheetTitle": "Quels échanges puis-je utiliser pour déposer des fonds ?",
-      "bottomSheetInfo": "Vérifiez que vous envoyez des actifs compatibles avec le réseau Celo."
+      "bottomSheetInfo": "Vérifie que tu envoies des actifs compatibles avec les réseaux pris en charge par {{appName}}."
     }
   },
   "fiatDetailsScreen": {
