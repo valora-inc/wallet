@@ -176,8 +176,8 @@ export default Send = () => {
     })
 
     it('Then should be able to enter an address', async () => {
-      await element(by.id('SendSelectRecipientSearchInput')).tap()
-      await element(by.id('SendSelectRecipientSearchInput')).typeText(DEFAULT_RECIPIENT_ADDRESS)
+      await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 30 * 1000)
+      await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
       await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
       await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
     })
@@ -207,9 +207,9 @@ export default Send = () => {
     it.todo('Then should be able to use max button')
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
-      await element(by.id('SendEnterAmount/Input')).tap()
-      await element(by.id('SendEnterAmount/Input')).typeText('0.10')
-      await element(by.id('SendEnterAmount/ReviewButton')).tap()
+      await waitForElementByIdAndTap('SendEnterAmount/Input', 30 * 1000)
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30 * 1000)
       await isElementVisible('ConfirmButton')
     })
 
@@ -229,9 +229,9 @@ export default Send = () => {
       await element(by.id('BackChevron')).tap()
       await isElementVisible('SendEnterAmount/ReviewButton')
       await element(by.id('SendEnterAmount/Input')).tap()
-      await element(by.id('SendEnterAmount/Input')).clearText()
-      await element(by.id('SendEnterAmount/Input')).typeText('0.01')
-      await element(by.id('SendEnterAmount/ReviewButton')).tap()
+      await waitForElementByIdAndTap('SendEnterAmount/Input', 30 * 1000)
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30 * 1000)
       let amount = await element(by.id('SendAmount')).getAttributes()
       jestExpect(amount.text).toEqual('0.01 cEUR')
       let emptyComment = await element(by.id('commentInput/send')).getAttributes()
@@ -242,7 +242,7 @@ export default Send = () => {
     })
 
     it('Then should be able to send', async () => {
-      await element(by.id('ConfirmButton')).tap()
+      await waitForElementByIdAndTap('ConfirmButton', 30 * 1000)
       await enterPinUiIfNecessary()
       await expect(element(by.id('errorBanner'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30 * 1000)
@@ -283,7 +283,7 @@ export default Send = () => {
 
     it('Then should be able to enter amount and navigate to review screen', async () => {
       await element(by.id('SendEnterAmount/Input')).tap()
-      await element(by.id('SendEnterAmount/Input')).typeText('0.01')
+      await inputNumberKeypad('0.01')
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
       await isElementVisible('ConfirmButton')
     })
