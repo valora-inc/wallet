@@ -1088,7 +1088,9 @@
     "sendTransactionAction": "Envoyer",
     "unsupportedChain": {
       "title": "Chaîne non prise en charge",
-      "description": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que Celo est la chaîne active du côté de la dapp."
+      "description": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que Celo est la chaîne active du côté de la dapp.",
+      "descriptionV1_74_one": "{{dappName}} demande cette action sur une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que {{supportedNetworkNames}} est la chaîne active du côté de la dapp.",
+      "descriptionV1_74_other": "{{dappName}} demande cette action sur une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que la chaîne active sur la dapp est l'une des suivantes : {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Solde de jetons de gas insuffisant",
@@ -1097,11 +1099,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chaîne non prise en charge",
-        "description": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que Celo est bien sélectionné du côté de la dapp."
+        "description": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que Celo est bien sélectionné du côté de la dapp.",
+        "descriptionV1_74_one": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que {{supportedNetworkNames}} est sélectionné du côté de la dapp.",
+        "descriptionV1_74_other": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que l'un des éléments suivants est sélectionné du côté de la dapp : {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chaîne non prise en charge",
-        "description": "{{dappName}} n'a pas indiqué que Celo était une chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu."
+        "description": "{{dappName}} n'a pas indiqué que Celo était une chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu.",
+        "descriptionV1_74_one": "{{dappName}} n'a pas spécifié {{supportedNetworkNames}} comme chaîne prise en charge. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu.",
+        "descriptionV1_74_other": "{{dappName}} n'a spécifié aucune des chaînes suivantes comme étant prises en charge : {{supportedNetworkNames}}. Certaines fonctionnalités peuvent ne pas fonctionner comme prévu."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Méthodes non prises en charge",
@@ -1899,6 +1905,8 @@
     "moreActions": "Plus d'actions",
     "actionDescriptions": {
       "send": "Utilisez n'importe quelle adresse Celo, domaine, numéro de téléphone, etc.",
+      "sendV1_74_one": "Utilise n'importe quelle adresse {{supportedNetworkNames}} , domaine, numéro de téléphone, etc.",
+      "sendV1_74_other": "Utilise n'importe quelle adresse, domaine ou numéro de téléphone sur les réseaux suivants : {{supportedNetworkNames}}",
       "swap": "Échangez vos jetons sans quitter votre portefeuille",
       "add": "Achetez des jetons en passant par l'un de nos fournisseurs de confiance",
       "withdraw": "Transférez des jetons vers un compte bancaire ou transformez-les en argent mobile, cartes-cadeaux, etc."
