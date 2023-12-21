@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Wir sammeln anonymisierte Daten darüber, wie du {{appName}} verwendest, um die Anwendung für alle zu verbessern.",
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
-  "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Celo-Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
+  "dataSaverDetail": "Der Datensparmodus ermöglicht es dir, über einen vertrauenswürdigen Knotenpunkt mit dem Netzwerk zu kommunizieren. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
   "keylessBackupSettingsTitle": "E-Mail- und Telefonwiederherstellung",
   "setup": "Einrichten",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Wiederherstellungsphrase sichern",
   "introCompleteQuiz": "Schließe unser Backup-Quiz ab, um zu überprüfen, ob dein Wallet wiederhergestellt werden kann.\n\nWenn du es falsch geschrieben hast, dann hast du keinen Zugang auf dein Wallet, wenn etwas mit deinem Gerät passieren sollte.",
   "postSetupTitle": "Deine Wiederherstellungsphrase",
-  "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Celo Dollar, Celo Euro und CELO. Niemand, nicht einmal {{appName}}, wird dir helfen können, dein Konto ohne deine Wiederherstellungsphrase wiederherzustellen. Bewahre sie an einem sicheren Ort und teile sie nicht.",
+  "postSetupBody": "Wenn du deine Wiederherstellungsphrase verlierst, verlierst du den Zugriff auf alle deine Vermögenswerte auf {{appName}}. Niemand, auch nicht {{appName}}, kann dir ohne deine Wiederherstellungsphrase helfen, dein Konto wiederherzustellen. Bewahre sie an einem sicheren Ort auf und gib sie nicht weiter.",
   "postSetupCTA": "Erfahre mehr über deine Wiederherstellungsphrase",
   "failedFetchMnemonic": "Fehler beim Abrufen der Wiederherstellungsphrase",
   "backupAndRecovery": "Sicherung und Wiederherstellung",
@@ -358,16 +358,16 @@
   "payWithCard": "Bankkarte",
   "payWithExchange": "Kryptobörse",
   "selectCashOutMethod": "Methode auswählen:",
-  "receiveOnAddress": "Celo-Adresse",
+  "receiveOnAddress": "Wallet-Adresse",
   "receiveWithBidali": "Geschenkkarten und Handy-Aufladen",
   "fundingEducationDialog": {
     "title": "Deine {{appName}} aufladen",
-    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben und verwendet Celo Dollar (cUSD) un Celo Euro (cEUR), zwei stabile digitale Währungen, die dem Wert des US-Dollar und des Euro folgen.\n\nUm dein {{appName}} Guthaben hinzufügen, kaufe cUSD oder cEUR mit einem Drittanbieter an deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>.",
+    "body": "Um dein {{appName}} Wallet zu finanzieren, kaufst du dein bevorzugtes Asset bei einem der 3rd-Party-Anbieter, die an deinem Standort verfügbar sind. Für weitere Informationen besuche bitte <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Abheben von {{appName}}",
-    "body": "{{appName}} wird durch das Celo-Netzwerk betrieben und verwendet Celo Dollar (cUSD) un Celo Euro (cEUR), zwei stabile digitale Währungen, die dem Wert des US-Dollar und des Euro folgen.\n\nUm dein {{appName}} Guthaben abzuheben, verkaufe cUSD oder cEUR mit einem Drittanbieter an deinem Standort. Für weitere Informationen besuche <0>{{link}}</0>.",
+    "body": "Um dein {{appName}} Guthaben abzuheben, verkaufe das gewünschte Guthaben bei einem der in deinem Ort verfügbaren Drittanbieter. Für weitere Informationen besuche bitte <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "Willkommen bei {{appName}}",
   "chooseCountryCode": "Ländercode",
   "chooseCountry": "Land",
-  "joinText": "{{appName}} hilft dir, Wert im Celo-Netzwerk zu senden, zu empfangen und zu sparen.",
+  "joinText": "{{appName}} hilft dir, Werte auf der Blockchain zu senden, zu empfangen und zu speichern.",
   "terms": {
     "title": "Allgemeine Nutzungsbedingungen",
     "heading1": "Daten und Privatsphäre",
     "heading2": "Celo Vermögen und {{appName}}-Konto",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
-    "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon im Celo Netzwerk gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen jedes Kontaktes importieren Telefonnummer und Profilbild, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich cLabs oder Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder wiedererlangen. Sei dir bewusst, dass CELO, cUSD und cEUR Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
+    "privacy": "Wenn du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird außerdem eine Hash-Kopie davon gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, importiert Valora den Namen, die Telefonnummer und das Profilbild jedes Kontakts, damit sich die Nutzer/innen über die Valora-App verbinden können. Wie wir diese Informationen sammeln und verwenden, erfährst du in unserer <0>Datenschutzrichtlinie</0>.",
+    "goldDisclaimer": "Wenn du ein \"Konto\" bei Valora anlegst, erstellst du eine digitale Brieftasche, zu der nur du die Schlüssel besitzt. Keine andere Person oder Organisation, auch nicht Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder zurückholen. Sei dir bewusst, dass Kryptowährungen Teil einer neuen Anlageklasse sind und das Risiko eines finanziellen Verlusts bergen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du eine Anlage kaufst."
   },
   "fullNameOrPsuedonym": "Vollständiger Name oder Alias",
   "namePlaceholder": "z.B. Name",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Verbindung mit Data Saver wiederholen?",
     "body1": "Beim Verbinden deiner Telefonnummer ist ein Fehler aufgetreten. Wir empfehlen, es erneut zu versuchen, wenn der Data Saver aktiviert ist.",
-    "body2": "Der Data Saver-Modus ermöglicht es dir, über eine vertrauenswürdige Verbindung mit dem Celo-Netzwerk zu kommunizieren.",
+    "body2": "Der Datensparmodus ermöglicht es dir, über eine vertrauenswürdige Verbindung konsistent mit dem Netzwerk zu kommunizieren.",
     "retryButton": "Mit Datensparmodus wiederholen"
   },
   "congratsVerified": "Herzlichen Glückwunsch, deine Telefonnummer ist jetzt verbunden!",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Bist du sicher?",
-    "body": "Das Verbinden ermöglicht dir das Senden und Empfangen von Guthaben ganz einfach an deine Telefonnummer.\n\nNicht verbundene Konten können nur Zahlungen mit Celo-Adressen oder QR-Codes senden.",
+    "body": "Wenn du dich verbindest, kannst du Geld an jede beliebige Telefonnummer senden und empfangen.\n\nKonten, die nicht verbunden sind, können nur Zahlungen über Brieftaschenadressen oder QR-Codes senden.",
     "cancel": "Zurück",
     "confirm": "Vorerst überspringen"
   },
@@ -944,7 +944,7 @@
   "commentLabel": "Nachricht",
   "amountSent": "Betrag gesendet",
   "amountCeloWithdrawn": "Betrag (CELO)",
-  "feeEducation": "Die Celo-Blockchain erhebt eine Transaktionsgebühr, um das Netzwerk zu unterstützen und reibungslos arbeiten zu lassen.",
+  "feeEducation": "Blockchains erheben eine Transaktionsgebühr, damit die Netzwerke unterstützt werden und reibungslos funktionieren.",
   "reviewPayment": "Zahlung überprüfen",
   "requestPayment": "Zahlung anfordern",
   "max": "MAX",
@@ -1056,8 +1056,8 @@
     "operation": "Operation",
     "data": "Daten",
     "sign": "Signiere Daten-Nutzlast",
-    "signTransaction": "Celo-Transaktion",
-    "sendTransaction": "Celo-Transaktion senden",
+    "signTransaction": "Unterschreibe eine Transaktion",
+    "sendTransaction": "Eine Transaktion senden",
     "decrypt": "Daten-Payload entschlüsseln",
     "accounts": "Lese deine {{appName}} Konto-Adresse",
     "details": "Transaktionsdaten",
@@ -1070,11 +1070,11 @@
     "signPayloadTitle": "Wallet verifizieren",
     "signPayload": "{{dappName}} möchte das Eigentumsrecht an deiner Wallet überprüfen.",
     "signTransactionTitle": "Transaktion unterschreiben",
-    "signTransaction": "{{dappName}} möchte sich eine Celo-Transaktion signieren.",
+    "signTransaction": "{{dappName}} möchte eine Transaktion unterzeichnen.",
     "signDappTransaction": "{{dappName}} möchte eine Transaktion im Netzwerk {{networkName}} unterzeichnen.",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} eine Transaktion in einem nicht unterstützten Netzwerk unterschreiben möchte.",
     "sendTransactionTitle": "Transaktion senden",
-    "sendTransaction": "{{dappName}} möchte sich eine Celo-Transaktion senden.",
+    "sendTransaction": "{{dappName}} eine Transaktion senden möchte.",
     "sendDappTransaction": "{{dappName}} eine Transaktion über das Netzwerk {{networkName}} senden möchte.",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} eine Transaktion über ein nicht unterstütztes Netzwerk senden möchte.",
     "decryptPayloadTitle": "Mit Wallet entschlüsseln",
@@ -1423,8 +1423,8 @@
   "noMoreTransactions": "Es gibt keine weiteren Transaktionen",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Die Einkäufe werden über unsere Partneranbieter abgewickelt. Die Gebühren können variieren. Einige Zahlungsarten sind in deiner Region nicht verfügbar.",
-    "disclaimerWithSomePaymentsUnavailable": "Zahlungen werden von Celo-Partnern unterstützt. Die Gebühren können variieren. Einige Zahlungsarten sind in deiner Region nicht verfügbar. <0>Mehr Infos.</0>",
-    "disclaimer": "Zahlungen werden von Celo-Partnern unterstützt. Die Gebühren können variieren. <0>Mehr Infos.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Die Zahlungen werden von Netzwerkpartnern durchgeführt. Die Gebühren können variieren. Einige Zahlungsarten sind in deiner Region nicht verfügbar. <0>Erfahre mehr.</0>",
+    "disclaimer": "Die Zahlungen werden von Netzwerkpartnern durchgeführt. Die Gebühren können variieren. <0>Erfahre mehr.</0>",
     "learnMore": "Mehr Infos.",
     "whyMissingPayments": "Warum kann nicht keine weiteren Zahlungsmethoden sehen?",
     "dismiss": "Verwerfen",
@@ -1602,10 +1602,11 @@
       "selectCurrencyTitle": "Guthaben ausgeben"
     },
     "exchange": {
+      "informational": "Um den Verlust von Geldern zu vermeiden, verwende diese Adresse für Tauschbörsen oder Anlagen, die mit den folgenden Netzwerken kompatibel sind: <0>{{networks}}</0>",
       "copyAddress": "Adresse kopieren",
-      "informationText": "Verwende nur Börsen oder Vermögenswerte, die mit <0>dem Celo-Netzwerk kompatibel sind</0>, um den Verlust von Guthaben zu vermeiden",
+      "informationText": "Verwende nur Börsen oder Vermögenswerte <0>, die mit den von {{appName}}unterstützten Netzwerken kompatibel </0> sind, um den Verlust von Geldern zu vermeiden.",
       "bottomSheetTitle": "Welche Börse kann ich für den Umtausch von Guthaben benutzen?",
-      "bottomSheetInfo": "Vergewissere dich stets, dass das Vermögen, das du versendest, mit dem Celo-Netzwerk kompatibel ist."
+      "bottomSheetInfo": "Vergewissere dich, dass du Assets sendest, die mit den von {{appName}}unterstützten Netzwerken kompatibel sind."
     }
   },
   "fiatDetailsScreen": {

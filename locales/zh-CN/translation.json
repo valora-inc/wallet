@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "我们会收集有关您如何使用 {{appName}} 的匿名数据，用于帮助改善应用程序。",
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
-  "dataSaverDetail": "数据保护模式允许您通过信任节点与 Celo 网络通信。您可以随时在应用程序设置中更改此模式。",
+  "dataSaverDetail": "数据保护模式允许您通过可信节点与网络通信。您可以随时在应用程序设置中更改该模式。",
   "keylessBackupSettingsTitle": "电子邮箱和电话恢复",
   "setup": "设置",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "备份恢复短语",
   "introCompleteQuiz": "完成我们的备份测试，以验证您的钱包是否可以恢复。\n\n如果您写错恢复短语，则无法在您的设备出现问题时访问您的钱包。",
   "postSetupTitle": "您的恢复短语",
-  "postSetupBody": "如果丢失恢复短语，您将无法访问您的所有 Celo 美元和 CELO。没有恢复短语，任何人都无法帮您恢复账户，包括 {{appName}}。请将恢复短语存放在安全的位置，切勿泄露给他人。",
+  "postSetupBody": "如果您丢失了恢复密码，您将无法访问 {{appName}}上的所有资产。没有恢复密码，任何人，甚至是 {{appName}}，都无法帮助您恢复账户。请将它存放在安全的地方，不要与他人共享。",
   "postSetupCTA": "了解您的恢复短语",
   "failedFetchMnemonic": "获取恢复短语失败",
   "backupAndRecovery": "备份和恢复",
@@ -358,16 +358,16 @@
   "payWithCard": "借记卡",
   "payWithExchange": "加密货币交易所",
   "selectCashOutMethod": "选择方式：",
-  "receiveOnAddress": "Celo 地址",
+  "receiveOnAddress": "钱包地址",
   "receiveWithBidali": "礼品卡和手机充值",
   "fundingEducationDialog": {
     "title": "为您的 {{appName}} 添加资金",
-    "body": "{{appName}} 由 Celo Network 提供。{{appName}} 使用 Celo 美元 (cUSD)，一种跟踪美元的稳定数字货币。\n\n要为您的 {{appName}} 钱包添加资金，请向您所在位置可用的第三方提供商购买 cUSD。有关更多信息，请访问 <0>{{link}}</0>",
+    "body": "要为 {{appName}} 钱包充值，请从您所在地区的第三方供应商处购买您喜欢的资产。更多信息，请访问 <0>{{link}}</0>",
     "dismiss": "确定"
   },
   "cashOutEducationDialog": {
     "title": "从 {{appName}} 提取",
-    "body": "{{appName}} 由 Celo Network 提供。 {{appName}} 使用 Celo 美元 (cUSD)，一种跟踪美元的稳定数字货币。\n\n要从您的 {{appName}} 余额中提取，请向您所在位置可用的第三方提供商出售 cUSD。有关更多信息，请访问 <0>{{link}}</0>",
+    "body": "要提取 {{appName}} 余额，请向您所在地区的第三方供应商出售所需资产。更多信息，请访问 <0>{{link}}</0>",
     "dismiss": "确定"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "欢迎使用 {{appName}}",
   "chooseCountryCode": "国家/地区代码",
   "chooseCountry": "国家/地区",
-  "joinText": "{{appName}} 帮助您在 Celo Network 上发送、接收和储蓄价值。",
+  "joinText": "{{appName}} 帮助您在区块链上发送、接收和保存价值。",
   "terms": {
     "title": "条款和条件",
     "heading1": "数据和隐私",
     "heading2": "Celo 资产和 {{appName}} 账户",
     "info": "要使用我们的服务，请阅读我们的<0>用户协议和条款</0>并点击下面的接受按钮接受。",
-    "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，它的哈希副本将存储在 Celo Network 上。如果您授予 Valora 访问您的联系人列表的权限，Valora 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 Valora 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
-    "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 cLabs 或 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，CELO、cUSD 和 cEUR 是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
+    "privacy": "加入此网络即表示您允许我们收集有关您使用此应用程序的匿名信息。此外，如果您连接了您的手机号码，我们将存储该号码的散列副本。如果您允许Valora访问您的联系人列表，Valora将导入每个联系人的姓名、电话号码和个人照片，以便用户通过Valora应用程序进行连接。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
+    "goldDisclaimer": "当您在 Valora 创建一个 \"账户 \"时，您就创建了一个数字钱包，只有您才拥有该钱包的密钥。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤销交易或恢复丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对金融风险的承受能力。"
   },
   "fullNameOrPsuedonym": "全名或化名",
   "namePlaceholder": "例如：姓名",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "使用数据保护模式重试连接？",
     "body1": "关联您的手机号码时发生问题。我们建议启用数据保护模式后再试一次。",
-    "body2": "数据保护模式允许您使用受信任的连接更一致地与 Celo Network 通信。",
+    "body2": "数据节省模式允许您使用可信连接更稳定地与网络通信。",
     "retryButton": "使用数据保护模式重试"
   },
   "congratsVerified": "恭喜，您的手机号码现已成功关联！",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "您确定吗？",
-    "body": "关联号码将允许您与任意手机号码进行发送和接收资金操作。\n\n未关联的账户则只能使用 Celo 地址或二维码发送付款。",
+    "body": "连接后，您可以向任何电话号码发送和接收资金。\n\n未连接的账户只能使用钱包地址或 QR 码发送付款。",
     "cancel": "返回",
     "confirm": "暂时跳过"
   },
@@ -942,7 +942,7 @@
   "commentLabel": "消息",
   "amountSent": "已发送金额",
   "amountCeloWithdrawn": "金额 (CELO)",
-  "feeEducation": "Celo 区块链收取交易费用，用以保障网络支持和顺利运营。",
+  "feeEducation": "区块链收取交易费，以维持网络的支持和顺利运行。",
   "reviewPayment": "查看付款",
   "requestPayment": "请求付款",
   "max": "最大值",
@@ -1054,8 +1054,8 @@
     "operation": "操作",
     "data": "数据",
     "sign": "签署数据有效负载",
-    "signTransaction": "签署 Celo 交易",
-    "sendTransaction": "发送一笔 Celo 交易",
+    "signTransaction": "签署交易",
+    "sendTransaction": "发送交易",
     "decrypt": "解密数据有效负载",
     "accounts": "读取您的 {{appName}} 账户地址",
     "details": "查看交易数据",
@@ -1068,11 +1068,11 @@
     "signPayloadTitle": "验证钱包",
     "signPayload": "{{dappName}} 想要验证您钱包的所有权。",
     "signTransactionTitle": "签署交易",
-    "signTransaction": "{{dappName}} 想要签署一笔 Celo 交易。",
+    "signTransaction": "{{dappName}} 希望签署一项交易。",
     "signDappTransaction": "{{dappName}} 希望在 {{networkName}} 网络上签署一笔交易。",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} 想在不支持的网络上签署交易。",
     "sendTransactionTitle": "发送交易",
-    "sendTransaction": "{{dappName}} 想要发送一笔 Celo 交易。",
+    "sendTransaction": "{{dappName}} 希望发送交易。",
     "sendDappTransaction": "{{dappName}} 希望在 {{networkName}} 网络上发送一笔交易。",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} 想在不支持的网络上发送交易。",
     "decryptPayloadTitle": "用钱包解密",
@@ -1421,8 +1421,8 @@
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "购买交易由我们的合作伙伴供应商提供支持。您所在地区可能无法使用某些付款方式。费用可能有所不同。",
-    "disclaimerWithSomePaymentsUnavailable": "支付交易由 Celo 上的合作伙伴提供支持。您所在地区可能无法使用某些支付方式。费用可能有所不同。<0>了解更多。</0>",
-    "disclaimer": "支付交易由 Celo 上的合作伙伴提供支持。费用可能有所不同。<0>了解更多。</0>",
+    "disclaimerWithSomePaymentsUnavailable": "支付由网络合作伙伴提供。费用可能有所不同。某些支付方式在您所在地区无法使用。<0>了解更多信息。</0>",
+    "disclaimer": "支付由网络合作伙伴提供。费用可能有所不同。<0>了解更多信息。</0>",
     "learnMore": "了解更多。",
     "whyMissingPayments": "为什么我看不到更多的付款方式？",
     "dismiss": "忽略",
@@ -1600,10 +1600,11 @@
       "selectCurrencyTitle": "消费资金"
     },
     "exchange": {
+      "informational": "为防止资金损失，请在与以下网络兼容的交易所或资产上使用此地址： <0>{{networks}}</0>",
       "copyAddress": "复制地址",
-      "informationText": "请使用 <0>Celo Network 支持的</0>交易所或资产，以防资金损失",
+      "informationText": "只能使用<0>与 {{appName}}支持的网络兼容 </0>的交易所或资产，以防止资金损失",
       "bottomSheetTitle": "我可以通过哪些交易所存入资金？",
-      "bottomSheetInfo": "请仔细核对您所发送的资产是否受 Celo Network 支持。"
+      "bottomSheetInfo": "请仔细检查您发送的资产是否与 {{appName}}支持的网络兼容。"
     }
   },
   "fiatDetailsScreen": {

@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "We collect anonymized data about how you use {{appName}} to help improve the application for everyone.",
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
-  "dataSaverDetail": "Data Saver mode allows you to communicate with the network through a trusted node. You can always change this mode in app settings.",
+  "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "Email & Phone Recovery",
   "setup": "Set Up",
   "restartModalSwitchOff": {
@@ -367,7 +367,7 @@
   },
   "cashOutEducationDialog": {
     "title": "Withdraw from {{appName}}",
-    "body": "{{appName}} is powered by the Celo Network. {{appName}} runs on Celo Dollars (cUSD), a stable digital currency tracking the US Dollar.\n\nTo withdraw your {{appName}} balance, sell cUSD with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
+    "body": "To withdraw your {{appName}} balance, sell the desired asset with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -1101,7 +1101,7 @@
       },
       "warnUnsupportedChains": {
         "title": "Unsupported chain",
-        "description": "{{dappName}} didn't not specify Celo as a supported chain. Some features may not work as expected."
+        "description": "{{dappName}} did not specify Celo as a supported chain. Some features may not work as expected."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Unsupported methods",
@@ -1423,8 +1423,8 @@
   "noMoreTransactions": "There are no more transactions",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Purchases are powered by our partner providers. Fees may vary. Some payment methods are unavailable in your region.",
-    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by partners on Celo. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
-    "disclaimer": "Payments are powered by partners on Celo. Fees may vary. <0>Learn more.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by network partners. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
+    "disclaimer": "Payments are powered by network partners. Fees may vary. <0>Learn more.</0>",
     "learnMore": "Learn more.",
     "whyMissingPayments": "Why don't I see more payment methods?",
     "dismiss": "Dismiss",
@@ -1602,10 +1602,11 @@
       "selectCurrencyTitle": "Spend Funds"
     },
     "exchange": {
+      "informational": "To prevent loss of funds, use this address on exchanges or assets compatible with the following networks: <0>{{networks}}</0>",
       "copyAddress": "Copy Address",
-      "informationText": "Only use exchanges or assets <0>compatible with the Celo network</0> to prevent loss of funds",
+      "informationText": "Only use exchanges or assets <0>compatible with networks supported by {{appName}}</0> to prevent loss of funds",
       "bottomSheetTitle": "What exchanges can I use to deposit funds?",
-      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the Celo network."
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the the networks supported by {{appName}}."
     }
   },
   "fiatDetailsScreen": {

@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Chúng tôi thu thập dữ liệu ẩn danh về cách bạn sử dụng {{appName}} để góp phần cải thiện ứng dụng cho mọi người.",
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
-  "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với Celo Network qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
+  "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "Khôi phục bằng email và số điện thoại",
   "setup": "Thiết lập",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Sao lưu Cụm từ khôi phục",
   "introCompleteQuiz": "Hoàn thành câu hỏi kiểm tra sao lưu của chúng tôi để xác minh đảm bảo ví của bạn có thể được khôi phục.\n\nNếu viết sai cụm từ khôi phục, bạn sẽ không thể truy cập vào ví trong trường hợp xảy bất kỳ sự cố nào với thiết bị.",
   "postSetupTitle": "Cụm từ khôi phục của bạn",
-  "postSetupBody": "Nếu mất Cụm từ khôi phục, bạn sẽ mất quyền truy cập vào tất cả Đô la Celo và CELO của mình. Không ai, kể cả {{appName}}, có thể giúp bạn khôi phục tài khoản khi không có Cụm từ khôi phục. Hãy lưu giữ Cụm từ này ở nơi an toàn và không chia sẻ với bất kỳ ai.",
+  "postSetupBody": "If you lose your Recovery Phrase, you will lose access to all of your assets on {{appName}}. Nobody, not even {{appName}}, will be able to help you recover your account without your Recovery Phrase. Store it in a safe place and do not share it.",
   "postSetupCTA": "Tìm hiểu về Cụm từ khôi phục",
   "failedFetchMnemonic": "Không tìm nạp được Cụm từ khôi phục của bạn",
   "backupAndRecovery": "Sao lưu và khôi phục",
@@ -358,16 +358,16 @@
   "payWithCard": "Thẻ ghi nợ",
   "payWithExchange": "Sàn giao dịch tiền điện tử",
   "selectCashOutMethod": "Chọn phương thức:",
-  "receiveOnAddress": "Địa chỉ Celo",
+  "receiveOnAddress": "Địa chỉ ví",
   "receiveWithBidali": "Thẻ quà tặng và nạp tiền di động",
   "fundingEducationDialog": {
     "title": "Nạp tiền vào {{appName}} của bạn",
-    "body": "{{appName}} là ứng dụng do Celo Network cung cấp. {{appName}} hoạt động dựa trên Đô la Celo (cUSD), một loại tiền kỹ thuật số ổn định neo giá theo đồng Đô la Mỹ.\n\nĐể nạp tiền vào ví {{appName}}, hãy mua cUSD từ nhà cung cấp bên thứ ba có ở vị trí của bạn. Để biết thêm thông tin, vui lòng truy cập <0>{{link}}</0>",
+    "body": "To fund your {{appName}} wallet, purchase your preferred asset from one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Rút tiền từ {{appName}}",
-    "body": "{{appName}} là ứng dụng do Celo Network cung cấp. {{appName}} hoạt động dựa trên Đô la Celo (cUSD), một loại tiền kỹ thuật số ổn định neo giá theo đồng Đô la Mỹ.\n\nĐể rút số dư {{appName}}, hãy bán cUSD qua nhà cung cấp bên thứ ba có ở vị trí của bạn. Để biết thêm thông tin, vui lòng truy cập <0>{{link}}</0>",
+    "body": "To withdraw your {{appName}} balance, sell the desired asset with one of the 3rd party providers available in your location. For more information please visit <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -656,14 +656,14 @@
   "welcomeCelo": "Chào mừng bạn đến với {{appName}}",
   "chooseCountryCode": "Mã quốc gia",
   "chooseCountry": "Quốc gia",
-  "joinText": "{{appName}} giúp bạn gửi, nhận và lưu giá trị trên Celo Network.",
+  "joinText": "{{appName}} helps you to send, receive, and save value on the blockchain.",
   "terms": {
     "title": "Điều khoản và điều kiện",
     "heading1": "Dữ liệu và quyền riêng tư",
     "heading2": "Tài sản Celo và tài khoản {{appName}}",
     "info": "Để sử dụng dịch vụ, vui lòng đọc và chấp nhận <0>Thỏa thuận và điều khoản người dùng</0> bằng cách nhấp vào nút chấp nhận bên dưới.",
-    "privacy": "Khi tham gia mạng lưới này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về cách bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, bản sao băm của số điện thoại sẽ được lưu trữ trên Celo Network. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
-    "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn đang tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm cLabs hay Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng CELO, cUSD và cEUR thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy xem xét thận trọng tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào."
+    "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that cryptocurrencies are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any asset."
   },
   "fullNameOrPsuedonym": "Họ và tên hoặc biệt danh",
   "namePlaceholder": "tên",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Thử kết nối lại bằng chế độ Tiết kiệm dữ liệu?",
     "body1": "Đã xảy ra sự cố khi kết nối số điện thoại của bạn. Bạn nên thử lại sau khi bật chế độ Tiết kiệm dữ liệu.",
-    "body2": "Chế độ Tiết kiệm dữ liệu cho phép bạn giao tiếp mượt mà hơn với Celo Network bằng kết nối đáng tin cậy.",
+    "body2": "Data Saver mode allows you to communicate with the network more consistently using a trusted connection.",
     "retryButton": "Thử lại với chế độ Tiết kiệm dữ liệu"
   },
   "congratsVerified": "Xin chúc mừng, số điện thoại của bạn hiện đã được kết nối!",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Bạn có chắc chắn không?",
-    "body": "Sau khi kết nối, bạn có thể gửi và nhận tiền từ bất kỳ số điện thoại nào.\n\nTài khoản không được kết nối chỉ có thể gửi thanh toán bằng địa chỉ Celo hoặc mã QR.",
+    "body": "Connecting allows you to send and receive funds to any phone number.\n\nAccounts that are not connected can only send payments using wallet addresses or QR codes.",
     "cancel": "Quay lại",
     "confirm": "Tạm thời bỏ qua"
   },
@@ -942,7 +942,7 @@
   "commentLabel": "Tin nhắn",
   "amountSent": "Đã gửi số tiền",
   "amountCeloWithdrawn": "Số tiền (CELO)",
-  "feeEducation": "Chuỗi khối Celo thu phí giao dịch để hỗ trợ mạng lưới và đảm bảo mạng lưới hoạt động thông suốt.",
+  "feeEducation": "Blockchains collect a transaction fee to keep networks supported and running smoothly.",
   "reviewPayment": "Xem lại thanh toán",
   "requestPayment": "Yêu cầu thanh toán",
   "max": "TỐI ĐA",
@@ -1054,8 +1054,8 @@
     "operation": "Hoạt động",
     "data": "Dữ liệu",
     "sign": "Ký xác nhận gói truyền tải dữ liệu",
-    "signTransaction": "Ký xác nhận giao dịch Celo",
-    "sendTransaction": "Gửi giao dịch Celo",
+    "signTransaction": "Sign a transaction",
+    "sendTransaction": "Send a transaction",
     "decrypt": "Giải mã gói truyền tải dữ liệu",
     "accounts": "Đọc Địa chỉ tài khoản {{appName}} của bạn",
     "details": "Xem dữ liệu giao dịch",
@@ -1068,11 +1068,11 @@
     "signPayloadTitle": "Xác minh ví",
     "signPayload": "{{dappName}} muốn xác minh chủ sở hữu ví của bạn.",
     "signTransactionTitle": "Ký xác nhận giao dịch",
-    "signTransaction": "{{dappName}} muốn ký giao dịch Celo.",
+    "signTransaction": "{{dappName}} would like to sign a transaction.",
     "signDappTransaction": "{{dappName}} would like to sign a transaction on the {{networkName}} network.",
     "signDappTransactionUnsupportedNetwork": "{{dappName}} would like to sign a transaction on an unsupported network.",
     "sendTransactionTitle": "Gửi giao dịch",
-    "sendTransaction": "{{dappName}} muốn xác nhận giao dịch Celo.",
+    "sendTransaction": "{{dappName}} would like to send a transaction.",
     "sendDappTransaction": "{{dappName}} would like to send a transaction on the {{networkName}} network.",
     "sendDappTransactionUnsupportedNetwork": "{{dappName}} would like to send a transaction on an unsupported network.",
     "decryptPayloadTitle": "Giải mã bằng ví",
@@ -1421,8 +1421,8 @@
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
-    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
-    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. <0>Tìm hiểu thêm.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Payments are powered by network partners. Fees may vary. Some payment methods are unavailable in your region. <0>Learn more.</0>",
+    "disclaimer": "Payments are powered by network partners. Fees may vary. <0>Learn more.</0>",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
@@ -1600,10 +1600,11 @@
       "selectCurrencyTitle": "Chi tiêu tiền"
     },
     "exchange": {
+      "informational": "To prevent loss of funds, use this address on exchanges or assets compatible with the following networks: <0>{{networks}}</0>",
       "copyAddress": "Địa chỉ sao chép",
-      "informationText": "Chỉ sử dụng trao đổi hoặc tài sản <0>tương thích với mạng Celo</0>",
+      "informationText": "Only use exchanges or assets <0>compatible with networks supported by {{appName}}</0> to prevent loss of funds",
       "bottomSheetTitle": "Tôi có thể sử dụng những trao đổi nào để gửi tiền?",
-      "bottomSheetInfo": "Kiểm tra kỹ xem bạn đang gửi tài sản tương thích với mạng Celo."
+      "bottomSheetInfo": "Double check that you are sending assets that are compatible with the the networks supported by {{appName}}."
     }
   },
   "fiatDetailsScreen": {
