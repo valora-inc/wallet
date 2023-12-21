@@ -1088,7 +1088,9 @@
     "sendTransactionAction": "Enviar",
     "unsupportedChain": {
       "title": "Cadena incompatible",
-      "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
+      "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo.",
+      "descriptionV1_74_one": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que {{supportedNetworkNames}} es la cadena activa en el lado de la dapp.",
+      "descriptionV1_74_other": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que la cadena activa en la dapp es una de las siguientes: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Saldo insuficiente para cubrir tarifas de transacción",
@@ -1097,11 +1099,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadena incompatible",
-        "description": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
+        "description": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo.",
+        "descriptionV1_74_one": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Por favor, asegúrate de que {{supportedNetworkNames}} está seleccionada en el lado de la dapp.",
+        "descriptionV1_74_other": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Asegúrate de que una de las siguientes opciones está seleccionada en el lado de la dapp: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Cadena incompatible",
-        "description": "{{dappName}} no cuenta a Celo entre sus cadenas compatibles. Es posible que algunas funciones no funcionen como se espera."
+        "description": "{{dappName}} no cuenta a Celo entre sus cadenas compatibles. Es posible que algunas funciones no funcionen como se espera.",
+        "descriptionV1_74_one": "{{dappName}} no especificó {{supportedNetworkNames}} como cadena compatible. Es posible que algunas funciones no funcionen como se esperaba.",
+        "descriptionV1_74_other": "{{dappName}} no especificó ninguna de las siguientes como cadenas admitidas: {{supportedNetworkNames}}. Es posible que algunas funciones no funcionen como se espera."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Métodos incompatibles",
@@ -1899,6 +1905,8 @@
     "moreActions": "Más acciones",
     "actionDescriptions": {
       "send": "Utiliza cualquier dominio, número de teléfono, dirección Celo, etc.",
+      "sendV1_74_one": "Utiliza cualquier dirección {{supportedNetworkNames}} , dominio, número de teléfono, etc.",
+      "sendV1_74_other": "Utiliza cualquier dirección, dominio, número de teléfono en las siguientes redes: {{supportedNetworkNames}}",
       "swap": "Intercambia tokens sin salir de tu wallet",
       "add": "Compra tokens a uno de nuestros proveedores de confianza",
       "withdraw": "Transfiere tokens a una cuenta bancaria, dinero móvil, tarjeta de regalo, etc."
