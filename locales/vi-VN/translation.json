@@ -1086,7 +1086,9 @@
     "sendTransactionAction": "Gửi",
     "unsupportedChain": {
       "title": "Chuỗi không được hỗ trợ",
-      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp."
+      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp.",
+      "descriptionV1_74_one": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure {{supportedNetworkNames}} is the active chain on the dapp side.",
+      "descriptionV1_74_other": "{{dappName}} is requesting this action on a chain not supported by {{appName}}. Please make sure the active chain on the dapp is one of the following: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Số dư token gas không đủ",
@@ -1095,11 +1097,15 @@
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chuỗi không được hỗ trợ",
-        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo Celo được chọn trên dapp."
+        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo Celo được chọn trên dapp.",
+        "descriptionV1_74_one": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure {{supportedNetworkNames}} is selected on the dapp side.",
+        "descriptionV1_74_other": "{{dappName}} would like to connect with a chain not supported by {{appName}}. Please make sure one of the following is selected on the dapp side: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chuỗi không được hỗ trợ",
-        "description": "Celo không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn."
+        "description": "Celo không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn.",
+        "descriptionV1_74_one": "{{dappName}} didn't not specify {{supportedNetworkNames}} as a supported chain. Some features may not work as expected.",
+        "descriptionV1_74_other": "{{dappName}} didn't not specify any of the following as supported chains: {{supportedNetworkNames}}. Some features may not work as expected."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Các phương thức không được hỗ trợ",
@@ -1897,6 +1903,8 @@
     "moreActions": "Thao tác khác",
     "actionDescriptions": {
       "send": "Sử dụng địa chỉ Celo, tên miền, số điện thoại, v.v.",
+      "sendV1_74_one": "Use any {{supportedNetworkNames}} address, domain, phone number, etc.",
+      "sendV1_74_other": "Use any address, domain, phone number on the following networks: {{supportedNetworkNames}}",
       "swap": "Trao đổi token mà không phải thoát khỏi ví",
       "add": "Mua token qua một trong những nhà cung cấp uy tín của chúng tôi",
       "withdraw": "Chuyển token vào tài khoản ngân hàng, ví di động, thẻ quà tặng, v.v."
