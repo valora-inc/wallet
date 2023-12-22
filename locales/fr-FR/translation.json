@@ -1089,8 +1089,8 @@
     "unsupportedChain": {
       "title": "Chaîne non prise en charge",
       "description": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que Celo est la chaîne active du côté de la dapp.",
-      "descriptionV1_74_one": "{{dappName}} demande cette action sur une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que {{supportedNetworkNames}} est la chaîne active du côté de la dapp.",
-      "descriptionV1_74_other": "{{dappName}} demande cette action sur une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que la chaîne active sur la dapp est l'une des suivantes : {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que {{supportedNetworkNames}} est la chaîne active du côté de la dapp.",
+      "descriptionV1_74_other": "{{dappName}} demande cette action sur une chaîne non prise en charge par {{appName}}. Veuillez vous assurer que la chaîne active sur le dapp est l'une des suivantes : {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Solde de jetons de gas insuffisant",
@@ -1100,8 +1100,8 @@
       "failUnsupportedNamespace": {
         "title": "Chaîne non prise en charge",
         "description": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que Celo est bien sélectionné du côté de la dapp.",
-        "descriptionV1_74_one": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que {{supportedNetworkNames}} est sélectionné du côté de la dapp.",
-        "descriptionV1_74_other": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assure-toi que l'un des éléments suivants est sélectionné du côté de la dapp : {{supportedNetworkNames}}."
+        "descriptionV1_74_one": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que {{supportedNetworkNames}} est bien sélectionné du côté de la dapp.",
+        "descriptionV1_74_other": "{{dappName}} aimerait se connecter avec une chaîne qui n'est pas prise en charge par {{appName}}. Assurez-vous que la chaîne active sur le dapp est l'une des suivantes : {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chaîne non prise en charge",
