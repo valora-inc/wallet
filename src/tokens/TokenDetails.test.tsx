@@ -5,6 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -334,6 +335,7 @@ describe('TokenDetails', () => {
   })
 
   it('actions navigate to appropriate screens', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false) // Use old send flow
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -372,6 +374,31 @@ describe('TokenDetails', () => {
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
+  })
+
+  it('navigates to the new send flow when enabled', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new send flow
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            balance: '10',
+          },
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('TokenDetails/Action/Send'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
+      defaultTokenIdOverride: mockCeloTokenId,
+    })
   })
 
   // TODO(ACT-954): remove once we switch to passing just token ids, above test

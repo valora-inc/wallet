@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import erc20 from 'src/abis/IERC20'
 import useSelector from 'src/redux/useSelector'
-import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -125,7 +124,6 @@ async function prepareSwapTransactions(
 
 function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
-  const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
   const refreshQuote = useAsyncCallback(
@@ -172,9 +170,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       }
 
       const quote: FetchQuoteResponse = await response.json()
-      const swapPrice = useGuaranteedPrice
-        ? quote.unvalidatedSwapTransaction.guaranteedPrice
-        : quote.unvalidatedSwapTransaction.price
+      const swapPrice = quote.unvalidatedSwapTransaction.price
       const price =
         updatedField === Field.FROM
           ? swapPrice
