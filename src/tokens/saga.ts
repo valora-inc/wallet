@@ -41,7 +41,7 @@ import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeLatest } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeEvery, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'tokens/saga'
 
