@@ -1283,7 +1283,7 @@
   "totalAssetsInfo": "Охоплює розрахункову загальну кількість активів гаманця й позиції Dapp",
   "assetsSegmentedControl": {
     "walletAssets": "Активи гаманця",
-    "dappPositions": "Позиції Dapp"
+    "dappPositions": "DeFi"
   },
   "open": "Відкрити",
   "nftViewer": "Переглядач NFT",
@@ -1854,7 +1854,7 @@
     "withdraw": "Зняти"
   },
   "nftGallery": {
-    "title": "Колекційні предмети",
+    "title": "Колекції",
     "noNfts": "Тут відобразяться ваші NFT, щойно вони надійдуть у гаманець"
   },
   "nftInfoCarousel": {
@@ -1885,8 +1885,8 @@
     "networkName": "Мережа: {{networkName}}",
     "tabBar": {
       "tokens": "Токени",
-      "collectibles": "Колекційні предмети",
-      "dappPositions": "Позиції застосунків Dapp"
+      "collectibles": "Колекції",
+      "dappPositions": "DeFi"
     },
     "importToken": "Імпортувати"
   },
