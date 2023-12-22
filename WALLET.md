@@ -249,17 +249,28 @@ Set your `PATH` environment variable and optionally update your shell profile (_
 export PATH=$ANDROID_HOME/emulator:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
 ```
 
-Install the Android 31 system image and create an Android Virtual Device:
+Install the Android 31 system image and create an Android Virtual Device.
+
+###### For Intel chip Macs:
 
 ```bash
 sdkmanager "system-images;android-31;default;x86_64"
 avdmanager create avd --force --name Pixel_API_31_AOSP_x86_64 --device pixel -k "system-images;android-31;default;x86_64"
 ```
 
+###### For M1 Macs:
+
+On an M1 mac, the above commands may succeed, but when you try to run the emulator it will fail saying you have an unsupported architecture. To get around this, you can manually create the Android Virtual Device in Android Studio by doing the following:
+
+- Open the wallet repo in Android Studio. In the top bar, click Tools -> Device Manager. A side-bar should pop up on your screen showing your virtual devices (if any).
+- Click "Create Device", choose a device (e.g. Pixel 6 Pro), and hit next.
+- When prompted to select a system image, click the "ARM Images" tab, and choose an image where the target **does not** include "Google APIs". You may need to download the system image, to do that hit the download icon next to the release name. For e2e testing, choose release name "Q".
+- Give the device a name, and hit finish If you are creating a virtual device for e2e testing purposes, name your device `Pixel_API_29_AOSP_x86_64`.
+
 Run the emulator with:
 
 ```bash
-emulator -avd Pixel_API_31_AOSP_x86_64
+emulator -avd virtual-device-name
 ```
 
 ##### Install Genymotion Emulator Manager
