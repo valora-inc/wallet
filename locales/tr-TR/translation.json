@@ -1106,8 +1106,8 @@
       "warnUnsupportedChains": {
         "title": "Desteklenmeyen zincir",
         "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
-        "descriptionV1_74_one": "{{dappName}} desteklenen bir zincir olarak {{supportedNetworkNames}} belirtilmemiştir. Bazı özellikler beklendiği gibi çalışmayabilir.",
-        "descriptionV1_74_other": "{{dappName}} aşağıdakilerden herhangi birini desteklenen zincirler olarak belirtmemiştir: {{supportedNetworkNames}}. Bazı özellikler beklendiği gibi çalışmayabilir."
+        "descriptionV1_74_one": "{{dappName}} {{supportedNetworkNames}}'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
+        "descriptionV1_74_other": "{{dappName}} aşağıdakilerden herhangi birini desteklenen bir zincir olarak belirtmemiştir: {{supportedNetworkNames}}. Bazı özellikler beklendiği gibi çalışmayabilir."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Desteklenmeyen yöntemler",
