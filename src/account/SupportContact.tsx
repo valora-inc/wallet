@@ -108,12 +108,12 @@ function SupportContact({ route }: Props) {
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
-    const attachments = attachLogs ? await Logger.getLogsToAttach() : undefined
+    const attachments = attachLogs ? await Logger.getLogsToAttach() : []
     try {
       await sendSupportRequest({
         message,
         deviceInfo,
-        logFiles: attachments ?? [],
+        logFiles: attachments,
         userEmail: email,
         userName: name,
         subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),

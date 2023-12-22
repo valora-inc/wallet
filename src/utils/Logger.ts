@@ -12,7 +12,7 @@ import { readFileChunked } from 'src/utils/readFile'
 import { stylize } from 'src/utils/stylize'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
-export type Attachments = Array<{
+type Attachments = Array<{
   path: string
   type: string
   name: string
