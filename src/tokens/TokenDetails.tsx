@@ -16,7 +16,6 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
-import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -32,15 +31,16 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import TokenDetailsMoreActions from 'src/tokens/TokenDetailsMoreActions'
+import TokenPriceChart from 'src/tokens/TokenPriceChart'
 import {
   useCashInTokens,
   useCashOutTokens,
@@ -92,12 +92,12 @@ export default function TokenDetailsScreen({ route }: Props) {
           errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
-        {token.isNative && token.symbol === 'CELO' && (
-          <CeloGoldHistoryChart
-            color={Colors.black}
+        {!token.isStableCoin && (
+          <TokenPriceChart
+            tokenId={tokenId}
             containerStyle={styles.chartContainer}
             chartPadding={Spacing.Thick24}
-            testID="TokenDetails/Chart"
+            testID={`TokenDetails/Chart/${tokenId}`}
           />
         )}
         <Actions
