@@ -1279,7 +1279,7 @@
   "totalAssetsInfo": "Beinhaltet die geschätzte Gesamtsumme des Wallet-Vermögens und der Dapp-Positionen",
   "assetsSegmentedControl": {
     "walletAssets": "Wallet-Vermögen",
-    "dappPositions": "Dapp-Positionen"
+    "dappPositions": "DeFi"
   },
   "open": "Öffnen",
   "nftViewer": "NFT-Viewer",
@@ -1882,7 +1882,7 @@
     "tabBar": {
       "tokens": "Token",
       "collectibles": "Sammlerstücke",
-      "dappPositions": "Dapp-Positionen"
+      "dappPositions": "DeFi"
     },
     "importToken": "Importieren"
   },
