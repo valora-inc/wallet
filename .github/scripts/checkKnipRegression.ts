@@ -45,8 +45,18 @@ function compareKnipResults(
   return shouldFail
 }
 
-if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
-  const branchKnipOutput = stripAnsi($.exec('yarn knip --no-gitignore').stdout.trim())
+if (process.env.GITHUB_EVENT_NAME === 'pull_request' || true) {
+  const branchKnipOutput = stripAnsi(
+    $.exec('yarn knip --no-gitignore', {
+      silent: true,
+    }).stdout
+  )
+  console.log(`output - default`, branchKnipOutput.length)
+  const branchKnipOutputJson = $.exec('yarn knip --no-gitignore --reporter jsonExt', {
+    silent: true,
+  }).stdout
+  console.log(`output - json`, branchKnipOutput.length)
+  process.exit(1)
   const branchKnipResults = parseKnipOutput(branchKnipOutput)
 
   // checkout pr base. More info here: https://github.com/actions/checkout/tree/v3?tab=readme-ov-file#checkout-v3
@@ -57,7 +67,7 @@ if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
 
   if (compareKnipResults(baseKnipResults, branchKnipResults)) {
     console.log(`Knip check failed. PR branch reported more problems than base branch.
-    
+
 See the diff below for more details. Note that the diff may not be perfect:
 - For some categories, the output includes whitespaces based on the length of the filename and unused exported item, so if the item with max length changes between the base and PR branches, we would have all lines within the category reported as a diff. One option could be to strip contiguous whitespaces for those categories.
 - If a PR removes some unused code in one category, but adds in another category, the diff would include the former as well. Ideally we'd want only the latter reported in the diff.
