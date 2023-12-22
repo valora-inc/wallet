@@ -1089,8 +1089,8 @@
     "unsupportedChain": {
       "title": "Nicht unterstützte Kette",
       "description": "{{dappName}} fordert diese Aktion auf einer Kette an, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass Celo die aktive Kette auf der Dapp-Seite ist.",
-      "descriptionV1_74_one": "{{dappName}} fordert diese Aktion auf einer Kette an, die von {{appName}}nicht unterstützt wird. Bitte stelle sicher, dass {{supportedNetworkNames}} die aktive Kette auf der Dapp-Seite ist.",
-      "descriptionV1_74_other": "{{dappName}} fordert diese Aktion auf einer Kette an, die nicht von {{appName}}unterstützt wird. Bitte vergewissere dich, dass die aktive Kette auf der Dapp eine der folgenden ist: {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} fordert diese Aktion auf einer Kette an, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass {{supportedNetworkNames}} die aktive Kette auf der Dapp-Seite ist.",
+      "descriptionV1_74_other": "{{dappName}} fordert diese Aktion auf einer Kette an, die nicht von {{appName}} unterstützt wird. \nBitte vergewissere dich, dass die aktive Kette auf der Dapp eine der folgenden ist: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Unzureichendes Gas-Token-Guthaben",
@@ -1100,14 +1100,14 @@
       "failUnsupportedNamespace": {
         "title": "Nicht unterstützte Kette",
         "description": "{{dappName}} möchte sich mit einer Kette verbinden, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass Celo auf der Dapp-Seite ausgewählt ist.",
-        "descriptionV1_74_one": "{{dappName}} möchte sich mit einer Kette verbinden, die von {{appName}}nicht unterstützt wird. Bitte stelle sicher, dass {{supportedNetworkNames}} auf der Dapp-Seite ausgewählt ist.",
-        "descriptionV1_74_other": "{{dappName}} eine Verbindung mit einer Kette herstellen möchte, die nicht von {{appName}}unterstützt wird. Bitte stelle sicher, dass eine der folgenden Optionen auf der Dapp-Seite ausgewählt ist: {{supportedNetworkNames}}."
+        "descriptionV1_74_one": "{{dappName}} möchte sich mit einer Kette verbinden, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass {{supportedNetworkNames}} auf der Dapp-Seite ausgewählt ist.",
+        "descriptionV1_74_other": "{{dappName}} möchte sich mit einer Kette verbinden, die nicht von {{appName}} unterstützt wird. Bitte stelle sicher, dass eine der folgenden Optionen auf der Dapp-Seite ausgewählt ist: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Nicht unterstützte Kette",
-        "description": "{{dappName}} Celo nicht als unterstützte Kette angegeben hat. Einige Funktionen funktionieren möglicherweise nicht wie erwartet.",
-        "descriptionV1_74_one": "{{dappName}} {{supportedNetworkNames}} nicht als unterstützte Kette angegeben hat. Einige Funktionen funktionieren möglicherweise nicht wie erwartet.",
-        "descriptionV1_74_other": "{{dappName}} keine der folgenden Ketten als unterstützte Ketten angegeben hat: {{supportedNetworkNames}}. Einige Funktionen funktionieren möglicherweise nicht wie erwartet."
+        "description": "{{dappName}} hat Celo nicht als unterstützte Kette angegeben. Einige Features funktionieren möglicherweise nicht wie erwartet.",
+        "descriptionV1_74_one": "{{dappName}} hat {{supportedNetworkNames}} nicht als unterstützte Kette angegeben. Einige Features funktionieren möglicherweise nicht wie erwartet.",
+        "descriptionV1_74_other": "{{dappName}} hat keine der folgenden Ketten als unterstützte Kette angegeben: {{supportedNetworkNames}}. Einige Features funktionieren möglicherweise nicht wie erwartet."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Nicht unterstützte Methoden",
@@ -1905,7 +1905,7 @@
     "moreActions": "Weitere Aktionen",
     "actionDescriptions": {
       "send": "Verwende eine beliebige Celo-Adresse, -Domain, -Telefonnummer usw.",
-      "sendV1_74_one": "Verwende eine beliebige {{supportedNetworkNames}} Adresse, Domain, Telefonnummer, etc.",
+      "sendV1_74_one": "Verwende eine beliebige {{supportedNetworkNames}}-Adresse, -Domain, Telefonnummer usw.",
       "sendV1_74_other": "Verwende eine beliebige Adresse, Domain oder Telefonnummer in den folgenden Netzwerken: {{supportedNetworkNames}}",
       "swap": "Tausche deine Token, ohne deine Wallet zu verlassen.",
       "add": "Kaufe Token über einen unserer vertrauenswürdigen Anbieter.",
