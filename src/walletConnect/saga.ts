@@ -28,7 +28,7 @@ import { Network } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
-import { ViemWallet } from 'src/viem/getLockableWallet'
+import { publicClient } from 'src/viem'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import {
   PreparedTransactionsResult,
@@ -68,13 +68,13 @@ import {
   selectSessions,
 } from 'src/walletConnect/selectors'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { getViemWallet } from 'src/web3/contracts'
 import networkConfig, {
   networkIdToWalletConnectChainId,
   walletConnectChainIdToNetwork,
   walletConnectChainIdToNetworkId,
 } from 'src/web3/networkConfig'
 import { getWalletAddress } from 'src/web3/saga'
+import { walletAddressSelector } from 'src/web3/selectors'
 import {
   call,
   delay,
@@ -86,7 +86,7 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
-import { GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
+import { Address, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 let client: IWeb3Wallet | null = null
@@ -383,17 +383,17 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
   }
 
   if (!tx.nonce) {
-    const wallet: ViemWallet = yield* call(getViemWallet, networkConfig.viemChain[network])
-    if (!wallet.account) {
+    const walletAddress = yield* select(walletAddressSelector)
+    if (!walletAddress) {
       // this should never happen
-      throw new Error('no account found in the wallet')
+      throw new Error('no wallet address found')
     }
 
     const txCountParams: GetTransactionCountParameters = {
-      address: wallet.account.address,
+      address: walletAddress as Address,
       blockTag: 'pending',
     }
-    tx.nonce = yield* call(getTransactionCount, wallet, txCountParams)
+    tx.nonce = yield* call(getTransactionCount, publicClient[network], txCountParams)
   }
 
   return tx
