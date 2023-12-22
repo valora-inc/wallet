@@ -1,7 +1,8 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useReducer, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -62,7 +63,126 @@ const DEFAULT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
-type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
+interface SwapState {
+  fromTokenId: string | undefined
+  toTokenId: string | undefined
+  // Raw input values (can contain region specific decimal separators)
+  swapAmount: SwapAmount
+  updatedField: Field
+  selectingToken: Field | null
+  confirmingSwap: boolean
+  // Keep track of which swap is currently being executed from this screen
+  // This is because there could be multiple swaps happening at the same time
+  startedSwapId: string | null
+  switchedToNetworkId: NetworkId | null
+}
+
+function getInitialState(fromTokenId?: string): SwapState {
+  return {
+    fromTokenId,
+    toTokenId: undefined,
+    swapAmount: DEFAULT_SWAP_AMOUNT,
+    updatedField: Field.FROM,
+    selectingToken: null,
+    confirmingSwap: false,
+    startedSwapId: null,
+    switchedToNetworkId: null,
+  }
+}
+
+const swapSlice = createSlice({
+  name: 'swapSlice',
+  initialState: getInitialState,
+  reducers: {
+    changeAmount: (state, action: PayloadAction<{ field: Field; value: string }>) => {
+      const { field, value } = action.payload
+      state.confirmingSwap = false
+      state.startedSwapId = null
+      state.updatedField = field
+      if (!value) {
+        state.swapAmount = DEFAULT_SWAP_AMOUNT
+        return
+      }
+      // Regex to match only numbers and one decimal separator
+      const sanitizedValue = value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('')
+      if (!sanitizedValue) {
+        return
+      }
+      state.swapAmount[field] = sanitizedValue
+    },
+    chooseMaxFromAmount: (state, action: PayloadAction<{ fromTokenBalance: BigNumber }>) => {
+      const { fromTokenBalance } = action.payload
+      state.confirmingSwap = false
+      state.startedSwapId = null
+      state.updatedField = Field.FROM
+      // We try the current balance first, and we will prompt the user if it's too high
+      state.swapAmount[Field.FROM] = fromTokenBalance.toFormat({
+        decimalSeparator: getNumberFormatSettings().decimalSeparator,
+      })
+    },
+    startSelectToken: (state, action: PayloadAction<{ fieldType: Field }>) => {
+      state.selectingToken = action.payload.fieldType
+      state.confirmingSwap = false
+    },
+    selectTokens: (
+      state,
+      action: PayloadAction<{
+        fromTokenId: string | undefined
+        toTokenId: string | undefined
+        switchedToNetworkId: NetworkId | null
+      }>
+    ) => {
+      const { fromTokenId, toTokenId, switchedToNetworkId } = action.payload
+      state.confirmingSwap = false
+      if (fromTokenId !== state.fromTokenId || toTokenId !== state.toTokenId) {
+        state.startedSwapId = null
+      }
+      state.fromTokenId = fromTokenId
+      state.toTokenId = toTokenId
+      state.switchedToNetworkId = switchedToNetworkId
+    },
+    quoteUpdated: (state, action: PayloadAction<{ quote: QuoteResult | null }>) => {
+      const { quote } = action.payload
+      const { updatedField } = state
+      state.confirmingSwap = false
+      const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
+      if (!quote) {
+        state.swapAmount[otherField] = ''
+        return
+      }
+
+      const { decimalSeparator } = getNumberFormatSettings()
+      const parsedAmount = parseInputAmount(state.swapAmount[updatedField], decimalSeparator)
+
+      const newAmount = parsedAmount.multipliedBy(
+        new BigNumber(quote.price).pow(updatedField === Field.FROM ? 1 : -1)
+      )
+      state.swapAmount[otherField] = newAmount.toFormat({
+        decimalSeparator,
+      })
+    },
+    // When the user presses the confirm swap button
+    startConfirmSwap: (state) => {
+      state.confirmingSwap = true
+    },
+    // When the swap is ready to be executed
+    startSwap: (state, action: PayloadAction<{ swapId: string }>) => {
+      state.startedSwapId = action.payload.swapId
+    },
+  },
+})
+
+const {
+  changeAmount,
+  chooseMaxFromAmount,
+  startSelectToken,
+  selectTokens,
+  quoteUpdated,
+  startConfirmSwap,
+  startSwap,
+} = swapSlice.actions
+
+const swapStateReducer = swapSlice.reducer
 
 function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
   const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(quote?.preparedTransactions)
@@ -71,6 +191,8 @@ function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
     feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
   }
 }
+
+type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
@@ -93,11 +215,6 @@ export function SwapScreen({ route }: Props) {
   // sorted by USD balance and then alphabetical
   const supportedTokens = useSwappableTokens()
 
-  // Keep track of which swap is currently being executed from this screen
-  // This is because there could be multiple swaps happening at the same time
-  const [startedSwapId, setStartedSwapId] = useState<string | null>(null)
-  const currentSwap = useSelector(currentSwapSelector)
-  const swapStatus = startedSwapId === currentSwap?.id ? currentSwap.status : null
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
   const tokensById = useSelector((state) =>
@@ -105,21 +222,28 @@ export function SwapScreen({ route }: Props) {
   )
 
   const initialFromTokenId = route.params?.fromTokenId
-  const initialFromToken = initialFromTokenId
-    ? supportedTokens.find((token) => token.tokenId === initialFromTokenId)
-    : undefined
-  const [fromToken, setFromToken] = useState<TokenBalance | undefined>(initialFromToken)
-  const [toToken, setToToken] = useState<TokenBalance | undefined>()
+  const [state, localDispatch] = useReducer(swapStateReducer, getInitialState(initialFromTokenId))
+  const {
+    fromTokenId,
+    toTokenId,
+    swapAmount,
+    updatedField,
+    selectingToken,
+    confirmingSwap,
+    switchedToNetworkId,
+    startedSwapId,
+  } = state
 
-  // Raw input values (can contain region specific decimal separators)
-  const [swapAmount, setSwapAmount] = useState(DEFAULT_SWAP_AMOUNT)
-  const [updatedField, setUpdatedField] = useState(Field.FROM)
-  const [selectingToken, setSelectingToken] = useState<Field | null>(null)
-  const [fromSwapAmountError, setFromSwapAmountError] = useState(false)
-  const [shouldShowMaxSwapAmountWarning, setShouldShowMaxSwapAmountWarning] = useState(false)
-  const [switchedToNetworkId, setSwitchedToNetworkId] = useState<NetworkId | null>(null)
+  const { fromToken, toToken } = useMemo(() => {
+    const fromToken = supportedTokens.find((token) => token.tokenId === fromTokenId)
+    const toToken = supportedTokens.find((token) => token.tokenId === toTokenId)
+    return { fromToken, toToken }
+  }, [fromTokenId, toTokenId, supportedTokens])
 
   const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
+
+  const currentSwap = useSelector(currentSwapSelector)
+  const swapStatus = startedSwapId === currentSwap?.id ? currentSwap.status : null
 
   const feeCurrenciesWithPositiveBalances = useSelector((state) =>
     feeCurrenciesWithPositiveBalancesSelector(
@@ -141,6 +265,14 @@ export function SwapScreen({ route }: Props) {
     }),
     [swapAmount]
   )
+
+  const shouldShowMaxSwapAmountWarning =
+    feeCurrenciesWithPositiveBalances.length === 1 &&
+    fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId &&
+    fromTokenBalance.gt(0) &&
+    parsedSwapAmount[Field.FROM].gte(fromTokenBalance)
+
+  const fromSwapAmountError = confirmingSwap && parsedSwapAmount[Field.FROM].gt(fromTokenBalance)
 
   const quoteUpdatePending =
     (quote &&
@@ -170,13 +302,6 @@ export function SwapScreen({ route }: Props) {
   }, [fetchSwapQuoteError])
 
   useEffect(() => {
-    setFromSwapAmountError(false)
-    // This variable is intentionally left out of the dependency array
-    // so that the error message is cleared only when the user changes the input
-    if (confirmSwapFailed) {
-      // Basically clears the error message
-      setStartedSwapId(null)
-    }
     // since we use the quote to update the parsedSwapAmount,
     // this hook will be triggered after the quote is first updated. this
     // variable prevents the quote from needlessly being fetched again.
@@ -199,66 +324,9 @@ export function SwapScreen({ route }: Props) {
     }
   }, [fromToken, toToken, parsedSwapAmount, updatedField, quote])
 
-  useEffect(
-    () => {
-      if (!quote) {
-        setSwapAmount((prev) => {
-          const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
-          return {
-            ...prev,
-            [otherField]: '',
-          }
-        })
-        return
-      }
-
-      const newAmount = parsedSwapAmount[updatedField].multipliedBy(
-        new BigNumber(quote.price).pow(updatedField === Field.FROM ? 1 : -1)
-      )
-
-      const swapFromAmount = updatedField === Field.FROM ? parsedSwapAmount[Field.FROM] : newAmount
-      const swapToAmount = updatedField === Field.FROM ? newAmount : parsedSwapAmount[Field.TO]
-      setSwapAmount({
-        [Field.FROM]: swapFromAmount.toFormat({
-          decimalSeparator,
-        }),
-        [Field.TO]: swapToAmount.toFormat({
-          decimalSeparator,
-        }),
-      })
-
-      const fromToken = tokensById[quote.fromTokenId]
-      const toToken = tokensById[quote.toTokenId]
-
-      if (!fromToken || !toToken) {
-        // Should never happen
-        Logger.error(TAG, 'fromToken or toToken not found')
-        return
-      }
-
-      if (
-        !quote.estimatedPriceImpact ||
-        new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
-      ) {
-        ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
-          toToken: toToken.address,
-          toTokenId: toToken.tokenId,
-          toTokenNetworkId: toToken.networkId,
-          fromToken: fromToken.address,
-          fromTokenId: fromToken.tokenId,
-          fromTokenNetworkId: fromToken?.networkId,
-          amount: parsedSwapAmount[updatedField].toString(),
-          amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
-          priceImpact: quote.estimatedPriceImpact,
-          provider: quote.provider,
-        })
-      }
-    },
-    // We only want to update the other field when the quote changes
-    // that's why we don't include the other dependencies
-
-    [quote]
-  )
+  useEffect(() => {
+    localDispatch(quoteUpdated({ quote }))
+  }, [quote])
 
   const handleConfirmSwap = () => {
     if (!quote) {
@@ -273,9 +341,9 @@ export function SwapScreen({ route }: Props) {
       return
     }
 
+    localDispatch(startConfirmSwap())
+
     if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
-      setFromSwapAmountError(true)
-      hideOrShowMaxFeeCurrencySwapWarning(fromToken)
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken.symbol })))
       return
     }
@@ -322,7 +390,7 @@ export function SwapScreen({ route }: Props) {
         })
 
         const swapId = uuidv4()
-        setStartedSwapId(swapId)
+        localDispatch(startSwap({ swapId }))
         dispatch(
           swapStart({
             swapId,
@@ -349,7 +417,7 @@ export function SwapScreen({ route }: Props) {
 
   const handleShowTokenSelect = (fieldType: Field) => () => {
     ValoraAnalytics.track(SwapEvents.swap_screen_select_token, { fieldType })
-    setSelectingToken(fieldType)
+    localDispatch(startSelectToken({ fieldType }))
 
     // use requestAnimationFrame so that the bottom sheet open animation is done
     // after the selectingToken value is updated, so that the title of the
@@ -409,10 +477,13 @@ export function SwapScreen({ route }: Props) {
       switchedNetworkId: !!newSwitchedToNetworkId,
     })
 
-    setFromToken(newFromToken)
-    setToToken(newToToken)
-    setSwitchedToNetworkId(newSwitchedToNetworkId)
-    hideOrShowMaxFeeCurrencySwapWarning(shouldShowMaxSwapAmountWarning ? newFromToken : undefined)
+    localDispatch(
+      selectTokens({
+        fromTokenId: newFromToken?.tokenId,
+        toTokenId: newToToken?.tokenId,
+        switchedToNetworkId: newSwitchedToNetworkId,
+      })
+    )
 
     if (newSwitchedToNetworkId) {
       clearQuote()
@@ -428,32 +499,14 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
+    localDispatch(changeAmount({ field: fieldType, value }))
     if (!value) {
-      setSwapAmount(DEFAULT_SWAP_AMOUNT)
       clearQuote()
-    } else {
-      setUpdatedField(fieldType)
-      setSwapAmount((prev) => ({
-        ...prev,
-        // Regex to match only numbers and one decimal separator
-        [fieldType]: value.match(/^(?:\d+[.,]?\d*|[.,]\d*|[.,])$/)?.join('') ?? prev[fieldType],
-      }))
     }
-
-    setShouldShowMaxSwapAmountWarning(false)
   }
 
   const handleSetMaxFromAmount = () => {
-    setUpdatedField(Field.FROM)
-    setSwapAmount((prev) => ({
-      ...prev,
-      [Field.FROM]:
-        // We try the current balance first, and we will prompt the user if it's too high
-        fromTokenBalance.toFormat({
-          decimalSeparator,
-        }),
-    }))
-    hideOrShowMaxFeeCurrencySwapWarning(fromToken)
+    localDispatch(chooseMaxFromAmount({ fromTokenBalance }))
     if (!fromToken) {
       // Should never happen
       return
@@ -463,13 +516,6 @@ export function SwapScreen({ route }: Props) {
       tokenId: fromToken.tokenId,
       tokenNetworkId: fromToken.networkId,
     })
-  }
-
-  const hideOrShowMaxFeeCurrencySwapWarning = (fromToken: TokenBalance | undefined) => {
-    setShouldShowMaxSwapAmountWarning(
-      feeCurrenciesWithPositiveBalances.length === 1 &&
-        fromToken?.tokenId === feeCurrenciesWithPositiveBalances[0].tokenId
-    )
   }
 
   const onPressLearnMore = () => {
@@ -502,6 +548,35 @@ export function SwapScreen({ route }: Props) {
   const { networkFee, feeTokenId } = useMemo(() => {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
+
+  useEffect(() => {
+    if (showPriceImpactWarning || showMissingPriceImpactWarning) {
+      if (!quote) {
+        return
+      }
+      const fromToken = tokensById[quote.fromTokenId]
+      const toToken = tokensById[quote.toTokenId]
+
+      if (!fromToken || !toToken) {
+        // Should never happen
+        Logger.error(TAG, 'fromToken or toToken not found')
+        return
+      }
+
+      ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
+        toToken: toToken.address,
+        toTokenId: toToken.tokenId,
+        toTokenNetworkId: toToken.networkId,
+        fromToken: fromToken.address,
+        fromTokenId: fromToken.tokenId,
+        fromTokenNetworkId: fromToken?.networkId,
+        amount: parsedSwapAmount[updatedField].toString(),
+        amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
+        priceImpact: quote.estimatedPriceImpact,
+        provider: quote.provider,
+      })
+    }
+  }, [showPriceImpactWarning || showMissingPriceImpactWarning])
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
