@@ -46,16 +46,11 @@ function compareKnipResults(
 }
 
 if (process.env.GITHUB_EVENT_NAME === 'pull_request' || true) {
-  const branchKnipOutput = stripAnsi(
-    $.exec('yarn knip --no-gitignore', {
-      silent: true,
-    }).stdout
-  )
-  console.log(`output - default`, branchKnipOutput.length)
-  const branchKnipOutputJson = $.exec('yarn knip --no-gitignore --reporter jsonExt', {
+  const branchKnipOutput = $.exec('yarn knip --no-gitignore --reporter json', {
     silent: true,
   }).stdout
-  console.log(`output - json`, branchKnipOutput.length)
+  console.log(`output length`, branchKnipOutput.length)
+  console.log(`output:...`, branchKnipOutput)
   process.exit(1)
   const branchKnipResults = parseKnipOutput(branchKnipOutput)
 
