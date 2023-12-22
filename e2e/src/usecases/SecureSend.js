@@ -127,6 +127,7 @@ export default SecureSend = () => {
       await element(by.id('ValidateRecipientAccount/TextInput')).typeText(
         SAMPLE_WALLET_ADDRESS_VERIFIED_2
       )
+      await element(by.id('ValidateRecipientAccount/TextInput')).tapReturnKey()
 
       // Scroll to see submit button
       await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
