@@ -1093,8 +1093,8 @@
     "unsupportedChain": {
       "title": "Nieobsługiwany łańcuch",
       "description": "{{dappName}} żąda tej akcji w łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że Celo jest aktywnym łańcuchem po stronie dapp.",
-      "descriptionV1_74_one": "{{dappName}} żąda tej akcji na łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że {{supportedNetworkNames}} jest aktywnym łańcuchem po stronie aplikacji.",
-      "descriptionV1_74_other": "{{dappName}} żąda tej akcji na łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że aktywny łańcuch w aplikacji jest jednym z poniższych: {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} żąda tej akcji w łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że {{supportedNetworkNames}} jest aktywnym łańcuchem po stronie dapp.",
+      "descriptionV1_74_other": "{{dappName}} żąda tej akcji w łańcuchu nieobsługiwanym przez {{appName}}. Upewnij się, że aktywny łańcuch w aplikacji jest jednym z poniższych: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Niewystarczające saldo tokenów gazu",
@@ -1104,14 +1104,14 @@
       "failUnsupportedNamespace": {
         "title": "Nieobsługiwany łańcuch",
         "description": "{{dappName}} chce połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że po stronie dapp wybrano Celo.",
-        "descriptionV1_74_one": "{{dappName}} chciałbyś połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że po stronie aplikacji wybrano {{supportedNetworkNames}} .",
-        "descriptionV1_74_other": "{{dappName}} chciałbyś połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że po stronie aplikacji wybrana jest jedna z poniższych opcji: {{supportedNetworkNames}}."
+        "descriptionV1_74_one": "{{dappName}} chce połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że po stronie dapp wybrano {{supportedNetworkNames}}.",
+        "descriptionV1_74_other": "{{dappName}} chce połączyć się z łańcuchem nieobsługiwanym przez {{appName}}. Upewnij się, że aktywny łańcuch w aplikacji jest jednym z poniższych: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Nieobsługiwany łańcuch",
-        "description": "{{dappName}} nie określiła Celo jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami.",
-        "descriptionV1_74_one": "{{dappName}} nie określiła {{supportedNetworkNames}} jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami.",
-        "descriptionV1_74_other": "{{dappName}} nie określiła żadnego z poniższych łańcuchów jako obsługiwanego: {{supportedNetworkNames}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
+        "description": "Aplikacja {{dappName}} nie określiła Celo jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami.",
+        "descriptionV1_74_one": "Aplikacja {{dappName}} nie określiła {{supportedNetworkNames}} jako obsługiwanego łańcucha. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami.",
+        "descriptionV1_74_other": "Aplikacja {{dappName}} nie zidentyfikowała żadnego z poniższych łańcuchów bloków jako obsługiwanych: {{supportedNetworkNames}}. Niektóre funkcje mogą nie działać zgodnie z oczekiwaniami."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Nieobsługiwane metody",
@@ -1909,7 +1909,7 @@
     "moreActions": "Więcej działań",
     "actionDescriptions": {
       "send": "Użyj dowolnego adresu Celo, domeny, numeru telefonu itp.",
-      "sendV1_74_one": "Użyj dowolnego adresu {{supportedNetworkNames}} , domeny, numeru telefonu itp.",
+      "sendV1_74_one": "Użyj dowolnego adresu {{supportedNetworkNames}}, domeny, numeru telefonu itp.",
       "sendV1_74_other": "Użyj dowolnego adresu, domeny, numeru telefonu w następujących sieciach: {{supportedNetworkNames}}",
       "swap": "Wymień tokeny bez opuszczania portfela",
       "add": "Kup tokeny, korzystając z usług jednego z naszych zaufanych dostawców",
