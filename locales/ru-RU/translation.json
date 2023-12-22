@@ -1278,12 +1278,12 @@
   "balances": "Активы",
   "totalBalanceWithLocalCurrencySymbol": "{{localCurrencySymbol}}{{totalBalance}} Всего",
   "totalValue": "Общий остаток",
-  "viewBalances": "Просмотр Активы",
+  "viewBalances": "Активы",
   "totalAssets": "Мои активы",
   "totalAssetsInfo": "Включает оценочную общую сумму активов кошелька и позиций dapp",
   "assetsSegmentedControl": {
     "walletAssets": "Активы кошелька",
-    "dappPositions": "Позиции dapp"
+    "dappPositions": "DeFi"
   },
   "open": "Открыть",
   "nftViewer": "NFT Viewer",
@@ -1683,7 +1683,7 @@
   },
   "dappNotListed": "Этого dapp нет в списке {{appName}}. Dapps — это сторонние приложения. Используйте их на свой страх и риск.",
   "swapScreen": {
-    "title": "Обменять",
+    "title": "Обмен",
     "review": "Проверить",
     "confirmSwap": "Подтвердить обмен",
     "swapFrom": "С",
@@ -1691,8 +1691,8 @@
     "insufficientFunds": "Недостаточный остаток {{token}}. Попробуйте внести меньшую сумму или выбрать другой актив.",
     "fetchSwapQuoteFailed": "Извините за задержку! Для получения самого выгодного обменного курса требуется больше времени. Повторите попытку через несколько минут.",
     "disclaimer": "Лучшая ставка определяется партнерами сообщества. <0>Подробнее</0>",
-    "swapFromTokenSelection": "ОБМЕНЯТЬ С",
-    "swapToTokenSelection": "ОБМЕНЯТЬ НА",
+    "swapFromTokenSelection": "Что обменять",
+    "swapToTokenSelection": "На что обменять",
     "tokenUsdValueUnknown": "-",
     "switchedToNetworkWarning": {
       "title": "Вы переключились на сообщество {{networkName}}",
@@ -1743,8 +1743,8 @@
     }
   },
   "swapTransactionDetailPage": {
-    "swapFrom": "Обменять с",
-    "swapTo": "Обменять на",
+    "swapFrom": "Что обменять",
+    "swapTo": "На что обменять",
     "rate": "Курс",
     "estimatedFee": "Комиссия сообщества Est",
     "networkFee": "Комиссия сообщества",
@@ -1753,8 +1753,8 @@
   "swapReviewScreen": {
     "title": "Проверить обмен",
     "complete": "Завершить обмен",
-    "swapFrom": "Обменять с",
-    "swapTo": "Обменять на",
+    "swapFrom": "Что обменять",
+    "swapTo": "На что обменять",
     "transactionDetails": "Детали транзакции",
     "estimatedGas": "Приблизительный газ",
     "swapSubmitError": "К сожалению, нам не удалось выполнить обмен. Повторите попытку или обратитесь в службу поддержки.",
@@ -1828,7 +1828,7 @@
     "later": "Я изучу позже",
     "options": {
       "add": "Внести средства",
-      "dapp": "Найти способы использования крипто",
+      "dapp": "Возможности криптовалюты",
       "profile": "Создать мой профиль",
       "learn": "Узнать о Celo"
     }
@@ -1854,7 +1854,7 @@
     "withdraw": "Вывести"
   },
   "nftGallery": {
-    "title": "Коллекционные предметы",
+    "title": "Коллекции",
     "noNfts": "Ваши NFT отобразятся здесь, как только появится в вашем кошельке"
   },
   "nftInfoCarousel": {
@@ -1885,8 +1885,8 @@
     "networkName": "Сеть {{networkName}}",
     "tabBar": {
       "tokens": "Токены",
-      "collectibles": "Коллекционные предметы",
-      "dappPositions": "Позиции dapp"
+      "collectibles": "Коллекции",
+      "dappPositions": "DeFi"
     },
     "importToken": "Импорт"
   },
@@ -2019,7 +2019,7 @@
     "title": "Новинка! Ethereum на Valora",
     "description1": "Сначала мы открываем эту функцию для избранных. Вы входит в число счастливчиков!",
     "description2": "Это новая функция, и наша команда продолжает упорно работать над тем, чтобы сделать все идеально. Мы будем рады получить ваш отзыв.",
-    "primaryCta": "Попробуйте",
+    "primaryCta": "Попробовать",
     "secondaryCta": "Нет, спасибо"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
