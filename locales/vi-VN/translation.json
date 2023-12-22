@@ -1277,7 +1277,7 @@
   "totalAssetsInfo": "Bao gồm ước tính tổng tài sản ví và lệnh giao dịch trên dapp",
   "assetsSegmentedControl": {
     "walletAssets": "Tài sản ví",
-    "dappPositions": "Lệnh giao dịch trên dapp"
+    "dappPositions": "DeFi"
   },
   "open": "Mở",
   "nftViewer": "Trình xem NFT",
@@ -1848,7 +1848,7 @@
     "withdraw": "Rút tiền"
   },
   "nftGallery": {
-    "title": "Các bộ sưu tập",
+    "title": "Bộ sưu tập",
     "noNfts": "NFT của bạn sẽ hiển thị ở đây sau khi bạn có một NFT trong ví của mình"
   },
   "nftInfoCarousel": {
@@ -1879,8 +1879,8 @@
     "networkName": "Mạng {{networkName}}",
     "tabBar": {
       "tokens": "Token",
-      "collectibles": "Các bộ sưu tập",
-      "dappPositions": "Lệnh giao dịch trên Dapp"
+      "collectibles": "Bộ sưu tập",
+      "dappPositions": "DeFi"
     },
     "importToken": "Nhập"
   },
