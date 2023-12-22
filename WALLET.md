@@ -270,7 +270,7 @@ On an M1 mac, the above commands may succeed, but when you try to run the emulat
 Run the emulator with:
 
 ```bash
-emulator -avd virtual-device-name
+emulator -avd virtual-device-name(e.g. Pixel_API_31_AOSP_x86_64)
 ```
 
 ##### Install Genymotion Emulator Manager
