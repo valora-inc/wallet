@@ -1279,7 +1279,7 @@
   "totalAssetsInfo": "Cüzdan varlıkları ve Dapp pozisyonlarının tahmini toplamını içerir",
   "assetsSegmentedControl": {
     "walletAssets": "Cüzdan varlıkları",
-    "dappPositions": "Dapp pozisyonları"
+    "dappPositions": "DeFi"
   },
   "open": "Aç",
   "nftViewer": "NFT Viewer",
@@ -1850,7 +1850,7 @@
     "withdraw": "Çek"
   },
   "nftGallery": {
-    "title": "Koleksiyon Ürünleri",
+    "title": "Koleksiyonlar",
     "noNfts": "Cüzdanınızda bir tane olduğunda NFT'leriniz burada görüntülenecektir"
   },
   "nftInfoCarousel": {
@@ -1881,8 +1881,8 @@
     "networkName": "{{networkName}} Ağı",
     "tabBar": {
       "tokens": "Tokenlar",
-      "collectibles": "Koleksiyon Ürünleri",
-      "dappPositions": "Dapp Pozisyonları"
+      "collectibles": "Koleksiyonlar",
+      "dappPositions": "DeFi"
     },
     "importToken": "İçe Aktar"
   },
