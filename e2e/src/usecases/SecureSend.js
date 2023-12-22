@@ -34,7 +34,7 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      let randomContent = faker.lorem.words()
+      const commentText = 'Test transaction comment, secure send (old flow).'
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30000)
@@ -76,7 +76,7 @@ export default SecureSend = () => {
       await element(by.id('ConfirmAccountButton')).tap()
 
       // Write a comment.
-      await addComment(randomContent)
+      await addComment(commentText)
 
       // Confirm and input PIN if necessary.
       await element(by.id('ConfirmButton')).tap()
@@ -85,9 +85,9 @@ export default SecureSend = () => {
       // Return to home screen.
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
-        .withTimeout(30 * 1000)
+        .withTimeout(30_000)
 
-      await waitFor(element(by.text(`${randomContent}`)))
+      await waitFor(element(by.text(`${commentText}`)))
         .toBeVisible()
         .withTimeout(60000)
     })
@@ -109,7 +109,7 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      let randomContent = faker.lorem.words()
+      const commentText = 'Test transaction comment, secure send (new flow).'
       await waitForElementByIdAndTap('HomeAction-Send', 30000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
@@ -144,7 +144,7 @@ export default SecureSend = () => {
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.
-      await addComment(randomContent)
+      await addComment(commentText)
 
       // Confirm and input PIN if necessary.
       await element(by.id('ConfirmButton')).tap()
@@ -153,7 +153,7 @@ export default SecureSend = () => {
       // Return to home screen.
       await waitForElementId('HomeAction-Send', 30000)
 
-      await waitFor(element(by.text(`${randomContent}`)))
+      await waitFor(element(by.text(`${commentText}`)))
         .toBeVisible()
         .withTimeout(60000)
     })
