@@ -33,9 +33,9 @@ export class Debug extends React.Component<RootState, State> {
   }
 
   updateLogs = async () => {
-    const reactNativeLogs = await Logger.getMonthLogs()
     this.setState({
-      reactNativeLogs: reactNativeLogs || 'Not Found',
+      reactNativeLogs:
+        "This feature has been removed. It didn't work with log files above a certain size.",
     })
   }
 
