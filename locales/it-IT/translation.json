@@ -1089,8 +1089,8 @@
     "unsupportedChain": {
       "title": "Chain non supportata",
       "description": "{{dappName}} richiede di eseguire questa azione su una chain non supportata da {{appName}}. Assicurati che Celo sia la chain attiva sul lato Dapp.",
-      "descriptionV1_74_one": "{{dappName}} sta richiedendo questa azione su una catena non supportata da {{appName}}. Assicurati che {{supportedNetworkNames}} sia la catena attiva sul lato della dapp.",
-      "descriptionV1_74_other": "{{dappName}} sta richiedendo questa azione su una catena non supportata da {{appName}}. Assicurati che la catena attiva sulla dapp sia una delle seguenti: {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} richiede di eseguire questa azione su una chain non supportata da {{appName}}. Assicurati che {{supportedNetworkNames}} sia la chain attiva sul lato Dapp.",
+      "descriptionV1_74_other": "{{dappName}} richiede di eseguire questa azione su una chain non supportata da {{appName}}. Assicurati che la catena attiva sulla dapp sia una delle seguenti: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Saldo di token per le commissioni insufficiente",
@@ -1100,14 +1100,14 @@
       "failUnsupportedNamespace": {
         "title": "Chain non supportata",
         "description": "{{dappName}} vorrebbe connettersi con una chain non supportata da {{appName}}. Assicurati che Celo sia selezionato sul lato Dapp.",
-        "descriptionV1_74_one": "{{dappName}} Vorrei connettermi con una catena non supportata da {{appName}}. Assicurati che {{supportedNetworkNames}} sia selezionato sul lato dapp.",
-        "descriptionV1_74_other": "{{dappName}} Vorrei connettermi con una catena non supportata da {{appName}}. Assicurati che sul lato dapp sia selezionata una delle seguenti opzioni: {{supportedNetworkNames}}."
+        "descriptionV1_74_one": "{{dappName}} vorrebbe connettersi con una chain non supportata da {{appName}}. Assicurati che {{supportedNetworkNames}} sia selezionato sul lato Dapp.",
+        "descriptionV1_74_other": "{{dappName}} vorrebbe connettersi con una chain non supportata da {{appName}}. Assicurati che la catena attiva sulla dapp sia una delle seguenti: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chain non supportata",
-        "description": "{{dappName}} non ha specificato Celo come catena supportata. Alcune funzioni potrebbero non funzionare come previsto.",
-        "descriptionV1_74_one": "{{dappName}} non ha specificato {{supportedNetworkNames}} come catena supportata. Alcune funzioni potrebbero non funzionare come previsto.",
-        "descriptionV1_74_other": "{{dappName}} non ha specificato nessuna delle seguenti catene supportate: {{supportedNetworkNames}}. Alcune funzioni potrebbero non funzionare come previsto."
+        "description": "{{dappName}} non ha specificato Celo come chain supportata. Alcune funzionalità potrebbero non funzionare nel modo previsto.",
+        "descriptionV1_74_one": "{{dappName}} non ha specificato {{supportedNetworkNames}} come chain supportata. Alcune funzionalità potrebbero non funzionare nel modo previsto.",
+        "descriptionV1_74_other": "{{dappName}} non ha specificato nessuna delle seguenti come chain supportata: {{supportedNetworkNames}}. Alcune funzionalità potrebbero non funzionare nel modo previsto."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Metodi non supportati",
@@ -1850,7 +1850,7 @@
     "withdraw": "Preleva"
   },
   "nftGallery": {
-    "title": "Oggetti da collezione",
+    "title": "Collezioni",
     "noNfts": "I tuoi NFT saranno visualizzati qui, una volta che ne avrai uno nel tuo portafoglio"
   },
   "nftInfoCarousel": {
@@ -1881,7 +1881,7 @@
     "networkName": "Rete {{networkName}}",
     "tabBar": {
       "tokens": "Token",
-      "collectibles": "Oggetti da collezione",
+      "collectibles": "Collezioni",
       "dappPositions": "Posizioni Dapp"
     },
     "importToken": "Importa"
