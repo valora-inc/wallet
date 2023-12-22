@@ -1279,7 +1279,7 @@
   "totalAssetsInfo": "Le total estimé des actifs dans votre portefeuille et des positions des dapps",
   "assetsSegmentedControl": {
     "walletAssets": "Actifs du wallet",
-    "dappPositions": "Positions des dapps"
+    "dappPositions": "DeFi"
   },
   "open": "Ouvrir",
   "nftViewer": "NFT Viewer",
@@ -1882,7 +1882,7 @@
     "tabBar": {
       "tokens": "Jetons",
       "collectibles": "Collections",
-      "dappPositions": "Positions de Dapp"
+      "dappPositions": "DeFi"
     },
     "importToken": "Importer"
   },
