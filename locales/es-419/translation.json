@@ -362,12 +362,12 @@
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
     "title": "Agregar fondos a {{appName}}",
-    "body": "Para financiar tu billetera {{appName}}, compra tu activo preferido a uno de los proveedores externos disponibles en tu localidad. Para más información, visita <0>{{link}}</0>",
+    "body": "Para fondear tu wallet de {{appName}}, compra tu activo preferido a uno de los proveedores externos disponibles en tu región. Para más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retira fondos de {{appName}}",
-    "body": "Para retirar tu saldo de {{appName}}, vende el activo deseado con uno de los proveedores externos disponibles en tu localidad. Para más información, visita <0>{{link}}</0>",
+    "body": "Para retirar tu saldo de {{appName}}, vende el activo deseado con uno de los proveedores externos disponibles en tu región. Para más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -561,12 +561,12 @@
     "vigésimonovena",
     "trigésima"
   ],
-  "addressValidationError": "Dirección de billetera incorrecta",
-  "addressValidationNoMatch": "Dirección de billetera incorrecta",
-  "addressValidationFullPoorlyFormatted": "Las direcciones de las billeteras empiezan con \"0x\" y tienen 42 caracteres",
-  "addressValidationPartialPoorlyFormatted": "Las direcciones de las billeteras empiezan con \"0x\" y tienen 42 caracteres",
-  "addressValidationFullOwnAddress": "Esta es la dirección de tu billetera, introduce la dirección de la billetera de tu contacto.",
-  "addressValidationPartialOwnAddress": "Esta es la dirección de tu billetera, introduce la dirección de la billetera de tu contacto.",
+  "addressValidationError": "Dirección de wallet incorrecta",
+  "addressValidationNoMatch": "Dirección de wallet incorrecta",
+  "addressValidationFullPoorlyFormatted": "Las direcciones de wallet empiezan con \"0x\" y tienen 42 caracteres.",
+  "addressValidationPartialPoorlyFormatted": "Las direcciones de wallet empiezan con \"0x\" y tienen 42 caracteres.",
+  "addressValidationFullOwnAddress": "Esta es tu dirección, ingresa la dirección de tu contacto.",
+  "addressValidationPartialOwnAddress": "Esta es tu dirección, ingresa la dirección de tu contacto.",
   "providerRateFetchFailed": "No se pudo obtener la tasa del proveedor. Puedes continuar sin una tasa precargada.",
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
@@ -634,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que se registren y agreguen fondos a su billetera {{appName}}, ambos recibirán 0,50 cUSD."
+    "body": "Una vez que se registren y agreguen fondos a su wallet en {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -642,7 +642,7 @@
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
     "share": "Hola, regístrate en la billetera {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
-    "help": "Para recibir esta recompensa, el invitado debe descargar a través del enlace de recomendación, conectar su número de teléfono, agregar fondos y mantenerlos en su billetera {{appName}} durante 7 días. <0>Ver todas las condiciones</0>",
+    "help": "Para recibir esta recompensa, el invitado debe descargar la app a través del enlace de recomendación, conectar su número de teléfono, agregar fondos y mantenerlos en {{appName}} durante 7 días. <0>Ver todas las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
@@ -1089,8 +1089,8 @@
     "unsupportedChain": {
       "title": "Cadena incompatible",
       "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo.",
-      "descriptionV1_74_one": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que {{supportedNetworkNames}} es la cadena activa en el lado de la dapp.",
-      "descriptionV1_74_other": "{{dappName}} está solicitando esta acción en una cadena no soportada por {{appName}}. Por favor, asegúrate de que la cadena activa en la dapp es una de las siguientes: {{supportedNetworkNames}}."
+      "descriptionV1_74_one": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando {{supportedNetworkNames}}.",
+      "descriptionV1_74_other": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la cadena activa en la dapp sea una de las siguientes: {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "Saldo insuficiente para cubrir tarifas de transacción",
@@ -1100,14 +1100,14 @@
       "failUnsupportedNamespace": {
         "title": "Cadena incompatible",
         "description": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo.",
-        "descriptionV1_74_one": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Por favor, asegúrate de que {{supportedNetworkNames}} está seleccionada en el lado de la dapp.",
-        "descriptionV1_74_other": "{{dappName}} me gustaría conectar con una cadena no soportada por {{appName}}. Asegúrate de que una de las siguientes opciones está seleccionada en el lado de la dapp: {{supportedNetworkNames}}."
+        "descriptionV1_74_one": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando {{supportedNetworkNames}}.",
+        "descriptionV1_74_other": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la cadena activa en la dapp es una de las siguientes: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Cadena incompatible",
-        "description": "{{dappName}} no especificó Celo como cadena compatible. Es posible que algunas funciones no funcionen como se esperaba.",
-        "descriptionV1_74_one": "{{dappName}} no especificó {{supportedNetworkNames}} como cadena admitida. Es posible que algunas funciones no funcionen como se esperaba.",
-        "descriptionV1_74_other": "{{dappName}} no especificó ninguna de las siguientes como cadenas compatibles: {{supportedNetworkNames}}. Es posible que algunas funciones no funcionen como se espera."
+        "description": "{{dappName}} no cuenta a Celo entre sus cadenas compatibles. Es posible que algunas funciones no estén disponibles.",
+        "descriptionV1_74_one": "{{dappName}} no cuenta a {{supportedNetworkNames}} entre sus cadenas compatibles. Es posible que algunas funciones no estén disponibles.",
+        "descriptionV1_74_other": "{{dappName}} no especificó ninguna de las siguientes como cadenas compatibles: {{supportedNetworkNames}}. Es posible que algunas funciones no estén disponibles."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Métodos incompatibles",
@@ -1279,7 +1279,7 @@
   "totalAssetsInfo": "Total estimado de activos en tu wallet y posiciones DeFi",
   "assetsSegmentedControl": {
     "walletAssets": "Activos de wallet",
-    "dappPositions": "Posiciones DeFi"
+    "dappPositions": "DeFi"
   },
   "open": "Abrir",
   "nftViewer": "NFT Viewer",
@@ -1882,7 +1882,7 @@
     "tabBar": {
       "tokens": "Tokens",
       "collectibles": "Coleccionables",
-      "dappPositions": "Posiciones en dapps"
+      "dappPositions": "DeFi"
     },
     "importToken": "Importar"
   },
@@ -1905,8 +1905,8 @@
     "moreActions": "Más acciones",
     "actionDescriptions": {
       "send": "Utiliza cualquier dominio, número de teléfono, dirección Celo, etc.",
-      "sendV1_74_one": "Utiliza cualquier dirección {{supportedNetworkNames}} , dominio, número de teléfono, etc.",
-      "sendV1_74_other": "Utiliza cualquier dirección, dominio, número de teléfono en las siguientes redes: {{supportedNetworkNames}}",
+      "sendV1_74_one": "Utiliza cualquier dirección o dominio {{supportedNetworkNames}} , un número de teléfono, etc.",
+      "sendV1_74_other": "Utiliza cualquier dirección, dominio o número de teléfono en las siguientes redes: {{supportedNetworkNames}}",
       "swap": "Intercambia tokens sin salir de tu wallet",
       "add": "Compra tokens a uno de nuestros proveedores de confianza",
       "withdraw": "Transfiere tokens a una cuenta bancaria, dinero móvil, tarjeta de regalo, etc."
