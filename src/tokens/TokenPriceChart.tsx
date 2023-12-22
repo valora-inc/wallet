@@ -205,10 +205,8 @@ export default function TokenPriceChart({
   )
 
   useEffect(() => {
-    if (
-      tokenPriceHistory.length &&
-      tokenPriceHistory.at(-1)?.priceFetchedAt! > Date.now() - ONE_HOUR_IN_MILLIS
-    ) {
+    const rawMostRecentTimestamp = tokenPriceHistory.at(-1)?.priceFetchedAt ?? 0
+    if (tokenPriceHistory.length > 0 && rawMostRecentTimestamp > Date.now() - ONE_HOUR_IN_MILLIS) {
       return
     }
     dispatch(
