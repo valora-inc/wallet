@@ -2925,6 +2925,15 @@ export const v178Schema = {
   swap: _.omit(v177Schema.swap, 'guaranteedSwapPriceEnabled'),
 }
 
+export const v179Schema = {
+  ...v178Schema,
+  _persist: {
+    ...v178Schema._persist,
+    version: 179,
+  },
+  priceHistory: {},
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v178Schema as Partial<RootState>
+  return v179Schema as Partial<RootState>
 }
