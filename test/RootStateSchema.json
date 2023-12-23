@@ -2184,6 +2184,31 @@
             ],
             "type": "object"
         },
+        "Price": {
+            "additionalProperties": false,
+            "properties": {
+                "priceFetchedAt": {
+                    "type": "number"
+                },
+                "priceUsd": {
+                    "$ref": "#/definitions/BigNumber.Value"
+                }
+            },
+            "required": [
+                "priceFetchedAt",
+                "priceUsd"
+            ],
+            "type": "object"
+        },
+        "PriceHistoryStatus": {
+            "enum": [
+                "error",
+                "idle",
+                "loading",
+                "success"
+            ],
+            "type": "string"
+        },
         "ProposalTypes.OptionalNamespaces": {
             "additionalProperties": false,
             "type": "object"
@@ -3925,6 +3950,28 @@
             ],
             "type": "object"
         },
+        "State_26": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "prices": {
+                        "items": {
+                            "$ref": "#/definitions/Price"
+                        },
+                        "type": "array"
+                    },
+                    "status": {
+                        "$ref": "#/definitions/PriceHistoryStatus"
+                    }
+                },
+                "required": [
+                    "prices",
+                    "status"
+                ],
+                "type": "object"
+            },
+            "type": "object"
+        },
         "State_3": {
             "anyOf": [
                 {
@@ -5595,6 +5642,9 @@
         "positions": {
             "$ref": "#/definitions/State_23"
         },
+        "priceHistory": {
+            "$ref": "#/definitions/State_26"
+        },
         "recipients": {
             "$ref": "#/definitions/State_13"
         },
@@ -5640,6 +5690,7 @@
         "networkInfo",
         "nfts",
         "positions",
+        "priceHistory",
         "recipients",
         "send",
         "supercharge",

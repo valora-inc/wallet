@@ -1,7 +1,7 @@
 import { Draft, PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 
-type Status = 'idle' | 'loading' | 'success' | 'error'
+type PriceHistoryStatus = 'idle' | 'loading' | 'success' | 'error'
 
 export interface Price {
   priceUsd: BigNumber.Value
@@ -10,7 +10,7 @@ export interface Price {
 
 export interface State {
   [tokenId: string]: {
-    status: Status
+    status: PriceHistoryStatus
     prices: Price[]
   }
 }
