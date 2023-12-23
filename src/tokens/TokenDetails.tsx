@@ -32,9 +32,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import PriceHistoryChart from 'src/priceHistory/priceHistoryChart'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -68,6 +69,9 @@ export default function TokenDetailsScreen({ route }: Props) {
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const usePriceHistoryFromBlockchainApi = getFeatureGate(
+    StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API
+  )
 
   return (
     <SafeAreaView style={styles.container}>
@@ -92,14 +96,25 @@ export default function TokenDetailsScreen({ route }: Props) {
           errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
-        {token.isNative && token.symbol === 'CELO' && (
-          <CeloGoldHistoryChart
-            color={Colors.black}
-            containerStyle={styles.chartContainer}
-            chartPadding={Spacing.Thick24}
-            testID="TokenDetails/Chart"
-          />
-        )}
+        {usePriceHistoryFromBlockchainApi
+          ? !token.isStableCoin && (
+              <PriceHistoryChart
+                tokenId={tokenId}
+                containerStyle={styles.chartContainer}
+                chartPadding={Spacing.Thick24}
+                testID={`TokenDetails/Chart/${tokenId}`}
+                color={Colors.black}
+              />
+            )
+          : token.isNative &&
+            token.symbol === 'CELO' && (
+              <CeloGoldHistoryChart
+                color={Colors.black}
+                containerStyle={styles.chartContainer}
+                chartPadding={Spacing.Thick24}
+                testID="TokenDetails/Chart"
+              />
+            )}
         <Actions
           bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef}
           token={token}
