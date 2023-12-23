@@ -58,6 +58,6 @@ export function* watchFetchTokenPriceHistory() {
   yield* takeLatest(fetchPriceHistoryStart.type, safely(fetchTokenPriceHistorySaga))
 }
 
-export function* tokensSaga() {
+export function* priceHistorySaga() {
   yield* spawn(watchFetchTokenPriceHistory)
 }
