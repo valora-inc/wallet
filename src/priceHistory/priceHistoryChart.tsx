@@ -34,7 +34,7 @@ const CHART_STEP_IN_HOURS = 6
 function Loader({ color = colors.goldBrand }: { color?: colors }) {
   return (
     <View style={styles.loader}>
-      <ActivityIndicator size="large" color={color} />
+      <ActivityIndicator testID="PriceHistoryChart/Loader" size="large" color={color} />
     </View>
   )
 }
