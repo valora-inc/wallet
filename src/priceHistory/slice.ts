@@ -28,9 +28,9 @@ const slice = createSlice({
       }>
     ) => {
       const { tokenId } = action.payload
-      const token = state[tokenId]
-      if (token) {
-        token.status = 'loading'
+      state[tokenId] = {
+        ...state[tokenId],
+        status: 'loading',
       }
     },
     fetchPriceHistorySuccess: (
