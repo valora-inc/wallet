@@ -185,7 +185,7 @@ exports[`renders while update is in progress 1`] = `
         }
       }
     >
-      Nov 18
+      Nov 19
     </Text>
     <Text
       style={
@@ -386,7 +386,7 @@ exports[`renders with history 1`] = `
         }
       }
     >
-      Nov 18
+      Nov 19
     </Text>
     <Text
       style={
