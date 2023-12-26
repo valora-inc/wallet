@@ -177,7 +177,8 @@ describe('TokenDetails', () => {
     expect(queryByText('tokenDetails.priceUnavailable')).toBeFalsy()
   })
 
-  it('renders chart if token is native (celo)', () => {
+  it('renders chart if token is native (celo) from', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false) // Use old prices from firebase
     const store = createMockStore({
       tokens: {
         tokenBalances: {
