@@ -186,6 +186,7 @@ export default function PriceHistoryChart({
   const priceHistoryPrices = useSelector((state: RootState) =>
     priceHistoryPricesSelector(state, tokenId)
   )
+
   const priceHistoryStatus = useSelector((state: RootState) =>
     priceHistoryStatusSelector(state, tokenId)
   )
@@ -221,6 +222,8 @@ export default function PriceHistoryChart({
 
   if (priceHistoryStatus === 'loading' && priceHistoryPrices.length === 0) {
     return <Loader />
+  } else if (priceHistoryPrices.length === 0) {
+    return null
   }
 
   const chartData = []
