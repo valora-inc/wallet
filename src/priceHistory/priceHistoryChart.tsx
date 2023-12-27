@@ -289,10 +289,14 @@ export default function PriceHistoryChart({
       </VictoryGroup>
       <View style={[styles.range, { paddingHorizontal: chartPadding }]}>
         {earliestTimestamp && (
-          <Text style={[styles.timeframe, { textAlign: 'left' }]}>{formatFeedDate(earliestTimestamp, i18n)}</Text>
+          <Text style={[styles.timeframe, { textAlign: 'left' }]}>
+            {formatFeedDate(earliestTimestamp, i18n)}
+          </Text>
         )}
         {latestTimestamp && (
-          <Text style={[styles.timeframe, { textAlign: 'right' }]}>{formatFeedDate(latestTimestamp, i18n)}</Text>
+          <Text style={[styles.timeframe, { textAlign: 'right' }]}>
+            {formatFeedDate(latestTimestamp, i18n)}
+          </Text>
         )}
       </View>
     </View>
