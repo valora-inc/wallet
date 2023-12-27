@@ -13,7 +13,7 @@ import { call, put, spawn, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'priceHistory/saga'
 
-/** @beta - Exclude from Knip dep check */
+/** @beta - Exclude from Knip unused exports */
 export async function fetchTokenPriceHistory(
   tokenId: string,
   startTimestamp?: number,
@@ -55,7 +55,7 @@ export function* fetchTokenPriceHistorySaga({
   }
 }
 
-/** @beta - Exclude from Knip dep check */
+/** @beta - Exclude from Knip unused exports */
 export function* watchFetchTokenPriceHistory() {
   yield* takeLatest(fetchPriceHistoryStart.type, safely(fetchTokenPriceHistorySaga))
 }
