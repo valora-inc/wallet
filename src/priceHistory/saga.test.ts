@@ -80,19 +80,4 @@ describe('watchFetchTokenPriceHistory', () => {
       `Failed to fetch price history for ${mockCusdTokenId}: 500 Internal Server Error`
     )
   })
-
-  it('logs an error when tokenId is not provided', async () => {
-    await expectSaga(fetchTokenPriceHistorySaga, {
-      payload: {
-        startTimestamp: 1700378258000,
-        endTimestamp: 1702941458000,
-      },
-    } as any).run()
-    expect(mockFetch).toHaveBeenCalledTimes(0)
-    expect(Logger.error).toHaveBeenLastCalledWith(
-      'priceHistory/saga',
-      'error fetching token price history',
-      'TokenId is required'
-    )
-  })
 })

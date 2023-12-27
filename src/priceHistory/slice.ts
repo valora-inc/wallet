@@ -1,7 +1,7 @@
 import { Draft, PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 
-type PriceHistoryStatus = 'idle' | 'loading' | 'success' | 'error'
+type PriceHistoryStatus = 'loading' | 'success' | 'error'
 
 export interface Price {
   priceUsd: BigNumber.Value
@@ -41,10 +41,10 @@ const slice = createSlice({
       }>
     ) => {
       const { tokenId, prices } = action.payload
-      const token = state[tokenId]
-      if (token) {
-        token.status = 'success'
-        token.prices = prices
+      state[tokenId] = {
+        ...state[tokenId],
+        status: 'success',
+        prices,
       }
     },
     fetchPriceHistoryFailure: (
@@ -54,9 +54,9 @@ const slice = createSlice({
       }>
     ) => {
       const { tokenId } = action.payload
-      const token = state[tokenId]
-      if (token) {
-        token.status = 'error'
+      state[tokenId] = {
+        ...state[tokenId],
+        status: 'error',
       }
     },
   },
