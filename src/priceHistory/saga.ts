@@ -48,9 +48,6 @@ export function* fetchTokenPriceHistorySaga({
   payload: { tokenId, startTimestamp, endTimestamp },
 }: ReturnType<typeof fetchPriceHistoryStart>) {
   try {
-    if (!tokenId) {
-      throw new Error('TokenId is required')
-    }
     const prices = yield* call(fetchTokenPriceHistory, tokenId, startTimestamp, endTimestamp)
     yield* put(fetchPriceHistorySuccess({ tokenId, prices }))
   } catch (err) {
