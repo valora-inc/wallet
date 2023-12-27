@@ -41,10 +41,10 @@ const slice = createSlice({
       }>
     ) => {
       const { tokenId, prices } = action.payload
-      const token = state[tokenId]
-      if (token) {
-        token.status = 'success'
-        token.prices = prices
+      state[tokenId] = {
+        ...state[tokenId],
+        status: 'success',
+        prices,
       }
     },
     fetchPriceHistoryFailure: (
@@ -54,9 +54,9 @@ const slice = createSlice({
       }>
     ) => {
       const { tokenId } = action.payload
-      const token = state[tokenId]
-      if (token) {
-        token.status = 'error'
+      state[tokenId] = {
+        ...state[tokenId],
+        status: 'error',
       }
     },
   },
