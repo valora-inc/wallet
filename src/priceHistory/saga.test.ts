@@ -29,7 +29,7 @@ describe('watchFetchTokenPriceHistory', () => {
     mockFetch.resetMocks()
   })
 
-  it('successfully fetches token price history when the feature gate is active', async () => {
+  it('successfully fetches token price history', async () => {
     mockFetch.mockResponseOnce(JSON.stringify(mockPrices), {
       status: 200,
     })
