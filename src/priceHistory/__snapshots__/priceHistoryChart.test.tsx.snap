@@ -179,20 +179,32 @@ exports[`renders while update is in progress 1`] = `
   >
     <Text
       style={
-        {
-          "color": "#757575",
-          "fontSize": 16,
-        }
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "left",
+          },
+        ]
       }
     >
       Nov 19
     </Text>
     <Text
       style={
-        {
-          "color": "#757575",
-          "fontSize": 16,
-        }
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "right",
+          },
+        ]
       }
     >
       Dec 18
@@ -380,20 +392,32 @@ exports[`renders with history 1`] = `
   >
     <Text
       style={
-        {
-          "color": "#757575",
-          "fontSize": 16,
-        }
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "left",
+          },
+        ]
       }
     >
       Nov 19
     </Text>
     <Text
       style={
-        {
-          "color": "#757575",
-          "fontSize": 16,
-        }
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "right",
+          },
+        ]
       }
     >
       Dec 18
