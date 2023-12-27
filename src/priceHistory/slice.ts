@@ -1,7 +1,7 @@
 import { Draft, PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 
-type PriceHistoryStatus = 'idle' | 'loading' | 'success' | 'error'
+type PriceHistoryStatus = 'loading' | 'success' | 'error'
 
 export interface Price {
   priceUsd: BigNumber.Value
