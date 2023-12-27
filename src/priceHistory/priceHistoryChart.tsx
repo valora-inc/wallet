@@ -255,9 +255,9 @@ export default function PriceHistoryChart({
   const min = Math.min(...values)
   const max = Math.max(...values)
   let domain
-  // ensure that vertical chart range is at least CHART_MIN_VERTICAL_RANGE
   if (max - min < CHART_MIN_VERTICAL_RANGE) {
-    const offset = CHART_MIN_VERTICAL_RANGE - (max - min) / 2
+    // use min of the CHART_MIN_VERTICAL_RANGE or 1% of the min value
+    const offset = Math.min(CHART_MIN_VERTICAL_RANGE - (max - min) / 2, min / 100)
     domain = {
       y: [min - offset, max + offset] as [number, number],
       x: [0, chartData.length - 1] as [number, number],
