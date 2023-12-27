@@ -2203,7 +2203,6 @@
         "PriceHistoryStatus": {
             "enum": [
                 "error",
-                "idle",
                 "loading",
                 "success"
             ],
