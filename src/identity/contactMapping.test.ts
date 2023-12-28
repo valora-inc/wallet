@@ -264,6 +264,7 @@ describe('saveContacts', () => {
         contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
         clientPlatform: 'android',
         clientVersion: '0.0.1',
+        deviceId: 'abc-def-123',
       }),
       signal: expect.any(AbortSignal),
     })
@@ -301,6 +302,7 @@ describe('saveContacts', () => {
         contacts: [mockE164Number2, mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
         clientPlatform: 'android',
         clientVersion: '0.0.1',
+        deviceId: 'abc-def-123',
       }),
       signal: expect.any(AbortSignal),
     })
@@ -373,6 +375,7 @@ describe('saveContacts', () => {
         contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
         clientPlatform: 'android',
         clientVersion: '0.0.1',
+        deviceId: 'abc-def-123',
       }),
       signal: expect.any(AbortSignal),
     })
