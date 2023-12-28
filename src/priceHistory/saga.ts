@@ -13,7 +13,7 @@ import { call, put, spawn, takeLatest } from 'typed-redux-saga'
 
 const TAG = 'priceHistory/saga'
 
-/** @beta - Exclude from Knip unused exports
+/**
  * Fetches the price history for a token from blockchain-api
  * @param {string} tokenId - The tokenId to fetch the price history for
  * @param {number} startTimestamp - The timestamp to start fetching prices from defaults to 30 days ago
@@ -57,8 +57,7 @@ export function* fetchTokenPriceHistorySaga({
   }
 }
 
-/** @beta - Exclude from Knip unused exports */
-export function* watchFetchTokenPriceHistory() {
+function* watchFetchTokenPriceHistory() {
   yield* takeLatest(fetchPriceHistoryStart.type, safely(fetchTokenPriceHistorySaga))
 }
 
