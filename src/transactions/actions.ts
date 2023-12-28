@@ -54,6 +54,7 @@ export interface TransactionConfirmedAction {
   type: Actions.TRANSACTION_CONFIRMED
   txId: string
   receipt: BaseTransactionReceipt
+  blockTimestampInMs: number
 }
 
 export interface UpdatedRecentTxRecipientsCacheAction {
@@ -102,11 +103,13 @@ export const updateRecentTxRecipientsCache = (
 
 export const transactionConfirmed = (
   txId: string,
-  receipt: BaseTransactionReceipt
+  receipt: BaseTransactionReceipt,
+  blockTimestampInMs: number
 ): TransactionConfirmedAction => ({
   type: Actions.TRANSACTION_CONFIRMED,
   txId,
   receipt,
+  blockTimestampInMs,
 })
 
 export const addHashToStandbyTransaction = (

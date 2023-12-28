@@ -11,23 +11,19 @@ import { Dimensions, Platform, StatusBar, StyleSheet } from 'react-native'
 import { PERMISSIONS, RESULTS, check } from 'react-native-permissions'
 import Animated, { call, greaterThan, onChange } from 'react-native-reanimated'
 import { ScrollPager } from 'react-native-tab-view'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { QrScreenEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
-import { fetchExchanges } from 'src/fiatExchanges/utils'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { QRTabParamList, StackParamList } from 'src/navigator/types'
-import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import QRCode from 'src/qrcode/QRCode'
 import QRScanner from 'src/qrcode/QRScanner'
 import QRTabBar from 'src/qrcode/QRTabBar'
-import { QrCode, SVG, handleQRCodeDetected } from 'src/send/actions'
+import { SVG, handleQRCodeDetected } from 'src/send/actions'
+import { QrCode } from 'src/send/types'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
-
-const TAG = 'QRNavigator'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -43,45 +39,10 @@ type AnimatedScannerSceneProps = NativeStackScreenProps<QRTabParamList, Screens.
 }
 
 export function QRCodePicker({ route, qrSvgRef, ...props }: QRCodeProps) {
-  const userLocation = useSelector(userLocationDataSelector)
-  const asyncExchanges = useAsync(async () => {
-    try {
-      const availableExchanges = await fetchExchanges(
-        userLocation.countryCodeAlpha2,
-        'CELO' // Default to CELO, since the user never makes a selection when arriving here
-      )
-      return availableExchanges
-    } catch (error) {
-      Logger.error(TAG, 'error fetching exchanges, displaying an empty array')
-      return []
-    }
-  }, [])
-
-  const onCloseBottomSheet = () => {
-    ValoraAnalytics.track(QrScreenEvents.qr_screen_bottom_sheet_close)
-  }
   const onPressCopy = () => {
     ValoraAnalytics.track(QrScreenEvents.qr_screen_copy_address)
   }
-  const onPressInfo = () => {
-    ValoraAnalytics.track(QrScreenEvents.qr_screen_bottom_sheet_open)
-  }
-  const onPressExchange = (exchange: ExternalExchangeProvider) => {
-    ValoraAnalytics.track(QrScreenEvents.qr_screen_bottom_sheet_link_press, {
-      exchange: exchange.name,
-    })
-  }
-  return (
-    <QRCode
-      {...props}
-      exchanges={asyncExchanges.result ?? []}
-      qrSvgRef={qrSvgRef}
-      onCloseBottomSheet={onCloseBottomSheet}
-      onPressCopy={onPressCopy}
-      onPressInfo={onPressInfo}
-      onPressExchange={onPressExchange}
-    />
-  )
+  return <QRCode {...props} qrSvgRef={qrSvgRef} onPressCopy={onPressCopy} />
 }
 
 // Component doing our custom transition for the QR scanner
@@ -151,7 +112,6 @@ function AnimatedScannerScene({ route, position }: AnimatedScannerSceneProps) {
     if (lastScannedQR.current === qrCode.data) {
       return
     }
-
     Logger.debug('QRScanner', 'Bar code detected')
     onQRCodeDetectedParam(qrCode)
     lastScannedQR.current = qrCode.data

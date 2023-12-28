@@ -18,19 +18,19 @@ function parseKnipOutput(knipOutput: string): Record<string, number> {
 }
 
 function compareKnipResults(
-  mainKnipResults: Record<string, number>,
+  baseKnipResults: Record<string, number>,
   branchKnipResults: Record<string, number>
 ): boolean {
   let shouldFail = false
   const rows: Array<Record<string, string | number>> = []
-  for (const [category, mainProblems] of Object.entries(mainKnipResults)) {
+  for (const [category, baseProblems] of Object.entries(baseKnipResults)) {
     const branchProblems = branchKnipResults[category] ?? 0
     rows.push({
       'Issue Category': category.trim(),
-      'Main Branch': mainProblems,
+      'Base Branch': baseProblems,
       'PR Branch': branchProblems,
     })
-    if (branchProblems > mainProblems) {
+    if (branchProblems > baseProblems) {
       shouldFail = true
     }
   }
@@ -39,20 +39,17 @@ function compareKnipResults(
 }
 
 if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
-  const branchName = process.env.GITHUB_HEAD_REF
-
   const branchKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const branchKnipResults = parseKnipOutput(branchKnipOutput)
 
-  $.exec('git checkout main')
+  // checkout pr base. More info here: https://github.com/actions/checkout/tree/v3?tab=readme-ov-file#checkout-v3
+  $.exec('git checkout HEAD^')
 
-  const mainKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
-  const mainKnipResults = parseKnipOutput(mainKnipOutput)
+  const baseKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
+  const baseKnipResults = parseKnipOutput(baseKnipOutput)
 
-  $.exec(`git checkout ${branchName}`)
-
-  if (compareKnipResults(mainKnipResults, branchKnipResults)) {
-    console.log('Knip check failed. Branch reported more problems than main.')
+  if (compareKnipResults(baseKnipResults, branchKnipResults)) {
+    console.log('Knip check failed. PR branch reported more problems than base branch.')
     process.exit(1)
   }
 }

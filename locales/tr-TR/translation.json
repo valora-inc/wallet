@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Uygulamayı herkes için iyileştirmeye yardımcı olmak için {{appName}}'yı nasıl kullandığınızla ilgili anonimleştirilmiş veriler topluyoruz.",
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
-  "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla Celo Ağı ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
+  "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla ağ ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
   "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
   "setup": "Oluştur",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Kurtarma İfadesini Yedekle",
   "introCompleteQuiz": "Cüzdanınızın kurtarılabileceğini doğrulamak üzere yedekleme testimizi tamamlayın.\n\nYanlış not ettiyseniz cihazınıza bir şey olursa cüzdanınıza erişemezsiniz.",
   "postSetupTitle": "Kurtarma Kelimeleriniz",
-  "postSetupBody": "Kurtarma Kelimelerinizi kaybederseniz, tüm Celo Dollar ve CELO'nuza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma Kelimeleriniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma Kelimelerinizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
+  "postSetupBody": "Kurtarma İfadenizi kaybederseniz, {{appName}} uygulamasındaki tüm varlıklarınıza erişiminizi kaybedersiniz. {{appName}} dahil hiç kimse, Kurtarma İfadeniz olmadan hesabınızı kurtarmanıza yardımcı olamaz. Kurtarma İfadenizi güvenli bir yerde saklayın ve kimseyle paylaşmayın.",
   "postSetupCTA": "Kurtarma Kelimeleriniz ile ilgili daha fazla bilgi edinin",
   "failedFetchMnemonic": "Kurtarma Kelimeleriniz kaydedilemedi",
   "backupAndRecovery": "Yedekleme ve Kurtarma",
@@ -265,6 +265,9 @@
   "confirmTransaction": "İşlemi onaylayın",
   "allow": "İzin ver",
   "address": "Cüzdan Adresi",
+  "supportedNetwork": "Desteklenen Ağ: {{network}}",
+  "supportedNetworks": "Desteklenen Ağlar: {{networks}}",
+  "and": "ve",
   "phoneNumber": "Telefon Numarası",
   "transaction": {
     "operation": "İşlem",
@@ -355,16 +358,16 @@
   "payWithCard": "Banka kartı",
   "payWithExchange": "Kripto para borsası",
   "selectCashOutMethod": "Yöntem seçin:",
-  "receiveOnAddress": "Celo adresi",
+  "receiveOnAddress": "Cüzdan adresi",
   "receiveWithBidali": "Hediye Kartları ve Mobil Yükleme",
   "fundingEducationDialog": {
     "title": "{{appName}} için bakiye yükleme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen stabil bir dijital para birimi olan Celo Dollar (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınıza fon eklemek için bölgenize hizmet veren 3. taraf sağlayıcıların birinden cUSD satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "body": "{{appName}} cüzdanınıza fon eklemek için, bulunduğunuz yerde mevcut olan 3. taraf sağlayıcılardan birinden tercih ettiğiniz varlığı satın alın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
     "dismiss": "Tamam"
   },
   "cashOutEducationDialog": {
     "title": "{{appName}} uygulamasından bakiye çekme",
-    "body": "{{appName}}, Celo Ağı tarafından desteklenmektedir. {{appName}}, ABD Dolarını izleyen stabil bir dijital para birimi olan Celo Dollar (cUSD) üzerinde çalışır.\n\n{{appName}} cüzdanınızdan fon çekmek için bulunduğunuz yerde bulunan 3. taraf sağlayıcılardan birinde cUSD satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
+    "body": "{{appName}} bakiyenizi çekmek için, bulunduğunuz yerde mevcut olan 3. taraf sağlayıcılardan biriyle istediğiniz varlığı satın. Daha fazla bilgi için lütfen <0>{{link}}</0> adresini ziyaret edin",
     "dismiss": "Tamam"
   },
   "explanationModal": {
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Arkadaşlarınızı davet edin ve ödüller kazanın",
-    "body": "{{appName}} cüzdanlarını kurup 5 cUSD yatırdıklarında, ikiniz de 0,50 cUSD alacaksınız."
+    "body": "{{appName}} cüzdanlarını kurup fon eklediklerinde, ikiniz de 0,50 cUSD alacaksınız."
   },
   "inviteWithUrl": {
     "title": "Arkadaşını davet et",
@@ -639,28 +642,28 @@
     "button": "Davet gönder",
     "error": "Bağlantı oluşturulurken bir sorun oluştu",
     "share": "Hey! {{appName}} cüzdanına kaydolun. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: {{shareUrl}}.",
-    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması ve {{appName}} cüzdanında 5 cUSD veya daha fazla tutarı 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
+    "help": "Bu ödülü almak için davetlinin davet bağlantısı üzerinden indirme yapması, telefon numarasını bağlaması, fon eklemesi ve {{appName}} cüzdanında bunu 7 gün tutması gerekmektedir. <0>Tüm şartları görüntüle</0>",
     "rewardsActive": {
       "title": "Arkadaşlarınızı davet edin ve NFT toplayın",
       "body": "Arkadaşlarınızı ve ailenizi {{appName}} uygulamasını indirmeye davet edin ve her biriniz özel bir NFT kazanın"
     },
     "rewardsActiveCUSD": {
-      "title": "SADECE SINIRLI BİR SÜRE İÇİN GEÇERLİ. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
-      "body": "{{appName}} uygulamasına davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Fon eklediklerinde ve 7 gün boyunca 5 cUSD tuttuklarında ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
+      "title": "SINIRLI BİR SÜRE İÇİN GEÇERLİ. Arkadaşlarınızı Valora'ya davet ederek ücretsiz cUSD kazanın!",
+      "body": "Davet Ödülleri geri döndü ve eskisinden daha da kolay. {{appName}} uygulamasına davet ettiğiniz her arkadaşınız için 0,50 cUSD kazanın. Fon eklediklerinde ve 7 gün boyunca tuttuklarında ikiniz de 0,50 cUSD alacaksınız. Acele edin, fonlar sınırlıdır! (25 arkadaşla sınırlıdır)."
     }
   },
   "getReward": "${{reward}} kazanın",
   "welcomeCelo": "{{appName}} uygulamasına hoş geldiniz",
   "chooseCountryCode": "Ülke Kodu",
   "chooseCountry": "Ülke",
-  "joinText": "{{appName}} Celo Ağı üzerinde varlık almanızı, göndermenizi ve birikim yapmanızı sağlar.",
+  "joinText": "{{appName}} blok zincir üzerinde varlık almanızı, göndermenizi ve birikim yapmanızı sağlar.",
   "terms": {
     "title": "Şartlar ve koşullar",
     "heading1": "Veri ve Gizlilik",
     "heading2": "Celo Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
-    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası Celo Ağı'nda saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. cLabs veya Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. CELO, cUSD ve cEUR'un yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
+    "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
+    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "fullNameOrPsuedonym": "Tam ad veya takma ad",
   "namePlaceholder": "örn. isim",
@@ -722,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Veri Tasarrufu ile Bağlantı Yeniden Denesin mi?",
     "body1": "Telefon numaranız bağlanırken bir sorun oluştu. Veri Tasarrufu modu etkin olarak tekrar denemenizi öneririz.",
-    "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak Celo Ağı ile daha tutarlı bir şekilde iletişim kurmanıza olanak tanır.",
+    "body2": "Veri Tasarrufu modu, güvenilir bir bağlantı kullanarak ağ ile daha tutarlı bir şekilde iletişim kurmanıza olanak tanır.",
     "retryButton": "Veri Tasarrufu modu ile tekrar dene"
   },
   "congratsVerified": "Tebrikler, telefon numaranız bağlandı!",
@@ -816,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Emin misiniz?",
-    "body": "Bağlanmak, herhangi bir telefon numarasına para gönderip almanıza olanak tanır.\n\nBağlı olmayan hesaplar yalnızca Celo adreslerini veya QR kodlarını kullanarak ödeme gönderebilir.",
+    "body": "Bağlanmak, herhangi bir telefon numarasına fon gönderip almanıza olanak tanır.\n\nBağlı olmayan hesaplar yalnızca cüzdan adreslerini veya QR kodlarını kullanarak ödeme gönderebilir.",
     "cancel": "Geri Dön",
     "confirm": "Şimdilik Atla"
   },
@@ -941,7 +944,7 @@
   "commentLabel": "Mesaj",
   "amountSent": "Gönderilen Tutar",
   "amountCeloWithdrawn": "Miktar (CELO)",
-  "feeEducation": "Celo Blokzinciri, ağı desteklemek ve sorunsuz çalışmasını sağlamak için bir işlem ücreti alır.",
+  "feeEducation": "Blok zincirleri, ağları desteklemek ve sorunsuz çalışmalarını sağlamak için bir işlem ücreti alır.",
   "reviewPayment": "Ödemeyi Gözden Geçir",
   "requestPayment": "Ödeme İste",
   "max": "MAKS.",
@@ -962,7 +965,7 @@
   "inviteWithoutPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Denemen için seni davet etmek isterim. Bu bağlantıya göz atabilirsin: {{link}}",
   "inviteWithEscrowedPayment": "Merhaba, dünyanın her tarafına kripto göndermek için {{appName}} kullanıyorum. Sana az önce {{amount}} {{token}} gönderdim. {{appName}} uygulamasını indirerek {{token}} miktarını alabilmen lütfen şu bağlantıyı tıkla{{link}}",
   "inviteWithRewards": "Merhaba! 👋 {{appName}} uygulamasını kripto cüzdanım olarak kullanıyorum. Uygulamayı indirmek ve telefon numaranı bağlamak çok kolay, ayrıca ikimiz de ödül olarak özel bir NFT sürümü alacağız. 💫 \n\nBu bağlantıyla indir: {{link}}",
-  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanına kaydolur ve fon yatırırsanız ikimiz de ücretsiz 0,50 cUSD ödül kazanabiliriz. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAcele edin, davet promosyonu yakında sona eriyor.",
+  "inviteWithRewardsCUSD": "Hey! Şu anda Valora cüzdanına kaydolur ve fon yatırırsanız ikimiz de ücretsiz 0,50 USD ödül kazanabiliriz. Tasarruflarımı USD ve kripto olarak büyütmek için bunu kullanıyorum ve siz de sadece bir telefon numarasıyla saniyeler içinde kurabilirsiniz. Buradaki davet bağlantımla kaydolduğunuzdan emin olun: \n\n{{link}} \n\nAncak acele edin, davet promosyonu yakında sona eriyor.",
   "loadingContacts": "Kişilerinizi bulma",
   "myCode": "Benim Kodum",
   "scanCode": "Tara",
@@ -1001,21 +1004,21 @@
     "importing": "İçe Aktarılıyor..."
   },
   "confirmAccount": {
-    "header": "{{displayName}} birden fazla cüzdanı vardır.",
+    "header": "{{displayName}} birden fazla cüzdana sahiptir.",
     "headerNoDisplayName": "Bu telefon numarasının birden fazla cüzdanı var.",
-    "button": "Cüzdan Adresini Onayla"
+    "button": "Cüzdan Adresini Onaylayın"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}}ile ilişkili birden fazla cüzdan vardır. Doğru hesaba sahip olduğunuzu doğrulamak için lütfen QR kodlarını tarayın veya cüzdan adreslerini girin.",
+    "body1": "{{e164PhoneNumber}} ile ilişkili birden fazla cüzdan var. Sizde doğru hesap olduğunu doğrulamak için lütfen QR kodlarını tarayın veya cüzdan adreslerini girin.",
     "body2": "İşlem yapmadan önce kare kodu taramanız veya Hesap Adreslerini onaylamanız gerekiyor."
   },
   "confirmAccountNumber": {
-    "title": "Cüzdan Adresini Onayla",
-    "bodyPartial": "Lütfen {{displayName}} adresinden cüzdan adreslerinin son dört hanesini isteyin. Bunu şahsen veya telefonla yapmak en güvenli yoldur.",
-    "bodyPartialNoDisplayName": "Lütfen irtibat kurduğunuz kişiden cüzdan adresinin son dört hanesini isteyin. Bunu şahsen veya telefon görüşmesi ile yapmak en güvenli yoldur.",
-    "body1Full": "Lütfen {{displayName}} adresinden Cüzdan Adreslerini isteyin.",
-    "body1FullNoDisplayName": "Lütfen irtibat kişinizden Cüzdan Adreslerini isteyin.",
-    "body2Full": "Bunu yapmanın en güvenli yolu yüz yüze görüşmektir. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
+    "title": "Cüzdan Adresini Onaylayın",
+    "bodyPartial": "Lütfen {{displayName}} adlı kişiden cüzdan adresinin son dört hanesini isteyin. Bunu yüz yüze veya telefonla yapmak en güvenli yöntemdir.",
+    "bodyPartialNoDisplayName": "Lütfen ilgili kişinizden cüzdan adresinin son dört hanesini isteyin. Bunu yüz yüze veya telefonla yapmak en güvenli yöntemdir.",
+    "body1Full": "Lütfen {{displayName}} adlı kişiden Cüzdan Adresini isteyin.",
+    "body1FullNoDisplayName": "Lütfen ilgili kişinizden Cüzdan Adresini isteyin.",
+    "body2Full": "Bunu yüz yüze yapmak en güvenli yöntemdir. Güvenlik için lütfen kısa mesaj (SMS) kullanmayın.",
     "help": "Bir Cüzdan Adresini nerede bulabilirim?",
     "submit": "Kaydet"
   },
@@ -1053,8 +1056,8 @@
     "operation": "İşlem",
     "data": "Veri",
     "sign": "Bir veri yükü onaylayın",
-    "signTransaction": "CELO işlemi",
-    "sendTransaction": "CELO işlemi gönder",
+    "signTransaction": "Bir işlemi imzala",
+    "sendTransaction": "Bir işlemi gönder",
     "decrypt": "Bir veri yükünün şifresini çöz",
     "accounts": "{{appName}} Hesap Adresinizi okuyun",
     "details": "İşlem verilerini görüntüle",
@@ -1067,25 +1070,44 @@
     "signPayloadTitle": "Cüzdanı doğrula",
     "signPayload": "{{dappName}} cüzdanınızın sahipliğini doğrulamak istiyor.",
     "signTransactionTitle": "İşlemi imzala",
-    "signTransaction": "{{dappName}} bir Celo işlemini imzalamak istiyor.",
+    "signTransaction": "{{dappName}} bir işlemi imzalamak istiyor.",
+    "signDappTransaction": "{{dappName}} {{networkName}} ağındaki bir işlemi imzalamak istiyor.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} desteklenmeyen ağdaki bir işlemi imzalamak istiyor.",
     "sendTransactionTitle": "İşlem gönder",
-    "sendTransaction": "{{dappName}} bir Celo işlemini göndermek istiyor.",
+    "sendTransaction": "{{dappName}} bir işlemi göndermek istiyor.",
+    "sendDappTransaction": "{{dappName}} {{networkName}} ağındaki bir işlemi göndermek istiyor.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} desteklenmeyen ağdaki bir işlemi göndermek istiyor.",
     "decryptPayloadTitle": "Cüzdan ile şifre çözme",
     "decryptPayload": "{{dappName}} bir veri yükünün şifresini çözmek istiyor.",
     "computeSharedSecret": "{{dappName}} gizli kelimeler oluşturmak istiyor.",
     "transactionDataCopied": "İşlem verileri kopyalandı",
+    "estimatedNetworkFee": "Tahmini {{networkName}} Ağ Ücreti",
+    "networksList": "Ağlar",
+    "connectWalletAction": "Cüzdanı bağlayın",
+    "signTransactionAction": "İmzalayın",
+    "sendTransactionAction": "Gönder",
     "unsupportedChain": {
       "title": "Desteklenmeyen zincir",
-      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun."
+      "description": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen Celo'nun dapp tarafında aktif zincir olduğundan emin olun.",
+      "descriptionV1_74_one": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen {{supportedNetworkNames}} ağının dapp tarafında aktif zincir olduğundan emin olun.",
+      "descriptionV1_74_other": "{{dappName}} bu eylemi {{appName}} tarafından desteklenmeyen bir zincir üzerinde talep ediyor. Lütfen dapp üzerindeki aktif zincirin şunlardan biri olduğundan emin olun: {{supportedNetworkNames}}."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Yetersiz gas token bakiyesi",
+      "description": "Gas ücretini karşılamak için yeterli {{feeCurrencies}} bakiyeniz yok. Bu işlemi tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin."
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen Celo'nun dapp tarafında seçili olduğundan emin olun."
+        "description": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen Celo'nun dapp tarafında seçili olduğundan emin olun.",
+        "descriptionV1_74_one": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen {{supportedNetworkNames}} ağının dapp tarafında seçili olduğundan emin olun.",
+        "descriptionV1_74_other": "{{dappName}}, {{appName}} tarafından desteklenmeyen bir zincirle bağlantı kurmak istiyor. Lütfen dapp tarafında şunlardan birinin seçili olduğundan emin olun: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Desteklenmeyen zincir",
-        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir."
+        "description": "{{dappName}} Celo'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
+        "descriptionV1_74_one": "{{dappName}} {{supportedNetworkNames}}'yu desteklenen bir zincir olarak belirtmedi. Bazı özellikler beklendiği gibi çalışmayabilir.",
+        "descriptionV1_74_other": "{{dappName}} aşağıdakilerden herhangi birini desteklenen bir zincir olarak belirtmemiştir: {{supportedNetworkNames}}. Bazı özellikler beklendiği gibi çalışmayabilir."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Desteklenmeyen yöntemler",
@@ -1257,7 +1279,7 @@
   "totalAssetsInfo": "Cüzdan varlıkları ve Dapp pozisyonlarının tahmini toplamını içerir",
   "assetsSegmentedControl": {
     "walletAssets": "Cüzdan varlıkları",
-    "dappPositions": "Dapp pozisyonları"
+    "dappPositions": "DeFi"
   },
   "open": "Aç",
   "nftViewer": "NFT Viewer",
@@ -1407,8 +1429,8 @@
   "noMoreTransactions": "Başka işlem yok",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Satın alımlar ortak sağlayıcılarımız tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır.",
-    "disclaimerWithSomePaymentsUnavailable": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
-    "disclaimer": "Ödemeler Celo'daki ortaklar tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişebilir. Bazı ödeme yöntemleri bölgenizde kullanılamamaktadır. <0>Daha fazla bilgi edinin.</0>",
+    "disclaimer": "Ödemeler ağ ortakları tarafından desteklenmektedir. Ücretler değişebilir. <0>Daha fazla bilgi edinin.</0>",
     "learnMore": "Daha fazla bilgi edinin.",
     "whyMissingPayments": "Neden başka ödeme yöntemi göremiyorum?",
     "dismiss": "Yoksay",
@@ -1586,10 +1608,11 @@
       "selectCurrencyTitle": "Para Harcama"
     },
     "exchange": {
+      "informational": "Fon kaybını önlemek için bu adresi şu ağlarla uyumlu borsalarda veya varlıklarda kullanın: <0>{{networks}}</0>",
       "copyAddress": "Adresi Kopyala",
-      "informationText": "Fon kaybını önlemek için yalnızca <0>Celo ağıyla uyumlu</0> borsaları veya varlıkları kullanın",
+      "informationText": "Fon kaybını önlemek için yalnızca <0>{{appName}} tarafından desteklenen ağlarla uyumlu</0> borsaları veya varlıkları kullanın",
       "bottomSheetTitle": "Para yatırmak için hangi borsaları kullanabilirim?",
-      "bottomSheetInfo": "Celo ağı ile uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
+      "bottomSheetInfo": "{{appName}} tarafından desteklenen ağlarla uyumlu varlıklar gönderdiğinizi iki kez kontrol edin."
     }
   },
   "fiatDetailsScreen": {
@@ -1669,12 +1692,14 @@
     "tokenUsdValueUnknown": "-",
     "switchedToNetworkWarning": {
       "title": "{{networkName}} ağına geçtiniz",
-      "body_swapFrom": "Devam etmek için {{networkName}} ağında takas edilecek bir token seçin.",
-      "body_swapTo": "Devam etmek için {{networkName}} ağında takas edilecek bir token seçin."
+      "body_swapFrom": "Devam etmek için {{networkName}} ağında kendisinden swap yapılacak bir token seçin.",
+      "body_swapTo": "Devam etmek için {{networkName}} ağında kendisine swap yapılacak bir token seçin."
     },
     "maxSwapAmountWarning": {
       "title": "MAKS. miktarda takas",
+      "titleV1_74": "MAKS. miktarda takas",
       "body": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda CELO bulundurun",
+      "bodyV1_74": "Gelecekteki işlemlerinizin gas ücretlerini karşılamak için cüzdanınızda {{tokenSymbol}} bulundurun",
       "learnMore": "Daha fazla bilgi edinin"
     },
     "priceImpactWarning": {
@@ -1707,7 +1732,7 @@
       "swapFeeWaived": "Ücretsiz",
       "slippagePercentage": "Slipaj Toleransı",
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
-      "slippageToleranceInfo": "Kayma toleransı\n\nTakas işleminiz kayma toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat kayma toleransından daha fazla değişirse, {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
+      "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
       "estimatedValue": "Tahmini Değer"
@@ -1783,7 +1808,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "{{contactName}} adlı kişiyi {{appName}} uygulamasına davet edin ve 0,50 cUSD kazanın",
-      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan ve cüzdanına 5 cUSD yatırdıktan sonra, para cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
+      "body": "Görünüşe göre {{contactName}} Valora kullanmıyor. Bu kişinin cüzdan adresini biliyorsanız, yine de bir ödeme gönderebilir veya bunun yerine davet gönderebilirsiniz. \n\n Bu kişi Valora'yı indirdikten, telefon numarasını bağladıktan, fon ekledikten ve cüzdanında bunu 7 gün tuttuktan sonra, fonlar cüzdanda kaldığı sürece ikiniz de 0,50 cUSD alacaksınız."
     }
   },
   "celoNews": {
@@ -1825,7 +1850,7 @@
     "withdraw": "Çek"
   },
   "nftGallery": {
-    "title": "Koleksiyon Ürünleri",
+    "title": "Koleksiyonlar",
     "noNfts": "Cüzdanınızda bir tane olduğunda NFT'leriniz burada görüntülenecektir"
   },
   "nftInfoCarousel": {
@@ -1856,8 +1881,8 @@
     "networkName": "{{networkName}} Ağı",
     "tabBar": {
       "tokens": "Tokenlar",
-      "collectibles": "Koleksiyon Ürünleri",
-      "dappPositions": "Dapp Pozisyonları"
+      "collectibles": "Koleksiyonlar",
+      "dappPositions": "DeFi"
     },
     "importToken": "İçe Aktar"
   },
@@ -1880,6 +1905,8 @@
     "moreActions": "Daha Fazla Eylem",
     "actionDescriptions": {
       "send": "Herhangi bir Celo adresi, alan adı, telefon numarası vb. kullanın.",
+      "sendV1_74_one": "Bir {{supportedNetworkNames}} adresi, alan adı, telefon numarası vb. kullanın.",
+      "sendV1_74_other": "Şu ağlardaki bir adres, alan adı, telefon numarasını kullanın: {{supportedNetworkNames}}",
       "swap": "Tokenlerinizi cüzdanınızdan çıkmadan swap edin",
       "add": "Güvenilir sağlayıcılarımızdan birini kullanarak token satın alın",
       "withdraw": "Jetonları bir banka hesabına, mobil paraya, hediye kartına vb. aktarın."
@@ -1895,9 +1922,7 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
-      "alreadyImported": "Token daha önce zaten eklenmiş.",
-      "alreadySupported": "Token zaten desteklenmektedir."
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"
@@ -1981,17 +2006,17 @@
     "estimatedNetworkFee": "Tahmini ağ ücreti",
     "networkFee": "Ağ ücreti",
     "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} işlem için onaylandı",
-    "infiniteApprovalDescription": "{{tokenSymbol}} işlem için onaylandı",
+    "infiniteApprovalDescription": "{{tokenSymbol}} işlem için süresiz onaylandı",
     "revokeApprovalDescription": "{{tokenSymbol}} işlem için iptal edildi",
     "descriptionLabel": "Detaylar"
   },
   "multichainBeta": {
     "beta": "BETA",
     "title": "Yeni! Ethereum Valora'da",
-    "description1": "Bu özelliği ilk olarak seçkin bir grup insana açıyoruz. Siz şanslı olanlardan birisiniz!",
-    "description2": "Bu hala yeni ve ekibimiz işleri mükemmel hale getirmek için hala çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
+    "description1": "Bu özelliği ilk olarak seçkin bir grup kullanıcıya sunuyoruz. Siz şanslı olanlardan birisiniz!",
+    "description2": "Bu henüz yeni ve ekibimiz işleri mükemmel hale getirmek için hâlâ çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
     "primaryCta": "Şimdi deneyin",
-    "secondaryCta": "Hayır, teşekkürler."
+    "secondaryCta": "Hayır, teşekkürler"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

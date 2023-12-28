@@ -263,7 +263,6 @@ export interface RemoteConfigValues {
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
   dappsMinimalDisclaimerEnabled: boolean
-  guaranteedSwapPriceEnabled: boolean
   priceImpactWarningThreshold: number
   superchargeRewardContractAddress: string
 }
@@ -339,6 +338,25 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     const pathParts = rawParams.path.split('/')
+    const pathStartsWith = pathParts[1].split('?')[0]
+    // Only log detailed paramters (fullPath and query) for allowed paths. This is a security precaution so we
+    // don't accidentally log sensitive information on new deeplinks. 'jumpstart' is specifically excluded
+    const pathStartsWithAllowList = [
+      'pay',
+      'dappkit',
+      'cashIn',
+      'bidali',
+      'cash-in-success',
+      'cash-in-failure',
+      'openScreen',
+      'share',
+      'hooks',
+    ]
+    ValoraAnalytics.track(AppEvents.handle_deeplink, {
+      pathStartsWith: pathParts[1].split('?')[0],
+      fullPath: pathStartsWithAllowList.includes(pathStartsWith) ? rawParams.pathname : null,
+      query: pathStartsWithAllowList.includes(pathStartsWith) ? rawParams.query : null,
+    })
     if (rawParams.path.startsWith('/pay')) {
       yield* call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {

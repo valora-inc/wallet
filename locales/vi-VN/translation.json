@@ -20,7 +20,7 @@
   "shareAnalytics_detail": "Chúng tôi thu thập dữ liệu ẩn danh về cách bạn sử dụng {{appName}} để góp phần cải thiện ứng dụng cho mọi người.",
   "dataSaver": "Tiết kiệm dữ liệu",
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
-  "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với Celo Network qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
+  "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với mạng qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
   "keylessBackupSettingsTitle": "Khôi phục bằng email và số điện thoại",
   "setup": "Thiết lập",
   "restartModalSwitchOff": {
@@ -161,7 +161,7 @@
   "introBackUpPhrase": "Sao lưu Cụm từ khôi phục",
   "introCompleteQuiz": "Hoàn thành câu hỏi kiểm tra sao lưu của chúng tôi để xác minh đảm bảo ví của bạn có thể được khôi phục.\n\nNếu viết sai cụm từ khôi phục, bạn sẽ không thể truy cập vào ví trong trường hợp xảy bất kỳ sự cố nào với thiết bị.",
   "postSetupTitle": "Cụm từ khôi phục của bạn",
-  "postSetupBody": "Nếu mất Cụm từ khôi phục, bạn sẽ mất quyền truy cập vào tất cả Đô la Celo và CELO của mình. Không ai, kể cả {{appName}}, có thể giúp bạn khôi phục tài khoản khi không có Cụm từ khôi phục. Hãy lưu giữ Cụm từ này ở nơi an toàn và không chia sẻ với bất kỳ ai.",
+  "postSetupBody": "Nếu để mất Cụm từ khôi phục, bạn sẽ mất quyền truy cập vào mọi tài sản của mình trên {{appName}}. Không ai kể cả {{appName}} có thể giúp bạn khôi phục tài khoản mà không có Cụm từ khôi phục. Hãy lưu giữ cụm từ này ở nơi an toàn và không chia sẻ với người khác.",
   "postSetupCTA": "Tìm hiểu về Cụm từ khôi phục",
   "failedFetchMnemonic": "Không tìm nạp được Cụm từ khôi phục của bạn",
   "backupAndRecovery": "Sao lưu và khôi phục",
@@ -265,6 +265,9 @@
   "confirmTransaction": "Xác nhận giao dịch",
   "allow": "Cho phép",
   "address": "Địa chỉ ví",
+  "supportedNetwork": "Mạng được hỗ trợ: {{network}}",
+  "supportedNetworks": "Các mạng được hỗ trợ: {{networks}}",
+  "and": "và",
   "phoneNumber": "Số điện thoại",
   "transaction": {
     "operation": "Hoạt động",
@@ -355,16 +358,16 @@
   "payWithCard": "Thẻ ghi nợ",
   "payWithExchange": "Sàn giao dịch tiền điện tử",
   "selectCashOutMethod": "Chọn phương thức:",
-  "receiveOnAddress": "Địa chỉ Celo",
+  "receiveOnAddress": "Địa chỉ ví",
   "receiveWithBidali": "Thẻ quà tặng và nạp tiền di động",
   "fundingEducationDialog": {
     "title": "Nạp tiền vào {{appName}} của bạn",
-    "body": "{{appName}} là ứng dụng do Celo Network cung cấp. {{appName}} hoạt động dựa trên Đô la Celo (cUSD), một loại tiền kỹ thuật số ổn định neo giá theo đồng Đô la Mỹ.\n\nĐể nạp tiền vào ví {{appName}}, hãy mua cUSD từ nhà cung cấp bên thứ ba có ở vị trí của bạn. Để biết thêm thông tin, vui lòng truy cập <0>{{link}}</0>",
+    "body": "Để nạp tiền vào ví {{appName}} của bạn, hãy mua tài sản bạn muốn từ một trong các nhà cung cấp dịch vụ bên thứ 3 hiện có ở khu vực của bạn. Để biết thêm thông tin, vui lòng truy cập <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Rút tiền từ {{appName}}",
-    "body": "{{appName}} là ứng dụng do Celo Network cung cấp. {{appName}} hoạt động dựa trên Đô la Celo (cUSD), một loại tiền kỹ thuật số ổn định neo giá theo đồng Đô la Mỹ.\n\nĐể rút số dư {{appName}}, hãy bán cUSD qua nhà cung cấp bên thứ ba có ở vị trí của bạn. Để biết thêm thông tin, vui lòng truy cập <0>{{link}}</0>",
+    "body": "Để rút số dư trên {{appName}}, hãy bán tài sản mong muốn cho một trong các nhà cung cấp dịch vụ bên thứ 3 hiện có ở khu vực của bạn. Để biết thêm thông tin, vui lòng truy cập <0>{{link}}</0>",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -558,12 +561,12 @@
     "thứ 29",
     "thứ 30"
   ],
-  "addressValidationError": "Incorrect wallet address",
-  "addressValidationNoMatch": "Incorrect wallet address",
-  "addressValidationFullPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
-  "addressValidationPartialPoorlyFormatted": "Wallet addresses begin with \"0x\" and are 42 characters long",
-  "addressValidationFullOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
-  "addressValidationPartialOwnAddress": "This is your wallet address, please enter your contact’s wallet address.",
+  "addressValidationError": "Sai địa chỉ ví",
+  "addressValidationNoMatch": "Sai địa chỉ ví",
+  "addressValidationFullPoorlyFormatted": "Địa chỉ ví bắt đầu bằng \"0x\" và có 42 ký tự",
+  "addressValidationPartialPoorlyFormatted": "Địa chỉ ví bắt đầu bằng \"0x\" và có 42 ký tự",
+  "addressValidationFullOwnAddress": "Đây là địa chỉ ví của bạn, vui lòng nhập địa chỉ ví của người liên hệ.",
+  "addressValidationPartialOwnAddress": "Đây là địa chỉ ví của bạn, vui lòng nhập địa chỉ ví của người liên hệ.",
   "providerRateFetchFailed": "Không thể tìm nạp tỷ giá của nhà cung cấp. Bạn có thể tiếp tục mà không cần tỷ giá điền sẵn.",
   "helpFindAccount": "Giúp người liên hệ của bạn tìm Địa chỉ tài khoản của họ",
   "close": "Đóng",
@@ -631,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Mời bạn bè và nhận tiền thưởng",
-    "body": "Sau khi họ thiết lập và nạp 5 cUSD vào ví {{appName}} của mình, cả hai bạn đều sẽ nhận được 0,50 cUSD."
+    "body": "Sau khi họ thiết lập và nạp tiền vào ví {{appName}}, cả hai bạn sẽ nhận được 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Mời bạn bè",
@@ -639,28 +642,28 @@
     "button": "Chia sẻ lời mời",
     "error": "Đã xảy ra lỗi khi tạo đường liên kết có thể chia sẻ",
     "share": "Xin chào! Hãy đăng ký ví {{appName}}. Tôi sử dụng ví này để gia tăng tiết kiệm bằng USD và tiền điện tử. Và chỉ bằng số điện thoại, bạn có thể tạo ví trong vài giây. Nhớ đăng ký bằng đường liên kết giới thiệu này của tôi nhé: {{shareUrl}}.",
-    "help": "Để thu thập tiền thưởng này, người được mời phải tải ứng dụng bằng đường liên kết giới thiệu, kết nối số điện thoại của họ và duy trì 5 cUSD trở lên trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
+    "help": "Để nhận thưởng, người được mời phải tải xuống qua liên kết giới thiệu, kết nối số điện thoại của họ, nạp tiền và giữ tiền trong ví {{appName}} trong 7 ngày. <0>Xem tất cả các điều khoản</0>",
     "rewardsActive": {
       "title": "Mời bạn bè và nhận NFT",
       "body": "Mời bạn bè và gia đình tải xuống {{appName}} và mỗi người trong số các bạn sẽ nhận được một NFT độc quyền"
     },
     "rewardsActiveCUSD": {
-      "title": "THỜI GIAN CÓ HẠN. Hãy nhận cUSD miễn phí khi mời bạn bè tham gia Valora!",
-      "body": "Cứ mỗi một người bạn được giới thiệu tới {{appName}}, bạn sẽ nhận được 0,50 cUSD. Khi họ nạp tiền và duy trì 5 cUSD trong 7 ngày, cả hai bạn sẽ nhận được 0,50 cUSD mỗi người. Hãy nhanh chân, tiền thưởng có hạn! (Giới hạn 25 người bạn)."
+      "title": "THỜI GIAN CÓ HẠN. Nhận cUSD miễn phí khi mời bạn bè tham gia Valora!",
+      "body": "Chương trình Tiền thưởng giới thiệu đã quay trở lại và còn dễ dàng nhận được hơn trước. Nhận 0,50 cUSD mỗi khi bạn mời được một người bạn tham gia {{appName}}. Sau khi họ nạp tiền và giữ tiền trong 7 ngày, cả hai bạn sẽ nhận được 0,50 cUSD. Hãy nhanh tay lên, số tiền có hạn! (Giới hạn 25 bạn bè)."
     }
   },
   "getReward": "Nhận ${{reward}}",
   "welcomeCelo": "Chào mừng bạn đến với {{appName}}",
   "chooseCountryCode": "Mã quốc gia",
   "chooseCountry": "Quốc gia",
-  "joinText": "{{appName}} giúp bạn gửi, nhận và lưu giá trị trên Celo Network.",
+  "joinText": "{{appName}} giúp bạn gửi, nhận và tiết kiệm giá trị trên chuỗi khối.",
   "terms": {
     "title": "Điều khoản và điều kiện",
     "heading1": "Dữ liệu và quyền riêng tư",
     "heading2": "Tài sản Celo và tài khoản {{appName}}",
     "info": "Để sử dụng dịch vụ, vui lòng đọc và chấp nhận <0>Thỏa thuận và điều khoản người dùng</0> bằng cách nhấp vào nút chấp nhận bên dưới.",
-    "privacy": "Khi tham gia mạng lưới này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về cách bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, bản sao băm của số điện thoại sẽ được lưu trữ trên Celo Network. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
-    "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn đang tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm cLabs hay Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng CELO, cUSD và cEUR thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy xem xét thận trọng tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào."
+    "privacy": "Bằng việc tham gia mạng này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về việc bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, chúng tôi sẽ lưu trữ bản sao đã băm của số điện thoại. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
+    "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng tiền điện tử thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy cân nhắc kỹ tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào."
   },
   "fullNameOrPsuedonym": "Họ và tên hoặc biệt danh",
   "namePlaceholder": "tên",
@@ -722,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "Thử kết nối lại bằng chế độ Tiết kiệm dữ liệu?",
     "body1": "Đã xảy ra sự cố khi kết nối số điện thoại của bạn. Bạn nên thử lại sau khi bật chế độ Tiết kiệm dữ liệu.",
-    "body2": "Chế độ Tiết kiệm dữ liệu cho phép bạn giao tiếp mượt mà hơn với Celo Network bằng kết nối đáng tin cậy.",
+    "body2": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối mượt mà hơn với mạng bằng kết nối đáng tin cậy.",
     "retryButton": "Thử lại với chế độ Tiết kiệm dữ liệu"
   },
   "congratsVerified": "Xin chúc mừng, số điện thoại của bạn hiện đã được kết nối!",
@@ -816,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "Bạn có chắc chắn không?",
-    "body": "Sau khi kết nối, bạn có thể gửi và nhận tiền từ bất kỳ số điện thoại nào.\n\nTài khoản không được kết nối chỉ có thể gửi thanh toán bằng địa chỉ Celo hoặc mã QR.",
+    "body": "Sau khi kết nối, bạn có thể gửi và nhận tiền từ bất kỳ số điện thoại nào. \n\nTài khoản không được kết nối chỉ có thể gửi thanh toán bằng địa chỉ ví hoặc mã QR.",
     "cancel": "Quay lại",
     "confirm": "Tạm thời bỏ qua"
   },
@@ -939,7 +942,7 @@
   "commentLabel": "Tin nhắn",
   "amountSent": "Đã gửi số tiền",
   "amountCeloWithdrawn": "Số tiền (CELO)",
-  "feeEducation": "Chuỗi khối Celo thu phí giao dịch để hỗ trợ mạng lưới và đảm bảo mạng lưới hoạt động thông suốt.",
+  "feeEducation": "Chuỗi khối thu phí giao dịch để hỗ trợ các mạng và đảm bảo mạng hoạt động thông suốt.",
   "reviewPayment": "Xem lại thanh toán",
   "requestPayment": "Yêu cầu thanh toán",
   "max": "TỐI ĐA",
@@ -960,7 +963,7 @@
   "inviteWithoutPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Ứng dụng này rất dễ dùng nên tôi muốn mời bạn dùng thử bằng đường liên kết sau: {{link}}",
   "inviteWithEscrowedPayment": "Xin chào! Tôi đang sử dụng {{appName}} để gửi tiền điện tử trên toàn thế giới. Tôi vừa gửi cho bạn {{amount}} {{token}}. Vui lòng tải xuống Ứng dụng {{appName}} và chấp nhận {{token}} của bạn bằng đường liên kết sau: {{link}}",
   "inviteWithRewards": "Xin chào! 👋 Tôi đang sử dụng ví tiền điện tử {{appName}}. Bạn có thể tải nhanh ứng dụng này xuống và kết nối số điện thoại của mình, tất cả chúng ta sẽ cùng nhận được tiền thưởng dạng NFT phiên bản đặc biệt. 💫 \n\nSử dụng đường liên kết này để tải xuống: {{link}}",
-  "inviteWithRewardsCUSD": "Bạn ơi! Ngay lúc này, cả hai chúng ta đều có thể nhận được phần thưởng trị giá 0,50 cUSD miễn phí nếu bạn đăng ký và nạp tiền vào ví Valora đấy. Tôi sử dụng ví này để gia tăng tiết kiệm bằng USD và tiền điện tử. Và chỉ bằng số điện thoại, bạn có thể tạo ví trong vài giây. Nhớ đăng ký bằng đường liên kết giới thiệu này của tôi ở đây nhé: \n\n{{link}} \n\nTuy nhiên, hãy nhanh chân, chương trình ưu đãi dành cho người giới thiệu sẽ sớm kết thúc.",
+  "inviteWithRewardsCUSD": "Chào bạn! Ngay lúc này, cả hai chúng ta đều có thể nhận được tiền thưởng $0,50 miễn phí nếu bạn đăng ký và nạp tiền vào ví Valora. Tôi sử dụng ví này để gia tăng giá trị tiết kiệm bằng USD và tiền điện tử và bạn có thể dễ dàng tạo ví trong vòng vài giây bằng số điện thoại. Hãy nhớ đăng ký bằng đường liên kết giới thiệu này của tôi ở đây nhé: \n\n{{link}} \n\nHãy nhanh tay lên nhé, chương trình ưu đãi dành cho người giới thiệu sẽ sớm kết thúc.",
   "loadingContacts": "Đang tìm danh bạ của bạn",
   "myCode": "Mã của tôi",
   "scanCode": "Quét",
@@ -999,31 +1002,31 @@
     "importing": "Đang nhập..."
   },
   "confirmAccount": {
-    "header": "{{displayName}} has multiple wallets.",
-    "headerNoDisplayName": "This phone number has multiple wallets.",
-    "button": "Confirm Wallet Address"
+    "header": "{{displayName}} có nhiều ví.",
+    "headerNoDisplayName": "Số điện thoại này có nhiều ví.",
+    "button": "Xác nhận địa chỉ ví"
   },
   "secureSendExplanation": {
-    "body1": "There are multiple wallets associated with {{e164PhoneNumber}}. In order to confirm that you have the right account, please scan their QR code or enter their wallet address.",
+    "body1": "Có nhiều ví được liên kết với {{e164PhoneNumber}}. Để xác nhận bạn dùng đúng tài khoản, vui lòng quét mã QR hoặc nhập địa chỉ ví của họ.",
     "body2": "Bạn phải quét mã QR của họ hoặc xác nhận Địa chỉ tài khoản của họ trước khi giao dịch."
   },
   "confirmAccountNumber": {
-    "title": "Confirm Wallet Address",
-    "bodyPartial": "Please ask {{displayName}} for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
-    "bodyPartialNoDisplayName": "Please ask your contact for the last four digits of their wallet address. It's safest to do this in person or by phone call.",
-    "body1Full": "Please ask {{displayName}} for their Wallet Address.",
-    "body1FullNoDisplayName": "Please ask your contact for their Wallet Address.",
-    "body2Full": "The safest way to do this is in person. For security, please do not use text messaging (SMS).",
-    "help": "Where can I find a Wallet Address?",
+    "title": "Xác nhận địa chỉ ví",
+    "bodyPartial": "Hãy yêu cầu {{displayName}} cung cấp bốn chữ số cuối trong địa chỉ ví của họ. Cách hỏi an toàn nhất là hỏi trực tiếp hoặc qua điện thoại.",
+    "bodyPartialNoDisplayName": "Hãy yêu cầu người liên hệ cung cấp bốn chữ số cuối trong địa chỉ ví của họ. Cách hỏi an toàn nhất là hỏi trực tiếp hoặc qua điện thoại.",
+    "body1Full": "Hãy yêu cầu {{displayName}} cung cấp Địa chỉ ví của họ.",
+    "body1FullNoDisplayName": "Hãy yêu cầu người liên hệ cung cấp Địa chỉ ví của họ.",
+    "body2Full": "Cách hỏi an toàn nhất là hỏi trực tiếp. Vì lý do bảo mật, vui lòng không dùng tin nhắn văn bản (SMS).",
+    "help": "Tôi có thể tìm Địa chỉ ví ở đâu?",
     "submit": "Gửi"
   },
   "accountInputHeaderPartial": "4 chữ số cuối",
   "accountInputHeaderFull": "Địa chỉ tài khoản",
   "helpModal": {
-    "header": "Locating a wallet address",
-    "body1": "Your wallet address is located in the menu. Open the menu by tapping the menu icon in the top left corner.",
-    "body2": "Your wallet address is near the bottom of the menu.",
-    "body3": "Wallet addresses begin with \"0x\" and are 42 characters long"
+    "header": "Đang tìm địa chỉ ví",
+    "body1": "Địa chỉ ví của bạn nằm trong menu. Hãy mở menu bằng cách nhấn vào biểu tượng menu ở góc trái cùng bên trái.",
+    "body2": "Địa chỉ ví của bạn nằm gần phần dưới cùng của menu.",
+    "body3": "Địa chỉ ví bắt đầu bằng \"0x\" và có 42 ký tự"
   },
   "transferAddressChanged": "Người liên hệ này đã thay đổi Địa chỉ tài khoản sau giao dịch. Khoản thanh toán này đã được gửi đến:",
   "addressConfirmed": "Đã xác nhận Địa chỉ tài khoản",
@@ -1051,8 +1054,8 @@
     "operation": "Hoạt động",
     "data": "Dữ liệu",
     "sign": "Ký xác nhận gói truyền tải dữ liệu",
-    "signTransaction": "Ký xác nhận giao dịch Celo",
-    "sendTransaction": "Gửi giao dịch Celo",
+    "signTransaction": "Ký giao dịch",
+    "sendTransaction": "Gửi giao dịch",
     "decrypt": "Giải mã gói truyền tải dữ liệu",
     "accounts": "Đọc Địa chỉ tài khoản {{appName}} của bạn",
     "details": "Xem dữ liệu giao dịch",
@@ -1065,25 +1068,44 @@
     "signPayloadTitle": "Xác minh ví",
     "signPayload": "{{dappName}} muốn xác minh chủ sở hữu ví của bạn.",
     "signTransactionTitle": "Ký xác nhận giao dịch",
-    "signTransaction": "{{dappName}} muốn ký giao dịch Celo.",
+    "signTransaction": "{{dappName}} muốn ký giao dịch.",
+    "signDappTransaction": "{{dappName}} muốn ký giao dịch trên mạng {{networkName}}.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} muốn ký giao dịch trên mạng không được hỗ trợ.",
     "sendTransactionTitle": "Gửi giao dịch",
-    "sendTransaction": "{{dappName}} muốn xác nhận giao dịch Celo.",
+    "sendTransaction": "{{dappName}} muốn gửi giao dịch.",
+    "sendDappTransaction": "{{dappName}} muốn gửi giao dịch trên mạng {{networkName}}.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} muốn gửi giao dịch trên mạng không được hỗ trợ.",
     "decryptPayloadTitle": "Giải mã bằng ví",
     "decryptPayload": "{{dappName}} muốn giải mã tải trọng dữ liệu.",
     "computeSharedSecret": "{{dappName}} muốn tạo bí mật.",
     "transactionDataCopied": "Dữ liệu giao dịch được sao chép",
+    "estimatedNetworkFee": "Phí mạng {{networkName}} ước tính",
+    "networksList": "Mạng",
+    "connectWalletAction": "Kết nối ví",
+    "signTransactionAction": "Ký",
+    "sendTransactionAction": "Gửi",
     "unsupportedChain": {
       "title": "Chuỗi không được hỗ trợ",
-      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp."
+      "description": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi Celo đang hoạt động trên dapp.",
+      "descriptionV1_74_one": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo chuỗi {{supportedNetworkNames}} đang hoạt động trên dapp.",
+      "descriptionV1_74_other": "{{dappName}} đang yêu cầu hành động này trên chuỗi không được {{appName}} hỗ trợ. Будь ласка, переконайтеся, що активний ланцюжок на dapp є одним із таких: {{supportedNetworkNames}}."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Số dư token gas không đủ",
+      "description": "Bạn không có đủ {{feeCurrencies}} để trả phí giao dịch. Vui lòng nạp {{feeCurrencies}} vào ví để hoàn thành giao dịch này."
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chuỗi không được hỗ trợ",
-        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo Celo được chọn trên dapp."
+        "description": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo Celo được chọn trên dapp.",
+        "descriptionV1_74_one": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Vui lòng đảm bảo {{supportedNetworkNames}} được chọn trên dapp.",
+        "descriptionV1_74_other": "{{dappName}} muốn kết nối với một chuỗi không được {{appName}} hỗ trợ. Будь ласка, переконайтеся, що активний ланцюжок на dapp є одним із таких: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Chuỗi không được hỗ trợ",
-        "description": "Celo không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn."
+        "description": "Celo không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn.",
+        "descriptionV1_74_one": "{{supportedNetworkNames}} không được chỉ định là chuỗi được hỗ trợ trên {{dappName}}. Một số tính năng có thể không hoạt động như mong muốn.",
+        "descriptionV1_74_other": "{{dappName}} не вказав жодного з наступного як підтримувані ланцюжки: {{supportedNetworkNames}}. Деякі функції можуть не працювати належним чином."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Các phương thức không được hỗ trợ",
@@ -1255,7 +1277,7 @@
   "totalAssetsInfo": "Bao gồm ước tính tổng tài sản ví và lệnh giao dịch trên dapp",
   "assetsSegmentedControl": {
     "walletAssets": "Tài sản ví",
-    "dappPositions": "Lệnh giao dịch trên dapp"
+    "dappPositions": "DeFi"
   },
   "open": "Mở",
   "nftViewer": "Trình xem NFT",
@@ -1405,8 +1427,8 @@
   "noMoreTransactions": "Không còn giao dịch khác",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Giao dịch mua hàng được hỗ trợ bởi các nhà cung cấp đối tác của chúng tôi. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn.",
-    "disclaimerWithSomePaymentsUnavailable": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. Một số phương thức thanh toán không có sẵn tại khu vực của bạn. <0>Tìm hiểu thêm.</0>",
-    "disclaimer": "Giao dịch thanh toán được hỗ trợ bởi các đối tác trên Celo. Lệ phí có thể khác nhau. <0>Tìm hiểu thêm.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Thanh toán do các đối tác mạng hỗ trợ. Mức phí có thể khác nhau. Một số phương thức thanh toán không khả dụng ở khu vực của bạn. <0>Tìm hiểu thêm.</0>",
+    "disclaimer": "Thanh toán do các đối tác mạng hỗ trợ. Mức phí có thể khác nhau. <0>Tìm hiểu thêm.</0>",
     "learnMore": "Tìm hiểu thêm.",
     "whyMissingPayments": "Tại sao tôi không thấy các phương thức thanh toán khác?",
     "dismiss": "Bỏ qua",
@@ -1584,10 +1606,11 @@
       "selectCurrencyTitle": "Chi tiêu tiền"
     },
     "exchange": {
+      "informational": "Để tránh thất thoát tiền, hãy dùng địa chỉ này với các sàn giao dịch hay tài sản tương thích với các mạng sau: <0>{{networks}}</0>",
       "copyAddress": "Địa chỉ sao chép",
-      "informationText": "Chỉ sử dụng trao đổi hoặc tài sản <0>tương thích với mạng Celo</0>",
+      "informationText": "Chỉ dùng sàn giao dịch hay tài sản <0>tương thích với các mạng được {{appName}} hỗ trợ</0> để tránh thất thoát tiền",
       "bottomSheetTitle": "Tôi có thể sử dụng những trao đổi nào để gửi tiền?",
-      "bottomSheetInfo": "Kiểm tra kỹ xem bạn đang gửi tài sản tương thích với mạng Celo."
+      "bottomSheetInfo": "Kiểm tra kỹ xem bạn có đang gửi tài sản tương thích với mạng được {{appName}} hỗ trợ hay không."
     }
   },
   "fiatDetailsScreen": {
@@ -1666,13 +1689,15 @@
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
     "switchedToNetworkWarning": {
-      "title": "You switched to the {{networkName}} network",
-      "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
-      "body_swapTo": "Select a token to swap to on the {{networkName}} network to continue."
+      "title": "Bạn đã chuyển sang mạng {{networkName}}",
+      "body_swapFrom": "Để tiếp tục, hãy chọn một token để trao đổi từ mạng {{networkName}}.",
+      "body_swapTo": "Để tiếp tục, hãy chọn một token để trao đổi sang mạng {{networkName}}."
     },
     "maxSwapAmountWarning": {
       "title": "Trao đổi số tiền TỐI ĐA",
+      "titleV1_74": "Trao đổi số tiền TỐI ĐA",
       "body": "Đảm bảo bạn có CELO trong ví để thanh toán phí ga cho các giao dịch trong tương lai",
+      "bodyV1_74": "Đảm bảo bạn có {{tokenSymbol}} trong ví để thanh toán phí giao dịch cho các giao dịch trong tương lai",
       "learnMore": "Tìm hiểu thêm"
     },
     "priceImpactWarning": {
@@ -1685,7 +1710,7 @@
     },
     "confirmSwapFailedWarning": {
       "title": "Đã xảy ra lỗi",
-      "body": "The network speed is slow or there is an unknown error. Please try again later"
+      "body": "Tốc độ mạng chậm hoặc đã xảy ra lỗi chưa xác định. Vui lòng thử lại sau"
     },
     "estimatedExchangeRate": "Tỷ giá ước tính ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1705,7 +1730,7 @@
       "swapFeeWaived": "Miễn phí",
       "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
-      "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
+      "slippageToleranceInfo": "Tỷ lệ trượt giá chấp nhận\n\nViệc trao đổi sẽ được thực hiện trong phạm vi tỷ lệ trượt giá chấp nhận. Nếu giá thay đổi nhiều hơn tỷ lệ trượt giá chấp nhận, {{appName}} sẽ bảo vệ bạn bằng cách ngăn khớp lệnh giao dịch.",
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
       "estimatedValue": "Giá trị ước tính"
@@ -1781,7 +1806,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Mời {{contactName}} tham gia {{appName}} và nhận 0,50 cUSD",
-      "body": "Có vẻ như {{contactName}} không có trên Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải Valora, kết nối số điện thoại và nạp 5 cUSD vào ví của họ, cả hai bạn đều sẽ nhận được 0,50 cUSD trong thời gian quỹ tiền thưởng còn hiệu lực."
+      "body": "Có vẻ như {{contactName}} chưa sử dụng Valora. Nếu biết địa chỉ ví của họ, bạn vẫn có thể gửi khoản thanh toán hoặc gửi lời mời. \n\n Sau khi họ tải xuống Valora, kết nối số điện thoại, nạp tiền và giữ tiền trong ví trong 7 ngày, cả hai bạn đều sẽ nhận 0,50 cUSD trong thời gian quỹ tiền thưởng vẫn còn hiệu lực."
     }
   },
   "celoNews": {
@@ -1823,7 +1848,7 @@
     "withdraw": "Rút tiền"
   },
   "nftGallery": {
-    "title": "Các bộ sưu tập",
+    "title": "Bộ sưu tập",
     "noNfts": "NFT của bạn sẽ hiển thị ở đây sau khi bạn có một NFT trong ví của mình"
   },
   "nftInfoCarousel": {
@@ -1854,8 +1879,8 @@
     "networkName": "Mạng {{networkName}}",
     "tabBar": {
       "tokens": "Token",
-      "collectibles": "Các bộ sưu tập",
-      "dappPositions": "Lệnh giao dịch trên Dapp"
+      "collectibles": "Bộ sưu tập",
+      "dappPositions": "DeFi"
     },
     "importToken": "Nhập"
   },
@@ -1878,6 +1903,8 @@
     "moreActions": "Thao tác khác",
     "actionDescriptions": {
       "send": "Sử dụng địa chỉ Celo, tên miền, số điện thoại, v.v.",
+      "sendV1_74_one": "Sử dụng địa chỉ {{supportedNetworkNames}}, tên miền, số điện thoại, v.v.",
+      "sendV1_74_other": "Використовуйте будь-яку адресу, домен, номер телефону в таких мережах: {{supportedNetworkNames}}",
       "swap": "Trao đổi token mà không phải thoát khỏi ví",
       "add": "Mua token qua một trong những nhà cung cấp uy tín của chúng tôi",
       "withdraw": "Chuyển token vào tài khoản ngân hàng, ví di động, thẻ quà tặng, v.v."
@@ -1893,20 +1920,18 @@
       "network": "Mạng lưới"
     },
     "error": {
-      "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ",
-      "alreadyImported": "Token này đã được thêm vào trước đây.",
-      "alreadySupported": "Token đã được hỗ trợ."
+      "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ"
     },
     "importSuccess": "Đã nhập thành công token {{tokenSymbol}}",
     "importButton": "Nhập"
   },
   "sendSelectRecipient": {
     "searchText": "Tìm kiếm theo tên, số điện thoại, ví...",
-    "paste": "Paste from clipboard",
+    "paste": "Dán từ bảng nhớ tạm",
     "title": "Chọn người nhận",
     "contactsTitle": "Chọn một liên hệ",
     "recents": "Gần đây",
-    "results": "Results",
+    "results": "Kết quả",
     "qr": {
       "title": "Quét hoặc hiển thị mã QR",
       "subtitle": "Tìm nhanh địa chỉ trên Valora"
@@ -1921,7 +1946,7 @@
       "options": {
         "one": {
           "title": "Địa chỉ ví",
-          "subtitle": "Enter a network compatible wallet address (ex. 0x123...abcde)"
+          "subtitle": "Nhập địa chỉ ví tương thích với mạng (ví dụ: 0x123...abcde)"
         },
         "two": {
           "title": "Số điện thoại",
@@ -1945,7 +1970,7 @@
       "title": "Kết nối số điện thoại của bạn",
       "description": "Bạn cần kết nối số điện thoại của mình để có thể bắt đầu gửi tiền điện tử cho bạn bè"
     },
-    "unknownAddressInfo": "Please make sure this address supports the asset you are trying to send. Your funds may not be recoverable if this address is invalid."
+    "unknownAddressInfo": "Vui lòng đảm bảo địa chỉ này hỗ trợ tài sản bạn muốn gửi. Bạn có thể sẽ không thu hồi được tiền nếu địa chỉ này không hợp lệ."
   },
   "transactionStatus": {
     "transactionIsCompleted": "Đã hoàn tất",
@@ -1975,21 +2000,21 @@
     }
   },
   "transactionFeed": {
-    "approvalTransactionTitle": "Approval",
-    "estimatedNetworkFee": "Estimated network fee",
-    "networkFee": "Network fee",
-    "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
-    "infiniteApprovalDescription": "Approved {{tokenSymbol}} for trade",
-    "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
+    "approvalTransactionTitle": "Phê duyệt",
+    "estimatedNetworkFee": "Phí mạng ước tính",
+    "networkFee": "Phí mạng",
+    "finiteApprovalDescription": "Đã phê duyệt {{approvedAmount}} {{tokenSymbol}} để giao dịch",
+    "infiniteApprovalDescription": "Đã phê duyệt {{tokenSymbol}} không giới hạn cho giao dịch",
+    "revokeApprovalDescription": "Đã thu hồi {{tokenSymbol}} để giao dịch",
     "descriptionLabel": "Chi tiết"
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "New! Ethereum is on Valora",
-    "description1": "We’re opening up this feature to a select group of people first. You’re one of the lucky ones!",
-    "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
-    "primaryCta": "Try it now",
-    "secondaryCta": "No thanks"
+    "title": "Tin nóng hổi! Ethereum đã có trên Valora",
+    "description1": "Chúng tôi mở rộng tính năng này cho một nhóm người dùng được chọn trước. Bạn là một trong những người may mắn!",
+    "description2": "Tính năng này vẫn còn mới và nhóm của chúng tôi vẫn đang nỗ lực để hoàn chỉnh mọi thứ. Chúng tôi rất mong nhận được phản hồi của bạn.",
+    "primaryCta": "Thử ngay",
+    "secondaryCta": "Không, cảm ơn"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

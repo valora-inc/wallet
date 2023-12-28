@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 175,
+          "version": 178,
         },
         "account": {
           "acceptedTerms": false,
@@ -262,6 +262,7 @@ describe('store state', () => {
             "status": 0,
             "total": 0,
           },
+          "lastSavedContactsHash": null,
           "secureSendPhoneNumberMapping": {},
           "walletToAccountAddress": {},
         },
@@ -330,8 +331,7 @@ describe('store state', () => {
         },
         "swap": {
           "currentSwap": null,
-          "guaranteedSwapPriceEnabled": false,
-          "priceImpactWarningThreshold": 0.04,
+          "priceImpactWarningThreshold": 4,
         },
         "tokens": {
           "error": false,

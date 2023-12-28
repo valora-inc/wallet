@@ -15,6 +15,7 @@ import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
 import { NetworkId } from 'src/transactions/types'
+import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
@@ -225,6 +226,14 @@ describe('SwapScreen', () => {
 
     mockExperimentParams.mockReturnValue({
       swapBuyAmountEnabled: true,
+    })
+
+    const originalReadContract = publicClient.celo.readContract
+    jest.spyOn(publicClient.celo, 'readContract').mockImplementation(async (args) => {
+      if (args.functionName === 'allowance') {
+        return 0
+      }
+      return originalReadContract(args)
     })
   })
 
@@ -448,7 +457,7 @@ describe('SwapScreen', () => {
         fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '100000',
         amountType: 'sellAmount',
-        priceImpact: '0.052',
+        priceImpact: '5.2',
         provider: 'someProvider',
       }
     )
@@ -522,7 +531,7 @@ describe('SwapScreen', () => {
         fromTokenNetworkId: NetworkId['celo-alfajores'],
         amount: '100000',
         amountType: 'sellAmount',
-        priceImpact: undefined,
+        priceImpact: null,
         provider: 'someProvider',
       }
     )
@@ -835,11 +844,67 @@ describe('SwapScreen', () => {
           quote: {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
-            rawSwapResponse: defaultQuote as any,
+            price: defaultQuote.unvalidatedSwapTransaction.price,
+            provider: defaultQuote.details.swapProvider,
+            estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+            allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
           },
           userInput: {
             toTokenId: mockCusdTokenId,
             fromTokenId: mockCeloTokenId,
+            swapAmount: {
+              [Field.FROM]: '10',
+              [Field.TO]: '12.345678', // 10 * 1.2345678
+            },
+            updatedField: Field.FROM,
+          },
+        }),
+      ])
+    )
+  })
+
+  it('should start the swap without an approval transaction if the allowance is high enough', async () => {
+    jest.spyOn(publicClient.celo, 'readContract').mockResolvedValueOnce(BigInt(11 * 1e18)) // greater than swap amount of 10
+    mockFetch.mockResponse(
+      JSON.stringify({
+        ...defaultQuote,
+        unvalidatedSwapTransaction: {
+          ...defaultQuote.unvalidatedSwapTransaction,
+          buyTokenAddress: mockCeloAddress,
+          sellTokenAddress: mockCusdAddress,
+        },
+      })
+    )
+    const { getByText, store, swapToContainer, swapFromContainer, tokenBottomSheet } = renderScreen(
+      {}
+    )
+
+    selectToken(swapFromContainer, 'cUSD', tokenBottomSheet)
+    selectToken(swapToContainer, 'CELO', tokenBottomSheet)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '10')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([
+        swapStart({
+          swapId: expect.any(String),
+          quote: {
+            preparedTransactions: [preparedTransactions[1]], // no approval transaction
+            receivedAt: expect.any(Number),
+            price: defaultQuote.unvalidatedSwapTransaction.price,
+            provider: defaultQuote.details.swapProvider,
+            estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+            allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
+          },
+          userInput: {
+            toTokenId: mockCeloTokenId,
+            fromTokenId: mockCusdTokenId,
             swapAmount: {
               [Field.FROM]: '10',
               [Field.TO]: '12.345678', // 10 * 1.2345678
@@ -879,7 +944,10 @@ describe('SwapScreen', () => {
           quote: {
             preparedTransactions,
             receivedAt: quoteReceivedTimestamp,
-            rawSwapResponse: defaultQuote as any,
+            price: defaultQuote.unvalidatedSwapTransaction.price,
+            provider: defaultQuote.details.swapProvider,
+            estimatedPriceImpact: defaultQuote.unvalidatedSwapTransaction.estimatedPriceImpact,
+            allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
           },
           userInput: {
             toTokenId: mockCusdTokenId,

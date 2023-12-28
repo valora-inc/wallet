@@ -62,7 +62,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
   twelveWordMnemonicEnabled: false,
   dappsMinimalDisclaimerEnabled: false,
-  guaranteedSwapPriceEnabled: false,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
 }

@@ -354,8 +354,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
     dappsMinimalDisclaimerEnabled: flags.dappsMinimalDisclaimerEnabled.asBoolean(),
-    guaranteedSwapPriceEnabled: flags.guaranteedSwapPriceEnabled.asBoolean(),
-    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber(),
+    // Convert to percentage, so we're consistent with the price impact value returned by our swap API
+    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
   }
 }

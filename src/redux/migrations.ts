@@ -1044,7 +1044,7 @@ export const migrations = {
     ...state,
     swap: {
       ...state.swap,
-      guaranteedSwapPriceEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.guaranteedSwapPriceEnabled,
+      guaranteedSwapPriceEnabled: false,
     },
   }),
   111: (state: any) => state,
@@ -1472,5 +1472,25 @@ export const migrations = {
         return newItem
       }),
     },
+  }),
+  176: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      lastSavedContactsHash: null,
+    },
+  }),
+  177: (state: any) => ({
+    ...state,
+    swap: {
+      ...state.swap,
+      ...(state.swap.priceImpactWarningThreshold && {
+        priceImpactWarningThreshold: state.swap.priceImpactWarningThreshold * 100,
+      }),
+    },
+  }),
+  178: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'guaranteedSwapPriceEnabled'),
   }),
 }

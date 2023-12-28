@@ -128,8 +128,10 @@ export function SwapScreen({ route }: Props) {
     )
   )
 
-  const { exchangeRate, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } =
-    useSwapQuote(fromToken?.networkId || networkConfig.defaultNetworkId, slippagePercentage)
+  const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote(
+    fromToken?.networkId || networkConfig.defaultNetworkId,
+    slippagePercentage
+  )
 
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
@@ -140,11 +142,11 @@ export function SwapScreen({ route }: Props) {
     [swapAmount]
   )
 
-  const exchangeRateUpdatePending =
-    (exchangeRate &&
-      (exchangeRate.fromTokenId !== fromToken?.tokenId ||
-        exchangeRate.toTokenId !== toToken?.tokenId ||
-        !exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
+  const quoteUpdatePending =
+    (quote &&
+      (quote.fromTokenId !== fromToken?.tokenId ||
+        quote.toTokenId !== toToken?.tokenId ||
+        !quote.swapAmount.eq(parsedSwapAmount[updatedField]))) ||
     fetchingSwapQuote
 
   const confirmSwapIsLoading = swapStatus === 'started'
@@ -152,9 +154,9 @@ export function SwapScreen({ route }: Props) {
   const allowSwap = useMemo(
     () =>
       !confirmSwapIsLoading &&
-      !exchangeRateUpdatePending &&
+      !quoteUpdatePending &&
       Object.values(parsedSwapAmount).every((amount) => amount.gt(0)),
-    [parsedSwapAmount, exchangeRateUpdatePending, confirmSwapIsLoading]
+    [parsedSwapAmount, quoteUpdatePending, confirmSwapIsLoading]
   )
 
   useEffect(() => {
@@ -175,20 +177,19 @@ export function SwapScreen({ route }: Props) {
       // Basically clears the error message
       setStartedSwapId(null)
     }
-    // since we use the calculated exchange rate to update the parsedSwapAmount,
-    // this hook will be triggered after the exchange rate is first updated. this
-    // variable prevents the exchange rate from needlessly being calculated
-    // again.
-    const exchangeRateKnown =
+    // since we use the quote to update the parsedSwapAmount,
+    // this hook will be triggered after the quote is first updated. this
+    // variable prevents the quote from needlessly being fetched again.
+    const quoteKnown =
       fromToken &&
       toToken &&
-      exchangeRate &&
-      exchangeRate.toTokenId === toToken.tokenId &&
-      exchangeRate.fromTokenId === fromToken.tokenId &&
-      exchangeRate.swapAmount.eq(parsedSwapAmount[updatedField])
+      quote &&
+      quote.toTokenId === toToken.tokenId &&
+      quote.fromTokenId === fromToken.tokenId &&
+      quote.swapAmount.eq(parsedSwapAmount[updatedField])
 
     const debouncedRefreshQuote = setTimeout(() => {
-      if (fromToken && toToken && parsedSwapAmount[updatedField].gt(0) && !exchangeRateKnown) {
+      if (fromToken && toToken && parsedSwapAmount[updatedField].gt(0) && !quoteKnown) {
         void refreshQuote(fromToken, toToken, parsedSwapAmount, updatedField)
       }
     }, FETCH_UPDATED_QUOTE_DEBOUNCE_TIME)
@@ -196,11 +197,11 @@ export function SwapScreen({ route }: Props) {
     return () => {
       clearTimeout(debouncedRefreshQuote)
     }
-  }, [fromToken, toToken, parsedSwapAmount, updatedField, exchangeRate])
+  }, [fromToken, toToken, parsedSwapAmount, updatedField, quote])
 
   useEffect(
     () => {
-      if (!exchangeRate) {
+      if (!quote) {
         setSwapAmount((prev) => {
           const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
           return {
@@ -212,7 +213,7 @@ export function SwapScreen({ route }: Props) {
       }
 
       const newAmount = parsedSwapAmount[updatedField].multipliedBy(
-        new BigNumber(exchangeRate.price).pow(updatedField === Field.FROM ? 1 : -1)
+        new BigNumber(quote.price).pow(updatedField === Field.FROM ? 1 : -1)
       )
 
       const swapFromAmount = updatedField === Field.FROM ? parsedSwapAmount[Field.FROM] : newAmount
@@ -226,8 +227,8 @@ export function SwapScreen({ route }: Props) {
         }),
       })
 
-      const fromToken = tokensById[exchangeRate.fromTokenId]
-      const toToken = tokensById[exchangeRate.toTokenId]
+      const fromToken = tokensById[quote.fromTokenId]
+      const toToken = tokensById[quote.toTokenId]
 
       if (!fromToken || !toToken) {
         // Should never happen
@@ -236,8 +237,8 @@ export function SwapScreen({ route }: Props) {
       }
 
       if (
-        !exchangeRate.estimatedPriceImpact ||
-        exchangeRate.estimatedPriceImpact.gte(priceImpactWarningThreshold)
+        !quote.estimatedPriceImpact ||
+        new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
       ) {
         ValoraAnalytics.track(SwapEvents.swap_price_impact_warning_displayed, {
           toToken: toToken.address,
@@ -248,24 +249,24 @@ export function SwapScreen({ route }: Props) {
           fromTokenNetworkId: fromToken?.networkId,
           amount: parsedSwapAmount[updatedField].toString(),
           amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
-          priceImpact: exchangeRate.estimatedPriceImpact?.toString(),
-          provider: exchangeRate.provider,
+          priceImpact: quote.estimatedPriceImpact,
+          provider: quote.provider,
         })
       }
     },
-    // We only want to update the other field when the exchange rate changes
+    // We only want to update the other field when the quote changes
     // that's why we don't include the other dependencies
 
-    [exchangeRate]
+    [quote]
   )
 
   const handleConfirmSwap = () => {
-    if (!exchangeRate) {
+    if (!quote) {
       return // this should never happen, because the button must be disabled in that cases
     }
 
-    const fromToken = tokensById[exchangeRate.fromTokenId]
-    const toToken = tokensById[exchangeRate.toTokenId]
+    const fromToken = tokensById[quote.fromTokenId]
+    const toToken = tokensById[quote.toTokenId]
 
     if (!fromToken || !toToken) {
       // Should never happen
@@ -290,10 +291,9 @@ export function SwapScreen({ route }: Props) {
     }
 
     const swapAmountParam = updatedField === Field.FROM ? 'sellAmount' : 'buyAmount'
-    const { estimatedPriceImpact, price, allowanceTarget } =
-      exchangeRate.rawSwapResponse.unvalidatedSwapTransaction
+    const { estimatedPriceImpact, price, allowanceTarget } = quote
 
-    const resultType = exchangeRate.preparedTransactions.type
+    const resultType = quote.preparedTransactions.type
     switch (resultType) {
       case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
       case 'not-enough-balance-for-gas':
@@ -312,10 +312,10 @@ export function SwapScreen({ route }: Props) {
           allowanceTarget,
           estimatedPriceImpact,
           price,
-          provider: exchangeRate.provider,
+          provider: quote.provider,
           web3Library: 'viem',
           ...getSwapTxsAnalyticsProperties(
-            exchangeRate.preparedTransactions.transactions,
+            quote.preparedTransactions.transactions,
             fromToken.networkId,
             tokensById
           ),
@@ -328,10 +328,13 @@ export function SwapScreen({ route }: Props) {
             swapId,
             quote: {
               preparedTransactions: getSerializablePreparedTransactions(
-                exchangeRate.preparedTransactions.transactions
+                quote.preparedTransactions.transactions
               ),
-              receivedAt: exchangeRate.receivedAt,
-              rawSwapResponse: exchangeRate.rawSwapResponse,
+              receivedAt: quote.receivedAt,
+              price: quote.price,
+              provider: quote.provider,
+              estimatedPriceImpact,
+              allowanceTarget,
             },
             userInput,
           })
@@ -485,18 +488,20 @@ export function SwapScreen({ route }: Props) {
     !confirmSwapFailed && !showSwitchedToNetworkWarning && shouldShowMaxSwapAmountWarning
   const showPriceImpactWarning =
     !confirmSwapFailed &&
-    !exchangeRateUpdatePending &&
-    !!exchangeRate?.estimatedPriceImpact?.gte(priceImpactWarningThreshold)
+    !quoteUpdatePending &&
+    (quote?.estimatedPriceImpact
+      ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
+      : false)
   const showMissingPriceImpactWarning =
     !confirmSwapFailed &&
-    !exchangeRateUpdatePending &&
+    !quoteUpdatePending &&
     !showPriceImpactWarning &&
-    ((exchangeRate && !exchangeRate.estimatedPriceImpact) ||
+    ((quote && !quote.estimatedPriceImpact) ||
       (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd)))
 
   const { networkFee, feeTokenId } = useMemo(() => {
-    return getNetworkFee(exchangeRate, fromToken?.networkId)
-  }, [fromToken, exchangeRate])
+    return getNetworkFee(quote, fromToken?.networkId)
+  }, [fromToken, quote])
 
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
@@ -518,7 +523,7 @@ export function SwapScreen({ route }: Props) {
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
             style={styles.fromSwapAmountInput}
-            loading={updatedField === Field.TO && exchangeRateUpdatePending}
+            loading={updatedField === Field.TO && quoteUpdatePending}
             autoFocus
             inputError={fromSwapAmountError}
             onPressMax={handleSetMaxFromAmount}
@@ -532,7 +537,7 @@ export function SwapScreen({ route }: Props) {
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
             style={styles.toSwapAmountInput}
-            loading={updatedField === Field.FROM && exchangeRateUpdatePending}
+            loading={updatedField === Field.FROM && quoteUpdatePending}
             buttonPlaceholder={t('swapScreen.swapToTokenSelection')}
             editable={swapBuyAmountEnabled}
           />
@@ -545,9 +550,9 @@ export function SwapScreen({ route }: Props) {
             slippagePercentage={parsedSlippagePercentage}
             fromToken={fromToken}
             toToken={toToken}
-            exchangeRatePrice={exchangeRate?.price}
+            exchangeRatePrice={quote?.price}
             swapAmount={parsedSwapAmount[Field.FROM]}
-            fetchingSwapQuote={exchangeRateUpdatePending}
+            fetchingSwapQuote={quoteUpdatePending}
           />
           {showSwitchedToNetworkWarning && (
             <InLineNotification
@@ -631,16 +636,16 @@ export function SwapScreen({ route }: Props) {
         }
         TokenOptionComponent={TokenBalanceItemOption}
       />
-      {exchangeRate?.preparedTransactions && (
+      {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
           forwardedRef={preparedTransactionsReviewBottomSheetRef}
-          preparedTransactions={exchangeRate.preparedTransactions}
+          preparedTransactions={quote.preparedTransactions}
           onAcceptDecreaseSwapAmountForGas={({ decreasedSpendAmount }) => {
             handleChangeAmount(updatedField)(
               // ensure units are for the asset whose amount is being selected by the user
               (updatedField === Field.FROM
                 ? decreasedSpendAmount
-                : decreasedSpendAmount.times(exchangeRate.price)
+                : decreasedSpendAmount.times(quote.price)
               ).toString()
             )
             preparedTransactionsReviewBottomSheetRef.current?.close()

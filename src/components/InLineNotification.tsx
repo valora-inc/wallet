@@ -14,7 +14,7 @@ export enum Severity {
 interface Props {
   severity: Severity
   title?: string | null
-  description: string
+  description: string | JSX.Element | null
   style?: StyleProp<ViewStyle>
   ctaLabel?: string | null
   onPressCta?: (event: GestureResponderEvent) => void
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
 
 const severityColors: Record<Severity, CustomColors> = {
   [Severity.Informational]: {
-    primary: Colors.infoDark,
-    secondary: Colors.infoLight,
+    primary: Colors.black,
+    secondary: Colors.gray1,
   },
   [Severity.Warning]: {
     primary: Colors.warningDark,

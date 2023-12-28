@@ -13,14 +13,15 @@ interface SwapTask {
 
 export interface State {
   currentSwap: SwapTask | null
-  guaranteedSwapPriceEnabled: boolean
+  /**
+   * In percentage, between 0 and 100
+   */
   priceImpactWarningThreshold: number
 }
 
 const initialState: State = {
   currentSwap: null,
-  guaranteedSwapPriceEnabled: false,
-  priceImpactWarningThreshold: 0.04,
+  priceImpactWarningThreshold: 4, // 4% by default
 }
 
 function updateCurrentSwapStatus(currentSwap: SwapTask | null, swapId: string, status: SwapStatus) {
@@ -55,7 +56,6 @@ export const slice = createSlice({
       .addCase(
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
-          state.guaranteedSwapPriceEnabled = action.configValues.guaranteedSwapPriceEnabled
           state.priceImpactWarningThreshold = action.configValues.priceImpactWarningThreshold
         }
       )

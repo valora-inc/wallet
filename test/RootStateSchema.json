@@ -3814,16 +3814,13 @@
                         }
                     ]
                 },
-                "guaranteedSwapPriceEnabled": {
-                    "type": "boolean"
-                },
                 "priceImpactWarningThreshold": {
+                    "description": "In percentage, between 0 and 100",
                     "type": "number"
                 }
             },
             "required": [
                 "currentSwap",
-                "guaranteedSwapPriceEnabled",
                 "priceImpactWarningThreshold"
             ],
             "type": "object"
@@ -4147,6 +4144,12 @@
                 "importContactsProgress": {
                     "$ref": "#/definitions/ImportContactProgress"
                 },
+                "lastSavedContactsHash": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
@@ -4164,6 +4167,7 @@
                 "e164NumberToSalt",
                 "hasSeenVerificationNux",
                 "importContactsProgress",
+                "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
                 "walletToAccountAddress"
             ],

@@ -67,6 +67,7 @@ import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
@@ -145,6 +146,12 @@ interface AppEventsProperties {
   [AppEvents.multichain_beta_opt_in]: undefined
   [AppEvents.multichain_beta_opt_out]: undefined
   [AppEvents.multichain_beta_contact_support]: undefined
+
+  [AppEvents.handle_deeplink]: {
+    pathStartsWith: string
+    fullPath: string | null
+    query: string | null
+  }
 }
 
 interface HomeEventsProperties {
@@ -1025,6 +1032,7 @@ interface QrScreenProperties {
     exchange: string
   }
   [QrScreenEvents.qr_scanner_open]: undefined
+  [QrScreenEvents.qr_scanned]: QrCode
 }
 
 interface FiatConnectKycProperties {
@@ -1254,12 +1262,19 @@ interface SwapEvent {
   fromToken: string | null | undefined
   fromTokenId: string
   fromTokenNetworkId: string
+  /**
+   * Starting with v1.74, this amount is always in decimal format
+   * Before that it was in token smallest unit or decimal format depending on the event.
+   */
   amount: string | null
   amountType: 'buyAmount' | 'sellAmount'
 }
 
 type SwapQuoteEvent = SwapEvent & {
   allowanceTarget: string
+  /**
+   * In percentage, between 0 and 100
+   */
   estimatedPriceImpact: string | null
   price: string
   provider: string
@@ -1373,7 +1388,7 @@ interface SwapEventsProperties {
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact?: string
+    priceImpact: string | null
   }
   [SwapEvents.swap_show_info]: {
     type: SwapShowInfoType

@@ -2,7 +2,6 @@ import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
-import * as matchers from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { showMessage } from 'src/alert/actions'
@@ -15,7 +14,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network } from 'src/transactions/types'
-import { ViemWallet } from 'src/viem/getLockableWallet'
+import { publicClient } from 'src/viem'
 import {
   Actions,
   acceptSession as acceptSessionAction,
@@ -34,7 +33,7 @@ import {
   walletConnectSaga,
 } from 'src/walletConnect/saga'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
-import { getViemWallet } from 'src/web3/contracts'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
 import { getTransactionCount } from 'viem/actions'
@@ -512,21 +511,20 @@ describe('initialiseWalletConnect', () => {
 })
 
 describe('normalizeTransaction', () => {
-  const mockViemWallet = {
-    account: { address: mockAccount },
-    writeContract: jest.fn(),
-    sendTransaction: jest.fn(),
-  } as any as ViemWallet
-  const defaultProviders: (EffectProviders | StaticProvider)[] = [
-    [matchers.call.fn(getViemWallet), mockViemWallet],
-    [
-      call(getTransactionCount, mockViemWallet, {
-        address: mockAccount,
-        blockTag: 'pending',
-      }),
-      123,
-    ],
-  ]
+  function createDefaultProviders(network: Network) {
+    const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [select(walletAddressSelector), mockAccount],
+      [
+        call(getTransactionCount, publicClient[network], {
+          address: mockAccount,
+          blockTag: 'pending',
+        }),
+        123,
+      ],
+    ]
+
+    return defaultProviders
+  }
 
   it('ensures `gasLimit` value is removed', async () => {
     await expectSaga(
@@ -539,7 +537,7 @@ describe('normalizeTransaction', () => {
       },
       Network.Celo
     )
-      .provide(defaultProviders)
+      .provide(createDefaultProviders(Network.Celo))
       .returns({
         from: '0xTEST',
         data: '0xABC',
@@ -554,7 +552,7 @@ describe('normalizeTransaction', () => {
       { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
       Network.Celo
     )
-      .provide(defaultProviders)
+      .provide(createDefaultProviders(Network.Celo))
       .returns({
         from: '0xTEST',
         data: '0xABC',
@@ -569,7 +567,7 @@ describe('normalizeTransaction', () => {
       { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
       Network.Celo
     )
-      .provide(defaultProviders)
+      .provide(createDefaultProviders(Network.Celo))
       .returns({
         from: '0xTEST',
         data: '0xABC',
@@ -584,7 +582,7 @@ describe('normalizeTransaction', () => {
       { from: '0xTEST', data: '0xABC', gas: '0x5208' },
       Network.Ethereum
     )
-      .provide(defaultProviders)
+      .provide(createDefaultProviders(Network.Ethereum))
       .returns({
         from: '0xTEST',
         data: '0xABC',

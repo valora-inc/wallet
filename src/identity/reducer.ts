@@ -89,6 +89,7 @@ export interface State {
   secureSendPhoneNumberMapping: SecureSendPhoneNumberMapping
   // Mapping of address to verification status; undefined entries represent a loading state
   addressToVerificationStatus: AddressToVerificationStatus
+  lastSavedContactsHash: string | null
 }
 
 const initialState: State = {
@@ -107,6 +108,7 @@ const initialState: State = {
   },
   secureSendPhoneNumberMapping: {},
   addressToVerificationStatus: {},
+  lastSavedContactsHash: null,
 }
 
 export const reducer = (
@@ -281,6 +283,11 @@ export const reducer = (
           ...state.addressToVerificationStatus,
           [action.address]: action.addressVerified,
         },
+      }
+    case Actions.CONTACTS_SAVED:
+      return {
+        ...state,
+        lastSavedContactsHash: action.hash,
       }
     default:
       return state

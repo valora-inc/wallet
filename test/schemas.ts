@@ -2892,6 +2892,39 @@ export const v175Schema = {
   },
 }
 
+export const v176Schema = {
+  ...v175Schema,
+  _persist: {
+    ...v175Schema._persist,
+    version: 176,
+  },
+  identity: {
+    ...v175Schema.identity,
+    lastSavedContactsHash: null,
+  },
+}
+
+export const v177Schema = {
+  ...v176Schema,
+  _persist: {
+    ...v176Schema._persist,
+    version: 177,
+  },
+  swap: {
+    ...v176Schema.swap,
+    priceImpactWarningThreshold: v176Schema.swap.priceImpactWarningThreshold * 100,
+  },
+}
+
+export const v178Schema = {
+  ...v177Schema,
+  _persist: {
+    ...v177Schema._persist,
+    version: 178,
+  },
+  swap: _.omit(v177Schema.swap, 'guaranteedSwapPriceEnabled'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v175Schema as Partial<RootState>
+  return v178Schema as Partial<RootState>
 }
