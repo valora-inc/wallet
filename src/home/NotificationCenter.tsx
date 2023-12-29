@@ -1,16 +1,21 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import CleverTap from 'clevertap-react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
+import { LayoutChangeEvent, Platform, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { openUrl } from 'src/app/actions'
+import { CallToAction } from 'src/components/CallToActionsBar'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
-import { Notification, NotificationType } from 'src/home/types'
+import { CLEVER_TAP_PRIORITY, INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
+import { ExpectedCleverTapInboxMessage } from 'src/home/expectedCleverTapInboxMessageType'
+import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
@@ -19,8 +24,127 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import Logger from 'src/utils/Logger'
+
+const TAG = 'NotificationCenter'
 
 type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.NotificationCenter>
+
+function useCleverTapNotifications() {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const [notifications, setNotifications] = useState<Notification[]>([])
+
+  useEffect(() => {
+    CleverTap.addListener(CleverTap.CleverTapInboxMessagesDidUpdate, updateNotifications)
+
+    updateNotifications()
+
+    return () => {
+      CleverTap.removeListener(CleverTap.CleverTapInboxMessagesDidUpdate)
+    }
+  }, [])
+
+  const updateNotifications = () => {
+    CleverTap.getAllInboxMessages((error: any, messages: any) => {
+      if (error) {
+        Logger.error(TAG, error)
+        return
+      }
+
+      setNotifications(
+        messages
+          .map((message: ExpectedCleverTapInboxMessage) => {
+            const messageId = message.wzrk_id
+            const content = message.msg?.content?.[0]
+            const header = content?.title?.text
+            const text = content?.message?.text
+            const imageUrl = content?.media?.url
+            const icon = imageUrl && { uri: imageUrl }
+            const action = content?.action?.links?.[0]
+            const ctaText = action?.text
+            const ctaUrl =
+              Platform.OS === 'android'
+                ? action?.url?.android?.text
+                : Platform.OS === 'ios'
+                ? action?.url?.ios?.text
+                : ''
+
+            const PRIORITY_TAG = 'priority:'
+            const priority = Number(
+              message.msg?.tags
+                ?.find((t: string) => t.startsWith(PRIORITY_TAG))
+                ?.slice(PRIORITY_TAG.length)
+            )
+
+            if (!messageId || !text || !ctaText || !ctaUrl) {
+              Logger.warn(TAG, 'Unexpected CleverTap Inbox message format', {
+                messageId,
+                text,
+                ctaText,
+                ctaUrl,
+                rawMessage: message,
+              })
+              return null
+            }
+
+            const callToActions: CallToAction[] = [
+              {
+                text: ctaText,
+                onPress: (params) => {
+                  ValoraAnalytics.track(HomeEvents.notification_select, {
+                    notificationType: NotificationType.clever_tap_notification,
+                    selectedAction: NotificationBannerCTATypes.accept,
+                    notificationId: messageId,
+                    notificationPositionInList: params?.index,
+                  })
+                  const openInExternalBrowser = false
+                  const isSecureOrigin = true
+                  dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
+                },
+              },
+              {
+                text: t('dismiss'),
+                isSecondary: true,
+                onPress: (params) => {
+                  ValoraAnalytics.track(HomeEvents.notification_select, {
+                    notificationType: NotificationType.clever_tap_notification,
+                    selectedAction: NotificationBannerCTATypes.decline,
+                    notificationId: messageId,
+                    notificationPositionInList: params?.index,
+                  })
+                  //TODO: is this needed?
+                  //dispatch(dismissNotification(id))
+                  CleverTap.deleteInboxMessageForId(messageId)
+                },
+              },
+            ]
+            return {
+              renderElement: (params?: { index?: number }) => (
+                <SimpleMessagingCard
+                  callToActions={callToActions}
+                  header={header}
+                  text={text}
+                  icon={icon}
+                  testID={messageId}
+                  index={params?.index}
+                />
+              ),
+              priority: priority || CLEVER_TAP_PRIORITY,
+              showOnHomeScreen: false,
+              id: messageId,
+              type: NotificationType.clever_tap_notification,
+              text,
+              icon,
+            }
+          })
+          .filter(Boolean)
+      )
+    })
+  }
+
+  return notifications
+}
 
 export function useNotifications() {
   const notifications: Notification[] = []
@@ -54,6 +178,10 @@ export function useNotifications() {
       type: notification.type,
     }))
   )
+
+  // CleverTap Inbox
+  const cleverTapNotifications = useCleverTapNotifications()
+  notifications.push(...cleverTapNotifications)
 
   return (
     notifications

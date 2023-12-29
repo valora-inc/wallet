@@ -20,6 +20,7 @@ export enum NotificationType {
   supercharging = 'supercharging',
   start_supercharging = 'start_supercharging',
   reverify_using_CPV = 'reverify_using_CPV',
+  clever_tap_notification = 'clever_tap_notification',
 }
 
 export enum NotificationBannerCTATypes {
