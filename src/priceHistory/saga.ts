@@ -21,20 +21,15 @@ const TAG = 'priceHistory/saga'
  */
 export async function fetchTokenPriceHistory(
   tokenId: string,
-  startTimestamp?: number,
-  endTimestamp?: number
+  startTimestamp: number,
+  endTimestamp: number
 ): Promise<Price[]> {
-  const queryParams = new URLSearchParams()
-  if (startTimestamp) {
-    queryParams.append('startTimestamp', `${startTimestamp}`)
-  }
-  if (endTimestamp) {
-    queryParams.append('endTimestamp', `${endTimestamp}`)
-  }
+  const queryParams = new URLSearchParams({
+    startTimestamp: `${startTimestamp}`,
+    endTimestamp: `${endTimestamp}`,
+  }).toString()
 
-  const url = `${
-    networkConfig.blockchainApiUrl
-  }/tokensInfo/${tokenId}/priceHistory?${queryParams.toString()}`
+  const url = `${networkConfig.blockchainApiUrl}/tokensInfo/${tokenId}/priceHistory?${queryParams}`
   const response = await fetchWithTimeout(url)
   if (!response.ok) {
     throw new Error(
