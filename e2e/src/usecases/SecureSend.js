@@ -34,7 +34,7 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      const commentText = 'Secure send old flow test comment.'
+      const commentText = 'test comment old'
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30000)
@@ -109,7 +109,7 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      const commentText = 'Secure send new flow test comment.'
+      const commentText = 'test comment new'
       await waitForElementByIdAndTap('HomeAction-Send', 30000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
