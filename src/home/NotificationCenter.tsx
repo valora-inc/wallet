@@ -71,9 +71,9 @@ function useCleverTapNotifications() {
                 : ''
 
             const PRIORITY_TAG = 'priority:'
-            const priority = Number(
+            const priorityOverride = Number(
               message.msg?.tags
-                ?.find((t: string) => t.startsWith(PRIORITY_TAG))
+                ?.find((tag: string) => tag.startsWith(PRIORITY_TAG))
                 ?.slice(PRIORITY_TAG.length)
             )
 
@@ -130,7 +130,7 @@ function useCleverTapNotifications() {
                   index={params?.index}
                 />
               ),
-              priority: priority || CLEVER_TAP_PRIORITY,
+              priority: priorityOverride || CLEVER_TAP_PRIORITY,
               showOnHomeScreen: false,
               id: messageId,
               type: NotificationType.clever_tap_notification,
