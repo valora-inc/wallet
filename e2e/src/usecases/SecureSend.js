@@ -1,12 +1,15 @@
 import {
-  SAMPLE_BACKUP_KEY_VERIFIED,
+  SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED,
+  SAMPLE_PRIVATE_KEY,
   VERIFIED_PHONE_NUMBER,
+  SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
   SAMPLE_WALLET_ADDRESS_VERIFIED_2,
 } from '../utils/consts'
 import { launchApp } from '../utils/retries'
 import {
   addComment,
   enterPinUiIfNecessary,
+  fundWallet,
   inputNumberKeypad,
   scrollIntoView,
   quickOnboarding,
@@ -23,6 +26,13 @@ export default SecureSend = () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
+      // fund wallet for send
+      await fundWallet(
+        SAMPLE_PRIVATE_KEY,
+        SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
+        'cUSD',
+        `${AMOUNT_TO_SEND * 2}`
+      )
       await launchApp({
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
@@ -30,7 +40,7 @@ export default SecureSend = () => {
           statsigGateOverrides: `use_new_send_flow=false,use_viem_for_send=true`,
         },
       })
-      await quickOnboarding(SAMPLE_BACKUP_KEY_VERIFIED)
+      await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
@@ -54,6 +64,7 @@ export default SecureSend = () => {
       await element(by.id('cUSDTouchable')).tap()
 
       // Enter the amount and review
+      await element(by.id('SwapInput')).tap()
       await inputNumberKeypad(AMOUNT_TO_SEND)
       await element(by.id('Review')).tap()
 
@@ -63,13 +74,15 @@ export default SecureSend = () => {
         .withTimeout(30000)
       await element(by.id('confirmAccountButton')).tap()
       // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
-      // for (let index = 0; index < 4; index++) {
-      //   const character = LAST_ACCOUNT_CHARACTERS[index]
-      //   await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
-      // }
-      await element(by.id('ValidateRecipientAccount/TextInput')).replaceText(
-        SAMPLE_WALLET_ADDRESS_VERIFIED_2
-      )
+      for (let index = 0; index < 4; index++) {
+        const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
+          SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
+        )
+        await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
+      }
+      // await element(by.id('ValidateRecipientAccount/TextInput')).replaceText(
+      //   SAMPLE_WALLET_ADDRESS_VERIFIED_2
+      // )
 
       // Scroll to see submit button
       await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
@@ -98,6 +111,13 @@ export default SecureSend = () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
+      // fund wallet for send
+      await fundWallet(
+        SAMPLE_PRIVATE_KEY,
+        SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
+        'cUSD',
+        `${AMOUNT_TO_SEND * 2}`
+      )
       await launchApp({
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
@@ -105,7 +125,7 @@ export default SecureSend = () => {
           statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true`,
         },
       })
-      await quickOnboarding(SAMPLE_BACKUP_KEY_VERIFIED)
+      await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
@@ -120,14 +140,16 @@ export default SecureSend = () => {
       // Use the last digits of the account to confirm the sender.
       await waitForElementByIdAndTap('confirmAccountButton', 30000)
       // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
-      // for (let index = 0; index < 4; index++) {
-      //   const character = LAST_ACCOUNT_CHARACTERS[index]
-      //   await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
-      // }
-      await element(by.id('ValidateRecipientAccount/TextInput')).typeText(
-        SAMPLE_WALLET_ADDRESS_VERIFIED_2
-      )
-      await element(by.id('ValidateRecipientAccount/TextInput')).tapReturnKey()
+      for (let index = 0; index < 4; index++) {
+        const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
+          SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
+        )
+        await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
+      }
+      // await element(by.id('ValidateRecipientAccount/TextInput')).typeText(
+      //   SAMPLE_WALLET_ADDRESS_VERIFIED_2
+      // )
+      // await element(by.id('ValidateRecipientAccount/TextInput')).tapReturnKey()
 
       // Scroll to see submit button
       await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)

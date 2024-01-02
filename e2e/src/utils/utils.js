@@ -1,4 +1,5 @@
-import { DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import { newKit } from '@celo/contractkit'
+import { ALFAJORES_FORNO_URL, DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
@@ -356,4 +357,25 @@ export async function completeProtectWalletScreen() {
   await enterPinUi()
   await expect(element(by.id('protectWalletBottomSheetContinue'))).toBeVisible()
   await element(by.id('protectWalletBottomSheetContinue')).tap()
+}
+
+/**
+ * Fund a wallet, using some existing wallet.
+ *
+ * @param senderPrivateKey: private key for wallet with funds
+ * @param recipientAddress: wallet to receive funds
+ * @param stableToken: ContractKit-recognized stable token
+ * @param amountEther: amount in "ethers" (as opposed to wei)
+ */
+export async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
+  const kit = newKit(ALFAJORES_FORNO_URL)
+  const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
+  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
+  kit.connection.addAccount(senderPrivateKey)
+  const tokenContract = await kit.contracts.getStableToken(stableToken)
+  const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
+  const receipt = await tokenContract
+    .transfer(recipientAddress, amountWei.toString())
+    .sendAndWaitForReceipt({ from: senderAddress })
+  console.log('Funding TX receipt', receipt)
 }
