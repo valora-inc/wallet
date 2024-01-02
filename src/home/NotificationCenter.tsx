@@ -13,7 +13,7 @@ import { CallToAction } from 'src/components/CallToActionsBar'
 import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
-import { CLEVER_TAP_PRIORITY, INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
+import { CLEVERTAP_PRIORITY, INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
 import { ExpectedCleverTapInboxMessage } from 'src/home/expectedCleverTapInboxMessageType'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
@@ -129,7 +129,7 @@ function useCleverTapNotifications() {
                   index={params?.index}
                 />
               ),
-              priority: priorityOverride || CLEVER_TAP_PRIORITY,
+              priority: priorityOverride || CLEVERTAP_PRIORITY,
               showOnHomeScreen: false,
               id: notificationId,
               type: NotificationType.clevertap_notification,
