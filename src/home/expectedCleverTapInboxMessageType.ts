@@ -3,7 +3,7 @@
 
 export interface ExpectedCleverTapInboxMessage {
   isRead?: boolean
-  _id?: string
+  id?: string
   date?: number
   wzrk_id?: string
   wzrk_pivot?: string

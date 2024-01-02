@@ -55,7 +55,7 @@ function useCleverTapNotifications() {
       setNotifications(
         messages
           .map((message: ExpectedCleverTapInboxMessage) => {
-            const messageId = message.wzrk_id
+            const messageId = message.id
             const content = message.msg?.content?.[0]
             const header = content?.title?.text
             const text = content?.message?.text
@@ -88,14 +88,15 @@ function useCleverTapNotifications() {
               return null
             }
 
+            const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
             const callToActions: CallToAction[] = [
               {
                 text: ctaText,
                 onPress: (params) => {
                   ValoraAnalytics.track(HomeEvents.notification_select, {
-                    notificationType: NotificationType.clever_tap_notification,
+                    notificationType: NotificationType.clevertap_notification,
                     selectedAction: NotificationBannerCTATypes.accept,
-                    notificationId: messageId,
+                    notificationId,
                     notificationPositionInList: params?.index,
                   })
                   const openInExternalBrowser = false
@@ -108,13 +109,11 @@ function useCleverTapNotifications() {
                 isSecondary: true,
                 onPress: (params) => {
                   ValoraAnalytics.track(HomeEvents.notification_select, {
-                    notificationType: NotificationType.clever_tap_notification,
+                    notificationType: NotificationType.clevertap_notification,
                     selectedAction: NotificationBannerCTATypes.decline,
-                    notificationId: messageId,
+                    notificationId,
                     notificationPositionInList: params?.index,
                   })
-                  //TODO: is this needed?
-                  //dispatch(dismissNotification(id))
                   CleverTap.deleteInboxMessageForId(messageId)
                 },
               },
@@ -126,14 +125,14 @@ function useCleverTapNotifications() {
                   header={header}
                   text={text}
                   icon={icon}
-                  testID={messageId}
+                  testID={notificationId}
                   index={params?.index}
                 />
               ),
               priority: priorityOverride || CLEVER_TAP_PRIORITY,
               showOnHomeScreen: false,
-              id: messageId,
-              type: NotificationType.clever_tap_notification,
+              id: notificationId,
+              type: NotificationType.clevertap_notification,
               text,
               icon,
             }
