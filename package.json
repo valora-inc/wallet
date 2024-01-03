@@ -286,7 +286,7 @@
     "redux-saga-test-plan": "^4.0.6",
     "remote-redux-devtools": "^0.5.12",
     "shelljs": "^0.8.5",
-    "strip-ansi": "^7.1.0",
+    "strip-ansi": "^6.0.0",
     "ts-jest": "^29.1.1",
     "ts-node": "10.7.0",
     "ts-retry-promise": "^0.6.0",
