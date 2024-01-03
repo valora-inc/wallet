@@ -121,36 +121,21 @@ export const getCurrentUserTraits = createSelector(
 
     let totalBalanceUsd = new BigNumber(0)
     const totalBalanceUsdByNetworkIdBigNumber: Record<string, BigNumber> = Object.fromEntries(
-      networkIds.map((networkId) => [
-        `total${NETWORK_ID_PROPERTY_NAME[networkId]}Balance`,
-        new BigNumber(0),
-      ])
+      networkIds.map((networkId) => [`total${toPascalCase(networkId)}Balance`, new BigNumber(0)])
     )
     for (const token of tokensByUsdBalance) {
       const tokenBalanceUsd = token.balance.multipliedBy(token.priceUsd ?? 0)
       if (!tokenBalanceUsd.isNaN()) {
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
-        totalBalanceUsdByNetworkIdBigNumber[
-          `total${NETWORK_ID_PROPERTY_NAME[token.networkId]}Balance`
-        ] =
-          totalBalanceUsdByNetworkIdBigNumber[
-            `total${NETWORK_ID_PROPERTY_NAME[token.networkId]}Balance`
-          ].plus(tokenBalanceUsd)
+        totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}Balance`] =
+          totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}Balance`].plus(
+            tokenBalanceUsd
+          )
       }
     }
     const totalBalanceUsdByNetworkId: Record<string, number> = {}
     for (const [key, value] of Object.entries(totalBalanceUsdByNetworkIdBigNumber)) {
       totalBalanceUsdByNetworkId[key] = value.toNumber()
-    }
-
-    const hasTokenBalanceFields: Record<string, boolean> = {
-      hasTokenBalance: tokensWithBalance.length > 0,
-      ...Object.fromEntries(
-        networkIds.map((networkId) => [
-          `has${NETWORK_ID_PROPERTY_NAME[networkId]}TokenBalance`,
-          tokensWithBalance.some((token) => token.networkId === networkId),
-        ])
-      ),
     }
 
     const hasTokenBalanceFields: Record<string, boolean> = {
