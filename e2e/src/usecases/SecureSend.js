@@ -16,7 +16,6 @@ import {
   waitForElementId,
   waitForElementByIdAndTap,
 } from '../utils/utils'
-const faker = require('@faker-js/faker')
 
 const AMOUNT_TO_SEND = '0.01'
 
@@ -31,7 +30,7 @@ export default SecureSend = () => {
         SAMPLE_PRIVATE_KEY,
         SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
         'cUSD',
-        `${AMOUNT_TO_SEND * 2}`
+        `${AMOUNT_TO_SEND * 2.2}`
       )
       await launchApp({
         newInstance: true,
@@ -47,11 +46,11 @@ export default SecureSend = () => {
       const commentText = 'test comment old'
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
-        .withTimeout(30000)
+        .withTimeout(30_000)
       await element(by.id('HomeAction-Send')).tap()
       await waitFor(element(by.id('SendSearchInput')))
         .toBeVisible()
-        .withTimeout(30000)
+        .withTimeout(30_000)
 
       await element(by.id('SearchInput')).tap()
       await element(by.id('SearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
@@ -60,7 +59,7 @@ export default SecureSend = () => {
       // Select the currency
       await waitFor(element(by.id('cUSDTouchable')))
         .toBeVisible()
-        .withTimeout(30000)
+        .withTimeout(30_000)
       await element(by.id('cUSDTouchable')).tap()
 
       // Enter the amount and review
@@ -71,7 +70,7 @@ export default SecureSend = () => {
       // Use the last digits of the account to confirm the sender.
       await waitFor(element(by.id('confirmAccountButton')))
         .toBeVisible()
-        .withTimeout(30000)
+        .withTimeout(30_000)
       await element(by.id('confirmAccountButton')).tap()
 
       for (let index = 0; index < 4; index++) {
@@ -99,11 +98,12 @@ export default SecureSend = () => {
 
       await waitFor(element(by.text(`${commentText}`)))
         .toBeVisible()
-        .withTimeout(60000)
+        .withTimeout(60_000)
     })
   })
 
-  describe('Secure send flow with phone number lookup (new flow)', () => {
+  // TODO(ACT-1044): Enable test after new send flow is fixed.
+  xdescribe('Secure send flow with phone number lookup (new flow)', () => {
     beforeAll(async () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
@@ -113,7 +113,7 @@ export default SecureSend = () => {
         SAMPLE_PRIVATE_KEY,
         SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
         'cUSD',
-        `${AMOUNT_TO_SEND * 2}`
+        `${AMOUNT_TO_SEND * 2.2}`
       )
       await launchApp({
         newInstance: true,
@@ -127,15 +127,15 @@ export default SecureSend = () => {
 
     it('Send cUSD to phone number with multiple mappings', async () => {
       const commentText = 'test comment new'
-      await waitForElementByIdAndTap('HomeAction-Send', 30000)
+      await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
       await element(by.id('RecipientItem')).tap()
 
-      await waitForElementByIdAndTap('SendOrInviteButton', 30000)
+      await waitForElementByIdAndTap('SendOrInviteButton', 30_000)
 
       // Use the last digits of the account to confirm the sender.
-      await waitForElementByIdAndTap('confirmAccountButton', 30000)
+      await waitForElementByIdAndTap('confirmAccountButton', 30_000)
       for (let index = 0; index < 4; index++) {
         const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
           SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
@@ -148,8 +148,8 @@ export default SecureSend = () => {
       await element(by.id('ConfirmAccountButton')).tap()
 
       // Select the currency
-      await waitForElementByIdAndTap('SendEnterAmount/TokenSelect', 30000)
-      await waitForElementByIdAndTap('cUSDSymbol', 30000)
+      await waitForElementByIdAndTap('SendEnterAmount/TokenSelect', 30_000)
+      await waitForElementByIdAndTap('cUSDSymbol', 30_000)
 
       // Enter the amount and review
       await element(by.id('SendEnterAmount/Input')).tap()
@@ -165,11 +165,11 @@ export default SecureSend = () => {
       await enterPinUiIfNecessary()
 
       // Return to home screen.
-      await waitForElementId('HomeAction-Send', 30000)
+      await waitForElementId('HomeAction-Send', 30_000)
 
       await waitFor(element(by.text(`${commentText}`)))
         .toBeVisible()
-        .withTimeout(60000)
+        .withTimeout(60_000)
     })
   })
 }

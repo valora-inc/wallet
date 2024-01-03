@@ -259,7 +259,7 @@ export default Send = () => {
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitFor(element(by.text('0xe5f5...8846')))
         .toBeVisible()
-        .withTimeout(10 * 1000)
+        .withTimeout(10_000)
     })
 
     it('Then should be able to click on recent recipient', async () => {
