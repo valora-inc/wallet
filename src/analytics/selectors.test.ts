@@ -319,6 +319,7 @@ describe('getCurrentUserTraits', () => {
       topTenPositions:
         'b-Title E:70.00,a-Title A:10.00,c-Title C:2.22,b-Title B:1.11,d-Title D which is rea:0.01',
       totalBalanceUsd: 5681.606783945,
+      totalCeloAlfajoresBalance: 5681.606783945,
       totalPositionsBalanceUsd: 83.34234,
       walletAddress: '0x0000000000000000000000000000000000007e57',
       superchargingToken: 'cEUR',
@@ -361,6 +362,8 @@ describe('getCurrentUserTraits', () => {
       topTenPositions:
         'b-Title E:70.00,a-Title A:10.00,c-Title C:2.22,b-Title B:1.11,d-Title D which is rea:0.01',
       totalBalanceUsd: 20831.636783945,
+      totalCeloAlfajoresBalance: 5681.606783945,
+      totalEthereumSepoliaBalance: 15150.03,
       totalPositionsBalanceUsd: 83.34234,
       walletAddress: '0x0000000000000000000000000000000000007e57',
       superchargingToken: 'cEUR',
@@ -415,6 +418,8 @@ describe('getCurrentUserTraits', () => {
       topTenPositions:
         'b-Title E:70.00,a-Title A:10.00,c-Title C:2.22,b-Title B:1.11,d-Title D which is rea:0.01',
       totalBalanceUsd: 5681.606783945,
+      totalCeloAlfajoresBalance: 5681.606783945,
+      totalEthereumSepoliaBalance: 0,
       totalPositionsBalanceUsd: 83.34234,
       walletAddress: '0x0000000000000000000000000000000000007e57',
       superchargingToken: 'cEUR',
