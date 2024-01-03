@@ -73,16 +73,13 @@ export default SecureSend = () => {
         .toBeVisible()
         .withTimeout(30000)
       await element(by.id('confirmAccountButton')).tap()
-      // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
+
       for (let index = 0; index < 4; index++) {
         const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
           SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
         )
         await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
       }
-      // await element(by.id('ValidateRecipientAccount/TextInput')).replaceText(
-      //   SAMPLE_WALLET_ADDRESS_VERIFIED_2
-      // )
 
       // Scroll to see submit button
       await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
@@ -139,17 +136,12 @@ export default SecureSend = () => {
 
       // Use the last digits of the account to confirm the sender.
       await waitForElementByIdAndTap('confirmAccountButton', 30000)
-      // TODO: test case for AddressValidationType.PARTIAL but relies on mapping phone number to another address with unique last 4 digits
       for (let index = 0; index < 4; index++) {
         const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
           SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
         )
         await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
       }
-      // await element(by.id('ValidateRecipientAccount/TextInput')).typeText(
-      //   SAMPLE_WALLET_ADDRESS_VERIFIED_2
-      // )
-      // await element(by.id('ValidateRecipientAccount/TextInput')).tapReturnKey()
 
       // Scroll to see submit button
       await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
