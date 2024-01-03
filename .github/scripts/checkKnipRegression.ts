@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import easyTable from 'easy-table'
 import { diff } from 'jest-diff'
 import * as $ from 'shelljs'
 import stripAnsi from 'strip-ansi'
@@ -38,7 +39,7 @@ function compareKnipResults(
       shouldFail = true
     }
   }
-  console.table(rows)
+  console.log(easyTable.print(rows))
   return shouldFail
 }
 
