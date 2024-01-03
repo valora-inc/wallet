@@ -4,6 +4,7 @@ import { select } from 'redux-saga/effects'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { updateUserTraits } from 'src/analytics/saga'
 import { getCurrentUserTraits } from 'src/analytics/selectors'
+import networkConfig from 'src/web3/networkConfig'
 
 describe(updateUserTraits, () => {
   beforeAll(() => {
@@ -28,7 +29,7 @@ describe(updateUserTraits, () => {
     }
 
     await expectSaga(updateUserTraits)
-      .provide([[select(getCurrentUserTraits), dynamic(traits)]])
+      .provide([[select(getCurrentUserTraits, [networkConfig.defaultNetworkId]), dynamic(traits)]])
       // dispatch 3 times, so select is called 4 times (see implementation)
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
