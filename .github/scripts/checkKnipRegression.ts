@@ -31,7 +31,7 @@ function compareKnipResults(
     const branchProblems = branchKnipResults[category] ?? 0
     const hasRegression = branchProblems > baseProblems
     rows.push({
-      'Issue Category': category.trim(),
+      'Issue Category': hasRegression ? chalk.red(category.trim()) : category.trim(),
       'Base Branch': hasRegression ? chalk.green(baseProblems) : baseProblems,
       'PR Branch': hasRegression ? chalk.red(branchProblems) : branchProblems,
     })
@@ -39,6 +39,8 @@ function compareKnipResults(
       shouldFail = true
     }
   }
+
+  // Use easy-table to instead of console.table, because console.table doesn't support colors (it escapes them)
   console.log(easyTable.print(rows))
   return shouldFail
 }
