@@ -1,5 +1,6 @@
 import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import BigNumber from 'bignumber.js'
+import { camelCase } from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
@@ -22,11 +23,9 @@ import { sortByUsdBalance } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
-const NETWORK_ID_PROPERTY_NAME: Record<NetworkId, string> = {
-  [NetworkId['celo-alfajores']]: 'CeloAlfajores',
-  [NetworkId['celo-mainnet']]: 'Celo',
-  [NetworkId['ethereum-mainnet']]: 'Ethereum',
-  [NetworkId['ethereum-sepolia']]: 'EthereumSepolia',
+function toPascalCase(str: string) {
+  const camelCaseStr = camelCase(str)
+  return `${camelCaseStr.charAt(0).toUpperCase()}${camelCaseStr.slice(1)}`
 }
 
 const tokensSelector = createSelector(
@@ -132,7 +131,7 @@ export const getCurrentUserTraits = createSelector(
       hasTokenBalance: tokensWithBalance.length > 0,
       ...Object.fromEntries(
         networkIds.map((networkId) => [
-          `has${NETWORK_ID_PROPERTY_NAME[networkId]}TokenBalance`,
+          `has${toPascalCase(networkId)}TokenBalance`,
           tokensWithBalance.some((token) => token.networkId === networkId),
         ])
       ),
