@@ -1,3 +1,4 @@
+import { diff } from 'jest-diff'
 import * as $ from 'shelljs'
 
 const SECTION_REGEX = /[a-zA-Z ]+\([0-9]+\)/
@@ -47,6 +48,9 @@ if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
 
   const baseKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const baseKnipResults = parseKnipOutput(baseKnipOutput)
+
+  // Print diff of knip output, for easily seeing what changed
+  console.log(diff(baseKnipOutput, branchKnipOutput))
 
   if (compareKnipResults(baseKnipResults, branchKnipResults)) {
     console.log('Knip check failed. PR branch reported more problems than base branch.')
