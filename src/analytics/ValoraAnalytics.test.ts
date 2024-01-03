@@ -161,6 +161,7 @@ const defaultSuperProperties = {
   sTokenCount: 4,
   sTopTenPositions: 'ubeswap-G$ / cUSD:4.08,ubeswap-MOO / CELO:2.51,ubeswap-CELO / cUSD:1.32',
   sTotalBalanceUsd: 36,
+  sTotalCeloAlfajoresBalance: 36,
   sTotalPositionsBalanceUsd: 7.910872728527196,
   sWalletAddress: mockWalletAddress.toLowerCase(), // test for backwards compatibility (this field is lower-cased)
   sSuperchargingAmountInUsd: 24,
