@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import { uniqBy } from 'lodash'
 import React, { useCallback, useEffect, useState } from 'react'
 import {
   ActivityIndicator,
@@ -226,9 +227,18 @@ export default function PriceHistoryChart({
     return null
   }
 
+  // Create chart data from price history
   const chartData = []
-  let lastTimestampAdded
+  let lastTimestampAdded, highPrice, lowPrice
   for (let i = 0; i < priceHistoryPrices.length; i++) {
+    // Check if price is the highest or lowest price and if so store it
+    if (!highPrice || priceHistoryPrices[i].priceUsd > highPrice.priceUsd) {
+      highPrice = priceHistoryPrices[i]
+    }
+    if (!lowPrice || priceHistoryPrices[i].priceUsd < lowPrice.priceUsd) {
+      lowPrice = priceHistoryPrices[i]
+    }
+
     // Only grab one price per chart step & the most recent price
     if (
       lastTimestampAdded &&
@@ -249,9 +259,29 @@ export default function PriceHistoryChart({
     }
   }
 
-  const RenderPoint = renderPointOnChart(chartData, CHART_WIDTH, color)
+  // Make sure the highest and lowest prices are included in the chart
+  if (highPrice) {
+    chartData.push({
+      amount: dollarsToLocal(highPrice.priceUsd)?.toNumber() || 0,
+      displayValue: displayLocalCurrency(dollarsToLocal(highPrice.priceUsd) || 0),
+      priceFetchedAt: highPrice.priceFetchedAt,
+    })
+  }
+  if (lowPrice) {
+    chartData.push({
+      amount: dollarsToLocal(lowPrice.priceUsd)?.toNumber() || 0,
+      displayValue: displayLocalCurrency(dollarsToLocal(lowPrice.priceUsd) || 0),
+      priceFetchedAt: lowPrice.priceFetchedAt,
+    })
+  }
 
-  const values = chartData.map((el) => el.amount)
+  // Sort the chart data by timestamp and remove duplicates
+  const sortedChartData = chartData.sort((a, b) => a.priceFetchedAt - b.priceFetchedAt)
+  const uniqueChartData = uniqBy(sortedChartData, 'priceFetchedAt')
+
+  const RenderPoint = renderPointOnChart(uniqueChartData, CHART_WIDTH, color)
+
+  const values = uniqueChartData.map((el) => el.amount)
   const min = Math.min(...values)
   const max = Math.max(...values)
   let domain
@@ -260,12 +290,12 @@ export default function PriceHistoryChart({
     const offset = Math.min(CHART_MIN_VERTICAL_RANGE - (max - min) / 2, min / 100)
     domain = {
       y: [min - offset, max + offset] as [number, number],
-      x: [0, chartData.length - 1] as [number, number],
+      x: [0, uniqueChartData.length - 1] as [number, number],
     }
   }
 
-  const latestTimestamp = chartData.at(-1)?.priceFetchedAt
-  const earliestTimestamp = chartData.at(0)?.priceFetchedAt
+  const latestTimestamp = uniqueChartData.at(-1)?.priceFetchedAt
+  const earliestTimestamp = uniqueChartData.at(0)?.priceFetchedAt
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>
@@ -275,7 +305,7 @@ export default function PriceHistoryChart({
         padding={{ left: chartPadding, right: chartPadding }}
         width={CHART_WIDTH}
         height={CHART_HEIGHT}
-        data={chartData.map((el) => el.amount)}
+        data={uniqueChartData.map((el) => el.amount)}
         domain={domain}
       >
         {/* @ts-ignore */}
