@@ -1493,4 +1493,8 @@ export const migrations = {
     ...state,
     swap: _.omit(state.swap, 'guaranteedSwapPriceEnabled'),
   }),
+  179: (state: any) => ({
+    ...state,
+    priceHistory: {},
+  }),
 }

@@ -23,7 +23,7 @@ const persistConfig: PersistConfig<RootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
-  version: 178,
+  version: 179,
   keyPrefix: `reduxStore-`, // the redux-persist default is `persist:` which doesn't work with some file systems.
   storage: FSStorage(),
   blacklist: ['networkInfo', 'alert', 'imports', 'keylessBackup'],
@@ -111,7 +111,8 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
     const createDebugger = require('redux-flipper').default
     // Sending the whole state makes the redux debugger in flipper super slow!!
     // I suspect it's the exchange rates causing this!
-    // For now exclude the `exchange` & `tokens` reducer.
+    // For now exclude the `exchange`, `tokens`, & `priceHistory` reducers.
+    // They can be uncommented if needed for debugging.
     middlewares.push(
       createDebugger({
         stateWhitelist: [
@@ -125,8 +126,6 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'send',
           'positions',
           'home',
-          // "exchange",
-          // "tokens",
           'transactions',
           'web3',
           'identity',
@@ -142,6 +141,9 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
           'keylessBackup',
           'nfts',
           'swap',
+          // 'exchange',
+          // 'tokens',
+          // 'priceHistory',
         ],
       })
     )
