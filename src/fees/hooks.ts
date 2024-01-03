@@ -6,13 +6,8 @@ import { fetchFeeCurrency } from 'src/fees/saga'
 import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
-import {
-  celoAddressSelector,
-  tokensByCurrencySelector,
-  tokensByUsdBalanceSelector,
-} from 'src/tokens/selectors'
+import { celoAddressSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
 import { Fee, FeeType as TransactionFeeType } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 export function useFeeCurrency(): string | undefined {
@@ -21,15 +16,8 @@ export function useFeeCurrency(): string | undefined {
 }
 
 export function usePaidFees(fees: Fee[]) {
-  const tokensByCurrency = useSelector(tokensByCurrencySelector)
-
   const securityFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.SecurityFee)
   const dekFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.EncryptionFee)
-  const feeCurrencyInfo = Object.entries(tokensByCurrency).find(
-    ([_, tokenInfo]) =>
-      tokenInfo?.address === securityFeeAmount?.amount.tokenAddress ||
-      tokenInfo?.tokenId === securityFeeAmount?.amount.tokenId
-  )
 
   const securityFee = securityFeeAmount ? new BigNumber(securityFeeAmount.amount.value) : undefined
   const dekFee = dekFeeAmount ? new BigNumber(dekFeeAmount.amount.value) : undefined
@@ -37,10 +25,7 @@ export function usePaidFees(fees: Fee[]) {
   const totalFee = totalFeeOrZero.isZero() ? undefined : totalFeeOrZero
 
   return {
-    feeTokenAddress: feeCurrencyInfo
-      ? feeCurrencyInfo[1]?.address
-      : securityFeeAmount?.amount.tokenAddress,
-    feeCurrency: feeCurrencyInfo ? (feeCurrencyInfo[0] as Currency) : undefined,
+    securityFeeTokenId: securityFeeAmount?.amount.tokenId,
     securityFee,
     dekFee,
     totalFee,
