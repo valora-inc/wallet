@@ -18,6 +18,7 @@ import {
 } from '../utils/utils'
 
 const AMOUNT_TO_SEND = '0.01'
+const WALLET_FUNDING_MULTIPLIER = 2.2
 
 export default SecureSend = () => {
   describe('Secure send flow with phone number lookup (old flow)', () => {
@@ -30,7 +31,7 @@ export default SecureSend = () => {
         SAMPLE_PRIVATE_KEY,
         SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
         'cUSD',
-        `${AMOUNT_TO_SEND * 2.2}`
+        `${AMOUNT_TO_SEND * WALLET_FUNDING_MULTIPLIER}`
       )
       await launchApp({
         newInstance: true,
@@ -113,7 +114,7 @@ export default SecureSend = () => {
         SAMPLE_PRIVATE_KEY,
         SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
         'cUSD',
-        `${AMOUNT_TO_SEND * 2.2}`
+        `${AMOUNT_TO_SEND * WALLET_FUNDING_MULTIPLIER}`
       )
       await launchApp({
         newInstance: true,
