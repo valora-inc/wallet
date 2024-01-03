@@ -49,11 +49,15 @@ if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
   const baseKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
   const baseKnipResults = parseKnipOutput(baseKnipOutput)
 
-  // Print diff of knip output, for easily seeing what changed
-  console.log(diff(baseKnipOutput, branchKnipOutput))
-
   if (compareKnipResults(baseKnipResults, branchKnipResults)) {
     console.log('Knip check failed. PR branch reported more problems than base branch.')
+
+    // Print diff of knip output, for easily seeing what changed
+    console.log(diff(baseKnipOutput, branchKnipOutput), {
+      // limit the number of common lines to print
+      expand: false,
+    })
+
     process.exit(1)
   }
 }
