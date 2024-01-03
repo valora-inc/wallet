@@ -16,7 +16,7 @@ export interface PaymentInfo {
 
 export interface State {
   isSending: boolean
-  recentRecipients: Recipient[]
+  recentRecipients: (Recipient & { address: string })[]
   // Keep a list of recent (last 24 hours) payments
   recentPayments: PaymentInfo[]
   inviteRewardsVersion: string

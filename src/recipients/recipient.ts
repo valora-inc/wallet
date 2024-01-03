@@ -205,12 +205,12 @@ export function getRecipientVerificationStatus(
   }
 }
 
-type PreparedRecipient = Recipient & {
+type PreparedRecipient<T extends Recipient> = T & {
   displayPrepared: Fuzzysort.Prepared | undefined
   phonePrepared: Fuzzysort.Prepared | undefined
 }
 
-type FuzzyRecipient = Recipient | PreparedRecipient
+type FuzzyRecipient<T extends Recipient> = T | PreparedRecipient<T>
 
 const SCORE_THRESHOLD = -6000
 
@@ -226,19 +226,19 @@ const fuzzysortPreparedOptions = {
   allowTypo: false,
 }
 
-function fuzzysortToRecipients(
-  fuzzyResults: Fuzzysort.KeysResults<FuzzyRecipient>
-): FuzzyRecipient[] {
+function fuzzysortToRecipients<T extends Recipient>(
+  fuzzyResults: Fuzzysort.KeysResults<FuzzyRecipient<T>>
+): FuzzyRecipient<T>[] {
   // This is the fastest way to map the 'obj' into a results array
   // https://jsperf.com/set-iterator-vs-foreach/16
-  const result = []
+  const result: FuzzyRecipient<T>[] = []
   for (let _len = fuzzyResults.length, _key = 0; _key < _len; _key++) {
     result[_key] = fuzzyResults[_key].obj
   }
   return result
 }
 
-function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
+function nameCompare<T extends Recipient>(a: FuzzyRecipient<T>, b: FuzzyRecipient<T>) {
   const nameA = a.name?.toUpperCase() ?? ''
   const nameB = b.name?.toUpperCase() ?? ''
 
@@ -250,16 +250,16 @@ function nameCompare(a: FuzzyRecipient, b: FuzzyRecipient) {
   return 0
 }
 
-export function sortRecipients(recipients: Recipient[]) {
+export function sortRecipients<T extends Recipient>(recipients: T[]) {
   return recipients.sort(nameCompare)
 }
 
-function executeFuzzySearch(
-  recipients: FuzzyRecipient[],
+function executeFuzzySearch<T extends Recipient>(
+  recipients: FuzzyRecipient<T>[],
   query: string,
-  options: Fuzzysort.KeysOptions<FuzzyRecipient>,
+  options: Fuzzysort.KeysOptions<FuzzyRecipient<T>>,
   shouldSort?: boolean
-): FuzzyRecipient[] {
+): FuzzyRecipient<T>[] {
   const parsedQuery = query.replace(/[()-\s/\\]/g, '')
   if (parsedQuery === '') {
     // fuzzysort does not handle empty string query
@@ -277,7 +277,7 @@ export function filterRecipients(recipients: Recipient[], query: string, shouldS
   return executeFuzzySearch(recipients, query, fuzzysortOptions, shouldSort)
 }
 
-export function filterRecipientFactory(recipients: Recipient[], shouldSort: boolean) {
+export function filterRecipientFactory<T extends Recipient>(recipients: T[], shouldSort: boolean) {
   const preparedRecipients = recipients.map((r) => ({
     ...r,
     displayPrepared: fuzzysort.prepare(r.name!),
