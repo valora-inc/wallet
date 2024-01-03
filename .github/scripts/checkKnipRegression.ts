@@ -1,5 +1,7 @@
+import chalk from 'chalk'
 import { diff } from 'jest-diff'
 import * as $ from 'shelljs'
+import stripAnsi from 'strip-ansi'
 
 const SECTION_REGEX = /[a-zA-Z ]+\([0-9]+\)/
 const CATEGORY_REGEX = /[a-zA-Z ]+/
@@ -26,12 +28,13 @@ function compareKnipResults(
   const rows: Array<Record<string, string | number>> = []
   for (const [category, baseProblems] of Object.entries(baseKnipResults)) {
     const branchProblems = branchKnipResults[category] ?? 0
+    const hasRegression = branchProblems > baseProblems
     rows.push({
       'Issue Category': category.trim(),
-      'Base Branch': baseProblems,
-      'PR Branch': branchProblems,
+      'Base Branch': hasRegression ? chalk.green(baseProblems) : baseProblems,
+      'PR Branch': hasRegression ? chalk.red(branchProblems) : branchProblems,
     })
-    if (branchProblems > baseProblems) {
+    if (hasRegression) {
       shouldFail = true
     }
   }
@@ -40,13 +43,13 @@ function compareKnipResults(
 }
 
 if (process.env.GITHUB_EVENT_NAME === 'pull_request') {
-  const branchKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
+  const branchKnipOutput = stripAnsi($.exec('yarn knip --no-gitignore').stdout.trim())
   const branchKnipResults = parseKnipOutput(branchKnipOutput)
 
   // checkout pr base. More info here: https://github.com/actions/checkout/tree/v3?tab=readme-ov-file#checkout-v3
   $.exec('git checkout HEAD^')
 
-  const baseKnipOutput = $.exec('yarn knip --no-gitignore').stdout.trim()
+  const baseKnipOutput = stripAnsi($.exec('yarn knip --no-gitignore').stdout.trim())
   const baseKnipResults = parseKnipOutput(baseKnipOutput)
 
   if (compareKnipResults(baseKnipResults, branchKnipResults)) {
