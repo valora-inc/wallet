@@ -40,7 +40,7 @@ function compareKnipResults(
     }
   }
 
-  // Use easy-table to instead of console.table, because console.table doesn't support colors (it escapes them)
+  // Use easy-table instead of console.table, because console.table doesn't support colors (it escapes them)
   console.log(easyTable.print(rows))
   return shouldFail
 }
