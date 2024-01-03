@@ -248,8 +248,10 @@ export function* watchAccountFundedOrLiquidated() {
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account
     // funded / liquidated status in this case
+    const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
     const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield* select(
-      lastKnownTokenBalancesSelector
+      lastKnownTokenBalancesSelector,
+      supportedNetworkIds
     )
 
     if (tokenBalance !== null && tokenBalance !== prevTokenBalance) {

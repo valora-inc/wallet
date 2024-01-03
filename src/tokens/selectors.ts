@@ -146,11 +146,8 @@ export const tokensBySymbolSelector = createSelector(
   }
 )
 
-/**
- * @deprecated
- */
 export const tokensWithLastKnownUsdValueSelector = createSelector(
-  tokensListWithAddressSelector,
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     return tokens.filter((tokenInfo) =>
       tokenInfo.balance
@@ -255,15 +252,8 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
-/**
- * @deprecated
- */
 export const lastKnownTokenBalancesSelector = createSelector(
-  [
-    tokensListWithAddressSelector,
-    tokensWithLastKnownUsdValueSelector,
-    usdToLocalCurrencyRateSelector,
-  ],
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, usdToLocalCurrencyRateSelector],
   (tokensList, tokensWithLastKnownUsdValue, usdToLocalRate) => {
     if (!usdToLocalRate || tokensList.length === 0) {
       return null

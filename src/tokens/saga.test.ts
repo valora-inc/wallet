@@ -34,7 +34,9 @@ import {
   mockTokenBalances,
 } from 'test/values'
 
-jest.mock('src/statsig')
+jest.mock('src/statsig', () => ({
+  getDynamicConfigParams: jest.fn(),
+}))
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {
@@ -220,10 +222,11 @@ describe('watchAccountFundedOrLiquidated', () => {
   }
 
   it('dispatches the account funded event if the account is funded', async () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ showBalances: ['celo-alfajores'] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
-          select(lastKnownTokenBalancesSelector),
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
           dynamic(balances(new BigNumber(0), new BigNumber(10))),
         ],
       ])
@@ -236,10 +239,11 @@ describe('watchAccountFundedOrLiquidated', () => {
   })
 
   it('dispatches the account liquidated event when the account is liquidated', async () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ showBalances: ['celo-alfajores'] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [
-          select(lastKnownTokenBalancesSelector),
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
           dynamic(balances(new BigNumber(10), new BigNumber(0))),
         ],
       ])
@@ -252,9 +256,13 @@ describe('watchAccountFundedOrLiquidated', () => {
   })
 
   it('does not dispatch the account funded event for an account restore', async () => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({ showBalances: ['celo-alfajores'] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
-        [select(lastKnownTokenBalancesSelector), dynamic(balances(null, new BigNumber(10)))],
+        [
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
+          dynamic(balances(null, new BigNumber(10))),
+        ],
       ])
       .dispatch({ type: 'TEST_ACTION_TYPE' })
       .dispatch({ type: 'TEST_ACTION_TYPE' })
