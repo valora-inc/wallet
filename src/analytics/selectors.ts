@@ -120,11 +120,22 @@ export const getCurrentUserTraits = createSelector(
     const tokensByUsdBalance = tokensWithBalance.sort(sortByUsdBalance)
 
     let totalBalanceUsd = new BigNumber(0)
+    const totalBalanceUsdByNetworkIdBigNumber: Record<string, BigNumber> = Object.fromEntries(
+      networkIds.map((networkId) => [`total${toPascalCase(networkId)}BalanceUsd`, new BigNumber(0)])
+    )
     for (const token of tokensByUsdBalance) {
       const tokenBalanceUsd = token.balance.multipliedBy(token.priceUsd ?? 0)
       if (!tokenBalanceUsd.isNaN()) {
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
+        totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}BalanceUsd`] =
+          totalBalanceUsdByNetworkIdBigNumber[
+            `total${toPascalCase(token.networkId)}BalanceUsd`
+          ].plus(tokenBalanceUsd)
       }
+    }
+    const totalBalanceUsdByNetworkId: Record<string, number> = {}
+    for (const [key, value] of Object.entries(totalBalanceUsdByNetworkIdBigNumber)) {
+      totalBalanceUsdByNetworkId[key] = value.toNumber()
     }
 
     const hasTokenBalanceFields: Record<string, boolean> = {
@@ -151,6 +162,7 @@ export const getCurrentUserTraits = createSelector(
       deviceLanguage: RNLocalize.getLocales()[0]?.languageTag, // Example: "en-GB"
       netWorthUsd: new BigNumber(totalBalanceUsd).plus(totalPositionsBalanceUsd).toNumber(), // Tokens + positions
       totalBalanceUsd: totalBalanceUsd?.toNumber(), // Only tokens (with a USD price), no positions
+      ...totalBalanceUsdByNetworkId,
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
         .filter((token) => !feeTokenIds.has(token.tokenId))
