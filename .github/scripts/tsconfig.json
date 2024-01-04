@@ -4,6 +4,7 @@
     "skipLibCheck": true,
     "moduleResolution": "node",
     "module": "commonjs",
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": true,
