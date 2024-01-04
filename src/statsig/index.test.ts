@@ -111,13 +111,13 @@ describe('Statsig helpers', () => {
       jest.mocked(Statsig.checkGate).mockImplementation(() => {
         throw new Error('mock error')
       })
-      const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
+      const output = getFeatureGate(StatsigFeatureGates.APP_REVIEW)
       expect(Logger.warn).toHaveBeenCalled()
-      expect(output).toEqual(FeatureGates[StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT])
+      expect(output).toEqual(FeatureGates[StatsigFeatureGates.APP_REVIEW])
     })
     it('returns Statsig values if no error is thrown', () => {
       jest.mocked(Statsig.checkGate).mockImplementation(() => true)
-      const output = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
+      const output = getFeatureGate(StatsigFeatureGates.APP_REVIEW)
       expect(Logger.warn).not.toHaveBeenCalled()
       expect(output).toEqual(true)
     })
