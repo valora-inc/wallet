@@ -146,16 +146,13 @@ export const tokensBySymbolSelector = createSelector(
   }
 )
 
-export const tokensWithLastKnownUsdValueSelector = createSelector(
-  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) => {
-    return tokens.filter((tokenInfo) =>
-      tokenInfo.balance
-        .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
-        .gt(STABLE_TRANSACTION_MIN_AMOUNT)
-    )
-  }
-)
+export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) =>
+    tokenInfo.balance
+      .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
+      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  )
+})
 
 /**
  * @deprecated use tokensWithTokenBalanceSelector instead
