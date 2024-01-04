@@ -198,7 +198,9 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
               "lineHeight": 22,
             },
             {
-              "fontSize": 14,
+              "fontFamily": "Inter-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.12,
               "lineHeight": 16,
               "marginRight": 24,
               "minHeight": 16,
@@ -256,7 +258,9 @@ exports[`EscrowedPaymentReminderNotification renders correctly 1`] = `
               "lineHeight": 22,
             },
             {
-              "fontSize": 14,
+              "fontFamily": "Inter-Medium",
+              "fontSize": 12,
+              "letterSpacing": 0.12,
               "lineHeight": 16,
               "marginRight": 24,
               "minHeight": 16,

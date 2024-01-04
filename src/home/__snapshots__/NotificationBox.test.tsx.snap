@@ -66,19 +66,21 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
               }
             >
-              <Text
-                style={
-                  {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 18,
-                    "lineHeight": 24,
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
                   }
-                }
-                testID="BackupKeyNotification/Text"
-              >
-                backupKeyNotification2
-              </Text>
+                  testID="BackupKeyNotification/Text"
+                >
+                  backupKeyNotification2
+                </Text>
+              </View>
               <View
                 style={
                   {
@@ -135,7 +137,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontSize": 14,
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -271,19 +275,21 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
               }
             >
-              <Text
-                style={
-                  {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 18,
-                    "lineHeight": 24,
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
                   }
-                }
-                testID="start_supercharging/Text"
-              >
-                startSuperchargingNotificationBody
-              </Text>
+                  testID="start_supercharging/Text"
+                >
+                  startSuperchargingNotificationBody
+                </Text>
+              </View>
               <View
                 style={
                   {
@@ -340,7 +346,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontSize": 14,
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -398,8 +406,10 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#666666",
-                          "fontSize": 14,
+                          "color": "#757575",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -491,19 +501,21 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
               }
             >
-              <Text
-                style={
-                  {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 18,
-                    "lineHeight": 24,
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
                   }
-                }
-                testID="verification_prompt/Text"
-              >
-                notification.body
-              </Text>
+                  testID="verification_prompt/Text"
+                >
+                  notification.body
+                </Text>
+              </View>
               <View
                 style={
                   {
@@ -560,7 +572,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontSize": 14,
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -618,8 +632,10 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#666666",
-                          "fontSize": 14,
+                          "color": "#757575",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -711,19 +727,21 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
               }
             >
-              <Text
-                style={
-                  {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 18,
-                    "lineHeight": 24,
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
                   }
-                }
-                testID="testNotification/Text"
-              >
-                Body Text
-              </Text>
+                  testID="testNotification/Text"
+                >
+                  Body Text
+                </Text>
+              </View>
               <View
                 style={
                   {
@@ -780,7 +798,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontSize": 14,
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -838,8 +858,10 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#666666",
-                          "fontSize": 14,
+                          "color": "#757575",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -905,19 +927,21 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                 }
               }
             >
-              <Text
-                style={
-                  {
-                    "color": "#2E3338",
-                    "fontFamily": "Inter-Regular",
-                    "fontSize": 18,
-                    "lineHeight": 24,
+              <View>
+                <Text
+                  style={
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 16,
+                      "lineHeight": 24,
+                    }
                   }
-                }
-                testID="celo_asset_education/Text"
-              >
-                whatIsGold
-              </Text>
+                  testID="celo_asset_education/Text"
+                >
+                  whatIsGold
+                </Text>
+              </View>
               <View
                 style={
                   {
@@ -974,7 +998,9 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontSize": 14,
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -1032,8 +1058,10 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#666666",
-                          "fontSize": 14,
+                          "color": "#757575",
+                          "fontFamily": "Inter-Medium",
+                          "fontSize": 12,
+                          "letterSpacing": 0.12,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
