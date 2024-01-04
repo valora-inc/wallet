@@ -1,4 +1,5 @@
 import { FetchMock } from 'jest-fetch-mock/types'
+import { Platform } from 'react-native'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
@@ -238,37 +239,44 @@ describe('saveContacts', () => {
     jest.clearAllMocks()
   })
 
-  it('invokes saveContacts API and saves last posted hash if not already saved', async () => {
-    await expectSaga(saveContacts)
-      .provide([
-        [select(phoneNumberVerifiedSelector), true],
-        [call(checkContactsPermission), true],
-        [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
-        [select(e164NumberSelector), mockE164Number],
-        [select(lastSavedContactsHashSelector), null],
-        [select(walletAddressSelector), '0xxyz'],
-        [call(retrieveSignedMessage), 'some signed message'],
-      ])
-      .put(contactsSaved('72a546e3fc087906f225c620888cae129156a2413bbb1eb0f82f647cedde1350'))
-      .run()
+  it.each([
+    { platform: 'ios', deviceId: 'abc-def-123' },
+    { platform: 'android', deviceId: '123-456' },
+  ])(
+    'invokes saveContacts API and saves last posted hash if not already saved',
+    async ({ platform, deviceId }) => {
+      Platform.OS = platform as 'ios' | 'android'
+      await expectSaga(saveContacts)
+        .provide([
+          [select(phoneNumberVerifiedSelector), true],
+          [call(checkContactsPermission), true],
+          [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
+          [select(e164NumberSelector), mockE164Number],
+          [select(lastSavedContactsHashSelector), null],
+          [select(walletAddressSelector), '0xxyz'],
+          [call(retrieveSignedMessage), 'some signed message'],
+        ])
+        .put(contactsSaved('72a546e3fc087906f225c620888cae129156a2413bbb1eb0f82f647cedde1350'))
+        .run()
 
-    expect(mockFetch).toHaveBeenCalledTimes(1)
-    expect(mockFetch).toHaveBeenCalledWith(networkConfig.saveContactsUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: `Valora 0xxyz:some signed message`,
-      },
-      body: JSON.stringify({
-        phoneNumber: mockE164Number,
-        contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
-        clientPlatform: 'android',
-        clientVersion: '0.0.1',
-        deviceId: 'abc-def-123',
-      }),
-      signal: expect.any(AbortSignal),
-    })
-  })
+      expect(mockFetch).toHaveBeenCalledTimes(1)
+      expect(mockFetch).toHaveBeenCalledWith(networkConfig.saveContactsUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora 0xxyz:some signed message`,
+        },
+        body: JSON.stringify({
+          phoneNumber: mockE164Number,
+          contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
+          clientPlatform: platform,
+          clientVersion: '0.0.1',
+          deviceId,
+        }),
+        signal: expect.any(AbortSignal),
+      })
+    }
+  )
 
   it('invokes saveContacts API and saves last posted hash if contacts are different', async () => {
     await expectSaga(saveContacts)
@@ -302,7 +310,7 @@ describe('saveContacts', () => {
         contacts: [mockE164Number2, mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
         clientPlatform: 'android',
         clientVersion: '0.0.1',
-        deviceId: 'abc-def-123',
+        deviceId: '123-456',
       }),
       signal: expect.any(AbortSignal),
     })
@@ -375,7 +383,7 @@ describe('saveContacts', () => {
         contacts: [mockE164NumberInvite, mockE164Number, mockE164Number2Invite],
         clientPlatform: 'android',
         clientVersion: '0.0.1',
-        deviceId: 'abc-def-123',
+        deviceId: '123-456',
       }),
       signal: expect.any(AbortSignal),
     })
