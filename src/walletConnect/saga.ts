@@ -428,6 +428,13 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     return
   }
 
+  // since there are some network requests needed to prepare the transaction,
+  // add a loading state
+  navigate(Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Loading,
+    origin: WalletConnectPairingOrigin.Deeplink,
+  })
+
   const supportedChains = yield* call(getSupportedChains)
 
   const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
