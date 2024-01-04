@@ -121,16 +121,16 @@ export const getCurrentUserTraits = createSelector(
 
     let totalBalanceUsd = new BigNumber(0)
     const totalBalanceUsdByNetworkIdBigNumber: Record<string, BigNumber> = Object.fromEntries(
-      networkIds.map((networkId) => [`total${toPascalCase(networkId)}Balance`, new BigNumber(0)])
+      networkIds.map((networkId) => [`total${toPascalCase(networkId)}BalanceUsd`, new BigNumber(0)])
     )
     for (const token of tokensByUsdBalance) {
       const tokenBalanceUsd = token.balance.multipliedBy(token.priceUsd ?? 0)
       if (!tokenBalanceUsd.isNaN()) {
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
-        totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}Balance`] =
-          totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}Balance`].plus(
-            tokenBalanceUsd
-          )
+        totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}BalanceUsd`] =
+          totalBalanceUsdByNetworkIdBigNumber[
+            `total${toPascalCase(token.networkId)}BalanceUsd`
+          ].plus(tokenBalanceUsd)
       }
     }
     const totalBalanceUsdByNetworkId: Record<string, number> = {}
