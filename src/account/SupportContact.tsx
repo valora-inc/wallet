@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, Platform, ScrollView, StyleSheet, Text, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { useDispatch, useSelector } from 'react-redux'
-import { Email, sendEmail } from 'src/account/emailSender'
 import { e164NumberSelector, nameSelector } from 'src/account/selectors'
 import { sendSupportRequest } from 'src/account/zendesk'
 import { showMessage } from 'src/alert/actions'
@@ -19,14 +18,12 @@ import Button, { BtnTypes } from 'src/components/Button'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import Switch from 'src/components/Switch'
 import TextInput from 'src/components/TextInput'
-import { CELO_SUPPORT_EMAIL_ADDRESS, DEFAULT_TESTNET } from 'src/config'
+import { DEFAULT_TESTNET } from 'src/config'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { hooksPreviewApiUrlSelector } from 'src/positions/selectors'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -68,8 +65,6 @@ function SupportContact({ route }: Props) {
   const [name, setName] = useState(cachedName ?? '')
   const [attachLogs, setAttachLogs] = useState(true)
   const [inProgress, setInProgress] = useState(false)
-
-  const useZendeskApi = getFeatureGate(StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT)
 
   const e164PhoneNumber = useSelector(e164NumberSelector)
   const currentAccount = useSelector(currentAccountSelector)
@@ -113,43 +108,16 @@ function SupportContact({ route }: Props) {
       network: DEFAULT_TESTNET,
     }
     const userId = e164PhoneNumber ? anonymizedPhone(e164PhoneNumber) : t('unknown')
-    const emailInfo: Email = {
-      subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
-      recipients: [CELO_SUPPORT_EMAIL_ADDRESS],
-      body: `${message}<br/><br/><b>${JSON.stringify(deviceInfo)}</b>`,
-      isHTML: true,
-    }
-    let attachments: Email['attachments']
-    if (attachLogs) {
-      attachments = await Logger.getLogsToAttach()
-      if (attachments) {
-        emailInfo.attachments = attachments
-        emailInfo.body +=
-          (emailInfo.body ? '<br/><br/>' : '') + '<b>Support logs are attached...</b>'
-      }
-    }
+    const attachments = attachLogs ? await Logger.getLogsToAttach() : []
     try {
-      if (useZendeskApi) {
-        await sendSupportRequest({
-          message,
-          deviceInfo,
-          logFiles: attachments ?? [],
-          userEmail: email,
-          userName: name,
-          subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
-        })
-      } else {
-        await sendEmail(
-          emailInfo,
-          deviceInfo,
-          // Get the current months log file to attach as text if sendEmailWithNonNativeApp is used
-          attachments
-            ? attachments.find(
-                (attachment: { name: string }) => attachment.name === Logger.getCurrentLogFileName()
-              )?.path ?? false
-            : false
-        )
-      }
+      await sendSupportRequest({
+        message,
+        deviceInfo,
+        logFiles: attachments,
+        userEmail: email,
+        userName: name,
+        subject: t('supportEmailSubject', { appName: APP_NAME, user: userId }),
+      })
       // Used to prevent flickering of the activity indicator on quick uploads
       // Also navigateBackAndToast is a bit slow, so the timeout helps ensure that the loadingSpinner stays until the user is redirected
       setTimeout(() => setInProgress(false), 1000)
@@ -157,7 +125,7 @@ function SupportContact({ route }: Props) {
     } catch (error) {
       Logger.error('SupportContact', 'Error while sending logs to support', error)
     }
-  }, [message, attachLogs, e164PhoneNumber, email, name, useZendeskApi])
+  }, [message, attachLogs, e164PhoneNumber, email, name])
 
   return (
     <View style={styles.container}>
@@ -178,33 +146,30 @@ function SupportContact({ route }: Props) {
           showClearButton={false}
           testID={'MessageEntry'}
         />
-        {useZendeskApi && (
-          <>
-            <Text style={styles.headerText}>{t('Name')}</Text>
-            <TextInput
-              onChangeText={setName}
-              multiline={false}
-              value={name}
-              style={styles.singleLineTextInput}
-              showClearButton={false}
-              testID={'NameEntry'}
-            />
-            <Text style={styles.headerText}>{t('Email')}</Text>
-            <TextInput
-              textContentType="emailAddress"
-              keyboardType="email-address"
-              autoComplete="email"
-              onChangeText={setEmail}
-              multiline={false}
-              value={email}
-              style={styles.singleLineTextInput}
-              placeholderTextColor={colors.gray4}
-              placeholder={t('Email') ?? undefined}
-              showClearButton={false}
-              testID={'EmailEntry'}
-            />
-          </>
-        )}
+        <Text style={styles.headerText}>{t('Name')}</Text>
+        <TextInput
+          onChangeText={setName}
+          multiline={false}
+          value={name}
+          style={styles.singleLineTextInput}
+          showClearButton={false}
+          testID={'NameEntry'}
+        />
+        <Text style={styles.headerText}>{t('Email')}</Text>
+        <TextInput
+          textContentType="emailAddress"
+          keyboardType="email-address"
+          autoComplete="email"
+          onChangeText={setEmail}
+          multiline={false}
+          value={email}
+          style={styles.singleLineTextInput}
+          placeholderTextColor={colors.gray4}
+          placeholder={t('Email') ?? undefined}
+          showClearButton={false}
+          testID={'EmailEntry'}
+        />
+
         <View style={styles.attachLogs}>
           <Switch
             testID="SwitchLogs"
@@ -226,9 +191,7 @@ function SupportContact({ route }: Props) {
           </Text>
         </View>
         <Button
-          disabled={
-            !message || inProgress || (useZendeskApi && (!name || !email || !validateEmail(email)))
-          }
+          disabled={!message || inProgress || !name || !email || !validateEmail(email)}
           onPress={onPressSendEmail}
           text={t('submit')}
           type={BtnTypes.PRIMARY}
