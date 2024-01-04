@@ -8,7 +8,6 @@ export enum StatsigDynamicConfigs {
 }
 
 export enum StatsigFeatureGates {
-  USE_ZENDESK_API_FOR_SUPPORT = 'use_zendesk_api_for_support',
   SHOW_POSITIONS = 'show_positions',
   SHOW_CLAIM_SHORTCUTS = 'show_claim_shortcuts',
   ALLOW_HOOKS_PREVIEW = 'allow_hooks_preview',
