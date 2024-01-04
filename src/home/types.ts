@@ -39,4 +39,5 @@ export interface Notification {
   showOnHomeScreen?: boolean
   id: string
   type: NotificationType
+  onView?: () => void
 }

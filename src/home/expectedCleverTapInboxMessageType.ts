@@ -4,6 +4,7 @@
 export interface ExpectedCleverTapInboxMessage {
   isRead?: boolean
   id?: string
+  _id?: string
   date?: number
   wzrk_id?: string
   wzrk_pivot?: string
@@ -24,7 +25,7 @@ interface Content {
   action?: Action
   message?: Message
   key?: number
-  icon?: Record<string, unknown>
+  icon?: Media
   title?: Message
   media?: Media
 }

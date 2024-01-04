@@ -39,12 +39,14 @@ export default function SimpleMessagingCard({
 
   return (
     <MessagingCard style={styles.container} testID={testID}>
-      {header && <Text style={styles.header}>{header}</Text>}
       <View style={styles.innerContainer}>
         <View style={styles.content}>
-          <Text style={styles.text} testID={`${testID}/Text`}>
-            {text}
-          </Text>
+          <View>
+            {header && <Text style={styles.header}>{header}</Text>}
+            <Text style={styles.text} testID={`${testID}/Text`}>
+              {text}
+            </Text>
+          </View>
           <CallToActionsBar
             callToActions={callToActions}
             testID={`${testID}/CallToActions`}

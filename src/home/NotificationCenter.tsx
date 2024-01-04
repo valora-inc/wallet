@@ -55,12 +55,12 @@ function useCleverTapNotifications() {
       setNotifications(
         messages
           .map((message: ExpectedCleverTapInboxMessage) => {
-            const messageId = message.id
+            const messageId = message.id ?? message._id
             const content = message.msg?.content?.[0]
             const header = content?.title?.text
             const text = content?.message?.text
-            const imageUrl = content?.media?.url
-            const icon = imageUrl && { uri: imageUrl }
+            const iconUrl = content?.icon?.url
+            const icon = iconUrl && { uri: iconUrl }
             const action = content?.action?.links?.[0]
             const ctaText = action?.text
             const ctaUrl =
@@ -99,6 +99,8 @@ function useCleverTapNotifications() {
                     notificationId,
                     notificationPositionInList: params?.index,
                   })
+                  CleverTap.pushInboxNotificationClickedEventForId(messageId)
+
                   const openInExternalBrowser = false
                   const isSecureOrigin = true
                   dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
@@ -114,6 +116,7 @@ function useCleverTapNotifications() {
                     notificationId,
                     notificationPositionInList: params?.index,
                   })
+
                   CleverTap.deleteInboxMessageForId(messageId)
                 },
               },
@@ -135,6 +138,10 @@ function useCleverTapNotifications() {
               type: NotificationType.clevertap_notification,
               text,
               icon,
+              onView: () => {
+                CleverTap.pushInboxNotificationViewedEventForId(messageId)
+                CleverTap.markReadInboxMessageForId(messageId)
+              },
             }
           })
           .filter(Boolean)
@@ -178,7 +185,6 @@ export function useNotifications() {
     }))
   )
 
-  // CleverTap Inbox
   const cleverTapNotifications = useCleverTapNotifications()
   notifications.push(...cleverTapNotifications)
 
@@ -249,6 +255,8 @@ export default function Notifications({ navigation }: NotificationsProps) {
               ({ id }) => id === item.id
             ),
           })
+
+          item.onView?.()
         }
       })
     },
