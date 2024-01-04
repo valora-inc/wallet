@@ -17,7 +17,7 @@ export function SendSelectRecipientSearchInput({
 }: SendSelectRecipientSearchInputProps) {
   const { t } = useTranslation()
   return (
-    <View testID="SendSelectRecipientSearchInput" style={styles.textInputContainer}>
+    <View style={styles.textInputContainer}>
       <TextInput
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
         value={input}
@@ -27,6 +27,7 @@ export function SendSelectRecipientSearchInput({
         placeholderTextColor={colors.gray4}
         // Font scaling is causing issues on Android
         allowFontScaling={Platform.OS === 'ios'}
+        testID="SendSelectRecipientSearchInput"
       />
     </View>
   )
