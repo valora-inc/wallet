@@ -1507,4 +1507,8 @@ export const migrations = {
       ),
     },
   }),
+  181: (state: any) => ({
+    ...state,
+    home: { ...state.home, cleverTapInboxMessages: [] },
+  }),
 }
