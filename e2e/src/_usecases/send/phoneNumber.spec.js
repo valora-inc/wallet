@@ -7,7 +7,6 @@ import {
   waitForElementByText,
 } from '../../utils/_utils'
 import {
-  DEFAULT_RECIPIENT_ADDRESS,
   SAMPLE_BACKUP_KEY_VERIFIED,
   SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY,
 } from '../../utils/consts'
@@ -37,7 +36,9 @@ describe('Send to Phone Number', () => {
 
   it('should be able to enter a phone number', async () => {
     await waitForElementByIdAndTap('SendSelectRecipientSearchInput')
-    await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
+    await element(by.id('SendSelectRecipientSearchInput')).replaceText(
+      SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER
+    )
     await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
     await waitForElementById('RecipientItem')
   })

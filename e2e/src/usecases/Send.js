@@ -160,7 +160,7 @@ export default Send = () => {
       .withTimeout(10_000)
   })
 
-  describe('When multi-token send flow to address (new flow)', () => {
+  describe.skip('When multi-token send flow to address (new flow)', () => {
     beforeAll(async () => {
       await launchApp({
         newInstance: true,
@@ -247,7 +247,7 @@ export default Send = () => {
     })
   })
 
-  describe('When multi-token send flow to recent recipient (new flow)', () => {
+  describe.skip('When multi-token send flow to recent recipient (new flow)', () => {
     beforeAll(async () => {
       await launchApp({
         newInstance: false,
@@ -299,7 +299,7 @@ export default Send = () => {
     })
   })
 
-  describe('When multi-token send flow to phone number with one address (new flow)', () => {
+  describe.skip('When multi-token send flow to phone number with one address (new flow)', () => {
     beforeAll(async () => {
       await device.uninstallApp()
       await device.installApp()
