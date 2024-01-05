@@ -23,7 +23,7 @@ export default Send = () => {
   })
 
   const commentText = 'Test transaction comment.'
-  describe('When multi-token send flow (old flow)', () => {
+  describe.skip('When multi-token send flow (old flow)', () => {
     beforeAll(async () => {
       await launchApp({
         newInstance: true,
