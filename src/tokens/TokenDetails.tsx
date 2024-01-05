@@ -96,25 +96,24 @@ export default function TokenDetailsScreen({ route }: Props) {
           errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
-        {usePriceHistoryFromBlockchainApi
-          ? !token.isStableCoin && (
-              <PriceHistoryChart
-                tokenId={tokenId}
-                containerStyle={styles.chartContainer}
-                chartPadding={Spacing.Thick24}
-                testID={`TokenDetails/Chart/${tokenId}`}
-                color={Colors.black}
-              />
-            )
-          : token.isNative &&
-            token.symbol === 'CELO' && (
-              <CeloGoldHistoryChart
-                color={Colors.black}
-                containerStyle={styles.chartContainer}
-                chartPadding={Spacing.Thick24}
-                testID="TokenDetails/Chart"
-              />
-            )}
+        {token.isNative && usePriceHistoryFromBlockchainApi ? (
+          <PriceHistoryChart
+            tokenId={tokenId}
+            containerStyle={styles.chartContainer}
+            chartPadding={Spacing.Thick24}
+            testID={`TokenDetails/Chart/${tokenId}`}
+            color={Colors.black}
+          />
+        ) : (
+          token.symbol === 'CELO' && (
+            <CeloGoldHistoryChart
+              color={Colors.black}
+              containerStyle={styles.chartContainer}
+              chartPadding={Spacing.Thick24}
+              testID="TokenDetails/Chart"
+            />
+          )
+        )}
         <Actions
           bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef}
           token={token}
