@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 178,
+          "version": 180,
         },
         "account": {
           "acceptedTerms": false,
@@ -304,6 +304,7 @@ describe('store state', () => {
           "status": "idle",
           "triggeredShortcutsStatus": {},
         },
+        "priceHistory": {},
         "recipients": {
           "coinbasePaySenders": [],
           "inviteRewardsSenders": [],

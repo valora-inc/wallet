@@ -33,6 +33,7 @@ import { localCurrencySaga } from 'src/localCurrency/saga'
 import { networkInfoSaga } from 'src/networkInfo/saga'
 import { nftsSaga } from 'src/nfts/saga'
 import { positionsSaga } from 'src/positions/saga'
+import { priceHistorySaga } from 'src/priceHistory/saga'
 import { setPhoneRecipientCache, updateValoraRecipientCache } from 'src/recipients/reducer'
 import { recipientsSaga } from 'src/recipients/saga'
 import { sendSaga } from 'src/send/saga'
@@ -135,6 +136,7 @@ export function* rootSaga() {
     yield* spawn(swapSaga)
     yield* spawn(keylessBackupSaga)
     yield* spawn(nftsSaga)
+    yield* spawn(priceHistorySaga)
   } catch (error) {
     Logger.error('@rootSaga', 'Error while initializing sagas', error)
     // Propagate so it's handled by Sentry

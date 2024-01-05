@@ -41,6 +41,8 @@ import {
   v174Schema,
   v176Schema,
   v177Schema,
+  v178Schema,
+  v179Schema,
   v17Schema,
   v18Schema,
   v1Schema,
@@ -73,6 +75,12 @@ import {
   v99Schema,
   vNeg1Schema,
 } from 'test/schemas'
+import {
+  mockInvitableRecipient,
+  mockInvitableRecipient2,
+  mockRecipient,
+  mockRecipient2,
+} from 'test/values'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -1494,6 +1502,34 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[178](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     delete expectedSchema.swap.guaranteedSwapPriceEnabled
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 178 to 179', () => {
+    const oldSchema = v178Schema
+    const migratedSchema = migrations[179](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.priceHistory = {}
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 179 to 180', () => {
+    const oldSchema = {
+      ...v179Schema,
+      send: {
+        ...v179Schema.send,
+        recentRecipients: [
+          // invitable recipients don't include an address
+          mockRecipient,
+          mockInvitableRecipient,
+          mockRecipient2,
+          mockInvitableRecipient2,
+        ],
+      },
+    }
+    const migratedSchema = migrations[180](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.send.recentRecipients = [mockRecipient, mockRecipient2]
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })
