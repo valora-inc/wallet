@@ -1,5 +1,6 @@
 import DeviceInfo from 'react-native-device-info'
-import { getExtraNotifications } from 'src/home/selectors'
+import { mockCleverTapInboxMessage } from 'src/home/cleverTapInbox'
+import { cleverTapInboxMessagesSelector, getExtraNotifications } from 'src/home/selectors'
 import { getMockStoreData } from 'test/utils'
 
 describe(getExtraNotifications, () => {
@@ -114,5 +115,18 @@ describe(getExtraNotifications, () => {
 
     const extraNotifications = getExtraNotifications(state)
     expect(Object.keys(extraNotifications)).toEqual(['notif1', 'notif3', 'notif7', 'notif9'])
+  })
+})
+
+describe('cleverTapInboxMessages', () => {
+  it('returns cleverTapInboxMessages', () => {
+    const state = getMockStoreData({
+      home: {
+        cleverTapInboxMessages: [mockCleverTapInboxMessage],
+      },
+    })
+
+    const messages = cleverTapInboxMessagesSelector(state)
+    expect(messages).toEqual([mockCleverTapInboxMessage])
   })
 })
