@@ -1,6 +1,5 @@
 import * as DEK from '@celo/cryptographic-utils/lib/dataEncryptionKey'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
-import CleverTap from 'clevertap-react-native'
 import { FetchMock } from 'jest-fetch-mock/types'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
 import * as RNLocalize from 'react-native-localize'
@@ -10,8 +9,8 @@ import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { e164NumberSelector } from 'src/account/selectors'
 import { AppEvents, InviteEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { HooksEnablePreviewOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
   appLock,
   inAppReviewRequested,
@@ -58,8 +57,8 @@ import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
 import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
-import Logger from 'src/utils/Logger'
 import { navigateToURI } from 'src/utils/linking'
+import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { initialiseWalletConnect } from 'src/walletConnect/saga'
 import { selectHasPendingState } from 'src/walletConnect/selectors'
@@ -676,7 +675,6 @@ describe('appInit', () => {
     // See https://jestjs.io/docs/mock-function-api/#mockfnmockcontexts
     expect(jest.mocked(ValoraAnalytics.init).mock.instances[0]).toBe(ValoraAnalytics)
     expect(initI18n).toHaveBeenCalledWith('nl-NL', true, '1')
-    expect(CleverTap.initializeInbox).toBeCalledTimes(1)
   })
 
   it('should initialise with the best language', async () => {
@@ -692,7 +690,6 @@ describe('appInit', () => {
     expect(initializeSentry).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('de-DE', true, '1')
-    expect(CleverTap.initializeInbox).toBeCalledTimes(1)
   })
 
   it('should initialise with the app fallback language', async () => {
@@ -706,7 +703,6 @@ describe('appInit', () => {
     expect(initializeSentry).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.init).toHaveBeenCalledTimes(1)
     expect(initI18n).toHaveBeenCalledWith('en-US', true, '1')
-    expect(CleverTap.initializeInbox).toBeCalledTimes(1)
   })
 })
 

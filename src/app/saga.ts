@@ -1,7 +1,6 @@
 import { compressedPubKey } from '@celo/cryptographic-utils'
 import getPhoneHash from '@celo/phone-utils/lib/getPhoneHash'
 import { hexToBuffer } from '@celo/utils/lib/address'
-import CleverTap from 'clevertap-react-native'
 import locales from 'locales'
 import { AppState, Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
@@ -146,7 +145,6 @@ export function* appInit() {
       allowOtaTranslations,
       otaTranslationsAppVersion
     ),
-    call([CleverTap, 'initializeInbox']),
   ])
 
   // This step is important if the user is offline and unable to fetch remote
