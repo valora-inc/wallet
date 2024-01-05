@@ -5,10 +5,6 @@ import 'react-native'
 import AccountNumber from 'src/components/AccountNumber'
 import { mockAccount } from 'test/values'
 
-jest.mock('@react-native-clipboard/clipboard', () => ({
-  setString: jest.fn(),
-}))
-
 describe('AccountNumber', () => {
   it('renders correctly when touch disabled', async () => {
     const tree = render(<AccountNumber address={mockAccount} touchDisabled={true} />)
