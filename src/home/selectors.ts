@@ -27,3 +27,6 @@ export const getExtraNotifications = createSelector(
     })
   }
 )
+
+export const cleverTapInboxMessagesSelector = (state: RootState) =>
+  state.home.cleverTapInboxMessages

@@ -14,7 +14,7 @@ import SimpleMessagingCard from 'src/components/SimpleMessagingCard'
 import EscrowedPaymentListItem from 'src/escrow/EscrowedPaymentListItem'
 import { getReclaimableEscrowPayments } from 'src/escrow/reducer'
 import { CLEVERTAP_PRIORITY, INVITES_PRIORITY, useSimpleActions } from 'src/home/NotificationBox'
-import { ExpectedCleverTapInboxMessage } from 'src/home/expectedCleverTapInboxMessageType'
+import { cleverTapInboxMessagesSelector } from 'src/home/selectors'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import ThumbsUpIllustration from 'src/icons/ThumbsUpIllustration'
 import { Screens } from 'src/navigator/Screens'
@@ -33,120 +33,100 @@ type NotificationsProps = NativeStackScreenProps<StackParamList, Screens.Notific
 function useCleverTapNotifications() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const [notifications, setNotifications] = useState<Notification[]>([])
 
-  useEffect(() => {
-    CleverTap.addListener(CleverTap.CleverTapInboxMessagesDidUpdate, updateNotifications)
+  const messages = useSelector(cleverTapInboxMessagesSelector)
 
-    updateNotifications()
+  const notifications: Notification[] = []
 
-    return () => {
-      CleverTap.removeListener(CleverTap.CleverTapInboxMessagesDidUpdate)
-    }
-  }, [])
+  if (messages) {
+    for (const message of messages) {
+      const messageId = message.id ?? message._id
+      const content = message.msg?.content?.[0]
+      const header = content?.title?.text
+      const text = content?.message?.text
+      const iconUrl = content?.icon?.url
+      const icon = iconUrl && { uri: iconUrl }
+      const action = content?.action?.links?.[0]
+      const ctaText = action?.text
+      const ctaUrl =
+        Platform.OS === 'android'
+          ? action?.url?.android?.text
+          : Platform.OS === 'ios'
+          ? action?.url?.ios?.text
+          : ''
 
-  const updateNotifications = () => {
-    CleverTap.getAllInboxMessages((error: any, messages: any) => {
-      if (error) {
-        Logger.error(TAG, error)
-        return
+      const PRIORITY_TAG = 'priority:'
+      const priorityOverride = Number(
+        message.msg?.tags
+          ?.find((tag: string) => tag.startsWith(PRIORITY_TAG))
+          ?.slice(PRIORITY_TAG.length)
+      )
+
+      if (!messageId || !text || !ctaText || !ctaUrl) {
+        Logger.warn(TAG, 'Unexpected CleverTap Inbox message format', {
+          messageId,
+          text,
+          ctaText,
+          ctaUrl,
+          rawMessage: message,
+        })
+        continue
       }
 
-      setNotifications(
-        messages
-          .map((message: ExpectedCleverTapInboxMessage) => {
-            const messageId = message.id ?? message._id
-            const content = message.msg?.content?.[0]
-            const header = content?.title?.text
-            const text = content?.message?.text
-            const iconUrl = content?.icon?.url
-            const icon = iconUrl && { uri: iconUrl }
-            const action = content?.action?.links?.[0]
-            const ctaText = action?.text
-            const ctaUrl =
-              Platform.OS === 'android'
-                ? action?.url?.android?.text
-                : Platform.OS === 'ios'
-                ? action?.url?.ios?.text
-                : ''
+      const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
+      const callToActions: CallToAction[] = [
+        {
+          text: ctaText,
+          onPress: (params) => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationType.clevertap_notification,
+              selectedAction: NotificationBannerCTATypes.accept,
+              notificationId,
+              notificationPositionInList: params?.index,
+            })
+            CleverTap.pushInboxNotificationClickedEventForId(messageId)
 
-            const PRIORITY_TAG = 'priority:'
-            const priorityOverride = Number(
-              message.msg?.tags
-                ?.find((tag: string) => tag.startsWith(PRIORITY_TAG))
-                ?.slice(PRIORITY_TAG.length)
-            )
+            const openInExternalBrowser = false
+            const isSecureOrigin = true
+            dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
+          },
+        },
+        {
+          text: t('dismiss'),
+          isSecondary: true,
+          onPress: (params) => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationType.clevertap_notification,
+              selectedAction: NotificationBannerCTATypes.decline,
+              notificationId,
+              notificationPositionInList: params?.index,
+            })
 
-            if (!messageId || !text || !ctaText || !ctaUrl) {
-              Logger.warn(TAG, 'Unexpected CleverTap Inbox message format', {
-                messageId,
-                text,
-                ctaText,
-                ctaUrl,
-                rawMessage: message,
-              })
-              return null
-            }
-
-            const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
-            const callToActions: CallToAction[] = [
-              {
-                text: ctaText,
-                onPress: (params) => {
-                  ValoraAnalytics.track(HomeEvents.notification_select, {
-                    notificationType: NotificationType.clevertap_notification,
-                    selectedAction: NotificationBannerCTATypes.accept,
-                    notificationId,
-                    notificationPositionInList: params?.index,
-                  })
-                  CleverTap.pushInboxNotificationClickedEventForId(messageId)
-
-                  const openInExternalBrowser = false
-                  const isSecureOrigin = true
-                  dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
-                },
-              },
-              {
-                text: t('dismiss'),
-                isSecondary: true,
-                onPress: (params) => {
-                  ValoraAnalytics.track(HomeEvents.notification_select, {
-                    notificationType: NotificationType.clevertap_notification,
-                    selectedAction: NotificationBannerCTATypes.decline,
-                    notificationId,
-                    notificationPositionInList: params?.index,
-                  })
-
-                  CleverTap.deleteInboxMessageForId(messageId)
-                },
-              },
-            ]
-            return {
-              renderElement: (params?: { index?: number }) => (
-                <SimpleMessagingCard
-                  callToActions={callToActions}
-                  header={header}
-                  text={text}
-                  icon={icon}
-                  testID={notificationId}
-                  index={params?.index}
-                />
-              ),
-              priority: priorityOverride || CLEVERTAP_PRIORITY,
-              showOnHomeScreen: false,
-              id: notificationId,
-              type: NotificationType.clevertap_notification,
-              text,
-              icon,
-              onView: () => {
-                CleverTap.pushInboxNotificationViewedEventForId(messageId)
-                CleverTap.markReadInboxMessageForId(messageId)
-              },
-            }
-          })
-          .filter(Boolean)
-      )
-    })
+            CleverTap.deleteInboxMessageForId(messageId)
+          },
+        },
+      ]
+      notifications.push({
+        renderElement: (params?: { index?: number }) => (
+          <SimpleMessagingCard
+            callToActions={callToActions}
+            header={header}
+            text={text}
+            icon={icon}
+            testID={notificationId}
+            index={params?.index}
+          />
+        ),
+        priority: priorityOverride || CLEVERTAP_PRIORITY,
+        showOnHomeScreen: false,
+        id: notificationId,
+        type: NotificationType.clevertap_notification,
+        onView: () => {
+          CleverTap.pushInboxNotificationViewedEventForId(messageId)
+          CleverTap.markReadInboxMessageForId(messageId)
+        },
+      })
+    }
   }
 
   return notifications

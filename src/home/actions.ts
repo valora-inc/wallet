@@ -1,3 +1,4 @@
+import { ExpectedCleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
 
 export enum Actions {
@@ -8,6 +9,7 @@ export enum Actions {
   START_BALANCE_AUTOREFRESH = 'HOME/START_BALANCE_AUTOREFRESH',
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
   VISIT_HOME = 'HOME/VISIT_HOME',
+  UPDATE_CLEVERTAP_INBOX_MESSAGES = 'UPDATE_CLEVERTAP_INBOX_MESSAGES',
 }
 
 export interface VisitHomeAction {
@@ -33,7 +35,16 @@ export interface RefreshBalancesBalancesAction {
   type: Actions.REFRESH_BALANCES
 }
 
-export type ActionTypes = SetLoadingAction | UpdateNotificationsAction | DismissNotificationAction
+export interface UpdateCleverTapInboxMessagesAction {
+  type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES
+  messages: ExpectedCleverTapInboxMessage[]
+}
+
+export type ActionTypes =
+  | SetLoadingAction
+  | UpdateNotificationsAction
+  | DismissNotificationAction
+  | UpdateCleverTapInboxMessagesAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
@@ -66,4 +77,11 @@ export const startBalanceAutorefresh = () => ({
 
 export const stopBalanceAutorefresh = () => ({
   type: Actions.STOP_BALANCE_AUTOREFRESH,
+})
+
+export const updateCleverTapInboxMessages = (
+  messages: ExpectedCleverTapInboxMessage[]
+): UpdateCleverTapInboxMessagesAction => ({
+  type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES,
+  messages,
 })
