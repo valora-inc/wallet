@@ -54,5 +54,11 @@ jest.mock('react-native-shake', () => ({
   removeAllListeners: jest.fn(),
 }))
 
+jest.mock('@react-native-clipboard/clipboard', () => ({
+  setString: jest.fn(),
+  getString: jest.fn(),
+  hasString: jest.fn(),
+}))
+
 // @ts-ignore
 global.__reanimatedWorkletInit = jest.fn()

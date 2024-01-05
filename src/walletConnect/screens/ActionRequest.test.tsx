@@ -21,10 +21,6 @@ import { Address } from 'viem'
 
 jest.mock('src/statsig')
 
-jest.mock('@react-native-clipboard/clipboard', () => ({
-  setString: jest.fn(),
-}))
-
 describe('ActionRequest with WalletConnect V2', () => {
   const v2Session: SessionTypes.Struct = {
     expiry: 1670411909,
