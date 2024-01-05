@@ -1,4 +1,4 @@
-import { waitForElementByText } from './_utils'
+import { waitForElementByText, waitForElementById } from './_utils'
 import jestExpect from 'expect'
 
 /**
@@ -25,5 +25,21 @@ export async function confirmTransaction(commentText) {
     await waitForElementByText('Completed')
   } catch (error) {
     throw new Error(`utils/confirmTransaction failed: ${error}`)
+  }
+}
+
+/**
+ * Add a comment to a send transaction
+ * @param {string} comment
+ */
+export async function addComment(comment) {
+  await waitForElementById('commentInput/send')
+  await element(by.id('commentInput/send')).replaceText('')
+  await element(by.id('commentInput/send')).replaceText(`${comment}\n`)
+  await element(by.id('commentInput/send')).tapReturnKey()
+  if (device.getPlatform() === 'android') {
+    // Workaround keyboard remaining open on Android (tapReturnKey doesn't work there and just adds a new line)
+    // so we tap something else in the scrollview to hide the soft keyboard
+    await waitForElementByIdAndTap('HeaderText')
   }
 }

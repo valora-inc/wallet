@@ -33,7 +33,7 @@ export const reloadReactNative = async (dismissBottomSheet = true) => {
       } catch (error) {
         // eslint-disable-next-line no-console
         console.error('Failed to reload react native with error', error)
-        await launchApp()
+        await launchApp(device.appLaunchArgs)
       }
     },
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }

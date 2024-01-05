@@ -1,16 +1,15 @@
 import jestExpect from 'expect'
 import {
-  addComment,
   enterPinIfNecessary,
   inputNumberKeypad,
   quickOnboarding,
   waitForElementById,
   waitForElementByIdAndTap,
   waitForElementByText,
-} from '../utils/_utils'
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { launchApp } from '../utils/retries'
-import { confirmTransaction } from '../utils/send'
+} from '../../utils/_utils'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../../utils/consts'
+import { addComment, confirmTransaction } from '../../utils/send'
+import { launchApp } from '../../utils/retries'
 
 const faker = require('@faker-js/faker')
 
@@ -22,10 +21,8 @@ describe('Send to Address (old flow)', () => {
       newInstance: true,
       launchArgs: {
         statsigGateOverrides: 'use_new_send_flow=false,use_viem_for_send=false',
-        detoxPrintBusyIdleResources: 'YES',
-        blacklistURLs: '.*blockchain-api-dot-celo-mobile-alfajores.*',
       },
-      permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
+      permissions: { contacts: 'YES' },
     })
     await quickOnboarding()
   })
