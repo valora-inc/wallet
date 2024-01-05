@@ -3,7 +3,7 @@ import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native
 import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
 import MessagingCard from 'src/components/MessagingCard'
 import Colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export interface Props {
@@ -75,8 +75,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   text: {
-    ...typeScale.bodyMedium,
-    color: Colors.black,
+    ...fontStyles.large,
   },
   iconContainer: {
     marginHorizontal: 12,

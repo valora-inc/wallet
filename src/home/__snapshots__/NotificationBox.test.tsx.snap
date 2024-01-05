@@ -72,7 +72,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
+                      "fontSize": 18,
                       "lineHeight": 24,
                     }
                   }
@@ -137,9 +137,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -281,7 +279,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
+                      "fontSize": 18,
                       "lineHeight": 24,
                     }
                   }
@@ -346,9 +344,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -406,10 +402,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#757575",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "color": "#666666",
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -507,7 +501,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
+                      "fontSize": 18,
                       "lineHeight": 24,
                     }
                   }
@@ -572,9 +566,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -632,10 +624,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#757575",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "color": "#666666",
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -733,7 +723,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
+                      "fontSize": 18,
                       "lineHeight": 24,
                     }
                   }
@@ -798,9 +788,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -858,10 +846,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#757575",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "color": "#666666",
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -933,7 +919,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                     {
                       "color": "#2E3338",
                       "fontFamily": "Inter-Regular",
-                      "fontSize": 16,
+                      "fontSize": 18,
                       "lineHeight": 24,
                     }
                   }
@@ -998,9 +984,7 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
@@ -1058,10 +1042,8 @@ exports[`NotificationBox renders correctly for with all notifications 1`] = `
                           "lineHeight": 22,
                         },
                         {
-                          "color": "#757575",
-                          "fontFamily": "Inter-Medium",
-                          "fontSize": 12,
-                          "letterSpacing": 0.12,
+                          "color": "#666666",
+                          "fontSize": 14,
                           "lineHeight": 16,
                           "marginRight": 24,
                           "minHeight": 16,
