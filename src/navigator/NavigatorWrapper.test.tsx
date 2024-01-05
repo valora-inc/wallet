@@ -25,6 +25,11 @@ jest.mock('@react-native-firebase/dynamic-links', () => () => ({
   onLink: mockDynamicLinksOnLink,
   getInitialLink: mockDynamicLinksGetInitialLink,
 }))
+jest.mock('clevertap-react-native', () => ({
+  getInitialUrl: jest.fn(),
+  addListener: jest.fn(),
+  removeListener: jest.fn(),
+}))
 
 describe('NavigatorWrapper', () => {
   beforeEach(() => {

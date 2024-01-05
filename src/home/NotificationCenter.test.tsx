@@ -44,6 +44,13 @@ jest.mock('src/navigator/NavigationService', () => ({
 }))
 jest.mock('src/statsig')
 
+jest.mock('clevertap-react-native', () => ({
+  deleteInboxMessageForId: jest.fn(),
+  markReadInboxMessageForId: jest.fn(),
+  pushInboxNotificationViewedEventForId: jest.fn(),
+  pushInboxNotificationClickedEventForId: jest.fn(),
+}))
+
 const DEVICE_HEIGHT = 850
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000

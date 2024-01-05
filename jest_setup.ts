@@ -60,20 +60,5 @@ jest.mock('@react-native-clipboard/clipboard', () => ({
   hasString: jest.fn(),
 }))
 
-jest.mock('clevertap-react-native', () => ({
-  getInitialUrl: jest.fn(),
-  addListener: jest.fn(),
-  removeListener: jest.fn(),
-  initializeInbox: jest.fn(),
-  getAllInboxMessages: jest.fn(),
-  pushInboxNotificationClickedEventForId: jest.fn(),
-  deleteInboxMessageForId: jest.fn(),
-  pushInboxNotificationViewedEventForId: jest.fn(),
-  markReadInboxMessageForId: jest.fn(),
-  registerForPush: jest.fn(),
-  setPushToken: jest.fn(),
-  createNotificationChannel: jest.fn(),
-}))
-
 // @ts-ignore
 global.__reanimatedWorkletInit = jest.fn()
