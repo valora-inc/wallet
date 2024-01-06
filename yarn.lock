@@ -1912,15 +1912,15 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.23":
-  version "0.5.23"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.23.tgz#19427d16b0a5dd7627099727dd3129b5def2b6e9"
-  integrity sha512-1UkQjCry93W6hMoR5v76JT/Wnmi1IwRtatJEdGn5C/8xcqV8eoigaKD3EPXce8JZ9qEy+FwBjv8abB5sTDzofQ==
+"@fiatconnect/fiatconnect-sdk@^0.5.24":
+  version "0.5.24"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.24.tgz#434a142eca3e6f189542258bb76adce3e28b06ec"
+  integrity sha512-x6xpn8h7kkic33UwBTt2YHsXvXaCcik//fKOVyTLYMalDWb2IfrSLnGS6VS/8M/CIg9DWCLmNs/dje71Kq9sZg==
   dependencies:
     "@badrap/result" "^0.2.13"
     "@fiatconnect/fiatconnect-types" "^13.3.0"
     cross-fetch "^4.0.0"
-    ethers "^6.9.1"
+    ethers "^6.9.2"
     fetch-cookie "^2.1.0"
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
@@ -8775,7 +8775,7 @@ ethers@^5.0.13, ethers@^5.5.4:
     "@ethersproject/web" "5.7.1"
     "@ethersproject/wordlists" "5.7.0"
 
-ethers@^6.9.0, ethers@^6.9.1:
+ethers@^6.9.0, ethers@^6.9.2:
   version "6.9.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.9.2.tgz#6f4632f62e2350fa8354ff28624027a175ef85a4"
   integrity sha512-YpkrtILnMQz5jSEsJQRTpduaGT/CXuLnUIuOYzHA0v/7c8IX91m2J48wSKjzGL5L9J/Us3tLoUdb+OwE3U+FFQ==
@@ -12904,10 +12904,10 @@ mockdate@^3.0.5:
   resolved "https://registry.yarnpkg.com/mockdate/-/mockdate-3.0.5.tgz#789be686deb3149e7df2b663d2bc4392bc3284fb"
   integrity sha512-iniQP4rj1FhBdBYS/+eQv7j1tadJ9lJtdzgOpvsOHng/GbcDh2Fhdeq+ZRldrPYdXvCyfFUmFeEwEGXZB5I/AQ==
 
-moment@^2.10.6, moment@^2.19.3, moment@^2.29.4:
-  version "2.29.4"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.29.4.tgz#3dbe052889fe7c1b2ed966fcb3a77328964ef108"
-  integrity sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==
+moment@^2.10.6, moment@^2.19.3, moment@^2.30.1:
+  version "2.30.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
+  integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
 
 mri@^1.1.4:
   version "1.1.4"
@@ -14965,15 +14965,15 @@ react-native-version@^3.1.0:
     resolve-from "^5.0.0"
     semver "^6.0.0"
 
-react-native-video@^6.0.0-beta.2:
-  version "6.0.0-beta.2"
-  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.2.tgz#b3dce837300a99c2e6db0adf0a1e215906472ad9"
-  integrity sha512-5BHUN82Q3Op9hN8Dwe2tv7xIzVBVYaYOFyS67jdkljVdUBa7V75lMka5ovE4OSycII4vk6p8pF6QuxrkAX+nIg==
+react-native-video@^6.0.0-beta.3:
+  version "6.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.3.tgz#acf7fca5feefb1ac93a6cac3dbfe0e0476714369"
+  integrity sha512-WCGhl9drOr670En1taM7YF0r8obSjirnBabBaz+c0n2ZWd6EJUezI2+OtRH+/EQdtpI6hR52nTMIl42cQITEOw==
 
-react-native-webview@^13.6.3:
-  version "13.6.3"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.6.3.tgz#f3d26e942ef5cc5a07547f2e47903aa81a68e25e"
-  integrity sha512-IApO0JSj0uAWsBGKWagyfgDYoX29piiMYLmkHtRjKeL1rIVjLoR/bMe7KJ/0X47y86b//a6u3cYQtphyay+F2A==
+react-native-webview@^13.6.4:
+  version "13.6.4"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.6.4.tgz#6ef66db9dd78b2a2ae1b4fe79e1e3597aa29186e"
+  integrity sha512-AdgmaMBHPcyERTvng9eSGgHX6AleyUlSusWAxngSOSdiYGgHW81T6C5A8j/ImJAF9oZg0bQDxp43Hu56tzENZQ==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
