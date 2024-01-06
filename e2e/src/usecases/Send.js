@@ -14,7 +14,6 @@ import {
   waitForElementId,
   isElementVisible,
 } from '../utils/utils'
-const faker = require('@faker-js/faker')
 import jestExpect from 'expect'
 
 export default Send = () => {
@@ -133,7 +132,7 @@ export default Send = () => {
     it('Then should be able to send', async () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
-      await expect(element(by.id('errorBanner'))).not.toBeVisible()
+      await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30_000)
@@ -242,7 +241,7 @@ export default Send = () => {
     it('Then should be able to send', async () => {
       await waitForElementByIdAndTap('ConfirmButton', 30_000)
       await enterPinUiIfNecessary()
-      await expect(element(by.id('errorBanner'))).not.toBeVisible()
+      await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
@@ -294,7 +293,7 @@ export default Send = () => {
     it('Then should be able to send', async () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
-      await expect(element(by.id('errorBanner'))).not.toBeVisible()
+      await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
@@ -355,7 +354,7 @@ export default Send = () => {
     it('Then should be able to send', async () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
-      await expect(element(by.id('errorBanner'))).not.toBeVisible()
+      await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
     })
   })
