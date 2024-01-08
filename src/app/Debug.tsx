@@ -4,7 +4,6 @@ import { StyleSheet, Text } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { connect } from 'react-redux'
-import LogView from 'src/app/LogView'
 import Button, { BtnTypes } from 'src/components/Button'
 import { noHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -15,7 +14,6 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { getLatestBlock } from 'src/web3/utils'
 
 interface State {
-  reactNativeLogs: string
   latestBlockNumber: number
 }
 
@@ -23,20 +21,11 @@ export class Debug extends React.Component<RootState, State> {
   static navigationOptions = noHeader
 
   state = {
-    reactNativeLogs: '',
     latestBlockNumber: 0,
   }
 
   async componentDidMount() {
-    await this.updateLogs()
     await this.updateLatestBlock()
-  }
-
-  updateLogs = async () => {
-    this.setState({
-      reactNativeLogs:
-        "This feature has been removed. It didn't work with log files above a certain size.",
-    })
   }
 
   updateLatestBlock = async () => {
@@ -58,7 +47,7 @@ export class Debug extends React.Component<RootState, State> {
   }
 
   render() {
-    const { reactNativeLogs, latestBlockNumber } = this.state
+    const { latestBlockNumber } = this.state
     const pincodeType = this.props.account.pincodeType
     const address = currentAccountSelector(this.props)
     const phoneNumber = this.props.account.e164PhoneNumber
@@ -83,12 +72,6 @@ export class Debug extends React.Component<RootState, State> {
           style={styles.singleLine}
         >{`Address: ${address}`}</Text>
         <Text style={styles.singleLine}>{`Latest Block: ${latestBlockNumber}`}</Text>
-        <LogView
-          title={'React-Native Logs'}
-          logs={reactNativeLogs}
-          style={styles.logView}
-          onPress={this.onClickText(reactNativeLogs)}
-        />
         <Button
           onPress={this.onClickEmailLogs}
           text={'Email logs to support'}
@@ -110,10 +93,6 @@ const styles = StyleSheet.create({
   singleLine: {
     marginTop: 5,
     fontSize: 11,
-  },
-  logView: {
-    marginTop: 8,
-    flex: 1,
   },
   button: {
     marginHorizontal: 0,
