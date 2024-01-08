@@ -49,7 +49,7 @@ import { iconHitslop } from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 import { isDekRegisteredSelector } from 'src/web3/selectors'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 
@@ -191,7 +191,7 @@ function SendConfirmation(props: Props) {
           <LegacyFeeDrawer
             testID={'feeDrawer/SendConfirmation'}
             isEstimate={true}
-            currency={Currency.Dollar}
+            securityFeeTokenId={networkConfig.cusdTokenId}
             securityFee={securityFeeInUsd}
             showDekfee={!isDekRegistered}
             dekFee={dekFeeInUsd}
