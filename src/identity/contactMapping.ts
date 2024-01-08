@@ -460,6 +460,11 @@ export function* saveContacts() {
     const walletAddress = yield* select(walletAddressSelector)
     const signedMessage = yield* call(retrieveSignedMessage)
 
+    const deviceId =
+      Platform.OS === 'android'
+        ? yield* call(DeviceInfo.getInstanceId)
+        : yield* call(DeviceInfo.getUniqueId)
+
     const response: Response = yield* call(fetchWithTimeout, `${networkConfig.saveContactsUrl}`, {
       method: 'POST',
       headers: {
@@ -471,6 +476,7 @@ export function* saveContacts() {
         contacts,
         clientPlatform: Platform.OS,
         clientVersion: DeviceInfo.getVersion(),
+        deviceId,
       }),
     })
 

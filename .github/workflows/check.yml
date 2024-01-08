@@ -67,3 +67,7 @@ jobs:
           fetch-depth: 2
       - uses: ./.github/actions/yarn-install
       - run: yarn ts-node ./.github/scripts/checkKnipRegression.ts
+        env:
+          # Force color output in the terminal with chalk
+          # See https://github.com/chalk/supports-color/issues/106
+          FORCE_COLOR: 2

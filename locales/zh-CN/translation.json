@@ -161,7 +161,7 @@
   "introBackUpPhrase": "备份恢复短语",
   "introCompleteQuiz": "完成我们的备份测试，以验证您的钱包是否可以恢复。\n\n如果您写错恢复短语，则无法在您的设备出现问题时访问您的钱包。",
   "postSetupTitle": "您的恢复短语",
-  "postSetupBody": "如果您丢失了恢复密码，您将无法访问 {{appName}}上的所有资产。没有恢复密码，任何人，甚至是 {{appName}}，都无法帮助您恢复账户。请将它存放在安全的地方，不要与他人共享。",
+  "postSetupBody": "如果您丢失了恢复短语，您将无法访问您在 {{appName}} 上的所有资产。没有恢复短语，任何人，甚至是 {{appName}}，都无法帮助您恢复账户。请将恢复短语存放在安全的地方，切勿与他人共享。",
   "postSetupCTA": "了解您的恢复短语",
   "failedFetchMnemonic": "获取恢复短语失败",
   "backupAndRecovery": "备份和恢复",
@@ -265,8 +265,8 @@
   "confirmTransaction": "确认交易",
   "allow": "允许",
   "address": "钱包地址",
-  "supportedNetwork": "支持的网络： {{network}}",
-  "supportedNetworks": "支持的网络： {{networks}}",
+  "supportedNetwork": "支持的网络：{{network}}",
+  "supportedNetworks": "支持的网络：{{networks}}",
   "and": "和",
   "phoneNumber": "手机号码",
   "transaction": {
@@ -362,12 +362,12 @@
   "receiveWithBidali": "礼品卡和手机充值",
   "fundingEducationDialog": {
     "title": "为您的 {{appName}} 添加资金",
-    "body": "要为 {{appName}} 钱包充值，请从您所在地区的第三方供应商处购买您喜欢的资产。更多信息，请访问 <0>{{link}}</0>",
+    "body": "如需为 {{appName}} 钱包充值，请从您所在地区的第三方供应商处购买您喜欢的资产。更多信息，请访问 <0>{{link}}</0>",
     "dismiss": "确定"
   },
   "cashOutEducationDialog": {
     "title": "从 {{appName}} 提取",
-    "body": "要提取 {{appName}} 余额，请向您所在地区的第三方供应商出售所需资产。更多信息，请访问 <0>{{link}}</0>",
+    "body": "如需提取 {{appName}} 余额，请向您所在地区的第三方供应商出售所需资产。更多信息，请访问 <0>{{link}}</0>",
     "dismiss": "确定"
   },
   "explanationModal": {
@@ -563,10 +563,10 @@
   ],
   "addressValidationError": "钱包地址不正确",
   "addressValidationNoMatch": "钱包地址不正确",
-  "addressValidationFullPoorlyFormatted": "钱包地址以 \"0x \"开头，长度为 42 个字符",
-  "addressValidationPartialPoorlyFormatted": "钱包地址以 \"0x \"开头，长度为 42 个字符",
-  "addressValidationFullOwnAddress": "这是您的钱包地址，请输入联系人的钱包地址。",
-  "addressValidationPartialOwnAddress": "这是您的钱包地址，请输入联系人的钱包地址。",
+  "addressValidationFullPoorlyFormatted": "钱包地址以“0x”开头，长度为 42 个字符",
+  "addressValidationPartialPoorlyFormatted": "钱包地址以“0x”开头，长度为 42 个字符",
+  "addressValidationFullOwnAddress": "这是您的钱包地址，请输入您的联系人的钱包地址。",
+  "addressValidationPartialOwnAddress": "这是您的钱包地址，请输入您的联系人的钱包地址。",
   "providerRateFetchFailed": "无法获取提供商费率。您可以在没有预填费率的情况下继续。",
   "helpFindAccount": "帮助您的联系人找到其账户地址",
   "close": "关闭",
@@ -634,7 +634,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "邀请好友并领取奖励",
-    "body": "一旦他们设置并向 {{appName}} 钱包添加资金，你们都将收到 0.50 cUSD。"
+    "body": "在他们成功设置 {{appName}} 钱包并向其转账后，你们都将获得 0.50 cUSD 的奖励。"
   },
   "inviteWithUrl": {
     "title": "邀请朋友",
@@ -642,28 +642,28 @@
     "button": "分享邀请",
     "error": "创建可分享链接时出现问题",
     "share": "嘿！快来注册 {{appName}} 钱包。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：{{shareUrl}}。",
-    "help": "要领取此奖励，受邀者必须通过推荐链接下载、连接电话号码、添加资金并在 {{appName}} 钱包中保留 7 天。<0>查看所有条款</0>",
+    "help": "要领取这笔奖励，受邀者必须通过推荐链接下载钱包应用，关联电话号码并向其 {{appName}} 钱包转账，并且 7 天之内不转出资金。<0>查看所有条款</0>",
     "rewardsActive": {
       "title": "邀请朋友并收集 NFT",
       "body": "邀请您的朋友和家人下载 {{appName}} ，你们每个人都将获得一个独家的 NFT"
     },
     "rewardsActiveCUSD": {
-      "title": "时间有限。邀请好友加入 Valora，即可免费获得 cUSD！",
-      "body": "推荐奖励又回来了，而且比以前更简单。每邀请一位朋友登录 {{appName}}，即可获得 0.50 cUSD。一旦他们添加资金并持有 7 天，你们都将获得 0.50 cUSD。快点，资金有限！(仅限 25 位好友）。"
+      "title": "时间有限，先到先得。邀请朋友注册 Valora，赚取免费 cUSD！",
+      "body": "推荐奖励又回来了，而且比以前更简单。每邀请一位朋友注册 {{appName}}，即可赚取 0.50 cUSD。朋友添加资金，并持有达 7 天后，你们都将获得 0.50 cUSD 奖励。资金有限，先到先得！（仅限 25 位朋友）。"
     }
   },
   "getReward": "获得 ${{reward}}",
   "welcomeCelo": "欢迎使用 {{appName}}",
   "chooseCountryCode": "国家/地区代码",
   "chooseCountry": "国家/地区",
-  "joinText": "{{appName}} 帮助您在区块链上发送、接收和保存价值。",
+  "joinText": "{{appName}} 帮助您在区块链上发送、接收和储蓄价值。",
   "terms": {
     "title": "条款和条件",
     "heading1": "数据和隐私",
     "heading2": "Celo 资产和 {{appName}} 账户",
     "info": "要使用我们的服务，请阅读我们的<0>用户协议和条款</0>并点击下面的接受按钮接受。",
-    "privacy": "加入此网络即表示您允许我们收集有关您使用此应用程序的匿名信息。此外，如果您连接了您的手机号码，我们将存储该号码的散列副本。如果您允许Valora访问您的联系人列表，Valora将导入每个联系人的姓名、电话号码和个人照片，以便用户通过Valora应用程序进行连接。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
-    "goldDisclaimer": "当您在 Valora 创建一个 \"账户 \"时，您就创建了一个数字钱包，只有您才拥有该钱包的密钥。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤销交易或恢复丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对金融风险的承受能力。"
+    "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，将存储它的哈希副本。如果您授予 Valora 访问您的联系人列表的权限，Valora 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 Valora 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
+    "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
   },
   "fullNameOrPsuedonym": "全名或化名",
   "namePlaceholder": "例如：姓名",
@@ -725,7 +725,7 @@
   "retryWithFornoModal": {
     "header": "使用数据保护模式重试连接？",
     "body1": "关联您的手机号码时发生问题。我们建议启用数据保护模式后再试一次。",
-    "body2": "数据节省模式允许您使用可信连接更稳定地与网络通信。",
+    "body2": "数据保护模式允许您使用受信任的连接更一致地与网络通信。",
     "retryButton": "使用数据保护模式重试"
   },
   "congratsVerified": "恭喜，您的手机号码现已成功关联！",
@@ -819,7 +819,7 @@
   },
   "verificationSkipDialog": {
     "title": "您确定吗？",
-    "body": "连接后，您可以向任何电话号码发送和接收资金。\n\n未连接的账户只能使用钱包地址或 QR 码发送付款。",
+    "body": "关联号码将允许您与任意电话号码进行发送和接收资金操作。\n\n未关联的账户则只能使用钱包地址或二维码发送付款。",
     "cancel": "返回",
     "confirm": "暂时跳过"
   },
@@ -942,7 +942,7 @@
   "commentLabel": "消息",
   "amountSent": "已发送金额",
   "amountCeloWithdrawn": "金额 (CELO)",
-  "feeEducation": "区块链收取交易费，以维持网络的支持和顺利运行。",
+  "feeEducation": "区块链收取交易费用，用以保障网络支持和顺利运营。",
   "reviewPayment": "查看付款",
   "requestPayment": "请求付款",
   "max": "最大值",
@@ -963,7 +963,7 @@
   "inviteWithoutPayment": "嗨！我一直在使用 {{appName}} 作为我的加密货币钱包。它使用简便，我想邀请您访问此链接试用： {{link}}",
   "inviteWithEscrowedPayment": "嗨！我一直在使用 {{appName}} 将加密货币发送到世界各地。我刚刚向您发送了 {{amount}} {{token}}。请使用此链接下载 {{appName}} 应用程序并兑换您的 {{token}}：{{link}}",
   "inviteWithRewards": "嗨！👋 我正在使用 {{appName}} 作为加密货币钱包。您可以快速下载此应用程序并关联手机号码，之后我们都可以获得一个特别版的 NFT 作为奖励。💫 \n\n请使用此链接下载: {{link}}",
-  "inviteWithRewardsCUSD": "嘿！现在，如果你注册并为 Valora 钱包充值，我们都可以免费获得 0.5 美元的奖励。我用它来增加我的美元和加密货币储蓄，只需一个电话号码，您就可以在几秒钟内完成设置。请确保使用我的推荐链接注册： \n\n{{link}} \n\n 快点，推荐促销即将结束。",
+  "inviteWithRewardsCUSD": "嘿！如果你现在注册 Valora 钱包并存入资金，我们就都能免费获得 $0.50 奖励。我正在用它来增加我的美元和加密货币储蓄，只需一个电话号码，几秒钟就能完成注册。请确保使用我的推荐链接注册：\n\n{{link}}\n\n心动不如行动，推荐活动马上就要结束了。",
   "loadingContacts": "查找您的联系人",
   "myCode": "我的代码",
   "scanCode": "扫描",
@@ -1007,26 +1007,26 @@
     "button": "确认钱包地址"
   },
   "secureSendExplanation": {
-    "body1": "{{e164PhoneNumber}}有多个相关钱包。为了确认您拥有正确的账户，请扫描其二维码或输入其钱包地址。",
+    "body1": "{{e164PhoneNumber}} 有多个关联钱包。为了确认您的账户正确，请扫描其二维码或输入其钱包地址。",
     "body2": "您必须在扫描对方的二维码或确认其账户地址后才能进行交易。"
   },
   "confirmAccountNumber": {
     "title": "确认钱包地址",
-    "bodyPartial": "请向 {{displayName}} 询问其钱包地址的最后四位数字。最安全的做法是当面或打电话询问。",
-    "bodyPartialNoDisplayName": "请向联系人询问其钱包地址的最后四位数字。当面或通过电话询问最为安全。",
-    "body1Full": "请向 {{displayName}} 询问他们的钱包地址。",
-    "body1FullNoDisplayName": "请向联系人索取他们的钱包地址。",
-    "body2Full": "最安全的方式是亲自前往。为安全起见，请勿使用短信（SMS）。",
+    "bodyPartial": "请询问 {{displayName}} 的钱包地址的最后四位数字。最安全的方式是当面或打电话询问。",
+    "bodyPartialNoDisplayName": "请询问您的联系人的钱包地址的最后四位数字。最安全的方式是当面或打电话询问。",
+    "body1Full": "请询问 {{displayName}} 的钱包地址。",
+    "body1FullNoDisplayName": "请询问您的联系人的钱包地址。",
+    "body2Full": "最安全的方式是当面询问。为安全起见，切勿使用短信 (SMS)。",
     "help": "在哪里可以找到钱包地址？",
     "submit": "提交"
   },
   "accountInputHeaderPartial": "最后 4 位数字",
   "accountInputHeaderFull": "账户地址",
   "helpModal": {
-    "header": "查找钱包地址",
-    "body1": "您的钱包地址位于菜单中。点击左上角的菜单图标打开菜单。",
+    "header": "正在查找钱包地址",
+    "body1": "您的钱包地址在菜单中。点击左上角的菜单图标打开菜单。",
     "body2": "您的钱包地址位于菜单底部附近。",
-    "body3": "钱包地址以 \"0x \"开头，长度为 42 个字符"
+    "body3": "钱包地址以“0x”开头，长度为 42 个字符"
   },
   "transferAddressChanged": "此联系人自交易后已更改其账户地址。此付款已被发送至：",
   "addressConfirmed": "账户地址已确认",
@@ -1068,38 +1068,44 @@
     "signPayloadTitle": "验证钱包",
     "signPayload": "{{dappName}} 想要验证您钱包的所有权。",
     "signTransactionTitle": "签署交易",
-    "signTransaction": "{{dappName}} 希望签署一项交易。",
+    "signTransaction": "{{dappName}} 希望签署一笔交易。",
     "signDappTransaction": "{{dappName}} 希望在 {{networkName}} 网络上签署一笔交易。",
-    "signDappTransactionUnsupportedNetwork": "{{dappName}} 想在不支持的网络上签署交易。",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} 希望在不受支持的网络上签署一笔交易。",
     "sendTransactionTitle": "发送交易",
-    "sendTransaction": "{{dappName}} 希望发送交易。",
+    "sendTransaction": "{{dappName}} 希望发送一笔交易。",
     "sendDappTransaction": "{{dappName}} 希望在 {{networkName}} 网络上发送一笔交易。",
-    "sendDappTransactionUnsupportedNetwork": "{{dappName}} 想在不支持的网络上发送交易。",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} 希望在不受支持的网络上发送一笔交易。",
     "decryptPayloadTitle": "用钱包解密",
     "decryptPayload": "{{dappName}} 想要解密数据有效负载。",
     "computeSharedSecret": "{{dappName}} 想要生成密钥。",
     "transactionDataCopied": "交易数据已复制",
-    "estimatedNetworkFee": "{{networkName}} 网络费用估算",
+    "estimatedNetworkFee": "估算的 {{networkName}} 网络费用",
     "networksList": "网络",
-    "connectWalletAction": "连接钱包",
-    "signTransactionAction": "标志",
+    "connectWalletAction": "关联钱包",
+    "signTransactionAction": "签署",
     "sendTransactionAction": "发送",
     "unsupportedChain": {
       "title": "不受支持的区块链网络",
-      "description": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 Celo 属于 dapp 上的活跃区块链。"
+      "description": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 Celo 属于 dapp 上的活跃区块链。",
+      "descriptionV1_74_one": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 {{supportedNetworkNames}} 属于 dapp 上的活跃区块链。",
+      "descriptionV1_74_other": "{{dappName}} 请求在 {{appName}} 不受支持的区块链网络上执行此操作。请确保 dapp 上的活动链为以下之一： {{supportedNetworkNames}}."
     },
     "notEnoughBalanceForGas": {
       "title": "手续费代币余额不足",
-      "description": "您没有足够的 {{feeCurrencies}} 来支付汽油费。请在您的钱包中添加 {{feeCurrencies}} 以完成交易。"
+      "description": "您没有足够的 {{feeCurrencies}} 来支付手续费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交易。"
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "不受支持的区块链网络",
-        "description": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了 Celo。"
+        "description": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了 Celo。",
+        "descriptionV1_74_one": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了 {{supportedNetworkNames}}。",
+        "descriptionV1_74_other": "{{dappName}} 想要连接一个不受 {{appName}} 支持的区块链网络。请确保在 dapp 端选择了以下之一： {{supportedNetworkNames}}。"
       },
       "warnUnsupportedChains": {
         "title": "不受支持的区块链网络",
-        "description": "{{dappName}} 没有将 Celo 指定为受支持的区块链网络。某些功能可能无法按预期运行。"
+        "description": "{{dappName}} 没有将 Celo 指定为受支持的区块链网络。某些功能可能无法按预期运行。",
+        "descriptionV1_74_one": "{{dappName}} 没有将 {{supportedNetworkNames}} 指定为受支持的区块链网络。某些功能可能无法按预期运行。",
+        "descriptionV1_74_other": "{{dappName}} 未指定以下任何链为支持链： {{supportedNetworkNames}}。某些功能可能无法按预期运行。"
       },
       "warnSomeUnsupportedMethods": {
         "title": "不受支持的方法",
@@ -1421,8 +1427,8 @@
   "noMoreTransactions": "没有更多交易",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "购买交易由我们的合作伙伴供应商提供支持。您所在地区可能无法使用某些付款方式。费用可能有所不同。",
-    "disclaimerWithSomePaymentsUnavailable": "支付由网络合作伙伴提供。费用可能有所不同。某些支付方式在您所在地区无法使用。<0>了解更多信息。</0>",
-    "disclaimer": "支付由网络合作伙伴提供。费用可能有所不同。<0>了解更多信息。</0>",
+    "disclaimerWithSomePaymentsUnavailable": "支付交易由网络合作伙伴提供支持。费用可能有所不同。您所在地区无法使用某些支付方式。<0>了解更多信息。</0>",
+    "disclaimer": "支付交易由网络合作伙伴提供支持。费用可能有所不同。<0>了解更多信息。</0>",
     "learnMore": "了解更多。",
     "whyMissingPayments": "为什么我看不到更多的付款方式？",
     "dismiss": "忽略",
@@ -1600,11 +1606,11 @@
       "selectCurrencyTitle": "消费资金"
     },
     "exchange": {
-      "informational": "为防止资金损失，请在与以下网络兼容的交易所或资产上使用此地址： <0>{{networks}}</0>",
+      "informational": "为防止资金损失，请在受以下网络支持的交易所或资产上使用此地址：<0>{{networks}}</0>",
       "copyAddress": "复制地址",
-      "informationText": "只能使用<0>与 {{appName}}支持的网络兼容 </0>的交易所或资产，以防止资金损失",
+      "informationText": "请使用 <0>{{appName}} 支持的网络所支持的</0>交易所或资产，以防资金损失",
       "bottomSheetTitle": "我可以通过哪些交易所存入资金？",
-      "bottomSheetInfo": "请仔细检查您发送的资产是否与 {{appName}}支持的网络兼容。"
+      "bottomSheetInfo": "请仔细核对您所发送的资产是否受 {{appName}} 支持的网络支持。"
     }
   },
   "fiatDetailsScreen": {
@@ -1684,14 +1690,14 @@
     "tokenUsdValueUnknown": "-",
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
-      "body_swapFrom": "在 {{networkName}} 网络上选择要交换的令牌，然后继续。",
-      "body_swapTo": "在 {{networkName}} 网络上选择一个要交换的令牌，然后继续。"
+      "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
+      "body_swapTo": "在 {{networkName}} 网络上选择要交换取得的代币，然后继续。"
     },
     "maxSwapAmountWarning": {
       "title": "交换最大金额",
       "titleV1_74": "交换最大金额",
       "body": "请确保您的钱包里有 CELO，以支付未来交易的手续费",
-      "bodyV1_74": "确保钱包里有 {{tokenSymbol}} ，以支付未来交易的汽油费",
+      "bodyV1_74": "请确保您的钱包里有 {{tokenSymbol}}，以支付未来交易的手续费",
       "learnMore": "了解更多"
     },
     "priceImpactWarning": {
@@ -1703,7 +1709,7 @@
       "body": "我们无法估算本次交换的价值。如果您选择继续， {{appName}} 不承担任何责任。"
     },
     "confirmSwapFailedWarning": {
-      "title": "出了问题",
+      "title": "出错了",
       "body": "网络速度慢或出现未知错误。请稍后再试"
     },
     "estimatedExchangeRate": "估计比率 ≈ <0>0.00</0>",
@@ -1724,7 +1730,7 @@
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
-      "slippageToleranceInfo": "滑点容差\n\n您的掉期将在滑点容差百分比范围内执行。如果价格变动超过滑点容差， {{appName}} 将阻止交易执行，为您提供保护。",
+      "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
@@ -1800,7 +1806,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "邀请 {{contactName}} 注册 {{appName}} ，即可获得 0.50 cUSD 的奖励",
-      "body": "看来 {{contactName}} 不在 Valora 上。如果您知道他们的钱包地址，您仍然可以发送付款，或者发送邀请。 \n\n 在他们下载 Valora、连接电话号码、添加资金并在钱包中保留 7 天后，您和他们都将获得 0.50 cUSD，直到资金用完为止。"
+      "body": "似乎 {{contactName}} 未在 Valora 上。如果您知道其钱包地址，则仍可发送付款，或者也可以发送一则邀请。\n\n在其下载 Valora，关联手机号码并向其钱包转账，并且 7 天之内不转出资金，之后你们都将获得 0.50 cUSD 的奖励，数额有限，赠完即止。"
     }
   },
   "celoNews": {
@@ -1897,6 +1903,8 @@
     "moreActions": "更多操作",
     "actionDescriptions": {
       "send": "使用任意 Celo 地址、域、电话号码等。",
+      "sendV1_74_one": "使用任意 {{supportedNetworkNames}} 地址、域、电话号码等。",
+      "sendV1_74_other": "在以下网络中使用任何地址、域名和电话号码： {{supportedNetworkNames}}",
       "swap": "无需离开钱包即可交换代币",
       "add": "使用我们值得信赖的供应商之一购买代币",
       "withdraw": "将代币转入银行账户、移动钱包、礼品卡等。"
@@ -1923,7 +1931,7 @@
     "title": "选择接收人",
     "contactsTitle": "选择联系人",
     "recents": "最近",
-    "results": "成果",
+    "results": "结果",
     "qr": {
       "title": "扫描或显示二维码",
       "subtitle": "快速查找 Valora 上的地址"
@@ -1938,7 +1946,7 @@
       "options": {
         "one": {
           "title": "钱包地址",
-          "subtitle": "输入网络兼容的钱包地址（例如 0x123...abcde）"
+          "subtitle": "输入与网络兼容的钱包地址（例如 0x123...abcde）"
         },
         "two": {
           "title": "手机号码",
@@ -1962,7 +1970,7 @@
       "title": "关联您的手机号码",
       "description": "您需要关联您的电话号码，以便开始向您的朋友发送加密货币"
     },
-    "unknownAddressInfo": "请确保该地址支持您要发送的资产。如果该地址无效，您的资金可能无法收回。"
+    "unknownAddressInfo": "请确保此地址支持您尝试发送的资产。如果地址无效，您的资金可能无法收回。"
   },
   "transactionStatus": {
     "transactionIsCompleted": "已完成",
@@ -1993,19 +2001,19 @@
   },
   "transactionFeed": {
     "approvalTransactionTitle": "批准",
-    "estimatedNetworkFee": "估计网络费用",
+    "estimatedNetworkFee": "估算的网络费用",
     "networkFee": "网络费用",
-    "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}}",
-    "infiniteApprovalDescription": "批准无限 {{tokenSymbol}} 用于贸易",
-    "revokeApprovalDescription": "撤销 {{tokenSymbol}}",
+    "finiteApprovalDescription": "已批准 {{approvedAmount}} {{tokenSymbol}} 用于交易。",
+    "infiniteApprovalDescription": "已批准无限 {{tokenSymbol}} 用于交易",
+    "revokeApprovalDescription": "已撤销 {{tokenSymbol}} 用于交易",
     "descriptionLabel": "详细信息"
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "新消息！以太坊登陆 Valora",
-    "description1": "我们将首先向特定人群开放这项功能。你是幸运儿之一！",
+    "title": "新消息！Ethereum 登陆 Valora 了",
+    "description1": "我们将首先向特定人群开放这项功能。您是幸运儿之一！",
     "description2": "这还是个新产品，我们的团队仍在努力使其更加完美。我们希望听到您的反馈意见。",
-    "primaryCta": "立即试用",
+    "primaryCta": "立即试试看",
     "secondaryCta": "不，谢谢"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"

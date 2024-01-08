@@ -11,10 +11,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
-jest.mock('@react-native-clipboard/clipboard', () => ({
-  setString: jest.fn(),
-}))
-
 const mockStore = createMockStore({
   web3: {
     account: '0x0000',
