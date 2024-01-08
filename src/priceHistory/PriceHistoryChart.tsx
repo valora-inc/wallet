@@ -16,7 +16,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { priceHistoryPricesSelector, priceHistoryStatusSelector } from 'src/priceHistory/selectors'
-import { fetchPriceHistoryStart } from 'src/priceHistory/slice'
+import { Price, fetchPriceHistoryStart } from 'src/priceHistory/slice'
 import { RootState } from 'src/redux/reducers'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
@@ -169,67 +169,15 @@ function renderPointOnChart(
   }
 }
 
-interface PriceHistoryChartProps {
-  tokenId: string
-  containerStyle?: ViewStyle
-  testID?: string
-  chartPadding?: number
-  color?: colors
-}
-
-export default function PriceHistoryChart({
-  tokenId,
-  containerStyle,
-  testID,
-  chartPadding,
-  color = colors.black,
-}: PriceHistoryChartProps) {
-  const priceHistoryPrices = useSelector((state: RootState) =>
-    priceHistoryPricesSelector(state, tokenId)
-  )
-
-  const priceHistoryStatus = useSelector((state: RootState) =>
-    priceHistoryStatusSelector(state, tokenId)
-  )
-  const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
-  const dispatch = useDispatch()
-
-  const dollarsToLocal = useCallback(
-    (amount: BigNumber.Value | null) =>
-      convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),
-    [localExchangeRate]
-  )
-  const displayLocalCurrency = useCallback(
-    (amount: BigNumber.Value) =>
-      getLocalCurrencyDisplayValue(amount, localCurrencyCode || LocalCurrencyCode.USD, true),
-    [localCurrencyCode]
-  )
-
-  useEffect(() => {
-    const latestTimestamp = priceHistoryPrices.at(-1)?.priceFetchedAt ?? 0
-    if (priceHistoryPrices.length > 0 && latestTimestamp > Date.now() - ONE_HOUR_IN_MILLIS) {
-      return
-    }
-
-    dispatch(
-      fetchPriceHistoryStart({
-        tokenId,
-        startTimestamp: Date.now() - ONE_DAY_IN_MILLIS * 30,
-        endTimestamp: Date.now(),
-      })
-    )
-  }, [])
-
-  if (priceHistoryStatus === 'loading' && priceHistoryPrices.length === 0) {
-    return <Loader />
-  } else if (priceHistoryPrices.length === 0) {
-    return null
-  }
-
-  // Create chart data from price history
+export function createChartData(
+  priceHistoryPrices: Price[],
+  chartStepInHours = 6,
+  dollarsToLocal: (amount: BigNumber.Value | null) => BigNumber | null,
+  displayLocalCurrency: (amount: BigNumber.Value) => string
+) {
   const chartData = []
   let lastTimestampAdded, highPrice, lowPrice
+
   for (let i = 0; i < priceHistoryPrices.length; i++) {
     // Check if price is the highest or lowest price and if so store it
     if (!highPrice || priceHistoryPrices[i].priceUsd > highPrice.priceUsd) {
@@ -243,7 +191,7 @@ export default function PriceHistoryChart({
     if (
       lastTimestampAdded &&
       priceHistoryPrices[i].priceFetchedAt - lastTimestampAdded <
-        ONE_HOUR_IN_MILLIS * CHART_STEP_IN_HOURS &&
+        ONE_HOUR_IN_MILLIS * chartStepInHours &&
       i !== priceHistoryPrices.length - 1
     ) {
       continue
@@ -275,13 +223,76 @@ export default function PriceHistoryChart({
     })
   }
 
-  // Sort the chart data by timestamp and remove duplicates
   const sortedChartData = chartData.sort((a, b) => a.priceFetchedAt - b.priceFetchedAt)
   const uniqueChartData = uniqBy(sortedChartData, 'priceFetchedAt')
+  return uniqueChartData
+}
 
-  const RenderPoint = renderPointOnChart(uniqueChartData, CHART_WIDTH, color)
+interface PriceHistoryChartProps {
+  tokenId: string
+  containerStyle?: ViewStyle
+  testID?: string
+  chartPadding?: number
+  color?: colors
+}
 
-  const values = uniqueChartData.map((el) => el.amount)
+export default function PriceHistoryChart({
+  tokenId,
+  containerStyle,
+  testID,
+  chartPadding,
+  color = colors.black,
+}: PriceHistoryChartProps) {
+  const dispatch = useDispatch()
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
+  const prices = useSelector((state: RootState) => priceHistoryPricesSelector(state, tokenId))
+
+  const status = useSelector((state: RootState) => priceHistoryStatusSelector(state, tokenId))
+
+  const dollarsToLocal = useCallback(
+    (amount: BigNumber.Value | null) =>
+      convertDollarsToLocalAmount(amount, localCurrencyCode ? localExchangeRate : 1),
+    [localExchangeRate]
+  )
+
+  const displayLocalCurrency = useCallback(
+    (amount: BigNumber.Value) =>
+      getLocalCurrencyDisplayValue(amount, localCurrencyCode || LocalCurrencyCode.USD, true),
+    [localCurrencyCode]
+  )
+
+  useEffect(() => {
+    const latestTimestamp = prices.at(-1)?.priceFetchedAt ?? 0
+    if (prices.length > 0 && latestTimestamp > Date.now() - ONE_HOUR_IN_MILLIS) {
+      return
+    }
+
+    dispatch(
+      fetchPriceHistoryStart({
+        tokenId,
+        startTimestamp: Date.now() - ONE_DAY_IN_MILLIS * 30,
+        endTimestamp: Date.now(),
+      })
+    )
+  }, [])
+
+  if (status === 'loading' && prices.length === 0) {
+    return <Loader />
+  } else if (prices.length === 0) {
+    return null
+  }
+
+  // Create chart data from price history
+  const chartData = createChartData(
+    prices,
+    CHART_STEP_IN_HOURS,
+    dollarsToLocal,
+    displayLocalCurrency
+  )
+  const RenderPoint = renderPointOnChart(chartData, CHART_WIDTH, color)
+
+  const values = chartData.map((el) => el.amount)
   const min = Math.min(...values)
   const max = Math.max(...values)
   let domain
@@ -291,12 +302,12 @@ export default function PriceHistoryChart({
     const offset = Math.min(CHART_MIN_VERTICAL_RANGE - (max - min) / 2, min / 100)
     domain = {
       y: [min - offset, max + offset] as [number, number],
-      x: [0, uniqueChartData.length - 1] as [number, number],
+      x: [0, chartData.length - 1] as [number, number],
     }
   }
 
-  const latestTimestamp = uniqueChartData.at(-1)?.priceFetchedAt
-  const earliestTimestamp = uniqueChartData.at(0)?.priceFetchedAt
+  const latestTimestamp = chartData.at(-1)?.priceFetchedAt
+  const earliestTimestamp = chartData.at(0)?.priceFetchedAt
 
   return (
     <View style={[styles.container, containerStyle]} testID={testID}>
@@ -306,7 +317,7 @@ export default function PriceHistoryChart({
         padding={{ left: chartPadding, right: chartPadding }}
         width={CHART_WIDTH}
         height={CHART_HEIGHT}
-        data={uniqueChartData.map((el) => el.amount)}
+        data={chartData.map((el) => el.amount)}
         domain={domain}
       >
         {/* @ts-ignore */}
