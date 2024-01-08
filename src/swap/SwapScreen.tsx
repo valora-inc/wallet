@@ -58,7 +58,7 @@ import { v4 as uuidv4 } from 'uuid'
 const TAG = 'SwapScreen'
 
 const FETCH_UPDATED_QUOTE_DEBOUNCE_TIME = 200
-const DEFAULT_SWAP_AMOUNT: SwapAmount = {
+const DEFAULT_INPUT_SWAP_AMOUNT: SwapAmount = {
   [Field.FROM]: '',
   [Field.TO]: '',
 }
@@ -67,7 +67,7 @@ interface SwapState {
   fromTokenId: string | undefined
   toTokenId: string | undefined
   // Raw input values (can contain region specific decimal separators)
-  swapAmount: SwapAmount
+  inputSwapAmount: SwapAmount
   updatedField: Field
   selectingToken: Field | null
   confirmingSwap: boolean
@@ -81,7 +81,7 @@ function getInitialState(fromTokenId?: string): SwapState {
   return {
     fromTokenId,
     toTokenId: undefined,
-    swapAmount: DEFAULT_SWAP_AMOUNT,
+    inputSwapAmount: DEFAULT_INPUT_SWAP_AMOUNT,
     updatedField: Field.FROM,
     selectingToken: null,
     confirmingSwap: false,
@@ -100,7 +100,7 @@ const swapSlice = createSlice({
       state.startedSwapId = null
       state.updatedField = field
       if (!value) {
-        state.swapAmount = DEFAULT_SWAP_AMOUNT
+        state.inputSwapAmount = DEFAULT_INPUT_SWAP_AMOUNT
         return
       }
       // Regex to match only numbers and one decimal separator
@@ -108,7 +108,7 @@ const swapSlice = createSlice({
       if (!sanitizedValue) {
         return
       }
-      state.swapAmount[field] = sanitizedValue
+      state.inputSwapAmount[field] = sanitizedValue
     },
     chooseMaxFromAmount: (state, action: PayloadAction<{ fromTokenBalance: BigNumber }>) => {
       const { fromTokenBalance } = action.payload
@@ -116,7 +116,7 @@ const swapSlice = createSlice({
       state.startedSwapId = null
       state.updatedField = Field.FROM
       // We try the current balance first, and we will prompt the user if it's too high
-      state.swapAmount[Field.FROM] = fromTokenBalance.toFormat({
+      state.inputSwapAmount[Field.FROM] = fromTokenBalance.toFormat({
         decimalSeparator: getNumberFormatSettings().decimalSeparator,
       })
     },
@@ -147,17 +147,17 @@ const swapSlice = createSlice({
       state.confirmingSwap = false
       const otherField = updatedField === Field.FROM ? Field.TO : Field.FROM
       if (!quote) {
-        state.swapAmount[otherField] = ''
+        state.inputSwapAmount[otherField] = ''
         return
       }
 
       const { decimalSeparator } = getNumberFormatSettings()
-      const parsedAmount = parseInputAmount(state.swapAmount[updatedField], decimalSeparator)
+      const parsedAmount = parseInputAmount(state.inputSwapAmount[updatedField], decimalSeparator)
 
       const newAmount = parsedAmount.multipliedBy(
         new BigNumber(quote.price).pow(updatedField === Field.FROM ? 1 : -1)
       )
-      state.swapAmount[otherField] = newAmount.toFormat({
+      state.inputSwapAmount[otherField] = newAmount.toFormat({
         decimalSeparator,
       })
     },
@@ -226,7 +226,7 @@ export function SwapScreen({ route }: Props) {
   const {
     fromTokenId,
     toTokenId,
-    swapAmount,
+    inputSwapAmount,
     updatedField,
     selectingToken,
     confirmingSwap,
@@ -260,10 +260,10 @@ export function SwapScreen({ route }: Props) {
   // Parsed swap amounts (BigNumber)
   const parsedSwapAmount = useMemo(
     () => ({
-      [Field.FROM]: parseInputAmount(swapAmount[Field.FROM], decimalSeparator),
-      [Field.TO]: parseInputAmount(swapAmount[Field.TO], decimalSeparator),
+      [Field.FROM]: parseInputAmount(inputSwapAmount[Field.FROM], decimalSeparator),
+      [Field.TO]: parseInputAmount(inputSwapAmount[Field.TO], decimalSeparator),
     }),
-    [swapAmount]
+    [inputSwapAmount]
   )
 
   const shouldShowMaxSwapAmountWarning =
@@ -375,7 +375,7 @@ export function SwapScreen({ route }: Props) {
           fromToken: fromToken.address,
           fromTokenId: fromToken.tokenId,
           fromTokenNetworkId: fromToken.networkId,
-          amount: swapAmount[updatedField],
+          amount: inputSwapAmount[updatedField],
           amountType: swapAmountParam,
           allowanceTarget,
           estimatedPriceImpact,
@@ -593,7 +593,7 @@ export function SwapScreen({ route }: Props) {
           <SwapAmountInput
             label={t('swapScreen.swapFrom')}
             onInputChange={handleChangeAmount(Field.FROM)}
-            inputValue={swapAmount[Field.FROM]}
+            inputValue={inputSwapAmount[Field.FROM]}
             parsedInputValue={parsedSwapAmount[Field.FROM]}
             onSelectToken={handleShowTokenSelect(Field.FROM)}
             token={fromToken}
@@ -608,7 +608,7 @@ export function SwapScreen({ route }: Props) {
             label={t('swapScreen.swapTo')}
             onInputChange={handleChangeAmount(Field.TO)}
             parsedInputValue={parsedSwapAmount[Field.TO]}
-            inputValue={swapAmount[Field.TO]}
+            inputValue={inputSwapAmount[Field.TO]}
             onSelectToken={handleShowTokenSelect(Field.TO)}
             token={toToken}
             style={styles.toSwapAmountInput}
