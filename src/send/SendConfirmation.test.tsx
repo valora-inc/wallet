@@ -198,8 +198,7 @@ describe('SendConfirmation', () => {
       jest.runAllTimers()
     })
 
-    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(getElementText(feeComponent)).toEqual('₱0.0266')
+    expect(getByTestId('feeDrawer/SendConfirmation/totalFee')).toHaveTextContent('₱0.027')
 
     // Subtotal is $1.33, which is added the fee amount.
     const totalComponent = getByTestId('TotalLineItem/Total')
@@ -254,8 +253,7 @@ describe('SendConfirmation', () => {
       jest.runAllTimers()
     })
 
-    const feeComponent = getByTestId('feeDrawer/SendConfirmation/totalFee/value')
-    expect(getElementText(feeComponent)).toEqual('₱0.0266')
+    expect(getByTestId('feeDrawer/SendConfirmation/totalFee')).toHaveTextContent('₱0.027')
 
     // Subtotal is $1.33, which is added to the fee amount.
     const totalComponent = getByTestId('TotalLineItem/Total')
