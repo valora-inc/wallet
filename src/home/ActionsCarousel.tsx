@@ -86,14 +86,18 @@ function ActionsCarousel() {
       {actions
         .filter(({ hidden }) => !hidden)
         .map(({ name, title, icon, onPress }) => (
-          <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
+          <Card
+            style={styles.card}
+            shadow={null}
+            key={`HomeAction-${name}`}
+            testID={`HomeAction-${name}`}
+          >
             <Touchable
               onPress={() => {
                 ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
                 onPress()
               }}
               style={styles.touchable}
-              testID={`HomeAction-${name}`}
               borderRadius={8}
             >
               <>
