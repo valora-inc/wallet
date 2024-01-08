@@ -2980,10 +2980,10 @@
   dependencies:
     nanoid "^3.1.23"
 
-"@redux-saga/core@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@redux-saga/core/-/core-1.2.3.tgz#882ed9ac58b5f42c6abb23349542315b871de305"
-  integrity sha512-U1JO6ncFBAklFTwoQ3mjAeQZ6QGutsJzwNBjgVLSWDpZTRhobUzuVDS1qH3SKGJD8fvqoaYOjp6XJ3gCmeZWgA==
+"@redux-saga/core@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@redux-saga/core/-/core-1.3.0.tgz#2ce08b73d407fc6ea9e7f7d83d2e97d981a3a8b8"
+  integrity sha512-L+i+qIGuyWn7CIg7k1MteHGfttKPmxwZR5E7OsGikCL2LzYA0RERlaUY00Y3P3ZV2EYgrsYlBrGs6cJP5OKKqA==
   dependencies:
     "@babel/runtime" "^7.6.3"
     "@redux-saga/deferred" "^1.2.1"
@@ -2991,7 +2991,6 @@
     "@redux-saga/is" "^1.1.3"
     "@redux-saga/symbols" "^1.1.3"
     "@redux-saga/types" "^1.2.1"
-    redux "^4.0.4"
     typescript-tuple "^2.2.1"
 
 "@redux-saga/deferred@^1.2.1":
@@ -11522,6 +11521,11 @@ js-queue@2.0.2:
   dependencies:
     easy-stack "^1.0.1"
 
+js-sha256@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/js-sha256/-/js-sha256-0.10.1.tgz#b40104ba1368e823fdd5f41b66b104b15a0da60d"
+  integrity sha512-5obBtsz9301ULlsgggLg542s/jqtddfOpV5KJc4hajc9JV8GeY2gZHSVpYBn4nWqAUTJ9v+xwtbJ1mIBgIH5Vw==
+
 js-sha3@0.8.0, js-sha3@^0.8.0:
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/js-sha3/-/js-sha3-0.8.0.tgz#b9b7a5da73afad7dedd0f8c463954cbde6818840"
@@ -15257,19 +15261,19 @@ redux-saga-test-plan@^4.0.6:
     lodash.isequal "^4.5.0"
     lodash.ismatch "^4.4.0"
 
-redux-saga@^1.2.3:
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-1.2.3.tgz#7362f78a0235868daf1210f8862a95906ac018a1"
-  integrity sha512-HDe0wTR5nhd8Xr5xjGzoyTbdAw6rjy1GDplFt3JKtKN8/MnkQSRqK/n6aQQhpw5NI4ekDVOaW+w4sdxPBaCoTQ==
+redux-saga@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/redux-saga/-/redux-saga-1.3.0.tgz#a59ada7c28010189355356b99738c9fcb7ade30e"
+  integrity sha512-J9RvCeAZXSTAibFY0kGw6Iy4EdyDNW7k6Q+liwX+bsck7QVsU78zz8vpBRweEfANxnnlG/xGGeOvf6r8UXzNJQ==
   dependencies:
-    "@redux-saga/core" "^1.2.3"
+    "@redux-saga/core" "^1.3.0"
 
 redux-thunk@^2.4.2:
   version "2.4.2"
   resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.2.tgz#b9d05d11994b99f7a91ea223e8b04cf0afa5ef3b"
   integrity sha512-+P3TjtnP0k/FEjcBL5FZpoovtvrTNT/UXd4/sluaSyrURlSlhLSzEdfsTBW7WsKB6yPvgd7q/iZPICFjW4o57Q==
 
-redux@^4.0.0, redux@^4.0.4, redux@^4.2.1:
+redux@^4.0.0, redux@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.1.tgz#c08f4306826c49b5e9dc901dee0452ea8fce6197"
   integrity sha512-LAUYz4lc+Do8/g7aeRa8JkyDErK6ekstQaqWQrNRW//MY1TvCEpMtpTWvlQ+FPbWCx+Xixu/6SHt5N0HR+SB4w==
@@ -16359,26 +16363,27 @@ static-extend@^0.1.1:
     define-property "^0.2.5"
     object-copy "^0.1.0"
 
-statsig-js@^4.39.1:
-  version "4.39.2"
-  resolved "https://registry.yarnpkg.com/statsig-js/-/statsig-js-4.39.2.tgz#4a1efef65469f0b8a7724a2d49aad87c6a5d9680"
-  integrity sha512-t4EAErld1Y060AIWrsQ9Y5E6hHITi2FXkHgwus2G2N+K8C7UNzPwsiad+73VnybCL8YWibdR5/vRRql9Iq1G2g==
+statsig-js@^4.43.1:
+  version "4.45.1"
+  resolved "https://registry.yarnpkg.com/statsig-js/-/statsig-js-4.45.1.tgz#b1f5b9c52adc4a8aece376fb011416c89227932f"
+  integrity sha512-h94RzFQsJCQCNwQXpZ9OBXcvCxDnkXF6OrCekd81ySvY2l4JSowpxMWX3Iw6IDFzfTfKdER9JQzFLhMSQbT+YQ==
   dependencies:
+    js-sha256 "^0.10.1"
     uuid "^8.3.2"
 
-statsig-react-native@^4.11.0:
-  version "4.11.0"
-  resolved "https://registry.yarnpkg.com/statsig-react-native/-/statsig-react-native-4.11.0.tgz#7a1fd28cf5b406caba85766e177a85d9df2c8dcb"
-  integrity sha512-Fepdle2u67NeQdUHkNT9q1dGZM7LyoXcrClopH2h1xngxi6NqlbUOPUh+wqehh3bkqJxvdztAySTh5dC2OXCVg==
+statsig-react-native@^4.14.0:
+  version "4.14.0"
+  resolved "https://registry.yarnpkg.com/statsig-react-native/-/statsig-react-native-4.14.0.tgz#7974651013e8d475b3f373749a6942f35ee2b128"
+  integrity sha512-Yf6O1RyfNlToYU1xQqG9qGccQJwZ1oEoDUHx1TdBQzfnGiLpoI8TcF1r0KXF3/BFBJA5BT5PNTQ+40wuRj61WQ==
   dependencies:
-    statsig-react "^1.30.3"
+    statsig-react "^1.34.0"
 
-statsig-react@^1.30.3:
-  version "1.30.3"
-  resolved "https://registry.yarnpkg.com/statsig-react/-/statsig-react-1.30.3.tgz#59bf4418cef91fc84f3e5d837aae0b8bc5e22d3a"
-  integrity sha512-Ot4U3jr7IOS3QRKszFDndMqN3tO5X7NSJCI33+FFWIk22gaPfH9N539rw34SxJ82v3LPS1Q0lBU6oiwmxt3/xg==
+statsig-react@^1.34.0:
+  version "1.34.0"
+  resolved "https://registry.yarnpkg.com/statsig-react/-/statsig-react-1.34.0.tgz#218b4758d10036f16128bb48f23ba1e614f7a3b4"
+  integrity sha512-2Jwx5buZcBJWGOlD224k+ss8wFz+k1DfFxwJWiUOdLVnWnUWJJSzM86/km6q30MXTZ8nSPE+bpeT+Nqiht+Xaw==
   dependencies:
-    statsig-js "^4.39.1"
+    statsig-js "^4.43.1"
 
 statuses@2.0.1:
   version "2.0.1"
