@@ -13,13 +13,16 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { useTokenInfo } from 'src/tokens/hooks'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { getNetworkFromNetworkId } from 'src/web3/utils'
 
 export interface CoinbasePaymentSectionProps {
   cryptoAmount: number
   coinbaseProvider: FetchProvidersOutput
   appId: string
   analyticsData: ProviderSelectionAnalyticsData
+  tokenId: string
 }
 
 export function CoinbasePaymentSection({
@@ -27,14 +30,26 @@ export function CoinbasePaymentSection({
   coinbaseProvider,
   appId,
   analyticsData,
+  tokenId,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)!
+  const tokenInfo = useTokenInfo(tokenId)
 
+  if (!tokenInfo) {
+    // should never happen
+    return null
+  }
   // Using 'CGLD' as temp replacement for CiCoCurrency.CELO – digitalAsset
+
+  const network = getNetworkFromNetworkId(tokenInfo.networkId)!
+  const symbol = tokenInfo.symbol === 'CELO' ? 'CGLD' : tokenInfo.symbol
+
   const coinbasePayURL = generateOnRampURL({
     appId,
-    destinationWallets: [{ address: walletAddress, blockchains: ['celo'], assets: ['CGLD'] }],
+    destinationWallets: [
+      { address: walletAddress, supportedNetworks: [network], assets: [symbol] },
+    ],
     presetCryptoAmount: cryptoAmount,
   })
 

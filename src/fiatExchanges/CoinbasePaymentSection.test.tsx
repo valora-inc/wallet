@@ -12,7 +12,14 @@ import {
 import { PaymentMethod } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { createMockStore } from 'test/utils'
-import { mockProviders, mockProviderSelectionAnalyticsData } from 'test/values'
+import {
+  mockAccount,
+  mockCeloTokenId,
+  mockEthTokenId,
+  mockProviderSelectionAnalyticsData,
+  mockProviders,
+  mockTokenBalances,
+} from 'test/values'
 
 const FAKE_APP_ID = 'fake app id'
 const FAKE_URL = 'www.coinbasepay.test'
@@ -36,9 +43,48 @@ describe('CoinbasePaymentSection', () => {
       )!,
       appId: FAKE_APP_ID,
       analyticsData: mockProviderSelectionAnalyticsData,
+      tokenId: mockCeloTokenId,
     }
-    mockStore = createMockStore()
+    mockStore = createMockStore({
+      tokens: {
+        tokenBalances: mockTokenBalances,
+      },
+    })
   })
+
+  it.each([
+    {
+      tokenId: mockCeloTokenId,
+      supportedNetworks: ['celo'],
+      assets: ['CGLD'],
+    },
+    {
+      tokenId: mockEthTokenId,
+      supportedNetworks: ['ethereum'],
+      assets: ['ETH'],
+    },
+  ])(
+    'calls generateOnRampURL with correct params',
+    async ({ tokenId, supportedNetworks, assets }) => {
+      jest.mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
+      render(
+        <Provider store={mockStore}>
+          <CoinbasePaymentSection {...props} tokenId={tokenId} />
+        </Provider>
+      )
+      expect(generateOnRampURL).toHaveBeenCalledWith({
+        appId: FAKE_APP_ID,
+        destinationWallets: [
+          {
+            address: mockAccount.toLowerCase(),
+            supportedNetworks,
+            assets,
+          },
+        ],
+        presetCryptoAmount: 10,
+      })
+    }
+  )
 
   it('navigates to coinbase flow when card is pressed', async () => {
     jest.mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
@@ -47,6 +93,17 @@ describe('CoinbasePaymentSection', () => {
         <CoinbasePaymentSection {...props} />
       </Provider>
     )
+    expect(generateOnRampURL).toHaveBeenCalledWith({
+      appId: FAKE_APP_ID,
+      destinationWallets: [
+        {
+          address: mockAccount.toLowerCase(),
+          supportedNetworks: ['celo'],
+          assets: ['CGLD'],
+        },
+      ],
+      presetCryptoAmount: 10,
+    })
     await waitFor(() => expect(queryByText('Coinbase Pay')).toBeTruthy())
     fireEvent.press(getByTestId('coinbasePayCard'))
     await waitFor(() => {
