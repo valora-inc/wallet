@@ -35,6 +35,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
 import { Position, Shortcut } from 'src/positions/types'
+import { PriceHistoryStatus } from 'src/priceHistory/slice'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -1119,12 +1120,24 @@ const celoExchangeRates = range(60).map((i) => ({
   exchangeRate: (i / 60).toString(),
   timestamp: endDate - i * 24 * 3600 * 1000,
 }))
+
 export const exchangePriceHistory = {
   aggregatedExchangeRates: celoExchangeRates,
   celoGoldExchangeRates: celoExchangeRates,
   granularity: 60,
   lastTimeUpdated: endDate,
   range: 30 * 24 * 60 * 60 * 1000, // 30 days
+}
+
+// Generate mock CELO prices
+export const prices = range(60).map((i) => ({
+  priceUsd: (i / 60).toString(),
+  priceFetchedAt: endDate - i * 24 * 3600 * 1000,
+}))
+
+export const priceHistory = {
+  status: 'success' as PriceHistoryStatus,
+  prices,
 }
 
 export const mockPositions: Position[] = [
