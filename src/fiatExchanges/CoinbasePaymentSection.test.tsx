@@ -64,7 +64,7 @@ describe('CoinbasePaymentSection', () => {
       assets: ['ETH'],
     },
   ])(
-    'calls generateOnRampURL with correct params',
+    'calls generateOnRampURL with correct params for $tokenId',
     async ({ tokenId, supportedNetworks, assets }) => {
       jest.mocked(generateOnRampURL).mockReturnValue(FAKE_URL)
       render(
