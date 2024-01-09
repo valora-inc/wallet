@@ -480,7 +480,6 @@ function TransactionDetails({
         amount={totalMinusFeeDisplay}
       />
       {!!feeDisplay && (
-        // TODO(any): consider using FeeDrawer if we want to show fee breakdown
         <LineItemRow
           title={t('feeEstimate')}
           testID="feeEstimateRow"

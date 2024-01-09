@@ -26,7 +26,7 @@ interface Props {
 }
 
 /**
- * @deprecated use FeeDrawer instead
+ * @deprecated
  */
 export default function LegacyFeeDrawer({
   isEstimate,
