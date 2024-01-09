@@ -199,7 +199,7 @@
     "typed-redux-saga": "^1.5.0",
     "utf8": "^3.0.0",
     "uuid": "^9.0.1",
-    "victory-native": "^36.6.12",
+    "victory-native": "^36.7.0",
     "viem": "^1.16.6",
     "vm-browserify": "^1.1.2",
     "web3": "1.10.3"
@@ -333,7 +333,8 @@
     "qs": "^6.11.2",
     "flat": "^5.0.2",
     "crypto-js": "^4.2.0",
-    "browserify-sign": "^4.2.2"
+    "browserify-sign": "^4.2.2",
+    "follow-redirects": "^1.15.4"
   },
   "detox": {
     "testRunner": {
