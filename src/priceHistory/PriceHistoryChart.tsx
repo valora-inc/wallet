@@ -30,7 +30,7 @@ const CHART_WIDTH = variables.width
 const CHART_HEIGHT = 180
 const CHART_MIN_VERTICAL_RANGE = 0.01 // one cent
 const CHART_DOMAIN_PADDING = { y: [30, 30] as [number, number], x: [5, 5] as [number, number] }
-const CHART_STEP_IN_HOURS = 6
+const CHART_STEP_IN_HOURS = 12
 
 function Loader({ color = colors.goldBrand }: { color?: colors }) {
   return (
@@ -234,6 +234,7 @@ interface PriceHistoryChartProps {
   testID?: string
   chartPadding?: number
   color?: colors
+  step?: number
 }
 
 export default function PriceHistoryChart({
@@ -242,12 +243,12 @@ export default function PriceHistoryChart({
   testID,
   chartPadding,
   color = colors.black,
+  step = CHART_STEP_IN_HOURS,
 }: PriceHistoryChartProps) {
   const dispatch = useDispatch()
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const prices = useSelector((state: RootState) => priceHistoryPricesSelector(state, tokenId))
-
   const status = useSelector((state: RootState) => priceHistoryStatusSelector(state, tokenId))
 
   const dollarsToLocal = useCallback(
@@ -283,13 +284,7 @@ export default function PriceHistoryChart({
     return null
   }
 
-  // Create chart data from price history
-  const chartData = createChartData(
-    prices,
-    CHART_STEP_IN_HOURS,
-    dollarsToLocal,
-    displayLocalCurrency
-  )
+  const chartData = createChartData(prices, step, dollarsToLocal, displayLocalCurrency)
   const RenderPoint = renderPointOnChart(chartData, CHART_WIDTH, color)
 
   const values = chartData.map((el) => el.amount)

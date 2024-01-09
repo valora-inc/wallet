@@ -17,10 +17,14 @@ import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localC
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
 import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
@@ -66,6 +70,9 @@ function ExchangeHomeScreen() {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const exchangeHistory = useSelector(exchangeHistorySelector)
+  const usePriceHistoryFromBlockchainApi = getFeatureGate(
+    StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API
+  )
 
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
   const lastKnownPriceUsd =
@@ -150,7 +157,16 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          <CeloGoldHistoryChart testID="PriceChart" />
+          {usePriceHistoryFromBlockchainApi && tokensBySymbol['CELO']?.tokenId ? (
+            <PriceHistoryChart
+              tokenId={tokensBySymbol['CELO']?.tokenId}
+              testID={`CeloNews/Chart/${tokensBySymbol['CELO']?.tokenId}`}
+              chartPadding={Spacing.Thick24}
+              color={colors.goldBrand}
+            />
+          ) : (
+            <CeloGoldHistoryChart testID="PriceChart" />
+          )}
           <CeloNewsFeed />
         </SafeAreaView>
       </Animated.ScrollView>
