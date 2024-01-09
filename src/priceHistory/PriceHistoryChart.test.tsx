@@ -128,7 +128,7 @@ describe('createChartData', () => {
 
   it('should always include the last price in the chart data', () => {
     const lastPrice = {
-      priceFetchedAt: mockPrices[mockPrices.length].priceFetchedAt + 1,
+      priceFetchedAt: mockPrices[mockPrices.length - 1].priceFetchedAt + 1,
       priceUsd: '1.5',
     }
     const pricesWithRecent = [...mockPrices, lastPrice]
