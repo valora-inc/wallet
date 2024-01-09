@@ -526,69 +526,148 @@ describe('normalizeTransaction', () => {
     return defaultProviders
   }
 
-  it('ensures `gasLimit` value is removed', async () => {
-    await expectSaga(
-      normalizeTransaction,
-      {
-        from: '0xTEST',
-        data: '0xABC',
-        gasLimit: '0x5208',
-        feeCurrency: '0xcUSD',
-      },
-      Network.Celo
-    )
-      .provide(createDefaultProviders(Network.Celo))
-      .returns({
-        from: '0xTEST',
-        data: '0xABC',
-        nonce: 123,
-      })
+  function callNormalizeTransaction(transaction: any, network: Network) {
+    return expectSaga(normalizeTransaction, transaction, network)
+      .provide(createDefaultProviders(network))
       .run()
+      .then((result) => result.returnValue)
+  }
+
+  it('ensures `gasLimit` value is removed and used as gas instead', async () => {
+    expect(
+      await callNormalizeTransaction(
+        {
+          from: '0xTEST',
+          data: '0xABC',
+          gasLimit: '0x5208',
+        },
+        Network.Ethereum
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      gas: BigInt(21000),
+      nonce: 123,
+    })
   })
 
   it('ensures `gasPrice` is stripped away', async () => {
-    await expectSaga(
-      normalizeTransaction,
-      { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
-      Network.Celo
-    )
-      .provide(createDefaultProviders(Network.Celo))
-      .returns({
-        from: '0xTEST',
-        data: '0xABC',
-        nonce: 123,
-      })
-      .run()
+    expect(
+      await callNormalizeTransaction(
+        { from: '0xTEST', data: '0xABC', gasPrice: '0x5208' },
+        Network.Celo
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      nonce: 123,
+    })
   })
 
   it('ensures `gas` and `feeCurrency` is stripped away for a Celo transaction request', async () => {
-    await expectSaga(
-      normalizeTransaction,
-      { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
-      Network.Celo
-    )
-      .provide(createDefaultProviders(Network.Celo))
-      .returns({
-        from: '0xTEST',
-        data: '0xABC',
-        nonce: 123,
-      })
-      .run()
+    expect(
+      await callNormalizeTransaction(
+        { from: '0xTEST', data: '0xABC', gas: '0x5208', feeCurrency: '0xabcd' },
+        Network.Celo
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      nonce: 123,
+    })
   })
 
   it('does not strip away `gas` for non-Celo transaction request', async () => {
-    await expectSaga(
-      normalizeTransaction,
-      { from: '0xTEST', data: '0xABC', gas: '0x5208' },
-      Network.Ethereum
-    )
-      .provide(createDefaultProviders(Network.Ethereum))
-      .returns({
-        from: '0xTEST',
-        data: '0xABC',
-        gas: BigInt('0x5208'),
-        nonce: 123,
-      })
-      .run()
+    expect(
+      await callNormalizeTransaction(
+        { from: '0xTEST', data: '0xABC', gas: '0x5208' },
+        Network.Ethereum
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      gas: BigInt(21000),
+      nonce: 123,
+    })
   })
+
+  it('accepts `nonce` as a hex string', async () => {
+    expect(
+      await callNormalizeTransaction(
+        { from: '0xTEST', data: '0xABC', nonce: '0x19' },
+        Network.Ethereum
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      nonce: 25,
+    })
+  })
+
+  it('accepts `nonce` as a string containing a number', async () => {
+    expect(
+      await callNormalizeTransaction(
+        { from: '0xTEST', data: '0xABC', nonce: '19' },
+        Network.Ethereum
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      nonce: 19,
+    })
+  })
+
+  it('accepts `nonce` as a number', async () => {
+    expect(
+      await callNormalizeTransaction({ from: '0xTEST', data: '0xABC', nonce: 19 }, Network.Ethereum)
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      nonce: 19,
+    })
+  })
+
+  for (const bigIntKey of ['gas', 'maxFeePerGas', 'maxPriorityFeePerGas', 'value']) {
+    it(`accepts \`${bigIntKey}\` as a hex string`, async () => {
+      expect(
+        await callNormalizeTransaction(
+          { from: '0xTEST', data: '0xABC', [bigIntKey]: '0x19' },
+          Network.Ethereum
+        )
+      ).toStrictEqual({
+        data: '0xABC',
+        from: '0xTEST',
+        nonce: 123,
+        [bigIntKey]: BigInt('0x19'),
+      })
+    })
+
+    it(`accepts \`${bigIntKey}\` as a string containing a number`, async () => {
+      expect(
+        await callNormalizeTransaction(
+          { from: '0xTEST', data: '0xABC', [bigIntKey]: '19' },
+          Network.Ethereum
+        )
+      ).toStrictEqual({
+        data: '0xABC',
+        from: '0xTEST',
+        nonce: 123,
+        [bigIntKey]: BigInt(19),
+      })
+    })
+
+    it(`accepts \`${bigIntKey}\` as a number`, async () => {
+      expect(
+        await callNormalizeTransaction(
+          { from: '0xTEST', data: '0xABC', [bigIntKey]: '19' },
+          Network.Ethereum
+        )
+      ).toStrictEqual({
+        data: '0xABC',
+        from: '0xTEST',
+        nonce: 123,
+        [bigIntKey]: BigInt(19),
+      })
+    })
+  }
 })
