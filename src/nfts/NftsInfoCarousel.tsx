@@ -115,7 +115,11 @@ export default function NftsInfoCarousel({ route }: Props) {
   const { t } = useTranslation()
 
   const blockExplorerUri = useMemo(() => {
-    if (!activeNft) {
+    if (
+      !activeNft?.tokenId ||
+      !activeNft.contractAddress ||
+      !/^(0|[1-9]\d*|0x[0-9a-fA-F]+)$/.test(activeNft.tokenId)
+    ) {
       return null
     }
     // tokenId could be decimal or hex string of 256 bit integers, parse it as a
@@ -202,8 +206,8 @@ export default function NftsInfoCarousel({ route }: Props) {
             )}
           </>
         )}
-        {/* Nft Explorer Link - show if we have a contract address and token id */}
-        {activeNft.tokenId && activeNft.contractAddress && (
+        {/* Nft Explorer Link */}
+        {blockExplorerUri && (
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
