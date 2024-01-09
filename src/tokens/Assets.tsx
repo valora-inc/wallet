@@ -224,17 +224,17 @@ function AssetsScreen({ navigation, route }: Props) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () =>
-        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
-          <TopBarTextButton
-            onPress={() => {
-              ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
-              navigate(Screens.TokenImport)
-            }}
-            title={t('assets.importToken')}
-            style={styles.topBarTextButton}
-          />
-        ),
+      headerRight: () => (
+        // getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
+        <TopBarTextButton
+          onPress={() => {
+            ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
+            navigate(Screens.TokenImport)
+          }}
+          title={t('assets.importToken')}
+          style={styles.topBarTextButton}
+        />
+      ),
     })
   }, [navigation])
 

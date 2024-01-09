@@ -2377,6 +2377,10 @@
             ],
             "type": "string"
         },
+        "Record<string,ImportedToken>": {
+            "additionalProperties": false,
+            "type": "object"
+        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -3509,6 +3513,9 @@
                 "error": {
                     "type": "boolean"
                 },
+                "importedTokens": {
+                    "$ref": "#/definitions/Record<string,ImportedToken>"
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -3518,6 +3525,7 @@
             },
             "required": [
                 "error",
+                "importedTokens",
                 "loading",
                 "tokenBalances"
             ],

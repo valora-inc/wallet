@@ -12,6 +12,7 @@ import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
+  StoredTokenBalances,
   TokenBalance,
   TokenBalanceWithAddress,
   TokenBalances,
@@ -63,6 +64,7 @@ export const tokensByIdSelector = createSelector(
       ) {
         continue
       }
+
       const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
       const tokenPriceUsdIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE
@@ -85,6 +87,22 @@ export const tokensByIdSelector = createSelector(
       },
       maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
+  }
+)
+
+export const importedTokensInfo = createSelector(
+  (state: RootState) => state.tokens.importedTokens,
+  (manualTokens) => {
+    const tokenBalances: StoredTokenBalances = {}
+    for (const manualToken of Object.values(manualTokens)) {
+      tokenBalances[manualToken.tokenId] = {
+        ...manualToken,
+        // Force imported tokens to be visible even with zero balance.
+        showZeroBalance: true,
+        balance: null,
+      }
+    }
+    return tokenBalances
   }
 )
 

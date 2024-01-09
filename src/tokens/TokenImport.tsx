@@ -29,12 +29,13 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
+import { importToken } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, BaseError, TimeoutError, formatUnits, getContract, isAddress } from 'viem'
+import { Address, BaseError, TimeoutError, getContract, isAddress } from 'viem'
 
 const TAG = 'tokens/TokenImport'
 
@@ -45,7 +46,6 @@ interface TokenDetails {
   symbol: string
   decimals: number
   name: string
-  balance: bigint
 }
 
 enum Errors {
@@ -60,7 +60,7 @@ export default function TokenImportScreen(_: Props) {
   const dispatch = useDispatch()
 
   const [tokenAddress, setTokenAddress] = useState('')
-  const [tokenSymbol, setTokenSymbol] = useState('')
+  const [tokenDetails, setTokenDetails] = useState<TokenDetails>()
   const [error, setError] = useState<string | null>(null)
   const [networkId] = useState(networkConfig.defaultNetworkId)
 
@@ -109,24 +109,21 @@ export default function TokenImportScreen(_: Props) {
       publicClient: client,
     })
 
-    const [symbol, decimals, name, balance] = await Promise.all([
+    const [symbol, decimals, name] = await Promise.all([
       contract.read.symbol(),
       contract.read.decimals(),
       contract.read.name(),
-      contract.read.balanceOf([walletAddress]),
     ])
-    return { address, symbol, decimals, name, balance }
+    return { address, symbol, decimals, name }
   }
 
   const validateContract = useAsyncCallback(fetchTokenDetails, {
     onSuccess: (details) => {
       Logger.info(
         TAG,
-        `Wallet ${walletAddress} holds ${formatUnits(details.balance, details.decimals)} ${
-          details.symbol
-        } (${details.name} = ${details.address})})`
+        `Token successfully loaded: ${details.symbol} (${details.name} = ${details.address})})`
       )
-      setTokenSymbol(details.symbol)
+      setTokenDetails(details)
     },
     onError: (error) => {
       Logger.error(TAG, `Could not fetch token details`, error)
@@ -175,16 +172,24 @@ export default function TokenImportScreen(_: Props) {
   }
 
   const handleImportToken = () => {
+    if (!tokenDetails) {
+      return
+    }
+
     const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
-      tokenSymbol,
+      tokenSymbol: tokenDetails.symbol,
       networkId,
       tokenId,
     })
+
+    Logger.info(TAG, `Importing token: ${tokenId})})`)
+    dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
+
     // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()
-    dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol })))
+    dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol: tokenDetails.symbol })))
   }
 
   return (
@@ -208,7 +213,7 @@ export default function TokenImportScreen(_: Props) {
             onChangeText={(address) => {
               setTokenAddress(address)
               setError(null)
-              setTokenSymbol('')
+              setTokenDetails(undefined)
             }}
             editable={['not-requested', 'error'].includes(validateContract.status)}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
@@ -221,8 +226,8 @@ export default function TokenImportScreen(_: Props) {
           {/* Token Symbol */}
           <TextInputGroup
             label={t('tokenImport.input.tokenSymbol')}
-            value={tokenSymbol}
-            onChangeText={setTokenSymbol}
+            value={tokenDetails?.symbol ?? ''}
+            onChangeText={() => undefined}
             editable={false}
             rightElement={
               (validateContract.status === 'loading' && <GreenLoadingSpinner height={32} />) ||

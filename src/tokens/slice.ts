@@ -97,10 +97,20 @@ export interface TokenBalancesWithAddress {
   [tokenAddress: string]: TokenBalanceWithAddress | undefined
 }
 
+export interface ImportedToken {
+  address: string
+  symbol: string
+  name: string
+  decimals: number
+  tokenId: string
+  networkId: NetworkId
+}
+
 export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
+  importedTokens: Record<string, ImportedToken>
 }
 
 export function tokenBalanceHasAddress(
@@ -117,6 +127,7 @@ export const initialState = {
   tokenBalances: {},
   loading: false,
   error: false,
+  importedTokens: {},
 }
 
 const slice = createSlice({
@@ -144,6 +155,13 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
+    importToken: (state, action: PayloadAction<ImportedToken>) => ({
+      ...state,
+      importedTokens: {
+        ...state.importedTokens,
+        [action.payload.tokenId]: action.payload,
+      },
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -158,6 +176,7 @@ export const {
   fetchTokenBalances,
   fetchTokenBalancesSuccess,
   fetchTokenBalancesFailure,
+  importToken,
 } = slice.actions
 
 export default slice.reducer

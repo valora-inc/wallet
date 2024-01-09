@@ -11,6 +11,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
+  importedTokensInfo,
   lastKnownTokenBalancesSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
@@ -192,7 +193,17 @@ export function* fetchTokenBalancesSaga() {
       return
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
-    const tokens = yield* call(getTokensInfo)
+
+    const importedTokens = yield* select(importedTokensInfo)
+    const supportedTokens = yield* call(getTokensInfo)
+    delete supportedTokens['celo-mainnet:0x8e3670fd7b0935d3fe832711debfe13bb689b690']
+    delete supportedTokens['celo-mainnet:0x90ca507a5d4458a4c6c6249d186b6dcb02a5bccd']
+
+    const tokens = {
+      ...importedTokens,
+      ...supportedTokens,
+    }
+
     const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find((t) => t.tokenId === token.tokenId)
