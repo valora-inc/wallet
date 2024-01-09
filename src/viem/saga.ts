@@ -281,13 +281,19 @@ function* getTransferSimulateContract({
     gas: undefined,
     maxFeePerGas: undefined,
   }
+
   if (preparedTransaction) {
     const preparedTx = getPreparedTransaction(preparedTransaction)
     feeFields = {
       gas: preparedTx.gas,
       maxFeePerGas: preparedTx.maxFeePerGas,
     }
-    if (preparedTx.type === 'cip42' && preparedTx.feeCurrency) {
+    // @ts-ignore feeCurrency should only be present if tx type is cip42, but we never
+    // actually set the tx type to cip42 anywhere, but we /do/ set feeCurrency.
+    // TODO: Remove this once we directly use preparedTransaction to send the TX
+    // and get rid of simulateContract calls.
+    if (preparedTx.feeCurrency) {
+      // @ts-ignore
       feeFields.feeCurrency = preparedTx.feeCurrency
     }
   } else if (feeInfo) {
