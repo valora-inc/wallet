@@ -24,7 +24,6 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import networkConfig from 'src/web3/networkConfig'
 
 // This is used instead of a gap between the images because the gap is not supported in RN yet.
 const imageSize = (variables.width - Spacing.Regular16 * 3) / 2
@@ -82,10 +81,7 @@ export default function NftGallery() {
               <Touchable
                 borderless={false}
                 onPress={() =>
-                  navigate(Screens.NftsInfoCarousel, {
-                    nfts: [item],
-                    networkId: networkConfig.defaultNetworkId, // TODO(satish): pass the correct network id once we fetch nfts for all networks
-                  })
+                  navigate(Screens.NftsInfoCarousel, { nfts: [item], networkId: item.networkId })
                 }
                 style={styles.touchableIcon}
               >
