@@ -24,7 +24,7 @@ import {
   setTokenBalances,
 } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
-import { TransactionContext } from 'src/transactions/types'
+import { NetworkId, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import { ensureError } from 'src/utils/ensureError'
@@ -244,6 +244,7 @@ export function* watchFetchBalance() {
 
 export function* watchAccountFundedOrLiquidated() {
   let prevTokenBalance
+  let prevNetworkIds: NetworkId[] = []
   while (true) {
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account
@@ -261,14 +262,23 @@ export function* watchAccountFundedOrLiquidated() {
         const isAccountFundedBefore = prevTokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
         const isAccountFundedAfter = tokenBalance?.gt(DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED)
 
-        if (isAccountFundedBefore && !isAccountFundedAfter) {
+        if (
+          isAccountFundedBefore &&
+          !isAccountFundedAfter &&
+          prevNetworkIds.every((value) => supportedNetworkIds.includes(value))
+        ) {
           ValoraAnalytics.track(AppEvents.account_liquidated)
-        } else if (!isAccountFundedBefore && isAccountFundedAfter) {
+        } else if (
+          !isAccountFundedBefore &&
+          isAccountFundedAfter &&
+          supportedNetworkIds.every((value) => prevNetworkIds.includes(value))
+        ) {
           ValoraAnalytics.track(AppEvents.account_funded)
         }
       }
 
       prevTokenBalance = tokenBalance
+      prevNetworkIds = supportedNetworkIds
     }
 
     yield* take()
