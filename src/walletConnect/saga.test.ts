@@ -533,7 +533,7 @@ describe('normalizeTransaction', () => {
       .then((result) => result.returnValue)
   }
 
-  it('ensures `gasLimit` value is removed and used as gas instead', async () => {
+  it('ensures `gasLimit` value is removed and used as `gas` instead', async () => {
     expect(
       await callNormalizeTransaction(
         {
