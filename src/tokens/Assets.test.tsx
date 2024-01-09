@@ -278,6 +278,28 @@ describe('AssetsScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
+  it('clicking an NFT navigates to the nfts info screen', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore(storeWithNfts)
+
+    const { getAllByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+
+    expect(getAllByTestId('NftItem')).toHaveLength(2)
+
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[0])
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [mockNftAllFields],
+      networkId: NetworkId['celo-alfajores'],
+    })
+  })
+
   it('hides claim rewards if feature gate is false', () => {
     jest
       .mocked(getFeatureGate)

@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata } from 'test/values'
@@ -19,7 +20,10 @@ describe('NftsInfoCarousel', () => {
     const { queryByTestId, getByTestId, getByText } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
-          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNftAllFields] })}
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+            nfts: [mockNftAllFields],
+            networkId: NetworkId['celo-alfajores'],
+          })}
         />
       </Provider>
     )
@@ -48,6 +52,7 @@ describe('NftsInfoCarousel', () => {
         <NftsInfoCarousel
           {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
             nfts: [mockNftAllFields, mockNftMinimumFields],
+            networkId: NetworkId['celo-alfajores'],
           })}
         />
       </Provider>
@@ -98,7 +103,12 @@ describe('NftsInfoCarousel', () => {
   it('renders full screen error when no Nft(s)', () => {
     const { getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
-        <NftsInfoCarousel {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [] })} />
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+            nfts: [],
+            networkId: NetworkId['celo-alfajores'],
+          })}
+        />
       </Provider>
     )
 
@@ -110,7 +120,10 @@ describe('NftsInfoCarousel', () => {
     const { getByText } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
-          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNftNullMetadata] })}
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+            nfts: [mockNftNullMetadata],
+            networkId: NetworkId['celo-alfajores'],
+          })}
         />
       </Provider>
     )
@@ -123,6 +136,7 @@ describe('NftsInfoCarousel', () => {
         <NftsInfoCarousel
           {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
             nfts: [mockNftAllFields, mockNftNullMetadata],
+            networkId: NetworkId['celo-alfajores'],
           })}
         />
       </Provider>
@@ -142,18 +156,39 @@ describe('NftsInfoCarousel', () => {
     expect(getByText('nftInfoCarousel.viewOnCeloExplorer')).toBeTruthy()
   })
 
-  it('opens link for Explorer', () => {
+  it('opens link for Explorer for celo nfts', () => {
     const { getByTestId } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
-          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [mockNftMinimumFields] })}
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+            nfts: [mockNftMinimumFields],
+            networkId: NetworkId['celo-alfajores'],
+          })}
         />
       </Provider>
     )
 
     fireEvent.press(getByTestId('ViewOnExplorer'))
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseNFTUrl}${mockNftMinimumFields.contractAddress}/instance/${mockNftMinimumFields.tokenId}/metadata`,
+      uri: `https://explorer.celo.org/alfajores/token/${mockNftMinimumFields.contractAddress}/instance/${mockNftMinimumFields.tokenId}/metadata`,
+    })
+  })
+
+  it('opens link for Explorer for ethereum nfts and hex token id', () => {
+    const { getByTestId } = render(
+      <Provider store={createMockStore()}>
+        <NftsInfoCarousel
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+            nfts: [{ ...mockNftMinimumFields, tokenId: '0x0000004c' }],
+            networkId: NetworkId['ethereum-sepolia'],
+          })}
+        />
+      </Provider>
+    )
+
+    fireEvent.press(getByTestId('ViewOnExplorer'))
+    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+      uri: `https://sepolia.etherscan.io/nft/${mockNftMinimumFields.contractAddress}/76`,
     })
   })
 
@@ -163,7 +198,10 @@ describe('NftsInfoCarousel', () => {
     const { queryByTestId } = render(
       <Provider store={createMockStore()}>
         <NftsInfoCarousel
-          {...getMockStackScreenProps(Screens.NftsInfoCarousel, { nfts: [noTokenId] })}
+          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+            nfts: [noTokenId],
+            networkId: NetworkId['celo-alfajores'],
+          })}
         />
       </Provider>
     )
