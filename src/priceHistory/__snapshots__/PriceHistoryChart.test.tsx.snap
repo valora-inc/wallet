@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders while update is in progress 1`] = `
+exports[`PriceHistoryChart renders while update is in progress 1`] = `
 <View
   style={
     [
@@ -213,7 +213,7 @@ exports[`renders while update is in progress 1`] = `
 </View>
 `;
 
-exports[`renders with history 1`] = `
+exports[`PriceHistoryChart renders with history 1`] = `
 <View
   style={
     [
