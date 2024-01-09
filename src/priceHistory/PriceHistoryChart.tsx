@@ -320,7 +320,7 @@ export default function PriceHistoryChart({
         data={chartData.map((el) => el.amount)}
         domain={domain}
       >
-        {/* @ts-ignore */}
+        {/* @ts-expect-error dynamically created the datum */}
         <VictoryScatter dataComponent={<RenderPoint />} />
         <VictoryLine
           interpolation="monotoneX"
