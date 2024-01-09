@@ -17,16 +17,8 @@ jest.mock('src/statsig')
 const store = createMockStore({
   tokens: {
     tokenBalances: {
-      [mockCusdTokenId]: {
-        ...mockTokenBalances[mockCusdTokenId],
-        balance: '10',
-        symbol: 'cUSD',
-      },
-      [mockCeloTokenId]: {
-        ...mockTokenBalances[mockCeloTokenId],
-        balance: '2',
-        symbol: 'cGLD',
-      },
+      [mockCusdTokenId]: mockTokenBalances[mockCusdTokenId],
+      [mockCeloTokenId]: mockTokenBalances[mockCeloTokenId],
     },
   },
   exchange: {
