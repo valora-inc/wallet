@@ -174,23 +174,34 @@ describe('NftsInfoCarousel', () => {
     })
   })
 
-  it('opens link for Explorer for ethereum nfts and hex token id', () => {
-    const { getByTestId } = render(
-      <Provider store={createMockStore()}>
-        <NftsInfoCarousel
-          {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
-            nfts: [{ ...mockNftMinimumFields, tokenId: '0x0000004c' }],
-            networkId: NetworkId['ethereum-sepolia'],
-          })}
-        />
-      </Provider>
-    )
+  it.each([
+    { testName: 'decimal', tokenIdInNft: '45', tokenIdInUri: '45' },
+    { testName: 'hex', tokenIdInNft: '0x0000004c', tokenIdInUri: '76' },
+    {
+      testName: 'large hex',
+      tokenIdInNft: '0x11842BAC5120955D95BFC2FD375F60D2BA881662748B933595554035C0B677C6',
+      tokenIdInUri: '7922843659213713760827004610977604020289089222988994642652878954023871739846',
+    },
+  ])(
+    'opens link for Explorer for ethereum nfts and $testName token id',
+    ({ tokenIdInNft, tokenIdInUri }) => {
+      const { getByTestId } = render(
+        <Provider store={createMockStore()}>
+          <NftsInfoCarousel
+            {...getMockStackScreenProps(Screens.NftsInfoCarousel, {
+              nfts: [{ ...mockNftMinimumFields, tokenId: tokenIdInNft }],
+              networkId: NetworkId['ethereum-sepolia'],
+            })}
+          />
+        </Provider>
+      )
 
-    fireEvent.press(getByTestId('ViewOnExplorer'))
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: `https://sepolia.etherscan.io/nft/${mockNftMinimumFields.contractAddress}/76`,
-    })
-  })
+      fireEvent.press(getByTestId('ViewOnExplorer'))
+      expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
+        uri: `https://sepolia.etherscan.io/nft/${mockNftMinimumFields.contractAddress}/${tokenIdInUri}`,
+      })
+    }
+  )
 
   it('should not render link to explorer if no token id is provided', () => {
     const noTokenId = mockNftMinimumFields

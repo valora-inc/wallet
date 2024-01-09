@@ -118,8 +118,9 @@ export default function NftsInfoCarousel({ route }: Props) {
     if (!activeNft) {
       return null
     }
-    // tokenId could be decimal or hex string, do a parseInt to be safe
-    const tokenId = parseInt(activeNft.tokenId)
+    // tokenId could be decimal or hex string of 256 bit integers, parse it as a
+    // BigInt and convert back to string
+    const tokenId = BigInt(activeNft.tokenId).toString()
     switch (networkId) {
       case NetworkId['celo-mainnet']:
       case NetworkId['celo-alfajores']:
