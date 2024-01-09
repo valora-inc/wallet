@@ -2934,6 +2934,14 @@ export const v179Schema = {
   priceHistory: {},
 }
 
+export const v180Schema = {
+  ...v179Schema,
+  _persist: {
+    ...v179Schema._persist,
+    version: 180,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v179Schema as Partial<RootState>
+  return v180Schema as Partial<RootState>
 }

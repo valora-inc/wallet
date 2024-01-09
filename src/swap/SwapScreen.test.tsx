@@ -1226,7 +1226,9 @@ describe('SwapScreen', () => {
     selectToken(swapFromContainer, 'ETH', tokenBottomSheet)
 
     expect(queryByTestId('SwitchedToNetworkWarning')).toBeFalsy()
-    expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy()
+    // Max warning is shown again, because both ETH and CELO have the same balance
+    // and we previously selected the max value for CELO
+    expect(queryByTestId('MaxSwapAmountWarning')).toBeTruthy()
 
     // Now select a "from" token from a different network again, the warning should reappear
     selectToken(swapFromContainer, 'cUSD', tokenBottomSheet)
