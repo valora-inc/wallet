@@ -244,12 +244,13 @@ export function* watchFetchBalance() {
 
 export function* watchAccountFundedOrLiquidated() {
   let prevTokenBalance
-  let prevNetworkIds: NetworkId[] = []
+  let prevNetworkIds: Set<NetworkId> = new Set()
   while (true) {
     // we reset the usd value of all token balances to 0 if the exchange rate is
     // stale, so it is okay to use stale token prices to monitor the account
     // funded / liquidated status in this case
     const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+    const supportedNetworkIdsSet = new Set(supportedNetworkIds)
     const tokenBalance: ReturnType<typeof lastKnownTokenBalancesSelector> = yield* select(
       lastKnownTokenBalancesSelector,
       supportedNetworkIds
@@ -265,20 +266,26 @@ export function* watchAccountFundedOrLiquidated() {
         if (
           isAccountFundedBefore &&
           !isAccountFundedAfter &&
-          prevNetworkIds.every((value) => supportedNetworkIds.includes(value))
+          // check network ID consistency to avoid false positive for liquidated event
+          // if supportedNetworkIds is missing a network ID that is in prevNetworkIds,
+          // tokens from that network are missing from tokenBalance but may not have been liquidated
+          [...prevNetworkIds].every((value) => supportedNetworkIdsSet.has(value))
         ) {
           ValoraAnalytics.track(AppEvents.account_liquidated)
         } else if (
           !isAccountFundedBefore &&
           isAccountFundedAfter &&
-          supportedNetworkIds.every((value) => prevNetworkIds.includes(value))
+          // check network ID consistency to avoid false positive for liquidated event
+          // if prevNetworkIds is missing a network ID that is in supportedNetworkIds,
+          // tokens from that added network will now contribute to tokenBalance, even if there wasn't a funding event
+          supportedNetworkIds.every((value) => prevNetworkIds.has(value))
         ) {
           ValoraAnalytics.track(AppEvents.account_funded)
         }
       }
 
       prevTokenBalance = tokenBalance
-      prevNetworkIds = supportedNetworkIds
+      prevNetworkIds = supportedNetworkIdsSet
     }
 
     yield* take()

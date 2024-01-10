@@ -270,4 +270,56 @@ describe('watchAccountFundedOrLiquidated', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
   })
+
+  it('does not dispatch the account funded event when network ID added', async () => {
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
+      .mockReturnValueOnce({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
+    await expectSaga(watchAccountFundedOrLiquidated)
+      .provide([
+        [
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
+          dynamic(balances(new BigNumber(0), new BigNumber(0))),
+        ],
+        [
+          select(lastKnownTokenBalancesSelector, [
+            NetworkId['celo-alfajores'],
+            NetworkId['ethereum-sepolia'],
+          ]),
+          dynamic(balances(new BigNumber(10), new BigNumber(10))),
+        ],
+      ])
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+  })
+
+  it('does not dispatch the account liquidated event when network ID removed', async () => {
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValueOnce({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
+      .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
+    await expectSaga(watchAccountFundedOrLiquidated)
+      .provide([
+        [
+          select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]),
+          dynamic(balances(new BigNumber(0), new BigNumber(0))),
+        ],
+        [
+          select(lastKnownTokenBalancesSelector, [
+            NetworkId['celo-alfajores'],
+            NetworkId['ethereum-sepolia'],
+          ]),
+          dynamic(balances(new BigNumber(10), new BigNumber(10))),
+        ],
+      ])
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .dispatch({ type: 'TEST_ACTION_TYPE' })
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0)
+  })
 })
