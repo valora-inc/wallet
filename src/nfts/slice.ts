@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { NftWithNetworkId } from 'src/nfts/types'
 
-export interface FetchNftsCompleted {
+export interface FetchNftsCompletedAction {
   nfts: NftWithNetworkId[]
 }
 
@@ -29,7 +29,7 @@ export const slice = createSlice({
       state.nftsLoading = true
       state.nftsError = null
     },
-    fetchNftsCompleted: (state, action: PayloadAction<FetchNftsCompleted>) => {
+    fetchNftsCompleted: (state, action: PayloadAction<FetchNftsCompletedAction>) => {
       state.nftsLoading = false
       state.nfts = action.payload.nfts
     },

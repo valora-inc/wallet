@@ -14,7 +14,7 @@ import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'NftsSaga'
 
-export async function fetchNftsForSupportedNetworks(address: string): Promise<NftWithNetworkId[]> {
+async function fetchNftsForSupportedNetworks(address: string): Promise<NftWithNetworkId[]> {
   const supportedNetworkIds = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showNfts
