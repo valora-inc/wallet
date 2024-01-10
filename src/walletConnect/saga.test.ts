@@ -659,7 +659,7 @@ describe('normalizeTransaction', () => {
     it(`accepts \`${bigIntKey}\` as a number`, async () => {
       expect(
         await callNormalizeTransaction(
-          { from: '0xTEST', data: '0xABC', [bigIntKey]: '19' },
+          { from: '0xTEST', data: '0xABC', [bigIntKey]: 19 },
           Network.Ethereum
         )
       ).toStrictEqual({
