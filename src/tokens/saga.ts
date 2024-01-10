@@ -13,7 +13,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  importedTokensInfo,
+  importedTokensInfoSelector,
   lastKnownTokenBalancesSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
@@ -200,7 +200,7 @@ export function* fetchTokenBalancesSaga() {
       getFeatureGate,
       StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
     ))
-      ? yield* select(importedTokensInfo)
+      ? yield* select(importedTokensInfoSelector)
       : {}
     const supportedTokens = yield* call(getTokensInfo)
 
@@ -217,7 +217,7 @@ export function* fetchTokenBalancesSaga() {
       } else {
         token.balance = new BigNumber(tokenBalance.balance)
           .dividedBy(new BigNumber(10).pow(token.decimals))
-          .toString()
+          .toFixed()
       }
     }
     yield* put(setTokenBalances(tokens))

@@ -89,7 +89,7 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
-export const importedTokensInfo = createSelector(
+export const importedTokensInfoSelector = createSelector(
   (state: RootState) => state.tokens.importedTokens,
   (manualTokens) => {
     const tokenBalances: StoredTokenBalances = {}

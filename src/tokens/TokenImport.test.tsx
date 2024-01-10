@@ -5,7 +5,6 @@ import erc20 from 'src/abis/IERC20'
 import { Screens } from 'src/navigator/Screens'
 import { importToken } from 'src/tokens/slice'
 import { Network, NetworkId } from 'src/transactions/types'
-import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
@@ -116,7 +115,6 @@ describe('TokenImport', () => {
     await waitFor(() => expect(tokenSymbolInput.props.value).toBe('ABC'))
     expect(importButton).toBeEnabled()
     fireEvent.press(importButton)
-    Logger.info('DIEGO', store.getActions())
     expect(store.getActions()[0]).toEqual(
       importToken({
         address: mockPoofAddress,
