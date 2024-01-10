@@ -9,6 +9,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { chooseTxFeeDetails, sendTransaction } from 'src/transactions/send'
 import { Network, newTransactionContext } from 'src/transactions/types'
+import Logger from 'src/utils/Logger'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import {
   SerializableTransactionRequest,
@@ -23,7 +24,7 @@ import { call } from 'typed-redux-saga'
 import { SignMessageParameters } from 'viem'
 import Web3 from 'web3'
 
-const TAG = 'WalletConnect/handle-request'
+const TAG = 'WalletConnect/request'
 
 export function* handleRequest(
   {
@@ -55,21 +56,27 @@ export function* handleRequest(
         if (!serializableTransactionRequest) {
           throw new Error('preparedTransaction is required when using viem')
         }
+        const tx = getPreparedTransaction(serializableTransactionRequest)
+        Logger.debug(TAG + '@handleRequest', 'Signing transaction', tx)
         return yield* call(
           [wallet, 'signTransaction'],
           // TODO: fix types
-          getPreparedTransaction(serializableTransactionRequest) as any
+          tx as any
         )
       }
       case SupportedActions.eth_sendTransaction: {
         if (!serializableTransactionRequest) {
           throw new Error('preparedTransaction is required when using viem')
         }
-        return yield* call(
+        const tx = getPreparedTransaction(serializableTransactionRequest)
+        Logger.debug(TAG + '@handleRequest', 'Sending transaction', tx)
+        const hash = yield* call(
           [wallet, 'sendTransaction'],
           // TODO: fix types
-          getPreparedTransaction(serializableTransactionRequest) as any
+          tx as any
         )
+        Logger.debug(TAG + '@handleRequest', 'Sent transaction', hash)
+        return hash
       }
       case SupportedActions.eth_signTypedData_v4:
       case SupportedActions.eth_signTypedData:

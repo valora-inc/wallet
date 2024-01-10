@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -16,7 +16,8 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
-import networkConfig from 'src/web3/networkConfig'
+import { NetworkId } from 'src/transactions/types'
+import { blockExplorerUrls } from 'src/web3/networkConfig'
 
 const DEFAULT_HEIGHT = 360
 
@@ -99,17 +100,44 @@ function NftImageCarousel({ nfts, handleOnPress, activeNft }: NftImageCarouselPr
   )
 }
 
+const EXPLORER_LINK_TRANSLATION_STRINGS: Record<NetworkId, string> = {
+  [NetworkId['celo-mainnet']]: 'nftInfoCarousel.viewOnCeloExplorer',
+  [NetworkId['celo-alfajores']]: 'nftInfoCarousel.viewOnCeloExplorer',
+  [NetworkId['ethereum-mainnet']]: 'viewOnEthereumBlockExplorer',
+  [NetworkId['ethereum-sepolia']]: 'viewOnEthereumBlockExplorer',
+}
+
 type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 
 export default function NftsInfoCarousel({ route }: Props) {
-  const { nfts } = route.params
-  const [activeNft, setActiveNft] = useState(nfts[0] ?? null)
+  const { nfts, networkId } = route.params
+  const [activeNft, setActiveNft] = useState<Nft | null>(nfts[0] ?? null)
   const { t } = useTranslation()
 
+  const blockExplorerUri = useMemo(() => {
+    if (
+      !activeNft?.tokenId ||
+      !activeNft.contractAddress ||
+      !/^(0|[1-9]\d*|0x[0-9a-fA-F]+)$/.test(activeNft.tokenId)
+    ) {
+      return null
+    }
+    // tokenId could be decimal or hex string of 256 bit integers, parse it as a
+    // BigInt and convert back to string
+    const tokenId = BigInt(activeNft.tokenId).toString()
+    switch (networkId) {
+      case NetworkId['celo-mainnet']:
+      case NetworkId['celo-alfajores']:
+        return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}/instance/${tokenId}/metadata`
+      default:
+        return `${blockExplorerUrls[networkId].baseNftUrl}${activeNft.contractAddress}/${tokenId}`
+    }
+  }, [activeNft, networkId])
+
   function pressExplorerLink() {
-    navigate(Screens.WebViewScreen, {
-      uri: `${networkConfig.celoExplorerBaseNFTUrl}${activeNft.contractAddress}/instance/${activeNft.tokenId}/metadata`,
-    })
+    if (blockExplorerUri) {
+      navigate(Screens.WebViewScreen, { uri: blockExplorerUri })
+    }
   }
 
   function handleThumbnailPress(nft: Nft) {
@@ -117,7 +145,7 @@ export default function NftsInfoCarousel({ route }: Props) {
   }
 
   // Full page error screen shown when ntfs === []
-  if (nfts.length === 0) {
+  if (!activeNft) {
     return <NftsLoadError testID="NftsInfoCarousel/NftsLoadErrorScreen" />
   }
 
@@ -178,12 +206,14 @@ export default function NftsInfoCarousel({ route }: Props) {
             )}
           </>
         )}
-        {/* Nft Explorer Link - show if we have a contract address and token id */}
-        {activeNft.tokenId && activeNft.contractAddress && (
+        {/* Nft Explorer Link */}
+        {blockExplorerUri && (
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
-                <Text style={styles.explorerLink}>{t('nftInfoCarousel.viewOnCeloExplorer')}</Text>
+                <Text style={styles.explorerLink}>
+                  {t(EXPLORER_LINK_TRANSLATION_STRINGS[networkId])}
+                </Text>
                 <OpenLinkIcon color={colors.successDark} />
               </View>
             </Touchable>

@@ -10,6 +10,7 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { AddressToDisplayNameType } from 'src/identity/reducer'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
+import { Recipient } from 'src/recipients/recipient'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
@@ -1496,5 +1497,21 @@ export const migrations = {
   179: (state: any) => ({
     ...state,
     priceHistory: {},
+  }),
+  180: (state: any) => ({
+    ...state,
+    send: {
+      ...state.send,
+      recentRecipients: state.send.recentRecipients.filter(
+        (recentRecipient: Recipient) => !!recentRecipient.address
+      ),
+    },
+  }),
+  181: (state: any) => ({
+    ...state,
+    nfts: {
+      ...state.nfts,
+      nfts: [],
+    },
   }),
 }

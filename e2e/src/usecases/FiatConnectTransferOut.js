@@ -1,13 +1,14 @@
-import { newKit } from '@celo/contractkit'
 import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
 import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
-import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
+import { SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import { launchApp } from '../utils/retries'
+
 import {
   dismissCashInBottomSheet,
   enterPinUiIfNecessary,
+  fundWallet,
   quickOnboarding,
   sleep,
   waitForElementId,
@@ -23,27 +24,6 @@ async function navigateToFiatExchangeScreen() {
   await element(by.id('HomeActionsCarousel')).scrollTo('right')
   await waitForElementId('HomeAction-Withdraw')
   await element(by.id('HomeAction-Withdraw')).tap()
-}
-
-/**
- * Fund a wallet, using some existing wallet.
- *
- * @param senderPrivateKey: private key for wallet with funds
- * @param recipientAddress: wallet to receive funds
- * @param stableToken: ContractKit-recognized stable token
- * @param amountEther: amount in "ethers" (as opposed to wei)
- */
-async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
-  const kit = newKit(ALFAJORES_FORNO_URL)
-  const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
-  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
-  kit.connection.addAccount(senderPrivateKey)
-  const tokenContract = await kit.contracts.getStableToken(stableToken)
-  const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
-  const receipt = await tokenContract
-    .transfer(recipientAddress, amountWei.toString())
-    .sendAndWaitForReceipt({ from: senderAddress })
-  console.log('Funding TX receipt', receipt)
 }
 
 /**
