@@ -8,6 +8,7 @@ import {
   defaultTokenToSendSelector,
   feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
+  lastKnownTokenBalancesSelector,
   spendTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
@@ -608,5 +609,65 @@ describe('feeCurrenciesWithPositiveBalancesSelector', () => {
     expect(resultAlfajores).toBe(resultAlfajores2)
     expect(resultAlfajores).not.toBe(resultSepolia)
     expect(feeCurrenciesWithPositiveBalancesSelector.recomputations()).toEqual(2)
+  })
+})
+
+describe('lastKnownTokenBalancesSelector', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  const mockState: any = {
+    ...state,
+    tokens: {
+      tokenBalances: {
+        ...state.tokens.tokenBalances,
+        ['celo-alfajores:0xusd']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xusd'],
+          balance: '200',
+          lastKnownPriceUsd: '1',
+        },
+        ['celo-alfajores:0x1']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0x1'],
+          balance: '0',
+        },
+        ['celo-alfajores:0x5']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0x5'],
+          balance: '0',
+        },
+        ['celo-alfajores:0x6']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0x6'],
+          balance: '0',
+        },
+        ['ethereum-sepolia:0x7']: {
+          ...state.tokens.tokenBalances['ethereum-sepolia:0x7'],
+          balance: '0',
+        },
+        ['celo-alfajores:0xeur']: {
+          ...state.tokens.tokenBalances['celo-alfajores:0xeur'],
+          lastKnownPriceUsd: '0.5',
+        },
+        [mockEthTokenId]: {
+          ...state.tokens.tokenBalances[mockEthTokenId],
+          balance: '1',
+          lastKnownPriceUsd: '500',
+        },
+      },
+    },
+  }
+
+  it('returns the correct last known total balance when one network given', () => {
+    const lastKnownTokenBalances = lastKnownTokenBalancesSelector(mockState, [
+      NetworkId['celo-alfajores'],
+    ])
+    expect(lastKnownTokenBalances).toEqual(new BigNumber(193.5))
+  })
+
+  it('returns the correct last known total balance when multiple networks given', () => {
+    const lastKnownTokenBalances = lastKnownTokenBalancesSelector(mockState, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+    expect(lastKnownTokenBalances).toEqual(new BigNumber(623.5))
   })
 })
