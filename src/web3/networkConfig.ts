@@ -38,7 +38,6 @@ interface NetworkConfig {
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
   nftsValoraAppUrl: string
-  celoExplorerBaseNFTUrl: string
   getSwapQuoteUrl: string
   walletJumpstartUrl: string
   walletJumpstartAddress: string
@@ -83,6 +82,7 @@ export type BlockExplorerUrls = {
     baseTxUrl: string
     baseAddressUrl: string
     baseTokenUrl: string
+    baseNftUrl: string
   }
 }
 
@@ -241,7 +241,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
-    celoExplorerBaseNFTUrl: 'https://explorer.celo.org/alfajores/token/',
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
     walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
@@ -312,7 +311,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
-    celoExplorerBaseNFTUrl: 'https://explorer.celo.org/mainnet/token/',
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
     walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
@@ -365,21 +363,25 @@ export const blockExplorerUrls: BlockExplorerUrls = {
     baseTxUrl: `${CELOSCAN_BASE_URL_MAINNET}/tx/`,
     baseAddressUrl: `${CELOSCAN_BASE_URL_MAINNET}/address/`,
     baseTokenUrl: `${CELOSCAN_BASE_URL_MAINNET}/token/`,
+    baseNftUrl: 'https://explorer.celo.org/mainnet/token/',
   },
   [NetworkId['celo-alfajores']]: {
     baseTxUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/tx/`,
     baseAddressUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/address/`,
     baseTokenUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/token/`,
+    baseNftUrl: 'https://explorer.celo.org/alfajores/token/',
   },
   [NetworkId['ethereum-mainnet']]: {
     baseTxUrl: `${ETHERSCAN_BASE_URL_MAINNET}/tx/`,
     baseAddressUrl: `${ETHERSCAN_BASE_URL_MAINNET}/address/`,
     baseTokenUrl: `${ETHERSCAN_BASE_URL_MAINNET}/token/`,
+    baseNftUrl: `${ETHERSCAN_BASE_URL_MAINNET}/nft/`,
   },
   [NetworkId['ethereum-sepolia']]: {
     baseTxUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/tx/`,
     baseAddressUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/address/`,
     baseTokenUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`,
+    baseNftUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/nft/`,
   },
 }
 

@@ -2942,6 +2942,18 @@ export const v180Schema = {
   },
 }
 
+export const v181Schema = {
+  ...v180Schema,
+  _persist: {
+    ...v180Schema._persist,
+    version: 181,
+  },
+  nfts: {
+    ...v180Schema.nfts,
+    nfts: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v180Schema as Partial<RootState>
+  return v181Schema as Partial<RootState>
 }
