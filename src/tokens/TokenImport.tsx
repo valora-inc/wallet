@@ -186,6 +186,7 @@ export default function TokenImportScreen(_: Props) {
 
     Logger.info(TAG, `Importing token: ${tokenId})})`)
     dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
+    // Trigger a token balance fetch to include the new token
     dispatch(fetchTokenBalances({ showLoading: true }))
 
     // TODO RET-891: navigate back and show success only when actually imported
