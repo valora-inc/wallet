@@ -58,11 +58,9 @@ function TokenDisplay({
   const tokenInfo = useTokenInfo(tokenId)
   const localCurrencyExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
-
   const showError = showLocalAmount
     ? !localAmount && (!tokenInfo?.priceUsd || !localCurrencyExchangeRate)
     : !tokenInfo?.symbol
-  // const showError = false
 
   const amountInUsd = tokenInfo?.priceUsd?.multipliedBy(amount)
   const amountInLocalCurrency = localAmount
