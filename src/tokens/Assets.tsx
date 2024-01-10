@@ -60,6 +60,7 @@ import { useTokenPricesAreStale, useTotalTokenBalance } from 'src/tokens/hooks'
 import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances, getTokenAnalyticsProps } from 'src/tokens/utils'
+import networkConfig from 'src/web3/networkConfig'
 
 const DEVICE_WIDTH_BREAKPOINT = 340
 const NUM_OF_NFTS_PER_ROW = 2
@@ -337,7 +338,12 @@ function AssetsScreen({ navigation, route }: Props) {
       <View testID="NftItem" style={styles.nftsTouchableContainer}>
         <Touchable
           borderless={false}
-          onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+          onPress={() =>
+            navigate(Screens.NftsInfoCarousel, {
+              nfts: [item],
+              networkId: networkConfig.defaultNetworkId, // todo(satish): pass the correct value
+            })
+          }
           style={styles.nftsTouchableIcon}
         >
           <NftMedia
