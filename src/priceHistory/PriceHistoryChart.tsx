@@ -32,9 +32,9 @@ const CHART_MIN_VERTICAL_RANGE = 0.01 // one cent
 const CHART_DOMAIN_PADDING = { y: [30, 30] as [number, number], x: [5, 5] as [number, number] }
 const CHART_STEP_IN_HOURS = 12
 
-function Loader({ color = colors.goldBrand }: { color?: colors }) {
+function Loader({ color = colors.goldBrand, style }: { color?: colors; style?: ViewStyle }) {
   return (
-    <View style={styles.loader}>
+    <View style={[styles.loader, style]}>
       <ActivityIndicator testID="PriceHistoryChart/Loader" size="large" color={color} />
     </View>
   )
@@ -279,7 +279,7 @@ export default function PriceHistoryChart({
   }, [])
 
   if (status === 'loading' && prices.length === 0) {
-    return <Loader />
+    return <Loader style={containerStyle} />
   } else if (prices.length === 0) {
     return null
   }
@@ -346,7 +346,7 @@ const styles = StyleSheet.create({
   },
   loader: {
     width: CHART_WIDTH,
-    height: CHART_HEIGHT + 37.5,
+    height: CHART_HEIGHT + 35.5,
     alignItems: 'center',
     justifyContent: 'center',
   },

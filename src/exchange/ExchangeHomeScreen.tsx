@@ -163,6 +163,7 @@ function ExchangeHomeScreen() {
               testID={`CeloNews/Chart/${tokensBySymbol['CELO']?.tokenId}`}
               chartPadding={Spacing.Thick24}
               color={colors.goldBrand}
+              containerStyle={styles.chartContainer}
             />
           ) : (
             <CeloGoldHistoryChart testID="PriceChart" />
@@ -180,6 +181,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingBottom: variables.contentPadding,
+  },
+  chartContainer: {
+    marginBottom: Spacing.Thick24,
   },
   header: {
     alignItems: 'center',
