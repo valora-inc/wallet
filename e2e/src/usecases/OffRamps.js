@@ -110,11 +110,8 @@ export default offRamps = () => {
 
     it('Then Send To Address', async () => {
       const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
-      // await waitForElementId('radio/CELO')
-      // await element(by.id('radio/CELO')).tap()
-      // await element(by.text('Next')).tap()
-
-      // TODO: Add in navigation for bottom sheet
+      await waitForElementId(`CELOSymbol`)
+      await element(by.id(`CELOSymbol`)).tap()
 
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${randomAmount}`)
