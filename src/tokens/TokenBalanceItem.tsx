@@ -12,14 +12,20 @@ import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
   token: TokenBalance
+  balanceUsdErrorFallback?: string
   onPress?: () => void
   containerStyle?: ViewStyle
 }
 
-export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
+export const TokenBalanceItem = ({
+  token,
+  onPress,
+  containerStyle,
+  balanceUsdErrorFallback,
+}: Props) => {
   const { t } = useTranslation()
 
-  const Content = ({ token, containerStyle }: Props) => {
+  const Content = () => {
     return (
       <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
         <TokenIcon token={token} viewStyle={styles.marginRight} />
@@ -60,6 +66,7 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
               tokenId={token.tokenId}
               showSymbol={false}
               hideSign={true}
+              errorFallback={balanceUsdErrorFallback}
             />
           </View>
           {token.bridge && (
@@ -78,10 +85,10 @@ export const TokenBalanceItem = ({ token, onPress, containerStyle }: Props) => {
 
   return onPress ? (
     <Touchable onPress={onPress} testID={`TokenBalanceItemTouchable/${token.tokenId}`}>
-      <Content token={token} containerStyle={containerStyle} />
+      <Content />
     </Touchable>
   ) : (
-    <Content token={token} containerStyle={containerStyle} />
+    <Content />
   )
 }
 
