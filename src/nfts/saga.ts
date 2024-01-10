@@ -1,8 +1,11 @@
 import { fetchNfts, fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { Nft, NftWithNetworkId } from 'src/nfts/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { Actions } from 'src/web3/actions'
 import networkConfig from 'src/web3/networkConfig'
@@ -10,6 +13,37 @@ import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'NftsSaga'
+
+async function fetchNftsForSupportedNetworks(address: string): Promise<NftWithNetworkId[]> {
+  const supportedNetworkIds = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showNfts
+  const nfts = await Promise.all(
+    supportedNetworkIds.map(async (networkId) => {
+      const response = await fetchWithTimeout(
+        `${networkConfig.getNftsByOwnerAddressUrl}?address=${address}&networkId=${networkId}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        }
+      )
+
+      if (!response.ok) {
+        throw new Error(
+          `Unable to fetch NFTs for ${networkId}: ${response.status} ${await response.text()}`
+        )
+      }
+
+      const { result }: { result: Nft[] } = await response.json()
+      return result.map((nft) => ({ ...nft, networkId }))
+    })
+  )
+
+  return nfts.reduce((acc, nftsByNetwork) => acc.concat(nftsByNetwork), [])
+}
 
 export function* handleFetchNfts() {
   const showNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
@@ -24,21 +58,9 @@ export function* handleFetchNfts() {
     return
   }
 
-  const url = `${networkConfig.getNftsByOwnerAddressUrl}?address=${address}`
-
   try {
-    const response = yield* call(fetch, url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-      },
-    })
-    if (!response.ok) {
-      throw new Error(`Unable to fetch NFTs: ${response.status} ${response.statusText}`)
-    }
-    const { result } = yield* call([response, 'json'])
-    yield* put(fetchNftsCompleted(result))
+    const nfts = yield* call(fetchNftsForSupportedNetworks, address)
+    yield* put(fetchNftsCompleted({ nfts }))
   } catch (err) {
     const error = ensureError(err)
     Logger.error(TAG, '@handleFetchNfts', error)
