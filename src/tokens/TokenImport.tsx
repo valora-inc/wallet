@@ -29,7 +29,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
 import { tokensByIdSelector } from 'src/tokens/selectors'
-import { importToken } from 'src/tokens/slice'
+import { fetchTokenBalances, importToken } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
@@ -186,6 +186,7 @@ export default function TokenImportScreen(_: Props) {
 
     Logger.info(TAG, `Importing token: ${tokenId})})`)
     dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
+    dispatch(fetchTokenBalances({ showLoading: true }))
 
     // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()

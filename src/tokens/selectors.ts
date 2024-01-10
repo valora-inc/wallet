@@ -64,7 +64,6 @@ export const tokensByIdSelector = createSelector(
       ) {
         continue
       }
-
       const priceUsd = new BigNumber(storedState.priceUsd ?? NaN)
       const tokenPriceUsdIsStale =
         (storedState.priceFetchedAt ?? 0) < Date.now() - TIME_UNTIL_TOKEN_INFO_BECOMES_STALE

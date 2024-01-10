@@ -10,6 +10,8 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   importedTokensInfo,
   lastKnownTokenBalancesSelector,
@@ -194,10 +196,13 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
-    const importedTokens = yield* select(importedTokensInfo)
+    const importedTokens = (yield* call(
+      getFeatureGate,
+      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    ))
+      ? yield* select(importedTokensInfo)
+      : {}
     const supportedTokens = yield* call(getTokensInfo)
-    delete supportedTokens['celo-mainnet:0x8e3670fd7b0935d3fe832711debfe13bb689b690']
-    delete supportedTokens['celo-mainnet:0x90ca507a5d4458a4c6c6249d186b6dcb02a5bccd']
 
     const tokens = {
       ...importedTokens,
