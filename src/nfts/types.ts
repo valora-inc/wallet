@@ -1,3 +1,5 @@
+import { NetworkId } from 'src/transactions/types'
+
 interface NftMetaDataAttribute {
   trait_type: string
   value: string
@@ -24,6 +26,10 @@ export interface Nft {
     attributes?: NftMetaDataAttribute[] | null
   } | null
   media: NftMedia[]
+}
+
+export interface NftWithNetworkId extends Nft {
+  networkId: NetworkId
 }
 
 export enum NftMediaType {

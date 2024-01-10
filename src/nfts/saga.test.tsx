@@ -1,9 +1,10 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
-import { call, select } from 'redux-saga/effects'
+import { select } from 'redux-saga/effects'
 import { handleFetchNfts } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockNftAllFields, mockNftMinimumFields } from 'test/values'
@@ -13,10 +14,12 @@ jest.mock('src/statsig')
 const loggerDebugSpy = jest.spyOn(Logger, 'debug')
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
 
-const nftResponse = JSON.stringify({
-  result: {
-    nfts: [mockNftAllFields, mockNftMinimumFields],
-  },
+const nftResponse1 = JSON.stringify({
+  result: [mockNftAllFields],
+})
+
+const nftResponse2 = JSON.stringify({
+  result: [mockNftMinimumFields],
 })
 
 describe('Given Nfts saga', () => {
@@ -25,26 +28,42 @@ describe('Given Nfts saga', () => {
     beforeEach(() => {
       mockFetch.resetMocks()
       jest.clearAllMocks()
+      jest.mocked(getDynamicConfigParams).mockReturnValue({
+        showNfts: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+      })
     })
 
     it("should fetch user's NFTs", async () => {
       jest.mocked(getFeatureGate).mockReturnValue(true)
-      mockFetch.mockResponse(nftResponse)
+      mockFetch.mockResponseOnce(nftResponse1)
+      mockFetch.mockResponseOnce(nftResponse2)
 
       await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
           fetchNftsCompleted({
-            nfts: [mockNftAllFields, mockNftMinimumFields],
+            nfts: [
+              { ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] },
+              { ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] },
+            ],
           })
         )
         .run()
 
       expect(mockFetch).toHaveBeenCalledWith(
-        'https://api.alfajores.valora.xyz/getNfts?address=0xabc',
+        'https://api.alfajores.valora.xyz/getNfts?address=0xabc&networkId=celo-alfajores',
         {
           headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
           method: 'GET',
+          signal: expect.any(AbortSignal),
+        }
+      )
+      expect(mockFetch).toHaveBeenCalledWith(
+        'https://api.alfajores.valora.xyz/getNfts?address=0xabc&networkId=ethereum-sepolia',
+        {
+          headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+          method: 'GET',
+          signal: expect.any(AbortSignal),
         }
       )
     })
@@ -54,10 +73,7 @@ describe('Given Nfts saga', () => {
       mockFetch.mockResponseOnce('invalid json')
 
       await expectSaga(handleFetchNfts)
-        .provide([
-          [select(walletAddressSelector), '0xabc'],
-          [call([JSON, 'parse'], 'invalid json'), new Error('Unable to Parse')],
-        ])
+        .provide([[select(walletAddressSelector), '0xabc']])
         .put(
           fetchNftsFailed({
             error: `invalid json response body at  reason: Unexpected token 'i', "invalid json" is not valid JSON`,
@@ -76,7 +92,8 @@ describe('Given Nfts saga', () => {
         .provide([[select(walletAddressSelector), '0xabc']])
         .put(
           fetchNftsFailed({
-            error: 'Unable to fetch NFTs: 500 Internal Server Error',
+            error:
+              'Unable to fetch NFTs for celo-alfajores: 500 {"message":"something went wrong"}',
           })
         )
         .run()
@@ -84,11 +101,10 @@ describe('Given Nfts saga', () => {
 
     it('should not fetch when no wallet address found', async () => {
       jest.mocked(getFeatureGate).mockReturnValue(true)
-      mockFetch.mockResponse(nftResponse)
 
       await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), null]])
-        .not.put(fetchNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .not.put.actionType(fetchNftsCompleted.type)
         .run()
 
       expect(loggerDebugSpy).toHaveBeenCalledWith(
@@ -99,11 +115,10 @@ describe('Given Nfts saga', () => {
 
     it('should be disabled by feature gate', async () => {
       jest.mocked(getFeatureGate).mockReturnValue(false)
-      mockFetch.mockResponse(nftResponse)
 
       await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
-        .not.put(fetchNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .not.put.actionType(fetchNftsCompleted.type)
         .run()
 
       expect(loggerDebugSpy).toHaveBeenCalledWith(
@@ -113,10 +128,9 @@ describe('Given Nfts saga', () => {
     })
 
     it('should be disabled by default', async () => {
-      mockFetch.mockResponse(nftResponse)
       await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), '0xabc']])
-        .not.put(fetchNftsCompleted({ nfts: [mockNftAllFields, mockNftMinimumFields] }))
+        .not.put.actionType(fetchNftsCompleted.type)
         .run()
     })
   })
