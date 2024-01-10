@@ -16,7 +16,7 @@ import { TransactionDataInput } from 'src/send/SendAmount'
 import { QrCode } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { TokenTransaction } from 'src/transactions/types'
+import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -205,7 +205,7 @@ export type StackParamList = {
   [Screens.MultichainBeta]: undefined
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
-  [Screens.NftsInfoCarousel]: { nfts: Nft[] }
+  [Screens.NftsInfoCarousel]: { nfts: Nft[]; networkId: NetworkId }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean

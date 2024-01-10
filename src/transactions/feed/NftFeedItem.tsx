@@ -34,7 +34,7 @@ function NftFeedItem({ transaction }: Props) {
 
   const openNftTransactionDetails = () => {
     showNftsInApp
-      ? navigate(Screens.NftsInfoCarousel, { nfts })
+      ? navigate(Screens.NftsInfoCarousel, { nfts, networkId: transaction.networkId })
       : navigate(Screens.WebViewScreen, {
           uri: `${networkConfig.nftsValoraAppUrl}?address=${walletAddress}&hide-header=true`,
         })

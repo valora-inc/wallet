@@ -39,7 +39,7 @@ import {
   nftsLoadingSelector,
   nftsWithMetadataSelector,
 } from 'src/nfts/selectors'
-import { Nft, NftOrigin } from 'src/nfts/types'
+import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import {
   positionsSelector,
   positionsWithClaimableRewardsSelector,
@@ -74,11 +74,11 @@ interface SectionData {
 }
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position | Nft[], SectionData>>(
-    SectionList
-  )
+  Animated.createAnimatedComponent<
+    SectionListProps<TokenBalance | Position | NftWithNetworkId[], SectionData>
+  >(SectionList)
 
-const assetIsPosition = (asset: Position | TokenBalance | Nft[]): asset is Position =>
+const assetIsPosition = (asset: Position | TokenBalance | NftWithNetworkId[]): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 /**
@@ -286,7 +286,8 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position | Nft[], SectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position | NftWithNetworkId[], SectionData>[] =
+      []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -308,7 +309,7 @@ function AssetsScreen({ navigation, route }: Props) {
   const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalance | Position | Nft[], SectionData>
+    section: SectionListData<TokenBalance | Position | NftWithNetworkId[], SectionData>
   }) => {
     if (section.appName) {
       return (
@@ -322,7 +323,7 @@ function AssetsScreen({ navigation, route }: Props) {
     return null
   }
 
-  const keyExtractor = (item: TokenBalance | Position | Nft[]) => {
+  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[]) => {
     if (assetIsPosition(item)) {
       return item.address
     } else if ('balance' in item) {
@@ -332,12 +333,14 @@ function AssetsScreen({ navigation, route }: Props) {
     }
   }
 
-  const NftItem = ({ item }: { item: Nft }) => {
+  const NftItem = ({ item }: { item: NftWithNetworkId }) => {
     return (
       <View testID="NftItem" style={styles.nftsTouchableContainer}>
         <Touchable
           borderless={false}
-          onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+          onPress={() =>
+            navigate(Screens.NftsInfoCarousel, { nfts: [item], networkId: item.networkId })
+          }
           style={styles.nftsTouchableIcon}
         >
           <NftMedia
@@ -364,7 +367,7 @@ function AssetsScreen({ navigation, route }: Props) {
     )
   }
 
-  const NftGroup = ({ item }: { item: Nft[] }) => {
+  const NftGroup = ({ item }: { item: NftWithNetworkId[] }) => {
     return (
       <View style={styles.nftsPairingContainer}>
         {item.map((nft, index) => (
@@ -378,7 +381,7 @@ function AssetsScreen({ navigation, route }: Props) {
     item,
     index,
   }: {
-    item: TokenBalance | Position | Nft[]
+    item: TokenBalance | Position | NftWithNetworkId[]
     index: number
   }) => {
     if (assetIsPosition(item)) {
