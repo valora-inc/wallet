@@ -7,29 +7,11 @@ import { feeEstimatesSelector } from 'src/fees/selectors'
 import useSelector from 'src/redux/useSelector'
 import { useTokenInfo, useUsdToTokenAmount } from 'src/tokens/hooks'
 import { celoAddressSelector, tokensByUsdBalanceSelector } from 'src/tokens/selectors'
-import { Fee, FeeType as TransactionFeeType } from 'src/transactions/types'
 import { ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 
 export function useFeeCurrency(): string | undefined {
   const tokens = useSelector(tokensByUsdBalanceSelector)
   return fetchFeeCurrency(tokens)
-}
-
-export function usePaidFees(fees: Fee[]) {
-  const securityFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.SecurityFee)
-  const dekFeeAmount = fees.find((fee) => fee.type === TransactionFeeType.EncryptionFee)
-
-  const securityFee = securityFeeAmount ? new BigNumber(securityFeeAmount.amount.value) : undefined
-  const dekFee = dekFeeAmount ? new BigNumber(dekFeeAmount.amount.value) : undefined
-  const totalFeeOrZero = new BigNumber(0).plus(securityFee ?? 0).plus(dekFee ?? 0)
-  const totalFee = totalFeeOrZero.isZero() ? undefined : totalFeeOrZero
-
-  return {
-    securityFeeTokenId: securityFeeAmount?.amount.tokenId,
-    securityFee,
-    dekFee,
-    totalFee,
-  }
 }
 
 /**
