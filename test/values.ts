@@ -1130,7 +1130,7 @@ export const exchangePriceHistory = {
 }
 
 // Generate mock CELO prices
-export const prices = range(60).map((i) => ({
+const prices = range(60).map((i) => ({
   priceUsd: (i / 60).toString(),
   priceFetchedAt: endDate - i * 24 * 3600 * 1000,
 }))
