@@ -145,7 +145,7 @@ export default Send = () => {
     it.todo('Then should display correct transaction details')
   })
 
-  it('Then should be able to perform Nomspace lookup (old flow)', async () => {
+  it('Then should be able to perform ENS lookup (old flow)', async () => {
     await reloadReactNative()
     await waitFor(element(by.id('HomeAction-Send')))
       .toBeVisible()
@@ -153,7 +153,7 @@ export default Send = () => {
     await element(by.id('HomeAction-Send')).tap()
     // Look for an address and tap on it.
     await element(by.id('SearchInput')).tap()
-    await element(by.id('SearchInput')).replaceText('Hello.nom')
+    await element(by.id('SearchInput')).replaceText('vitalik.eth')
     await waitFor(element(by.id('RecipientItem')))
       .toBeVisible()
       .withTimeout(10_000)
