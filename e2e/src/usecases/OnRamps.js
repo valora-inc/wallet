@@ -24,11 +24,8 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      // await waitForElementId(`radio/${token}`)
-      // await element(by.id(`radio/${token}`)).tap()
-      // await element(by.text('Next')).tap()
-
-      // TODO: Add in navigation for bottom sheet
+      await waitForElementId(`${token}Symbol`)
+      await element(by.id(`${token}Symbol`)).tap()
 
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)

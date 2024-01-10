@@ -39,22 +39,16 @@ export default offRamps = () => {
     })
 
     it('Then should be able to spend cUSD', async () => {
-      // await waitForElementId('radio/cUSD')
-      // await element(by.id('radio/cUSD')).tap()
-      // await element(by.id('GoToProviderButton')).tap()
-
-      // TODO: Add in navigation for bottom sheet
+      await waitForElementId(`cUSDSymbol`)
+      await element(by.id(`cUSDSymbol`)).tap()
 
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
     it('Then should be able to spend cEUR', async () => {
-      // await waitForElementId('radio/cEUR')
-      // await element(by.id('radio/cEUR')).tap()
-      // await element(by.id('GoToProviderButton')).tap()
-
-      // TODO: Add in navigation for bottom sheet
+      await waitForElementId(`cEURSymbol`)
+      await element(by.id(`cEURSymbol`)).tap()
 
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
@@ -75,11 +69,8 @@ export default offRamps = () => {
     `(
       'Then should display $token provider(s) for $$amount',
       async ({ token, amount, exchanges }) => {
-        // await waitForElementId(`radio/${token}`)
-        // await element(by.id(`radio/${token}`)).tap()
-        // await element(by.text('Next')).tap()
-
-        // TODO: Add in navigation for bottom sheet
+        await waitForElementId(`${token}Symbol`)
+        await element(by.id(`${token}Symbol`)).tap()
 
         await waitForElementId('FiatExchangeInput')
         await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
@@ -102,11 +93,8 @@ export default offRamps = () => {
     `(
       'Then should display at least $exchanges.minExpected $token exchange(s)',
       async ({ token, exchanges }) => {
-        // await waitForElementId(`radio/${token}`)
-        // await element(by.id(`radio/${token}`)).tap()
-        // await element(by.text('Next')).tap()
-
-        // TODO: Add in navigation for bottom sheet
+        await waitForElementId(`${token}Symbol`)
+        await element(by.id(`${token}Symbol`)).tap()
 
         await waitForElementId('FiatExchangeInput')
         await element(by.id('FiatExchangeInput')).replaceText('20')
