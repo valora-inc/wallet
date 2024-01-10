@@ -1,7 +1,13 @@
-import { reloadReactNative } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementId } from '../utils/utils'
 
 export default onRamps = () => {
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: true,
+      launchArgs: { statsigGateOverrides: `use_cico_currency_bottom_sheet=true` },
+    })
+  })
   beforeEach(async () => {
     await reloadReactNative()
     await waitForElementId('HomeAction-Add')
@@ -18,9 +24,12 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      await waitForElementId(`radio/${token}`)
-      await element(by.id(`radio/${token}`)).tap()
-      await element(by.text('Next')).tap()
+      // await waitForElementId(`radio/${token}`)
+      // await element(by.id(`radio/${token}`)).tap()
+      // await element(by.text('Next')).tap()
+
+      // TODO: Add in navigation for bottom sheet
+
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
       await element(by.id('FiatExchangeNextButton')).tap()

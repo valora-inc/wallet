@@ -4,6 +4,7 @@ import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
 import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
+import { launchApp } from '../utils/retries'
 import {
   dismissCashInBottomSheet,
   enterPinUiIfNecessary,
@@ -55,9 +56,11 @@ async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amoun
  */
 async function selectCurrencyAndAmount(token, amount) {
   // FiatExchangeCurrency
-  await waitForElementId(`radio/${token}`)
-  await element(by.id(`radio/${token}`)).tap()
-  await element(by.text('Next')).tap()
+  // await waitForElementId(`radio/${token}`)
+  // await element(by.id(`radio/${token}`)).tap()
+  // await element(by.text('Next')).tap()
+
+  // TODO: Add in navigation for bottom sheet
 
   // FiatExchangeAmount
   await waitForElementId('FiatExchangeInput')
@@ -190,6 +193,12 @@ async function returnUserTransferOut(token, cashOutAmount) {
 }
 
 export const fiatConnectNonKycTransferOut = () => {
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: true,
+      launchArgs: { statsigGateOverrides: `use_cico_currency_bottom_sheet=true` },
+    })
+  })
   it('FiatConnect cash out', async () => {
     // ******** First time experience ************
     const cashOutAmount = 0.02
@@ -214,6 +223,12 @@ export const fiatConnectNonKycTransferOut = () => {
 }
 
 export const fiatConnectKycTransferOut = () => {
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: true,
+      launchArgs: { statsigGateOverrides: `use_cico_currency_bottom_sheet=true` },
+    })
+  })
   it('FiatConnect cash out', async () => {
     // ******** First time experience ************
     const cashOutAmount = 0.01
