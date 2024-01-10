@@ -81,6 +81,7 @@ export const DynamicConfigs = {
       showTransfers: [networkConfig.defaultNetworkId],
       showWalletConnect: [networkConfig.defaultNetworkId],
       showApprovalTxsInHomefeed: [],
+      showNfts: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {

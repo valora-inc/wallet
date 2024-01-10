@@ -100,6 +100,7 @@ describe('NftFeedItem', () => {
 
     expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
       nfts: [mockNftAllFields],
+      networkId: NetworkId['celo-alfajores'],
     })
   })
 

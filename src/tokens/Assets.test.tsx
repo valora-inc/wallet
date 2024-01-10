@@ -92,7 +92,11 @@ const storeWithPositionsAndClaimableRewards = {
 const storeWithNfts = {
   ...storeWithTokenBalances,
   nfts: {
-    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nfts: [
+      { ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] },
+      { ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] },
+      { ...mockNftNullMetadata, networkId: NetworkId['celo-alfajores'] },
+    ],
     nftsLoading: false,
     nftsError: null,
   },
@@ -276,6 +280,33 @@ describe('AssetsScreen', () => {
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.TokenDetails, { tokenId: mockCusdTokenId })
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+  })
+
+  it('clicking an NFT navigates to the nfts info screen', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore(storeWithNfts)
+
+    const { getAllByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+
+    expect(getAllByTestId('NftItem')).toHaveLength(2)
+
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[0])
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[1])
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] }],
+      networkId: NetworkId['celo-alfajores'],
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] }],
+      networkId: NetworkId['ethereum-sepolia'],
+    })
   })
 
   it('hides claim rewards if feature gate is false', () => {
