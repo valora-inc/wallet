@@ -344,8 +344,8 @@ describe('watchAccountFundedOrLiquidated', () => {
   it('account liquidated event dispatched even if network ID added', async () => {
     jest
       .mocked(getDynamicConfigParams)
+      .mockReturnValue({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
       .mockReturnValueOnce({ showBalances: ['celo-alfajores'] })
-      .mockReturnValueOnce({ showBalances: ['celo-alfajores', 'ethereum-sepolia'] })
     await expectSaga(watchAccountFundedOrLiquidated)
       .provide([
         [select(lastKnownTokenBalancesSelector, [NetworkId['celo-alfajores']]), new BigNumber(10)],
