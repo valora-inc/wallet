@@ -1,8 +1,13 @@
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
+import { launchApp, reloadReactNative } from '../utils/retries'
+import { waitForElementId } from '../utils/utils'
 
 export default offRamps = () => {
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: true,
+      launchArgs: { statsigGateOverrides: `use_cico_currency_bottom_sheet=true` },
+    })
+  })
   beforeEach(async () => {
     await reloadReactNative()
     await waitForElementId('HomeActionsCarousel')
@@ -34,17 +39,17 @@ export default offRamps = () => {
     })
 
     it('Then should be able to spend cUSD', async () => {
-      await waitForElementId('radio/cUSD')
-      await element(by.id('radio/cUSD')).tap()
-      await element(by.id('GoToProviderButton')).tap()
+      await waitForElementId(`cUSDSymbol`)
+      await element(by.id(`cUSDSymbol`)).tap()
+
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
     it('Then should be able to spend cEUR', async () => {
-      await waitForElementId('radio/cEUR')
-      await element(by.id('radio/cEUR')).tap()
-      await element(by.id('GoToProviderButton')).tap()
+      await waitForElementId(`cEURSymbol`)
+      await element(by.id(`cEURSymbol`)).tap()
+
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
@@ -64,9 +69,9 @@ export default offRamps = () => {
     `(
       'Then should display $token provider(s) for $$amount',
       async ({ token, amount, exchanges }) => {
-        await waitForElementId(`radio/${token}`)
-        await element(by.id(`radio/${token}`)).tap()
-        await element(by.text('Next')).tap()
+        await waitForElementId(`${token}Symbol`)
+        await element(by.id(`${token}Symbol`)).tap()
+
         await waitForElementId('FiatExchangeInput')
         await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
         await element(by.id('FiatExchangeNextButton')).tap()
@@ -88,9 +93,9 @@ export default offRamps = () => {
     `(
       'Then should display at least $exchanges.minExpected $token exchange(s)',
       async ({ token, exchanges }) => {
-        await waitForElementId(`radio/${token}`)
-        await element(by.id(`radio/${token}`)).tap()
-        await element(by.text('Next')).tap()
+        await waitForElementId(`${token}Symbol`)
+        await element(by.id(`${token}Symbol`)).tap()
+
         await waitForElementId('FiatExchangeInput')
         await element(by.id('FiatExchangeInput')).replaceText('20')
         await element(by.id('FiatExchangeNextButton')).tap()
@@ -105,9 +110,9 @@ export default offRamps = () => {
 
     it('Then Send To Address', async () => {
       const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
-      await waitForElementId('radio/CELO')
-      await element(by.id('radio/CELO')).tap()
-      await element(by.text('Next')).tap()
+      await waitForElementId(`CELOSymbol`)
+      await element(by.id(`CELOSymbol`)).tap()
+
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${randomAmount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
