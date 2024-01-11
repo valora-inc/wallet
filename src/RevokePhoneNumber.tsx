@@ -9,7 +9,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import ToastWithCTA from 'src/components/ToastWithCTA'
-import AttentionIcon from 'src/icons/Attention'
+import InfoIcon from 'src/icons/InfoIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Colors } from 'src/styles/colors'
@@ -81,7 +81,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
           />
         )}
         <View style={styles.container}>
-          <AttentionIcon />
+          <InfoIcon />
           <Text style={styles.warningText}>{t('revokePhoneNumber.description')}</Text>
         </View>
         <Button

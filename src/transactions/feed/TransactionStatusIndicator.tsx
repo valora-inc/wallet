@@ -1,10 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import Alert from 'src/icons/Alert'
 import Checkmark from 'src/icons/Checkmark'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
+import InfoIcon from 'src/icons/InfoIcon'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -33,7 +33,7 @@ function TransactionStatusIndicator({ status, testID }: Props) {
   const icon = {
     [TransactionStatus.Complete]: <Checkmark color={color} width={16} height={16} />,
     [TransactionStatus.Pending]: <ClockIcon color={color} width={16} height={16} />,
-    [TransactionStatus.Failed]: <Alert color={color} size={16} />,
+    [TransactionStatus.Failed]: <InfoIcon color={color} size={16} />,
   }[status]
 
   return (
