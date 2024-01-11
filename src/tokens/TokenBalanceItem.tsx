@@ -17,66 +17,6 @@ interface Props {
   containerStyle?: ViewStyle
 }
 
-const TokenBalanceItemContent = ({ token, containerStyle, balanceUsdErrorFallback }: Props) => {
-  const { t } = useTranslation()
-
-  return (
-    <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
-      <TokenIcon token={token} viewStyle={styles.marginRight} />
-      <View style={styles.textContainer}>
-        <View style={styles.line}>
-          <Text
-            numberOfLines={1}
-            style={[styles.label, styles.marginRight]}
-            testID={`${token.symbol}Symbol`}
-          >
-            {token.name}
-          </Text>
-          <TokenDisplay
-            style={styles.amount}
-            amount={token.balance}
-            tokenId={token.tokenId}
-            showSymbol={true}
-            hideSign={true}
-            showLocalAmount={false}
-            testID={`${token.symbol}Balance`}
-          />
-        </View>
-        <View style={styles.line}>
-          {token.networkId in NETWORK_NAMES ? (
-            <Text
-              numberOfLines={1}
-              style={[styles.subLabel, styles.marginRight]}
-              testID="NetworkLabel"
-            >
-              {t('assets.networkName', { networkName: NETWORK_NAMES[token.networkId] })}
-            </Text>
-          ) : (
-            <View />
-          )}
-          <TokenDisplay
-            style={styles.subAmount}
-            amount={token.balance}
-            tokenId={token.tokenId}
-            showSymbol={false}
-            hideSign={true}
-            errorFallback={balanceUsdErrorFallback}
-          />
-        </View>
-        {token.bridge && (
-          <Text
-            testID="BridgeLabel"
-            numberOfLines={1}
-            style={[styles.subLabel, { color: colors.infoDark }]}
-          >
-            {t('assets.bridge', { bridge: token.bridge })}
-          </Text>
-        )}
-      </View>
-    </View>
-  )
-}
-
 export const TokenBalanceItem = ({
   token,
   onPress,
