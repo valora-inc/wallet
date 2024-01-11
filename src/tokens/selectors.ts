@@ -91,11 +91,11 @@ export const tokensByIdSelector = createSelector(
 
 export const importedTokensInfoSelector = createSelector(
   (state: RootState) => state.tokens.importedTokens,
-  (manualTokens) => {
+  (importedTokens) => {
     const tokenBalances: StoredTokenBalances = {}
-    for (const manualToken of Object.values(manualTokens)) {
-      tokenBalances[manualToken.tokenId] = {
-        ...manualToken,
+    for (const importedToken of Object.values(importedTokens)) {
+      tokenBalances[importedToken.tokenId] = {
+        ...importedToken,
         // Force imported tokens to be visible even with zero balance.
         showZeroBalance: true,
         balance: null,

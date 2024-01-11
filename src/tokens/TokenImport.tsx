@@ -173,6 +173,7 @@ export default function TokenImportScreen(_: Props) {
 
   const handleImportToken = () => {
     if (!tokenDetails) {
+      Logger.warn(TAG, 'Token details not found, cannot import token')
       return
     }
 

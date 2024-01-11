@@ -96,7 +96,7 @@ describe('TokenImport', () => {
     expect(tokenAddressInput.props.value).toBe('0xABC')
   })
 
-  it('should store the imported token in redux correctly', async () => {
+  it('should dispatch the correct action on import', async () => {
     const store = createMockStore({})
     const { getByText, getByPlaceholderText, getByTestId } = render(
       <Provider store={store}>

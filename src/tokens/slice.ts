@@ -97,20 +97,13 @@ export interface TokenBalancesWithAddress {
   [tokenAddress: string]: TokenBalanceWithAddress | undefined
 }
 
-export interface ImportedToken {
-  address: string
-  symbol: string
-  name: string
-  decimals: number
-  tokenId: string
-  networkId: NetworkId
-}
+// Create imported token interface but from the base Token type
 
 export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
-  importedTokens: Record<string, ImportedToken>
+  importedTokens: Record<string, BaseToken>
 }
 
 export function tokenBalanceHasAddress(
@@ -155,7 +148,7 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
-    importToken: (state, action: PayloadAction<ImportedToken>) => ({
+    importToken: (state, action: PayloadAction<BaseToken>) => ({
       ...state,
       importedTokens: {
         ...state.importedTokens,
