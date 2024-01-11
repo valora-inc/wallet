@@ -192,6 +192,7 @@ describe('SendSelectRecipient', () => {
     })
 
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toHaveTextContent('sendSelectRecipient.buttons.send')
 
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
@@ -203,15 +204,13 @@ describe('SendSelectRecipient', () => {
       }
     )
 
-    // Uncomment once we can actually navigate to this screen
-
-    // expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
-    //   isFromScan: false,
-    //   defaultTokenIdOverride: undefined,
-    //   forceTokenId: undefined,
-    //   recipient: expect.any(Object),
-    //   origin: SendOrigin.AppSendFlow,
-    // })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: expect.any(Object),
+      origin: SendOrigin.AppSendFlow,
+    })
   })
   it('navigates to send amount when address recipient is pressed', async () => {
     const store = createMockStore(defaultStore)
@@ -231,10 +230,17 @@ describe('SendSelectRecipient', () => {
     })
 
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toHaveTextContent('sendSelectRecipient.buttons.send')
 
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))
     })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      SendEvents.send_select_recipient_send_press,
+      {
+        recipientType: RecipientType.Address,
+      }
+    )
     expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       isFromScan: false,
       defaultTokenIdOverride: undefined,
@@ -265,6 +271,9 @@ describe('SendSelectRecipient', () => {
     })
 
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
+    expect(getByTestId('SendOrInviteButton')).toHaveTextContent(
+      'sendSelectRecipient.buttons.invite'
+    )
 
     await act(() => {
       fireEvent.press(getByTestId('SendOrInviteButton'))

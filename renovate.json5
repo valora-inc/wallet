@@ -84,8 +84,5 @@
     '@walletconnect/legacy-types',
     '@walletconnect/sign-client',
     '@walletconnect/types',
-    // Temporary until a fix for the CIP-64 serialization bug is released
-    // See https://github.com/valora-inc/wallet/pull/4458
-    'viem',
   ],
 }
