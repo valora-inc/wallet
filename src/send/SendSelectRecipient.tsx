@@ -168,7 +168,11 @@ function SendOrInviteButton({
       style={styles.sendOrInviteButton}
       onPress={() => onPress(shouldInviteRecipient)}
       disabled={sendOrInviteButtonDisabled}
-      text={shouldInviteRecipient ? t('invite') : t('send')}
+      text={
+        shouldInviteRecipient
+          ? t('sendSelectRecipient.buttons.invite')
+          : t('sendSelectRecipient.buttons.send')
+      }
       size={BtnSizes.FULL}
     />
   )

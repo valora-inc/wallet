@@ -1,8 +1,9 @@
-import { render, waitForElementToBeRemoved } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
-import React from 'react'
+import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Provider } from 'react-redux'
+import TextInput from 'src/components/TextInput'
 import { resolveId } from 'src/recipients/RecipientPicker'
 import { RecipientType } from 'src/recipients/recipient'
 import {
@@ -47,42 +48,62 @@ const getStore = (phoneNumberVerified: boolean = true) =>
 
 describe('useResolvedRecipients', () => {
   beforeEach(() => {
-    jest.mocked(resolveId).mockResolvedValue({
-      resolutions: [
-        {
-          kind: ResolutionKind.Address,
-          address: mockAccount,
-        },
-      ],
+    jest.mocked(resolveId).mockImplementation(async (id) => {
+      return {
+        resolutions:
+          id === '5555555555'
+            ? [
+                {
+                  kind: ResolutionKind.Address,
+                  address: mockAccount,
+                },
+              ]
+            : [],
+      }
     })
   })
 
-  async function renderHook(searchQuery: string) {
+  async function renderHook() {
     const result = jest.fn()
 
     function TestComponent() {
+      const [searchQuery, setSearchQuery] = useState('')
       const recipients = useResolvedRecipients(searchQuery)
-      result(recipients)
       if (recipients.length) {
-        return <View testID="complete"></View>
-      } else {
-        return <View testID="loading"></View>
+        result(recipients)
       }
+      return (
+        <View testID={recipients.length ? 'complete' : 'loading'}>
+          <TextInput testID="searchInput" onChangeText={setSearchQuery} value={searchQuery} />
+        </View>
+      )
     }
 
-    const { getByTestId } = render(
-      <Provider store={getStore()}>
-        <TestComponent />
-      </Provider>
-    )
-
-    await waitForElementToBeRemoved(() => getByTestId('loading'))
-
-    return result
+    return {
+      ...render(
+        <Provider store={getStore()}>
+          <TestComponent />
+        </Provider>
+      ),
+      result,
+    }
   }
 
   it('resolves and maps recipient', async () => {
-    const result = await renderHook('5555555555')
+    const { result, getByTestId } = await renderHook()
+
+    expect(getByTestId('loading')).toBeTruthy()
+
+    fireEvent.changeText(getByTestId('searchInput'), '55555555')
+    fireEvent.changeText(getByTestId('searchInput'), '555555555')
+    fireEvent.changeText(getByTestId('searchInput'), '5555555555')
+
+    await waitFor(() => {
+      expect(getByTestId('complete')).toBeTruthy()
+    })
+    expect(resolveId).toHaveBeenCalledTimes(2)
+    expect(resolveId).toHaveBeenCalledWith('')
+    expect(resolveId).toHaveBeenCalledWith('5555555555')
     expect(result).toHaveBeenCalledWith([
       {
         address: mockAccount.toLowerCase(),
