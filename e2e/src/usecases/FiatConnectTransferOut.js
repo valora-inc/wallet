@@ -3,7 +3,6 @@ import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
 import { SAMPLE_PRIVATE_KEY } from '../utils/consts'
-
 import {
   dismissCashInBottomSheet,
   enterPinUiIfNecessary,
