@@ -122,7 +122,8 @@ export async function tryEstimateTransaction({
       e instanceof EstimateGasExecutionError &&
       (e.cause instanceof InsufficientFundsError ||
         (e.cause instanceof ExecutionRevertedError && // viem does not reliably label node errors as InsufficientFundsError when the user has enough to pay for the transfer, but not for the transfer + gas
-          /transfer value exceeded balance of sender/.test(e.cause.details)) ||
+          (/transfer value exceeded balance of sender/.test(e.cause.details) ||
+            /transfer amount exceeds balance/.test(e.cause.details))) ||
         (e.cause instanceof InvalidInputRpcError &&
           /gas required exceeds allowance/.test(e.cause.details)))
     ) {
