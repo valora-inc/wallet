@@ -2962,10 +2962,7 @@ export const v182Schema = {
   },
   tokens: {
     ...v181Schema.tokens,
-    tokens: {
-      ...v181Schema.tokens,
-      importedTokens: {},
-    },
+    importedTokens: {},
   },
 }
 

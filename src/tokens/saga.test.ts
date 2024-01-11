@@ -38,6 +38,7 @@ import {
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(),
+  getFeatureGate: jest.fn(),
 }))
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -160,6 +161,7 @@ describe(fetchTokenBalancesSaga, () => {
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
+        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
@@ -182,10 +184,13 @@ describe(fetchTokenBalancesSaga, () => {
       },
     }
 
+    jest.mocked(getFeatureGate).mockImplementation((featureGateName) => {
+      return featureGateName === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    })
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
-        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), true],
         [select(importedTokensInfoSelector), mockImportedTokensInfo],
         [select(walletAddressSelector), mockAccount],
         [
