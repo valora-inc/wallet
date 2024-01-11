@@ -344,8 +344,8 @@ export const swappableTokensByNetworkIdSelector = createSelector(
         // Sort by balance (higher balances first)
         const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd)
         const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd)
-        if (token1UsdBalance > token2UsdBalance) return -1
-        if (token1UsdBalance < token2UsdBalance) return 1
+        if (token1UsdBalance.gt(token2UsdBalance)) return -1
+        if (token1UsdBalance.lt(token2UsdBalance)) return 1
 
         // Lastly, sort by name
         return token1.name.localeCompare(token2.name)
