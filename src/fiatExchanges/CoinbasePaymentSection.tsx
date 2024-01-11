@@ -13,6 +13,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { useTokenInfo } from 'src/tokens/hooks'
+import Logger from 'src/utils/Logger'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 export interface CoinbasePaymentSectionProps {
@@ -20,6 +23,7 @@ export interface CoinbasePaymentSectionProps {
   coinbaseProvider: FetchProvidersOutput
   appId: string
   analyticsData: ProviderSelectionAnalyticsData
+  tokenId: string
 }
 
 export function CoinbasePaymentSection({
@@ -27,14 +31,27 @@ export function CoinbasePaymentSection({
   coinbaseProvider,
   appId,
   analyticsData,
+  tokenId,
 }: CoinbasePaymentSectionProps) {
   const { t } = useTranslation()
   const walletAddress = useSelector(walletAddressSelector)!
+  const tokenInfo = useTokenInfo(tokenId)
 
-  // Using 'CGLD' as temp replacement for CiCoCurrency.CELO – digitalAsset
+  if (!tokenInfo) {
+    // should never happen
+    Logger.debug('CoinbasePaymentSection', 'Token info not found for token: ' + tokenId)
+    return null
+  }
+
+  const network = networkIdToNetwork[tokenInfo.networkId]
+  // Coinbase still thinks CELO is CGLD
+  const symbol = tokenInfo.symbol === 'CELO' ? 'CGLD' : tokenInfo.symbol
+
   const coinbasePayURL = generateOnRampURL({
     appId,
-    destinationWallets: [{ address: walletAddress, blockchains: ['celo'], assets: ['CGLD'] }],
+    destinationWallets: [
+      { address: walletAddress, supportedNetworks: [network], assets: [symbol] },
+    ],
     presetCryptoAmount: cryptoAmount,
   })
 
