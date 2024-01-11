@@ -80,9 +80,11 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
 }
 
 export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps) {
+  const { t } = useTranslation()
   return (
     <TokenBalanceItem
       token={tokenInfo}
+      balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
       onPress={onPress}
       containerStyle={styles.tokenBalanceItemContainer}
     />
