@@ -81,7 +81,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
           />
         )}
         <View style={styles.container}>
-          <InfoIcon />
+          <InfoIcon color={Colors.warningDark} />
           <Text style={styles.warningText}>{t('revokePhoneNumber.description')}</Text>
         </View>
         <Button

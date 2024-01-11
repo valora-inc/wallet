@@ -72,7 +72,7 @@ function PreparedTransactionsNeedDecreaseSwapAmountForGasBottomSheet({
       testId="QuoteResultNeedDecreaseSwapAmountForGasBottomSheet"
     >
       <View style={styles.container}>
-        <InfoIcon />
+        <InfoIcon color={Colors.warningDark} />
         <Text style={styles.warningText}>
           {t('swapScreen.needDecreaseSwapAmountForGas.description', { tokenSymbol })}
         </Text>
@@ -108,7 +108,7 @@ function PreparedTransactionsNotEnoughBalanceForGasBottomSheet({
       testId="QuoteResultNotEnoughBalanceForGasBottomSheet"
     >
       <View style={styles.container}>
-        <InfoIcon />
+        <InfoIcon color={Colors.warningDark} />
         <Text style={styles.warningText}>
           {t('swapScreen.notEnoughBalanceForGas.description', { feeCurrencies })}
         </Text>

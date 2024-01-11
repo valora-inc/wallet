@@ -33,7 +33,7 @@ function TransactionFeedItemImage(props: Props) {
   if (status === TransactionStatus.Failed) {
     return (
       <CircledIcon backgroundColor={Colors.errorLight} radius={AVATAR_SIZE}>
-        <InfoIcon size={24} testId={'FailedTransactionAlert'} />
+        <InfoIcon color={Colors.errorDark} size={24} testID={'FailedTransactionAlert'} />
       </CircledIcon>
     )
   }
