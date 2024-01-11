@@ -660,7 +660,7 @@
   "terms": {
     "title": "Termini e condizioni",
     "heading1": "Dati e privacy",
-    "heading2": "Asset Celo e conto {{appName}}",
+    "heading2": "Assets and {{appName}} Account",
     "info": "Per usare i nostri servizi, leggi e accetta il nostro <0>Accordo con l’utente e termini</0> facendo clic sull’apposito pulsante di seguito.",
     "privacy": "Partecipando a questa rete, ci autorizzi a raccogliere informazioni anonime sul tuo utilizzo dell'app. Inoltre, se colleghi il tuo numero telefonico, ne verrà memorizzata una copia con hash. Se concedi a Valora l'accesso al tuo elenco di contatti, Valora importerà il nome, il numero telefonico e l'immagine del profilo di ciascun contatto per consentire agli utenti di connettersi tramite l'app Valora. Per sapere come raccogliamo e utilizziamo queste informazioni, consulta la nostra <0>Informativa sulla privacy</0>.",
     "goldDisclaimer": "Quando crei un \"account\" con Valora, crei un portafoglio digitale di cui solo tu possiedi le chiavi. Nessun'altra persona o entità, inclusa Valora, può recuperare la tua chiave, modificare o annullare le transazioni o recuperare fondi perduti. Considera che le criptovalute fanno parte di una nuova classe di asset e comportano un rischio di perdita finanziaria. Prima di acquistare qualsiasi asset, valuta attentamente la tua situazione finanziaria e la tua tolleranza al rischio finanziario."
@@ -1972,7 +1972,11 @@
       "title": "Collega il tuo numero telefonico",
       "description": "Devi collegare il tuo numero telefonico per poter iniziare a inviare criptovalute ai tuoi amici"
     },
-    "unknownAddressInfo": "Assicurati che questo indirizzo supporti l'asset che vuoi inviare. Se l'indirizzo non è valido, i tuoi fondi potrebbero non essere recuperabili."
+    "unknownAddressInfo": "Assicurati che questo indirizzo supporti l'asset che vuoi inviare. Se l'indirizzo non è valido, i tuoi fondi potrebbero non essere recuperabili.",
+    "buttons": {
+      "send": "Continua",
+      "invite": "Invite"
+    }
   },
   "transactionStatus": {
     "transactionIsCompleted": "Completata",
