@@ -104,7 +104,7 @@ export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
-  importedTokens: Record<string, BaseToken>
+  importedTokens: StoredTokenBalances
 }
 
 export function tokenBalanceHasAddress(

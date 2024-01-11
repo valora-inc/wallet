@@ -2478,10 +2478,6 @@
             ],
             "type": "string"
         },
-        "Record<string,BaseToken>": {
-            "additionalProperties": false,
-            "type": "object"
-        },
         "Record<string,[string,...string[]]>": {
             "additionalProperties": false,
             "type": "object"
@@ -3615,7 +3611,7 @@
                     "type": "boolean"
                 },
                 "importedTokens": {
-                    "$ref": "#/definitions/Record<string,BaseToken>"
+                    "$ref": "#/definitions/StoredTokenBalances"
                 },
                 "loading": {
                     "type": "boolean"
