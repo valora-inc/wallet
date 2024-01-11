@@ -660,7 +660,7 @@
   "terms": {
     "title": "Regulamin",
     "heading1": "Dane i prywatność",
-    "heading2": "Aktywa Celo i konto {{appName}}",
+    "heading2": "Assets and {{appName}} Account",
     "info": "Aby móc korzystać z naszych usług, przeczytaj <0>Umowę z użytkownikiem i Regulamin</0> oraz zaakceptuj je, klikając poniższy przycisk akceptacji.",
     "privacy": "Dołączając do tej sieci, udzielasz nam zgody na gromadzenie anonimowych informacji o korzystaniu z aplikacji. Ponadto jeśli podłączysz swój numer telefonu, zostanie zapisana jego zaszyfrowana kopia. Jeśli przyznasz Valora dostęp do swojej listy kontaktów, Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom łączenie się za pośrednictwem aplikacji Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te informacje, zapoznaj się z naszą <0>Polityką prywatności</0>.",
     "goldDisclaimer": "Tworząc „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić ani cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że kryptowaluty są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
@@ -1976,7 +1976,11 @@
       "title": "Podłącz swój numer telefonu",
       "description": "Musisz połączyć swój numer telefonu, aby móc zacząć wysyłać kryptowaluty do znajomych"
     },
-    "unknownAddressInfo": "Upewnij się, że ten adres obsługuje zasób, który próbujesz wysłać. Jeśli ten adres jest niepoprawny, odzyskanie Twoich środków może być niemożliwe."
+    "unknownAddressInfo": "Upewnij się, że ten adres obsługuje zasób, który próbujesz wysłać. Jeśli ten adres jest niepoprawny, odzyskanie Twoich środków może być niemożliwe.",
+    "buttons": {
+      "send": "Kontynuuj",
+      "invite": "Zaproś"
+    }
   },
   "transactionStatus": {
     "transactionIsCompleted": "Zakończono",
