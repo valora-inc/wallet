@@ -12,7 +12,6 @@ import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  StoredTokenBalances,
   TokenBalance,
   TokenBalanceWithAddress,
   TokenBalances,
@@ -89,21 +88,7 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
-export const importedTokensInfoSelector = createSelector(
-  (state: RootState) => state.tokens.importedTokens,
-  (importedTokens) => {
-    const tokenBalances: StoredTokenBalances = {}
-    for (const importedToken of Object.values(importedTokens)) {
-      tokenBalances[importedToken.tokenId] = {
-        ...importedToken,
-        // Force imported tokens to be visible even with zero balance.
-        showZeroBalance: true,
-        balance: null,
-      }
-    }
-    return tokenBalances
-  }
-)
+export const importedTokensInfoSelector = (state: RootState) => state.tokens.importedTokens
 
 /**
  * Get an object mapping token addresses to token metadata, the user's balance, and its price

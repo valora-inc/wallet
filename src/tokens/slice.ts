@@ -26,6 +26,7 @@ export interface BaseToken {
   isCashInEligible?: boolean
   isCashOutEligible?: boolean
   isStableCoin?: boolean
+  isManuallyImported?: boolean
 }
 
 interface HistoricalPricesUsd {
@@ -152,7 +153,13 @@ const slice = createSlice({
       ...state,
       importedTokens: {
         ...state.importedTokens,
-        [action.payload.tokenId]: action.payload,
+        [action.payload.tokenId]: {
+          ...action.payload,
+          // Force imported tokens to be visible even with zero balance.
+          showZeroBalance: true,
+          balance: null,
+          isManuallyImported: true,
+        },
       },
     }),
   },

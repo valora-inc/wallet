@@ -35,7 +35,7 @@ import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { Address, BaseError, TimeoutError, getContract, isAddress } from 'viem'
+import { Address, BaseError, TimeoutError, formatUnits, getContract, isAddress } from 'viem'
 
 const TAG = 'tokens/TokenImport'
 
@@ -109,20 +109,25 @@ export default function TokenImportScreen(_: Props) {
       publicClient: client,
     })
 
-    const [symbol, decimals, name] = await Promise.all([
+    const [symbol, decimals, name, balance] = await Promise.all([
       contract.read.symbol(),
       contract.read.decimals(),
       contract.read.name(),
+      contract.read.balanceOf([walletAddress]),
     ])
+
+    Logger.info(
+      TAG,
+      `Wallet ${walletAddress} holds ${formatUnits(
+        balance,
+        decimals
+      )} ${symbol} (${name} = ${address})})`
+    )
     return { address, symbol, decimals, name }
   }
 
   const validateContract = useAsyncCallback(fetchTokenDetails, {
     onSuccess: (details) => {
-      Logger.info(
-        TAG,
-        `Token successfully loaded: ${details.symbol} (${details.name} = ${details.address})})`
-      )
       setTokenDetails(details)
     },
     onError: (error) => {

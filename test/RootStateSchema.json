@@ -2377,7 +2377,7 @@
             ],
             "type": "string"
         },
-        "Record<string,ImportedToken>": {
+        "Record<string,BaseToken>": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -3514,7 +3514,7 @@
                     "type": "boolean"
                 },
                 "importedTokens": {
-                    "$ref": "#/definitions/Record<string,ImportedToken>"
+                    "$ref": "#/definitions/Record<string,BaseToken>"
                 },
                 "loading": {
                     "type": "boolean"
@@ -4276,6 +4276,9 @@
                     "type": "boolean"
                 },
                 "isFeeCurrency": {
+                    "type": "boolean"
+                },
+                "isManuallyImported": {
                     "type": "boolean"
                 },
                 "isNative": {
