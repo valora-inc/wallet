@@ -1509,12 +1509,16 @@ export const migrations = {
   }),
   181: (state: any) => ({
     ...state,
-    app: {
-      ...state.app,
-      tokens: {
-        ...state.app.tokens,
-        importedTokens: {},
-      },
+    nfts: {
+      ...state.nfts,
+      nfts: [],
+    },
+  }),
+  182: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      importedTokens: {},
     },
   }),
 }

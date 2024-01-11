@@ -14,7 +14,6 @@ import {
   GetContractReturnType,
   PublicClient,
   TimeoutError,
-  WalletClient,
   getContract,
 } from 'viem'
 import TokenImportScreen from './TokenImport'
@@ -43,7 +42,7 @@ describe('TokenImport', () => {
         name: jest.fn().mockResolvedValue('ABC Coin'),
         balanceOf: jest.fn().mockResolvedValue(BigInt('500000000000000000')),
       },
-    } as unknown as GetContractReturnType<typeof erc20.abi, PublicClient, WalletClient>)
+    } as unknown as GetContractReturnType<typeof erc20.abi, PublicClient>)
   })
 
   it('renders correctly', () => {

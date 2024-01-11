@@ -2948,12 +2948,27 @@ export const v181Schema = {
     ...v180Schema._persist,
     version: 181,
   },
+  nfts: {
+    ...v180Schema.nfts,
+    nfts: [],
+  },
+}
+
+export const v182Schema = {
+  ...v181Schema,
+  _persist: {
+    ...v181Schema._persist,
+    version: 182,
+  },
   tokens: {
-    ...v180Schema.tokens,
-    importedTokens: {},
+    ...v181Schema.tokens,
+    tokens: {
+      ...v181Schema.tokens,
+      importedTokens: {},
+    },
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v181Schema as Partial<RootState>
+  return v182Schema as Partial<RootState>
 }
