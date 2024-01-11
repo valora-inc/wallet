@@ -146,19 +146,13 @@ export const tokensBySymbolSelector = createSelector(
   }
 )
 
-/**
- * @deprecated
- */
-export const tokensWithLastKnownUsdValueSelector = createSelector(
-  tokensListWithAddressSelector,
-  (tokens) => {
-    return tokens.filter((tokenInfo) =>
-      tokenInfo.balance
-        .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
-        .gt(STABLE_TRANSACTION_MIN_AMOUNT)
-    )
-  }
-)
+export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) =>
+    tokenInfo.balance
+      .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
+      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  )
+})
 
 /**
  * @deprecated use tokensWithTokenBalanceSelector instead
@@ -255,15 +249,8 @@ export const defaultTokenToSendSelector = createSelector(
   }
 )
 
-/**
- * @deprecated
- */
 export const lastKnownTokenBalancesSelector = createSelector(
-  [
-    tokensListWithAddressSelector,
-    tokensWithLastKnownUsdValueSelector,
-    usdToLocalCurrencyRateSelector,
-  ],
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, usdToLocalCurrencyRateSelector],
   (tokensList, tokensWithLastKnownUsdValue, usdToLocalRate) => {
     if (!usdToLocalRate || tokensList.length === 0) {
       return null
