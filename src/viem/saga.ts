@@ -33,7 +33,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put } from 'typed-redux-saga'
-import { Hash, SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
+import { Hash, TransactionReceipt, WriteContractParameters, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
 
@@ -150,10 +150,7 @@ export function* sendPayment({
       yield* call(unlockWallet)
 
       const sendContractTxMethod = function* () {
-        const hash = yield* call(
-          wallet.writeContract,
-          request as SimulateContractReturnType['request']
-        )
+        const hash = yield* call(wallet.writeContract, request as WriteContractParameters)
         yield* call(addPendingStandbyTransaction, hash)
         return hash
       }

@@ -102,11 +102,12 @@ export default function TokenImportScreen(_: Props) {
       throw new Error('No wallet address found when fetching token details')
     }
 
-    const client = publicClient[networkIdToNetwork[networkId]]
     const contract = getContract({
       abi: erc20.abi,
       address,
-      publicClient: client,
+      client: {
+        public: publicClient[networkIdToNetwork[networkId]],
+      },
     })
 
     const [symbol, decimals, name, balance] = await Promise.all([
