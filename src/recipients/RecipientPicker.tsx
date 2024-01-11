@@ -59,6 +59,9 @@ interface RecipientProps {
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 
 export async function resolveId(id: string) {
+  if (id === '') {
+    return null
+  }
   const resolveIdUrl = networkConfig.resolveId
   try {
     const response = await fetch(`${resolveIdUrl}?id=${encodeURIComponent(id)}`)
