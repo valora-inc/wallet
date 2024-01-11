@@ -21,7 +21,7 @@ export default function Logos({ dappImageUrl, dappName }: Props) {
   let isDappImageSvg = false
   try {
     const parsedUrl = new URL(dappImageUrl ?? '')
-    isDappImageSvg = !parsedUrl.pathname.toLowerCase().endsWith('.svg')
+    isDappImageSvg = parsedUrl.pathname.toLowerCase().endsWith('.svg')
   } catch (error) {
     // do nothing if the url cannot be parsed
   }
