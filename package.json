@@ -263,7 +263,7 @@
     "jest-html-reporter": "^3.5.0",
     "jest-junit": "^10.0.0",
     "jest-snapshot": "^29.6.2",
-    "knip": "^2.38.6",
+    "knip": "^3.13.1",
     "lokijs": "^1.5.12",
     "metro-react-native-babel-preset": "0.73.10",
     "mockdate": "^3.0.5",
