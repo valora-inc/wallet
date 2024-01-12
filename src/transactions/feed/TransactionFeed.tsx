@@ -3,6 +3,8 @@ import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
 import useSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
@@ -64,10 +66,12 @@ function TransactionFeed() {
     return groupFeedItemsInSections(pendingTransactions, confirmedFeedTransactions)
   }, [pendingTransactions, confirmedFeedTransactions])
 
-  // TODO(ACT-1006): Replace with real feature gate
-  const dummyGetStartedFlag = false
   if (!sections.length) {
-    return dummyGetStartedFlag ? <GetStarted /> : <NoActivity loading={loading} error={error} />
+    return getFeatureGate(StatsigFeatureGates.SHOW_GET_STARTED) ? (
+      <GetStarted />
+    ) : (
+      <NoActivity loading={loading} error={error} />
+    )
   }
 
   function renderItem({ item: tx }: { item: FeedTokenTransaction; index: number }) {

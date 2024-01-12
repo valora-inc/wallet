@@ -25,7 +25,7 @@ export default function GetStarted() {
   }, [])
 
   return (
-    <View style={styles.container}>
+    <View testID="GetStarted" style={styles.container}>
       <Text style={styles.title}>{t('getStarted')}</Text>
       <View style={styles.card}>
         <Bird viewStyle={styles.icon} />
