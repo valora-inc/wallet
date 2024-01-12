@@ -7,26 +7,26 @@ import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import { Spacing } from 'src/styles/styles'
 
 interface Props extends InLineNotificationProps {
-  showToast: boolean
+  showNotification: boolean
 }
 
-// this value is used to ensure the toast is offset by its own height when transitioning in and out of view
-const TOAST_HEIGHT = 200
+// this value is used to ensure the notification is offset by its own height when transitioning in and out of view
+const NOTIFICATION_HEIGHT = 200
 
-// for now, this Toast component is launched from the bottom of the screen only
-const BottomSheetToast = ({ showToast, ...inLineNotificationProps }: Props) => {
-  const [isVisible, setIsVisible] = useState(showToast)
+// for now, this notification is launched from the bottom of the screen only
+const BottomSheetInLineNotification = ({ showNotification, ...inLineNotificationProps }: Props) => {
+  const [isVisible, setIsVisible] = useState(showNotification)
 
   const progress = useSharedValue(0)
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: (1 - progress.value) * TOAST_HEIGHT }],
+      transform: [{ translateY: (1 - progress.value) * NOTIFICATION_HEIGHT }],
     }
   })
 
   useShowOrHideAnimation(
     progress,
-    showToast,
+    showNotification,
     () => {
       setIsVisible(true)
     },
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default BottomSheetToast
+export default BottomSheetInLineNotification

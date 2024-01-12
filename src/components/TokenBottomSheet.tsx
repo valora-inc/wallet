@@ -6,7 +6,7 @@ import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetToast from 'src/components/BottomSheetToast'
+import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import { Severity } from 'src/components/InLineNotification'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
@@ -244,8 +244,8 @@ function TokenBottomSheet<T extends TokenBalance>({
           })
         )}
       </BottomSheet>
-      <BottomSheetToast
-        showToast={selectedTokenNoUsdPrice !== null}
+      <BottomSheetInLineNotification
+        showNotification={selectedTokenNoUsdPrice !== null}
         severity={Severity.Warning}
         title={t('tokenBottomSheet.noUsdPriceWarning.title')}
         description={t('tokenBottomSheet.noUsdPriceWarning.description')}
