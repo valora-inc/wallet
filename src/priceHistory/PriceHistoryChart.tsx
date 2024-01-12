@@ -111,29 +111,36 @@ function renderPointOnChart(
   })
   return ({ datum, x, y }: { x: number; y: number; datum: { _x: number; _y: number } }) => {
     const idx = datum._x
-    return (
-      <>
-        <G key={idx + 'dot'}>
-          {idx === 0 && (
-            <>
-              <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.gray2} strokeWidth="1" />
-              <Circle cx={x} cy={y} r="4" fill={color} />
-            </>
+    if (
+      idx === 0 ||
+      idx === chartData.length - 1 ||
+      idx === highestRateIdx ||
+      idx === lowestRateIdx
+    ) {
+      return (
+        <>
+          <G key={idx + 'dot'}>
+            {idx === 0 && (
+              <>
+                <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.gray2} strokeWidth="1" />
+                <Circle cx={x} cy={y} r="4" fill={color} />
+              </>
+            )}
+            {idx === chartData.length - 1 && <Circle cx={x} cy={y} r="4" fill={color} />}
+          </G>
+          {[highestRateIdx, lowestRateIdx].includes(idx) && (
+            <ChartAwareSvgText
+              x={x}
+              y={y}
+              key={idx}
+              value={chartData[idx].displayValue}
+              position={idx === highestRateIdx ? 'top' : 'bottom'}
+              chartWidth={chartWidth}
+            />
           )}
-          {idx === chartData.length - 1 && <Circle cx={x} cy={y} r="4" fill={color} />}
-        </G>
-        {[highestRateIdx, lowestRateIdx].includes(idx) && (
-          <ChartAwareSvgText
-            x={x}
-            y={y}
-            key={idx}
-            value={chartData[idx].displayValue}
-            position={idx === highestRateIdx ? 'top' : 'bottom'}
-            chartWidth={chartWidth}
-          />
-        )}
-      </>
-    )
+        </>
+      )
+    }
   }
 }
 
