@@ -1,12 +1,12 @@
-import { newKit } from '@celo/contractkit'
 import { generateKeys, generateMnemonic } from '@celo/cryptographic-utils'
 import { KycStatus } from '@fiatconnect/fiatconnect-types'
 import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
-import { ALFAJORES_FORNO_URL, SAMPLE_PRIVATE_KEY } from '../utils/consts'
+import { SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import {
   dismissCashInBottomSheet,
   enterPinUiIfNecessary,
+  fundWallet,
   quickOnboarding,
   sleep,
   waitForElementId,
@@ -25,27 +25,6 @@ async function navigateToFiatExchangeScreen() {
 }
 
 /**
- * Fund a wallet, using some existing wallet.
- *
- * @param senderPrivateKey: private key for wallet with funds
- * @param recipientAddress: wallet to receive funds
- * @param stableToken: ContractKit-recognized stable token
- * @param amountEther: amount in "ethers" (as opposed to wei)
- */
-async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amountEther) {
-  const kit = newKit(ALFAJORES_FORNO_URL)
-  const { address: senderAddress } = kit.web3.eth.accounts.privateKeyToAccount(senderPrivateKey)
-  console.log(`Sending ${amountEther} ${stableToken} from ${senderAddress} to ${recipientAddress}`)
-  kit.connection.addAccount(senderPrivateKey)
-  const tokenContract = await kit.contracts.getStableToken(stableToken)
-  const amountWei = kit.web3.utils.toWei(amountEther, 'ether')
-  const receipt = await tokenContract
-    .transfer(recipientAddress, amountWei.toString())
-    .sendAndWaitForReceipt({ from: senderAddress })
-  console.log('Funding TX receipt', receipt)
-}
-
-/**
  * Select the currency and amount for a transfer.
  *
  * Must begin on FiatExchangeCurrency screen. Ends on SelectProviderScreen or ReviewScreen,
@@ -54,10 +33,8 @@ async function fundWallet(senderPrivateKey, recipientAddress, stableToken, amoun
  * @return {{result: Error}}
  */
 async function selectCurrencyAndAmount(token, amount) {
-  // FiatExchangeCurrency
-  await waitForElementId(`radio/${token}`)
-  await element(by.id(`radio/${token}`)).tap()
-  await element(by.text('Next')).tap()
+  await waitForElementId(`${token}Symbol`)
+  await element(by.id(`${token}Symbol`)).tap()
 
   // FiatExchangeAmount
   await waitForElementId('FiatExchangeInput')

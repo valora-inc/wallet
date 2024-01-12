@@ -1744,6 +1744,107 @@
             ],
             "type": "object"
         },
+        "NftWithNetworkId": {
+            "additionalProperties": false,
+            "properties": {
+                "contractAddress": {
+                    "type": "string"
+                },
+                "media": {
+                    "items": {
+                        "$ref": "#/definitions/NftMedia"
+                    },
+                    "type": "array"
+                },
+                "metadata": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "animation_url": {
+                                    "type": "string"
+                                },
+                                "attributes": {
+                                    "anyOf": [
+                                        {
+                                            "items": {
+                                                "$ref": "#/definitions/NftMetaDataAttribute"
+                                            },
+                                            "type": "array"
+                                        },
+                                        {
+                                            "type": "null"
+                                        }
+                                    ]
+                                },
+                                "date": {
+                                    "type": [
+                                        "null",
+                                        "number"
+                                    ]
+                                },
+                                "description": {
+                                    "type": "string"
+                                },
+                                "dna": {
+                                    "type": [
+                                        "null",
+                                        "string"
+                                    ]
+                                },
+                                "id": {
+                                    "type": [
+                                        "null",
+                                        "number"
+                                    ]
+                                },
+                                "image": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "description",
+                                "image",
+                                "name"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "ownerAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "tokenUri": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "contractAddress",
+                "media",
+                "metadata",
+                "networkId",
+                "tokenId"
+            ],
+            "type": "object"
+        },
         "Notification": {
             "additionalProperties": false,
             "properties": {
@@ -2183,6 +2284,30 @@
                 "title"
             ],
             "type": "object"
+        },
+        "Price": {
+            "additionalProperties": false,
+            "properties": {
+                "priceFetchedAt": {
+                    "type": "number"
+                },
+                "priceUsd": {
+                    "$ref": "#/definitions/BigNumber.Value"
+                }
+            },
+            "required": [
+                "priceFetchedAt",
+                "priceUsd"
+            ],
+            "type": "object"
+        },
+        "PriceHistoryStatus": {
+            "enum": [
+                "error",
+                "loading",
+                "success"
+            ],
+            "type": "string"
         },
         "ProposalTypes.OptionalNamespaces": {
             "additionalProperties": false,
@@ -3899,30 +4024,26 @@
             ],
             "type": "object"
         },
-        "State_25": {
-            "additionalProperties": false,
-            "properties": {
-                "nfts": {
-                    "items": {
-                        "$ref": "#/definitions/Nft"
+        "State_26": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "prices": {
+                        "items": {
+                            "$ref": "#/definitions/Price"
+                        },
+                        "type": "array"
                     },
-                    "type": "array"
+                    "status": {
+                        "$ref": "#/definitions/PriceHistoryStatus"
+                    }
                 },
-                "nftsError": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "nftsLoading": {
-                    "type": "boolean"
-                }
+                "required": [
+                    "prices",
+                    "status"
+                ],
+                "type": "object"
             },
-            "required": [
-                "nfts",
-                "nftsError",
-                "nftsLoading"
-            ],
             "type": "object"
         },
         "State_3": {
@@ -5590,10 +5711,36 @@
             "$ref": "#/definitions/State_2"
         },
         "nfts": {
-            "$ref": "#/definitions/State_25"
+            "additionalProperties": false,
+            "properties": {
+                "nfts": {
+                    "items": {
+                        "$ref": "#/definitions/NftWithNetworkId"
+                    },
+                    "type": "array"
+                },
+                "nftsError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "nftsLoading": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "nfts",
+                "nftsError",
+                "nftsLoading"
+            ],
+            "type": "object"
         },
         "positions": {
             "$ref": "#/definitions/State_23"
+        },
+        "priceHistory": {
+            "$ref": "#/definitions/State_26"
         },
         "recipients": {
             "$ref": "#/definitions/State_13"
@@ -5640,6 +5787,7 @@
         "networkInfo",
         "nfts",
         "positions",
+        "priceHistory",
         "recipients",
         "send",
         "supercharge",

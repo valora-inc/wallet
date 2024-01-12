@@ -347,25 +347,42 @@ function getSupportedChains() {
   })
 }
 
-function convertGasParamToExpectedType(gasParam: any) {
-  return isHex(gasParam)
-    ? hexToBigInt(gasParam)
-    : // make sure that we can safely parse the param as a BigInt
-    typeof gasParam === 'string' || typeof gasParam === 'number' || typeof gasParam === 'bigint'
-    ? BigInt(gasParam)
+function convertToBigInt(value: any) {
+  return isHex(value)
+    ? hexToBigInt(value)
+    : // make sure that we can safely parse the value as a BigInt
+    typeof value === 'string' || typeof value === 'number' || typeof value === 'bigint'
+    ? BigInt(value)
     : undefined
 }
 
+function convertToNumber(value: any) {
+  const bigValue = convertToBigInt(value)
+  return bigValue !== undefined ? Number(bigValue) : undefined
+}
+
+// Normalize the raw request into a usable format (bigint, etc) for viem
+// Note: the raw request should be in RPC format (fields in hex string)
+// but sometimes we've seen fields with numbers instead of hex strings
+// i.e. don't trust the raw request to be in the correct format, since it comes from the dapp
 export function* normalizeTransaction(rawTx: any, network: Network) {
-  const tx: TransactionRequest = { ...rawTx }
+  const tx: TransactionRequest = {
+    ...rawTx,
+    gas: convertToBigInt(rawTx.gas),
+    gasPrice: convertToBigInt(rawTx.gasPrice),
+    maxFeePerGas: convertToBigInt(rawTx.maxFeePerGas),
+    maxPriorityFeePerGas: convertToBigInt(rawTx.maxPriorityFeePerGas),
+    nonce: convertToNumber(rawTx.nonce),
+    value: convertToBigInt(rawTx.value),
+  }
 
   // Handle `gasLimit` as a misnomer for `gas`, it usually comes through in hex format
   if ('gasLimit' in tx && tx.gas === undefined) {
-    tx.gas = convertGasParamToExpectedType(tx.gasLimit)
+    tx.gas = convertToBigInt(tx.gasLimit)
     delete tx.gasLimit
   }
 
-  // re-calculate the feeCurrency and gas since it is not possible to tell from
+  // On Celo, re-calculate the feeCurrency and gas since it is not possible to tell from
   // the request payload if the feeCurrency is set to undefined (native
   // currency) explicitly or due to lack of feeCurrency support
   if (network === Network.Celo) {
@@ -373,8 +390,6 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
     if ('feeCurrency' in tx) {
       delete tx.feeCurrency
     }
-  } else {
-    tx.gas = convertGasParamToExpectedType(tx.gas)
   }
 
   // Force upgrade legacy tx to EIP-1559/CIP-42/CIP-64
@@ -394,6 +409,13 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
       blockTag: 'pending',
     }
     tx.nonce = yield* call(getTransactionCount, publicClient[network], txCountParams)
+  }
+
+  // Strip undefined keys, just to avoid noise in the logs or tests
+  for (const key of Object.keys(tx) as Array<keyof TransactionRequest>) {
+    if (tx[key] === undefined) {
+      delete tx[key]
+    }
   }
 
   return tx
@@ -428,6 +450,13 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     return
   }
 
+  // since there are some network requests needed to prepare the transaction,
+  // add a loading state
+  navigate(Screens.WalletConnectRequest, {
+    type: WalletConnectRequestType.Loading,
+    origin: WalletConnectPairingOrigin.Deeplink,
+  })
+
   const supportedChains = yield* call(getSupportedChains)
 
   const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
@@ -437,18 +466,27 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     method === SupportedActions.eth_signTransaction ||
     method === SupportedActions.eth_sendTransaction
   ) {
+    const rawTx = request.params.request.params[0]
+    Logger.debug(TAG + '@showActionRequest', 'Received transaction', rawTx)
     const network = walletConnectChainIdToNetwork[request.params.chainId]
-    const normalizedTx = yield* call(
-      normalizeTransaction,
-      request.params.request.params[0],
-      network
-    )
+    const normalizedTx = yield* call(normalizeTransaction, rawTx, network)
     preparedTransactionsResult = yield* call(prepareTransactions, {
       feeCurrencies,
       decreasedAmountGasFeeMultiplier: 1,
       baseTransactions: [normalizedTx],
     })
   }
+
+  const preparedTransaction =
+    preparedTransactionsResult?.type === 'possible'
+      ? getSerializablePreparedTransaction(preparedTransactionsResult.transactions[0])
+      : undefined
+  Logger.debug(
+    TAG + '@showActionRequest',
+    'Prepared transaction',
+    preparedTransactionsResult?.type,
+    preparedTransaction
+  )
 
   navigate(Screens.WalletConnectRequest, {
     type: WalletConnectRequestType.Action,
@@ -457,10 +495,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     version: 2,
     hasInsufficientGasFunds: preparedTransactionsResult?.type === 'not-enough-balance-for-gas',
     feeCurrenciesSymbols: feeCurrencies.map((token) => token.symbol),
-    preparedTransaction:
-      preparedTransactionsResult?.type === 'possible'
-        ? getSerializablePreparedTransaction(preparedTransactionsResult.transactions[0])
-        : undefined,
+    preparedTransaction,
   })
 }
 

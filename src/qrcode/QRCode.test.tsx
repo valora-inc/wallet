@@ -8,10 +8,6 @@ import QRCode from 'src/qrcode/QRCode'
 import { createMockStore } from 'test/utils'
 import { mockExchanges } from 'test/values'
 
-jest.mock('@react-native-clipboard/clipboard', () => ({
-  setString: jest.fn(),
-}))
-
 const mockStore = createMockStore({
   web3: {
     account: '0x0000',

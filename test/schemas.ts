@@ -2925,6 +2925,35 @@ export const v178Schema = {
   swap: _.omit(v177Schema.swap, 'guaranteedSwapPriceEnabled'),
 }
 
+export const v179Schema = {
+  ...v178Schema,
+  _persist: {
+    ...v178Schema._persist,
+    version: 179,
+  },
+  priceHistory: {},
+}
+
+export const v180Schema = {
+  ...v179Schema,
+  _persist: {
+    ...v179Schema._persist,
+    version: 180,
+  },
+}
+
+export const v181Schema = {
+  ...v180Schema,
+  _persist: {
+    ...v180Schema._persist,
+    version: 181,
+  },
+  nfts: {
+    ...v180Schema.nfts,
+    nfts: [],
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v178Schema as Partial<RootState>
+  return v181Schema as Partial<RootState>
 }

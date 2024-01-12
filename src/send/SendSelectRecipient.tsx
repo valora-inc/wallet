@@ -30,7 +30,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { Recipient, RecipientType } from 'src/recipients/recipient'
+import { Recipient, RecipientType, recipientHasNumber } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import InviteRewardsCard from 'src/send/InviteRewardsCard'
 import PasteAddressButton from 'src/send/PasteAddressButton'
@@ -168,7 +168,11 @@ function SendOrInviteButton({
       style={styles.sendOrInviteButton}
       onPress={() => onPress(shouldInviteRecipient)}
       disabled={sendOrInviteButtonDisabled}
-      text={shouldInviteRecipient ? t('invite') : t('send')}
+      text={
+        shouldInviteRecipient
+          ? t('sendSelectRecipient.buttons.invite')
+          : t('sendSelectRecipient.buttons.send')
+      }
       size={BtnSizes.FULL}
     />
   )
@@ -241,42 +245,50 @@ function SendSelectRecipient({ route }: Props) {
   }
 
   const nextScreen = (selectedRecipient: Recipient) => {
-    const addressValidationType: AddressValidationType = getAddressValidationType(
-      selectedRecipient,
-      secureSendPhoneNumberMapping
-    )
-    if (!selectedRecipient.address && addressValidationType !== AddressValidationType.NONE) {
-      navigate(Screens.ValidateRecipientIntro, {
-        defaultTokenIdOverride,
-        forceTokenId,
-        recipient: selectedRecipient,
-        origin: SendOrigin.AppSendFlow,
-      })
-    } else {
-      const address = selectedRecipient.e164PhoneNumber
-        ? getAddressFromPhoneNumber(
-            selectedRecipient.e164PhoneNumber,
-            e164NumberToAddress,
-            secureSendPhoneNumberMapping,
-            undefined
-          )
-        : selectedRecipient.address
-      if (!address) {
-        throw new Error(
-          'No address found, this should never happen. Should have routed to invite or secure send.'
-        )
+    // use the address from the recipient object
+    let address: string | null | undefined = selectedRecipient.address
+
+    // if not present there must be a phone number, route through secure send or get
+    // the secure send mapped address
+    if (!address && recipientHasNumber(selectedRecipient)) {
+      const addressValidationType: AddressValidationType = getAddressValidationType(
+        selectedRecipient,
+        secureSendPhoneNumberMapping
+      )
+      if (addressValidationType !== AddressValidationType.NONE) {
+        navigate(Screens.ValidateRecipientIntro, {
+          defaultTokenIdOverride,
+          forceTokenId,
+          recipient: selectedRecipient,
+          origin: SendOrigin.AppSendFlow,
+        })
+        return
       }
-      navigate(Screens.SendEnterAmount, {
-        isFromScan: false,
-        defaultTokenIdOverride,
-        forceTokenId,
-        recipient: {
-          ...selectedRecipient,
-          address,
-        },
-        origin: SendOrigin.AppSendFlow,
-      })
+      address = getAddressFromPhoneNumber(
+        selectedRecipient.e164PhoneNumber,
+        e164NumberToAddress,
+        secureSendPhoneNumberMapping,
+        undefined
+      )
     }
+
+    if (!address) {
+      // this should never happen
+      throw new Error(
+        'No address found, this should never happen. Should have routed to invite or secure send.'
+      )
+    }
+
+    navigate(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride,
+      forceTokenId,
+      recipient: {
+        ...selectedRecipient,
+        address,
+      },
+      origin: SendOrigin.AppSendFlow,
+    })
   }
 
   const onPressSendOrInvite = (shouldInviteRecipient: boolean) => {

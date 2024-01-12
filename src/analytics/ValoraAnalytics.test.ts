@@ -3,7 +3,7 @@ import { PincodeType } from 'src/account/reducer'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalyticsModule from 'src/analytics/ValoraAnalytics'
 import { store } from 'src/redux/store'
-import { getDefaultStatsigUser, getFeatureGate } from 'src/statsig'
+import { getDefaultStatsigUser, getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { Statsig } from 'statsig-react-native'
 import { getMockStoreData } from 'test/utils'
@@ -161,10 +161,13 @@ const defaultSuperProperties = {
   sTokenCount: 4,
   sTopTenPositions: 'ubeswap-G$ / cUSD:4.08,ubeswap-MOO / CELO:2.51,ubeswap-CELO / cUSD:1.32',
   sTotalBalanceUsd: 36,
+  sTotalCeloAlfajoresBalanceUsd: 36,
   sTotalPositionsBalanceUsd: 7.910872728527196,
   sWalletAddress: mockWalletAddress.toLowerCase(), // test for backwards compatibility (this field is lower-cased)
   sSuperchargingAmountInUsd: 24,
   sSuperchargingToken: 'cEUR',
+  sHasTokenBalance: true,
+  sHasCeloAlfajoresTokenBalance: true,
 }
 
 const defaultProperties = {
@@ -206,6 +209,9 @@ describe('ValoraAnalytics', () => {
     })
     mockStore.getState.mockImplementation(() => state)
     jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getDynamicConfigParams)
+      .mockReturnValue({ showBalances: [NetworkId['celo-alfajores']] })
   })
 
   it('creates statsig client on initialization with default statsig user', async () => {

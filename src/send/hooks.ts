@@ -1,23 +1,22 @@
-import { debounce, throttle } from 'lodash'
-import useSelector from 'src/redux/useSelector'
-import { useEffect, useMemo, useState } from 'react'
-import { useAsync } from 'react-async-hook'
-import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
-import { recipientInfoSelector } from 'src/recipients/reducer'
-import { isValidAddress } from '@celo/utils/lib/address'
 import { parsePhoneNumber } from '@celo/phone-utils'
+import { isValidAddress } from '@celo/utils/lib/address'
+import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
+import { debounce, throttle } from 'lodash'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useAsync } from 'react-async-hook'
+import { useTranslation } from 'react-i18next'
+import { defaultCountryCodeSelector } from 'src/account/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { resolveId } from 'src/recipients/RecipientPicker'
 import {
-  sortRecipients,
-  getRecipientFromAddress,
   Recipient,
   RecipientType,
   filterRecipientFactory,
+  getRecipientFromAddress,
+  sortRecipients,
 } from 'src/recipients/recipient'
-import { defaultCountryCodeSelector } from 'src/account/selectors'
-import { useTranslation } from 'react-i18next'
-import { NameResolution, ResolutionKind } from '@valora/resolve-kit'
-import { resolveId } from 'src/recipients/RecipientPicker'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
+import useSelector from 'src/redux/useSelector'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100
@@ -91,9 +90,12 @@ export function useMergedSearchRecipients(onSearch: (searchQuery: string) => voi
  */
 export function useResolvedRecipients(searchQuery: string): Recipient[] {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState(searchQuery)
-  const debounceSearchQuery = debounce((query: string) => {
-    setDebouncedSearchQuery(query)
-  }, TYPING_DEBOUNCE_MILLSECONDS)
+  const debounceSearchQuery = useCallback(
+    debounce((query: string) => {
+      setDebouncedSearchQuery(query)
+    }, TYPING_DEBOUNCE_MILLSECONDS),
+    []
+  )
 
   const defaultCountryCode = useSelector(defaultCountryCodeSelector)
 

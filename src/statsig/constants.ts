@@ -2,7 +2,6 @@ import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from '
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
-  [StatsigFeatureGates.USE_ZENDESK_API_FOR_SUPPORT]: false,
   [StatsigFeatureGates.SHOW_POSITIONS]: false,
   [StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS]: false,
   [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
@@ -82,6 +81,7 @@ export const DynamicConfigs = {
       showTransfers: [networkConfig.defaultNetworkId],
       showWalletConnect: [networkConfig.defaultNetworkId],
       showApprovalTxsInHomefeed: [],
+      showNfts: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {

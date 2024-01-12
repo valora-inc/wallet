@@ -1,14 +1,18 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { Nft } from 'src/nfts/types'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { NftWithNetworkId } from 'src/nfts/types'
 
-export interface FetchNftsCompleted {
-  nfts: Nft[]
+export interface FetchNftsCompletedAction {
+  nfts: NftWithNetworkId[]
 }
 
-export interface State {
+export interface FetchNftsFailedAction {
+  error: string
+}
+
+export type State = {
   nftsLoading: boolean
   nftsError: string | null
-  nfts: Nft[]
+  nfts: NftWithNetworkId[]
 }
 
 const initialState: State = {
@@ -25,11 +29,11 @@ export const slice = createSlice({
       state.nftsLoading = true
       state.nftsError = null
     },
-    fetchNftsCompleted: (state, action) => {
+    fetchNftsCompleted: (state, action: PayloadAction<FetchNftsCompletedAction>) => {
       state.nftsLoading = false
-      state.nfts = action.payload
+      state.nfts = action.payload.nfts
     },
-    fetchNftsFailed: (state, action) => {
+    fetchNftsFailed: (state, action: PayloadAction<FetchNftsFailedAction>) => {
       state.nftsLoading = false
       state.nftsError = action.payload.error
     },
