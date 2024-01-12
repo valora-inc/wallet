@@ -31,7 +31,7 @@ export default function GetStarted() {
         <Bird viewStyle={styles.icon} />
         <Text style={styles.cardTitle}>{t('transactionFeed.getStarted.title')}</Text>
         <Text style={styles.cardBody}>
-          {t('transactionFeed.getStarted.body', { apy: superchargeApy })}{' '}
+          {t('transactionFeed.getStarted.body', { apy: superchargeApy })}
         </Text>
         <Button style={styles.button} text={t('addFunds')} onPress={goToAddFunds} />
       </View>
