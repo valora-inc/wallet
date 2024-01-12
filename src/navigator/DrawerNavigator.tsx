@@ -40,8 +40,8 @@ import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
+import Alert from 'src/icons/Alert'
 import { Home } from 'src/icons/Home'
-import InfoIcon from 'src/icons/InfoIcon'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
@@ -304,7 +304,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <InfoIcon color={Colors.primary} />
+                  <Alert color={Colors.primary} />
                 </View>
               </View>
             ),
@@ -324,7 +324,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('accountKey')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <InfoIcon color={Colors.primary} />
+                  <Alert color={Colors.primary} />
                 </View>
               </View>
             ),

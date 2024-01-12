@@ -1,9 +1,9 @@
 import React from 'react'
 import ContactCircle from 'src/components/ContactCircle'
 import Activity from 'src/icons/Activity'
+import Alert from 'src/icons/Alert'
 import CircledIcon from 'src/icons/CircledIcon'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
-import InfoIcon from 'src/icons/InfoIcon'
 import SwapIcon from 'src/icons/SwapIcon'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
@@ -33,7 +33,7 @@ function TransactionFeedItemImage(props: Props) {
   if (status === TransactionStatus.Failed) {
     return (
       <CircledIcon backgroundColor={Colors.errorLight} radius={AVATAR_SIZE}>
-        <InfoIcon color={Colors.errorDark} size={24} testID={'FailedTransactionAlert'} />
+        <Alert size={24} testId={'FailedTransactionAlert'} />
       </CircledIcon>
     )
   }
