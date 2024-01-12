@@ -76,37 +76,6 @@ exports[`Debug renders correctly 1`] = `
     style={
       [
         {
-          "flex": 1,
-        },
-        {
-          "flex": 1,
-          "marginTop": 8,
-        },
-      ]
-    }
-  >
-    <Text>
-      React-Native Logs
-    </Text>
-    <RCTScrollView
-      onContentSizeChange={[Function]}
-    >
-      <View>
-        <Text
-          onPress={[Function]}
-          style={
-            {
-              "fontSize": 10,
-            }
-          }
-        />
-      </View>
-    </RCTScrollView>
-  </View>
-  <View
-    style={
-      [
-        {
           "flexDirection": "row",
         },
         {
