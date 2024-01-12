@@ -9,6 +9,7 @@ interface Props {
   scaledSize?: number
   testID?: string
 }
+
 const getSizing = (baseSize: number = 16, maxSize: number = 28) => {
   return baseSize * PixelRatio.getFontScale() < maxSize
     ? baseSize * PixelRatio.getFontScale()
