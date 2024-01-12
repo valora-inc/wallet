@@ -4,12 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import Dialog from 'src/components/Dialog'
+import QrScanButton from 'src/components/QrScanButton'
 import Touchable from 'src/components/Touchable'
-import i18n from 'src/i18n'
 import { headerWithBackButton } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
-import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -92,19 +89,10 @@ function Sessions() {
   )
 }
 
-function HeaderRight() {
-  const onPress = () =>
-    navigate(Screens.QRNavigator, {
-      screen: Screens.QRScanner,
-    })
-
-  return <TopBarTextButton title={i18n.t('scan')} testID="ScanButton" onPress={onPress} />
-}
-
 Sessions.navigationOptions = () => {
   return {
     ...headerWithBackButton,
-    headerRight: HeaderRight,
+    headerRight: () => <QrScanButton testID="ScanButton" />,
   }
 }
 
