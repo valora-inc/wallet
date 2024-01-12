@@ -2014,7 +2014,11 @@
     "finiteApprovalDescription": "Approved {{approvedAmount}} {{tokenSymbol}} for trade",
     "infiniteApprovalDescription": "Approved infinite {{tokenSymbol}} for trade",
     "revokeApprovalDescription": "Revoked {{tokenSymbol}} for trade",
-    "descriptionLabel": "Details"
+    "descriptionLabel": "Details",
+    "getStarted": {
+      "title": "Buy crypto or transfer tokens",
+      "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    }
   },
   "multichainBeta": {
     "beta": "BETA",
