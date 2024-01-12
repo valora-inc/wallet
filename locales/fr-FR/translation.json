@@ -660,7 +660,7 @@
   "terms": {
     "title": "Conditions générales",
     "heading1": "Données et confidentialité",
-    "heading2": "Actifs Celo et Compte {{appName}}",
+    "heading2": "Actifs et compte {{appName}}",
     "info": "Pour utiliser nos services, veuillez lire et accepter nos <0>Conditions d'utilisation</0> en cliquant sur le bouton ci-dessous.",
     "privacy": "En rejoignant ce réseau, vous nous autorisez à collecter des informations anonymes sur votre utilisation de l'appli. De plus, si vous connectez votre numéro de téléphone, une copie hachée de celui-ci sera conservée. Si vous accordez à Valora l'accès à votre liste de contacts, Valora importera le nom de chacun de vos contacts, leur numéro de téléphone et photo de profil pour permettre aux utilisateurs de se contacter sur l'appli Valora. Pour savoir comment nous recueillons et utilisons ces informations, veuillez consulter notre <0>Politique de confidentialité</0>.",
     "goldDisclaimer": "Lorsque vous créez un \"compte\" chez Valora, vous créez un portefeuille numérique dont vous seul détenez la clé. Aucune autre personne ni entité, y compris Valora, ne peut récupérer votre clé, modifier ou annuler des transactions, ou récupérer des fonds perdus. Sachez que les cryptomonnaies sont une nouvelle catégorie d'actifs et présentent un risque de perte financière. Réfléhissez soigneusement à votre situation financière et pesez le risque financier que vous prenez avant d'acheter un actif."
@@ -1972,7 +1972,11 @@
       "title": "Connectez votre numéro de téléphone",
       "description": "Connectez votre numéro de téléphone pour commencer à envoyer de la crypto à vos amis"
     },
-    "unknownAddressInfo": "Veuillez vous assurer que cette adresse prend en charge l’actif que vous essayez d’envoyer. Vos fonds ne seront peut-être pas récupérables si cette adresse n’est pas valide."
+    "unknownAddressInfo": "Veuillez vous assurer que cette adresse prend en charge l’actif que vous essayez d’envoyer. Vos fonds ne seront peut-être pas récupérables si cette adresse n’est pas valide.",
+    "buttons": {
+      "send": "Continuer",
+      "invite": "Inviter"
+    }
   },
   "transactionStatus": {
     "transactionIsCompleted": "Terminé",
