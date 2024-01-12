@@ -1,6 +1,7 @@
 import React from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import AttentionIcon from 'src/icons/Attention'
+import Warning from 'src/icons/Warning'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -11,7 +12,7 @@ export enum Severity {
   Error,
 }
 
-interface Props {
+export interface InLineNotificationProps {
   severity: Severity
   title?: string | null
   description: string | JSX.Element | null
@@ -38,19 +39,13 @@ export function InLineNotification({
   ctaLabel2,
   onPressCta2,
   testID,
-}: Props) {
+}: InLineNotificationProps) {
   const severityColor = severityColors[severity]
-  const renderCtaLabel = (
-    label?: string | null,
-    onPress?: (event: GestureResponderEvent) => void,
-    color?: Colors
-  ) =>
-    label &&
-    onPress && (
-      <Text style={[styles.ctaLabel, { color }]} onPress={onPress}>
-        {label}
-      </Text>
-    )
+  const ctas = [
+    ...(ctaLabel2 && onPressCta2 ? [{ label: ctaLabel2, onPress: onPressCta2 }] : []),
+    ...(ctaLabel && onPressCta ? [{ label: ctaLabel, onPress: onPressCta }] : []),
+  ]
+  const Icon = severityIcons[severity]
 
   return (
     <View
@@ -59,7 +54,7 @@ export function InLineNotification({
     >
       <View style={styles.row}>
         <View style={styles.attentionIcon}>
-          <AttentionIcon color={severityColor.primary} />
+          <Icon color={severityColor.primary} size={16} />
         </View>
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
@@ -69,8 +64,21 @@ export function InLineNotification({
 
       {(ctaLabel || ctaLabel2) && (
         <View style={[styles.row, styles.ctaRow]}>
-          {renderCtaLabel(ctaLabel, onPressCta, severityColor.primary)}
-          {renderCtaLabel(ctaLabel2, onPressCta2, severityColor.primary)}
+          {ctas.map(({ label, onPress }, index) => (
+            <Text
+              key={label}
+              style={[
+                styles.ctaLabel,
+                {
+                  color: severityColor.primary,
+                  marginRight: index === 0 ? Spacing.Small12 : 0,
+                },
+              ]}
+              onPress={onPress}
+            >
+              {label}
+            </Text>
+          ))}
         </View>
       )}
     </View>
@@ -127,6 +135,12 @@ const severityColors: Record<Severity, CustomColors> = {
     primary: Colors.errorDark,
     secondary: Colors.errorLight,
   },
+}
+
+const severityIcons: Record<Severity, (args: any) => JSX.Element> = {
+  [Severity.Informational]: AttentionIcon,
+  [Severity.Warning]: Warning,
+  [Severity.Error]: Warning,
 }
 
 export default InLineNotification

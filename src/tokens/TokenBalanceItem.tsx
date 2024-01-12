@@ -4,6 +4,7 @@ import { StyleSheet, Text, View, ViewStyle } from 'react-native'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
+import Warning from 'src/icons/Warning'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -15,6 +16,7 @@ interface Props {
   balanceUsdErrorFallback?: string
   onPress?: () => void
   containerStyle?: ViewStyle
+  showPriceUsdUnavailableWarning?: boolean
 }
 
 export const TokenBalanceItem = ({
@@ -22,6 +24,7 @@ export const TokenBalanceItem = ({
   onPress,
   containerStyle,
   balanceUsdErrorFallback,
+  showPriceUsdUnavailableWarning,
 }: Props) => {
   const { t } = useTranslation()
 
@@ -30,13 +33,12 @@ export const TokenBalanceItem = ({
       <TokenIcon token={token} viewStyle={styles.marginRight} />
       <View style={styles.textContainer}>
         <View style={styles.line}>
-          <Text
-            numberOfLines={1}
-            style={[styles.label, styles.marginRight]}
-            testID={`${token.symbol}Symbol`}
-          >
-            {token.name}
-          </Text>
+          <View style={[styles.row, styles.marginRight]}>
+            <Text numberOfLines={1} style={styles.label} testID={`${token.symbol}Symbol`}>
+              {token.name}
+            </Text>
+            {showPriceUsdUnavailableWarning && !token.priceUsd && <Warning size={16} />}
+          </View>
           <TokenDisplay
             style={styles.amount}
             amount={token.balance}
@@ -115,6 +117,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     overflow: 'hidden',
     flexShrink: 1,
+    marginRight: Spacing.Smallest8,
   },
   subLabel: {
     ...typeScale.bodySmall,
@@ -128,5 +131,10 @@ const styles = StyleSheet.create({
   },
   marginRight: {
     marginRight: Spacing.Small12,
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
 })

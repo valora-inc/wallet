@@ -6,6 +6,8 @@ import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetToast from 'src/components/BottomSheetToast'
+import { Severity } from 'src/components/InLineNotification'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -35,12 +37,14 @@ interface Props<T extends TokenBalance> {
   snapPoints?: (string | number)[]
   tokens: T[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
+  showPriceUsdUnavailableWarning?: boolean
 }
 
 export interface TokenOptionProps {
   tokenInfo: TokenBalance
   onPress: () => void
   index: number
+  showPriceUsdUnavailableWarning?: boolean
 }
 
 /**
@@ -79,7 +83,11 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
   )
 }
 
-export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps) {
+export function TokenBalanceItemOption({
+  tokenInfo,
+  onPress,
+  showPriceUsdUnavailableWarning,
+}: TokenOptionProps) {
   const { t } = useTranslation()
   return (
     <TokenBalanceItem
@@ -87,6 +95,7 @@ export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps)
       balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
       onPress={onPress}
       containerStyle={styles.tokenBalanceItemContainer}
+      showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
     />
   )
 }
@@ -122,20 +131,38 @@ function TokenBottomSheet<T extends TokenBalance>({
   title,
   titleStyle,
   TokenOptionComponent = TokenOption,
+  showPriceUsdUnavailableWarning,
 }: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedTokenNoUsdPrice, setSelectedTokenNoUsdPrice] = useState<T | null>(null)
 
   const { t } = useTranslation()
 
-  const onTokenPressed = (token: T) => () => {
+  const handleTokenPressed = (token: T) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
       tokenAddress: token.address,
       tokenId: token.tokenId,
       networkId: token.networkId,
     })
-    onTokenSelected(token)
     setSearchTerm('')
+
+    if (showPriceUsdUnavailableWarning && token.priceUsd === null) {
+      setSelectedTokenNoUsdPrice(token)
+    } else {
+      onTokenSelected(token)
+    }
+  }
+
+  const handleConfirmTokenNoUsdPrice = () => {
+    if (selectedTokenNoUsdPrice) {
+      onTokenSelected(selectedTokenNoUsdPrice)
+    }
+    setSelectedTokenNoUsdPrice(null)
+  }
+
+  const handleDismissTokenNoUsdPrice = () => {
+    setSelectedTokenNoUsdPrice(null)
   }
 
   const sendAnalytics = useCallback(
@@ -167,54 +194,67 @@ function TokenBottomSheet<T extends TokenBalance>({
   }
 
   return (
-    <BottomSheet
-      forwardedRef={forwardedRef}
-      snapPoints={snapPoints}
-      title={title}
-      titleStyle={titleStyle}
-      stickyTitle={searchEnabled}
-      stickyHeaderComponent={
-        searchEnabled && (
-          <SearchInput
-            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-            value={searchTerm}
-            onChangeText={(text) => {
-              setSearchTerm(text)
-              sendAnalytics(text)
-            }}
-            style={styles.searchInput}
-            returnKeyType={'search'}
-            // disable autoCorrect and spellCheck since the search terms here
-            // are token names which autoCorrect would get in the way of. This
-            // combination also hides the keyboard suggestions bar from the top
-            // of the iOS keyboard, preserving screen real estate.
-            autoCorrect={false}
-            spellCheck={false}
-          />
-        )
-      }
-      onClose={handleClose}
-      testId="TokenBottomSheet"
-    >
-      {tokenList.length == 0 ? (
-        searchEnabled ? (
-          <NoResults searchTerm={searchTerm} />
-        ) : null
-      ) : (
-        tokenList.map((tokenInfo, index) => {
-          return (
-            // Duplicate keys could happen with token.address
-            <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-              <TokenOptionComponent
-                tokenInfo={tokenInfo}
-                onPress={onTokenPressed(tokenInfo)}
-                index={index}
-              />
-            </React.Fragment>
+    <>
+      <BottomSheet
+        forwardedRef={forwardedRef}
+        snapPoints={snapPoints}
+        title={title}
+        titleStyle={titleStyle}
+        stickyTitle={searchEnabled}
+        stickyHeaderComponent={
+          searchEnabled && (
+            <SearchInput
+              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+              value={searchTerm}
+              onChangeText={(text) => {
+                setSearchTerm(text)
+                sendAnalytics(text)
+              }}
+              style={styles.searchInput}
+              returnKeyType={'search'}
+              // disable autoCorrect and spellCheck since the search terms here
+              // are token names which autoCorrect would get in the way of. This
+              // combination also hides the keyboard suggestions bar from the top
+              // of the iOS keyboard, preserving screen real estate.
+              autoCorrect={false}
+              spellCheck={false}
+            />
           )
-        })
-      )}
-    </BottomSheet>
+        }
+        onClose={handleClose}
+        testId="TokenBottomSheet"
+      >
+        {tokenList.length == 0 ? (
+          searchEnabled ? (
+            <NoResults searchTerm={searchTerm} />
+          ) : null
+        ) : (
+          tokenList.map((tokenInfo, index) => {
+            return (
+              // Duplicate keys could happen with token.address
+              <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
+                <TokenOptionComponent
+                  tokenInfo={tokenInfo}
+                  onPress={handleTokenPressed(tokenInfo)}
+                  index={index}
+                  showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+                />
+              </React.Fragment>
+            )
+          })
+        )}
+      </BottomSheet>
+      <BottomSheetToast
+        showToast={selectedTokenNoUsdPrice !== null}
+        severity={Severity.Warning}
+        title={t('tokenBottomSheet.noUsdPriceWarning.title')}
+        description={t('tokenBottomSheet.noUsdPriceWarning.description')}
+        ctaLabel={t('tokenBottomSheet.noUsdPriceWarning.ctaConfirm')}
+        onPressCta={handleConfirmTokenNoUsdPrice}
+        ctaLabel2={t('tokenBottomSheet.noUsdPriceWarning.ctaDismiss')}
+        onPressCta2={handleDismissTokenNoUsdPrice}
+      />
+    </>
   )
 }
 

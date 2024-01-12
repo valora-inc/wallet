@@ -1841,7 +1841,13 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",
-    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>",
+    "noUsdPriceWarning": {
+      "title": "Price unavailable",
+      "description": "The supply of this token is so low that the pricing information is unavailable. {{appName}} is not responsible if you choose to proceed.",
+      "ctaConfirm": "I understand",
+      "ctaDismiss": "Cancel"
+    }
   },
   "homeActions": {
     "add": "Buy",

@@ -710,6 +710,7 @@ export function SwapScreen({ route }: Props) {
             : t('swapScreen.swapToTokenSelection')
         }
         TokenOptionComponent={TokenBalanceItemOption}
+        showPriceUsdUnavailableWarning={true}
       />
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
