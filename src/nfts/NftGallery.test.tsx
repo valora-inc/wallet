@@ -23,7 +23,11 @@ const defaultStore = createMockStore({
     account: mockAccount,
   },
   nfts: {
-    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nfts: [
+      { ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] },
+      { ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] },
+      { ...mockNftNullMetadata, networkId: NetworkId['celo-alfajores'] },
+    ],
     nftsLoading: false,
     nftsError: null,
   },
@@ -123,10 +127,15 @@ describe('NftGallery', () => {
 
     expect(getAllByTestId('NftGallery/NftImage')).toHaveLength(2)
     fireEvent.press(getAllByTestId('NftGallery/NftImage')[0])
-    expect(navigate).toHaveBeenCalledTimes(1)
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[1])
+    expect(navigate).toHaveBeenCalledTimes(2)
     expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
-      nfts: [mockNftAllFields],
+      nfts: [{ ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] }],
       networkId: NetworkId['celo-alfajores'],
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] }],
+      networkId: NetworkId['ethereum-sepolia'],
     })
   })
 })

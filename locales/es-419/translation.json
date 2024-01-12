@@ -660,7 +660,7 @@
   "terms": {
     "title": "Condiciones de uso",
     "heading1": "Datos y privacidad",
-    "heading2": "Activos Celo y cuenta de {{appName}}",
+    "heading2": "Activos y cuenta de {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
     "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
@@ -1972,7 +1972,11 @@
       "title": "Conecta tu número de teléfono",
       "description": "Tienes que conectar tu número de teléfono para empezar a enviar cripto a tus amigos"
     },
-    "unknownAddressInfo": "Asegúrate de que esta dirección es compatible con el activo que intentas enviar. Tus fondos pueden no ser recuperables si esta dirección no es válida."
+    "unknownAddressInfo": "Asegúrate de que esta dirección es compatible con el activo que intentas enviar. Tus fondos pueden no ser recuperables si esta dirección no es válida.",
+    "buttons": {
+      "send": "Continuar",
+      "invite": "Invitar"
+    }
   },
   "transactionStatus": {
     "transactionIsCompleted": "Finalizada",
