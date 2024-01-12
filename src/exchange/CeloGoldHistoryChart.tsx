@@ -181,7 +181,9 @@ function Loader({ color }: { color: colors }) {
     </View>
   )
 }
-
+/**
+ * @deprecated - Use priceHistory/PriceHistoryChart.tsx instead as it handles multiple tokens
+ */
 function CeloGoldHistoryChart({
   testID,
   i18n,
