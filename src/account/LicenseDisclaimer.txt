@@ -13378,7 +13378,7 @@ THE SOFTWARE.
 
 -----
 
-The following software may be included in this product: isows, viem. A copy of the source code may be downloaded from https://github.com/wagmi-dev/isows.git (isows), https://github.com/wagmi-dev/viem.git (viem). This software contains the following license and notice below:
+The following software may be included in this product: isows, viem. A copy of the source code may be downloaded from https://github.com/wagmi-dev/isows.git (isows), https://github.com/wevm/viem.git (viem). This software contains the following license and notice below:
 
 MIT License
 
