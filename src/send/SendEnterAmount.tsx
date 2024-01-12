@@ -315,7 +315,11 @@ function SendEnterAmount({ route }: Props) {
               />
               <Touchable
                 borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
+                onPress={() => {
+                  if (!forceTokenId) {
+                    onTokenPickerSelect()
+                  }
+                }}
                 style={styles.tokenSelectButton}
                 testID="SendEnterAmount/TokenSelect"
               >
