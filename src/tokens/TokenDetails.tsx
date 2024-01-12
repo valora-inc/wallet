@@ -56,6 +56,7 @@ import {
   getTokenAnalyticsProps,
   isHistoricalPriceUpdated,
 } from 'src/tokens/utils'
+import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -105,7 +106,7 @@ export default function TokenDetailsScreen({ route }: Props) {
             color={Colors.black}
           />
         ) : (
-          token.symbol === 'CELO' && (
+          token.tokenId === networkConfig.celoTokenId && (
             <CeloGoldHistoryChart
               color={Colors.black}
               containerStyle={styles.chartContainer}

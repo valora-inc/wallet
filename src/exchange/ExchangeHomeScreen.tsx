@@ -28,6 +28,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
+import networkConfig from 'src/web3/networkConfig'
 
 function navigateToGuide() {
   ValoraAnalytics.track(CeloExchangeEvents.celo_home_info)
@@ -157,10 +158,10 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          {usePriceHistoryFromBlockchainApi && tokensBySymbol['CELO']?.tokenId ? (
+          {usePriceHistoryFromBlockchainApi && networkConfig.celoTokenId ? (
             <PriceHistoryChart
-              tokenId={tokensBySymbol['CELO']?.tokenId}
-              testID={`CeloNews/Chart/${tokensBySymbol['CELO']?.tokenId}`}
+              tokenId={networkConfig.celoTokenId}
+              testID={`CeloNews/Chart/${networkConfig.celoTokenId}`}
               chartPadding={Spacing.Thick24}
               color={colors.goldBrand}
               containerStyle={styles.chartContainer}
