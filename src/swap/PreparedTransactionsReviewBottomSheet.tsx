@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import InfoIcon from 'src/icons/InfoIcon'
+import AttentionIcon from 'src/icons/Attention'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -72,7 +72,7 @@ function PreparedTransactionsNeedDecreaseSwapAmountForGasBottomSheet({
       testId="QuoteResultNeedDecreaseSwapAmountForGasBottomSheet"
     >
       <View style={styles.container}>
-        <InfoIcon color={Colors.warningDark} />
+        <AttentionIcon />
         <Text style={styles.warningText}>
           {t('swapScreen.needDecreaseSwapAmountForGas.description', { tokenSymbol })}
         </Text>
@@ -108,7 +108,7 @@ function PreparedTransactionsNotEnoughBalanceForGasBottomSheet({
       testId="QuoteResultNotEnoughBalanceForGasBottomSheet"
     >
       <View style={styles.container}>
-        <InfoIcon color={Colors.warningDark} />
+        <AttentionIcon />
         <Text style={styles.warningText}>
           {t('swapScreen.notEnoughBalanceForGas.description', { feeCurrencies })}
         </Text>

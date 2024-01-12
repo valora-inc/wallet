@@ -1,6 +1,6 @@
 import React from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
-import InfoIcon from 'src/icons/InfoIcon'
+import AttentionIcon from 'src/icons/Attention'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -59,7 +59,7 @@ export function InLineNotification({
     >
       <View style={styles.row}>
         <View style={styles.attentionIcon}>
-          <InfoIcon color={severityColor.primary} />
+          <AttentionIcon color={severityColor.primary} />
         </View>
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
