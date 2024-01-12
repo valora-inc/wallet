@@ -244,7 +244,7 @@ export default function PriceHistoryChart({
         endTimestamp: Date.now(),
       })
     )
-  }, [])
+  }, [tokenId])
 
   if (status === 'loading' && prices.length === 0) {
     return <Loader style={containerStyle} />
