@@ -24,6 +24,7 @@ import {
   TokenBalance,
   fetchTokenBalances,
   fetchTokenBalancesFailure,
+  importToken,
   setTokenBalances,
 } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
@@ -255,7 +256,7 @@ export function* getTokenInfo(tokenId: string) {
 }
 
 export function* watchFetchBalance() {
-  yield* takeEvery(fetchTokenBalances.type, safely(fetchTokenBalancesSaga))
+  yield* takeEvery([fetchTokenBalances.type, importToken.type], safely(fetchTokenBalancesSaga))
 }
 
 export function* watchAccountFundedOrLiquidated() {
