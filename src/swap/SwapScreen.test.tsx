@@ -79,6 +79,51 @@ jest.mock('src/viem/estimateFeesPerGas', () => ({
   })),
 }))
 
+const mockStoreTokenBalances = {
+  [mockCeurTokenId]: {
+    ...mockTokenBalances[mockCeurTokenId],
+    isSwappable: true,
+    balance: '0',
+    priceUsd: '5.03655958698530226301',
+  },
+  [mockCusdTokenId]: {
+    ...mockTokenBalances[mockCusdTokenId],
+    isSwappable: true,
+    priceUsd: '1',
+  },
+  [mockCeloTokenId]: {
+    ...mockTokenBalances[mockCeloTokenId],
+    isSwappable: true,
+    priceUsd: '13.05584965485329753569',
+  },
+  [mockTestTokenTokenId]: {
+    ...mockTokenBalances[mockTestTokenTokenId],
+    isSwappable: false,
+    balance: '100',
+    // no priceUsd
+    priceUsd: undefined,
+  },
+  [mockPoofTokenId]: {
+    ...mockTokenBalances[mockPoofTokenId],
+    isSwappable: true,
+    balance: '100',
+    // no priceUsd
+    priceUsd: undefined,
+  },
+  [mockEthTokenId]: {
+    ...mockTokenBalances[mockEthTokenId],
+    isSwappable: true,
+    priceUsd: '2000',
+    balance: '10',
+  },
+  [mockUSDCTokenId]: {
+    ...mockTokenBalances[mockUSDCTokenId],
+    isSwappable: true,
+    balance: '10',
+    priceUsd: '1',
+  },
+}
+
 const renderScreen = ({
   celoBalance = '10',
   cUSDBalance = '20.456',
@@ -91,49 +136,14 @@ const renderScreen = ({
   const store = createMockStore({
     tokens: {
       tokenBalances: {
-        [mockCeurTokenId]: {
-          ...mockTokenBalances[mockCeurTokenId],
-          isSwappable: true,
-          balance: '0',
-          priceUsd: '5.03655958698530226301',
-        },
+        ...mockStoreTokenBalances,
         [mockCusdTokenId]: {
-          ...mockTokenBalances[mockCusdTokenId],
-          isSwappable: true,
+          ...mockStoreTokenBalances[mockCusdTokenId],
           balance: cUSDBalance,
-          priceUsd: '1',
         },
         [mockCeloTokenId]: {
-          ...mockTokenBalances[mockCeloTokenId],
-          isSwappable: true,
-          priceUsd: '13.05584965485329753569',
+          ...mockStoreTokenBalances[mockCeloTokenId],
           balance: celoBalance,
-        },
-        [mockTestTokenTokenId]: {
-          ...mockTokenBalances[mockTestTokenTokenId],
-          isSwappable: false,
-          balance: '100',
-          // no priceUsd
-          priceUsd: undefined,
-        },
-        [mockPoofTokenId]: {
-          ...mockTokenBalances[mockPoofTokenId],
-          isSwappable: true,
-          balance: '100',
-          // no priceUsd
-          priceUsd: undefined,
-        },
-        [mockEthTokenId]: {
-          ...mockTokenBalances[mockEthTokenId],
-          isSwappable: true,
-          priceUsd: '2000',
-          balance: '10',
-        },
-        [mockUSDCTokenId]: {
-          ...mockTokenBalances[mockUSDCTokenId],
-          isSwappable: true,
-          balance: '10',
-          priceUsd: '1',
         },
       },
     },
@@ -204,10 +214,16 @@ const selectToken = (
   tokenSymbol: string,
   tokenBottomSheet: ReactTestInstance
 ) => {
-  const token = Object.values(mockTokenBalances).find((token) => token.symbol === tokenSymbol)
+  const token = Object.values(mockStoreTokenBalances).find((token) => token.symbol === tokenSymbol)
   expect(token).toBeTruthy()
   fireEvent.press(within(swapAmountContainer).getByTestId('SwapAmountInput/TokenSelect'))
   fireEvent.press(within(tokenBottomSheet).getByText(token!.name))
+
+  if (!token!.priceUsd) {
+    fireEvent.press(
+      within(tokenBottomSheet).getByText('tokenBottomSheet.noUsdPriceWarning.ctaConfirm')
+    )
+  }
 
   expect(within(swapAmountContainer).getByText(tokenSymbol)).toBeTruthy()
 }

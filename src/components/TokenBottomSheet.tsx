@@ -194,56 +194,54 @@ function TokenBottomSheet<T extends TokenBalance>({
   }
 
   return (
-    <>
-      <BottomSheet
-        forwardedRef={forwardedRef}
-        snapPoints={snapPoints}
-        title={title}
-        titleStyle={titleStyle}
-        stickyTitle={searchEnabled}
-        stickyHeaderComponent={
-          searchEnabled && (
-            <SearchInput
-              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-              value={searchTerm}
-              onChangeText={(text) => {
-                setSearchTerm(text)
-                sendAnalytics(text)
-              }}
-              style={styles.searchInput}
-              returnKeyType={'search'}
-              // disable autoCorrect and spellCheck since the search terms here
-              // are token names which autoCorrect would get in the way of. This
-              // combination also hides the keyboard suggestions bar from the top
-              // of the iOS keyboard, preserving screen real estate.
-              autoCorrect={false}
-              spellCheck={false}
-            />
+    <BottomSheet
+      forwardedRef={forwardedRef}
+      snapPoints={snapPoints}
+      title={title}
+      titleStyle={titleStyle}
+      stickyTitle={searchEnabled}
+      stickyHeaderComponent={
+        searchEnabled && (
+          <SearchInput
+            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+            value={searchTerm}
+            onChangeText={(text) => {
+              setSearchTerm(text)
+              sendAnalytics(text)
+            }}
+            style={styles.searchInput}
+            returnKeyType={'search'}
+            // disable autoCorrect and spellCheck since the search terms here
+            // are token names which autoCorrect would get in the way of. This
+            // combination also hides the keyboard suggestions bar from the top
+            // of the iOS keyboard, preserving screen real estate.
+            autoCorrect={false}
+            spellCheck={false}
+          />
+        )
+      }
+      onClose={handleClose}
+      testId="TokenBottomSheet"
+    >
+      {tokenList.length == 0 ? (
+        searchEnabled ? (
+          <NoResults searchTerm={searchTerm} />
+        ) : null
+      ) : (
+        tokenList.map((tokenInfo, index) => {
+          return (
+            // Duplicate keys could happen with token.address
+            <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
+              <TokenOptionComponent
+                tokenInfo={tokenInfo}
+                onPress={handleTokenPressed(tokenInfo)}
+                index={index}
+                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+              />
+            </React.Fragment>
           )
-        }
-        onClose={handleClose}
-        testId="TokenBottomSheet"
-      >
-        {tokenList.length == 0 ? (
-          searchEnabled ? (
-            <NoResults searchTerm={searchTerm} />
-          ) : null
-        ) : (
-          tokenList.map((tokenInfo, index) => {
-            return (
-              // Duplicate keys could happen with token.address
-              <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-                <TokenOptionComponent
-                  tokenInfo={tokenInfo}
-                  onPress={handleTokenPressed(tokenInfo)}
-                  index={index}
-                  showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-                />
-              </React.Fragment>
-            )
-          })
-        )}
-      </BottomSheet>
+        })
+      )}
       <BottomSheetInLineNotification
         showNotification={selectedTokenNoUsdPrice !== null}
         severity={Severity.Warning}
@@ -254,7 +252,7 @@ function TokenBottomSheet<T extends TokenBalance>({
         ctaLabel2={t('tokenBottomSheet.noUsdPriceWarning.ctaDismiss')}
         onPressCta2={handleDismissTokenNoUsdPrice}
       />
-    </>
+    </BottomSheet>
   )
 }
 
