@@ -111,61 +111,29 @@ function renderPointOnChart(
   })
   return ({ datum, x, y }: { x: number; y: number; datum: { _x: number; _y: number } }) => {
     const idx = datum._x
-    const result = []
-    switch (idx) {
-      case 0:
-        result.push(
-          <G key={idx + 'dot'}>
-            <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.gray2} strokeWidth="1" />
-            <Circle cx={x} cy={y} r="4" fill={color} />
-          </G>
-        )
-        break
-
-      case chartData.length - 1:
-        result.push(
-          <G key={idx + 'dot'}>
-            <Circle cx={x} cy={y} r="4" fill={color} />
-          </G>
-        )
-        break
-    }
-    switch (idx) {
-      case highestRateIdx:
-        result.push(
+    return (
+      <>
+        <G key={idx + 'dot'}>
+          {idx === 0 && (
+            <>
+              <Line x1={0} y1={y} x2={chartWidth} y2={y} stroke={colors.gray2} strokeWidth="1" />
+              <Circle cx={x} cy={y} r="4" fill={color} />
+            </>
+          )}
+          {idx === chartData.length - 1 && <Circle cx={x} cy={y} r="4" fill={color} />}
+        </G>
+        {[highestRateIdx, lowestRateIdx].includes(idx) && (
           <ChartAwareSvgText
             x={x}
             y={y}
             key={idx}
-            value={chartData[highestRateIdx].displayValue}
-            position={'top'}
+            value={chartData[idx].displayValue}
+            position={idx === highestRateIdx ? 'top' : 'bottom'}
             chartWidth={chartWidth}
           />
-        )
-        break
-
-      case lowestRateIdx:
-        result.push(
-          <ChartAwareSvgText
-            x={x}
-            y={y}
-            key={idx}
-            value={chartData[lowestRateIdx].displayValue}
-            position={'bottom'}
-            chartWidth={chartWidth}
-          />
-        )
-        break
-    }
-
-    switch (result.length) {
-      case 0:
-        return null
-      case 1:
-        return result[0]
-      default:
-        return <>{result}</>
-    }
+        )}
+      </>
+    )
   }
 }
 
