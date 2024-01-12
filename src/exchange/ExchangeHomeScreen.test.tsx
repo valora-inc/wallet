@@ -30,6 +30,10 @@ const store = createMockStore({
 })
 
 describe('ExchangeHomeScreen', () => {
+  beforeEach(() => {
+    jest.resetAllMocks()
+  })
+
   it('renders the price chart using firebase by default', async () => {
     const { getByTestId } = render(
       <Provider store={store}>
