@@ -111,12 +111,7 @@ function renderPointOnChart(
   })
   return ({ datum, x, y }: { x: number; y: number; datum: { _x: number; _y: number } }) => {
     const idx = datum._x
-    if (
-      idx === 0 ||
-      idx === chartData.length - 1 ||
-      idx === highestRateIdx ||
-      idx === lowestRateIdx
-    ) {
+    if (new Set([0, chartData.length - 1, highestRateIdx, lowestRateIdx]).has(idx)) {
       return (
         <>
           <G key={idx + 'dot'}>
