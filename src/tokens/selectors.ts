@@ -204,19 +204,6 @@ export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) =
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
 
-export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
-  const priceUsdComparison = token2UsdBalance.comparedTo(token1UsdBalance)
-  if (priceUsdComparison === 0) {
-    const token1Name = token1.name ?? 'ZZ'
-    const token2Name = token2.name ?? 'ZZ'
-    return token1Name.localeCompare(token2Name)
-  } else {
-    return priceUsdComparison
-  }
-}
-
 /**
  * @deprecated
  */
@@ -338,14 +325,37 @@ export const swappableTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     const appVersion = deviceInfoModule.getVersion()
-    return tokens
-      .filter(
-        (tokenInfo) =>
-          tokenInfo.isSwappable ||
-          (tokenInfo.minimumAppVersionToSwap &&
-            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
-      )
-      .sort(tokenCompareByUsdBalanceThenByName)
+    return (
+      tokens
+        .filter(
+          (tokenInfo) =>
+            tokenInfo.isSwappable ||
+            (tokenInfo.minimumAppVersionToSwap &&
+              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+        )
+        // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
+        // are pushed last, sorted by name (ASC)
+        .sort((token1, token2) => {
+          // treat prices without priceUsd separately
+          if (token1.priceUsd === null || token2.priceUsd === null) {
+            // If both prices are null, sort alphabetically by name
+            if (!token1.priceUsd && !token2.priceUsd) {
+              return token1.name.localeCompare(token2.name)
+            }
+            // Otherwise, sort such that the token with a non-null price comes first
+            return token1.priceUsd === null ? 1 : -1
+          }
+
+          // Sort by balance (higher balances first)
+          const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd)
+          const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd)
+          if (token1UsdBalance.gt(token2UsdBalance)) return -1
+          if (token1UsdBalance.lt(token2UsdBalance)) return 1
+
+          // Lastly, sort by name
+          return token1.name.localeCompare(token2.name)
+        })
+    )
   }
 )
 
