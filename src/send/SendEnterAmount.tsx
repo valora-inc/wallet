@@ -98,7 +98,7 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { defaultTokenIdOverride, origin, recipient, isFromScan } = route.params
+  const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
@@ -322,7 +322,7 @@ function SendEnterAmount({ route }: Props) {
                 <>
                   <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
-                  <DownArrowIcon color={Colors.gray5} />
+                  {!forceTokenId && <DownArrowIcon color={Colors.gray5} />}
                 </>
               </Touchable>
             </View>
