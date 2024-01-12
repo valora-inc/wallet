@@ -33,10 +33,8 @@ async function navigateToFiatExchangeScreen() {
  * @return {{result: Error}}
  */
 async function selectCurrencyAndAmount(token, amount) {
-  // FiatExchangeCurrency
-  await waitForElementId(`radio/${token}`)
-  await element(by.id(`radio/${token}`)).tap()
-  await element(by.text('Next')).tap()
+  await waitForElementId(`${token}Symbol`)
+  await element(by.id(`${token}Symbol`)).tap()
 
   // FiatExchangeAmount
   await waitForElementId('FiatExchangeInput')
