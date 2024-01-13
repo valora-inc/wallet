@@ -235,7 +235,8 @@ interface CommonKeylessBackupProps {
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
-  [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
+  [KeylessBackupEvents.cab_setup_continue]: undefined
+  [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
