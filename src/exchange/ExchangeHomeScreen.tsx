@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { CeloExchangeEvents } from 'src/analytics/Events'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+// FIXME uncomment
+// import { CeloExchangeEvents } from 'src/analytics/Events'
+// import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
@@ -31,7 +32,8 @@ import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
 import networkConfig from 'src/web3/networkConfig'
 
 function navigateToGuide() {
-  ValoraAnalytics.track(CeloExchangeEvents.celo_home_info)
+  // FIXME uncomment (here to test knip and see if it can find an event that is not used outside of src/analytics/Properties.tsx and src/analytics/docs.ts
+  // ValoraAnalytics.track(CeloExchangeEvents.celo_home_info)
   navigate(Screens.GoldEducation)
 }
 
