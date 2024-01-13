@@ -525,7 +525,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
 
   // Legacy event docs
-  //  The below events had docs, but are no longer produced by the latest app version)
+  //  The below events had docs, but are no longer produced by the latest app version.
   // [HomeEvents.home_send]: `when "send" button is pressed from home screen send or request bar (NOT from home screen actions)`,
   // [DappExplorerEvents.dapp_open_info]: `when a user taps on the help icon`,
   // [DappExplorerEvents.dapp_open_more_info]: `when a user taps on the "more" button from inside the help bottom sheet`,
