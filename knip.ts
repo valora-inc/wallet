@@ -10,6 +10,7 @@ const config: KnipConfig = {
     './scripts/**/*.js',
   ],
   project: ['src/**/*.ts!', 'src/**/*.tsx!', 'src/**/*.js!'],
+  ignore: ['src/analytics/Properties.tsx', 'src/analytics/docs.ts'], // this helps us find unused analytics events in src/analytics/Events.tsx
   ignoreDependencies: [
     'Base64',
     '@actions/github',
