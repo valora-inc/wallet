@@ -8,7 +8,6 @@ import Toast from 'react-native-simple-toast'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { ensureError } from 'src/utils/ensureError'
-import { readFileChunked } from 'src/utils/readFile'
 import { stylize } from 'src/utils/stylize'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 
@@ -220,21 +219,6 @@ class Logger {
       }
     } catch (error) {
       this.error('Logger@cleanupOldLogs', 'Failed to cleanupOldLogs', error)
-    }
-  }
-
-  // Gets the logs for the current day
-  getMonthLogs = async () => {
-    try {
-      const rnLogsSrc = this.getReactNativeLogFilePath()
-      let reactNativeLogs = null
-      if (await RNFS.exists(rnLogsSrc)) {
-        reactNativeLogs = await readFileChunked(rnLogsSrc)
-      }
-      return reactNativeLogs
-    } catch (error) {
-      this.showError('Failed to read logs: ' + error)
-      return null
     }
   }
 
