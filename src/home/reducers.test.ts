@@ -1,6 +1,6 @@
 import { Actions } from 'src/home/actions'
-import { mockCleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
+import { mockCleverTapInboxMessage } from 'test/values'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',

@@ -9,7 +9,6 @@ import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import NotificationCenter from 'src/home/NotificationCenter'
-import { mockCleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -19,6 +18,7 @@ import { NetworkId } from 'src/transactions/types'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
+  mockCleverTapInboxMessage,
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
