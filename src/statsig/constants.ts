@@ -24,6 +24,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
+  [StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API]: false,
 }
 
 export const ExperimentConfigs = {
@@ -81,6 +82,7 @@ export const DynamicConfigs = {
       showTransfers: [networkConfig.defaultNetworkId],
       showWalletConnect: [networkConfig.defaultNetworkId],
       showApprovalTxsInHomefeed: [],
+      showNfts: [networkConfig.defaultNetworkId],
     },
   },
   [StatsigDynamicConfigs.DAPP_WEBVIEW_CONFIG]: {

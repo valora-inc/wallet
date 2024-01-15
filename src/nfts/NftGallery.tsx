@@ -80,7 +80,9 @@ export default function NftGallery() {
             >
               <Touchable
                 borderless={false}
-                onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+                onPress={() =>
+                  navigate(Screens.NftsInfoCarousel, { nfts: [item], networkId: item.networkId })
+                }
                 style={styles.touchableIcon}
               >
                 <NftMedia

@@ -73,7 +73,7 @@ describe('ActionsCarousel', () => {
         within(getByTestId(`HomeAction/Title-${name}`)).getByText(`homeActions.${title}`)
       ).toBeTruthy()
 
-      fireEvent.press(getByTestId(`HomeAction-${name}`))
+      fireEvent.press(getByTestId(`HomeActionTouchable-${name}`))
       expect(navigate).toHaveBeenCalledTimes(1)
       // NOTE: cannot use calledWith(screen, screenOptions) because undefined
       // isn't explicitly passed for screens with no options and the expect fails
@@ -97,7 +97,7 @@ describe('ActionsCarousel', () => {
       within(getByTestId(`HomeAction/Title-${HomeActionName.Add}`)).getByText(`homeActions.add`)
     ).toBeTruthy()
 
-    fireEvent.press(getByTestId(`HomeAction-${HomeActionName.Add}`))
+    fireEvent.press(getByTestId(`HomeActionTouchable-${HomeActionName.Add}`))
     expect(navigateToFiatCurrencySelection).toHaveBeenCalledWith(FiatExchangeFlow.CashIn)
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
@@ -113,7 +113,7 @@ describe('ActionsCarousel', () => {
       </Provider>
     )
     expect(within(getByTestId(`HomeAction/Title-Send`)).getByText(`homeActions.send`)).toBeTruthy()
-    fireEvent.press(getByTestId(`HomeAction-Send`))
+    fireEvent.press(getByTestId(`HomeActionTouchable-Send`))
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
   })

@@ -1509,6 +1509,13 @@ export const migrations = {
   }),
   181: (state: any) => ({
     ...state,
+    nfts: {
+      ...state.nfts,
+      nfts: [],
+    },
+  }),
+  182: (state: any) => ({
+    ...state,
     home: { ...state.home, cleverTapInboxMessages: [] },
   }),
 }

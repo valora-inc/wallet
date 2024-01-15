@@ -10,7 +10,7 @@ import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { hexToNumber } from 'viem'
-import { parseTransactionCelo } from 'viem/chains/utils'
+import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
@@ -276,7 +276,7 @@ export default WalletConnect = () => {
         // TODO: keep only Viem branch after feeCurrency estimation is ready
         if (web3Library === 'viem') {
           // TODO: assert transaction signer address once Viem could provide it
-          const recoveredTx = parseTransactionCelo(signedTx)
+          const recoveredTx = parseTransaction(signedTx)
           jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
           jestExpect(recoveredTx.to).toEqual(tx.to)
           jestExpect(recoveredTx.value).toEqual(BigInt(tx.value))
