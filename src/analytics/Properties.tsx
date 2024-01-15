@@ -115,6 +115,7 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_no_matching_keychain_account]: {
     walletAddress: string
+    keychainError?: string
   }
   [AppEvents.push_notification_opened]: {
     id?: string
