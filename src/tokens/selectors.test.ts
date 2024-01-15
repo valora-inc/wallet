@@ -698,7 +698,7 @@ describe('swappableTokensByNetworkIdSelector', () => {
         name: 'cEUR',
         priceUsd: '0.5',
       },
-      // tokens with balance but no usd price, sorted by name
+      // tokens with balance but no usd price, sorted by balance
       {
         balance: '50',
         name: '0x4 token',
