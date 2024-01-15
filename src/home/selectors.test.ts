@@ -1,7 +1,7 @@
 import DeviceInfo from 'react-native-device-info'
 import { cleverTapInboxMessagesSelector, getExtraNotifications } from 'src/home/selectors'
 import { getMockStoreData } from 'test/utils'
-import { mockCleverTapInboxMessage } from 'test/values'
+import { mockCleverTapInboxMessage, mockExpectedCleverTapInboxMessage } from 'test/values'
 
 describe(getExtraNotifications, () => {
   const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
@@ -122,7 +122,7 @@ describe('cleverTapInboxMessages', () => {
   it('returns cleverTapInboxMessages', () => {
     const state = getMockStoreData({
       home: {
-        cleverTapInboxMessages: [mockCleverTapInboxMessage],
+        cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
       },
     })
 

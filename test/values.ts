@@ -30,6 +30,7 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
+import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
@@ -1432,7 +1433,7 @@ export const mockApprovalTransaction: TokenApproval = {
   status: TransactionStatus.Complete,
 }
 
-export const mockCleverTapInboxMessage = {
+export const mockExpectedCleverTapInboxMessage = {
   wzrkParams: { wzrk_id: '0_0' },
   id: '1704393845',
   wzrk_id: '0_0',
@@ -1489,4 +1490,16 @@ export const mockCleverTapInboxMessage = {
   },
   tags: [''],
   isRead: true,
+}
+
+export const mockCleverTapInboxMessage: CleverTapInboxMessage = {
+  messageId: '1704393845',
+  header: 'CleverTap Message Header',
+  text: 'CleverTap Message Body Text',
+  icon: {
+    uri: 'https://d2trgtv8344lrj.cloudfront.net/dist/1634904064/i/fd152d1004504c0ab68a99ce9e3fe5e7.jpeg?v=1704392507',
+  },
+  ctaText: 'CleverTap Message CTA',
+  ctaUrl: 'https://valoraapp.com',
+  priority: undefined,
 }

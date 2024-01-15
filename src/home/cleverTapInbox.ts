@@ -28,6 +28,16 @@ export function cleverTapInboxMessagesChannel() {
   })
 }
 
+export interface CleverTapInboxMessage {
+  messageId: string
+  header?: string
+  text: string
+  icon?: { uri: string }
+  ctaText: string
+  ctaUrl: string
+  priority?: number
+}
+
 // CleverTap Inbox message type inferred from received data.
 // All properties are optional because it's not guaranteed that any of them will actually exist.
 export interface ExpectedCleverTapInboxMessage {

@@ -18,12 +18,12 @@ import { NetworkId } from 'src/transactions/types'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
-  mockCleverTapInboxMessage,
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
   mockEscrowedPayment,
+  mockExpectedCleverTapInboxMessage,
 } from 'test/values'
 
 jest.mock('src/web3/networkConfig', () => {
@@ -955,7 +955,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
         },
       })
       const { getByText } = render(
@@ -971,7 +971,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
         },
       })
       const { getByText } = render(
@@ -987,13 +987,13 @@ describe('NotificationCenter', () => {
       ])
 
       expect(CleverTap.pushInboxNotificationClickedEventForId).toBeCalledWith(
-        mockCleverTapInboxMessage.id
+        mockExpectedCleverTapInboxMessage.id
       )
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.clevertap_notification,
         selectedAction: NotificationBannerCTATypes.accept,
-        notificationId: `${NotificationType.clevertap_notification}/${mockCleverTapInboxMessage.id}`,
+        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
         notificationPositionInList: 0,
       })
     })
@@ -1002,7 +1002,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
         },
       })
       const { getByText } = render(
@@ -1013,12 +1013,12 @@ describe('NotificationCenter', () => {
 
       fireEvent.press(getByText('dismiss'))
 
-      expect(CleverTap.deleteInboxMessageForId).toBeCalledWith(mockCleverTapInboxMessage.id)
+      expect(CleverTap.deleteInboxMessageForId).toBeCalledWith(mockExpectedCleverTapInboxMessage.id)
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
         notificationType: NotificationType.clevertap_notification,
         selectedAction: NotificationBannerCTATypes.decline,
-        notificationId: `${NotificationType.clevertap_notification}/${mockCleverTapInboxMessage.id}`,
+        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
         notificationPositionInList: 0,
       })
     })
@@ -1027,7 +1027,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
         },
       })
       const screen = render(
@@ -1042,14 +1042,16 @@ describe('NotificationCenter', () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
         notificationType: NotificationType.clevertap_notification,
-        notificationId: `${NotificationType.clevertap_notification}/${mockCleverTapInboxMessage.id}`,
+        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
         notificationPositionInList: 0,
       })
 
       expect(CleverTap.pushInboxNotificationViewedEventForId).toBeCalledWith(
-        mockCleverTapInboxMessage.id
+        mockExpectedCleverTapInboxMessage.id
       )
-      expect(CleverTap.markReadInboxMessageForId).toBeCalledWith(mockCleverTapInboxMessage.id)
+      expect(CleverTap.markReadInboxMessageForId).toBeCalledWith(
+        mockExpectedCleverTapInboxMessage.id
+      )
     })
   })
 })
