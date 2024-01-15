@@ -199,8 +199,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
     coinbaseProvider &&
     !coinbaseProvider.restricted &&
     coinbasePayEnabled &&
-    appId &&
-    tokenInfo.tokenId === networkConfig.celoTokenId
+    appId
 
   const anyProviders =
     normalizedQuotes.length ||

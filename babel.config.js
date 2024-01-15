@@ -19,7 +19,7 @@ if (!process.env.JEST_WORKER_ID) {
 
 module.exports = {
   plugins: [
-    [require('@babel/plugin-proposal-decorators').default, { legacy: true }],
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
     [
       'module:react-native-dotenv',
       {
