@@ -26,6 +26,7 @@ export interface BaseToken {
   isCashInEligible?: boolean
   isCashOutEligible?: boolean
   isStableCoin?: boolean
+  isManuallyImported?: boolean
 }
 
 interface HistoricalPricesUsd {
@@ -97,10 +98,13 @@ export interface TokenBalancesWithAddress {
   [tokenAddress: string]: TokenBalanceWithAddress | undefined
 }
 
+// Create imported token interface but from the base Token type
+
 export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
+  importedTokens: StoredTokenBalances
 }
 
 export function tokenBalanceHasAddress(
@@ -117,6 +121,7 @@ export const initialState = {
   tokenBalances: {},
   loading: false,
   error: false,
+  importedTokens: {},
 }
 
 const slice = createSlice({
@@ -144,6 +149,19 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
+    importToken: (state, action: PayloadAction<BaseToken>) => ({
+      ...state,
+      importedTokens: {
+        ...state.importedTokens,
+        [action.payload.tokenId]: {
+          ...action.payload,
+          // Force imported tokens to be visible even with zero balance.
+          showZeroBalance: true,
+          balance: null,
+          isManuallyImported: true,
+        },
+      },
+    }),
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -158,6 +176,7 @@ export const {
   fetchTokenBalances,
   fetchTokenBalancesSuccess,
   fetchTokenBalancesFailure,
+  importToken,
 } = slice.actions
 
 export default slice.reducer
