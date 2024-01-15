@@ -35,7 +35,7 @@ export interface RefreshBalancesBalancesAction {
   type: Actions.REFRESH_BALANCES
 }
 
-export interface UpdateCleverTapInboxMessagesAction {
+interface UpdateCleverTapInboxMessagesAction {
   type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES
   messages: ExpectedCleverTapInboxMessage[]
 }

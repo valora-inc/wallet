@@ -110,7 +110,7 @@ function* fetchNotifications() {
   }
 }
 
-export function* fetchCleverTapInboxMessages() {
+function* fetchCleverTapInboxMessages() {
   const channel = yield* call(cleverTapInboxMessagesChannel)
 
   try {
