@@ -2960,9 +2960,21 @@ export const v182Schema = {
     ...v181Schema._persist,
     version: 182,
   },
-  home: { ...v181Schema.home, cleverTapInboxMessages: [] },
+  tokens: {
+    ...v181Schema.tokens,
+    importedTokens: {},
+  },
+}
+
+export const v183Schema = {
+  ...v182Schema,
+  _persist: {
+    ...v182Schema._persist,
+    version: 183,
+  },
+  home: { ...v182Schema.home, cleverTapInboxMessages: [] },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v182Schema as Partial<RootState>
+  return v183Schema as Partial<RootState>
 }

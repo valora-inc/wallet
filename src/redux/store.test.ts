@@ -337,6 +337,7 @@ describe('store state', () => {
         },
         "tokens": {
           "error": false,
+          "importedTokens": {},
           "loading": false,
           "tokenBalances": {},
         },

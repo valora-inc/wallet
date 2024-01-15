@@ -1516,6 +1516,13 @@ export const migrations = {
   }),
   182: (state: any) => ({
     ...state,
-    home: { ...state.home, cleverTapInboxMessages: [] },
+    tokens: {
+      ...state.tokens,
+      importedTokens: {},
+    },
   }),
+  183: (state: any) => ({
+    ...state,
+    home: { ...state.home, cleverTapInboxMessages: [] },
+  }),    
 }

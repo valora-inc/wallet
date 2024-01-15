@@ -3806,6 +3806,9 @@
                 "error": {
                     "type": "boolean"
                 },
+                "importedTokens": {
+                    "$ref": "#/definitions/StoredTokenBalances"
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -3815,6 +3818,7 @@
             },
             "required": [
                 "error",
+                "importedTokens",
                 "loading",
                 "tokenBalances"
             ],
@@ -4546,6 +4550,9 @@
                     "type": "boolean"
                 },
                 "isFeeCurrency": {
+                    "type": "boolean"
+                },
+                "isManuallyImported": {
                     "type": "boolean"
                 },
                 "isNative": {
