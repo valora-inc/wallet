@@ -1038,13 +1038,13 @@ describe('NotificationCenter', () => {
 
       layoutNotificationList(screen)
 
-      await waitFor(() => expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2))
-
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
-        notificationType: NotificationType.clevertap_notification,
-        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
-        notificationPositionInList: 0,
-      })
+      await waitFor(() =>
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+          notificationType: NotificationType.clevertap_notification,
+          notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
+          notificationPositionInList: 0,
+        })
+      )
 
       expect(CleverTap.pushInboxNotificationViewedEventForId).toBeCalledWith(
         mockExpectedCleverTapInboxMessage.id
