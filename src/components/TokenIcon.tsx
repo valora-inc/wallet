@@ -1,7 +1,6 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import DefaultToken from 'src/icons/DefaultToken'
 import { BaseToken } from 'src/tokens/slice'
 
 export enum IconSize {
@@ -14,11 +13,13 @@ const IconSizeToStyle = {
     tokenImageSize: 20,
     networkImageSize: 8,
     networkImagePosition: 13,
+    tokenTextSize: 6, // Adjust as needed
   },
   [IconSize.MEDIUM]: {
     tokenImageSize: 32,
     networkImageSize: 12,
     networkImagePosition: 20,
+    tokenTextSize: 10, // Adjust as needed
   },
 }
 
@@ -30,7 +31,8 @@ interface Props {
 }
 
 export default function TokenIcon({ token, viewStyle, testID, size = IconSize.MEDIUM }: Props) {
-  const { tokenImageSize, networkImageSize, networkImagePosition } = IconSizeToStyle[size]
+  const { tokenImageSize, networkImageSize, networkImagePosition, tokenTextSize } =
+    IconSizeToStyle[size]
 
   return (
     <View testID={testID} style={viewStyle}>
@@ -50,10 +52,19 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
           testID={testID ? `${testID}/TokenIcon` : 'TokenIcon'}
         />
       ) : (
-        <DefaultToken
+        <View
+          style={[
+            styles.tokenCircle,
+            {
+              width: tokenImageSize,
+              height: tokenImageSize,
+              borderRadius: tokenImageSize / 2,
+            },
+          ]}
           testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
-          size={tokenImageSize}
-        />
+        >
+          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]}>{token.symbol}</Text>
+        </View>
       )}
 
       {token.networkIconUrl && (
@@ -84,5 +95,15 @@ const styles = StyleSheet.create({
   },
   networkImage: {
     position: 'absolute',
+  },
+  tokenCircle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#EAEAEA', // You can change the color as needed
+    overflow: 'hidden',
+  },
+  tokenText: {
+    color: '#000', // Change the text color as needed
+    textAlign: 'center',
   },
 })

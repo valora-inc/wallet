@@ -205,6 +205,9 @@ export function* fetchTokenBalancesSaga() {
       : {}
     const supportedTokens = yield* call(getTokensInfo)
 
+    delete supportedTokens['celo-mainnet:0x8e3670fd7b0935d3fe832711debfe13bb689b690']
+    delete supportedTokens['celo-mainnet:0x7c2bf103daac9c082a0e53ad40bb9f3f7f799af7']
+
     const tokens = {
       ...importedTokens,
       ...supportedTokens,
