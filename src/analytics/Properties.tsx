@@ -708,6 +708,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected]: undefined
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: undefined
+  [FiatExchangeEvents.cico_add_get_started_impression]: undefined
+  [FiatExchangeEvents.cico_add_get_started_selected]: undefined
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined

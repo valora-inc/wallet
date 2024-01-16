@@ -10,7 +10,10 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
+  importedTokensInfoSelector,
   lastKnownTokenBalancesSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
@@ -21,6 +24,7 @@ import {
   TokenBalance,
   fetchTokenBalances,
   fetchTokenBalancesFailure,
+  importToken,
   setTokenBalances,
 } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
@@ -192,7 +196,20 @@ export function* fetchTokenBalancesSaga() {
       return
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
-    const tokens = yield* call(getTokensInfo)
+
+    const importedTokens = (yield* call(
+      getFeatureGate,
+      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    ))
+      ? yield* select(importedTokensInfoSelector)
+      : {}
+    const supportedTokens = yield* call(getTokensInfo)
+
+    const tokens = {
+      ...importedTokens,
+      ...supportedTokens,
+    }
+
     const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
     for (const token of Object.values(tokens) as StoredTokenBalance[]) {
       const tokenBalance = tokenBalances.find((t) => t.tokenId === token.tokenId)
@@ -201,7 +218,7 @@ export function* fetchTokenBalancesSaga() {
       } else {
         token.balance = new BigNumber(tokenBalance.balance)
           .dividedBy(new BigNumber(10).pow(token.decimals))
-          .toString()
+          .toFixed()
       }
     }
     yield* put(setTokenBalances(tokens))
@@ -239,7 +256,7 @@ export function* getTokenInfo(tokenId: string) {
 }
 
 export function* watchFetchBalance() {
-  yield* takeEvery(fetchTokenBalances.type, safely(fetchTokenBalancesSaga))
+  yield* takeEvery([fetchTokenBalances.type, importToken.type], safely(fetchTokenBalancesSaga))
 }
 
 export function* watchAccountFundedOrLiquidated() {

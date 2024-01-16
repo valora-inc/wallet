@@ -379,6 +379,10 @@ export enum FiatExchangeEvents {
   cico_add_bottom_sheet_ramp_selected = 'cico_add_bottom_sheet_ramp_selected',
   cico_add_bottom_sheet_ramp_available = 'cico_add_bottom_sheet_ramp_available',
 
+  // Add fund flow via new user get started card
+  cico_add_get_started_impression = 'cico_add_get_started_impression',
+  cico_add_get_started_selected = 'cico_add_get_started_selected',
+
   // Funding Education Dialog Screen
   cico_add_funds_info_support = 'cico_add_funds_info_support',
   cico_cash_out_info_support = 'cico_cash_out_info_support',
