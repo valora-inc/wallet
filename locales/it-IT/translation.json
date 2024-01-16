@@ -2022,6 +2022,10 @@
     "primaryCta": "Provala ora",
     "secondaryCta": "No grazie"
   },
+  "getStartedHome": {
+    "title": "Acquista criptovalute o trasferisci token",
+    "body": "Acquista o trasferisci token compatibili con celo o ethereum per guadagnare {{apy}}% di ricompense, esplorare web3 e molto altro!"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
