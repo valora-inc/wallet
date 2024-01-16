@@ -2020,5 +2020,9 @@
     "primaryCta": "ลองเลย",
     "secondaryCta": "ไม่ ขอบคุณ"
   },
+  "getStartedHome": {
+    "title": "Buy crypto or transfer tokens",
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
