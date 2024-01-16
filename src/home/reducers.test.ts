@@ -1,4 +1,4 @@
-import { Actions } from 'src/home/actions'
+import { Actions, cleverTapInboxMessagesReceived } from 'src/home/actions'
 import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
 import { mockExpectedCleverTapInboxMessage } from 'test/values'
 
@@ -144,10 +144,7 @@ describe('home reducer', () => {
   it('should update cleverTapInboxMessages', () => {
     const messages = [mockExpectedCleverTapInboxMessage]
 
-    const updatedState = reducer(undefined, {
-      type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED,
-      messages,
-    })
+    const updatedState = reducer(undefined, cleverTapInboxMessagesReceived(messages))
 
     expect(updatedState.cleverTapInboxMessages).toEqual(messages)
   })
