@@ -190,7 +190,7 @@ describe('cleverTapInboxMessages', () => {
     expect(Logger.error).toHaveBeenCalled()
   })
 
-  it('logs an error when receives message without text ', () => {
+  it('logs an error when receives message without text', () => {
     const invalidMessage = _.cloneDeep(mockExpectedCleverTapInboxMessage)
     _.set(invalidMessage, 'msg.content[0].message.text', '')
 
