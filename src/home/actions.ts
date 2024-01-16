@@ -9,7 +9,7 @@ export enum Actions {
   START_BALANCE_AUTOREFRESH = 'HOME/START_BALANCE_AUTOREFRESH',
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
   VISIT_HOME = 'HOME/VISIT_HOME',
-  UPDATE_CLEVERTAP_INBOX_MESSAGES = 'HOME/UPDATE_CLEVERTAP_INBOX_MESSAGES',
+  CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
 }
 
 export interface VisitHomeAction {
@@ -35,8 +35,8 @@ export interface RefreshBalancesBalancesAction {
   type: Actions.REFRESH_BALANCES
 }
 
-interface UpdateCleverTapInboxMessagesAction {
-  type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES
+interface CleverTapInboxMessagesReceivedAction {
+  type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED
   messages: ExpectedCleverTapInboxMessage[]
 }
 
@@ -44,7 +44,7 @@ export type ActionTypes =
   | SetLoadingAction
   | UpdateNotificationsAction
   | DismissNotificationAction
-  | UpdateCleverTapInboxMessagesAction
+  | CleverTapInboxMessagesReceivedAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
@@ -81,7 +81,7 @@ export const stopBalanceAutorefresh = () => ({
 
 export const cleverTapInboxMessagesReceived = (
   messages: ExpectedCleverTapInboxMessage[]
-): UpdateCleverTapInboxMessagesAction => ({
-  type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES,
+): CleverTapInboxMessagesReceivedAction => ({
+  type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED,
   messages,
 })

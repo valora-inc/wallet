@@ -145,7 +145,7 @@ describe('home reducer', () => {
     const messages = [mockExpectedCleverTapInboxMessage]
 
     const updatedState = reducer(undefined, {
-      type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES,
+      type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED,
       messages,
     })
 

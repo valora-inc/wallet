@@ -98,7 +98,7 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
           },
         },
       }
-    case Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES:
+    case Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED:
       return {
         ...state,
         cleverTapInboxMessages: action.messages,
