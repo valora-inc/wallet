@@ -23,8 +23,8 @@ describe('GetStarted', () => {
     )
 
     expect(getByText('getStarted')).toBeTruthy()
-    expect(getByText('transactionFeed.getStarted.title')).toBeTruthy()
-    expect(getByText('transactionFeed.getStarted.body, {"apy":12}')).toBeTruthy()
+    expect(getByText('getStartedHome.title')).toBeTruthy()
+    expect(getByText('getStartedHome.body, {"apy":12}')).toBeTruthy()
   })
 
   it('should trigger impression analytics event', () => {

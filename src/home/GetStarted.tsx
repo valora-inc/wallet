@@ -29,10 +29,8 @@ export default function GetStarted() {
       <Text style={styles.title}>{t('getStarted')}</Text>
       <View style={styles.card}>
         <Bird viewStyle={styles.icon} />
-        <Text style={styles.cardTitle}>{t('transactionFeed.getStarted.title')}</Text>
-        <Text style={styles.cardBody}>
-          {t('transactionFeed.getStarted.body', { apy: superchargeApy })}
-        </Text>
+        <Text style={styles.cardTitle}>{t('getStartedHome.title')}</Text>
+        <Text style={styles.cardBody}>{t('getStartedHome.body', { apy: superchargeApy })}</Text>
         <Button style={styles.button} text={t('addFunds')} onPress={goToAddFunds} />
       </View>
     </View>
