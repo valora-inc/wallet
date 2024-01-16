@@ -78,10 +78,11 @@
     "description": "只有您自己才能访问您的钱包。如果您的手机丢失或被盗，Valora 无法协助找回钱包。\n\n您需要设置适当方法来保护钱包及资金的安全。"
   },
   "setUpKeylessBackup": {
-    "title": "设置免密钥备份",
-    "subtitle": "设置备份需要使用以下信息：",
+    "title": "设置钱包备份",
+    "subtitle": "您将使用以下方法设置备份",
     "emailAddress": "电子邮件地址",
-    "phoneNumber": "手机号码"
+    "phoneNumber": "手机号码",
+    "useRecoveryPhrase": "改用恢复短语"
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
+  "setupKeylessBackupReminder": "请<0>记住</0>，如果您的设备丢失或被盗，这些信息是访问您钱包的唯一途径。Valora 不会存储您的电子邮件或电话号码。请妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
