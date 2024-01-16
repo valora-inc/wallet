@@ -2,9 +2,9 @@ import { fetchSentEscrowPayments } from 'src/escrow/actions'
 import { notificationsChannel } from 'src/firebase/firebase'
 import {
   Actions,
+  cleverTapInboxMessagesReceived,
   refreshAllBalances,
   setLoading,
-  updateCleverTapInboxMessages,
   updateNotifications,
 } from 'src/home/actions'
 import {
@@ -116,7 +116,7 @@ function* fetchCleverTapInboxMessages() {
   try {
     while (true) {
       const notifications = (yield* take(channel)) as ExpectedCleverTapInboxMessage[]
-      yield* put(updateCleverTapInboxMessages(notifications))
+      yield* put(cleverTapInboxMessagesReceived(notifications))
     }
   } catch (error) {
     Logger.error(

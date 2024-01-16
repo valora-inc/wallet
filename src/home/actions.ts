@@ -79,7 +79,7 @@ export const stopBalanceAutorefresh = () => ({
   type: Actions.STOP_BALANCE_AUTOREFRESH,
 })
 
-export const updateCleverTapInboxMessages = (
+export const cleverTapInboxMessagesReceived = (
   messages: ExpectedCleverTapInboxMessage[]
 ): UpdateCleverTapInboxMessagesAction => ({
   type: Actions.UPDATE_CLEVERTAP_INBOX_MESSAGES,
