@@ -35,7 +35,16 @@ function useCleverTapNotifications() {
 
   const notifications: Notification[] = []
 
-  for (const { messageId, header, text, icon, ctaText, ctaUrl, priority } of messages) {
+  for (const {
+    messageId,
+    header,
+    text,
+    icon,
+    ctaText,
+    ctaUrl,
+    priority,
+    openInExternalBrowser,
+  } of messages) {
     const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
     const callToActions: CallToAction[] = [
       {
@@ -49,7 +58,6 @@ function useCleverTapNotifications() {
           })
           CleverTap.pushInboxNotificationClickedEventForId(messageId)
 
-          const openInExternalBrowser = false
           const isSecureOrigin = true
           dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
         },

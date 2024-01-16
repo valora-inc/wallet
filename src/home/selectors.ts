@@ -69,6 +69,12 @@ export const cleverTapInboxMessagesSelector = createSelector(
           ?.slice(PRIORITY_TAG.length)
       )
 
+      const OPEN_TAG = 'open:'
+      const openInExternalBrowser =
+        rawMessage.msg?.tags
+          ?.find((tag: string) => tag.startsWith(OPEN_TAG))
+          ?.slice(OPEN_TAG.length) === 'browser'
+
       if (!messageId || !text || !ctaText || !ctaUrl) {
         Logger.error(CLEVERTAP_INBOX_TAG, 'Unexpected CleverTap Inbox message format', {
           messageId,
@@ -88,6 +94,7 @@ export const cleverTapInboxMessagesSelector = createSelector(
         ctaText,
         ctaUrl,
         priority: !Number.isNaN(priority) ? priority : undefined,
+        openInExternalBrowser,
       })
     }
 

@@ -1515,4 +1515,5 @@ export const mockCleverTapInboxMessage: CleverTapInboxMessage = {
   ctaText: 'CleverTap Message CTA',
   ctaUrl: 'https://valoraapp.com',
   priority: undefined,
+  openInExternalBrowser: false,
 }

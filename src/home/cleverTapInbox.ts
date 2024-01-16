@@ -36,6 +36,7 @@ export interface CleverTapInboxMessage {
   ctaText: string
   ctaUrl: string
   priority?: number
+  openInExternalBrowser: boolean
 }
 
 // CleverTap Inbox message type inferred from received data.
