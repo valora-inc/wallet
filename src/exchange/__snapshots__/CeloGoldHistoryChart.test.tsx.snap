@@ -106,7 +106,7 @@ exports[`renders properly 1`] = `
         </g>
       </g>
       <g
-        clipPath="url(#victory-clip-4)"
+        clipPath="url(#victory-clip-2)"
         style={
           {
             "height": "100%",
@@ -117,7 +117,7 @@ exports[`renders properly 1`] = `
         <g>
           <defs>
             <clipPath
-              id="victory-clip-4"
+              id="victory-clip-2"
             >
               <rect
                 height={180}
@@ -136,7 +136,7 @@ exports[`renders properly 1`] = `
           shapeRendering="auto"
           stroke="#FBCC5C"
           strokeWidth={2}
-          width={4}
+          width={90}
         />
       </g>
       <View
@@ -328,7 +328,7 @@ exports[`renders while update is in progress 1`] = `
           shapeRendering="auto"
           stroke="#FBCC5C"
           strokeWidth={2}
-          width={4}
+          width={90}
         />
       </g>
       <View
