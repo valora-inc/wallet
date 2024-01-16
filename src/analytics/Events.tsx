@@ -5,7 +5,6 @@ export enum AppEvents {
   app_state_error = 'app_state_error',
   error_displayed = 'error_displayed',
   error_fallback = 'error_fallback',
-  error_boundary = 'error_boundary',
   user_restart = 'user_restart',
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
@@ -34,9 +33,6 @@ export enum AppEvents {
 }
 
 export enum HomeEvents {
-  home_send = 'home_send', // when "send" button is pressed from home screen send or request bar (NOT from home screen actions)
-  home_request = 'home_request',
-  home_qr = 'home_qr',
   hamburger_tapped = 'hamburger_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
@@ -95,7 +91,8 @@ export enum SettingsEvents {
 export enum KeylessBackupEvents {
   // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
-  set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
+  cab_setup_continue = 'cab_setup_continue',
+  cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
@@ -117,14 +114,10 @@ export enum KeylessBackupEvents {
 }
 
 export enum OnboardingEvents {
-  onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
   onboarding_education_step_impression = 'onboarding_education_step_impression',
-  onboarding_education_complete = 'onboarding_education_complete',
-  onboarding_education_cancel = 'onboarding_education_cancel',
 
   create_account_start = 'create_account_start',
-  create_account_cancel = 'create_account_cancel',
 
   restore_account_start = 'restore_account_start',
   restore_account_cancel = 'restore_account_cancel',
@@ -157,13 +150,9 @@ export enum OnboardingEvents {
 
   name_and_picture_set = 'name_and_picture_set',
   name_and_picture_skip = 'name_and_picture_skip',
-  name_and_picture_generate_name = 'name_and_picture_generate_name',
-
-  phone_number_set = 'phone_number_set',
 
   pin_set = 'pin_set',
   pin_invalid = 'pin_invalid',
-  pin_failed_to_set = 'pin_failed_to_set',
   pin_never_set = 'pin_never_set',
 
   biometry_opt_in_start = 'biometry_opt_in_start',
@@ -205,7 +194,6 @@ export enum OnboardingEvents {
 
 // Events emitted in the CPV flow
 export enum PhoneVerificationEvents {
-  phone_verification_skip = 'phone_verification_skip',
   phone_verification_skip_confirm = 'phone_verification_skip_confirm',
   phone_verification_learn_more = 'phone_verification_learn_more',
   phone_verification_start = 'phone_verification_start',
@@ -217,7 +205,6 @@ export enum PhoneVerificationEvents {
   phone_verification_code_verify_error = 'phone_verification_code_verify_error',
 
   phone_verification_input_help = 'phone_verification_input_help',
-  phone_verification_input_help_skip = 'phone_verification_input_help_skip',
   phone_verification_input_help_continue = 'phone_verification_input_help_continue',
 
   phone_verification_resend_message = 'phone_verification_resend_message',
@@ -228,7 +215,6 @@ export enum PhoneVerificationEvents {
 }
 
 export enum IdentityEvents {
-  contacts_connect = 'contacts_connect',
   contacts_import_permission_denied = 'contacts_import_permission_denied',
   contacts_import_start = 'contacts_import_start',
   contacts_import_complete = 'contacts_import_complete',
@@ -238,10 +224,6 @@ export enum IdentityEvents {
   phone_number_lookup_start = 'phone_number_lookup_start',
   phone_number_lookup_complete = 'phone_number_lookup_complete',
   phone_number_lookup_error = 'phone_number_lookup_error',
-
-  phone_number_lookup_purchase_complete = 'phone_number_lookup_purchase_complete',
-  phone_number_lookup_purchase_error = 'phone_number_lookup_purchase_error',
-  phone_number_lookup_purchase_skip = 'phone_number_lookup_purchase_skip',
 
   address_lookup_start = 'address_lookup_start',
   address_lookup_complete = 'address_lookup_complete',
@@ -333,30 +315,14 @@ export enum SendEvents {
 
 export enum QrScreenEvents {
   // Events for the QR screen redesign
-  qr_screen_bottom_sheet_open = 'qr_screen_bottom_sheet_open',
-  qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
-  qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
   qr_scanner_open = 'qr_scanner_open',
   qr_scanned = 'qr_scanned',
 }
 
-export enum RequestEvents {
-  request_scan = 'request_scan',
-  request_select_recipient = 'request_select_recipient',
-  request_cancel = 'request_cancel',
-  request_amount_back = 'request_amount_back',
-  request_amount_continue = 'request_amount_continue',
-  request_confirm_back = 'request_confirm_back',
-  request_confirm_request = 'request_confirm_request',
-  request_error = 'request_error',
-}
-
 export enum FeeEvents {
-  fee_rendered = 'fee_rendered',
   estimate_fee_failed = 'estimate_fee_failed',
   estimate_fee_success = 'estimate_fee_success',
-  fetch_tobin_tax_failed = 'fetch_tobin_tax_failed',
 }
 
 export enum TransactionEvents {
@@ -372,12 +338,7 @@ export enum TransactionEvents {
 export enum CeloExchangeEvents {
   celo_home_info = 'celo_home_info',
 
-  celo_withdraw_review = 'celo_withdraw_review',
-  celo_withdraw_edit = 'celo_withdraw_edit',
-  celo_withdraw_cancel = 'celo_withdraw_cancel',
-  celo_withdraw_confirm = 'celo_withdraw_confirm',
   celo_withdraw_completed = 'celo_withdraw_completed',
-  celo_withdraw_error = 'celo_withdraw_error',
 
   celo_chart_tapped = 'celo_chart_tapped',
 }
@@ -418,6 +379,10 @@ export enum FiatExchangeEvents {
   cico_add_bottom_sheet_impression = 'cico_add_bottom_sheet_impression',
   cico_add_bottom_sheet_ramp_selected = 'cico_add_bottom_sheet_ramp_selected',
   cico_add_bottom_sheet_ramp_available = 'cico_add_bottom_sheet_ramp_available',
+
+  // Add fund flow via new user get started card
+  cico_add_get_started_impression = 'cico_add_get_started_impression',
+  cico_add_get_started_selected = 'cico_add_get_started_selected',
 
   // Funding Education Dialog Screen
   cico_add_funds_info_support = 'cico_add_funds_info_support',
@@ -532,7 +497,6 @@ export enum WalletConnectEvents {
 
   // Events related to WalletConnect requests from approved dapps (signing)
   wc_request_propose = 'wc_request_propose',
-  wc_request_details = 'wc_request_details',
   wc_request_accept_start = 'wc_request_accept_start',
   wc_request_accept_success = 'wc_request_accept_success',
   wc_request_accept_error = 'wc_request_accept_error',
@@ -572,11 +536,7 @@ export enum DappExplorerEvents {
   dapp_view_all = 'dapp_view_all',
   dapp_favorite = 'dapp_favorite',
   dapp_unfavorite = 'dapp_unfavorite',
-  dapp_open_info = 'dapp_open_info',
-  dapp_open_more_info = 'dapp_open_more_info',
   dapp_filter = 'dapp_filter',
-  dapp_search = 'dapp_search',
-  dapp_rankings_impression = 'dapp_rankings_impression',
   dapp_rankings_open = 'dapp_rankings_open',
 }
 

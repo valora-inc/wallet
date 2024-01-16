@@ -5,21 +5,25 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Card from 'src/components/Card'
-import Times from 'src/icons/Times'
+import TextButton from 'src/components/TextButton'
 import EnvelopeIcon from 'src/keylessBackup/EnvelopeIcon'
 import SmartphoneIcon from 'src/keylessBackup/SmartphoneIcon'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { headerWithBackButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { default as Colors, default as colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import variables from 'src/styles/variables'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 function onPressContinue() {
-  ValoraAnalytics.track(KeylessBackupEvents.set_up_keyless_backup_screen_continue)
+  ValoraAnalytics.track(KeylessBackupEvents.cab_setup_continue)
   navigate(Screens.SignInWithEmail, { keylessBackupFlow: KeylessBackupFlow.Setup })
+}
+
+function onPressRecoveryPhrase() {
+  ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
+  navigate(Screens.BackupIntroduction)
 }
 
 function SetUpKeylessBackup() {
@@ -29,7 +33,7 @@ function SetUpKeylessBackup() {
       <ScrollView style={styles.scrollContainer}>
         <Text style={styles.title}>{t('setUpKeylessBackup.title')}</Text>
         <Text style={styles.subtitle}>{t('setUpKeylessBackup.subtitle')}</Text>
-        <Card style={styles.authFactorsCard} rounded={true} shadow={null}>
+        <Card style={styles.authFactorsCard} shadow={null}>
           <View style={styles.authFactorsContainer}>
             <View style={styles.authFactorLine}>
               <EnvelopeIcon style={styles.envelopeIcon} />
@@ -48,29 +52,29 @@ function SetUpKeylessBackup() {
             </Trans>
           </Text>
         </Card>
+        <TextButton
+          testID="SetUpKeylessBackup/RecoveryPhrase"
+          style={styles.recoveryPhrase}
+          onPress={onPressRecoveryPhrase}
+        >
+          {t('setUpKeylessBackup.useRecoveryPhrase')}
+        </TextButton>
       </ScrollView>
       <Button
         testID="SetUpKeylessBackup/Continue"
         onPress={onPressContinue}
         text={t('continue')}
         size={BtnSizes.FULL}
-        type={BtnTypes.ONBOARDING}
+        type={BtnTypes.PRIMARY}
         style={styles.button}
       />
     </SafeAreaView>
   )
 }
 
-SetUpKeylessBackup.navigationOptions = () => ({
-  ...emptyHeader,
-  headerLeft: () => (
-    <TopBarIconButton
-      style={styles.cancelButton}
-      icon={<Times height={16} />}
-      onPress={navigateBack}
-    />
-  ),
-})
+SetUpKeylessBackup.navigationOptions = {
+  ...headerWithBackButton,
+}
 
 export default SetUpKeylessBackup
 
@@ -80,35 +84,36 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollContainer: {
-    padding: 24,
-    paddingTop: 36,
-  },
-  cancelButton: {
-    marginLeft: 16,
+    padding: Spacing.Thick24,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
-    fontWeight: 'bold',
+    color: Colors.black,
   },
   subtitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
-    paddingVertical: 8,
+    paddingVertical: Spacing.Regular16,
+    color: Colors.black,
   },
   authFactorsCard: {
-    backgroundColor: Colors.onboardingBackground,
-    marginTop: 16,
+    backgroundColor: Colors.gray1,
+    marginTop: Spacing.Smallest8,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: Spacing.Thick24,
   },
   authFactorsContainer: {
     borderBottomWidth: 1,
     borderBottomColor: `${colors.black}33`, // alpha 0.2 (20% opacity)
-    paddingBottom: variables.contentPadding,
-    marginHorizontal: 16,
+    gap: Spacing.Thick24,
+    paddingBottom: Spacing.Thick24,
   },
   authFactorLine: {
     flexDirection: 'row',
-    paddingVertical: 12,
+    gap: 10,
   },
   smartphoneIcon: {
     alignSelf: 'center',
@@ -119,20 +124,25 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   authFactorText: {
-    ...fontStyles.regular500,
-    paddingLeft: 16,
+    ...typeScale.labelMedium,
+    color: Colors.black,
   },
   reminderPrefix: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldXSmall,
+    color: Colors.black,
   },
   reminderText: {
-    ...fontStyles.small,
+    ...typeScale.bodyXSmall,
     textAlign: 'center',
-    paddingVertical: variables.contentPadding,
-    paddingHorizontal: 8,
-    marginTop: 12,
+    marginTop: Spacing.Thick24,
+    color: Colors.black,
+  },
+  recoveryPhrase: {
+    ...typeScale.labelSmall,
+    textAlign: 'center',
+    margin: Spacing.Thick24,
   },
   button: {
-    padding: 24,
+    padding: Spacing.Thick24,
   },
 })
