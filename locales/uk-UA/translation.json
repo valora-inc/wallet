@@ -2026,6 +2026,10 @@
     "primaryCta": "Спробуйте зараз",
     "secondaryCta": "Не варто дякувати"
   },
+  "getStartedHome": {
+    "title": "Купуйте криптовалюту або переказуйте токени",
+    "body": "Купуйте або переказуйте токени, сумісні з celo або ethereum, щоб отримувати {{apy}}% винагороди, досліджуйте web3 та багато іншого!"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
