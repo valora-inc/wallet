@@ -1514,4 +1514,11 @@ export const migrations = {
       nfts: [],
     },
   }),
+  182: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      importedTokens: {},
+    },
+  }),
 }

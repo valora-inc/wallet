@@ -2954,6 +2954,18 @@ export const v181Schema = {
   },
 }
 
+export const v182Schema = {
+  ...v181Schema,
+  _persist: {
+    ...v181Schema._persist,
+    version: 182,
+  },
+  tokens: {
+    ...v181Schema.tokens,
+    importedTokens: {},
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v181Schema as Partial<RootState>
+  return v182Schema as Partial<RootState>
 }

@@ -3,7 +3,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
 import { Screens } from 'src/navigator/Screens'
-import { Network } from 'src/transactions/types'
+import { importToken } from 'src/tokens/slice'
+import { Network, NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockCusdAddress, mockPoofAddress } from 'test/values'
@@ -92,6 +93,37 @@ describe('TokenImport', () => {
     fireEvent.changeText(tokenAddressInput, 'ABC')
     fireEvent(tokenAddressInput, 'blur')
     expect(tokenAddressInput.props.value).toBe('0xABC')
+  })
+
+  it('should dispatch the correct action on import', async () => {
+    const store = createMockStore({})
+    const { getByText, getByPlaceholderText, getByTestId } = render(
+      <Provider store={store}>
+        <TokenImportScreen {...mockScreenProps} />
+      </Provider>
+    )
+    const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
+    const tokenSymbolInput = getByTestId('tokenSymbol')
+    const importButton = getByText('tokenImport.importButton')
+
+    fireEvent.changeText(tokenAddressInput, mockPoofAddress)
+    expect(tokenSymbolInput).toBeDisabled()
+    expect(importButton).toBeDisabled()
+    fireEvent(tokenAddressInput, 'blur')
+
+    await waitFor(() => expect(tokenSymbolInput.props.value).toBe('ABC'))
+    expect(importButton).toBeEnabled()
+    fireEvent.press(importButton)
+    expect(store.getActions()[0]).toEqual(
+      importToken({
+        address: mockPoofAddress,
+        symbol: 'ABC',
+        name: 'ABC Coin',
+        decimals: 18,
+        networkId: NetworkId['celo-alfajores'],
+        tokenId: `celo-alfajores:${mockPoofAddress}`,
+      })
+    )
   })
 
   describe('error messages for token address', () => {
