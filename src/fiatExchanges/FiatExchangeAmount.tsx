@@ -174,6 +174,7 @@ function FiatExchangeAmount({ route }: Props) {
 
     goToProvidersScreen()
   }
+
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
       <Dialog
