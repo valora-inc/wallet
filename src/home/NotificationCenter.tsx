@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import CleverTap from 'clevertap-react-native'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LayoutChangeEvent, StyleSheet, Text, View, ViewToken } from 'react-native'
 import Animated, { useAnimatedScrollHandler, useSharedValue } from 'react-native-reanimated'
@@ -33,73 +33,75 @@ function useCleverTapNotifications() {
 
   const messages = useSelector(cleverTapInboxMessagesSelector)
 
-  const notifications: Notification[] = []
+  return useMemo(() => {
+    const notifications: Notification[] = []
 
-  for (const {
-    messageId,
-    header,
-    text,
-    icon,
-    ctaText,
-    ctaUrl,
-    priority,
-    openInExternalBrowser,
-  } of messages) {
-    const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
-    const callToActions: CallToAction[] = [
-      {
-        text: ctaText,
-        onPress: (params) => {
-          ValoraAnalytics.track(HomeEvents.notification_select, {
-            notificationType: NotificationType.clevertap_notification,
-            selectedAction: NotificationBannerCTATypes.accept,
-            notificationId,
-            notificationPositionInList: params?.index,
-          })
-          CleverTap.pushInboxNotificationClickedEventForId(messageId)
+    for (const {
+      messageId,
+      header,
+      text,
+      icon,
+      ctaText,
+      ctaUrl,
+      priority,
+      openInExternalBrowser,
+    } of messages) {
+      const notificationId = `${NotificationType.clevertap_notification}/${messageId}`
+      const callToActions: CallToAction[] = [
+        {
+          text: ctaText,
+          onPress: (params) => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationType.clevertap_notification,
+              selectedAction: NotificationBannerCTATypes.accept,
+              notificationId,
+              notificationPositionInList: params?.index,
+            })
+            CleverTap.pushInboxNotificationClickedEventForId(messageId)
 
-          const isSecureOrigin = true
-          dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
+            const isSecureOrigin = true
+            dispatch(openUrl(ctaUrl, openInExternalBrowser, isSecureOrigin))
+          },
         },
-      },
-      {
-        text: t('dismiss'),
-        isSecondary: true,
-        onPress: (params) => {
-          ValoraAnalytics.track(HomeEvents.notification_select, {
-            notificationType: NotificationType.clevertap_notification,
-            selectedAction: NotificationBannerCTATypes.decline,
-            notificationId,
-            notificationPositionInList: params?.index,
-          })
+        {
+          text: t('dismiss'),
+          isSecondary: true,
+          onPress: (params) => {
+            ValoraAnalytics.track(HomeEvents.notification_select, {
+              notificationType: NotificationType.clevertap_notification,
+              selectedAction: NotificationBannerCTATypes.decline,
+              notificationId,
+              notificationPositionInList: params?.index,
+            })
 
-          CleverTap.deleteInboxMessageForId(messageId)
+            CleverTap.deleteInboxMessageForId(messageId)
+          },
         },
-      },
-    ]
-    notifications.push({
-      renderElement: (params?: { index?: number }) => (
-        <SimpleMessagingCard
-          callToActions={callToActions}
-          header={header}
-          text={text}
-          icon={icon}
-          testID={notificationId}
-          index={params?.index}
-        />
-      ),
-      priority: priority || CLEVERTAP_PRIORITY,
-      showOnHomeScreen: false,
-      id: notificationId,
-      type: NotificationType.clevertap_notification,
-      onView: () => {
-        CleverTap.pushInboxNotificationViewedEventForId(messageId)
-        CleverTap.markReadInboxMessageForId(messageId)
-      },
-    })
-  }
+      ]
+      notifications.push({
+        renderElement: (params?: { index?: number }) => (
+          <SimpleMessagingCard
+            callToActions={callToActions}
+            header={header}
+            text={text}
+            icon={icon}
+            testID={notificationId}
+            index={params?.index}
+          />
+        ),
+        priority: priority || CLEVERTAP_PRIORITY,
+        showOnHomeScreen: false,
+        id: notificationId,
+        type: NotificationType.clevertap_notification,
+        onView: () => {
+          CleverTap.pushInboxNotificationViewedEventForId(messageId)
+          CleverTap.markReadInboxMessageForId(messageId)
+        },
+      })
+    }
 
-  return notifications
+    return notifications
+  }, [messages])
 }
 
 export function useNotifications() {
