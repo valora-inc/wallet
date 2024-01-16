@@ -7,7 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
-import TokenIcon from 'src/components/TokenIcon'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
@@ -52,7 +52,7 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
       {index > 0 && <View style={styles.separator} />}
       <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
         <View style={styles.tokenOptionContainer}>
-          <TokenIcon token={tokenInfo} viewStyle={styles.tokenImage} />
+          <TokenIcon token={tokenInfo} viewStyle={styles.tokenImage} size={IconSize.LARGE} />
           <View style={styles.tokenNameContainer}>
             <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
             <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>

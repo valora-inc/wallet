@@ -1,11 +1,13 @@
 import React from 'react'
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import colors from 'src/styles/colors'
 import { BaseToken } from 'src/tokens/slice'
 
 export enum IconSize {
   SMALL = 'small',
   MEDIUM = 'medium',
+  LARGE = 'large',
 }
 
 const IconSizeToStyle = {
@@ -20,6 +22,12 @@ const IconSizeToStyle = {
     networkImageSize: 12,
     networkImagePosition: 20,
     tokenTextSize: 10,
+  },
+  [IconSize.LARGE]: {
+    tokenImageSize: 40,
+    networkImageSize: 16,
+    networkImagePosition: 25,
+    tokenTextSize: 12,
   },
 }
 
@@ -63,7 +71,9 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
           ]}
           testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
         >
-          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]}>{token.symbol}</Text>
+          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]}>
+            {token.symbol.substring(0, 4)}
+          </Text>
         </View>
       )}
 
@@ -99,11 +109,10 @@ const styles = StyleSheet.create({
   tokenCircle: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#EAEAEA', // You can change the color as needed
-    overflow: 'hidden',
+    backgroundColor: colors.gray2,
   },
   tokenText: {
-    color: '#000', // Change the text color as needed
+    color: colors.black,
     textAlign: 'center',
   },
 })
