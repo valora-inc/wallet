@@ -91,7 +91,8 @@ export enum SettingsEvents {
 export enum KeylessBackupEvents {
   // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
-  set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
+  cab_setup_continue = 'cab_setup_continue',
+  cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
