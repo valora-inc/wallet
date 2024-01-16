@@ -78,10 +78,11 @@
     "description": "Só você pode acessar sua carteira. Se seu telefone for perdido ou roubado, a Valora não poderá recuperá-la por você.\n\nVocê precisará definir um método para manter sua carteira segura e proteger seus fundos."
   },
   "setUpKeylessBackup": {
-    "title": "Configurar o backup sem chave",
-    "subtitle": "Você vai usar os seguintes itens para configurar o backup:",
+    "title": "Configurar o backup da carteira",
+    "subtitle": "Você vai usar os seguintes itens para configurar o backup",
     "emailAddress": "E-mail",
-    "phoneNumber": "Número de celular"
+    "phoneNumber": "Número de celular",
+    "useRecoveryPhrase": "Em vez disso, use a frase de recuperação"
   },
   "signInWithEmail": {
     "title": "Entrar com e-mail",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. Você deve protegê-las!",
+  "setupKeylessBackupReminder": "<0>Lembre-se de que</0> essas informações são a única maneira de acessar sua carteira se o dispositivo for perdido ou roubado. A Valora não armazena seu e-mail ou número de telefone. Mantenha-os seguros!",
   "testFaqLink": "Perguntas frequentes da {{appName}}",
   "termsOfServiceLink": "Termos de serviço",
   "privacyPolicy": "Política de Privacidade",
