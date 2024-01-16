@@ -78,10 +78,11 @@
     "description": "Chỉ bạn mới có thể truy cập vào ví của mình. Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, Valora sẽ không thể khôi phục lại ví cho bạn.\n\nBạn sẽ phải thiết lập một phương thức bảo vệ an toàn cho ví và tiền của mình."
   },
   "setUpKeylessBackup": {
-    "title": "Thiết lập chức năng sao lưu không dùng mã khóa",
-    "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu:",
+    "title": "Set Up Wallet Backup",
+    "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
     "emailAddress": "Địa chỉ email",
-    "phoneNumber": "Số điện thoại"
+    "phoneNumber": "Số điện thoại",
+    "useRecoveryPhrase": "Use recovery phrase instead"
   },
   "signInWithEmail": {
     "title": "Đăng nhập bằng email",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
