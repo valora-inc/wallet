@@ -2022,6 +2022,10 @@
     "primaryCta": "Essayer",
     "secondaryCta": "Non merci"
   },
+  "getStartedHome": {
+    "title": "Achète de la crypto ou transfère des jetons",
+    "body": "Achète ou transfère des tokens compatibles celo ou ethereum pour gagner {{apy}}% de récompenses, explorer web3 & plus encore !"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
