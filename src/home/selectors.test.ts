@@ -129,4 +129,48 @@ describe('cleverTapInboxMessages', () => {
     const messages = cleverTapInboxMessagesSelector(state)
     expect(messages).toEqual([mockCleverTapInboxMessage])
   })
+
+  it('returns message with overriden priority', () => {
+    const rawMessageWithOverridenPriority = {
+      ...mockExpectedCleverTapInboxMessage,
+      msg: {
+        ...mockExpectedCleverTapInboxMessage.msg,
+        tags: ['priority:1000'],
+      },
+    }
+    const state = getMockStoreData({
+      home: {
+        cleverTapInboxMessages: [rawMessageWithOverridenPriority],
+      },
+    })
+
+    const expectedMessage = {
+      ...mockCleverTapInboxMessage,
+      priority: 1000,
+    }
+    const messages = cleverTapInboxMessagesSelector(state)
+    expect(messages).toEqual([expectedMessage])
+  })
+
+  it('returns message with openInExternalBrowser set to `true`', () => {
+    const rawMessageWithOpenInExternalBrowserTag = {
+      ...mockExpectedCleverTapInboxMessage,
+      msg: {
+        ...mockExpectedCleverTapInboxMessage.msg,
+        tags: ['openInExternalBrowser'],
+      },
+    }
+    const state = getMockStoreData({
+      home: {
+        cleverTapInboxMessages: [rawMessageWithOpenInExternalBrowserTag],
+      },
+    })
+
+    const expectedMessage = {
+      ...mockCleverTapInboxMessage,
+      openInExternalBrowser: true,
+    }
+    const messages = cleverTapInboxMessagesSelector(state)
+    expect(messages).toEqual([expectedMessage])
+  })
 })
