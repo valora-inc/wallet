@@ -2022,6 +2022,10 @@
     "primaryCta": "Try it now",
     "secondaryCta": "No thanks"
   },
+  "getStartedHome": {
+    "title": "Buy crypto or transfer tokens",
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
