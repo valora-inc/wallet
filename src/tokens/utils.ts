@@ -198,6 +198,10 @@ export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
   }
 }
 
+export function getFavoriteTokens(): string[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]).favoriteTokens
+}
+
 /**
  * Checks whether the historical price is updated and is one day old +/- 1 hour.
  * Used for showing / hiding the price delta on legacy Assets and TokenDetails
