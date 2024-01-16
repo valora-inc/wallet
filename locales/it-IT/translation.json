@@ -78,10 +78,11 @@
     "description": "Solo tu puoi accedere al tuo portafoglio. Se il tuo telefono viene smarrito o rubato, Valora non può recuperarlo per te.\n\nDovrai impostare un metodo per tenere al sicuro il tuo portafoglio e proteggere i tuoi fondi."
   },
   "setUpKeylessBackup": {
-    "title": "Imposta il backup senza chiave",
-    "subtitle": "Per configurare il backup dovrai utilizzare quanto segue:",
+    "title": "Imposta il backup del portafoglio",
+    "subtitle": "Per configurare il backup dovrai utilizzare quanto segue",
     "emailAddress": "Indirizzo e-mail",
-    "phoneNumber": "Numero telefonico"
+    "phoneNumber": "Numero telefonico",
+    "useRecoveryPhrase": "Usa invece la frase di recupero"
   },
   "signInWithEmail": {
     "title": "Accedi con l'indirizzo e-mail",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del tuo dispositivo. Tienile al sicuro!",
+  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero di telefono. Tienilo al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
