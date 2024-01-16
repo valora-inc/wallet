@@ -380,6 +380,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected]: ``,
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: ``,
 
+  // Add fund flow entered through new user get started card
+  [FiatExchangeEvents.cico_add_get_started_impression]: `When the get started card with the add funds button is displayed`,
+  [FiatExchangeEvents.cico_add_get_started_selected]: `When the user taps 'add funds' on the get started card`,
+
   // Funding Education Dialog Screen
   [FiatExchangeEvents.cico_add_funds_info_support]: ``,
   [FiatExchangeEvents.cico_cash_out_info_support]: ``,

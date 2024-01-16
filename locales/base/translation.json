@@ -2024,5 +2024,9 @@
     "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
     "primaryCta": "Try it now",
     "secondaryCta": "No thanks"
+  },
+  "getStartedHome": {
+    "title": "Buy crypto or transfer tokens",
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
   }
 }
