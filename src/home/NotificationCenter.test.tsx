@@ -980,11 +980,10 @@ describe('NotificationCenter', () => {
         </Provider>
       )
 
+      store.clearActions()
+
       fireEvent.press(getByText('CleverTap Message CTA'))
-      expect(store.getActions()).toEqual([
-        fetchAvailableRewards(),
-        openUrl('https://valoraapp.com', false, true),
-      ])
+      expect(store.getActions()).toEqual([openUrl('https://valoraapp.com', false, true)])
 
       expect(CleverTap.pushInboxNotificationClickedEventForId).toBeCalledWith(
         mockExpectedCleverTapInboxMessage.id
