@@ -7,12 +7,12 @@ import { useDispatch } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CancelButton from 'src/components/CancelButton'
 import GoogleIcon from 'src/icons/Google'
+import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
@@ -97,16 +97,9 @@ function SignInWithEmail({ route }: Props) {
 SignInWithEmail.navigationOptions = ({ route }: Props) => ({
   ...emptyHeader,
   headerLeft: () => (
-    <CancelButton
-      onCancel={() => {
-        const { keylessBackupFlow } = route.params
-        ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_cancel, {
-          keylessBackupFlow,
-        })
-        keylessBackupFlow === KeylessBackupFlow.Setup
-          ? navigateHome()
-          : navigate(Screens.ImportWallet) // TODO(any): use the new restore landing screen once built
-      }}
+    <KeylessBackupCancelButton
+      flow={route.params.keylessBackupFlow}
+      eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
     />
   ),
 })
