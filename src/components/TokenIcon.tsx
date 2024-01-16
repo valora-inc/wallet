@@ -13,13 +13,13 @@ const IconSizeToStyle = {
     tokenImageSize: 20,
     networkImageSize: 8,
     networkImagePosition: 13,
-    tokenTextSize: 6, // Adjust as needed
+    tokenTextSize: 6,
   },
   [IconSize.MEDIUM]: {
     tokenImageSize: 32,
     networkImageSize: 12,
     networkImagePosition: 20,
-    tokenTextSize: 10, // Adjust as needed
+    tokenTextSize: 10,
   },
 }
 
