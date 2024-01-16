@@ -2022,6 +2022,10 @@
     "primaryCta": "Şimdi deneyin",
     "secondaryCta": "Hayır, teşekkürler"
   },
+  "getStartedHome": {
+    "title": "Kripto satın alın veya token aktarın",
+    "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
