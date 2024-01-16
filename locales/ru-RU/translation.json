@@ -2026,6 +2026,10 @@
     "primaryCta": "Попробовать",
     "secondaryCta": "Нет, спасибо"
   },
+  "getStartedHome": {
+    "title": "Покупай криптовалюту или переводи токены",
+    "body": "Покупай или переводи токены, совместимые с celo или ethereum, чтобы получать {{apy}}% вознаграждений, изучай web3 и многое другое!"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
