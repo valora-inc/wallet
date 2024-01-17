@@ -32,6 +32,7 @@ import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
+import BrowseScreen from 'src/browse/BrowseScreen'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
@@ -233,6 +234,9 @@ export default function DrawerNavigator({ route }: Props) {
   const showWalletSecurity = !anyBackupCompleted && cloudBackupGate
   const showRecoveryPhrase = !anyBackupCompleted && !cloudBackupGate
 
+  // const shouldShowBrowseExperience = getFeatureGate(StatsigFeatureGates.BROWSE_EXPERIENCE)
+  const shouldShowBrowseExperience = true
+
   return (
     <Drawer.Navigator
       initialRouteName={initialScreen}
@@ -273,7 +277,7 @@ export default function DrawerNavigator({ route }: Props) {
       {!!dappsListUrl && (
         <Drawer.Screen
           name={Screens.DAppsExplorerScreen}
-          component={DAppsExplorerScreenSearchFilter}
+          component={shouldShowBrowseExperience ? BrowseScreen : DAppsExplorerScreenSearchFilter}
           options={{
             title:
               (discoverCopyEnabled ? t('dappsScreen.titleDiscover') : t('dappsScreen.title')) ??
