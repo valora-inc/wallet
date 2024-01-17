@@ -6,8 +6,6 @@ import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
-import { Severity } from 'src/components/InLineNotification'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
@@ -134,35 +132,17 @@ function TokenBottomSheet<T extends TokenBalance>({
   showPriceUsdUnavailableWarning,
 }: TokenBottomSheetProps<T>) {
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedTokenNoUsdPrice, setSelectedTokenNoUsdPrice] = useState<T | null>(null)
 
   const { t } = useTranslation()
 
-  const handleTokenPressed = (token: T) => () => {
+  const onTokenPressed = (token: T) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
       origin,
       tokenAddress: token.address,
       tokenId: token.tokenId,
       networkId: token.networkId,
     })
-    setSearchTerm('')
-
-    if (showPriceUsdUnavailableWarning && token.priceUsd === null) {
-      setSelectedTokenNoUsdPrice(token)
-    } else {
-      onTokenSelected(token)
-    }
-  }
-
-  const handleConfirmTokenNoUsdPrice = () => {
-    if (selectedTokenNoUsdPrice) {
-      onTokenSelected(selectedTokenNoUsdPrice)
-    }
-    setSelectedTokenNoUsdPrice(null)
-  }
-
-  const handleDismissTokenNoUsdPrice = () => {
-    setSelectedTokenNoUsdPrice(null)
+    onTokenSelected(token)
   }
 
   const sendAnalytics = useCallback(
@@ -234,7 +214,7 @@ function TokenBottomSheet<T extends TokenBalance>({
             <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
               <TokenOptionComponent
                 tokenInfo={tokenInfo}
-                onPress={handleTokenPressed(tokenInfo)}
+                onPress={onTokenPressed(tokenInfo)}
                 index={index}
                 showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
               />
@@ -242,16 +222,6 @@ function TokenBottomSheet<T extends TokenBalance>({
           )
         })
       )}
-      <BottomSheetInLineNotification
-        showNotification={selectedTokenNoUsdPrice !== null}
-        severity={Severity.Warning}
-        title={t('tokenBottomSheet.noUsdPriceWarning.title')}
-        description={t('tokenBottomSheet.noUsdPriceWarning.description')}
-        ctaLabel={t('tokenBottomSheet.noUsdPriceWarning.ctaConfirm')}
-        onPressCta={handleConfirmTokenNoUsdPrice}
-        ctaLabel2={t('tokenBottomSheet.noUsdPriceWarning.ctaDismiss')}
-        onPressCta2={handleDismissTokenNoUsdPrice}
-      />
     </BottomSheet>
   )
 }

@@ -2,7 +2,7 @@ import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useReducer, useRef } from 'react'
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -16,6 +16,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import TokenBottomSheet, {
@@ -201,6 +202,10 @@ export function SwapScreen({ route }: Props) {
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const [selectingNoUsdPriceToken, setSelectingNoUsdPriceToken] = useState<TokenBalance | null>(
+    null
+  )
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -428,7 +433,7 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const handleSelectToken = (selectedToken: TokenBalance) => {
+  const handleConfirmSelectToken = (selectedToken: TokenBalance) => {
     if (!selectingToken) {
       // Should never happen
       Logger.error(TAG, 'handleSelectToken called without selectingToken')
@@ -496,6 +501,26 @@ export function SwapScreen({ route }: Props) {
     requestAnimationFrame(() => {
       tokenBottomSheetRef.current?.close()
     })
+  }
+
+  const handleConfirmSelectTokenNoUsdPrice = () => {
+    if (selectingNoUsdPriceToken) {
+      handleConfirmSelectToken(selectingNoUsdPriceToken)
+      setSelectingNoUsdPriceToken(null)
+    }
+  }
+
+  const handleDismissSelectTokenNoUsdPrice = () => {
+    setSelectingNoUsdPriceToken(null)
+  }
+
+  const handleSelectToken = (selectedToken: TokenBalance) => {
+    if (!selectedToken.priceUsd) {
+      setSelectingNoUsdPriceToken(selectedToken)
+      return
+    }
+
+    handleConfirmSelectToken(selectedToken)
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
@@ -579,7 +604,7 @@ export function SwapScreen({ route }: Props) {
   }, [showPriceImpactWarning || showMissingPriceImpactWarning])
 
   return (
-    <SafeAreaView style={styles.safeAreaContainer}>
+    <SafeAreaView style={styles.safeAreaContainer} testID="SwapScreen">
       <CustomHeader
         style={{ paddingHorizontal: variables.contentPadding }}
         left={<BackButton />}
@@ -760,6 +785,16 @@ export function SwapScreen({ route }: Props) {
           text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
         />
       </BottomSheet>
+      <BottomSheetInLineNotification
+        showNotification={!!selectingNoUsdPriceToken}
+        severity={Severity.Warning}
+        title={t('swapScreen.noUsdPriceWarning.title')}
+        description={t('swapScreen.noUsdPriceWarning.description')}
+        ctaLabel={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
+        onPressCta={handleConfirmSelectTokenNoUsdPrice}
+        ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaDismiss')}
+        onPressCta2={handleDismissSelectTokenNoUsdPrice}
+      />
     </SafeAreaView>
   )
 }

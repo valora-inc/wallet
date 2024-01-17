@@ -1709,6 +1709,12 @@
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
     },
+    "noUsdPriceWarning": {
+      "title": "Price unavailable",
+      "description": "The supply of this token is so low that the pricing information is unavailable. {{appName}} is not responsible if you choose to proceed.",
+      "ctaConfirm": "I understand",
+      "ctaDismiss": "Cancel"
+    },
     "missingSwapImpactWarning": {
       "title": "Before you swap",
       "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
@@ -1842,13 +1848,7 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",
-    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>",
-    "noUsdPriceWarning": {
-      "title": "Price unavailable",
-      "description": "The supply of this token is so low that the pricing information is unavailable. {{appName}} is not responsible if you choose to proceed.",
-      "ctaConfirm": "I understand",
-      "ctaDismiss": "Cancel"
-    }
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
   },
   "homeActions": {
     "add": "Buy",

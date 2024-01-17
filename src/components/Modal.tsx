@@ -12,7 +12,6 @@ interface Props {
   testID?: string
   onBackgroundPress?: () => void
   onModalHide?: () => void
-  backdropOpacity?: number
 }
 
 export default function Modal({
@@ -22,7 +21,6 @@ export default function Modal({
   testID,
   onBackgroundPress,
   onModalHide,
-  backdropOpacity = 0.1,
 }: Props) {
   const { height } = useSafeAreaFrame()
 
@@ -30,7 +28,7 @@ export default function Modal({
     <ReactNativeModal
       testID={testID}
       isVisible={isVisible}
-      backdropOpacity={backdropOpacity}
+      backdropOpacity={0.1}
       onBackdropPress={onBackgroundPress}
       // The default uses `Dimensions.get('window').height` but sometimes reports an incorrect height on Android
       // `useSafeAreaFrame()` seems to work better

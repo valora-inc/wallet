@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import InLineNotification, { InLineNotificationProps } from 'src/components/InLineNotification'
-import Modal from 'src/components/Modal'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
+import Colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 
 interface Props extends InLineNotificationProps {
   showNotification: boolean
 }
 
-// this value is used to ensure the notification is offset by its own height when transitioning in and out of view
-const NOTIFICATION_HEIGHT = 200
+// this value is used to animate the notification on and off the screen. the
+// value should be equal or greater than the height of the notification,
+// otherwise the notication will not transition smoothly.
+const NOTIFICATION_HEIGHT = 500
 
 // for now, this notification is launched from the bottom of the screen only
 const BottomSheetInLineNotification = ({ showNotification, ...inLineNotificationProps }: Props) => {
@@ -23,6 +27,9 @@ const BottomSheetInLineNotification = ({ showNotification, ...inLineNotification
       transform: [{ translateY: (1 - progress.value) * NOTIFICATION_HEIGHT }],
     }
   })
+  const animatedOpacity = useAnimatedStyle(() => ({
+    opacity: 0.5 * progress.value,
+  }))
 
   useShowOrHideAnimation(
     progress,
@@ -40,23 +47,33 @@ const BottomSheetInLineNotification = ({ showNotification, ...inLineNotification
   }
 
   return (
-    <Modal style={styles.modal} isVisible={true} backdropOpacity={0.5}>
-      <Animated.View style={[styles.container, animatedStyle]}>
+    <SafeAreaView edges={['bottom']} style={[styles.modal, styles.container]}>
+      <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
+      <Animated.View style={[styles.notificationContainer, animatedStyle]}>
         <InLineNotification {...inLineNotificationProps} />
       </Animated.View>
-    </Modal>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
   modal: {
-    height: '100%',
-    backgroundColor: 'transparent',
-    padding: 0,
+    height: variables.height,
+    width: variables.width,
+    position: 'absolute',
+    top: 0,
+    left: 0,
   },
   container: {
+    paddingHorizontal: Spacing.Regular16,
+    alignItems: 'center',
+  },
+  background: {
+    backgroundColor: Colors.black,
+  },
+  notificationContainer: {
     position: 'absolute',
-    bottom: Spacing.Thick24,
+    bottom: Spacing.Large32,
     width: '100%',
   },
 })
