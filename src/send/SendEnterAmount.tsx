@@ -257,21 +257,6 @@ function SendEnterAmount({ route }: Props) {
     feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
   }
 
-  const tokenSelectorComponent = !forceTokenId ? (
-    <Touchable borderRadius={TOKEN_SELECTOR_BORDER_RADIUS} onPress={onTokenPickerSelect}>
-      <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
-        <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
-        <Text style={styles.tokenName}>{token.symbol}</Text>
-        <DownArrowIcon color={Colors.gray5} />
-      </View>
-    </Touchable>
-  ) : (
-    <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
-      <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
-      <Text style={styles.tokenName}>{token.symbol}</Text>
-    </View>
-  )
-
   return (
     <SafeAreaView style={styles.safeAreaContainer}>
       <CustomHeader style={{ paddingHorizontal: Spacing.Thick24 }} left={<BackButton />} />
@@ -328,7 +313,23 @@ function SendEnterAmount({ route }: Props) {
                     : undefined
                 }
               />
-              {tokenSelectorComponent}
+              {!forceTokenId ? (
+                <Touchable
+                  borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                  onPress={onTokenPickerSelect}
+                >
+                  <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
+                    <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+                    <Text style={styles.tokenName}>{token.symbol}</Text>
+                    <DownArrowIcon color={Colors.gray5} />
+                  </View>
+                </Touchable>
+              ) : (
+                <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
+                  <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+                  <Text style={styles.tokenName}>{token.symbol}</Text>
+                </View>
+              )}
             </View>
             {showLowerAmountError && (
               <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
