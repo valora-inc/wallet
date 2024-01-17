@@ -317,12 +317,14 @@ function SendEnterAmount({ route }: Props) {
                 <Touchable
                   borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
                   onPress={onTokenPickerSelect}
+                  style={styles.tokenSelectButton}
+                  testID="SendEnterAmount/TokenSelect"
                 >
-                  <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
+                  <>
                     <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
                     <Text style={styles.tokenName}>{token.symbol}</Text>
                     <DownArrowIcon color={Colors.gray5} />
-                  </View>
+                  </>
                 </Touchable>
               ) : (
                 <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
