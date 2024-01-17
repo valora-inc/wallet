@@ -1110,7 +1110,7 @@ SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
   Adjust: cac836ba910f868b38d0350045aaf498f794719a
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
-  boost: 7dcd2de282d72e344012f7d6564d024930a6a440
+  boost: 57d2868c099736d80fcd648bf211b4431e51a558
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
   CleverTap-iOS-SDK: 183b2f5c52ecfcb0d4cc97e0cdfcf080562026f3
   clevertap-react-native: a98a5d6decf8689f084f7a37ec069861d9fd9dda
