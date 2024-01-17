@@ -257,21 +257,19 @@ function SendEnterAmount({ route }: Props) {
     feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
   }
 
-  const tokenSelectorView = (
-    <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
-      <>
-        <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
-        <Text style={styles.tokenName}>{token.symbol}</Text>
-        {!forceTokenId && <DownArrowIcon color={Colors.gray5} />}
-      </>
-    </View>
-  )
   const tokenSelectorComponent = !forceTokenId ? (
     <Touchable borderRadius={TOKEN_SELECTOR_BORDER_RADIUS} onPress={onTokenPickerSelect}>
-      {tokenSelectorView}
+      <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
+        <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+        <Text style={styles.tokenName}>{token.symbol}</Text>
+        <DownArrowIcon color={Colors.gray5} />
+      </View>
     </Touchable>
   ) : (
-    tokenSelectorView
+    <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
+      <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+      <Text style={styles.tokenName}>{token.symbol}</Text>
+    </View>
   )
 
   return (
