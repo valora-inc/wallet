@@ -320,8 +320,8 @@ function TokenBalancesScreen({ navigation, route }: Props) {
                 PixelRatio.getFontScale() > 1.5
                   ? { marginTop: Spacing.Small12 }
                   : PixelRatio.getFontScale() > 1.25
-                  ? { marginTop: Spacing.Smallest8 }
-                  : null
+                    ? { marginTop: Spacing.Smallest8 }
+                    : null
               }
               testID={'NftViewerBanner'}
               onPress={onPressNFTsBanner}
