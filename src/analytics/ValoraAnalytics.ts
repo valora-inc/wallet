@@ -189,7 +189,7 @@ class ValoraAnalytics {
     const [eventName, eventProperties] = args
 
     if (!this.isEnabled()) {
-      Logger.debug(TAG, `Analytics is disabled, not tracking event ${eventName}`)
+      Logger.debug(TAG, `Analytics is disabled, not tracking event ${eventName}`, eventProperties)
       return
     }
 
