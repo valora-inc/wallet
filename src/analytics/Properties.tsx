@@ -392,9 +392,11 @@ interface OnboardingEventsProperties {
     cardName: AdventureCardName
     position: number
     cardOrder: AdventureCardName[]
+    cardOrderString: string
   }
   [OnboardingEvents.cya_later]: {
     cardOrder: AdventureCardName[]
+    cardOrderString: string
   }
 }
 

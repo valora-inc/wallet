@@ -113,6 +113,7 @@ function ChooseYourAdventure() {
           position: index + 1,
           cardName: name,
           cardOrder,
+          cardOrderString: cardOrder.join('-'),
         })
         goToNextScreen()
       }
@@ -123,6 +124,7 @@ function ChooseYourAdventure() {
   const onNavigateHome = () => {
     ValoraAnalytics.track(OnboardingEvents.cya_later, {
       cardOrder,
+      cardOrderString: cardOrder.join('-'),
     })
     navigateHome()
   }

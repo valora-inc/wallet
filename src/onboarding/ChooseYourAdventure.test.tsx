@@ -89,6 +89,7 @@ describe('ChooseYourAdventure', () => {
       position: 1,
       cardName: AdventureCardName.Dapp,
       cardOrder: expectedCardOrder,
+      cardOrderString: expectedCardOrder.join('-'),
     })
     fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.add'))
     expect(navigateHome).toHaveBeenLastCalledWith()
@@ -98,6 +99,7 @@ describe('ChooseYourAdventure', () => {
       position: 2,
       cardName: AdventureCardName.Add,
       cardOrder: expectedCardOrder,
+      cardOrderString: expectedCardOrder.join('-'),
     })
 
     fireEvent.press(getByTestId('AdventureCard/2/chooseYourAdventure.options.learn'))
@@ -108,6 +110,7 @@ describe('ChooseYourAdventure', () => {
       position: 3,
       cardName: AdventureCardName.Learn,
       cardOrder: expectedCardOrder,
+      cardOrderString: expectedCardOrder.join('-'),
     })
 
     fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
@@ -117,6 +120,7 @@ describe('ChooseYourAdventure', () => {
       position: 4,
       cardName: AdventureCardName.Profile,
       cardOrder: expectedCardOrder,
+      cardOrderString: expectedCardOrder.join('-'),
     })
 
     fireEvent.press(getByTestId('AdventureCard/3/chooseYourAdventure.options.profile'))
@@ -126,6 +130,7 @@ describe('ChooseYourAdventure', () => {
     expect(navigateHome).toHaveBeenLastCalledWith()
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_later, {
       cardOrder: expectedCardOrder,
+      cardOrderString: expectedCardOrder.join('-'),
     })
   })
 })
