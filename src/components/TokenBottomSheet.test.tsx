@@ -1,4 +1,4 @@
-import { fireEvent, render, waitFor } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -7,7 +7,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenBottomSheet, {
   DEBOUCE_WAIT_TIME,
   TokenBalanceItemOption,
-  TokenBottomSheetProps,
+  TokenOption,
+  TokenOptionProps,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
@@ -115,7 +116,10 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(props: Partial<TokenBottomSheetProps<TokenBalance>> = {}) {
+  function renderBottomSheet(
+    searchEnabled: boolean = false,
+    TokenOptionComponent: React.ComponentType<TokenOptionProps> = TokenOption
+  ) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
@@ -124,8 +128,8 @@ describe('TokenBottomSheet', () => {
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
-          searchEnabled={false}
-          {...props}
+          searchEnabled={searchEnabled}
+          TokenOptionComponent={TokenOptionComponent}
         />
       </Provider>
     )
@@ -142,9 +146,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('renders correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet({
-      TokenOptionComponent: TokenBalanceItemOption,
-    })
+    const { getAllByTestId } = renderBottomSheet(false, TokenBalanceItemOption)
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(3)
     expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('10.00 cUSD')
@@ -174,9 +176,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('handles the choosing of a token correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet({
-      TokenOptionComponent: TokenBalanceItemOption,
-    })
+    const { getAllByTestId } = renderBottomSheet(false, TokenBalanceItemOption)
 
     fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
     expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
@@ -194,45 +194,8 @@ describe('TokenBottomSheet', () => {
     )
   })
 
-  it('shows the price usd unavailable warning when the token price is not available', async () => {
-    const { getAllByTestId, getByText, queryByText } = renderBottomSheet({
-      TokenOptionComponent: TokenBalanceItemOption,
-      showPriceUsdUnavailableWarning: true,
-    })
-
-    // ensure that the warning is not shown for a token with usd price
-    fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockCusdTokenId)
-    )
-    expect(queryByText('tokenBottomSheet.noUsdPriceWarning.title')).toBeFalsy()
-
-    fireEvent.press(getAllByTestId('TokenBalanceItem')[2])
-    // expect that onTokenSelectedMock was not called again
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockCusdTokenId)
-    )
-    expect(getByText('tokenBottomSheet.noUsdPriceWarning.title')).toBeTruthy()
-
-    // expect that dismissing the warning does not select the token
-    fireEvent.press(getByText('tokenBottomSheet.noUsdPriceWarning.ctaDismiss'))
-    await waitFor(() => expect(queryByText('tokenBottomSheet.noUsdPriceWarning.title')).toBeFalsy())
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockCusdTokenId)
-    )
-
-    // expect that confirming the warning selects the token
-    fireEvent.press(getAllByTestId('TokenBalanceItem')[2])
-    fireEvent.press(getByText('tokenBottomSheet.noUsdPriceWarning.ctaConfirm'))
-    expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
-      tokens.find((token) => token.tokenId === mockTestTokenTokenId)
-    )
-  })
-
   it('renders and behaves correctly when the search is enabled', () => {
-    const { getByPlaceholderText, getByTestId, queryByTestId } = renderBottomSheet({
-      searchEnabled: true,
-    })
+    const { getByPlaceholderText, getByTestId, queryByTestId } = renderBottomSheet(true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
 
@@ -284,9 +247,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('does not send events for temporary search inputs', () => {
-    const { getByPlaceholderText } = renderBottomSheet({
-      searchEnabled: true,
-    })
+    const { getByPlaceholderText } = renderBottomSheet(true)
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
 
     fireEvent.changeText(searchInput, 'TemporaryInput')

@@ -25,7 +25,7 @@ export enum TokenPickerOrigin {
 
 export const DEBOUCE_WAIT_TIME = 200
 
-export interface TokenBottomSheetProps<T extends TokenBalance> {
+interface Props<T extends TokenBalance> {
   forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
   onTokenSelected: (token: T) => void
@@ -130,7 +130,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   titleStyle,
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
-}: TokenBottomSheetProps<T>) {
+}: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
   const { t } = useTranslation()
