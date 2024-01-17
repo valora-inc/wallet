@@ -467,11 +467,6 @@ const styles = StyleSheet.create({
     paddingLeft: Spacing.Tiny4,
     paddingRight: Spacing.Smallest8,
   },
-  tokenImage: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-  },
   localAmount: {
     ...typeScale.labelMedium,
     flex: 1,
