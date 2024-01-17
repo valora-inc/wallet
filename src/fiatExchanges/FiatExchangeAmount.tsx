@@ -202,7 +202,7 @@ function FiatExchangeAmount({ route }: Props) {
             </Text>
           </View>
           <TextInput
-            multiline={true}
+            multiline={false}
             autoFocus={true}
             keyboardType={'decimal-pad'}
             onChangeText={onChangeExchangeAmount}
