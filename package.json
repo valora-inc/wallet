@@ -57,9 +57,12 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged --pattern '**/*.+(ts|tsx|js|jsx|json|sol|java|yml|yaml)'",
+      "pre-commit": "lint-staged",
       "pre-push": "node ./scripts/hooks/pre-push.js"
     }
+  },
+  "lint-staged": {
+    "**/*.+(ts|tsx|js|jsx|json|sol|java|yml|yaml)": "prettier --write"
   },
   "rnpm": {
     "assets": [
@@ -264,6 +267,7 @@
     "jest-junit": "^10.0.0",
     "jest-snapshot": "^29.6.2",
     "knip": "^3.13.1",
+    "lint-staged": "^15.2.0",
     "lokijs": "^1.5.12",
     "metro-react-native-babel-preset": "0.73.10",
     "mockdate": "^3.0.5",
@@ -271,7 +275,6 @@
     "pixelmatch": "^5.2.1",
     "prettier": "2.8.8",
     "prettier-plugin-java": "^1.6.2",
-    "pretty-quick": "^2.0.1",
     "react-devtools": "^4.26.0",
     "react-native-dotenv": "^3.2.0",
     "react-native-flipper": "^0.127.0",
