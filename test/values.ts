@@ -30,11 +30,13 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
+import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
 import { Nft } from 'src/nfts/types'
 import { Position, Shortcut } from 'src/positions/types'
+import { PriceHistoryStatus } from 'src/priceHistory/slice'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -1119,12 +1121,24 @@ const celoExchangeRates = range(60).map((i) => ({
   exchangeRate: (i / 60).toString(),
   timestamp: endDate - i * 24 * 3600 * 1000,
 }))
+
 export const exchangePriceHistory = {
   aggregatedExchangeRates: celoExchangeRates,
   celoGoldExchangeRates: celoExchangeRates,
   granularity: 60,
   lastTimeUpdated: endDate,
   range: 30 * 24 * 60 * 60 * 1000, // 30 days
+}
+
+// Generate mock CELO prices
+const prices = range(60).map((i) => ({
+  priceUsd: (i / 60).toString(),
+  priceFetchedAt: endDate - i * 24 * 3600 * 1000,
+}))
+
+export const priceHistory = {
+  status: 'success' as PriceHistoryStatus,
+  prices,
 }
 
 export const mockPositions: Position[] = [
@@ -1430,4 +1444,76 @@ export const mockApprovalTransaction: TokenApproval = {
     },
   ],
   status: TransactionStatus.Complete,
+}
+
+export const mockExpectedCleverTapInboxMessage = {
+  wzrkParams: { wzrk_id: '0_0' },
+  id: '1704393845',
+  wzrk_id: '0_0',
+  msg: {
+    tags: [],
+    type: 'message-icon',
+    content: [
+      {
+        icon: {
+          processing: false,
+          poster: '',
+          filename: '',
+          content_type: 'image/jpeg',
+          key: 'fd152d1004504c0ab68a99ce9e3fe5e7',
+          url: 'https://d2trgtv8344lrj.cloudfront.net/dist/1634904064/i/fd152d1004504c0ab68a99ce9e3fe5e7.jpeg?v=1704392507',
+        },
+        title: {
+          color: '#434761',
+          replacements: 'CleverTap Message Header',
+          text: 'CleverTap Message Header',
+        },
+        action: {
+          url: { ios: { replacements: '', text: '' }, android: { replacements: '', text: '' } },
+          links: [
+            {
+              kv: {},
+              url: {
+                ios: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+                android: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+              },
+              copyText: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+              text: 'CleverTap Message CTA',
+              bg: '#ffffff',
+              color: '#007bff',
+              type: 'url',
+            },
+          ],
+          hasLinks: true,
+          hasUrl: false,
+        },
+        message: {
+          color: '#434761',
+          replacements: 'CleverTap Message Body Text',
+          text: 'CleverTap Message Body Text',
+        },
+        media: {},
+        key: 99060129,
+      },
+    ],
+    enableTags: false,
+    custom_kv: [],
+    orientation: 'p',
+    bg: '#ffffff',
+  },
+  tags: [''],
+  isRead: true,
+}
+
+export const mockCleverTapInboxMessage: CleverTapInboxMessage = {
+  messageId: '1704393845',
+  header: 'CleverTap Message Header',
+  text: 'CleverTap Message Body Text',
+  icon: {
+    uri: 'https://d2trgtv8344lrj.cloudfront.net/dist/1634904064/i/fd152d1004504c0ab68a99ce9e3fe5e7.jpeg?v=1704392507',
+  },
+  ctaText: 'CleverTap Message CTA',
+  ctaUrl: 'https://valoraapp.com',
+  priority: undefined,
+  openInExternalBrowser: false,
 }
