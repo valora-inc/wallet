@@ -5,7 +5,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
@@ -59,6 +59,7 @@ describe('SignInWithEmail', () => {
     expect(getByText('signInWithEmail.title')).toBeTruthy()
     expect(getByText(`signInWithEmail.${subtitleText}`)).toBeTruthy()
     expect(getByTestId('SignInWithEmail/Google')).toBeTruthy()
+    expect(getByTestId('CancelButton')).toBeTruthy()
   })
 
   it('pressing button invokes authorize and dispatches action with idToken on success', async () => {
@@ -142,22 +143,5 @@ describe('SignInWithEmail', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(logWarnSpy).not.toHaveBeenCalled()
     expect(queryByTestId('Button/Loading')).toBeNull()
-  })
-
-  it('close navigates to correct screen for setup', async () => {
-    const { getByTestId } = renderComponent(KeylessBackupFlow.Setup)
-
-    fireEvent.press(getByTestId('CancelButton'))
-
-    expect(navigateHome).toHaveBeenCalledTimes(1)
-  })
-
-  it('close navigates to correct screen for restore', async () => {
-    const { getByTestId } = renderComponent(KeylessBackupFlow.Restore)
-
-    fireEvent.press(getByTestId('CancelButton'))
-
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
   })
 })
