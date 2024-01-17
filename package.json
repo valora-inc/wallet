@@ -334,7 +334,7 @@
     "flat": "^5.0.2",
     "crypto-js": "^4.2.0",
     "browserify-sign": "^4.2.2",
-    "follow-redirects": "^1.15.4"
+    "follow-redirects": "^1.15.5"
   },
   "detox": {
     "testRunner": {
