@@ -12,19 +12,19 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import PhoneNumberInput from 'src/components/PhoneNumberInput'
 import i18n from 'src/i18n'
-import Times from 'src/icons/Times'
+import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
-function KeylessBackupPhoneInput({
-  route,
-}: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneInput>) {
+type Props = NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneInput>
+
+function KeylessBackupPhoneInput({ route }: Props) {
   const { t } = useTranslation()
   const { selectedCountryCodeAlpha2, keylessBackupFlow } = route.params
   const cachedNumber = useSelector(e164NumberSelector)
@@ -82,7 +82,7 @@ function KeylessBackupPhoneInput({
   }
 
   const onPressContinue = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.enter_phone_number_continue, {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_enter_phone_number_continue, {
       keylessBackupFlow,
     })
     navigate(Screens.KeylessBackupPhoneCodeInput, {
@@ -118,7 +118,7 @@ function KeylessBackupPhoneInput({
         onPress={onPressContinue}
         text={keylessBackupFlow === KeylessBackupFlow.Setup ? t('continue') : t('next')}
         size={BtnSizes.FULL}
-        type={BtnTypes.ONBOARDING}
+        type={BtnTypes.PRIMARY}
         style={styles.button}
         disabled={!phoneNumberInfo.isValidNumber}
       />
@@ -126,12 +126,12 @@ function KeylessBackupPhoneInput({
   )
 }
 
-KeylessBackupPhoneInput.navigationOptions = () => ({
+KeylessBackupPhoneInput.navigationOptions = ({ route }: Props) => ({
   ...emptyHeader,
   headerLeft: () => (
-    <TopBarIconButton
-      icon={<Times />}
-      onPress={navigateBack} // TODO: handle in ACT-770
+    <KeylessBackupCancelButton
+      flow={route.params.keylessBackupFlow}
+      eventName={KeylessBackupEvents.cab_enter_phone_number_cancel}
     />
   ),
 })
@@ -144,24 +144,24 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollContainer: {
-    padding: 24,
-    paddingTop: 36,
+    padding: Spacing.Thick24,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
-    fontWeight: 'bold',
+    color: Colors.black,
   },
   subtitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
-    paddingVertical: 8,
+    paddingVertical: Spacing.Regular16,
+    color: Colors.black,
   },
   button: {
-    padding: 24,
+    padding: Spacing.Thick24,
   },
   countryFlagStyle: {
-    backgroundColor: Colors.onboardingBackground,
-    marginRight: 8,
+    backgroundColor: Colors.gray2,
+    marginRight: Spacing.Smallest8,
   },
 })

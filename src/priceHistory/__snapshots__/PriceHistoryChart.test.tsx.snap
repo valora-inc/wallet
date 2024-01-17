@@ -134,7 +134,7 @@ exports[`PriceHistoryChart renders while update is in progress 1`] = `
           shapeRendering="auto"
           stroke="#2E3338"
           strokeWidth={2}
-          width={4}
+          width={94}
         />
       </g>
       <View
@@ -347,7 +347,7 @@ exports[`PriceHistoryChart renders with history 1`] = `
           shapeRendering="auto"
           stroke="#2E3338"
           strokeWidth={2}
-          width={4}
+          width={94}
         />
       </g>
       <View

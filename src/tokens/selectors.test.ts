@@ -10,6 +10,7 @@ import {
   feeCurrenciesWithPositiveBalancesSelector,
   lastKnownTokenBalancesSelector,
   spendTokensByNetworkIdSelector,
+  swappableTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -106,6 +107,7 @@ const state: any = {
         priceUsd: '100',
         balance: null,
         priceFetchedAt: mockDate,
+        minimumAppVersionToSwap: '1.10.0',
       },
       ['celo-alfajores:0x4']: {
         tokenId: 'celo-alfajores:0x4',
@@ -125,15 +127,17 @@ const state: any = {
         address: '0x5',
         balance: '50',
         priceUsd: '500',
-        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS, // stale price
+        minimumAppVersionToSwap: '1.10.0',
       },
       ['celo-alfajores:0x6']: {
         name: '0x6 token',
         tokenId: 'celo-alfajores:0x6',
         networkId: NetworkId['celo-alfajores'],
-        balance: '50',
-        priceUsd: '500',
-        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+        balance: '0',
+        priceUsd: null,
+        priceFetchedAt: mockDate,
+        minimumAppVersionToSwap: '1.10.0',
       },
       ['ethereum-sepolia:0x7']: {
         name: '0x7 token',
@@ -141,7 +145,8 @@ const state: any = {
         networkId: NetworkId['ethereum-sepolia'],
         balance: '50',
         priceUsd: '500',
-        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS, // stale price
+        minimumAppVersionToSwap: '1.10.0',
       },
       [mockEthTokenId]: {
         name: 'Ether',
@@ -149,9 +154,10 @@ const state: any = {
         networkId: NetworkId['ethereum-sepolia'],
         balance: '0',
         priceUsd: '500',
-        priceFetchedAt: mockDate - 2 * ONE_DAY_IN_MILLIS,
+        priceFetchedAt: mockDate,
         showZeroBalance: true,
         isNative: true,
+        minimumAppVersionToSwap: '1.10.0',
       },
     },
   },
@@ -298,6 +304,7 @@ describe('tokensByUsdBalanceSelector', () => {
           "address": "0x5",
           "balance": "50",
           "lastKnownPriceUsd": "500",
+          "minimumAppVersionToSwap": "1.10.0",
           "name": "0x5 token",
           "networkId": "celo-alfajores",
           "priceFetchedAt": 1588027717518,
@@ -390,7 +397,6 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
       'celo-alfajores:0xeur',
       'celo-alfajores:0x4',
       'celo-alfajores:0x5',
-      'celo-alfajores:0x6',
       'ethereum-sepolia:0x7',
       'ethereum-sepolia:native',
       'celo-alfajores:0xusd',
@@ -669,5 +675,62 @@ describe('lastKnownTokenBalancesSelector', () => {
       NetworkId['ethereum-sepolia'],
     ])
     expect(lastKnownTokenBalances).toEqual(new BigNumber(623.5))
+  })
+})
+
+describe('swappableTokensByNetworkIdSelector', () => {
+  it('returns the tokens in the correct order', () => {
+    const tokens = swappableTokensByNetworkIdSelector(state, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+    // we only need to check some of the details
+    const tokenDetails = tokens.map(({ priceUsd, balance, name }) => ({
+      priceUsd: priceUsd ? priceUsd.toString() : null,
+      balance: balance ? balance.toString() : null,
+      name,
+    }))
+
+    expect(tokenDetails).toEqual([
+      // highest usd balance
+      {
+        balance: '50',
+        name: 'cEUR',
+        priceUsd: '0.5',
+      },
+      // tokens with balance but no usd price, sorted by balance
+      {
+        balance: '50',
+        name: '0x4 token',
+        priceUsd: null,
+      },
+      {
+        balance: '50',
+        name: '0x5 token',
+        priceUsd: null,
+      },
+      {
+        balance: '50',
+        name: '0x7 token',
+        priceUsd: null,
+      },
+      // tokens with usd price but no balance, sorted by name
+      {
+        balance: '0',
+        name: 'cUSD',
+        priceUsd: '1',
+      },
+      {
+        balance: '0',
+        name: 'Ether',
+        priceUsd: '500',
+      },
+      // tokens with no usd price, no balance, sorted by name
+      {
+        balance: '0',
+        name: '0x6 token',
+        priceUsd: null,
+      },
+    ])
   })
 })

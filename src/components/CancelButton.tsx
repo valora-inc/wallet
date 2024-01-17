@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleProp, StyleSheet, TextStyle } from 'react-native'
-import { AnalyticsEventType } from 'src/analytics/Properties'
+import { AnalyticsEventType, AnalyticsPropertiesList } from 'src/analytics/Properties'
 import Times from 'src/icons/Times'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton, TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -11,10 +11,17 @@ interface Props {
   onCancel?: () => void
   style?: StyleProp<TextStyle>
   eventName?: AnalyticsEventType
+  eventProperties?: AnalyticsPropertiesList[AnalyticsEventType]
   buttonType?: 'text' | 'icon'
 }
 
-export default function CancelButton({ eventName, onCancel, style, buttonType = 'text' }: Props) {
+export default function CancelButton({
+  eventName,
+  eventProperties,
+  onCancel,
+  style,
+  buttonType = 'text',
+}: Props) {
   function onPressCancel() {
     if (onCancel) {
       onCancel()
@@ -31,12 +38,14 @@ export default function CancelButton({ eventName, onCancel, style, buttonType = 
       titleStyle={style ? [styles.title, style] : styles.title}
       title={t('cancel')}
       eventName={eventName}
+      eventProperties={eventProperties}
     />
   ) : (
     <TopBarIconButton
       testID="CancelButton"
       onPress={onPressCancel}
       eventName={eventName}
+      eventProperties={eventProperties}
       icon={<Times />}
     />
   )
