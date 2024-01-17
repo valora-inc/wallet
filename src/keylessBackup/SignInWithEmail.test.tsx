@@ -59,6 +59,7 @@ describe('SignInWithEmail', () => {
     expect(getByText('signInWithEmail.title')).toBeTruthy()
     expect(getByText(`signInWithEmail.${subtitleText}`)).toBeTruthy()
     expect(getByTestId('SignInWithEmail/Google')).toBeTruthy()
+    expect(getByTestId('CancelButton')).toBeTruthy()
   })
 
   it('pressing button invokes authorize and dispatches action with idToken on success', async () => {
@@ -142,17 +143,5 @@ describe('SignInWithEmail', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(logWarnSpy).not.toHaveBeenCalled()
     expect(queryByTestId('Button/Loading')).toBeNull()
-  })
-
-  it.each([
-    [KeylessBackupFlow.Setup, Screens.SetUpKeylessBackup],
-    [KeylessBackupFlow.Restore, Screens.ImportWallet],
-  ])('close navigates to correct screen for %s', async (flow, screen) => {
-    const { getByTestId } = renderComponent(flow)
-
-    fireEvent.press(getByTestId('SignInWithEmail/Close'))
-
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(screen)
   })
 })

@@ -78,10 +78,11 @@
     "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
-    "title": "Set up Keyless Backup",
-    "subtitle": "You'll use the following to set up backup:",
+    "title": "Set Up Wallet Backup",
+    "subtitle": "You'll use the following to set up backup",
     "emailAddress": "Email Address",
-    "phoneNumber": "Phone Number"
+    "phoneNumber": "Phone Number",
+    "useRecoveryPhrase": "Use recovery phrase instead"
   },
   "signInWithEmail": {
     "title": "Sign in with email",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
