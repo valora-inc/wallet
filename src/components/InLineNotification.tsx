@@ -41,10 +41,17 @@ export function InLineNotification({
   testID,
 }: InLineNotificationProps) {
   const severityColor = severityColors[severity]
-  const ctas = [
-    ...(ctaLabel2 && onPressCta2 ? [{ label: ctaLabel2, onPress: onPressCta2 }] : []),
-    ...(ctaLabel && onPressCta ? [{ label: ctaLabel, onPress: onPressCta }] : []),
-  ]
+  const renderCtaLabel = (
+    label?: string | null,
+    onPress?: (event: GestureResponderEvent) => void,
+    color?: Colors
+  ) =>
+    label &&
+    onPress && (
+      <Text style={[styles.ctaLabel, { color }]} onPress={onPress}>
+        {label}
+      </Text>
+    )
   const Icon = severityIcons[severity]
 
   return (
@@ -64,21 +71,8 @@ export function InLineNotification({
 
       {(ctaLabel || ctaLabel2) && (
         <View style={[styles.row, styles.ctaRow]}>
-          {ctas.map(({ label, onPress }, index) => (
-            <Text
-              key={label}
-              style={[
-                styles.ctaLabel,
-                {
-                  color: severityColor.primary,
-                  marginRight: index === 0 ? Spacing.Small12 : 0,
-                },
-              ]}
-              onPress={onPress}
-            >
-              {label}
-            </Text>
-          ))}
+          {renderCtaLabel(ctaLabel, onPressCta, severityColor.primary)}
+          {renderCtaLabel(ctaLabel2, onPressCta2, severityColor.primary)}
         </View>
       )}
     </View>
@@ -100,6 +94,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Smallest8,
     paddingHorizontal: Spacing.Smallest8,
     justifyContent: 'flex-end',
+    gap: Spacing.Regular16,
   },
   attentionIcon: {
     paddingTop: Spacing.Tiny4,
@@ -117,7 +112,6 @@ const styles = StyleSheet.create({
   ctaLabel: {
     ...typeScale.labelSmall,
     fontWeight: '600',
-    paddingHorizontal: Spacing.Smallest8,
     paddingVertical: Spacing.Tiny4,
   },
 })
