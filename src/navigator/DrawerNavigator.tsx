@@ -304,7 +304,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <AttentionIcon color={Colors.primary} />
+                  <AttentionIcon color={Colors.primary} size={20} />
                 </View>
               </View>
             ),
@@ -324,7 +324,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('accountKey')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <AttentionIcon color={Colors.primary} />
+                  <AttentionIcon color={Colors.primary} size={20} />
                 </View>
               </View>
             ),
