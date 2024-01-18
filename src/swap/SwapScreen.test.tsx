@@ -303,6 +303,23 @@ describe('SwapScreen', () => {
     selectSwapTokens('CELO', 'cUSD', swapScreen)
   })
 
+  it('should not select a token without usd price if the user dismisses the warning', async () => {
+    const { swapFromContainer, queryByText, getByText, tokenBottomSheet } = renderScreen({})
+
+    fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+    fireEvent.press(
+      within(tokenBottomSheet).getByText(mockStoreTokenBalances[mockPoofTokenId].name)
+    )
+
+    expect(getByText('swapScreen.noUsdPriceWarning.description')).toBeTruthy()
+
+    fireEvent.press(getByText('swapScreen.noUsdPriceWarning.ctaDismiss'))
+
+    expect(queryByText('swapScreen.noUsdPriceWarning.description')).toBeFalsy()
+    expect(tokenBottomSheet).toBeVisible()
+    expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
+  })
+
   it('should swap the to/from tokens if the same token is selected', async () => {
     const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({})
 
