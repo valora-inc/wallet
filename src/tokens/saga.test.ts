@@ -5,7 +5,8 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
@@ -13,7 +14,7 @@ import {
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
-import { lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
+import { importedTokensInfoSelector, lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -25,17 +26,19 @@ import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
 import {
   mockAccount,
-  mockCeurAddress,
   mockCeurTokenId,
   mockCusdAddress,
   mockCusdTokenId,
   mockPoofAddress,
   mockPoofTokenId,
+  mockTestTokenAddress,
+  mockTestTokenTokenId,
   mockTokenBalances,
 } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getDynamicConfigParams: jest.fn(),
+  getFeatureGate: jest.fn(),
 }))
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -65,7 +68,7 @@ const mockBlockchainApiTokenInfo: StoredTokenBalances = {
     ...mockTokenBalances[mockCusdTokenId],
     balance: null,
   },
-  [mockCeurAddress]: {
+  [mockCeurTokenId]: {
     ...mockTokenBalances[mockCeurTokenId],
     balance: null,
   },
@@ -119,6 +122,19 @@ describe(fetchTokenBalancesSaga, () => {
       balance: '0',
     },
   }
+
+  const mockImportedTokensInfo = {
+    [mockTestTokenTokenId]: {
+      address: mockTestTokenAddress,
+      decimals: 18,
+      name: 'TestToken',
+      symbol: 'TT',
+      tokenId: mockTestTokenTokenId,
+      balance: null,
+      showZeroBalance: true,
+      networkId: NetworkId['celo-alfajores'],
+    },
+  }
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
@@ -145,6 +161,7 @@ describe(fetchTokenBalancesSaga, () => {
   it("fires an event if there's an error", async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
+        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
@@ -155,6 +172,42 @@ describe(fetchTokenBalancesSaga, () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.fetch_balance_error, {
       error: 'Error message',
     })
+  })
+
+  it('includes imported tokens', async () => {
+    const expectedBalances = {
+      ...tokenBalancesAfterUpdate,
+      [mockTestTokenTokenId]: {
+        ...mockImportedTokensInfo[mockTestTokenTokenId],
+        balance: '1000',
+        showZeroBalance: true,
+      },
+    }
+
+    jest.mocked(getFeatureGate).mockImplementation((featureGateName) => {
+      return featureGateName === StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    })
+
+    await expectSaga(fetchTokenBalancesSaga)
+      .provide([
+        [call(getTokensInfo), mockBlockchainApiTokenInfo],
+        [select(importedTokensInfoSelector), mockImportedTokensInfo],
+        [select(walletAddressSelector), mockAccount],
+        [
+          call(fetchTokenBalancesForAddress, mockAccount),
+          [
+            ...fetchBalancesResponse,
+            {
+              tokenAddress: mockTestTokenAddress,
+              tokenId: mockTestTokenTokenId,
+              balance: new BigNumber(1000).shiftedBy(18).toFixed(),
+              decimals: '18',
+            },
+          ],
+        ],
+      ])
+      .put(setTokenBalances(expectedBalances))
+      .run()
   })
 })
 

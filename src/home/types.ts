@@ -20,6 +20,7 @@ export enum NotificationType {
   supercharging = 'supercharging',
   start_supercharging = 'start_supercharging',
   reverify_using_CPV = 'reverify_using_CPV',
+  clevertap_notification = 'clevertap_notification',
 }
 
 export enum NotificationBannerCTATypes {
@@ -38,4 +39,5 @@ export interface Notification {
   showOnHomeScreen?: boolean
   id: string
   type: NotificationType
+  onView?: () => void
 }

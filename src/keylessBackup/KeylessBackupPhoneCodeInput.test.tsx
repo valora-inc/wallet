@@ -45,7 +45,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     ).toBeTruthy()
     expect(getByText('phoneVerificationInput.help')).toBeTruthy()
     expect(getByTestId('PhoneVerificationCode')).toBeTruthy()
-    expect(getByTestId('KeylessBackupPhoneCodeInputClose')).toBeTruthy()
+    expect(getByTestId('CancelButton')).toBeTruthy()
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
     expect(mockFetch).toHaveBeenCalledWith(`${networkConfig.cabIssueSmsCodeUrl}`, {
       method: 'POST',
@@ -128,20 +128,5 @@ describe('KeylessBackupPhoneCodeInput', () => {
 
     jest.runOnlyPendingTimers()
     expect(navigate).not.toHaveBeenCalled()
-  })
-
-  it.each([
-    [KeylessBackupFlow.Setup, Screens.SetUpKeylessBackup],
-    [KeylessBackupFlow.Restore, Screens.ImportWallet],
-  ])('close navigates to correct screen for %s', async (flow, screen) => {
-    const { getByTestId } = renderComponent(flow)
-
-    // avoids a big console.error related to state updates outside of act
-    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1))
-
-    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputClose'))
-
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(screen)
   })
 })

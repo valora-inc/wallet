@@ -17,13 +17,18 @@ import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localC
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
 import { default as useSelector } from 'src/redux/useSelector'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { tokensBySymbolSelector } from 'src/tokens/selectors'
 import { getLocalCurrencyDisplayValue } from 'src/utils/formatting'
+import networkConfig from 'src/web3/networkConfig'
 
 function navigateToGuide() {
   ValoraAnalytics.track(CeloExchangeEvents.celo_home_info)
@@ -66,6 +71,9 @@ function ExchangeHomeScreen() {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localExchangeRate = useSelector(usdToLocalCurrencyRateSelector)
   const exchangeHistory = useSelector(exchangeHistorySelector)
+  const usePriceHistoryFromBlockchainApi = getFeatureGate(
+    StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API
+  )
 
   const exchangeHistoryLength = exchangeHistory.aggregatedExchangeRates.length
   const lastKnownPriceUsd =
@@ -150,7 +158,17 @@ function ExchangeHomeScreen() {
             </View>
           </View>
 
-          <CeloGoldHistoryChart testID="PriceChart" />
+          {usePriceHistoryFromBlockchainApi && networkConfig.celoTokenId ? (
+            <PriceHistoryChart
+              tokenId={networkConfig.celoTokenId}
+              testID={`CeloNews/Chart/${networkConfig.celoTokenId}`}
+              chartPadding={Spacing.Thick24}
+              color={colors.goldBrand}
+              containerStyle={styles.chartContainer}
+            />
+          ) : (
+            <CeloGoldHistoryChart testID="PriceChart" />
+          )}
           <CeloNewsFeed />
         </SafeAreaView>
       </Animated.ScrollView>
@@ -164,6 +182,9 @@ const styles = StyleSheet.create({
   contentContainer: {
     flexGrow: 1,
     paddingBottom: variables.contentPadding,
+  },
+  chartContainer: {
+    marginBottom: Spacing.Thick24,
   },
   header: {
     alignItems: 'center',
