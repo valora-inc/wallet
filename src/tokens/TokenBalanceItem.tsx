@@ -30,10 +30,10 @@ export const TokenBalanceItem = ({
 
   const Content = (
     <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
-      <TokenIcon token={token} viewStyle={styles.marginRight} />
+      <TokenIcon token={token} />
       <View style={styles.textContainer}>
         <View style={styles.line}>
-          <View style={[styles.row, styles.marginRight]}>
+          <View style={styles.row}>
             <Text numberOfLines={1} style={styles.label} testID={`${token.symbol}Symbol`}>
               {token.name}
             </Text>
@@ -51,11 +51,7 @@ export const TokenBalanceItem = ({
         </View>
         <View style={styles.line}>
           {token.networkId in NETWORK_NAMES ? (
-            <Text
-              numberOfLines={1}
-              style={[styles.subLabel, styles.marginRight]}
-              testID="NetworkLabel"
-            >
+            <Text numberOfLines={1} style={styles.subLabel} testID="NetworkLabel">
               {t('assets.networkName', { networkName: NETWORK_NAMES[token.networkId] })}
             </Text>
           ) : (
@@ -99,12 +95,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+    gap: Spacing.Small12,
   },
   line: {
     flexDirection: 'row',
     alignSelf: 'flex-end',
     justifyContent: 'space-between',
     width: '100%',
+    gap: Spacing.Smallest8,
   },
   amount: {
     ...typeScale.labelMedium,
@@ -128,9 +126,6 @@ const styles = StyleSheet.create({
   textContainer: {
     flex: 1,
     gap: 2,
-  },
-  marginRight: {
-    marginRight: Spacing.Small12,
   },
   row: {
     flexDirection: 'row',
