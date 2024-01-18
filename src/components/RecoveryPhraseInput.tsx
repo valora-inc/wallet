@@ -22,7 +22,7 @@ export enum RecoveryPhraseInputStatus {
   Processing = 'Processing', // code validated, now trying to send it
 }
 
-export interface Props {
+interface Props {
   status: RecoveryPhraseInputStatus
   inputValue: string
   inputPlaceholder: string

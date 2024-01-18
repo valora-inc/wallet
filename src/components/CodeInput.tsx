@@ -15,7 +15,7 @@ export enum CodeInputStatus {
   Accepted = 'Accepted', // the code has been accepted and completed
 }
 
-export interface Props {
+interface Props {
   status: CodeInputStatus
   inputValue: string
   inputPlaceholder: string
