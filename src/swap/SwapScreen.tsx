@@ -563,12 +563,20 @@ export function SwapScreen({ route }: Props) {
     (quote?.estimatedPriceImpact
       ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
       : false)
+  const showNoUsdPriceWarning =
+    !confirmSwapFailed &&
+    !quoteUpdatePending &&
+    !showPriceImpactWarning &&
+    fromToken &&
+    toToken &&
+    (!fromToken.priceUsd || !toToken.priceUsd)
   const showMissingPriceImpactWarning =
     !confirmSwapFailed &&
     !quoteUpdatePending &&
     !showPriceImpactWarning &&
-    ((quote && !quote.estimatedPriceImpact) ||
-      (fromToken && toToken && (!fromToken.priceUsd || !toToken.priceUsd)))
+    !showNoUsdPriceWarning &&
+    quote &&
+    !quote.estimatedPriceImpact
 
   const { networkFee, feeTokenId } = useMemo(() => {
     return getNetworkFee(quote, fromToken?.networkId)
@@ -688,6 +696,14 @@ export function SwapScreen({ route }: Props) {
               severity={Severity.Warning}
               title={t('swapScreen.priceImpactWarning.title')}
               description={t('swapScreen.priceImpactWarning.body')}
+              style={styles.warning}
+            />
+          )}
+          {showNoUsdPriceWarning && (
+            <InLineNotification
+              severity={Severity.Warning}
+              title={t('swapScreen.noUsdPriceWarning.title')}
+              description={t('swapScreen.noUsdPriceWarning.description')}
               style={styles.warning}
             />
           )}
