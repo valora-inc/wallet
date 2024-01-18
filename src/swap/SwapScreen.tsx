@@ -24,7 +24,8 @@ import TokenBottomSheet, {
 } from 'src/components/TokenBottomSheet'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
-import { navigate } from 'src/navigator/NavigationService'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -33,7 +34,7 @@ import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactionsReviewBottomSheet'
@@ -44,7 +45,7 @@ import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/sw
 import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
-import { useSwappableTokens, useTokenInfo } from 'src/tokens/hooks'
+import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
@@ -201,6 +202,8 @@ export function SwapScreen({ route }: Props) {
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const fundYourWalletBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokensWithBalance = useTokensWithTokenBalance()
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -342,6 +345,12 @@ export function SwapScreen({ route }: Props) {
     }
 
     localDispatch(startConfirmSwap())
+
+    if (tokensWithBalance.length !== 0) {
+      ValoraAnalytics.track(SwapEvents.swap_add_funds)
+      fundYourWalletBottomSheetRef.current?.snapToIndex(0)
+      return
+    }
 
     if (parsedSwapAmount[Field.FROM].gt(fromTokenBalance)) {
       dispatch(showError(t('swapScreen.insufficientFunds', { token: fromToken.symbol })))
@@ -759,6 +768,24 @@ export function SwapScreen({ route }: Props) {
           text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
         />
       </BottomSheet>
+      <BottomSheet
+        forwardedRef={fundYourWalletBottomSheetRef}
+        title={t('swapScreen.fundYourWalletBottomSheet.title')}
+        titleStyle={styles.bottomSheetTitle}
+        description={t('swapScreen.fundYourWalletBottomSheet.description')}
+        testId="FundYourWalletBottomSheet"
+      >
+        <Button
+          type={BtnTypes.PRIMARY}
+          size={BtnSizes.FULL}
+          style={styles.bottomSheetButton}
+          onPress={() => {
+            ValoraAnalytics.track(SwapEvents.swap_add_funds)
+            navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+          }}
+          text={t('swapScreen.fundYourWalletBottomSheet.addFundsButton')}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -801,6 +828,10 @@ const styles = StyleSheet.create({
   },
   bottomSheetButton: {
     marginTop: Spacing.Thick24,
+  },
+  bottomSheetTitle: {
+    ...typeScale.titleSmall,
+    marginTop: -Spacing.Regular16,
   },
 })
 
