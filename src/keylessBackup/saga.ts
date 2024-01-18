@@ -111,12 +111,7 @@ export function* handleKeylessBackupRestore({
   })
 
   // TODO(ACT-778): use mnemonic
-  const _mnemonic = yield* call(
-    decryptPassphrase,
-    torusKeyshareBuffer,
-    valoraKeyshareBuffer,
-    encryptedMnemonic
-  )
+  yield* call(decryptPassphrase, torusKeyshareBuffer, valoraKeyshareBuffer, encryptedMnemonic)
   yield* put(keylessBackupCompleted())
 }
 
