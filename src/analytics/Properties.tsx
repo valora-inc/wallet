@@ -5,7 +5,6 @@ import {
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
 import { PermissionStatus } from 'react-native-permissions'
-import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AssetsEvents,
@@ -32,7 +31,6 @@ import {
   PerformanceEvents,
   PhoneVerificationEvents,
   QrScreenEvents,
-  RequestEvents,
   RewardsEvents,
   SendEvents,
   SettingsEvents,
@@ -94,9 +92,6 @@ interface AppEventsProperties {
   [AppEvents.error_fallback]: {
     error: ErrorMessages
   }
-  [AppEvents.error_boundary]: {
-    error: string
-  }
   [AppEvents.user_restart]: undefined
   [AppEvents.fetch_balance]: {
     dollarBalance?: string
@@ -156,9 +151,6 @@ interface AppEventsProperties {
 }
 
 interface HomeEventsProperties {
-  [HomeEvents.home_send]: undefined
-  [HomeEvents.home_request]: undefined
-  [HomeEvents.home_qr]: undefined
   [HomeEvents.hamburger_tapped]: undefined
   [HomeEvents.drawer_navigation]: {
     navigateTo: string
@@ -236,14 +228,17 @@ interface CommonKeylessBackupProps {
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
-  [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
+  [KeylessBackupEvents.cab_setup_continue]: undefined
+  [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
-  [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_code_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
@@ -260,7 +255,6 @@ interface KeylessBackupEventsProperties {
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_start]: undefined
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
     direction: ScrollDirection
@@ -268,11 +262,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.onboarding_education_step_impression]: {
     step: number
   }
-  [OnboardingEvents.onboarding_education_complete]: undefined
-  [OnboardingEvents.onboarding_education_cancel]: undefined
 
   [OnboardingEvents.create_account_start]: undefined
-  [OnboardingEvents.create_account_cancel]: undefined
 
   [OnboardingEvents.restore_account_start]: undefined
   [OnboardingEvents.restore_account_cancel]: undefined
@@ -319,18 +310,9 @@ interface OnboardingEventsProperties {
     profilePictureSkipped: boolean
   }
   [OnboardingEvents.name_and_picture_skip]: undefined
-  [OnboardingEvents.name_and_picture_generate_name]: undefined
-  [OnboardingEvents.phone_number_set]: {
-    countryCode: string
-    country?: string
-  }
 
   [OnboardingEvents.pin_set]: undefined
   [OnboardingEvents.pin_invalid]: {
-    error: string
-  }
-  [OnboardingEvents.pin_failed_to_set]: {
-    pincodeType: PincodeType
     error: string
   }
   [OnboardingEvents.pin_never_set]: undefined
@@ -418,7 +400,6 @@ interface OnboardingEventsProperties {
 }
 
 interface PhoneVerificationEventsProperties {
-  [PhoneVerificationEvents.phone_verification_skip]: undefined
   [PhoneVerificationEvents.phone_verification_skip_confirm]: undefined
   [PhoneVerificationEvents.phone_verification_learn_more]: undefined
   [PhoneVerificationEvents.phone_verification_start]: {
@@ -435,7 +416,6 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
-  [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
   [PhoneVerificationEvents.phone_verification_resend_message]: undefined
   [PhoneVerificationEvents.phone_verification_revoke_start]: undefined
   [PhoneVerificationEvents.phone_verification_revoke_success]: undefined
@@ -443,9 +423,6 @@ interface PhoneVerificationEventsProperties {
 }
 
 interface IdentityEventsProperties {
-  [IdentityEvents.contacts_connect]: {
-    matchMakingEnabled: boolean
-  }
   [IdentityEvents.contacts_import_permission_denied]: undefined
   [IdentityEvents.contacts_import_start]: undefined
   [IdentityEvents.contacts_import_complete]: {
@@ -461,13 +438,6 @@ interface IdentityEventsProperties {
   [IdentityEvents.phone_number_lookup_error]: {
     error: string
   }
-
-  [IdentityEvents.phone_number_lookup_purchase_complete]: undefined
-  [IdentityEvents.phone_number_lookup_purchase_error]: {
-    error: string
-  }
-  [IdentityEvents.phone_number_lookup_purchase_skip]: undefined
-
   [IdentityEvents.address_lookup_start]: undefined
   [IdentityEvents.address_lookup_complete]: undefined
   [IdentityEvents.address_lookup_error]: {
@@ -668,51 +638,7 @@ interface SendEventsProperties {
   }
 }
 
-interface RequestEventsProperties {
-  [RequestEvents.request_amount_back]: undefined
-  [RequestEvents.request_cancel]: undefined
-  [RequestEvents.request_scan]: undefined
-  [RequestEvents.request_select_recipient]: {
-    usedSearchBar: boolean
-    recipientType: RecipientType
-  }
-  [RequestEvents.request_amount_continue]:
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingCurrency: Currency
-        underlyingAmount: string | null
-      }
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingTokenAddress: string | null
-        underlyingTokenSymbol: string
-        underlyingAmount: string | null
-        amountInUsd: string | null
-      }
-  [RequestEvents.request_confirm_back]: undefined
-  [RequestEvents.request_confirm_request]: {
-    requesteeAddress: string
-    recipientType: RecipientType
-    isScan: boolean
-  }
-  [RequestEvents.request_error]: {
-    error: string
-  }
-}
-
 interface FeeEventsProperties {
-  [FeeEvents.fee_rendered]: {
-    feeType: string
-    fee?: string
-  }
   [FeeEvents.estimate_fee_failed]: {
     feeType: string
     tokenAddress: string
@@ -722,9 +648,6 @@ interface FeeEventsProperties {
     feeType: string
     tokenAddress: string
     usdFee: string
-  }
-  [FeeEvents.fetch_tobin_tax_failed]: {
-    error: string
   }
 }
 
@@ -763,20 +686,8 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-
-  [CeloExchangeEvents.celo_withdraw_review]: {
-    amount: string
-  }
-  [CeloExchangeEvents.celo_withdraw_edit]: undefined
-  [CeloExchangeEvents.celo_withdraw_cancel]: undefined
-  [CeloExchangeEvents.celo_withdraw_confirm]: {
-    amount: string
-  }
   [CeloExchangeEvents.celo_withdraw_completed]: {
     amount: string
-  }
-  [CeloExchangeEvents.celo_withdraw_error]: {
-    error: string
   }
   [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
@@ -801,6 +712,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected]: undefined
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: undefined
+  [FiatExchangeEvents.cico_add_get_started_impression]: undefined
+  [FiatExchangeEvents.cico_add_get_started_selected]: undefined
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
@@ -1027,11 +940,6 @@ interface FiatExchangeEventsProperties {
 
 interface QrScreenProperties {
   [QrScreenEvents.qr_screen_copy_address]: undefined
-  [QrScreenEvents.qr_screen_bottom_sheet_open]: undefined
-  [QrScreenEvents.qr_screen_bottom_sheet_close]: undefined
-  [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
-    exchange: string
-  }
   [QrScreenEvents.qr_scanner_open]: undefined
   [QrScreenEvents.qr_scanned]: QrCode
 }
@@ -1145,7 +1053,6 @@ interface WalletConnectProperties {
   }
 
   [WalletConnectEvents.wc_request_propose]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_details]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_start]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_success]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
@@ -1219,17 +1126,11 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
   [DappExplorerEvents.dapp_favorite]: DappEventProperties
   [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
-  [DappExplorerEvents.dapp_open_info]: undefined
-  [DappExplorerEvents.dapp_open_more_info]: undefined
   [DappExplorerEvents.dapp_filter]: {
     id: string
     remove: boolean
   }
-  [DappExplorerEvents.dapp_search]: {
-    searchTerm: string
-  }
   [DappExplorerEvents.dapp_rankings_open]: undefined
-  [DappExplorerEvents.dapp_rankings_impression]: undefined
 }
 
 interface WebViewEventsProperties {
@@ -1555,7 +1456,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
   EscrowEventsProperties &
-  RequestEventsProperties &
   FeeEventsProperties &
   TransactionEventsProperties &
   CeloExchangeEventsProperties &

@@ -1514,4 +1514,15 @@ export const migrations = {
       nfts: [],
     },
   }),
+  182: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      importedTokens: {},
+    },
+  }),
+  183: (state: any) => ({
+    ...state,
+    home: { ...state.home, cleverTapInboxMessages: [] },
+  }),
 }

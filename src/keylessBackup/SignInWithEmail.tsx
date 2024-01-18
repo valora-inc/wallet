@@ -8,15 +8,16 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import GoogleIcon from 'src/icons/Google'
-import Times from 'src/icons/Times'
+import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { googleSignInCompleted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import Colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/SignInWithEmail'
@@ -85,7 +86,7 @@ function SignInWithEmail({ route }: Props) {
         style={styles.button}
         icon={<GoogleIcon />}
         iconMargin={12}
-        touchableStyle={loading ? undefined : styles.buttonTouchable}
+        touchableStyle={[styles.buttonTouchable, !loading && { justifyContent: 'flex-start' }]}
         showLoading={loading}
         disabled={loading}
       />
@@ -96,20 +97,9 @@ function SignInWithEmail({ route }: Props) {
 SignInWithEmail.navigationOptions = ({ route }: Props) => ({
   ...emptyHeader,
   headerLeft: () => (
-    <TopBarIconButton
-      testID="SignInWithEmail/Close"
-      icon={<Times />}
-      onPress={() => {
-        const { keylessBackupFlow } = route.params
-        ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_email_screen_cancel, {
-          keylessBackupFlow,
-        })
-        navigate(
-          keylessBackupFlow === KeylessBackupFlow.Setup
-            ? Screens.SetUpKeylessBackup
-            : Screens.ImportWallet // TODO(any): use the new restore landing screen once built
-        )
-      }}
+    <KeylessBackupCancelButton
+      flow={route.params.keylessBackupFlow}
+      eventName={KeylessBackupEvents.cab_sign_in_with_email_screen_cancel}
     />
   ),
 })
@@ -122,23 +112,26 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollContainer: {
-    padding: 24,
-    paddingTop: 36,
+    padding: Spacing.Thick24,
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
-    fontWeight: 'bold',
+    color: Colors.black,
   },
   subtitle: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
-    marginVertical: 16,
+    paddingVertical: Spacing.Regular16,
+    color: Colors.black,
   },
   button: {
-    padding: 24,
+    padding: Spacing.Thick24,
   },
   buttonTouchable: {
-    justifyContent: 'flex-start',
+    backgroundColor: Colors.gray1,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
+    borderRadius: 100,
   },
 })

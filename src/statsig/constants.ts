@@ -25,6 +25,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
   [StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API]: false,
+  [StatsigFeatureGates.SHOW_GET_STARTED]: false,
 }
 
 export const ExperimentConfigs = {

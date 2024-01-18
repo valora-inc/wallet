@@ -88,6 +88,8 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
+export const importedTokensInfoSelector = (state: RootState) => state.tokens.importedTokens
+
 /**
  * Get an object mapping token addresses to token metadata, the user's balance, and its price
  *
@@ -334,7 +336,19 @@ export const swappableTokensByNetworkIdSelector = createSelector(
         // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
         // are pushed last, sorted by name (ASC)
         .sort((token1, token2) => {
-          // treat prices without priceUsd separately
+          // Sort by USD balance first (higher balances first)
+          const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
+          const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
+          if (token1UsdBalance.gt(token2UsdBalance)) return -1
+          if (token1UsdBalance.lt(token2UsdBalance)) return 1
+
+          // Sort by token balance if there is no priceUsd (higher balances first)
+          const balanceCompare = token2.balance.comparedTo(token1.balance)
+          if (balanceCompare) {
+            return balanceCompare
+          }
+
+          // Sort tokens without priceUsd and balance at bottom of list
           if (token1.priceUsd === null || token2.priceUsd === null) {
             // If both prices are null, sort alphabetically by name
             if (!token1.priceUsd && !token2.priceUsd) {
@@ -343,12 +357,6 @@ export const swappableTokensByNetworkIdSelector = createSelector(
             // Otherwise, sort such that the token with a non-null price comes first
             return token1.priceUsd === null ? 1 : -1
           }
-
-          // Sort by balance (higher balances first)
-          const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd)
-          const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd)
-          if (token1UsdBalance.gt(token2UsdBalance)) return -1
-          if (token1UsdBalance.lt(token2UsdBalance)) return 1
 
           // Lastly, sort by name
           return token1.name.localeCompare(token2.name)
