@@ -1709,6 +1709,12 @@
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} price unavailable",
+      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "ctaConfirm": "I understand",
+      "ctaDismiss": "Cancel"
+    },
     "missingSwapImpactWarning": {
       "title": "Before you swap",
       "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
