@@ -12,7 +12,9 @@ export function cleverTapInboxMessagesChannel() {
 
   return eventChannel((emit: any) => {
     if (!useCleverTapInbox) {
-      return () => {}
+      return () => {
+        // empty channel
+      }
     }
 
     const emitMessages = () => {
