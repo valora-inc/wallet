@@ -1,6 +1,7 @@
 import React from 'react'
 import { GestureResponderEvent, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import AttentionIcon from 'src/icons/Attention'
+import Warning from 'src/icons/Warning'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -11,7 +12,7 @@ export enum Severity {
   Error,
 }
 
-interface Props {
+export interface InLineNotificationProps {
   severity: Severity
   title?: string | null
   description: string | JSX.Element | null
@@ -38,7 +39,7 @@ export function InLineNotification({
   ctaLabel2,
   onPressCta2,
   testID,
-}: Props) {
+}: InLineNotificationProps) {
   const severityColor = severityColors[severity]
   const renderCtaLabel = (
     label?: string | null,
@@ -51,6 +52,7 @@ export function InLineNotification({
         {label}
       </Text>
     )
+  const Icon = severityIcons[severity]
 
   return (
     <View
@@ -59,7 +61,7 @@ export function InLineNotification({
     >
       <View style={styles.row}>
         <View style={styles.attentionIcon}>
-          <AttentionIcon color={severityColor.primary} />
+          <Icon color={severityColor.primary} size={20} />
         </View>
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
@@ -92,6 +94,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Smallest8,
     paddingHorizontal: Spacing.Smallest8,
     justifyContent: 'flex-end',
+    gap: Spacing.Smallest8,
   },
   attentionIcon: {
     paddingTop: Spacing.Tiny4,
@@ -109,8 +112,8 @@ const styles = StyleSheet.create({
   ctaLabel: {
     ...typeScale.labelSmall,
     fontWeight: '600',
-    paddingHorizontal: Spacing.Smallest8,
     paddingVertical: Spacing.Tiny4,
+    paddingHorizontal: Spacing.Smallest8,
   },
 })
 
@@ -127,6 +130,12 @@ const severityColors: Record<Severity, CustomColors> = {
     primary: Colors.errorDark,
     secondary: Colors.errorLight,
   },
+}
+
+const severityIcons: Record<Severity, (args: any) => JSX.Element> = {
+  [Severity.Informational]: AttentionIcon,
+  [Severity.Warning]: Warning,
+  [Severity.Error]: Warning,
 }
 
 export default InLineNotification
