@@ -2,7 +2,7 @@ import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useReducer, useRef } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -70,7 +70,8 @@ interface SwapState {
   // Raw input values (can contain region specific decimal separators)
   inputSwapAmount: SwapAmount
   updatedField: Field
-  selectingToken: Field | null
+  selectingField: Field | null
+  selectingToken: TokenBalance | null
   confirmingSwap: boolean
   // Keep track of which swap is currently being executed from this screen
   // This is because there could be multiple swaps happening at the same time
@@ -84,6 +85,7 @@ function getInitialState(fromTokenId?: string): SwapState {
     toTokenId: undefined,
     inputSwapAmount: DEFAULT_INPUT_SWAP_AMOUNT,
     updatedField: Field.FROM,
+    selectingField: null,
     selectingToken: null,
     confirmingSwap: false,
     startedSwapId: null,
@@ -122,8 +124,14 @@ const swapSlice = createSlice({
       })
     },
     startSelectToken: (state, action: PayloadAction<{ fieldType: Field }>) => {
-      state.selectingToken = action.payload.fieldType
+      state.selectingField = action.payload.fieldType
       state.confirmingSwap = false
+    },
+    selectNoUsdPriceToken: (state, action: PayloadAction<{ token: TokenBalance }>) => {
+      state.selectingToken = action.payload.token
+    },
+    unselectNoUsdPriceToken: (state) => {
+      state.selectingToken = null
     },
     selectTokens: (
       state,
@@ -141,6 +149,7 @@ const swapSlice = createSlice({
       state.fromTokenId = fromTokenId
       state.toTokenId = toTokenId
       state.switchedToNetworkId = switchedToNetworkId
+      state.selectingToken = null
     },
     quoteUpdated: (state, action: PayloadAction<{ quote: QuoteResult | null }>) => {
       const { quote } = action.payload
@@ -181,6 +190,8 @@ const {
   quoteUpdated,
   startConfirmSwap,
   startSwap,
+  selectNoUsdPriceToken,
+  unselectNoUsdPriceToken,
 } = swapSlice.actions
 
 const swapStateReducer = swapSlice.reducer
@@ -202,10 +213,6 @@ export function SwapScreen({ route }: Props) {
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
-
-  const [selectingNoUsdPriceToken, setSelectingNoUsdPriceToken] = useState<TokenBalance | null>(
-    null
-  )
 
   const { decimalSeparator } = getNumberFormatSettings()
 
@@ -233,6 +240,7 @@ export function SwapScreen({ route }: Props) {
     toTokenId,
     inputSwapAmount,
     updatedField,
+    selectingField,
     selectingToken,
     confirmingSwap,
     switchedToNetworkId,
@@ -425,8 +433,8 @@ export function SwapScreen({ route }: Props) {
     localDispatch(startSelectToken({ fieldType }))
 
     // use requestAnimationFrame so that the bottom sheet open animation is done
-    // after the selectingToken value is updated, so that the title of the
-    // bottom sheet (which depends on selectingToken) does not change on the
+    // after the selectingField value is updated, so that the title of the
+    // bottom sheet (which depends on selectingField) does not change on the
     // screen
     requestAnimationFrame(() => {
       tokenBottomSheetRef.current?.snapToIndex(0)
@@ -434,9 +442,9 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleConfirmSelectToken = (selectedToken: TokenBalance) => {
-    if (!selectingToken) {
+    if (!selectingField) {
       // Should never happen
-      Logger.error(TAG, 'handleSelectToken called without selectingToken')
+      Logger.error(TAG, 'handleSelectToken called without selectingField')
       return
     }
 
@@ -445,12 +453,12 @@ export function SwapScreen({ route }: Props) {
     let newToToken = toToken
 
     if (
-      (selectingToken === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
-      (selectingToken === Field.TO && fromToken?.tokenId === selectedToken.tokenId)
+      (selectingField === Field.FROM && toToken?.tokenId === selectedToken.tokenId) ||
+      (selectingField === Field.TO && fromToken?.tokenId === selectedToken.tokenId)
     ) {
       newFromToken = toToken
       newToToken = fromToken
-    } else if (selectingToken === Field.FROM) {
+    } else if (selectingField === Field.FROM) {
       newFromToken = selectedToken
       newSwitchedToNetworkId =
         toToken && toToken.networkId !== newFromToken.networkId ? newFromToken.networkId : null
@@ -458,7 +466,7 @@ export function SwapScreen({ route }: Props) {
         // reset the toToken if the user is switching networks
         newToToken = undefined
       }
-    } else if (selectingToken === Field.TO) {
+    } else if (selectingField === Field.TO) {
       newToToken = selectedToken
       newSwitchedToNetworkId =
         fromToken && fromToken.networkId !== newToToken.networkId ? newToToken.networkId : null
@@ -469,7 +477,7 @@ export function SwapScreen({ route }: Props) {
     }
 
     ValoraAnalytics.track(SwapEvents.swap_screen_confirm_token, {
-      fieldType: selectingToken,
+      fieldType: selectingField,
       tokenSymbol: selectedToken.symbol,
       tokenId: selectedToken.tokenId,
       tokenNetworkId: selectedToken.networkId,
@@ -504,19 +512,18 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
-    if (selectingNoUsdPriceToken) {
-      handleConfirmSelectToken(selectingNoUsdPriceToken)
-      setSelectingNoUsdPriceToken(null)
+    if (selectingToken) {
+      handleConfirmSelectToken(selectingToken)
     }
   }
 
   const handleDismissSelectTokenNoUsdPrice = () => {
-    setSelectingNoUsdPriceToken(null)
+    localDispatch(unselectNoUsdPriceToken())
   }
 
   const handleSelectToken = (selectedToken: TokenBalance) => {
     if (!selectedToken.priceUsd) {
-      setSelectingNoUsdPriceToken(selectedToken)
+      localDispatch(selectNoUsdPriceToken({ token: selectedToken }))
       return
     }
 
@@ -670,7 +677,7 @@ export function SwapScreen({ route }: Props) {
               })}
               description={t('swapScreen.switchedToNetworkWarning.body', {
                 networkName: switchedToNetworkName,
-                context: selectingToken === Field.FROM ? 'swapTo' : 'swapFrom',
+                context: selectingField === Field.FROM ? 'swapTo' : 'swapFrom',
               })}
               style={styles.warning}
               testID="SwitchedToNetworkWarning"
@@ -746,7 +753,7 @@ export function SwapScreen({ route }: Props) {
         searchEnabled={true}
         tokens={supportedTokens}
         title={
-          selectingToken == Field.FROM
+          selectingField == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
             : t('swapScreen.swapToTokenSelection')
         }
@@ -802,7 +809,7 @@ export function SwapScreen({ route }: Props) {
         />
       </BottomSheet>
       <BottomSheetInLineNotification
-        showNotification={!!selectingNoUsdPriceToken}
+        showNotification={!!selectingToken}
         severity={Severity.Warning}
         title={t('swapScreen.noUsdPriceWarning.title')}
         description={t('swapScreen.noUsdPriceWarning.description')}
