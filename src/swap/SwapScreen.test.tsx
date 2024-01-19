@@ -1490,7 +1490,7 @@ describe('SwapScreen', () => {
     expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
   })
 
-  it("should display 'Fund your wallet' bottom sheet when user has no balance at all", async () => {
+  it("should display 'Fund your wallet' bottom sheet with 'Add funds' button when user has zero balance", async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
 
     const store = createMockStore({
@@ -1505,8 +1505,8 @@ describe('SwapScreen', () => {
           [mockCeloTokenId]: {
             ...mockTokenBalances[mockCeloTokenId],
             isSwappable: true,
-            priceUsd: '1',
             balance: '0',
+            priceUsd: '1',
           },
         },
       },
@@ -1531,57 +1531,11 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
     fireEvent.press(getByText('swapScreen.confirmSwap'))
 
-    expect(getByTestId('FundYourWalletBottomSheet')).toBeDefined()
-
+    expect(store.getActions().map((action) => action.type)).not.toContain(swapStart.type)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_show_fund_your_wallet)
-  })
-
-  it("should navigate to buy token flow when 'Add funds' button is pressed", async () => {
-    mockFetch.mockResponse(defaultQuoteResponse)
-
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockCusdTokenId]: {
-            ...mockTokenBalances[mockCusdTokenId],
-            isSwappable: true,
-            balance: '0',
-            priceUsd: '1',
-          },
-          [mockCeloTokenId]: {
-            ...mockTokenBalances[mockCeloTokenId],
-            isSwappable: true,
-            priceUsd: '1',
-            balance: '0',
-          },
-        },
-      },
-    })
-
-    const { getByText, getByTestId, getAllByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={SwapScreen} />
-      </Provider>
-    )
-    const [swapFromContainer, swapToContainer] = getAllByTestId('SwapAmountInput')
-    const tokenBottomSheet = getByTestId('TokenBottomSheet')
-
-    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
-    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
-    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
-
-    await act(() => {
-      jest.runOnlyPendingTimers()
-    })
-
-    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
-
-    fireEvent.press(getByText('swapScreen.confirmSwap'))
-    expect(getByTestId('FundYourWalletBottomSheet')).toBeDefined()
 
     fireEvent.press(getByText('swapScreen.fundYourWalletBottomSheet.addFundsButton'))
     expect(navigateToFiatCurrencySelection).toHaveBeenCalled()
-
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_add_funds)
   })
 })
