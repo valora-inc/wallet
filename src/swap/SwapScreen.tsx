@@ -72,7 +72,7 @@ interface SwapState {
   inputSwapAmount: SwapAmount
   updatedField: Field
   selectingField: Field | null
-  selectingToken: TokenBalance | null
+  selectingNoUsdPriceToken: TokenBalance | null
   confirmingSwap: boolean
   // Keep track of which swap is currently being executed from this screen
   // This is because there could be multiple swaps happening at the same time
@@ -87,7 +87,7 @@ function getInitialState(fromTokenId?: string): SwapState {
     inputSwapAmount: DEFAULT_INPUT_SWAP_AMOUNT,
     updatedField: Field.FROM,
     selectingField: null,
-    selectingToken: null,
+    selectingNoUsdPriceToken: null,
     confirmingSwap: false,
     startedSwapId: null,
     switchedToNetworkId: null,
@@ -129,10 +129,10 @@ const swapSlice = createSlice({
       state.confirmingSwap = false
     },
     selectNoUsdPriceToken: (state, action: PayloadAction<{ token: TokenBalance }>) => {
-      state.selectingToken = action.payload.token
+      state.selectingNoUsdPriceToken = action.payload.token
     },
     unselectNoUsdPriceToken: (state) => {
-      state.selectingToken = null
+      state.selectingNoUsdPriceToken = null
     },
     selectTokens: (
       state,
@@ -150,7 +150,7 @@ const swapSlice = createSlice({
       state.fromTokenId = fromTokenId
       state.toTokenId = toTokenId
       state.switchedToNetworkId = switchedToNetworkId
-      state.selectingToken = null
+      state.selectingNoUsdPriceToken = null
     },
     quoteUpdated: (state, action: PayloadAction<{ quote: QuoteResult | null }>) => {
       const { quote } = action.payload
@@ -242,7 +242,7 @@ export function SwapScreen({ route }: Props) {
     inputSwapAmount,
     updatedField,
     selectingField,
-    selectingToken,
+    selectingNoUsdPriceToken,
     confirmingSwap,
     switchedToNetworkId,
     startedSwapId,
@@ -514,8 +514,8 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
-    if (selectingToken) {
-      handleConfirmSelectToken(selectingToken)
+    if (selectingNoUsdPriceToken) {
+      handleConfirmSelectToken(selectingNoUsdPriceToken)
     }
   }
 
@@ -811,7 +811,7 @@ export function SwapScreen({ route }: Props) {
         />
       </BottomSheet>
       <BottomSheetInLineNotification
-        showNotification={!!selectingToken}
+        showNotification={!!selectingNoUsdPriceToken}
         severity={Severity.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
         description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
