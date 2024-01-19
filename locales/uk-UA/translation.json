@@ -1747,6 +1747,11 @@
       "networkFeeInfoDismissButton": "Зрозуміло",
       "exchangeRate": "Валютний курс",
       "estimatedValue": "Орієнтовна вартість"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Поповніть свій гаманець",
+      "description": "Перш ніж ви зможете обміняти токени, вам потрібно буде поповнити свій гаманець, купивши криптовалюту або переказавши токени.",
+      "addFundsButton": "Додати кошти"
     }
   },
   "swapTransactionDetailPage": {
