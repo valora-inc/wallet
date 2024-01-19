@@ -2,8 +2,8 @@ import React from 'react'
 import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Card from 'src/components/Card'
 import TextInput from 'src/components/TextInput'
+import AttentionIcon from 'src/icons/Attention'
 import Checkmark from 'src/icons/Checkmark'
-import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -84,9 +84,10 @@ export default function CodeInput({
           {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
 
           {showError && (
-            <ExclamationCircleIcon
+            <AttentionIcon
               color={colors.error}
-              testID={testID ? `${testID}/ErrorIcon` : undefined}
+              testId={testID ? `${testID}/ErrorIcon` : undefined}
+              size={20}
             />
           )}
         </View>
