@@ -40,7 +40,7 @@ import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
-import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
+import AttentionIcon from 'src/icons/Attention'
 import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
@@ -63,7 +63,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
@@ -304,7 +304,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <ExclamationCircleIcon />
+                  <AttentionIcon color={Colors.primary} size={20} />
                 </View>
               </View>
             ),
@@ -324,7 +324,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('accountKey')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <ExclamationCircleIcon />
+                  <AttentionIcon color={Colors.primary} size={20} />
                 </View>
               </View>
             ),
