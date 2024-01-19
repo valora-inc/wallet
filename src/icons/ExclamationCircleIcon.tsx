@@ -1,5 +1,4 @@
 import * as React from 'react'
-import { ColorValue } from 'react-native'
 import { Path, Svg } from 'react-native-svg'
 import Colors from 'src/styles/colors'
 
@@ -7,7 +6,7 @@ const ExclamationCircleIcon = ({
   color = Colors.primary,
   testID,
 }: {
-  color?: ColorValue
+  color?: Colors
   testID?: string
 }) => {
   return (

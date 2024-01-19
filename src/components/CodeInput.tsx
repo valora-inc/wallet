@@ -39,7 +39,6 @@ export default function CodeInput({
   const showCheckmark = status === CodeInputStatus.Accepted
   const showError = status === CodeInputStatus.Error
   const showStatus = showCheckmark || showSpinner || showError
-  const keyboardType = 'number-pad'
 
   const textColorForStatus = {
     [CodeInputStatus.Inputting]: colors.black,
@@ -62,12 +61,7 @@ export default function CodeInput({
             // Though `InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS` is correctly set on the native input,
             // most Android keyboards ignore it :/
             autoCorrect={false}
-            // On Android, the only known hack for now to disable keyboard suggestions
-            // is to set the keyboard type to 'visible-password' which sets `InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD`
-            // on the native input. Though it doesn't work in all cases (see https://stackoverflow.com/a/33227237/158525)
-            // and has the unfortunate drawback of breaking multiline autosize.
-            // We use numberOfLines to workaround this last problem.
-            keyboardType={keyboardType}
+            keyboardType={'number-pad'}
             inputStyle={{
               ...fontStyles.large,
               textAlign: 'center',
