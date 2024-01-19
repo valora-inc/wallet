@@ -711,8 +711,8 @@ export function SwapScreen({ route }: Props) {
           {showNoUsdPriceWarning && (
             <InLineNotification
               severity={Severity.Warning}
-              title={t('swapScreen.noUsdPriceWarning.title')}
-              description={t('swapScreen.noUsdPriceWarning.description')}
+              title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
+              description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
               style={styles.warning}
             />
           )}
