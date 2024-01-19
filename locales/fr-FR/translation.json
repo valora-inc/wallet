@@ -1743,6 +1743,11 @@
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
       "estimatedValue": "Valeur estimée"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Finance ton portefeuille",
+      "description": "Avant de pouvoir échanger des jetons, tu devras approvisionner ton portefeuille en achetant de la crypto ou en transférant des jetons.",
+      "addFundsButton": "Ajouter des fonds"
     }
   },
   "swapTransactionDetailPage": {
