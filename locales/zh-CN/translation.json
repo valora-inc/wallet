@@ -1741,6 +1741,11 @@
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "为您的钱包充值",
+      "description": "在交换代币之前，您需要通过购买加密货币或转移代币来为钱包充值。",
+      "addFundsButton": "添加资金"
     }
   },
   "swapTransactionDetailPage": {
