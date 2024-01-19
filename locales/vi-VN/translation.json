@@ -1741,6 +1741,11 @@
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
       "estimatedValue": "Giá trị ước tính"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Fund your wallet",
+      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "addFundsButton": "Nạp tiền"
     }
   },
   "swapTransactionDetailPage": {
