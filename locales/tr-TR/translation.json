@@ -78,10 +78,11 @@
     "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
   "setUpKeylessBackup": {
-    "title": "Anahtarsız Yedeklemeyi Ayarlama",
-    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız:",
+    "title": "Cüzdan Yedeklemeyi Ayarlama",
+    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
     "emailAddress": "E-posta Adresi",
-    "phoneNumber": "Telefon Numarası"
+    "phoneNumber": "Telefon Numarası",
+    "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın"
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Bunları güvende tutun!",
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-posta veya telefon numaranızı saklamaz. Güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -2021,6 +2022,10 @@
     "description2": "Bu henüz yeni ve ekibimiz işleri mükemmel hale getirmek için hâlâ çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
     "primaryCta": "Şimdi deneyin",
     "secondaryCta": "Hayır, teşekkürler"
+  },
+  "getStartedHome": {
+    "title": "Kripto satın alın veya token aktarın",
+    "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -2954,6 +2954,27 @@ export const v181Schema = {
   },
 }
 
+export const v182Schema = {
+  ...v181Schema,
+  _persist: {
+    ...v181Schema._persist,
+    version: 182,
+  },
+  tokens: {
+    ...v181Schema.tokens,
+    importedTokens: {},
+  },
+}
+
+export const v183Schema = {
+  ...v182Schema,
+  _persist: {
+    ...v182Schema._persist,
+    version: 183,
+  },
+  home: { ...v182Schema.home, cleverTapInboxMessages: [] },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v181Schema as Partial<RootState>
+  return v183Schema as Partial<RootState>
 }

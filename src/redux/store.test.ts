@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 181,
+          "version": 183,
         },
         "account": {
           "acceptedTerms": false,
@@ -238,6 +238,7 @@ describe('store state', () => {
           "txHashToProvider": {},
         },
         "home": {
+          "cleverTapInboxMessages": [],
           "loading": false,
           "notifications": {},
         },
@@ -336,6 +337,7 @@ describe('store state', () => {
         },
         "tokens": {
           "error": false,
+          "importedTokens": {},
           "loading": false,
           "tokenBalances": {},
         },

@@ -78,10 +78,11 @@
     "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
-    "title": "Set up Keyless Backup",
-    "subtitle": "You'll use the following to set up backup:",
+    "title": "Set Up Wallet Backup",
+    "subtitle": "You'll use the following to set up backup",
     "emailAddress": "Email Address",
-    "phoneNumber": "Phone Number"
+    "phoneNumber": "Phone Number",
+    "useRecoveryPhrase": "Use recovery phrase instead"
   },
   "signInWithEmail": {
     "title": "Sign in with email",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "Terms and Conditions",
     "heading1": "Data and Privacy",
-    "heading2": "Assets and {{appName}} Account",
+    "heading2": "Digital Assets and {{appName}}",
     "info": "In order to use our services, please read and accept our <0>User Agreement and Terms</0> by clicking the accept button below.",
     "privacy": "By joining this network, you give us permission to collect anonymous information about your use of the app. Additionally, if you connect your phone number, a hashed copy of it will be stored. If you grant Valora access to your contact list, Valora will import each contact's name, phone number and profile picture to allow users to connect through the Valora app. To learn how we collect and use this information please review our <0>Privacy Policy</0>.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that cryptocurrencies are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any asset."
+    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
   },
   "fullNameOrPsuedonym": "Full name or pseudonym",
   "namePlaceholder": "ex. name",
@@ -2021,6 +2022,10 @@
     "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
     "primaryCta": "Try it now",
     "secondaryCta": "No thanks"
+  },
+  "getStartedHome": {
+    "title": "Buy crypto or transfer tokens",
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -78,10 +78,11 @@
     "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
   "setUpKeylessBackup": {
-    "title": "Set up Keyless Backup",
-    "subtitle": "You'll use the following to set up backup:",
+    "title": "Set Up Wallet Backup",
+    "subtitle": "You'll use the following to set up backup",
     "emailAddress": "Email Address",
-    "phoneNumber": "Phone Number"
+    "phoneNumber": "Phone Number",
+    "useRecoveryPhrase": "Use recovery phrase instead"
   },
   "signInWithEmail": {
     "title": "Sign in with email",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
@@ -1708,6 +1709,12 @@
       "title": "Before you swap",
       "body": "Swapping these assets may result in an unfavorable exchange rate. If you lower the amount, you may get a better rate."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} price unavailable",
+      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "ctaConfirm": "I understand",
+      "ctaDismiss": "Cancel"
+    },
     "missingSwapImpactWarning": {
       "title": "Before you swap",
       "body": "We can't estimate the value of this swap. {{appName}} is not responsible if you choose to proceed."
@@ -1738,6 +1745,11 @@
       "networkFeeInfoDismissButton": "Got it",
       "exchangeRate": "Exchange Rate",
       "estimatedValue": "Estimated Value"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Fund your wallet",
+      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "addFundsButton": "Add Funds"
     }
   },
   "swapTransactionDetailPage": {
@@ -2023,5 +2035,9 @@
     "description2": "This is still new, and our team is still working hard to make things perfect. We’d love to hear your feedback.",
     "primaryCta": "Try it now",
     "secondaryCta": "No thanks"
+  },
+  "getStartedHome": {
+    "title": "Buy crypto or transfer tokens",
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
   }
 }
