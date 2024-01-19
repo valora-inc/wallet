@@ -67,7 +67,7 @@ export function* handleValoraKeyshareIssued({
   }
 }
 
-export function* handleKeylessBackupSetup({
+function* handleKeylessBackupSetup({
   torusKeyshareBuffer,
   valoraKeyshareBuffer,
   encryptionAddress,
@@ -94,7 +94,7 @@ export function* handleKeylessBackupSetup({
   yield* put(keylessBackupCompleted())
 }
 
-export function* handleKeylessBackupRestore({
+function* handleKeylessBackupRestore({
   torusKeyshareBuffer,
   valoraKeyshareBuffer,
   encryptionPrivateKey,
