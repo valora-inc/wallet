@@ -1743,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Finanzia il tuo portafoglio",
+      "description": "Prima di poter scambiare i token dovrai finanziare il tuo portafoglio acquistando criptovalute o trasferendo token.",
+      "addFundsButton": "Aggiungi fondi"
     }
   },
   "swapTransactionDetailPage": {
