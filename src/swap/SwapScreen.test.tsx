@@ -311,11 +311,15 @@ describe('SwapScreen', () => {
       within(tokenBottomSheet).getByText(mockStoreTokenBalances[mockPoofTokenId].name)
     )
 
-    expect(getByText('swapScreen.noUsdPriceWarning.description')).toBeTruthy()
+    expect(
+      getByText('swapScreen.noUsdPriceWarning.description, {"localCurrency":"PHP"}')
+    ).toBeTruthy()
 
     fireEvent.press(getByText('swapScreen.noUsdPriceWarning.ctaDismiss'))
 
-    expect(queryByText('swapScreen.noUsdPriceWarning.description')).toBeFalsy()
+    expect(
+      queryByText('swapScreen.noUsdPriceWarning.description, {"localCurrency":"PHP"}')
+    ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
     expect(within(swapFromContainer).getByText('swapScreen.swapFromTokenSelection')).toBeTruthy()
   })
