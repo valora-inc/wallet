@@ -1741,6 +1741,11 @@
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
       "estimatedValue": "ค่าโดยประมาณ"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Fund your wallet",
+      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "addFundsButton": "เพิ่มเงินทุน"
     }
   },
   "swapTransactionDetailPage": {
