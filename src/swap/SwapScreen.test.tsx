@@ -1489,11 +1489,10 @@ describe('SwapScreen', () => {
         <MockedNavigator component={SwapScreen} />
       </Provider>
     )
-    const [swapFromContainer, swapToContainer] = getAllByTestId('SwapAmountInput')
-    const tokenBottomSheet = getByTestId('TokenBottomSheet')
+    const swapScreen = getByTestId('SwapScreen')
+    const [swapFromContainer] = getAllByTestId('SwapAmountInput')
 
-    selectToken(swapFromContainer, 'CELO', tokenBottomSheet)
-    selectToken(swapToContainer, 'cUSD', tokenBottomSheet)
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
     fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
 
     await act(() => {
