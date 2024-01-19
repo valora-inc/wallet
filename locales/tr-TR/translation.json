@@ -1743,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
       "estimatedValue": "Tahmini Değer"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Cüzdanınıza para yatırın",
+      "description": "Tokenları takas etmeden önce kripto satın alarak veya tokenları transfer ederek cüzdanınıza para yatırmanız gerekir.",
+      "addFundsButton": "Bakiye Ekle"
     }
   },
   "swapTransactionDetailPage": {
