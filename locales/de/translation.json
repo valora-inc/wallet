@@ -1743,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
       "estimatedValue": "Geschätzter Wert"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Finanziere dein Portemonnaie",
+      "description": "Bevor du Token tauschen kannst, musst du dein Wallet durch den Kauf von Krypto oder die Übertragung von Token finanzieren.",
+      "addFundsButton": "Guthaben hinzufügen"
     }
   },
   "swapTransactionDetailPage": {
