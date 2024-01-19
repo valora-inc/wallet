@@ -1745,6 +1745,11 @@
       "networkFeeInfoDismissButton": "Got it",
       "exchangeRate": "Exchange Rate",
       "estimatedValue": "Estimated Value"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Fund your wallet",
+      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "addFundsButton": "Add Funds"
     }
   },
   "swapTransactionDetailPage": {
