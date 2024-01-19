@@ -4,7 +4,7 @@ import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import { superchargeRewardContractAddressSelector } from 'src/consumerIncentives/selectors'
 import {
   claimRewards,
@@ -146,6 +146,12 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
 }
 
 export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchAvailableRewards>) {
+  const rewardsEnabled = yield* select(rewardsEnabledSelector)
+  if (!rewardsEnabled) {
+    Logger.debug(TAG, 'Skipping fetching available rewards since rewards are not enabled')
+    return
+  }
+
   const address = yield* select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
