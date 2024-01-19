@@ -78,10 +78,11 @@
     "description": "只有您自己才能访问您的钱包。如果您的手机丢失或被盗，Valora 无法协助找回钱包。\n\n您需要设置适当方法来保护钱包及资金的安全。"
   },
   "setUpKeylessBackup": {
-    "title": "设置免密钥备份",
-    "subtitle": "设置备份需要使用以下信息：",
+    "title": "设置钱包备份",
+    "subtitle": "您将使用以下方法设置备份",
     "emailAddress": "电子邮件地址",
-    "phoneNumber": "手机号码"
+    "phoneNumber": "手机号码",
+    "useRecoveryPhrase": "改用恢复短语"
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>请记住</0>：如果您的设备丢失或被盗，此信息是访问您钱包的唯一途径。务必妥善保管！",
+  "setupKeylessBackupReminder": "请<0>记住</0>，如果您的设备丢失或被盗，这些信息是访问您钱包的唯一途径。Valora 不会存储您的电子邮件或电话号码。请妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "条款和条件",
     "heading1": "数据和隐私",
-    "heading2": "数字资产和 {{appName}}",
+    "heading2": "资产和 {{appName}} 账户",
     "info": "要使用我们的服务，请阅读我们的<0>用户协议和条款</0>并点击下面的接受按钮接受。",
     "privacy": "加入此网络，即表示您允许我们收集有关您使用该应用程序的匿名信息。此外，如果您关联您的电话号码，将存储它的哈希副本。如果您授予 Valora 访问您的联系人列表的权限，Valora 将导入每个联系人的姓名、电话号码和个人资料照片，以允许用户通过 Valora 应用程序进行关联。要了解我们如何收集和使用这些信息，请查看我们的<0>隐私政策</0>。",
-    "goldDisclaimer": "当您在 Valora 创建一个 \"账户 \"时，您就创建了一个数字钱包，只有您才拥有该钱包的密钥。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥，更改或撤销交易，或恢复丢失的资金。请注意，数字资产是新资产类别的一部分，存在财务损失风险。在购买任何数字资产之前，请仔细考虑您的财务状况和财务风险承受能力。"
+    "goldDisclaimer": "当您使用 Valora 创建一个“账户”时，您创建的是一个只有您拥有密钥的数字钱包。包括 Valora 在内的任何其他个人或实体都无法恢复您的密钥、更改或撤消交易或者追回丢失的资金。请注意，加密货币是新资产类别的一部分，存在财务损失风险。在购买任何资产之前，请仔细考虑您的财务状况和对财务风险的承受能力。"
   },
   "fullNameOrPsuedonym": "全名或化名",
   "namePlaceholder": "例如：姓名",
@@ -2019,6 +2020,10 @@
     "description2": "这还是个新产品，我们的团队仍在努力使其更加完美。我们希望听到您的反馈意见。",
     "primaryCta": "立即试试看",
     "secondaryCta": "不，谢谢"
+  },
+  "getStartedHome": {
+    "title": "购买加密货币或转让代币",
+    "body": "购买或转让 celo 或以太坊兼容代币，赚取 {{apy}}% 的奖励，探索 web3 等！"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

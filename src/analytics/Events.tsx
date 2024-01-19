@@ -563,6 +563,8 @@ export enum SwapEvents {
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
   swap_show_info = 'swap_show_info',
+  swap_show_fund_your_wallet = 'swap_show_fund_your_wallet',
+  swap_add_funds = 'swap_add_funds',
 }
 
 export enum CeloNewsEvents {

@@ -78,10 +78,11 @@
     "description": "มีเพียงคุณเท่านั้นที่สามารถเข้าถึงกระเป๋าเงินของคุณได้ หากโทรศัพท์ของคุณสูญหายหรือถูกขโมย Valora จะไม่สามารถกู้คืนให้คุณได้\n\nคุณจะต้องตั้งค่าวิธีการเพื่อรักษากระเป๋าเงินของคุณให้ปลอดภัยและปกป้องเงินของคุณ"
   },
   "setUpKeylessBackup": {
-    "title": "ตั้งค่าการสำรองข้อมูลแบบไร้กุญแจ",
-    "subtitle": "โปรดตั้งค่าการสำรองข้อมูลโดยใช้สิ่งต่อไปนี้",
+    "title": "Set Up Wallet Backup",
+    "subtitle": "You'll use the following to set up backup",
     "emailAddress": "อีเมล",
-    "phoneNumber": "หมายเลขโทรศัพท์"
+    "phoneNumber": "หมายเลขโทรศัพท์",
+    "useRecoveryPhrase": "Use recovery phrase instead"
   },
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ โปรดเก็บให้ปลอดภัย",
+  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
   "privacyPolicy": "นโยบายความเป็นส่วนตัว",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "ข้อกำหนดและเงื่อนไข",
     "heading1": "ข้อมูลและความเป็นส่วนตัว",
-    "heading2": "Digital Assets and {{appName}}",
+    "heading2": "สินทรัพย์และบัญชี {{appName}}",
     "info": "เพื่อใช้บริการของเรา โปรดอ่านและยอมรับ<0>ข้อกำหนดและข้อตกลงในการใช้บริการ</0> โดยคลิกปุ่มยอมรับด้านล่าง",
     "privacy": "การเข้าร่วมเครือข่ายนี้แสดงว่าคุณให้อนุญาตเราเก็บรวบรวมข้อมูลโดยไม่ระบุตัวตนเกี่ยวกับการใช้งานแอปของคุณ นอกจากนี้ หากคุณเชื่อมต่อหมายเลขโทรศัพท์ของคุณ จะมีการจัดเก็บสำเนาแฮช หากคุณอนุญาตให้ Valora เข้าถึงรายชื่อผู้ติดต่อของคุณ Valora จะนำเข้าชื่อ หมายเลขโทรศัพท์ และรูปโปรไฟล์ของผู้ติดต่อแต่ละรายเพื่อให้ผู้ใช้สามารถเชื่อมต่อผ่านแอป Valora ได้ หากต้องการเรียนรู้วิธีการเก็บรวบรวมและใช้ข้อมูลนี้ของเรา โปรดตรวจสอบ<0>นโยบายความเป็นส่วนตัว</0>ของเรา",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
+    "goldDisclaimer": "เมื่อคุณสร้าง \"บัญชี\" กับ Valora เท่ากับคุณกำลังสร้างกระเป๋าเงินดิจิทัลที่มีเพียงคุณผู้เดียวเท่านั้นที่เป็นผู้ถือกุญแจ ไม่มีบุคคลหรือหน่วยงานใด รวมถึง Valora ที่สามารถกู้คืนกุญแจของคุณ เปลี่ยนแปลงหรือยกเลิกธุรกรรม หรือเรียกคืนเงินที่สูญเสียไปได้ โปรดทราบว่าคริปโตเคอร์เรนซีเป็นส่วนหนึ่งของประเภทสินทรัพย์ใหม่และมีความเสี่ยงที่จะเกิดผลขาดทุนการเงิน โปรดพิจารณาสถานการณ์ทางการเงินและความสามารถในการยอมรับความเสี่ยงทางการเงินของคุณอย่างรอบคอบก่อนซื้อสินทรัพย์ใดๆ"
   },
   "fullNameOrPsuedonym": "ชื่อและนามสกุลหรือนามแฝง",
   "namePlaceholder": "ชื่อ",
@@ -2019,6 +2020,10 @@
     "description2": "นี่เป็นคุณสมบัติใหม่และทีมงานของเรายังคงทำงานอย่างหนักเพื่อทำให้ทุกอย่างสมบูรณ์แบบ เรายินดีรับฟังความคิดเห็นของคุณ",
     "primaryCta": "ลองเลย",
     "secondaryCta": "ไม่ ขอบคุณ"
+  },
+  "getStartedHome": {
+    "title": "Buy crypto or transfer tokens",
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

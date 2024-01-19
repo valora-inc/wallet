@@ -1294,6 +1294,8 @@ interface SwapEventsProperties {
   [SwapEvents.swap_show_info]: {
     type: SwapShowInfoType
   }
+  [SwapEvents.swap_show_fund_your_wallet]: undefined
+  [SwapEvents.swap_add_funds]: undefined
 }
 
 interface CeloNewsEventsProperties {
