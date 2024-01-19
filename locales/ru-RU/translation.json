@@ -1747,6 +1747,11 @@
       "networkFeeInfoDismissButton": "Понятно",
       "exchangeRate": "Обменный курс",
       "estimatedValue": "Оценочная стоимость"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Пополни свой кошелек",
+      "description": "Прежде чем обменять токены, тебе нужно будет пополнить свой кошелек, купив криптовалюту или переведя токены.",
+      "addFundsButton": "Внести средства"
     }
   },
   "swapTransactionDetailPage": {
