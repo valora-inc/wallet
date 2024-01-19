@@ -61,7 +61,7 @@ export function InLineNotification({
     >
       <View style={styles.row}>
         <View style={styles.attentionIcon}>
-          <Icon color={severityColor.primary} size={16} />
+          <Icon color={severityColor.primary} size={20} />
         </View>
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Smallest8,
     paddingHorizontal: Spacing.Smallest8,
     justifyContent: 'flex-end',
-    gap: Spacing.Regular16,
+    gap: Spacing.Smallest8,
   },
   attentionIcon: {
     paddingTop: Spacing.Tiny4,
@@ -113,6 +113,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     fontWeight: '600',
     paddingVertical: Spacing.Tiny4,
+    paddingHorizontal: Spacing.Smallest8,
   },
 })
 
