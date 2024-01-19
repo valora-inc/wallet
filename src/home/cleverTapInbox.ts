@@ -98,6 +98,7 @@ export function parseCleverTapMessages(rawMessages: ExpectedCleverTapInboxMessag
     }
   } catch (error) {
     Logger.error(TAG, 'Unexpected error while parsing CleverTap Inbox messages', {
+      error,
       rawMessages,
     })
   }
