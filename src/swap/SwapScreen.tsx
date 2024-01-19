@@ -25,6 +25,7 @@ import TokenBottomSheet, {
 } from 'src/components/TokenBottomSheet'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
+import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -264,6 +265,7 @@ export function SwapScreen({ route }: Props) {
       fromToken?.networkId || networkConfig.defaultNetworkId
     )
   )
+  const localCurrency = useSelector(getLocalCurrencyCode)
 
   const { quote, refreshQuote, fetchSwapQuoteError, fetchingSwapQuote, clearQuote } = useSwapQuote(
     fromToken?.networkId || networkConfig.defaultNetworkId,
@@ -811,12 +813,12 @@ export function SwapScreen({ route }: Props) {
       <BottomSheetInLineNotification
         showNotification={!!selectingToken}
         severity={Severity.Warning}
-        title={t('swapScreen.noUsdPriceWarning.title')}
-        description={t('swapScreen.noUsdPriceWarning.description')}
-        ctaLabel={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
-        onPressCta={handleConfirmSelectTokenNoUsdPrice}
-        ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaDismiss')}
-        onPressCta2={handleDismissSelectTokenNoUsdPrice}
+        title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
+        description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
+        ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
+        onPressCta2={handleConfirmSelectTokenNoUsdPrice}
+        ctaLabel={t('swapScreen.noUsdPriceWarning.ctaDismiss')}
+        onPressCta={handleDismissSelectTokenNoUsdPrice}
       />
     </SafeAreaView>
   )
