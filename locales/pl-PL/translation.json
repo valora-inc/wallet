@@ -1747,6 +1747,11 @@
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
       "estimatedValue": "Szacunkowa wartość"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Zasil swój portfel",
+      "description": "Zanim będziesz mógł wymieniać tokeny, musisz zasilić swój portfel, kupując kryptowaluty lub przesyłając tokeny.",
+      "addFundsButton": "Dodaj środki"
     }
   },
   "swapTransactionDetailPage": {
