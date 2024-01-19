@@ -347,7 +347,7 @@ export function SwapScreen({ route }: Props) {
     localDispatch(startConfirmSwap())
 
     if (tokensWithBalance.length === 0) {
-      ValoraAnalytics.track(SwapEvents.swap_add_funds)
+      ValoraAnalytics.track(SwapEvents.swap_show_fund_your_wallet)
       fundYourWalletBottomSheetRef.current?.snapToIndex(0)
       return
     }

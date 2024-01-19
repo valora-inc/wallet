@@ -1532,6 +1532,8 @@ describe('SwapScreen', () => {
     fireEvent.press(getByText('swapScreen.confirmSwap'))
 
     expect(getByTestId('FundYourWalletBottomSheet')).toBeDefined()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_show_fund_your_wallet)
   })
 
   it("should navigate to buy token flow when 'Add funds' button is pressed", async () => {
@@ -1579,5 +1581,7 @@ describe('SwapScreen', () => {
 
     fireEvent.press(getByText('swapScreen.fundYourWalletBottomSheet.addFundsButton'))
     expect(navigateToFiatCurrencySelection).toHaveBeenCalled()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_add_funds)
   })
 })
