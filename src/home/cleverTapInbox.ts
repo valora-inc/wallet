@@ -1,11 +1,20 @@
 import CleverTap from 'clevertap-react-native'
+import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'CleverTapInbox'
 
 export function cleverTapInboxMessagesChannel() {
+  const useCleverTapInbox = getFeatureGate(StatsigFeatureGates.CLEVERTAP_INBOX)
+
   return eventChannel((emit: any) => {
+    if (!useCleverTapInbox) {
+      return () => {}
+    }
+
     const emitMessages = () => {
       CleverTap.getAllInboxMessages((error: any, messages: any) => {
         if (error) {
@@ -13,7 +22,8 @@ export function cleverTapInboxMessagesChannel() {
           return
         }
 
-        emit(messages)
+        const parsedMessages = parseCleverTapMessages(messages)
+        emit(parsedMessages)
       })
     }
 
@@ -26,6 +36,68 @@ export function cleverTapInboxMessagesChannel() {
       CleverTap.removeListener(CleverTap.CleverTapInboxMessagesDidUpdate)
     }
   })
+}
+
+export function parseCleverTapMessages(rawMessages: ExpectedCleverTapInboxMessage[]) {
+  const messages: CleverTapInboxMessage[] = []
+
+  if (!Array.isArray(rawMessages)) {
+    Logger.error(TAG, 'Unexpected CleverTap Inbox messages format', {
+      rawMessages,
+    })
+
+    return messages
+  }
+
+  for (const rawMessage of rawMessages) {
+    const messageId = rawMessage.id ?? rawMessage._id
+    const content = rawMessage.msg?.content?.[0]
+    const header = content?.title?.text
+    const text = content?.message?.text
+    const iconUrl = content?.icon?.url
+    const icon = iconUrl ? { uri: iconUrl } : undefined
+    const action = content?.action?.links?.[0]
+    const ctaText = action?.text
+    const ctaUrl =
+      Platform.OS === 'android'
+        ? action?.url?.android?.text
+        : Platform.OS === 'ios'
+        ? action?.url?.ios?.text
+        : ''
+
+    const PRIORITY_TAG = 'priority:'
+    const priority = Number(
+      rawMessage.msg?.tags
+        ?.find((tag: string) => tag.startsWith(PRIORITY_TAG))
+        ?.slice(PRIORITY_TAG.length)
+    )
+
+    const openInExternalBrowser = rawMessage.msg?.tags?.includes('openInExternalBrowser') ?? false
+
+    if (!messageId || !text || !ctaText || !ctaUrl) {
+      Logger.error(TAG, 'Unexpected CleverTap Inbox message format', {
+        messageId,
+        text,
+        ctaText,
+        ctaUrl,
+        rawMessage,
+      })
+      continue
+    }
+
+    messages.push({
+      messageId,
+      header,
+      text,
+      icon,
+      ctaText,
+      ctaUrl,
+      priority: !Number.isNaN(priority) ? priority : undefined,
+      openInExternalBrowser,
+    })
+  }
+
+  return messages
 }
 
 export interface CleverTapInboxMessage {

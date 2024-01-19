@@ -18,6 +18,7 @@ import { NetworkId } from 'src/transactions/types'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
+  mockCleverTapInboxMessage,
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
@@ -955,7 +956,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
         },
       })
       const { getByText } = render(
@@ -971,7 +972,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
         },
       })
       const { getByText } = render(
@@ -1001,7 +1002,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
         },
       })
       const { getByText } = render(
@@ -1026,7 +1027,7 @@ describe('NotificationCenter', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
         home: {
-          cleverTapInboxMessages: [mockExpectedCleverTapInboxMessage],
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
         },
       })
       const screen = render(
