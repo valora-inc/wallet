@@ -6,7 +6,6 @@ import InLineNotification, { InLineNotificationProps } from 'src/components/InLi
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 
 interface Props extends InLineNotificationProps {
   showNotification: boolean
@@ -58,11 +57,7 @@ const BottomSheetInLineNotification = ({ showNotification, ...inLineNotification
 
 const styles = StyleSheet.create({
   modal: {
-    height: variables.height,
-    width: variables.width,
-    position: 'absolute',
-    top: 0,
-    left: 0,
+    ...StyleSheet.absoluteFillObject,
   },
   container: {
     paddingHorizontal: Spacing.Regular16,
