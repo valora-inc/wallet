@@ -1,4 +1,5 @@
 import CleverTap from 'clevertap-react-native'
+import { noop } from 'lodash'
 import { Platform } from 'react-native'
 import { eventChannel } from 'redux-saga'
 import { getFeatureGate } from 'src/statsig'
@@ -12,9 +13,7 @@ export function cleverTapInboxMessagesChannel() {
 
   return eventChannel((emit: any) => {
     if (!useCleverTapInbox) {
-      return () => {
-        // empty channel
-      }
+      return noop // empty channel
     }
 
     const emitMessages = () => {
