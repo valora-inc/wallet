@@ -3,6 +3,8 @@ import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { isVersionInRange } from 'src/utils/versionCheck'
 
 const homeNotificationsSelector = (state: RootState) => state.home.notifications
@@ -29,4 +31,4 @@ export const getExtraNotifications = createSelector(
 )
 
 export const cleverTapInboxMessagesSelector = (state: RootState) =>
-  state.home.cleverTapInboxMessages
+  getFeatureGate(StatsigFeatureGates.CLEVERTAP_INBOX) ? state.home.cleverTapInboxMessages : []

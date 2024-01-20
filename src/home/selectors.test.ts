@@ -1,6 +1,10 @@
 import DeviceInfo from 'react-native-device-info'
-import { getExtraNotifications } from 'src/home/selectors'
+import { cleverTapInboxMessagesSelector, getExtraNotifications } from 'src/home/selectors'
+import { getFeatureGate } from 'src/statsig'
 import { getMockStoreData } from 'test/utils'
+import { mockCleverTapInboxMessage } from 'test/values'
+
+jest.mock('src/statsig')
 
 describe(getExtraNotifications, () => {
   const mockedVersion = DeviceInfo.getVersion as jest.MockedFunction<typeof DeviceInfo.getVersion>
@@ -114,5 +118,33 @@ describe(getExtraNotifications, () => {
 
     const extraNotifications = getExtraNotifications(state)
     expect(Object.keys(extraNotifications)).toEqual(['notif1', 'notif3', 'notif7', 'notif9'])
+  })
+})
+
+describe('cleverTapInboxMessages', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
+  it('returns messages when feature gate is enabled', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+    const state = getMockStoreData({
+      home: {
+        cleverTapInboxMessages: [mockCleverTapInboxMessage],
+      },
+    })
+    const messages = cleverTapInboxMessagesSelector(state)
+    expect(messages).toEqual([mockCleverTapInboxMessage])
+  })
+
+  it('does not return messages when feature gate is disabled', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
+    const state = getMockStoreData({
+      home: {
+        cleverTapInboxMessages: [mockCleverTapInboxMessage],
+      },
+    })
+    const messages = cleverTapInboxMessagesSelector(state)
+    expect(messages).toEqual([])
   })
 })

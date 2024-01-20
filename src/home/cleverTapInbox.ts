@@ -18,6 +18,11 @@ export function cleverTapInboxMessagesChannel() {
     }
 
     const emitMessages = () => {
+      const useCleverTapInbox = getFeatureGate(StatsigFeatureGates.CLEVERTAP_INBOX)
+      if (!useCleverTapInbox) {
+        return
+      }
+
       CleverTap.getAllInboxMessages((error: any, messages: any) => {
         if (error) {
           Logger.error(TAG, 'Failed to get CleverTap Inbox messages', error)

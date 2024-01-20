@@ -952,6 +952,14 @@ describe('NotificationCenter', () => {
   })
 
   describe('clevertap notifications', () => {
+    beforeAll(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
+
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     it('renders clevertap notification', () => {
       const store = createMockStore({
         ...storeDataNotificationsDisabled,
