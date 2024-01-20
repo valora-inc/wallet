@@ -55,6 +55,9 @@ interface NetworkConfig {
   cabIssueSmsCodeUrl: string
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
+  cabGetEncryptedMnemonicUrl: string
+  cabLoginUrl: string
+  cabClockUrl: string
   networkToNetworkId: Record<Network, NetworkId>
   defaultNetworkId: NetworkId
   getTokensInfoUrl: string
@@ -205,6 +208,15 @@ const CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/storeEn
 const CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
 const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
 
+const CAB_LOGIN_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/cloudBackupLogin`
+const CAB_LOGIN_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/cloudBackupLogin`
+
+const CAB_CLOCK_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/clock`
+const CAB_CLOCK_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/clock`
+
+const CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getEncryptedMnemonic`
+const CAB_GET_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getEncryptedMnemonic`
+
 const SAVE_CONTACTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/saveContacts`
 const SAVE_CONTACTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/saveContacts`
 
@@ -258,6 +270,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
+    cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES,
+    cabLoginUrl: CAB_LOGIN_ALFAJORES,
+    cabClockUrl: CAB_CLOCK_ALFAJORES,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
@@ -328,6 +343,9 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
+    cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_MAINNET,
+    cabLoginUrl: CAB_LOGIN_MAINNET,
+    cabClockUrl: CAB_CLOCK_MAINNET,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_MAINNET,
     viemChain: {
       [Network.Celo]: celo,

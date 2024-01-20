@@ -301,10 +301,10 @@ function AssetsScreen({ navigation, route }: Props) {
     activeTab === AssetTabType.Tokens
       ? [{ data: tokens }]
       : activeTab === AssetTabType.Positions
-      ? positionSections
-      : nfts.length
-      ? [{ data: nftsGrouped }]
-      : []
+        ? positionSections
+        : nfts.length
+          ? [{ data: nftsGrouped }]
+          : []
 
   const renderSectionHeader = ({
     section,

@@ -1,32 +1,38 @@
 import { expectSaga } from 'redux-saga-test-plan'
+import { throwError } from 'redux-saga-test-plan/providers'
+import { call, select } from 'redux-saga/effects'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getStoredMnemonic } from 'src/backup/utils'
+import {
+  decryptPassphrase,
+  encryptPassphrase,
+  getSecp256K1KeyPair,
+} from 'src/keylessBackup/encryption'
+import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
 import {
   DELAY_INTERVAL_MS,
-  handleGoogleSignInCompleted,
-  handleKeylessBackupSetup,
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
+  handleGoogleSignInCompleted,
+  handleValoraKeyshareIssued,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
-import { call, select } from 'redux-saga/effects'
-import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
   googleSignInCompleted,
   keylessBackupCompleted,
   keylessBackupFailed,
   torusKeyshareIssued,
+  valoraKeyshareIssued,
 } from 'src/keylessBackup/slice'
-import { throwError } from 'redux-saga-test-plan/providers'
-import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
-import {
-  encryptPassphrase,
-  getSecp256K1KeyPair,
-  getWalletAddressFromPrivateKey,
-} from 'src/keylessBackup/encryption'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { getStoredMnemonic } from 'src/backup/utils'
-import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 describe('keylessBackup saga', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   describe('handleGoogleSignInCompleted', () => {
     const mockJwt = 'abc.def.ghi'
     it('success case', async () => {
@@ -99,7 +105,8 @@ describe('keylessBackup saga', () => {
       expect(ValoraAnalytics.track).toBeCalledWith('cab_torus_keyshare_timeout')
     })
   })
-  describe('handleKeylessBackupSetup', () => {
+
+  describe('handleValoraKeyshareIssued', () => {
     const mockTorusKeyshare = '0x123'
     const mockTorusKeyshareBuffer = Buffer.from(mockTorusKeyshare, 'hex')
     const mockValoraKeyshare = '0xabc'
@@ -118,81 +125,153 @@ describe('keylessBackup saga', () => {
     const mockMnemonic = 'fake mnemonic'
     const mockEncryptedMnemonic = 'mock-encrypted-mnemonic'
 
-    it('stores encrypted mnemonic and puts success event if no errors', async () => {
-      await expectSaga(handleKeylessBackupSetup, mockValoraKeyshare)
-        .provide([
-          [select(torusKeyshareSelector), mockTorusKeyshare],
-          [
-            call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
-            {
-              privateKey: mockEncryptionPrivateKeyBuffer,
-              publicKey: mockEncryptionPublicKeyBuffer,
-            },
-          ],
-          [
-            call(getWalletAddressFromPrivateKey, mockEncryptionPrivateKeyBuffer),
-            mockEncryptionAddress,
-          ],
-          [select(walletAddressSelector), mockWalletAddress],
-          [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
-          [
-            call(
-              encryptPassphrase,
-              mockTorusKeyshareBuffer,
-              mockValoraKeyshareBuffer,
-              mockMnemonic
-            ),
-            mockEncryptedMnemonic,
-          ],
-          [
-            call(storeEncryptedMnemonic, {
-              encryptedMnemonic: mockEncryptedMnemonic,
-              encryptionAddress: mockEncryptionAddress,
-            }),
-            undefined,
-          ],
-        ])
-        .put(keylessBackupCompleted())
-        .run()
-      expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_setup_success')
+    describe('setup', () => {
+      it('stores encrypted mnemonic and puts success event if no errors', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Setup },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [select(walletAddressSelector), mockWalletAddress],
+            [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
+            [
+              call(
+                encryptPassphrase,
+                mockTorusKeyshareBuffer,
+                mockValoraKeyshareBuffer,
+                mockMnemonic
+              ),
+              mockEncryptedMnemonic,
+            ],
+            [
+              call(storeEncryptedMnemonic, {
+                encryptedMnemonic: mockEncryptedMnemonic,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              undefined,
+            ],
+          ])
+          .put(keylessBackupCompleted())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
+          keylessBackupFlow: KeylessBackupFlow.Setup,
+        })
+      })
+      it('puts failure event if error occurs storing encrypted mnemonic', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Setup },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [select(walletAddressSelector), mockWalletAddress],
+            [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
+            [
+              call(
+                encryptPassphrase,
+                mockTorusKeyshareBuffer,
+                mockValoraKeyshareBuffer,
+                mockMnemonic
+              ),
+              mockEncryptedMnemonic,
+            ],
+            [
+              call(storeEncryptedMnemonic, {
+                encryptedMnemonic: mockEncryptedMnemonic,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              throwError(new Error('mock error storing encrypted mnemonic')),
+            ],
+          ])
+          .put(keylessBackupFailed())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
+          keylessBackupFlow: KeylessBackupFlow.Setup,
+        })
+      })
     })
-    it('puts failure event if error occurs storing encrypted mnemonic', async () => {
-      await expectSaga(handleKeylessBackupSetup, mockValoraKeyshare)
-        .provide([
-          [select(torusKeyshareSelector), mockTorusKeyshare],
-          [
-            call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
-            {
-              privateKey: mockEncryptionPrivateKeyBuffer,
-              publicKey: mockEncryptionPublicKeyBuffer,
-            },
-          ],
-          [
-            call(getWalletAddressFromPrivateKey, mockEncryptionPrivateKeyBuffer),
-            mockEncryptionAddress,
-          ],
-          [select(walletAddressSelector), mockWalletAddress],
-          [call(getStoredMnemonic, mockWalletAddress), mockMnemonic],
-          [
-            call(
-              encryptPassphrase,
-              mockTorusKeyshareBuffer,
-              mockValoraKeyshareBuffer,
-              mockMnemonic
-            ),
-            mockEncryptedMnemonic,
-          ],
-          [
-            call(storeEncryptedMnemonic, {
-              encryptedMnemonic: mockEncryptedMnemonic,
-              encryptionAddress: mockEncryptionAddress,
-            }),
-            throwError(new Error('mock error storing encrypted mnemonic')),
-          ],
-        ])
-        .put(keylessBackupFailed())
-        .run()
-      expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_setup_failed')
+
+    describe('restore', () => {
+      it('gets encrypted mnemonic and puts success event if no errors', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [
+              call(getEncryptedMnemonic, {
+                encryptionPrivateKey: mockEncryptionPrivateKey,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              mockEncryptedMnemonic,
+            ],
+            [
+              call(
+                decryptPassphrase,
+                mockTorusKeyshareBuffer,
+                mockValoraKeyshareBuffer,
+                mockEncryptedMnemonic
+              ),
+              mockEncryptedMnemonic,
+            ],
+          ])
+          .put(keylessBackupCompleted())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
+          keylessBackupFlow: KeylessBackupFlow.Restore,
+        })
+      })
+      it('puts failure event if error occurs storing encrypted mnemonic', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [
+              call(getEncryptedMnemonic, {
+                encryptionPrivateKey: mockEncryptionPrivateKey,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              throwError(new Error('mock error getting encrypted mnemonic')),
+            ],
+          ])
+          .put(keylessBackupFailed())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
+          keylessBackupFlow: KeylessBackupFlow.Restore,
+        })
+      })
     })
   })
 })
