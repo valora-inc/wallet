@@ -349,8 +349,4 @@ configurations.all {
         dependency.useTarget 'org.bouncycastle:bcprov-jdk15to18:1.69'
       }
   }
-  resolutionStrategy {
-    force 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.9.20'
-    force 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.20'
-  }
 }
