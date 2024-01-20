@@ -1707,6 +1707,12 @@
       "title": "Takas yapmadan önce",
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} fiyat mevcut değil",
+      "description": "Bu token için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}} , devam etmeyi seçerseniz meydana gelen herhangi bir kayıptan sorumlu değildir.",
+      "ctaConfirm": "Anlıyorum.",
+      "ctaDismiss": "İptal"
+    },
     "missingSwapImpactWarning": {
       "title": "Takas yapmadan önce",
       "body": "Bu takasın değerini tahmin edemiyoruz. Devam etmeyi seçerseniz {{appName}} sorumlu değildir."
@@ -1737,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
       "estimatedValue": "Tahmini Değer"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Cüzdanınıza para yatırın",
+      "description": "Tokenları takas etmeden önce kripto satın alarak veya tokenları transfer ederek cüzdanınıza para yatırmanız gerekir.",
+      "addFundsButton": "Bakiye Ekle"
     }
   },
   "swapTransactionDetailPage": {

@@ -1707,6 +1707,12 @@
       "title": "Bevor du tauschst",
       "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} Preis nicht verfügbar",
+      "description": "Wir haben keinen {{localCurrency}} Preis für diesen Token, was bedeuten könnte, dass er nicht weithin gehandelt wird. {{appName}} ist nicht für Verluste verantwortlich, die entstehen, wenn du dich entscheidest, weiterzumachen.",
+      "ctaConfirm": "Ich verstehe",
+      "ctaDismiss": "Abbrechen"
+    },
     "missingSwapImpactWarning": {
       "title": "Bevor du tauschst",
       "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, fortzufahren."
@@ -1737,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
       "estimatedValue": "Geschätzter Wert"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Finanziere dein Portemonnaie",
+      "description": "Bevor du Token tauschen kannst, musst du dein Wallet durch den Kauf von Krypto oder die Übertragung von Token finanzieren.",
+      "addFundsButton": "Guthaben hinzufügen"
     }
   },
   "swapTransactionDetailPage": {
