@@ -84,8 +84,8 @@ export default function CodeInput({
   const keyboardType = shortVerificationCodesEnabled
     ? 'number-pad'
     : Platform.OS === 'android'
-    ? 'visible-password'
-    : undefined
+      ? 'visible-password'
+      : undefined
 
   return (
     <Card
@@ -102,8 +102,8 @@ export default function CodeInput({
                 ? styles.contentActive
                 : styles.contentActiveLong
               : shortVerificationCodesEnabled
-              ? styles.content
-              : styles.contentLong,
+                ? styles.content
+                : styles.contentLong,
             showInput && shortVerificationCodesEnabled && label ? { paddingBottom: 4 } : undefined,
           ]}
         >
@@ -117,8 +117,8 @@ export default function CodeInput({
                       ? styles.labelActive
                       : styles.labelActiveLong
                     : shortVerificationCodesEnabled
-                    ? styles.label
-                    : styles.labelLong
+                      ? styles.label
+                      : styles.labelLong
                 }
               >
                 {label}

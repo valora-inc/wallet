@@ -21,6 +21,7 @@ import {
   mockCeloAddress,
   mockCeloTokenBalance,
   mockCeloTokenId,
+  mockCusdTokenId,
   mockEthTokenId,
   mockPoofAddress,
   mockPoofTokenId,
@@ -501,6 +502,24 @@ describe('SendEnterAmount', () => {
       2
     )
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(4)
+  })
+
+  it('picker icon removed, cannot change token when forceTokenId set', async () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={SendEnterAmount}
+          params={{ ...params, defaultTokenIdOverride: mockCusdTokenId, forceTokenId: true }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('cUSD')
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0) // Analytics event triggered if dropdown menu opens, shouldn't happen
+    expect(queryByTestId('downArrowIcon')).toBeFalsy()
   })
 
   describe('fee section', () => {

@@ -39,7 +39,7 @@ export function getTransport(chain: Chain): Transport {
 export type ViemWallet<
   transport extends Transport = Transport,
   chain extends Chain | undefined = Chain | undefined,
-  account extends Account | undefined = Account | undefined
+  account extends Account | undefined = Account | undefined,
 > = Client<transport, chain, account, WalletRpcSchema, Actions>
 
 type Actions = Pick<
