@@ -1705,6 +1705,12 @@
       "title": "交换之前",
       "body": "交换这些资产可能导致不利的汇率。如果降低金额，您会获得更好的汇率。"
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} 无货",
+      "description": "我们没有该代币的 {{localCurrency}} 价格，这可能意味着该代币的交易并不广泛。如果您选择继续交易， {{appName}} 不对由此造成的任何损失负责。",
+      "ctaConfirm": "我明白",
+      "ctaDismiss": "取消"
+    },
     "missingSwapImpactWarning": {
       "title": "交换之前",
       "body": "我们无法估算本次交换的价值。如果您选择继续， {{appName}} 不承担任何责任。"
@@ -1735,6 +1741,11 @@
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "为您的钱包充值",
+      "description": "在交换代币之前，您需要通过购买加密货币或转移代币来为钱包充值。",
+      "addFundsButton": "添加资金"
     }
   },
   "swapTransactionDetailPage": {
