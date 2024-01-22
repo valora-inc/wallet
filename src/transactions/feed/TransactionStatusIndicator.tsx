@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import Alert from 'src/icons/Alert'
+import AttentionIcon from 'src/icons/Attention'
 import Checkmark from 'src/icons/Checkmark'
 import CircledIcon from 'src/icons/CircledIcon'
 import ClockIcon from 'src/icons/ClockIcon'
@@ -33,7 +33,7 @@ function TransactionStatusIndicator({ status, testID }: Props) {
   const icon = {
     [TransactionStatus.Complete]: <Checkmark color={color} width={16} height={16} />,
     [TransactionStatus.Pending]: <ClockIcon color={color} width={16} height={16} />,
-    [TransactionStatus.Failed]: <Alert color={color} size={16} />,
+    [TransactionStatus.Failed]: <AttentionIcon color={color} size={16} />,
   }[status]
 
   return (

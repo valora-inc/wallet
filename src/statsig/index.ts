@@ -28,7 +28,7 @@ function getParams<T extends Record<string, StatsigParameter>>({
   const output = {} as T
   for (const [param, defaultValue] of Object.entries(defaultValues) as [
     Parameter,
-    DefaultValue
+    DefaultValue,
   ][]) {
     output[param] = config.get(param as string, defaultValue)
   }

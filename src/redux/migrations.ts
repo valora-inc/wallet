@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { MultichainBetaStatus } from 'src/app/actions'
-import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
@@ -282,11 +281,7 @@ export const migrations = {
         ...state.identity,
         attestationsCode: [],
         acceptedAttestationCodes: [],
-        attestationInputStatus: [
-          CodeInputStatus.Inputting,
-          CodeInputStatus.Disabled,
-          CodeInputStatus.Disabled,
-        ],
+        attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
         numCompleteAttestations: 0,
         verificationStatus: 0,
         hasSeenVerificationNux: state.verify.seenVerificationNux,
@@ -1235,8 +1230,8 @@ export const migrations = {
           tx.__typename === 'TokenTransferV2'
             ? 'TokenTransferV3' // @ts-ignore
             : tx.__typename === 'NftTransferV2'
-            ? 'NftTransferV3'
-            : 'TokenExchangeV3'
+              ? 'NftTransferV3'
+              : 'TokenExchangeV3'
         return {
           ...tx,
           __typename,

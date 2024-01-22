@@ -78,10 +78,11 @@
     "description": "Solo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para resguardar tu wallet y proteger tus fondos."
   },
   "setUpKeylessBackup": {
-    "title": "Configurar el respaldo sin llave",
-    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente:",
+    "title": "Configurar la copia de seguridad de la cartera",
+    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
     "emailAddress": "Dirección de email",
-    "phoneNumber": "Número de teléfono"
+    "phoneNumber": "Número de teléfono",
+    "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación"
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
+  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu monedero si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -663,7 +664,7 @@
     "heading2": "Activos digitales y {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
     "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una \"cuenta\" con Valora, estás creando un monedero digital del que sólo tú tienes las claves. Ninguna otra persona o entidad, incluida Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que los activos digitales forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tus circunstancias financieras y tu tolerancia al riesgo financiero antes de comprar cualquier activo digital."
+    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "fullNameOrPsuedonym": "Nombre o alias",
   "namePlaceholder": "p. ej. nombre",
@@ -1706,6 +1707,12 @@
       "title": "Antes de cambiar",
       "body": "Intercambiar estos activos puede afectar el tipo de cambio. Si reduces el monto a cambiar, tal vez obtengas un mejor tipo de cambio."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} precio no disponible",
+      "description": "No tenemos un precio {{localCurrency}} para este token, lo que podría significar que no se negocia ampliamente. {{appName}} no se hace responsable de las pérdidas que se produzcan si decides proceder.",
+      "ctaConfirm": "Comprendo",
+      "ctaDismiss": "Cancelar"
+    },
     "missingSwapImpactWarning": {
       "title": "Antes de cambiar",
       "body": "No podemos estimar el valor de este intercambio. {{appName}} no se hace responsable si decides proceder."
@@ -1736,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
       "estimatedValue": "Valor estimado"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Financiar tu cartera",
+      "description": "Antes de poder intercambiar tokens, tendrás que financiar tu monedero comprando criptomonedas o transfiriendo tokens.",
+      "addFundsButton": "Agregar fondos"
     }
   },
   "swapTransactionDetailPage": {
@@ -1824,7 +1836,7 @@
     "later": "Exploraré más tarde",
     "options": {
       "add": "Agregar fondos",
-      "dapp": "Descubrir distintas formas de usar mis cripto",
+      "dapp": "Hacer más con mis cripto",
       "profile": "Crear mi perfil",
       "learn": "Aprender sobre Celo"
     }
@@ -2021,6 +2033,10 @@
     "description2": "Esto todavía es nuevo, y nuestro equipo sigue trabajando duro para perfeccionar las cosas. Nos encantaría conocer tu opinión.",
     "primaryCta": "Pruébalo ahora",
     "secondaryCta": "No, gracias"
+  },
+  "getStartedHome": {
+    "title": "Comprar criptomonedas o transferir tokens",
+    "body": "¡Compra o transfiere tokens compatibles con celo o ethereum para ganar {{apy}}% de recompensas, explora web3 y mucho más!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

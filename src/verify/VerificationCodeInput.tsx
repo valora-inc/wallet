@@ -40,6 +40,8 @@ function VerificationCodeInput({
     if (code.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH) {
       setCodeInputStatus(CodeInputStatus.Processing)
       setSmsCode(code)
+    } else {
+      setCodeInputStatus(CodeInputStatus.Inputting)
     }
   }, [code])
 
@@ -66,9 +68,6 @@ function VerificationCodeInput({
           inputValue={code}
           inputPlaceholder={t('phoneVerificationInput.codeInputPlaceholder')}
           onInputChange={setCode}
-          shouldShowClipboard={(content) =>
-            !!content && content.length === PHONE_NUMBER_VERIFICATION_CODE_LENGTH
-          }
           testID="PhoneVerificationCode"
           style={styles.codeInput}
         />

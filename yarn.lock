@@ -11092,10 +11092,10 @@ jackspeak@^2.3.5:
   optionalDependencies:
     "@pkgjs/parseargs" "^0.11.0"
 
-java-parser@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.0.2.tgz#488160fbf4fd1351880134f9af832537f2124995"
-  integrity sha512-fwv1eDYE4OIAN+XS7cD8aB7UdQyAh3Uz36ydWqemvnDKXEdLbxq7qIbvsjpSvS1NHFR+r81N7AjGcpnamjVxJw==
+java-parser@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/java-parser/-/java-parser-2.2.0.tgz#66602ac10691c579fe6d03be8d4fe667281bad60"
+  integrity sha512-20/Rpuv4FnzTNgWkJBqs2M4qwBuPLMqOqNiwU5j7vKvrw4Ej+re8Aoc92KbDFb61M1u/Sd4Ygst+CpEcKXvhBQ==
   dependencies:
     chevrotain "6.5.0"
     lodash "4.17.21"
@@ -14400,19 +14400,19 @@ prepend-http@^2.0.0:
   resolved "https://registry.yarnpkg.com/prepend-http/-/prepend-http-2.0.0.tgz#e92434bfa5ea8c19f41cdfd401d741a3c819d897"
   integrity sha1-6SQ0v6XqjBn0HN/UAddBo8gZ2Jc=
 
-prettier-plugin-java@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/prettier-plugin-java/-/prettier-plugin-java-1.6.2.tgz#ffa361eaa50056254eb6d3dbd53d449a5f281229"
-  integrity sha512-oVIUOkx50eb9skdRtEIU7MJUsizQ1ZocgXR1w1o8AnieNGpuPI/2pWnpjtbBm9wUG1dHtBGU8cVIr8h+xgzQIg==
+prettier-plugin-java@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/prettier-plugin-java/-/prettier-plugin-java-2.5.0.tgz#aca5af04c7ce7e09bf90ba64bf6750e94d8762e5"
+  integrity sha512-6Uc1yHVrLTwgl7D9hsBS3Xa2qXXlEd4v/6z1oio7u8O6mQdh/6cP0cbhS1daik9tNSMMES/VyzI+78918KRuGA==
   dependencies:
-    java-parser "2.0.2"
+    java-parser "2.2.0"
     lodash "4.17.21"
-    prettier "2.3.1"
+    prettier "3.0.3"
 
-prettier@2.3.1, prettier@2.8.8:
-  version "2.8.8"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.8.tgz#e8c5d7e98a4305ffe3de2e1fc4aca1a71c28b1da"
-  integrity sha512-tdN8qQGvNjw4CHbY+XXk0JgCXn9QiF21a55rBe5LJAU+kDyC4WQn4+awm2Xfk2lQMk5fKup9XgzTZtGkjBdP9Q==
+prettier@3.0.3, prettier@3.2.2:
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-3.2.2.tgz#96e580f7ca9c96090ad054616c0c4597e2844b65"
+  integrity sha512-HTByuKZzw7utPiDO523Tt2pLtEyK7OibUD9suEJQrPUCYQqrHr74GGX6VidMrovbf/I50mPqr8j/II6oBAuc5A==
 
 pretty-format@^24.9.0:
   version "24.9.0"
@@ -14944,10 +14944,10 @@ react-native-fs@^2.20.0:
     base-64 "^0.1.0"
     utf8 "^3.0.0"
 
-react-native-gesture-handler@^2.14.0:
-  version "2.14.0"
-  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.14.0.tgz#d6aec0d8b2e55c67557fd6107e828c0a1a248be8"
-  integrity sha512-cOmdaqbpzjWrOLUpX3hdSjsMby5wq3PIEdMq7okJeg9DmCzanysHSrktw1cXWNc/B5MAgxAn9J7Km0/4UIqKAQ==
+react-native-gesture-handler@^2.14.1:
+  version "2.14.1"
+  resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.14.1.tgz#930640231024b7921435ab476aa501dd4a6b2e01"
+  integrity sha512-YiM1BApV4aKeuwsM6O4C2ufwewYEKk6VMXOt0YqEZFMwABBFWhXLySFZYjBSNRU2USGppJbfHP1q1DfFQpKhdA==
   dependencies:
     "@egjs/hammerjs" "^2.0.17"
     hoist-non-react-statics "^3.3.0"
@@ -14982,10 +14982,10 @@ react-native-in-app-review@^4.3.3:
   resolved "https://registry.yarnpkg.com/react-native-in-app-review/-/react-native-in-app-review-4.3.3.tgz#61f09f110de18f0a470a9bb55b9f49600390085f"
   integrity sha512-Q9sXBtK8tCBYFPCGmMgeMlkxXC5e6vAyPZK26OC1oOKUuKUd0QORnryk/qbwnuN4fLshHQN8UKlLgyHLGRuK3A==
 
-react-native-keychain@8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.0.0.tgz#ff708e4dc2a5440df717179bf9b7cd50f78b61d7"
-  integrity sha512-c7Cs+YQN26UaQsRG1dmlXL7VL2ctnXwH/dl0IOMEQ7ZaL2NdN313YSAI8ZEZZjrVhNmPsyWEuvTFqWrdpItqQg==
+react-native-keychain@^8.1.2:
+  version "8.1.2"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.1.2.tgz#34291ae472878e5124d081211af5ede7d810e64f"
+  integrity sha512-bhHEui+yMp3Us41NMoRGtnWEJiBE0g8tw5VFpq4mpmXAx6XJYahuM6K3WN5CsUeUl83hYysSL9oFZNKSTPSvYw==
 
 react-native-kill-packager@^1.0.0:
   version "1.0.0"

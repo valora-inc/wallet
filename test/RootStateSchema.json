@@ -2,36 +2,6 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
-        "Action": {
-            "additionalProperties": false,
-            "properties": {
-                "hasLinks": {
-                    "type": "boolean"
-                },
-                "hasUrl": {
-                    "type": "boolean"
-                },
-                "links": {
-                    "items": {
-                        "$ref": "#/definitions/Link"
-                    },
-                    "type": "array"
-                },
-                "url": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "android": {
-                            "$ref": "#/definitions/Url"
-                        },
-                        "ios": {
-                            "$ref": "#/definitions/Url"
-                        }
-                    },
-                    "type": "object"
-                }
-            },
-            "type": "object"
-        },
         "ActiveDapp": {
             "additionalProperties": false,
             "properties": {
@@ -754,6 +724,52 @@
             ],
             "type": "string"
         },
+        "CleverTapInboxMessage": {
+            "additionalProperties": false,
+            "properties": {
+                "ctaText": {
+                    "type": "string"
+                },
+                "ctaUrl": {
+                    "type": "string"
+                },
+                "header": {
+                    "type": "string"
+                },
+                "icon": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                },
+                "messageId": {
+                    "type": "string"
+                },
+                "openInExternalBrowser": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "number"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ctaText",
+                "ctaUrl",
+                "messageId",
+                "openInExternalBrowser",
+                "text"
+            ],
+            "type": "object"
+        },
         "ContactRecipient": {
             "anyOf": [
                 {
@@ -824,30 +840,6 @@
                     "type": "object"
                 }
             ]
-        },
-        "Content": {
-            "additionalProperties": false,
-            "properties": {
-                "action": {
-                    "$ref": "#/definitions/Action"
-                },
-                "icon": {
-                    "$ref": "#/definitions/Media"
-                },
-                "key": {
-                    "type": "number"
-                },
-                "media": {
-                    "$ref": "#/definitions/Media"
-                },
-                "message": {
-                    "$ref": "#/definitions/Message"
-                },
-                "title": {
-                    "$ref": "#/definitions/Message"
-                }
-            },
-            "type": "object"
         },
         "ContractPosition": {
             "additionalProperties": false,
@@ -1118,36 +1110,6 @@
                 "exchangeRate",
                 "timestamp"
             ],
-            "type": "object"
-        },
-        "ExpectedCleverTapInboxMessage": {
-            "additionalProperties": false,
-            "properties": {
-                "_id": {
-                    "type": "string"
-                },
-                "date": {
-                    "type": "number"
-                },
-                "id": {
-                    "type": "string"
-                },
-                "isRead": {
-                    "type": "boolean"
-                },
-                "msg": {
-                    "$ref": "#/definitions/Msg"
-                },
-                "wzrk_id": {
-                    "type": "string"
-                },
-                "wzrk_pivot": {
-                    "type": "string"
-                },
-                "wzrk_ttl": {
-                    "type": "number"
-                }
-            },
             "type": "object"
         },
         "Fee": {
@@ -1613,42 +1575,6 @@
             ],
             "type": "string"
         },
-        "Link": {
-            "additionalProperties": false,
-            "properties": {
-                "bg": {
-                    "type": "string"
-                },
-                "color": {
-                    "type": "string"
-                },
-                "copyText": {
-                    "$ref": "#/definitions/Url"
-                },
-                "kv": {
-                    "$ref": "#/definitions/Record<string,string>"
-                },
-                "text": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "string"
-                },
-                "url": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "android": {
-                            "$ref": "#/definitions/Url"
-                        },
-                        "ios": {
-                            "$ref": "#/definitions/Url"
-                        }
-                    },
-                    "type": "object"
-                }
-            },
-            "type": "object"
-        },
         "LocalAmount": {
             "additionalProperties": false,
             "properties": {
@@ -1667,78 +1593,6 @@
                 "exchangeRate",
                 "value"
             ],
-            "type": "object"
-        },
-        "Media": {
-            "additionalProperties": false,
-            "properties": {
-                "content_type": {
-                    "type": "string"
-                },
-                "filename": {
-                    "type": "string"
-                },
-                "key": {
-                    "type": "string"
-                },
-                "poster": {
-                    "type": "string"
-                },
-                "processing": {
-                    "type": "boolean"
-                },
-                "url": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Message": {
-            "additionalProperties": false,
-            "properties": {
-                "color": {
-                    "type": "string"
-                },
-                "og": {
-                    "type": "string"
-                },
-                "replacements": {
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
-            },
-            "type": "object"
-        },
-        "Msg": {
-            "additionalProperties": false,
-            "properties": {
-                "bg": {
-                    "type": "string"
-                },
-                "content": {
-                    "items": {
-                        "$ref": "#/definitions/Content"
-                    },
-                    "type": "array"
-                },
-                "enableTags": {
-                    "type": "boolean"
-                },
-                "orientation": {
-                    "type": "string"
-                },
-                "tags": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "type": {
-                    "type": "string"
-                }
-            },
             "type": "object"
         },
         "MultichainBetaStatus": {
@@ -2675,10 +2529,6 @@
             "type": "object"
         },
         "Record<string,any>": {
-            "additionalProperties": false,
-            "type": "object"
-        },
-        "Record<string,string>": {
             "additionalProperties": false,
             "type": "object"
         },
@@ -4306,7 +4156,7 @@
             "properties": {
                 "cleverTapInboxMessages": {
                     "items": {
-                        "$ref": "#/definitions/ExpectedCleverTapInboxMessage"
+                        "$ref": "#/definitions/CleverTapInboxMessage"
                     },
                     "type": "array"
                 },
@@ -5035,21 +4885,6 @@
         "TxHashToDisplayInfo": {
             "additionalProperties": {
                 "$ref": "#/definitions/ProviderFeedInfo"
-            },
-            "type": "object"
-        },
-        "Url": {
-            "additionalProperties": false,
-            "properties": {
-                "og": {
-                    "type": "string"
-                },
-                "replacements": {
-                    "type": "string"
-                },
-                "text": {
-                    "type": "string"
-                }
             },
             "type": "object"
         },
