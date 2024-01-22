@@ -854,7 +854,7 @@ describe('prepareTransactions module', () => {
         ])
       ).toThrowError('Missing _estimatedGasUse or gas')
     })
-    it('throws if gas and _estimatedGasUse are missing', () => {
+    it('throws if _baseFeePerGas or maxFeePerGas are missing', () => {
       expect(() =>
         getEstimatedGasFee([
           { gas: BigInt(2), maxFeePerGas: BigInt(3), _baseFeePerGas: BigInt(2), from: '0x123' },
