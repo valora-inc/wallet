@@ -9,7 +9,7 @@ import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
@@ -63,6 +63,7 @@ jest.mock('src/statsig', () => {
     getDynamicConfigParams: () => ({
       maxSlippagePercentage: '0.3',
       showSwap: ['celo-alfajores', 'ethereum-sepolia'],
+      showBalances: ['celo-alfajores', 'ethereum-sepolia'],
     }),
   }
 })
@@ -1459,5 +1460,53 @@ describe('SwapScreen', () => {
 
     expect(queryByTestId('QuoteResultNotEnoughBalanceForGasBottomSheet')).toBeFalsy()
     expect(queryByTestId('QuoteResultNeedDecreaseSwapAmountForGasBottomSheet')).toBeFalsy()
+  })
+
+  it("should display 'Fund your wallet' bottom sheet with 'Add funds' button when user has zero balance", async () => {
+    mockFetch.mockResponse(defaultQuoteResponse)
+
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockCusdTokenId]: {
+            ...mockTokenBalances[mockCusdTokenId],
+            isSwappable: true,
+            balance: '0',
+            priceUsd: '1',
+          },
+          [mockCeloTokenId]: {
+            ...mockTokenBalances[mockCeloTokenId],
+            isSwappable: true,
+            balance: '0',
+            priceUsd: '1',
+          },
+        },
+      },
+    })
+
+    const { getByText, getByTestId, getAllByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={SwapScreen} />
+      </Provider>
+    )
+    const swapScreen = getByTestId('SwapScreen')
+    const [swapFromContainer] = getAllByTestId('SwapAmountInput')
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).not.toBeDisabled()
+    fireEvent.press(getByText('swapScreen.confirmSwap'))
+
+    expect(store.getActions().map((action) => action.type)).not.toContain(swapStart.type)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_show_fund_your_wallet)
+
+    fireEvent.press(getByText('swapScreen.fundYourWalletBottomSheet.addFundsButton'))
+    expect(navigateToFiatCurrencySelection).toHaveBeenCalled()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_add_funds)
   })
 })

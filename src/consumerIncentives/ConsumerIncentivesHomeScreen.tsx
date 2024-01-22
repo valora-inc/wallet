@@ -61,8 +61,8 @@ function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
   const superchargeTokenSymbol = IS_IN_EUROPE
     ? 'cEUR'
     : userCountry?.countryCodeAlpha2 === 'BR'
-    ? 'cREAL'
-    : 'cUSD'
+      ? 'cREAL'
+      : 'cUSD'
 
   const superchargeConfig =
     superchargeTokenConfigByToken[tokensBySymbol[superchargeTokenSymbol]?.address] ?? {}
@@ -307,8 +307,8 @@ export default function ConsumerIncentivesHomeScreen() {
               canClaimRewards
                 ? t('superchargeClaimButton')
                 : userIsVerified
-                ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
-                : t('connectNumber')
+                  ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
+                  : t('connectNumber')
             }
             icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
             showLoading={showLoadingIndicator || claimRewardsLoading}

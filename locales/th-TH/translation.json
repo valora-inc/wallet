@@ -1705,6 +1705,12 @@
       "title": "ก่อนที่จะสว็อป",
       "body": "การสว็อปสินทรัพย์อาจส่งผลให้ได้รับอัตราแลกเปลี่ยนที่ไม่น่าพึงพอใจ หากคุณลดจำนวนเงินลง คุณอาจได้รับอัตราที่ดีขึ้น"
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} price unavailable",
+      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "ctaConfirm": "I understand",
+      "ctaDismiss": "ยกเลิก"
+    },
     "missingSwapImpactWarning": {
       "title": "ก่อนที่จะสว็อป",
       "body": "เราไม่สามารถประมาณมูลค่าของสว็อปนี้ได้ {{appName}} จะไม่รับผิดชอบหากคุณเลือกที่จะดำเนินการต่อ"
@@ -1735,6 +1741,11 @@
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
       "estimatedValue": "ค่าโดยประมาณ"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Fund your wallet",
+      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "addFundsButton": "เพิ่มเงินทุน"
     }
   },
   "swapTransactionDetailPage": {

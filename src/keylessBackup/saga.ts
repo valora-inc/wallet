@@ -1,3 +1,14 @@
+import { KeylessBackupEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getStoredMnemonic } from 'src/backup/utils'
+import {
+  decryptPassphrase,
+  encryptPassphrase,
+  getSecp256K1KeyPair,
+  getWalletAddressFromPrivateKey,
+} from 'src/keylessBackup/encryption'
+import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
   googleSignInCompleted,
   keylessBackupCompleted,
@@ -5,70 +16,103 @@ import {
   torusKeyshareIssued,
   valoraKeyshareIssued,
 } from 'src/keylessBackup/slice'
-import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import Logger from 'src/utils/Logger'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import {
-  encryptPassphrase,
-  getSecp256K1KeyPair,
-  getWalletAddressFromPrivateKey,
-} from 'src/keylessBackup/encryption'
-import { getStoredMnemonic } from 'src/backup/utils'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { storeEncryptedMnemonic } from 'src/keylessBackup/index'
-import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { KeylessBackupEvents } from 'src/analytics/Events'
+import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'keylessBackup/saga'
 
 export const DELAY_INTERVAL_MS = 500 // how long to wait between checks for keyshares
 export const WAIT_FOR_KEYSHARE_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshares before failing
 
-export function* handleValoraKeyshareIssued({ payload }: ReturnType<typeof valoraKeyshareIssued>) {
-  if (payload.keylessBackupFlow === KeylessBackupFlow.Setup) {
-    yield* handleKeylessBackupSetup(payload.keyshare)
-  } else {
-    Logger.error(TAG, 'Unsupported keyless backup flow', payload.keylessBackupFlow)
-    yield* put(keylessBackupFailed())
-  }
-}
-
-export function* handleKeylessBackupSetup(valoraKeyshare: string) {
+export function* handleValoraKeyshareIssued({
+  payload: { keylessBackupFlow, keyshare },
+}: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
     const torusKeyshareBuffer = Buffer.from(torusKeyshare, 'hex')
-    const valoraKeyshareBuffer = Buffer.from(valoraKeyshare, 'hex')
+    const valoraKeyshareBuffer = Buffer.from(keyshare, 'hex')
     const { privateKey: encryptionPrivateKey } = yield* call(
       getSecp256K1KeyPair,
       torusKeyshareBuffer,
       valoraKeyshareBuffer
     )
     const encryptionAddress = getWalletAddressFromPrivateKey(encryptionPrivateKey)
-    const walletAddress = yield* select(walletAddressSelector)
-    const mnemonic = yield* call(getStoredMnemonic, walletAddress)
-    if (!mnemonic) {
-      throw new Error('No mnemonic found')
+    if (keylessBackupFlow === KeylessBackupFlow.Setup) {
+      yield* handleKeylessBackupSetup({
+        torusKeyshareBuffer,
+        valoraKeyshareBuffer,
+        encryptionAddress,
+      })
+    } else {
+      yield* handleKeylessBackupRestore({
+        torusKeyshareBuffer,
+        valoraKeyshareBuffer,
+        encryptionAddress,
+        encryptionPrivateKey: Buffer.from(encryptionPrivateKey).toString('hex'),
+      })
     }
-    const encryptedMnemonic = yield* call(
-      encryptPassphrase,
-      torusKeyshareBuffer,
-      valoraKeyshareBuffer,
-      mnemonic
-    )
-    yield* call(storeEncryptedMnemonic, {
-      encryptedMnemonic,
-      encryptionAddress,
+    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
+      keylessBackupFlow,
     })
-    yield* put(keylessBackupCompleted())
-    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_setup_success)
   } catch (error) {
-    Logger.error(TAG, 'Error handling keyless backup setup', error)
-    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_setup_failed)
+    Logger.error(TAG, `Error handling keyless backup ${keylessBackupFlow}`, error)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_failed, {
+      keylessBackupFlow,
+    })
     yield* put(keylessBackupFailed())
     return
   }
+}
+
+function* handleKeylessBackupSetup({
+  torusKeyshareBuffer,
+  valoraKeyshareBuffer,
+  encryptionAddress,
+}: {
+  torusKeyshareBuffer: Buffer
+  valoraKeyshareBuffer: Buffer
+  encryptionAddress: string
+}) {
+  const walletAddress = yield* select(walletAddressSelector)
+  const mnemonic = yield* call(getStoredMnemonic, walletAddress)
+  if (!mnemonic) {
+    throw new Error('No mnemonic found')
+  }
+  const encryptedMnemonic = yield* call(
+    encryptPassphrase,
+    torusKeyshareBuffer,
+    valoraKeyshareBuffer,
+    mnemonic
+  )
+  yield* call(storeEncryptedMnemonic, {
+    encryptedMnemonic,
+    encryptionAddress,
+  })
+  yield* put(keylessBackupCompleted())
+}
+
+function* handleKeylessBackupRestore({
+  torusKeyshareBuffer,
+  valoraKeyshareBuffer,
+  encryptionPrivateKey,
+  encryptionAddress,
+}: {
+  torusKeyshareBuffer: Buffer
+  valoraKeyshareBuffer: Buffer
+  encryptionPrivateKey: string
+  encryptionAddress: string
+}) {
+  const encryptedMnemonic = yield* call(getEncryptedMnemonic, {
+    encryptionPrivateKey,
+    encryptionAddress,
+  })
+
+  // TODO(ACT-778): use mnemonic
+  yield* call(decryptPassphrase, torusKeyshareBuffer, valoraKeyshareBuffer, encryptedMnemonic)
+  yield* put(keylessBackupCompleted())
 }
 
 export function* waitForTorusKeyshare() {

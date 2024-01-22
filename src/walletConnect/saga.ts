@@ -244,9 +244,8 @@ function* handleIncomingSessionRequest({ session }: SessionProposal) {
 }
 
 function* handleIncomingActionRequest({ request }: SessionPayload) {
-  const pendingActions: Web3WalletTypes.EventArguments['session_request'][] = yield* select(
-    selectPendingActions
-  )
+  const pendingActions: Web3WalletTypes.EventArguments['session_request'][] =
+    yield* select(selectPendingActions)
   if (pendingActions.length > 1) {
     return
   }
@@ -351,9 +350,9 @@ function convertToBigInt(value: any) {
   return isHex(value)
     ? hexToBigInt(value)
     : // make sure that we can safely parse the value as a BigInt
-    typeof value === 'string' || typeof value === 'number' || typeof value === 'bigint'
-    ? BigInt(value)
-    : undefined
+      typeof value === 'string' || typeof value === 'number' || typeof value === 'bigint'
+      ? BigInt(value)
+      : undefined
 }
 
 function convertToNumber(value: any) {
@@ -765,17 +764,15 @@ function* handlePendingStateOrNavigateBack() {
 function* handlePendingState() {
   const {
     pending: [pendingSession],
-  }: { pending: Web3WalletTypes.EventArguments['session_proposal'][] } = yield* select(
-    selectSessions
-  )
+  }: { pending: Web3WalletTypes.EventArguments['session_proposal'][] } =
+    yield* select(selectSessions)
   if (pendingSession) {
     yield* call(showSessionRequest, pendingSession)
     return
   }
 
-  const [pendingRequest]: Web3WalletTypes.EventArguments['session_request'][] = yield* select(
-    selectPendingActions
-  )
+  const [pendingRequest]: Web3WalletTypes.EventArguments['session_request'][] =
+    yield* select(selectPendingActions)
   if (pendingRequest) {
     yield* call(showActionRequest, pendingRequest)
   }

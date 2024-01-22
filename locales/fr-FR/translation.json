@@ -1707,6 +1707,12 @@
       "title": "Avant d'échanger",
       "body": "Échanger ces actifs peut entraîner un taux de change défavorable. Si vous baissez le montant, vous pourriez obtenir un meilleur taux."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} prix non disponible",
+      "description": "Nous n'avons pas de prix {{localCurrency}} pour ce jeton, ce qui pourrait signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si tu choisis de poursuivre.",
+      "ctaConfirm": "Je comprends",
+      "ctaDismiss": "Annuler"
+    },
     "missingSwapImpactWarning": {
       "title": "Avant d'échanger",
       "body": "Nous ne pouvons pas estimer la valeur de cet échange. {{appName}} n'est pas responsable si vous choisissez de continuer."
@@ -1737,6 +1743,11 @@
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
       "estimatedValue": "Valeur estimée"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Finance ton portefeuille",
+      "description": "Avant de pouvoir échanger des jetons, tu devras approvisionner ton portefeuille en achetant de la crypto ou en transférant des jetons.",
+      "addFundsButton": "Ajouter des fonds"
     }
   },
   "swapTransactionDetailPage": {
