@@ -45,6 +45,7 @@ describe('usePrepareSendTransactions', () => {
     ],
     feeCurrency: mockFeeCurrencyWithTwoDecimals,
     maxGasFeeInDecimal: new BigNumber(6),
+    estimatedGasFeeInDecimal: new BigNumber(3),
   }
 
   describe('_prepareSendTransactionsCallback', () => {
