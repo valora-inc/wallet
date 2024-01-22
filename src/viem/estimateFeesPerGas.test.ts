@@ -27,7 +27,7 @@ describe(estimateFeesPerGas, () => {
     expect(fees).toEqual({
       maxFeePerGas: BigInt(110),
       maxPriorityFeePerGas: BigInt(10),
-      baseFeePerGas: BigInt(0),
+      baseFeePerGas: BigInt(110),
     })
     expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
     expect(getBlock).not.toHaveBeenCalled()
@@ -47,7 +47,7 @@ describe(estimateFeesPerGas, () => {
     expect(fees).toEqual({
       maxFeePerGas: BigInt(110),
       maxPriorityFeePerGas: BigInt(10),
-      baseFeePerGas: BigInt(0),
+      baseFeePerGas: BigInt(110),
     })
     expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
     expect(getBlock).not.toHaveBeenCalled()

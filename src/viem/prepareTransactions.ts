@@ -120,7 +120,7 @@ export async function tryEstimateTransaction({
   baseTransaction: TransactionRequest
   maxFeePerGas: bigint
   maxPriorityFeePerGas?: bigint
-  baseFeePerGas?: bigint
+  baseFeePerGas: bigint
   feeCurrencySymbol: string
   feeCurrencyAddress?: Address
 }) {

@@ -18,7 +18,7 @@ export async function estimateFeesPerGas(
     ])
     const maxFeePerGas = gasPrice + maxPriorityFeePerGas
     // TODO: properly calculate baseFeePerGas
-    return { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas: BigInt(0) }
+    return { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas: BigInt(maxFeePerGas) }
   }
 
   if (feeCurrency) {
