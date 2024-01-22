@@ -1711,6 +1711,12 @@
       "title": "Zanim dokonasz swapu",
       "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} cena niedostępna",
+      "description": "Nie mamy ceny {{localCurrency}} dla tego tokena, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za jakiekolwiek straty poniesione, jeśli zdecydujesz się kontynuować.",
+      "ctaConfirm": "Rozumiem",
+      "ctaDismiss": "Anuluj"
+    },
     "missingSwapImpactWarning": {
       "title": "Zanim dokonasz swapu",
       "body": "Nie możemy oszacować wartości tego swapu. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
@@ -1741,6 +1747,11 @@
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
       "estimatedValue": "Szacunkowa wartość"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Zasil swój portfel",
+      "description": "Zanim będziesz mógł wymieniać tokeny, musisz zasilić swój portfel, kupując kryptowaluty lub przesyłając tokeny.",
+      "addFundsButton": "Dodaj środki"
     }
   },
   "swapTransactionDetailPage": {
