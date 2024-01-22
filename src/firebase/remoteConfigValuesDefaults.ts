@@ -4,11 +4,7 @@ import { DappConnectInfo } from 'src/dapps/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  | 'celoEducationUri'
-  | 'sentryNetworkErrors'
-  | 'superchargeTokenConfigByToken'
-  | 'fiatAccountSchemaCountryOverrides'
-  | 'celoNews'
+  'celoEducationUri' | 'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
 > & {
   sentryNetworkErrors: string
   superchargecUSDMin: number
@@ -64,4 +60,5 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsMinimalDisclaimerEnabled: false,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
+  superchargeTokenConfigByToken: {},
 }

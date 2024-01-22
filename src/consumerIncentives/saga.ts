@@ -148,6 +148,7 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
 export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchAvailableRewards>) {
   const rewardsEnabled = yield* select(rewardsEnabledSelector)
   if (!rewardsEnabled) {
+    yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since rewards are not enabled')
     return
   }
