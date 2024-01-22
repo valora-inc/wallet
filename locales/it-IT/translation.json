@@ -1707,6 +1707,12 @@
       "title": "Prima di uno scambio",
       "body": "Scambiare questi asset può comportare un tasso di cambio sfavorevole. Riducendo l'importo, potresti ottenere un tasso migliore."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} prezzo non disponibile",
+      "description": "Non abbiamo un prezzo {{localCurrency}} per questo token, il che potrebbe significare che non è ampiamente scambiato. {{appName}} non è responsabile di eventuali perdite subite se decidi di procedere.",
+      "ctaConfirm": "Capisco",
+      "ctaDismiss": "Annulla"
+    },
     "missingSwapImpactWarning": {
       "title": "Prima di uno scambio",
       "body": "Non possiamo stimare il valore di questo scambio. Qualora tu decida di procedere, {{appName}} non sarà responsabile."
@@ -1737,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Finanzia il tuo portafoglio",
+      "description": "Prima di poter scambiare i token dovrai finanziare il tuo portafoglio acquistando criptovalute o trasferendo token.",
+      "addFundsButton": "Aggiungi fondi"
     }
   },
   "swapTransactionDetailPage": {

@@ -1,6 +1,6 @@
 import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/home/actions'
-import { ExpectedCleverTapInboxMessage } from 'src/home/cleverTapInbox'
+import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
 
 export const DEFAULT_PRIORITY = 20
@@ -32,7 +32,7 @@ export interface IdToNotification {
 export interface State {
   loading: boolean
   notifications: IdToNotification
-  cleverTapInboxMessages: ExpectedCleverTapInboxMessage[]
+  cleverTapInboxMessages: CleverTapInboxMessage[]
 }
 
 export const initialState = {

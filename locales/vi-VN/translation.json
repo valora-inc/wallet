@@ -1705,6 +1705,12 @@
       "title": "Trước khi trao đổi",
       "body": "Việc trao đổi các tài sản này có thể dẫn đến bất lợi về tỷ giá quy đổi. Nếu giảm số tiền, bạn có thể nhận được tỷ giá tốt hơn."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} price unavailable",
+      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "ctaConfirm": "I understand",
+      "ctaDismiss": "Hủy"
+    },
     "missingSwapImpactWarning": {
       "title": "Trước khi trao đổi",
       "body": "Chúng tôi không thể ước tính giá trị của giao dịch trao đổi này. {{appName}} sẽ không chịu trách nhiệm nếu bạn chọn tiếp tục."
@@ -1735,6 +1741,11 @@
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
       "estimatedValue": "Giá trị ước tính"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Fund your wallet",
+      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "addFundsButton": "Nạp tiền"
     }
   },
   "swapTransactionDetailPage": {
