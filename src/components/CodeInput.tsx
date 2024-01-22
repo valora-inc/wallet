@@ -5,7 +5,7 @@ import TextInput from 'src/components/TextInput'
 import Checkmark from 'src/icons/Checkmark'
 import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 export enum CodeInputStatus {
@@ -63,7 +63,7 @@ export default function CodeInput({
             autoCorrect={false}
             keyboardType={'number-pad'}
             inputStyle={{
-              ...fontStyles.large,
+              ...typeScale.bodyLarge,
               textAlign: 'center',
               minHeight: undefined,
               color: textColorForStatus[status],
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   codeValue: {
-    ...fontStyles.large,
+    ...typeScale.bodyLarge,
     textAlign: 'center',
     paddingVertical: Spacing.Small12,
   },
