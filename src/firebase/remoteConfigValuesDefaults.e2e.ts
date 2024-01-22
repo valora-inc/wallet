@@ -3,7 +3,11 @@ import { DappConnectInfo } from 'src/dapps/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
-  'celoEducationUri' | 'sentryNetworkErrors' | 'fiatAccountSchemaCountryOverrides' | 'celoNews'
+  | 'celoEducationUri'
+  | 'sentryNetworkErrors'
+  | 'superchargeTokenConfigByToken'
+  | 'fiatAccountSchemaCountryOverrides'
+  | 'celoNews'
 > & {
   sentryNetworkErrors: string
   superchargecUSDMin: number
@@ -13,6 +17,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: number
   superchargecREALMax: number
   celoNews: string
+  superchargeTokenConfigByToken: string
 } = {
   celoEuroEnabled: true,
   inviteRewardsVersion: 'none',
@@ -58,10 +63,10 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsMinimalDisclaimerEnabled: false,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
-  superchargeTokenConfigByToken: {
+  superchargeTokenConfigByToken: JSON.stringify({
     '0x874069fa1eb16d44d622f2e0ca25eea172369bc1': {
       minBalance: 0.1,
       maxBalance: 10,
     },
-  },
+  } as RemoteConfigValues['superchargeTokenConfigByToken']),
 }
