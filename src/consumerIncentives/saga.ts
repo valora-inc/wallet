@@ -155,6 +155,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
 
   const address = yield* select(walletAddressSelector)
   if (!address) {
+    yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
     return
   }
@@ -162,6 +163,7 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
   const supportedNetworkIds = [networkConfig.defaultNetworkId] // rewards are only availabe on Celo
   const tokensWithTokenBalance = yield* select(tokensWithTokenBalanceSelector, supportedNetworkIds)
   if (tokensWithTokenBalance.length === 0) {
+    yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(
       TAG,
       'Skipping fetching available rewards due to lack of tokens with sufficient balance'
