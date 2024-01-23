@@ -375,8 +375,6 @@ describe('prepareTransactions module', () => {
             _estimatedGasUse: BigInt(50),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('6'), // (0.5k + 0.1k) / 1000 feeCurrency1 decimals
-        estimatedGasFeeInDecimal: new BigNumber('5.5'), // (0.5k + 0.05k) / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[0],
       })
     })
@@ -439,8 +437,6 @@ describe('prepareTransactions module', () => {
             _estimatedGasUse: BigInt(50_050),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('50.6'),
-        estimatedGasFeeInDecimal: new BigNumber('50.55'),
         feeCurrency: mockFeeCurrencies[1],
       })
     })
@@ -500,8 +496,6 @@ describe('prepareTransactions module', () => {
             _estimatedGasUse: BigInt(50),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('6'),
-        estimatedGasFeeInDecimal: new BigNumber('5.5'),
         feeCurrency: mockFeeCurrencies[0],
       })
     })
@@ -557,8 +551,6 @@ describe('prepareTransactions module', () => {
             _estimatedGasUse: BigInt(50),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('6'),
-        estimatedGasFeeInDecimal: new BigNumber('5.5'),
         feeCurrency: mockFeeCurrencies[0],
       })
     })
@@ -1010,8 +1002,6 @@ describe('prepareTransactions module', () => {
             },
           ],
           feeCurrency: mockFeeCurrencies[0],
-          maxGasFeeInDecimal: new BigNumber(2),
-          estimatedGasFeeInDecimal: new BigNumber(1),
         })
       ).toStrictEqual({
         feeCurrency: mockFeeCurrencies[0],

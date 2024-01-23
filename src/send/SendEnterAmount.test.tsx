@@ -93,8 +93,6 @@ describe('SendEnterAmount', () => {
       },
     ],
     feeCurrency: mockCeloTokenBalance,
-    maxGasFeeInDecimal: new BigNumber(2),
-    estimatedGasFeeInDecimal: new BigNumber(2),
   }
 
   beforeEach(() => {

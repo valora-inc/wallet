@@ -36,8 +36,6 @@ export interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequest[]
   feeCurrency: TokenBalance
-  maxGasFeeInDecimal: BigNumber
-  estimatedGasFeeInDecimal: BigNumber
 }
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
@@ -305,8 +303,6 @@ export async function prepareTransactions({
       type: 'possible',
       transactions: estimatedTransactions,
       feeCurrency,
-      maxGasFeeInDecimal,
-      estimatedGasFeeInDecimal,
     } satisfies PreparedTransactionsPossible
   }
 
