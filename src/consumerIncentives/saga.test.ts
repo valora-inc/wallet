@@ -3,7 +3,7 @@ import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import {
   SUPERCHARGE_FETCH_TIMEOUT,
   claimRewardsSaga,
@@ -106,6 +106,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
         [
@@ -129,6 +130,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
         [
@@ -156,6 +158,7 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
         [
@@ -171,9 +174,17 @@ describe('fetchAvailableRewardsSaga', () => {
       .run()
   })
 
+  it('skips fetching rewards if rewards are not enabled', async () => {
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .provide([[select(rewardsEnabledSelector), false]])
+      .not.call.fn(fetchWithTimeout)
+      .run()
+  })
+
   it('skips fetching rewards for an unverified user for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), false],
         [select(walletAddressSelector), userAddress],
         [
@@ -188,6 +199,7 @@ describe('fetchAvailableRewardsSaga', () => {
   it('skips fetching rewards in absence of tokens with sufficient balance', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(walletAddressSelector), userAddress],
         [select(phoneNumberVerifiedSelector), true],
         [select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]), []],
@@ -199,6 +211,7 @@ describe('fetchAvailableRewardsSaga', () => {
   it('displays an error if a user is not properly verified for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
         [

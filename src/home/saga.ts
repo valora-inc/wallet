@@ -7,10 +7,7 @@ import {
   setLoading,
   updateNotifications,
 } from 'src/home/actions'
-import {
-  ExpectedCleverTapInboxMessage,
-  cleverTapInboxMessagesChannel,
-} from 'src/home/cleverTapInbox'
+import { CleverTapInboxMessage, cleverTapInboxMessagesChannel } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
 import { fetchCurrentRate } from 'src/localCurrency/actions'
 import { shouldFetchCurrentRate } from 'src/localCurrency/selectors'
@@ -115,7 +112,7 @@ function* fetchCleverTapInboxMessages() {
 
   try {
     while (true) {
-      const notifications = (yield* take(channel)) as ExpectedCleverTapInboxMessage[]
+      const notifications = (yield* take(channel)) as CleverTapInboxMessage[]
       yield* put(cleverTapInboxMessagesReceived(notifications))
     }
   } catch (error) {
