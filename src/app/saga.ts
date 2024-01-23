@@ -322,6 +322,12 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
+  const walletAddress = yield* select(walletAddressSelector)
+  if (!walletAddress) {
+    Logger.error(TAG, 'No wallet address found in store. This should never happen.')
+    return
+  }
+
   if (isWalletConnectDeepLink(deepLink)) {
     yield* call(handleWalletConnectDeepLink, deepLink)
     return
@@ -385,11 +391,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
       })
     } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
       const privateKey = pathParts[2]
-      const walletAddress = yield* select(walletAddressSelector)
-      if (!walletAddress) {
-        Logger.error(TAG, 'No wallet address found in store. This should never happen.')
-        return
-      }
       yield* call(jumpstartLinkHandler, privateKey, walletAddress)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&

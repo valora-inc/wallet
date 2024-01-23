@@ -6,16 +6,42 @@ import { Linking, Platform } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { openDeepLink } from 'src/app/actions'
 import { DYNAMIC_LINK_DOMAIN_URI_PREFIX, FIREBASE_ENABLED } from 'src/config'
+import { hasVisitedHomeSelector } from 'src/home/selectors'
+import useSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 export const useDeepLinks = () => {
   const [isConsumingInitialLink, setIsConsumingInitialLink] = useState(false)
+  const [pendingDeepLink, setPendingDeepLink] = useState<{
+    url: string
+    isSecureOrigin: boolean
+  } | null>(null)
 
   const dispatch = useDispatch()
 
+  const address = useSelector(walletAddressSelector)
+  // having seen the home screen is a proxy for having finished onboarding. we
+  // want to prevent consuming deep links during the onboarding flow in case the
+  // deep link includes navigation.
+  const hasVisitedHome = useSelector(hasVisitedHomeSelector)
+
   const handleOpenURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
-    dispatch(openDeepLink(event.url, isSecureOrigin))
+    // defer consuming deep links until the user has completed onboarding and
+    // wallet set up
+    if (address && hasVisitedHome) {
+      dispatch(openDeepLink(event.url, isSecureOrigin))
+    } else {
+      setPendingDeepLink({ url: event.url, isSecureOrigin })
+    }
   }
+
+  useEffect(() => {
+    if (pendingDeepLink && address && hasVisitedHome) {
+      dispatch(openDeepLink(pendingDeepLink.url, pendingDeepLink.isSecureOrigin))
+      setPendingDeepLink(null)
+    }
+  }, [pendingDeepLink, address, hasVisitedHome])
 
   const handleOpenInitialURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
     // this function handles initial deep links, but not dynamic links (which
