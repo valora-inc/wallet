@@ -1230,8 +1230,8 @@ export const migrations = {
           tx.__typename === 'TokenTransferV2'
             ? 'TokenTransferV3' // @ts-ignore
             : tx.__typename === 'NftTransferV2'
-            ? 'NftTransferV3'
-            : 'TokenExchangeV3'
+              ? 'NftTransferV3'
+              : 'TokenExchangeV3'
         return {
           ...tx,
           __typename,

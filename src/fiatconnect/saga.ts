@@ -884,7 +884,7 @@ export function* fetchFiatAccountsSaga(
         ({
           providerId,
           ...accountData,
-        } as FiatAccount)
+        }) as FiatAccount
     )
   return fiatAccounts
 }
