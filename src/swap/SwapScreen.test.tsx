@@ -1053,16 +1053,18 @@ describe('SwapScreen', () => {
 
   it('should display the correct transaction details', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByTestId, getByText, swapFromContainer, swapScreen } = renderScreen({
+    const { getByTestId, swapFromContainer, swapScreen } = renderScreen({
       celoBalance: '10',
       cUSDBalance: '10',
     })
 
     const transactionDetails = getByTestId('SwapTransactionDetails')
     expect(transactionDetails).toHaveTextContent(
-      'swapScreen.transactionDetails.networkFeeNoNetwork'
+      'swapScreen.transactionDetails.estimatedNetworkFee'
     )
-    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('-')
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent('-')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.maxNetworkFee')
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('-')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
@@ -1075,10 +1077,11 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(
-      getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
-    ).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('₱0.38 (0.022 CELO)') // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
+    // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent(
+      '~₱0.25 (0.015 CELO)'
+    )
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('0.022 CELO')
   })
 
   it('should disable the confirm button after a swap has been submitted', async () => {

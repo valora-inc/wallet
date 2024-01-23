@@ -10,7 +10,7 @@ import {
   getEstimatedGasFee,
   getFeeCurrency,
   getFeeCurrencyAddress,
-  getFeeCurrencyAndAmount,
+  getFeeCurrencyAndAmounts,
   getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareSendNativeAssetTransaction,
@@ -959,27 +959,29 @@ describe('prepareTransactions module', () => {
     })
   })
 
-  describe('getFeeCurrencyAndAmount', () => {
-    it('returns undefined fee currency and fee amount if prepare transactions result is undefined', () => {
-      expect(getFeeCurrencyAndAmount(undefined)).toStrictEqual({
+  describe('getFeeCurrencyAndAmounts', () => {
+    it('returns undefined fee currency and fee amounts if prepare transactions result is undefined', () => {
+      expect(getFeeCurrencyAndAmounts(undefined)).toStrictEqual({
         feeCurrency: undefined,
-        feeAmount: undefined,
+        maxFeeAmount: undefined,
+        estimatedFeeAmount: undefined,
       })
     })
-    it("returns undefined fee currency and fee amount if prepare transactions result is 'not-enough-balance-for-gas'", () => {
+    it("returns undefined fee currency and fee amounts if prepare transactions result is 'not-enough-balance-for-gas'", () => {
       expect(
-        getFeeCurrencyAndAmount({
+        getFeeCurrencyAndAmounts({
           type: 'not-enough-balance-for-gas',
           feeCurrencies: [mockCeloTokenBalance],
         })
       ).toStrictEqual({
         feeCurrency: undefined,
-        feeAmount: undefined,
+        maxFeeAmount: undefined,
+        estimatedFeeAmount: undefined,
       })
     })
-    it("returns fee currency and amount if prepare transactions result is 'possible'", () => {
+    it("returns fee currency and amounts if prepare transactions result is 'possible'", () => {
       expect(
-        getFeeCurrencyAndAmount({
+        getFeeCurrencyAndAmounts({
           type: 'possible',
           transactions: [
             {
@@ -1005,12 +1007,13 @@ describe('prepareTransactions module', () => {
         })
       ).toStrictEqual({
         feeCurrency: mockFeeCurrencies[0],
-        feeAmount: new BigNumber(6),
+        maxFeeAmount: new BigNumber(2),
+        estimatedFeeAmount: new BigNumber(1),
       })
     })
     it("returns fee currency and amount if prepare transactions result is 'need-decrease-spend-amount-for-gas'", () => {
       expect(
-        getFeeCurrencyAndAmount({
+        getFeeCurrencyAndAmounts({
           type: 'need-decrease-spend-amount-for-gas',
           feeCurrency: mockCeloTokenBalance,
           maxGasFeeInDecimal: new BigNumber(0.1),
@@ -1019,7 +1022,8 @@ describe('prepareTransactions module', () => {
         })
       ).toStrictEqual({
         feeCurrency: mockCeloTokenBalance,
-        feeAmount: new BigNumber(0.1),
+        maxFeeAmount: new BigNumber(0.1),
+        estimatedFeeAmount: new BigNumber(0.05),
       })
     })
   })

@@ -1735,6 +1735,8 @@
       "dismissButton": "Dismiss"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Estimated Network Fee",
+      "maxNetworkFee": "Max Network Fee",
       "networkFee": "{{networkName}} Network Fee",
       "networkFeeNoNetwork": "Network Fee",
       "swapFee": "{{appName}} Fee",
