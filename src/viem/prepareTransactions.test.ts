@@ -990,8 +990,9 @@ describe('prepareTransactions module', () => {
               data: '0xdata',
 
               gas: BigInt(500),
-              maxFeePerGas: BigInt(1),
-              maxPriorityFeePerGas: BigInt(2),
+              maxFeePerGas: BigInt(4),
+              maxPriorityFeePerGas: BigInt(1),
+              _baseFeePerGas: BigInt(1),
             },
             {
               from: '0xfrom',
@@ -999,16 +1000,17 @@ describe('prepareTransactions module', () => {
               data: '0xdata',
 
               gas: BigInt(100),
-              maxFeePerGas: BigInt(1),
-              maxPriorityFeePerGas: BigInt(2),
+              maxFeePerGas: BigInt(4),
+              maxPriorityFeePerGas: BigInt(1),
+              _baseFeePerGas: BigInt(1),
             },
           ],
           feeCurrency: mockFeeCurrencies[0],
         })
       ).toStrictEqual({
         feeCurrency: mockFeeCurrencies[0],
-        maxFeeAmount: new BigNumber(2),
-        estimatedFeeAmount: new BigNumber(1),
+        maxFeeAmount: new BigNumber(24),
+        estimatedFeeAmount: new BigNumber(12),
       })
     })
     it("returns fee currency and amount if prepare transactions result is 'need-decrease-spend-amount-for-gas'", () => {

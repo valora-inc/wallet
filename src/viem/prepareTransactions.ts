@@ -485,10 +485,15 @@ export function getFeeCurrencyAndAmounts(
   let feeCurrency = undefined
   let maxFeeAmount = undefined
   let estimatedFeeAmount = undefined
-  if (
-    prepareTransactionsResult?.type === 'possible' ||
-    prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas'
-  ) {
+  if (prepareTransactionsResult?.type === 'possible') {
+    feeCurrency = prepareTransactionsResult.feeCurrency
+    maxFeeAmount = getMaxGasFee(prepareTransactionsResult.transactions).shiftedBy(
+      -feeCurrency.decimals
+    )
+    estimatedFeeAmount = getEstimatedGasFee(prepareTransactionsResult.transactions).shiftedBy(
+      -feeCurrency.decimals
+    )
+  } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
     maxFeeAmount = prepareTransactionsResult.maxGasFeeInDecimal
     estimatedFeeAmount = prepareTransactionsResult.estimatedGasFeeInDecimal

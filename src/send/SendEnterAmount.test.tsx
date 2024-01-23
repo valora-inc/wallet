@@ -82,6 +82,7 @@ describe('SendEnterAmount', () => {
         gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
       },
       {
         from: '0xfrom',
@@ -90,6 +91,7 @@ describe('SendEnterAmount', () => {
         gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
       },
     ],
     feeCurrency: mockCeloTokenBalance,
