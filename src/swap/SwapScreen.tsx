@@ -793,7 +793,7 @@ export function SwapScreen({ route }: Props) {
       )}
       <BottomSheet
         forwardedRef={networkFeeInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.networkFeeInfo', {
+        description={t('swapScreen.transactionDetails.networkFeeInfoV1_76', {
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
         })}
         testId="NetworkFeeInfoBottomSheet"
