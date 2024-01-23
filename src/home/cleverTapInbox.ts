@@ -68,8 +68,8 @@ export function parseCleverTapMessages(rawMessages: ExpectedCleverTapInboxMessag
         Platform.OS === 'android'
           ? action?.url?.android?.text
           : Platform.OS === 'ios'
-            ? action?.url?.ios?.text
-            : ''
+          ? action?.url?.ios?.text
+          : ''
 
       const PRIORITY_TAG = 'priority:'
       const priority = Number(
