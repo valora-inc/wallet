@@ -4160,6 +4160,9 @@
                     },
                     "type": "array"
                 },
+                "hasVisitedHome": {
+                    "type": "boolean"
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -4169,6 +4172,7 @@
             },
             "required": [
                 "cleverTapInboxMessages",
+                "hasVisitedHome",
                 "loading",
                 "notifications"
             ],

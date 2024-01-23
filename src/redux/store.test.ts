@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 183,
+          "version": 184,
         },
         "account": {
           "acceptedTerms": false,
@@ -239,6 +239,7 @@ describe('store state', () => {
         },
         "home": {
           "cleverTapInboxMessages": [],
+          "hasVisitedHome": true,
           "loading": false,
           "notifications": {},
         },
