@@ -1191,6 +1191,8 @@ export interface SwapTxsProperties {
   gas: number // Gas limit of the swap (approve + swap)
   maxGasFee: number | undefined // Max gas fee for the swap (approve + swap) in feeCurrency (decimal value)
   maxGasFeeUsd: number | undefined // Max gas fee for the swap (approve + swap) in USD
+  estimatedGasFee: number | undefined // Estimated gas fee for the swap (approve + swap) in feeCurrency (decimal value)
+  estimatedGasFeeUsd: number | undefined // Estimated gas fee for the swap (approve + swap) in USD
   txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
   feeCurrency: string | undefined // Fee currency used
   feeCurrencySymbol: string | undefined // Fee currency symbol used
@@ -1202,6 +1204,8 @@ export interface TxReceiptProperties {
   txGas: number // Gas limit of the transaction
   txMaxGasFee: number | undefined // Max gas fee of the transaction in feeCurrency (decimal value)
   txMaxGasFeeUsd: number | undefined // Max gas fee of the in USD
+  txEstimatedGasFee: number | undefined // Estimated gas fee of the transaction in feeCurrency (decimal value)
+  txEstimatedGasFeeUsd: number | undefined // Estimated gas fee of the transaction in USD
   txGasUsed: number // Gas used by the transaction
   txGasFee: number // Actual gas fee of the transaction in feeCurrency (decimal value)
   txGasFeeUsd: number // Actual gas fee of the transaction in USD
@@ -1228,6 +1232,8 @@ export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
     gas: number // Gas limit of the swap (approve + swap)
     maxGasFee: number | undefined // Max gas fee for the swap (approve + swap) in feeCurrency (decimal value)
     maxGasFeeUsd: number | undefined // Max gas fee for the swap (approve + swap) in USD
+    estimatedGasFee: number | undefined // Estimated gas fee for the swap (approve + swap) in feeCurrency (decimal value)
+    estimatedGasFeeUsd: number | undefined // Estimated gas fee for the swap (approve + swap) in USD
     gasUsed: number // Gas used by the swap (approve + swap)
     gasFee: number | undefined // Actual gas fee of the swap (approve + swap) in feeCurrency (decimal value)
     gasFeeUsd: number | undefined // Actual gas fee of the swap (approve + swap) in USD
