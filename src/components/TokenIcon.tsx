@@ -71,7 +71,7 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
           ]}
           testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
         >
-          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]}>
+          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]} allowFontScaling={false}>
             {token.symbol.substring(0, 4)}
           </Text>
         </View>
