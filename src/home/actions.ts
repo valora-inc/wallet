@@ -1,4 +1,4 @@
-import { ExpectedCleverTapInboxMessage } from 'src/home/cleverTapInbox'
+import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
 
 export enum Actions {
@@ -37,7 +37,7 @@ export interface RefreshBalancesBalancesAction {
 
 interface CleverTapInboxMessagesReceivedAction {
   type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED
-  messages: ExpectedCleverTapInboxMessage[]
+  messages: CleverTapInboxMessage[]
 }
 
 export type ActionTypes =
@@ -80,7 +80,7 @@ export const stopBalanceAutorefresh = () => ({
 })
 
 export const cleverTapInboxMessagesReceived = (
-  messages: ExpectedCleverTapInboxMessage[]
+  messages: CleverTapInboxMessage[]
 ): CleverTapInboxMessagesReceivedAction => ({
   type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED,
   messages,
