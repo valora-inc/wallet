@@ -78,10 +78,11 @@
     "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie będzie mogła przywrócić dostępu.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
   "setUpKeylessBackup": {
-    "title": "Skonfiguruj tworzenie kopii zapasowej bez klucza",
-    "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje:",
+    "title": "Skonfiguruj kopię zapasową portfela",
+    "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
     "emailAddress": "Adres e-mail",
-    "phoneNumber": "Numer telefonu"
+    "phoneNumber": "Numer telefonu",
+    "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania"
   },
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Dbaj o bezpieczeństwo!",
+  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem na uzyskanie dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail ani numeru telefonu. Dbaj o swoje bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "Regulamin",
     "heading1": "Dane i prywatność",
-    "heading2": "Zasoby cyfrowe i {{appName}}",
+    "heading2": "Aktywa i konto {{appName}}",
     "info": "Aby móc korzystać z naszych usług, przeczytaj <0>Umowę z użytkownikiem i Regulamin</0> oraz zaakceptuj je, klikając poniższy przycisk akceptacji.",
     "privacy": "Dołączając do tej sieci, udzielasz nam zgody na gromadzenie anonimowych informacji o korzystaniu z aplikacji. Ponadto jeśli podłączysz swój numer telefonu, zostanie zapisana jego zaszyfrowana kopia. Jeśli przyznasz Valora dostęp do swojej listy kontaktów, Valora zaimportuje nazwę, numer telefonu i zdjęcie profilowe każdego kontaktu, aby umożliwić użytkownikom łączenie się za pośrednictwem aplikacji Valora. Aby dowiedzieć się, w jaki sposób zbieramy i wykorzystujemy te informacje, zapoznaj się z naszą <0>Polityką prywatności</0>.",
-    "goldDisclaimer": "Tworząc \"konto\" w Valora, tworzysz cyfrowy portfel, do którego tylko Ty posiadasz klucze. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić lub cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że aktywa cyfrowe są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe przed zakupem jakichkolwiek aktywów cyfrowych."
+    "goldDisclaimer": "Tworząc „konto” w Valora, tworzysz cyfrowy portfel, do którego klucze posiadasz tylko Ty. Żadna inna osoba ani podmiot, w tym Valora, nie może odzyskać Twojego klucza, zmienić ani cofnąć transakcji ani odzyskać utraconych środków. Pamiętaj, że kryptowaluty są częścią nowej klasy aktywów i wiążą się z ryzykiem strat finansowych. Przed zakupem jakichkolwiek aktywów dokładnie rozważ swoją sytuację finansową i tolerancję na ryzyko finansowe."
   },
   "fullNameOrPsuedonym": "Imię i nazwisko lub pseudonim",
   "namePlaceholder": "np. imię",
@@ -1710,6 +1711,12 @@
       "title": "Zanim dokonasz swapu",
       "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} cena niedostępna",
+      "description": "Nie mamy ceny {{localCurrency}} dla tego tokena, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za jakiekolwiek straty poniesione, jeśli zdecydujesz się kontynuować.",
+      "ctaConfirm": "Rozumiem",
+      "ctaDismiss": "Anuluj"
+    },
     "missingSwapImpactWarning": {
       "title": "Zanim dokonasz swapu",
       "body": "Nie możemy oszacować wartości tego swapu. {{appName}} nie ponosi odpowiedzialności, jeśli zdecydujesz się kontynuować."
@@ -1740,6 +1747,11 @@
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
       "estimatedValue": "Szacunkowa wartość"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Zasil swój portfel",
+      "description": "Zanim będziesz mógł wymieniać tokeny, musisz zasilić swój portfel, kupując kryptowaluty lub przesyłając tokeny.",
+      "addFundsButton": "Dodaj środki"
     }
   },
   "swapTransactionDetailPage": {
@@ -2025,6 +2037,10 @@
     "description2": "To wciąż nowość, a nasz zespół wciąż ciężko pracuje, aby wszystko działało idealnie. Chętnie poznamy Twoją opinię.",
     "primaryCta": "Wypróbuj teraz",
     "secondaryCta": "Nie, dziękuję"
+  },
+  "getStartedHome": {
+    "title": "Kup kryptowaluty lub prześlij tokeny",
+    "body": "Kupuj lub przesyłaj tokeny kompatybilne z celo lub ethereum, aby zdobywać nagrody {{apy}}%, odkrywać web3 i nie tylko!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

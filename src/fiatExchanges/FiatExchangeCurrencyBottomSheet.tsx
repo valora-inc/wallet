@@ -30,8 +30,8 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
     flow === FiatExchangeFlow.CashIn
       ? cashInTokens
       : flow === FiatExchangeFlow.CashOut
-      ? cashOutTokens
-      : spendTokens
+        ? cashOutTokens
+        : spendTokens
 
   const tokenList = useMemo(() => unsortedTokenList.sort(sortCicoTokens), [unsortedTokenList])
 

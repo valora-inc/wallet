@@ -98,7 +98,7 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { defaultTokenIdOverride, origin, recipient, isFromScan } = route.params
+  const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
@@ -313,18 +313,25 @@ function SendEnterAmount({ route }: Props) {
                     : undefined
                 }
               />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                testID="SendEnterAmount/TokenSelect"
-              >
-                <>
+              {!forceTokenId ? (
+                <Touchable
+                  borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                  onPress={onTokenPickerSelect}
+                  style={styles.tokenSelectButton}
+                  testID="SendEnterAmount/TokenSelect"
+                >
+                  <>
+                    <TokenIcon token={token} size={IconSize.SMALL} />
+                    <Text style={styles.tokenName}>{token.symbol}</Text>
+                    <DownArrowIcon color={Colors.gray5} />
+                  </>
+                </Touchable>
+              ) : (
+                <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
                   <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
-                  <DownArrowIcon color={Colors.gray5} />
-                </>
-              </Touchable>
+                </View>
+              )}
             </View>
             {showLowerAmountError && (
               <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
@@ -356,7 +363,7 @@ function SendEnterAmount({ route }: Props) {
             </Text>
             <View style={styles.feeAmountContainer}>{feeAmountSection}</View>
           </View>
-        </View>
+        </View >
         {showMaxAmountWarning && (
           <InLineNotification
             severity={Severity.Warning}
@@ -367,20 +374,23 @@ function SendEnterAmount({ route }: Props) {
             style={styles.warning}
             testID="SendEnterAmount/MaxAmountWarning"
           />
-        )}
-        {showNotEnoughBalanceForGasWarning && (
-          <InLineNotification
-            severity={Severity.Warning}
-            title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
-              feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
-            })}
-            style={styles.warning}
-            testID="SendEnterAmount/NotEnoughForGasWarning"
-          />
-        )}
+        )
+        }
+        {
+          showNotEnoughBalanceForGasWarning && (
+            <InLineNotification
+              severity={Severity.Warning}
+              title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
+                feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              })}
+              description={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.description', {
+                feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
+              })}
+              style={styles.warning}
+              testID="SendEnterAmount/NotEnoughForGasWarning"
+            />
+          )
+        }
         <Button
           onPress={onReviewPress}
           text={t('review')}
@@ -391,7 +401,7 @@ function SendEnterAmount({ route }: Props) {
           testID="SendEnterAmount/ReviewButton"
         />
         <KeyboardSpacer />
-      </KeyboardAwareScrollView>
+      </KeyboardAwareScrollView >
       <TokenBottomSheet
         forwardedRef={tokenBottomSheetRef}
         snapPoints={['90%']}
@@ -402,7 +412,7 @@ function SendEnterAmount({ route }: Props) {
         TokenOptionComponent={TokenBalanceItemOption}
         titleStyle={styles.title}
       />
-    </SafeAreaView>
+    </SafeAreaView >
   )
 }
 

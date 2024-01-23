@@ -35,12 +35,14 @@ interface Props<T extends TokenBalance> {
   snapPoints?: (string | number)[]
   tokens: T[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
+  showPriceUsdUnavailableWarning?: boolean
 }
 
 export interface TokenOptionProps {
   tokenInfo: TokenBalance
   onPress: () => void
   index: number
+  showPriceUsdUnavailableWarning?: boolean
 }
 
 /**
@@ -79,7 +81,11 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
   )
 }
 
-export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps) {
+export function TokenBalanceItemOption({
+  tokenInfo,
+  onPress,
+  showPriceUsdUnavailableWarning,
+}: TokenOptionProps) {
   const { t } = useTranslation()
   return (
     <TokenBalanceItem
@@ -87,6 +93,7 @@ export function TokenBalanceItemOption({ tokenInfo, onPress }: TokenOptionProps)
       balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
       onPress={onPress}
       containerStyle={styles.tokenBalanceItemContainer}
+      showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
     />
   )
 }
@@ -122,6 +129,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   title,
   titleStyle,
   TokenOptionComponent = TokenOption,
+  showPriceUsdUnavailableWarning,
 }: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -135,7 +143,6 @@ function TokenBottomSheet<T extends TokenBalance>({
       networkId: token.networkId,
     })
     onTokenSelected(token)
-    setSearchTerm('')
   }
 
   const sendAnalytics = useCallback(
@@ -209,6 +216,7 @@ function TokenBottomSheet<T extends TokenBalance>({
                 tokenInfo={tokenInfo}
                 onPress={onTokenPressed(tokenInfo)}
                 index={index}
+                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
               />
             </React.Fragment>
           )

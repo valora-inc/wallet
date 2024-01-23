@@ -5,7 +5,6 @@ import {
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
 import { AppState, MultichainBetaStatus } from 'src/app/actions'
-import { CodeInputStatus } from 'src/components/CodeInput'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
@@ -479,11 +478,7 @@ export const v9Schema = {
   },
   identity: {
     ...v8Schema.identity,
-    attestationInputStatus: [
-      CodeInputStatus.Inputting,
-      CodeInputStatus.Disabled,
-      CodeInputStatus.Disabled,
-    ],
+    attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
   },
 }
 
@@ -515,11 +510,7 @@ export const v13Schema = {
     attestationCodes: [],
     acceptedAttestationCodes: [],
     lastRevealAttempt: null,
-    attestationInputStatus: [
-      CodeInputStatus.Inputting,
-      CodeInputStatus.Disabled,
-      CodeInputStatus.Disabled,
-    ],
+    attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
   },
 }
 
@@ -2495,8 +2486,8 @@ export const v145Schema = {
         tx.__typename === 'TokenTransferV2'
           ? 'TokenTransferV3' // @ts-ignore
           : tx.__typename === 'NftTransferV2'
-          ? 'NftTransferV3'
-          : 'TokenExchangeV3'
+            ? 'NftTransferV3'
+            : 'TokenExchangeV3'
       return {
         ...tx,
         __typename,
