@@ -11,17 +11,25 @@ interface SwapTask {
   status: SwapStatus
 }
 
+interface SwapResult {
+  swapId: string
+  fromTokenId: string
+  toTokenId: string
+}
+
 export interface State {
   currentSwap: SwapTask | null
   /**
    * In percentage, between 0 and 100
    */
   priceImpactWarningThreshold: number
+  lastSwappedTokens: string[]
 }
 
 const initialState: State = {
   currentSwap: null,
   priceImpactWarningThreshold: 4, // 4% by default
+  lastSwappedTokens: [],
 }
 
 function updateCurrentSwapStatus(currentSwap: SwapTask | null, swapId: string, status: SwapStatus) {
@@ -29,6 +37,20 @@ function updateCurrentSwapStatus(currentSwap: SwapTask | null, swapId: string, s
     return
   }
   currentSwap.status = status
+}
+
+export function updateLastSwappedTokens(currentTokenIds: string[], newTokenIds: string[]) {
+  const MAX_TOKEN_COUNT = 10
+
+  for (const tokenId of newTokenIds) {
+    if (!currentTokenIds.includes(tokenId)) {
+      currentTokenIds.push(tokenId)
+    }
+  }
+
+  if (currentTokenIds.length > MAX_TOKEN_COUNT) {
+    currentTokenIds.splice(0, currentTokenIds.length - MAX_TOKEN_COUNT)
+  }
 }
 
 export const slice = createSlice({
@@ -41,8 +63,10 @@ export const slice = createSlice({
         status: 'started',
       }
     },
-    swapSuccess: (state, action: PayloadAction<string>) => {
-      updateCurrentSwapStatus(state.currentSwap, action.payload, 'success')
+    swapSuccess: (state, action: PayloadAction<SwapResult>) => {
+      const { swapId, fromTokenId, toTokenId } = action.payload
+      updateCurrentSwapStatus(state.currentSwap, swapId, 'success')
+      updateLastSwappedTokens(state.lastSwappedTokens, [fromTokenId, toTokenId])
     },
     swapError: (state, action: PayloadAction<string>) => {
       updateCurrentSwapStatus(state.currentSwap, action.payload, 'error')
