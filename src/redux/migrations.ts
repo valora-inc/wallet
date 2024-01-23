@@ -1520,4 +1520,8 @@ export const migrations = {
     ...state,
     home: { ...state.home, cleverTapInboxMessages: [] },
   }),
+  184: (state: any) => ({
+    ...state,
+    swap: { ...state.swap, lastSwapped: [] },
+  }),
 }

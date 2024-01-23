@@ -77,7 +77,7 @@ describe('reducer', () => {
   it('should handle swapSuccess', () => {
     const initialState = {
       currentSwap: { id: 'test-swap-id', status: 'started' },
-      lastSwappedTokens: [],
+      lastSwapped: [],
     } as unknown as State
 
     const action = swapSuccess({
@@ -89,7 +89,7 @@ describe('reducer', () => {
     const resultState = reducer(initialState, action) as State
     expect(resultState).toEqual({
       currentSwap: { id: 'test-swap-id', status: 'success' },
-      lastSwappedTokens: [mockCeurTokenId, mockCeloTokenId],
+      lastSwapped: [mockCeurTokenId, mockCeloTokenId],
     })
   })
 

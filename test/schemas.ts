@@ -2966,6 +2966,15 @@ export const v183Schema = {
   home: { ...v182Schema.home, cleverTapInboxMessages: [] },
 }
 
+export const v184Schema = {
+  ...v183Schema,
+  _persist: {
+    ...v183Schema._persist,
+    version: 184,
+  },
+  swap: { ...v183Schema.swap, lastSwapped: [] },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v183Schema as Partial<RootState>
+  return v184Schema as Partial<RootState>
 }
