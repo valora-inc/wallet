@@ -10,7 +10,7 @@ import { SwapInfo } from 'src/swap/types'
 import { mockCeloTokenId, mockCeurTokenId } from 'test/values'
 
 describe('updateLastSwappedTokens', () => {
-  it('should add new tokens to the end of current tokens', () => {
+  it('should add new tokens to the end of current tokens list', () => {
     const tokenIds = ['token1', 'token2']
     const newTokenIds = ['token3', 'token4']
 
@@ -19,13 +19,22 @@ describe('updateLastSwappedTokens', () => {
     expect(tokenIds).toEqual(['token1', 'token2', 'token3', 'token4'])
   })
 
-  it('should not add duplicate tokens', () => {
+  it('should not add duplicated new tokens more than once', () => {
     const tokenIds = ['token1', 'token2']
-    const newTokenIds = ['token2', 'token3']
+    const newTokenIds = ['token3', 'token3', 'token3']
 
     updateLastSwappedTokens(tokenIds, newTokenIds)
 
     expect(tokenIds).toEqual(['token1', 'token2', 'token3'])
+  })
+
+  it('should not add duplicate tokens, but move them to the end', () => {
+    const tokenIds = ['token1', 'token2', 'token3', 'token4', 'token5']
+    const newTokenIds = ['token2', 'token3']
+
+    updateLastSwappedTokens(tokenIds, newTokenIds)
+
+    expect(tokenIds).toEqual(['token1', 'token4', 'token5', 'token2', 'token3'])
   })
 
   it('should limit the number of tokens to MAX_TOKEN_COUNT', () => {

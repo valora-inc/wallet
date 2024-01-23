@@ -39,17 +39,23 @@ function updateCurrentSwapStatus(currentSwap: SwapTask | null, swapId: string, s
   currentSwap.status = status
 }
 
-export function updateLastSwappedTokens(currentTokenIds: string[], newTokenIds: string[]) {
+export function updateLastSwappedTokens(tokenIds: string[], newTokenIds: string[]) {
   const MAX_TOKEN_COUNT = 10
 
-  for (const tokenId of newTokenIds) {
-    if (!currentTokenIds.includes(tokenId)) {
-      currentTokenIds.push(tokenId)
+  const uniqueNewTokenIds = new Set(newTokenIds)
+  const prevTokenIds = [...tokenIds]
+  tokenIds.length = 0 // clear the array while keeping the reference
+
+  for (const tokenId of prevTokenIds) {
+    if (!uniqueNewTokenIds.has(tokenId)) {
+      tokenIds.push(tokenId)
     }
   }
 
-  if (currentTokenIds.length > MAX_TOKEN_COUNT) {
-    currentTokenIds.splice(0, currentTokenIds.length - MAX_TOKEN_COUNT)
+  tokenIds.push(...uniqueNewTokenIds)
+
+  if (tokenIds.length > MAX_TOKEN_COUNT) {
+    tokenIds.splice(0, tokenIds.length - MAX_TOKEN_COUNT)
   }
 }
 
