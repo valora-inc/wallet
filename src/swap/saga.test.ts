@@ -375,7 +375,7 @@ describe(swapSubmitSaga, () => {
       await expectSaga(swapSubmitSaga, swapPrepared)
         .withState(store.getState())
         .provide(createDefaultProviders(network))
-        .put(swapSuccess('test-swap-id'))
+        .put(swapSuccess({ swapId: 'test-swap-id', fromTokenId, toTokenId }))
         .put(
           addStandbyTransaction({
             context: {
@@ -521,7 +521,13 @@ describe(swapSubmitSaga, () => {
     await expectSaga(swapSubmitSaga, mockSwapWithNativeSellToken)
       .withState(store.getState())
       .provide(createDefaultProviders(Network.Celo))
-      .put(swapSuccess('test-swap-id'))
+      .put(
+        swapSuccess({
+          swapId: 'test-swap-id',
+          fromTokenId: mockCeurTokenId,
+          toTokenId: mockCeloTokenId,
+        })
+      )
       .put(
         addStandbyTransaction({
           context: {
