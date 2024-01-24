@@ -135,7 +135,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
-        pendingDeepLinks: getPersistedDeepLinks(rehydratePayload.pendingDeepLinks),
+        pendingDeepLinks: getPersistedDeepLinks(rehydratePayload.pendingDeepLinks ?? []),
       }
     }
     case Actions.SET_APP_STATE:

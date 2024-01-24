@@ -2973,6 +2973,7 @@ export const v184Schema = {
     version: 184,
   },
   home: { ...v183Schema.home, hasVisitedHome: true },
+  app: { ...v183Schema.app, pendingDeepLinks: [] },
 }
 
 export function getLatestSchema(): Partial<RootState> {

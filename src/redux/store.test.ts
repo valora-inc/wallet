@@ -156,6 +156,7 @@ describe('store state', () => {
           "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
+          "pendingDeepLinks": [],
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
