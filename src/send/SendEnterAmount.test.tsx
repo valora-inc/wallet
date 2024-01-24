@@ -93,7 +93,6 @@ describe('SendEnterAmount', () => {
       },
     ],
     feeCurrency: mockCeloTokenBalance,
-    maxGasFeeInDecimal: new BigNumber(2),
   }
 
   beforeEach(() => {
@@ -396,6 +395,7 @@ describe('SendEnterAmount', () => {
       type: 'need-decrease-spend-amount-for-gas',
       feeCurrency: mockCeloTokenBalance,
       maxGasFeeInDecimal: new BigNumber(1),
+      estimatedGasFeeInDecimal: new BigNumber(1),
       decreasedSpendAmount: new BigNumber(9),
     }
 
