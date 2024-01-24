@@ -19,7 +19,7 @@ export async function estimateFeesPerGas(
     const [gasPrice, maxPriorityFeePerGas, gasPriceMinimum] = await Promise.all([
       getGasPrice(client, feeCurrency),
       getMaxPriorityFeePerGas(client, feeCurrency),
-      getGasPriceMinimum(client, feeCurrency),
+      getCeloGasPriceMinimum(client, feeCurrency),
     ])
     const maxFeePerGas = gasPrice + maxPriorityFeePerGas
 
@@ -65,7 +65,7 @@ export async function getMaxPriorityFeePerGas(client: Client, feeCurrency?: Addr
 }
 
 // Get gas price minimum with optional fee currency, this is Celo specific
-export async function getGasPriceMinimum(client: Client, feeCurrency: Address | undefined) {
+export async function getCeloGasPriceMinimum(client: Client, feeCurrency: Address | undefined) {
   const gasPriceMinimum = await readContract(client, {
     address: networkConfig.celoGasPriceMinimumAddress,
     // Extracted the ABI from https://unpkg.com/browse/@celo/abis@10.0.0/dist/GasPriceMinimum.json
