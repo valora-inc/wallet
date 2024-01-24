@@ -79,10 +79,10 @@
   },
   "setUpKeylessBackup": {
     "title": "Configurer la sauvegarde du portefeuille",
-    "subtitle": "Tu utiliseras les éléments suivants pour mettre en place la sauvegarde.",
+    "subtitle": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
     "emailAddress": "Adresse e-mail",
     "phoneNumber": "Numéro de téléphone",
-    "useRecoveryPhrase": "Utilise plutôt une phrase de récupération"
+    "useRecoveryPhrase": "Utiliser une phrase de récupération"
   },
   "signInWithEmail": {
     "title": "Se connecter avec un e-mail",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>N'oublie pas</0> que ces informations sont le seul moyen d'accéder à ton portefeuille en cas de perte ou de vol de ton appareil. Valora ne conserve pas ton email ou ton numéro de téléphone. Garde-les en sécurité !",
+  "setupKeylessBackupReminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !",
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",
   "privacyPolicy": "Politique de confidentialité",
@@ -1708,8 +1708,8 @@
       "body": "Échanger ces actifs peut entraîner un taux de change défavorable. Si vous baissez le montant, vous pourriez obtenir un meilleur taux."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} prix non disponible",
-      "description": "Nous n'avons pas de prix {{localCurrency}} pour ce jeton, ce qui pourrait signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si tu choisis de poursuivre.",
+      "title": "Prix en {{localCurrency}} indisponible",
+      "description": "Nous n'avons pas de prix en {{localCurrency}} pour ce jeton, cela peut signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si vous choisissez de continuer.",
       "ctaConfirm": "Je comprends",
       "ctaDismiss": "Annuler"
     },
@@ -1745,8 +1745,8 @@
       "estimatedValue": "Valeur estimée"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Finance ton portefeuille",
-      "description": "Avant de pouvoir échanger des jetons, tu devras approvisionner ton portefeuille en achetant de la crypto ou en transférant des jetons.",
+      "title": "Approvisionner votre portefeuille",
+      "description": "Avant de pouvoir échanger des jetons, vous devrez approvisionner votre portefeuille en achetant des cryptomonnaies ou en transférant des jetons.",
       "addFundsButton": "Ajouter des fonds"
     }
   },
@@ -2035,8 +2035,8 @@
     "secondaryCta": "Non merci"
   },
   "getStartedHome": {
-    "title": "Achète de la crypto ou transfère des jetons",
-    "body": "Achète ou transfère des tokens compatibles celo ou ethereum pour gagner {{apy}}% de récompenses, explorer web3 & plus encore !"
+    "title": "Acheter des cryptomonnaies ou des jetons de transfert",
+    "body": "Achetez ou transférez des jetons compatibles avec Celo ou Ethereum pour gagner des récompenses {{apy}}%, découvrez le web3 et allez plus loin !"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

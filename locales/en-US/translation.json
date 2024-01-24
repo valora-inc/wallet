@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Get started with Supercharge",
-  "consumerIncentivesSummary": "Supercharge is here! Get 12% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Available for a limited time. Here's how it works:",
+  "consumerIncentivesSummary": "Supercharge is here! Get {{percent}}% annual rewards on your highest stablecoin balance (cUSD, cEUR, or cREAL). Available for a limited time. Here's how it works:",
   "earnWeekly": {
     "header": "Connect your phone number",
     "text": "Tap Connect Number if you haven't connected it yet."

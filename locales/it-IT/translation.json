@@ -82,7 +82,7 @@
     "subtitle": "Per configurare il backup dovrai utilizzare quanto segue",
     "emailAddress": "Indirizzo e-mail",
     "phoneNumber": "Numero telefonico",
-    "useRecoveryPhrase": "Usa invece la frase di recupero"
+    "useRecoveryPhrase": "Oppure usa la frase di recupero"
   },
   "signInWithEmail": {
     "title": "Accedi con l'indirizzo e-mail",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero di telefono. Tienilo al sicuro!",
+  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
@@ -1708,9 +1708,9 @@
       "body": "Scambiare questi asset può comportare un tasso di cambio sfavorevole. Riducendo l'importo, potresti ottenere un tasso migliore."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} prezzo non disponibile",
-      "description": "Non abbiamo un prezzo {{localCurrency}} per questo token, il che potrebbe significare che non è ampiamente scambiato. {{appName}} non è responsabile di eventuali perdite subite se decidi di procedere.",
-      "ctaConfirm": "Capisco",
+      "title": "Prezzo in {{localCurrency}} non disponibile",
+      "description": "Per questo token non è disponibile un prezzo in {{localCurrency}}. Questo potrebbe significare che non è scambiato in modo diffuso. Qualora tu decida di procedere, {{appName}} non sarà responsabile di eventuali perdite subite.",
+      "ctaConfirm": "Accetto",
       "ctaDismiss": "Annulla"
     },
     "missingSwapImpactWarning": {
@@ -1745,8 +1745,8 @@
       "estimatedValue": "Valore stimato"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Finanzia il tuo portafoglio",
-      "description": "Prima di poter scambiare i token dovrai finanziare il tuo portafoglio acquistando criptovalute o trasferendo token.",
+      "title": "Aggiungi fondi al tuo portafoglio",
+      "description": "Prima di poter scambiare token, dovrai aggiungere fondi al tuo portafoglio acquistando criptovalute o trasferendo token.",
       "addFundsButton": "Aggiungi fondi"
     }
   },
@@ -2036,7 +2036,7 @@
   },
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
-    "body": "Acquista o trasferisci token compatibili con celo o ethereum per guadagnare {{apy}}% di ricompense, esplorare web3 e molto altro!"
+    "body": "Acquista o trasferisci token compatibili con Celo o Ethereum per ottenere ricompense del {{apy}}%, esplorare il Web3 e molto altro!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
