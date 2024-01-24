@@ -348,7 +348,7 @@ export async function fetchImportedTokensBalances(
         return
       }
 
-      var balance
+      let balance
       if (knownTokenBalances[importedToken.tokenId]) {
         balance = knownTokenBalances[importedToken.tokenId].balance
       } else {
