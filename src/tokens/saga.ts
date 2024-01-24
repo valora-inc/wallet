@@ -2,7 +2,7 @@ import { StableToken } from '@celo/contractkit'
 import { GoldTokenWrapper } from '@celo/contractkit/lib/wrappers/GoldTokenWrapper'
 import { StableTokenWrapper } from '@celo/contractkit/lib/wrappers/StableTokenWrapper'
 import BigNumber from 'bignumber.js'
-import * as erc20 from 'src/abis/IERC20.json'
+import erc20 from 'src/abis/IERC20'
 import * as stableToken from 'src/abis/StableToken.json'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -35,11 +35,13 @@ import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { gql } from 'src/utils/gql'
 import { safely } from 'src/utils/safely'
+import { publicClient } from 'src/viem'
 import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { all, call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { Address, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
 
@@ -197,22 +199,15 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
-    const importedTokens = (yield* call(
-      getFeatureGate,
-      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
-    ))
-      ? yield* select(importedTokensInfoSelector)
-      : {}
     const supportedTokens = yield* call(getTokensInfo)
+    const supportedTokenBalances: FetchedTokenBalance[] = yield* call(
+      fetchTokenBalancesForAddress,
+      address
+    )
 
-    const tokens = {
-      ...importedTokens,
-      ...supportedTokens,
-    }
-
-    const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
-    for (const token of Object.values(tokens) as StoredTokenBalance[]) {
-      const tokenBalance = tokenBalances.find((t) => t.tokenId === token.tokenId)
+    Logger.info(TAG, `Token balances for ${address}`, supportedTokenBalances)
+    for (const token of Object.values(supportedTokens) as StoredTokenBalance[]) {
+      const tokenBalance = supportedTokenBalances.find((t) => t.tokenId === token.tokenId)
       if (!tokenBalance) {
         token.balance = '0'
       } else {
@@ -221,7 +216,15 @@ export function* fetchTokenBalancesSaga() {
           .toFixed()
       }
     }
-    yield* put(setTokenBalances(tokens))
+
+    const importedTokensWithBalance = yield* call(fetchImportedTokensBalances, address as Address)
+
+    yield* put(
+      setTokenBalances({
+        ...importedTokensWithBalance,
+        ...supportedTokens,
+      })
+    )
     SentryTransactionHub.finishTransaction(SentryTransaction.fetch_balances)
     ValoraAnalytics.track(AppEvents.fetch_balance, {})
   } catch (err) {
@@ -306,6 +309,62 @@ export function* watchAccountFundedOrLiquidated() {
     }
 
     yield* take()
+  }
+}
+
+export function* fetchImportedTokensBalances(address: Address) {
+  try {
+    const showImportedTokens = yield* call(
+      getFeatureGate,
+      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    )
+    if (!showImportedTokens) {
+      return {}
+    }
+
+    const importedTokens: StoredTokenBalances = yield* select(importedTokensInfoSelector)
+    const importedTokensList = Object.values(importedTokens)
+
+    const balanceRequests: any = {}
+    importedTokensList.forEach((importedToken) => {
+      if (!importedToken) {
+        return
+      }
+
+      const contract = getContract({
+        abi: erc20.abi,
+        address: importedToken!.address as Address,
+        client: {
+          public: publicClient[networkIdToNetwork[importedToken.networkId]],
+        },
+      })
+
+      balanceRequests[importedToken.tokenId] = contract.read.balanceOf([address])
+    })
+
+    const balances = (yield* all(balanceRequests)) as Record<string, bigint>
+
+    const importedTokensWithBalance: StoredTokenBalances = {}
+
+    importedTokensList.forEach((importedToken) => {
+      if (!importedToken) {
+        return
+      }
+
+      const balance = new BigNumber(balances[importedToken.tokenId].toString())
+        .shiftedBy(-importedToken.decimals)
+        .toFixed()
+
+      importedTokensWithBalance[importedToken.tokenId] = {
+        ...importedToken,
+        balance,
+      }
+    })
+
+    return importedTokensWithBalance
+  } catch (error) {
+    Logger.error(TAG, 'Error fetching imported tokens balances', error)
+    return {}
   }
 }
 

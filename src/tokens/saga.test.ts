@@ -8,6 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
+  fetchImportedTokensBalances,
   fetchTokenBalancesForAddress,
   fetchTokenBalancesSaga,
   getTokensInfo,
@@ -193,17 +194,15 @@ describe(fetchTokenBalancesSaga, () => {
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(importedTokensInfoSelector), mockImportedTokensInfo],
         [select(walletAddressSelector), mockAccount],
+        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
         [
-          call(fetchTokenBalancesForAddress, mockAccount),
-          [
-            ...fetchBalancesResponse,
-            {
-              tokenAddress: mockTestTokenAddress,
-              tokenId: mockTestTokenTokenId,
-              balance: new BigNumber(1000).shiftedBy(18).toFixed(),
-              decimals: '18',
+          call(fetchImportedTokensBalances, mockAccount),
+          {
+            [mockTestTokenTokenId]: {
+              ...mockImportedTokensInfo[mockTestTokenTokenId],
+              balance: new BigNumber(1000).toFixed(),
             },
-          ],
+          },
         ],
       ])
       .put(setTokenBalances(expectedBalances))
