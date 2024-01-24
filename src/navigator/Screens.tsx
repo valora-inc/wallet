@@ -33,6 +33,7 @@ export enum Screens {
   FiatConnectRefetchQuote = 'FiatConnectRefetchQuote',
   FiatConnectTransferStatus = 'FiatConnectTransferStatus',
   GoldEducation = 'GoldEducation',
+  ImportSelect = 'ImportSelect',
   ImportWallet = 'ImportWallet',
   Invite = 'Invite',
   KeylessBackupPhoneInput = 'KeylessBackupPhoneInput',
