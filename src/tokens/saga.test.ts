@@ -200,7 +200,12 @@ describe(fetchTokenBalancesSaga, () => {
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
-          call(fetchImportedTokensBalances, mockAccount, fetchBalancesResponse),
+          call(
+            fetchImportedTokensBalances,
+            mockAccount,
+            mockImportedTokensInfo,
+            fetchBalancesResponse
+          ),
           {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],

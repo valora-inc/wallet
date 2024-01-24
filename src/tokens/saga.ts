@@ -230,13 +230,11 @@ export function* fetchTokenBalancesSaga() {
       StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
     )
 
-    const importedTokens: StoredTokenBalances = yield* select(importedTokensInfoSelector)
-
     const importedTokensWithBalance = showImportedTokens
       ? yield* call(
           fetchImportedTokensBalances,
           address as Address,
-          importedTokens,
+          yield* select(importedTokensInfoSelector),
           fetchedBalancesByTokenId
         )
       : {}
