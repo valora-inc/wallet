@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-posta veya telefon numaranızı saklamaz. Güvende tutun!",
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -1708,9 +1708,9 @@
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} fiyat mevcut değil",
-      "description": "Bu token için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}} , devam etmeyi seçerseniz meydana gelen herhangi bir kayıptan sorumlu değildir.",
-      "ctaConfirm": "Anlıyorum.",
+      "title": "{{localCurrency}} fiyatı mevcut değil",
+      "description": "Bu token için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}}, devam etmeyi seçerseniz meydana gelecek herhangi bir kayıptan sorumlu değildir.",
+      "ctaConfirm": "Anladım",
       "ctaDismiss": "İptal"
     },
     "missingSwapImpactWarning": {
@@ -1745,8 +1745,8 @@
       "estimatedValue": "Tahmini Değer"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Cüzdanınıza para yatırın",
-      "description": "Tokenları takas etmeden önce kripto satın alarak veya tokenları transfer ederek cüzdanınıza para yatırmanız gerekir.",
+      "title": "Cüzdanınıza fon ekleyin",
+      "description": "Token takas etmeden önce kripto satın alarak veya token transfer ederek cüzdanınıza fon eklemeniz gerekir.",
       "addFundsButton": "Bakiye Ekle"
     }
   },
@@ -2035,7 +2035,7 @@
     "secondaryCta": "Hayır, teşekkürler"
   },
   "getStartedHome": {
-    "title": "Kripto satın alın veya token aktarın",
+    "title": "Kripto satın alın veya token transfer edin",
     "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
