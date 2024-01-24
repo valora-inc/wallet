@@ -78,7 +78,7 @@
     "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie będzie mogła przywrócić dostępu.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
   "setUpKeylessBackup": {
-    "title": "Skonfiguruj kopię zapasową portfela",
+    "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
     "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
     "emailAddress": "Adres e-mail",
     "phoneNumber": "Numer telefonu",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem na uzyskanie dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail ani numeru telefonu. Dbaj o swoje bezpieczeństwo!",
+  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
@@ -1712,8 +1712,8 @@
       "body": "Swap tych aktywów może doprowadzić do uzyskania niekorzystnego kursu wymiany. Jeśli obniżysz kwotę, możesz uzyskać lepszy kurs."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} cena niedostępna",
-      "description": "Nie mamy ceny {{localCurrency}} dla tego tokena, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za jakiekolwiek straty poniesione, jeśli zdecydujesz się kontynuować.",
+      "title": "Cena w {{localCurrency}} nie jest dostępna",
+      "description": "Nie dysponujemy ceną w {{localCurrency}} dla tego tokena, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za straty, jeśli zdecydujesz się kontynuować.",
       "ctaConfirm": "Rozumiem",
       "ctaDismiss": "Anuluj"
     },
@@ -1750,7 +1750,7 @@
     },
     "fundYourWalletBottomSheet": {
       "title": "Zasil swój portfel",
-      "description": "Zanim będziesz mógł wymieniać tokeny, musisz zasilić swój portfel, kupując kryptowaluty lub przesyłając tokeny.",
+      "description": "Przed uzyskaniem możliwości wymiany tokenów musisz zasilić swój portfel, kupując kryptowaluty lub przesyłając tokeny.",
       "addFundsButton": "Dodaj środki"
     }
   },
