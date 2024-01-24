@@ -13,13 +13,11 @@ import Touchable from 'src/components/Touchable'
 import CloudCheck from 'src/icons/CloudCheck'
 import Lock from 'src/icons/Lock'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
+import { nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
-import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
-import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
@@ -56,8 +54,6 @@ export default function ImportSelect({ navigation }: Props) {
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
   const { t } = useTranslation()
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
-  const { step, totalSteps } = getOnboardingStepValues(Screens.ImportSelect, onboardingProps)
 
   const handleNavigateBack = () => {
     dispatch(cancelCreateOrRestoreAccount())
@@ -68,20 +64,17 @@ export default function ImportSelect({ navigation }: Props) {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <TopBarTextButtonOnboarding title={t('cancel')} onPress={handleNavigateBack} />
-      ),
-      headerTitle: () => (
-        <HeaderTitleWithSubtitle
-          testID="Header/RestoreSelect"
-          title={t('importSelect.header')}
-          subTitle={t('registrationSteps', { step, totalSteps })}
+        <TopBarTextButtonOnboarding
+          title={t('cancel')}
+          onPress={handleNavigateBack}
+          titleStyle={{ color: colors.gray5 }}
         />
       ),
       headerStyle: {
         backgroundColor: 'transparent',
       },
     })
-  }, [navigation, step, totalSteps])
+  }, [navigation])
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
