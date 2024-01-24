@@ -1733,12 +1733,15 @@
       "dismissButton": "Yoksay"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Tahmini Ağ Ücreti",
+      "maxNetworkFee": "Maksimum Ağ Ücreti",
       "networkFee": "{{networkName}} Ağ Ücreti",
       "networkFeeNoNetwork": "Ağ Ücreti",
       "swapFee": "{{appName}} Ücreti",
       "swapFeeWaived": "Ücretsiz",
       "slippagePercentage": "Slipaj Toleransı",
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
+      "networkFeeInfoV1_76": "{{networkName}} Ağında takas yapıyorsunuz.\n\n {{networkName}} Ağında bir işlem gerçekleştirmek için bir ağ ücreti gereklidir. Bu ücret işleminizi güvence altına alır ve ağ doğrulayıcılarına ödenir.\n\nAğ koşulları kesin tutarı belirlediğinden, listelenen tahmin, gerçek ücretin ne olmasını beklediğimizdir. Ücret, maksimum ücret tutarını aşmayacaktır.",
       "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
