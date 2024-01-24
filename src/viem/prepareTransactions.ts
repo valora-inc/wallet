@@ -471,27 +471,37 @@ export function prepareSendNativeAssetTransaction(
 }
 
 /**
- * Given prepared transactions, get the fee currency and amount in decimals
+ * Given prepared transactions, get the fee currency and amounts in decimals
  *
  * @param prepareTransactionsResult
  */
-export function getFeeCurrencyAndAmount(
+export function getFeeCurrencyAndAmounts(
   prepareTransactionsResult: PreparedTransactionsResult | undefined
-): { feeAmount: BigNumber | undefined; feeCurrency: TokenBalance | undefined } {
-  let feeAmountInDecimal = undefined
+): {
+  feeCurrency: TokenBalance | undefined
+  maxFeeAmount: BigNumber | undefined
+  estimatedFeeAmount: BigNumber | undefined
+} {
   let feeCurrency = undefined
+  let maxFeeAmount = undefined
+  let estimatedFeeAmount = undefined
   if (prepareTransactionsResult?.type === 'possible') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountInDecimal = getMaxGasFee(prepareTransactionsResult.transactions).shiftedBy(
+    maxFeeAmount = getMaxGasFee(prepareTransactionsResult.transactions).shiftedBy(
+      -feeCurrency.decimals
+    )
+    estimatedFeeAmount = getEstimatedGasFee(prepareTransactionsResult.transactions).shiftedBy(
       -feeCurrency.decimals
     )
   } else if (prepareTransactionsResult?.type === 'need-decrease-spend-amount-for-gas') {
     feeCurrency = prepareTransactionsResult.feeCurrency
-    feeAmountInDecimal = prepareTransactionsResult.maxGasFeeInDecimal
+    maxFeeAmount = prepareTransactionsResult.maxGasFeeInDecimal
+    estimatedFeeAmount = prepareTransactionsResult.estimatedGasFeeInDecimal
   }
   return {
-    feeAmount: feeAmountInDecimal,
     feeCurrency,
+    maxFeeAmount,
+    estimatedFeeAmount,
   }
 }
 

@@ -46,7 +46,7 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -173,7 +173,7 @@ function SendEnterAmount({ route }: Props) {
       preparedTransaction: getSerializablePreparedTransaction(
         prepareTransactionsResult.transactions[0]
       ),
-      feeAmount: feeAmount?.toString(),
+      feeAmount: maxFeeAmount?.toString(),
       feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
@@ -203,7 +203,7 @@ function SendEnterAmount({ route }: Props) {
 
   const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
     usePrepareSendTransactions()
-  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
@@ -251,10 +251,10 @@ function SendEnterAmount({ route }: Props) {
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
-  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
+  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !maxFeeAmount)) {
     feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
-  } else if (prepareTransactionsResult && feeAmount) {
-    feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
+  } else if (prepareTransactionsResult && maxFeeAmount) {
+    feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
   }
 
   return (
