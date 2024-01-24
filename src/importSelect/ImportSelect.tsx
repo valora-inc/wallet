@@ -83,8 +83,10 @@ export default function ImportSelect({ navigation }: Props) {
         style={[headerHeight ? { marginTop: headerHeight } : undefined]}
       >
         <View style={styles.viewContainer}>
-          <Text style={styles.screenTitle}>{t('importSelect.title')}</Text>
-          <Text style={styles.screenDescription}>{t('importSelect.description')}</Text>
+          <View style={styles.screenTextContainer}>
+            <Text style={styles.screenTitle}>{t('importSelect.title')}</Text>
+            <Text style={styles.screenDescription}>{t('importSelect.description')}</Text>
+          </View>
           <ActionCard
             title={t('importSelect.emailAndPhone.title')}
             description={t('importSelect.emailAndPhone.description')}
@@ -133,6 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     flexGrow: 1,
+    backgroundColor: colors.gray1,
   },
   scrollContainer: {
     flexGrow: 1,
@@ -146,6 +149,9 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Thick24,
     textAlign: 'center',
   },
+  screenTextContainer: {
+    gap: Spacing.Regular16,
+  },
   topLine: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -157,7 +163,7 @@ const styles = StyleSheet.create({
   viewContainer: {
     flex: 1,
     alignItems: 'center',
-    gap: Spacing.Regular16,
+    gap: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
   },
 })
