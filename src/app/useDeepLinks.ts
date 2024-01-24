@@ -27,13 +27,15 @@ export const useDeepLinks = () => {
 
   const handleOpenURL = (event: { url: string }, isSecureOrigin: boolean = false) => {
     if (event.url.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
-      // TODO: it seems like the dynamic links getInitialLink and onLink already
-      // resolves the link. check if this is the case, and if so we can remove
-      // the resolve logic
+      // dynamic links come through both the `dynamicLinks` and `Linking` APIs.
+      // the dynamicLinks handlers will already resolve the link, only the
+      // Linking api will pass the raw dynamic link with the prefix through here
+      // so we can ignore it to avoid double handling the link.
+      Logger.info('useDeepLinks/handleOpenURL', 'Ignoring dynamic link', event.url)
       return
     }
-    // defer consuming deep links until the user has completed onboarding and
-    // wallet set up
+
+    // defer consuming deep links until the user has completed onboarding
     if (shouldConsumeDeepLinks) {
       dispatch(openDeepLink(event.url, isSecureOrigin))
     } else {

@@ -38,12 +38,7 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import {
-  DEFAULT_APP_LANGUAGE,
-  DYNAMIC_LINK_DOMAIN_URI_PREFIX,
-  FETCH_TIMEOUT_DURATION,
-  isE2EEnv,
-} from 'src/config'
+import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
@@ -51,11 +46,7 @@ import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import {
-  appVersionDeprecationChannel,
-  fetchRemoteConfigValues,
-  resolveDynamicLink,
-} from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
@@ -331,14 +322,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
   if (isWalletConnectDeepLink(deepLink)) {
     yield* call(handleWalletConnectDeepLink, deepLink)
     return
-  }
-
-  // Try resolve dynamic links
-  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
-    const resolvedDynamicLink = yield* call(resolveDynamicLink, deepLink)
-    if (resolvedDynamicLink) {
-      deepLink = resolvedDynamicLink
-    }
   }
 
   const rawParams = parse(deepLink)

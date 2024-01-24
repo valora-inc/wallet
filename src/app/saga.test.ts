@@ -40,7 +40,6 @@ import {
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { resolveDynamicLink } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
@@ -246,12 +245,9 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles short share deep link', async () => {
-    const deepLink = 'https://vlra.app/someShortLink'
+    const deepLink = 'https://celo.org/share/abc12'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([
-        [call(resolveDynamicLink, deepLink), 'https://celo.org/share/abc123'],
-        [select(walletAddressSelector), mockAccount],
-      ])
+      .provide([[select(walletAddressSelector), mockAccount]])
       .put(inviteLinkConsumed('abc123'))
       .run()
 

@@ -8,6 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
 const PERSISTED_DEEP_LINKS = ['https://valoraapp.com/share', 'celo://wallet/jumpstart']
+
 export interface State {
   loggedIn: boolean
   numberVerified: boolean // decentrally verified
