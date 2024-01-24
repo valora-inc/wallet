@@ -10,6 +10,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   fetchImportedTokensBalances,
   fetchTokenBalancesForAddress,
+  fetchTokenBalancesForAddressByTokenId,
   fetchTokenBalancesSaga,
   getTokensInfo,
   tokenAmountInSmallestUnit,
@@ -75,21 +76,21 @@ const mockBlockchainApiTokenInfo: StoredTokenBalances = {
   },
 }
 
-const fetchBalancesResponse = [
-  {
+const fetchBalancesResponse = {
+  [mockPoofTokenId]: {
     tokenAddress: mockPoofAddress,
     tokenId: mockPoofTokenId,
     balance: (5 * Math.pow(10, 18)).toString(),
     decimals: '18',
   },
-  {
+  [mockCusdTokenId]: {
     tokenAddress: mockCusdAddress,
     tokenId: mockCusdTokenId,
     balance: '0',
     decimals: '18',
   },
   // cEUR intentionally missing
-]
+}
 
 describe('getTokensInfo', () => {
   beforeEach(() => {
@@ -141,7 +142,7 @@ describe(fetchTokenBalancesSaga, () => {
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+        [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
       ])
       .put(setTokenBalances(tokenBalancesAfterUpdate))
       .run()
@@ -152,7 +153,7 @@ describe(fetchTokenBalancesSaga, () => {
       .provide([
         [select(walletAddressSelector), null],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
-        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+        [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
       ])
       .not.call(getTokensInfo)
       .not.put(setTokenBalances(tokenBalancesAfterUpdate))
@@ -165,7 +166,10 @@ describe(fetchTokenBalancesSaga, () => {
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalancesForAddress, mockAccount), throwError(new Error('Error message'))],
+        [
+          call(fetchTokenBalancesForAddressByTokenId, mockAccount),
+          throwError(new Error('Error message')),
+        ],
       ])
       .not.put(setTokenBalances(tokenBalancesAfterUpdate))
       .put(fetchTokenBalancesFailure())
@@ -194,9 +198,9 @@ describe(fetchTokenBalancesSaga, () => {
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(importedTokensInfoSelector), mockImportedTokensInfo],
         [select(walletAddressSelector), mockAccount],
-        [call(fetchTokenBalancesForAddress, mockAccount), fetchBalancesResponse],
+        [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
-          call(fetchImportedTokensBalances, mockAccount),
+          call(fetchImportedTokensBalances, mockAccount, fetchBalancesResponse),
           {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],

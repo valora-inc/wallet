@@ -241,6 +241,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
   const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
+  // TODO: Fix, the backend can return tokens with 0 balance.
   return tokenBalances.length > 0
 }
 

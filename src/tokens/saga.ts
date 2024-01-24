@@ -179,6 +179,18 @@ export async function fetchTokenBalancesForAddress(
   )
 }
 
+export async function fetchTokenBalancesForAddressByTokenId(address: string) {
+  const fetchedTokenBalances: FetchedTokenBalance[] = await fetchTokenBalancesForAddress(address)
+  const fetchedBalancesByTokenId = fetchedTokenBalances.reduce(
+    (acc: Record<string, FetchedTokenBalance>, token) => {
+      acc[token.tokenId] = token
+      return acc
+    },
+    {}
+  )
+  return fetchedBalancesByTokenId
+}
+
 export async function getTokensInfo(): Promise<StoredTokenBalances> {
   const response = await fetchWithTimeout(networkConfig.getTokensInfoUrl)
   if (!response.ok) {
@@ -200,14 +212,10 @@ export function* fetchTokenBalancesSaga() {
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
     const supportedTokens = yield* call(getTokensInfo)
-    const supportedTokenBalances: FetchedTokenBalance[] = yield* call(
-      fetchTokenBalancesForAddress,
-      address
-    )
+    const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
 
-    Logger.info(TAG, `Token balances for ${address}`, supportedTokenBalances)
     for (const token of Object.values(supportedTokens) as StoredTokenBalance[]) {
-      const tokenBalance = supportedTokenBalances.find((t) => t.tokenId === token.tokenId)
+      const tokenBalance = fetchedBalancesByTokenId[token.tokenId]
       if (!tokenBalance) {
         token.balance = '0'
       } else {
@@ -217,7 +225,14 @@ export function* fetchTokenBalancesSaga() {
       }
     }
 
-    const importedTokensWithBalance = yield* call(fetchImportedTokensBalances, address as Address)
+    const showImportedTokens = yield* call(
+      getFeatureGate,
+      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    )
+
+    const importedTokensWithBalance = showImportedTokens
+      ? yield* call(fetchImportedTokensBalances, address as Address, fetchedBalancesByTokenId)
+      : {}
 
     yield* put(
       setTokenBalances({
@@ -312,22 +327,16 @@ export function* watchAccountFundedOrLiquidated() {
   }
 }
 
-export function* fetchImportedTokensBalances(address: Address) {
+export function* fetchImportedTokensBalances(
+  address: Address,
+  knownTokenBalances: Record<string, FetchedTokenBalance>
+) {
   try {
-    const showImportedTokens = yield* call(
-      getFeatureGate,
-      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
-    )
-    if (!showImportedTokens) {
-      return {}
-    }
-
-    const importedTokens: StoredTokenBalances = yield* select(importedTokensInfoSelector)
-    const importedTokensList = Object.values(importedTokens)
+    const importedTokensList = Object.values(yield* select(importedTokensInfoSelector))
 
     const balanceRequests: any = {}
     importedTokensList.forEach((importedToken) => {
-      if (!importedToken) {
+      if (!importedToken || knownTokenBalances[importedToken.tokenId]) {
         return
       }
 
@@ -351,9 +360,11 @@ export function* fetchImportedTokensBalances(address: Address) {
         return
       }
 
-      const balance = new BigNumber(balances[importedToken.tokenId].toString())
-        .shiftedBy(-importedToken.decimals)
-        .toFixed()
+      const balance = knownTokenBalances[importedToken.tokenId]
+        ? knownTokenBalances[importedToken.tokenId].balance
+        : new BigNumber(balances[importedToken.tokenId].toString())
+            .shiftedBy(-importedToken.decimals)
+            .toFixed()
 
       importedTokensWithBalance[importedToken.tokenId] = {
         ...importedToken,
