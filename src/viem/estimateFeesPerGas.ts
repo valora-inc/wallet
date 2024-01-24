@@ -47,7 +47,7 @@ export async function estimateFeesPerGas(
 
 // Get gas price with optional fee currency, this is Celo specific
 // See https://docs.celo.org/developer/viem#gas-price
-export async function getGasPrice(client: Client, feeCurrency: Address | undefined) {
+async function getGasPrice(client: Client, feeCurrency: Address | undefined) {
   const priceHex = await client.request({
     method: 'eth_gasPrice',
     ...((feeCurrency ? { params: [feeCurrency] } : {}) as object),
@@ -56,7 +56,7 @@ export async function getGasPrice(client: Client, feeCurrency: Address | undefin
 }
 
 // Get max priority fee per gas with optional fee currency, this is Celo specific
-export async function getMaxPriorityFeePerGas(client: Client, feeCurrency?: Address) {
+async function getMaxPriorityFeePerGas(client: Client, feeCurrency?: Address) {
   const maxPriorityFeePerGasHex = await client.request({
     method: 'eth_maxPriorityFeePerGas',
     ...((feeCurrency ? { params: [feeCurrency] } : {}) as object),
@@ -65,7 +65,7 @@ export async function getMaxPriorityFeePerGas(client: Client, feeCurrency?: Addr
 }
 
 // Get gas price minimum with optional fee currency, this is Celo specific
-export async function getCeloGasPriceMinimum(client: Client, feeCurrency: Address | undefined) {
+async function getCeloGasPriceMinimum(client: Client, feeCurrency: Address | undefined) {
   const gasPriceMinimum = await readContract(client, {
     address: networkConfig.celoGasPriceMinimumAddress,
     // Extracted the ABI from https://unpkg.com/browse/@celo/abis@10.0.0/dist/GasPriceMinimum.json
