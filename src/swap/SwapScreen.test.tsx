@@ -1019,6 +1019,8 @@ describe('SwapScreen', () => {
       gas: 1821000,
       maxGasFee: 0.021852,
       maxGasFeeUsd: 0.28529642665785426,
+      estimatedGasFee: 0.014568,
+      estimatedGasFeeUsd: 0.19019761777190283,
       feeCurrency: undefined,
       feeCurrencySymbol: 'CELO',
       txCount: 2,
