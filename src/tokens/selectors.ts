@@ -321,47 +321,64 @@ export const tokensWithTokenBalanceSelector = createSelector(
   }
 )
 
-export const swappableTokensByNetworkIdSelector = createSelector(
+// sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
+// are pushed last, sorted by name (ASC)
+const sortSwapTokens = (token1: TokenBalance, token2: TokenBalance) => {
+  // Sort by USD balance first (higher balances first)
+  const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
+  const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
+  if (token1UsdBalance.gt(token2UsdBalance)) return -1
+  if (token1UsdBalance.lt(token2UsdBalance)) return 1
+
+  // Sort by token balance if there is no priceUsd (higher balances first)
+  const balanceCompare = token2.balance.comparedTo(token1.balance)
+  if (balanceCompare) {
+    return balanceCompare
+  }
+
+  // Sort tokens without priceUsd and balance at bottom of list
+  if (token1.priceUsd === null || token2.priceUsd === null) {
+    // If both prices are null, sort alphabetically by name
+    if (!token1.priceUsd && !token2.priceUsd) {
+      return token1.name.localeCompare(token2.name)
+    }
+    // Otherwise, sort such that the token with a non-null price comes first
+    return token1.priceUsd === null ? 1 : -1
+  }
+
+  // Lastly, sort by name
+  return token1.name.localeCompare(token2.name)
+}
+
+export const swappableFromTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     const appVersion = deviceInfoModule.getVersion()
-    return (
-      tokens
-        .filter(
-          (tokenInfo) =>
-            tokenInfo.isSwappable ||
-            (tokenInfo.minimumAppVersionToSwap &&
-              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+    return tokens
+      .filter((tokenInfo) => {
+        return (
+          tokenInfo.isSwappable ||
+          (tokenInfo.minimumAppVersionToSwap &&
+            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap)) ||
+          tokenInfo.balance.gt(0)
         )
-        // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
-        // are pushed last, sorted by name (ASC)
-        .sort((token1, token2) => {
-          // Sort by USD balance first (higher balances first)
-          const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
-          const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
-          if (token1UsdBalance.gt(token2UsdBalance)) return -1
-          if (token1UsdBalance.lt(token2UsdBalance)) return 1
+      })
+      .sort(sortSwapTokens)
+  }
+)
 
-          // Sort by token balance if there is no priceUsd (higher balances first)
-          const balanceCompare = token2.balance.comparedTo(token1.balance)
-          if (balanceCompare) {
-            return balanceCompare
-          }
-
-          // Sort tokens without priceUsd and balance at bottom of list
-          if (token1.priceUsd === null || token2.priceUsd === null) {
-            // If both prices are null, sort alphabetically by name
-            if (!token1.priceUsd && !token2.priceUsd) {
-              return token1.name.localeCompare(token2.name)
-            }
-            // Otherwise, sort such that the token with a non-null price comes first
-            return token1.priceUsd === null ? 1 : -1
-          }
-
-          // Lastly, sort by name
-          return token1.name.localeCompare(token2.name)
-        })
-    )
+export const swappableToTokensByNetworkIdSelector = createSelector(
+  (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
+  (tokens) => {
+    const appVersion = deviceInfoModule.getVersion()
+    return tokens
+      .filter(
+        (tokenInfo) =>
+          tokenInfo.isSwappable ||
+          (tokenInfo.minimumAppVersionToSwap &&
+            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+      )
+      .sort(sortSwapTokens)
   }
 )
 
