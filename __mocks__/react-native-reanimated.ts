@@ -8,7 +8,6 @@ module.exports = {
   ...Reanimated,
   useSharedValue: jest.fn(() => ({ value: 0 })),
   useAnimatedStyle: jest.fn(),
-  withTiming: jest.fn(),
   makeMutable: jest.fn(),
   useWorkletCallback: jest.fn(),
   runOnUI: () => jest.fn(),

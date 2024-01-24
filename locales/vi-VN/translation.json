@@ -78,10 +78,11 @@
     "description": "Chỉ bạn mới có thể truy cập vào ví của mình. Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, Valora sẽ không thể khôi phục lại ví cho bạn.\n\nBạn sẽ phải thiết lập một phương thức bảo vệ an toàn cho ví và tiền của mình."
   },
   "setUpKeylessBackup": {
-    "title": "Thiết lập chức năng sao lưu không dùng mã khóa",
-    "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu:",
+    "title": "Thiết lập chức năng sao lưu ví.",
+    "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
     "emailAddress": "Địa chỉ email",
-    "phoneNumber": "Số điện thoại"
+    "phoneNumber": "Số điện thoại",
+    "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục"
   },
   "signInWithEmail": {
     "title": "Đăng nhập bằng email",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Xin hãy nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Hãy lưu giữ thông tin an toàn!",
+  "setupKeylessBackupReminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "Điều khoản và điều kiện",
     "heading1": "Dữ liệu và quyền riêng tư",
-    "heading2": "Digital Assets and {{appName}}",
+    "heading2": "Tài sản và {{appName}}",
     "info": "Để sử dụng dịch vụ, vui lòng đọc và chấp nhận <0>Thỏa thuận và điều khoản người dùng</0> bằng cách nhấp vào nút chấp nhận bên dưới.",
     "privacy": "Bằng việc tham gia mạng này, bạn cho phép chúng tôi thu thập thông tin ẩn danh về việc bạn sử dụng ứng dụng. Ngoài ra, nếu bạn kết nối số điện thoại, chúng tôi sẽ lưu trữ bản sao đã băm của số điện thoại. Nếu bạn cấp cho Valora quyền truy cập vào danh bạ, Valora sẽ nhập tên, số điện thoại và ảnh hồ sơ của từng người liên hệ để cho phép người dùng kết nối qua ứng dụng Valora. Để tìm hiểu cách chúng tôi thu thập và sử dụng thông tin này, vui lòng xem lại <0>Chính sách quyền riêng tư</0> của chúng tôi.",
-    "goldDisclaimer": "When you create an \"account\" with Valora you are creating a digital wallet to which only you hold the keys. No other person or entity, including Valora, can recover your key, change or undo transactions, or recover lost funds. Be aware that digital assets are part of a new asset class and present a risk of financial loss. Carefully consider your financial circumstances and tolerance for financial risk before purchasing any digital asset."
+    "goldDisclaimer": "Khi tạo \"tài khoản\" bằng Valora, bạn tạo một ví điện tử mà chỉ bạn giữ mã khóa. Không cá nhân hoặc tổ chức nào khác, bao gồm Valora, có thể khôi phục mã khóa của bạn, thay đổi hay hủy giao dịch hoặc thu hồi số tiền đã mất. Xin lưu ý rằng tiền điện tử thuộc loại tài sản mới và luôn tiềm ẩn rủi ro về tổn thất tài chính. Hãy cân nhắc kỹ tình hình tài chính của bạn cũng như khả năng chấp nhận rủi ro tài chính trước khi mua bất kỳ tài sản nào."
   },
   "fullNameOrPsuedonym": "Họ và tên hoặc biệt danh",
   "namePlaceholder": "tên",
@@ -1704,6 +1705,12 @@
       "title": "Trước khi trao đổi",
       "body": "Việc trao đổi các tài sản này có thể dẫn đến bất lợi về tỷ giá quy đổi. Nếu giảm số tiền, bạn có thể nhận được tỷ giá tốt hơn."
     },
+    "noUsdPriceWarning": {
+      "title": "Chưa có giá bằng {{localCurrency}}",
+      "description": "Chúng tôi chưa có giá bằng {{localCurrency}} cho token này, có thể là do đồng tiền này ít được giao dịch. {{appName}} không chịu trách nhiệm về bất kỳ tổn thất nào phát sinh nếu bạn chọn tiếp tục giao dịch.",
+      "ctaConfirm": "Tôi đã hiểu.",
+      "ctaDismiss": "Hủy"
+    },
     "missingSwapImpactWarning": {
       "title": "Trước khi trao đổi",
       "body": "Chúng tôi không thể ước tính giá trị của giao dịch trao đổi này. {{appName}} sẽ không chịu trách nhiệm nếu bạn chọn tiếp tục."
@@ -1734,6 +1741,11 @@
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
       "estimatedValue": "Giá trị ước tính"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Nạp tiền vào ví của bạn",
+      "description": "Để trao đổi token, bạn cần nạp tiền vào ví bằng cách mua tiền kỹ thuật số hoặc chuyển token.",
+      "addFundsButton": "Nạp tiền"
     }
   },
   "swapTransactionDetailPage": {
@@ -2019,6 +2031,10 @@
     "description2": "Tính năng này vẫn còn mới và nhóm của chúng tôi vẫn đang nỗ lực để hoàn chỉnh mọi thứ. Chúng tôi rất mong nhận được phản hồi của bạn.",
     "primaryCta": "Thử ngay",
     "secondaryCta": "Không, cảm ơn"
+  },
+  "getStartedHome": {
+    "title": "Mua tiền kỹ thuật số hoặc chuyển token",
+    "body": "Mua hoặc chuyển token tương thích với Celo hoặc Ethereum để nhận {{apy}}% tiền thưởng, khám phá web3 và hơn thế nữa!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

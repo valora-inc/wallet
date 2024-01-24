@@ -41,8 +41,18 @@ async function createBaseSwapTransactions(
 ) {
   const baseTransactions: TransactionRequest[] = []
 
-  const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
-    unvalidatedSwapTransaction
+  const {
+    guaranteedPrice,
+    buyAmount,
+    sellAmount,
+    allowanceTarget,
+    from,
+    to,
+    value,
+    data,
+    gas,
+    estimatedGasUse,
+  } = unvalidatedSwapTransaction
   const amountType: string =
     updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
 
@@ -89,6 +99,8 @@ async function createBaseSwapTransactions(
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
     // We control this from our API.
     gas: BigInt(gas),
+    // This is the estimated gas use returned by the API.
+    _estimatedGasUse: estimatedGasUse != null ? BigInt(estimatedGasUse) : undefined,
   }
   baseTransactions.push(swapTx)
 

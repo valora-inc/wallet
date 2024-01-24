@@ -78,10 +78,11 @@
     "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
   "setUpKeylessBackup": {
-    "title": "Anahtarsız Yedeklemeyi Ayarlama",
-    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız:",
+    "title": "Cüzdan Yedeklemeyi Ayarlama",
+    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
     "emailAddress": "E-posta Adresi",
-    "phoneNumber": "Telefon Numarası"
+    "phoneNumber": "Telefon Numarası",
+    "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın"
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Bunları güvende tutun!",
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "Şartlar ve koşullar",
     "heading1": "Veri ve Gizlilik",
-    "heading2": "Dijital Varlıklar ve {{appName}}",
+    "heading2": "Varlıkları ve {{appName}} Hesabı",
     "info": "Hizmetlerimizi kullanmak için lütfen <0>Kullanıcı Sözleşmemizi ve Şartlarımızı</0> okuyun ve hemen altındaki kabul et düğmesini tıklayarak kabul edin.",
     "privacy": "Bu ağa katılarak, uygulamayı kullanımınız hakkında anonim bilgi toplamamıza izin veriyorsunuz. Ek olarak, telefon numaranızı bağlarsanız, bunun hash'li bir kopyası saklanır. Valora'ya kişi listenize erişim izni verirseniz, Valora, kullanıcıların Valora uygulaması aracılığıyla bağlanmasına izin vermek için her kişinin adını, telefon numarasını ve profil resmini içe aktarır. Bu bilgileri nasıl topladığımızı ve kullandığımızı öğrenmek için lütfen <0>Gizlilik Politikamızı</0> inceleyin.",
-    "goldDisclaimer": "Valora'da bir \"hesap\" oluşturduğunuzda, anahtarlarına yalnızca sizin sahip olduğunuz bir dijital cüzdan oluşturmuş olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı kurtaramaz, işlemleri değiştiremez veya geri alamaz veya kaybedilen fonları geri alamaz. Dijital varlıkların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir dijital varlık satın almadan önce finansal koşullarınızı ve finansal risk toleransınızı dikkatlice değerlendirin."
+    "goldDisclaimer": "Valora ile bir \"hesap\" oluşturduğunuzda, anahtarlarını yalnızca sizin tuttuğunuz bir dijital cüzdan yaratmış olursunuz. Valora dahil olmak üzere başka hiçbir kişi veya kuruluş anahtarınızı geri alamaz, işlemleri değiştiremez veya geri alamaz ya da kaybedilen parayı geri alamaz. Kripto paraların yeni bir varlık sınıfının parçası olduğunu ve finansal kayıp riski taşıdığını unutmayın. Herhangi bir varlık satın almadan önce finansal durumunuzu ve finansal risk toleransınızı dikkatlice değerlendirin."
   },
   "fullNameOrPsuedonym": "Tam ad veya takma ad",
   "namePlaceholder": "örn. isim",
@@ -1706,6 +1707,12 @@
       "title": "Takas yapmadan önce",
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} fiyatı mevcut değil",
+      "description": "Bu token için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}}, devam etmeyi seçerseniz meydana gelecek herhangi bir kayıptan sorumlu değildir.",
+      "ctaConfirm": "Anladım",
+      "ctaDismiss": "İptal"
+    },
     "missingSwapImpactWarning": {
       "title": "Takas yapmadan önce",
       "body": "Bu takasın değerini tahmin edemiyoruz. Devam etmeyi seçerseniz {{appName}} sorumlu değildir."
@@ -1736,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
       "estimatedValue": "Tahmini Değer"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Cüzdanınıza fon ekleyin",
+      "description": "Token takas etmeden önce kripto satın alarak veya token transfer ederek cüzdanınıza fon eklemeniz gerekir.",
+      "addFundsButton": "Bakiye Ekle"
     }
   },
   "swapTransactionDetailPage": {
@@ -2021,6 +2033,10 @@
     "description2": "Bu henüz yeni ve ekibimiz işleri mükemmel hale getirmek için hâlâ çok çalışıyor. Geri bildirimlerinizi duymak isteriz.",
     "primaryCta": "Şimdi deneyin",
     "secondaryCta": "Hayır, teşekkürler"
+  },
+  "getStartedHome": {
+    "title": "Kripto satın alın veya token transfer edin",
+    "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

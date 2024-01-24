@@ -9,14 +9,14 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
-import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalance } from 'src/tokens/slice'
 
 interface Props {
-  networkFee?: BigNumber
+  maxNetworkFee?: BigNumber
+  estimatedNetworkFee?: BigNumber
   networkFeeInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippageInfoBottomSheetRef: React.RefObject<BottomSheetRefType>
   slippagePercentage: string
@@ -47,8 +47,81 @@ function LabelWithInfo({
   )
 }
 
+function NetworkFeeDetails({
+  label,
+  infoType,
+  infoBottomSheetRef,
+  fetchingSwapQuote,
+  fee,
+  feeTokenId,
+  showLocalAmount,
+  placeholder,
+  testID,
+}: {
+  label: string
+  infoType: SwapShowInfoType
+  infoBottomSheetRef: React.RefObject<BottomSheetRefType>
+  fetchingSwapQuote: boolean
+  fee?: BigNumber
+  feeTokenId: string
+  showLocalAmount: boolean
+  placeholder: string
+  testID: string
+}) {
+  return (
+    <View style={styles.row} testID={testID}>
+      <LabelWithInfo
+        onPress={() => {
+          ValoraAnalytics.track(SwapEvents.swap_show_info, {
+            type: infoType,
+          })
+          infoBottomSheetRef.current?.snapToIndex(0)
+        }}
+        label={label}
+        testID={`${testID}/MoreInfo`}
+      />
+      {!fetchingSwapQuote && fee ? (
+        <View style={styles.networkFeeContainer}>
+          {showLocalAmount ? (
+            <>
+              <TokenDisplay
+                style={styles.value}
+                amount={fee}
+                showApprox
+                tokenId={feeTokenId}
+                showLocalAmount={true}
+              />
+              <Text style={[styles.value, { fontWeight: '400' }]}>
+                {` (`}
+                <TokenDisplay
+                  amount={fee}
+                  tokenId={feeTokenId}
+                  showSymbol={true}
+                  showLocalAmount={false}
+                />
+                {')'}
+              </Text>
+            </>
+          ) : (
+            <TokenDisplay
+              style={[styles.value, { fontWeight: '400' }]}
+              amount={fee}
+              tokenId={feeTokenId}
+              showSymbol={true}
+              showLocalAmount={false}
+            />
+          )}
+        </View>
+      ) : (
+        <Text style={styles.value}>{placeholder}</Text>
+      )}
+    </View>
+  )
+}
+
 export function SwapTransactionDetails({
-  networkFee,
+  maxNetworkFee,
+  estimatedNetworkFee,
   networkFeeInfoBottomSheetRef,
   slippageInfoBottomSheetRef,
   feeTokenId,
@@ -84,54 +157,30 @@ export function SwapTransactionDetails({
           )}
         </Text>
       </View>
-      <View style={styles.row} testID="SwapTransactionDetails/NetworkFee">
-        {fromToken?.networkId ? (
-          <>
-            <LabelWithInfo
-              onPress={() => {
-                ValoraAnalytics.track(SwapEvents.swap_show_info, {
-                  type: SwapShowInfoType.NETWORK_FEE,
-                })
-                networkFeeInfoBottomSheetRef.current?.snapToIndex(0)
-              }}
-              label={t('swapScreen.transactionDetails.networkFee', {
-                networkName: NETWORK_NAMES[fromToken.networkId],
-              })}
-              testID="SwapTransactionDetails/NetworkFee/MoreInfo"
-            />
-            {!fetchingSwapQuote && networkFee ? (
-              <View style={styles.networkFeeContainer}>
-                <TokenDisplay
-                  style={styles.value}
-                  amount={networkFee}
-                  showApprox
-                  tokenId={feeTokenId}
-                  showLocalAmount={true}
-                />
-                <Text style={[styles.value, { fontWeight: '400' }]}>
-                  {` (`}
-                  <TokenDisplay
-                    amount={networkFee}
-                    tokenId={feeTokenId}
-                    showSymbol={true}
-                    showLocalAmount={false}
-                  />
-                  {')'}
-                </Text>
-              </View>
-            ) : (
-              <Text style={styles.value}>{placeholder}</Text>
-            )}
-          </>
-        ) : (
-          <>
-            <Text style={styles.label}>
-              {t('swapScreen.transactionDetails.networkFeeNoNetwork')}
-            </Text>
-            <Text style={styles.value}>{placeholder}</Text>
-          </>
-        )}
-      </View>
+      {/* Estimated network fee */}
+      <NetworkFeeDetails
+        label={t(`swapScreen.transactionDetails.estimatedNetworkFee`)}
+        infoType={SwapShowInfoType.ESTIMATED_NETWORK_FEE}
+        infoBottomSheetRef={networkFeeInfoBottomSheetRef}
+        fetchingSwapQuote={fetchingSwapQuote}
+        fee={estimatedNetworkFee}
+        feeTokenId={feeTokenId}
+        showLocalAmount={true}
+        placeholder={placeholder}
+        testID={`SwapTransactionDetails/EstimatedNetworkFee`}
+      />
+      {/* Max network fee */}
+      <NetworkFeeDetails
+        label={t(`swapScreen.transactionDetails.maxNetworkFee`)}
+        infoType={SwapShowInfoType.MAX_NETWORK_FEE}
+        infoBottomSheetRef={networkFeeInfoBottomSheetRef}
+        fetchingSwapQuote={fetchingSwapQuote}
+        fee={maxNetworkFee}
+        feeTokenId={feeTokenId}
+        showLocalAmount={false}
+        placeholder={placeholder}
+        testID={`SwapTransactionDetails/MaxNetworkFee`}
+      />
       <View style={styles.row}>
         <Text style={styles.label}>{t('swapScreen.transactionDetails.swapFee')}</Text>
         <Text testID={'SwapFee'} style={styles.value}>

@@ -46,7 +46,7 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -98,7 +98,7 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { defaultTokenIdOverride, origin, recipient, isFromScan } = route.params
+  const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
@@ -173,7 +173,7 @@ function SendEnterAmount({ route }: Props) {
       preparedTransaction: getSerializablePreparedTransaction(
         prepareTransactionsResult.transactions[0]
       ),
-      feeAmount: feeAmount?.toString(),
+      feeAmount: maxFeeAmount?.toString(),
       feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
@@ -203,7 +203,7 @@ function SendEnterAmount({ route }: Props) {
 
   const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
     usePrepareSendTransactions()
-  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
@@ -251,10 +251,10 @@ function SendEnterAmount({ route }: Props) {
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
-  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
+  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !maxFeeAmount)) {
     feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
-  } else if (prepareTransactionsResult && feeAmount) {
-    feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
+  } else if (prepareTransactionsResult && maxFeeAmount) {
+    feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
   }
 
   return (
@@ -313,18 +313,25 @@ function SendEnterAmount({ route }: Props) {
                     : undefined
                 }
               />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                testID="SendEnterAmount/TokenSelect"
-              >
-                <>
+              {!forceTokenId ? (
+                <Touchable
+                  borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                  onPress={onTokenPickerSelect}
+                  style={styles.tokenSelectButton}
+                  testID="SendEnterAmount/TokenSelect"
+                >
+                  <>
+                    <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+                    <Text style={styles.tokenName}>{token.symbol}</Text>
+                    <DownArrowIcon color={Colors.gray5} />
+                  </>
+                </Touchable>
+              ) : (
+                <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
                   <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
-                  <DownArrowIcon color={Colors.gray5} />
-                </>
-              </Touchable>
+                </View>
+              )}
             </View>
             {showLowerAmountError && (
               <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>

@@ -1,6 +1,6 @@
 import { Actions, cleverTapInboxMessagesReceived } from 'src/home/actions'
 import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
-import { mockExpectedCleverTapInboxMessage } from 'test/values'
+import { mockCleverTapInboxMessage } from 'test/values'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
@@ -142,7 +142,7 @@ describe('home reducer', () => {
   })
 
   it('should update cleverTapInboxMessages', () => {
-    const messages = [mockExpectedCleverTapInboxMessage]
+    const messages = [mockCleverTapInboxMessage]
 
     const updatedState = reducer(undefined, cleverTapInboxMessagesReceived(messages))
 

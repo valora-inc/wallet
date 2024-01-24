@@ -352,7 +352,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
     }
 
-    yield* put(swapSuccess(swapId))
+    yield* put(swapSuccess({ swapId, fromTokenId, toTokenId }))
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {
       ...defaultSwapExecuteProps,
       ...getTimeMetrics(),

@@ -21,6 +21,7 @@ import {
   mockCeloAddress,
   mockCeloTokenBalance,
   mockCeloTokenId,
+  mockCusdTokenId,
   mockEthTokenId,
   mockPoofAddress,
   mockPoofTokenId,
@@ -81,6 +82,7 @@ describe('SendEnterAmount', () => {
         gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
       },
       {
         from: '0xfrom',
@@ -89,10 +91,10 @@ describe('SendEnterAmount', () => {
         gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
       },
     ],
     feeCurrency: mockCeloTokenBalance,
-    maxGasFeeInDecimal: new BigNumber(2),
   }
 
   beforeEach(() => {
@@ -395,6 +397,7 @@ describe('SendEnterAmount', () => {
       type: 'need-decrease-spend-amount-for-gas',
       feeCurrency: mockCeloTokenBalance,
       maxGasFeeInDecimal: new BigNumber(1),
+      estimatedGasFeeInDecimal: new BigNumber(1),
       decreasedSpendAmount: new BigNumber(9),
     }
 
@@ -501,6 +504,24 @@ describe('SendEnterAmount', () => {
       2
     )
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(4)
+  })
+
+  it('picker icon removed, cannot change token when forceTokenId set', async () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={SendEnterAmount}
+          params={{ ...params, defaultTokenIdOverride: mockCusdTokenId, forceTokenId: true }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('cUSD')
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0) // Analytics event triggered if dropdown menu opens, shouldn't happen
+    expect(queryByTestId('downArrowIcon')).toBeFalsy()
   })
 
   describe('fee section', () => {

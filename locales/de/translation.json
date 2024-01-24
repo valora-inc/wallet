@@ -78,10 +78,11 @@
     "description": "Nur du kannst auf deine Wallet zugreifen. Wenn du dein Telefon verloren hast oder es dir gestohlen wurde, kann Valora deine Wallet für dich nicht wiederherstellen.\n\nDu musst eine Methode einrichten, durch die deine Wallet sicher und dein Guthaben geschützt sind."
   },
   "setUpKeylessBackup": {
-    "title": "Schlüssellose Sicherung einrichten",
-    "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet:",
+    "title": "Wallet-Back-up einrichten",
+    "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet",
     "emailAddress": "E-Mail-Adresse",
-    "phoneNumber": "Telefonnummer"
+    "phoneNumber": "Telefonnummer",
+    "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase"
   },
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
@@ -115,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Passe gut darauf auf!",
+  "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
@@ -660,10 +661,10 @@
   "terms": {
     "title": "Allgemeine Nutzungsbedingungen",
     "heading1": "Daten und Privatsphäre",
-    "heading2": "Digitale Vermögenswerte und {{appName}}",
+    "heading2": "Vermögen und {{appName}}",
     "info": "Lese bitte unsere <0>Benutzervereinbarung und Bedingungen</0> und klicke unten auf Akzeptieren um unsere Dienste zu nutzen.",
     "privacy": "Indem du diesem Netzwerk beitrittst, gibst du uns die Erlaubnis, anonyme Informationen über deine Nutzung der App zu sammeln. Wenn du deine Telefonnummer verbindest, wird eine Kopie davon gespeichert. Wenn du Valora Zugriff auf deine Kontaktliste gewährst, wird Valora den Namen, die Telefonnummer und das Profilbild jedes Kontaktes importieren, um Benutzern die Verbindung über die Valora-App zu ermöglichen. Um zu erfahren, wie wir diese Informationen sammeln und verwenden, lesen unsere <0>Datenschutzrichtlinie</0>.",
-    "goldDisclaimer": "Wenn du ein \"Konto\" bei Valora anlegst, erstellst du eine digitale Brieftasche, deren Schlüssel nur du besitzt. Keine andere Person oder Organisation, auch nicht Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorene Gelder zurückholen. Sei dir bewusst, dass digitale Vermögenswerte Teil einer neuen Anlageklasse sind und das Risiko eines finanziellen Verlusts bergen. Überlege dir deine finanziellen Verhältnisse und deine finanzielle Risikobereitschaft genau, bevor du digitale Vermögenswerte kaufst."
+    "goldDisclaimer": "Wenn du ein „Konto“ bei Valora anlegst, erstellst du ein digitales Wallet, dessen Schlüssel nur du besitzt. Keine andere Person oder Organisation, einschließlich Valora, kann deinen Schlüssel wiederherstellen, Transaktionen ändern oder rückgängig machen oder verlorenes Guthaben wiedererlangen. Sei dir bewusst, dass Kryptowährungen Teil einer neuen Vermögensklasse sind und ein Risiko für finanzielle Verluste darstellen. Überlege dir deine finanzielle Situation und deine Risikobereitschaft genau, bevor du einen Vermögenswert kaufst."
   },
   "fullNameOrPsuedonym": "Vollständiger Name oder Alias",
   "namePlaceholder": "z.B. Name",
@@ -1706,6 +1707,12 @@
       "title": "Bevor du tauschst",
       "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
     },
+    "noUsdPriceWarning": {
+      "title": "Preis nicht in {{localCurrency}} verfügbar",
+      "description": "Wir haben keinen Preis in {{localCurrency}} für diesen Token, was bedeuten könnte, dass er nicht weithin gehandelt wird. {{appName}} ist nicht für Verluste verantwortlich, die entstehen, wenn du dich entscheidest, fortzufahren.",
+      "ctaConfirm": "Ich verstehe",
+      "ctaDismiss": "Abbrechen"
+    },
     "missingSwapImpactWarning": {
       "title": "Bevor du tauschst",
       "body": "Wir können den Wert dieses Tausches nicht einschätzen. {{appName}} ist nicht verantwortlich, wenn du dich dafür entscheidest, fortzufahren."
@@ -1736,6 +1743,11 @@
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
       "estimatedValue": "Geschätzter Wert"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Deine Wallet aufladen",
+      "description": "Bevor du Tokens tauschen kannst, musst du deine Wallet durch den Kauf von Krypto oder die Überweisung von Tokens aufladen.",
+      "addFundsButton": "Guthaben hinzufügen"
     }
   },
   "swapTransactionDetailPage": {
@@ -2021,6 +2033,10 @@
     "description2": "Das Feature ist jedoch noch neu und unser Team arbeitet noch hart daran, alles zu perfektionieren. Wir würden uns über dein Feedback freuen.",
     "primaryCta": "Jetzt testen",
     "secondaryCta": "Nein, danke"
+  },
+  "getStartedHome": {
+    "title": "Krypto kaufen oder Tokens überweisen",
+    "body": "Kaufe oder überweise Celo- oder Ethereum-kompatible Tokens, um {{apy}} % Rewards zu verdienen, erkunde web3 und mehr!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
