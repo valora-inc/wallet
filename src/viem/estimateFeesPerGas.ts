@@ -1,11 +1,11 @@
 import networkConfig from 'src/web3/networkConfig'
 import { Address, Client, hexToBigInt } from 'viem'
-import { estimateFeesPerGas as defaultEstimateFeesPerGas } from 'viem/actions'
+import { estimateFeesPerGas as defaultEstimateFeesPerGas, getBlock } from 'viem/actions'
 
 export async function estimateFeesPerGas(
   client: Client,
   feeCurrency?: Address
-): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint }> {
+): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint; baseFeePerGas: bigint }> {
   // Custom path for Celo that can be removed once it's supported in viem
   // See https://github.com/wagmi-dev/viem/discussions/914
   if (client.chain?.id === networkConfig.viemChain.celo.id) {
@@ -17,14 +17,27 @@ export async function estimateFeesPerGas(
       getMaxPriorityFeePerGas(client, feeCurrency),
     ])
     const maxFeePerGas = gasPrice + maxPriorityFeePerGas
-    return { maxFeePerGas, maxPriorityFeePerGas }
+    // TODO: properly calculate baseFeePerGas
+    return { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas: BigInt(maxFeePerGas) }
   }
 
   if (feeCurrency) {
     throw new Error('feeCurrency is only supported on Celo')
   }
 
-  return defaultEstimateFeesPerGas(client)
+  const block = await getBlock(client)
+
+  return {
+    ...(await defaultEstimateFeesPerGas(client, {
+      // estimateFeesPerGas calls internal_estimateFeesPerGas
+      // which accepts a block as an argument, but it's not exposed publicly
+      // We do this so we don't fetch the latest block twice.
+      // See https://github.com/wevm/viem/blob/7c479d86ad68daf2fd8874cbc6eec08d6456e540/src/actions/public/estimateFeesPerGas.ts#L91
+      // @ts-expect-error
+      block,
+    })),
+    baseFeePerGas: block.baseFeePerGas,
+  }
 }
 
 // Get gas price with optional fee currency, this is Celo specific

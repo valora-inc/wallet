@@ -1,7 +1,11 @@
+import { renderHook } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
+import { act } from 'react-test-renderer'
 import {
   _prepareSendTransactionsCallback,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
+import { tokenSupportsComments } from 'src/tokens/utils'
 import {
   PreparedTransactionsResult,
   prepareERC20TransferTransaction,
@@ -9,11 +13,7 @@ import {
   prepareTransferWithCommentTransaction,
 } from 'src/viem/prepareTransactions'
 import { mockCeloTokenBalance, mockEthTokenBalance } from 'test/values'
-import BigNumber from 'bignumber.js'
 import mocked = jest.mocked
-import { renderHook } from '@testing-library/react-native'
-import { act } from 'react-test-renderer'
-import { tokenSupportsComments } from 'src/tokens/utils'
 
 jest.mock('src/viem/prepareTransactions')
 jest.mock('src/tokens/utils')
@@ -44,7 +44,6 @@ describe('usePrepareSendTransactions', () => {
       },
     ],
     feeCurrency: mockFeeCurrencyWithTwoDecimals,
-    maxGasFeeInDecimal: new BigNumber(6),
   }
 
   describe('_prepareSendTransactionsCallback', () => {
