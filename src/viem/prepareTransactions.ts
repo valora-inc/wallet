@@ -14,29 +14,35 @@ import {
   EstimateGasExecutionError,
   ExecutionRevertedError,
   InsufficientFundsError,
+  InvalidInputRpcError,
   TransactionRequestBase,
   TransactionRequestEIP1559,
   encodeFunctionData,
-  InvalidInputRpcError,
 } from 'viem'
 import { estimateGas } from 'viem/actions'
 
 const TAG = 'viem/prepareTransactions'
 
 // Supported transaction types
-export type TransactionRequest = TransactionRequestCIP42 | TransactionRequestEIP1559
+export type TransactionRequest = (TransactionRequestCIP42 | TransactionRequestEIP1559) & {
+  // Custom fields needed for showing the user the estimated gas fee
+  // underscored to denote that they are not part of the TransactionRequest fields from viem
+  // and only intended for internal use in Valora
+  _estimatedGasUse?: bigint
+  _baseFeePerGas?: bigint
+}
 
 export interface PreparedTransactionsPossible {
   type: 'possible'
   transactions: TransactionRequest[]
   feeCurrency: TokenBalance
-  maxGasFeeInDecimal: BigNumber
 }
 
 export interface PreparedTransactionsNeedDecreaseSpendAmountForGas {
   type: 'need-decrease-spend-amount-for-gas'
-  maxGasFeeInDecimal: BigNumber
   feeCurrency: TokenBalance
+  maxGasFeeInDecimal: BigNumber
+  estimatedGasFeeInDecimal: BigNumber
   decreasedSpendAmount: BigNumber
 }
 
@@ -59,6 +65,24 @@ export function getMaxGasFee(txs: TransactionRequest[]): BigNumber {
     maxGasFee += BigInt(tx.gas) * BigInt(tx.maxFeePerGas)
   }
   return new BigNumber(maxGasFee.toString())
+}
+
+export function getEstimatedGasFee(txs: TransactionRequest[]): BigNumber {
+  let estimatedGasFee = BigInt(0)
+  for (const tx of txs) {
+    // Use _estimatedGasUse if available, otherwise use gas
+    const estimatedGas = tx._estimatedGasUse ?? tx.gas
+    if (!estimatedGas) {
+      throw new Error('Missing _estimatedGasUse or gas')
+    }
+    if (!tx._baseFeePerGas || !tx.maxFeePerGas) {
+      throw new Error('Missing _baseFeePerGas or maxFeePerGas')
+    }
+    const expectedFeePerGas = tx._baseFeePerGas + (tx.maxPriorityFeePerGas ?? BigInt(0))
+    estimatedGasFee +=
+      estimatedGas * (expectedFeePerGas < tx.maxFeePerGas ? expectedFeePerGas : tx.maxFeePerGas)
+  }
+  return new BigNumber(estimatedGasFee.toString())
 }
 
 export function getFeeCurrencyAddress(feeCurrency: TokenBalance) {
@@ -86,6 +110,7 @@ export async function tryEstimateTransaction({
   baseTransaction,
   maxFeePerGas,
   maxPriorityFeePerGas,
+  baseFeePerGas,
   feeCurrencySymbol,
   feeCurrencyAddress,
 }: {
@@ -93,6 +118,7 @@ export async function tryEstimateTransaction({
   baseTransaction: TransactionRequest
   maxFeePerGas: bigint
   maxPriorityFeePerGas?: bigint
+  baseFeePerGas: bigint
   feeCurrencySymbol: string
   feeCurrencyAddress?: Address
 }) {
@@ -111,11 +137,13 @@ export async function tryEstimateTransaction({
       ...(tx as TransactionRequestBase),
       account: tx.from,
     })
+    tx._baseFeePerGas = baseFeePerGas
     Logger.info(TAG, `estimateGas results`, {
       feeCurrency: tx.feeCurrency,
       gas: tx.gas,
       maxFeePerGas,
       maxPriorityFeePerGas,
+      baseFeePerGas,
     })
   } catch (e) {
     if (
@@ -146,7 +174,7 @@ export async function tryEstimateTransactions(
   const network = networkIdToNetwork[feeCurrency.networkId]
   const client = publicClient[network]
   const feeCurrencyAddress = getFeeCurrencyAddress(feeCurrency)
-  const { maxFeePerGas, maxPriorityFeePerGas } = await estimateFeesPerGas(
+  const { maxFeePerGas, maxPriorityFeePerGas, baseFeePerGas } = await estimateFeesPerGas(
     client,
     feeCurrencyAddress
   )
@@ -165,6 +193,10 @@ export async function tryEstimateTransactions(
         // We assume the provided gas value is with the native fee currency
         // If it's not, we add the static padding
         gas: baseTx.gas + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING),
+        _estimatedGasUse: baseTx._estimatedGasUse
+          ? baseTx._estimatedGasUse + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING)
+          : undefined,
+        _baseFeePerGas: baseFeePerGas,
       })
     } else {
       const tx = await tryEstimateTransaction({
@@ -174,6 +206,7 @@ export async function tryEstimateTransactions(
         feeCurrencyAddress,
         maxFeePerGas,
         maxPriorityFeePerGas,
+        baseFeePerGas,
       })
       if (!tx) {
         return null
@@ -231,7 +264,11 @@ export async function prepareTransactions({
       }`
     )
   }
-  const maxGasFees: Array<{ feeCurrency: TokenBalance; maxGasFeeInDecimal: BigNumber }> = []
+  const gasFees: Array<{
+    feeCurrency: TokenBalance
+    maxGasFeeInDecimal: BigNumber
+    estimatedGasFeeInDecimal: BigNumber
+  }> = []
   for (const feeCurrency of feeCurrencies) {
     if (feeCurrency.balance.isLessThanOrEqualTo(0)) {
       // No balance, try next fee currency
@@ -244,7 +281,9 @@ export async function prepareTransactions({
     }
     const maxGasFee = getMaxGasFee(estimatedTransactions)
     const maxGasFeeInDecimal = maxGasFee.shiftedBy(-feeCurrency.decimals)
-    maxGasFees.push({ feeCurrency, maxGasFeeInDecimal })
+    const estimatedGasFee = getEstimatedGasFee(estimatedTransactions)
+    const estimatedGasFeeInDecimal = estimatedGasFee?.shiftedBy(-feeCurrency.decimals)
+    gasFees.push({ feeCurrency, maxGasFeeInDecimal, estimatedGasFeeInDecimal })
     if (maxGasFeeInDecimal.isGreaterThan(feeCurrency.balance)) {
       // Not enough balance to pay for gas, try next fee currency
       continue
@@ -264,14 +303,13 @@ export async function prepareTransactions({
       type: 'possible',
       transactions: estimatedTransactions,
       feeCurrency,
-      maxGasFeeInDecimal,
     } satisfies PreparedTransactionsPossible
   }
 
   // So far not enough balance to pay for gas
   // let's see if we can decrease the spend amount, if provided
   // if no spend amount is provided, we conclude that the user does not have enough balance to pay for gas
-  const result = maxGasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken?.tokenId)
+  const result = gasFees.find(({ feeCurrency }) => feeCurrency.tokenId === spendToken?.tokenId)
   if (
     !spendToken ||
     !result ||
@@ -291,8 +329,9 @@ export async function prepareTransactions({
 
   return {
     type: 'need-decrease-spend-amount-for-gas',
-    maxGasFeeInDecimal: adjustedMaxGasFee,
     feeCurrency: result.feeCurrency,
+    maxGasFeeInDecimal: adjustedMaxGasFee,
+    estimatedGasFeeInDecimal: result.estimatedGasFeeInDecimal,
     decreasedSpendAmount: maxAmount,
   } satisfies PreparedTransactionsNeedDecreaseSpendAmountForGas
 }

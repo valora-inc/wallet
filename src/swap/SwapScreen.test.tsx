@@ -70,13 +70,14 @@ jest.mock('src/statsig', () => {
 
 jest.mock('viem/actions', () => ({
   ...jest.requireActual('viem/actions'),
-  estimateGas: jest.fn(async () => BigInt(21000)),
+  estimateGas: jest.fn(async () => BigInt(21_000)),
 }))
 
 jest.mock('src/viem/estimateFeesPerGas', () => ({
   estimateFeesPerGas: jest.fn(async () => ({
-    maxFeePerGas: BigInt(12000000000),
-    maxPriorityFeePerGas: BigInt(2000000000),
+    maxFeePerGas: BigInt(12_000_000_000),
+    maxPriorityFeePerGas: BigInt(2_000_000_000),
+    baseFeePerGas: BigInt(6_000_000_000),
   })),
 }))
 
@@ -199,6 +200,7 @@ const preparedTransactions: SerializableTransactionRequest[] = [
     gas: '21000',
     maxFeePerGas: '12000000000',
     maxPriorityFeePerGas: '2000000000',
+    _baseFeePerGas: '6000000000',
     to: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
   },
   {
@@ -207,6 +209,7 @@ const preparedTransactions: SerializableTransactionRequest[] = [
     gas: '1800000',
     maxFeePerGas: '12000000000',
     maxPriorityFeePerGas: '2000000000',
+    _baseFeePerGas: '6000000000',
     to: '0x0000000000000000000000000000000000000123',
     value: '0',
   },

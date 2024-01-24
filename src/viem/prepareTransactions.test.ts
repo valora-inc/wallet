@@ -7,6 +7,7 @@ import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import { publicClient } from 'src/viem/index'
 import {
   TransactionRequest,
+  getEstimatedGasFee,
   getFeeCurrency,
   getFeeCurrencyAddress,
   getFeeCurrencyAndAmount,
@@ -131,6 +132,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(1_000))
 
@@ -155,10 +157,11 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(1_000))
 
-      // gas fee is 10 * 10k = 100k units, too high for either fee currency
+      // max gas fee is 10 * 10k = 100k units, too high for either fee currency
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -182,6 +185,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
       })
       mocked(estimateGas).mockRejectedValue(mockInsufficientFundsError)
 
@@ -207,6 +211,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
       })
       mocked(estimateGas).mockRejectedValue(mockValueExceededBalanceError)
 
@@ -232,6 +237,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(100),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(50),
       })
       mocked(estimateGas).mockRejectedValue(mockExceededAllowanceError)
 
@@ -255,6 +261,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
 
       const result = await prepareTransactions({
@@ -275,6 +282,7 @@ describe('prepareTransactions module', () => {
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
         maxGasFeeInDecimal: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        estimatedGasFeeInDecimal: new BigNumber('65'), // 15k + 50k non-native gas token buffer / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
         decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
@@ -283,6 +291,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
 
       const result = await prepareTransactions({
@@ -305,6 +314,7 @@ describe('prepareTransactions module', () => {
       expect(result).toStrictEqual({
         type: 'need-decrease-spend-amount-for-gas',
         maxGasFeeInDecimal: new BigNumber('65.65'), // (15k + 50k non-native gas token buffer) * 1.01 multiplier / 1000 feeCurrency1 decimals
+        estimatedGasFeeInDecimal: new BigNumber('65'), // 15k + 50k non-native gas token buffer / 1000 feeCurrency1 decimals
         feeCurrency: mockFeeCurrencies[1],
         decreasedSpendAmount: new BigNumber(4.35), // 70.0 balance minus maxGasFee
       })
@@ -313,10 +323,11 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(500))
 
-      // gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
+      // max gas fee is 0.5k units from first transaction, plus 0.1k units from second transaction
 
       const result = await prepareTransactions({
         feeCurrencies: mockFeeCurrencies,
@@ -335,6 +346,7 @@ describe('prepareTransactions module', () => {
             data: '0xdata',
 
             gas: BigInt(100),
+            _estimatedGasUse: BigInt(50),
           },
         ],
       })
@@ -349,6 +361,7 @@ describe('prepareTransactions module', () => {
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
           },
           {
             from: '0xfrom',
@@ -358,9 +371,10 @@ describe('prepareTransactions module', () => {
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
+            _estimatedGasUse: BigInt(50),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('6'),
         feeCurrency: mockFeeCurrencies[0],
       })
     })
@@ -368,6 +382,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(500))
 
@@ -391,6 +406,7 @@ describe('prepareTransactions module', () => {
             data: '0xdata',
 
             gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
+            _estimatedGasUse: BigInt(50),
           },
         ],
       })
@@ -406,6 +422,7 @@ describe('prepareTransactions module', () => {
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
             feeCurrency: mockFeeCurrencies[1].address,
+            _baseFeePerGas: BigInt(1),
           },
           {
             from: '0xfrom',
@@ -416,9 +433,10 @@ describe('prepareTransactions module', () => {
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
             feeCurrency: mockFeeCurrencies[1].address,
+            _baseFeePerGas: BigInt(1),
+            _estimatedGasUse: BigInt(50_050),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('50.6'),
         feeCurrency: mockFeeCurrencies[1],
       })
     })
@@ -426,6 +444,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(500))
 
@@ -448,6 +467,7 @@ describe('prepareTransactions module', () => {
             data: '0xdata',
 
             gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
+            _estimatedGasUse: BigInt(50),
           },
         ],
       })
@@ -462,6 +482,7 @@ describe('prepareTransactions module', () => {
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
           },
           {
             from: '0xfrom',
@@ -471,9 +492,10 @@ describe('prepareTransactions module', () => {
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
+            _estimatedGasUse: BigInt(50),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('6'),
         feeCurrency: mockFeeCurrencies[0],
       })
     })
@@ -481,6 +503,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(500))
 
@@ -499,6 +522,7 @@ describe('prepareTransactions module', () => {
             to: '0xto' as Address,
             data: '0xdata',
             gas: BigInt(100), // 50k will be added for fee currency 2 since it is non-native
+            _estimatedGasUse: BigInt(50),
           },
         ],
       })
@@ -513,6 +537,7 @@ describe('prepareTransactions module', () => {
             gas: BigInt(500),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
           },
           {
             from: '0xfrom',
@@ -522,9 +547,10 @@ describe('prepareTransactions module', () => {
             gas: BigInt(100),
             maxFeePerGas: BigInt(1),
             maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(1),
+            _estimatedGasUse: BigInt(50),
           },
         ],
-        maxGasFeeInDecimal: new BigNumber('6'),
         feeCurrency: mockFeeCurrencies[0],
       })
     })
@@ -532,6 +558,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(1),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(500))
       const mockInsufficientFeeCurrencies = [
@@ -594,6 +621,7 @@ describe('prepareTransactions module', () => {
         baseTransaction,
         maxFeePerGas: BigInt(456),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(200),
         feeCurrencySymbol: 'FEE',
       })
       expect(estimateTransactionOutput && 'feeCurrency' in estimateTransactionOutput).toEqual(false)
@@ -602,6 +630,7 @@ describe('prepareTransactions module', () => {
         gas: BigInt(123),
         maxFeePerGas: BigInt(456),
         maxPriorityFeePerGas: BigInt(2),
+        _baseFeePerGas: BigInt(200),
       })
     })
     it('includes feeCurrency if address is given', async () => {
@@ -614,6 +643,7 @@ describe('prepareTransactions module', () => {
         feeCurrencySymbol: 'FEE',
         feeCurrencyAddress: '0xabc',
         maxPriorityFeePerGas: BigInt(789),
+        baseFeePerGas: BigInt(200),
       })
       expect(estimateTransactionOutput).toStrictEqual({
         from: '0x123',
@@ -621,6 +651,7 @@ describe('prepareTransactions module', () => {
         maxFeePerGas: BigInt(456),
         feeCurrency: '0xabc',
         maxPriorityFeePerGas: BigInt(789),
+        _baseFeePerGas: BigInt(200),
       })
     })
     it('returns null if estimateGas throws EstimateGasExecutionError with cause insufficient funds', async () => {
@@ -633,6 +664,7 @@ describe('prepareTransactions module', () => {
         feeCurrencySymbol: 'FEE',
         feeCurrencyAddress: '0xabc',
         maxPriorityFeePerGas: BigInt(789),
+        baseFeePerGas: BigInt(200),
       })
       expect(estimateTransactionOutput).toEqual(null)
     })
@@ -646,6 +678,7 @@ describe('prepareTransactions module', () => {
         feeCurrencySymbol: 'FEE',
         feeCurrencyAddress: '0xabc',
         maxPriorityFeePerGas: BigInt(789),
+        baseFeePerGas: BigInt(200),
       })
       expect(estimateTransactionOutput).toEqual(null)
     })
@@ -660,6 +693,7 @@ describe('prepareTransactions module', () => {
           feeCurrencySymbol: 'FEE',
           feeCurrencyAddress: '0xabc',
           maxPriorityFeePerGas: BigInt(789),
+          baseFeePerGas: BigInt(200),
         })
       ).rejects.toThrowError(EstimateGasExecutionError)
     })
@@ -669,6 +703,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(10),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(5),
       })
       mocked(estimateGas).mockRejectedValue(mockInsufficientFundsError)
       const estimateTransactionsOutput = await tryEstimateTransactions(
@@ -681,6 +716,7 @@ describe('prepareTransactions module', () => {
       mocked(estimateFeesPerGas).mockResolvedValue({
         maxFeePerGas: BigInt(10),
         maxPriorityFeePerGas: BigInt(2),
+        baseFeePerGas: BigInt(5),
       })
       mocked(estimateGas).mockResolvedValue(BigInt(123))
       const estimateTransactionsOutput = await tryEstimateTransactions(
@@ -693,12 +729,15 @@ describe('prepareTransactions module', () => {
           gas: BigInt(123),
           maxFeePerGas: BigInt(10),
           maxPriorityFeePerGas: BigInt(2),
+          _baseFeePerGas: BigInt(5),
         },
         {
           from: '0x123',
           gas: BigInt(456),
           maxFeePerGas: BigInt(10),
           maxPriorityFeePerGas: BigInt(2),
+          _baseFeePerGas: BigInt(5),
+          _estimatedGasUse: undefined,
         },
       ])
     })
@@ -725,6 +764,101 @@ describe('prepareTransactions module', () => {
           { gas: BigInt(2), maxFeePerGas: BigInt(3), from: '0x123' },
         ])
       ).toThrowError('Missing gas or maxFeePerGas')
+    })
+  })
+
+  describe('getEstimatedGasFee', () => {
+    it('calculates the estimates gas fee', () => {
+      // Uses gas * _baseFeePerGas
+      expect(
+        getEstimatedGasFee([
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), _baseFeePerGas: BigInt(2), from: '0x123' },
+          { gas: BigInt(5), maxFeePerGas: BigInt(7), _baseFeePerGas: BigInt(3), from: '0x123' },
+        ])
+      ).toEqual(new BigNumber(19))
+      // Uses _estimatedGasUse * _baseFeePerGas
+      expect(
+        getEstimatedGasFee([
+          {
+            gas: BigInt(2),
+            maxFeePerGas: BigInt(3),
+            _baseFeePerGas: BigInt(2),
+            _estimatedGasUse: BigInt(1),
+            from: '0x123',
+          },
+          {
+            gas: BigInt(5),
+            maxFeePerGas: BigInt(7),
+            _baseFeePerGas: BigInt(3),
+            _estimatedGasUse: BigInt(2),
+            from: '0x123',
+          },
+        ])
+      ).toEqual(new BigNumber(8))
+      // Uses _estimatedGasUse * (_baseFeePerGas + maxPriorityFeePerGas)
+      expect(
+        getEstimatedGasFee([
+          {
+            gas: BigInt(2),
+            maxFeePerGas: BigInt(3),
+            maxPriorityFeePerGas: BigInt(1),
+            _baseFeePerGas: BigInt(2),
+            _estimatedGasUse: BigInt(1),
+            from: '0x123',
+          },
+          {
+            gas: BigInt(5),
+            maxFeePerGas: BigInt(7),
+            maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(3),
+            _estimatedGasUse: BigInt(2),
+            from: '0x123',
+          },
+        ])
+      ).toEqual(new BigNumber(13))
+      // Uses _estimatedGasUse * min(_baseFeePerGas + maxPriorityFeePerGas, maxFeePerGas)
+      expect(
+        getEstimatedGasFee([
+          {
+            gas: BigInt(2),
+            maxFeePerGas: BigInt(3),
+            maxPriorityFeePerGas: BigInt(2),
+            _baseFeePerGas: BigInt(2),
+            _estimatedGasUse: BigInt(1),
+            from: '0x123',
+          },
+          {
+            gas: BigInt(5),
+            maxFeePerGas: BigInt(7),
+            maxPriorityFeePerGas: BigInt(5),
+            _baseFeePerGas: BigInt(3),
+            _estimatedGasUse: BigInt(2),
+            from: '0x123',
+          },
+        ])
+      ).toEqual(new BigNumber(17))
+    })
+    it('throws if gas and _estimatedGasUse are missing', () => {
+      expect(() =>
+        getEstimatedGasFee([
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), _baseFeePerGas: BigInt(2), from: '0x123' },
+          { maxFeePerGas: BigInt(3), _baseFeePerGas: BigInt(2), from: '0x123' },
+        ])
+      ).toThrowError('Missing _estimatedGasUse or gas')
+    })
+    it('throws if _baseFeePerGas or maxFeePerGas are missing', () => {
+      expect(() =>
+        getEstimatedGasFee([
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), _baseFeePerGas: BigInt(2), from: '0x123' },
+          { gas: BigInt(5), maxFeePerGas: BigInt(7), from: '0x123' },
+        ])
+      ).toThrowError('Missing _baseFeePerGas or maxFeePerGas')
+      expect(() =>
+        getEstimatedGasFee([
+          { gas: BigInt(2), maxFeePerGas: BigInt(3), _baseFeePerGas: BigInt(2), from: '0x123' },
+          { gas: BigInt(5), _baseFeePerGas: BigInt(3), from: '0x123' },
+        ])
+      ).toThrowError('Missing _baseFeePerGas or maxFeePerGas')
     })
   })
 
@@ -868,7 +1002,6 @@ describe('prepareTransactions module', () => {
             },
           ],
           feeCurrency: mockFeeCurrencies[0],
-          maxGasFeeInDecimal: new BigNumber(2),
         })
       ).toStrictEqual({
         feeCurrency: mockFeeCurrencies[0],
@@ -881,6 +1014,7 @@ describe('prepareTransactions module', () => {
           type: 'need-decrease-spend-amount-for-gas',
           feeCurrency: mockCeloTokenBalance,
           maxGasFeeInDecimal: new BigNumber(0.1),
+          estimatedGasFeeInDecimal: new BigNumber(0.05),
           decreasedSpendAmount: new BigNumber(4),
         })
       ).toStrictEqual({
