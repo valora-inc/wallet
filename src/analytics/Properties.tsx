@@ -1236,7 +1236,8 @@ export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
   }>
 
 export enum SwapShowInfoType {
-  NETWORK_FEE,
+  MAX_NETWORK_FEE,
+  ESTIMATED_NETWORK_FEE,
   SLIPPAGE,
 }
 interface SwapEventsProperties {

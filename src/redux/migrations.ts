@@ -1522,6 +1522,10 @@ export const migrations = {
   }),
   184: (state: any) => ({
     ...state,
+    swap: { ...state.swap, lastSwapped: [] },
+  }),
+  185: (state: any) => ({
+    ...state,
     home: { ...state.home, hasVisitedHome: !!state.web3.account },
     app: { ...state.app, pendingDeepLinks: [] },
   }),

@@ -2972,10 +2972,19 @@ export const v184Schema = {
     ...v183Schema._persist,
     version: 184,
   },
-  home: { ...v183Schema.home, hasVisitedHome: true },
-  app: { ...v183Schema.app, pendingDeepLinks: [] },
+  swap: { ...v183Schema.swap, lastSwapped: [] },
+}
+
+export const v185Schema = {
+  ...v184Schema,
+  _persist: {
+    ...v184Schema._persist,
+    version: 185,
+  },
+  home: { ...v184Schema.home, hasVisitedHome: true },
+  app: { ...v184Schema.app, pendingDeepLinks: [] },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v184Schema as Partial<RootState>
+  return v185Schema as Partial<RootState>
 }
