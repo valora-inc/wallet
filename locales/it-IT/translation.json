@@ -1733,12 +1733,15 @@
       "dismissButton": "Ignorare"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Commissione di rete stimata",
+      "maxNetworkFee": "Commissione di rete massima",
       "networkFee": "Commissione di rete {{networkName}}",
       "networkFeeNoNetwork": "Commissione di rete",
       "swapFee": "Commissione di {{appName}}",
       "swapFeeWaived": "Gratuito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
+      "networkFeeInfoV1_76": "Stai effettuando uno scambio sulla Rete {{networkName}} .\n\nPer effettuare una transazione sulla Rete {{networkName}} è richiesta una commissione di rete. Questa commissione garantisce la transazione e viene pagata ai validatori della rete.\n\nPoiché le condizioni della rete determinano l'importo esatto, la stima indicata è quella che ci aspettiamo sia la commissione effettiva. La commissione non supererà l'importo massimo previsto.",
       "slippageToleranceInfo": "Tolleranza slippage\n\nIl tuo scambio verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia oltre la tolleranza allo slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
