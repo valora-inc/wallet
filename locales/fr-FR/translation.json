@@ -1733,12 +1733,15 @@
       "dismissButton": "Refuser"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Frais de réseau estimés",
+      "maxNetworkFee": "Frais de réseau maximum",
       "networkFee": "Frais de réseau {{networkName}}",
       "networkFeeNoNetwork": "Frais de réseau",
       "swapFee": "Frais de {{appName}}",
       "swapFeeWaived": "Gratuit",
       "slippagePercentage": "Tolérance de glissement",
       "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
+      "networkFeeInfoV1_76": "Tu es en train d'échanger sur le réseau {{networkName}} .\n\nUne taxe de réseau est requise pour effectuer une transaction sur le réseau {{networkName}} . Ces frais sécurisent ta transaction et sont payés aux validateurs du réseau.\n\nComme les conditions du réseau déterminent le montant exact, l'estimation indiquée correspond à ce que nous attendons des frais réels. Les frais ne dépasseront pas le montant maximum.",
       "slippageToleranceInfo": "Tolérance sur le slippage\n\nVotre échange s'exécutera dans le cadre du pourcentage de tolérance au slippage. Si le prix évolue au-delà de la tolérance au slippage, {{appName}} vous protège en empêchant la négociation.",
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
