@@ -245,7 +245,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles short share deep link', async () => {
-    const deepLink = 'https://celo.org/share/abc12'
+    const deepLink = 'https://celo.org/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
       .provide([[select(walletAddressSelector), mockAccount]])
       .put(inviteLinkConsumed('abc123'))

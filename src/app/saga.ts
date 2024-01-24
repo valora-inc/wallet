@@ -309,7 +309,7 @@ function convertQueryToScreenParams(query: string) {
 }
 
 export function* handleDeepLink(action: OpenDeepLink) {
-  let { deepLink } = action
+  const { deepLink } = action
   const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
