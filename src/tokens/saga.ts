@@ -40,7 +40,7 @@ import { WEI_PER_TOKEN } from 'src/web3/consts'
 import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { all, call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
 import { Address, getContract } from 'viem'
 
 const TAG = 'tokens/saga'
@@ -230,8 +230,15 @@ export function* fetchTokenBalancesSaga() {
       StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
     )
 
+    const importedTokens: StoredTokenBalances = yield* select(importedTokensInfoSelector)
+
     const importedTokensWithBalance = showImportedTokens
-      ? yield* call(fetchImportedTokensBalances, address as Address, fetchedBalancesByTokenId)
+      ? yield* call(
+          fetchImportedTokensBalances,
+          address as Address,
+          importedTokens,
+          fetchedBalancesByTokenId
+        )
       : {}
 
     yield* put(
@@ -327,44 +334,35 @@ export function* watchAccountFundedOrLiquidated() {
   }
 }
 
-export function* fetchImportedTokensBalances(
+export async function fetchImportedTokensBalances(
   address: Address,
+  importedTokens: StoredTokenBalances,
   knownTokenBalances: Record<string, FetchedTokenBalance>
 ) {
   try {
-    const importedTokensList = Object.values(yield* select(importedTokensInfoSelector))
-
-    const balanceRequests: any = {}
-    importedTokensList.forEach((importedToken) => {
-      if (!importedToken || knownTokenBalances[importedToken.tokenId]) {
-        return
-      }
-
-      const contract = getContract({
-        abi: erc20.abi,
-        address: importedToken!.address as Address,
-        client: {
-          public: publicClient[networkIdToNetwork[importedToken.networkId]],
-        },
-      })
-
-      balanceRequests[importedToken.tokenId] = contract.read.balanceOf([address])
-    })
-
-    const balances = (yield* all(balanceRequests)) as Record<string, bigint>
-
+    const importedTokensList = Object.values(importedTokens)
     const importedTokensWithBalance: StoredTokenBalances = {}
 
-    importedTokensList.forEach((importedToken) => {
+    const balanceRequests = importedTokensList.map(async (importedToken) => {
       if (!importedToken) {
         return
       }
 
-      const balance = knownTokenBalances[importedToken.tokenId]
-        ? knownTokenBalances[importedToken.tokenId].balance
-        : new BigNumber(balances[importedToken.tokenId].toString())
-            .shiftedBy(-importedToken.decimals)
-            .toFixed()
+      var balance
+      if (knownTokenBalances[importedToken.tokenId]) {
+        balance = knownTokenBalances[importedToken.tokenId].balance
+      } else {
+        const contract = getContract({
+          abi: erc20.abi,
+          address: importedToken!.address as Address,
+          client: {
+            public: publicClient[networkIdToNetwork[importedToken.networkId]],
+          },
+        })
+        balance = new BigNumber((await contract.read.balanceOf([address])).toString())
+          .shiftedBy(-importedToken.decimals)
+          .toFixed()
+      }
 
       importedTokensWithBalance[importedToken.tokenId] = {
         ...importedToken,
@@ -372,6 +370,7 @@ export function* fetchImportedTokensBalances(
       }
     })
 
+    await Promise.all(balanceRequests)
     return importedTokensWithBalance
   } catch (error) {
     Logger.error(TAG, 'Error fetching imported tokens balances', error)
