@@ -3989,6 +3989,12 @@
                         }
                     ]
                 },
+                "lastSwapped": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "priceImpactWarningThreshold": {
                     "description": "In percentage, between 0 and 100",
                     "type": "number"
@@ -3996,6 +4002,7 @@
             },
             "required": [
                 "currentSwap",
+                "lastSwapped",
                 "priceImpactWarningThreshold"
             ],
             "type": "object"
