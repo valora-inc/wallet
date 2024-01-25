@@ -147,6 +147,8 @@ describe(fetchTokenBalancesSaga, () => {
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
+        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
+        [select(importedTokensInfoSelector), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
@@ -171,6 +173,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
+        [select(importedTokensInfoSelector), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
