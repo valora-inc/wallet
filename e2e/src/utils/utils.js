@@ -1,5 +1,6 @@
 import { newKit } from '@celo/contractkit'
 import { ALFAJORES_FORNO_URL, DEFAULT_PIN, EXAMPLE_NAME, SAMPLE_BACKUP_KEY } from '../utils/consts'
+import jestExpect from 'expect'
 const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
