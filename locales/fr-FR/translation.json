@@ -230,7 +230,7 @@
   },
   "conclusion": "C'est aussi simple que ça. Superchargez votre compte crypto sans attendre !",
   "superchargeTitle": "Commencez avec Supercharge !",
-  "superchargeDescription": "Obtenez 12 % de récompenses annuelles sur votre solde de {{token}}. Voici comment commencer :",
+  "superchargeDescription": "Obtenez {{apy}} % de récompenses annuelles sur votre solde en {{token}} . Voici comment commencer :",
   "superchargeConnectNumber": "Connectez votre numéro de téléphone",
   "superchargeReconnectNumber": "Reconnectez votre numéro de téléphone\n<0>Nous vous proposons un programme Supercharge amélioré. Reconnectez votre numéro de téléphone pour continuer à gagner des récompenses en {{token}}.</0>",
   "superchargeMinimumBalance": "Ajoutez un minimum de {{amount}} {{token}}",
