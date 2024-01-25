@@ -243,7 +243,7 @@ describe('useTokensForSend', () => {
   })
 })
 
-describe.only('useSwappableTokens', () => {
+describe('useSwappableTokens', () => {
   it('returns the correct swappable tokens', () => {
     const { result } = renderHook(() => useSwappableTokens(), {
       wrapper: (component) => (
