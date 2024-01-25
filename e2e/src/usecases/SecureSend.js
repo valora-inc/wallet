@@ -168,7 +168,9 @@ export default SecureSend = () => {
       // Return to home screen.
       await waitForElementId('HomeAction-Send', 30_000)
 
-      await waitFor(element(by.text(`${commentText}`)))
+      const attributes = await element(by.text(commentText)).getAttributes()
+      console.log('======comment text', attributes.elements.length, attributes.elements)
+      await waitFor(element(by.text(commentText)))
         .toBeVisible()
         .withTimeout(60_000)
     })

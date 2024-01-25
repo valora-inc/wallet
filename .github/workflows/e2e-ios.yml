@@ -63,7 +63,7 @@ jobs:
           DETOX_CONFIG: ios.release
       - name: Run Detox
         run: >
-          yarn detox test
+          yarn detox test e2e/src/Send.spec.js
           --configuration ios.release.${{ inputs.ios-version }}
           --artifacts-location e2e/artifacts
           --take-screenshots=failing

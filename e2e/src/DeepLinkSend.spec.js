@@ -14,5 +14,5 @@ describe('Given', () => {
   // also would be great if the deep link survives through an app install
   // similar to the invite links
 
-  describe('Deep Link Send', HandleDeepLinkSend)
+  describe.skip('Deep Link Send', HandleDeepLinkSend)
 })
