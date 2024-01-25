@@ -350,6 +350,18 @@ export async function dismissCashInBottomSheet() {
   } catch {}
 }
 
+export async function waitForElementByText(text, timeout = 30_000, index = 0) {
+  try {
+    index === 0
+      ? await waitFor(element(by.text(text)))
+      : await waitFor(element(by.text(text)).atIndex(index))
+          .toBeVisible()
+          .withTimeout(timeout)
+  } catch {
+    throw new Error(`Element with text '${text}' not found`)
+  }
+}
+
 /**
  * Gets first most matching text by testID for no matches, one match or many matches
  * @param {string} elementId The element to get text from by testID
