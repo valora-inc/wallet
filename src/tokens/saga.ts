@@ -343,29 +343,33 @@ export async function fetchImportedTokenBalances(
     const importedTokensWithBalance: StoredTokenBalances = {}
 
     const balanceRequests = importedTokensList.map(async (importedToken) => {
-      if (!importedToken) {
-        return
-      }
+      try {
+        if (!importedToken) {
+          return
+        }
 
-      let balance
-      if (knownTokenBalances[importedToken.tokenId]) {
-        balance = knownTokenBalances[importedToken.tokenId].balance
-      } else {
-        const contract = getContract({
-          abi: erc20.abi,
-          address: importedToken!.address as Address,
-          client: {
-            public: publicClient[networkIdToNetwork[importedToken.networkId]],
-          },
-        })
-        balance = new BigNumber((await contract.read.balanceOf([address])).toString())
-          .shiftedBy(-importedToken.decimals)
-          .toFixed()
-      }
+        let fetchedBalance
+        if (knownTokenBalances[importedToken.tokenId]) {
+          fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
+        } else {
+          const contract = getContract({
+            abi: erc20.abi,
+            address: importedToken!.address as Address,
+            client: {
+              public: publicClient[networkIdToNetwork[importedToken.networkId]],
+            },
+          })
+          fetchedBalance = (await contract.read.balanceOf([address])).toString()
+        }
 
-      importedTokensWithBalance[importedToken.tokenId] = {
-        ...importedToken,
-        balance,
+        const balance = new BigNumber(fetchedBalance).shiftedBy(-importedToken.decimals).toFixed()
+
+        importedTokensWithBalance[importedToken.tokenId] = {
+          ...importedToken,
+          balance,
+        }
+      } catch (error) {
+        Logger.error(TAG, 'Error fetching imported token balance', error)
       }
     })
 

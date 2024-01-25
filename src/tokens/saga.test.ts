@@ -307,7 +307,7 @@ describe(fetchImportedTokenBalances, () => {
     const mockKnownTokenBalances = {
       [mockPoofTokenId]: {
         tokenId: mockPoofTokenId,
-        balance: '5000',
+        balance: '500000000000000',
       },
     }
 
@@ -335,7 +335,7 @@ describe(fetchImportedTokenBalances, () => {
       },
       [mockPoofTokenId]: {
         ...mockImportedTokens[mockPoofTokenId],
-        balance: new BigNumber(5000).toFixed(),
+        balance: new BigNumber(0.0005).toFixed(),
       },
       [mockUSDCTokenId]: {
         ...mockImportedTokens[mockUSDCTokenId],
