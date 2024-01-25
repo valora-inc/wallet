@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Intoduzione ai bonus Supercharge",
-  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili! Ottieni ricompense annue del 12% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
+  "consumerIncentivesSummary": "I bonus sono arrivati! Ottieni ricompense annue del {{percent}}% sul tuo saldo in stablecoin (cUSD, cEUR, o cREAL) più alto. Disponibile per un periodo limitato. Ecco come funziona:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
     "text": "Tocca Collega numero se non lo hai ancora collegato."
@@ -230,7 +230,7 @@
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "superchargeTitle": "Inizia Supercharge",
-  "superchargeDescription": "Ottieni 12% di ricompense annuali sul tuo saldo {{token}}. Ecco come iniziare:",
+  "superchargeDescription": "Ottieni ricompense annue del {{apy}}% sul tuo saldo {{token}}. Ecco come iniziare:",
   "superchargeConnectNumber": "Collega il tuo numero telefonico",
   "superchargeReconnectNumber": "Ricollega il tuo numero telefonico\n<0>Abbiamo avviato un’esperienza Supercharge migliorata. Ricollega il tuo numero telefonico per continuare a ricevere ricompense in {{token}}.</0>",
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
