@@ -607,7 +607,7 @@ describe('SwapScreen', () => {
     expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
 
-  it('should prioritise showing the price impact warning when there is no priceUsd for a token', async () => {
+  it('should prioritise showing the no priceUsd warning when there is also a high price impact', async () => {
     mockFetch.mockResponseOnce(
       JSON.stringify({
         ...defaultQuote,
@@ -629,7 +629,9 @@ describe('SwapScreen', () => {
     expect(getByTestId('SwapTransactionDetails/ExchangeRate')).toHaveTextContent(
       '1 CELO ≈ 1.23456 POOF'
     )
-    expect(getByText('swapScreen.priceImpactWarning.title')).toBeTruthy()
+
+    expect(getByText('swapScreen.noUsdPriceWarning.title, {"localCurrency":"PHP"}')).toBeTruthy()
+    expect(queryByText('swapScreen.priceImpactWarning.title')).toBeFalsy()
     expect(queryByText('swapScreen.missingSwapImpactWarning.title')).toBeFalsy()
   })
 
