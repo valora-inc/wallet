@@ -12,15 +12,21 @@ import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import CloudCheck from 'src/icons/CloudCheck'
 import Lock from 'src/icons/Lock'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
+import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
+
+export enum ChosenRestoreType {
+  Cloud = 'Cloud',
+  Mnemonic = 'Mnemonic',
+}
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ImportSelect>
 
@@ -54,6 +60,7 @@ export default function ImportSelect({ navigation }: Props) {
   const dispatch = useDispatch()
   const headerHeight = useHeaderHeight()
   const { t } = useTranslation()
+  const onboardingProps = useTypedSelector(onboardingPropsSelector)
 
   const handleNavigateBack = () => {
     dispatch(cancelCreateOrRestoreAccount())
@@ -92,7 +99,10 @@ export default function ImportSelect({ navigation }: Props) {
             description={t('importSelect.emailAndPhone.description')}
             icon={<CloudCheck />}
             onPress={() => {
-              navigate(Screens.SignInWithEmail, { keylessBackupFlow: KeylessBackupFlow.Restore })
+              goToNextOnboardingScreen({
+                firstScreenInCurrentStep: Screens.ImportSelect,
+                onboardingProps: { ...onboardingProps, chosenRestoreType: ChosenRestoreType.Cloud },
+              })
             }}
           />
           <ActionCard
@@ -100,7 +110,13 @@ export default function ImportSelect({ navigation }: Props) {
             description={t('importSelect.recoveryPhrase.description')}
             icon={<Lock />}
             onPress={() => {
-              navigate(Screens.ImportWallet, { clean: true })
+              goToNextOnboardingScreen({
+                firstScreenInCurrentStep: Screens.ImportSelect,
+                onboardingProps: {
+                  ...onboardingProps,
+                  chosenRestoreType: ChosenRestoreType.Mnemonic,
+                },
+              })
             }}
           />
         </View>

@@ -10,6 +10,7 @@ import {
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
+import { ChosenRestoreType } from 'src/importSelect/ImportSelect'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -47,6 +48,7 @@ export interface OnboardingProps {
   chooseAdventureEnabled: boolean
   onboardingNameScreenEnabled: boolean
   showCloudAccountBackupRestore: boolean
+  chosenRestoreType?: ChosenRestoreType
 }
 
 /**
@@ -255,6 +257,17 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
+          }
+        },
+      }
+    case Screens.ImportSelect:
+      return {
+        next: () => {
+          if (props.chosenRestoreType === ChosenRestoreType.Cloud) {
+            // @ts-expect-error typing issues with custom navigate wrapper
+            navigate(Screens.SignInWithEmail, { keylessBackupFlow: 'restore' })
+          } else {
+            navigate(Screens.ImportWallet)
           }
         },
       }
