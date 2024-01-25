@@ -257,7 +257,7 @@ export default Send = () => {
     beforeAll(async () => {
       commentText = faker.lorem.words()
       await launchApp({
-        newInstance: false,
+        newInstance: true,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
       })
     })
@@ -360,6 +360,12 @@ export default Send = () => {
 
     it('Then should display correct recipient', async () => {
       await expect(element(by.text(SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY))).toBeVisible()
+    })
+
+    it('Then should be able to add a comment', async () => {
+      await addComment(commentText)
+      let comment = await element(by.id('commentInput/send')).getAttributes()
+      jestExpect(comment.text).toEqual(commentText)
     })
 
     it('Then should be able to send', async () => {
