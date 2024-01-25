@@ -13,17 +13,21 @@ import {
   waitForElementByIdAndTap,
   waitForElementId,
   isElementVisible,
+  confirmTransaction,
 } from '../utils/utils'
 import jestExpect from 'expect'
+
+const faker = require('@faker-js/faker')
 
 export default Send = () => {
   beforeAll(async () => {
     await quickOnboarding()
   })
 
-  const commentText = 'Test transaction comment.'
   describe('When multi-token send flow (old flow)', () => {
+    let commentText
     beforeAll(async () => {
+      commentText = faker.lorem.words()
       await launchApp({
         newInstance: true,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=false,use_viem_for_send=true` },
@@ -133,9 +137,8 @@ export default Send = () => {
       await element(by.id('ConfirmButton')).tap()
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30_000)
+      await waitForElementId('HomeAction-Send', 30_000)
+      await confirmTransaction(commentText)
     })
 
     it.todo('Then should display transaction as pending')
@@ -160,7 +163,9 @@ export default Send = () => {
   })
 
   describe('When multi-token send flow to address (new flow)', () => {
+    let commentText
     beforeAll(async () => {
+      commentText = faker.lorem.words()
       await launchApp({
         newInstance: true,
         launchArgs: {
@@ -243,11 +248,14 @@ export default Send = () => {
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
+      await confirmTransaction(commentText)
     })
   })
 
   describe('When multi-token send flow to recent recipient (new flow)', () => {
+    let commentText
     beforeAll(async () => {
+      commentText = faker.lorem.words()
       await launchApp({
         newInstance: false,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
@@ -295,11 +303,14 @@ export default Send = () => {
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
+      await confirmTransaction(commentText)
     })
   })
 
   describe('When multi-token send flow to phone number with one address (new flow)', () => {
+    let commentText
     beforeAll(async () => {
+      commentText = faker.lorem.words()
       await device.uninstallApp()
       await device.installApp()
       await launchApp({
@@ -356,6 +367,7 @@ export default Send = () => {
       await enterPinUiIfNecessary()
       await expect(element(by.text('Transaction failed, please retry'))).not.toBeVisible()
       await waitForElementId('HomeAction-Send', 30_000)
+      await confirmTransaction(commentText)
     })
   })
 }

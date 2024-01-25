@@ -15,14 +15,19 @@ import {
   quickOnboarding,
   waitForElementId,
   waitForElementByIdAndTap,
+  confirmTransaction,
 } from '../utils/utils'
+
+const faker = require('@faker-js/faker')
 
 const AMOUNT_TO_SEND = '0.01'
 const WALLET_FUNDING_MULTIPLIER = 2.2
 
 export default SecureSend = () => {
   describe('Secure send flow with phone number lookup (old flow)', () => {
+    let commentText
     beforeAll(async () => {
+      commentText = faker.lorem.words()
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
@@ -44,7 +49,6 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      const commentText = 'test comment old'
       await waitFor(element(by.id('HomeAction-Send')))
         .toBeVisible()
         .withTimeout(30_000)
@@ -97,9 +101,7 @@ export default SecureSend = () => {
         .toBeVisible()
         .withTimeout(30_000)
 
-      await waitFor(element(by.text(`${commentText}`)))
-        .toBeVisible()
-        .withTimeout(60_000)
+      await confirmTransaction(commentText)
     })
   })
 
