@@ -230,7 +230,7 @@
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "superchargeTitle": "Start Supercharging",
-  "superchargeDescription": "Get 12% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
