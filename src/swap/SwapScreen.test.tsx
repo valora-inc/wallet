@@ -103,6 +103,7 @@ const mockStoreTokenBalances = {
     isSwappable: false,
     // no priceUsd
     priceUsd: undefined,
+    balance: '0',
   },
   [mockPoofTokenId]: {
     ...mockTokenBalances[mockPoofTokenId],
@@ -320,9 +321,10 @@ describe('SwapScreen', () => {
     fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
     expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
-    // should see TT even though it is marked as not swappable, because there is a balance
-    expect(within(tokenBottomSheet).getByText('Test Token')).toBeTruthy()
-    expect(within(tokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
+    // should see POOF even though it is marked as not swappable, because there is a balance
+    expect(within(tokenBottomSheet).getByText('Poof Governance Token')).toBeTruthy()
+    // should see not see TT because it is marked as not swappable and there is no balance
+    expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
 
     // finish the token selection
     fireEvent.press(within(tokenBottomSheet).getByText('Celo Dollar'))
@@ -331,7 +333,6 @@ describe('SwapScreen', () => {
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
     expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
-    // should not see TT because it is marked as not swappable
     expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
     expect(within(tokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
   })
