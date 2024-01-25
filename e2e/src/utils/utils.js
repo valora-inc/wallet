@@ -302,7 +302,7 @@ export function padTrailingZeros(num, size = 5) {
  * @param {string} comment
  */
 export async function addComment(comment) {
-  await waitForElementById('commentInput/send')
+  await waitForElementId('commentInput/send')
   await element(by.id('commentInput/send')).replaceText('')
   await element(by.id('commentInput/send')).replaceText(`${comment}\n`)
   await element(by.id('commentInput/send')).tapReturnKey()
