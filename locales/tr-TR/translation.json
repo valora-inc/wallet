@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık %12 ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
+  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık {{percent}}% ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
   "earnWeekly": {
     "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
