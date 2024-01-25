@@ -237,7 +237,7 @@ const selectSingleSwapToken = (
   if (swapFieldType === Field.TO && !token!.priceUsd) {
     expect(
       within(swapScreen).getByText(
-        `swapScreen.noUsdPriceWarning.descriptionSwap, {"localCurrency":"PHP","toTokenSymbol":"${tokenSymbol}"}`
+        `swapScreen.noUsdPriceWarning.description, {"localCurrency":"PHP","tokenSymbol":"${tokenSymbol}"}`
       )
     ).toBeTruthy()
   }
@@ -330,13 +330,17 @@ describe('SwapScreen', () => {
     )
 
     expect(
-      getByText('swapScreen.noUsdPriceWarning.descriptionTokenSelection, {"localCurrency":"PHP"}')
+      getByText(
+        'swapScreen.noUsdPriceWarning.description, {"localCurrency":"PHP","tokenSymbol":"POOF"}'
+      )
     ).toBeTruthy()
 
     fireEvent.press(getByText('swapScreen.noUsdPriceWarning.ctaDismiss'))
 
     expect(
-      queryByText('swapScreen.noUsdPriceWarning.descriptionTokenSelection, {"localCurrency":"PHP"}')
+      queryByText(
+        'swapScreen.noUsdPriceWarning.description, {"localCurrency":"PHP","tokenSymbol":"POOF"}'
+      )
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
