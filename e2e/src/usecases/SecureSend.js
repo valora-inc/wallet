@@ -18,8 +18,6 @@ import {
   confirmTransaction,
 } from '../utils/utils'
 
-const faker = require('@faker-js/faker')
-
 const AMOUNT_TO_SEND = '0.01'
 const WALLET_FUNDING_MULTIPLIER = 2.2
 
@@ -27,7 +25,7 @@ export default SecureSend = () => {
   describe('Secure send flow with phone number lookup (old flow)', () => {
     let commentText
     beforeAll(async () => {
-      commentText = faker.lorem.words()
+      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()

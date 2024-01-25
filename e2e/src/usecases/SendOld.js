@@ -1,23 +1,14 @@
-import {
-  DEFAULT_RECIPIENT_ADDRESS,
-  SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER,
-  SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY,
-  SAMPLE_BACKUP_KEY_VERIFIED,
-} from '../utils/consts'
+import jestExpect from 'expect'
+import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
 import {
+  addComment,
+  confirmTransaction,
   enterPinUiIfNecessary,
   inputNumberKeypad,
-  addComment,
   quickOnboarding,
-  waitForElementByIdAndTap,
   waitForElementId,
-  isElementVisible,
-  confirmTransaction,
 } from '../utils/utils'
-import jestExpect from 'expect'
-
-const faker = require('@faker-js/faker')
 
 export default SendOld = () => {
   beforeAll(async () => {
@@ -27,7 +18,7 @@ export default SendOld = () => {
   describe('When multi-token send flow (old flow)', () => {
     let commentText
     beforeAll(async () => {
-      commentText = faker.lorem.words()
+      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
       await launchApp({
         newInstance: true,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=false,use_viem_for_send=true` },

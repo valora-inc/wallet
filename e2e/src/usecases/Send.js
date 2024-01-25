@@ -1,23 +1,20 @@
+import jestExpect from 'expect'
 import {
   DEFAULT_RECIPIENT_ADDRESS,
+  SAMPLE_BACKUP_KEY_VERIFIED,
   SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER,
   SINGLE_ADDRESS_VERIFIED_PHONE_NUMBER_DISPLAY,
-  SAMPLE_BACKUP_KEY_VERIFIED,
 } from '../utils/consts'
-import { launchApp, reloadReactNative } from '../utils/retries'
+import { launchApp } from '../utils/retries'
 import {
-  enterPinUiIfNecessary,
-  inputNumberKeypad,
   addComment,
+  confirmTransaction,
+  enterPinUiIfNecessary,
+  isElementVisible,
   quickOnboarding,
   waitForElementByIdAndTap,
   waitForElementId,
-  isElementVisible,
-  confirmTransaction,
 } from '../utils/utils'
-import jestExpect from 'expect'
-
-const faker = require('@faker-js/faker')
 
 export default Send = () => {
   beforeAll(async () => {
@@ -27,7 +24,7 @@ export default Send = () => {
   describe('When multi-token send flow to address (new flow)', () => {
     let commentText
     beforeAll(async () => {
-      commentText = faker.lorem.words()
+      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
       await launchApp({
         newInstance: true,
         launchArgs: {
@@ -117,7 +114,7 @@ export default Send = () => {
   describe('When multi-token send flow to recent recipient (new flow)', () => {
     let commentText
     beforeAll(async () => {
-      commentText = faker.lorem.words()
+      commentText = `${new Date().getTime()}`
       await launchApp({
         newInstance: true,
         launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
@@ -172,7 +169,7 @@ export default Send = () => {
   describe('When multi-token send flow to phone number with one address (new flow)', () => {
     let commentText
     beforeAll(async () => {
-      commentText = faker.lorem.words()
+      commentText = `${new Date().getTime()}`
       await device.uninstallApp()
       await device.installApp()
       await launchApp({
