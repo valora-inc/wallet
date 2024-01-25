@@ -9,7 +9,7 @@ interface Props {
   strokeWidth?: number
 }
 
-export default function DownArrowIcon({ height, color = colors.gray3, strokeWidth = 1 }: Props) {
+export default function UpArrowIcon({ height, color = colors.gray3, strokeWidth = 1 }: Props) {
   return (
     <Svg
       width={getSizing(height)}
@@ -17,9 +17,9 @@ export default function DownArrowIcon({ height, color = colors.gray3, strokeWidt
       strokeWidth={strokeWidth}
       viewBox="0 0 16 16"
       fill="none"
-      testID="downArrowIcon"
+      testID="upArrowIcon"
     >
-      <Path d="M3 6l5 5 5-5" stroke={color} />
+      <Path d="M3 10l5-5 5 5" stroke={color} />
     </Svg>
   )
 }
