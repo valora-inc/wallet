@@ -149,19 +149,30 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
-    importToken: (state, action: PayloadAction<BaseToken>) => ({
-      ...state,
-      importedTokens: {
-        ...state.importedTokens,
-        [action.payload.tokenId]: {
-          ...action.payload,
-          // Force imported tokens to be visible even with zero balance.
-          showZeroBalance: true,
-          balance: null,
-          isManuallyImported: true,
+    importToken: (state, action: PayloadAction<StoredTokenBalance>) => {
+      const importedTokenDetails = {
+        ...action.payload,
+        // Force imported tokens to be visible even with zero balance.
+        showZeroBalance: true,
+        isManuallyImported: true,
+      }
+
+      return {
+        ...state,
+        tokenBalances: {
+          ...state.tokenBalances,
+          [action.payload.tokenId]: importedTokenDetails,
         },
-      },
-    }),
+        importedTokens: {
+          ...state.importedTokens,
+          [action.payload.tokenId]: {
+            ...importedTokenDetails,
+            // Remove balance to avoid using it wrongly, since this data is static.
+            balance: null,
+          },
+        },
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
