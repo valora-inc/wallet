@@ -8,7 +8,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  fetchImportedTokensBalances,
+  fetchImportedTokenBalances,
   fetchTokenBalancesForAddress,
   fetchTokenBalancesForAddressByTokenId,
   fetchTokenBalancesSaga,
@@ -205,7 +205,7 @@ describe(fetchTokenBalancesSaga, () => {
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
           call(
-            fetchImportedTokensBalances,
+            fetchImportedTokenBalances,
             mockAccount,
             mockImportedTokensInfo,
             fetchBalancesResponse
@@ -268,7 +268,7 @@ describe(fetchTokenBalancesForAddress, () => {
   })
 })
 
-describe(fetchImportedTokensBalances, () => {
+describe(fetchImportedTokenBalances, () => {
   it('returns token balances for multiple chains', async () => {
     const mockImportedTokens = {
       [mockTestTokenTokenId]: {
@@ -319,7 +319,7 @@ describe(fetchImportedTokensBalances, () => {
       }
     })
 
-    const result = await fetchImportedTokensBalances(
+    const result = await fetchImportedTokenBalances(
       mockAccount,
       mockImportedTokens,
       mockKnownTokenBalances

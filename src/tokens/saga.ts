@@ -211,6 +211,12 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
+    const showImportedTokens = yield* call(
+      getFeatureGate,
+      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
+    )
+    const importedTokens = yield* select(importedTokensInfoSelector)
+
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
 
@@ -225,16 +231,11 @@ export function* fetchTokenBalancesSaga() {
       }
     }
 
-    const showImportedTokens = yield* call(
-      getFeatureGate,
-      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
-    )
-
     const importedTokensWithBalance = showImportedTokens
       ? yield* call(
-          fetchImportedTokensBalances,
+          fetchImportedTokenBalances,
           address as Address,
-          yield* select(importedTokensInfoSelector),
+          importedTokens,
           fetchedBalancesByTokenId
         )
       : {}
@@ -332,7 +333,7 @@ export function* watchAccountFundedOrLiquidated() {
   }
 }
 
-export async function fetchImportedTokensBalances(
+export async function fetchImportedTokenBalances(
   address: Address,
   importedTokens: StoredTokenBalances,
   knownTokenBalances: Record<string, FetchedTokenBalance>
