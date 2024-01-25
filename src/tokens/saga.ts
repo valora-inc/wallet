@@ -41,7 +41,7 @@ import { getContractKitAsync } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select, spawn, take, takeEvery } from 'typed-redux-saga'
-import { Address, getContract } from 'viem'
+import { Address } from 'viem'
 
 const TAG = 'tokens/saga'
 
@@ -340,7 +340,7 @@ export async function fetchImportedTokenBalances(
 ) {
   try {
     const importedTokensList = Object.values(importedTokens)
-    const importedTokensWithBalance: StoredTokenBalances = {}
+    const result: StoredTokenBalances = {}
 
     const balanceRequests = importedTokensList.map(async (importedToken) => {
       if (!importedToken) {
@@ -351,26 +351,49 @@ export async function fetchImportedTokenBalances(
       if (knownTokenBalances[importedToken.tokenId]) {
         balance = knownTokenBalances[importedToken.tokenId].balance
       } else {
-        const contract = getContract({
-          abi: erc20.abi,
-          address: importedToken!.address as Address,
-          client: {
-            public: publicClient[networkIdToNetwork[importedToken.networkId]],
-          },
-        })
-        balance = new BigNumber((await contract.read.balanceOf([address])).toString())
-          .shiftedBy(-importedToken.decimals)
-          .toFixed()
+        const client = publicClient[networkIdToNetwork[importedToken.networkId]]
+
+        try {
+          Logger.info('Testing BEFORE CALL')
+          const fetchResult = await client.multicall({
+            contracts: [
+              {
+                abi: erc20.abi,
+                address: importedToken!.address as Address,
+                functionName: 'balanceOf',
+                args: [address],
+              },
+            ],
+            allowFailure: false,
+          })
+          Logger.info('Testing AFTER CALL', fetchResult)
+
+          // const contract = getContract({
+          //   abi: erc20.abi,
+          //   address: importedToken!.address as Address,
+          //   client: {
+          //     public: publicClient[networkIdToNetwork[importedToken.networkId]],
+          //   },
+          // })
+          // const fetchResult = await contract.read.balanceOf([address]
+
+          balance = new BigNumber(fetchResult[0].toString())
+            .shiftedBy(-importedToken.decimals)
+            .toFixed()
+        } catch (error) {
+          Logger.error(TAG, 'Testing Error fetching imported token balance', error)
+          balance = null
+        }
       }
 
-      importedTokensWithBalance[importedToken.tokenId] = {
+      result[importedToken.tokenId] = {
         ...importedToken,
         balance,
       }
     })
 
     await Promise.all(balanceRequests)
-    return importedTokensWithBalance
+    return result
   } catch (error) {
     Logger.error(TAG, 'Error fetching imported tokens balances', error)
     return {}
