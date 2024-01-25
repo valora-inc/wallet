@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Comece com o Supercharge",
-  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe 12% em recompensas anuais na sua stablecoin com o maior saldo (cUSD, cEUR ou cREAL) por tempo limitado:",
+  "consumerIncentivesSummary": "O Supercharge chegou! Obtenha {{percent}}% de recompensas anuais sobre seu saldo mais alto de stablecoins (cUSD, cEUR ou cREAL). Disponível por um tempo limitado. Veja com funciona:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
     "text": "Toque em Conectar o número caso ainda não o tenha conectado."
@@ -230,7 +230,7 @@
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "superchargeTitle": "Entre no Supercharge",
-  "superchargeDescription": "Ganhe 12% em recompensas anuais no seus {{token}}. Veja como começar:",
+  "superchargeDescription": "Receba {{apy}}% de recompensas anuais no seu saldo de {{token}} . Veja como começar:",
   "superchargeConnectNumber": "Conecte seu número de celular",
   "superchargeReconnectNumber": "Reconecte seu número de celular\n<0>Lançamos uma experiência aprimorada do Supercharge. Reconecte o seu número de celular para continuar ganhando recompensas com {{token}}.</0>",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
