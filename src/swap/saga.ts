@@ -27,7 +27,12 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { TransactionRequest, getFeeCurrency, getMaxGasFee } from 'src/viem/prepareTransactions'
+import {
+  TransactionRequest,
+  getEstimatedGasFee,
+  getFeeCurrency,
+  getMaxGasFee,
+} from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -73,6 +78,14 @@ function getTxReceiptAnalyticsProperties(
     feeCurrencyToken && txMaxGasFee && feeCurrencyToken.priceUsd
       ? txMaxGasFee.times(feeCurrencyToken.priceUsd)
       : undefined
+  const txEstimatedGasFee =
+    tx && feeCurrencyToken
+      ? getEstimatedGasFee([tx]).shiftedBy(-feeCurrencyToken.decimals)
+      : undefined
+  const txEstimatedGasFeeUsd =
+    feeCurrencyToken && txEstimatedGasFee && feeCurrencyToken.priceUsd
+      ? txEstimatedGasFee.times(feeCurrencyToken.priceUsd)
+      : undefined
 
   const txGasFee =
     txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeCurrencyToken
@@ -95,6 +108,8 @@ function getTxReceiptAnalyticsProperties(
     txGas: tx?.gas ? Number(tx.gas) : undefined,
     txMaxGasFee: txMaxGasFee?.toNumber(),
     txMaxGasFeeUsd: txMaxGasFeeUsd?.toNumber(),
+    txEstimatedGasFee: txEstimatedGasFee?.toNumber(),
+    txEstimatedGasFeeUsd: txEstimatedGasFeeUsd?.toNumber(),
     txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
     txGasFee: txGasFee?.toNumber(),
     txGasFeeUsd: txGasFeeUsd?.toNumber(),
