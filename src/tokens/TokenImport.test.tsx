@@ -139,7 +139,7 @@ describe('TokenImport', () => {
       fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), mockCusdAddress)
       fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
 
-      expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
+      expect(getByText('tokenImport.error.tokenAlreadySupported')).toBeTruthy()
       expect(getByText('tokenImport.importButton')).toBeDisabled()
     })
 
@@ -154,7 +154,7 @@ describe('TokenImport', () => {
       fireEvent.changeText(getByText('tokenImport.input.tokenAddress'), 'invalid')
       fireEvent(getByText('tokenImport.input.tokenAddress'), 'blur')
 
-      expect(getByText('tokenImport.error.invalidToken')).toBeTruthy()
+      expect(getByText('tokenImport.error.invalidAddress')).toBeTruthy()
       expect(getByText('tokenImport.importButton')).toBeDisabled()
     })
 
