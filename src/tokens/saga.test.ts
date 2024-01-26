@@ -142,6 +142,7 @@ describe(fetchTokenBalancesSaga, () => {
       balance: null,
       showZeroBalance: true,
       networkId: NetworkId['celo-alfajores'],
+      isManuallyImported: true,
     },
   }
   it('get token info successfully', async () => {
@@ -198,20 +199,17 @@ describe(fetchTokenBalancesSaga, () => {
       },
     }
 
+    const importedTokens = Object.values(mockImportedTokensInfo)
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
-        [select(importedTokensSelector), mockImportedTokensInfo],
+        [select(importedTokensSelector), importedTokens],
         [select(walletAddressSelector), mockAccount],
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), true],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
-          call(
-            fetchImportedTokenBalances,
-            mockAccount,
-            mockImportedTokensInfo,
-            fetchBalancesResponse
-          ),
+          call(fetchImportedTokenBalances, mockAccount, importedTokens, fetchBalancesResponse),
           {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],
