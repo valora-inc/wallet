@@ -9,7 +9,6 @@ import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   fetchImportedTokenBalances,
-  fetchTokenBalancesForAddress,
   fetchTokenBalancesForAddressByTokenId,
   fetchTokenBalancesSaga,
   getTokensInfo,
@@ -23,6 +22,7 @@ import {
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -223,7 +223,7 @@ describe(fetchTokenBalancesSaga, () => {
   })
 })
 
-describe(fetchTokenBalancesForAddress, () => {
+describe(fetchTokenBalancesForAddressByTokenId, () => {
   it('returns token balances for a single chain', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores']],
@@ -234,37 +234,68 @@ describe(fetchTokenBalancesForAddress, () => {
         JSON.stringify({
           data: {
             userBalances: {
-              balances: [`${body.variables.networkId} balance`],
+              balances: [
+                {
+                  tokenId: mockCusdTokenId,
+                  tokenAddress: mockCusdAddress,
+                  balance: '10000000000000',
+                },
+              ],
             },
           },
         })
       )
     })
-    const result = await fetchTokenBalancesForAddress('some-address')
-    expect(result).toHaveLength(1),
-      expect(result).toEqual(expect.arrayContaining(['celo_alfajores balance']))
+    const result = await fetchTokenBalancesForAddressByTokenId('some-address')
+    expect(result).toMatchObject({
+      [mockCusdTokenId]: {
+        balance: '10000000000000',
+        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+      },
+    })
   })
+
   it('returns token balances for multiple chains', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
     mockFetch.mockImplementation(async (_, requestInit) => {
       const body = JSON.parse((requestInit?.body as string) ?? '{}')
+      const networkId = body.variables.networkId
+      const tokenAddress = networkId === 'celo_alfajores' ? mockCusdAddress : mockUSDCAddress
+
       return new Response(
         JSON.stringify({
           data: {
             userBalances: {
-              balances: [`${body.variables.networkId} balance`],
+              balances: [
+                {
+                  // Invert fix for GraphQL hyphens issue
+                  tokenId: getTokenId(networkId.replaceAll('_', '-'), tokenAddress),
+                  tokenAddress,
+                  balance: '10000000000000',
+                },
+              ],
             },
           },
         })
       )
     })
-    const result = await fetchTokenBalancesForAddress('some-address')
-    expect(result).toHaveLength(2),
-      expect(result).toEqual(
-        expect.arrayContaining(['celo_alfajores balance', 'ethereum_sepolia balance'])
-      )
+
+    const result = await fetchTokenBalancesForAddressByTokenId('some-address')
+    expect(result).toMatchObject({
+      [mockCusdTokenId]: {
+        balance: '10000000000000',
+        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+      },
+      [mockUSDCTokenId]: {
+        balance: '10000000000000',
+        tokenAddress: mockUSDCAddress,
+        tokenId: mockUSDCTokenId,
+      },
+    })
   })
 })
 
