@@ -137,8 +137,8 @@ ImportSelect.navigationOptions = {
 
 const styles = StyleSheet.create({
   card: {
-    width: '100%',
     padding: 0,
+    width: '100%',
   },
   cardContent: {
     padding: Spacing.Regular16,
@@ -153,9 +153,9 @@ const styles = StyleSheet.create({
   },
   safeArea: {
     alignItems: 'center',
-    justifyContent: 'space-between',
-    flexGrow: 1,
     backgroundColor: colors.gray1,
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   scrollContainer: {
     flexGrow: 1,
@@ -181,8 +181,8 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   viewContainer: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     gap: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
   },
