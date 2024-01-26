@@ -5,6 +5,7 @@ export enum StatsigDynamicConfigs {
   DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
   SWAP_CONFIG = 'swap_config',
   CICO_TOKEN_INFO = 'cico_token_info',
+  WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
 }
 
 export enum StatsigFeatureGates {
