@@ -457,19 +457,6 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     balance: '5',
     priceFetchedAt: Date.now(),
   },
-  [mockTestTokenTokenId]: {
-    priceUsd: '0.001',
-    address: mockTestTokenAddress,
-    tokenId: mockTestTokenTokenId,
-    networkId: NetworkId['celo-alfajores'],
-    symbol: 'TT',
-    imageUrl:
-      'https://raw.githubusercontent.com/ubeswap/default-token-list/master/assets/asset_TT.png',
-    name: 'Test Token',
-    decimals: 10,
-    balance: '5',
-    priceFetchedAt: Date.now(),
-  },
   [mockCeurTokenId]: {
     priceUsd: '1.16',
     address: mockCeurAddress,

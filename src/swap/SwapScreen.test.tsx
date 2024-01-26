@@ -99,7 +99,10 @@ const mockStoreTokenBalances = {
     priceUsd: '13.05584965485329753569',
   },
   [mockTestTokenTokenId]: {
-    ...mockTokenBalances[mockTestTokenTokenId],
+    tokenId: mockTestTokenTokenId,
+    networkId: NetworkId['celo-alfajores'],
+    symbol: 'TT',
+    name: 'Test Token',
     isSwappable: false,
     balance: '100',
     // no priceUsd

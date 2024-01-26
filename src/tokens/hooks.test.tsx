@@ -23,7 +23,6 @@ import {
   mockCrealTokenId,
   mockCusdTokenId,
   mockPoofTokenId,
-  mockTestTokenTokenId,
   mockTokenBalances,
 } from 'test/values'
 
@@ -260,7 +259,6 @@ describe('useSwappableTokens', () => {
       mockCeloTokenId,
       mockPoofTokenId,
       mockCrealTokenId,
-      mockTestTokenTokenId,
     ])
   })
 
@@ -285,7 +283,6 @@ describe('useSwappableTokens', () => {
       mockCeloTokenId,
       mockPoofTokenId,
       mockCrealTokenId,
-      mockTestTokenTokenId,
     ])
   })
 })
