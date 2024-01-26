@@ -1,8 +1,13 @@
+import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
+import { setBackupCompleted } from 'src/account/actions'
+import { initializeAccountSaga } from 'src/account/saga'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getStoredMnemonic } from 'src/backup/utils'
+import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
+import { refreshAllBalances } from 'src/home/actions'
+import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
   encryptPassphrase,
@@ -26,7 +31,9 @@ import {
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { mockPrivateDEK } from 'test/values'
 
 describe('keylessBackup saga', () => {
   beforeEach(() => {
@@ -124,7 +131,7 @@ describe('keylessBackup saga', () => {
     const mockWalletAddress = '0xdef'
     const mockMnemonic = 'fake mnemonic'
     const mockEncryptedMnemonic = 'mock-encrypted-mnemonic'
-
+    const mockPrivateKey = mockPrivateDEK
     describe('setup', () => {
       it('stores encrypted mnemonic and puts success event if no errors', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
@@ -235,9 +242,16 @@ describe('keylessBackup saga', () => {
                 mockValoraKeyshareBuffer,
                 mockEncryptedMnemonic
               ),
-              mockEncryptedMnemonic,
+              mockMnemonic,
             ],
+            [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
+            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), true],
+            [call(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic), mockWalletAddress],
           ])
+          .call(storeMnemonic, mockMnemonic, mockWalletAddress)
+          .call(initializeAccountSaga)
+          .put(setBackupCompleted())
+          .put(refreshAllBalances())
           .put(keylessBackupCompleted())
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {

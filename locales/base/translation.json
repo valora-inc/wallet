@@ -114,6 +114,11 @@
         "later": "I'll backup later",
         "manual": "Manual Backup"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restoring your wallet"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
