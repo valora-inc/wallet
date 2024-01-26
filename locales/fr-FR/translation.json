@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Prix en {{localCurrency}} indisponible",
-      "description": "Nous n'avons pas de prix en {{localCurrency}} pour ce jeton, cela peut signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si vous choisissez de continuer.",
+      "description": "Nous n'avons pas de prix {{localCurrency}} pour {{tokenSymbol}}, ce qui pourrait signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si tu choisis de poursuivre.",
       "ctaConfirm": "Je comprends",
       "ctaDismiss": "Annuler"
     },
