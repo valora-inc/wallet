@@ -16,12 +16,12 @@
   // Use the project's TypeScript version instead of the one bundled with VS Code
   "typescript.tsdk": "node_modules/typescript/lib",
   "editor.codeActionsOnSave": {
-    "source.organizeImports": "never"
+    "source.organizeImports": false
   },
   "[javascript]": {
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.organizeImports": "never"
+      "source.organizeImports": false
     }
   },
   "[javascriptreact]": {
@@ -44,10 +44,5 @@
   },
   "javascript.format.enable": false,
   "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "[javascriptreact][typescript][typescriptreact]": {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "explicit"
-    }
-  }
+  "editor.detectIndentation": false
 }
