@@ -1713,7 +1713,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Cena w {{localCurrency}} nie jest dostępna",
-      "description": "Nie dysponujemy ceną w {{localCurrency}} dla tego tokena, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za straty, jeśli zdecydujesz się kontynuować.",
+      "description": "Nie mamy ceny {{localCurrency}} dla {{tokenSymbol}}, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za jakiekolwiek straty poniesione, jeśli zdecydujesz się kontynuować.",
       "ctaConfirm": "Rozumiem",
       "ctaDismiss": "Anuluj"
     },
