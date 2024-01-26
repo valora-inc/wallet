@@ -31,7 +31,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
-import { networkIconSelector, tokensByIdSelector } from 'src/tokens/selectors'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import { importToken } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -76,11 +76,6 @@ export default function TokenImportScreen(_: Props) {
   const [networkId, setNetworkId] = useState<NetworkId | null>(
     networkShouldBeEditable ? null : supportedNetworkIds[0]
   )
-
-  const networkTokenIcon = useSelector((state) =>
-    networkId ? networkIconSelector(state, networkId) : undefined
-  )
-
   const walletAddress = useSelector(walletAddressSelector)
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
 
@@ -212,7 +207,7 @@ export default function TokenImportScreen(_: Props) {
     })
 
     Logger.info(TAG, `Importing token: ${tokenId})})`)
-    dispatch(importToken({ ...tokenDetails, tokenId, networkId, networkIconUrl: networkTokenIcon }))
+    dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
 
     navigateBack()
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol: tokenDetails.symbol })))

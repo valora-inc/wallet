@@ -236,6 +236,11 @@ export function* fetchTokenBalancesSaga() {
         )
       : {}
 
+    // TODO: Add network icons
+    // const networkTokenIcon = useSelector((state) =>
+    //   networkId ? networkIconSelector(state, networkId) : undefined
+    // )
+
     yield* put(
       setTokenBalances({
         ...importedTokensWithBalance,
