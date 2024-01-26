@@ -230,6 +230,7 @@ function* sendPayment(
       tokenId: tokenInfo.tokenId,
       web3Library,
       networkId: tokenInfo.networkId,
+      isTokenManuallyImported: !!tokenInfo?.isManuallyImported,
     })
   } catch (err) {
     const error = ensureError(err)

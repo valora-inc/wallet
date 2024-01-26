@@ -4,6 +4,7 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { Actions, SendPaymentAction } from 'src/send/actions'
@@ -31,7 +32,6 @@ import {
   mockFeeInfo,
   mockQRCodeRecipient,
 } from 'test/values'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 jest.mock('@celo/connect')
 jest.mock('src/statsig')
@@ -166,6 +166,7 @@ describe(sendPaymentSaga, () => {
       tokenId: mockCusdTokenId,
       web3Library: 'viem',
       networkId: 'celo-alfajores',
+      isTokenManuallyImported: false,
     })
   })
 

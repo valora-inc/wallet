@@ -548,6 +548,7 @@ interface SendEventsProperties {
         networkId: NetworkId | null
         tokenId: string
         commentLength: number
+        isTokenManuallyImported: boolean
       }
 
   [SendEvents.send_secure_start]: {
@@ -584,6 +585,7 @@ interface SendEventsProperties {
     tokenAddress: string | undefined
     tokenId: string
     networkId: string
+    isTokenManuallyImported: boolean
   }
   [SendEvents.send_tx_error]: {
     error: string
