@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "ไม่มีราคาของ {{localCurrency}}",
-      "description": "เราไม่มีราคาของ {{localCurrency}} สำหรับโทเค็นนี้ ซึ่งหมายความว่าไม่มีการเทรดโทเค็นดังกล่าวอย่างแพร่หลาย {{appName}} ไม่ขอรับผิดชอบต่อความสูญเสียใดๆ ที่อาจเกิดขึ้น หากคุณเลือกดำเนินการต่อ",
+      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
       "ctaConfirm": "ฉันเข้าใจ",
       "ctaDismiss": "ยกเลิก"
     },
