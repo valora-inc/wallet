@@ -180,13 +180,10 @@ export async function fetchTokenBalancesForAddress(
 
 export async function fetchTokenBalancesForAddressByTokenId(address: string) {
   const fetchedTokenBalances: FetchedTokenBalance[] = await fetchTokenBalancesForAddress(address)
-  const fetchedBalancesByTokenId = fetchedTokenBalances.reduce(
-    (acc: Record<string, FetchedTokenBalance>, token) => {
-      acc[token.tokenId] = token
-      return acc
-    },
-    {}
-  )
+  const fetchedBalancesByTokenId: Record<string, FetchedTokenBalance> = {}
+  fetchedTokenBalances.forEach((token) => {
+    fetchedBalancesByTokenId[token.tokenId] = token
+  })
   return fetchedBalancesByTokenId
 }
 
