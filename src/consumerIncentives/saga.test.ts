@@ -1,8 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
+import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
 import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import {
   SUPERCHARGE_FETCH_TIMEOUT,
@@ -170,7 +169,6 @@ describe('fetchAvailableRewardsSaga', () => {
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
       .put(fetchAvailableRewardsFailure())
-      .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
       .run()
   })
 
@@ -208,7 +206,7 @@ describe('fetchAvailableRewardsSaga', () => {
       .run()
   })
 
-  it('displays an error if a user is not properly verified for supercharge v2', async () => {
+  it('dispatches an error if a user is not properly verified for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
         [select(rewardsEnabledSelector), true],
@@ -231,7 +229,6 @@ describe('fetchAvailableRewardsSaga', () => {
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
       .put(fetchAvailableRewardsFailure())
-      .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
       .run()
   })
 })

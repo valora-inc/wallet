@@ -64,3 +64,6 @@ export const availableRewardsSelector = (state: RootState) => state.supercharge.
 
 export const superchargeRewardContractAddressSelector = (state: RootState) =>
   state.supercharge.superchargeRewardContractAddress
+
+export const fetchAvailableRewardsErrorSelector = (state: RootState) =>
+  state.supercharge.fetchAvailableRewardsError
