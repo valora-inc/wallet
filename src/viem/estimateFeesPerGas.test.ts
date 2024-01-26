@@ -1,11 +1,16 @@
 import { estimateFeesPerGas } from 'src/viem/estimateFeesPerGas'
 import networkConfig from 'src/web3/networkConfig'
 import { Block } from 'viem'
-import { estimateFeesPerGas as defaultEstimateFeesPerGas, getBlock } from 'viem/actions'
+import {
+  estimateFeesPerGas as defaultEstimateFeesPerGas,
+  getBlock,
+  readContract,
+} from 'viem/actions'
 
 jest.mock('viem/actions', () => ({
   getBlock: jest.fn(),
   estimateFeesPerGas: jest.fn(),
+  readContract: jest.fn(),
 }))
 
 beforeEach(() => {
@@ -14,6 +19,7 @@ beforeEach(() => {
 
 describe(estimateFeesPerGas, () => {
   it('should return the correct fees per gas on Celo', async () => {
+    jest.mocked(readContract).mockResolvedValue(BigInt(50))
     const client = {
       chain: { id: networkConfig.viemChain.celo.id },
       request: jest.fn(async ({ method, params }) => {
@@ -27,13 +33,21 @@ describe(estimateFeesPerGas, () => {
     expect(fees).toEqual({
       maxFeePerGas: BigInt(110),
       maxPriorityFeePerGas: BigInt(10),
-      baseFeePerGas: BigInt(110),
+      baseFeePerGas: BigInt(50),
     })
     expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
     expect(getBlock).not.toHaveBeenCalled()
+    expect(readContract).toHaveBeenCalledWith(
+      client,
+      expect.objectContaining({
+        functionName: 'getGasPriceMinimum',
+        args: [networkConfig.celoTokenAddress],
+      })
+    )
   })
 
   it('should return the correct fees per gas on Celo when fee currency is specified', async () => {
+    jest.mocked(readContract).mockResolvedValue(BigInt(50))
     const client = {
       chain: { id: networkConfig.viemChain.celo.id },
       request: jest.fn(async ({ method, params }) => {
@@ -47,10 +61,17 @@ describe(estimateFeesPerGas, () => {
     expect(fees).toEqual({
       maxFeePerGas: BigInt(110),
       maxPriorityFeePerGas: BigInt(10),
-      baseFeePerGas: BigInt(110),
+      baseFeePerGas: BigInt(50),
     })
     expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
     expect(getBlock).not.toHaveBeenCalled()
+    expect(readContract).toHaveBeenCalledWith(
+      client,
+      expect.objectContaining({
+        functionName: 'getGasPriceMinimum',
+        args: ['0x123'],
+      })
+    )
   })
 
   it('should return the default fees per gas on other networks', async () => {
@@ -72,6 +93,7 @@ describe(estimateFeesPerGas, () => {
     expect(defaultEstimateFeesPerGas).toHaveBeenCalledTimes(1)
     expect(getBlock).toHaveBeenCalledWith(client)
     expect(getBlock).toHaveBeenCalledTimes(1)
+    expect(readContract).not.toHaveBeenCalled()
   })
 
   it('should throw on other networks when fee currency is specified', async () => {
@@ -87,5 +109,6 @@ describe(estimateFeesPerGas, () => {
     )
     expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
     expect(getBlock).not.toHaveBeenCalled()
+    expect(readContract).not.toHaveBeenCalled()
   })
 })
