@@ -78,11 +78,11 @@
     "description": "Nur du kannst auf deine Wallet zugreifen. Wenn du dein Telefon verloren hast oder es dir gestohlen wurde, kann Valora deine Wallet für dich nicht wiederherstellen.\n\nDu musst eine Methode einrichten, durch die deine Wallet sicher und dein Guthaben geschützt sind."
   },
   "setUpKeylessBackup": {
-    "title": "Wallet Backup einrichten",
+    "title": "Wallet-Back-up einrichten",
     "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet",
     "emailAddress": "E-Mail-Adresse",
     "phoneNumber": "Telefonnummer",
-    "useRecoveryPhrase": "Verwende stattdessen die Rückgewinnungsphrase"
+    "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase"
   },
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Denke daran</0>, dass diese Informationen die einzige Möglichkeit sind, auf dein Portemonnaie zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse noch deine Telefonnummer. Bewahre sie sicher auf!",
+  "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
@@ -1708,8 +1708,8 @@
       "body": "Diese Vermögen zu tauschen, kann zu einem ungünstigen Umtauschkurs führen. Wenn du den Betrag senkst, erhältst du möglicherweise einen besseren Kurs."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} Preis nicht verfügbar",
-      "description": "Wir haben keinen {{localCurrency}} Preis für diesen Token, was bedeuten könnte, dass er nicht weithin gehandelt wird. {{appName}} ist nicht für Verluste verantwortlich, die entstehen, wenn du dich entscheidest, weiterzumachen.",
+      "title": "Preis nicht in {{localCurrency}} verfügbar",
+      "description": "Wir haben keinen Preis in {{localCurrency}} für diesen Token, was bedeuten könnte, dass er nicht weithin gehandelt wird. {{appName}} ist nicht für Verluste verantwortlich, die entstehen, wenn du dich entscheidest, fortzufahren.",
       "ctaConfirm": "Ich verstehe",
       "ctaDismiss": "Abbrechen"
     },
@@ -1745,8 +1745,8 @@
       "estimatedValue": "Geschätzter Wert"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Finanziere dein Portemonnaie",
-      "description": "Bevor du Token tauschen kannst, musst du dein Wallet durch den Kauf von Krypto oder die Übertragung von Token finanzieren.",
+      "title": "Deine Wallet aufladen",
+      "description": "Bevor du Tokens tauschen kannst, musst du deine Wallet durch den Kauf von Krypto oder die Überweisung von Tokens aufladen.",
       "addFundsButton": "Guthaben hinzufügen"
     }
   },
@@ -2035,8 +2035,8 @@
     "secondaryCta": "Nein, danke"
   },
   "getStartedHome": {
-    "title": "Krypto kaufen oder Token übertragen",
-    "body": "Kaufe oder überweise celo- oder ethereum-kompatible Token, um {{apy}}% Belohnungen zu verdienen, erkunde web3 & mehr!"
+    "title": "Krypto kaufen oder Tokens überweisen",
+    "body": "Kaufe oder überweise Celo- oder Ethereum-kompatible Tokens, um {{apy}} % Rewards zu verdienen, erkunde web3 und mehr!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -2,7 +2,14 @@
 // so they can be used in redux actions (or even stores).
 import { TransactionRequest } from 'src/viem/prepareTransactions'
 
-const bigIntProps = ['value', 'gas', 'maxFeePerGas', 'maxPriorityFeePerGas'] as const
+const bigIntProps = [
+  'value',
+  'gas',
+  'maxFeePerGas',
+  'maxPriorityFeePerGas',
+  '_estimatedGasUse',
+  '_baseFeePerGas',
+] as const
 
 export type BigIntProps = (typeof bigIntProps)[number]
 

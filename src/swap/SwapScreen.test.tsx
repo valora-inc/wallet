@@ -70,13 +70,14 @@ jest.mock('src/statsig', () => {
 
 jest.mock('viem/actions', () => ({
   ...jest.requireActual('viem/actions'),
-  estimateGas: jest.fn(async () => BigInt(21000)),
+  estimateGas: jest.fn(async () => BigInt(21_000)),
 }))
 
 jest.mock('src/viem/estimateFeesPerGas', () => ({
   estimateFeesPerGas: jest.fn(async () => ({
-    maxFeePerGas: BigInt(12000000000),
-    maxPriorityFeePerGas: BigInt(2000000000),
+    maxFeePerGas: BigInt(12_000_000_000),
+    maxPriorityFeePerGas: BigInt(2_000_000_000),
+    baseFeePerGas: BigInt(6_000_000_000),
   })),
 }))
 
@@ -199,6 +200,7 @@ const preparedTransactions: SerializableTransactionRequest[] = [
     gas: '21000',
     maxFeePerGas: '12000000000',
     maxPriorityFeePerGas: '2000000000',
+    _baseFeePerGas: '6000000000',
     to: '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9',
   },
   {
@@ -207,6 +209,7 @@ const preparedTransactions: SerializableTransactionRequest[] = [
     gas: '1800000',
     maxFeePerGas: '12000000000',
     maxPriorityFeePerGas: '2000000000',
+    _baseFeePerGas: '6000000000',
     to: '0x0000000000000000000000000000000000000123',
     value: '0',
   },
@@ -1016,6 +1019,8 @@ describe('SwapScreen', () => {
       gas: 1821000,
       maxGasFee: 0.021852,
       maxGasFeeUsd: 0.28529642665785426,
+      estimatedGasFee: 0.014568,
+      estimatedGasFeeUsd: 0.19019761777190283,
       feeCurrency: undefined,
       feeCurrencySymbol: 'CELO',
       txCount: 2,
@@ -1050,16 +1055,18 @@ describe('SwapScreen', () => {
 
   it('should display the correct transaction details', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { getByTestId, getByText, swapFromContainer, swapScreen } = renderScreen({
+    const { getByTestId, swapFromContainer, swapScreen } = renderScreen({
       celoBalance: '10',
       cUSDBalance: '10',
     })
 
     const transactionDetails = getByTestId('SwapTransactionDetails')
     expect(transactionDetails).toHaveTextContent(
-      'swapScreen.transactionDetails.networkFeeNoNetwork'
+      'swapScreen.transactionDetails.estimatedNetworkFee'
     )
-    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('-')
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent('-')
+    expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.maxNetworkFee')
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('-')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFee')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.swapFeeWaived')
     expect(transactionDetails).toHaveTextContent('swapScreen.transactionDetails.slippagePercentage')
@@ -1072,10 +1079,11 @@ describe('SwapScreen', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(
-      getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
-    ).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('₱0.38 (0.022 CELO)') // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
+    // matches mocked value provided to estimateFeesPerGas, estimateGas, and gas in defaultQuoteResponse
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent(
+      '~₱0.25 (0.015 CELO)'
+    )
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('0.022 CELO')
   })
 
   it('should disable the confirm button after a swap has been submitted', async () => {
