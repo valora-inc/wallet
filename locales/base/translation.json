@@ -1973,7 +1973,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send assets to someone's ENS handle"
+          "subtitle": "Send Ethereum assets to someone's ENS handle"
         },
         "four": {
           "title": "Profile Name",
@@ -2041,6 +2041,6 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer celo compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
   }
 }
