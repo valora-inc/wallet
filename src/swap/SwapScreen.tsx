@@ -536,7 +536,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = (selectedToken: TokenBalance) => {
-    if (!selectedToken.priceUsd) {
+    if (!selectedToken.priceUsd && selectingField === Field.TO) {
       localDispatch(selectNoUsdPriceToken({ token: selectedToken }))
       return
     }
@@ -578,19 +578,15 @@ export function SwapScreen({ route }: Props) {
   const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
   const showMaxSwapAmountWarning =
     !confirmSwapFailed && !showSwitchedToNetworkWarning && shouldShowMaxSwapAmountWarning
+  const showNoUsdPriceWarning =
+    !confirmSwapFailed && !quoteUpdatePending && toToken && !toToken.priceUsd
   const showPriceImpactWarning =
     !confirmSwapFailed &&
     !quoteUpdatePending &&
+    !showNoUsdPriceWarning &&
     (quote?.estimatedPriceImpact
       ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
       : false)
-  const showNoUsdPriceWarning =
-    !confirmSwapFailed &&
-    !quoteUpdatePending &&
-    !showPriceImpactWarning &&
-    fromToken &&
-    toToken &&
-    (!fromToken.priceUsd || !toToken.priceUsd)
   const showMissingPriceImpactWarning =
     !confirmSwapFailed &&
     !quoteUpdatePending &&
@@ -725,7 +721,10 @@ export function SwapScreen({ route }: Props) {
             <InLineNotification
               severity={Severity.Warning}
               title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
-              description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
+              description={t('swapScreen.noUsdPriceWarning.description', {
+                localCurrency,
+                tokenSymbol: toToken?.symbol,
+              })}
               style={styles.warning}
             />
           )}
@@ -827,7 +826,10 @@ export function SwapScreen({ route }: Props) {
         showNotification={!!selectingNoUsdPriceToken}
         severity={Severity.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
-        description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
+        description={t('swapScreen.noUsdPriceWarning.description', {
+          localCurrency,
+          tokenSymbol: selectingNoUsdPriceToken?.symbol,
+        })}
         ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
         onPressCta2={handleConfirmSelectTokenNoUsdPrice}
         ctaLabel={t('swapScreen.noUsdPriceWarning.ctaDismiss')}
