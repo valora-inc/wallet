@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Comece com o Supercharge",
-  "consumerIncentivesSummary": "O Supercharge chegou! Ganhe 12% em recompensas anuais na sua stablecoin com o maior saldo (cUSD, cEUR ou cREAL) por tempo limitado:",
+  "consumerIncentivesSummary": "O Supercharge chegou! Obtenha {{percent}}% de recompensas anuais sobre seu saldo mais alto de stablecoins (cUSD, cEUR ou cREAL). Disponível por um tempo limitado. Veja com funciona:",
   "earnWeekly": {
     "header": "Conecte seu número de celular",
     "text": "Toque em Conectar o número caso ainda não o tenha conectado."
@@ -230,7 +230,7 @@
   },
   "conclusion": "É muito simples. Aumente seu cripto hoje mesmo!",
   "superchargeTitle": "Entre no Supercharge",
-  "superchargeDescription": "Ganhe 12% em recompensas anuais no seus {{token}}. Veja como começar:",
+  "superchargeDescription": "Receba {{apy}}% de recompensas anuais no seu saldo de {{token}} . Veja como começar:",
   "superchargeConnectNumber": "Conecte seu número de celular",
   "superchargeReconnectNumber": "Reconecte seu número de celular\n<0>Lançamos uma experiência aprimorada do Supercharge. Reconecte o seu número de celular para continuar ganhando recompensas com {{token}}.</0>",
   "superchargeMinimumBalance": "Adicione um saldo mínimo de {{amount}} {{token}}",
@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Preço em {{localCurrency}} indisponível",
-      "description": "Não temos um preço em {{localCurrency}} para este token, o que pode significar que ele não é amplamente negociado. A {{appName}} não é responsável por quaisquer perdas incorridas se você optar por prosseguir.",
+      "description": "Não temos um preço {{localCurrency}} para {{tokenSymbol}}, o que pode significar que ele não é amplamente negociado. {{appName}} não é responsável por quaisquer perdas incorridas se você optar por continuar.",
       "ctaConfirm": "Eu compreendo",
       "ctaDismiss": "Cancelar"
     },
@@ -1733,12 +1733,15 @@
       "dismissButton": "Ignorar"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Taxa de rede estimada",
+      "maxNetworkFee": "Taxa máxima de rede",
       "networkFee": "Taxa da rede {{networkName}}",
       "networkFeeNoNetwork": "Taxa de rede",
       "swapFee": "Taxa da {{appName}}",
       "swapFeeWaived": "Grátis",
       "slippagePercentage": "Tolerância do slippage",
       "networkFeeInfo": "Você está trocando na rede {{networkName}}.\n\nEsta taxa de rede estimada é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege a sua transação e visa manter a rede operacional.",
+      "networkFeeInfoV1_76": "Você está fazendo uma troca na rede {{networkName}} .\n\nVocê precisa pagar uma taxa de rede para realizar uma transação na rede {{networkName}} . Essa taxa protege sua transação e é paga aos validadores da rede.\n\nComo as condições da rede determinam o valor exato, a estimativa listada é o que esperamos que seja a taxa real. A taxa não excederá o valor máximo da taxa.",
       "slippageToleranceInfo": "Tolerância de slippage\n\nSua troca será executada dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, a {{appName}} protege você impedindo a execução da negociação.",
       "networkFeeInfoDismissButton": "Entendi",
       "exchangeRate": "Taxa de câmbio",

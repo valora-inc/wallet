@@ -1713,7 +1713,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Cena w {{localCurrency}} nie jest dostępna",
-      "description": "Nie dysponujemy ceną w {{localCurrency}} dla tego tokena, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za straty, jeśli zdecydujesz się kontynuować.",
+      "description": "Nie mamy ceny {{localCurrency}} dla {{tokenSymbol}}, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za jakiekolwiek straty poniesione, jeśli zdecydujesz się kontynuować.",
       "ctaConfirm": "Rozumiem",
       "ctaDismiss": "Anuluj"
     },
@@ -1737,12 +1737,15 @@
       "dismissButton": "Odrzuć"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Szacunkowa opłata sieciowa",
+      "maxNetworkFee": "Maksymalna opłata sieciowa",
       "networkFee": "Opłata sieciowa za {{networkName}}",
       "networkFeeNoNetwork": "Opłata sieciowa",
       "swapFee": "Opłata w aplikacji {{appName}}",
       "swapFeeWaived": "Bezpłatnie",
       "slippagePercentage": "Tolerancja poślizgu",
       "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
+      "networkFeeInfoV1_76": "Dokonujesz wymiany w sieci {{networkName}} .\n\nDo przeprowadzenia transakcji w sieci {{networkName}} wymagana jest opłata sieciowa. Opłata ta zabezpiecza Twoją transakcję i jest wypłacana weryfikatorom sieci.\n\nPonieważ warunki sieciowe określają dokładną kwotę, wymienione szacunki są tym, czego oczekujemy od rzeczywistej opłaty. Opłata nie przekroczy maksymalnej kwoty opłaty.",
       "slippageToleranceInfo": "Tolerancja poślizgu\n\nTwój swap zostanie zrealizowany w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
