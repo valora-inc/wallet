@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} fiyatı mevcut değil",
-      "description": "Bu token için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}}, devam etmeyi seçerseniz meydana gelecek herhangi bir kayıptan sorumlu değildir.",
+      "description": "{{tokenSymbol}}için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}} , devam etmeyi seçerseniz meydana gelen herhangi bir kayıptan sorumlu değildir.",
       "ctaConfirm": "Anladım",
       "ctaDismiss": "İptal"
     },
