@@ -265,10 +265,7 @@ describe('handleDeepLink', () => {
   it('Handles jumpstart links', async () => {
     const deepLink = 'celo://wallet/jumpstart/0xPrivateKey'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([
-        [select(walletAddressSelector), '0xwallet'],
-        [select(walletAddressSelector), mockAccount],
-      ])
+      .provide([[select(walletAddressSelector), '0xwallet']])
       .run()
 
     expect(jumpstartLinkHandler).toHaveBeenCalledWith('0xPrivateKey', '0xwallet')
