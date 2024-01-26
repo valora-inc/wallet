@@ -16,7 +16,7 @@ import {
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
-import { importedTokensInfoSelector, lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
+import { importedTokensSelector, lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -142,13 +142,13 @@ describe(fetchTokenBalancesSaga, () => {
       balance: null,
       showZeroBalance: true,
       networkId: NetworkId['celo-alfajores'],
+      isManuallyImported: true,
     },
   }
   it('get token info successfully', async () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
-        [select(importedTokensInfoSelector), {}],
+        [select(importedTokensSelector), []],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
@@ -173,7 +173,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
-        [select(importedTokensInfoSelector), {}],
+        [select(importedTokensSelector), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
@@ -199,20 +199,17 @@ describe(fetchTokenBalancesSaga, () => {
       },
     }
 
+    const importedTokens = Object.values(mockImportedTokensInfo)
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
-        [select(importedTokensInfoSelector), mockImportedTokensInfo],
+        [select(importedTokensSelector), importedTokens],
         [select(walletAddressSelector), mockAccount],
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), true],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
-          call(
-            fetchImportedTokenBalances,
-            mockAccount,
-            mockImportedTokensInfo,
-            fetchBalancesResponse
-          ),
+          call(fetchImportedTokenBalances, mockAccount, importedTokens, fetchBalancesResponse),
           {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],
@@ -282,6 +279,7 @@ describe(fetchImportedTokenBalances, () => {
         balance: null,
         name: 'TestToken',
         symbol: 'TT',
+        isManuallyImported: true,
       },
       [mockPoofTokenId]: {
         address: mockPoofAddress,
@@ -291,6 +289,7 @@ describe(fetchImportedTokenBalances, () => {
         balance: null,
         name: 'PoofToken',
         symbol: 'Poof',
+        isManuallyImported: true,
       },
       [mockUSDCTokenId]: {
         address: mockUSDCAddress,
@@ -301,6 +300,7 @@ describe(fetchImportedTokenBalances, () => {
         balance: null,
         name: 'USD Coin',
         symbol: 'USDC',
+        isManuallyImported: true,
       },
     }
 
@@ -324,7 +324,7 @@ describe(fetchImportedTokenBalances, () => {
 
     const result = await fetchImportedTokenBalances(
       mockAccount,
-      mockImportedTokens,
+      Object.values(mockImportedTokens),
       mockKnownTokenBalances
     )
 

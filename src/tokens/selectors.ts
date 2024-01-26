@@ -12,6 +12,7 @@ import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
+  StoredTokenBalance,
   TokenBalance,
   TokenBalanceWithAddress,
   TokenBalances,
@@ -88,7 +89,21 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
-export const importedTokensInfoSelector = (state: RootState) => state.tokens.importedTokens
+export const importedTokensSelector = createSelector(
+  [
+    (state: RootState) => state.tokens.tokenBalances,
+    (_state: RootState, networkIds?: NetworkId[]) => networkIds,
+  ],
+  (storedBalances, networkIds) => {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
+      return []
+    }
+
+    return Object.values(storedBalances).filter((token) => {
+      return token?.isManuallyImported && (!networkIds || networkIds.includes(token.networkId))
+    }) as StoredTokenBalance[]
+  }
+)
 
 /**
  * Get an object mapping token addresses to token metadata, the user's balance, and its price
