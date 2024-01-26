@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} 价格不详",
-      "description": "我们没有该代币的 {{localCurrency}} 价格，这可能意味着该代币的交易并不广泛。如果您选择继续交易，{{appName}} 不会对由此造成的任何损失负责。",
+      "description": "我们没有 {{localCurrency}} {{tokenSymbol}}的价格，这可能意味着它的交易并不广泛。如果您选择继续交易， {{appName}} ，我们不对由此造成的任何损失负责。",
       "ctaConfirm": "我了解",
       "ctaDismiss": "取消"
     },
