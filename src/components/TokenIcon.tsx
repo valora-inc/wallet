@@ -1,12 +1,13 @@
 import React from 'react'
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import DefaultToken from 'src/icons/DefaultToken'
+import colors from 'src/styles/colors'
 import { BaseToken } from 'src/tokens/slice'
 
 export enum IconSize {
   SMALL = 'small',
   MEDIUM = 'medium',
+  LARGE = 'large',
 }
 
 const IconSizeToStyle = {
@@ -14,11 +15,19 @@ const IconSizeToStyle = {
     tokenImageSize: 20,
     networkImageSize: 8,
     networkImagePosition: 13,
+    tokenTextSize: 6,
   },
   [IconSize.MEDIUM]: {
     tokenImageSize: 32,
     networkImageSize: 12,
     networkImagePosition: 20,
+    tokenTextSize: 10,
+  },
+  [IconSize.LARGE]: {
+    tokenImageSize: 40,
+    networkImageSize: 16,
+    networkImagePosition: 25,
+    tokenTextSize: 12,
   },
 }
 
@@ -30,7 +39,8 @@ interface Props {
 }
 
 export default function TokenIcon({ token, viewStyle, testID, size = IconSize.MEDIUM }: Props) {
-  const { tokenImageSize, networkImageSize, networkImagePosition } = IconSizeToStyle[size]
+  const { tokenImageSize, networkImageSize, networkImagePosition, tokenTextSize } =
+    IconSizeToStyle[size]
 
   return (
     <View testID={testID} style={viewStyle}>
@@ -50,10 +60,21 @@ export default function TokenIcon({ token, viewStyle, testID, size = IconSize.ME
           testID={testID ? `${testID}/TokenIcon` : 'TokenIcon'}
         />
       ) : (
-        <DefaultToken
+        <View
+          style={[
+            styles.tokenCircle,
+            {
+              width: tokenImageSize,
+              height: tokenImageSize,
+              borderRadius: tokenImageSize / 2,
+            },
+          ]}
           testID={testID ? `${testID}/DefaultTokenIcon` : 'DefaultTokenIcon'}
-          size={tokenImageSize}
-        />
+        >
+          <Text style={[styles.tokenText, { fontSize: tokenTextSize }]} allowFontScaling={false}>
+            {token.symbol.substring(0, 4)}
+          </Text>
+        </View>
       )}
 
       {token.networkIconUrl && (
@@ -84,5 +105,14 @@ const styles = StyleSheet.create({
   },
   networkImage: {
     position: 'absolute',
+  },
+  tokenCircle: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.gray2,
+  },
+  tokenText: {
+    color: colors.black,
+    textAlign: 'center',
   },
 })

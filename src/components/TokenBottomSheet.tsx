@@ -2,12 +2,12 @@ import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useMemo, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
@@ -54,7 +54,7 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
       {index > 0 && <View style={styles.separator} />}
       <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
         <View style={styles.tokenOptionContainer}>
-          <FastImage source={{ uri: tokenInfo.imageUrl }} style={styles.tokenImage} />
+          <TokenIcon token={tokenInfo} viewStyle={styles.tokenImage} size={IconSize.LARGE} />
           <View style={styles.tokenNameContainer}>
             <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
             <Text style={styles.currencyBalance}>{tokenInfo.name}</Text>
