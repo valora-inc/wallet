@@ -163,14 +163,6 @@ const slice = createSlice({
           ...state.tokenBalances,
           [action.payload.tokenId]: importedTokenDetails,
         },
-        importedTokens: {
-          ...state.importedTokens,
-          [action.payload.tokenId]: {
-            ...importedTokenDetails,
-            // Remove balance to avoid using it wrongly, since this data is static.
-            balance: null,
-          },
-        },
       }
     },
   },

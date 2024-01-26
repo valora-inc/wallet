@@ -10,10 +10,8 @@ import { DOLLAR_MIN_AMOUNT_ACCOUNT_FUNDED } from 'src/config'
 import { FeeInfo } from 'src/fees/saga'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  importedTokensInfoSelector,
+  importedTokensSelector,
   lastKnownTokenBalancesSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
@@ -207,11 +205,7 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
-    const showImportedTokens = yield* call(
-      getFeatureGate,
-      StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW
-    )
-    const importedTokens = yield* select(importedTokensInfoSelector)
+    const importedTokens = yield* select(importedTokensSelector)
 
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
@@ -230,14 +224,12 @@ export function* fetchTokenBalancesSaga() {
     /* We are including the fetchedBalancesByTokenId since some balances might be already fetched
      * so we avoid fetching them again. This could happen if we turn the FETCH_BALANCES_VIA_BLOCKSCOUT flag on.
      */
-    const importedTokensWithBalance = showImportedTokens
-      ? yield* call(
-          fetchImportedTokenBalances,
-          address as Address,
-          importedTokens,
-          fetchedBalancesByTokenId
-        )
-      : {}
+    const importedTokensWithBalance = yield* call(
+      fetchImportedTokenBalances,
+      address as Address,
+      importedTokens,
+      fetchedBalancesByTokenId
+    )
 
     yield* put(
       setTokenBalances({
@@ -334,13 +326,12 @@ export function* watchAccountFundedOrLiquidated() {
 
 export async function fetchImportedTokenBalances(
   address: Address,
-  importedTokens: StoredTokenBalances,
+  importedTokens: StoredTokenBalance[],
   knownTokenBalances: Record<string, FetchedTokenBalance>
 ) {
-  const importedTokensList = Object.values(importedTokens)
   const importedTokensWithBalance: StoredTokenBalances = {}
 
-  const balanceRequests = importedTokensList.map(async (importedToken) => {
+  const balanceRequests = importedTokens.map(async (importedToken) => {
     try {
       if (!importedToken) {
         return
