@@ -5,6 +5,7 @@ import { v4 as uuidv4 } from 'uuid'
 export enum Network {
   Celo = 'celo',
   Ethereum = 'ethereum',
+  Arbitrum = 'arbitrum',
 }
 
 export enum NetworkId {
@@ -12,6 +13,8 @@ export enum NetworkId {
   'celo-alfajores' = 'celo-alfajores',
   'ethereum-mainnet' = 'ethereum-mainnet',
   'ethereum-sepolia' = 'ethereum-sepolia',
+  'arbitrum-one' = 'arbitrum-one',
+  'arbitrum-sepolia' = 'arbitrum-sepolia',
 }
 
 export type PendingStandbySwap = {

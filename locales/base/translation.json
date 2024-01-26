@@ -2008,6 +2008,7 @@
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
   "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",

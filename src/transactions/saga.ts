@@ -53,6 +53,7 @@ const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
 const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Celo]: 5000,
   [Network.Ethereum]: 15000,
+  [Network.Arbitrum]: 10000,
 }
 
 // Remove standby txs from redux state when the real ones show up in the feed

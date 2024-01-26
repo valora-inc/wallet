@@ -105,6 +105,8 @@ const EXPLORER_LINK_TRANSLATION_STRINGS: Record<NetworkId, string> = {
   [NetworkId['celo-alfajores']]: 'nftInfoCarousel.viewOnCeloExplorer',
   [NetworkId['ethereum-mainnet']]: 'viewOnEthereumBlockExplorer',
   [NetworkId['ethereum-sepolia']]: 'viewOnEthereumBlockExplorer',
+  [NetworkId['arbitrum-one']]: 'viewOnArbiscan',
+  [NetworkId['arbitrum-sepolia']]: 'viewOnArbiscan',
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
