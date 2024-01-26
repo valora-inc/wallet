@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Chưa có giá bằng {{localCurrency}}",
-      "description": "Chúng tôi chưa có giá bằng {{localCurrency}} cho token này, có thể là do đồng tiền này ít được giao dịch. {{appName}} không chịu trách nhiệm về bất kỳ tổn thất nào phát sinh nếu bạn chọn tiếp tục giao dịch.",
+      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
       "ctaConfirm": "Tôi đã hiểu.",
       "ctaDismiss": "Hủy"
     },
