@@ -35,14 +35,16 @@ function ActionCard({
   description,
   icon,
   onPress,
+  testID,
 }: {
   title: string
   description: string
   icon: React.ReactNode
   onPress?: () => void
+  testID?: string
 }) {
   return (
-    <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
+    <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} testID={testID}>
       <Touchable borderRadius={8} style={styles.touchable} onPress={onPress}>
         <View style={styles.cardContent}>
           <View style={styles.topLine}>
@@ -104,6 +106,7 @@ export default function ImportSelect({ navigation }: Props) {
                 onboardingProps: { ...onboardingProps, chosenRestoreType: ChosenRestoreType.Cloud },
               })
             }}
+            testID="ImportSelect/CloudBackup"
           />
           <ActionCard
             title={t('importSelect.recoveryPhrase.title')}
@@ -118,6 +121,7 @@ export default function ImportSelect({ navigation }: Props) {
                 },
               })
             }}
+            testID="ImportSelect/Mnemonic"
           />
         </View>
       </ScrollView>
