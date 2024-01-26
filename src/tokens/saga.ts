@@ -227,6 +227,9 @@ export function* fetchTokenBalancesSaga() {
       }
     }
 
+    /* We are including the fetchedBalancesByTokenId since some balances might be already fetched
+     * so we avoid fetching them again. This could happen if we turn the FETCH_BALANCES_VIA_BLOCKSCOUT flag on.
+     */
     const importedTokensWithBalance = showImportedTokens
       ? yield* call(
           fetchImportedTokenBalances,
@@ -334,47 +337,42 @@ export async function fetchImportedTokenBalances(
   importedTokens: StoredTokenBalances,
   knownTokenBalances: Record<string, FetchedTokenBalance>
 ) {
-  try {
-    const importedTokensList = Object.values(importedTokens)
-    const importedTokensWithBalance: StoredTokenBalances = {}
+  const importedTokensList = Object.values(importedTokens)
+  const importedTokensWithBalance: StoredTokenBalances = {}
 
-    const balanceRequests = importedTokensList.map(async (importedToken) => {
-      try {
-        if (!importedToken) {
-          return
-        }
-
-        let fetchedBalance
-        if (knownTokenBalances[importedToken.tokenId]) {
-          fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
-        } else {
-          const contract = getContract({
-            abi: erc20.abi,
-            address: importedToken!.address as Address,
-            client: {
-              public: publicClient[networkIdToNetwork[importedToken.networkId]],
-            },
-          })
-          fetchedBalance = (await contract.read.balanceOf([address])).toString()
-        }
-
-        const balance = new BigNumber(fetchedBalance).shiftedBy(-importedToken.decimals).toFixed()
-
-        importedTokensWithBalance[importedToken.tokenId] = {
-          ...importedToken,
-          balance,
-        }
-      } catch (error) {
-        Logger.error(TAG, 'Error fetching imported token balance', error)
+  const balanceRequests = importedTokensList.map(async (importedToken) => {
+    try {
+      if (!importedToken) {
+        return
       }
-    })
 
-    await Promise.all(balanceRequests)
-    return importedTokensWithBalance
-  } catch (error) {
-    Logger.error(TAG, 'Error fetching imported tokens balances', error)
-    return {}
-  }
+      let fetchedBalance
+      if (knownTokenBalances[importedToken.tokenId]) {
+        fetchedBalance = knownTokenBalances[importedToken.tokenId].balance
+      } else {
+        const contract = getContract({
+          abi: erc20.abi,
+          address: importedToken!.address as Address,
+          client: {
+            public: publicClient[networkIdToNetwork[importedToken.networkId]],
+          },
+        })
+        fetchedBalance = (await contract.read.balanceOf([address])).toString()
+      }
+
+      const balance = new BigNumber(fetchedBalance).shiftedBy(-importedToken.decimals).toFixed()
+
+      importedTokensWithBalance[importedToken.tokenId] = {
+        ...importedToken,
+        balance,
+      }
+    } catch (error) {
+      Logger.error(TAG, 'Error fetching imported token balance', error)
+    }
+  })
+
+  await Promise.all(balanceRequests)
+  return importedTokensWithBalance
 }
 
 export function* tokensSaga() {
