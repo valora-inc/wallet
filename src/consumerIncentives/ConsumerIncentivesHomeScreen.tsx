@@ -4,8 +4,10 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   numberVerifiedDecentrallySelector,
   phoneNumberVerifiedSelector,
@@ -19,6 +21,7 @@ import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
 import {
   availableRewardsSelector,
+  fetchAvailableRewardsErrorSelector,
   superchargeInfoSelector,
   superchargeRewardsLoadingSelector,
 } from 'src/consumerIncentives/selectors'
@@ -218,10 +221,17 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
 export default function ConsumerIncentivesHomeScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const superchargeFetchError = useSelector(fetchAvailableRewardsErrorSelector)
 
   useEffect(() => {
     dispatch(fetchAvailableRewards())
   }, [])
+
+  useEffect(() => {
+    if (superchargeFetchError) {
+      dispatch(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
+    }
+  }, [superchargeFetchError])
 
   const restrictSuperchargeForClaimOnly = getFeatureGate(
     StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
