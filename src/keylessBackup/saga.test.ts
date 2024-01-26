@@ -24,6 +24,7 @@ import {
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
   googleSignInCompleted,
+  keylessBackupBail,
   keylessBackupCompleted,
   keylessBackupFailed,
   torusKeyshareIssued,
@@ -253,6 +254,45 @@ describe('keylessBackup saga', () => {
           .put(setBackupCompleted())
           .put(refreshAllBalances())
           .put(keylessBackupCompleted())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
+          keylessBackupFlow: KeylessBackupFlow.Restore,
+        })
+      })
+      it('bails if the user does not have a balance and chooses to exit', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [
+              call(getEncryptedMnemonic, {
+                encryptionPrivateKey: mockEncryptionPrivateKey,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              mockEncryptedMnemonic,
+            ],
+            [
+              call(
+                decryptPassphrase,
+                mockTorusKeyshareBuffer,
+                mockValoraKeyshareBuffer,
+                mockEncryptedMnemonic
+              ),
+              mockMnemonic,
+            ],
+            [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
+            [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), false],
+          ])
+          .dispatch(keylessBackupBail())
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
