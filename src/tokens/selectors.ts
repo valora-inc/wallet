@@ -22,6 +22,7 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
+  getTokenId,
   isCicoToken,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
@@ -85,6 +86,17 @@ export const tokensByIdSelector = createSelector(
       },
       maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
+  }
+)
+
+export const networkIconSelector = createSelector(
+  [
+    (state: RootState, networkId: NetworkId) => tokensByIdSelector(state, [networkId]),
+    (_state: RootState, networkId: NetworkId) => networkId,
+  ],
+  (tokens, networkId) => {
+    const tokenId = getTokenId(networkId)
+    return tokens[tokenId]?.imageUrl
   }
 )
 
