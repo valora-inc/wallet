@@ -16,13 +16,13 @@ import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
-import { Currency } from 'src/utils/currencies'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
 
@@ -30,6 +30,7 @@ function KeylessBackupProgress({
   route,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const localCurrencyCode = useLocalCurrencyCode()
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -61,7 +62,7 @@ function KeylessBackupProgress({
                   <TokenDisplay
                     localAmount={{
                       value: new BigNumber(0),
-                      currencyCode: Currency.Dollar,
+                      currencyCode: localCurrencyCode,
                       exchangeRate: '1',
                     }}
                     showLocalAmount={true}
