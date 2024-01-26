@@ -1,16 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import BigNumber from 'bignumber.js'
 import React, { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import Dialog from 'src/components/Dialog'
+import TokenDisplay from 'src/components/TokenDisplay'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
+import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -18,6 +22,7 @@ import { StackParamList } from 'src/navigator/types'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
 
@@ -27,6 +32,7 @@ function KeylessBackupProgress({
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
 
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   // Disable back button on Android
   useEffect(() => {
@@ -35,9 +41,49 @@ function KeylessBackupProgress({
     return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
   }, [])
 
-  // TODO(ACT-781): Implement Restore flow designs
   if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
-    return <></>
+    switch (keylessBackupStatus) {
+      case KeylessBackupStatus.NotStarted:
+      case KeylessBackupStatus.InProgress: {
+        return (
+          <SafeAreaView style={styles.progressContainer}>
+            <GreenLoadingSpinner />
+            <Text style={styles.title}>{t('keylessBackupStatus.restore.inProgress.title')}</Text>
+          </SafeAreaView>
+        )
+      }
+      case KeylessBackupStatus.RestoreZeroBalance: {
+        return (
+          <SafeAreaView>
+            <Dialog
+              title={
+                <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
+                  <TokenDisplay
+                    localAmount={{
+                      value: new BigNumber(0),
+                      currencyCode: Currency.Dollar,
+                      exchangeRate: '1',
+                    }}
+                    showLocalAmount={true}
+                    amount={new BigNumber(0)}
+                  />
+                </Trans>
+              }
+              isVisible={true}
+              actionText={t('importExistingKey.emptyWalletDialog.action')}
+              actionPress={() => dispatch(keylessBackupAcceptZeroBalance())}
+              secondaryActionText={t('goBack')}
+              secondaryActionPress={() => dispatch(keylessBackupBail())}
+              testID="ConfirmUseAccountDialog"
+            >
+              {t('importExistingKey.emptyWalletDialog.description')}
+            </Dialog>
+          </SafeAreaView>
+        )
+      }
+      // TODO(ACT-781): Implement Success screen
+      // TODO(ACT-780): Implement Failure screens
+    }
   }
 
   const onPressContinue = () => {
