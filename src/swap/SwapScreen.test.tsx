@@ -9,7 +9,8 @@ import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
@@ -1534,7 +1535,9 @@ describe('SwapScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_show_fund_your_wallet)
 
     fireEvent.press(getByText('swapScreen.fundYourWalletBottomSheet.addFundsButton'))
-    expect(navigateToFiatCurrencySelection).toHaveBeenCalled()
+    expect(navigate).toHaveBeenLastCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
+      flow: FiatExchangeFlow.CashIn,
+    })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_add_funds)
   })
 })
