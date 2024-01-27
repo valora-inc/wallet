@@ -143,9 +143,9 @@ describe('handleDeepLink', () => {
   it('Handles cash in deep link', async () => {
     const deepLink = 'celo://wallet/cashIn'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigate).toHaveBeenCalledWith(
-      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-    )
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
+      flow: FiatExchangeFlow.CashIn,
+    })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cashIn',
       fullPath: '/cashIn',
