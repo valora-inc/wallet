@@ -250,8 +250,7 @@ describe(fetchTokenBalancesForAddressByTokenId, () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores']],
     })
-    mockFetch.mockImplementation(async (_, requestInit) => {
-      const body = JSON.parse((requestInit?.body as string) ?? '{}')
+    mockFetch.mockImplementation(async (_, _requestInit) => {
       return new Response(
         JSON.stringify({
           data: {
@@ -329,7 +328,7 @@ describe(fetchImportedTokenBalances, () => {
         decimals: 18,
         tokenId: mockTestTokenTokenId,
         networkId: NetworkId['celo-alfajores'],
-        balance: null,
+        balance: new BigNumber(0),
         name: 'TestToken',
         symbol: 'TT',
         isManuallyImported: true,
@@ -339,7 +338,7 @@ describe(fetchImportedTokenBalances, () => {
         decimals: 18,
         tokenId: mockPoofTokenId,
         networkId: NetworkId['celo-alfajores'],
-        balance: null,
+        balance: new BigNumber(0),
         name: 'PoofToken',
         symbol: 'Poof',
         isManuallyImported: true,
@@ -350,7 +349,7 @@ describe(fetchImportedTokenBalances, () => {
         tokenId: mockUSDCTokenId,
         showZeroBalance: true,
         networkId: NetworkId['ethereum-sepolia'],
-        balance: null,
+        balance: new BigNumber(0),
         name: 'USD Coin',
         symbol: 'USDC',
         isManuallyImported: true,
@@ -377,7 +376,7 @@ describe(fetchImportedTokenBalances, () => {
 
     const result = await fetchImportedTokenBalances(
       mockAccount,
-      Object.values(mockImportedTokens),
+      Object.values(mockImportedTokens) as TokenBalance[],
       mockKnownTokenBalances
     )
 
