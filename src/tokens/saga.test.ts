@@ -19,6 +19,7 @@ import { importedTokensSelector, lastKnownTokenBalancesSelector } from 'src/toke
 import {
   StoredTokenBalance,
   StoredTokenBalances,
+  TokenBalance,
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
@@ -139,16 +140,22 @@ describe(fetchTokenBalancesSaga, () => {
       name: 'TestToken',
       symbol: 'TT',
       tokenId: mockTestTokenTokenId,
-      balance: null,
+      balance: new BigNumber(0),
       showZeroBalance: true,
       networkId: NetworkId['celo-alfajores'],
       isManuallyImported: true,
     },
   }
+
   it('get token info successfully', async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores']]
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: supportedNetworks,
+    })
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [select(importedTokensSelector), []],
+        [select(importedTokensSelector, supportedNetworks), []],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
@@ -170,10 +177,15 @@ describe(fetchTokenBalancesSaga, () => {
   })
 
   it("fires an event if there's an error", async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores']]
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: supportedNetworks,
+    })
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
-        [select(importedTokensSelector), {}],
+        [select(importedTokensSelector, supportedNetworks), []],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
@@ -190,6 +202,11 @@ describe(fetchTokenBalancesSaga, () => {
   })
 
   it('includes imported tokens', async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores']]
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: supportedNetworks,
+    })
+
     const expectedBalances = {
       ...tokenBalancesAfterUpdate,
       [mockTestTokenTokenId]: {
@@ -204,12 +221,17 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
-        [select(importedTokensSelector), importedTokens],
+        [select(importedTokensSelector, supportedNetworks), importedTokens],
         [select(walletAddressSelector), mockAccount],
         [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), true],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
-          call(fetchImportedTokenBalances, mockAccount, importedTokens, fetchBalancesResponse),
+          call(
+            fetchImportedTokenBalances,
+            mockAccount,
+            importedTokens as TokenBalance[],
+            fetchBalancesResponse
+          ),
           {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],

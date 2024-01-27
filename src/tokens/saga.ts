@@ -205,7 +205,8 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
-    const importedTokens = yield* select(importedTokensSelector)
+    const supportedNetworks = getSupportedNetworkIdsForTokenBalances()
+    const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
 
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
@@ -326,7 +327,7 @@ export function* watchAccountFundedOrLiquidated() {
 
 export async function fetchImportedTokenBalances(
   address: Address,
-  importedTokens: StoredTokenBalance[],
+  importedTokens: TokenBalance[],
   knownTokenBalances: Record<string, FetchedTokenBalance>
 ) {
   const importedTokensWithBalance: StoredTokenBalances = {}
@@ -356,6 +357,7 @@ export async function fetchImportedTokenBalances(
       importedTokensWithBalance[importedToken.tokenId] = {
         ...importedToken,
         balance,
+        priceUsd: undefined,
       }
     } catch (error) {
       Logger.error(TAG, 'Error fetching imported token balance', error)

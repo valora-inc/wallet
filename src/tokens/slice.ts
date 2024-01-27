@@ -47,10 +47,6 @@ export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
   address: string
 }
 
-export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
-  address: string
-}
-
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   priceUsd: BigNumber | null

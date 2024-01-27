@@ -12,7 +12,6 @@ import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import {
-  StoredTokenBalance,
   TokenBalance,
   TokenBalanceWithAddress,
   TokenBalances,
@@ -86,22 +85,6 @@ export const tokensByIdSelector = createSelector(
       },
       maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
-  }
-)
-
-export const importedTokensSelector = createSelector(
-  [
-    (state: RootState) => state.tokens.tokenBalances,
-    (_state: RootState, networkIds?: NetworkId[]) => networkIds,
-  ],
-  (storedBalances, networkIds) => {
-    if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
-      return []
-    }
-
-    return Object.values(storedBalances).filter((token) => {
-      return token?.isManuallyImported && (!networkIds || networkIds.includes(token.networkId))
-    }) as StoredTokenBalance[]
   }
 )
 
@@ -510,3 +493,11 @@ export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
 
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage
+
+export const importedTokensSelector = createSelector([tokensListSelector], (tokenList) => {
+  if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
+    return []
+  }
+
+  return tokenList.filter((token) => token?.isManuallyImported) as TokenBalance[]
+})
