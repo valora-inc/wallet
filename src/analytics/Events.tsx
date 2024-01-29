@@ -350,10 +350,6 @@ export enum FiatExchangeEvents {
   cico_landing_select_flow = 'cico_landing_select_flow',
   cico_landing_how_to_fund = 'cico_landing_how_to_fund',
 
-  // The CICO Currency screen where the user selects their digital currency
-  cico_currency_chosen = 'cico_currency_chosen',
-  cico_currency_back = 'cico_currency_back',
-
   // The CICO Amount screen where the user selects the amount of money
   cico_amount_chosen = 'cico_amount_chosen',
   cico_amount_chosen_invalid = 'cico_amount_chosen_invalid',
