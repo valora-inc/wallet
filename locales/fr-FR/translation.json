@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Prix en {{localCurrency}} indisponible",
-      "description": "Nous n'avons pas de prix {{localCurrency}} pour {{tokenSymbol}}, ce qui pourrait signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si tu choisis de poursuivre.",
+      "description": "Nous n'avons pas de prix en {{localCurrency}} pour {{tokenSymbol}}, cela peut signifier qu'il n'est pas largement échangé. {{appName}} n'est pas responsable des pertes subies si vous choisissez de continuer.",
       "ctaConfirm": "Je comprends",
       "ctaDismiss": "Annuler"
     },
@@ -1733,7 +1733,7 @@
       "dismissButton": "Refuser"
     },
     "transactionDetails": {
-      "estimatedNetworkFee": "Frais de réseau estimés",
+      "estimatedNetworkFee": "Estimation des frais de réseau",
       "maxNetworkFee": "Frais de réseau maximum",
       "networkFee": "Frais de réseau {{networkName}}",
       "networkFeeNoNetwork": "Frais de réseau",
@@ -1741,7 +1741,7 @@
       "swapFeeWaived": "Gratuit",
       "slippagePercentage": "Tolérance de glissement",
       "networkFeeInfo": "Vous échangez sur le réseau {{networkName}} .\n\nCes frais de réseau estimés sont nécessaires pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et permettent le bon fonctionnement du réseau.",
-      "networkFeeInfoV1_76": "Tu es en train d'échanger sur le réseau {{networkName}} .\n\nUne taxe de réseau est requise pour effectuer une transaction sur le réseau {{networkName}} . Ces frais sécurisent ta transaction et sont payés aux validateurs du réseau.\n\nComme les conditions du réseau déterminent le montant exact, l'estimation indiquée correspond à ce que nous attendons des frais réels. Les frais ne dépasseront pas le montant maximum.",
+      "networkFeeInfoV1_76": "Vous êtes en train d'échanger sur le réseau {{networkName}}.\n\nUne taxe de réseau est demandée pour effectuer une transaction sur le réseau {{networkName}}. Ces frais sécurisent votre transaction et sont reversés aux validateurs du réseau.\n\nDans la mesure où les conditions du réseau déterminent le montant exact, le montant indiqué correspond à une estimation des frais réels. Les frais ne dépasseront pas le montant maximum.",
       "slippageToleranceInfo": "Tolérance sur le slippage\n\nVotre échange s'exécutera dans le cadre du pourcentage de tolérance au slippage. Si le prix évolue au-delà de la tolérance au slippage, {{appName}} vous protège en empêchant la négociation.",
       "networkFeeInfoDismissButton": "J'ai compris",
       "exchangeRate": "Taux de change",
