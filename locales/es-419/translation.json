@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} precio no disponible",
-      "description": "No tenemos un precio en {{localCurrency}} para {{tokenSymbol}}, lo que podría significar que no se negocia ampliamente. {{appName}} no se hace responsable de las pérdidas que se produzcan si decides proceder.",
+      "description": "No tenemos un precio en {{localCurrency}} para {{tokenSymbol}}, lo que podría significar que no se negocia ampliamente. {{appName}} no se hace responsable por las pérdidas que puedes sufrir si decides proceder.",
       "ctaConfirm": "Comprendo",
       "ctaDismiss": "Cancelar"
     },
@@ -1733,15 +1733,15 @@
       "dismissButton": "Ignorar"
     },
     "transactionDetails": {
-      "estimatedNetworkFee": "Tasa de red estimada",
-      "maxNetworkFee": "Cuota máxima de red",
+      "estimatedNetworkFee": "Tarifa de red estimada",
+      "maxNetworkFee": "Tarifa máxima de red",
       "networkFee": "Tarifa de red de {{networkName}}",
       "networkFeeNoNetwork": "Tarifa de red",
       "swapFee": "Tarifa de {{appName}}",
       "swapFeeWaived": "Gratis",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
-      "networkFeeInfoV1_76": "Estás intercambiando en la Red {{networkName}} .\n\nSe requiere una cuota de red para realizar una transacción en la Red {{networkName}} . Esta comisión asegura tu transacción y se paga a los validadores de la red.\n\nDado que las condiciones de la red determinan el importe exacto, la estimación indicada es lo que esperamos que sea la tarifa real. La comisión no superará el importe máximo.",
+      "networkFeeInfoV1_76": "Estás intercambiando en la Red {{networkName}}.\n\nSe requiere una tarifa de red para realizar una transacción en la Red {{networkName}}. Esta tarifa asegura tu transacción y se paga a los validadores de la red.\n\nDado que las condiciones de la red determinan el monto exacto, la estimación indicada es lo que esperamos que sea la tarifa real. La tarifa no superará el monto máximo.",
       "slippageToleranceInfo": "Tolerancia de deslizamiento\n\nTu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
