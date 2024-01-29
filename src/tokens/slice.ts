@@ -47,10 +47,6 @@ export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
   address: string
 }
 
-export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
-  address: string
-}
-
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   priceUsd: BigNumber | null
@@ -104,7 +100,6 @@ export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
-  importedTokens: StoredTokenBalances
 }
 
 export function tokenBalanceHasAddress(
@@ -121,7 +116,6 @@ export const initialState = {
   tokenBalances: {},
   loading: false,
   error: false,
-  importedTokens: {},
 }
 
 const slice = createSlice({
@@ -149,19 +143,22 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
-    importToken: (state, action: PayloadAction<BaseToken>) => ({
-      ...state,
-      importedTokens: {
-        ...state.importedTokens,
-        [action.payload.tokenId]: {
-          ...action.payload,
-          // Force imported tokens to be visible even with zero balance.
-          showZeroBalance: true,
-          balance: null,
-          isManuallyImported: true,
+    importToken: (state, action: PayloadAction<StoredTokenBalance>) => {
+      const importedTokenDetails = {
+        ...action.payload,
+        // Force imported tokens to be visible even with zero balance.
+        showZeroBalance: true,
+        isManuallyImported: true,
+      }
+
+      return {
+        ...state,
+        tokenBalances: {
+          ...state.tokenBalances,
+          [action.payload.tokenId]: importedTokenDetails,
         },
-      },
-    }),
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
