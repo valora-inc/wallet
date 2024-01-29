@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "ไม่มีราคาของ {{localCurrency}}",
-      "description": "เราไม่มีราคาของ {{localCurrency}} สำหรับโทเค็นนี้ ซึ่งหมายความว่าไม่มีการเทรดโทเค็นดังกล่าวอย่างแพร่หลาย {{appName}} ไม่ขอรับผิดชอบต่อความสูญเสียใดๆ ที่อาจเกิดขึ้น หากคุณเลือกดำเนินการต่อ",
+      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
       "ctaConfirm": "ฉันเข้าใจ",
       "ctaDismiss": "ยกเลิก"
     },
@@ -1731,12 +1731,15 @@
       "dismissButton": "ปิด"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Estimated Network Fee",
+      "maxNetworkFee": "Max Network Fee",
       "networkFee": "ค่าธรรมเนียมเครือข่าย {{networkName}}",
       "networkFeeNoNetwork": "ค่าธรรมเนียมเครือข่าย",
       "swapFee": "ค่าธรรมเนียม {{appName}}",
       "swapFeeWaived": "ฟรี",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
+      "networkFeeInfoV1_76": "You are swapping on the {{networkName}} Network.\n\nA network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.\n\nSince network conditions determine the exact amount, the listed estimate is what we expect the actual fee to be. The fee will not exceed the max fee amount.",
       "slippageToleranceInfo": "ราคาคลาดเคลื่อนที่ยอมรับได้\n\nการสว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
