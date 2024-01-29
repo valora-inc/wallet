@@ -18129,7 +18129,7 @@ victory-line@^36.8.2:
     victory-core "^36.8.2"
     victory-vendor "^36.8.2"
 
-victory-native@^36.8.1:
+victory-native@^36.8.2:
   version "36.8.2"
   resolved "https://registry.yarnpkg.com/victory-native/-/victory-native-36.8.2.tgz#1cc563d0f65d75ddc836b97ea2c7d0a138a95e1d"
   integrity sha512-tLWqeeo8xv6WE57WkWgz+MyQX1/b2Kamn6qNTexkyEwmA/ShTnxElbkxd7GFsnu/aX36a0Ah1kaYJ1B8INc9Rw==
