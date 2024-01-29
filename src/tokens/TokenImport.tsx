@@ -46,6 +46,7 @@ interface TokenDetails {
   symbol: string
   decimals: number
   name: string
+  balance: string
 }
 
 enum Errors {
@@ -117,14 +118,13 @@ export default function TokenImportScreen(_: Props) {
       contract.read.balanceOf([walletAddress]),
     ])
 
+    const balanceInDecimal = formatUnits(balance, decimals)
+
     Logger.info(
       TAG,
-      `Wallet ${walletAddress} holds ${formatUnits(
-        balance,
-        decimals
-      )} ${symbol} (${name} = ${address})})`
+      `Wallet ${walletAddress} holds ${balanceInDecimal} ${symbol} (${name} = ${address})})`
     )
-    return { address, symbol, decimals, name }
+    return { address, symbol, decimals, name, balance: balanceInDecimal }
   }
 
   const validateContract = useAsyncCallback(fetchTokenDetails, {
@@ -194,7 +194,6 @@ export default function TokenImportScreen(_: Props) {
     Logger.info(TAG, `Importing token: ${tokenId})})`)
     dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
 
-    // TODO RET-891: navigate back and show success only when actually imported
     navigateBack()
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol: tokenDetails.symbol })))
   }
