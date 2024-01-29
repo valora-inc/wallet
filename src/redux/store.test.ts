@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 183,
+          "version": 185,
         },
         "account": {
           "acceptedTerms": false,
@@ -333,11 +333,11 @@ describe('store state', () => {
         },
         "swap": {
           "currentSwap": null,
+          "lastSwapped": [],
           "priceImpactWarningThreshold": 4,
         },
         "tokens": {
           "error": false,
-          "importedTokens": {},
           "loading": false,
           "tokenBalances": {},
         },

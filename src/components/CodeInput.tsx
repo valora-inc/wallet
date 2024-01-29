@@ -1,272 +1,117 @@
-import React, { useLayoutEffect } from 'react'
-import {
-  ActivityIndicator,
-  LayoutAnimation,
-  Platform,
-  StyleProp,
-  StyleSheet,
-  Text,
-  View,
-  ViewStyle,
-} from 'react-native'
+import React from 'react'
+import { ActivityIndicator, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Card from 'src/components/Card'
-import ClipboardAwarePasteButton from 'src/components/ClipboardAwarePasteButton'
-import TextInput, { LINE_HEIGHT } from 'src/components/TextInput'
+import TextInput from 'src/components/TextInput'
+import AttentionIcon from 'src/icons/Attention'
 import Checkmark from 'src/icons/Checkmark'
-import InfoIcon from 'src/icons/InfoIcon'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
-import { Shadow, Spacing } from 'src/styles/styles'
-import { useClipboard } from 'src/utils/useClipboard'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 export enum CodeInputStatus {
-  Disabled = 'Disabled', // input disabled
   Inputting = 'Inputting', // input enabled
-  Received = 'Received', // code received, still not validated
   Processing = 'Processing', // code validated, now trying to send it
   Error = 'Error', // the code processing failed and it's waiting to be input again.
   Accepted = 'Accepted', // the code has been accepted and completed
 }
 
-export interface Props {
-  label?: string | null
+interface Props {
   status: CodeInputStatus
   inputValue: string
   inputPlaceholder: string
-  inputPlaceholderWithClipboardContent?: string
   onInputChange: (value: string) => void
-  shouldShowClipboard: (value: string) => boolean
-  multiline?: boolean
-  numberOfLines?: number
   testID?: string
   style?: StyleProp<ViewStyle>
-  shortVerificationCodesEnabled?: boolean
   autoFocus?: boolean
 }
 
 export default function CodeInput({
-  label,
   status,
   inputValue,
   inputPlaceholder,
-  inputPlaceholderWithClipboardContent,
   onInputChange,
-  shouldShowClipboard,
-  multiline,
-  numberOfLines,
   testID,
   style,
-  shortVerificationCodesEnabled = true,
   autoFocus,
 }: Props) {
-  const [forceShowingPasteIcon, clipboardContent, getFreshClipboardContent] = useClipboard()
-
-  // LayoutAnimation when switching to/from input
-  useLayoutEffect(() => {
-    LayoutAnimation.easeInEaseOut()
-  }, [status === CodeInputStatus.Inputting])
-
-  function shouldShowClipboardInternal() {
-    if (forceShowingPasteIcon) {
-      return true
-    }
-    return (
-      !inputValue.toLowerCase().startsWith(clipboardContent.toLowerCase()) &&
-      shouldShowClipboard(clipboardContent)
-    )
-  }
-
   const showInput = status === CodeInputStatus.Inputting || status === CodeInputStatus.Error
-  const showSpinner = status === CodeInputStatus.Processing || status === CodeInputStatus.Received
+  const showSpinner = status === CodeInputStatus.Processing
   const showCheckmark = status === CodeInputStatus.Accepted
   const showError = status === CodeInputStatus.Error
   const showStatus = showCheckmark || showSpinner || showError
-  const keyboardType = shortVerificationCodesEnabled
-    ? 'number-pad'
-    : Platform.OS === 'android'
-      ? 'visible-password'
-      : undefined
 
+  const textColorForStatus = {
+    [CodeInputStatus.Inputting]: colors.black,
+    [CodeInputStatus.Processing]: colors.gray3,
+    [CodeInputStatus.Error]: colors.error,
+    [CodeInputStatus.Accepted]: colors.successDark,
+  }
   return (
-    <Card
-      rounded={true}
-      shadow={showInput ? Shadow.SoftLight : null}
-      style={[showInput ? styles.containerActive : styles.container, style]}
-    >
-      {/* These views cannot be combined as it will cause the shadow to be clipped on iOS */}
-      <View style={styles.containRadius}>
-        <View
-          style={[
-            showInput
-              ? shortVerificationCodesEnabled
-                ? styles.contentActive
-                : styles.contentActiveLong
-              : shortVerificationCodesEnabled
-                ? styles.content
-                : styles.contentLong,
-            showInput && shortVerificationCodesEnabled && label ? { paddingBottom: 4 } : undefined,
-          ]}
-        >
-          {showStatus && shortVerificationCodesEnabled && <View style={styles.statusContainer} />}
-          <View style={styles.innerContent}>
-            {label && (
-              <Text
-                style={
-                  showInput
-                    ? shortVerificationCodesEnabled
-                      ? styles.labelActive
-                      : styles.labelActiveLong
-                    : shortVerificationCodesEnabled
-                      ? styles.label
-                      : styles.labelLong
-                }
-              >
-                {label}
-              </Text>
-            )}
-
-            {showInput ? (
-              <TextInput
-                textContentType={shortVerificationCodesEnabled ? 'oneTimeCode' : undefined}
-                showClearButton={false}
-                value={inputValue}
-                placeholder={
-                  inputPlaceholderWithClipboardContent && shouldShowClipboardInternal()
-                    ? inputPlaceholderWithClipboardContent
-                    : inputPlaceholder
-                }
-                onChangeText={onInputChange}
-                multiline={multiline}
-                // This disables keyboard suggestions on iOS, but unfortunately NOT on Android
-                // Though `InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS` is correctly set on the native input,
-                // most Android keyboards ignore it :/
-                autoCorrect={false}
-                // On Android, the only known hack for now to disable keyboard suggestions
-                // is to set the keyboard type to 'visible-password' which sets `InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD`
-                // on the native input. Though it doesn't work in all cases (see https://stackoverflow.com/a/33227237/158525)
-                // and has the unfortunate drawback of breaking multiline autosize.
-                // We use numberOfLines to workaround this last problem.
-                keyboardType={keyboardType}
-                // numberOfLines is currently Android only on TextInput
-                // workaround is to set the minHeight on iOS :/
-                numberOfLines={Platform.OS === 'ios' ? undefined : numberOfLines}
-                inputStyle={{
-                  ...(shortVerificationCodesEnabled && {
-                    ...fontStyles.large,
-                    textAlign: 'center',
-                  }),
-                  minHeight:
-                    Platform.OS === 'ios' && numberOfLines
-                      ? LINE_HEIGHT * numberOfLines
-                      : undefined,
-                }}
-                autoCapitalize="none"
-                autoFocus={autoFocus}
-                testID={testID}
-              />
-            ) : (
-              <Text
-                style={shortVerificationCodesEnabled ? styles.codeValue : styles.codeValueLong}
-                numberOfLines={1}
-              >
-                {inputValue || ' '}
-              </Text>
-            )}
-          </View>
-          {showStatus && (
-            <View style={styles.statusContainer}>
-              {showSpinner && <ActivityIndicator size="small" color={colors.primary} />}
-              {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
-              {showError && (
-                <InfoIcon
-                  color={colors.error}
-                  testID={testID ? `${testID}/ErrorIcon` : undefined}
-                />
-              )}
-            </View>
-          )}
-        </View>
-        {showInput && (
-          <ClipboardAwarePasteButton
-            getClipboardContent={getFreshClipboardContent}
-            shouldShow={shouldShowClipboardInternal()}
-            onPress={onInputChange}
+    <Card rounded={true} shadow={null} style={[styles.container, style]}>
+      {showStatus && <View style={styles.statusContainer} />}
+      <View style={styles.innerContent}>
+        {showInput ? (
+          <TextInput
+            textContentType={'oneTimeCode'}
+            showClearButton={false}
+            value={inputValue}
+            placeholder={inputPlaceholder}
+            onChangeText={onInputChange}
+            // This disables keyboard suggestions on iOS, but unfortunately NOT on Android
+            // Though `InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS` is correctly set on the native input,
+            // most Android keyboards ignore it :/
+            autoCorrect={false}
+            keyboardType={'number-pad'}
+            inputStyle={{
+              ...typeScale.bodyLarge,
+              textAlign: 'center',
+              minHeight: undefined,
+              color: textColorForStatus[status],
+            }}
+            autoCapitalize="none"
+            autoFocus={autoFocus}
+            testID={testID}
           />
+        ) : (
+          <Text style={[styles.codeValue, { color: textColorForStatus[status] }]} numberOfLines={1}>
+            {inputValue || ' '}
+          </Text>
         )}
       </View>
+      {showStatus && (
+        <View style={styles.statusContainer}>
+          {showSpinner && <ActivityIndicator size="small" color={colors.primary} />}
+          {showCheckmark && <Checkmark testID={testID ? `${testID}/CheckIcon` : undefined} />}
+
+          {showError && (
+            <AttentionIcon
+              color={colors.error}
+              testId={testID ? `${testID}/ErrorIcon` : undefined}
+              size={20}
+            />
+          )}
+        </View>
+      )}
     </Card>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 0,
-    backgroundColor: 'rgba(103, 99, 86, 0.1)',
-  },
-  containerActive: {
-    padding: 0,
-  },
-  // Applying overflow 'hidden' to `Card` also hides its shadow
-  // that's why we're using a separate container
-  containRadius: {
-    borderRadius: Spacing.Smallest8,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: Spacing.Regular16,
     overflow: 'hidden',
-  },
-  contentLong: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: Spacing.Regular16,
-    paddingVertical: Spacing.Small12,
-  },
-  contentActiveLong: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: Spacing.Regular16,
-    paddingBottom: 4,
-  },
-  content: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: Spacing.Regular16,
-  },
-  contentActive: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: Spacing.Regular16,
+    backgroundColor: colors.gray1,
+    borderWidth: 1,
+    borderColor: colors.gray2,
   },
   innerContent: {
     flex: 1,
   },
-  labelLong: {
-    ...fontStyles.label,
-    color: colors.onboardingBrownLight,
-    opacity: 0.5,
-    marginBottom: 4,
-  },
-  labelActiveLong: {
-    ...fontStyles.label,
-  },
-  codeValueLong: {
-    ...fontStyles.regular,
-    color: colors.onboardingBrownLight,
-  },
-
-  label: {
-    ...fontStyles.label,
-    color: colors.onboardingBrownLight,
-    opacity: 0.5,
-    marginBottom: 4,
-    textAlign: 'center',
-  },
-  labelActive: {
-    ...fontStyles.label,
-    textAlign: 'center',
-  },
   codeValue: {
-    ...fontStyles.large,
-    color: colors.onboardingBrownLight,
+    ...typeScale.bodyLarge,
     textAlign: 'center',
     paddingVertical: Spacing.Small12,
   },

@@ -53,7 +53,7 @@ import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import networkConfig from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
@@ -199,10 +199,13 @@ const {
 const swapStateReducer = swapSlice.reducer
 
 function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
-  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(quote?.preparedTransactions)
+  const { feeCurrency, maxFeeAmount, estimatedFeeAmount } = getFeeCurrencyAndAmounts(
+    quote?.preparedTransactions
+  )
   return {
-    networkFee: feeAmount,
     feeTokenId: feeCurrency?.tokenId ?? getTokenId(networkId ?? networkConfig.defaultNetworkId), // native token
+    maxNetworkFee: maxFeeAmount,
+    estimatedNetworkFee: estimatedFeeAmount,
   }
 }
 
@@ -533,7 +536,7 @@ export function SwapScreen({ route }: Props) {
   }
 
   const handleSelectToken = (selectedToken: TokenBalance) => {
-    if (!selectedToken.priceUsd) {
+    if (!selectedToken.priceUsd && selectingField === Field.TO) {
       localDispatch(selectNoUsdPriceToken({ token: selectedToken }))
       return
     }
@@ -575,19 +578,15 @@ export function SwapScreen({ route }: Props) {
   const switchedToNetworkName = switchedToNetworkId && NETWORK_NAMES[switchedToNetworkId]
   const showMaxSwapAmountWarning =
     !confirmSwapFailed && !showSwitchedToNetworkWarning && shouldShowMaxSwapAmountWarning
+  const showNoUsdPriceWarning =
+    !confirmSwapFailed && !quoteUpdatePending && toToken && !toToken.priceUsd
   const showPriceImpactWarning =
     !confirmSwapFailed &&
     !quoteUpdatePending &&
+    !showNoUsdPriceWarning &&
     (quote?.estimatedPriceImpact
       ? new BigNumber(quote.estimatedPriceImpact).gte(priceImpactWarningThreshold)
       : false)
-  const showNoUsdPriceWarning =
-    !confirmSwapFailed &&
-    !quoteUpdatePending &&
-    !showPriceImpactWarning &&
-    fromToken &&
-    toToken &&
-    (!fromToken.priceUsd || !toToken.priceUsd)
   const showMissingPriceImpactWarning =
     !confirmSwapFailed &&
     !quoteUpdatePending &&
@@ -596,7 +595,7 @@ export function SwapScreen({ route }: Props) {
     quote &&
     !quote.estimatedPriceImpact
 
-  const { networkFee, feeTokenId } = useMemo(() => {
+  const { feeTokenId, maxNetworkFee, estimatedNetworkFee } = useMemo(() => {
     return getNetworkFee(quote, fromToken?.networkId)
   }, [fromToken, quote])
 
@@ -669,7 +668,8 @@ export function SwapScreen({ route }: Props) {
           />
 
           <SwapTransactionDetails
-            networkFee={networkFee}
+            maxNetworkFee={maxNetworkFee}
+            estimatedNetworkFee={estimatedNetworkFee}
             networkFeeInfoBottomSheetRef={networkFeeInfoBottomSheetRef}
             slippageInfoBottomSheetRef={slippageInfoBottomSheetRef}
             feeTokenId={feeTokenId}
@@ -721,7 +721,10 @@ export function SwapScreen({ route }: Props) {
             <InLineNotification
               severity={Severity.Warning}
               title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
-              description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
+              description={t('swapScreen.noUsdPriceWarning.description', {
+                localCurrency,
+                tokenSymbol: toToken?.symbol,
+              })}
               style={styles.warning}
             />
           )}
@@ -789,7 +792,7 @@ export function SwapScreen({ route }: Props) {
       )}
       <BottomSheet
         forwardedRef={networkFeeInfoBottomSheetRef}
-        description={t('swapScreen.transactionDetails.networkFeeInfo', {
+        description={t('swapScreen.transactionDetails.networkFeeInfoV1_76', {
           networkName: NETWORK_NAMES[fromToken?.networkId || networkConfig.defaultNetworkId],
         })}
         testId="NetworkFeeInfoBottomSheet"
@@ -823,7 +826,10 @@ export function SwapScreen({ route }: Props) {
         showNotification={!!selectingNoUsdPriceToken}
         severity={Severity.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
-        description={t('swapScreen.noUsdPriceWarning.description', { localCurrency })}
+        description={t('swapScreen.noUsdPriceWarning.description', {
+          localCurrency,
+          tokenSymbol: selectingNoUsdPriceToken?.symbol,
+        })}
         ctaLabel2={t('swapScreen.noUsdPriceWarning.ctaConfirm')}
         onPressCta2={handleConfirmSelectTokenNoUsdPrice}
         ctaLabel={t('swapScreen.noUsdPriceWarning.ctaDismiss')}

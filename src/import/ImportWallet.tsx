@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { Dimensions, Keyboard, StyleSheet, Text, View } from 'react-native'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
@@ -19,30 +19,25 @@ import {
   isValidBackupPhrase,
 } from 'src/backup/utils'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import CodeInput, { CodeInputStatus } from 'src/components/CodeInput'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
+import RecoveryPhraseInput, { RecoveryPhraseInputStatus } from 'src/components/RecoveryPhraseInput'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
+import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { isAppConnected } from 'src/redux/selectors'
 import useTypedSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
-import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
+import { Currency } from 'src/utils/currencies'
 import useBackHandler from 'src/utils/useBackHandler'
-
-const AVERAGE_WORD_WIDTH = 80
-const AVERAGE_SEED_WIDTH = AVERAGE_WORD_WIDTH * 24
-// Estimated number of lines needed to enter the Recovery Phrase
-const NUMBER_OF_LINES = Math.ceil(AVERAGE_SEED_WIDTH / Dimensions.get('window').width)
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ImportWallet>
 
@@ -187,9 +182,9 @@ function ImportWallet({ navigation, route }: Props) {
     navigation.setParams({ clean: false, showZeroBalanceModal: false })
   }
 
-  let codeStatus = CodeInputStatus.Inputting
+  let codeStatus = RecoveryPhraseInputStatus.Inputting
   if (isImportingWallet) {
-    codeStatus = CodeInputStatus.Processing
+    codeStatus = RecoveryPhraseInputStatus.Processing
   }
 
   return (
@@ -208,19 +203,12 @@ function ImportWallet({ navigation, route }: Props) {
               >
                 <Text style={styles.title}>{t('importExistingKey.title')}</Text>
                 <Text style={styles.description}>{t('importExistingKey.description')}</Text>
-                <CodeInput
-                  // TODO: Use a special component instead of CodeInput here,
-                  // cause it should be used for entering verification codes only
-                  label={t('accountKey')}
+                <RecoveryPhraseInput
                   status={codeStatus}
                   inputValue={backupPhrase}
                   inputPlaceholder={t('importExistingKey.keyPlaceholder')}
-                  multiline={true}
-                  numberOfLines={NUMBER_OF_LINES}
-                  shortVerificationCodesEnabled={false}
                   onInputChange={formatAndSetBackupPhrase}
                   shouldShowClipboard={shouldShowClipboard}
-                  testID="ImportWalletBackupKeyInputField"
                 />
                 <Button
                   style={styles.button}

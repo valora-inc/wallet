@@ -16,7 +16,8 @@ describe('SwapTransactionDetails', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
-          networkFee={new BigNumber(0.0001)}
+          maxNetworkFee={new BigNumber(0.0001)}
+          estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
@@ -41,11 +42,10 @@ describe('SwapTransactionDetails', () => {
     )
   })
 
-  it('should render correctly without networkId from the fromToken', () => {
+  it('should render correctly without the fromToken and fees', () => {
     const { getByText, getByTestId, queryByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
-          networkFee={new BigNumber(0.0001)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={'someId'}
@@ -55,16 +55,21 @@ describe('SwapTransactionDetails', () => {
       </Provider>
     )
 
-    expect(getByText('swapScreen.transactionDetails.networkFeeNoNetwork')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent('-')
-    expect(queryByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).toBeFalsy()
+    expect(getByText('swapScreen.transactionDetails.estimatedNetworkFee')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent('-')
+    expect(queryByTestId('SwapTransactionDetails/EstimatedNetworkFee/MoreInfo')).toBeTruthy()
+
+    expect(getByText('swapScreen.transactionDetails.maxNetworkFee')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('-')
+    expect(queryByTestId('SwapTransactionDetails/MaxNetworkFee/MoreInfo')).toBeTruthy()
   })
 
-  it('should render correctly with networkId', () => {
+  it('should render correctly with fees', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
-          networkFee={new BigNumber(0.0001)}
+          maxNetworkFee={new BigNumber(0.0001)}
+          estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}
@@ -75,21 +80,25 @@ describe('SwapTransactionDetails', () => {
       </Provider>
     )
 
-    expect(
-      getByText('swapScreen.transactionDetails.networkFee, {"networkName":"Celo Alfajores"}')
-    ).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee')).toHaveTextContent(
-      '₱0.00067 (0.0001 CELO)'
+    expect(getByText('swapScreen.transactionDetails.estimatedNetworkFee')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee')).toHaveTextContent(
+      '~₱0.00033 (0.00005 CELO)'
     )
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo/Icon')).toBeTruthy()
-    expect(getByTestId('SwapTransactionDetails/NetworkFee/MoreInfo')).not.toBeDisabled()
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee/MoreInfo/Icon')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/EstimatedNetworkFee/MoreInfo')).not.toBeDisabled()
+
+    expect(getByText('swapScreen.transactionDetails.maxNetworkFee')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee')).toHaveTextContent('0.0001 CELO')
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee/MoreInfo/Icon')).toBeTruthy()
+    expect(getByTestId('SwapTransactionDetails/MaxNetworkFee/MoreInfo')).not.toBeDisabled()
   })
 
   it('should render correctly with slippage info', () => {
     const { getByText, getByTestId } = render(
       <Provider store={createMockStore()}>
         <SwapTransactionDetails
-          networkFee={new BigNumber(0.0001)}
+          maxNetworkFee={new BigNumber(0.0001)}
+          estimatedNetworkFee={new BigNumber(0.00005)}
           networkFeeInfoBottomSheetRef={{ current: null }}
           slippageInfoBottomSheetRef={{ current: null }}
           feeTokenId={mockCeloTokenId}

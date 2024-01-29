@@ -37,6 +37,7 @@ export interface SwapTransaction {
    */
   estimatedPriceImpact: string | null
   gas: string
+  estimatedGasUse: string | null | undefined
   to: string
   value: string
   data: string

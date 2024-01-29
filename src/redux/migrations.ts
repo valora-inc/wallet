@@ -1,7 +1,6 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { MultichainBetaStatus } from 'src/app/actions'
-import { CodeInputStatus } from 'src/components/CodeInput'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
 import { Dapp, DappConnectInfo } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
@@ -282,11 +281,7 @@ export const migrations = {
         ...state.identity,
         attestationsCode: [],
         acceptedAttestationCodes: [],
-        attestationInputStatus: [
-          CodeInputStatus.Inputting,
-          CodeInputStatus.Disabled,
-          CodeInputStatus.Disabled,
-        ],
+        attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
         numCompleteAttestations: 0,
         verificationStatus: 0,
         hasSeenVerificationNux: state.verify.seenVerificationNux,
@@ -1524,5 +1519,13 @@ export const migrations = {
   183: (state: any) => ({
     ...state,
     home: { ...state.home, cleverTapInboxMessages: [] },
+  }),
+  184: (state: any) => ({
+    ...state,
+    swap: { ...state.swap, lastSwapped: [] },
+  }),
+  185: (state: any) => ({
+    ...state,
+    tokens: _.omit(state.tokens, 'importedTokens'),
   }),
 }

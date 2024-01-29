@@ -82,7 +82,7 @@
     "subtitle": "Per configurare il backup dovrai utilizzare quanto segue",
     "emailAddress": "Indirizzo e-mail",
     "phoneNumber": "Numero telefonico",
-    "useRecoveryPhrase": "Usa invece la frase di recupero"
+    "useRecoveryPhrase": "Oppure usa la frase di recupero"
   },
   "signInWithEmail": {
     "title": "Accedi con l'indirizzo e-mail",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero di telefono. Tienilo al sicuro!",
+  "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!",
   "testFaqLink": "Domande frequenti su {{appName}}",
   "termsOfServiceLink": "Condizioni d'uso",
   "privacyPolicy": "Informativa sulla privacy",
@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Intoduzione ai bonus Supercharge",
-  "consumerIncentivesSummary": "I bonus Supercharge sono ora disponibili! Ottieni ricompense annue del 12% sulla tua stablecoin con il saldo più alto (cUSD, cEUR, o cREAL) per un periodo limitato:",
+  "consumerIncentivesSummary": "I bonus sono arrivati! Ottieni ricompense annue del {{percent}}% sul tuo saldo in stablecoin (cUSD, cEUR, o cREAL) più alto. Disponibile per un periodo limitato. Ecco come funziona:",
   "earnWeekly": {
     "header": "Collega il tuo numero telefonico",
     "text": "Tocca Collega numero se non lo hai ancora collegato."
@@ -230,7 +230,7 @@
   },
   "conclusion": "Non potrebbe essere più semplice. Ottieni oggi stesso bonus dalla tua criptovaluta.",
   "superchargeTitle": "Inizia Supercharge",
-  "superchargeDescription": "Ottieni 12% di ricompense annuali sul tuo saldo {{token}}. Ecco come iniziare:",
+  "superchargeDescription": "Ottieni ricompense annue del {{apy}}% sul tuo saldo {{token}}. Ecco come iniziare:",
   "superchargeConnectNumber": "Collega il tuo numero telefonico",
   "superchargeReconnectNumber": "Ricollega il tuo numero telefonico\n<0>Abbiamo avviato un’esperienza Supercharge migliorata. Ricollega il tuo numero telefonico per continuare a ricevere ricompense in {{token}}.</0>",
   "superchargeMinimumBalance": "Aggiungi un saldo minimo di {{amount}} {{token}}",
@@ -1708,9 +1708,9 @@
       "body": "Scambiare questi asset può comportare un tasso di cambio sfavorevole. Riducendo l'importo, potresti ottenere un tasso migliore."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} prezzo non disponibile",
-      "description": "Non abbiamo un prezzo {{localCurrency}} per questo token, il che potrebbe significare che non è ampiamente scambiato. {{appName}} non è responsabile di eventuali perdite subite se decidi di procedere.",
-      "ctaConfirm": "Capisco",
+      "title": "Prezzo in {{localCurrency}} non disponibile",
+      "description": "Non abbiamo un prezzo {{localCurrency}} per {{tokenSymbol}}, il che potrebbe significare che non è molto scambiato. {{appName}} non è responsabile di eventuali perdite subite se decidi di procedere.",
+      "ctaConfirm": "Accetto",
       "ctaDismiss": "Annulla"
     },
     "missingSwapImpactWarning": {
@@ -1733,20 +1733,23 @@
       "dismissButton": "Ignorare"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Commissione di rete stimata",
+      "maxNetworkFee": "Commissione di rete massima",
       "networkFee": "Commissione di rete {{networkName}}",
       "networkFeeNoNetwork": "Commissione di rete",
       "swapFee": "Commissione di {{appName}}",
       "swapFeeWaived": "Gratuito",
       "slippagePercentage": "Tolleranza slippage",
       "networkFeeInfo": "Stai effettuando uno scambio sulla rete {{networkName}}.\n\nQuesta commissione di rete stimata è necessaria per eseguire una transazione sulla rete {{networkName}}. Questa commissione protegge la tua transazione e serve a mantenere operativa la rete.",
+      "networkFeeInfoV1_76": "Stai effettuando uno scambio sulla Rete {{networkName}} .\n\nPer effettuare una transazione sulla Rete {{networkName}} è richiesta una commissione di rete. Questa commissione garantisce la transazione e viene pagata ai validatori della rete.\n\nPoiché le condizioni della rete determinano l'importo esatto, la stima indicata è quella che ci aspettiamo sia la commissione effettiva. La commissione non supererà l'importo massimo previsto.",
       "slippageToleranceInfo": "Tolleranza slippage\n\nIl tuo scambio verrà eseguito entro la percentuale di tolleranza allo slippage. Se il prezzo cambia oltre la tolleranza allo slippage, {{appName}} ti protegge impedendo l'esecuzione della transazione.",
       "networkFeeInfoDismissButton": "Ho capito",
       "exchangeRate": "Tasso di cambio",
       "estimatedValue": "Valore stimato"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Finanzia il tuo portafoglio",
-      "description": "Prima di poter scambiare i token dovrai finanziare il tuo portafoglio acquistando criptovalute o trasferendo token.",
+      "title": "Aggiungi fondi al tuo portafoglio",
+      "description": "Prima di poter scambiare token, dovrai aggiungere fondi al tuo portafoglio acquistando criptovalute o trasferendo token.",
       "addFundsButton": "Aggiungi fondi"
     }
   },
@@ -2036,7 +2039,7 @@
   },
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
-    "body": "Acquista o trasferisci token compatibili con celo o ethereum per guadagnare {{apy}}% di ricompense, esplorare web3 e molto altro!"
+    "body": "Acquista o trasferisci token compatibili con Celo o Ethereum per ottenere ricompense del {{apy}}%, esplorare il Web3 e molto altro!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

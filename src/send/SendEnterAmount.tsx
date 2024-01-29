@@ -5,7 +5,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
-import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
@@ -23,6 +22,7 @@ import TokenBottomSheet, {
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
@@ -46,7 +46,7 @@ import {
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -173,7 +173,7 @@ function SendEnterAmount({ route }: Props) {
       preparedTransaction: getSerializablePreparedTransaction(
         prepareTransactionsResult.transactions[0]
       ),
-      feeAmount: feeAmount?.toString(),
+      feeAmount: maxFeeAmount?.toString(),
       feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
@@ -203,7 +203,7 @@ function SendEnterAmount({ route }: Props) {
 
   const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
     usePrepareSendTransactions()
-  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
@@ -251,10 +251,10 @@ function SendEnterAmount({ route }: Props) {
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
-  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
+  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !maxFeeAmount)) {
     feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
-  } else if (prepareTransactionsResult && feeAmount) {
-    feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
+  } else if (prepareTransactionsResult && maxFeeAmount) {
+    feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
   }
 
   return (
@@ -321,14 +321,14 @@ function SendEnterAmount({ route }: Props) {
                   testID="SendEnterAmount/TokenSelect"
                 >
                   <>
-                    <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+                    <TokenIcon token={token} size={IconSize.SMALL} />
                     <Text style={styles.tokenName}>{token.symbol}</Text>
                     <DownArrowIcon color={Colors.gray5} />
                   </>
                 </Touchable>
               ) : (
                 <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
-                  <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+                  <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
                 </View>
               )}
@@ -473,11 +473,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     paddingLeft: Spacing.Tiny4,
     paddingRight: Spacing.Smallest8,
-  },
-  tokenImage: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
   },
   localAmount: {
     ...typeScale.labelMedium,
