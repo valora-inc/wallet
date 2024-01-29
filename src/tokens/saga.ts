@@ -223,7 +223,8 @@ export function* fetchTokenBalancesSaga() {
     }
 
     /* We are including the fetchedBalancesByTokenId since some balances might be already fetched
-     * so we avoid fetching them again. This could happen if we turn the FETCH_BALANCES_VIA_BLOCKSCOUT flag on.
+     * so we avoid fetching them again.
+     * This could happen if the data source includes more tokens than we support (e.g. Blockscout).
      */
     const importedTokensWithBalance = yield* call(
       fetchImportedTokenBalances,
@@ -360,7 +361,11 @@ export async function fetchImportedTokenBalances(
         priceUsd: undefined,
       }
     } catch (error) {
-      Logger.error(TAG, 'Error fetching imported token balance', error)
+      Logger.error(
+        TAG,
+        `Error fetching imported token balance with address ${importedToken?.address}`,
+        error
+      )
     }
   })
 

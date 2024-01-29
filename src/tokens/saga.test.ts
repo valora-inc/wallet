@@ -5,8 +5,7 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig'
 import {
   fetchImportedTokenBalances,
   fetchTokenBalancesForAddressByTokenId,
@@ -184,7 +183,6 @@ describe(fetchTokenBalancesSaga, () => {
 
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
         [select(importedTokensSelector, supportedNetworks), []],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
@@ -223,7 +221,6 @@ describe(fetchTokenBalancesSaga, () => {
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(importedTokensSelector, supportedNetworks), importedTokens],
         [select(walletAddressSelector), mockAccount],
-        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), true],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
           call(

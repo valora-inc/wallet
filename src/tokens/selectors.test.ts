@@ -744,7 +744,7 @@ describe('swappableTokensByNetworkIdSelector', () => {
             name: 'importedToken',
             tokenId: 'celo-alfajores:importedToken',
             networkId: NetworkId['celo-alfajores'],
-            balance: '0',
+            balance: '10000',
             priceFetchedAt: mockDate,
             minimumAppVersionToSwap: '1.10.0',
             isManuallyImported: true,
@@ -753,7 +753,7 @@ describe('swappableTokensByNetworkIdSelector', () => {
             name: 'importedToken',
             tokenId: 'ethereum-sepolia:importedToken',
             networkId: NetworkId['ethereum-sepolia'],
-            balance: '0',
+            balance: '20',
             priceFetchedAt: mockDate,
             minimumAppVersionToSwap: '1.10.0',
             isManuallyImported: true,
@@ -771,11 +771,11 @@ describe('swappableTokensByNetworkIdSelector', () => {
       expect(importedTokens).toMatchObject([
         {
           ...mockState.tokens.tokenBalances['celo-alfajores:importedToken'],
-          balance: new BigNumber(0),
+          balance: new BigNumber(10000),
         },
         {
           ...mockState.tokens.tokenBalances['ethereum-sepolia:importedToken'],
-          balance: new BigNumber(0),
+          balance: new BigNumber(20),
         },
       ])
     })
@@ -786,7 +786,7 @@ describe('swappableTokensByNetworkIdSelector', () => {
       expect(importedTokens).toMatchObject([
         {
           ...mockState.tokens.tokenBalances['celo-alfajores:importedToken'],
-          balance: new BigNumber(0),
+          balance: new BigNumber(10000),
         },
       ])
     })
