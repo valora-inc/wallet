@@ -101,6 +101,7 @@ export const networksIconSelector = createSelector(
       const tokenId = getTokenId(networkId)
       result[networkId] = tokens[tokenId]?.imageUrl
     }
+
     return result
   }
 )
