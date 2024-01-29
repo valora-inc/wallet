@@ -1711,7 +1711,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} price unavailable",
-      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
       "ctaConfirm": "I understand",
       "ctaDismiss": "Cancel"
     },

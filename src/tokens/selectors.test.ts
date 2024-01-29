@@ -8,6 +8,7 @@ import {
   defaultTokenToSendSelector,
   feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
+  importedTokensSelector,
   lastKnownTokenBalancesSelector,
   spendTokensByNetworkIdSelector,
   swappableTokensByNetworkIdSelector,
@@ -732,5 +733,62 @@ describe('swappableTokensByNetworkIdSelector', () => {
         priceUsd: null,
       },
     ])
+  })
+
+  describe('importedTokensSelector', () => {
+    const mockState: any = {
+      tokens: {
+        tokenBalances: {
+          ...state.tokens.tokenBalances,
+          ['celo-alfajores:importedToken']: {
+            name: 'importedToken',
+            tokenId: 'celo-alfajores:importedToken',
+            networkId: NetworkId['celo-alfajores'],
+            balance: '10000',
+            priceFetchedAt: mockDate,
+            minimumAppVersionToSwap: '1.10.0',
+            isManuallyImported: true,
+          },
+          ['ethereum-sepolia:importedToken']: {
+            name: 'importedToken',
+            tokenId: 'ethereum-sepolia:importedToken',
+            networkId: NetworkId['ethereum-sepolia'],
+            balance: '20',
+            priceFetchedAt: mockDate,
+            minimumAppVersionToSwap: '1.10.0',
+            isManuallyImported: true,
+          },
+        },
+      },
+    }
+
+    it('returns all the imported tokens', () => {
+      const importedTokens = importedTokensSelector(mockState, [
+        NetworkId['celo-alfajores'],
+        NetworkId['ethereum-sepolia'],
+      ])
+
+      expect(importedTokens).toMatchObject([
+        {
+          ...mockState.tokens.tokenBalances['celo-alfajores:importedToken'],
+          balance: new BigNumber(10000),
+        },
+        {
+          ...mockState.tokens.tokenBalances['ethereum-sepolia:importedToken'],
+          balance: new BigNumber(20),
+        },
+      ])
+    })
+
+    it('return the imported tokens for the selected networks', () => {
+      const importedTokens = importedTokensSelector(mockState, [NetworkId['celo-alfajores']])
+
+      expect(importedTokens).toMatchObject([
+        {
+          ...mockState.tokens.tokenBalances['celo-alfajores:importedToken'],
+          balance: new BigNumber(10000),
+        },
+      ])
+    })
   })
 })

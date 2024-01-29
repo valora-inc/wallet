@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} 价格不详",
-      "description": "我们没有该代币的 {{localCurrency}} 价格，这可能意味着该代币的交易并不广泛。如果您选择继续交易，{{appName}} 不会对由此造成的任何损失负责。",
+      "description": "我们没有 {{localCurrency}} {{tokenSymbol}}的价格，这可能意味着它的交易并不广泛。如果您选择继续交易， {{appName}} ，我们不对由此造成的任何损失负责。",
       "ctaConfirm": "我了解",
       "ctaDismiss": "取消"
     },
@@ -1731,12 +1731,15 @@
       "dismissButton": "忽略"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "估计网络费用",
+      "maxNetworkFee": "最高网络费用",
       "networkFee": "{{networkName}} 网络费用",
       "networkFeeNoNetwork": "网络费用",
       "swapFee": "{{appName}} 费用",
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
+      "networkFeeInfoV1_76": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付网络费。该费用确保您的交易安全，并支付给网络验证者。\n\n由于网络条件决定了确切的金额，因此列出的估计值是我们预计的实际费用。该费用不会超过最大费用金额。",
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
