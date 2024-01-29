@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} precio no disponible",
-      "description": "No tenemos un precio en {{localCurrency}} para {{tokenSymbol}}, lo que podría significar que no se negocia ampliamente. {{appName}} no se hace responsable de las pérdidas que se produzcan si decides proceder.",
+      "description": "No tenemos un precio en {{localCurrency}} para {{tokenSymbol}}, lo que podría significar que no se negocia ampliamente. {{appName}} no se hace responsable por las pérdidas que puedes sufrir si decides proceder.",
       "ctaConfirm": "Comprendo",
       "ctaDismiss": "Cancelar"
     },
