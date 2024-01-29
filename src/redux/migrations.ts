@@ -1528,4 +1528,5 @@ export const migrations = {
     ...state,
     tokens: _.omit(state.tokens, 'importedTokens'),
   }),
+  186: (state: any) => state,
 }
