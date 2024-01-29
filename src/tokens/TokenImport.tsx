@@ -31,7 +31,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
-import { tokensByIdSelector } from 'src/tokens/selectors'
+import { networksIconSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { importToken } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -78,6 +78,10 @@ export default function TokenImportScreen(_: Props) {
   )
   const walletAddress = useSelector(walletAddressSelector)
   const supportedTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
+
+  const networkIconByNetworkId = useSelector((state) =>
+    networksIconSelector(state, supportedNetworkIds)
+  )
 
   const validateAddress = (tokenAddress: string): tokenAddress is Address => {
     if (!tokenAddress || !networkId) return false
@@ -129,6 +133,7 @@ export default function TokenImportScreen(_: Props) {
       TAG,
       `Wallet ${walletAddress} holds ${balanceInDecimal} ${symbol} (${name} = ${address})})`
     )
+
     return { address, symbol, decimals, name, balance: balanceInDecimal, networkId }
   }
 
@@ -198,16 +203,20 @@ export default function TokenImportScreen(_: Props) {
     const networkId = tokenDetails.networkId
     const tokenAddress = tokenDetails.address.toLowerCase()
 
+    // This should always be present, unless we support a network without a native token with icon
+    const networkIconUrl = networkIconByNetworkId[networkId]
+
     const tokenId = getTokenId(networkId, tokenAddress)
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol: tokenDetails.symbol,
       networkId,
       tokenId,
+      networkIconUrl,
     })
 
     Logger.info(TAG, `Importing token: ${tokenId})})`)
-    dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
+    dispatch(importToken({ ...tokenDetails, tokenId, networkIconUrl }))
 
     navigateBack()
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol: tokenDetails.symbol })))
@@ -233,7 +242,6 @@ export default function TokenImportScreen(_: Props) {
 
         <View style={styles.inputContainer}>
           {/* Network */}
-
           <View style={{ ...styles.textInputGroup, zIndex: 10 }}>
             {networkShouldBeEditable ? (
               <>
@@ -348,15 +356,16 @@ const NetworkDropdown = ({
       items={items}
       setOpen={setOpen}
       setValue={setValue}
-      style={styles.messageTextInput}
+      style={styles.dropdownTextContainer}
       placeholder=""
       listMode="SCROLLVIEW"
       ArrowUpIconComponent={() => <UpArrowIcon color={Colors.primary} strokeWidth={2} />}
       ArrowDownIconComponent={() => <DownArrowIcon color={Colors.primary} strokeWidth={2} />}
       showTickIcon={false}
-      dropDownContainerStyle={styles.messageTextInput}
+      dropDownContainerStyle={styles.dropdownTextContainer}
       onChangeValue={onNetworkSelected}
       disabled={disabled}
+      textStyle={typeScale.bodyMedium}
     />
   )
 }
@@ -373,7 +382,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   headerTitle: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelSemiBoldMedium,
   },
   messageTextInput: {
     paddingHorizontal: Spacing.Small12,
@@ -402,5 +411,10 @@ const styles = StyleSheet.create({
   errorLabel: {
     ...typeScale.labelSmall,
     color: Colors.error,
+  },
+  dropdownTextContainer: {
+    borderColor: Colors.gray2,
+    borderRadius: Spacing.Tiny4,
+    borderWidth: 1.5,
   },
 })

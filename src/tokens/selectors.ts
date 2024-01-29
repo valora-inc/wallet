@@ -89,14 +89,19 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
-export const networkIconSelector = createSelector(
+export const networksIconSelector = createSelector(
   [
-    (state: RootState, networkId: NetworkId) => tokensByIdSelector(state, [networkId]),
-    (_state: RootState, networkId: NetworkId) => networkId,
+    (state: RootState, networkIds: NetworkId[]) => tokensByIdSelector(state, networkIds),
+    (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
-  (tokens, networkId) => {
-    const tokenId = getTokenId(networkId)
-    return tokens[tokenId]?.imageUrl
+  (tokens, networkIds) => {
+    const result: Partial<Record<NetworkId, string>> = {}
+    for (const networkId of networkIds) {
+      // We use as network icon the image of the native token.
+      const tokenId = getTokenId(networkId)
+      result[networkId] = tokens[tokenId]?.imageUrl
+    }
+    return result
   }
 )
 
