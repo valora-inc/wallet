@@ -17252,7 +17252,7 @@ Author: Alex Bell <alex@bellandwhistle.net>
 
 ----------------------------------------
 
-### @typescript-eslint/types@v6.17.0
+### @typescript-eslint/types@v6.19.0
 
 > Types for the TypeScript-ESTree AST spec
 
@@ -17283,7 +17283,7 @@ Repository: <https://github.com/typescript-eslint/typescript-eslint.git>
 
 ----------------------------------------
 
-### @typescript-eslint/typescript-estree@v6.17.0
+### @typescript-eslint/typescript-estree@v6.19.0
 
 > A parser that converts TypeScript source code into an ESTree compatible form
 
@@ -18519,7 +18519,7 @@ Contributors:
 
 ----------------------------------------
 
-### flow-parser@v0.225.1
+### flow-parser@v0.226.0
 
 > JavaScript parser written in OCaml. Produces ESTree AST
 
