@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Beginne Supercharge",
-  "consumerIncentivesSummary": "Supercharge ist da! Erhalte 12% jährliche Rewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Nur für eine begrenzte Zeit verfügbar. Und so funktioniert's:",
+  "consumerIncentivesSummary": "Supercharge ist da! Erhalte {{percent}}% jährliche Rewards auf dein höchstes Stablecoin-Guthaben (cUSD, cEUR, oder cREAL). Nur für eine begrenzte Zeit verfügbar. Und so funktioniert's:",
   "earnWeekly": {
     "header": "Verbinde deine Telefonnummer",
     "text": "Tippe auf Nummer verbinden, wenn du sie noch nicht verbunden hast."
@@ -230,7 +230,7 @@
   },
   "conclusion": "Es ist ganz einfach. Lade dein Guthaben noch heute auf!",
   "superchargeTitle": "Supercharge starten",
-  "superchargeDescription": "Erhalte 12% jährliche Rewards auf dein {{token}} -Guthaben. Hier ist, wie man beginnt:",
+  "superchargeDescription": "Erhalte {{apy}}% jährliche Rewards auf dein {{token}} -Guthaben. Hier ist, wie man beginnt:",
   "superchargeConnectNumber": "Verbinde deine Telefonnummer",
   "superchargeReconnectNumber": "Verbinde deine Telefonnummer erneut. \n<0>Wir haben das Supercharge-Erlebnis eingeführt und verbessert. Verbinde deine Telefonnummer erneut, um weiterhin Rewards auf deinem {{token}} zu verdienen.</0>",
   "superchargeMinimumBalance": "Füge einen Mindestsaldo von {{amount}} {{token}} hinzu",
@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Preis nicht in {{localCurrency}} verfügbar",
-      "description": "Wir haben keinen Preis in {{localCurrency}} für diesen Token, was bedeuten könnte, dass er nicht weithin gehandelt wird. {{appName}} ist nicht für Verluste verantwortlich, die entstehen, wenn du dich entscheidest, fortzufahren.",
+      "description": "Wir haben keinen {{localCurrency}} Preis für {{tokenSymbol}}, was bedeuten könnte, dass es nicht weithin gehandelt wird. {{appName}} ist nicht verantwortlich für Verluste, die entstehen, wenn du dich entscheidest, fortzufahren.",
       "ctaConfirm": "Ich verstehe",
       "ctaDismiss": "Abbrechen"
     },
@@ -1733,12 +1733,15 @@
       "dismissButton": "Verwerfen"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
+      "maxNetworkFee": "Maximale Netzwerkgebühr",
       "networkFee": "{{networkName}} Netzwerkgebühr",
       "networkFeeNoNetwork": "Netzwerkgebühr",
       "swapFee": "{{appName}}-Gebühr",
       "swapFeeWaived": "Kostenlos",
       "slippagePercentage": "Slippage-Toleranz",
       "networkFeeInfo": "Du tauschst über das {{networkName}}-Netzwerk.\n\nUm eine Transaktion über das {{networkName}}-Netzwerk durchzuführen, musst du diese geschätzte Netzwerkgebühr bezahlen. Diese Gebühr sichert deine Transaktion und trägt dazu bei, das Netzwerk aufrechtzuerhalten.",
+      "networkFeeInfoV1_76": "Du tauschst über das {{networkName}} Netzwerk.\n\nUm eine Transaktion über das {{networkName}} Netzwerk durchzuführen, ist eine Netzwerkgebühr erforderlich. Diese Gebühr sichert deine Transaktion ab und wird an die Netzwerk-Validierer gezahlt.\n\nDa der genaue Betrag von den Netzwerkbedingungen abhängt, ist die angegebene Gebühr der erwartete Betrag. Die Gebühr wird den maximalen Betrag nicht überschreiten.",
       "slippageToleranceInfo": "Slippage-Toleranz\n\nDein Tausch wird innerhalb der Slippage-Toleranz in Prozent ausgeführt. Wenn sich der Preis stärker als die Slippage-Toleranz verändert, schützt dich {{appName}}, indem die Ausführung des Handels verhindert wird.",
       "networkFeeInfoDismissButton": "Verstanden",
       "exchangeRate": "Umtauschkurs",
