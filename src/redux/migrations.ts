@@ -1524,4 +1524,8 @@ export const migrations = {
     ...state,
     swap: { ...state.swap, lastSwapped: [] },
   }),
+  185: (state: any) => ({
+    ...state,
+    tokens: _.omit(state.tokens, 'importedTokens'),
+  }),
 }
