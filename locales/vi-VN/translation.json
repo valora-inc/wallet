@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Chưa có giá bằng {{localCurrency}}",
-      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "description": "Chúng tôi chưa có giá bằng {{localCurrency}} cho {{tokenSymbol}}, có thể là do đồng tiền này ít được giao dịch. {{appName}} không chịu trách nhiệm về bất kỳ tổn thất nào phát sinh nếu bạn chọn tiếp tục giao dịch.",
       "ctaConfirm": "Tôi đã hiểu.",
       "ctaDismiss": "Hủy"
     },
@@ -1731,15 +1731,15 @@
       "dismissButton": "Loại bỏ"
     },
     "transactionDetails": {
-      "estimatedNetworkFee": "Estimated Network Fee",
-      "maxNetworkFee": "Max Network Fee",
+      "estimatedNetworkFee": "Phí mạng ước tính",
+      "maxNetworkFee": "Phí mạng tối đa",
       "networkFee": "Phí mạng lưới {{networkName}}",
       "networkFeeNoNetwork": "Phí mạng lưới",
       "swapFee": "Phí {{appName}}",
       "swapFeeWaived": "Miễn phí",
       "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
-      "networkFeeInfoV1_76": "You are swapping on the {{networkName}} Network.\n\nA network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.\n\nSince network conditions determine the exact amount, the listed estimate is what we expect the actual fee to be. The fee will not exceed the max fee amount.",
+      "networkFeeInfoV1_76": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để thanh toán cho các trình xác thực mạng.\n\nDo phí giao dịch chính xác phụ thuộc vào tình trạng mạng, nên mức phí ước tính được nêu tại đây là số tiền chúng tôi dự đoán. Khoản phí này sẽ không vượt quá mức phí tối đa.",
       "slippageToleranceInfo": "Tỷ lệ trượt giá chấp nhận\n\nViệc trao đổi sẽ được thực hiện trong phạm vi tỷ lệ trượt giá chấp nhận. Nếu giá thay đổi nhiều hơn tỷ lệ trượt giá chấp nhận, {{appName}} sẽ bảo vệ bạn bằng cách ngăn khớp lệnh giao dịch.",
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",

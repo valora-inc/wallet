@@ -1707,7 +1707,7 @@
     },
     "noUsdPriceWarning": {
       "title": "ไม่มีราคาของ {{localCurrency}}",
-      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "description": "เราไม่มีราคา {{localCurrency}} สำหรับ {{tokenSymbol}} ซึ่งหมายความว่าอาจไม่มีการเทรดโทเคนดังกล่าวอย่างแพร่หลาย {{appName}} จะไม่รับผิดชอบต่อความสูญเสียใดๆ ที่อาจเกิดขึ้น หากคุณเลือกดำเนินการต่อ",
       "ctaConfirm": "ฉันเข้าใจ",
       "ctaDismiss": "ยกเลิก"
     },
@@ -1731,15 +1731,15 @@
       "dismissButton": "ปิด"
     },
     "transactionDetails": {
-      "estimatedNetworkFee": "Estimated Network Fee",
-      "maxNetworkFee": "Max Network Fee",
+      "estimatedNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
+      "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
       "networkFee": "ค่าธรรมเนียมเครือข่าย {{networkName}}",
       "networkFeeNoNetwork": "ค่าธรรมเนียมเครือข่าย",
       "swapFee": "ค่าธรรมเนียม {{appName}}",
       "swapFeeWaived": "ฟรี",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
-      "networkFeeInfoV1_76": "You are swapping on the {{networkName}} Network.\n\nA network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.\n\nSince network conditions determine the exact amount, the listed estimate is what we expect the actual fee to be. The fee will not exceed the max fee amount.",
+      "networkFeeInfoV1_76": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการทำธุรกรรมบนเครือข่าย {{networkName}} มีค่าธรรมเนียมเครือข่าย ค่าธรรมเนียมดังกล่าวเป็นการรักษาความปลอดภัยให้กับธุรกรรมของคุณโดยจะชำระให้กับผู้ตรวจสอบเครือข่าย\n\nเนื่องจากเงื่อนไขของเครือข่ายมีการกำหนดจำนวนเงินที่แน่นอน เราจึงคาดว่ารายการค่าธรรมเนียมประมาณการนี้เป็นค่าธรรมเนียมที่แท้จริง ค่าธรรมเนียมจะไม่เกินกว่าจำนวนค่าธรรมเนียมสูงสุด",
       "slippageToleranceInfo": "ราคาคลาดเคลื่อนที่ยอมรับได้\n\nการสว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
