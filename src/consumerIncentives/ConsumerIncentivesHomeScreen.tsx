@@ -33,11 +33,7 @@ import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
-import {
-  navigate,
-  navigateBack,
-  navigateToFiatCurrencySelection,
-} from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -261,7 +257,7 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
-      navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })
