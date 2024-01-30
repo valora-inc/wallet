@@ -5,7 +5,6 @@ export default onRamps = () => {
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
-      launchArgs: { statsigGateOverrides: `use_cico_currency_bottom_sheet=true` },
     })
   })
   beforeEach(async () => {

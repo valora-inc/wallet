@@ -230,7 +230,7 @@
   },
   "conclusion": "It’s that simple. Supercharge your crypto today!",
   "superchargeTitle": "Start Supercharging",
-  "superchargeDescription": "Get 12% annual rewards on your {{token}} balance. Here's how to start:",
+  "superchargeDescription": "Get {{apy}}% annual rewards on your {{token}} balance. Here's how to start:",
   "superchargeConnectNumber": "Connect your phone number",
   "superchargeReconnectNumber": "Reconnect your phone number\n<0>We have launched an improved Supercharge experience. Reconnect your phone number to keep earning rewards on your {{token}}.</0>",
   "superchargeMinimumBalance": "Add a minimum balance of {{amount}} {{token}}",
@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} price unavailable",
-      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
+      "description": "We do not have a {{localCurrency}} price for {{tokenSymbol}}, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
       "ctaConfirm": "I understand",
       "ctaDismiss": "Cancel"
     },
@@ -1733,12 +1733,15 @@
       "dismissButton": "Dismiss"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Estimated Network Fee",
+      "maxNetworkFee": "Max Network Fee",
       "networkFee": "{{networkName}} Network Fee",
       "networkFeeNoNetwork": "Network Fee",
       "swapFee": "{{appName}} Fee",
       "swapFeeWaived": "Free",
       "slippagePercentage": "Slippage Tolerance",
       "networkFeeInfo": "You are swapping on the {{networkName}} Network.\n\nThis estimated network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and goes towards keeping the network operational.",
+      "networkFeeInfoV1_76": "You are swapping on the {{networkName}} Network.\n\nA network fee is required to conduct a transaction on the {{networkName}} Network. This fee secures your transaction and is paid to network validators.\n\nSince network conditions determine the exact amount, the listed estimate is what we expect the actual fee to be. The fee will not exceed the max fee amount.",
       "slippageToleranceInfo": "Slippage tolerance\n\nYour swap will execute within the slippage tolerance percentage. If the price changes more than the slippage tolerance, {{appName}} protects you by preventing the trade from executing.",
       "networkFeeInfoDismissButton": "Got it",
       "exchangeRate": "Exchange Rate",

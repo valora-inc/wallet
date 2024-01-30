@@ -204,7 +204,6 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
     yield* put(fetchAvailableRewardsSuccess())
   } catch (e) {
     yield* put(fetchAvailableRewardsFailure())
-    yield* put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
     Logger.error(TAG, 'Error fetching supercharge rewards', e as Error)
   }
 }

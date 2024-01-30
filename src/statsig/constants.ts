@@ -1,4 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -20,7 +21,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
   [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
-  [StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET]: false,
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,
@@ -104,5 +104,9 @@ export const DynamicConfigs = {
     defaultValues: {
       tokenInfo: {} as { [tokenId: string]: { cicoOrder: number } },
     },
+  },
+  [StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]: {
+    configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
+    defaultValues: {} as { [key in Network]?: { contractAddress?: string } },
   },
 }
