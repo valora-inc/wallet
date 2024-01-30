@@ -185,9 +185,9 @@ function TokenBottomSheet<T extends TokenBalance>({
     })
   }, [searchTerm, tokens, selectedFilters])
 
-  const handleClose = () => {
+  const handleOpen = () => {
     setSearchTerm('')
-    setSelectedFilters([])
+    setSelectedFilters(preSelectedFilterChips)
   }
 
   return (
@@ -229,7 +229,7 @@ function TokenBottomSheet<T extends TokenBalance>({
           )}
         </>
       }
-      onClose={handleClose}
+      onOpen={handleOpen}
       testId="TokenBottomSheet"
     >
       {tokenList.length == 0 ? (
