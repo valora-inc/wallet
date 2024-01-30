@@ -5,11 +5,9 @@ import { dynamic, throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig'
 import {
   fetchImportedTokenBalances,
-  fetchTokenBalancesForAddress,
   fetchTokenBalancesForAddressByTokenId,
   fetchTokenBalancesSaga,
   getTokensInfo,
@@ -20,9 +18,11 @@ import { importedTokensSelector, lastKnownTokenBalancesSelector } from 'src/toke
 import {
   StoredTokenBalance,
   StoredTokenBalances,
+  TokenBalance,
   fetchTokenBalancesFailure,
   setTokenBalances,
 } from 'src/tokens/slice'
+import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -139,16 +139,22 @@ describe(fetchTokenBalancesSaga, () => {
       name: 'TestToken',
       symbol: 'TT',
       tokenId: mockTestTokenTokenId,
-      balance: null,
+      balance: new BigNumber(0),
       showZeroBalance: true,
       networkId: NetworkId['celo-alfajores'],
       isManuallyImported: true,
     },
   }
+
   it('get token info successfully', async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores']]
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: supportedNetworks,
+    })
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [select(importedTokensSelector), []],
+        [select(importedTokensSelector, supportedNetworks), []],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
@@ -170,10 +176,14 @@ describe(fetchTokenBalancesSaga, () => {
   })
 
   it("fires an event if there's an error", async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores']]
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: supportedNetworks,
+    })
+
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
-        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), false],
-        [select(importedTokensSelector), {}],
+        [select(importedTokensSelector, supportedNetworks), []],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
@@ -190,6 +200,11 @@ describe(fetchTokenBalancesSaga, () => {
   })
 
   it('includes imported tokens', async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores']]
+    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: supportedNetworks,
+    })
+
     const expectedBalances = {
       ...tokenBalancesAfterUpdate,
       [mockTestTokenTokenId]: {
@@ -204,12 +219,16 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
-        [select(importedTokensSelector), importedTokens],
+        [select(importedTokensSelector, supportedNetworks), importedTokens],
         [select(walletAddressSelector), mockAccount],
-        [call(getFeatureGate, StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW), true],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
-          call(fetchImportedTokenBalances, mockAccount, importedTokens, fetchBalancesResponse),
+          call(
+            fetchImportedTokenBalances,
+            mockAccount,
+            importedTokens as TokenBalance[],
+            fetchBalancesResponse
+          ),
           {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],
@@ -223,48 +242,155 @@ describe(fetchTokenBalancesSaga, () => {
   })
 })
 
-describe(fetchTokenBalancesForAddress, () => {
+describe(fetchTokenBalancesForAddressByTokenId, () => {
   it('returns token balances for a single chain', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores']],
     })
-    mockFetch.mockImplementation(async (_, requestInit) => {
-      const body = JSON.parse((requestInit?.body as string) ?? '{}')
+    mockFetch.mockImplementation(async (_, _requestInit) => {
       return new Response(
         JSON.stringify({
           data: {
             userBalances: {
-              balances: [`${body.variables.networkId} balance`],
+              balances: [
+                {
+                  tokenId: mockCusdTokenId,
+                  tokenAddress: mockCusdAddress,
+                  balance: '10000000000000',
+                },
+              ],
             },
           },
         })
       )
     })
-    const result = await fetchTokenBalancesForAddress('some-address')
-    expect(result).toHaveLength(1),
-      expect(result).toEqual(expect.arrayContaining(['celo_alfajores balance']))
+    const result = await fetchTokenBalancesForAddressByTokenId('some-address')
+    expect(result).toMatchObject({
+      [mockCusdTokenId]: {
+        balance: '10000000000000',
+        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+      },
+    })
   })
+
   it('returns token balances for multiple chains', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
     mockFetch.mockImplementation(async (_, requestInit) => {
       const body = JSON.parse((requestInit?.body as string) ?? '{}')
+      const networkId = body.variables.networkId
+      const tokenAddress = networkId === 'celo_alfajores' ? mockCusdAddress : mockUSDCAddress
+
       return new Response(
         JSON.stringify({
           data: {
             userBalances: {
-              balances: [`${body.variables.networkId} balance`],
+              balances: [
+                {
+                  // Invert fix for GraphQL hyphens issue
+                  tokenId: getTokenId(networkId.replaceAll('_', '-'), tokenAddress),
+                  tokenAddress,
+                  balance: '10000000000000',
+                },
+              ],
             },
           },
         })
       )
     })
-    const result = await fetchTokenBalancesForAddress('some-address')
-    expect(result).toHaveLength(2),
-      expect(result).toEqual(
-        expect.arrayContaining(['celo_alfajores balance', 'ethereum_sepolia balance'])
-      )
+
+    const result = await fetchTokenBalancesForAddressByTokenId('some-address')
+    expect(result).toMatchObject({
+      [mockCusdTokenId]: {
+        balance: '10000000000000',
+        tokenAddress: mockCusdAddress,
+        tokenId: mockCusdTokenId,
+      },
+      [mockUSDCTokenId]: {
+        balance: '10000000000000',
+        tokenAddress: mockUSDCAddress,
+        tokenId: mockUSDCTokenId,
+      },
+    })
+  })
+})
+
+describe(fetchImportedTokenBalances, () => {
+  it('returns token balances for multiple chains', async () => {
+    const mockImportedTokens = {
+      [mockTestTokenTokenId]: {
+        address: mockTestTokenAddress,
+        decimals: 18,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
+        balance: new BigNumber(0),
+        name: 'TestToken',
+        symbol: 'TT',
+        isManuallyImported: true,
+      },
+      [mockPoofTokenId]: {
+        address: mockPoofAddress,
+        decimals: 18,
+        tokenId: mockPoofTokenId,
+        networkId: NetworkId['celo-alfajores'],
+        balance: new BigNumber(0),
+        name: 'PoofToken',
+        symbol: 'Poof',
+        isManuallyImported: true,
+      },
+      [mockUSDCTokenId]: {
+        address: mockUSDCAddress,
+        decimals: 8,
+        tokenId: mockUSDCTokenId,
+        showZeroBalance: true,
+        networkId: NetworkId['ethereum-sepolia'],
+        balance: new BigNumber(0),
+        name: 'USD Coin',
+        symbol: 'USDC',
+        isManuallyImported: true,
+      },
+    }
+
+    const mockKnownTokenBalances = {
+      [mockPoofTokenId]: {
+        tokenId: mockPoofTokenId,
+        balance: '500000000000000',
+      },
+    }
+
+    // @ts-ignore
+    jest.mocked(getContract).mockImplementation((_args: any) => {
+      return {
+        read: {
+          balanceOf: (_argsArray: any) => {
+            return BigInt(1000000000)
+          },
+        },
+      }
+    })
+
+    const result = await fetchImportedTokenBalances(
+      mockAccount,
+      Object.values(mockImportedTokens) as TokenBalance[],
+      mockKnownTokenBalances
+    )
+
+    expect(result).toEqual({
+      [mockTestTokenTokenId]: {
+        ...mockImportedTokens[mockTestTokenTokenId],
+        balance: new BigNumber(0.000000001).toFixed(),
+      },
+      [mockPoofTokenId]: {
+        ...mockImportedTokens[mockPoofTokenId],
+        balance: new BigNumber(0.0005).toFixed(),
+      },
+      [mockUSDCTokenId]: {
+        ...mockImportedTokens[mockUSDCTokenId],
+        balance: new BigNumber(10).toFixed(),
+      },
+    })
   })
 })
 

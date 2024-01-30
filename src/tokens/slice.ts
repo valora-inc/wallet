@@ -47,10 +47,6 @@ export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
   address: string
 }
 
-export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
-  address: string
-}
-
 export interface TokenBalance extends BaseToken {
   balance: BigNumber
   priceUsd: BigNumber | null
@@ -104,7 +100,6 @@ export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
-  importedTokens: StoredTokenBalances
 }
 
 export function tokenBalanceHasAddress(
@@ -121,7 +116,6 @@ export const initialState = {
   tokenBalances: {},
   loading: false,
   error: false,
-  importedTokens: {},
 }
 
 const slice = createSlice({

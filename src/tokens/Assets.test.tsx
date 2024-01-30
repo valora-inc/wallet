@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { fetchNfts } from 'src/nfts/slice'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetsScreen from 'src/tokens/Assets'
@@ -453,5 +454,18 @@ describe('AssetsScreen', () => {
     ;['POOF', 'TK3', 'TK1', 'CELO', 'ETH', 'cUSD'].map((symbol, index) => {
       expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(symbol)
     })
+  })
+
+  it('dispatches action to fetch nfts on load', () => {
+    const store = createMockStore(storeWithPositions)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    expect(getByTestId('AssetsTokenBalance')).toBeTruthy()
+    expect(store.getActions()).toEqual([fetchNfts()])
   })
 })

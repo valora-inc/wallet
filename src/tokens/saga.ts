@@ -205,7 +205,8 @@ export function* fetchTokenBalancesSaga() {
     }
     SentryTransactionHub.startTransaction(SentryTransaction.fetch_balances)
 
-    const importedTokens = yield* select(importedTokensSelector)
+    const supportedNetworks = getSupportedNetworkIdsForTokenBalances()
+    const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
 
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
@@ -222,7 +223,12 @@ export function* fetchTokenBalancesSaga() {
     }
 
     /* We are including the fetchedBalancesByTokenId since some balances might be already fetched
+<<<<<<< HEAD
      * so we avoid fetching them again. This could happen if we turn the FETCH_BALANCES_VIA_BLOCKSCOUT flag on.
+=======
+     * so we avoid fetching them again.
+     * This could happen if the data source includes more tokens than we support (e.g. Blockscout).
+>>>>>>> main
      */
     const importedTokensWithBalance = yield* call(
       fetchImportedTokenBalances,
@@ -326,7 +332,7 @@ export function* watchAccountFundedOrLiquidated() {
 
 export async function fetchImportedTokenBalances(
   address: Address,
-  importedTokens: StoredTokenBalance[],
+  importedTokens: TokenBalance[],
   knownTokenBalances: Record<string, FetchedTokenBalance>
 ) {
   const importedTokensWithBalance: StoredTokenBalances = {}
@@ -356,9 +362,14 @@ export async function fetchImportedTokenBalances(
       importedTokensWithBalance[importedToken.tokenId] = {
         ...importedToken,
         balance,
+        priceUsd: undefined,
       }
     } catch (error) {
-      Logger.error(TAG, 'Error fetching imported token balance', error)
+      Logger.error(
+        TAG,
+        `Error fetching imported token balance with address ${importedToken?.address}`,
+        error
+      )
     }
   })
 

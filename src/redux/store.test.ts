@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 184,
+          "version": 185,
         },
         "account": {
           "acceptedTerms": false,
@@ -338,7 +338,6 @@ describe('store state', () => {
         },
         "tokens": {
           "error": false,
-          "importedTokens": {},
           "loading": false,
           "tokenBalances": {},
         },

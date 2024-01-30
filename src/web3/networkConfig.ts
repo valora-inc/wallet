@@ -40,7 +40,6 @@ interface NetworkConfig {
   nftsValoraAppUrl: string
   getSwapQuoteUrl: string
   walletJumpstartUrl: string
-  walletJumpstartAddress: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   getPublicDEKUrl: string
@@ -199,9 +198,6 @@ const HOOKS_API_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api`
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
 
-const JUMPSTART_ADDRESS_ALFAJORES = '0xf25a016E53644EEfe4A167Ff05482213BCd627ED'
-const JUMPSTART_ADDRESS_MAINNET = '0x22Bac00dB51FfD2eb5a02e58974b64726c684BaA'
-
 const GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getNfts`
 const GET_NFTS_BY_OWNER_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
 
@@ -260,7 +256,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
-    walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
@@ -334,7 +329,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
-    walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,

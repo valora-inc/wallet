@@ -39,9 +39,6 @@ import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
-import FiatExchangeCurrency, {
-  fiatExchangesOptionsScreenOptions,
-} from 'src/fiatExchanges/FiatExchangeCurrency'
 import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
@@ -368,11 +365,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       options={FiatExchangeAmount.navOptions}
       name={Screens.FiatExchangeAmount}
       component={FiatExchangeAmount}
-    />
-    <Navigator.Screen
-      options={fiatExchangesOptionsScreenOptions}
-      name={Screens.FiatExchangeCurrency}
-      component={FiatExchangeCurrency}
     />
     <Navigator.Screen
       options={headerWithBackButton}

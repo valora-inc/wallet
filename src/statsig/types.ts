@@ -5,6 +5,7 @@ export enum StatsigDynamicConfigs {
   DAPP_WEBVIEW_CONFIG = 'dapp_webview_config',
   SWAP_CONFIG = 'swap_config',
   CICO_TOKEN_INFO = 'cico_token_info',
+  WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
 }
 
 export enum StatsigFeatureGates {
@@ -26,7 +27,6 @@ export enum StatsigFeatureGates {
   USE_NEW_SEND_FLOW = 'use_new_send_flow',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
-  USE_CICO_CURRENCY_BOTTOM_SHEET = 'use_cico_currency_bottom_sheet',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
   SHOW_BETA_TAG = 'show_beta_tag',
   SAVE_CONTACTS = 'save_contacts',
