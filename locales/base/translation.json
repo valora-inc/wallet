@@ -1856,7 +1856,14 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",
-    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>",
+    "filters": {
+      "myTokens": "My tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Recently swapped",
+      "celo": "Celo Network",
+      "ethereum": "Ethereum Network"
+    }
   },
   "homeActions": {
     "add": "Buy",

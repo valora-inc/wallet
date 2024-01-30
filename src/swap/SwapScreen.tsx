@@ -18,13 +18,14 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { FilterChip } from 'src/components/FilterChipsCarousel'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { SWAP_LEARN_MORE } from 'src/config'
+import { SWAP_LEARN_MORE, TOKEN_MIN_AMOUNT } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
@@ -43,7 +44,11 @@ import PreparedTransactionsReviewBottomSheet from 'src/swap/PreparedTransactions
 import SwapAmountInput from 'src/swap/SwapAmountInput'
 import SwapTransactionDetails from 'src/swap/SwapTransactionDetails'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
-import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
+import {
+  currentSwapSelector,
+  lastSwappedSelector,
+  priceImpactWarningThresholdSelector,
+} from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
@@ -51,11 +56,11 @@ import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
-import { NetworkId } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { v4 as uuidv4 } from 'uuid'
 
 const TAG = 'SwapScreen'
@@ -211,6 +216,64 @@ function getNetworkFee(quote: QuoteResult | null, networkId?: NetworkId) {
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
+const useFilterChips = (selectingField: Field | null) => {
+  const { t } = useTranslation()
+  const recentlySwappedTokens = useSelector(lastSwappedSelector)
+  const popularTokens: string[] = [] // TODO
+  const supportedNetworkIds = getSupportedNetworkIdsForSwap()
+
+  const preSelectedFilterChipIds =
+    selectingField === Field.FROM ? ['my-tokens'] : ['my-tokens', 'popular']
+
+  const filterChips: FilterChip<TokenBalance>[] = useMemo(
+    () => [
+      {
+        id: 'my-tokens',
+        name: t('tokenBottomSheet.filters.myTokens'),
+        filterFn: (token: TokenBalance) => token.balance.gte(TOKEN_MIN_AMOUNT),
+      },
+      {
+        id: 'popular',
+        name: t('tokenBottomSheet.filters.popular'),
+        filterFn: (token: TokenBalance) => popularTokens.includes(token.tokenId),
+      },
+      {
+        id: 'recently-swapped',
+        name: t('tokenBottomSheet.filters.recentlySwapped'),
+        filterFn: (token: TokenBalance) => recentlySwappedTokens.includes(token.tokenId),
+      },
+      ...(supportedNetworkIds.length > 1
+        ? [
+            {
+              id: 'celo-network',
+              name: t('tokenBottomSheet.filters.celo'),
+              filterFn: (token: TokenBalance) =>
+                networkIdToNetwork[token.networkId] === Network.Celo,
+            },
+          ]
+        : []),
+      ...(supportedNetworkIds.includes(NetworkId['ethereum-mainnet'])
+        ? [
+            {
+              id: 'ethereum-network',
+              name: t('tokenBottomSheet.filters.ethereum'),
+              filterFn: (token: TokenBalance) =>
+                networkIdToNetwork[token.networkId] === Network.Ethereum,
+            },
+          ]
+        : []),
+    ],
+    [t, recentlySwappedTokens]
+  )
+
+  return {
+    filterChips,
+    preSelectedFilterChips: filterChips.filter((chip) =>
+      preSelectedFilterChipIds.includes(chip.id)
+    ),
+  }
+}
+
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -253,6 +316,8 @@ export function SwapScreen({ route }: Props) {
     switchedToNetworkId,
     startedSwapId,
   } = state
+
+  const { filterChips, preSelectedFilterChips } = useFilterChips(selectingField)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = supportedTokens.find((token) => token.tokenId === fromTokenId)
@@ -773,6 +838,8 @@ export function SwapScreen({ route }: Props) {
         }
         TokenOptionComponent={TokenBalanceItemOption}
         showPriceUsdUnavailableWarning={true}
+        filterChips={filterChips}
+        preSelectedFilterChips={preSelectedFilterChips}
       />
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet

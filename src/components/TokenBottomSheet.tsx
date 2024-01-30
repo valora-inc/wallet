@@ -5,6 +5,7 @@ import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import FilterChipsCarousel, { FilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -36,6 +37,8 @@ interface Props<T extends TokenBalance> {
   tokens: T[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
+  filterChips?: FilterChip<TokenBalance>[]
+  preSelectedFilterChips?: FilterChip<TokenBalance>[]
 }
 
 export interface TokenOptionProps {
@@ -130,10 +133,22 @@ function TokenBottomSheet<T extends TokenBalance>({
   titleStyle,
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
+  filterChips = [],
+  preSelectedFilterChips = [],
 }: Props<T>) {
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedFilters, setSelectedFilters] = useState(preSelectedFilterChips)
 
   const { t } = useTranslation()
+
+  const handleToggleFilterChip = (filterChip: FilterChip<TokenBalance>) => {
+    const wasSelected = selectedFilters.some((selectedChip) => selectedChip.id === filterChip.id)
+    const updatedChips = wasSelected
+      ? selectedFilters.filter((filter) => filter.id !== filterChip.id)
+      : [...selectedFilters, filterChip]
+
+    setSelectedFilters(updatedChips)
+  }
 
   const onTokenPressed = (token: T) => () => {
     ValoraAnalytics.track(SendEvents.token_selected, {
@@ -155,22 +170,24 @@ function TokenBottomSheet<T extends TokenBalance>({
     []
   )
 
-  const tokenList = useMemo(
-    () =>
-      tokens.filter((tokenInfo) => {
-        if (searchTerm.length === 0) {
-          return true
-        }
-        return (
-          tokenInfo.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tokenInfo.name.toLowerCase().includes(searchTerm.toLowerCase())
-        )
-      }),
-    [searchTerm, tokens]
-  )
+  const tokenList = useMemo(() => {
+    return tokens.filter((token) => {
+      const matchesFilter =
+        selectedFilters.length > 0 ? selectedFilters.some((filter) => filter.filterFn(token)) : true
+
+      const matchesSearch =
+        searchTerm.length > 0
+          ? token.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            token.name.toLowerCase().includes(searchTerm.toLowerCase())
+          : true
+
+      return matchesFilter && matchesSearch
+    })
+  }, [searchTerm, tokens, selectedFilters])
 
   const handleClose = () => {
     setSearchTerm('')
+    setSelectedFilters([])
   }
 
   return (
@@ -181,24 +198,36 @@ function TokenBottomSheet<T extends TokenBalance>({
       titleStyle={titleStyle}
       stickyTitle={searchEnabled}
       stickyHeaderComponent={
-        searchEnabled && (
-          <SearchInput
-            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-            value={searchTerm}
-            onChangeText={(text) => {
-              setSearchTerm(text)
-              sendAnalytics(text)
-            }}
-            style={styles.searchInput}
-            returnKeyType={'search'}
-            // disable autoCorrect and spellCheck since the search terms here
-            // are token names which autoCorrect would get in the way of. This
-            // combination also hides the keyboard suggestions bar from the top
-            // of the iOS keyboard, preserving screen real estate.
-            autoCorrect={false}
-            spellCheck={false}
-          />
-        )
+        <>
+          {searchEnabled && (
+            <SearchInput
+              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+              value={searchTerm}
+              onChangeText={(text) => {
+                setSearchTerm(text)
+                sendAnalytics(text)
+              }}
+              style={styles.searchInput}
+              returnKeyType={'search'}
+              // disable autoCorrect and spellCheck since the search terms here
+              // are token names which autoCorrect would get in the way of. This
+              // combination also hides the keyboard suggestions bar from the top
+              // of the iOS keyboard, preserving screen real estate.
+              autoCorrect={false}
+              spellCheck={false}
+            />
+          )}
+          {filterChips.length > 0 && (
+            <FilterChipsCarousel
+              chips={filterChips}
+              selectedChips={selectedFilters}
+              onSelectChip={handleToggleFilterChip}
+              primaryColor={colors.successDark}
+              secondaryColor={colors.successLight}
+              style={styles.filterChipsCarouselContainer}
+            />
+          )}
+        </>
       }
       onClose={handleClose}
       testId="TokenBottomSheet"
@@ -282,6 +311,9 @@ const styles = StyleSheet.create({
   },
   tokenBalanceItemContainer: {
     marginHorizontal: 0,
+  },
+  filterChipsCarouselContainer: {
+    paddingTop: Spacing.Thick24,
   },
 })
 
