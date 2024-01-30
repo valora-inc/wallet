@@ -1,4 +1,3 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -23,7 +22,6 @@ export enum ChosenRestoreType {
 type Props = NativeStackScreenProps<StackParamList, Screens.LinkPhoneNumber>
 
 export default function LinkPhoneNumber({ navigation }: Props) {
-  const headerHeight = useHeaderHeight()
   const { t } = useTranslation()
 
   useLayoutEffect(() => {
@@ -77,9 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray1,
     flexGrow: 1,
     justifyContent: 'space-between',
-  },
-  scrollContainer: {
-    flexGrow: 1,
   },
   screenDescription: {
     ...typeScale.bodyMedium,
