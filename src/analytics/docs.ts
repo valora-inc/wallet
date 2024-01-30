@@ -553,4 +553,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [RequestEvents.request_confirm_back]: `when back button pressed on request confirmation screen`,
   // [RequestEvents.request_confirm_request]: `when request button pressed on request confirmation screen`,
   // [RequestEvents.request_error]: `when there is an error requesting a transaction`,
+  // [FiatExchangeEvents.cico_currency_chosen]: `User selects a currency and taps next`,
+  // [FiatExchangeEvents.cico_currency_back]: `User presses the back button from the currency screen`,
 }
