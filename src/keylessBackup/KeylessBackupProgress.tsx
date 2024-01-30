@@ -35,6 +35,13 @@ function KeylessBackupProgress({
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
+  const inProgress = (title: string) => (
+    <SafeAreaView style={styles.progressContainer}>
+      <GreenLoadingSpinner />
+      <Text style={styles.title}>{title}</Text>
+    </SafeAreaView>
+  )
+
   // Disable back button on Android
   useEffect(() => {
     const backPressListener = () => true
@@ -46,12 +53,7 @@ function KeylessBackupProgress({
     switch (keylessBackupStatus) {
       case KeylessBackupStatus.NotStarted:
       case KeylessBackupStatus.InProgress: {
-        return (
-          <SafeAreaView style={styles.progressContainer}>
-            <GreenLoadingSpinner />
-            <Text style={styles.title}>{t('keylessBackupStatus.restore.inProgress.title')}</Text>
-          </SafeAreaView>
-        )
+        return inProgress(t('keylessBackupStatus.restore.inProgress.title'))
       }
       case KeylessBackupStatus.RestoreZeroBalance: {
         return (
@@ -112,12 +114,7 @@ function KeylessBackupProgress({
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.NotStarted:
     case KeylessBackupStatus.InProgress: {
-      return (
-        <SafeAreaView style={styles.progressContainer}>
-          <GreenLoadingSpinner />
-          <Text style={styles.title}>{t('keylessBackupStatus.setup.inProgress.title')}</Text>
-        </SafeAreaView>
-      )
+      return inProgress(t('keylessBackupStatus.setup.inProgress.title'))
     }
     case KeylessBackupStatus.Completed: {
       return (
