@@ -241,7 +241,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 export function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
   const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
-  return tokenBalances.length > 0
+  return tokenBalances.filter((token) => token.balance !== '0').length > 0
 }
 
 export function* watchImportBackupPhrase() {
