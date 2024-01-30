@@ -117,6 +117,7 @@ describe('TokenImport', () => {
     expect(store.getActions()[0]).toEqual(
       importToken({
         address: mockPoofAddress,
+        balance: '0.5',
         symbol: 'ABC',
         name: 'ABC Coin',
         decimals: 18,

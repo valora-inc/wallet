@@ -49,7 +49,7 @@ import {
 } from 'src/i18n/selectors'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
@@ -143,7 +143,9 @@ describe('handleDeepLink', () => {
   it('Handles cash in deep link', async () => {
     const deepLink = 'celo://wallet/cashIn'
     await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
-    expect(navigateToFiatCurrencySelection).toHaveBeenCalledWith(FiatExchangeFlow.CashIn)
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
+      flow: FiatExchangeFlow.CashIn,
+    })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cashIn',
       fullPath: '/cashIn',

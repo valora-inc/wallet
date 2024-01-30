@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Preço em {{localCurrency}} indisponível",
-      "description": "Não temos um preço {{localCurrency}} para {{tokenSymbol}}, o que pode significar que ele não é amplamente negociado. {{appName}} não é responsável por quaisquer perdas incorridas se você optar por continuar.",
+      "description": "Não temos um preço em {{localCurrency}} para {{tokenSymbol}}, o que pode significar que ele não é amplamente negociado. A {{appName}} não é responsável por quaisquer perdas incorridas se você optar por prosseguir.",
       "ctaConfirm": "Eu compreendo",
       "ctaDismiss": "Cancelar"
     },
@@ -1734,14 +1734,14 @@
     },
     "transactionDetails": {
       "estimatedNetworkFee": "Taxa de rede estimada",
-      "maxNetworkFee": "Taxa máxima de rede",
+      "maxNetworkFee": "Taxa de rede máx.",
       "networkFee": "Taxa da rede {{networkName}}",
       "networkFeeNoNetwork": "Taxa de rede",
       "swapFee": "Taxa da {{appName}}",
       "swapFeeWaived": "Grátis",
       "slippagePercentage": "Tolerância do slippage",
       "networkFeeInfo": "Você está trocando na rede {{networkName}}.\n\nEsta taxa de rede estimada é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege a sua transação e visa manter a rede operacional.",
-      "networkFeeInfoV1_76": "Você está fazendo uma troca na rede {{networkName}} .\n\nVocê precisa pagar uma taxa de rede para realizar uma transação na rede {{networkName}} . Essa taxa protege sua transação e é paga aos validadores da rede.\n\nComo as condições da rede determinam o valor exato, a estimativa listada é o que esperamos que seja a taxa real. A taxa não excederá o valor máximo da taxa.",
+      "networkFeeInfoV1_76": "Você está trocando na rede {{networkName}}.\n\nUma taxa de rede é necessária para realizar uma transação na rede {{networkName}}. Essa taxa protege sua transação e é paga aos validadores da rede.\n\nComo as condições da rede determinam a quantia exata, a estimativa listada é o que esperamos que seja a taxa real. A taxa não excederá a quantia máxima da taxa.",
       "slippageToleranceInfo": "Tolerância de slippage\n\nSua troca será executada dentro da porcentagem de tolerância de slippage. Se o preço mudar mais do que a tolerância de slippage, a {{appName}} protege você impedindo a execução da negociação.",
       "networkFeeInfoDismissButton": "Entendi",
       "exchangeRate": "Taxa de câmbio",

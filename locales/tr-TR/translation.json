@@ -1709,7 +1709,7 @@
     },
     "noUsdPriceWarning": {
       "title": "{{localCurrency}} fiyatı mevcut değil",
-      "description": "{{tokenSymbol}}için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}} , devam etmeyi seçerseniz meydana gelen herhangi bir kayıptan sorumlu değildir.",
+      "description": "{{tokenSymbol}} için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}}, devam etmeyi seçerseniz meydana gelecek herhangi bir kayıptan sorumlu değildir.",
       "ctaConfirm": "Anladım",
       "ctaDismiss": "İptal"
     },
@@ -1734,14 +1734,14 @@
     },
     "transactionDetails": {
       "estimatedNetworkFee": "Tahmini Ağ Ücreti",
-      "maxNetworkFee": "Maksimum Ağ Ücreti",
+      "maxNetworkFee": "Maks. Ağ Ücreti",
       "networkFee": "{{networkName}} Ağ Ücreti",
       "networkFeeNoNetwork": "Ağ Ücreti",
       "swapFee": "{{appName}} Ücreti",
       "swapFeeWaived": "Ücretsiz",
       "slippagePercentage": "Slipaj Toleransı",
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
-      "networkFeeInfoV1_76": "{{networkName}} Ağında takas yapıyorsunuz.\n\n {{networkName}} Ağında bir işlem gerçekleştirmek için bir ağ ücreti gereklidir. Bu ücret işleminizi güvence altına alır ve ağ doğrulayıcılarına ödenir.\n\nAğ koşulları kesin tutarı belirlediğinden, listelenen tahmin, gerçek ücretin ne olmasını beklediğimizdir. Ücret, maksimum ücret tutarını aşmayacaktır.",
+      "networkFeeInfoV1_76": "{{networkName}} Ağında takas yapıyorsunuz.\n\n{{networkName}} Ağında işlem gerçekleştirmek için bir ağ ücreti gereklidir. Bu ücret işleminizi güvence altına alır ve ağ doğrulayıcılarına ödenir.\n\nAğ koşulları kesin tutarı belirlediğinden, listelenen tahmin, gerçek ücretin ne olmasını beklediğimizdir. Ücret, maksimum ücret tutarını aşmayacaktır.",
       "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",

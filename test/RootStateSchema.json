@@ -3656,9 +3656,6 @@
                 "error": {
                     "type": "boolean"
                 },
-                "importedTokens": {
-                    "$ref": "#/definitions/StoredTokenBalances"
-                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -3668,7 +3665,6 @@
             },
             "required": [
                 "error",
-                "importedTokens",
                 "loading",
                 "tokenBalances"
             ],

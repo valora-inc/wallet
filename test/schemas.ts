@@ -2975,6 +2975,15 @@ export const v184Schema = {
   swap: { ...v183Schema.swap, lastSwapped: [] },
 }
 
+export const v185Schema = {
+  ...v184Schema,
+  _persist: {
+    ...v184Schema._persist,
+    version: 185,
+  },
+  tokens: _.omit(v184Schema.tokens, 'importedTokens'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v184Schema as Partial<RootState>
+  return v185Schema as Partial<RootState>
 }

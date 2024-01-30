@@ -14,7 +14,6 @@ describe(':ios: FiatConnect Transfer Out', () => {
     await launchApp({
       newInstance: false,
       permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-      launchArgs: { statsigGateOverrides: `use_cico_currency_bottom_sheet=true` },
     })
   })
 
