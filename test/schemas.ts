@@ -2984,6 +2984,16 @@ export const v185Schema = {
   tokens: _.omit(v184Schema.tokens, 'importedTokens'),
 }
 
+export const v186Schema = {
+  ...v185Schema,
+  _persist: {
+    ...v185Schema._persist,
+    version: 186,
+  },
+  home: { ...v185Schema.home, hasVisitedHome: true },
+  app: { ...v185Schema.app, pendingDeepLinks: [] },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v185Schema as Partial<RootState>
+  return v186Schema as Partial<RootState>
 }
