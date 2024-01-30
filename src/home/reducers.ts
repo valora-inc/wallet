@@ -33,12 +33,14 @@ export interface State {
   loading: boolean
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]
+  hasVisitedHome: boolean
 }
 
 export const initialState = {
   loading: false,
   notifications: {},
   cleverTapInboxMessages: [],
+  hasVisitedHome: false,
 }
 
 export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -102,6 +104,11 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
       return {
         ...state,
         cleverTapInboxMessages: action.messages,
+      }
+    case Actions.VISIT_HOME:
+      return {
+        ...state,
+        hasVisitedHome: true,
       }
     default:
       return state

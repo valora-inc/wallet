@@ -45,6 +45,7 @@ export type ActionTypes =
   | UpdateNotificationsAction
   | DismissNotificationAction
   | CleverTapInboxMessagesReceivedAction
+  | VisitHomeAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
