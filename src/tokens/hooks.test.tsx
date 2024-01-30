@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react-native'
+import { render, renderHook } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Text, View } from 'react-native'
@@ -243,27 +243,47 @@ describe('useTokensForSend', () => {
 })
 
 describe('useSwappableTokens', () => {
-  it('returns tokens with balance', () => {
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useSwappableTokens} />
-      </Provider>
-    )
+  it('returns the correct swappable tokens', () => {
+    const { result } = renderHook(() => useSwappableTokens(), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
 
-    expect(getByTestId('tokenIDs').props.children).toEqual([mockCeloTokenId])
+    expect(result.current.swappableToTokens.map((token) => token.tokenId)).toEqual([
+      mockCeloTokenId,
+    ])
+    expect(result.current.swappableFromTokens.map((token) => token.tokenId)).toEqual([
+      mockCeloTokenId,
+      mockPoofTokenId,
+      mockCrealTokenId,
+    ])
   })
 
   it('returns tokens with balance for multiple networks', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
     })
-    const { getByTestId } = render(
-      <Provider store={storeWithMultipleNetworkTokens()}>
-        <TokenHookTestComponent hook={useSwappableTokens} />
-      </Provider>
-    )
+    const { result } = renderHook(() => useSwappableTokens(), {
+      wrapper: (component) => (
+        <Provider store={storeWithMultipleNetworkTokens()}>
+          {component?.children ? component.children : component}
+        </Provider>
+      ),
+    })
 
-    expect(getByTestId('tokenIDs').props.children).toEqual([ethTokenId, mockCeloTokenId])
+    expect(result.current.swappableToTokens.map((token) => token.tokenId)).toEqual([
+      ethTokenId,
+      mockCeloTokenId,
+    ])
+    expect(result.current.swappableFromTokens.map((token) => token.tokenId)).toEqual([
+      ethTokenId,
+      mockCeloTokenId,
+      mockPoofTokenId,
+      mockCrealTokenId,
+    ])
   })
 })
 

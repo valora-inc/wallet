@@ -2990,6 +2990,8 @@ export const v186Schema = {
     ...v185Schema._persist,
     version: 186,
   },
+  home: { ...v185Schema.home, hasVisitedHome: true },
+  app: { ...v185Schema.app, pendingDeepLinks: [] },
 }
 
 export function getLatestSchema(): Partial<RootState> {

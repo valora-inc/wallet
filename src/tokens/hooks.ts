@@ -9,7 +9,8 @@ import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
   spendTokensByNetworkIdSelector,
-  swappableTokensByNetworkIdSelector,
+  swappableFromTokensByNetworkIdSelector,
+  swappableToTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByCurrencySelector,
   tokensByIdSelector,
@@ -89,7 +90,18 @@ export function useSwappableTokens() {
   const networkIdsForSwap = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSwap
-  return useSelector((state) => swappableTokensByNetworkIdSelector(state, networkIdsForSwap))
+
+  const swappableFromTokens = useSelector((state) =>
+    swappableFromTokensByNetworkIdSelector(state, networkIdsForSwap)
+  )
+  const swappableToTokens = useSelector((state) =>
+    swappableToTokensByNetworkIdSelector(state, networkIdsForSwap)
+  )
+
+  return {
+    swappableFromTokens,
+    swappableToTokens,
+  }
 }
 
 export function useCashInTokens() {

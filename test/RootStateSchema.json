@@ -2125,6 +2125,22 @@
             ],
             "type": "object"
         },
+        "PendingDeepLink": {
+            "additionalProperties": false,
+            "properties": {
+                "isSecureOrigin": {
+                    "type": "boolean"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "isSecureOrigin",
+                "url"
+            ],
+            "type": "object"
+        },
         "PendingStandbyApproval": {
             "additionalProperties": false,
             "properties": {
@@ -3129,6 +3145,12 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
+                "pendingDeepLinks": {
+                    "items": {
+                        "$ref": "#/definitions/PendingDeepLink"
+                    },
+                    "type": "array"
+                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -3236,6 +3258,7 @@
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",
+                "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
@@ -4165,6 +4188,9 @@
                     },
                     "type": "array"
                 },
+                "hasVisitedHome": {
+                    "type": "boolean"
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -4174,6 +4200,7 @@
             },
             "required": [
                 "cleverTapInboxMessages",
+                "hasVisitedHome",
                 "loading",
                 "notifications"
             ],
