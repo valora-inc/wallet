@@ -272,7 +272,7 @@ describe('TokenDetails', () => {
     expect(queryByTestId(`PriceHistoryChart/Loader`)).toBeFalsy()
   })
 
-  it('renders send action only if token has balance, is not swappable and not a CICO token', () => {
+  it('renders send and swap action only if token has balance, and not a CICO token', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -291,7 +291,7 @@ describe('TokenDetails', () => {
     )
 
     expect(getByTestId('TokenDetails/Action/Send')).toBeTruthy()
-    expect(queryByTestId('TokenDetails/Action/Swap')).toBeFalsy()
+    expect(getByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Add')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
