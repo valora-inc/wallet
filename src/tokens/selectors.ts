@@ -23,7 +23,6 @@ import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
   getTokenId,
-  isCicoToken,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
   usdBalance,
@@ -337,7 +336,7 @@ export const tokensWithTokenBalanceSelector = createSelector(
   }
 )
 
-export const swappableTokensByNetworkIdSelector = createSelector(
+export const swappableFromTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     const appVersion = deviceInfoModule.getVersion()
@@ -347,7 +346,8 @@ export const swappableTokensByNetworkIdSelector = createSelector(
           (tokenInfo) =>
             tokenInfo.isSwappable ||
             (tokenInfo.minimumAppVersionToSwap &&
-              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap)) ||
+            tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)
         )
         // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
         // are pushed last, sorted by name (ASC)
@@ -381,15 +381,22 @@ export const swappableTokensByNetworkIdSelector = createSelector(
   }
 )
 
+export const swappableToTokensByNetworkIdSelector = createSelector(
+  swappableFromTokensByNetworkIdSelector,
+  (tokens) => {
+    const appVersion = deviceInfoModule.getVersion()
+    return tokens.filter(
+      (tokenInfo) =>
+        tokenInfo.isSwappable ||
+        (tokenInfo.minimumAppVersionToSwap &&
+          !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+    )
+  }
+)
+
 export const cashInTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) =>
-    tokens.filter(
-      (tokenInfo) =>
-        tokenInfo.isCashInEligible &&
-        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) ||
-          isCicoToken(tokenInfo.symbol)) //TODO: Remove after CiCo currency bottom sheet is rolled out
-    )
+  (tokens) => tokens.filter((tokenInfo) => tokenInfo.isCashInEligible)
 )
 
 export const cashOutTokensByNetworkIdSelector = createSelector(
@@ -403,9 +410,7 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
       (tokenInfo) =>
         ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
           tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
-        tokenInfo.isCashOutEligible &&
-        (getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET) ||
-          isCicoToken(tokenInfo.symbol)) //TODO: Remove after CiCo currency bottom sheet is rolled out
+        tokenInfo.isCashOutEligible
     )
 )
 

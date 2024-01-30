@@ -11,7 +11,8 @@ import {
   importedTokensSelector,
   lastKnownTokenBalancesSelector,
   spendTokensByNetworkIdSelector,
-  swappableTokensByNetworkIdSelector,
+  swappableFromTokensByNetworkIdSelector,
+  swappableToTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByIdSelector,
   tokensByUsdBalanceSelector,
@@ -420,13 +421,6 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
 
 describe(cashInTokensByNetworkIdSelector, () => {
   describe('when fetching cash in tokens', () => {
-    it('returns the right tokens when isCicoToken check used', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      const tokens = cashInTokensByNetworkIdSelector(state, [NetworkId['celo-alfajores']])
-      expect(tokens.length).toEqual(2)
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
-    })
     it('returns the right tokens when isCicoToken check not used', () => {
       const tokens = cashInTokensByNetworkIdSelector(state, [
         NetworkId['celo-alfajores'],
@@ -442,27 +436,6 @@ describe(cashInTokensByNetworkIdSelector, () => {
 
 describe(cashOutTokensByNetworkIdSelector, () => {
   describe('when fetching cash out tokens', () => {
-    it('returns the right tokens without zero balance included when isCicoToken check used', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      const tokens = cashOutTokensByNetworkIdSelector(
-        state,
-        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-        false
-      )
-      expect(tokens.length).toEqual(1)
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
-    })
-    it('returns the right tokens with zero balance included when isCicoToken check used', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      const tokens = cashOutTokensByNetworkIdSelector(
-        state,
-        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-        true
-      )
-      expect(tokens.length).toEqual(2)
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
-    })
     it('returns the right tokens without zero balance included when isCicoToken check not used', () => {
       const tokens = cashOutTokensByNetworkIdSelector(
         state,
@@ -679,9 +652,66 @@ describe('lastKnownTokenBalancesSelector', () => {
   })
 })
 
-describe('swappableTokensByNetworkIdSelector', () => {
-  it('returns the tokens in the correct order', () => {
-    const tokens = swappableTokensByNetworkIdSelector(state, [
+describe('swappable tokens selectors', () => {
+  const expectedSwappableToTokens = [
+    // highest usd balance
+    {
+      balance: '50',
+      name: 'cEUR',
+      priceUsd: '0.5',
+    },
+    // tokens with balance but no usd price, sorted by balance
+    {
+      balance: '50',
+      name: '0x4 token',
+      priceUsd: null,
+    },
+    {
+      balance: '50',
+      name: '0x5 token',
+      priceUsd: null,
+    },
+    {
+      balance: '50',
+      name: '0x7 token',
+      priceUsd: null,
+    },
+    // tokens with usd price but no balance, sorted by name
+    {
+      balance: '0',
+      name: 'cUSD',
+      priceUsd: '1',
+    },
+    {
+      balance: '0',
+      name: 'Ether',
+      priceUsd: '500',
+    },
+    // tokens with no usd price, no balance, sorted by name
+    {
+      balance: '0',
+      name: '0x6 token',
+      priceUsd: null,
+    },
+  ]
+
+  it('returns the swappable to tokens in the correct order', () => {
+    const tokens = swappableToTokensByNetworkIdSelector(state, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+    // we only need to check some of the details
+    const tokenDetails = tokens.map(({ priceUsd, balance, name }) => ({
+      priceUsd: priceUsd ? priceUsd.toString() : null,
+      balance: balance ? balance.toString() : null,
+      name,
+    }))
+
+    expect(tokenDetails).toEqual(expectedSwappableToTokens)
+  })
+
+  it('returns the swappable from tokens in the correct order', () => {
+    const tokens = swappableFromTokensByNetworkIdSelector(state, [
       NetworkId['celo-alfajores'],
       NetworkId['ethereum-sepolia'],
     ])
@@ -693,45 +723,13 @@ describe('swappableTokensByNetworkIdSelector', () => {
     }))
 
     expect(tokenDetails).toEqual([
-      // highest usd balance
+      // not swappable, but the user has a balance
       {
-        balance: '50',
-        name: 'cEUR',
-        priceUsd: '0.5',
+        balance: '10',
+        name: '0x1 token',
+        priceUsd: '10',
       },
-      // tokens with balance but no usd price, sorted by balance
-      {
-        balance: '50',
-        name: '0x4 token',
-        priceUsd: null,
-      },
-      {
-        balance: '50',
-        name: '0x5 token',
-        priceUsd: null,
-      },
-      {
-        balance: '50',
-        name: '0x7 token',
-        priceUsd: null,
-      },
-      // tokens with usd price but no balance, sorted by name
-      {
-        balance: '0',
-        name: 'cUSD',
-        priceUsd: '1',
-      },
-      {
-        balance: '0',
-        name: 'Ether',
-        priceUsd: '500',
-      },
-      // tokens with no usd price, no balance, sorted by name
-      {
-        balance: '0',
-        name: '0x6 token',
-        priceUsd: null,
-      },
+      ...expectedSwappableToTokens,
     ])
   })
 

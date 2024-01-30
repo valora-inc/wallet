@@ -27,7 +27,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -231,8 +231,7 @@ export function SwapScreen({ route }: Props) {
   ).maxSlippagePercentage
   const parsedSlippagePercentage = new BigNumber(slippagePercentage).toFormat()
 
-  // sorted by USD balance and then alphabetical
-  const supportedTokens = useSwappableTokens()
+  const { swappableFromTokens, swappableToTokens } = useSwappableTokens()
 
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
@@ -255,10 +254,10 @@ export function SwapScreen({ route }: Props) {
   } = state
 
   const { fromToken, toToken } = useMemo(() => {
-    const fromToken = supportedTokens.find((token) => token.tokenId === fromTokenId)
-    const toToken = supportedTokens.find((token) => token.tokenId === toTokenId)
+    const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)
+    const toToken = swappableToTokens.find((token) => token.tokenId === toTokenId)
     return { fromToken, toToken }
-  }, [fromTokenId, toTokenId, supportedTokens])
+  }, [fromTokenId, toTokenId, swappableFromTokens, swappableToTokens])
 
   const fromTokenBalance = useTokenInfo(fromToken?.tokenId)?.balance ?? new BigNumber(0)
 
@@ -765,7 +764,7 @@ export function SwapScreen({ route }: Props) {
         origin={TokenPickerOrigin.Swap}
         onTokenSelected={handleSelectToken}
         searchEnabled={true}
-        tokens={supportedTokens}
+        tokens={selectingField == Field.FROM ? swappableFromTokens : swappableToTokens}
         title={
           selectingField == Field.FROM
             ? t('swapScreen.swapFromTokenSelection')
@@ -848,7 +847,7 @@ export function SwapScreen({ route }: Props) {
           style={styles.bottomSheetButton}
           onPress={() => {
             ValoraAnalytics.track(SwapEvents.swap_add_funds)
-            navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+            navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
           }}
           text={t('swapScreen.fundYourWalletBottomSheet.addFundsButton')}
         />

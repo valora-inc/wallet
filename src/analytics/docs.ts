@@ -316,10 +316,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_landing_select_flow]: `User taps which CICO flow they want (Cash in, cash out, spend)`,
   [FiatExchangeEvents.cico_landing_how_to_fund]: `User taps help article link at the bottom`,
 
-  // The CICO Currency screen where the user selects their digital currency
-  [FiatExchangeEvents.cico_currency_chosen]: `User selects a currency and taps next`,
-  [FiatExchangeEvents.cico_currency_back]: `User presses the back button from the currency screen`,
-
   // The CICO Amount screen where the user selects the amount of money
   [FiatExchangeEvents.cico_amount_chosen]: `User selects a valid amount and taps next`,
   [FiatExchangeEvents.cico_amount_chosen_invalid]: `User attempts to click next but the amount is invalid`,
@@ -557,4 +553,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [RequestEvents.request_confirm_back]: `when back button pressed on request confirmation screen`,
   // [RequestEvents.request_confirm_request]: `when request button pressed on request confirmation screen`,
   // [RequestEvents.request_error]: `when there is an error requesting a transaction`,
+  // [FiatExchangeEvents.cico_currency_chosen]: `User selects a currency and taps next`,
+  // [FiatExchangeEvents.cico_currency_back]: `User presses the back button from the currency screen`,
 }
