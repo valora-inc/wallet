@@ -255,9 +255,7 @@ export default function SelectProviderScreen({ route, navigation }: Props) {
   }
 
   const switchCurrencyOnPress = () => {
-    flow === CICOFlow.CashIn
-      ? navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
-      : navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashOut })
+    navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: flow === CICOFlow.CashIn ? FiatExchangeFlow.CashIn : FiatExchangeFlow.CashOut })
   }
 
   if (!anyProviders) {
