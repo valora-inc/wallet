@@ -141,13 +141,13 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const { t } = useTranslation()
 
-  const handleToggleFilterChip = (filterChip: FilterChip<TokenBalance>) => {
-    const wasSelected = selectedFilters.some((selectedChip) => selectedChip.id === filterChip.id)
-    const updatedChips = wasSelected
-      ? selectedFilters.filter((filter) => filter.id !== filterChip.id)
-      : [...selectedFilters, filterChip]
-
-    setSelectedFilters(updatedChips)
+  const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
+    setSelectedFilters((prev) => {
+      if (prev.some((chip) => chip.id === toggledChip.id)) {
+        return prev.filter((chip) => chip.id !== toggledChip.id)
+      }
+      return [...prev, toggledChip]
+    })
   }
 
   const onTokenPressed = (token: T) => () => {
