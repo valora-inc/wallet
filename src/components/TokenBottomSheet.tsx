@@ -1,7 +1,8 @@
 import { debounce } from 'lodash'
-import React, { RefObject, useCallback, useMemo, useState } from 'react'
+import React, { RefObject, useCallback, useMemo, useRef, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -145,6 +146,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   filterChips = [],
   preSelectedFilterChips = [],
 }: TokenBottomSheetProps<T>) {
+  const filterChipsCarouselRef = useRef<ScrollView>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedFilters, setSelectedFilters] = useState(preSelectedFilterChips)
 
@@ -195,8 +197,12 @@ function TokenBottomSheet<T extends TokenBalance>({
   }, [searchTerm, tokens, selectedFilters])
 
   const handleOpen = () => {
-    setSearchTerm('')
     setSelectedFilters(preSelectedFilterChips)
+  }
+
+  const handleClose = () => {
+    setSearchTerm('')
+    filterChipsCarouselRef.current?.scrollTo({ x: 0 })
   }
 
   return (
@@ -234,11 +240,13 @@ function TokenBottomSheet<T extends TokenBalance>({
               primaryColor={colors.successDark}
               secondaryColor={colors.successLight}
               style={styles.filterChipsCarouselContainer}
+              forwardedRef={filterChipsCarouselRef}
             />
           )}
         </>
       }
       onOpen={handleOpen}
+      onClose={handleClose}
       testId="TokenBottomSheet"
     >
       {tokenList.length == 0 ? (
