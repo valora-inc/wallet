@@ -53,9 +53,9 @@ export default function LinkPhoneNumber({ navigation }: Props) {
           <Button
             text={t('linkPhoneNumber.startButtonLabel')}
             onPress={() => navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })}
-            style={{ marginBottom: Spacing.Thick24 }}
+            style={{ marginBottom: Spacing.Thick24, width: '100%' }}
             type={BtnTypes.PRIMARY}
-            size={BtnSizes.MEDIUM}
+            size={BtnSizes.FULL}
             testID="LinkPhoneNumberButton"
           />
           <TextButton
