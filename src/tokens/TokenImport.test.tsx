@@ -68,7 +68,7 @@ describe('TokenImport', () => {
       expect(getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')).toBeTruthy()
       expect(getByText('tokenImport.input.tokenSymbol')).toBeTruthy()
       expect(getByText('tokenImport.input.network')).toBeTruthy()
-      expect(queryByTestId('networkDropdown')).toBeFalsy()
+      expect(queryByTestId('NetworkDropdown')).toBeFalsy()
       expect(getByText('tokenImport.importButton')).toBeTruthy()
     })
 
@@ -259,7 +259,7 @@ describe('TokenImport', () => {
       expect(getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')).toBeTruthy()
       expect(getByText('tokenImport.input.tokenSymbol')).toBeTruthy()
       expect(getByText('tokenImport.input.network')).toBeTruthy()
-      expect(queryByTestId('networkDropdown')).toBeTruthy()
+      expect(queryByTestId('NetworkDropdown')).toBeTruthy()
       expect(getByText('tokenImport.importButton')).toBeTruthy()
     })
 
@@ -272,10 +272,10 @@ describe('TokenImport', () => {
       )
       const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
       const tokenSymbolInput = getByTestId('tokenSymbol')
-      const networkDropdown = getByTestId('networkDropdown')
       const importButton = getByText('tokenImport.importButton')
 
-      fireEvent(networkDropdown, 'onChangeValue', 'ethereum-mainnet')
+      fireEvent.press(getByTestId('NetworkDropdown-Touchable'))
+      fireEvent.press(getByTestId('NetworkDropdown-Ethereum Sepolia'))
 
       fireEvent.changeText(tokenAddressInput, mockPoofAddress)
       expect(tokenSymbolInput).toBeDisabled()
@@ -296,7 +296,6 @@ describe('TokenImport', () => {
       )
       const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
       const tokenSymbolInput = getByTestId('tokenSymbol')
-      const networkDropdown = getByTestId('networkDropdown')
       const importButton = getByText('tokenImport.importButton')
 
       fireEvent.changeText(tokenAddressInput, mockPoofAddress)
@@ -304,7 +303,9 @@ describe('TokenImport', () => {
       fireEvent(tokenAddressInput, 'blur')
 
       expect(importButton).toBeDisabled()
-      fireEvent(networkDropdown, 'onChangeValue', 'ethereum-mainnet')
+
+      fireEvent.press(getByTestId('NetworkDropdown-Touchable'))
+      fireEvent.press(getByTestId('NetworkDropdown-Ethereum Sepolia'))
 
       await waitFor(() => expect(tokenSymbolInput.props.value).toBe('ABC'))
       expect(importButton).toBeEnabled()
@@ -332,10 +333,10 @@ describe('TokenImport', () => {
       )
       const tokenAddressInput = getByPlaceholderText('tokenImport.input.tokenAddressPlaceholder')
       const tokenSymbolInput = getByTestId('tokenSymbol')
-      const networkDropdown = getByTestId('networkDropdown')
       const importButton = getByText('tokenImport.importButton')
 
-      fireEvent(networkDropdown, 'onChangeValue', 'ethereum-sepolia')
+      fireEvent.press(getByTestId('NetworkDropdown-Touchable'))
+      fireEvent.press(getByTestId('NetworkDropdown-Ethereum Sepolia'))
 
       fireEvent.changeText(tokenAddressInput, mockPoofAddress)
       expect(tokenSymbolInput).toBeDisabled()

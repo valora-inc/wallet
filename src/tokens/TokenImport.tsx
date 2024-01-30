@@ -3,7 +3,6 @@ import React, { ReactElement, useEffect, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
-import DropDownPicker from 'react-native-dropdown-picker'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
@@ -12,14 +11,13 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
+import Dropdown from 'src/components/Dropdown'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Checkmark from 'src/icons/Checkmark'
-import DownArrowIcon from 'src/icons/DownArrowIcon'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
-import UpArrowIcon from 'src/icons/UpArrowIcon'
 import { noHeader } from 'src/navigator/Headers'
 import { navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -247,13 +245,16 @@ export default function TokenImportScreen(_: Props) {
             {networkShouldBeEditable ? (
               <>
                 <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
-                <NetworkDropdown
-                  onNetworkSelected={(networkId) => {
+                <Dropdown
+                  options={supportedNetworkIds.map((networkId) => ({
+                    value: networkId,
+                    label: NETWORK_NAMES[networkId],
+                  }))}
+                  onValueSelected={(networkId) => {
                     clearFetchedState()
                     setNetworkId(networkId)
                   }}
-                  networkIds={supportedNetworkIds}
-                  disabled={isLoadingTokenDetails}
+                  testId="NetworkDropdown"
                 />
               </>
             ) : (
@@ -331,47 +332,6 @@ const TextInputGroup = ({
   </View>
 )
 
-const NetworkDropdown = ({
-  networkIds,
-  onNetworkSelected,
-  disabled,
-}: {
-  networkIds: NetworkId[]
-  onNetworkSelected: (value: NetworkId | null) => void
-  disabled: boolean
-}) => {
-  const [items] = useState(
-    networkIds.map((networkId) => ({
-      label: NETWORK_NAMES[networkId],
-      value: networkId,
-    }))
-  )
-
-  const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<NetworkId | null>(null)
-
-  return (
-    <DropDownPicker
-      open={open}
-      value={value}
-      items={items}
-      setOpen={setOpen}
-      setValue={setValue}
-      style={styles.dropdownTextContainer}
-      placeholder=""
-      listMode="SCROLLVIEW"
-      ArrowUpIconComponent={() => <UpArrowIcon color={Colors.primary} strokeWidth={2} />}
-      ArrowDownIconComponent={() => <DownArrowIcon color={Colors.primary} strokeWidth={2} />}
-      showTickIcon={false}
-      dropDownContainerStyle={styles.dropdownTextContainer}
-      onChangeValue={onNetworkSelected}
-      disabled={disabled}
-      textStyle={typeScale.bodyMedium}
-      testID="networkDropdown"
-    />
-  )
-}
-
 TokenImportScreen.navigationOptions = {
   ...noHeader,
 }
@@ -413,10 +373,5 @@ const styles = StyleSheet.create({
   errorLabel: {
     ...typeScale.labelSmall,
     color: Colors.error,
-  },
-  dropdownTextContainer: {
-    borderColor: Colors.gray2,
-    borderRadius: Spacing.Tiny4,
-    borderWidth: 1.5,
   },
 })
