@@ -33,9 +33,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -218,6 +218,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 
 const useFilterChips = (selectingField: Field | null) => {
   const { t } = useTranslation()
+  const showSwapTokenFilters = getFeatureGate(StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
   const recentlySwappedTokens = useSelector(lastSwappedSelector)
   const popularTokens: string[] = [] // TODO
   const supportedNetworkIds = getSupportedNetworkIdsForSwap()
@@ -225,8 +226,12 @@ const useFilterChips = (selectingField: Field | null) => {
   const preSelectedFilterChipIds =
     selectingField === Field.FROM ? ['my-tokens'] : ['my-tokens', 'popular']
 
-  const filterChips: FilterChip<TokenBalance>[] = useMemo(
-    () => [
+  const filterChips: FilterChip<TokenBalance>[] = useMemo(() => {
+    if (!showSwapTokenFilters) {
+      return []
+    }
+
+    return [
       {
         id: 'my-tokens',
         name: t('tokenBottomSheet.filters.myTokens'),
@@ -262,9 +267,8 @@ const useFilterChips = (selectingField: Field | null) => {
             },
           ]
         : []),
-    ],
-    [t, recentlySwappedTokens]
-  )
+    ]
+  }, [t, recentlySwappedTokens, popularTokens, supportedNetworkIds, showSwapTokenFilters])
 
   return {
     filterChips,
