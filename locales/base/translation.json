@@ -874,8 +874,6 @@
     }
   },
   "importSelect": {
-    "header": "Restore Method",
-    "title": "Restore your wallet",
     "description": "If you set up a backup to protect your wallet, choose an option below.",
     "emailAndPhone": {
       "title": "From email & phone backup",
