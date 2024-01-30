@@ -177,7 +177,7 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
   const sendableTokens = useTokensForSend()
-  const swappableTokens = useSwappableTokens()
+  const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
@@ -215,7 +215,7 @@ export const useActions = (token: TokenBalance) => {
       },
       visible:
         isSwapEnabled &&
-        !!swappableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId) &&
+        !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId) &&
         token.balance.gt(TOKEN_MIN_AMOUNT),
     },
     {
