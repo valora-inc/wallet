@@ -62,7 +62,6 @@ function Dropdown<T>(props: Props<T>) {
 }
 
 const styles = StyleSheet.create({
-  dropdownContainer: {},
   selectedOptionContainer: {
     padding: Spacing.Small12,
     borderColor: Colors.gray2,
