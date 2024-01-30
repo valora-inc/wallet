@@ -21,6 +21,7 @@ export enum Actions {
   SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
   SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
+  DEEP_LINK_DEFERRED = 'APP/DEEP_LINK_DEFERRED',
   RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
   SET_ANALYTICS_ENABLED = 'APP/SET_ANALYTICS_ENABLED',
@@ -70,6 +71,12 @@ interface SetSupportedBiometryType {
 
 export interface OpenDeepLink {
   type: Actions.OPEN_DEEP_LINK
+  deepLink: string
+  isSecureOrigin: boolean
+}
+
+interface DeepLinkDeferred {
+  type: Actions.DEEP_LINK_DEFERRED
   deepLink: string
   isSecureOrigin: boolean
 }
@@ -215,6 +222,7 @@ export type ActionTypes =
   | NotificationSpotlightSeen
   | ToggleHideHomeBalances
   | OptMultichainBeta
+  | DeepLinkDeferred
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -239,6 +247,14 @@ export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE | 
 export const openDeepLink = (deepLink: string, isSecureOrigin: boolean = false): OpenDeepLink => {
   return {
     type: Actions.OPEN_DEEP_LINK,
+    deepLink,
+    isSecureOrigin,
+  }
+}
+
+export const deepLinkDeferred = (deepLink: string, isSecureOrigin: boolean): DeepLinkDeferred => {
+  return {
+    type: Actions.DEEP_LINK_DEFERRED,
     deepLink,
     isSecureOrigin,
   }
