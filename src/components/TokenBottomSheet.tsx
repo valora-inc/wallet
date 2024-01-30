@@ -41,7 +41,7 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   preSelectedFilterChips?: FilterChip<TokenBalance>[]
 }
 
-export interface TokenOptionProps {
+interface TokenOptionProps {
   tokenInfo: TokenBalance
   onPress: () => void
   index: number
@@ -51,7 +51,7 @@ export interface TokenOptionProps {
 /**
  * @deprecated new bottom sheets should use TokenBalanceItemOption
  */
-export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
+function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
   return (
     <>
       {index > 0 && <View style={styles.separator} />}
