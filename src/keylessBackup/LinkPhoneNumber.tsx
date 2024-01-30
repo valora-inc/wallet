@@ -2,10 +2,10 @@ import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import BackButton from 'src/components/BackButton'
-import Button from 'src/components/Button'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import TextButton from 'src/components/TextButton'
 
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
@@ -37,10 +37,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        style={[headerHeight ? { marginTop: headerHeight } : undefined]}
-      >
+      <View>
         <View style={styles.viewContainer}>
           <View style={styles.screenTextContainer}>
             <Text style={styles.screenTitle}>{t('linkPhoneNumber.title')}</Text>
@@ -57,6 +54,8 @@ export default function LinkPhoneNumber({ navigation }: Props) {
             text={t('linkPhoneNumber.startButtonLabel')}
             onPress={() => navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })}
             style={{ marginBottom: Spacing.Thick24 }}
+            type={BtnTypes.PRIMARY}
+            size={BtnSizes.MEDIUM}
             testID="LinkPhoneNumberButton"
           />
           <TextButton
@@ -67,7 +66,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
             {t('linkPhoneNumber.later')}
           </TextButton>
         </View>
-      </ScrollView>
+      </View>
     </SafeAreaView>
   )
 }
