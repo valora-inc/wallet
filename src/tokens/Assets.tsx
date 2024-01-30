@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -18,6 +18,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -39,6 +40,7 @@ import {
   nftsLoadingSelector,
   nftsWithMetadataSelector,
 } from 'src/nfts/selectors'
+import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import {
   positionsSelector,
@@ -110,6 +112,7 @@ const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
 function AssetsScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
@@ -147,6 +150,10 @@ function AssetsScreen({ navigation, route }: Props) {
   const nfts = useSelector(nftsWithMetadataSelector)
   // Group nfts for use in the section list
   const nftsGrouped = groupArrayByN(nfts, NUM_OF_NFTS_PER_ROW)
+
+  useEffect(() => {
+    dispatch(fetchNfts())
+  }, [])
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
