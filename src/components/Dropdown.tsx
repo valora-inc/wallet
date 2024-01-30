@@ -40,8 +40,6 @@ function Dropdown<T>(props: Props<T>) {
         <View>
           <View style={styles.optionsContainer}>
             {props.options.map((option) => {
-              console.log('Diegooo', testID + '-' + option.label)
-
               return (
                 <Touchable
                   style={{ padding: Spacing.Small12 }}
