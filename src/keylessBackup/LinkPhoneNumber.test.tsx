@@ -33,7 +33,7 @@ describe('LinkPhoneNumber', () => {
         <LinkPhoneNumber {...getMockStackScreenProps(Screens.LinkPhoneNumber)} />
       </Provider>
     )
-    fireEvent.press(getByTestId('LinkePhoneNumberLater'))
+    fireEvent.press(getByTestId('LinkPhoneNumberLater'))
 
     expect(navigateHome).toHaveBeenCalledTimes(1)
   })

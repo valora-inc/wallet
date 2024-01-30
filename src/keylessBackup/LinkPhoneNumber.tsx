@@ -57,7 +57,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
             testID="LinkPhoneNumberButton"
           />
           <TextButton
-            testID="LinkePhoneNumberLater"
+            testID="LinkPhoneNumberLater"
             style={{ color: colors.primary }}
             onPress={() => navigateHome()}
           >
