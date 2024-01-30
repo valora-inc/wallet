@@ -10,7 +10,6 @@ import {
   supportedBiometryTypeSelector,
 } from 'src/app/selectors'
 import { setHasSeenVerificationNux } from 'src/identity/actions'
-import { ChosenRestoreType } from 'src/importSelect/ImportSelect'
 import * as NavigationService from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -48,7 +47,6 @@ export interface OnboardingProps {
   chooseAdventureEnabled: boolean
   onboardingNameScreenEnabled: boolean
   showCloudAccountBackupRestore: boolean
-  chosenRestoreType?: ChosenRestoreType
 }
 
 /**
@@ -263,11 +261,13 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     case Screens.ImportSelect:
       return {
         next: () => {
-          if (props.chosenRestoreType === ChosenRestoreType.Cloud) {
-            // @ts-expect-error typing issues with custom navigate wrapper
-            navigate(Screens.SignInWithEmail, { keylessBackupFlow: 'restore' })
+          if (skipVerification || numberAlreadyVerifiedCentrally) {
+            dispatch(setHasSeenVerificationNux(true))
+            // navigateHome will clear onboarding Stack
+            navigateHomeOrChooseAdventure()
           } else {
-            navigate(Screens.ImportWallet)
+            // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
+            navigate(Screens.VerificationStartScreen)
           }
         },
       }
