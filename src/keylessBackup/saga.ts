@@ -1,5 +1,4 @@
 import { privateKeyToAddress } from '@celo/utils/lib/address'
-import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -156,8 +155,7 @@ function* handleKeylessBackupRestore({
   }
   // Set key in phone's secure store
   yield* call(storeMnemonic, decryptedMnemonic, account)
-  // Set backup complete so user isn't prompted to do backup flow
-  yield* put(setBackupCompleted())
+
   yield* put(refreshAllBalances())
 
   yield* call(initializeAccountSaga)

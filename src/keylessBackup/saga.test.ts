@@ -2,7 +2,6 @@ import { privateKeyToAddress } from '@celo/utils/lib/address'
 import { expectSaga } from 'redux-saga-test-plan'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call, select } from 'redux-saga/effects'
-import { setBackupCompleted } from 'src/account/actions'
 import { initializeAccountSaga } from 'src/account/saga'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
@@ -251,7 +250,6 @@ describe('keylessBackup saga', () => {
           ])
           .call(storeMnemonic, mockMnemonic, mockWalletAddress)
           .call(initializeAccountSaga)
-          .put(setBackupCompleted())
           .put(refreshAllBalances())
           .put(keylessBackupCompleted())
           .run()
