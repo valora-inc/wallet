@@ -874,6 +874,7 @@
     }
   },
   "importSelect": {
+    "title": "Restore Your Wallet",
     "description": "If you set up a backup to protect your wallet, choose an option below.",
     "emailAndPhone": {
       "title": "From email & phone backup",
