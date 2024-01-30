@@ -49,6 +49,7 @@ function Dropdown<T>(props: Props<T>) {
                     props.onValueSelected(option.value)
                   }}
                   testID={testID + '-' + option.label}
+                  key={option.label}
                 >
                   <Text style={styles.optionText}>{option.label}</Text>
                 </Touchable>
