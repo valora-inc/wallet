@@ -17,7 +17,6 @@ interface Props<T> {
   onSelectChip(chip: FilterChip<T>): void
   primaryColor: colors
   secondaryColor: colors
-  scrollRef?: React.RefObject<ScrollView>
   style?: StyleProp<ViewStyle>
 }
 
@@ -27,16 +26,14 @@ function FilterChipsCarousel<T>({
   onSelectChip,
   primaryColor,
   secondaryColor,
-  scrollRef,
   style,
 }: Props<T>) {
   return (
     <ScrollView
       horizontal={true}
+      showsHorizontalScrollIndicator={false}
       style={[styles.container, style]}
       contentContainerStyle={styles.contentContainer}
-      showsHorizontalScrollIndicator={false}
-      ref={scrollRef}
     >
       {chips.map((chip) => {
         const isChipSelected = selectedChips.some((selectedChip) => selectedChip.id === chip.id)
