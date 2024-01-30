@@ -1528,4 +1528,9 @@ export const migrations = {
     ...state,
     tokens: _.omit(state.tokens, 'importedTokens'),
   }),
+  186: (state: any) => ({
+    ...state,
+    home: { ...state.home, hasVisitedHome: !!state.web3.account },
+    app: { ...state.app, pendingDeepLinks: [] },
+  }),
 }
