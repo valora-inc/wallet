@@ -6,7 +6,8 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button from 'src/components/Button'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import Bird from 'src/icons/Bird'
-import { navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -17,7 +18,7 @@ export default function GetStarted() {
   const { superchargeApy } = useSelector((state) => state.app)
   const goToAddFunds = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_add_get_started_selected)
-    navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+    navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
   }
 
   useEffect(() => {

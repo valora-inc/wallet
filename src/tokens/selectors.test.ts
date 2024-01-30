@@ -420,13 +420,6 @@ describe('tokensWithNonZeroBalanceAndShowZeroBalanceSelector', () => {
 
 describe(cashInTokensByNetworkIdSelector, () => {
   describe('when fetching cash in tokens', () => {
-    it('returns the right tokens when isCicoToken check used', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      const tokens = cashInTokensByNetworkIdSelector(state, [NetworkId['celo-alfajores']])
-      expect(tokens.length).toEqual(2)
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
-    })
     it('returns the right tokens when isCicoToken check not used', () => {
       const tokens = cashInTokensByNetworkIdSelector(state, [
         NetworkId['celo-alfajores'],
@@ -442,27 +435,6 @@ describe(cashInTokensByNetworkIdSelector, () => {
 
 describe(cashOutTokensByNetworkIdSelector, () => {
   describe('when fetching cash out tokens', () => {
-    it('returns the right tokens without zero balance included when isCicoToken check used', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      const tokens = cashOutTokensByNetworkIdSelector(
-        state,
-        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-        false
-      )
-      expect(tokens.length).toEqual(1)
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
-    })
-    it('returns the right tokens with zero balance included when isCicoToken check used', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      const tokens = cashOutTokensByNetworkIdSelector(
-        state,
-        [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-        true
-      )
-      expect(tokens.length).toEqual(2)
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xusd')?.symbol).toEqual('cUSD')
-      expect(tokens.find((t) => t.tokenId === 'celo-alfajores:0xeur')?.symbol).toEqual('cEUR')
-    })
     it('returns the right tokens without zero balance included when isCicoToken check not used', () => {
       const tokens = cashOutTokensByNetworkIdSelector(
         state,

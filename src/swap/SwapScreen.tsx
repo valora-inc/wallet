@@ -27,7 +27,7 @@ import CustomHeader from 'src/components/header/CustomHeader'
 import { SWAP_LEARN_MORE } from 'src/config'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
@@ -848,7 +848,7 @@ export function SwapScreen({ route }: Props) {
           style={styles.bottomSheetButton}
           onPress={() => {
             ValoraAnalytics.track(SwapEvents.swap_add_funds)
-            navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+            navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
           }}
           text={t('swapScreen.fundYourWalletBottomSheet.addFundsButton')}
         />

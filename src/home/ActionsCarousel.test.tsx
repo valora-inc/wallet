@@ -7,7 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { createMockStore } from 'test/utils'
@@ -98,7 +98,9 @@ describe('ActionsCarousel', () => {
     ).toBeTruthy()
 
     fireEvent.press(getByTestId(`HomeActionTouchable-${HomeActionName.Add}`))
-    expect(navigateToFiatCurrencySelection).toHaveBeenCalledWith(FiatExchangeFlow.CashIn)
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
+      flow: FiatExchangeFlow.CashIn,
+    })
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
