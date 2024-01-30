@@ -104,17 +104,26 @@ export function TokenBalanceItemOption({
 function NoResults({
   testID = 'TokenBottomSheet/NoResult',
   searchTerm,
+  selectedFilters,
 }: {
   testID?: string
   searchTerm: string
+  selectedFilters: FilterChip<TokenBalance>[]
 }) {
+  const activeSearchTerms = [searchTerm, ...selectedFilters.map((filter) => filter.name)]
+    .filter((term) => !!term)
+    .join(', ')
+
   return (
     <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.infoDark} />
       </View>
       <Text style={styles.noResultsText}>
-        <Trans i18nKey="tokenBottomSheet.noTokenInResult" tOptions={{ searchTerm }}>
+        <Trans
+          i18nKey="tokenBottomSheet.noTokenInResult"
+          tOptions={{ searchTerm: activeSearchTerms }}
+        >
           <Text style={styles.noResultsText} />
         </Trans>
       </Text>
@@ -233,8 +242,8 @@ function TokenBottomSheet<T extends TokenBalance>({
       testId="TokenBottomSheet"
     >
       {tokenList.length == 0 ? (
-        searchEnabled ? (
-          <NoResults searchTerm={searchTerm} />
+        searchEnabled || filterChips.length > 0 ? (
+          <NoResults searchTerm={searchTerm} selectedFilters={selectedFilters} />
         ) : null
       ) : (
         tokenList.map((tokenInfo, index) => {
