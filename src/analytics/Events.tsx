@@ -290,7 +290,6 @@ export enum SendEvents {
   send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  token_selected = 'token_selected',
   max_pressed = 'max_pressed',
   swap_input_pressed = 'swap_input_pressed',
 
@@ -572,6 +571,8 @@ export enum CeloNewsEvents {
 
 export enum TokenBottomSheetEvents {
   search_token = 'search_token',
+  token_selected = 'token_selected',
+  toggle_tokens_filter = 'toggle_tokens_filter',
 }
 
 export enum AssetsEvents {
