@@ -155,8 +155,9 @@ export function convertTokenToLocalAmount({
 }
 
 export function getSupportedNetworkIdsForTokenBalances(): NetworkId[] {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showBalances
+  return getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showBalances.filter((networkId) => networkId in NetworkId)
 }
 
 export function getTokenId(networkId: NetworkId, tokenAddress?: string): string {

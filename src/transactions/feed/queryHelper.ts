@@ -64,8 +64,9 @@ export const deduplicateTransactions = (
 }
 
 export function getAllowedNetworkIds(): Array<NetworkId> {
-  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
-    .showTransfers
+  return getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
+  ).showTransfers.filter((networkId) => networkId in NetworkId)
 }
 
 export function useFetchTransactions(): QueryHookResult {
