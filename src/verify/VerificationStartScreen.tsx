@@ -9,7 +9,11 @@ import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount } from 'src/account/actions'
-import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
+import {
+  choseToRestoreAccountSelector,
+  defaultCountryCodeSelector,
+  e164NumberSelector,
+} from 'src/account/selectors'
 import { getPhoneNumberDetails } from 'src/account/utils'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -66,6 +70,8 @@ function VerificationStartScreen({
     Screens.VerificationStartScreen,
     onboardingProps
   )
+  const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
+  const showSteps = route.params?.isOnboarding && !choseToRestoreAccount
 
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const country = phoneNumberInfo.countryCodeAlpha2
@@ -80,7 +86,7 @@ function VerificationStartScreen({
 
     dispatch(setHasSeenVerificationNux(true))
     navigate(Screens.VerificationCodeInputScreen, {
-      registrationStep: route.params?.hideOnboardingStep ? undefined : { step, totalSteps },
+      registrationStep: showSteps ? { step, totalSteps } : undefined,
       e164Number: phoneNumberInfo.e164Number,
       countryCallingCode: country?.countryCallingCode || '',
     })
@@ -105,19 +111,17 @@ function VerificationStartScreen({
   }
 
   useLayoutEffect(() => {
-    const title = route.params?.hideOnboardingStep
-      ? t('phoneVerificationScreen.screenTitle')
-      : () => (
-          <HeaderTitleWithSubtitle
-            title={t('phoneVerificationScreen.screenTitle')}
-            subTitle={t('registrationSteps', { step, totalSteps })}
-          />
-        )
+    const title = () => (
+      <HeaderTitleWithSubtitle
+        title={t('phoneVerificationScreen.screenTitle')}
+        subTitle={showSteps && t('registrationSteps', { step, totalSteps })}
+      />
+    )
 
     navigation.setOptions({
       headerTitle: title,
       headerRight: () =>
-        !route.params?.hideOnboardingStep && (
+        route.params?.isOnboarding && (
           <TopBarTextButton
             title={t('skip')}
             testID="PhoneVerificationSkipHeader"
@@ -125,15 +129,15 @@ function VerificationStartScreen({
             titleStyle={{ color: colors.onboardingBrownLight }}
           />
         ),
-      headerLeft: () => route.params?.hideOnboardingStep && <BackButton />,
+      headerLeft: () => !route.params?.isOnboarding && <BackButton />,
       // Disable iOS back during onboarding
-      gestureEnabled: route.params?.hideOnboardingStep ? false : true,
+      gestureEnabled: !route.params?.isOnboarding,
     })
-  }, [navigation, step, totalSteps, route.params])
+  }, [navigation, step, totalSteps, route.params, showSteps])
 
   // Prevent device back on Android during onboarding
   useEffect(() => {
-    if (!route.params?.hideOnboardingStep) {
+    if (route.params?.isOnboarding) {
       const backPressListener = () => true
       BackHandler.addEventListener('hardwareBackPress', backPressListener)
       return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
@@ -180,7 +184,7 @@ function VerificationStartScreen({
       selectedCountryCodeAlpha2: phoneNumberInfo.countryCodeAlpha2,
       onSelectCountry: (countryCodeAlpha2: string) => {
         navigate(Screens.VerificationStartScreen, {
-          hideOnboardingStep: !!route.params?.hideOnboardingStep,
+          isOnboarding: !!route.params?.isOnboarding,
           selectedCountryCodeAlpha2: countryCodeAlpha2,
         })
       },

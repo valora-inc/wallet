@@ -262,7 +262,7 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.CashIn,
       })
     } else {
-      navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
+      navigate(Screens.VerificationStartScreen)
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.VerifyPhone,
       })
