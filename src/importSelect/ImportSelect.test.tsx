@@ -48,6 +48,6 @@ describe('ImportSelect', () => {
     )
 
     fireEvent.press(getByTestId('ImportSelect/Mnemonic'))
-    expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
+    expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet, { clean: true })
   })
 })
