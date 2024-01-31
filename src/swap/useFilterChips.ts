@@ -53,7 +53,8 @@ export default function useFilterChip(selectingField: Field | null) {
             },
           ]
         : []),
-      ...(supportedNetworkIds.includes(NetworkId['ethereum-mainnet'])
+      ...(supportedNetworkIds.includes(NetworkId['ethereum-mainnet']) ||
+      supportedNetworkIds.includes(NetworkId['ethereum-sepolia'])
         ? [
             {
               id: 'ethereum-network',
