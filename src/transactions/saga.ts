@@ -50,10 +50,13 @@ import { Hash, TransactionReceipt } from 'viem'
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
+
+// These are in msecs and you want a value that's equal to the average
+// blocktime and no less than 5000.
 const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Celo]: 5000,
   [Network.Ethereum]: 15000,
-  [Network.Arbitrum]: 10000,
+  [Network.Arbitrum]: 5000,
 }
 
 // Remove standby txs from redux state when the real ones show up in the feed
