@@ -38,7 +38,6 @@ import {
 } from 'test/values'
 
 const mockFetch = fetch as FetchMock
-const mockExperimentParams = jest.fn()
 const mockGetNumberFormatSettings = jest.fn()
 
 // Use comma as decimal separator for all tests here
