@@ -100,7 +100,10 @@ const mockStoreTokenBalances = {
     priceUsd: '13.05584965485329753569',
   },
   [mockTestTokenTokenId]: {
-    ...mockTokenBalances[mockTestTokenTokenId],
+    tokenId: mockTestTokenTokenId,
+    networkId: NetworkId['celo-alfajores'],
+    symbol: 'TT',
+    name: 'Test Token',
     isSwappable: false,
     balance: '100',
     // no priceUsd
@@ -131,10 +134,14 @@ const renderScreen = ({
   celoBalance = '10',
   cUSDBalance = '20.456',
   fromTokenId = undefined,
+  isPoofSwappable = true,
+  poofBalance = '100',
 }: {
   celoBalance?: string
   cUSDBalance?: string
   fromTokenId?: string
+  isPoofSwappable?: boolean
+  poofBalance?: string
 }) => {
   const store = createMockStore({
     tokens: {
@@ -147,6 +154,11 @@ const renderScreen = ({
         [mockCeloTokenId]: {
           ...mockStoreTokenBalances[mockCeloTokenId],
           balance: celoBalance,
+        },
+        [mockPoofTokenId]: {
+          ...mockStoreTokenBalances[mockPoofTokenId],
+          isSwappable: isPoofSwappable,
+          balance: poofBalance,
         },
       },
     },
@@ -320,6 +332,31 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
+  })
+
+  it('should show only the allowed to and from tokens', async () => {
+    const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({
+      isPoofSwappable: false,
+      poofBalance: '0',
+    })
+
+    fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+
+    expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    // should see TT even though it is marked as not swappable, because there is a balance
+    expect(within(tokenBottomSheet).getByText('Test Token')).toBeTruthy()
+    // should see not see POOF because it is marked as not swappable and there is no balance
+    expect(within(tokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
+
+    // finish the token selection
+    fireEvent.press(within(tokenBottomSheet).getByText('Celo Dollar'))
+    expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
+
+    fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
+
+    expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
+    expect(within(tokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
   })
 
   it('should not select a token without usd price if the user dismisses the warning', async () => {

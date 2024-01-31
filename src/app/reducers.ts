@@ -7,6 +7,8 @@ import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDe
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
+const PERSISTED_DEEP_LINKS = ['https://valoraapp.com/share', 'celo://wallet/jumpstart']
+
 export interface State {
   loggedIn: boolean
   numberVerified: boolean // decentrally verified
@@ -56,6 +58,12 @@ export interface State {
   showNotificationSpotlight: boolean
   hideHomeBalances: boolean
   multichainBetaStatus: MultichainBetaStatus
+  pendingDeepLinks: PendingDeepLink[]
+}
+
+interface PendingDeepLink {
+  url: string
+  isSecureOrigin: boolean
 }
 
 const initialState = {
@@ -107,6 +115,13 @@ const initialState = {
   showNotificationSpotlight: false,
   hideHomeBalances: false,
   multichainBetaStatus: MultichainBetaStatus.NotSeen,
+  pendingDeepLinks: [],
+}
+
+function getPersistedDeepLinks(deepLinks: PendingDeepLink[]) {
+  return deepLinks.filter((deepLink) =>
+    PERSISTED_DEEP_LINKS.some((link) => deepLink.url.startsWith(link))
+  )
 }
 
 export const appReducer = (
@@ -123,6 +138,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        pendingDeepLinks: getPersistedDeepLinks(rehydratePayload.pendingDeepLinks ?? []),
       }
     }
     case Actions.SET_APP_STATE:
@@ -286,6 +302,21 @@ export const appReducer = (
         multichainBetaStatus: action.optedIn
           ? MultichainBetaStatus.OptedIn
           : MultichainBetaStatus.OptedOut,
+      }
+    case Actions.DEEP_LINK_DEFERRED:
+      return {
+        ...state,
+        pendingDeepLinks: [
+          ...state.pendingDeepLinks,
+          { url: action.deepLink, isSecureOrigin: action.isSecureOrigin },
+        ],
+      }
+    case Actions.OPEN_DEEP_LINK:
+      return {
+        ...state,
+        pendingDeepLinks: state.pendingDeepLinks.filter(
+          (pendingDeepLink) => pendingDeepLink.url !== action.deepLink
+        ),
       }
     default:
       return state

@@ -40,7 +40,6 @@ import {
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
 import { activeDappSelector } from 'src/dapps/selectors'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import { resolveDynamicLink } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
@@ -71,6 +70,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
+import { mockAccount } from 'test/values'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -108,7 +108,9 @@ describe('handleDeepLink', () => {
 
   it('Handles Dappkit deep link', async () => {
     const deepLink = 'celo://wallet/dappkit?abcdsa'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(handleDappkitDeepLink).toHaveBeenCalledWith(deepLink)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'dappkit',
@@ -130,7 +132,10 @@ describe('handleDeepLink', () => {
     const deepLink = `celo://wallet/pay?${params.toString()}`
 
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[matchers.call.fn(handlePaymentDeeplink), deepLink]])
+      .provide([
+        [matchers.call.fn(handlePaymentDeeplink), deepLink],
+        [select(walletAddressSelector), mockAccount],
+      ])
       .run()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'pay',
@@ -142,7 +147,9 @@ describe('handleDeepLink', () => {
 
   it('Handles cash in deep link', async () => {
     const deepLink = 'celo://wallet/cashIn'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
       flow: FiatExchangeFlow.CashIn,
     })
@@ -155,7 +162,9 @@ describe('handleDeepLink', () => {
 
   it('Handles Bidali deep link', async () => {
     const deepLink = 'celo://wallet/bidali'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'bidali',
@@ -166,7 +175,9 @@ describe('handleDeepLink', () => {
 
   it('Handles cash-in-success deep link', async () => {
     const deepLink = 'celo://wallet/cash-in-success/simplex'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cash-in-success',
@@ -177,7 +188,9 @@ describe('handleDeepLink', () => {
 
   it('Handles cash-in-success deep link with query params', async () => {
     const deepLink = 'celo://wallet/cash-in-success/simplex?isApproved=true'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(navigate).toHaveBeenCalledWith(Screens.CashInSuccess, { provider: 'simplex' })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'cash-in-success',
@@ -188,7 +201,9 @@ describe('handleDeepLink', () => {
 
   it('Handles openScreen deep link with safe origin', async () => {
     const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
-    await expectSaga(handleDeepLink, openDeepLink(deepLink, true)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink, true))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(navigate).toHaveBeenCalledWith(
       Screens.FiatExchangeCurrency,
       expect.objectContaining({ flow: FiatExchangeFlow.CashIn })
@@ -202,7 +217,9 @@ describe('handleDeepLink', () => {
 
   it('Handles openScreen deep link without safe origin', async () => {
     const deepLink = `celo://wallet/openScreen?screen=${Screens.FiatExchangeCurrency}&flow=CashIn`
-    await expectSaga(handleDeepLink, openDeepLink(deepLink, false)).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink, false))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .run()
     expect(navigate).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'openScreen',
@@ -213,7 +230,10 @@ describe('handleDeepLink', () => {
 
   it('Handles long share deep link', async () => {
     const deepLink = 'https://celo.org/share/abc123'
-    await expectSaga(handleDeepLink, openDeepLink(deepLink)).put(inviteLinkConsumed('abc123')).run()
+    await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .provide([[select(walletAddressSelector), mockAccount]])
+      .put(inviteLinkConsumed('abc123'))
+      .run()
 
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
@@ -226,10 +246,10 @@ describe('handleDeepLink', () => {
     })
   })
 
-  it('Handles short share deep link', async () => {
-    const deepLink = 'https://vlra.app/someShortLink'
+  it('Handles share deep link', async () => {
+    const deepLink = 'https://celo.org/share/abc123'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[call(resolveDynamicLink, deepLink), 'https://celo.org/share/abc123']])
+      .provide([[select(walletAddressSelector), mockAccount]])
       .put(inviteLinkConsumed('abc123'))
       .run()
 
@@ -261,7 +281,10 @@ describe('handleDeepLink', () => {
   it('Handles hooks enable preview links', async () => {
     const deepLink = 'celo://wallet/hooks/enablePreview?hooksApiUrl=https://192.168.0.42:18000'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
-      .provide([[select(allowHooksPreviewSelector), true]])
+      .provide([
+        [select(allowHooksPreviewSelector), true],
+        [select(walletAddressSelector), mockAccount],
+      ])
       .run()
 
     expect(handleEnableHooksPreviewDeepLink).toHaveBeenCalledWith(
@@ -304,6 +327,7 @@ describe('WalletConnect deeplinks', () => {
       .provide([
         [select(selectHasPendingState), false],
         [select(activeDappSelector), null],
+        [select(walletAddressSelector), mockAccount],
         {
           race: () => ({ timedOut: true }),
         },
@@ -325,6 +349,7 @@ describe('WalletConnect deeplinks', () => {
       await expectSaga(handleDeepLink, openDeepLink(link))
         .provide([
           [select(selectHasPendingState), false],
+          [select(walletAddressSelector), mockAccount],
           {
             race: () => ({ timedOut: false }),
           },
@@ -346,6 +371,7 @@ describe('WalletConnect deeplinks', () => {
       await expectSaga(handleDeepLink, openDeepLink(link))
         .provide([
           [select(selectHasPendingState), true],
+          [select(walletAddressSelector), mockAccount],
           {
             race: () => ({ timedOut: false }),
           },
@@ -374,6 +400,7 @@ describe('WalletConnect deeplinks', () => {
       await expectSaga(handleDeepLink, openDeepLink(link))
         .provide([
           [select(selectHasPendingState), false],
+          [select(walletAddressSelector), mockAccount],
           {
             race: () => ({ timedOut: false }),
           },
@@ -389,7 +416,10 @@ describe('WalletConnect deeplinks', () => {
 
     it(`handles ${name} action links correctly when there's a pending request`, async () => {
       await expectSaga(handleDeepLink, openDeepLink(link))
-        .provide([[select(selectHasPendingState), true]])
+        .provide([
+          [select(selectHasPendingState), true],
+          [select(walletAddressSelector), mockAccount],
+        ])
         .call(handleWalletConnectDeepLink, link)
         .not.call(initialiseWalletConnect)
         .run()
@@ -423,6 +453,7 @@ describe('handleOpenUrl', () => {
 
     it('opens celo links directly', async () => {
       await expectSaga(handleOpenUrl, openUrl(celoLink))
+        .provide([[select(walletAddressSelector), mockAccount]])
         .call(handleDeepLink, openDeepLink(celoLink))
         .run()
       expect(navigate).not.toHaveBeenCalled()
@@ -458,6 +489,7 @@ describe('handleOpenUrl', () => {
     // openExternal is more of a preference, that's why we still handle these directly
     it('opens celo links directly', async () => {
       await expectSaga(handleOpenUrl, openUrl(celoLink, true))
+        .provide([[select(walletAddressSelector), mockAccount]])
         .call(handleDeepLink, openDeepLink(celoLink))
         .run()
       expect(navigate).not.toHaveBeenCalled()

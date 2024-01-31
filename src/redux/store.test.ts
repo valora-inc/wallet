@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 185,
+          "version": 186,
         },
         "account": {
           "acceptedTerms": false,
@@ -156,6 +156,7 @@ describe('store state', () => {
           "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
+          "pendingDeepLinks": [],
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
@@ -239,6 +240,7 @@ describe('store state', () => {
         },
         "home": {
           "cleverTapInboxMessages": [],
+          "hasVisitedHome": true,
           "loading": false,
           "notifications": {},
         },
