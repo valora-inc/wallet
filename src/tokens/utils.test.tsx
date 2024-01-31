@@ -5,6 +5,7 @@ import {
   convertLocalToTokenAmount,
   convertTokenToLocalAmount,
   getHigherBalanceCurrency,
+  getSupportedNetworkIdsForTokenBalances,
   getTokenId,
   isHistoricalPriceUpdated,
   sortFirstStableThenCeloThenOthersByUsdBalance,
@@ -14,6 +15,10 @@ import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { mockPoofTokenId, mockTokenBalances } from 'test/values'
+import { getDynamicConfigParams } from 'src/statsig'
+import mocked = jest.mocked
+
+jest.mock('src/statsig')
 
 describe(getHigherBalanceCurrency, () => {
   const tokens = {
@@ -287,5 +292,14 @@ describe(isHistoricalPriceUpdated, () => {
         },
       })
     ).toEqual(true)
+  })
+})
+
+describe('getSupportedNetworkIdsFor*', () => {
+  it('getSupportedNetworkIdsForTokenBalances', () => {
+    mocked(getDynamicConfigParams).mockReturnValueOnce({
+      showBalances: ['celo-mainnet', 'arbitrum-one', 'not-a-valid-chain'],
+    })
+    expect(getSupportedNetworkIdsForTokenBalances()).toEqual(['celo-mainnet', 'arbitrum-one'])
   })
 })
