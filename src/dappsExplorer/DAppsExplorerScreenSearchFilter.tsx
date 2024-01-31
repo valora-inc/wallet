@@ -46,7 +46,8 @@ const AnimatedSectionList =
 
 interface SectionData {
   data: DappWithCategoryNames[]
-  category: string
+  sectionName: string
+  dappSection: DappSection
 }
 
 export function DAppsExplorerScreenSearchFilter() {
@@ -115,7 +116,7 @@ export function DAppsExplorerScreenSearchFilter() {
     })
   }
 
-  const allSectionResults: SectionData[] = useMemo(() => {
+  const sections: SectionData[] = useMemo(() => {
     const dappsMatchingFilter = selectedFilter
       ? nonFavoriteDappsWithCategoryNames.filter((dapp) => selectedFilter.filterFn(dapp))
       : nonFavoriteDappsWithCategoryNames
@@ -139,18 +140,25 @@ export function DAppsExplorerScreenSearchFilter() {
         ? [
             {
               data: favouriteDappsMatchingFilterAndSearch,
-              category: t('dappsScreen.favoriteDapps'),
+              sectionName: t('dappsScreen.favoriteDapps'),
+              dappSection: DappSection.FavoritesDappScreen,
             },
           ]
         : []),
       {
         data: dappsMatchingFilterAndSearch,
-        category: noMatchingResults
+        sectionName: noMatchingResults
           ? t('dappsScreen.favoriteDappsAndAll')
           : t('dappsScreen.allDapps'),
+        dappSection: DappSection.All,
       },
     ]
-  }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
+  }, [
+    nonFavoriteDappsWithCategoryNames,
+    favoriteDappsWithCategoryNames,
+    searchTerm,
+    selectedFilter,
+  ])
 
   return (
     <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={['top']}>
@@ -222,12 +230,14 @@ export function DAppsExplorerScreenSearchFilter() {
             scrollIndicatorInsets={{ top: 0.01 }}
             scrollEventThrottle={16}
             onScroll={onScroll}
-            sections={allSectionResults}
-            renderItem={({ item: dapp, index }) => {
+            sections={sections}
+            renderItem={({ item: dapp, index, section }) => {
               return (
                 <DappCard
                   dapp={dapp}
-                  onPressDapp={() => onPressDapp({ ...dapp, openedFrom: DappSection.All }, index)}
+                  onPressDapp={() =>
+                    onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)
+                  }
                   onFavoriteDapp={onFavoriteDapp}
                 />
               )
@@ -246,8 +256,8 @@ export function DAppsExplorerScreenSearchFilter() {
 
               return null
             }}
-            renderSectionHeader={({ section: { category } }) => {
-              return <Text style={styles.sectionTitle}>{category}</Text>
+            renderSectionHeader={({ section: { sectionName } }) => {
+              return <Text style={styles.sectionTitle}>{sectionName}</Text>
             }}
             keyExtractor={(dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
