@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
+import FilterChipsCarousel, { FilterChip } from 'src/components/FilterChipsCarousel'
 import QrScanButton from 'src/components/QrScanButton'
 import SearchInput from 'src/components/SearchInput'
 import {
@@ -26,17 +27,14 @@ import {
   nonFavoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
 import { fetchDappsList } from 'src/dapps/slice'
-import { ActiveDapp, Dapp, DappSection, DappV2WithCategoryNames } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappSection, DappWithCategoryNames } from 'src/dapps/types'
 import DappCard from 'src/dappsExplorer/DappCard'
 import { DappFeaturedActions } from 'src/dappsExplorer/DappFeaturedActions'
-import DappFilterChip from 'src/dappsExplorer/DappFilterChip'
 import { DappRankingsBottomSheet } from 'src/dappsExplorer/DappRankingsBottomSheet'
-import FavoriteDappsSection from 'src/dappsExplorer/FavoriteDappsSection'
 import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { currentLanguageSelector } from 'src/i18n/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import colors from 'src/styles/colors'
@@ -47,7 +45,7 @@ const AnimatedSectionList =
   Animated.createAnimatedComponent<SectionListProps<Dapp, SectionData>>(SectionList)
 
 interface SectionData {
-  data: DappV2WithCategoryNames[]
+  data: DappWithCategoryNames[]
   category: string
 }
 
@@ -66,48 +64,37 @@ export function DAppsExplorerScreenSearchFilter() {
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
-  const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
-  const [selectedFilter, setSelectedFilter] = useState('all')
 
+  const filterChips = useMemo(() => {
+    return categories.map((category) => ({
+      id: category.id,
+      name: category.name,
+      filterFn: (dapp: DappWithCategoryNames) => dapp.categories.includes(category.id),
+    }))
+  }, [categories])
+
+  const [selectedFilter, setSelectedFilter] = useState<FilterChip<DappWithCategoryNames> | null>(
+    null
+  )
   // Some state lifted up from all and favorite sections
   const [searchTerm, setSearchTerm] = useState('')
-  const [favoriteResultsEmpty, setFavoriteResultsEmpty] = useState(false)
-  const [allResultEmpty, setAllResultEmpty] = useState(false)
-
-  // Hide favorites when there are no favorites or no favorites matching the search term
-  useEffect(() => {
-    if (searchTerm === '') {
-      const emptyFavorites =
-        selectedFilter === 'all'
-          ? favoriteDappsWithCategoryNames.length === 0
-          : favoriteDappsWithCategoryNames.filter((dapp) =>
-              dapp.categories.includes(selectedFilter)
-            ).length === 0
-      setFavoriteResultsEmpty(!!emptyFavorites)
-    } else {
-      const filteredFavorites =
-        selectedFilter === 'all'
-          ? favoriteDappsWithCategoryNames
-          : favoriteDappsWithCategoryNames.filter((dapp) =>
-              dapp.categories.includes(selectedFilter)
-            )
-      setFavoriteResultsEmpty(searchDappList(filteredFavorites, searchTerm).length === 0)
-    }
-  }, [favoriteDappsWithCategoryNames.length, searchTerm, selectedFilter])
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   const removeFilter = () => {
-    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, { id: selectedFilter, remove: true })
-    setSelectedFilter('all')
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
+      filterId: selectedFilter?.id ?? 'all',
+      remove: true,
+    })
+    setSelectedFilter(null)
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }
 
-  const filterPress = (filterId: string) => {
-    selectedFilter === filterId ? setSelectedFilter('all') : setSelectedFilter(filterId)
+  const handleToggleFilterChip = (filter: FilterChip<DappWithCategoryNames>) => {
+    setSelectedFilter((prev) => (prev?.id === filter.id ? null : filter))
   }
 
   const handleShowDappRankings = () => {
@@ -123,44 +110,47 @@ export function DAppsExplorerScreenSearchFilter() {
   const onPressDapp = (dapp: ActiveDapp, index: number) => {
     onSelectDapp(dapp, {
       position: 1 + index,
-      activeFilter: selectedFilter,
+      activeFilter: selectedFilter?.id ?? 'all',
       activeSearchTerm: searchTerm,
     })
   }
 
-  const selectedFilterName = useMemo(() => {
-    const selectedCategory = categories.find((category) => category.id === selectedFilter)
-    return selectedCategory?.name ?? t('dappsScreen.allDapps')
-  }, [selectedFilter])
-
   const allSectionResults: SectionData[] = useMemo(() => {
-    const allResultsParsed = parseResultsIntoAll(
-      nonFavoriteDappsWithCategoryNames,
-      searchTerm,
-      selectedFilter
-    )
-    setAllResultEmpty(allResultsParsed.length === 0)
-    return allResultsParsed
-  }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
+    const dappsMatchingFilter = selectedFilter
+      ? nonFavoriteDappsWithCategoryNames.filter((dapp) => selectedFilter.filterFn(dapp))
+      : nonFavoriteDappsWithCategoryNames
+    const dappsMatchingFilterAndSearch = searchTerm
+      ? searchDappList(dappsMatchingFilter, searchTerm)
+      : dappsMatchingFilter
 
-  const emptyListComponent = useMemo(() => {
-    return (
-      <>
-        {allResultEmpty && favoriteResultsEmpty && (
-          <Text style={styles.sectionTitle}>
-            {t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(language ?? 'en-US')}
-          </Text>
-        )}
-        <NoResults
-          filterId={selectedFilter}
-          filterName={selectedFilterName}
-          removeFilter={removeFilter}
-          searchTerm={searchTerm}
-          testID="DAppsExplorerScreen/NoResults"
-        />
-      </>
-    )
-  }, [allResultEmpty, favoriteResultsEmpty, searchTerm])
+    const favouriteDappsMatchingFilter = selectedFilter
+      ? favoriteDappsWithCategoryNames.filter((dapp) => selectedFilter.filterFn(dapp))
+      : favoriteDappsWithCategoryNames
+    const favouriteDappsMatchingFilterAndSearch = searchTerm
+      ? searchDappList(favouriteDappsMatchingFilter, searchTerm)
+      : favouriteDappsMatchingFilter
+
+    const noMatchingResults =
+      dappsMatchingFilterAndSearch.length === 0 &&
+      favouriteDappsMatchingFilterAndSearch.length === 0
+
+    return [
+      ...(favouriteDappsMatchingFilterAndSearch.length > 0
+        ? [
+            {
+              data: favouriteDappsMatchingFilterAndSearch,
+              category: t('dappsScreen.favoriteDapps'),
+            },
+          ]
+        : []),
+      {
+        data: dappsMatchingFilterAndSearch,
+        category: noMatchingResults
+          ? t('dappsScreen.favoriteDappsAndAll')
+          : t('dappsScreen.allDapps'),
+      },
+    ]
+  }, [nonFavoriteDappsWithCategoryNames, searchTerm, selectedFilter])
 
   return (
     <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={['top']}>
@@ -212,56 +202,15 @@ export function DAppsExplorerScreenSearchFilter() {
                   showClearButton={true}
                   allowFontScaling={false}
                 />
-                {/* Dapps Filtering*/}
-                <View style={styles.dappFilterView}>
-                  <ScrollView
-                    horizontal={true}
-                    // Expand the scrollview to the edges of the screen
-                    style={styles.dappFilterScrollView}
-                    contentContainerStyle={styles.dappsFilteringScrollViewContentContainer}
-                    showsHorizontalScrollIndicator={false}
-                    ref={horizontalScrollView}
-                  >
-                    {/* Category Filter Chips */}
-                    {categories.map((category, idx) => {
-                      return (
-                        <DappFilterChip
-                          filterId={category.id}
-                          filterName={category.name}
-                          isSelected={selectedFilter === category.id}
-                          onPress={filterPress}
-                          key={category.id}
-                          style={idx === 0 ? styles.dappFilterChipFirst : undefined}
-                        />
-                      )
-                    })}
-                  </ScrollView>
-                </View>
-                <>
-                  {/* If no matching dapps in all section and favorite section display favoriteDappsAndAll*/}
-                  {!favoriteResultsEmpty && (
-                    <>
-                      <Text style={styles.sectionTitle}>
-                        {allResultEmpty && favoriteResultsEmpty
-                          ? t('dappsScreen.favoriteDappsAndAll').toLocaleUpperCase(
-                              language ?? 'en-US'
-                            )
-                          : t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US')}
-                      </Text>
-                      <FavoriteDappsSection
-                        onPressDapp={onPressDapp}
-                        filterId={selectedFilter}
-                        searchTerm={searchTerm}
-                      />
-                    </>
-                  )}
-                  {/* If all dapp section isn't empty or favoriteResults isn't empty display all section header */}
-                  {(!allResultEmpty || !favoriteResultsEmpty) && (
-                    <Text style={styles.sectionTitle}>
-                      {t('dappsScreen.allDapps').toLocaleUpperCase(language ?? 'en-US')}
-                    </Text>
-                  )}
-                </>
+                <FilterChipsCarousel
+                  chips={filterChips}
+                  selectedChips={selectedFilter ? [selectedFilter] : []}
+                  onSelectChip={handleToggleFilterChip}
+                  primaryColor={colors.infoDark}
+                  secondaryColor={colors.infoLight}
+                  style={styles.dappFilterView}
+                  forwardedRef={horizontalScrollView}
+                />
               </>
             }
             style={styles.sectionList}
@@ -274,17 +223,35 @@ export function DAppsExplorerScreenSearchFilter() {
             scrollEventThrottle={16}
             onScroll={onScroll}
             sections={allSectionResults}
-            renderItem={({ item: dapp, index }) => (
-              <DappCard
-                dapp={dapp}
-                onPressDapp={() => onPressDapp({ ...dapp, openedFrom: DappSection.All }, index)}
-                onFavoriteDapp={onFavoriteDapp}
-              />
-            )}
+            renderItem={({ item: dapp, index }) => {
+              return (
+                <DappCard
+                  dapp={dapp}
+                  onPressDapp={() => onPressDapp({ ...dapp, openedFrom: DappSection.All }, index)}
+                  onFavoriteDapp={onFavoriteDapp}
+                />
+              )
+            }}
+            renderSectionFooter={({ section }) => {
+              if (section.data.length === 0) {
+                return (
+                  <NoResults
+                    selectedFilter={selectedFilter}
+                    removeFilter={removeFilter}
+                    searchTerm={searchTerm}
+                    testID="DAppsExplorerScreen/NoResults"
+                  />
+                )
+              }
+
+              return null
+            }}
+            renderSectionHeader={({ section: { category } }) => {
+              return <Text style={styles.sectionTitle}>{category}</Text>
+            }}
             keyExtractor={(dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
             testID="DAppsExplorerScreen/DappsList"
-            ListEmptyComponent={emptyListComponent}
             ListFooterComponentStyle={styles.listFooterComponent}
             keyboardShouldPersistTaps="always"
             keyboardDismissMode="on-drag"
@@ -301,42 +268,6 @@ export function DAppsExplorerScreenSearchFilter() {
   )
 }
 
-function parseResultsIntoAll(
-  nonFavoriteDapps: DappV2WithCategoryNames[],
-  searchTerm: string,
-  filterId: string
-) {
-  // Dapps in the all section are all the non favorite dapps that match the filter
-  const dappsMatchingFilter =
-    filterId === 'all'
-      ? nonFavoriteDapps
-      : nonFavoriteDapps.filter(
-          (dapp: Dapp) => dapp.categories && dapp.categories.includes(filterId)
-        )
-  // If there are no dapps matching the filter return an empty array
-  if (dappsMatchingFilter.length === 0) return []
-  // If there is no search term return the dapps matching the category filter
-  if (searchTerm === '') {
-    return [
-      {
-        data: dappsMatchingFilter,
-        category: 'all',
-      },
-    ]
-  } else {
-    // Score and sort the dapps matching the category filter
-    const results = searchDappList(dappsMatchingFilter, searchTerm) as DappV2WithCategoryNames[]
-    // If there are no dapps matching search term return an empty array
-    if (results.length === 0) return []
-    return [
-      {
-        data: results,
-        category: 'all',
-      },
-    ]
-  }
-}
-
 const styles = StyleSheet.create({
   safeAreaContainer: {
     flex: 1,
@@ -348,15 +279,6 @@ const styles = StyleSheet.create({
   },
   dappFilterView: {
     paddingTop: Spacing.Regular16,
-  },
-  dappFilterScrollView: {
-    marginHorizontal: -Spacing.Thick24,
-  },
-  dappsFilteringScrollViewContentContainer: {
-    paddingHorizontal: Spacing.Thick24,
-  },
-  dappFilterChipFirst: {
-    marginLeft: 0,
   },
   sectionListContentContainer: {
     padding: Spacing.Thick24,
