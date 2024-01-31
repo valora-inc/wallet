@@ -1,4 +1,4 @@
-import { ALCHEMY_ETHEREUM_API_KEY } from 'src/config'
+import { ALCHEMY_ARBITRUM_API_KEY, ALCHEMY_ETHEREUM_API_KEY } from 'src/config'
 import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createPublicClient, http, Transport } from 'viem'
@@ -15,7 +15,7 @@ export const viemTransports: Record<Network, Transport> = {
   [Network.Arbitrum]: http(networkConfig.alchemyRpcUrl[Network.Arbitrum], {
     fetchOptions: {
       headers: {
-        Authorization: `Bearer ${ALCHEMY_ETHEREUM_API_KEY}`,
+        Authorization: `Bearer ${ALCHEMY_ARBITRUM_API_KEY}`,
       },
     },
   }),
