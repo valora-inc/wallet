@@ -29,19 +29,6 @@ const TAG = 'keylessBackup/KeylessBackupProgress'
 function KeylessBackupProgress({
   route,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
-  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
-  const localCurrencyCode = useLocalCurrencyCode()
-
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-
-  const inProgress = (title: string) => (
-    <SafeAreaView style={styles.progressContainer}>
-      <GreenLoadingSpinner />
-      <Text style={styles.title}>{title}</Text>
-    </SafeAreaView>
-  )
-
   // Disable back button on Android
   useEffect(() => {
     const backPressListener = () => true
@@ -50,44 +37,69 @@ function KeylessBackupProgress({
   }, [])
 
   if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
-    switch (keylessBackupStatus) {
-      case KeylessBackupStatus.NotStarted:
-      case KeylessBackupStatus.InProgress: {
-        return inProgress(t('keylessBackupStatus.restore.inProgress.title'))
-      }
-      case KeylessBackupStatus.RestoreZeroBalance: {
-        return (
-          <SafeAreaView>
-            <Dialog
-              title={
-                <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
-                  <TokenDisplay
-                    localAmount={{
-                      value: new BigNumber(0),
-                      currencyCode: localCurrencyCode,
-                      exchangeRate: '1',
-                    }}
-                    showLocalAmount={true}
-                    amount={new BigNumber(0)}
-                  />
-                </Trans>
-              }
-              isVisible={true}
-              actionText={t('importExistingKey.emptyWalletDialog.action')}
-              actionPress={() => dispatch(keylessBackupAcceptZeroBalance())}
-              secondaryActionText={t('goBack')}
-              secondaryActionPress={() => dispatch(keylessBackupBail())}
-              testID="ConfirmUseAccountDialog"
-            >
-              {t('importExistingKey.emptyWalletDialog.description')}
-            </Dialog>
-          </SafeAreaView>
-        )
-      }
-      // TODO(ACT-781): Implement Success screen
-      // TODO(ACT-780): Implement Failure screens
-    }
+    return <Restore />
+  } else {
+    return <Setup />
   }
+}
+
+function Restore() {
+  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const localCurrencyCode = useLocalCurrencyCode()
+
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+
+  switch (keylessBackupStatus) {
+    case KeylessBackupStatus.InProgress: {
+      return InProgress(t('keylessBackupStatus.restore.inProgress.title'))
+    }
+    case KeylessBackupStatus.RestoreZeroBalance: {
+      return (
+        <SafeAreaView>
+          <Dialog
+            title={
+              <Trans i18nKey="importExistingKey.emptyWalletDialog.title">
+                <TokenDisplay
+                  localAmount={{
+                    value: new BigNumber(0),
+                    currencyCode: localCurrencyCode,
+                    exchangeRate: '1',
+                  }}
+                  showLocalAmount={true}
+                  amount={new BigNumber(0)}
+                />
+              </Trans>
+            }
+            isVisible={true}
+            actionText={t('importExistingKey.emptyWalletDialog.action')}
+            actionPress={() => {
+              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_zero_balance_accept)
+              dispatch(keylessBackupAcceptZeroBalance())
+            }}
+            secondaryActionText={t('goBack')}
+            secondaryActionPress={() => {
+              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_zero_balance_bail)
+              dispatch(keylessBackupBail())
+            }}
+            testID="ConfirmUseAccountDialog"
+          >
+            {t('importExistingKey.emptyWalletDialog.description')}
+          </Dialog>
+        </SafeAreaView>
+      )
+    }
+    // TODO(ACT-781): Implement Success screen
+    // TODO(ACT-780): Implement Failure screens
+    default:
+      Logger.error(TAG, `Got unexpected keyless backup status: ${keylessBackupStatus}`)
+      return <></>
+  }
+}
+
+function Setup() {
+  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const { t } = useTranslation()
 
   const onPressContinue = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_completed_continue)
@@ -114,7 +126,7 @@ function KeylessBackupProgress({
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.NotStarted:
     case KeylessBackupStatus.InProgress: {
-      return inProgress(t('keylessBackupStatus.setup.inProgress.title'))
+      return InProgress(t('keylessBackupStatus.setup.inProgress.title'))
     }
     case KeylessBackupStatus.Completed: {
       return (
@@ -172,6 +184,13 @@ function KeylessBackupProgress({
       return <></>
   }
 }
+
+const InProgress = (title: string) => (
+  <SafeAreaView style={styles.progressContainer}>
+    <GreenLoadingSpinner />
+    <Text style={styles.title}>{title}</Text>
+  </SafeAreaView>
+)
 
 const styles = StyleSheet.create({
   iconContainer: {},

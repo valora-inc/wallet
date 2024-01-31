@@ -100,14 +100,6 @@ describe('KeylessBackupProgress', () => {
     })
   })
   describe('Restore', () => {
-    it('shows spinner when not started', async () => {
-      const { getByTestId } = render(
-        <Provider store={createStore(KeylessBackupStatus.NotStarted)}>
-          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
-        </Provider>
-      )
-      expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
-    })
     it('shows spinner when in progress', async () => {
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.InProgress)}>
