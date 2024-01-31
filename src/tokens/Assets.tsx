@@ -330,13 +330,13 @@ function AssetsScreen({ navigation, route }: Props) {
     return null
   }
 
-  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[]) => {
+  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[], index: number) => {
     if (assetIsPosition(item)) {
-      return item.address
+      return `${item.appId}-${item.network}-${item.address}-${index}`
     } else if ('balance' in item) {
       return item.tokenId
     } else {
-      return `${item[0]!.contractAddress}-${item[0]!.tokenId}`
+      return `${item[0]!.networkId}-${item[0]!.contractAddress}-${item[0]!.tokenId}`
     }
   }
 
