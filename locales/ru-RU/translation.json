@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Отправьте активы Ethereum в чей-то держатель ENS"
+          "subtitle": "Отправь активы на чей-то ENS-руководитель"
         },
         "four": {
           "title": "Имя профиля",
@@ -2010,6 +2010,7 @@
   "viewOnCeloBlockExplorer": "Просмотреть в CeloExplorer",
   "viewOnCeloScan": "Посмотреть в CeloScan",
   "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
+  "viewOnArbiscan": "Вид на Арбискан",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
@@ -2043,7 +2044,7 @@
   },
   "getStartedHome": {
     "title": "Покупайте криптовалюту или переводите токены",
-    "body": "Покупайте или переводите токены, совместимые с celo или ethereum, чтобы получать вознаграждения {{apy}}%, изучайте web3 и многое другое!"
+    "body": "Покупай или переводи токены, чтобы получать {{apy}}% вознаграждений, изучай web3 и многое другое!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
