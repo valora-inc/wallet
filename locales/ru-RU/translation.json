@@ -2011,6 +2011,8 @@
   "viewOnCeloScan": "Посмотреть в CeloScan",
   "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
   "viewOnArbiscan": "Вид на Арбискан",
+  "viewOnOPMainnetExplorer": "Вид на OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Вид на OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Введите сумму",
     "selectToken": "Выберите токен",
