@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -26,6 +26,7 @@ import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
+import CelebrationBottomSheet from 'src/home/CelebrationBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
@@ -119,6 +120,8 @@ function WalletHome() {
   const onRefresh = async () => {
     dispatch(refreshAllBalances())
   }
+
+  const celebrationBottomSheet = useMemo(() => <CelebrationBottomSheet />, [])
 
   const shouldShowCashInBottomSheet = () => {
     if (showNotificationSpotlight) {
@@ -231,6 +234,7 @@ function WalletHome() {
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
+      {celebrationBottomSheet}
     </SafeAreaView>
   )
 }
