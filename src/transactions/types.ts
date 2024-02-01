@@ -6,6 +6,7 @@ export enum Network {
   Celo = 'celo',
   Ethereum = 'ethereum',
   Arbitrum = 'arbitrum',
+  Optimism = 'optimism',
 }
 
 export enum NetworkId {
@@ -15,6 +16,8 @@ export enum NetworkId {
   'ethereum-sepolia' = 'ethereum-sepolia',
   'arbitrum-one' = 'arbitrum-one',
   'arbitrum-sepolia' = 'arbitrum-sepolia',
+  'op-mainnet' = 'op-mainnet',
+  'op-sepolia' = 'op-sepolia',
 }
 
 export type PendingStandbySwap = {
