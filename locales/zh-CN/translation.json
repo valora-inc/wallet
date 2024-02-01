@@ -78,11 +78,11 @@
     "description": "只有您自己才能访问您的钱包。如果您的手机丢失或被盗，Valora 无法协助找回钱包。\n\n您需要设置适当方法来保护钱包及资金的安全。"
   },
   "setUpKeylessBackup": {
-    "title": "设置钱包备份",
-    "subtitle": "您将使用以下方法设置备份",
+    "title": "设置钱包备份。",
+    "subtitle": "您将使用以下方法设置备份。",
     "emailAddress": "电子邮件地址",
     "phoneNumber": "手机号码",
-    "useRecoveryPhrase": "改用恢复短语"
+    "useRecoveryPhrase": "使用恢复短语代替。"
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "请<0>记住</0>，如果您的设备丢失或被盗，这些信息是访问您钱包的唯一途径。Valora 不会存储您的电子邮件或电话号码。请妥善保管！",
+  "setupKeylessBackupReminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
@@ -1706,9 +1706,9 @@
       "body": "交换这些资产可能导致不利的汇率。如果降低金额，您会获得更好的汇率。"
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} 无货",
-      "description": "我们没有该代币的 {{localCurrency}} 价格，这可能意味着该代币的交易并不广泛。如果您选择继续交易， {{appName}} 不对由此造成的任何损失负责。",
-      "ctaConfirm": "我明白",
+      "title": "{{localCurrency}} 价格不详",
+      "description": "我们没有 {{tokenSymbol}} 的 {{localCurrency}} 价格，这可能意味着其交易并不广泛。如果您选择继续交易，{{appName}} 不承担由此造成的任何损失。",
+      "ctaConfirm": "我了解",
       "ctaDismiss": "取消"
     },
     "missingSwapImpactWarning": {
@@ -1731,20 +1731,23 @@
       "dismissButton": "忽略"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "估算的网络费用",
+      "maxNetworkFee": "最高网络费用",
       "networkFee": "{{networkName}} 网络费用",
       "networkFeeNoNetwork": "网络费用",
       "swapFee": "{{appName}} 费用",
       "swapFeeWaived": "免费",
       "slippagePercentage": "滑点调整",
       "networkFeeInfo": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付该预估网络费用。该费用可确保您的交易安全，并用于维持网络正常运行。",
+      "networkFeeInfoV1_76": "您正在 {{networkName}} 网络上进行交换。\n\n在 {{networkName}} 网络上进行交易需要支付网络费用。该费用可确保您的交易安全，并支付给网络验证机构。\n\n由于网络条件决定了确切的金额，因此列出的估算费用是我们预计的实际费用。该费用不会超过最大费用金额。",
       "slippageToleranceInfo": "滑点调整\n\n您的交换将在滑点调整百分比范围内执行。如果价格变动超过滑点调整，{{appName}} 将阻止交易执行，为您提供保护。",
       "networkFeeInfoDismissButton": "知道了",
       "exchangeRate": "汇率",
       "estimatedValue": "估计价值"
     },
     "fundYourWalletBottomSheet": {
-      "title": "为您的钱包充值",
-      "description": "在交换代币之前，您需要通过购买加密货币或转移代币来为钱包充值。",
+      "title": "为您的钱包提供资金。",
+      "description": "在交换代币之前，您需要通过购买加密货币或转移代币来为您的钱包提供资金。",
       "addFundsButton": "添加资金"
     }
   },
@@ -1966,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "将 Ethereum 资产发送至某人的 ENS 句柄"
+          "subtitle": "向某人的 ENS 句柄发送资产"
         },
         "four": {
           "title": "个人资料名称",
@@ -2001,6 +2004,7 @@
   "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
   "viewOnCeloScan": "在 CeloScan 上查看",
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
+  "viewOnArbiscan": "查看 Arbiscan",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择代币",
@@ -2033,8 +2037,8 @@
     "secondaryCta": "不，谢谢"
   },
   "getStartedHome": {
-    "title": "购买加密货币或转让代币",
-    "body": "购买或转让 celo 或以太坊兼容代币，赚取 {{apy}}% 的奖励，探索 web3 等！"
+    "title": "购买加密货币或转移代币。",
+    "body": "购买或转让代币，赚取 {{apy}}% 的奖励，探索 web3 等！"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

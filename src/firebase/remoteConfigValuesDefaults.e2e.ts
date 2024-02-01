@@ -17,6 +17,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: number
   superchargecREALMax: number
   celoNews: string
+  superchargeTokenConfigByToken: string
 } = {
   celoEuroEnabled: true,
   inviteRewardsVersion: 'none',
@@ -62,4 +63,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsMinimalDisclaimerEnabled: false,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
+  superchargeTokenConfigByToken: JSON.stringify(
+    {} as RemoteConfigValues['superchargeTokenConfigByToken']
+  ),
 }

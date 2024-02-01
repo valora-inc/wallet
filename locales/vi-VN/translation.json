@@ -78,11 +78,11 @@
     "description": "Chỉ bạn mới có thể truy cập vào ví của mình. Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, Valora sẽ không thể khôi phục lại ví cho bạn.\n\nBạn sẽ phải thiết lập một phương thức bảo vệ an toàn cho ví và tiền của mình."
   },
   "setUpKeylessBackup": {
-    "title": "Set Up Wallet Backup",
+    "title": "Thiết lập chức năng sao lưu ví.",
     "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
     "emailAddress": "Địa chỉ email",
     "phoneNumber": "Số điện thoại",
-    "useRecoveryPhrase": "Use recovery phrase instead"
+    "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục"
   },
   "signInWithEmail": {
     "title": "Đăng nhập bằng email",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
@@ -1706,9 +1706,9 @@
       "body": "Việc trao đổi các tài sản này có thể dẫn đến bất lợi về tỷ giá quy đổi. Nếu giảm số tiền, bạn có thể nhận được tỷ giá tốt hơn."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} price unavailable",
-      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
-      "ctaConfirm": "I understand",
+      "title": "Chưa có giá bằng {{localCurrency}}",
+      "description": "Chúng tôi chưa có giá bằng {{localCurrency}} cho {{tokenSymbol}}, có thể là do đồng tiền này ít được giao dịch. {{appName}} không chịu trách nhiệm về bất kỳ tổn thất nào phát sinh nếu bạn chọn tiếp tục giao dịch.",
+      "ctaConfirm": "Tôi đã hiểu.",
       "ctaDismiss": "Hủy"
     },
     "missingSwapImpactWarning": {
@@ -1731,20 +1731,23 @@
       "dismissButton": "Loại bỏ"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Phí mạng ước tính",
+      "maxNetworkFee": "Phí mạng tối đa",
       "networkFee": "Phí mạng lưới {{networkName}}",
       "networkFeeNoNetwork": "Phí mạng lưới",
       "swapFee": "Phí {{appName}}",
       "swapFeeWaived": "Miễn phí",
       "slippagePercentage": "Tỷ lệ trượt giá chấp nhận",
       "networkFeeInfo": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng lưới ước tính này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để duy trì hoạt động của mạng.",
+      "networkFeeInfoV1_76": "Bạn đang trao đổi trên Mạng {{networkName}}.\n\nĐể thực hiện giao dịch trên Mạng {{networkName}}, bạn bắt buộc phải trả khoản phí mạng này. Khoản phí này sẽ đảm bảo cho giao dịch của bạn và được sử dụng để thanh toán cho các trình xác thực mạng.\n\nDo phí giao dịch chính xác phụ thuộc vào tình trạng mạng, nên mức phí ước tính được nêu tại đây là số tiền chúng tôi dự đoán. Khoản phí này sẽ không vượt quá mức phí tối đa.",
       "slippageToleranceInfo": "Tỷ lệ trượt giá chấp nhận\n\nViệc trao đổi sẽ được thực hiện trong phạm vi tỷ lệ trượt giá chấp nhận. Nếu giá thay đổi nhiều hơn tỷ lệ trượt giá chấp nhận, {{appName}} sẽ bảo vệ bạn bằng cách ngăn khớp lệnh giao dịch.",
       "networkFeeInfoDismissButton": "Đã hiểu",
       "exchangeRate": "Tỷ giá quy đổi",
       "estimatedValue": "Giá trị ước tính"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Fund your wallet",
-      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "title": "Nạp tiền vào ví của bạn",
+      "description": "Để trao đổi token, bạn cần nạp tiền vào ví bằng cách mua tiền kỹ thuật số hoặc chuyển token.",
       "addFundsButton": "Nạp tiền"
     }
   },
@@ -1966,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Gửi tài sản Ethereum tới địa chỉ ENS của một người"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "Tên hồ sơ",
@@ -2001,6 +2004,7 @@
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
   "viewOnCeloScan": "Xem trên CeloScan",
   "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2033,8 +2037,8 @@
     "secondaryCta": "Không, cảm ơn"
   },
   "getStartedHome": {
-    "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "title": "Mua tiền kỹ thuật số hoặc chuyển token",
+    "body": "Buy or transfer tokens to earn {{apy}}% rewards, explore web3 & more!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

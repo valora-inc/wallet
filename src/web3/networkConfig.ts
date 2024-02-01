@@ -1,11 +1,13 @@
-import { Address } from '@celo/base'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Address } from 'viem'
 import {
   Chain as ViemChain,
+  arbitrum,
+  arbitrumSepolia,
   celo,
   celoAlfajores,
   mainnet as ethereum,
@@ -40,7 +42,6 @@ interface NetworkConfig {
   nftsValoraAppUrl: string
   getSwapQuoteUrl: string
   walletJumpstartUrl: string
-  walletJumpstartAddress: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   getPublicDEKUrl: string
@@ -67,8 +68,9 @@ interface NetworkConfig {
   currencyToTokenId: {
     [key in CiCoCurrency | Currency]: string
   }
-  celoTokenAddress: string
-  alchemyEthereumRpcUrl: string
+  celoTokenAddress: Address
+  celoGasPriceMinimumAddress: Address
+  alchemyRpcUrl: Partial<Record<Network, string>>
   cusdTokenId: string
   ceurTokenId: string
   crealTokenId: string
@@ -79,6 +81,9 @@ interface NetworkConfig {
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_ETHEREUM_RPC_URL_MAINNET = 'https://eth-mainnet.g.alchemy.com/v2/'
+
+const ALCHEMY_ARBITRUM_RPC_URL_STAGING = 'https://arb-sepolia.g.alchemy.com/v2/'
+const ALCHEMY_ARBITRUM_RPC_URL_MAINNET = 'https://arb-mainnet.g.alchemy.com/v2/'
 
 export type BlockExplorerUrls = {
   [key in NetworkId]: {
@@ -95,6 +100,10 @@ export type NetworkIdToNetwork = {
 
 const CELO_TOKEN_ADDRESS_STAGING = '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9'
 const CELO_TOKEN_ADDRESS_MAINNET = '0x471ece3750da237f93b8e339c536989b8978a438'
+
+// From https://docs.celo.org/contract-addresses
+const CELO_GAS_PRICE_MINIMUM_ADDRESS_STAGING = '0xd0bf87a5936ee17014a057143a494dc5c5d51e5e'
+const CELO_GAS_PRICE_MINIMUM_ADDRESS_MAINNET = '0xdfca3a8d7699d8bafe656823ad60c17cb8270ecc'
 
 const CELO_TOKEN_ID_STAGING = `${NetworkId['celo-alfajores']}:native`
 const CELO_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:native`
@@ -194,9 +203,6 @@ const HOOKS_API_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api`
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
 
-const JUMPSTART_ADDRESS_ALFAJORES = '0xf25a016E53644EEfe4A167Ff05482213BCd627ED'
-const JUMPSTART_ADDRESS_MAINNET = '0x22Bac00dB51FfD2eb5a02e58974b64726c684BaA'
-
 const GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getNfts`
 const GET_NFTS_BY_OWNER_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
 
@@ -226,6 +232,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     networkToNetworkId: {
       [Network.Celo]: NetworkId['celo-alfajores'],
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
+      [Network.Arbitrum]: NetworkId['arbitrum-sepolia'],
     },
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
@@ -255,7 +262,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
-    walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
@@ -277,6 +283,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
+      [Network.Arbitrum]: arbitrumSepolia,
     },
     currencyToTokenId: {
       [CiCoCurrency.CELO]: CELO_TOKEN_ID_STAGING,
@@ -287,7 +294,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Currency.Celo]: CELO_TOKEN_ID_STAGING,
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_STAGING,
-    alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
+    celoGasPriceMinimumAddress: CELO_GAS_PRICE_MINIMUM_ADDRESS_STAGING,
+    alchemyRpcUrl: {
+      [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
+      [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_STAGING,
+    },
     cusdTokenId: CUSD_TOKEN_ID_STAGING,
     ceurTokenId: CEUR_TOKEN_ID_STAGING,
     crealTokenId: CREAL_TOKEN_ID_STAGING,
@@ -300,6 +311,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     networkToNetworkId: {
       [Network.Celo]: NetworkId['celo-mainnet'],
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
+      [Network.Arbitrum]: NetworkId['arbitrum-one'],
     },
     defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
@@ -328,7 +340,6 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
-    walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
@@ -350,6 +361,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,
+      [Network.Arbitrum]: arbitrum,
     },
     currencyToTokenId: {
       [CiCoCurrency.CELO]: CELO_TOKEN_ID_MAINNET,
@@ -360,7 +372,11 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Currency.Celo]: CELO_TOKEN_ID_MAINNET,
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
-    alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
+    celoGasPriceMinimumAddress: CELO_GAS_PRICE_MINIMUM_ADDRESS_MAINNET,
+    alchemyRpcUrl: {
+      [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
+      [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_MAINNET,
+    },
     cusdTokenId: CUSD_TOKEN_ID_MAINNET,
     ceurTokenId: CEUR_TOKEN_ID_MAINNET,
     crealTokenId: CREAL_TOKEN_ID_MAINNET,
@@ -375,6 +391,9 @@ const CELOSCAN_BASE_URL_MAINNET = 'https://celoscan.io'
 
 const ETHERSCAN_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
 const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
+
+const ARBISCAN_BASE_URL_ONE = 'https://arbiscan.io'
+const ARBISCAN_BASE_URL_SEPOLIA = 'https://sepolia.arbiscan.io'
 
 export const blockExplorerUrls: BlockExplorerUrls = {
   [NetworkId['celo-mainnet']]: {
@@ -401,6 +420,18 @@ export const blockExplorerUrls: BlockExplorerUrls = {
     baseTokenUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`,
     baseNftUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/nft/`,
   },
+  [NetworkId['arbitrum-one']]: {
+    baseTxUrl: `${ARBISCAN_BASE_URL_ONE}/txs/`,
+    baseAddressUrl: `${ARBISCAN_BASE_URL_ONE}/address/`,
+    baseTokenUrl: `${ARBISCAN_BASE_URL_ONE}/token/`,
+    baseNftUrl: `${ARBISCAN_BASE_URL_ONE}/token/`,
+  },
+  [NetworkId['arbitrum-sepolia']]: {
+    baseTxUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/txs/`,
+    baseAddressUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/address/`,
+    baseTokenUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
+    baseNftUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
+  },
 }
 
 export const networkIdToNetwork: NetworkIdToNetwork = {
@@ -408,6 +439,8 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['celo-alfajores']]: Network.Celo,
   [NetworkId['ethereum-mainnet']]: Network.Ethereum,
   [NetworkId['ethereum-sepolia']]: Network.Ethereum,
+  [NetworkId['arbitrum-one']]: Network.Arbitrum,
+  [NetworkId['arbitrum-sepolia']]: Network.Arbitrum,
 }
 
 export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
@@ -415,6 +448,8 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['celo-mainnet']]: 'eip155:42220',
   [NetworkId['ethereum-mainnet']]: 'eip155:1',
   [NetworkId['ethereum-sepolia']]: 'eip155:11155111',
+  [NetworkId['arbitrum-one']]: 'eip155:42161',
+  [NetworkId['arbitrum-sepolia']]: 'eip155:421614',
 }
 
 export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
@@ -422,6 +457,8 @@ export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
   'eip155:42220': NetworkId['celo-mainnet'],
   'eip155:1': NetworkId['ethereum-mainnet'],
   'eip155:11155111': NetworkId['ethereum-sepolia'],
+  'eip155:42161': NetworkId['arbitrum-one'],
+  'eip155:421614': NetworkId['arbitrum-sepolia'],
 }
 
 export const walletConnectChainIdToNetwork: Record<string, Network> = {
@@ -429,6 +466,8 @@ export const walletConnectChainIdToNetwork: Record<string, Network> = {
   'eip155:42220': Network.Celo,
   'eip155:1': Network.Ethereum,
   'eip155:11155111': Network.Ethereum,
+  'eip155:42161': Network.Arbitrum,
+  'eip155:421614': Network.Arbitrum,
 }
 
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)

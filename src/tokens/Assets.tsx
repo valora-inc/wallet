@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -18,6 +18,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -39,6 +40,7 @@ import {
   nftsLoadingSelector,
   nftsWithMetadataSelector,
 } from 'src/nfts/selectors'
+import { fetchNfts } from 'src/nfts/slice'
 import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import {
   positionsSelector,
@@ -110,6 +112,7 @@ const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
 function AssetsScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
@@ -147,6 +150,10 @@ function AssetsScreen({ navigation, route }: Props) {
   const nfts = useSelector(nftsWithMetadataSelector)
   // Group nfts for use in the section list
   const nftsGrouped = groupArrayByN(nfts, NUM_OF_NFTS_PER_ROW)
+
+  useEffect(() => {
+    dispatch(fetchNfts())
+  }, [])
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
@@ -323,13 +330,16 @@ function AssetsScreen({ navigation, route }: Props) {
     return null
   }
 
-  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[]) => {
+  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[], index: number) => {
     if (assetIsPosition(item)) {
-      return item.address
+      // Ideally we wouldn't need the index here, but we need to differentiate
+      // between positions with the same address (e.g. Uniswap V3 pool NFTs)
+      // We may want to consider adding a unique identifier to the position type.
+      return `${activeTab}-${item.appId}-${item.network}-${item.address}-${index}`
     } else if ('balance' in item) {
-      return item.tokenId
+      return `${activeTab}-${item.tokenId}`
     } else {
-      return `${item[0]!.contractAddress}-${item[0]!.tokenId}`
+      return `${activeTab}-${item[0]!.networkId}-${item[0]!.contractAddress}-${item[0]!.tokenId}`
     }
   }
 

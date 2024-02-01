@@ -78,11 +78,11 @@
     "description": "มีเพียงคุณเท่านั้นที่สามารถเข้าถึงกระเป๋าเงินของคุณได้ หากโทรศัพท์ของคุณสูญหายหรือถูกขโมย Valora จะไม่สามารถกู้คืนให้คุณได้\n\nคุณจะต้องตั้งค่าวิธีการเพื่อรักษากระเป๋าเงินของคุณให้ปลอดภัยและปกป้องเงินของคุณ"
   },
   "setUpKeylessBackup": {
-    "title": "Set Up Wallet Backup",
-    "subtitle": "You'll use the following to set up backup",
+    "title": "ตั้งค่าการสำรองข้อมูลกระเป๋าเงิน",
+    "subtitle": "ต่อไปนี้คือสิ่งที่คุณจะต้องใช้ในการตั้งค่าการสำรองข้อมูล",
     "emailAddress": "อีเมล",
     "phoneNumber": "หมายเลขโทรศัพท์",
-    "useRecoveryPhrase": "Use recovery phrase instead"
+    "useRecoveryPhrase": "ใช้วลีกู้คืนรหัสแทน"
   },
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
+  "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ Valora ไม่ได้เก็บอีเมลหรือหมายเลขโทรศัพท์ของคุณไว้ โปรดรักษากระเป๋าเงินของคุณให้ปลอดภัย",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
   "privacyPolicy": "นโยบายความเป็นส่วนตัว",
@@ -1706,9 +1706,9 @@
       "body": "การสว็อปสินทรัพย์อาจส่งผลให้ได้รับอัตราแลกเปลี่ยนที่ไม่น่าพึงพอใจ หากคุณลดจำนวนเงินลง คุณอาจได้รับอัตราที่ดีขึ้น"
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} price unavailable",
-      "description": "We do not have a {{localCurrency}} price for this token, which might mean that it's not widely traded. {{appName}} is not responsible for any losses incurred if you choose to proceed.",
-      "ctaConfirm": "I understand",
+      "title": "ไม่มีราคาของ {{localCurrency}}",
+      "description": "เราไม่มีราคา {{localCurrency}} สำหรับ {{tokenSymbol}} ซึ่งหมายความว่าอาจไม่มีการเทรดโทเคนดังกล่าวอย่างแพร่หลาย {{appName}} จะไม่รับผิดชอบต่อความสูญเสียใดๆ ที่อาจเกิดขึ้น หากคุณเลือกดำเนินการต่อ",
+      "ctaConfirm": "ฉันเข้าใจ",
       "ctaDismiss": "ยกเลิก"
     },
     "missingSwapImpactWarning": {
@@ -1731,20 +1731,23 @@
       "dismissButton": "ปิด"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "ค่าธรรมเนียมเครือข่ายโดยประมาณ",
+      "maxNetworkFee": "ค่าธรรมเนียมเครือข่ายสูงสุด",
       "networkFee": "ค่าธรรมเนียมเครือข่าย {{networkName}}",
       "networkFeeNoNetwork": "ค่าธรรมเนียมเครือข่าย",
       "swapFee": "ค่าธรรมเนียม {{appName}}",
       "swapFeeWaived": "ฟรี",
       "slippagePercentage": "การยอมรับราคาคลาดเคลื่อน",
       "networkFeeInfo": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการดำเนินการธุรกรรมบนเครือข่าย {{networkName}} จำเป็นต้องมีค่าธรรมเนียมเครือข่ายโดยประมาณนี้ ค่าธรรมเนียมนี้จะช่วยดูแลธุรกรรมของคุณให้ปลอดภัยและสนับสนุนการดำเนินงานของเครือข่าย",
+      "networkFeeInfoV1_76": "คุณกำลังสว็อปบนเครือข่าย {{networkName}}\n\nการทำธุรกรรมบนเครือข่าย {{networkName}} มีค่าธรรมเนียมเครือข่าย ค่าธรรมเนียมดังกล่าวเป็นการรักษาความปลอดภัยให้กับธุรกรรมของคุณโดยจะชำระให้กับผู้ตรวจสอบเครือข่าย\n\nเนื่องจากเงื่อนไขของเครือข่ายมีการกำหนดจำนวนเงินที่แน่นอน เราจึงคาดว่ารายการค่าธรรมเนียมประมาณการนี้เป็นค่าธรรมเนียมที่แท้จริง ค่าธรรมเนียมจะไม่เกินกว่าจำนวนค่าธรรมเนียมสูงสุด",
       "slippageToleranceInfo": "ราคาคลาดเคลื่อนที่ยอมรับได้\n\nการสว็อปของคุณจะดำเนินการภายในเปอร์เซ็นต์ความคลาดเคลื่อนที่ยอมรับได้ หากราคาเปลี่ยนแปลงมากกว่าคลาดเคลื่อนที่ยอมรับได้ {{appName}} จะปกป้องคุณโดยการระงับการดำเนินการการเทรดนั้น",
       "networkFeeInfoDismissButton": "เข้าใจแล้ว",
       "exchangeRate": "อัตราแลกเปลี่ยน",
       "estimatedValue": "ค่าโดยประมาณ"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Fund your wallet",
-      "description": "Before you can swap tokens you will need to fund your wallet by buying crypto or transferring tokens.",
+      "title": "ฝากเงินเข้ากระเป๋าเงินของคุณ",
+      "description": "คุณจะต้องฝากเงินเข้ากระเป๋าเงินโดยการซื้อคริปโตหรือโอนโทเค็นก่อน จึงจะสามารถสว็อปโทเค็นได้",
       "addFundsButton": "เพิ่มเงินทุน"
     }
   },
@@ -1966,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "ส่งสินทรัพย์ Ethereum ไปยังที่อยู่ ENS ของผู้รับ"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "ชื่อโปรไฟล์",
@@ -2001,6 +2004,7 @@
   "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
   "viewOnCeloScan": "ดูบน CeloScan",
   "viewOnEthereumBlockExplorer": "ดูบน Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
   "sendEnterAmountScreen": {
     "title": "ป้อนจำนวนเงิน",
     "selectToken": "เลือกโทเค็น",
@@ -2033,8 +2037,8 @@
     "secondaryCta": "ไม่ ขอบคุณ"
   },
   "getStartedHome": {
-    "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "title": "ซื้อคริปโตหรือโอนโทเค็น",
+    "body": "Buy or transfer tokens to earn {{apy}}% rewards, explore web3 & more!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

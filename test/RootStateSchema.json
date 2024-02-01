@@ -1605,6 +1605,8 @@
         },
         "NetworkId": {
             "enum": [
+                "arbitrum-one",
+                "arbitrum-sepolia",
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
@@ -2120,6 +2122,22 @@
             "required": [
                 "amount",
                 "timestamp"
+            ],
+            "type": "object"
+        },
+        "PendingDeepLink": {
+            "additionalProperties": false,
+            "properties": {
+                "isSecureOrigin": {
+                    "type": "boolean"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "isSecureOrigin",
+                "url"
             ],
             "type": "object"
         },
@@ -3127,6 +3145,12 @@
                 "numberVerified": {
                     "type": "boolean"
                 },
+                "pendingDeepLinks": {
+                    "items": {
+                        "$ref": "#/definitions/PendingDeepLink"
+                    },
+                    "type": "array"
+                },
                 "phoneNumberVerified": {
                     "type": "boolean"
                 },
@@ -3234,6 +3258,7 @@
                 "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",
+                "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
@@ -3656,9 +3681,6 @@
                 "error": {
                     "type": "boolean"
                 },
-                "importedTokens": {
-                    "$ref": "#/definitions/StoredTokenBalances"
-                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -3668,7 +3690,6 @@
             },
             "required": [
                 "error",
-                "importedTokens",
                 "loading",
                 "tokenBalances"
             ],
@@ -3989,6 +4010,12 @@
                         }
                     ]
                 },
+                "lastSwapped": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
                 "priceImpactWarningThreshold": {
                     "description": "In percentage, between 0 and 100",
                     "type": "number"
@@ -3996,6 +4023,7 @@
             },
             "required": [
                 "currentSwap",
+                "lastSwapped",
                 "priceImpactWarningThreshold"
             ],
             "type": "object"
@@ -4160,6 +4188,9 @@
                     },
                     "type": "array"
                 },
+                "hasVisitedHome": {
+                    "type": "boolean"
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -4169,6 +4200,7 @@
             },
             "required": [
                 "cleverTapInboxMessages",
+                "hasVisitedHome",
                 "loading",
                 "notifications"
             ],
@@ -4844,6 +4876,18 @@
         "TransactionsByNetworkId": {
             "additionalProperties": false,
             "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "celo-alfajores": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"

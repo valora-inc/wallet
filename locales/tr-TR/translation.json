@@ -116,7 +116,7 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-posta veya telefon numaranızı saklamaz. Güvende tutun!",
+  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -214,7 +214,7 @@
     }
   ],
   "consumerIncentivesTitle": "Supercharge'ı kullanmaya başlayın",
-  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık %12 ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
+  "consumerIncentivesSummary": "Karşınızda Supercharge! Supercharge ile en yüksek Celo stablecoin bakiyeniz için (cEUR, cUSD, cREAL, vb.) yıllık {{percent}}% ödüller kazanın. Sınırlı bir süre için geçerlidir. Supercharge şöyle çalışır:",
   "earnWeekly": {
     "header": "Telefon numaranızı bağlayın",
     "text": "Daha önce bağlamadıysanız Telefon Numaranı Bağlaya dokun."
@@ -1708,9 +1708,9 @@
       "body": "Bu varlıkların takas edilmesi olumsuz bir döviz kuruna neden olabilir. Miktarı düşürürseniz, daha iyi bir kur elde edebilirsiniz."
     },
     "noUsdPriceWarning": {
-      "title": "{{localCurrency}} fiyat mevcut değil",
-      "description": "Bu token için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}} , devam etmeyi seçerseniz meydana gelen herhangi bir kayıptan sorumlu değildir.",
-      "ctaConfirm": "Anlıyorum.",
+      "title": "{{localCurrency}} fiyatı mevcut değil",
+      "description": "{{tokenSymbol}} için bir {{localCurrency}} fiyatımız yok, bu da yaygın olarak işlem görmediği anlamına gelebilir. {{appName}}, devam etmeyi seçerseniz meydana gelecek herhangi bir kayıptan sorumlu değildir.",
+      "ctaConfirm": "Anladım",
       "ctaDismiss": "İptal"
     },
     "missingSwapImpactWarning": {
@@ -1733,20 +1733,23 @@
       "dismissButton": "Yoksay"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Tahmini Ağ Ücreti",
+      "maxNetworkFee": "Maks. Ağ Ücreti",
       "networkFee": "{{networkName}} Ağ Ücreti",
       "networkFeeNoNetwork": "Ağ Ücreti",
       "swapFee": "{{appName}} Ücreti",
       "swapFeeWaived": "Ücretsiz",
       "slippagePercentage": "Slipaj Toleransı",
       "networkFeeInfo": "{{networkName}} Ağında swap işlemi yapıyorsunuz.\n\nBu tahmini ağ ücreti, {{networkName}} Ağında bir işlem gerçekleştirmek için gereklidir. Bu ücret işleminizi güvence altına alır ve ağın çalışır durumda kalmasını sağlar.",
+      "networkFeeInfoV1_76": "{{networkName}} Ağında takas yapıyorsunuz.\n\n{{networkName}} Ağında işlem gerçekleştirmek için bir ağ ücreti gereklidir. Bu ücret işleminizi güvence altına alır ve ağ doğrulayıcılarına ödenir.\n\nAğ koşulları kesin tutarı belirlediğinden, listelenen tahmin, gerçek ücretin ne olmasını beklediğimizdir. Ücret, maksimum ücret tutarını aşmayacaktır.",
       "slippageToleranceInfo": "Slipaj toleransı\n\nSwap işleminiz slipaj toleransı yüzdesi dahilinde gerçekleşecektir. Fiyat slipaj toleransından fazla değişirse {{appName}} işlemin gerçekleşmesini engelleyerek sizi korur.",
       "networkFeeInfoDismissButton": "Anladım",
       "exchangeRate": "Döviz Kuru",
       "estimatedValue": "Tahmini Değer"
     },
     "fundYourWalletBottomSheet": {
-      "title": "Cüzdanınıza para yatırın",
-      "description": "Tokenları takas etmeden önce kripto satın alarak veya tokenları transfer ederek cüzdanınıza para yatırmanız gerekir.",
+      "title": "Cüzdanınıza fon ekleyin",
+      "description": "Token takas etmeden önce kripto satın alarak veya token transfer ederek cüzdanınıza fon eklemeniz gerekir.",
       "addFundsButton": "Bakiye Ekle"
     }
   },
@@ -1968,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Ethereum varlıklarını birinin ENS tanıtıcısına gönderin"
+          "subtitle": "Varlıkları birinin ENS tanıtıcısına gönderme"
         },
         "four": {
           "title": "Profil Adı",
@@ -2003,6 +2006,7 @@
   "viewOnCeloBlockExplorer": "CeloExplorer'da görüntüle",
   "viewOnCeloScan": "CeloScan'de görüntüle",
   "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
+  "viewOnArbiscan": "Arbiscan'da görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
@@ -2035,8 +2039,8 @@
     "secondaryCta": "Hayır, teşekkürler"
   },
   "getStartedHome": {
-    "title": "Kripto satın alın veya token aktarın",
-    "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
+    "title": "Kripto satın alın veya token transfer edin",
+    "body": "{{apy}}% ödülleri kazanmak için token satın alın veya transfer edin, web3'ü ve daha fazlasını keşfedin!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -2966,6 +2966,34 @@ export const v183Schema = {
   home: { ...v182Schema.home, cleverTapInboxMessages: [] },
 }
 
+export const v184Schema = {
+  ...v183Schema,
+  _persist: {
+    ...v183Schema._persist,
+    version: 184,
+  },
+  swap: { ...v183Schema.swap, lastSwapped: [] },
+}
+
+export const v185Schema = {
+  ...v184Schema,
+  _persist: {
+    ...v184Schema._persist,
+    version: 185,
+  },
+  tokens: _.omit(v184Schema.tokens, 'importedTokens'),
+}
+
+export const v186Schema = {
+  ...v185Schema,
+  _persist: {
+    ...v185Schema._persist,
+    version: 186,
+  },
+  home: { ...v185Schema.home, hasVisitedHome: true },
+  app: { ...v185Schema.app, pendingDeepLinks: [] },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v183Schema as Partial<RootState>
+  return v186Schema as Partial<RootState>
 }
