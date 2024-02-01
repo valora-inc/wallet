@@ -2005,6 +2005,8 @@
   "viewOnCeloScan": "Xem trên CeloScan",
   "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
   "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
