@@ -12,6 +12,8 @@ import {
   celoAlfajores,
   mainnet as ethereum,
   sepolia as ethereumSepolia,
+  optimism,
+  optimismSepolia,
 } from 'viem/chains'
 
 export enum Testnets {
@@ -84,6 +86,9 @@ const ALCHEMY_ETHEREUM_RPC_URL_MAINNET = 'https://eth-mainnet.g.alchemy.com/v2/'
 
 const ALCHEMY_ARBITRUM_RPC_URL_STAGING = 'https://arb-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_ARBITRUM_RPC_URL_MAINNET = 'https://arb-mainnet.g.alchemy.com/v2/'
+
+const ALCHEMY_OPTIMISM_RPC_URL_STAGING = 'https://opt-sepolia.g.alchemy.com/v2/'
+const ALCHEMY_OPTIMISM_RPC_URL_MAINNET = 'https://opt-mainnet.g.alchemy.com/v2/'
 
 export type BlockExplorerUrls = {
   [key in NetworkId]: {
@@ -233,6 +238,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-alfajores'],
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
       [Network.Arbitrum]: NetworkId['arbitrum-sepolia'],
+      [Network.Optimism]: NetworkId['op-sepolia'],
     },
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
@@ -284,6 +290,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
       [Network.Arbitrum]: arbitrumSepolia,
+      [Network.Optimism]: optimismSepolia,
     },
     currencyToTokenId: {
       [CiCoCurrency.CELO]: CELO_TOKEN_ID_STAGING,
@@ -298,6 +305,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     alchemyRpcUrl: {
       [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
       [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_STAGING,
+      [Network.Optimism]: ALCHEMY_OPTIMISM_RPC_URL_STAGING,
     },
     cusdTokenId: CUSD_TOKEN_ID_STAGING,
     ceurTokenId: CEUR_TOKEN_ID_STAGING,
@@ -312,6 +320,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: NetworkId['celo-mainnet'],
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
       [Network.Arbitrum]: NetworkId['arbitrum-one'],
+      [Network.Optimism]: NetworkId['op-mainnet'],
     },
     defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
@@ -362,6 +371,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,
       [Network.Arbitrum]: arbitrum,
+      [Network.Optimism]: optimism,
     },
     currencyToTokenId: {
       [CiCoCurrency.CELO]: CELO_TOKEN_ID_MAINNET,
@@ -376,6 +386,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     alchemyRpcUrl: {
       [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
       [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_MAINNET,
+      [Network.Optimism]: ALCHEMY_OPTIMISM_RPC_URL_MAINNET,
     },
     cusdTokenId: CUSD_TOKEN_ID_MAINNET,
     ceurTokenId: CEUR_TOKEN_ID_MAINNET,
@@ -394,6 +405,9 @@ const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
 
 const ARBISCAN_BASE_URL_ONE = 'https://arbiscan.io'
 const ARBISCAN_BASE_URL_SEPOLIA = 'https://sepolia.arbiscan.io'
+
+const OP_MAINNET_EXPLORER_BASE_URL = 'https://optimistic.etherscan.io/'
+const OP_SEPOLIA_EXPLORER_BASE_URL = 'https://sepolia-optimism.etherscan.io/'
 
 export const blockExplorerUrls: BlockExplorerUrls = {
   [NetworkId['celo-mainnet']]: {
@@ -432,6 +446,18 @@ export const blockExplorerUrls: BlockExplorerUrls = {
     baseTokenUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
     baseNftUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
   },
+  [NetworkId['op-mainnet']]: {
+    baseTxUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/tx/`,
+    baseAddressUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/address/`,
+    baseTokenUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/token/`,
+    baseNftUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/token/`,
+  },
+  [NetworkId['op-sepolia']]: {
+    baseTxUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/tx/`,
+    baseAddressUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/address/`,
+    baseTokenUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/token/`,
+    baseNftUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/token/`,
+  },
 }
 
 export const networkIdToNetwork: NetworkIdToNetwork = {
@@ -441,6 +467,8 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['ethereum-sepolia']]: Network.Ethereum,
   [NetworkId['arbitrum-one']]: Network.Arbitrum,
   [NetworkId['arbitrum-sepolia']]: Network.Arbitrum,
+  [NetworkId['op-mainnet']]: Network.Optimism,
+  [NetworkId['op-sepolia']]: Network.Optimism,
 }
 
 export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
@@ -450,6 +478,8 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['ethereum-sepolia']]: 'eip155:11155111',
   [NetworkId['arbitrum-one']]: 'eip155:42161',
   [NetworkId['arbitrum-sepolia']]: 'eip155:421614',
+  [NetworkId['op-mainnet']]: 'eip155:10',
+  [NetworkId['op-sepolia']]: 'eip155:11155420',
 }
 
 export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
@@ -459,6 +489,8 @@ export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
   'eip155:11155111': NetworkId['ethereum-sepolia'],
   'eip155:42161': NetworkId['arbitrum-one'],
   'eip155:421614': NetworkId['arbitrum-sepolia'],
+  'eip155:10': NetworkId['op-mainnet'],
+  'eip155:11155420': NetworkId['op-sepolia'],
 }
 
 export const walletConnectChainIdToNetwork: Record<string, Network> = {
@@ -468,6 +500,8 @@ export const walletConnectChainIdToNetwork: Record<string, Network> = {
   'eip155:11155111': Network.Ethereum,
   'eip155:42161': Network.Arbitrum,
   'eip155:421614': Network.Arbitrum,
+  'eip155:10': Network.Optimism,
+  'eip155:11155420': Network.Optimism,
 }
 
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)
