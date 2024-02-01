@@ -2007,6 +2007,8 @@
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
   "viewOnArbiscan": "Vista sobre Arbiscan",
+  "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vista en OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
