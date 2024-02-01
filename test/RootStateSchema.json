@@ -1610,7 +1610,9 @@
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
-                "ethereum-sepolia"
+                "ethereum-sepolia",
+                "op-mainnet",
+                "op-sepolia"
             ],
             "type": "string"
         },
@@ -4907,6 +4909,18 @@
                     "type": "array"
                 },
                 "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
