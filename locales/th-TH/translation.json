@@ -2005,6 +2005,8 @@
   "viewOnCeloScan": "ดูบน CeloScan",
   "viewOnEthereumBlockExplorer": "ดูบน Etherscan",
   "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "ป้อนจำนวนเงิน",
     "selectToken": "เลือกโทเค็น",
