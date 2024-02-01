@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Надіслати активи Ethereum тим, хто використовує ENS"
+          "subtitle": "Надсилайте активи на чийсь дескриптор ENS"
         },
         "four": {
           "title": "Ім’я профілю",
@@ -2010,6 +2010,7 @@
   "viewOnCeloBlockExplorer": "Переглянути на CeloExplorer",
   "viewOnCeloScan": "Переглянути на CeloScan",
   "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
+  "viewOnArbiscan": "Вид на Арбіскан",
   "sendEnterAmountScreen": {
     "title": "Ввести суму",
     "selectToken": "Вибрати токен",
@@ -2043,7 +2044,7 @@
   },
   "getStartedHome": {
     "title": "Придбайте криптовалюту чи переведіть токени",
-    "body": "Придбайте чи переведіть токени, сумісні із celo чи ethereum, щоб заробити винагороди {{apy}}%, досліджувати web3 тощо!"
+    "body": "Купуйте або переказуйте токени, щоб отримувати {{apy}}% винагороди, вивчати web3 та багато іншого!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
