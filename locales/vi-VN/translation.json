@@ -1969,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Gửi tài sản Ethereum tới địa chỉ ENS của một người"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "Tên hồ sơ",
@@ -2004,6 +2004,9 @@
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
   "viewOnCeloScan": "Xem trên CeloScan",
   "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2037,7 +2040,7 @@
   },
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
-    "body": "Mua hoặc chuyển token tương thích với Celo hoặc Ethereum để nhận {{apy}}% tiền thưởng, khám phá web3 và hơn thế nữa!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

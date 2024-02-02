@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Envoyez des actifs Ethereum vers le compte ENS d'une personne"
+          "subtitle": "Envoie des actifs à la poignée ENS de quelqu'un"
         },
         "four": {
           "title": "Nom du profil",
@@ -2006,6 +2006,9 @@
   "viewOnCeloBlockExplorer": "Voir sur CeloExplorer",
   "viewOnCeloScan": "Voir sur CeloScan",
   "viewOnEthereumBlockExplorer": "Voir sur Etherscan",
+  "viewOnArbiscan": "Vue sur Arbiscan",
+  "viewOnOPMainnetExplorer": "Vue sur OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vue sur OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Saisissez le montant",
     "selectToken": "Sélectionnez un jeton",
@@ -2039,7 +2042,7 @@
   },
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
-    "body": "Achetez ou transférez des jetons compatibles avec Celo ou Ethereum pour gagner des récompenses {{apy}}%, découvrez le web3 et allez plus loin !"
+    "body": "Achète ou transfère des jetons compatibles pour envoyer de la crypto et explorer web3 !"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

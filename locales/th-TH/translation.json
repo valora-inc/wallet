@@ -1969,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "ส่งสินทรัพย์ Ethereum ไปยังที่อยู่ ENS ของผู้รับ"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "ชื่อโปรไฟล์",
@@ -2004,6 +2004,9 @@
   "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
   "viewOnCeloScan": "ดูบน CeloScan",
   "viewOnEthereumBlockExplorer": "ดูบน Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "ป้อนจำนวนเงิน",
     "selectToken": "เลือกโทเค็น",
@@ -2037,7 +2040,7 @@
   },
   "getStartedHome": {
     "title": "ซื้อคริปโตหรือโอนโทเค็น",
-    "body": "ซื้อหรือโอนโทเค็นที่เข้ากันได้กับ Celo หรือ Ethereum เพื่อรับเงินรางวัล {{apy}}% ดูข้อมูลเกี่ยวกับ web3 และอีกมากมาย"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

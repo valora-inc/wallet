@@ -1605,10 +1605,14 @@
         },
         "NetworkId": {
             "enum": [
+                "arbitrum-one",
+                "arbitrum-sepolia",
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
-                "ethereum-sepolia"
+                "ethereum-sepolia",
+                "op-mainnet",
+                "op-sepolia"
             ],
             "type": "string"
         },
@@ -4874,6 +4878,18 @@
         "TransactionsByNetworkId": {
             "additionalProperties": false,
             "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "celo-alfajores": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -4893,6 +4909,18 @@
                     "type": "array"
                 },
                 "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },

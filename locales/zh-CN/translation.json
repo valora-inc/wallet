@@ -1969,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "将 Ethereum 资产发送至某人的 ENS 句柄"
+          "subtitle": "向某人的 ENS 句柄发送资产"
         },
         "four": {
           "title": "个人资料名称",
@@ -2004,6 +2004,9 @@
   "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
   "viewOnCeloScan": "在 CeloScan 上查看",
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
+  "viewOnArbiscan": "查看 Arbiscan",
+  "viewOnOPMainnetExplorer": "在 OP Mainnet Explorer 上查看",
+  "viewOnOPSepoliaExplorer": "在 OP Sepolia Explorer 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择代币",
@@ -2037,7 +2040,7 @@
   },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
-    "body": "购买或转移与 celo 或 ethereum 兼容的代币，赚取 {{apy}}% 的奖励，探索 web3 等！"
+    "body": "购买或转让兼容代币，发送加密货币，探索网络3！"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
