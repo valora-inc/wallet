@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Надсилайте активи на чийсь дескриптор ENS"
+          "subtitle": "Надіслати активи тому, хто використовує ENS"
         },
         "four": {
           "title": "Ім’я профілю",
@@ -2010,7 +2010,7 @@
   "viewOnCeloBlockExplorer": "Переглянути на CeloExplorer",
   "viewOnCeloScan": "Переглянути на CeloScan",
   "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
-  "viewOnArbiscan": "Вид на Арбіскан",
+  "viewOnArbiscan": "Переглянути на Arbiscan",
   "viewOnOPMainnetExplorer": "Перегляд в OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Переглянути в OP Sepolia Explorer",
   "sendEnterAmountScreen": {
@@ -2046,7 +2046,7 @@
   },
   "getStartedHome": {
     "title": "Придбайте криптовалюту чи переведіть токени",
-    "body": "Купуйте або переказуйте сумісні токени, щоб надсилати криптовалюту і досліджувати web3!"
+    "body": "Купуйте чи переводьте сумісні токени, щоб надсилати криптовалюту й досліджувати web3!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
