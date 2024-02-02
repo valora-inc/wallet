@@ -50,10 +50,16 @@ import { Hash, TransactionReceipt } from 'viem'
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
+
+// These are in msecs and you want a value that's equal to the average
+// blocktime and no less than MINIMUM_WATCHING_DELAY_MS. (will be ignored if under MINIMUM_WATCHING_DELAY_MS)
 const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Celo]: 5000,
   [Network.Ethereum]: 15000,
+  [Network.Arbitrum]: 2000,
+  [Network.Optimism]: 2000,
 }
+const MIN_WATCHING_DELAY_MS = 2000
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
@@ -286,7 +292,8 @@ export function* internalWatchPendingTransactionsInNetwork(network: Network) {
 export function* watchPendingTransactionsInNetwork(network: Network) {
   while (true) {
     yield* call(internalWatchPendingTransactionsInNetwork, network)
-    yield* delay(WATCHING_DELAY_BY_NETWORK[network])
+    const delayTimeMs = Math.max(WATCHING_DELAY_BY_NETWORK[network], MIN_WATCHING_DELAY_MS)
+    yield* delay(delayTimeMs) // avoid polling too often and using up CPU
   }
 }
 
