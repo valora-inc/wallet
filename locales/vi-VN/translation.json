@@ -2005,6 +2005,8 @@
   "viewOnCeloScan": "Xem trên CeloScan",
   "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
   "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2038,7 +2040,7 @@
   },
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
-    "body": "Buy or transfer tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

@@ -2011,6 +2011,8 @@
   "viewOnCeloScan": "Переглянути на CeloScan",
   "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
   "viewOnArbiscan": "Вид на Арбіскан",
+  "viewOnOPMainnetExplorer": "Перегляд в OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Переглянути в OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ввести суму",
     "selectToken": "Вибрати токен",
@@ -2044,7 +2046,7 @@
   },
   "getStartedHome": {
     "title": "Придбайте криптовалюту чи переведіть токени",
-    "body": "Купуйте або переказуйте токени, щоб отримувати {{apy}}% винагороди, вивчати web3 та багато іншого!"
+    "body": "Купуйте або переказуйте сумісні токени, щоб надсилати криптовалюту і досліджувати web3!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

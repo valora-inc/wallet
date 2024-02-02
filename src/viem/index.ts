@@ -1,7 +1,11 @@
-import { ALCHEMY_ARBITRUM_API_KEY, ALCHEMY_ETHEREUM_API_KEY } from 'src/config'
+import {
+  ALCHEMY_ARBITRUM_API_KEY,
+  ALCHEMY_ETHEREUM_API_KEY,
+  ALCHEMY_OPTIMISM_API_KEY,
+} from 'src/config'
 import { Network } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
-import { createPublicClient, http, Transport } from 'viem'
+import { Transport, createPublicClient, http } from 'viem'
 
 export const viemTransports: Record<Network, Transport> = {
   [Network.Celo]: http(),
@@ -19,6 +23,13 @@ export const viemTransports: Record<Network, Transport> = {
       },
     },
   }),
+  [Network.Optimism]: http(networkConfig.alchemyRpcUrl[Network.Optimism], {
+    fetchOptions: {
+      headers: {
+        Authorization: `Bearer ${ALCHEMY_OPTIMISM_API_KEY}`,
+      },
+    },
+  }),
 }
 
 export const publicClient = {
@@ -33,5 +44,9 @@ export const publicClient = {
   [Network.Arbitrum]: createPublicClient({
     chain: networkConfig.viemChain.arbitrum,
     transport: viemTransports[Network.Arbitrum],
+  }),
+  [Network.Optimism]: createPublicClient({
+    chain: networkConfig.viemChain.optimism,
+    transport: viemTransports[Network.Optimism],
   }),
 }
