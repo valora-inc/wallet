@@ -329,6 +329,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'TestToken',
         symbol: 'TT',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockPoofTokenId]: {
         address: mockPoofAddress,
@@ -339,6 +341,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'PoofToken',
         symbol: 'Poof',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockUSDCTokenId]: {
         address: mockUSDCAddress,
@@ -350,6 +354,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'USD Coin',
         symbol: 'USDC',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
     }
 
@@ -402,20 +408,24 @@ describe(fetchImportedTokenBalances, () => {
         decimals: 18,
         tokenId: mockTestTokenTokenId,
         networkId: NetworkId['celo-alfajores'],
-        balance: null,
+        balance: new BigNumber(100),
         name: 'TestToken',
         symbol: 'TT',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockPoofTokenId]: {
         address: mockPoofAddress,
         decimals: 18,
         tokenId: mockPoofTokenId,
         networkId: NetworkId['celo-alfajores'],
-        balance: null,
+        balance: new BigNumber(100),
         name: 'PoofToken',
         symbol: 'Poof',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockUSDCTokenId]: {
         address: mockUSDCAddress,
@@ -423,10 +433,12 @@ describe(fetchImportedTokenBalances, () => {
         tokenId: mockUSDCTokenId,
         showZeroBalance: true,
         networkId: NetworkId['ethereum-sepolia'],
-        balance: null,
+        balance: new BigNumber(100),
         name: 'USD Coin',
         symbol: 'USDC',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
     }
 
