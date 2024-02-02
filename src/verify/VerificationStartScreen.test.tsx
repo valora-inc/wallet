@@ -20,12 +20,18 @@ jest.mock('src/onboarding/steps', () => ({
   onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 
-const renderComponent = (navParams?: StackParamList[Screens.VerificationStartScreen]) =>
+const renderComponent = (
+  navParams?: StackParamList[Screens.VerificationStartScreen],
+  restoreAccount = false
+) =>
   render(
     <Provider
       store={createMockStore({
         app: {
           activeScreen: Screens.VerificationStartScreen,
+        },
+        account: {
+          choseToRestoreAccount: restoreAccount,
         },
       })}
     >
@@ -33,7 +39,7 @@ const renderComponent = (navParams?: StackParamList[Screens.VerificationStartScr
         component={VerificationStartScreen}
         params={{
           selectedCountryCodeAlpha2: 'NL',
-          hideOnboardingStep: true,
+          isOnboarding: false,
           ...navParams,
         }}
       />
@@ -45,14 +51,14 @@ describe('VerificationStartScreen', () => {
     jest.clearAllMocks()
   })
 
-  it('displays the correct components on mount', async () => {
+  it('displays the correct components on mount when not onboarding', async () => {
     mockedKeychain.getGenericPassword.mockResolvedValue({
       password: 'some signed message',
       username: 'username',
       service: 'service',
       storage: 'storage',
     })
-    const { getByText, getByTestId } = renderComponent()
+    const { getByText, getByTestId, queryByTestId, queryByText } = renderComponent()
 
     await act(() => {
       jest.advanceTimersByTime(5000)
@@ -64,6 +70,56 @@ describe('VerificationStartScreen', () => {
     expect(getByTestId('CountrySelectionButton')).toBeTruthy()
     expect(getByTestId('PhoneNumberField')).toBeTruthy()
     expect(getByText('phoneVerificationScreen.learnMore.buttonLabel')).toBeTruthy()
+    expect(queryByText('skip')).toBeFalsy()
+    expect(queryByTestId('HeaderSubTitle')).toBeFalsy()
+  })
+
+  it('displays the correct components on mount when onboarding and creating new wallet', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: 'some signed message',
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
+    const { getByText, getByTestId } = renderComponent({ isOnboarding: true })
+
+    await act(() => {
+      jest.advanceTimersByTime(5000)
+    })
+
+    await waitFor(() => expect(getByText('phoneVerificationScreen.startButtonLabel')).toBeTruthy())
+    expect(getByText('phoneVerificationScreen.title')).toBeTruthy()
+    expect(getByText('phoneVerificationScreen.description')).toBeTruthy()
+    expect(getByTestId('CountrySelectionButton')).toBeTruthy()
+    expect(getByTestId('PhoneNumberField')).toBeTruthy()
+    expect(getByText('phoneVerificationScreen.learnMore.buttonLabel')).toBeTruthy()
+    expect(getByText('skip')).toBeTruthy()
+    expect(getByTestId('HeaderSubTitle')).toHaveTextContent(
+      'registrationSteps, {"step":3,"totalSteps":3}'
+    )
+  })
+
+  it('displays the correct components on mount when onboarding and restoring wallet', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: 'some signed message',
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
+    const { getByText, getByTestId, queryByTestId } = renderComponent({ isOnboarding: true }, true)
+
+    await act(() => {
+      jest.advanceTimersByTime(5000)
+    })
+
+    await waitFor(() => expect(getByText('phoneVerificationScreen.startButtonLabel')).toBeTruthy())
+    expect(getByText('phoneVerificationScreen.title')).toBeTruthy()
+    expect(getByText('phoneVerificationScreen.description')).toBeTruthy()
+    expect(getByTestId('CountrySelectionButton')).toBeTruthy()
+    expect(getByTestId('PhoneNumberField')).toBeTruthy()
+    expect(getByText('phoneVerificationScreen.learnMore.buttonLabel')).toBeTruthy()
+    expect(getByText('skip')).toBeTruthy()
+    expect(queryByTestId('HeaderSubTitle')).toBeFalsy()
   })
 
   it('does not allow starting CPV when signed message is not yet available', async () => {
@@ -96,7 +152,7 @@ describe('VerificationStartScreen', () => {
   })
 
   it('skip button works', async () => {
-    const { getByText } = renderComponent({ hideOnboardingStep: false })
+    const { getByText } = renderComponent({ isOnboarding: true })
 
     await act(() => {
       fireEvent.press(getByText('skip'))
@@ -115,7 +171,7 @@ describe('VerificationStartScreen', () => {
       service: 'service',
       storage: 'storage',
     })
-    const { getByText, getByTestId } = renderComponent({ hideOnboardingStep: false })
+    const { getByText, getByTestId } = renderComponent({ isOnboarding: true })
 
     await act(() => {
       jest.advanceTimersByTime(5000)
@@ -130,6 +186,31 @@ describe('VerificationStartScreen', () => {
       countryCallingCode: '+31',
       e164Number: '+31619123456',
       registrationStep: { step: 3, totalSteps: 3 },
+    })
+  })
+
+  it('proceeds to the next verification step without steps if restoring', async () => {
+    mockedKeychain.getGenericPassword.mockResolvedValue({
+      password: 'some signed message',
+      username: 'username',
+      service: 'service',
+      storage: 'storage',
+    })
+    const { getByText, getByTestId } = renderComponent({ isOnboarding: true }, true)
+
+    await act(() => {
+      jest.advanceTimersByTime(5000)
+      fireEvent.changeText(getByTestId('PhoneNumberField'), '619123456')
+    })
+
+    await waitFor(() => expect(getByText('phoneVerificationScreen.startButtonLabel')).toBeTruthy())
+    fireEvent.press(getByText('phoneVerificationScreen.startButtonLabel'))
+
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationCodeInputScreen, {
+      countryCallingCode: '+31',
+      e164Number: '+31619123456',
+      registrationStep: undefined,
     })
   })
 })

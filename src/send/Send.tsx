@@ -192,9 +192,7 @@ function Send({ route }: Props) {
   }
 
   const onPressStartVerification = () => {
-    navigate(Screens.VerificationStartScreen, {
-      hideOnboardingStep: true,
-    })
+    navigate(Screens.VerificationStartScreen)
   }
 
   const onPressContactsSettings = () => {

@@ -149,7 +149,7 @@ export function useSimpleActions() {
               notificationId: NotificationType.reverify_using_CPV,
               notificationPositionInList: params?.index,
             })
-            navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
+            navigate(Screens.VerificationStartScreen)
           },
         },
       ],
@@ -282,9 +282,7 @@ export function useSimpleActions() {
               notificationId: NotificationType.verification_prompt,
               notificationPositionInList: params?.index,
             })
-            navigate(Screens.VerificationStartScreen, {
-              hideOnboardingStep: true,
-            })
+            navigate(Screens.VerificationStartScreen)
           },
         },
         {
