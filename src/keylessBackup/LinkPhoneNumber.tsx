@@ -3,9 +3,10 @@ import React, { useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { OnboardingEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import TextButton from 'src/components/TextButton'
 
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -28,10 +29,19 @@ export default function LinkPhoneNumber({ navigation }: Props) {
     navigation.setOptions({
       headerLeft: () => <BackButton />,
       headerStyle: {
-        backgroundColor: 'transparent',
+        backgroundColor: colors.gray1,
       },
     })
   }, [navigation])
+
+  const continueButtonOnPress = async () => {
+    ValoraAnalytics.track(OnboardingEvents.link_phone_number)
+    navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
+  }
+  const laterButtonOnPress = async () => {
+    ValoraAnalytics.track(OnboardingEvents.link_phone_number_later)
+    navigateHome()
+  }
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
@@ -42,27 +52,23 @@ export default function LinkPhoneNumber({ navigation }: Props) {
             <Text style={styles.screenDescription}>{t('linkPhoneNumber.description')}</Text>
           </View>
         </View>
-        <View
-          style={{
-            padding: Spacing.Thick24,
-            alignItems: 'center',
-          }}
-        >
+        <View style={styles.buttonView}>
           <Button
             text={t('linkPhoneNumber.startButtonLabel')}
-            onPress={() => navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })}
-            style={{ marginBottom: Spacing.Thick24, width: '100%' }}
+            onPress={continueButtonOnPress}
+            style={styles.button}
             type={BtnTypes.PRIMARY}
             size={BtnSizes.FULL}
             testID="LinkPhoneNumberButton"
           />
-          <TextButton
+          <Button
+            text={t('linkPhoneNumber.later')}
+            onPress={laterButtonOnPress}
+            style={styles.button}
+            type={BtnTypes.GRAY_WITH_BORDER}
+            size={BtnSizes.FULL}
             testID="LinkPhoneNumberLater"
-            style={{ color: colors.primary }}
-            onPress={() => navigateHome()}
-          >
-            {t('linkPhoneNumber.later')}
-          </TextButton>
+          />
         </View>
       </View>
     </SafeAreaView>
@@ -94,4 +100,9 @@ const styles = StyleSheet.create({
     gap: Spacing.Thick24,
     paddingHorizontal: Spacing.Thick24,
   },
+  buttonView: {
+    padding: Spacing.Thick24,
+    alignItems: 'center',
+  },
+  button: { marginBottom: Spacing.Thick24, width: '100%' },
 })
