@@ -206,13 +206,18 @@ function getStyle(
   borderColor: Colors | undefined,
   iconPositionLeft: boolean
 ) {
+  const borderStyles = borderColor
+    ? {
+        borderColor,
+        borderRadius: 100,
+        borderWidth: 1,
+      }
+    : {}
   const commonStyles: ViewStyle = {
     ...styles.button,
+    ...borderStyles,
     backgroundColor,
     opacity,
-    borderColor,
-    borderRadius: borderColor ? 100 : undefined,
-    borderWidth: borderColor ? 1 : undefined,
     flexDirection: iconPositionLeft ? 'row' : 'row-reverse',
   }
   switch (size) {
