@@ -2007,6 +2007,8 @@
   "viewOnCeloScan": "Auf CeloScan anzeigen",
   "viewOnEthereumBlockExplorer": "Auf Etherscan anzeigen",
   "viewOnArbiscan": "Blick auf Arbiscan",
+  "viewOnOPMainnetExplorer": "Ansicht im OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Blick auf OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Betrag eingeben",
     "selectToken": "Token auswählen",
@@ -2040,7 +2042,7 @@
   },
   "getStartedHome": {
     "title": "Krypto kaufen oder Tokens überweisen",
-    "body": "Kaufe oder transferiere Token, um {{apy}}% Belohnungen zu verdienen, erkunde web3 & mehr!"
+    "body": "Kaufe oder überweise kompatible Token, um Krypto zu versenden und erkunde web3!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

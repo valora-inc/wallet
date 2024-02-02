@@ -2007,6 +2007,8 @@
   "viewOnCeloScan": "Visualizza su CeloScan",
   "viewOnEthereumBlockExplorer": "Visualizza su Etherscan",
   "viewOnArbiscan": "Vista su Arbiscan",
+  "viewOnOPMainnetExplorer": "Vista su OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vista su OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
     "selectToken": "Seleziona un token",
@@ -2040,7 +2042,7 @@
   },
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
-    "body": "Acquista o trasferisci i gettoni per guadagnare {{apy}}% di premi, esplora web3 e molto altro!"
+    "body": "Acquista o trasferisci token compatibili per inviare criptovalute ed esplorare il web3!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
