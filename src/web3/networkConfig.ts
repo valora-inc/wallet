@@ -72,7 +72,7 @@ interface NetworkConfig {
   }
   celoTokenAddress: Address
   celoGasPriceMinimumAddress: Address
-  alchemyRpcUrl: Partial<Record<Network, string>>
+  alchemyRpcUrl: Record<Exclude<Network, Network.Celo>, string>
   cusdTokenId: string
   ceurTokenId: string
   crealTokenId: string
