@@ -105,7 +105,7 @@ function ActionsCarousel() {
                 {icon}
                 <Text
                   numberOfLines={1}
-                  maxFontSizeMultiplier={1.5}
+                  allowFontScaling={false}
                   style={styles.name}
                   testID={`HomeAction/Title-${name}`}
                 >
