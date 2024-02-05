@@ -45,6 +45,7 @@ export enum Screens {
   Language = 'Language',
   LanguageModal = 'LanguageModal',
   Licenses = 'Licenses',
+  LinkPhoneNumber = 'LinkPhoneNumber',
   Main = 'Main',
   MainModal = 'MainModal',
   MultichainBeta = 'MultichainBeta',
