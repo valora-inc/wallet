@@ -148,7 +148,7 @@ function Restore() {
             onPress={onPressCreateNewWallet}
             text={t('keylessBackupStatus.restore.failed.createNewWallet')}
             size={BtnSizes.FULL}
-            type={BtnTypes.ONBOARDING_SECONDARY} //  Should be GRAY_WITH_BORDER after merging in main
+            type={BtnTypes.GRAY_WITH_BORDER}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />
