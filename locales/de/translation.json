@@ -873,6 +873,18 @@
       "title": "Guthaben\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Stelle dein Portemonnaie wieder her",
+    "description": "Wenn du ein Backup einrichtest, um dein Portemonnaie zu schützen, wähle unten eine Option.",
+    "emailAndPhone": {
+      "title": "Vom E-Mail- und Telefon-Backup",
+      "description": "Stelle dein Portemonnaie mit der Telefonnummer und E-Mail wieder her, die du zuvor eingerichtet hast"
+    },
+    "recoveryPhrase": {
+      "title": "Von der Genesungsphrase",
+      "description": "Gib deinen 12-Wörter-Wiederherstellungssatz ein, um wieder Zugang zu Valora zu erhalten"
+    }
+  },
   "verificationInput": {
     "title": "Bestätigen",
     "body": "Wir haben dir drei Nachrichten (SMS) gesendet. Bitte kopiere diese und füge sie unten ein.",
