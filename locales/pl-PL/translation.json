@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Wyślij zasoby do czyjegoś uchwytu ENS"
+          "subtitle": "Wyślij aktywa do czyjejś usługi ENS"
         },
         "four": {
           "title": "Nazwa profilu",
@@ -2010,7 +2010,7 @@
   "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
   "viewOnCeloScan": "Wyświetl w CeloScan",
   "viewOnEthereumBlockExplorer": "Wyświetl w Etherscan",
-  "viewOnArbiscan": "Widok na Arbiscan",
+  "viewOnArbiscan": "Wyświetl w Arbiscan",
   "viewOnOPMainnetExplorer": "Widok na OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Widok na OP Sepolia Explorer",
   "sendEnterAmountScreen": {
@@ -2047,6 +2047,12 @@
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Połącz numer telefonu z adresem portfela",
+    "description": "Koniec z nieuporządkowanymi adresami portfeli! Wysyłaj kryptowaluty do innych użytkowników Valora za pomocą numeru telefonu",
+    "startButtonLabel": "Połącz numer telefonu",
+    "later": "Zrobię to później"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

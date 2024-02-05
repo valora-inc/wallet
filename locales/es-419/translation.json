@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Enviar activos al mango ENS de alguien"
+          "subtitle": "Envía activos al nombre ENS de alguien"
         },
         "four": {
           "title": "Nombre de perfil",
@@ -2006,7 +2006,7 @@
   "viewOnCeloBlockExplorer": "Ver en CeloExplorer",
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
-  "viewOnArbiscan": "Vista sobre Arbiscan",
+  "viewOnArbiscan": "Ver en Arbiscan",
   "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Vista en OP Sepolia Explorer",
   "sendEnterAmountScreen": {
@@ -2042,7 +2042,13 @@
   },
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
-    "body": "Compra o transfiere tokens compatibles para enviar criptomonedas y ¡explora web3!"
+    "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
+  },
+  "linkPhoneNumber": {
+    "title": "Vincular un número de teléfono a la dirección de tu monedero",
+    "description": "¡Se acabaron las direcciones de monedero desordenadas! Envía criptomonedas a otros usuarios de Valora con sólo un número de teléfono",
+    "startButtonLabel": "Enlace Número de teléfono",
+    "later": "Lo haré más tarde"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
