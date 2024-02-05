@@ -109,4 +109,8 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {} as { [key in Network]?: { contractAddress?: string } },
   },
+  [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
+    configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
+    defaultValues: {} as { [key in Network]?: { nftContractAddress?: string } },
+  },
 }

@@ -6,6 +6,7 @@ export enum StatsigDynamicConfigs {
   SWAP_CONFIG = 'swap_config',
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
+  NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
 }
 
 export enum StatsigFeatureGates {

@@ -20,9 +20,13 @@ import { nftCelebrationDisplayed } from 'src/home/actions'
 import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { Network } from 'src/transactions/types'
 
 const NOTIFICATION_DURATION = 6000 // 6 seconds
 
@@ -53,11 +57,16 @@ export default function NftCelebrationBottomSheet() {
     }
   })
 
+  const nftContractAddress = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
+  )?.[Network.Celo]?.nftContractAddress
+
   const nft = useSelector(nftsWithMetadataSelector).find(
     (nft) => nft.contractAddress === nftContractAddress
   )
 
-  const hasBeenDisplayed = nftContractAddress === useSelector(lastDisplayedNftCelebration)
+  const celebrationHasBeenDisplayed =
+    nftContractAddress === useSelector(lastDisplayedNftCelebration)
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -86,7 +95,7 @@ export default function NftCelebrationBottomSheet() {
     )
   }, [nft])
 
-  if (!nft || hasBeenDisplayed) {
+  if (!nftContractAddress || !nft || celebrationHasBeenDisplayed) {
     return null
   }
 
