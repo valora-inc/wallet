@@ -26,6 +26,7 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import { Network } from 'src/transactions/types'
 import confettiAnimation from './confettiAnimation.json'
@@ -134,7 +135,10 @@ export default function NftCelebrationBottomSheet() {
           backdropComponent={renderBackdrop}
           handleComponent={renderHandleWithImage}
           backgroundStyle={styles.bottomSheetBackground}
-          onClose={handleClose}
+          onClose={() => {
+            vibrateSuccess()
+            handleClose()
+          }}
         >
           <BottomSheetView style={styles.container}>
             <View style={styles.content}>
@@ -160,7 +164,9 @@ export default function NftCelebrationBottomSheet() {
             source={confettiAnimation}
             style={[styles.fullScreen]}
             resizeMode="cover"
-            onAnimationFinish={() => handleAnimationFinish()}
+            onAnimationFinish={() => {
+              handleAnimationFinish()
+            }}
           />
         </Animated.View>
       )}
