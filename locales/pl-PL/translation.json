@@ -2048,12 +2048,6 @@
     "title": "Kup kryptowaluty lub prześlij tokeny",
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
   },
-  "linkPhoneNumber": {
-    "title": "Połącz numer telefonu z adresem portfela",
-    "description": "Koniec z nieuporządkowanymi adresami portfeli! Wysyłaj kryptowaluty do innych użytkowników Valora za pomocą numeru telefonu",
-    "startButtonLabel": "Połącz numer telefonu",
-    "later": "Zrobię to później"
-  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
