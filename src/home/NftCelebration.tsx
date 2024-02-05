@@ -1,7 +1,7 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import LottieView from 'lottie-react-native'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -12,6 +12,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -28,7 +30,7 @@ import { Spacing } from 'src/styles/styles'
 import { Network } from 'src/transactions/types'
 import confettiAnimation from './confettiAnimation.json'
 
-const NOTIFICATION_DURATION = 6000 // 6 seconds
+const ANIMATION_DURATION = 6000 // 6 seconds
 
 // const imageUrl = 'https://bakoush.in/valora/unsplash_xyVIi4GN5Os.png'
 
@@ -39,21 +41,15 @@ export default function NftCelebrationBottomSheet() {
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
   const [showBottomSheet, setShowBottomSheet] = useState(true)
 
-  const [showNotification, setShowNotification] = useState(false)
-  useEffect(() => {
-    if (showNotification) {
-      const timeoutId = setTimeout(() => setShowNotification(false), NOTIFICATION_DURATION)
-      return () => clearTimeout(timeoutId)
-    }
-  }, [showNotification])
+  const [showAnimation, setShowAnimation] = useState(false)
 
-  const [showConfetti, setShowConfetti] = useState(false)
   const confettiOpacity = useSharedValue(1)
   const confettiOpacityStyle = useAnimatedStyle(() => {
     return {
       opacity: confettiOpacity.value,
     }
   })
+  const animationStartTime = useRef(0)
 
   const nftContractAddress =
     getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])?.[
@@ -101,22 +97,29 @@ export default function NftCelebrationBottomSheet() {
   }
 
   const handleClose = () => {
-    // TODO
-    // ValoraAnalytics.track(SwapEvents.swap_add_funds)
+    ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, { nftContractAddress })
 
     setShowBottomSheet(false)
-    setShowNotification(true)
-    setShowConfetti(true)
+
+    animationStartTime.current = Date.now()
+    setShowAnimation(true)
   }
 
-  const handleAnimationFinish = () => {
-    setShowNotification(false)
-    setShowConfetti(false)
+  const handleAnimationFinish = ({ userInterrupted = false } = {}) => {
+    const durationInSeconds = Math.round((Date.now() - animationStartTime.current) / 1000)
+    ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
+      userInterrupted,
+      durationInSeconds,
+    })
+
+    setShowAnimation(false)
     dispatch(nftCelebrationDisplayed(nftContractAddress))
   }
 
   const handleDismissAnimation = () => {
-    confettiOpacity.value = withTiming(0, { duration: 100 }, () => runOnJS(handleAnimationFinish)())
+    confettiOpacity.value = withTiming(0, { duration: 100 }, () =>
+      runOnJS(handleAnimationFinish)({ userInterrupted: true })
+    )
   }
 
   const rewardName = nft?.metadata?.name ?? t('celebrationBottomSheet.inlineNotification.nft')
@@ -148,27 +151,28 @@ export default function NftCelebrationBottomSheet() {
           </BottomSheetView>
         </GorhomBottomSheet>
       )}
-      {showConfetti && (
+      {showAnimation && (
         <Animated.View style={[styles.fullScreen, confettiOpacityStyle]}>
           <LottieView
             autoPlay
+            duration={ANIMATION_DURATION}
             loop={false}
             source={confettiAnimation}
             style={[styles.fullScreen]}
             resizeMode="cover"
-            onAnimationFinish={handleAnimationFinish}
+            onAnimationFinish={() => handleAnimationFinish()}
           />
         </Animated.View>
       )}
       <BottomSheetInLineNotification
-        showNotification={showNotification}
+        showNotification={showAnimation}
         severity={Severity.Informational}
         title={t('celebrationBottomSheet.inlineNotification.title')}
         description={t('celebrationBottomSheet.inlineNotification.description', { rewardName })}
         position="top"
         showIcon={false}
       />
-      {showConfetti && (
+      {showAnimation && (
         <TouchableWithoutFeedback onPress={handleDismissAnimation}>
           <View style={styles.fullScreen} />
         </TouchableWithoutFeedback>
