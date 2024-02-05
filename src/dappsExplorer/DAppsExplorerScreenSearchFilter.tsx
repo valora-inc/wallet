@@ -49,6 +49,7 @@ interface SectionData {
   data: DappWithCategoryNames[]
   sectionName: string
   dappSection: DappSection
+  testID: string
 }
 
 export function DAppsExplorerScreenSearchFilter() {
@@ -97,6 +98,11 @@ export function DAppsExplorerScreenSearchFilter() {
   }
 
   const handleToggleFilterChip = (filter: FilterChip<DappWithCategoryNames>) => {
+    ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
+      filterId: filter?.id ?? 'all',
+      remove: selectedFilter !== null,
+    })
+
     setSelectedFilter((prev) => (prev?.id === filter.id ? null : filter))
   }
 
@@ -144,6 +150,7 @@ export function DAppsExplorerScreenSearchFilter() {
               data: favouriteDappsMatchingFilterAndSearch,
               sectionName: t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US'),
               dappSection: DappSection.FavoritesDappScreen,
+              testID: 'DAppsExplorerScreen/FavoritesSection',
             },
           ]
         : []),
@@ -154,6 +161,7 @@ export function DAppsExplorerScreenSearchFilter() {
           : t('dappsScreen.allDapps')
         ).toLocaleUpperCase(language ?? 'en-US'),
         dappSection: DappSection.All,
+        testID: 'DAppsExplorerScreen/AllSection',
       },
     ]
   }, [
@@ -242,6 +250,7 @@ export function DAppsExplorerScreenSearchFilter() {
                     onPressDapp({ ...dapp, openedFrom: section.dappSection }, index)
                   }
                   onFavoriteDapp={onFavoriteDapp}
+                  testID={`${section.testID}/DappCard`}
                 />
               )
             }}
@@ -252,15 +261,19 @@ export function DAppsExplorerScreenSearchFilter() {
                     selectedFilter={selectedFilter}
                     removeFilter={removeFilter}
                     searchTerm={searchTerm}
-                    testID="DAppsExplorerScreen/NoResults"
+                    testID={`${section.testID}/NoResults`}
                   />
                 )
               }
 
               return null
             }}
-            renderSectionHeader={({ section: { sectionName } }) => {
-              return <Text style={styles.sectionTitle}>{sectionName}</Text>
+            renderSectionHeader={({ section: { sectionName, testID } }) => {
+              return (
+                <Text testID={`${testID}/Title`} style={styles.sectionTitle}>
+                  {sectionName}
+                </Text>
+              )
             }}
             keyExtractor={(dapp) => dapp.id}
             stickySectionHeadersEnabled={false}
