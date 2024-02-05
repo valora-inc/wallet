@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Wyślij zasoby do czyjegoś uchwytu ENS"
+          "subtitle": "Wyślij aktywa do czyjejś usługi ENS"
         },
         "four": {
           "title": "Nazwa profilu",
@@ -2010,7 +2010,7 @@
   "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
   "viewOnCeloScan": "Wyświetl w CeloScan",
   "viewOnEthereumBlockExplorer": "Wyświetl w Etherscan",
-  "viewOnArbiscan": "Widok na Arbiscan",
+  "viewOnArbiscan": "Wyświetl w Arbiscan",
   "viewOnOPMainnetExplorer": "Widok na OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Widok na OP Sepolia Explorer",
   "sendEnterAmountScreen": {
