@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Invia asset Ethereum all'handle ENS di qualcuno"
+          "subtitle": "Invia risorse all'handle ENS di una persona"
         },
         "four": {
           "title": "Nome del profilo",
@@ -2006,6 +2006,9 @@
   "viewOnCeloBlockExplorer": "Visualizza su CeloExplorer",
   "viewOnCeloScan": "Visualizza su CeloScan",
   "viewOnEthereumBlockExplorer": "Visualizza su Etherscan",
+  "viewOnArbiscan": "Visualizza su Arbiscan",
+  "viewOnOPMainnetExplorer": "Vista su OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vista su OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Inserisci l'importo",
     "selectToken": "Seleziona un token",
@@ -2039,7 +2042,13 @@
   },
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
-    "body": "Acquista o trasferisci token compatibili con Celo o Ethereum per ottenere ricompense del {{apy}}%, esplorare il Web3 e molto altro!"
+    "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Collega un numero di telefono all'indirizzo del tuo portafoglio",
+    "description": "Niente più indirizzi di portafogli disordinati! Invia criptovalute ad altri utenti Valora con un semplice numero di telefono",
+    "startButtonLabel": "Numero di telefono del collegamento",
+    "later": "Lo farò più tardi"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

@@ -23,12 +23,10 @@ import { StatsigExperiments } from 'src/statsig/types'
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
-  navigate: typeof NavigationService.navigate | ((screen: Screens) => void)
-  popToScreen: typeof NavigationService.popToScreen | ((screen: Screens) => void)
+  navigate: typeof NavigationService.navigate
+  popToScreen: typeof NavigationService.popToScreen
   finishOnboarding: (screen: keyof StackParamList) => void
-  navigateClearingStack:
-    | typeof NavigationService.navigateClearingStack
-    | ((screen: Screens) => void)
+  navigateClearingStack: typeof NavigationService.navigateClearingStack
 }
 
 interface GetStepInfoProps {
@@ -110,8 +108,9 @@ export function getOnboardingStepValues(screen: Screens, onboardingProps: Onboar
   let reachedStep = false // tracks whether we have reached the step the user is on in onboarding, and we can stop incrementing stepCounter
   let currentScreen: Screens = firstScreen // pointer that we will update when simulating navigation through the onboarding screens to calculate "step" and "totalSteps"
 
-  const nextStepAndCount = (nextScreen: Screens) => {
+  const nextStepAndCount: typeof NavigationService.navigate = (...args) => {
     // dummy navigation function to help determine what onboarding step the user is on, without triggering side effects like actually cycling them back through the first few onboarding screens
+    const [nextScreen] = args
     if (!END_OF_ONBOARDING_SCREENS.includes(nextScreen)) {
       totalCounter++
       if (currentScreen === screen) {
@@ -252,7 +251,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             navigateHomeOrChooseAdventure()
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            navigate(Screens.VerificationStartScreen)
+            navigate(Screens.VerificationStartScreen, { isOnboarding: true })
           }
         },
       }
@@ -271,7 +270,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.WalletHome)
           } else {
-            navigate(Screens.VerificationStartScreen)
+            navigate(Screens.VerificationStartScreen, { isOnboarding: true })
           }
         },
       }
