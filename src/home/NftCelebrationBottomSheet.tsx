@@ -26,6 +26,7 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { Network } from 'src/transactions/types'
+import confettiAnimation from './confettiAnimation.json'
 
 const NOTIFICATION_DURATION = 6000 // 6 seconds
 
@@ -107,7 +108,6 @@ export default function NftCelebrationBottomSheet() {
     setShowBottomSheet(false)
     setShowNotification(true)
     setShowConfetti(true)
-    confettiRef.current?.play(0)
   }
 
   const handleAnimationFinish = () => {
@@ -124,29 +124,6 @@ export default function NftCelebrationBottomSheet() {
 
   return (
     <>
-      <BottomSheetInLineNotification
-        showNotification={showNotification}
-        severity={Severity.Informational}
-        title={t('celebrationBottomSheet.inlineNotification.title')}
-        description={t('celebrationBottomSheet.inlineNotification.description', { rewardName })}
-        position="top"
-        showIcon={false}
-      />
-      {showConfetti && (
-        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
-          <Animated.View style={[styles.confettiAnimation, confettyOpacityStyle]}>
-            <LottieView
-              ref={confettiRef}
-              source={require('./confettiAnimation.json')}
-              autoPlay={false}
-              loop={false}
-              style={[styles.confettiAnimation]}
-              resizeMode="cover"
-              onAnimationFinish={handleAnimationFinish}
-            />
-          </Animated.View>
-        </TouchableWithoutFeedback>
-      )}
       {showBottomSheet && (
         <GorhomBottomSheet
           ref={bottomSheetRef}
@@ -171,6 +148,31 @@ export default function NftCelebrationBottomSheet() {
             />
           </BottomSheetView>
         </GorhomBottomSheet>
+      )}
+      {showConfetti && (
+        <Animated.View style={[styles.fullScreen, confettyOpacityStyle]}>
+          <LottieView
+            autoPlay
+            loop={false}
+            source={confettiAnimation}
+            style={[styles.fullScreen]}
+            resizeMode="cover"
+            onAnimationFinish={handleAnimationFinish}
+          />
+        </Animated.View>
+      )}
+      <BottomSheetInLineNotification
+        showNotification={showNotification}
+        severity={Severity.Informational}
+        title={t('celebrationBottomSheet.inlineNotification.title')}
+        description={t('celebrationBottomSheet.inlineNotification.description', { rewardName })}
+        position="top"
+        showIcon={false}
+      />
+      {showConfetti && (
+        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
+          <View style={styles.fullScreen} />
+        </TouchableWithoutFeedback>
       )}
     </>
   )
@@ -227,7 +229,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.XLarge48,
     marginBottom: Spacing.Regular16,
   },
-  confettiAnimation: {
+  fullScreen: {
     ...StyleSheet.absoluteFillObject,
   },
 })
