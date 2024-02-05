@@ -17,7 +17,6 @@ import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotif
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Severity } from 'src/components/InLineNotification'
 import { nftCelebrationDisplayed } from 'src/home/actions'
-import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
@@ -56,18 +55,19 @@ export default function NftCelebrationBottomSheet() {
     }
   })
 
-  const nftContractAddress = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
-  )?.[Network.Celo]?.nftContractAddress
+  const nftContractAddress =
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])?.[
+      Network.Celo
+    ]?.nftContractAddress ?? '0x376f5039df4e9e9c864185d8fabad4f04a7e394a' // TODO: remove
 
   const nft = useSelector(nftsWithMetadataSelector).find(
     (nft) => nft.contractAddress === nftContractAddress
   )
 
-  const showCelebration = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+  const showCelebration = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION) || true // TODO: remove
 
-  const celebrationHasBeenDisplayed =
-    nftContractAddress === useSelector(lastDisplayedNftCelebration)
+  const celebrationHasBeenDisplayed = false // TODO: remove
+  //  nftContractAddress === useSelector(lastDisplayedNftCelebration)
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
