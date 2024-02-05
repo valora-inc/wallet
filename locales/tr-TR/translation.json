@@ -873,6 +873,18 @@
       "title": "Bakiye\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Cüzdanınızı Geri Yükleyin",
+    "description": "Cüzdanınızı korumak için bir yedekleme ayarladıysanız, aşağıdaki seçeneklerden birini seçin.",
+    "emailAndPhone": {
+      "title": "E-posta ve telefon yedeklemesinden",
+      "description": "Cüzdanınızı daha önce ayarladığınız telefon numarası ve e-posta ile geri yükleyin"
+    },
+    "recoveryPhrase": {
+      "title": "Kurtarma cümlesinden",
+      "description": "Valora'ya yeniden erişim kazanmak için 12 kelimelik kurtarma cümlenizi girin"
+    }
+  },
   "verificationInput": {
     "title": "Onayla",
     "body": "Size üç mesaj (SMS) gönderdik. Lütfen bunları kopyalayıp aşağıya yapıştırın.",
