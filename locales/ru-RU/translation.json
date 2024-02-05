@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Отправь активы на чей-то ENS-руководитель"
+          "subtitle": "Отправьте активы в чей-то держатель ENS"
         },
         "four": {
           "title": "Имя профиля",
@@ -2010,7 +2010,7 @@
   "viewOnCeloBlockExplorer": "Просмотреть в CeloExplorer",
   "viewOnCeloScan": "Посмотреть в CeloScan",
   "viewOnEthereumBlockExplorer": "Посмотреть на Etherscan",
-  "viewOnArbiscan": "Вид на Арбискан",
+  "viewOnArbiscan": "Посмотреть на Arbiscan",
   "viewOnOPMainnetExplorer": "Вид на OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Вид на OP Sepolia Explorer",
   "sendEnterAmountScreen": {
@@ -2046,7 +2046,13 @@
   },
   "getStartedHome": {
     "title": "Покупайте криптовалюту или переводите токены",
-    "body": "Покупай или переводи совместимые токены, чтобы отправлять криптовалюту и исследовать web3!"
+    "body": "Покупайте или переводите совместимые токены, чтобы отправлять криптовалюту и исследовать web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Привяжи номер телефона к адресу своего кошелька",
+    "description": "Больше никаких запутанных адресов кошельков! Отправляй криптовалюту другим пользователям Valora, используя только номер телефона",
+    "startButtonLabel": "Номер телефона для связи",
+    "later": "Я сделаю это позже"
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

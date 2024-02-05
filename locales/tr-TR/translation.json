@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Varlıkları birinin ENS tanıtıcısına gönderme"
+          "subtitle": "Varlıkları birinin ENS tanıtıcısına gönderin"
         },
         "four": {
           "title": "Profil Adı",
@@ -2042,7 +2042,13 @@
   },
   "getStartedHome": {
     "title": "Kripto satın alın veya token transfer edin",
-    "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu jetonları satın alın veya aktarın!"
+    "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!"
+  },
+  "linkPhoneNumber": {
+    "title": "Cüzdan adresinize bir telefon numarası bağlayın",
+    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Valora kullanıcılarına kripto gönderin",
+    "startButtonLabel": "Bağlantı Telefon Numarası",
+    "later": "Bunu daha sonra yapacağım."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
