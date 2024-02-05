@@ -312,6 +312,8 @@ describe('SendEnterAmount', () => {
       tokenAddress: undefined,
       tokenId: mockEthTokenId,
       origin: 'Send',
+      searchTerm: '',
+      selectedFilters: [],
     })
     // TODO(ACT-955): assert fees
   })
