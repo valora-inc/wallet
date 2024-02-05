@@ -1,9 +1,10 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import LottieView from 'lottie-react-native'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { Image, StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import FastImage from 'react-native-fast-image'
 import Animated, {
   runOnJS,
   useAnimatedStyle,
@@ -15,51 +16,47 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Severity } from 'src/components/InLineNotification'
+import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-const CONFETTI_DURATION = 6000 // 6 seconds
+const NOTIFICATION_DURATION = 6000 // 6 seconds
 
-const title = 'Multi-chain early adopter 🎁'
-const description =
-  'As a thank you for being a multi-chain beta tester, we’ve added a free gift to your Valora wallet! The early adopter NFT can be found in your collectibles.'
-const imageUrl = 'https://bakoush.in/valora/unsplash_xyVIi4GN5Os.png'
-const contractAddress = '0xTEST'
-const rewardName = 'Awesome NFT'
+// const imageUrl = 'https://bakoush.in/valora/unsplash_xyVIi4GN5Os.png'
+const contractAddress = '0x376f5039df4e9e9c864185d8fabad4f04a7e394a'
 
-function CelebrationBottomSheet() {
+export default function NftCelebrationBottomSheet() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+  const [showBottomSheet, setShowBottomSheet] = useState(true)
+
   const [showNotification, setShowNotification] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(false)
+  useEffect(() => {
+    if (showNotification) {
+      const timeoutId = setTimeout(() => setShowNotification(false), NOTIFICATION_DURATION)
+      return () => clearTimeout(timeoutId)
+    }
+  }, [showNotification])
+
   const confettiRef = useRef<LottieView>(null)
-  const fadeAnim = useSharedValue(1)
-  const animatedStyles = useAnimatedStyle(() => {
+  const [showConfetti, setShowConfetti] = useState(false)
+  const confettyOpacity = useSharedValue(1)
+  const confettyOpacityStyle = useAnimatedStyle(() => {
     return {
-      opacity: fadeAnim.value,
+      opacity: confettyOpacity.value,
     }
   })
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+
   const nft = useSelector(nftsWithMetadataSelector).find(
     (nft) => nft.contractAddress === contractAddress
   )
 
-  //TODO: remove
-  const [show, setShow] = useState(true)
-  // if (show) {
-  //   bottomSheetRef.current?.snapToIndex(0)
-  // }
-
-  console.log('---', { showNotification })
-
   // TODO: get from state
-  const nftCelebrationHasBeenSeen = false
-
-  if (!nft && nftCelebrationHasBeenSeen) {
-    return null
-  }
+  const hasBeenSeen = false
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -68,32 +65,40 @@ function CelebrationBottomSheet() {
     []
   )
 
-  const renderHandleWithImage = useCallback(
-    () => (
-      <View style={styles.handle}>
-        <Image source={{ uri: imageUrl }} style={styles.image} resizeMode="cover" />
+  const renderHandleWithImage = useCallback(() => {
+    const [showError, setShowError] = useState(false)
+    return (
+      <View style={styles.handleWithImage}>
+        <FastImage
+          style={styles.image}
+          source={{ uri: nft?.metadata?.image }}
+          resizeMode={FastImage.resizeMode.cover}
+          onError={() => setShowError(true)}
+        />
+        {showError && (
+          <View style={styles.imageError}>
+            <ImageErrorIcon />
+          </View>
+        )}
         <View style={styles.handleBar} />
       </View>
-    ),
-    []
-  )
+    )
+  }, [nft])
+
+  if (!nft || hasBeenSeen) {
+    return null
+  }
 
   const handleClose = () => {
-    console.log('--- close')
     // TODO
     // ValoraAnalytics.track(SwapEvents.swap_add_funds)
     // navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     // TODO: distpatch NFT has been seen
 
-    //bottomSheetRef.current?.snapToIndex(-1)
-    setShow(false)
+    setShowBottomSheet(false)
     setShowNotification(true)
     setShowConfetti(true)
     confettiRef.current?.play(0)
-    setTimeout(() => {
-      setShowNotification(false)
-      // fadeAnim.value = withTiming(0, { duration: 300 })
-    }, CONFETTI_DURATION)
   }
 
   const handleAnimationFinish = () => {
@@ -102,27 +107,13 @@ function CelebrationBottomSheet() {
   }
 
   const handleDismissAnimation = () => {
-    // setShowNotification(false)
-    fadeAnim.value = withTiming(0, { duration: 100 }, () => runOnJS(handleAnimationFinish)())
+    confettyOpacity.value = withTiming(0, { duration: 100 }, () => runOnJS(handleAnimationFinish)())
   }
+
+  const rewardName = nft?.metadata?.name ?? t('celebrationBottomSheet.inlineNotification.nft')
 
   return (
     <>
-      {showConfetti && (
-        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
-          <Animated.View style={[styles.lottie, animatedStyles]}>
-            <LottieView
-              ref={confettiRef}
-              source={require('./confetti3.json')}
-              autoPlay={false}
-              loop={false}
-              style={[styles.lottie]}
-              resizeMode="cover"
-              onAnimationFinish={handleAnimationFinish}
-            />
-          </Animated.View>
-        </TouchableWithoutFeedback>
-      )}
       <BottomSheetInLineNotification
         showNotification={showNotification}
         severity={Severity.Informational}
@@ -131,10 +122,24 @@ function CelebrationBottomSheet() {
         position="top"
         showIcon={false}
       />
-      {show && (
+      {showConfetti && (
+        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
+          <Animated.View style={[styles.confettiAnimation, confettyOpacityStyle]}>
+            <LottieView
+              ref={confettiRef}
+              source={require('./confetti3.json')}
+              autoPlay={false}
+              loop={false}
+              style={[styles.confettiAnimation]}
+              resizeMode="cover"
+              onAnimationFinish={handleAnimationFinish}
+            />
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      )}
+      {showBottomSheet && (
         <GorhomBottomSheet
           ref={bottomSheetRef}
-          // index={-1}
           enableDynamicSizing
           enablePanDownToClose
           backdropComponent={renderBackdrop}
@@ -144,16 +149,14 @@ function CelebrationBottomSheet() {
         >
           <BottomSheetView style={styles.container}>
             <View style={styles.content}>
-              <Text style={styles.title}>{title}</Text>
-              <Text style={styles.description}>{description}</Text>
+              <Text style={styles.title}>{t('celebrationBottomSheet.title')}</Text>
+              <Text style={styles.description}>{t('celebrationBottomSheet.description')}</Text>
             </View>
             <Button
+              style={styles.button}
               type={BtnTypes.PRIMARY}
               size={BtnSizes.FULL}
-              style={styles.button}
-              onPress={() => {
-                bottomSheetRef.current?.close()
-              }}
+              onPress={() => bottomSheetRef.current?.close()}
               text={t('celebrationBottomSheet.cta')}
             />
           </BottomSheetView>
@@ -163,9 +166,11 @@ function CelebrationBottomSheet() {
   )
 }
 
+const IMAGE_BORDER_RADIUS = 20
+
 const styles = StyleSheet.create({
   bottomSheetBackground: {
-    marginTop: 20, // to not interfere with image rounded corners
+    marginTop: IMAGE_BORDER_RADIUS, // to not interfere with image rounded corners
     borderRadius: 0,
   },
   container: {
@@ -175,14 +180,19 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Smallest8,
     marginHorizontal: Spacing.Smallest8,
   },
-  handle: {
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+  handleWithImage: {
+    borderTopLeftRadius: IMAGE_BORDER_RADIUS,
+    borderTopRightRadius: IMAGE_BORDER_RADIUS,
     overflow: 'hidden',
   },
   image: {
     aspectRatio: 1.45,
     backgroundColor: Colors.successLight,
+  },
+  imageError: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   handleBar: {
     position: 'absolute',
@@ -207,15 +217,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.XLarge48,
     marginBottom: Spacing.Regular16,
   },
-  lottie: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: 1000,
-    // pointerEvents: 'none',
+  confettiAnimation: {
+    ...StyleSheet.absoluteFillObject,
   },
 })
-
-export default CelebrationBottomSheet

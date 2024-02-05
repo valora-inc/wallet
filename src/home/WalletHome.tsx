@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
 import Animated from 'react-native-reanimated'
@@ -23,14 +23,14 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
-import CelebrationBottomSheet from 'src/home/CelebrationBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
+import NftCelebrationBottomSheet from 'src/home/NftCelebrationBottomSheet'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
+import { refreshAllBalances, visitHome } from 'src/home/actions'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -121,8 +121,6 @@ function WalletHome() {
     dispatch(refreshAllBalances())
   }
 
-  const celebrationBottomSheet = useMemo(() => <CelebrationBottomSheet />, [])
-
   const shouldShowCashInBottomSheet = () => {
     if (showNotificationSpotlight) {
       return false
@@ -210,6 +208,9 @@ function WalletHome() {
     </View>
   )
 
+  const showCashInBottomSheet = shouldShowCashInBottomSheet()
+  const showNftCelebrationBottomSheet = !showNotificationSpotlight && !showCashInBottomSheet
+
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
       <DrawerTopBar
@@ -232,9 +233,9 @@ function WalletHome() {
         testID="WalletHome/SectionList"
       />
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
-      {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
+      {showCashInBottomSheet && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
-      {celebrationBottomSheet}
+      {showNftCelebrationBottomSheet && <NftCelebrationBottomSheet />}
     </SafeAreaView>
   )
 }
