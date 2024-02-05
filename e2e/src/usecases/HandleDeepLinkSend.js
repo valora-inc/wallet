@@ -13,6 +13,10 @@ const launchDeepLink = async (url, newInstance = true) => {
   await launchApp({ url: url, newInstance: newInstance })
 }
 
+const createCommentText = () => {
+  return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
+}
+
 const openDeepLink = async (payUrl) => {
   await reloadReactNative()
   await device.openURL({ url: payUrl })
@@ -22,7 +26,7 @@ export default HandleDeepLinkSend = () => {
   describe('When Launching Deeplink - App Closed', () => {
     let commentText
     it('Then should handle deeplink with all attributes', async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
+      commentText = createCommentText()
       const deepLinksWithAll = `//wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       const PAY_URL = quote(deepLinksWithAll)
       await launchDeepLink(PAY_URL)
@@ -49,7 +53,7 @@ export default HandleDeepLinkSend = () => {
     })
 
     it('Then should handle deeplink without amount', async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
+      commentText = createCommentText()
       const PAY_URL = quote(
         `celo://wallet/pay?address=${E2E_TEST_FAUCET}&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       )
@@ -85,7 +89,7 @@ export default HandleDeepLinkSend = () => {
     })
 
     it('Then should handle deeplink with all attributes', async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
+      commentText = createCommentText()
       const deepLinksWithAll = `//wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       const PAY_URL = quote(deepLinksWithAll)
       await launchDeepLink(PAY_URL, false)
@@ -121,7 +125,7 @@ export default HandleDeepLinkSend = () => {
   describe(':ios: When Opening Deeplink - App in Foreground', () => {
     let commentText
     it('Then should handle deeplink with all attributes', async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
+      commentText = createCommentText()
       const deepLinksWithAll = `//wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       await openDeepLink(PAY_URL)
       await waitFor(element(by.id('SendAmount')))
