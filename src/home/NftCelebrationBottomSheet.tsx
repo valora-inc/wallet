@@ -101,10 +101,8 @@ export default function NftCelebrationBottomSheet() {
   }
 
   const handleClose = () => {
-    dispatch(nftCelebrationDisplayed(nftContractAddress))
     // TODO
     // ValoraAnalytics.track(SwapEvents.swap_add_funds)
-    // TODO: distpatch NFT has been seen
 
     setShowBottomSheet(false)
     setShowNotification(true)
@@ -115,6 +113,7 @@ export default function NftCelebrationBottomSheet() {
   const handleAnimationFinish = () => {
     setShowNotification(false)
     setShowConfetti(false)
+    dispatch(nftCelebrationDisplayed(nftContractAddress))
   }
 
   const handleDismissAnimation = () => {
