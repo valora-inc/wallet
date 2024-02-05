@@ -40,7 +40,7 @@ import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
-import { EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
+import { TX_EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
 
@@ -187,7 +187,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
-                  {t(EXPLORER_LINK_TRANSLATION_STRINGS[transaction.networkId])}
+                  {t(TX_EXPLORER_LINK_TRANSLATION_STRINGS[transaction.networkId])}
                 </Text>
                 <ArrowRightThick size={16} />
               </View>
