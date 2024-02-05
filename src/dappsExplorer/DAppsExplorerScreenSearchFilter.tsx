@@ -35,6 +35,7 @@ import NoResults from 'src/dappsExplorer/NoResults'
 import { searchDappList } from 'src/dappsExplorer/searchDappList'
 import useDappFavoritedToast from 'src/dappsExplorer/useDappFavoritedToast'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
 import colors from 'src/styles/colors'
@@ -65,6 +66,7 @@ export function DAppsExplorerScreenSearchFilter() {
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
   const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
+  const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
@@ -140,16 +142,17 @@ export function DAppsExplorerScreenSearchFilter() {
         ? [
             {
               data: favouriteDappsMatchingFilterAndSearch,
-              sectionName: t('dappsScreen.favoriteDapps'),
+              sectionName: t('dappsScreen.favoriteDapps').toLocaleUpperCase(language ?? 'en-US'),
               dappSection: DappSection.FavoritesDappScreen,
             },
           ]
         : []),
       {
         data: dappsMatchingFilterAndSearch,
-        sectionName: noMatchingResults
+        sectionName: (noMatchingResults
           ? t('dappsScreen.favoriteDappsAndAll')
-          : t('dappsScreen.allDapps'),
+          : t('dappsScreen.allDapps')
+        ).toLocaleUpperCase(language ?? 'en-US'),
         dappSection: DappSection.All,
       },
     ]
