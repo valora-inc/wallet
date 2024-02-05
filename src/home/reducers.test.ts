@@ -1,6 +1,6 @@
-import { Actions, cleverTapInboxMessagesReceived } from 'src/home/actions'
+import { Actions, cleverTapInboxMessagesReceived, nftCelebrationDisplayed } from 'src/home/actions'
 import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
-import { mockCleverTapInboxMessage } from 'test/values'
+import { mockCleverTapInboxMessage, mockContractAddress } from 'test/values'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
@@ -147,5 +147,11 @@ describe('home reducer', () => {
     const updatedState = reducer(undefined, cleverTapInboxMessagesReceived(messages))
 
     expect(updatedState.cleverTapInboxMessages).toEqual(messages)
+  })
+
+  it('should update lastDisplayedNftCelebration', () => {
+    const updatedState = reducer(undefined, nftCelebrationDisplayed(mockContractAddress))
+
+    expect(updatedState.lastDisplayedNftCelebration).toEqual(mockContractAddress)
   })
 })

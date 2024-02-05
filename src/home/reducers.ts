@@ -34,6 +34,7 @@ export interface State {
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]
   hasVisitedHome: boolean
+  lastDisplayedNftCelebration: string | null
 }
 
 export const initialState = {
@@ -41,6 +42,7 @@ export const initialState = {
   notifications: {},
   cleverTapInboxMessages: [],
   hasVisitedHome: false,
+  lastDisplayedNftCelebration: null,
 }
 
 export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -109,6 +111,11 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
       return {
         ...state,
         hasVisitedHome: true,
+      }
+    case Actions.NFT_CELEBRATION_DISPLAYED:
+      return {
+        ...state,
+        lastDisplayedNftCelebration: action.nftContractAddress,
       }
     default:
       return state

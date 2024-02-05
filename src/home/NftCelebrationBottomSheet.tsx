@@ -16,6 +16,8 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Severity } from 'src/components/InLineNotification'
+import { nftCelebrationDisplayed } from 'src/home/actions'
+import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { Colors } from 'src/styles/colors'
@@ -25,7 +27,7 @@ import { Spacing } from 'src/styles/styles'
 const NOTIFICATION_DURATION = 6000 // 6 seconds
 
 // const imageUrl = 'https://bakoush.in/valora/unsplash_xyVIi4GN5Os.png'
-const contractAddress = '0x376f5039df4e9e9c864185d8fabad4f04a7e394a'
+const nftContractAddress = '0x376f5039df4e9e9c864185d8fabad4f04a7e394a'
 
 export default function NftCelebrationBottomSheet() {
   const { t } = useTranslation()
@@ -52,11 +54,10 @@ export default function NftCelebrationBottomSheet() {
   })
 
   const nft = useSelector(nftsWithMetadataSelector).find(
-    (nft) => nft.contractAddress === contractAddress
+    (nft) => nft.contractAddress === nftContractAddress
   )
 
-  // TODO: get from state
-  const hasBeenSeen = false
+  const hasBeenDisplayed = nftContractAddress === useSelector(lastDisplayedNftCelebration)
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -85,14 +86,14 @@ export default function NftCelebrationBottomSheet() {
     )
   }, [nft])
 
-  if (!nft || hasBeenSeen) {
+  if (!nft || hasBeenDisplayed) {
     return null
   }
 
   const handleClose = () => {
+    dispatch(nftCelebrationDisplayed(nftContractAddress))
     // TODO
     // ValoraAnalytics.track(SwapEvents.swap_add_funds)
-    // navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
     // TODO: distpatch NFT has been seen
 
     setShowBottomSheet(false)

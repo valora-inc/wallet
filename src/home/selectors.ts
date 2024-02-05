@@ -34,3 +34,6 @@ export const cleverTapInboxMessagesSelector = (state: RootState) =>
   getFeatureGate(StatsigFeatureGates.CLEVERTAP_INBOX) ? state.home.cleverTapInboxMessages : []
 
 export const hasVisitedHomeSelector = (state: RootState) => state.home.hasVisitedHome
+
+export const lastDisplayedNftCelebration = (state: RootState) =>
+  state.home.lastDisplayedNftCelebration

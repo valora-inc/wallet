@@ -4148,6 +4148,12 @@
                 "hasVisitedHome": {
                     "type": "boolean"
                 },
+                "lastDisplayedNftCelebration": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "loading": {
                     "type": "boolean"
                 },
@@ -4158,6 +4164,7 @@
             "required": [
                 "cleverTapInboxMessages",
                 "hasVisitedHome",
+                "lastDisplayedNftCelebration",
                 "loading",
                 "notifications"
             ],

@@ -10,6 +10,7 @@ export enum Actions {
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
   VISIT_HOME = 'HOME/VISIT_HOME',
   CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
+  NFT_CELEBRATION_DISPLAYED = 'HOME/NFT_CELEBRATION_DISPLAYED',
 }
 
 export interface VisitHomeAction {
@@ -40,12 +41,18 @@ interface CleverTapInboxMessagesReceivedAction {
   messages: CleverTapInboxMessage[]
 }
 
+interface NftCelebrationDisplayedAction {
+  type: Actions.NFT_CELEBRATION_DISPLAYED
+  nftContractAddress: string
+}
+
 export type ActionTypes =
   | SetLoadingAction
   | UpdateNotificationsAction
   | DismissNotificationAction
   | CleverTapInboxMessagesReceivedAction
   | VisitHomeAction
+  | NftCelebrationDisplayedAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
@@ -85,4 +92,11 @@ export const cleverTapInboxMessagesReceived = (
 ): CleverTapInboxMessagesReceivedAction => ({
   type: Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED,
   messages,
+})
+
+export const nftCelebrationDisplayed = (
+  nftContractAddress: string
+): NftCelebrationDisplayedAction => ({
+  type: Actions.NFT_CELEBRATION_DISPLAYED,
+  nftContractAddress,
 })

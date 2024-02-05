@@ -1533,4 +1533,8 @@ export const migrations = {
     home: { ...state.home, hasVisitedHome: !!state.web3.account },
     app: { ...state.app, pendingDeepLinks: [] },
   }),
+  187: (state: any) => ({
+    ...state,
+    home: { ...state.home, lastDisplayedNftCelebration: null },
+  }),
 }

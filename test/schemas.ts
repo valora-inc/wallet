@@ -2994,6 +2994,15 @@ export const v186Schema = {
   app: { ...v185Schema.app, pendingDeepLinks: [] },
 }
 
+export const v187Schema = {
+  ...v186Schema,
+  _persist: {
+    ...v186Schema._persist,
+    version: 187,
+  },
+  home: { ...v186Schema.home, lastDisplayedNftCelebration: null },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v186Schema as Partial<RootState>
+  return v187Schema as Partial<RootState>
 }
