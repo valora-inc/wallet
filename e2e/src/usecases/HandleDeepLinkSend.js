@@ -10,7 +10,7 @@ import {
 
 const deepLinks = {
   withoutAddress:
-    'celo://wallet/pay?amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
+    'celo://wallet/pay?amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=sending+usd:+0.1+to+my+wallet',
 }
 
 // Helper functions
@@ -34,11 +34,11 @@ export default HandleDeepLinkSend = () => {
     it('Then should handle deeplink with all attributes', async () => {
       commentText = createCommentText()
       const PAY_URL = quote(
-        `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
+        `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       )
       await launchDeepLink(PAY_URL)
       await waitFor(element(by.id('SendAmount')))
-        .toHaveText('$0.10')
+        .toHaveText('$0.01')
         .withTimeout(10 * 1000)
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
@@ -99,11 +99,11 @@ export default HandleDeepLinkSend = () => {
 
     it('Then should handle deeplink with all attributes', async () => {
       commentText = createCommentText()
-      const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
+      const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       const PAY_URL = quote(deepLinksWithAll)
       await launchDeepLink(PAY_URL, false)
       await waitFor(element(by.id('SendAmount')))
-        .toHaveText('$0.10')
+        .toHaveText('$0.01')
         .withTimeout(10 * 1000)
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
@@ -135,10 +135,10 @@ export default HandleDeepLinkSend = () => {
     let commentText
     it('Then should handle deeplink with all attributes', async () => {
       commentText = createCommentText()
-      const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.1&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
+      const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       await openDeepLink(deepLinksWithAll)
       await waitFor(element(by.id('SendAmount')))
-        .toHaveText('$0.10')
+        .toHaveText('$0.01')
         .withTimeout(10 * 1000)
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
