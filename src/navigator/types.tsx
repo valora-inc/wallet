@@ -200,6 +200,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
+  [Screens.LinkPhoneNumber]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MultichainBeta]: undefined
