@@ -873,6 +873,18 @@
       "title": "Saldo\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Restaura tu cartera",
+    "description": "Si configuras una copia de seguridad para proteger tu monedero, elige una opción de las que aparecen a continuación.",
+    "emailAndPhone": {
+      "title": "De copia de seguridad de correo electrónico y teléfono",
+      "description": "Restaura tu monedero con el número de teléfono y el correo electrónico que configuraste anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "De la frase de recuperación",
+      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
+    }
+  },
   "verificationInput": {
     "title": "Confirmar",
     "body": "Te enviamos tres mensajes de texto (SMS). Por favor cópialos y pégalos a continuación.",
