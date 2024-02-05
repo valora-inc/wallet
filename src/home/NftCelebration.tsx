@@ -47,12 +47,11 @@ export default function NftCelebrationBottomSheet() {
     }
   }, [showNotification])
 
-  const confettiRef = useRef<LottieView>(null)
   const [showConfetti, setShowConfetti] = useState(false)
-  const confettyOpacity = useSharedValue(1)
-  const confettyOpacityStyle = useAnimatedStyle(() => {
+  const confettiOpacity = useSharedValue(1)
+  const confettiOpacityStyle = useAnimatedStyle(() => {
     return {
-      opacity: confettyOpacity.value,
+      opacity: confettiOpacity.value,
     }
   })
 
@@ -117,7 +116,7 @@ export default function NftCelebrationBottomSheet() {
   }
 
   const handleDismissAnimation = () => {
-    confettyOpacity.value = withTiming(0, { duration: 100 }, () => runOnJS(handleAnimationFinish)())
+    confettiOpacity.value = withTiming(0, { duration: 100 }, () => runOnJS(handleAnimationFinish)())
   }
 
   const rewardName = nft?.metadata?.name ?? t('celebrationBottomSheet.inlineNotification.nft')
@@ -150,7 +149,7 @@ export default function NftCelebrationBottomSheet() {
         </GorhomBottomSheet>
       )}
       {showConfetti && (
-        <Animated.View style={[styles.fullScreen, confettyOpacityStyle]}>
+        <Animated.View style={[styles.fullScreen, confettiOpacityStyle]}>
           <LottieView
             autoPlay
             loop={false}
