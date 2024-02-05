@@ -873,6 +873,18 @@
       "title": "Balance\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Restore Your Wallet",
+    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "emailAndPhone": {
+      "title": "From email & phone backup",
+      "description": "Restore your wallet with the phone number & email you set up previously"
+    },
+    "recoveryPhrase": {
+      "title": "From recovery phrase",
+      "description": "Enter your 12 word recovery phrase to regain access to Valora"
+    }
+  },
   "verificationInput": {
     "title": "Confirm",
     "body": "We sent you three messages (SMS). Please copy and paste them below.",
