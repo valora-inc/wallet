@@ -1969,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "向某人的 ENS 句柄发送资产"
+          "subtitle": "将资产发送到某人的 ENS 句柄。"
         },
         "four": {
           "title": "个人资料名称",
@@ -2004,7 +2004,7 @@
   "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
   "viewOnCeloScan": "在 CeloScan 上查看",
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
-  "viewOnArbiscan": "查看 Arbiscan",
+  "viewOnArbiscan": "在 Arbiscan 上查看。",
   "viewOnOPMainnetExplorer": "在 OP Mainnet Explorer 上查看",
   "viewOnOPSepoliaExplorer": "在 OP Sepolia Explorer 上查看",
   "sendEnterAmountScreen": {
@@ -2040,7 +2040,13 @@
   },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
-    "body": "购买或转让兼容代币，发送加密货币，探索网络3！"
+    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
+  },
+  "linkPhoneNumber": {
+    "title": "将电话号码链接到钱包地址",
+    "description": "不再有杂乱无章的钱包地址！只需一个电话号码即可向其他 Valora 用户发送加密货币",
+    "startButtonLabel": "链接电话号码",
+    "later": "我稍后再做"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
