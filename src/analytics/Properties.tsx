@@ -399,6 +399,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.cya_later]: {
     cardOrder: AdventureCardName[]
   }
+  [OnboardingEvents.link_phone_number]: undefined
+  [OnboardingEvents.link_phone_number_later]: undefined
 }
 
 interface PhoneVerificationEventsProperties {

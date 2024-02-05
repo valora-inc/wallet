@@ -878,6 +878,18 @@
       "title": "Balance\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Restore Your Wallet",
+    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "emailAndPhone": {
+      "title": "From email & phone backup",
+      "description": "Restore your wallet with the phone number & email you set up previously"
+    },
+    "recoveryPhrase": {
+      "title": "From recovery phrase",
+      "description": "Enter your 12 word recovery phrase to regain access to Valora"
+    }
+  },
   "verificationInput": {
     "title": "Confirm",
     "body": "We sent you three messages (SMS). Please copy and paste them below.",
@@ -1978,7 +1990,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send Ethereum assets to someone's ENS handle"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "Profile Name",
@@ -2013,6 +2025,9 @@
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
   "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2046,6 +2061,6 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   }
 }
