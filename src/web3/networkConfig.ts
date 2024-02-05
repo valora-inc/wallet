@@ -435,13 +435,13 @@ export const blockExplorerUrls: BlockExplorerUrls = {
     baseNftUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/nft/`,
   },
   [NetworkId['arbitrum-one']]: {
-    baseTxUrl: `${ARBISCAN_BASE_URL_ONE}/txs/`,
+    baseTxUrl: `${ARBISCAN_BASE_URL_ONE}/tx/`,
     baseAddressUrl: `${ARBISCAN_BASE_URL_ONE}/address/`,
     baseTokenUrl: `${ARBISCAN_BASE_URL_ONE}/token/`,
     baseNftUrl: `${ARBISCAN_BASE_URL_ONE}/token/`,
   },
   [NetworkId['arbitrum-sepolia']]: {
-    baseTxUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/txs/`,
+    baseTxUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/tx/`,
     baseAddressUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/address/`,
     baseTokenUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
     baseNftUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
