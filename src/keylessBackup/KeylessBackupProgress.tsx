@@ -36,7 +36,7 @@ function KeylessBackupProgress({
   const { t } = useTranslation()
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_help)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
     navigate(Screens.SupportContact)
   }
 
@@ -77,12 +77,12 @@ function Restore() {
   const dispatch = useDispatch()
 
   const onPressTryAgain = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_try_again)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again)
     // navigate(Screens.ImportSelect)
   }
 
   const onPressCreateNewWallet = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_create_new_wallet)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet)
     navigate(Screens.Welcome) //  Navigate to create new wallet screen??
   }
 
