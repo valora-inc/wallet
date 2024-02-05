@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Ethereum varlıklarını birinin ENS tanıtıcısına gönderin"
+          "subtitle": "Varlıkları birinin ENS tanıtıcısına gönderme"
         },
         "four": {
           "title": "Profil Adı",
@@ -2006,6 +2006,9 @@
   "viewOnCeloBlockExplorer": "CeloExplorer'da görüntüle",
   "viewOnCeloScan": "CeloScan'de görüntüle",
   "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
+  "viewOnArbiscan": "Arbiscan'da görüntüle",
+  "viewOnOPMainnetExplorer": "OP Mainnet Explorer'da görüntüle",
+  "viewOnOPSepoliaExplorer": "OP Sepolia Explorer'da görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
@@ -2039,7 +2042,7 @@
   },
   "getStartedHome": {
     "title": "Kripto satın alın veya token transfer edin",
-    "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
+    "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu jetonları satın alın veya aktarın!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -110,6 +110,17 @@ export const ALCHEMY_ETHEREUM_API_KEY = keyOrUndefined(
   DEFAULT_TESTNET,
   'ALCHEMY_ETHEREUM_API_KEY'
 )
+export const ALCHEMY_ARBITRUM_API_KEY = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'ALCHEMY_ARBITRUM_API_KEY'
+)
+export const ALCHEMY_OPTIMISM_API_KEY = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'ALCHEMY_OPTIMISM_API_KEY'
+)
+
 export const ZENDESK_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ZENDESK_API_KEY')
 export const STATSIG_API_KEY =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY') ??
