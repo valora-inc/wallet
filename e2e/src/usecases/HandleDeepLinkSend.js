@@ -1,6 +1,12 @@
 import { E2E_TEST_FAUCET } from '../../scripts/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { confirmTransaction, enterPinUiIfNecessary, inputNumberKeypad, quote } from '../utils/utils'
+import {
+  addComment,
+  confirmTransaction,
+  enterPinUiIfNecessary,
+  inputNumberKeypad,
+  quote,
+} from '../utils/utils'
 
 const deepLinks = {
   withoutAddress:
@@ -61,6 +67,8 @@ export default HandleDeepLinkSend = () => {
       await launchDeepLink(PAY_URL)
       await inputNumberKeypad('0.1')
       await element(by.id('Review')).tap()
+
+      await addComment(commentText)
 
       // Send Transaction
       await element(by.id('ConfirmButton')).tap()
