@@ -1,6 +1,6 @@
 import { E2E_TEST_FAUCET } from '../../scripts/consts'
 import { launchApp, reloadReactNative } from '../utils/retries'
-import { inputNumberKeypad, quote } from '../utils/utils'
+import { confirmTransaction, enterPinUiIfNecessary, inputNumberKeypad, quote } from '../utils/utils'
 
 const deepLinks = {
   withoutAddress:
