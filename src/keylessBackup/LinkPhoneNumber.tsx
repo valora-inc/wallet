@@ -15,11 +15,6 @@ import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-export enum ChosenRestoreType {
-  Cloud = 'Cloud',
-  Mnemonic = 'Mnemonic',
-}
-
 type Props = NativeStackScreenProps<StackParamList, Screens.LinkPhoneNumber>
 
 export default function LinkPhoneNumber({ navigation }: Props) {
@@ -36,7 +31,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
 
   const continueButtonOnPress = async () => {
     ValoraAnalytics.track(OnboardingEvents.link_phone_number)
-    navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
+    navigate(Screens.VerificationStartScreen, { isOnboarding: false })
   }
   const laterButtonOnPress = async () => {
     ValoraAnalytics.track(OnboardingEvents.link_phone_number_later)
