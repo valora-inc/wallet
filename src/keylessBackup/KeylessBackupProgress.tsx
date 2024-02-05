@@ -1,4 +1,4 @@
-import { NativeStackNavigationProp, NativeStackScreenProps } from '@react-navigation/native-stack'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
@@ -32,6 +32,14 @@ function KeylessBackupProgress({
   route,
   navigation,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
+  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const { t } = useTranslation()
+
+  const onPressHelp = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_help)
+    navigate(Screens.SupportContact)
+  }
+
   // Disable back button on Android
   useEffect(() => {
     const backPressListener = () => true
@@ -39,31 +47,11 @@ function KeylessBackupProgress({
     return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
   }, [])
 
-  if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
-    return <Restore navigation={navigation} />
-  } else {
-    return <Setup />
-  }
-}
-
-function Restore(
-  navigation: NativeStackNavigationProp<StackParamList, Screens.KeylessBackupProgress>
-) {
-  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
-  const localCurrencyCode = useLocalCurrencyCode()
-
-  const { t } = useTranslation()
-  const dispatch = useDispatch()
-
-  const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_help)
-    navigate(Screens.SupportContact)
-  }
-
   useLayoutEffect(() => {
     navigation.setOptions({
       headerRight: () =>
-        keylessBackupStatus === KeylessBackupStatus.Failed && (
+        keylessBackupStatus === KeylessBackupStatus.Failed &&
+        route.params.keylessBackupFlow === KeylessBackupFlow.Restore && (
           <TopBarTextButton
             title={t('keylessBackupStatus.restore.failed.help')}
             testID="KeylessBackupRestoreHelp"
@@ -74,6 +62,20 @@ function Restore(
     })
   })
 
+  if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
+    return <Restore />
+  } else {
+    return <Setup />
+  }
+}
+
+function Restore() {
+  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const localCurrencyCode = useLocalCurrencyCode()
+
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+
   const onPressTryAgain = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_try_again)
     // navigate(Screens.ImportSelect)
@@ -81,7 +83,7 @@ function Restore(
 
   const onPressCreateNewWallet = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_progress_failed_create_new_wallet)
-    navigate(Screens.Settings) //  Navigate to create new wallet screen??
+    navigate(Screens.Welcome) //  Navigate to create new wallet screen??
   }
 
   switch (keylessBackupStatus) {
@@ -124,7 +126,6 @@ function Restore(
       )
     }
     // TODO(ACT-781): Implement Success screen
-    // TODO(ACT-780): Implement Failure screens
     case KeylessBackupStatus.Failed:
       return (
         <SafeAreaView style={styles.container}>
