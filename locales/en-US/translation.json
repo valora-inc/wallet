@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send Ethereum assets to someone's ENS handle"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "Profile Name",
@@ -2006,6 +2006,9 @@
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
   "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2039,7 +2042,7 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
