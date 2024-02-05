@@ -873,6 +873,18 @@
       "title": "Saldo\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Recupere sua carteira",
+    "description": "Se você configurou um backup para proteger sua carteira, escolha uma opção abaixo.",
+    "emailAndPhone": {
+      "title": "De backup de e-mail e telefone",
+      "description": "Restaure sua carteira com o número de telefone e o e-mail que você configurou anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "Da frase de recuperação",
+      "description": "Digite sua frase de recuperação de 12 palavras para recuperar o acesso ao Valora"
+    }
+  },
   "verificationInput": {
     "title": "Confirmar",
     "body": "Enviamos três mensagens para você (SMS). Copie e cole-as abaixo.",
