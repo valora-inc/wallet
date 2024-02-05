@@ -20,9 +20,9 @@ import { nftCelebrationDisplayed } from 'src/home/actions'
 import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -31,7 +31,6 @@ import { Network } from 'src/transactions/types'
 const NOTIFICATION_DURATION = 6000 // 6 seconds
 
 // const imageUrl = 'https://bakoush.in/valora/unsplash_xyVIi4GN5Os.png'
-const nftContractAddress = '0x376f5039df4e9e9c864185d8fabad4f04a7e394a'
 
 export default function NftCelebrationBottomSheet() {
   const { t } = useTranslation()
@@ -65,6 +64,8 @@ export default function NftCelebrationBottomSheet() {
     (nft) => nft.contractAddress === nftContractAddress
   )
 
+  const showCelebration = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+
   const celebrationHasBeenDisplayed =
     nftContractAddress === useSelector(lastDisplayedNftCelebration)
 
@@ -95,7 +96,7 @@ export default function NftCelebrationBottomSheet() {
     )
   }, [nft])
 
-  if (!nftContractAddress || !nft || celebrationHasBeenDisplayed) {
+  if (!nftContractAddress || !nft || !showCelebration || celebrationHasBeenDisplayed) {
     return null
   }
 
