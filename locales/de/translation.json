@@ -2044,12 +2044,6 @@
     "title": "Krypto kaufen oder Tokens überweisen",
     "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!"
   },
-  "linkPhoneNumber": {
-    "title": "Verknüpfe eine Telefonnummer mit deiner Brieftaschenadresse",
-    "description": "Keine unübersichtlichen Wallet-Adressen mehr! Sende Krypto an andere Valora-Nutzer mit nur einer Telefonnummer",
-    "startButtonLabel": "Link Telefonnummer",
-    "later": "Ich werde das später tun"
-  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
