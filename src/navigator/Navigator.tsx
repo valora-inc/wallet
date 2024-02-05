@@ -39,9 +39,6 @@ import ExternalExchanges, {
   externalExchangesScreenOptions,
 } from 'src/fiatExchanges/ExternalExchanges'
 import FiatExchangeAmount from 'src/fiatExchanges/FiatExchangeAmount'
-import FiatExchangeCurrency, {
-  fiatExchangesOptionsScreenOptions,
-} from 'src/fiatExchanges/FiatExchangeCurrency'
 import FiatExchangeCurrencyBottomSheet from 'src/fiatExchanges/FiatExchangeCurrencyBottomSheet'
 import SelectProviderScreen from 'src/fiatExchanges/SelectProvider'
 import SimplexScreen from 'src/fiatExchanges/SimplexScreen'
@@ -62,6 +59,7 @@ import ImportWallet from 'src/import/ImportWallet'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import LinkPhoneNumber from 'src/keylessBackup/LinkPhoneNumber'
 import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
@@ -370,11 +368,6 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={FiatExchangeAmount}
     />
     <Navigator.Screen
-      options={fiatExchangesOptionsScreenOptions}
-      name={Screens.FiatExchangeCurrency}
-      component={FiatExchangeCurrency}
-    />
-    <Navigator.Screen
       options={headerWithBackButton}
       name={Screens.FiatDetailsScreen}
       component={FiatDetailsScreen}
@@ -479,6 +472,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.KeylessBackupProgress}
       options={{ headerStyle: {} }}
       component={KeylessBackupProgress}
+    />
+    <Navigator.Screen
+      name={Screens.LinkPhoneNumber}
+      options={{ headerStyle: {} }}
+      component={LinkPhoneNumber}
     />
   </>
 )

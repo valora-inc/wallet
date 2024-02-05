@@ -397,6 +397,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.cya_later]: {
     cardOrder: AdventureCardName[]
   }
+  [OnboardingEvents.link_phone_number]: undefined
+  [OnboardingEvents.link_phone_number_later]: undefined
 }
 
 interface PhoneVerificationEventsProperties {
@@ -722,11 +724,6 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_token_balance]: { totalBalance?: string }
   [FiatExchangeEvents.cico_landing_select_flow]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
-  [FiatExchangeEvents.cico_currency_chosen]: {
-    flow: FiatExchangeFlow
-    currency: string
-  }
-  [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
     currency: string

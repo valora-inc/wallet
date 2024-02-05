@@ -202,6 +202,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [OnboardingEvents.protect_wallet_complete]: ``,
   [OnboardingEvents.cya_button_press]: `when one of the choose your adventure card is pressed. Properties include card name, position of the card (1-based index) and card order`,
   [OnboardingEvents.cya_later]: `when "I'll explore later" is pressed`,
+  [OnboardingEvents.link_phone_number]: `User chooses to link phone number for CPV after recovery flow`,
+  [OnboardingEvents.link_phone_number_later]: `User chooses not to link phone number for CPV after recovery flow`,
 
   // Events emitted in the CPV flow
   [PhoneVerificationEvents.phone_verification_skip_confirm]: `when skip is confirmed from the dialog in the phone number input screen`,
@@ -315,10 +317,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [FiatExchangeEvents.cico_landing_token_balance]: `User taps to view detailed token balance`,
   [FiatExchangeEvents.cico_landing_select_flow]: `User taps which CICO flow they want (Cash in, cash out, spend)`,
   [FiatExchangeEvents.cico_landing_how_to_fund]: `User taps help article link at the bottom`,
-
-  // The CICO Currency screen where the user selects their digital currency
-  [FiatExchangeEvents.cico_currency_chosen]: `User selects a currency and taps next`,
-  [FiatExchangeEvents.cico_currency_back]: `User presses the back button from the currency screen`,
 
   // The CICO Amount screen where the user selects the amount of money
   [FiatExchangeEvents.cico_amount_chosen]: `User selects a valid amount and taps next`,
@@ -557,4 +555,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [RequestEvents.request_confirm_back]: `when back button pressed on request confirmation screen`,
   // [RequestEvents.request_confirm_request]: `when request button pressed on request confirmation screen`,
   // [RequestEvents.request_error]: `when there is an error requesting a transaction`,
+  // [FiatExchangeEvents.cico_currency_chosen]: `User selects a currency and taps next`,
+  // [FiatExchangeEvents.cico_currency_back]: `User presses the back button from the currency screen`,
 }

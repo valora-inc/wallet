@@ -14,17 +14,6 @@ export enum CiCoCurrency {
   ETH = 'ETH',
 }
 
-// A small hack to keep backwards compatibility for data analytics with old currency enums
-export type AnalyticsCurrency = Currency | 'cReal' | 'ETH'
-export const currencyForAnalytics: {
-  [key in CiCoCurrency]: AnalyticsCurrency
-} = {
-  [CiCoCurrency.CELO]: Currency.Celo,
-  [CiCoCurrency.cEUR]: Currency.Euro,
-  [CiCoCurrency.cUSD]: Currency.Dollar,
-  [CiCoCurrency.cREAL]: 'cReal',
-  [CiCoCurrency.ETH]: 'ETH',
-}
 export const tokenSymbolToAnalyticsCurrency = (symbol: string): string => {
   switch (symbol) {
     case 'cREAL':

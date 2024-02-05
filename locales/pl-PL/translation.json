@@ -1713,7 +1713,7 @@
     },
     "noUsdPriceWarning": {
       "title": "Cena w {{localCurrency}} nie jest dostępna",
-      "description": "Nie mamy ceny {{localCurrency}} dla {{tokenSymbol}}, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za jakiekolwiek straty poniesione, jeśli zdecydujesz się kontynuować.",
+      "description": "Nie dysponujemy ceną w {{localCurrency}} dla tokena {{tokenSymbol}}, co może oznaczać, że nie jest on przedmiotem powszechnego obrotu. {{appName}} nie ponosi odpowiedzialności za straty, jeśli zdecydujesz się kontynuować.",
       "ctaConfirm": "Rozumiem",
       "ctaDismiss": "Anuluj"
     },
@@ -1737,7 +1737,7 @@
       "dismissButton": "Odrzuć"
     },
     "transactionDetails": {
-      "estimatedNetworkFee": "Szacunkowa opłata sieciowa",
+      "estimatedNetworkFee": "Szacowana opłata sieciowa",
       "maxNetworkFee": "Maksymalna opłata sieciowa",
       "networkFee": "Opłata sieciowa za {{networkName}}",
       "networkFeeNoNetwork": "Opłata sieciowa",
@@ -1745,7 +1745,7 @@
       "swapFeeWaived": "Bezpłatnie",
       "slippagePercentage": "Tolerancja poślizgu",
       "networkFeeInfo": "Dokonujesz wymiany w sieci {{networkName}}.\n\nTa szacunkowa opłata sieciowa jest wymagana do przeprowadzenia transakcji w sieci {{networkName}}. Opłata ta zabezpiecza Twoją transakcję i przeznaczana jest na utrzymanie działania sieci.",
-      "networkFeeInfoV1_76": "Dokonujesz wymiany w sieci {{networkName}} .\n\nDo przeprowadzenia transakcji w sieci {{networkName}} wymagana jest opłata sieciowa. Opłata ta zabezpiecza Twoją transakcję i jest wypłacana weryfikatorom sieci.\n\nPonieważ warunki sieciowe określają dokładną kwotę, wymienione szacunki są tym, czego oczekujemy od rzeczywistej opłaty. Opłata nie przekroczy maksymalnej kwoty opłaty.",
+      "networkFeeInfoV1_76": "Dokonujesz wymiany w sieci {{networkName}}.\n\nDo przeprowadzenia transakcji w sieci {{networkName}} wymagana jest opłata sieciowa. Zabezpiecza ona Twoją transakcję i jest wypłacana weryfikatorom sieci.\n\nWarunki sieciowe określają dokładną kwotę, dlatego podane szacunki przedstawiają oczekiwaną przez nas opłatę. Nie przekroczy ona maksymalnej kwoty opłaty.",
       "slippageToleranceInfo": "Tolerancja poślizgu\n\nTwój swap zostanie zrealizowany w ramach procentowej tolerancji poślizgu. Jeśli cena zmieni się bardziej niż tolerancja poślizgu, {{appName}} chroni Cię, uniemożliwiając realizację transakcji.",
       "networkFeeInfoDismissButton": "Rozumiem",
       "exchangeRate": "Kurs wymiany",
@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Wyślij aktywa Ethereum do czyjejś usługi ENS"
+          "subtitle": "Wyślij zasoby do czyjegoś uchwytu ENS"
         },
         "four": {
           "title": "Nazwa profilu",
@@ -2010,6 +2010,9 @@
   "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
   "viewOnCeloScan": "Wyświetl w CeloScan",
   "viewOnEthereumBlockExplorer": "Wyświetl w Etherscan",
+  "viewOnArbiscan": "Widok na Arbiscan",
+  "viewOnOPMainnetExplorer": "Widok na OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Widok na OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2043,7 +2046,7 @@
   },
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
-    "body": "Kupuj lub przesyłaj tokeny kompatybilne z celo lub ethereum, aby zdobywać nagrody {{apy}}%, odkrywać web3 i nie tylko!"
+    "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

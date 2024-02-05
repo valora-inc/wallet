@@ -2,7 +2,6 @@ import firebase, { ReactNativeFirebase } from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
 import '@react-native-firebase/database'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
-import dynamicLinks from '@react-native-firebase/dynamic-links'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
@@ -441,17 +440,6 @@ export async function readOnceFromFirebase(path: string) {
     .once('value')
     .then((snapshot) => snapshot.val())
   return Promise.race([timeout, fetchFromFirebase])
-}
-
-export async function resolveDynamicLink(link: string) {
-  try {
-    // resolve short and long dynamic links
-    const resolvedLink = await dynamicLinks().resolveLink(link)
-    return resolvedLink.url
-  } catch (error) {
-    Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
-    return null
-  }
 }
 
 export async function getPersonaTemplateId() {

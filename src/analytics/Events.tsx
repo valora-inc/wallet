@@ -191,6 +191,9 @@ export enum OnboardingEvents {
 
   cya_button_press = 'cya_button_press',
   cya_later = 'cya_later',
+
+  link_phone_number = 'link_phone_number',
+  link_phone_number_later = 'link_phone_number_later',
 }
 
 // Events emitted in the CPV flow
@@ -349,10 +352,6 @@ export enum FiatExchangeEvents {
   cico_landing_token_balance = 'cico_landing_token_balance',
   cico_landing_select_flow = 'cico_landing_select_flow',
   cico_landing_how_to_fund = 'cico_landing_how_to_fund',
-
-  // The CICO Currency screen where the user selects their digital currency
-  cico_currency_chosen = 'cico_currency_chosen',
-  cico_currency_back = 'cico_currency_back',
 
   // The CICO Amount screen where the user selects the amount of money
   cico_amount_chosen = 'cico_amount_chosen',

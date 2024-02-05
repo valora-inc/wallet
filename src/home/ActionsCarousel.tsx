@@ -13,7 +13,7 @@ import QuickActionsReceive from 'src/icons/quick-actions/Receive'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { getFeatureGate } from 'src/statsig'
@@ -54,7 +54,7 @@ function ActionsCarousel() {
       title: t('homeActions.add'),
       icon: <QuickActionsAdd color={Colors.successDark} />,
       onPress: () => {
-        navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
     },
     {
