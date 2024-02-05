@@ -2042,11 +2042,5 @@
     "title": "购买加密货币或转移代币。",
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
   },
-  "linkPhoneNumber": {
-    "title": "将电话号码链接到钱包地址",
-    "description": "不再有杂乱无章的钱包地址！只需一个电话号码即可向其他 Valora 用户发送加密货币",
-    "startButtonLabel": "链接电话号码",
-    "later": "我稍后再做"
-  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
