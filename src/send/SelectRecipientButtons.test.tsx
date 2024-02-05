@@ -105,9 +105,7 @@ describe('SelectRecipientButtons', () => {
       expect(getByTestId('SelectRecipient/PhoneNumberModal')).not.toBeVisible()
     })
     await waitFor(() => {
-      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
-        hideOnboardingStep: true,
-      })
+      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
     })
   })
 
