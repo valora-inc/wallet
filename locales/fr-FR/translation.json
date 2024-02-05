@@ -873,6 +873,18 @@
       "title": "Solde\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Restaure ton portefeuille",
+    "description": "Si tu as mis en place une sauvegarde pour protéger ton portefeuille, choisis une option ci-dessous.",
+    "emailAndPhone": {
+      "title": "De la sauvegarde des courriels et du téléphone",
+      "description": "Restaure ton portefeuille avec le numéro de téléphone et l'email que tu as configurés précédemment."
+    },
+    "recoveryPhrase": {
+      "title": "De la phrase de récupération",
+      "description": "Saisis ta phrase de récupération de 12 mots pour retrouver l'accès à Valora."
+    }
+  },
   "verificationInput": {
     "title": "Valider",
     "body": "Nous vous avons envoyé trois messages (SMS). Veuillez les copier et les coller ci-dessous.",
