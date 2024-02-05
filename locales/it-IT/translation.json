@@ -873,6 +873,18 @@
       "title": "Saldo\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Ripristina il tuo portafoglio",
+    "description": "Se hai impostato un backup per proteggere il tuo portafoglio, scegli un'opzione qui sotto.",
+    "emailAndPhone": {
+      "title": "Dal backup di e-mail e telefono",
+      "description": "Ripristina il tuo portafoglio con il numero di telefono e l'email che hai impostato in precedenza."
+    },
+    "recoveryPhrase": {
+      "title": "Dalla frase di recupero",
+      "description": "Inserisci la tua frase di recupero di 12 parole per riottenere l'accesso a Valora"
+    }
+  },
   "verificationInput": {
     "title": "Conferma",
     "body": "Ti abbiamo inviato tre messaggi (SMS). Copiali e incollali di seguito.",
