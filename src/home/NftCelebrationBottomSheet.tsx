@@ -127,7 +127,7 @@ export default function NftCelebrationBottomSheet() {
           <Animated.View style={[styles.confettiAnimation, confettyOpacityStyle]}>
             <LottieView
               ref={confettiRef}
-              source={require('./confetti3.json')}
+              source={require('./confettiAnimation.json')}
               autoPlay={false}
               loop={false}
               style={[styles.confettiAnimation]}
