@@ -873,6 +873,18 @@
       "title": "余额 \n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "恢复您的钱包",
+    "description": "如果您为保护钱包设置了备份，请选择以下选项。",
+    "emailAndPhone": {
+      "title": "从电子邮件和电话备份",
+      "description": "使用之前设置的电话号码和电子邮件恢复钱包"
+    },
+    "recoveryPhrase": {
+      "title": "从恢复短语",
+      "description": "输入您的 12 个单词恢复短语，重新获得访问 Valora 的权限"
+    }
+  },
   "verificationInput": {
     "title": "确认",
     "body": "我们向您发送了三条短信。请将它们复制并粘贴到下方。",
