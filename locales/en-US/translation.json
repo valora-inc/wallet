@@ -2044,6 +2044,12 @@
     "title": "Buy crypto or transfer tokens",
     "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   },
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "No more messy wallet addresses! Send crypto to other Valora users with just a phone number",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
