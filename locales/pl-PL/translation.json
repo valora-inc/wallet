@@ -873,6 +873,18 @@
       "title": "Saldo\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Przywróć swój portfel",
+    "description": "Jeśli skonfigurowałeś kopię zapasową, aby chronić swój portfel, wybierz opcję poniżej.",
+    "emailAndPhone": {
+      "title": "Z kopii zapasowej poczty e-mail i telefonu",
+      "description": "Przywróć swój portfel przy użyciu skonfigurowanego wcześniej numeru telefonu i adresu e-mail."
+    },
+    "recoveryPhrase": {
+      "title": "Z frazy odzyskiwania",
+      "description": "Wprowadź swoją 12-słowną frazę odzyskiwania, aby odzyskać dostęp do Valora"
+    }
+  },
   "verificationInput": {
     "title": "Potwierdź",
     "body": "Wysłaliśmy do Ciebie trzy wiadomości (SMS-y). Skopiuj je i wklej poniżej.",
