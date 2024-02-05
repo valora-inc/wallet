@@ -27,11 +27,11 @@ describe('onboarding steps', () => {
       chooseAdventureEnabled: false,
     },
     screens: [
-      Screens.NameAndPicture,
-      Screens.PincodeSet,
-      Screens.EnableBiometry,
-      Screens.ProtectWallet,
-      Screens.VerificationStartScreen,
+      { screen: Screens.NameAndPicture, props: undefined },
+      { screen: Screens.PincodeSet, props: undefined },
+      { screen: Screens.EnableBiometry, props: undefined },
+      { screen: Screens.ProtectWallet, props: undefined },
+      { screen: Screens.VerificationStartScreen, props: { isOnboarding: true } },
     ],
     name: 'newUserFlowWithEverythingEnabled',
     finalScreen: Screens.WalletHome,
@@ -47,10 +47,10 @@ describe('onboarding steps', () => {
       onboardingNameScreenEnabled: false,
     },
     screens: [
-      Screens.PincodeSet,
-      Screens.EnableBiometry,
-      Screens.ProtectWallet,
-      Screens.VerificationStartScreen,
+      { screen: Screens.PincodeSet, props: undefined },
+      { screen: Screens.EnableBiometry, props: undefined },
+      { screen: Screens.ProtectWallet, props: undefined },
+      { screen: Screens.VerificationStartScreen, props: { isOnboarding: true } },
     ],
     name: 'newUserChooseAdventure',
     finalScreen: Screens.ChooseYourAdventure,
@@ -64,7 +64,11 @@ describe('onboarding steps', () => {
       recoveringFromStoreWipe: false,
       chooseAdventureEnabled: false,
     },
-    screens: [Screens.NameAndPicture, Screens.PincodeSet, Screens.ProtectWallet],
+    screens: [
+      { screen: Screens.NameAndPicture, props: undefined },
+      { screen: Screens.PincodeSet, props: undefined },
+      { screen: Screens.ProtectWallet, props: undefined },
+    ],
     name: 'newUserFlowWithEverythingDisabled',
     finalScreen: Screens.WalletHome,
   }
@@ -79,15 +83,19 @@ describe('onboarding steps', () => {
       chooseAdventureEnabled: false,
     },
     screens: [
-      Screens.NameAndPicture,
-      Screens.PincodeSet,
-      Screens.EnableBiometry,
-      Screens.ImportWallet,
-      Screens.VerificationStartScreen,
+      { screen: Screens.NameAndPicture, props: undefined },
+      { screen: Screens.PincodeSet, props: undefined },
+      { screen: Screens.EnableBiometry, props: undefined },
+      { screen: Screens.ImportWallet, props: undefined },
+      { screen: Screens.VerificationStartScreen, props: { isOnboarding: true } },
     ],
     name: 'importWalletFlowEverythingEnabled',
     finalScreen: Screens.WalletHome,
   }
+
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
   it.each([
     newUserFlowWithEverythingEnabled,
@@ -95,10 +103,10 @@ describe('onboarding steps', () => {
     newUserFlowWithEverythingDisabled,
     importWalletFlowEverythingEnabled,
   ])(
-    'goToNextOnboardingScreen and getOnboardingStepValues work as expected',
+    'goToNextOnboardingScreen and getOnboardingStepValues work as expected for $name',
     ({ onboardingProps, screens, name, finalScreen }) => {
       const expectedTotalSteps = screens.length
-      screens.forEach((screen, index) => {
+      screens.forEach(({ screen, props }, index) => {
         const { totalSteps, step } = getOnboardingStepValues(screen, onboardingProps)
         // Checking that the step number is correct
         try {
@@ -122,12 +130,16 @@ describe('onboarding steps', () => {
             updateStatsigAndNavigate(finalScreen as keyof StackParamList)
           )
         } else {
+          const args: any[] = [screens[index + 1].screen]
+          if (screens[index + 1].props) {
+            args.push(screens[index + 1].props)
+          }
           try {
             // eslint-disable-next-line jest/no-conditional-expect
-            expect(navigate).toHaveBeenCalledWith(screens[index + 1])
+            expect(navigate).toHaveBeenCalledWith(...args)
           } catch {
             // eslint-disable-next-line jest/no-conditional-expect
-            expect(navigateClearingStack).toHaveBeenCalledWith(screens[index + 1])
+            expect(navigateClearingStack).toHaveBeenCalledWith(...args)
           }
         }
       })
@@ -286,7 +298,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
+          isOnboarding: true,
+        })
       })
     })
     describe('Screens.VerificationStartScreen', () => {
@@ -330,7 +344,9 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
+          isOnboarding: true,
+        })
       })
     })
   })

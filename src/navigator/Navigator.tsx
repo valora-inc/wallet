@@ -59,6 +59,7 @@ import ImportWallet from 'src/import/ImportWallet'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import LinkPhoneNumber from 'src/keylessBackup/LinkPhoneNumber'
 import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
@@ -471,6 +472,11 @@ const settingsScreens = (Navigator: typeof Stack) => (
       name={Screens.KeylessBackupProgress}
       options={{ headerStyle: {} }}
       component={KeylessBackupProgress}
+    />
+    <Navigator.Screen
+      name={Screens.LinkPhoneNumber}
+      options={{ headerStyle: {} }}
+      component={LinkPhoneNumber}
     />
   </>
 )
