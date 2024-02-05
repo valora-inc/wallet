@@ -100,7 +100,7 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
-      await waitFor(element(by.text('sending usd: 0.1 to my wallet')))
+      await waitFor(element(by.text(commentText)))
         .toBeVisible()
         .withTimeout(10 * 1000)
 
@@ -135,7 +135,7 @@ export default HandleDeepLinkSend = () => {
       await waitFor(element(by.id('DisplayName')))
         .toHaveText('TestFaucet')
         .withTimeout(10 * 1000)
-      await waitFor(element(by.text('sending usd: 0.1 to my wallet')))
+      await waitFor(element(by.text(commentText)))
         .toBeVisible()
         .withTimeout(10 * 1000)
 
