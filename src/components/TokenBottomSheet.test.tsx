@@ -7,8 +7,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import TokenBottomSheet, {
   DEBOUCE_WAIT_TIME,
   TokenBalanceItemOption,
-  TokenOption,
-  TokenOptionProps,
+  TokenBottomSheetProps,
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import { TokenBalance } from 'src/tokens/slice'
@@ -116,10 +115,7 @@ describe('TokenBottomSheet', () => {
     jest.clearAllMocks()
   })
 
-  function renderBottomSheet(
-    searchEnabled: boolean = false,
-    TokenOptionComponent: React.ComponentType<TokenOptionProps> = TokenOption
-  ) {
+  function renderBottomSheet(props: Partial<TokenBottomSheetProps<TokenBalance>> = {}) {
     return render(
       <Provider store={mockStore}>
         <TokenBottomSheet
@@ -128,8 +124,7 @@ describe('TokenBottomSheet', () => {
           origin={TokenPickerOrigin.Send}
           onTokenSelected={onTokenSelectedMock}
           tokens={tokens}
-          searchEnabled={searchEnabled}
-          TokenOptionComponent={TokenOptionComponent}
+          {...props}
         />
       </Provider>
     )
@@ -146,7 +141,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('renders correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet(false, TokenBalanceItemOption)
+    const { getAllByTestId } = renderBottomSheet({ TokenOptionComponent: TokenBalanceItemOption })
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(3)
     expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('10.00 cUSD')
@@ -176,7 +171,7 @@ describe('TokenBottomSheet', () => {
   })
 
   it('handles the choosing of a token correctly with TokenBalanceItem', () => {
-    const { getAllByTestId } = renderBottomSheet(false, TokenBalanceItemOption)
+    const { getAllByTestId } = renderBottomSheet({ TokenOptionComponent: TokenBalanceItemOption })
 
     fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
     expect(onTokenSelectedMock).toHaveBeenLastCalledWith(
@@ -195,7 +190,9 @@ describe('TokenBottomSheet', () => {
   })
 
   it('renders and behaves correctly when the search is enabled', () => {
-    const { getByPlaceholderText, getByTestId, queryByTestId } = renderBottomSheet(true)
+    const { getByPlaceholderText, getByTestId, queryByTestId } = renderBottomSheet({
+      searchEnabled: true,
+    })
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
     expect(searchInput).toBeTruthy()
 
@@ -246,8 +243,80 @@ describe('TokenBottomSheet', () => {
     expect(queryByTestId('TTTouchable')).toBeNull()
   })
 
+  it('renders and applies a filter', () => {
+    const { getByText, getAllByTestId } = renderBottomSheet({
+      filterChips: [
+        {
+          id: 'some-id',
+          name: 'cusd filter',
+          filterFn: (token: TokenBalance) => token.symbol === 'cUSD',
+          isSelected: false,
+        },
+      ],
+      TokenOptionComponent: TokenBalanceItemOption,
+      tokens,
+    })
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(tokens.length)
+
+    fireEvent.press(getByText('cusd filter'))
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+  })
+
+  it('renders and applies a default filter', () => {
+    const fitler = {
+      id: 'some-id',
+      name: 'cusd filter',
+      filterFn: (token: TokenBalance) => token.symbol === 'cUSD',
+      isSelected: true,
+    }
+    const { getByText, getAllByTestId } = renderBottomSheet({
+      filterChips: [fitler],
+      TokenOptionComponent: TokenBalanceItemOption,
+      tokens,
+    })
+
+    // filter already applied
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+
+    fireEvent.press(getByText('cusd filter'))
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(tokens.length)
+  })
+
+  it('applies search within filtered results', () => {
+    const fitler = {
+      id: 'some-id',
+      name: 'cusd filter',
+      filterFn: (token: TokenBalance) => token.balance.lte(10),
+      isSelected: true,
+    }
+    const { getByPlaceholderText, getAllByTestId } = renderBottomSheet({
+      filterChips: [fitler],
+      searchEnabled: true,
+      TokenOptionComponent: TokenBalanceItemOption,
+      tokens,
+    })
+
+    // filter already applied
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+    expect(getAllByTestId('TokenBalanceItem')[1]).toHaveTextContent('Test Token')
+
+    fireEvent.changeText(getByPlaceholderText('tokenBottomSheet.searchAssets'), 'Celo')
+
+    // Wait for the analytics debounce
+    jest.advanceTimersByTime(DEBOUCE_WAIT_TIME)
+
+    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(1)
+    expect(getAllByTestId('TokenBalanceItem')[0]).toHaveTextContent('Celo Dollar')
+  })
+
   it('does not send events for temporary search inputs', () => {
-    const { getByPlaceholderText } = renderBottomSheet(true)
+    const { getByPlaceholderText } = renderBottomSheet({ searchEnabled: true })
     const searchInput = getByPlaceholderText('tokenBottomSheet.searchAssets')
 
     fireEvent.changeText(searchInput, 'TemporaryInput')

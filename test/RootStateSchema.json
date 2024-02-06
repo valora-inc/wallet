@@ -2612,6 +2612,7 @@
                 "FiatExchangeCurrency",
                 "FiatExchangeCurrencyBottomSheet",
                 "GoldEducation",
+                "ImportSelect",
                 "ImportWallet",
                 "Invite",
                 "KeylessBackupPhoneCodeInput",

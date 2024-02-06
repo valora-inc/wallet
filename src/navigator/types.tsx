@@ -180,6 +180,7 @@ export type StackParamList = {
     tokenId: string
   }
   [Screens.GoldEducation]: undefined
+  [Screens.ImportSelect]: undefined
   [Screens.ImportWallet]:
     | {
         clean: boolean
