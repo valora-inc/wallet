@@ -2,7 +2,7 @@ import { renderHook } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { act } from 'react-test-renderer'
 import {
-  _prepareSendTransactionsCallback,
+  prepareSendTransactionsCallback,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
 import { tokenSupportsComments } from 'src/tokens/utils'
@@ -49,7 +49,7 @@ describe('usePrepareSendTransactions', () => {
   describe('_prepareSendTransactionsCallback', () => {
     it('returns undefined if amount is 0', async () => {
       expect(
-        await _prepareSendTransactionsCallback({
+        await prepareSendTransactionsCallback({
           amount: new BigNumber(0),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -60,7 +60,7 @@ describe('usePrepareSendTransactions', () => {
     })
     it('returns undefined if balance of token to send 0', async () => {
       expect(
-        await _prepareSendTransactionsCallback({
+        await prepareSendTransactionsCallback({
           amount: new BigNumber(5),
           token: { ...mockCeloTokenBalance, balance: new BigNumber(0) },
           recipientAddress: '0xabc',
@@ -77,7 +77,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareERC20TransferTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactionsCallback({
+        await prepareSendTransactionsCallback({
           amount: new BigNumber(1),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -101,7 +101,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareTransferWithCommentTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactionsCallback({
+        await prepareSendTransactionsCallback({
           amount: new BigNumber(20),
           token: mockCeloTokenBalance,
           recipientAddress: '0xabc',
@@ -127,7 +127,7 @@ describe('usePrepareSendTransactions', () => {
       }
       mocked(prepareSendNativeAssetTransaction).mockResolvedValue(mockPrepareTransactionsResult)
       expect(
-        await _prepareSendTransactionsCallback({
+        await prepareSendTransactionsCallback({
           amount: new BigNumber(0.05),
           token: mockEthTokenBalance,
           recipientAddress: '0xabc',

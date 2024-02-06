@@ -1969,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send assets to someone's ENS handle"
+          "subtitle": "Gửi tài sản tới địa chỉ ENS của một người"
         },
         "four": {
           "title": "Tên hồ sơ",
@@ -2004,9 +2004,9 @@
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
   "viewOnCeloScan": "Xem trên CeloScan",
   "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
-  "viewOnArbiscan": "View on Arbiscan",
-  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
-  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
+  "viewOnArbiscan": "Xem trên Arbiscan",
+  "viewOnOPMainnetExplorer": "Xem trên OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Xem trên OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2040,7 +2040,13 @@
   },
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
-    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+    "body": "Mua hoặc chuyển token tương thích để gửi tiền điện tử và khám phá web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "No more messy wallet addresses! Send crypto to other Valora users with just a phone number",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

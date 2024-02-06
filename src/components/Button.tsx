@@ -26,6 +26,7 @@ export enum BtnTypes {
   SECONDARY_WHITE_BG = 'SecondaryWhiteBg',
   ONBOARDING = 'Onboarding',
   ONBOARDING_SECONDARY = 'OnboardingSecondary',
+  GRAY_WITH_BORDER = 'GrayWithBorder',
 }
 
 export enum BtnSizes {
@@ -88,7 +89,7 @@ export default React.memo(function Button(props: ButtonProps) {
     [props.onPress, type, disabled]
   )
 
-  const { textColor, backgroundColor, opacity } = getColors(type, disabled)
+  const { textColor, backgroundColor, opacity, borderColor } = getColors(type, disabled)
 
   return (
     <View style={getStyleForWrapper(size, style)}>
@@ -97,7 +98,10 @@ export default React.memo(function Button(props: ButtonProps) {
         <Touchable
           onPress={debouncedOnPress}
           disabled={disabled}
-          style={[getStyle(size, backgroundColor, opacity, iconPositionLeft), touchableStyle]}
+          style={[
+            getStyle(size, backgroundColor, opacity, borderColor, iconPositionLeft),
+            touchableStyle,
+          ]}
           testID={testID}
         >
           {showLoading ? (
@@ -161,6 +165,7 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
   let textColor
   let backgroundColor
   let opacity
+  let borderColor
   switch (type) {
     case BtnTypes.PRIMARY:
       textColor = colors.white
@@ -184,19 +189,33 @@ function getColors(type: BtnTypes, disabled: boolean | undefined) {
       backgroundColor = colors.white
       opacity = disabled ? 0.5 : 1.0
       break
+    case BtnTypes.GRAY_WITH_BORDER:
+      textColor = colors.black
+      backgroundColor = colors.gray1
+      borderColor = colors.gray2
+      break
   }
 
-  return { textColor, backgroundColor, opacity }
+  return { textColor, backgroundColor, opacity, borderColor }
 }
 
 function getStyle(
   size: BtnSizes | undefined,
   backgroundColor: Colors,
   opacity: number | undefined,
+  borderColor: Colors | undefined,
   iconPositionLeft: boolean
 ) {
+  const borderStyles = borderColor
+    ? {
+        borderColor,
+        borderRadius: 100,
+        borderWidth: 1,
+      }
+    : {}
   const commonStyles: ViewStyle = {
     ...styles.button,
+    ...borderStyles,
     backgroundColor,
     opacity,
     flexDirection: iconPositionLeft ? 'row' : 'row-reverse',
