@@ -30,6 +30,8 @@ import {
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockPrivateDEK } from 'test/values'
@@ -289,10 +291,12 @@ describe('keylessBackup saga', () => {
             [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), false],
           ])
           .dispatch(keylessBackupBail())
+          .not.call(initializeAccountSaga)
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
         })
+        expect(navigate).toBeCalledWith(Screens.ImportSelect)
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
         await expectSaga(handleValoraKeyshareIssued, {

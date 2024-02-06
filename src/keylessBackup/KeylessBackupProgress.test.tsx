@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
+import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -119,12 +120,26 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
     })
     it('shows the confirm dialog when the user is restoring with zero balance', () => {
+      const store = createStore(KeylessBackupStatus.RestoreZeroBalance)
       const { getByTestId } = render(
-        <Provider store={createStore(KeylessBackupStatus.RestoreZeroBalance)}>
+        <Provider store={store}>
           <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
         </Provider>
       )
       expect(getByTestId('ConfirmUseAccountDialog')).toBeTruthy()
+
+      fireEvent.press(getByTestId('ConfirmUseAccountDialog/PrimaryAction'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_zero_balance_accept
+      )
+      expect(store.getActions()).toEqual([keylessBackupAcceptZeroBalance()])
+
+      store.clearActions()
+      fireEvent.press(getByTestId('ConfirmUseAccountDialog/SecondaryAction'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_zero_balance_bail
+      )
+      expect(store.getActions()).toEqual([keylessBackupBail()])
     })
   })
 })
