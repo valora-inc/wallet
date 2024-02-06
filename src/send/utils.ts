@@ -164,27 +164,33 @@ export function* preparePaymentRequestTransaction({
     throw new Error('wallet address not found')
   }
 
-  const prepareTransactionsResult = yield* call(prepareSendTransactionsCallback, {
-    amount,
-    token,
-    recipientAddress,
-    walletAddress,
-    feeCurrencies,
-    comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE, // use placeholder since comment can be edited on the confirmation screen
-  })
+  try {
+    const prepareTransactionsResult = yield* call(prepareSendTransactionsCallback, {
+      amount,
+      token,
+      recipientAddress,
+      walletAddress,
+      feeCurrencies,
+      comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE, // use placeholder since comment can be edited on the confirmation screen
+    })
 
-  if (
-    prepareTransactionsResult?.type === 'possible' &&
-    prepareTransactionsResult.transactions.length > 0
-  ) {
-    preparedTransaction = getSerializablePreparedTransaction(
-      prepareTransactionsResult.transactions[0]
-    )
-    const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
-    feeAmount = maxFeeAmount?.toString()
-    feeTokenId = feeCurrency?.tokenId
+    if (
+      prepareTransactionsResult?.type === 'possible' &&
+      prepareTransactionsResult.transactions.length > 0
+    ) {
+      preparedTransaction = getSerializablePreparedTransaction(
+        prepareTransactionsResult.transactions[0]
+      )
+      const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
+      feeAmount = maxFeeAmount?.toString()
+      feeTokenId = feeCurrency?.tokenId
+    }
+  } catch (err) {
+    Logger.warn(`${TAG}/preparePaymentRequestTransaction`, 'Unable to prepare transaction', err)
   }
 
+  // if a tx cannot be prepared or is not possible, return undefined, so the
+  // Send button in the SendConfirmation screen is disabled
   return {
     preparedTransaction,
     feeAmount,

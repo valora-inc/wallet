@@ -514,4 +514,23 @@ describe('send/utils', () => {
       })
       .run()
   })
+
+  it('returns undefined serialized preparedTransaction and fee info if preparing tx throws', async () => {
+    await expectSaga(preparePaymentRequestTransaction, {
+      amount: new BigNumber('10'),
+      token: mockCeloTokenBalance,
+      recipientAddress: mockAccount,
+    })
+      .provide([
+        [select(walletAddressSelector), mockAccount2],
+        [select(feeCurrenciesSelector, NetworkId['celo-alfajores']), [mockCeloTokenBalance]],
+        [matchers.call.fn(prepareSendTransactionsCallback), new Error('not enough balance')],
+      ])
+      .returns({
+        preparedTransaction: undefined,
+        feeAmount: undefined,
+        feeTokenId: undefined,
+      })
+      .run()
+  })
 })
