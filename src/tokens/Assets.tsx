@@ -330,13 +330,16 @@ function AssetsScreen({ navigation, route }: Props) {
     return null
   }
 
-  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[]) => {
+  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[], index: number) => {
     if (assetIsPosition(item)) {
-      return item.address
+      // Ideally we wouldn't need the index here, but we need to differentiate
+      // between positions with the same address (e.g. Uniswap V3 pool NFTs)
+      // We may want to consider adding a unique identifier to the position type.
+      return `${activeTab}-${item.appId}-${item.network}-${item.address}-${index}`
     } else if ('balance' in item) {
-      return item.tokenId
+      return `${activeTab}-${item.tokenId}`
     } else {
-      return `${item[0]!.contractAddress}-${item[0]!.tokenId}`
+      return `${activeTab}-${item[0]!.networkId}-${item[0]!.contractAddress}-${item[0]!.tokenId}`
     }
   }
 

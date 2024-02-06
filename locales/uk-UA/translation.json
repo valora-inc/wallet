@@ -1975,7 +1975,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Надіслати активи Ethereum тим, хто використовує ENS"
+          "subtitle": "Надіслати активи тому, хто використовує ENS"
         },
         "four": {
           "title": "Ім’я профілю",
@@ -2010,6 +2010,9 @@
   "viewOnCeloBlockExplorer": "Переглянути на CeloExplorer",
   "viewOnCeloScan": "Переглянути на CeloScan",
   "viewOnEthereumBlockExplorer": "Переглянути на Etherscan",
+  "viewOnArbiscan": "Переглянути на Arbiscan",
+  "viewOnOPMainnetExplorer": "Перегляд в OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Переглянути в OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ввести суму",
     "selectToken": "Вибрати токен",
@@ -2043,7 +2046,13 @@
   },
   "getStartedHome": {
     "title": "Придбайте криптовалюту чи переведіть токени",
-    "body": "Придбайте чи переведіть токени, сумісні із celo чи ethereum, щоб заробити винагороди {{apy}}%, досліджувати web3 тощо!"
+    "body": "Купуйте чи переводьте сумісні токени, щоб надсилати криптовалюту й досліджувати web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Прив'яжіть номер телефону до адреси вашого гаманця",
+    "description": "Більше ніяких заплутаних адрес гаманців! Надсилайте криптовалюту іншим користувачам Valora, маючи лише номер телефону",
+    "startButtonLabel": "Номер телефону для зв'язку",
+    "later": "Я зроблю це пізніше."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",

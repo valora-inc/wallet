@@ -26,13 +26,14 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import RecoveryPhraseInput, { RecoveryPhraseInputStatus } from 'src/components/RecoveryPhraseInput'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
-import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
 import { isAppConnected } from 'src/redux/selectors'
 import useTypedSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -53,8 +54,6 @@ function ImportWallet({ navigation, route }: Props) {
   const appConnected = useSelector(isAppConnected)
   const isRecoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
   const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
-  const { step, totalSteps } = getOnboardingStepValues(Screens.ImportWallet, onboardingProps)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -73,7 +72,9 @@ function ImportWallet({ navigation, route }: Props) {
   const handleNavigateBack = () => {
     dispatch(cancelCreateOrRestoreAccount())
     ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
-    navigateClearingStack(Screens.Welcome)
+    getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
+      ? navigate(Screens.ImportSelect)
+      : navigateClearingStack(Screens.Welcome)
   }
 
   useBackHandler(() => {
@@ -96,14 +97,13 @@ function ImportWallet({ navigation, route }: Props) {
         <HeaderTitleWithSubtitle
           testID="Header/RestoreBackup"
           title={t('importExistingKey.header')}
-          subTitle={t('registrationSteps', { step, totalSteps })}
         />
       ),
       headerStyle: {
         backgroundColor: 'transparent',
       },
     })
-  }, [navigation, step, totalSteps])
+  }, [navigation])
 
   useEffect(() => {
     ValoraAnalytics.track(OnboardingEvents.wallet_import_start)

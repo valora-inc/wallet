@@ -43,7 +43,7 @@ describe('KeylessBackupCancelButton', () => {
     fireEvent.press(getByTestId('CancelButton'))
 
     expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.ImportWallet)
+    expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_sign_in_with_email_screen_cancel,

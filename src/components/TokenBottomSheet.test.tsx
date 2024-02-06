@@ -250,6 +250,7 @@ describe('TokenBottomSheet', () => {
           id: 'some-id',
           name: 'cusd filter',
           filterFn: (token: TokenBalance) => token.symbol === 'cUSD',
+          isSelected: false,
         },
       ],
       TokenOptionComponent: TokenBalanceItemOption,
@@ -269,10 +270,10 @@ describe('TokenBottomSheet', () => {
       id: 'some-id',
       name: 'cusd filter',
       filterFn: (token: TokenBalance) => token.symbol === 'cUSD',
+      isSelected: true,
     }
     const { getByText, getAllByTestId } = renderBottomSheet({
       filterChips: [fitler],
-      preSelectedFilterChips: [fitler],
       TokenOptionComponent: TokenBalanceItemOption,
       tokens,
     })
@@ -291,10 +292,10 @@ describe('TokenBottomSheet', () => {
       id: 'some-id',
       name: 'cusd filter',
       filterFn: (token: TokenBalance) => token.balance.lte(10),
+      isSelected: true,
     }
     const { getByPlaceholderText, getAllByTestId } = renderBottomSheet({
       filterChips: [fitler],
-      preSelectedFilterChips: [fitler],
       searchEnabled: true,
       TokenOptionComponent: TokenBalanceItemOption,
       tokens,

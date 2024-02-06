@@ -17,7 +17,7 @@ export default function KeylessBackupCancelButton({
       eventName={eventName}
       eventProperties={{ keylessBackupFlow: flow }}
       onCancel={() => {
-        flow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportWallet) // TODO(any): use the new restore landing screen once built
+        flow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportSelect)
       }}
     />
   )

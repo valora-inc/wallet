@@ -191,6 +191,9 @@ export enum OnboardingEvents {
 
   cya_button_press = 'cya_button_press',
   cya_later = 'cya_later',
+
+  link_phone_number = 'link_phone_number',
+  link_phone_number_later = 'link_phone_number_later',
 }
 
 // Events emitted in the CPV flow
