@@ -40,7 +40,6 @@ describe('KeylessBackupProgress', () => {
           <KeylessBackupProgress {...getProps()} />
         </Provider>
       )
-
       expect(Logger.error).toHaveBeenCalledTimes(1)
     })
     it('shows spinner when in progress', async () => {
@@ -128,7 +127,7 @@ describe('KeylessBackupProgress', () => {
         </Provider>
       )
       expect(getByTestId('ConfirmUseAccountDialog')).toBeTruthy()
-                  
+
       fireEvent.press(getByTestId('ConfirmUseAccountDialog/PrimaryAction'))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
         KeylessBackupEvents.cab_restore_zero_balance_accept
