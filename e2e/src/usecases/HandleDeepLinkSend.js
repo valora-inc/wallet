@@ -43,6 +43,9 @@ export default HandleDeepLinkSend = () => {
       )
       await launchDeepLink(PAY_URL)
       await waitFor(element(by.id('SendAmount')))
+        .toHaveText('0.0067 cUSD') // alfajores uses 1.5 as price for all tokens
+        .withTimeout(10 * 1000)
+      await waitFor(element(by.id('SendAmountFiat')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
       await waitFor(element(by.id('DisplayName')))
@@ -111,6 +114,9 @@ export default HandleDeepLinkSend = () => {
       const PAY_URL = quote(deepLinksWithAll)
       await launchDeepLink(PAY_URL, false)
       await waitFor(element(by.id('SendAmount')))
+        .toHaveText('0.0067 cUSD') // alfajores uses 1.5 as price for all tokens
+        .withTimeout(10 * 1000)
+      await waitFor(element(by.id('SendAmountFiat')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
       await waitFor(element(by.id('DisplayName')))
@@ -146,6 +152,9 @@ export default HandleDeepLinkSend = () => {
       const deepLinksWithAll = `celo://wallet/pay?address=${E2E_TEST_FAUCET}&amount=0.01&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       await openDeepLink(deepLinksWithAll)
       await waitFor(element(by.id('SendAmount')))
+        .toHaveText('0.0067 cUSD') // alfajores uses 1.5 as price for all tokens
+        .withTimeout(10 * 1000)
+      await waitFor(element(by.id('SendAmountFiat')))
         .toHaveText('$0.01')
         .withTimeout(10 * 1000)
       await waitFor(element(by.id('DisplayName')))
