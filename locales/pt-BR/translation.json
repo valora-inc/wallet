@@ -114,6 +114,11 @@
         "later": "Vou fazer backup mais tarde",
         "manual": "Backup manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Recuperação de sua carteira"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. A Valora não armazena seu e-mail ou número de celular. Você deve protegê-las!",
