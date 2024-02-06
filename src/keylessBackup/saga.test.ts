@@ -5,7 +5,6 @@ import { call, select } from 'redux-saga/effects'
 import { initializeAccountSaga } from 'src/account/saga'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
-import { refreshAllBalances } from 'src/home/actions'
 import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
@@ -31,6 +30,8 @@ import {
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockPrivateDEK } from 'test/values'
@@ -250,7 +251,6 @@ describe('keylessBackup saga', () => {
           ])
           .call(storeMnemonic, mockMnemonic, mockWalletAddress)
           .call(initializeAccountSaga)
-          .put(refreshAllBalances())
           .put(keylessBackupCompleted())
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
@@ -291,10 +291,12 @@ describe('keylessBackup saga', () => {
             [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), false],
           ])
           .dispatch(keylessBackupBail())
+          .not.call(initializeAccountSaga)
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
         })
+        expect(navigate).toBeCalledWith(Screens.ImportSelect)
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
         await expectSaga(handleValoraKeyshareIssued, {

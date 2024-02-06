@@ -3,7 +3,6 @@ import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
-import { refreshAllBalances } from 'src/home/actions'
 import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
@@ -25,6 +24,8 @@ import {
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -140,7 +141,7 @@ function* handleKeylessBackupRestore({
       take(keylessBackupBail.type),
     ])
     if (bailAction) {
-      // TODO(ACT-874): Navigate to ImportSelect screen
+      navigate(Screens.ImportSelect)
       return
     }
   }
@@ -155,8 +156,6 @@ function* handleKeylessBackupRestore({
   }
   // Set key in phone's secure store
   yield* call(storeMnemonic, decryptedMnemonic, account)
-
-  yield* put(refreshAllBalances())
 
   yield* call(initializeAccountSaga)
 

@@ -88,7 +88,7 @@ function Restore() {
 
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.InProgress: {
-      return InProgress(t('keylessBackupStatus.restore.inProgress.title'))
+      return renderInProgressState(t('keylessBackupStatus.restore.inProgress.title'))
     }
     case KeylessBackupStatus.RestoreZeroBalance: {
       return (
@@ -187,9 +187,8 @@ function Setup() {
   }
 
   switch (keylessBackupStatus) {
-    case KeylessBackupStatus.NotStarted:
     case KeylessBackupStatus.InProgress: {
-      return InProgress(t('keylessBackupStatus.setup.inProgress.title'))
+      return renderInProgressState(t('keylessBackupStatus.setup.inProgress.title'))
     }
     case KeylessBackupStatus.Completed: {
       return (
@@ -248,12 +247,14 @@ function Setup() {
   }
 }
 
-const InProgress = (title: string) => (
-  <SafeAreaView style={styles.progressContainer}>
-    <GreenLoadingSpinner />
-    <Text style={styles.title}>{title}</Text>
-  </SafeAreaView>
-)
+function renderInProgressState(title: string) {
+  return (
+    <SafeAreaView style={styles.progressContainer}>
+      <GreenLoadingSpinner />
+      <Text style={styles.title}>{title}</Text>
+    </SafeAreaView>
+  )
+}
 
 const styles = StyleSheet.create({
   iconContainer: {},

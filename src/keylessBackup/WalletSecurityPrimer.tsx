@@ -3,13 +3,10 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Chain from 'src/icons/Chain'
-import { keylessBackupStarted } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -23,7 +20,6 @@ type Props =
   | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimerDrawer>
 
 function WalletSecurityPrimer({ route }: Props) {
-  const dispatch = useDispatch()
   const { t } = useTranslation()
   const showDrawerTopBar = route.params?.showDrawerTopBar
   return (
@@ -38,11 +34,6 @@ function WalletSecurityPrimer({ route }: Props) {
         testID="WalletSecurityPrimer/GetStarted"
         onPress={function () {
           ValoraAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
-          dispatch(
-            keylessBackupStarted({
-              keylessBackupFlow: KeylessBackupFlow.Setup,
-            })
-          )
           navigate(Screens.SetUpKeylessBackup)
         }}
         text={t('getStarted')}
