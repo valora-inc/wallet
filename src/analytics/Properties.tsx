@@ -248,6 +248,7 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
     backupAlreadyExists: boolean
   }
+  [KeylessBackupEvents.cab_restore_continue]: undefined
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps

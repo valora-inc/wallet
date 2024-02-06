@@ -43,7 +43,9 @@ function WalletSecurityPrimer({ route }: Props) {
               keylessBackupFlow: KeylessBackupFlow.Setup,
             })
           )
-          navigate(Screens.SetUpKeylessBackup)
+          navigate(Screens.KeylessBackupIntro, {
+            keylessBackupFlow: KeylessBackupFlow.Setup,
+          })
         }}
         text={t('getStarted')}
         size={BtnSizes.FULL}
