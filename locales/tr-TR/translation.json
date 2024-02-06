@@ -1866,7 +1866,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",
-    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı"
+    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı",
+    "noFilterSearchResults": "\"{{searchTerm}}\" için aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
+    "noFilterResults": "Aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
+    "noSearchResults": "\"{{searchTerm}}\" için eşleşen varlık bulunamadı",
+    "filters": {
+      "myTokens": "Jetonlarım",
+      "popular": "Popüler",
+      "recentlySwapped": "Yakın zamanda değiştirildi",
+      "celo": "CELO Ağı",
+      "ethereum": "Ethereum Ağı"
+    }
   },
   "homeActions": {
     "add": "Satın Al",
