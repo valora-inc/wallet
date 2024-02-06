@@ -1864,7 +1864,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "ค้นหาสินทรัพย์",
-    "noTokenInResult": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
+    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "My tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Recently swapped",
+      "celo": "Celo Network",
+      "ethereum": "Ethereum Network"
+    }
   },
   "homeActions": {
     "add": "ซื้อ",
