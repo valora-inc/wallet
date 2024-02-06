@@ -11,13 +11,23 @@ import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RecipientType } from 'src/recipients/recipient'
 import { TransactionDataInput } from 'src/send/SendAmount'
-import { handlePaymentDeeplink, handleSendPaymentData } from 'src/send/utils'
+import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
+import {
+  handlePaymentDeeplink,
+  handleSendPaymentData,
+  preparePaymentRequestTransaction,
+} from 'src/send/utils'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
+import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
+import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
+  mockAccount,
   mockAccount2,
   mockCeloAddress,
+  mockCeloTokenBalance,
   mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
@@ -30,7 +40,7 @@ import {
 jest.mock('src/statsig')
 
 describe('send/utils', () => {
-  describe('handlePaymentDeeplink', () => {
+  describe('handleSendPaymentData', () => {
     beforeEach(() => {
       jest.clearAllMocks()
       jest.mocked(getFeatureGate).mockReturnValue(true)
@@ -131,6 +141,16 @@ describe('send/utils', () => {
     })
 
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
+      const mockState = createMockStore({}).getState()
+      const expectedTokenBalance = mockState.tokens.tokenBalances[mockCeurTokenId]
+      const expectedToken = {
+        ...expectedTokenBalance,
+        priceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
+        balance: new BigNumber(expectedTokenBalance?.balance ?? 0),
+        lastKnownPriceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
+      }
+      // 1 PHP in cEUR: 1 (input) / 1.33 (PHP price) / 1.2 (cEUR price)
+      const expectedTokenAmount = new BigNumber('0.62656641604010025063')
       await expectSaga(
         handleSendPaymentData,
         // When currencyCode is not set, the amount is assumed to be in the currently selected local currency.
@@ -139,10 +159,23 @@ describe('send/utils', () => {
         false,
         undefined
       )
-        .withState(createMockStore({}).getState())
+        .withState(mockState)
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1.33'], // USD to PHP
+          [
+            matchers.call.fn(preparePaymentRequestTransaction),
+            {
+              preparedTransaction: 'mock-prepared-tx',
+              feeAmount: '0.1',
+              feeTokenId: mockCeloTokenId,
+            },
+          ],
         ])
+        .call(preparePaymentRequestTransaction, {
+          amount: expectedTokenAmount,
+          token: expectedToken,
+          recipientAddress: mockData.address,
+        })
         .run()
       expect(navigate).toHaveBeenCalledWith(
         Screens.SendConfirmation,
@@ -152,16 +185,28 @@ describe('send/utils', () => {
             inputAmount: new BigNumber(1), // 1 PHP
             amountIsInLocalCurrency: true,
             tokenAddress: mockCeurAddress,
-            // 1 PHP in cEUR: 1 (input) / 1.33 (PHP price) / 1.2 (cEUR price)
-            tokenAmount: new BigNumber('0.62656641604010025063'),
+            tokenAmount: expectedTokenAmount,
             tokenId: mockCeurTokenId,
           },
           origin: SendOrigin.AppSendFlow,
+          preparedTransaction: 'mock-prepared-tx',
+          feeAmount: '0.1',
+          feeTokenId: mockCeloTokenId,
         })
       )
     })
 
     it('should navigate to SendConfirmation screen defaulting to cUSD when amount is sent but token isnt', async () => {
+      const mockState = createMockStore({}).getState()
+      const expectedTokenBalance = mockState.tokens.tokenBalances[mockCusdTokenId]
+      const expectedToken = {
+        ...expectedTokenBalance,
+        priceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
+        balance: new BigNumber(expectedTokenBalance?.balance ?? 0),
+        lastKnownPriceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
+      }
+      // 1 PHP in cUSD: 1 (input) / 1.33 (PHP price)
+      const expectedTokenAmount = new BigNumber('0.75187969924812030075')
       await expectSaga(
         handleSendPaymentData,
         // When currencyCode is not set, the amount is assumed to be in the currently selected local currency.
@@ -171,10 +216,23 @@ describe('send/utils', () => {
         false,
         undefined
       )
-        .withState(createMockStore({}).getState())
+        .withState(mockState)
         .provide([
           [matchers.call.fn(fetchExchangeRate), '1.33'], // USD to PHP
+          [
+            matchers.call.fn(preparePaymentRequestTransaction),
+            {
+              preparedTransaction: 'mock-prepared-tx',
+              feeAmount: '0.1',
+              feeTokenId: mockCeloTokenId,
+            },
+          ],
         ])
+        .call(preparePaymentRequestTransaction, {
+          amount: expectedTokenAmount,
+          token: expectedToken,
+          recipientAddress: mockData.address,
+        })
         .run()
       expect(navigate).toHaveBeenCalledWith(
         Screens.SendConfirmation,
@@ -185,33 +243,31 @@ describe('send/utils', () => {
             amountIsInLocalCurrency: true,
             tokenAddress: mockCusdAddress,
             tokenId: mockCusdTokenId,
-            // 1 PHP in cUSD: 1 (input) / 1.33 (PHP price)
-            tokenAmount: new BigNumber('0.75187969924812030075'),
+            tokenAmount: expectedTokenAmount,
           },
           origin: SendOrigin.AppSendFlow,
+          preparedTransaction: 'mock-prepared-tx',
+          feeAmount: '0.1',
+          feeTokenId: mockCeloTokenId,
         })
       )
     })
 
-    it('should call handleSendPaymentData with parsed payment data', async () => {
-      const data = {
-        address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
-        displayName: 'Super 8',
-        currencyCode: 'PHP' as LocalCurrencyCode,
-        amount: '500',
-        comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
-      }
-
-      const deeplink = urlFromUriData(data)
-      const parsed: UriData = {
-        ...data,
-        e164PhoneNumber: undefined,
-        token: undefined,
-      }
-      await expectSaga(handlePaymentDeeplink, deeplink)
+    it('should navigate to SendEnterAmount screen when an unsupported token is given', async () => {
+      await expectSaga(handleSendPaymentData, mockUriData[2], false, undefined)
         .withState(createMockStore({}).getState())
-        .provide([[matchers.call.fn(handleSendPaymentData), parsed]])
         .run()
+      expect(navigate).toHaveBeenCalledWith(
+        Screens.SendEnterAmount,
+        expect.objectContaining({
+          origin: SendOrigin.AppSendFlow,
+          recipient: {
+            address: mockUriData[2].address.toLowerCase(),
+            recipientType: RecipientType.Address,
+          },
+          forceTokenId: false,
+        })
+      )
     })
 
     describe('deeplinks for sending cUSD', () => {
@@ -247,6 +303,14 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'], // USD to USD (currencyCode of mockUriData[4] is USD)
+            [
+              matchers.call.fn(preparePaymentRequestTransaction),
+              {
+                preparedTransaction: 'mock-prepared-tx',
+                feeAmount: '0.1',
+                feeTokenId: mockCeloTokenId,
+              },
+            ],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -254,6 +318,9 @@ describe('send/utils', () => {
           expect.objectContaining({
             origin: SendOrigin.AppSendFlow,
             transactionData: mockTransactionData,
+            preparedTransaction: 'mock-prepared-tx',
+            feeAmount: '0.1',
+            feeTokenId: mockCeloTokenId,
           })
         )
       })
@@ -272,6 +339,14 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'], // USD to USD (currencyCode of mockUriData[5] is USD)
+            [
+              matchers.call.fn(preparePaymentRequestTransaction),
+              {
+                preparedTransaction: 'mock-prepared-tx',
+                feeAmount: '0.1',
+                feeTokenId: mockCusdTokenId,
+              },
+            ],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -279,6 +354,9 @@ describe('send/utils', () => {
           expect.objectContaining({
             origin: SendOrigin.AppSendFlow,
             transactionData: mockTransactionData,
+            preparedTransaction: 'mock-prepared-tx',
+            feeAmount: '0.1',
+            feeTokenId: mockCusdTokenId,
           })
         )
       })
@@ -294,6 +372,14 @@ describe('send/utils', () => {
           .withState(createMockStore({}).getState())
           .provide([
             [matchers.call.fn(fetchExchangeRate), '1'], // USD to USD (currencyCode of mockUriData[0] is USD)
+            [
+              matchers.call.fn(preparePaymentRequestTransaction),
+              {
+                preparedTransaction: 'mock-prepared-tx',
+                feeAmount: '0.1',
+                feeTokenId: mockCeloTokenId,
+              },
+            ],
           ])
           .run()
         expect(navigate).toHaveBeenCalledWith(
@@ -311,6 +397,9 @@ describe('send/utils', () => {
               inputAmount: new BigNumber(mockUriData[0].amount!).times(1.33), // 1 USD in PHP
               amountIsInLocalCurrency: true,
             },
+            preparedTransaction: 'mock-prepared-tx',
+            feeAmount: '0.1',
+            feeTokenId: mockCeloTokenId,
           })
         )
       })
@@ -332,23 +421,116 @@ describe('send/utils', () => {
           })
         )
       })
-
-      it('should navigate to SendEnterAmount screen when an unsupported token is given', async () => {
-        await expectSaga(handleSendPaymentData, mockUriData[2], false, undefined)
-          .withState(createMockStore({}).getState())
-          .run()
-        expect(navigate).toHaveBeenCalledWith(
-          Screens.SendEnterAmount,
-          expect.objectContaining({
-            origin: SendOrigin.AppSendFlow,
-            recipient: {
-              address: mockUriData[2].address.toLowerCase(),
-              recipientType: RecipientType.Address,
-            },
-            forceTokenId: false,
-          })
-        )
-      })
     })
+  })
+
+  describe('handlePaymentDeeplink', () => {
+    it('should call handleSendPaymentData with parsed payment data', async () => {
+      const data = {
+        address: '0xf7f551752A78Ce650385B58364225e5ec18D96cB',
+        displayName: 'Super 8',
+        currencyCode: 'PHP' as LocalCurrencyCode,
+        amount: '500',
+        comment: '92a53156-c0f2-11ea-b3de-0242ac13000',
+      }
+
+      const deeplink = urlFromUriData(data)
+      const parsed: UriData = {
+        ...data,
+        e164PhoneNumber: undefined,
+        token: undefined,
+      }
+      await expectSaga(handlePaymentDeeplink, deeplink)
+        .withState(createMockStore({}).getState())
+        .provide([[matchers.call.fn(handleSendPaymentData), undefined]])
+        .call(handleSendPaymentData, parsed, true)
+        .run()
+    })
+  })
+
+  describe('preparePaymentRequestTransaction', () => {
+    it('returns serialized preparedTransaction and fee info if tx is possible', async () => {
+      const mockPossibleResult: PreparedTransactionsResult = {
+        type: 'possible',
+        transactions: [
+          {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            gas: BigInt(500),
+            maxFeePerGas: BigInt(10000),
+            maxPriorityFeePerGas: undefined,
+            _baseFeePerGas: BigInt(1000),
+          },
+        ],
+        feeCurrency: mockCeloTokenBalance,
+      }
+      await expectSaga(preparePaymentRequestTransaction, {
+        amount: new BigNumber('10'),
+        token: mockCeloTokenBalance,
+        recipientAddress: mockAccount,
+      })
+        .provide([
+          [select(walletAddressSelector), mockAccount2],
+          [select(feeCurrenciesSelector, NetworkId['celo-alfajores']), [mockCeloTokenBalance]],
+          [matchers.call.fn(prepareSendTransactionsCallback), mockPossibleResult],
+        ])
+        .returns({
+          preparedTransaction: {
+            from: '0xfrom',
+            to: '0xto',
+            data: '0xdata',
+            gas: '500',
+            maxFeePerGas: '10000',
+            maxPriorityFeePerGas: undefined,
+            _baseFeePerGas: '1000',
+          },
+          feeAmount: '5e-12',
+          feeTokenId: mockCeloTokenId,
+        })
+        .run()
+    })
+  })
+
+  it('returns undefined serialized preparedTransaction and fee info if tx is not possible', async () => {
+    const mockPossibleResult: PreparedTransactionsResult = {
+      type: 'not-enough-balance-for-gas',
+      feeCurrencies: [mockCeloTokenBalance],
+    }
+    await expectSaga(preparePaymentRequestTransaction, {
+      amount: new BigNumber('10'),
+      token: mockCeloTokenBalance,
+      recipientAddress: mockAccount,
+    })
+      .provide([
+        [select(walletAddressSelector), mockAccount2],
+        [select(feeCurrenciesSelector, NetworkId['celo-alfajores']), [mockCeloTokenBalance]],
+        [matchers.call.fn(prepareSendTransactionsCallback), mockPossibleResult],
+      ])
+      .returns({
+        preparedTransaction: undefined,
+        feeAmount: undefined,
+        feeTokenId: undefined,
+      })
+      .run()
+  })
+
+  it('returns undefined serialized preparedTransaction and fee info if preparing tx throws', async () => {
+    await expectSaga(preparePaymentRequestTransaction, {
+      amount: new BigNumber('10'),
+      token: mockCeloTokenBalance,
+      recipientAddress: mockAccount,
+    })
+      .provide([
+        [select(walletAddressSelector), mockAccount2],
+        [select(feeCurrenciesSelector, NetworkId['celo-alfajores']), [mockCeloTokenBalance]],
+        [matchers.call.fn(prepareSendTransactionsCallback), new Error('not enough balance')],
+      ])
+      .returns({
+        preparedTransaction: undefined,
+        feeAmount: undefined,
+        feeTokenId: undefined,
+      })
+      .run()
   })
 })
