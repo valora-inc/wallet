@@ -15,6 +15,7 @@ interface Props {
   description?: string | null
   children?: React.ReactNode | React.ReactNode[]
   onClose?: () => void
+  onOpen?: () => void
   snapPoints?: (string | number)[]
   stickyTitle?: boolean
   stickyHeaderComponent?: React.ReactNode
@@ -34,6 +35,7 @@ const BottomSheet = ({
   description,
   children,
   onClose,
+  onOpen,
   snapPoints,
   stickyTitle,
   stickyHeaderComponent,
@@ -56,6 +58,10 @@ const BottomSheet = ({
       // ensure that the keyboard dismiss animation starts at the same time as
       // the bottom sheet
       Keyboard.dismiss()
+    }
+
+    if (toIndex === 0) {
+      onOpen?.()
     }
   }
 
