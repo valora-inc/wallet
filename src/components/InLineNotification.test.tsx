@@ -42,4 +42,20 @@ describe(InLineNotification, () => {
     expect(fn).toBeCalled()
     expect(fn2).toBeCalled()
   })
+
+  it('renders the icon when showIcon is true', () => {
+    const { getByTestId } = render(
+      <InLineNotification severity={Severity.Warning} description="Test" showIcon={true} />
+    )
+
+    expect(getByTestId('attentionIcon').children.length).toBeGreaterThan(0)
+  })
+
+  it('does not render the icon when showIcon is false', () => {
+    const { getByTestId } = render(
+      <InLineNotification severity={Severity.Warning} description="Test" showIcon={false} />
+    )
+
+    expect(getByTestId('attentionIcon').children.length).toBe(0)
+  })
 })

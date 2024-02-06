@@ -17,6 +17,7 @@ export interface InLineNotificationProps {
   title?: string | null
   description: string | JSX.Element | null
   style?: StyleProp<ViewStyle>
+  showIcon?: boolean
   ctaLabel?: string | null
   onPressCta?: (event: GestureResponderEvent) => void
   ctaLabel2?: string | null
@@ -34,6 +35,7 @@ export function InLineNotification({
   title,
   description,
   style,
+  showIcon = true,
   ctaLabel,
   onPressCta,
   ctaLabel2,
@@ -60,8 +62,8 @@ export function InLineNotification({
       testID={testID}
     >
       <View style={styles.row}>
-        <View style={styles.attentionIcon}>
-          <Icon color={severityColor.primary} size={20} />
+        <View style={styles.attentionIcon} testID="attentionIcon">
+          {showIcon && <Icon color={severityColor.primary} size={20} />}
         </View>
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
