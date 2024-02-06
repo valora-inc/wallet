@@ -1866,7 +1866,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Pesquisar ativos",
-    "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "Não foram encontrados ativos correspondentes para \"{{searchTerm}}\" nas seguintes categorias: {{filterNames}}",
+    "noFilterResults": "Não foram encontrados ativos correspondentes nas seguintes categorias: {{filterNames}}",
+    "noSearchResults": "Não foram encontrados ativos correspondentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Meus tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Trocado recentemente",
+      "celo": "Supercharge",
+      "ethereum": "Rede Ethereum"
+    }
   },
   "homeActions": {
     "add": "Comprar",
