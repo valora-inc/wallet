@@ -1971,7 +1971,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Enviar ativos para o identificador ENS de alguém"
+          "subtitle": "Envie ativos para o identificador ENS de alguém"
         },
         "four": {
           "title": "Nome do perfil",
@@ -2006,7 +2006,7 @@
   "viewOnCeloBlockExplorer": "Ver no CeloExplorer",
   "viewOnCeloScan": "Ver no CeloScan",
   "viewOnEthereumBlockExplorer": "Ver no Etherscan",
-  "viewOnArbiscan": "Ver em Arbiscan",
+  "viewOnArbiscan": "Ver no Arbiscan",
   "viewOnOPMainnetExplorer": "Exibir no OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "Ver na OP Sepolia Explorer",
   "sendEnterAmountScreen": {
@@ -2042,7 +2042,13 @@
   },
   "getStartedHome": {
     "title": "Comprar cripto ou transferir tokens",
-    "body": "Compre ou transfira tokens compatíveis para enviar criptomoedas e explorar a web3!"
+    "body": "Compre ou transfira tokens compatíveis para enviar cripto e explorar a web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Vincule um número de telefone ao endereço da sua carteira",
+    "description": "Você não precisa mais de endereços de carteira bagunçados! Envie criptografia para outros usuários Valora com apenas um número de telefone",
+    "startButtonLabel": "Número de telefone do link",
+    "later": "Farei isso mais tarde"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -16,9 +16,9 @@ import { StackParamList } from 'src/navigator/types'
 import { updateStatsigAndNavigate } from 'src/onboarding/actions'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
-import { getExperimentParams } from 'src/statsig'
+import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments } from 'src/statsig/types'
+import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 
 export const END_OF_ONBOARDING_SCREENS = [Screens.WalletHome, Screens.ChooseYourAdventure]
 
@@ -44,6 +44,7 @@ export interface OnboardingProps {
   numberAlreadyVerifiedCentrally: boolean
   chooseAdventureEnabled: boolean
   onboardingNameScreenEnabled: boolean
+  showCloudAccountBackupRestore: boolean
 }
 
 /**
@@ -55,11 +56,13 @@ export function firstOnboardingScreen({
 }: {
   onboardingNameScreenEnabled: boolean
   recoveringFromStoreWipe: boolean
-}): Screens.NameAndPicture | Screens.ImportWallet | Screens.PincodeSet {
+}): Screens.NameAndPicture | Screens.ImportSelect | Screens.ImportWallet | Screens.PincodeSet {
   if (onboardingNameScreenEnabled) {
     return Screens.NameAndPicture
   } else if (recoveringFromStoreWipe) {
-    return Screens.ImportWallet
+    return getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
+      ? Screens.ImportSelect
+      : Screens.ImportWallet
   } else {
     return Screens.PincodeSet
   }
@@ -81,6 +84,9 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
   const { chooseAdventureEnabled, onboardingNameScreenEnabled } = getExperimentParams(
     ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
   )
+  const showCloudAccountBackupRestore = getFeatureGate(
+    StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
+  )
 
   return {
     recoveringFromStoreWipe,
@@ -90,6 +96,7 @@ export function onboardingPropsSelector(state: RootState): OnboardingProps {
     numberAlreadyVerifiedCentrally,
     chooseAdventureEnabled,
     onboardingNameScreenEnabled,
+    showCloudAccountBackupRestore,
   }
 }
 
@@ -206,12 +213,20 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     }
   }
 
+  const navigateImportOrImportSelect = () => {
+    if (props.showCloudAccountBackupRestore) {
+      navigate(Screens.ImportSelect)
+    } else {
+      navigate(Screens.ImportWallet)
+    }
+  }
+
   switch (firstScreenInStep) {
     case Screens.NameAndPicture:
       return {
         next: () => {
           if (recoveringFromStoreWipe) {
-            navigate(Screens.ImportWallet)
+            navigateImportOrImportSelect()
           } else {
             navigate(Screens.PincodeSet)
           }
@@ -224,7 +239,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             navigate(Screens.EnableBiometry)
           } else if (choseToRestoreAccount) {
             popToScreen(Screens.Welcome)
-            navigate(Screens.ImportWallet)
+            navigateImportOrImportSelect()
           } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
@@ -235,10 +250,23 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
       return {
         next: () => {
           if (choseToRestoreAccount) {
-            navigate(Screens.ImportWallet)
+            navigateImportOrImportSelect()
           } else {
             dispatch(initializeAccount())
             navigate(Screens.ProtectWallet)
+          }
+        },
+      }
+    case Screens.ImportSelect:
+      return {
+        next: () => {
+          if (skipVerification || numberAlreadyVerifiedCentrally) {
+            dispatch(setHasSeenVerificationNux(true))
+            // navigateHome will clear onboarding Stack
+            navigateHomeOrChooseAdventure()
+          } else {
+            // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
+            navigate(Screens.VerificationStartScreen)
           }
         },
       }

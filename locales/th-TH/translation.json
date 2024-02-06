@@ -1969,7 +1969,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send assets to someone's ENS handle"
+          "subtitle": "ส่งสินทรัพย์ไปยังที่อยู่ ENS ของผู้รับ"
         },
         "four": {
           "title": "ชื่อโปรไฟล์",
@@ -2004,7 +2004,7 @@
   "viewOnCeloBlockExplorer": "ดูใน CeloExplorer",
   "viewOnCeloScan": "ดูบน CeloScan",
   "viewOnEthereumBlockExplorer": "ดูบน Etherscan",
-  "viewOnArbiscan": "View on Arbiscan",
+  "viewOnArbiscan": "ดูบน Arbiscan",
   "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
   "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
@@ -2040,7 +2040,13 @@
   },
   "getStartedHome": {
     "title": "ซื้อคริปโตหรือโอนโทเค็น",
-    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+    "body": "ซื้อหรือโอนโทเค็นที่เข้ากันได้เพื่อส่งคริปโตและสำรวจ web3!"
+  },
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "No more messy wallet addresses! Send crypto to other Valora users with just a phone number",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
