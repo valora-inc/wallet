@@ -114,6 +114,11 @@
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaurar tu cartera"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
