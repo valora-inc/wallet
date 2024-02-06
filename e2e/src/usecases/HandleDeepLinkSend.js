@@ -4,8 +4,9 @@ import {
   addComment,
   confirmTransaction,
   enterPinUiIfNecessary,
-  inputNumberKeypad,
+  waitForElementByIdAndTap,
   quote,
+  waitForElementId,
 } from '../utils/utils'
 
 const deepLinks = {
@@ -16,7 +17,11 @@ const deepLinks = {
 // Helper functions
 const launchDeepLink = async (url, newInstance = true) => {
   await device.terminateApp()
-  await launchApp({ url: url, newInstance: newInstance })
+  await launchApp({
+    url,
+    newInstance,
+    launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
+  })
 }
 
 const createCommentText = () => {
@@ -65,8 +70,11 @@ export default HandleDeepLinkSend = () => {
         `celo://wallet/pay?address=${E2E_TEST_FAUCET}&currencyCode=USD&token=cUSD&displayName=TestFaucet&comment=${commentText}`
       )
       await launchDeepLink(PAY_URL)
-      await inputNumberKeypad('0.1')
-      await element(by.id('Review')).tap()
+      await waitForElementId('SendEnterAmount/TokenSelect', 10_000)
+      await expect(element(by.text('cUSD')).atIndex(0)).toBeVisible()
+      await element(by.id('SendEnterAmount/Input')).replaceText('0.01')
+      await element(by.id('SendEnterAmount/Input')).tapReturnKey()
+      await waitForElementByIdAndTap('SendEnterAmount/ReviewButton', 30_000)
 
       await addComment(commentText)
 
