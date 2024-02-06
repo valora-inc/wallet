@@ -1,7 +1,7 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import LottieView from 'lottie-react-native'
-import React, { useCallback, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
@@ -20,7 +20,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Severity } from 'src/components/InLineNotification'
 import { nftCelebrationDisplayed } from 'src/home/actions'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
-import { nftsWithMetadataSelector } from 'src/nfts/selectors'
+import { nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
@@ -40,16 +40,13 @@ export default function NftCelebrationBottomSheet() {
   const dispatch = useDispatch()
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
-  const [showBottomSheet, setShowBottomSheet] = useState(true)
 
   const [showAnimation, setShowAnimation] = useState(false)
 
   const confettiOpacity = useSharedValue(1)
-  const confettiOpacityStyle = useAnimatedStyle(() => {
-    return {
-      opacity: confettiOpacity.value,
-    }
-  })
+  const confettiOpacityStyle = useAnimatedStyle(() => ({
+    opacity: confettiOpacity.value,
+  }))
   const animationStartTime = useRef(0)
 
   const nftContractAddress =
@@ -57,11 +54,17 @@ export default function NftCelebrationBottomSheet() {
       Network.Celo
     ]?.nftContractAddress ?? '0x376f5039df4e9e9c864185d8fabad4f04a7e394a' // TODO: remove
 
-  const nft = useSelector(nftsWithMetadataSelector).find(
-    (nft) => nft.contractAddress === nftContractAddress
-  )
+  const nftsLoading = useSelector(nftsLoadingSelector)
+  const nfts = useSelector(nftsWithMetadataSelector)
+  const nft = nfts.find((nft) => nft.contractAddress === nftContractAddress)
 
-  const showCelebration = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION) || true // TODO: remove
+  useEffect(() => {
+    if (!nftsLoading) {
+      bottomSheetRef.current?.snapToIndex(0)
+    }
+  }, [nftsLoading])
+
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION) || true // TODO: remove
 
   const celebrationHasBeenDisplayed = false // TODO: remove
   //  nftContractAddress === useSelector(lastDisplayedNftCelebration)
@@ -77,12 +80,14 @@ export default function NftCelebrationBottomSheet() {
     const [showError, setShowError] = useState(false)
     return (
       <View style={styles.handleWithImage}>
-        <FastImage
-          style={styles.image}
-          source={{ uri: nft?.metadata?.image }}
-          resizeMode={FastImage.resizeMode.cover}
-          onError={() => setShowError(true)}
-        />
+        {nft && (
+          <FastImage
+            style={styles.image}
+            source={{ uri: nft.metadata.image }}
+            resizeMode={FastImage.resizeMode.cover}
+            onError={() => setShowError(true)}
+          />
+        )}
         {showError && (
           <View style={styles.imageError}>
             <ImageErrorIcon />
@@ -93,24 +98,23 @@ export default function NftCelebrationBottomSheet() {
     )
   }, [nft])
 
-  if (!nftContractAddress || !nft || !showCelebration || celebrationHasBeenDisplayed) {
+  if (!nftContractAddress || !nft || !featureGateEnabled || celebrationHasBeenDisplayed) {
     return null
   }
 
-  const handleClose = () => {
+  const handleBottomSheetClose = () => {
     ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, { nftContractAddress })
 
-    setShowBottomSheet(false)
+    vibrateSuccess()
 
     animationStartTime.current = Date.now()
     setShowAnimation(true)
   }
 
-  const handleAnimationFinish = ({ userInterrupted = false } = {}) => {
-    const durationInSeconds = Math.round((Date.now() - animationStartTime.current) / 1000)
+  const handleAnimationFinish = ({ userInterrupted }: { userInterrupted: boolean }) => {
     ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
       userInterrupted,
-      durationInSeconds,
+      durationInSeconds: Math.round((Date.now() - animationStartTime.current) / 1000),
     })
 
     setShowAnimation(false)
@@ -123,38 +127,38 @@ export default function NftCelebrationBottomSheet() {
     )
   }
 
-  const rewardName = nft?.metadata?.name ?? t('celebrationBottomSheet.inlineNotification.nft')
-
   return (
     <>
-      {showBottomSheet && (
-        <GorhomBottomSheet
-          ref={bottomSheetRef}
-          enableDynamicSizing
-          enablePanDownToClose
-          backdropComponent={renderBackdrop}
-          handleComponent={renderHandleWithImage}
-          backgroundStyle={styles.bottomSheetBackground}
-          onClose={() => {
-            vibrateSuccess()
-            handleClose()
-          }}
-        >
-          <BottomSheetView style={styles.container}>
-            <View style={styles.content}>
-              <Text style={styles.title}>{t('celebrationBottomSheet.title')}</Text>
-              <Text style={styles.description}>{t('celebrationBottomSheet.description')}</Text>
-            </View>
-            <Button
-              style={styles.button}
-              type={BtnTypes.PRIMARY}
-              size={BtnSizes.FULL}
-              onPress={() => bottomSheetRef.current?.close()}
-              text={t('celebrationBottomSheet.cta')}
-            />
-          </BottomSheetView>
-        </GorhomBottomSheet>
-      )}
+      <GorhomBottomSheet
+        ref={bottomSheetRef}
+        enableDynamicSizing
+        enablePanDownToClose
+        index={-1}
+        backdropComponent={renderBackdrop}
+        handleComponent={renderHandleWithImage}
+        backgroundStyle={styles.bottomSheetBackground}
+        onChange={(index: number) => {
+          if (index === -1) {
+            handleBottomSheetClose()
+          }
+        }}
+      >
+        <BottomSheetView style={styles.container}>
+          <View style={styles.content}>
+            <Text style={styles.title}>{t('celebrationBottomSheet.title')}</Text>
+            <Text style={styles.description}>{t('celebrationBottomSheet.description')}</Text>
+          </View>
+          <Button
+            style={styles.button}
+            type={BtnTypes.PRIMARY}
+            size={BtnSizes.FULL}
+            onPress={() => {
+              bottomSheetRef.current?.close()
+            }}
+            text={t('celebrationBottomSheet.cta')}
+          />
+        </BottomSheetView>
+      </GorhomBottomSheet>
       {showAnimation && (
         <Animated.View style={[styles.fullScreen, confettiOpacityStyle]}>
           <LottieView
@@ -165,7 +169,7 @@ export default function NftCelebrationBottomSheet() {
             style={[styles.fullScreen]}
             resizeMode="cover"
             onAnimationFinish={() => {
-              handleAnimationFinish()
+              handleAnimationFinish({ userInterrupted: false })
             }}
           />
         </Animated.View>
@@ -174,7 +178,9 @@ export default function NftCelebrationBottomSheet() {
         showNotification={showAnimation}
         severity={Severity.Informational}
         title={t('celebrationBottomSheet.inlineNotification.title')}
-        description={t('celebrationBottomSheet.inlineNotification.description', { rewardName })}
+        description={t('celebrationBottomSheet.inlineNotification.description', {
+          rewardName: nft.metadata.name,
+        })}
         position="top"
         showIcon={false}
       />

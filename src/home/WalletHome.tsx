@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -70,6 +71,8 @@ function WalletHome() {
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
+
+  const isFocused = useIsFocused()
 
   useEffect(() => {
     dispatch(visitHome())
@@ -209,7 +212,8 @@ function WalletHome() {
   )
 
   const showCashInBottomSheet = shouldShowCashInBottomSheet()
-  const showNftCelebrationBottomSheet = !showNotificationSpotlight && !showCashInBottomSheet
+  const showNftCelebrationBottomSheet =
+    isFocused && !showNotificationSpotlight && !showCashInBottomSheet
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>

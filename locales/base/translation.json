@@ -2102,8 +2102,7 @@
     "cta": "Thanks!",
     "inlineNotification": {
       "title": "Congratulations 🎉",
-      "description": "{{rewardName}} has successfully been added to your Valora wallet.",
-      "nft": "NFT"
+      "description": "{{rewardName}} has successfully been added to your Valora wallet."
     }
   }
 }
