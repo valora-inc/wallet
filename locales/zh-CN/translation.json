@@ -114,6 +114,11 @@
         "later": "我稍后再备份",
         "manual": "手动备份"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "恢复您的钱包"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！",
