@@ -107,12 +107,12 @@ export default function TokenImportScreen(_: Props) {
 
   const fetchTokenDetails = async (
     walletAddress: Address,
-    address: Address,
+    tokenAddress: Address,
     networkId: NetworkId
   ): Promise<TokenDetails> => {
     const contract = getContract({
       abi: erc20.abi,
-      address,
+      address: tokenAddress,
       client: {
         public: publicClient[networkIdToNetwork[networkId]],
       },
@@ -129,10 +129,10 @@ export default function TokenImportScreen(_: Props) {
 
     Logger.info(
       TAG,
-      `Wallet ${walletAddress} holds ${balanceInDecimal} ${symbol} (${name} = ${address})})`
+      `Wallet ${walletAddress} holds ${balanceInDecimal} ${symbol} (${name} = ${tokenAddress})})`
     )
 
-    return { address, symbol, decimals, name, balance: balanceInDecimal, networkId }
+    return { address: tokenAddress, symbol, decimals, name, balance: balanceInDecimal, networkId }
   }
 
   const validateContract = useAsyncCallback(fetchTokenDetails, {
@@ -149,7 +149,10 @@ export default function TokenImportScreen(_: Props) {
         (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
 
       // This shouldn't happen
-      if (!tokenAddress || !networkId) return
+      if (!tokenAddress || !networkId) {
+        Logger.error(TAG, 'Token address or network id is not set')
+        return
+      }
 
       const trackedError = hasTimeout(error) ? Errors.Timeout : Errors.NotERC20
       const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
@@ -241,7 +244,7 @@ export default function TokenImportScreen(_: Props) {
 
         <View style={styles.inputContainer}>
           {/* Network */}
-          <View style={{ ...styles.textInputGroup, zIndex: 10 }}>
+          <View style={{ ...styles.textInputGroup, zIndex: 1 }}>
             {networkShouldBeEditable ? (
               <>
                 <Text style={styles.label}>{t('tokenImport.input.network')}</Text>

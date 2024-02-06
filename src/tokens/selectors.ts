@@ -22,7 +22,6 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
-  getTokenId,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
   usdBalance,
@@ -96,9 +95,11 @@ export const networksIconSelector = createSelector(
   (tokens, networkIds) => {
     const result: Partial<Record<NetworkId, string>> = {}
     for (const networkId of networkIds) {
-      // We use as network icon the image of the native token.
-      const tokenId = getTokenId(networkId)
-      result[networkId] = tokens[tokenId]?.imageUrl
+      // We use as network icon the network icon of any token in that network.
+      const token = Object.values(tokens).find(
+        (token) => token?.networkId === networkId && token.networkIconUrl
+      )
+      result[networkId] = token?.networkIconUrl
     }
 
     return result

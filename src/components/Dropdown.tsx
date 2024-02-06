@@ -25,7 +25,7 @@ function Dropdown<T>(props: Props<T>) {
   }
 
   return (
-    <View style={{ zIndex: 100 }} testID={testID}>
+    <View testID={testID}>
       <Touchable onPress={toggleOpen} testID={testID + '-Touchable'}>
         <View style={styles.selectedOptionContainer}>
           <Text style={styles.optionText}>{labelSelected}</Text>
@@ -42,7 +42,7 @@ function Dropdown<T>(props: Props<T>) {
             {props.options.map((option) => {
               return (
                 <Touchable
-                  style={{ padding: Spacing.Small12 }}
+                  style={styles.touchableOption}
                   onPress={() => {
                     setLabelSelected(option.label)
                     toggleOpen()
@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Small12,
     borderColor: Colors.gray2,
     borderRadius: Spacing.Tiny4,
-    borderWidth: 1.5,
+    borderWidth: 1,
     gap: Spacing.Thick24,
     flexDirection: 'row',
     alignItems: 'center',
@@ -75,10 +75,9 @@ const styles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     top: 0,
-    zIndex: 100,
     borderColor: Colors.gray2,
     borderRadius: Spacing.Tiny4,
-    borderWidth: 1.5,
+    borderWidth: 1,
     backgroundColor: Colors.white,
     flexDirection: 'column',
     width: '100%',
@@ -86,6 +85,9 @@ const styles = StyleSheet.create({
   optionText: {
     ...typeScale.bodyMedium,
     flexGrow: 1,
+  },
+  touchableOption: {
+    padding: Spacing.Small12,
   },
 })
 

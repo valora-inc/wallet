@@ -108,7 +108,20 @@ describe('TokenImport', () => {
     })
 
     it('should dispatch the correct action on import', async () => {
-      const store = createMockStore({})
+      const mockStore = {
+        tokens: {
+          tokenBalances: {
+            ['celo-alfajores:0x123']: {
+              networkIconUrl: 'celoNativeTokenImageUrl',
+              balance: '10',
+              networkId: NetworkId['celo-alfajores'],
+              tokenId: 'celo-alfajores:0x123',
+            },
+          },
+        },
+      }
+
+      const store = createMockStore(mockStore)
       const { getByText, getByPlaceholderText, getByTestId } = render(
         <Provider store={store}>
           <TokenImportScreen {...mockScreenProps} />
@@ -135,7 +148,7 @@ describe('TokenImport', () => {
           decimals: 18,
           networkId: NetworkId['celo-alfajores'],
           tokenId: `celo-alfajores:${mockPoofAddress}`,
-          networkIconUrl: '',
+          networkIconUrl: 'celoNativeTokenImageUrl',
         })
       )
     })
@@ -315,11 +328,11 @@ describe('TokenImport', () => {
       const mockStore = {
         tokens: {
           tokenBalances: {
-            ['ethereum-sepolia:native']: {
-              imageUrl: 'nativeTokenImageUrl',
+            ['ethereum-sepolia:0x123']: {
+              networkIconUrl: 'nativeTokenImageUrl',
               balance: '10',
               networkId: NetworkId['ethereum-sepolia'],
-              tokenId: 'ethereum-sepolia:native',
+              tokenId: 'ethereum-sepolia:0x123',
             },
           },
         },
