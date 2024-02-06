@@ -19,6 +19,7 @@ import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotif
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { Severity } from 'src/components/InLineNotification'
 import { nftCelebrationDisplayed } from 'src/home/actions'
+import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
@@ -28,14 +29,15 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
-import { Network } from 'src/transactions/types'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import confettiAnimation from './confettiAnimation.json'
 
 const ANIMATION_DURATION = 6000 // 6 seconds
 
-// const imageUrl = 'https://bakoush.in/valora/unsplash_xyVIi4GN5Os.png'
+const nftNetworkId = networkConfig.defaultNetworkId
+const nftNetwork = networkIdToNetwork[nftNetworkId]
 
-export default function NftCelebrationBottomSheet() {
+export default function NftCelebration() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
@@ -49,14 +51,15 @@ export default function NftCelebrationBottomSheet() {
   }))
   const animationStartTime = useRef(0)
 
-  const nftContractAddress =
-    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])?.[
-      Network.Celo
-    ]?.nftContractAddress ?? '0x376f5039df4e9e9c864185d8fabad4f04a7e394a' // TODO: remove
+  const nftContractAddress = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
+  )?.[nftNetwork]?.nftContractAddress
 
   const nftsLoading = useSelector(nftsLoadingSelector)
   const nfts = useSelector(nftsWithMetadataSelector)
-  const nft = nfts.find((nft) => nft.contractAddress === nftContractAddress)
+  const nft = nfts.find(
+    (nft) => nft.networkId === nftNetworkId && nft.contractAddress === nftContractAddress
+  )
 
   useEffect(() => {
     if (!nftsLoading) {
@@ -64,10 +67,10 @@ export default function NftCelebrationBottomSheet() {
     }
   }, [nftsLoading])
 
-  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION) || true // TODO: remove
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
 
-  const celebrationHasBeenDisplayed = false // TODO: remove
-  //  nftContractAddress === useSelector(lastDisplayedNftCelebration)
+  const celebrationHasBeenDisplayed =
+    nftContractAddress === useSelector(lastDisplayedNftCelebration)
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -145,17 +148,17 @@ export default function NftCelebrationBottomSheet() {
       >
         <BottomSheetView style={styles.container}>
           <View style={styles.content}>
-            <Text style={styles.title}>{t('celebrationBottomSheet.title')}</Text>
-            <Text style={styles.description}>{t('celebrationBottomSheet.description')}</Text>
+            <Text style={styles.title}>{t('nftCelebration.bottomSheet.title')}</Text>
+            <Text style={styles.description}>{t('nftCelebration.bottomSheet.description')}</Text>
           </View>
           <Button
             style={styles.button}
             type={BtnTypes.PRIMARY}
             size={BtnSizes.FULL}
             onPress={() => {
-              bottomSheetRef.current?.close()
+              bottomSheetRef.current?.snapToIndex(-1)
             }}
-            text={t('celebrationBottomSheet.cta')}
+            text={t('nftCelebration.bottomSheet.cta')}
           />
         </BottomSheetView>
       </GorhomBottomSheet>
@@ -177,15 +180,15 @@ export default function NftCelebrationBottomSheet() {
       <BottomSheetInLineNotification
         showNotification={showAnimation}
         severity={Severity.Informational}
-        title={t('celebrationBottomSheet.inlineNotification.title')}
-        description={t('celebrationBottomSheet.inlineNotification.description', {
+        title={t('nftCelebration.inlineNotification.title')}
+        description={t('nftCelebration.inlineNotification.description', {
           rewardName: nft.metadata.name,
         })}
         position="top"
         showIcon={false}
       />
       {showAnimation && (
-        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
+        <TouchableWithoutFeedback onPress={handleDismissAnimation} testID="fullscreenTouchable">
           <View style={styles.fullScreen} />
         </TouchableWithoutFeedback>
       )}

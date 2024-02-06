@@ -27,7 +27,7 @@ import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
-import NftCelebrationBottomSheet from 'src/home/NftCelebration'
+import NftCelebration from 'src/home/NftCelebration'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
@@ -239,7 +239,7 @@ function WalletHome() {
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {showCashInBottomSheet && <CashInBottomSheet />}
       {ConfirmOpenDappBottomSheet}
-      {showNftCelebrationBottomSheet && <NftCelebrationBottomSheet />}
+      {showNftCelebrationBottomSheet && <NftCelebration />}
     </SafeAreaView>
   )
 }
