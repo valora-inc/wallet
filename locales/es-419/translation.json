@@ -1866,7 +1866,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
+    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Mis fichas",
+      "popular": "Popular",
+      "recentlySwapped": "Cambiado recientemente",
+      "celo": "Supercharge",
+      "ethereum": "Red Ethereum"
+    }
   },
   "homeActions": {
     "add": "Comprar",
