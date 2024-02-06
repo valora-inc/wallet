@@ -63,7 +63,7 @@ export default function NftCelebration() {
 
   useEffect(() => {
     if (!nftsLoading) {
-      bottomSheetRef.current?.snapToIndex(0)
+      bottomSheetRef.current?.expand()
     }
   }, [nftsLoading])
 
@@ -116,7 +116,7 @@ export default function NftCelebration() {
   }
 
   const handleCtaPress = () => {
-    bottomSheetRef.current?.snapToIndex(-1)
+    bottomSheetRef.current?.close()
   }
 
   const handleAnimationFinish = () => {
