@@ -114,6 +114,11 @@
         "later": "Daha sonra yedekleyeceğim",
         "manual": "Manuel Yedekleme"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Cüzdanınızı yenilemek"
+      }
     }
   },
   "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
