@@ -114,6 +114,11 @@
         "later": "Ich führe das Backup später durch",
         "manual": "Manuelles Backup"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Dein Portemonnaie wiederherstellen"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!",
