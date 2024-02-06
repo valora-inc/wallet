@@ -114,6 +114,11 @@
         "later": "Eseguirò un backup in un secondo momento",
         "manual": "Backup manuale"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Ripristinare il portafoglio"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!",
