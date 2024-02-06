@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
   authFactorsCard: {
     backgroundColor: Colors.gray1,
     marginTop: Spacing.Smallest8,
+    borderColor: Colors.gray2,
+    borderWidth: 1,
     borderRadius: 10,
     padding: Spacing.Thick24,
-    border: 1,
-    borderColor: Colors.gray2,
   },
   authFactorsContainer: {
     borderBottomWidth: 1,
