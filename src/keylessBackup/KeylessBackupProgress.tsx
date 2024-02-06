@@ -78,12 +78,12 @@ function Restore() {
 
   const onPressTryAgain = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again)
-    // navigate(Screens.ImportSelect)
+    navigate(Screens.ImportSelect)
   }
 
   const onPressCreateNewWallet = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet)
-    navigate(Screens.Welcome) //  Navigate to create new wallet screen??
+    navigate(Screens.Welcome)
   }
 
   switch (keylessBackupStatus) {
