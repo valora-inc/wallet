@@ -114,6 +114,11 @@
         "later": "Je sauvegarderai plus tard",
         "manual": "Sauvegarde manuelle"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaure ton portefeuille"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !",
