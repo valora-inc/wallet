@@ -1323,7 +1323,7 @@ interface TokenBottomSheetEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
-    searchTerm: string
+    usedSearchTerm: boolean
     selectedFilters: string[]
   }
 }

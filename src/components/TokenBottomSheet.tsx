@@ -175,7 +175,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       tokenAddress: token.address,
       tokenId: token.tokenId,
       networkId: token.networkId,
-      searchTerm,
+      usedSearchTerm: searchTerm.length > 0,
       selectedFilters: activeFilters.map((filter) => filter.id),
     })
     onTokenSelected(token)
