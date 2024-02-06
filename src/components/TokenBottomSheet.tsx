@@ -260,6 +260,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       </View>
       <BottomSheetFlatList
         ref={tokenListRef}
+        testID="TokenBottomSheet"
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
         contentContainerStyle={styles.tokenListContainer}
