@@ -1,6 +1,6 @@
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useMemo, useRef, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
@@ -104,15 +104,21 @@ export function TokenBalanceItemOption({
 function NoResults({
   testID = 'TokenBottomSheet/NoResult',
   searchTerm,
-  selectedFilters,
+  activeFilters,
 }: {
   testID?: string
   searchTerm: string
-  selectedFilters: FilterChip<TokenBalance>[]
+  activeFilters: FilterChip<TokenBalance>[]
 }) {
-  const activeSearchTerms = [searchTerm, ...selectedFilters.map((filter) => filter.name)]
-    .filter((term) => !!term)
-    .join(', ')
+  const { t } = useTranslation()
+
+  const activeFilterNames = activeFilters.map((filter) => `"${filter.name}"`)
+  const noResultsText =
+    activeFilterNames.length > 0 && searchTerm.length > 0
+      ? 'tokenBottomSheet.noFilterSearchResults'
+      : activeFilterNames.length > 0
+        ? 'tokenBottomSheet.noFilterResults'
+        : 'tokenBottomSheet.noSearchResults'
 
   return (
     <View testID={testID} style={styles.noResultsContainer}>
@@ -120,12 +126,7 @@ function NoResults({
         <InfoIcon color={Colors.infoDark} />
       </View>
       <Text style={styles.noResultsText}>
-        <Trans
-          i18nKey="tokenBottomSheet.noTokenInResult"
-          tOptions={{ searchTerm: activeSearchTerms }}
-        >
-          <Text style={styles.noResultsText} />
-        </Trans>
+        {t(noResultsText, { searchTerm: searchTerm, filterNames: activeFilterNames.join(', ') })}
       </Text>
     </View>
   )
@@ -186,7 +187,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     const activeFilterFns = activeFilters.map((filter) => filter.filterFn)
 
     return tokens.filter((token) => {
-      const matchesFilter =
+      const matchesFilters =
         activeFilterFns.length > 0 ? activeFilterFns.some((filterFn) => filterFn(token)) : true
 
       const matchesSearch =
@@ -195,7 +196,7 @@ function TokenBottomSheet<T extends TokenBalance>({
             token.name.toLowerCase().includes(searchTerm.toLowerCase())
           : true
 
-      return matchesFilter && matchesSearch
+      return matchesFilters && matchesSearch
     })
   }, [searchTerm, tokens, filters])
 
@@ -253,7 +254,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     >
       {tokenList.length == 0 ? (
         searchEnabled || filterChips.length > 0 ? (
-          <NoResults searchTerm={searchTerm} selectedFilters={activeFilters} />
+          <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
         ) : null
       ) : (
         tokenList.map((tokenInfo, index) => {
