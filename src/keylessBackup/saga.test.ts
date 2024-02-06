@@ -5,7 +5,6 @@ import { call, select } from 'redux-saga/effects'
 import { initializeAccountSaga } from 'src/account/saga'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
-import { refreshAllBalances } from 'src/home/actions'
 import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
@@ -250,7 +249,6 @@ describe('keylessBackup saga', () => {
           ])
           .call(storeMnemonic, mockMnemonic, mockWalletAddress)
           .call(initializeAccountSaga)
-          .put(refreshAllBalances())
           .put(keylessBackupCompleted())
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {

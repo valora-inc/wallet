@@ -3,7 +3,6 @@ import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
-import { refreshAllBalances } from 'src/home/actions'
 import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
@@ -157,8 +156,6 @@ function* handleKeylessBackupRestore({
   }
   // Set key in phone's secure store
   yield* call(storeMnemonic, decryptedMnemonic, account)
-
-  yield* put(refreshAllBalances())
 
   yield* call(initializeAccountSaga)
 
