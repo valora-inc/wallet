@@ -44,12 +44,12 @@ export default function NftCelebration() {
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const [showAnimation, setShowAnimation] = useState(false)
+  const animationStartTime = useRef(0)
 
   const confettiOpacity = useSharedValue(1)
   const confettiOpacityStyle = useAnimatedStyle(() => ({
     opacity: confettiOpacity.value,
   }))
-  const animationStartTime = useRef(0)
 
   const nftContractAddress = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
@@ -105,16 +105,31 @@ export default function NftCelebration() {
     return null
   }
 
-  const handleBottomSheetClose = () => {
-    ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, { nftContractAddress })
+  const handleBottomSheetPositionChange = (index: number) => {
+    if (index === -1) {
+      ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, { nftContractAddress })
+      vibrateSuccess()
 
-    vibrateSuccess()
-
-    animationStartTime.current = Date.now()
-    setShowAnimation(true)
+      animationStartTime.current = Date.now()
+      setShowAnimation(true)
+    }
   }
 
-  const handleAnimationFinish = ({ userInterrupted }: { userInterrupted: boolean }) => {
+  const handleCtaPress = () => {
+    bottomSheetRef.current?.snapToIndex(-1)
+  }
+
+  const handleAnimationFinish = () => {
+    celebrationFinish({ userInterrupted: false })
+  }
+
+  const handleDismissAnimation = () => {
+    confettiOpacity.value = withTiming(0, { duration: 100 }, () =>
+      runOnJS(celebrationFinish)({ userInterrupted: true })
+    )
+  }
+
+  const celebrationFinish = ({ userInterrupted }: { userInterrupted: boolean }) => {
     ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
       userInterrupted,
       durationInSeconds: Math.round((Date.now() - animationStartTime.current) / 1000),
@@ -122,12 +137,6 @@ export default function NftCelebration() {
 
     setShowAnimation(false)
     dispatch(nftCelebrationDisplayed(nftContractAddress))
-  }
-
-  const handleDismissAnimation = () => {
-    confettiOpacity.value = withTiming(0, { duration: 100 }, () =>
-      runOnJS(handleAnimationFinish)({ userInterrupted: true })
-    )
   }
 
   return (
@@ -140,11 +149,7 @@ export default function NftCelebration() {
         backdropComponent={renderBackdrop}
         handleComponent={renderHandleWithImage}
         backgroundStyle={styles.bottomSheetBackground}
-        onChange={(index: number) => {
-          if (index === -1) {
-            handleBottomSheetClose()
-          }
-        }}
+        onChange={handleBottomSheetPositionChange}
       >
         <BottomSheetView style={styles.container}>
           <View style={styles.content}>
@@ -155,9 +160,7 @@ export default function NftCelebration() {
             style={styles.button}
             type={BtnTypes.PRIMARY}
             size={BtnSizes.FULL}
-            onPress={() => {
-              bottomSheetRef.current?.snapToIndex(-1)
-            }}
+            onPress={handleCtaPress}
             text={t('nftCelebration.bottomSheet.cta')}
           />
         </BottomSheetView>
@@ -171,9 +174,7 @@ export default function NftCelebration() {
             source={confettiAnimation}
             style={[styles.fullScreen]}
             resizeMode="cover"
-            onAnimationFinish={() => {
-              handleAnimationFinish({ userInterrupted: false })
-            }}
+            onAnimationFinish={handleAnimationFinish}
           />
         </Animated.View>
       )}
@@ -188,7 +189,7 @@ export default function NftCelebration() {
         showIcon={false}
       />
       {showAnimation && (
-        <TouchableWithoutFeedback onPress={handleDismissAnimation} testID="fullscreenTouchable">
+        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
           <View style={styles.fullScreen} />
         </TouchableWithoutFeedback>
       )}
