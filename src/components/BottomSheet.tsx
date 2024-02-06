@@ -3,7 +3,6 @@ import React, { useRef } from 'react'
 import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -72,10 +71,6 @@ const BottomSheet = ({
 }
 
 const styles = StyleSheet.create({
-  handle: {
-    backgroundColor: Colors.gray2,
-    width: 40,
-  },
   headerContentSpacing: {
     paddingBottom: Spacing.Small12,
   },
