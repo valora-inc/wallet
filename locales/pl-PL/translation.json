@@ -114,6 +114,11 @@
         "later": "Stworzę kopię zapasową później",
         "manual": "Ręczna kopia zapasowa"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Odbudowa twojego portfela"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!",
