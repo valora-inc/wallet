@@ -39,7 +39,6 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
-  preSelectedFilterChips?: FilterChip<TokenBalance>[]
 }
 
 interface TokenOptionProps {
@@ -144,20 +143,22 @@ function TokenBottomSheet<T extends TokenBalance>({
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
   filterChips = [],
-  preSelectedFilterChips = [],
 }: TokenBottomSheetProps<T>) {
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedFilters, setSelectedFilters] = useState(preSelectedFilterChips)
+  const [filters, setFilters] = useState(filterChips)
+  const activeFilters = useMemo(() => filters.filter((filter) => filter.isSelected), [filters])
 
   const { t } = useTranslation()
 
   const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
-    setSelectedFilters((prev) => {
-      if (prev.some((chip) => chip.id === toggledChip.id)) {
-        return prev.filter((chip) => chip.id !== toggledChip.id)
-      }
-      return [...prev, toggledChip]
+    setFilters((prev) => {
+      return prev.map((chip) => {
+        if (chip.id === toggledChip.id) {
+          return { ...chip, isSelected: !chip.isSelected }
+        }
+        return chip
+      })
     })
   }
 
@@ -182,9 +183,11 @@ function TokenBottomSheet<T extends TokenBalance>({
   )
 
   const tokenList = useMemo(() => {
+    const activeFilterFns = activeFilters.map((filter) => filter.filterFn)
+
     return tokens.filter((token) => {
       const matchesFilter =
-        selectedFilters.length > 0 ? selectedFilters.some((filter) => filter.filterFn(token)) : true
+        activeFilterFns.length > 0 ? activeFilterFns.some((filterFn) => filterFn(token)) : true
 
       const matchesSearch =
         searchTerm.length > 0
@@ -194,10 +197,10 @@ function TokenBottomSheet<T extends TokenBalance>({
 
       return matchesFilter && matchesSearch
     })
-  }, [searchTerm, tokens, selectedFilters])
+  }, [searchTerm, tokens, filters])
 
   const handleOpen = () => {
-    setSelectedFilters(preSelectedFilterChips)
+    setFilters(filterChips)
   }
 
   const handleClose = () => {
@@ -234,8 +237,7 @@ function TokenBottomSheet<T extends TokenBalance>({
           )}
           {filterChips.length > 0 && (
             <FilterChipsCarousel
-              chips={filterChips}
-              selectedChips={selectedFilters}
+              chips={filters}
               onSelectChip={handleToggleFilterChip}
               primaryColor={colors.successDark}
               secondaryColor={colors.successLight}
@@ -251,7 +253,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     >
       {tokenList.length == 0 ? (
         searchEnabled || filterChips.length > 0 ? (
-          <NoResults searchTerm={searchTerm} selectedFilters={selectedFilters} />
+          <NoResults searchTerm={searchTerm} selectedFilters={activeFilters} />
         ) : null
       ) : (
         tokenList.map((tokenInfo, index) => {

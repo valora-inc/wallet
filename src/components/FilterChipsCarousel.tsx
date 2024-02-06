@@ -9,11 +9,11 @@ export interface FilterChip<T> {
   id: string
   name: string
   filterFn: (t: T) => boolean
+  isSelected: boolean
 }
 
 interface Props<T> {
   chips: FilterChip<T>[]
-  selectedChips: FilterChip<T>[]
   onSelectChip(chip: FilterChip<T>): void
   primaryColor: colors
   secondaryColor: colors
@@ -23,7 +23,6 @@ interface Props<T> {
 
 function FilterChipsCarousel<T>({
   chips,
-  selectedChips,
   onSelectChip,
   primaryColor,
   secondaryColor,
@@ -39,13 +38,12 @@ function FilterChipsCarousel<T>({
       ref={forwardedRef}
     >
       {chips.map((chip) => {
-        const isChipSelected = selectedChips.some((selectedChip) => selectedChip.id === chip.id)
         return (
           <View
             key={chip.id}
             style={[
               styles.filterChipBackground,
-              isChipSelected
+              chip.isSelected
                 ? { backgroundColor: primaryColor }
                 : { backgroundColor: secondaryColor },
             ]}
@@ -59,7 +57,7 @@ function FilterChipsCarousel<T>({
               <Text
                 style={[
                   styles.filterChipText,
-                  isChipSelected ? { color: secondaryColor } : { color: primaryColor },
+                  chip.isSelected ? { color: secondaryColor } : { color: primaryColor },
                 ]}
               >
                 {chip.name}

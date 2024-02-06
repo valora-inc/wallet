@@ -254,7 +254,7 @@ export function SwapScreen({ route }: Props) {
     startedSwapId,
   } = state
 
-  const { filterChips, preSelectedFilterChips } = useFilterChips(selectingField)
+  const filterChips = useFilterChips(selectingField)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)
@@ -776,7 +776,6 @@ export function SwapScreen({ route }: Props) {
         TokenOptionComponent={TokenBalanceItemOption}
         showPriceUsdUnavailableWarning={true}
         filterChips={filterChips}
-        preSelectedFilterChips={preSelectedFilterChips}
       />
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
