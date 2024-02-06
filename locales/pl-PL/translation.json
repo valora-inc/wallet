@@ -1870,7 +1870,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",
-    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
+    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>",
+    "noFilterSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\" w następujących kategoriach: {{filterNames}}",
+    "noFilterResults": "Nie znaleziono pasujących zasobów w następujących kategoriach: {{filterNames}}",
+    "noSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Moje żetony",
+      "popular": "Popularny",
+      "recentlySwapped": "Niedawno wymieniony",
+      "celo": "Celo Network",
+      "ethereum": "Sieć Ethereum"
+    }
   },
   "homeActions": {
     "add": "Kup",
