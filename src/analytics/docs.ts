@@ -273,7 +273,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_tx_complete]: `when a send transaction has successfully completed`,
   [SendEvents.send_tx_error]: `when there is an error sending a transaction`,
   [SendEvents.token_dropdown_opened]: ``,
-  [SendEvents.token_selected]: `A token was selected in TokenBottomSheet.`,
   [SendEvents.max_pressed]: ``,
   [SendEvents.swap_input_pressed]: ``,
 
@@ -497,6 +496,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [CeloNewsEvents.celo_news_bottom_read_more_tap]: `When a user taps on the read more button at the bottom of the screen`,
   [CeloNewsEvents.celo_news_retry_tap]: `When a user taps on the retry button`,
   [TokenBottomSheetEvents.search_token]: `When a user searches a token using the token bottom sheet search box`,
+  [TokenBottomSheetEvents.token_selected]: `A token was selected in TokenBottomSheet.`,
+  [TokenBottomSheetEvents.toggle_tokens_filter]: `A filter was selected in the TokenBottomSheet.`,
   [AssetsEvents.show_asset_balance_info]: `When a user taps on the info icon`,
   [AssetsEvents.view_wallet_assets]: `When a user taps on the "Wallet Assets" segmented control or "Assets" tab`,
   [AssetsEvents.view_collectibles]: `When a user taps on the "Collectibles" tab`,

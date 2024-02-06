@@ -46,6 +46,7 @@ import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsPrope
 import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/swap/selectors'
 import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
+import useFilterChips from 'src/swap/useFilterChips'
 import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
@@ -252,6 +253,8 @@ export function SwapScreen({ route }: Props) {
     switchedToNetworkId,
     startedSwapId,
   } = state
+
+  const filterChips = useFilterChips(selectingField)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)
@@ -772,6 +775,7 @@ export function SwapScreen({ route }: Props) {
         }
         TokenOptionComponent={TokenBalanceItemOption}
         showPriceUsdUnavailableWarning={true}
+        filterChips={filterChips}
       />
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet

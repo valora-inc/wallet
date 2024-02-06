@@ -26,12 +26,14 @@ import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import RecoveryPhraseInput, { RecoveryPhraseInputStatus } from 'src/components/RecoveryPhraseInput'
 import { importBackupPhrase } from 'src/import/actions'
 import { HeaderTitleWithSubtitle, nuxNavigationOptions } from 'src/navigator/Headers'
-import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
 import { isAppConnected } from 'src/redux/selectors'
 import useTypedSelector from 'src/redux/useSelector'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -70,7 +72,9 @@ function ImportWallet({ navigation, route }: Props) {
   const handleNavigateBack = () => {
     dispatch(cancelCreateOrRestoreAccount())
     ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
-    navigateClearingStack(Screens.Welcome)
+    getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
+      ? navigate(Screens.ImportSelect)
+      : navigateClearingStack(Screens.Welcome)
   }
 
   useBackHandler(() => {

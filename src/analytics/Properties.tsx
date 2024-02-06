@@ -595,12 +595,6 @@ interface SendEventsProperties {
     currentTokenAddress: string | null
     currentNetworkId: NetworkId | null
   }
-  [SendEvents.token_selected]: {
-    origin: TokenPickerOrigin
-    tokenId: string
-    tokenAddress: string | null
-    networkId: NetworkId | null
-  }
   [SendEvents.max_pressed]: {
     tokenId: string
     tokenAddress: string | null
@@ -1318,6 +1312,19 @@ interface TokenBottomSheetEventsProperties {
   [TokenBottomSheetEvents.search_token]: {
     origin: TokenPickerOrigin
     searchInput: string
+  }
+  [TokenBottomSheetEvents.toggle_tokens_filter]: {
+    filterId: string
+    isRemoving: boolean
+    isPreSelected: boolean
+  }
+  [TokenBottomSheetEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
+    usedSearchTerm: boolean
+    selectedFilters: string[]
   }
 }
 

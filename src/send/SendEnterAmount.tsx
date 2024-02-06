@@ -25,7 +25,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,6 +33,7 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -54,7 +54,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
-const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
 
 const TAG = 'SendEnterAmount'
 
