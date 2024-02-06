@@ -50,7 +50,10 @@ export const slice = createSlice({
       state.backupStatus = KeylessBackupStatus.InProgress
     },
     keylessBackupBail: (state) => {
-      state = initialState
+      state.googleIdToken = initialState.googleIdToken
+      state.valoraKeyshare = initialState.valoraKeyshare
+      state.torusKeyshare = initialState.torusKeyshare
+      state.backupStatus = initialState.backupStatus
     },
   },
 })

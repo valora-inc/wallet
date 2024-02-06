@@ -7,10 +7,12 @@ import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/navigator/NavigationService')
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/utils/Logger')
 
 function createStore(keylessBackupStatus: KeylessBackupStatus) {
   return createMockStore({
@@ -31,13 +33,13 @@ describe('KeylessBackupProgress', () => {
     jest.clearAllMocks()
   })
   describe('setup', () => {
-    it('shows spinner when not started', async () => {
-      const { getByTestId } = render(
+    it('Logs error when not started', async () => {
+      render(
         <Provider store={createStore(KeylessBackupStatus.NotStarted)}>
           <KeylessBackupProgress {...getProps()} />
         </Provider>
       )
-      expect(getByTestId('GreenLoadingSpinner')).toBeTruthy()
+      expect(Logger.error).toHaveBeenCalledTimes(1)
     })
     it('shows spinner when in progress', async () => {
       const { getByTestId } = render(
@@ -100,6 +102,14 @@ describe('KeylessBackupProgress', () => {
     })
   })
   describe('Restore', () => {
+    it('Logs error when not started', async () => {
+      render(
+        <Provider store={createStore(KeylessBackupStatus.NotStarted)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(Logger.error).toHaveBeenCalledTimes(1)
+    })
     it('shows spinner when in progress', async () => {
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.InProgress)}>

@@ -77,7 +77,13 @@ describe('SignInWithEmail', () => {
     expect(mockClearCredentials).toHaveBeenCalledTimes(1)
     expect(mockAuthorize).toHaveBeenCalledTimes(1)
     expect(mockGetCredentials).toHaveBeenCalledTimes(1)
-    expect(store.getActions()).toEqual([googleSignInCompleted({ idToken: 'google-token' })])
+    expect(store.getActions()).toEqual([
+      {
+        payload: { keylessBackupFlow: 'setup' },
+        type: 'keylessBackup/keylessBackupStarted',
+      },
+      googleSignInCompleted({ idToken: 'google-token' }),
+    ])
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_sign_in_with_google_success', {
       keylessBackupFlow: KeylessBackupFlow.Setup,
     })
@@ -99,7 +105,12 @@ describe('SignInWithEmail', () => {
     expect(mockClearCredentials).toHaveBeenCalledTimes(1)
     expect(mockAuthorize).toHaveBeenCalledTimes(1)
     expect(mockGetCredentials).not.toHaveBeenCalled()
-    expect(store.getActions()).toEqual([])
+    expect(store.getActions()).toEqual([
+      {
+        payload: { keylessBackupFlow: 'setup' },
+        type: 'keylessBackup/keylessBackupStarted',
+      },
+    ])
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(queryByTestId('Button/Loading')).toBeNull()
   })
@@ -118,7 +129,12 @@ describe('SignInWithEmail', () => {
     expect(mockClearCredentials).toHaveBeenCalledTimes(1)
     expect(mockAuthorize).toHaveBeenCalledTimes(1)
     expect(mockGetCredentials).toHaveBeenCalledTimes(1)
-    expect(store.getActions()).toEqual([])
+    expect(store.getActions()).toEqual([
+      {
+        payload: { keylessBackupFlow: 'setup' },
+        type: 'keylessBackup/keylessBackupStarted',
+      },
+    ])
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(queryByTestId('Button/Loading')).toBeNull()
   })
@@ -139,7 +155,12 @@ describe('SignInWithEmail', () => {
     expect(mockClearCredentials).toHaveBeenCalledTimes(1)
     expect(mockAuthorize).toHaveBeenCalledTimes(1)
     expect(mockGetCredentials).toHaveBeenCalledTimes(1)
-    expect(store.getActions()).toEqual([])
+    expect(store.getActions()).toEqual([
+      {
+        payload: { keylessBackupFlow: 'setup' },
+        type: 'keylessBackup/keylessBackupStarted',
+      },
+    ])
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
     expect(logWarnSpy).not.toHaveBeenCalled()
     expect(queryByTestId('Button/Loading')).toBeNull()

@@ -25,6 +25,8 @@ import {
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -140,7 +142,7 @@ function* handleKeylessBackupRestore({
       take(keylessBackupBail.type),
     ])
     if (bailAction) {
-      // TODO(ACT-874): Navigate to ImportSelect screen
+      navigate(Screens.ImportSelect)
       return
     }
   }
