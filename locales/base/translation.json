@@ -1116,6 +1116,10 @@
       "title": "Insufficient gas token balance",
       "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this transaction."
     },
+    "failedToPrepareTransaction": {
+      "title": "Failed to prepare transaction",
+      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Unsupported chain",
