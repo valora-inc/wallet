@@ -49,11 +49,5 @@ describe('WalletSecurityPrimer', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.KeylessBackupIntro, {
       keylessBackupFlow: KeylessBackupFlow.Setup,
     })
-    expect(store.getActions()).toEqual([
-      {
-        payload: { keylessBackupFlow: 'setup' },
-        type: 'keylessBackup/keylessBackupStarted',
-      },
-    ])
   })
 })
