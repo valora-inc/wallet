@@ -1114,6 +1114,10 @@
       "title": "Saldo di token per le commissioni insufficiente",
       "description": "Non hai abbastanza {{feeCurrencies}} per coprire le commissioni sulle transazioni. Aggiungi {{feeCurrencies}} al tuo portafoglio per completare la transazione."
     },
+    "failedToPrepareTransaction": {
+      "title": "Impossibile preparare la transazione",
+      "description": "Si è verificato un errore durante la preparazione della transazione. Vedi l'errore sottostante per maggiori dettagli.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chain non supportata",
