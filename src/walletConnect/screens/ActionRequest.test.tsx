@@ -16,8 +16,7 @@ import {
 } from 'src/walletConnect/actions'
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { createMockStore } from 'test/utils'
-import { mockAccount, mockAccount2, mockCusdAddress } from 'test/values'
-import { Address } from 'viem'
+import { mockAccount, mockAccount2 } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -112,6 +111,10 @@ describe('ActionRequest with WalletConnect V2', () => {
 
   const supportedChains = ['eip155:44787']
 
+  beforeEach(() => {
+    jest.mocked(getFeatureGate).mockReset()
+  })
+
   describe('ActionRequest with viem', () => {
     const store = createMockStore({
       walletConnect: {
@@ -120,7 +123,6 @@ describe('ActionRequest with WalletConnect V2', () => {
     })
 
     beforeEach(() => {
-      jest.restoreAllMocks()
       store.clearActions()
       jest
         .mocked(getFeatureGate)
@@ -156,16 +158,36 @@ describe('ActionRequest with WalletConnect V2', () => {
       ])
     })
 
+    it("should display a dismiss-only bottom sheet if the transaction couldn't be prepared", () => {
+      const { getByText, queryByText } = render(
+        <Provider store={store}>
+          <ActionRequest
+            version={2}
+            pendingAction={pendingAction}
+            supportedChains={supportedChains}
+            hasInsufficientGasFunds={false}
+            feeCurrenciesSymbols={['CELO']}
+            preparedTransaction={undefined}
+            prepareTransactionErrorMessage="execution reverted"
+          />
+        </Provider>
+      )
+
+      expect(getByText('walletConnectRequest.failedToPrepareTransaction.title')).toBeTruthy()
+      expect(
+        getByText(
+          'walletConnectRequest.failedToPrepareTransaction.description, {"errorMessage":"execution reverted"}'
+        )
+      ).toBeTruthy()
+      expect(queryByText('allow')).toBeFalsy()
+
+      fireEvent.press(getByText('dismiss'))
+      expect(store.getActions()).toEqual([
+        denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
+      ])
+    })
+
     it('should accept the request with the prepared transaction', () => {
-      const preparedTransaction: SerializableTransactionRequest = {
-        type: 'cip42',
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas: '2000',
-        maxFeePerGas: '1000000',
-        feeCurrency: mockCusdAddress as Address,
-      }
       const sendTransactionAction = {
         ...pendingAction,
         params: {
@@ -194,7 +216,12 @@ describe('ActionRequest with WalletConnect V2', () => {
           JSON.stringify(preparedTransaction)
         )
       ).toBeTruthy()
-      expect(getByTestId('EstimatedNetworkFee')).toBeTruthy()
+      expect(
+        getByText('walletConnectRequest.estimatedNetworkFee, {"networkName":"Celo Alfajores"}')
+      ).toBeTruthy()
+      const fee = within(getByTestId('EstimatedNetworkFee'))
+      expect(fee.getByText('0.0012 CELO')).toBeTruthy()
+      expect(fee.getByText('₱0.008')).toBeTruthy()
 
       fireEvent.press(getByText('walletConnectRequest.sendTransactionAction'))
       expect(store.getActions()).toEqual([
@@ -218,7 +245,7 @@ describe('ActionRequest with WalletConnect V2', () => {
     })
 
     it('renders the correct elements', () => {
-      const { getByText, getByTestId } = render(
+      const { getByText, getByTestId, queryByTestId } = render(
         <Provider store={store}>
           <ActionRequest
             version={2}
@@ -226,7 +253,6 @@ describe('ActionRequest with WalletConnect V2', () => {
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
             feeCurrenciesSymbols={['CELO']}
-            preparedTransaction={preparedTransaction}
           />
         </Provider>
       )
@@ -242,12 +268,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         )
       ).toBeTruthy()
       expect(getByText('dappsDisclaimerUnlistedDapp')).toBeTruthy()
-      expect(
-        getByText('walletConnectRequest.estimatedNetworkFee, {"networkName":"Celo Alfajores"}')
-      ).toBeTruthy()
-      const fee = within(getByTestId('EstimatedNetworkFee'))
-      expect(fee.getByText('0.0012 CELO')).toBeTruthy()
-      expect(fee.getByText('₱0.008')).toBeTruthy()
+      expect(queryByTestId('EstimatedNetworkFee')).toBeFalsy()
     })
 
     it('copies the request payload', () => {
