@@ -1114,6 +1114,10 @@
       "title": "Solde de jetons de gas insuffisant",
       "description": "Vous n'avez pas assez de {{feeCurrencies}} pour couvrir les frais de gas. Veuillez ajouter {{feeCurrencies}} à votre portefeuille pour réaliser cette transaction."
     },
+    "failedToPrepareTransaction": {
+      "title": "Échec de la préparation de la transaction",
+      "description": "Une erreur s'est produite lors de la préparation de la transaction. Voir l'erreur sous-jacente pour plus de détails.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chaîne non prise en charge",
