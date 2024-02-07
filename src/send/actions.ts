@@ -65,11 +65,6 @@ export interface UpdateLastUsedCurrencyAction {
   currency: Currency
 }
 
-export interface SetShowWarningAction {
-  type: Actions.SET_SHOW_WARNING
-  showWarning: boolean
-}
-
 export type ActionTypes =
   | HandleQRCodeDetectedAction
   | HandleQRCodeDetectedSecureSendAction
@@ -78,7 +73,6 @@ export type ActionTypes =
   | SendPaymentSuccessAction
   | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
-  | SetShowWarningAction
 
 export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
@@ -145,9 +139,4 @@ export const sendPaymentFailure = (): SendPaymentFailureAction => ({
 export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({
   type: Actions.UPDATE_LAST_USED_CURRENCY,
   currency,
-})
-
-export const setShowWarning = (showWarning: boolean): SetShowWarningAction => ({
-  type: Actions.SET_SHOW_WARNING,
-  showWarning,
 })
