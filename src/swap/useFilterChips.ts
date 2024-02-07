@@ -22,30 +22,20 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     return []
   }
 
-  const networkIdChip = [
-    ...(supportedNetworkIds.length > 1
-      ? [
-          {
-            id: 'celo-network',
-            name: t('tokenBottomSheet.filters.celo'),
-            filterFn: (token: TokenBalance) => networkIdToNetwork[token.networkId] === Network.Celo,
-            isSelected: false,
-          },
-        ]
-      : []),
-    ...(supportedNetworkIds.includes(NetworkId['ethereum-mainnet']) ||
-    supportedNetworkIds.includes(NetworkId['ethereum-sepolia'])
-      ? [
-          {
-            id: 'ethereum-network',
-            name: t('tokenBottomSheet.filters.ethereum'),
-            filterFn: (token: TokenBalance) =>
-              networkIdToNetwork[token.networkId] === Network.Ethereum,
-            isSelected: false,
-          },
-        ]
-      : []),
-  ]
+  const networkToFilterName: Record<Network, string> = {
+    [Network.Celo]: t('tokenBottomSheet.filters.celo'),
+    [Network.Ethereum]: t('tokenBottomSheet.filters.ethereum'),
+    [Network.Arbitrum]: t('tokenBottomSheet.filters.arbitrum'), // TODO add to base.json
+    [Network.Optimism]: t('tokenBottomSheet.filters.optimism'), // TODO add to base.json
+  }
+
+  const networkIdChip = supportedNetworkIds.map((networkId: NetworkId) => ({
+    id: networkId,
+    name: networkToFilterName[networkIdToNetwork[networkId]],
+    filterFn: (token: TokenBalance) =>
+      networkIdToNetwork[token.networkId] === networkIdToNetwork[networkId],
+    isSelected: false,
+  }))
 
   return [
     {
