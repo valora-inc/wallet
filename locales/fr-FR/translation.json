@@ -117,7 +117,7 @@
     },
     "restore": {
       "inProgress": {
-        "title": "Restaure ton portefeuille"
+        "title": "Restauration en cours"
       }
     }
   },
@@ -879,7 +879,7 @@
     }
   },
   "importSelect": {
-    "title": "Restaure ton portefeuille",
+    "title": "Restaurez votre portefeuille",
     "description": "Si tu as mis en place une sauvegarde pour protéger ton portefeuille, choisis une option ci-dessous.",
     "emailAndPhone": {
       "title": "De la sauvegarde des courriels et du téléphone",
@@ -1877,9 +1877,9 @@
     "noSearchResults": "Aucun actif correspondant n'a été trouvé pour \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mes jetons",
-      "popular": "Populaire",
-      "recentlySwapped": "Récemment échangé",
-      "celo": "Supercharge",
+      "popular": "Populaires",
+      "recentlySwapped": "Échangés récemment",
+      "celo": "Réseau Celo",
       "ethereum": "Réseau Ethereum"
     }
   },
