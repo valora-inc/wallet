@@ -4,7 +4,7 @@ import React, { RefObject, useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
-import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
+import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
@@ -154,6 +154,12 @@ function TokenBottomSheet<T extends TokenBalance>({
   const { t } = useTranslation()
 
   const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
+    ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
+      filterId: toggledChip.id,
+      isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+      isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+    })
+
     setFilters((prev) => {
       return prev.map((chip) => {
         if (chip.id === toggledChip.id) {
@@ -166,11 +172,13 @@ function TokenBottomSheet<T extends TokenBalance>({
   }
 
   const onTokenPressed = (token: T) => () => {
-    ValoraAnalytics.track(SendEvents.token_selected, {
+    ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
       tokenId: token.tokenId,
       networkId: token.networkId,
+      usedSearchTerm: searchTerm.length > 0,
+      selectedFilters: activeFilters.map((filter) => filter.id),
     })
     onTokenSelected(token)
   }

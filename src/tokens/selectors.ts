@@ -87,6 +87,25 @@ export const tokensByIdSelector = createSelector(
   }
 )
 
+export const networksIconSelector = createSelector(
+  [
+    (state: RootState, networkIds: NetworkId[]) => tokensByIdSelector(state, networkIds),
+    (_state: RootState, networkIds: NetworkId[]) => networkIds,
+  ],
+  (tokens, networkIds) => {
+    const result: Partial<Record<NetworkId, string>> = {}
+    for (const networkId of networkIds) {
+      // We use as network icon the network icon of any token in that network.
+      const token = Object.values(tokens).find(
+        (token) => token?.networkId === networkId && token.networkIconUrl
+      )
+      result[networkId] = token?.networkIconUrl
+    }
+
+    return result
+  }
+)
+
 /**
  * Get an object mapping token addresses to token metadata, the user's balance, and its price
  *
@@ -499,10 +518,18 @@ export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage
 
-export const importedTokensSelector = createSelector([tokensListSelector], (tokenList) => {
-  if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
-    return []
-  }
+export const importedTokensSelector = createSelector(
+  [tokensListSelector, networksIconSelector],
+  (tokenList, networksIcon) => {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
+      return []
+    }
 
-  return tokenList.filter((token) => token?.isManuallyImported) as TokenBalance[]
-})
+    return tokenList
+      .filter((token) => token?.isManuallyImported)
+      .map((token) => ({
+        ...token,
+        networkIconUrl: networksIcon[token.networkId] ?? token.networkIconUrl,
+      })) as TokenBalance[]
+  }
+)

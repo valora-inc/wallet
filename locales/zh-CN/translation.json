@@ -114,6 +114,11 @@
         "later": "我稍后再备份",
         "manual": "手动备份"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "恢复您的钱包"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！",
@@ -871,6 +876,18 @@
       "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
       "title": "余额 \n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "恢复您的钱包",
+    "description": "如果您为保护钱包设置了备份，请选择以下选项。",
+    "emailAndPhone": {
+      "title": "从电子邮件和电话备份",
+      "description": "使用之前设置的电话号码和电子邮件恢复钱包"
+    },
+    "recoveryPhrase": {
+      "title": "从恢复短语",
+      "description": "输入您的 12 个单词恢复短语，重新获得访问 Valora 的权限"
     }
   },
   "verificationInput": {
@@ -1852,7 +1869,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
-    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
+    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。",
+    "noFilterSearchResults": "在以下类别中没有找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
+    "noFilterResults": "在以下类别中没有找到匹配的资产： {{filterNames}}",
+    "noSearchResults": "没有找到与 \"{{searchTerm}}\" 匹配的资产",
+    "filters": {
+      "myTokens": "我的代币",
+      "popular": "热门",
+      "recentlySwapped": "最近交换",
+      "celo": "Celo 网络",
+      "ethereum": "以太坊网络"
+    }
   },
   "homeActions": {
     "add": "买入",
@@ -2041,12 +2068,6 @@
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
-  },
-  "linkPhoneNumber": {
-    "title": "将电话号码链接到钱包地址",
-    "description": "不再有杂乱无章的钱包地址！只需一个电话号码即可向其他 Valora 用户发送加密货币",
-    "startButtonLabel": "链接电话号码",
-    "later": "我稍后再做"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

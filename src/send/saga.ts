@@ -18,8 +18,6 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   getERC20TokenContract,
   getStableTokenContract,
@@ -190,36 +188,17 @@ function* sendPayment(
     throw new Error('token info not found')
   }
 
-  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SEND)
-  const web3Library = useViem ? 'viem' : 'contract-kit'
-
   try {
-    ValoraAnalytics.track(SendEvents.send_tx_start, { web3Library })
-
-    if (useViem) {
-      yield* call(viemSendPayment, {
-        context,
-        recipientAddress,
-        amount,
-        tokenId,
-        comment,
-        feeInfo,
-        preparedTransaction,
-      })
-    } else {
-      if (!(feeInfo && tokenInfo.address)) {
-        throw new Error('fee info and token address are required for non-viem sends')
-      }
-      yield* call(
-        buildAndSendPayment,
-        context,
-        recipientAddress,
-        amount,
-        tokenInfo.address,
-        comment,
-        feeInfo
-      )
-    }
+    ValoraAnalytics.track(SendEvents.send_tx_start)
+    yield* call(viemSendPayment, {
+      context,
+      recipientAddress,
+      amount,
+      tokenId,
+      comment,
+      feeInfo,
+      preparedTransaction,
+    })
 
     ValoraAnalytics.track(SendEvents.send_tx_complete, {
       txId: context.id,
@@ -228,7 +207,6 @@ function* sendPayment(
       usdAmount: usdAmount?.toString(),
       tokenAddress: tokenInfo.address ?? undefined,
       tokenId: tokenInfo.tokenId,
-      web3Library,
       networkId: tokenInfo.networkId,
     })
   } catch (err) {

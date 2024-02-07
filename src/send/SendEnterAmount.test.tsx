@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
+import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import { navigate } from 'src/navigator/NavigationService'
@@ -307,11 +307,13 @@ describe('SendEnterAmount', () => {
       currentTokenAddress: mockPoofAddress,
       currentTokenId: mockPoofTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.token_selected, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.token_selected, {
       networkId: NetworkId['ethereum-sepolia'],
       tokenAddress: undefined,
       tokenId: mockEthTokenId,
       origin: 'Send',
+      usedSearchTerm: false,
+      selectedFilters: [],
     })
     // TODO(ACT-955): assert fees
   })
