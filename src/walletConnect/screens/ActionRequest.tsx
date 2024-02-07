@@ -28,6 +28,7 @@ export interface ActionRequestProps {
   hasInsufficientGasFunds: boolean
   feeCurrenciesSymbols: string[]
   preparedTransaction?: SerializableTransactionRequest
+  prepareTransactionErrorMessage?: string
 }
 
 function ActionRequest({
@@ -36,6 +37,7 @@ function ActionRequest({
   hasInsufficientGasFunds,
   feeCurrenciesSymbols,
   preparedTransaction,
+  prepareTransactionErrorMessage,
 }: ActionRequestProps) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -60,10 +62,11 @@ function ActionRequest({
   const chainId = pendingAction.params.chainId
   const networkId = walletConnectChainIdToNetworkId[chainId]
   const networkName = NETWORK_NAMES[networkId]
+  const method = pendingAction.params.request.method
 
   const { description, title, action } = getDisplayTextFromAction(
     t,
-    pendingAction.params.request.method as SupportedActions,
+    method as SupportedActions,
     dappName,
     networkName
   )
@@ -71,10 +74,7 @@ function ActionRequest({
   // Reject and warn if the chain is not supported
   // Note: we still allow personal_sign on unsupported chains (Cred Protocol does this)
   // as this does not depend on the chainId
-  if (
-    !supportedChains.includes(chainId) &&
-    pendingAction.params.request.method !== SupportedActions.personal_sign
-  ) {
+  if (!supportedChains.includes(chainId) && method !== SupportedActions.personal_sign) {
     const supportedNetworkNames = supportedChains
       .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
       .join(`, `)
@@ -104,27 +104,59 @@ function ActionRequest({
     )
   }
 
-  if (useViem && hasInsufficientGasFunds) {
-    return (
-      <RequestContent
-        type="dismiss"
-        onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
-        dappName={dappName}
-        dappImageUrl={dappImageUrl}
-        title={title}
-        description={description}
-        testId="WalletConnectActionRequest"
-      >
-        <InLineNotification
-          severity={Severity.Warning}
-          title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
-          description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
-            feeCurrencies: feeCurrenciesSymbols.join(', '),
-          })}
-          style={styles.warning}
-        />
-      </RequestContent>
-    )
+  if (useViem) {
+    if (hasInsufficientGasFunds) {
+      return (
+        <RequestContent
+          type="dismiss"
+          onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
+          dappName={dappName}
+          dappImageUrl={dappImageUrl}
+          title={title}
+          description={description}
+          testId="WalletConnectActionRequest"
+        >
+          <InLineNotification
+            severity={Severity.Warning}
+            title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
+            description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
+              feeCurrencies: feeCurrenciesSymbols.join(', '),
+            })}
+            style={styles.warning}
+          />
+        </RequestContent>
+      )
+    } else if (
+      !preparedTransaction &&
+      (method === SupportedActions.eth_signTransaction ||
+        method === SupportedActions.eth_sendTransaction)
+    ) {
+      return (
+        <RequestContent
+          type="dismiss"
+          onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
+          dappName={dappName}
+          dappImageUrl={dappImageUrl}
+          title={title}
+          description={description}
+          testId="WalletConnectActionRequest"
+        >
+          <ActionRequestPayload
+            session={activeSession}
+            request={pendingAction}
+            preparedTransaction={preparedTransaction}
+          />
+          <InLineNotification
+            severity={Severity.Warning}
+            title={t('walletConnectRequest.failedToPrepareTransaction.title')}
+            description={t('walletConnectRequest.failedToPrepareTransaction.description', {
+              errorMessage: prepareTransactionErrorMessage,
+            })}
+            style={styles.warning}
+          />
+        </RequestContent>
+      )
+    }
   }
 
   return (
