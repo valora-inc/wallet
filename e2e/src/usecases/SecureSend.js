@@ -16,6 +16,7 @@ import {
   waitForElementId,
   waitForElementByIdAndTap,
   confirmTransaction,
+  createCommentText,
 } from '../utils/utils'
 
 const AMOUNT_TO_SEND = '0.01'
@@ -25,7 +26,7 @@ export default SecureSend = () => {
   describe('Secure send flow with phone number lookup (old flow)', () => {
     let commentText
     beforeAll(async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
+      commentText = createCommentText()
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
@@ -104,7 +105,9 @@ export default SecureSend = () => {
   })
 
   describe('Secure send flow with phone number lookup (new flow)', () => {
+    let commentText
     beforeAll(async () => {
+      commentText = createCommentText()
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
@@ -126,7 +129,6 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      const commentText = 'test comment new'
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
@@ -167,9 +169,7 @@ export default SecureSend = () => {
       // Return to home screen.
       await waitForElementId('HomeAction-Send', 30_000)
 
-      await waitFor(element(by.text(`${commentText}`)))
-        .toBeVisible()
-        .withTimeout(60_000)
+      await confirmTransaction(commentText)
     })
   })
 }
