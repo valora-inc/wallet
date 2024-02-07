@@ -1114,6 +1114,10 @@
       "title": "Unzureichendes Gas-Token-Guthaben",
       "description": "Du hast nicht genug {{feeCurrencies}}, um die Gasgebühren zu begleichen. Bitte füge {{feeCurrencies}} zu deiner Wallet hinzu, um diese Transaktion abzuschließen."
     },
+    "failedToPrepareTransaction": {
+      "title": "Transaktion konnte nicht vorbereitet werden",
+      "description": "Bei der Vorbereitung der Transaktion ist ein Fehler aufgetreten. Siehe den zugrunde liegenden Fehler für weitere Details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nicht unterstützte Kette",
