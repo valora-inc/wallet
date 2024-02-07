@@ -1882,7 +1882,9 @@
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
       "celo": "Celo Network",
-      "ethereum": "Ethereum Network"
+      "ethereum": "Ethereum Network",
+      "arbitrum": "Arbitrum Network",
+      "optimism": "Optimism Network"
     }
   },
   "homeActions": {
