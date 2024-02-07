@@ -25,15 +25,14 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
   const networkToFilterName: Record<Network, string> = {
     [Network.Celo]: t('tokenBottomSheet.filters.celo'),
     [Network.Ethereum]: t('tokenBottomSheet.filters.ethereum'),
-    [Network.Arbitrum]: t('tokenBottomSheet.filters.arbitrum'), // TODO add to base.json
-    [Network.Optimism]: t('tokenBottomSheet.filters.optimism'), // TODO add to base.json
+    [Network.Arbitrum]: t('tokenBottomSheet.filters.arbitrum'),
+    [Network.Optimism]: t('tokenBottomSheet.filters.optimism'),
   }
 
   const networkIdChip = supportedNetworkIds.map((networkId: NetworkId) => ({
     id: networkId,
     name: networkToFilterName[networkIdToNetwork[networkId]],
-    filterFn: (token: TokenBalance) =>
-      networkIdToNetwork[token.networkId] === networkIdToNetwork[networkId],
+    filterFn: (token: TokenBalance) => token.networkId === networkId,
     isSelected: false,
   }))
 
