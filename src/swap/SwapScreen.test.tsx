@@ -1649,7 +1649,7 @@ describe('SwapScreen', () => {
       })
     })
 
-    it('should not show the network filters if there is only Celo enabled', () => {
+    it('should not show the network filters if there is only 1 network enabled', () => {
       jest.mocked(getDynamicConfigParams).mockReturnValue({
         maxSlippagePercentage: '0.3',
         showSwap: ['celo-alfajores'],
@@ -1680,7 +1680,7 @@ describe('SwapScreen', () => {
       )
     })
 
-    it('should show the network filters', () => {
+    it('should show the network filters when there are multiple supported networks', () => {
       const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
         (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
       )
