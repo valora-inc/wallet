@@ -5,15 +5,13 @@ import { Keyboard, StyleSheet } from 'react-native'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Colors from 'src/styles/colors'
 
-export interface BottomSheetBaseProps {
+interface BottomSheetBaseProps {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   children?: React.ReactNode | React.ReactNode[]
   onClose?: () => void
   onOpen?: () => void
   snapPoints?: (string | number)[]
 }
-
-export type BottomSheetRefType = GorhomBottomSheet
 
 const BottomSheetBase = ({
   forwardedRef,
