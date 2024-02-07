@@ -1964,7 +1964,9 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun"
+      "invalidAddress": "Geçersiz belirteç adresi. Lütfen gözden geçirin",
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
+      "tokenAlreadySupported": "Bu belirteç zaten desteklenmektedir"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"
