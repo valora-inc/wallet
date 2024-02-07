@@ -1964,7 +1964,9 @@
       "network": "Rete"
     },
     "error": {
-      "invalidToken": "Token non valido. Riprova o contatta il Supporto tecnico"
+      "invalidAddress": "Indirizzo token non valido. Controlla l'indirizzo",
+      "invalidToken": "Token non valido. Riprova o contatta il Supporto tecnico",
+      "tokenAlreadySupported": "Questo token è già supportato"
     },
     "importSuccess": "Token {{tokenSymbol}} importato correttamente",
     "importButton": "Importa"
