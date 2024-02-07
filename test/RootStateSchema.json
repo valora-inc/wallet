@@ -270,7 +270,6 @@
                                 "keychainFetchAccounts",
                                 "keychainStorageError",
                                 "missingFullName",
-                                "needMoreFundsToSend",
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
