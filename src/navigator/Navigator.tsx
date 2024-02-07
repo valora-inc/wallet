@@ -456,7 +456,7 @@ const settingsScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.KeylessBackupIntro}
-      options={noHeader}
+      options={KeylessBackupIntro.navigationOptions}
       component={KeylessBackupIntro}
     />
     <Navigator.Screen

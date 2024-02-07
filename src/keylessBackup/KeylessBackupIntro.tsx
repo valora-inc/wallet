@@ -9,16 +9,17 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
 import Card from 'src/components/Card'
 import TextButton from 'src/components/TextButton'
-import CustomHeader from 'src/components/header/CustomHeader'
 import EnvelopeIcon from 'src/keylessBackup/EnvelopeIcon'
 import SmartphoneIcon from 'src/keylessBackup/SmartphoneIcon'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+
 function onPressRecoveryPhrase() {
   ValoraAnalytics.track(KeylessBackupEvents.cab_setup_recovery_phrase)
   navigate(Screens.BackupIntroduction)
@@ -33,7 +34,6 @@ function KeylessBackupIntro({ route }: Props) {
 
   return (
     <SafeAreaView style={styles.container}>
-      <CustomHeader left={isSetup ? <BackButton /> : <CancelButton />} style={styles.header} />
       <ScrollView style={styles.scrollContainer}>
         {isSetup && <Text style={styles.title}>{t('keylessBackupIntro.setup.title')}</Text>}
         <Text
@@ -95,15 +95,18 @@ function KeylessBackupIntro({ route }: Props) {
   )
 }
 
+KeylessBackupIntro.navigationOptions = ({ route }: Props) => ({
+  ...emptyHeader,
+  headerLeft: () =>
+    route.params.keylessBackupFlow === KeylessBackupFlow.Setup ? <BackButton /> : <CancelButton />,
+})
+
 export default KeylessBackupIntro
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
     flexGrow: 1,
-  },
-  header: {
-    paddingHorizontal: Spacing.Thick24,
   },
   scrollContainer: {
     padding: Spacing.Thick24,
