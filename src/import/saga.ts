@@ -238,7 +238,7 @@ function* attemptBackupPhraseCorrection(mnemonic: string) {
 /**
  * Check if the given address has a non-zero balance.
  */
-function* walletHasBalance(address: string) {
+export function* walletHasBalance(address: string) {
   Logger.debug(TAG + '@walletHasBalance', 'Checking account balance')
   const tokenBalances: FetchedTokenBalance[] = yield* call(fetchTokenBalancesForAddress, address)
   return tokenBalances.filter((token) => token.balance !== '0').length > 0
