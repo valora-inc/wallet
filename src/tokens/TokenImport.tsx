@@ -204,7 +204,7 @@ export default function TokenImportScreen(_: Props) {
     const networkId = tokenDetails.networkId
     const tokenAddress = tokenDetails.address.toLowerCase()
 
-    // This should always be present, unless we support a network without a native token with icon,
+    // This should always be present, unless we support a network without tokens,
     // or if we can't fetch the token list (e.g. network issues?), should we fail instead to be safe?
     const networkIconUrl = networkIconByNetworkId[networkId]
 
@@ -214,7 +214,6 @@ export default function TokenImportScreen(_: Props) {
       tokenSymbol: tokenDetails.symbol,
       networkId,
       tokenId,
-      networkIconUrl,
     })
 
     Logger.info(TAG, `Importing token: ${tokenId})})`)

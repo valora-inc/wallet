@@ -1379,7 +1379,6 @@ interface AssetsEventsProperties {
     tokenId: string
     tokenAddress: string
     tokenSymbol: string
-    networkIconUrl?: string
   }
   [AssetsEvents.import_token_paste]: undefined
   [AssetsEvents.import_token_error]: {
