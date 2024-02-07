@@ -1555,7 +1555,8 @@
                 "Completed",
                 "Failed",
                 "InProgress",
-                "NotStarted"
+                "NotStarted",
+                "RestoreZeroBalance"
             ],
             "type": "string"
         },
