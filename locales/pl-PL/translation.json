@@ -1968,7 +1968,9 @@
       "network": "Sieć"
     },
     "error": {
-      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną"
+      "invalidAddress": "Nieprawidłowy adres tokena. Sprawdź go",
+      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
+      "tokenAlreadySupported": "Ten token jest już obsługiwany"
     },
     "importSuccess": "Pomyślnie zaimportowano token {{tokenSymbol}}",
     "importButton": "Import"
