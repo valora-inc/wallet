@@ -1,17 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useLayoutEffect } from 'react'
+import React, { useLayoutEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import TextButton from 'src/components/TextButton'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 
@@ -23,9 +26,70 @@ function KeylessBackupPhoneCodeInput({
   const { e164Number, keylessBackupFlow } = route.params
   const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(e164Number, keylessBackupFlow)
 
+  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+
   const onPressHelp = () => {
-    // TODO(ACT-815): show help bottom sheet
+    // TODO: Add in analytics track
+    bottomSheetRef.current?.snapToIndex(0)
   }
+
+  const onPressHelpGoBack = () => {
+    // TODO: Add in analytics track
+    bottomSheetRef.current?.close()
+  }
+
+  const onPressHelpSkip = () => {
+    // TODO: Add in analytics track
+    navigate(
+      keylessBackupFlow === KeylessBackupFlow.Setup ? Screens.WalletHome : Screens.ImportSelect
+    )
+  }
+
+  const HelpInfoBottomSheet = (
+    <BottomSheet
+      forwardedRef={bottomSheetRef}
+      title={t('phoneVerificationInput.helpDialog.title')}
+      titleStyle={{
+        ...fontStyles.h2,
+        textAlign: 'center',
+      }}
+      testId="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet"
+    >
+      <View
+        style={{
+          paddingHorizontal: 24,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Text
+          style={{
+            ...fontStyles.regular,
+            textAlign: 'center',
+            // marginTop: 12,
+          }}
+        >
+          {t('phoneVerificationInput.helpDialog.body')}
+        </Text>
+        <View style={styles.buttonContainer}>
+          <TextButton
+            onPress={onPressHelpSkip}
+            testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip"
+            style={{ color: '#9CA4A9' }}
+          >
+            {t('phoneVerificationInput.helpDialog.skip')}
+          </TextButton>
+          <TextButton
+            onPress={onPressHelpGoBack}
+            testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack"
+            style={{ color: colors.primary }}
+          >
+            {t('phoneVerificationInput.helpDialog.dismiss')}
+          </TextButton>
+        </View>
+      </View>
+    </BottomSheet>
+  )
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -59,6 +123,7 @@ function KeylessBackupPhoneCodeInput({
         }}
         title={<Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>}
       />
+      {HelpInfoBottomSheet}
     </SafeAreaView>
   )
 }
@@ -76,6 +141,14 @@ const styles = StyleSheet.create({
   help: {
     color: colors.primary,
     ...typeScale.labelSemiBoldMedium,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    marginTop: 37,
+    marginBottom: 9,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 96,
   },
 })
 
