@@ -22,25 +22,7 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     return []
   }
 
-  return [
-    {
-      id: 'my-tokens',
-      name: t('tokenBottomSheet.filters.myTokens'),
-      filterFn: (token: TokenBalance) => token.balance.gte(TOKEN_MIN_AMOUNT),
-      isSelected: true,
-    },
-    {
-      id: 'popular',
-      name: t('tokenBottomSheet.filters.popular'),
-      filterFn: (token: TokenBalance) => popularTokens.includes(token.tokenId),
-      isSelected: selectingField === Field.TO,
-    },
-    {
-      id: 'recently-swapped',
-      name: t('tokenBottomSheet.filters.recentlySwapped'),
-      filterFn: (token: TokenBalance) => recentlySwappedTokens.includes(token.tokenId),
-      isSelected: false,
-    },
+  const networkIdChip = [
     ...(supportedNetworkIds.length > 1
       ? [
           {
@@ -63,5 +45,27 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
           },
         ]
       : []),
+  ]
+
+  return [
+    {
+      id: 'my-tokens',
+      name: t('tokenBottomSheet.filters.myTokens'),
+      filterFn: (token: TokenBalance) => token.balance.gte(TOKEN_MIN_AMOUNT),
+      isSelected: true,
+    },
+    {
+      id: 'popular',
+      name: t('tokenBottomSheet.filters.popular'),
+      filterFn: (token: TokenBalance) => popularTokens.includes(token.tokenId),
+      isSelected: selectingField === Field.TO,
+    },
+    {
+      id: 'recently-swapped',
+      name: t('tokenBottomSheet.filters.recentlySwapped'),
+      filterFn: (token: TokenBalance) => recentlySwappedTokens.includes(token.tokenId),
+      isSelected: false,
+    },
+    ...networkIdChip,
   ]
 }
