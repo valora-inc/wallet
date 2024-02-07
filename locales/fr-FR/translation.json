@@ -1964,7 +1964,9 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance"
+      "invalidAddress": "L'adresse du jeton n'est pas valide. Révise-la s'il te plaît",
+      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
+      "tokenAlreadySupported": "Ce jeton est déjà pris en charge"
     },
     "importSuccess": "Importation du jeton {{tokenSymbol}} réussie",
     "importButton": "Importation"
