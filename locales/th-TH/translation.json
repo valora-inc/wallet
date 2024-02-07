@@ -1962,7 +1962,9 @@
       "network": "เครือข่าย"
     },
     "error": {
-      "invalidToken": "โทเค็นไม่ถูกต้อง โปรดลองใหม่อีกครั้งหรือติดต่อฝ่ายบริการลูกค้า"
+      "invalidAddress": "Invalid token address. Please review it",
+      "invalidToken": "โทเค็นไม่ถูกต้อง โปรดลองใหม่อีกครั้งหรือติดต่อฝ่ายบริการลูกค้า",
+      "tokenAlreadySupported": "This token is already supported"
     },
     "importSuccess": "นำเข้าโทเค็น {{tokenSymbol}} สำเร็จ",
     "importButton": "นำเข้า"
