@@ -114,6 +114,11 @@
         "later": "Tôi sẽ sao lưu sau",
         "manual": "Sao lưu thủ công"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restoring your wallet"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!",
@@ -871,6 +876,18 @@
       "description": "Ví khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
       "action": "Sử dụng ví",
       "title": "Số dư\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restore Your Wallet",
+    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "emailAndPhone": {
+      "title": "From email & phone backup",
+      "description": "Restore your wallet with the phone number & email you set up previously"
+    },
+    "recoveryPhrase": {
+      "title": "From recovery phrase",
+      "description": "Enter your 12 word recovery phrase to regain access to Valora"
     }
   },
   "verificationInput": {
@@ -1852,7 +1869,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Tìm kiếm tài sản",
-    "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
+    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "My tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Recently swapped",
+      "celo": "Celo Network",
+      "ethereum": "Ethereum Network"
+    }
   },
   "homeActions": {
     "add": "Mua",
@@ -2041,12 +2068,6 @@
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
     "body": "Mua hoặc chuyển token tương thích để gửi tiền điện tử và khám phá web3!"
-  },
-  "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
-    "description": "No more messy wallet addresses! Send crypto to other Valora users with just a phone number",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
