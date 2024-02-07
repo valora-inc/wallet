@@ -43,6 +43,18 @@ export const slice = createSlice({
     keylessBackupCompleted: (state) => {
       state.backupStatus = KeylessBackupStatus.Completed
     },
+    keylessBackupShowZeroBalance: (state) => {
+      state.backupStatus = KeylessBackupStatus.RestoreZeroBalance
+    },
+    keylessBackupAcceptZeroBalance: (state) => {
+      state.backupStatus = KeylessBackupStatus.InProgress
+    },
+    keylessBackupBail: (state) => {
+      state.googleIdToken = initialState.googleIdToken
+      state.valoraKeyshare = initialState.valoraKeyshare
+      state.torusKeyshare = initialState.torusKeyshare
+      state.backupStatus = initialState.backupStatus
+    },
   },
 })
 
@@ -53,6 +65,9 @@ export const {
   keylessBackupStarted,
   keylessBackupFailed,
   keylessBackupCompleted,
+  keylessBackupShowZeroBalance,
+  keylessBackupAcceptZeroBalance,
+  keylessBackupBail,
 } = slice.actions
 
 export default slice.reducer

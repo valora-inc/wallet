@@ -1,6 +1,9 @@
+import { privateKeyToAddress } from '@celo/utils/lib/address'
+import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getStoredMnemonic } from 'src/backup/utils'
+import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
+import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
   encryptPassphrase,
@@ -11,16 +14,22 @@ import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
   googleSignInCompleted,
+  keylessBackupAcceptZeroBalance,
+  keylessBackupBail,
   keylessBackupCompleted,
   keylessBackupFailed,
+  keylessBackupShowZeroBalance,
   torusKeyshareIssued,
   valoraKeyshareIssued,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, delay, put, select, spawn, takeLeading } from 'typed-redux-saga'
+import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 
 const TAG = 'keylessBackup/saga'
 
@@ -110,8 +119,46 @@ function* handleKeylessBackupRestore({
     encryptionAddress,
   })
 
-  // TODO(ACT-778): use mnemonic
-  yield* call(decryptPassphrase, torusKeyshareBuffer, valoraKeyshareBuffer, encryptedMnemonic)
+  const decryptedMnemonic = yield* call(
+    decryptPassphrase,
+    torusKeyshareBuffer,
+    valoraKeyshareBuffer,
+    encryptedMnemonic
+  )
+
+  const { privateKey } = yield* call(generateKeysFromMnemonic, decryptedMnemonic)
+  if (!privateKey) {
+    throw new Error('Failed to convert mnemonic to hex')
+  }
+  const backupAccount = privateKeyToAddress(privateKey)
+  if (!(yield* call(walletHasBalance, backupAccount))) {
+    // show zero balance modal
+    yield* put(keylessBackupShowZeroBalance())
+
+    // wait for user to click continue or bail from keyless backup
+    const [_continueAction, bailAction] = yield* race([
+      take(keylessBackupAcceptZeroBalance.type),
+      take(keylessBackupBail.type),
+    ])
+    if (bailAction) {
+      navigate(Screens.ImportSelect)
+      return
+    }
+  }
+
+  const account: string | null = yield* call(
+    assignAccountFromPrivateKey,
+    privateKey,
+    decryptedMnemonic
+  )
+  if (!account) {
+    throw new Error('Failed to assign account from private key')
+  }
+  // Set key in phone's secure store
+  yield* call(storeMnemonic, decryptedMnemonic, account)
+
+  yield* call(initializeAccountSaga)
+
   yield* put(keylessBackupCompleted())
 }
 

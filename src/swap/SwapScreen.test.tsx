@@ -12,6 +12,8 @@ import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
@@ -36,7 +38,6 @@ import {
 } from 'test/values'
 
 const mockFetch = fetch as FetchMock
-const mockExperimentParams = jest.fn()
 const mockGetNumberFormatSettings = jest.fn()
 
 // Use comma as decimal separator for all tests here
@@ -57,17 +58,7 @@ jest.mock('src/web3/networkConfig', () => {
   }
 })
 
-jest.mock('src/statsig', () => {
-  return {
-    getExperimentParams: (_: any) => mockExperimentParams(),
-    getFeatureGate: jest.fn(),
-    getDynamicConfigParams: () => ({
-      maxSlippagePercentage: '0.3',
-      showSwap: ['celo-alfajores', 'ethereum-sepolia'],
-      showBalances: ['celo-alfajores', 'ethereum-sepolia'],
-    }),
-  }
-})
+jest.mock('src/statsig')
 
 jest.mock('viem/actions', () => ({
   ...jest.requireActual('viem/actions'),
@@ -136,12 +127,14 @@ const renderScreen = ({
   fromTokenId = undefined,
   isPoofSwappable = true,
   poofBalance = '100',
+  lastSwapped = [],
 }: {
   celoBalance?: string
   cUSDBalance?: string
   fromTokenId?: string
   isPoofSwappable?: boolean
   poofBalance?: string
+  lastSwapped?: string[]
 }) => {
   const store = createMockStore({
     tokens: {
@@ -161,6 +154,9 @@ const renderScreen = ({
           balance: poofBalance,
         },
       },
+    },
+    swap: {
+      lastSwapped,
     },
   })
 
@@ -289,8 +285,13 @@ describe('SwapScreen', () => {
       },
     })
 
-    mockExperimentParams.mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: true,
+    })
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      maxSlippagePercentage: '0.3',
+      showSwap: ['celo-alfajores', 'ethereum-sepolia'],
+      showBalances: ['celo-alfajores', 'ethereum-sepolia'],
     })
 
     const originalReadContract = publicClient.celo.readContract
@@ -1102,7 +1103,7 @@ describe('SwapScreen', () => {
   })
 
   it('should disable buy amount input when swap buy amount experiment is set is false', () => {
-    mockExperimentParams.mockReturnValue({
+    jest.mocked(getExperimentParams).mockReturnValue({
       swapBuyAmountEnabled: false,
     })
     const { swapFromContainer, swapToContainer } = renderScreen({})
@@ -1576,5 +1577,145 @@ describe('SwapScreen', () => {
       flow: FiatExchangeFlow.CashIn,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_add_funds)
+  })
+
+  describe('filter tokens', () => {
+    beforeEach(() => {
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
+    })
+
+    it('should show "my tokens" for the "from" token selection by default', () => {
+      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
+        (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
+      )
+      const mockedZeroBalanceTokens = [mockCeurTokenId, mockCusdTokenId, mockPoofTokenId]
+      const expectedTokensWithBalance = expectedAllTokens.filter(
+        (token) => !mockedZeroBalanceTokens.includes(token.tokenId)
+      )
+
+      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({
+        cUSDBalance: '0',
+        poofBalance: '0', // cEUR also has 0 balance in the global mock
+      })
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+
+      expectedTokensWithBalance.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      const displayedTokens = within(tokenBottomSheet).getAllByTestId('TokenBalanceItem')
+      expect(displayedTokens.length).toBe(expectedTokensWithBalance.length)
+
+      // deselect pre-selected filters to show all tokens
+      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+
+      expectedAllTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+    })
+
+    it('should show "recently swapped" tokens', () => {
+      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
+        (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
+      )
+      const mockedLastSwapped = [mockCeurTokenId, mockCusdTokenId, mockPoofTokenId]
+      const expectedLastSwapTokens = expectedAllTokens.filter((token) =>
+        mockedLastSwapped.includes(token.tokenId)
+      )
+
+      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({
+        lastSwapped: mockedLastSwapped,
+      })
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      // deselect pre-selected filters to show all tokens
+      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      // select last swapped filter
+      fireEvent.press(getByText('tokenBottomSheet.filters.recentlySwapped'))
+
+      expectedLastSwapTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      const displayedTokens = within(tokenBottomSheet).getAllByTestId('TokenBalanceItem')
+      expect(displayedTokens.length).toBe(expectedLastSwapTokens.length)
+
+      // de-select last swapped filter
+      fireEvent.press(getByText('tokenBottomSheet.filters.recentlySwapped'))
+
+      expectedAllTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+    })
+
+    it('should not show the network filters if there is only Celo enabled', () => {
+      jest.mocked(getDynamicConfigParams).mockReturnValue({
+        maxSlippagePercentage: '0.3',
+        showSwap: ['celo-alfajores'],
+        showBalances: ['celo-alfajores'],
+      })
+
+      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
+        (token) =>
+          (token.isSwappable !== false || token.balance !== '0') && // include unswappable tokens with balance because it is the "from" token
+          token.networkId === NetworkId['celo-alfajores']
+      )
+
+      const { swapFromContainer, getByText, tokenBottomSheet, queryByText } = renderScreen({})
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+
+      expect(queryByText('tokenBottomSheet.filters.celo')).toBeFalsy()
+      expect(queryByText('tokenBottomSheet.filters.ethereum')).toBeFalsy()
+
+      // deselect pre-selected filters to show all tokens
+      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+
+      expectedAllTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      expect(within(tokenBottomSheet).getAllByTestId('TokenBalanceItem').length).toBe(
+        expectedAllTokens.length
+      )
+    })
+
+    it('should show the network filters', () => {
+      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
+        (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
+      )
+      const expectedEthTokens = expectedAllTokens.filter(
+        (token) => token.networkId === NetworkId['ethereum-sepolia']
+      )
+      const expectedCeloTokens = expectedAllTokens.filter(
+        (token) => token.networkId === NetworkId['celo-alfajores']
+      )
+
+      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({})
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      // deselect pre-selected filters to show all tokens
+      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      // select celo filter
+      fireEvent.press(getByText('tokenBottomSheet.filters.celo'))
+
+      expectedCeloTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      expect(within(tokenBottomSheet).getAllByTestId('TokenBalanceItem').length).toBe(
+        expectedCeloTokens.length
+      )
+
+      // select eth filter
+      fireEvent.press(getByText('tokenBottomSheet.filters.celo'))
+      fireEvent.press(getByText('tokenBottomSheet.filters.ethereum'))
+
+      expectedEthTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      expect(within(tokenBottomSheet).getAllByTestId('TokenBalanceItem').length).toBe(
+        expectedEthTokens.length
+      )
+    })
   })
 })
