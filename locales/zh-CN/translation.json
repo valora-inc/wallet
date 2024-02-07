@@ -1112,6 +1112,10 @@
       "title": "手续费代币余额不足",
       "description": "您没有足够的 {{feeCurrencies}} 来支付手续费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交易。"
     },
+    "failedToPrepareTransaction": {
+      "title": "准备交易失败",
+      "description": "准备交易时发生错误。详情请查看基本错误。\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "不受支持的区块链网络",
