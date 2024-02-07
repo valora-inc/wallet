@@ -79,7 +79,7 @@
     "@celo/utils": "^3.2.0",
     "@celo/wallet-rpc": "^3.2.0",
     "@coinbase/cbpay-js": "^1.10.0",
-    "@crowdin/ota-client": "^0.7.0",
+    "@crowdin/ota-client": "^1.1.1",
     "@fiatconnect/fiatconnect-sdk": "^0.5.25",
     "@fiatconnect/fiatconnect-types": "^13.3.0",
     "@gorhom/bottom-sheet": "^4.6.0",

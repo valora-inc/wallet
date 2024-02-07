@@ -1315,12 +1315,12 @@
   resolved "https://registry.yarnpkg.com/@coinbase/cbpay-js/-/cbpay-js-1.10.0.tgz#21c1c9fb4785760838809d2127ab73db474d8b05"
   integrity sha512-jQ4rqJFNbsCMZ74ATucAUv2IpkbPFXsY+6AVBvFVNKmG4rEgc10Fa87pw/idm6Tlrs7EERQRXEs21DvJpMzi8A==
 
-"@crowdin/ota-client@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-0.7.0.tgz#6aef4f4be90b7f931175a274c68b669ef4044c6b"
-  integrity sha512-RNFnR2ter5dsFJlyQysT8jswDn/TBF/ALosiDRpaj2tcOlAk/amQOoqEMJrCdR46xWqMUNwz/hJ4YIlcN51kPQ==
+"@crowdin/ota-client@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@crowdin/ota-client/-/ota-client-1.1.1.tgz#caa3c7456e2af9553731d798e464edc040986078"
+  integrity sha512-4hjiJuuEOrOdmQpibpP6XRUg78cuNm2Yg4Ldd7SDq8yTCPnLk8DKUB+1IqzOSzU8ZDHG1IY/TA0BI/y04d+RWg==
   dependencies:
-    axios "0.25.0"
+    axios "^1"
 
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
@@ -5833,19 +5833,21 @@ aws4@^1.8.0:
   resolved "https://registry.yarnpkg.com/aws4/-/aws4-1.10.1.tgz#e1e82e4f3e999e2cfd61b161280d16a111f86428"
   integrity sha512-zg7Hz2k5lI8kb7U32998pRRFin7zJlkfezGJjUc2heaD4Pw2wObakCDVzkKztTm/Ln7eiVvYsjqak0Ed4LkMDA==
 
-axios@0.25.0:
-  version "0.25.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.25.0.tgz#349cfbb31331a9b4453190791760a8d35b093e0a"
-  integrity sha512-cD8FOb0tRH3uuEe6+evtAbgJtfxr7ly3fQjYcMcuPlgkwVS9xboaVIpcDV+cYQe+yGykgwZCs1pzjntcGa6l5g==
-  dependencies:
-    follow-redirects "^1.14.7"
-
 axios@^0.21.1:
   version "0.21.4"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.21.4.tgz#c67b90dc0568e5c1cf2b0b858c43ba28e2eda575"
   integrity sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==
   dependencies:
     follow-redirects "^1.14.0"
+
+axios@^1:
+  version "1.6.7"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.7.tgz#7b48c2e27c96f9c68a2f8f31e2ab19f59b06b0a7"
+  integrity sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==
+  dependencies:
+    follow-redirects "^1.15.4"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 babel-core@^7.0.0-bridge.0:
   version "7.0.0-bridge.0"
@@ -7068,7 +7070,7 @@ colors@1.0.3, colors@^1.0.3:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
-combined-stream@^1.0.6, combined-stream@~1.0.6:
+combined-stream@^1.0.6, combined-stream@^1.0.8, combined-stream@~1.0.6:
   version "1.0.8"
   resolved "https://registry.yarnpkg.com/combined-stream/-/combined-stream-1.0.8.tgz#c3d45a8b34fd730631a110a8a2520682b31d5a7f"
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
@@ -9337,7 +9339,7 @@ flow-parser@0.*, flow-parser@^0.185.0:
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.185.2.tgz#cb7ee57f77377d6c5d69a469e980f6332a15e492"
   integrity sha512-2hJ5ACYeJCzNtiVULov6pljKOLygy0zddoqSI1fFetM+XRPpRshFdGEijtqlamA1XwyZ+7rhryI6FQFzvtLWUQ==
 
-follow-redirects@^1.14.0, follow-redirects@^1.14.7, follow-redirects@^1.15.5:
+follow-redirects@^1.14.0, follow-redirects@^1.15.4, follow-redirects@^1.15.5:
   version "1.15.5"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.5.tgz#54d4d6d062c0fa7d9d17feb008461550e3ba8020"
   integrity sha512-vSFWUON1B+yAw1VN4xMfxgn5fTUiaOzAJCKBwIIgT/+7CuGy9+r+5gITvP62j3RmaD5Ph65UaERdOSRGUzZtgw==
@@ -9383,6 +9385,15 @@ form-data-encoder@1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/form-data-encoder/-/form-data-encoder-1.7.1.tgz#ac80660e4f87ee0d3d3c3638b7da8278ddb8ec96"
   integrity sha512-EFRDrsMm/kyqbTQocNvRXMLjc7Es2Vk+IQFx/YW7hkUH1eBl4J1fqiP34l74Yt0pFLCNpc06fkbVk00008mzjg==
+
+form-data@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/form-data/-/form-data-4.0.0.tgz#93919daeaf361ee529584b9b31664dc12c9fa452"
+  integrity sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==
+  dependencies:
+    asynckit "^0.4.0"
+    combined-stream "^1.0.8"
+    mime-types "^2.1.12"
 
 form-data@~2.3.2:
   version "2.3.3"
