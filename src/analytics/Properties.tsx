@@ -228,13 +228,13 @@ interface CommonKeylessBackupProps {
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
-  [KeylessBackupEvents.cab_setup_continue]: undefined
   [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
@@ -248,7 +248,6 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_post_encrypted_mnemonic_failed]: {
     backupAlreadyExists: boolean
   }
-  [KeylessBackupEvents.cab_restore_continue]: undefined
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps

@@ -25,7 +25,7 @@ describe('KeylessBackupIntro', () => {
       )
       const continueButton = getByTestId('keylessBackupIntro/Continue')
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_setup_continue)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue)
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
       })
@@ -61,7 +61,9 @@ describe('KeylessBackupIntro', () => {
       )
       const continueButton = getByTestId('keylessBackupIntro/Continue')
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_restore_continue)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
+        keylessBackupFlow: KeylessBackupFlow.Restore,
+      })
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Restore,
       })

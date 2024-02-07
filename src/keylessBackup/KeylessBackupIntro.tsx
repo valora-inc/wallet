@@ -83,13 +83,8 @@ function KeylessBackupIntro({ route }: Props) {
       <Button
         testID="keylessBackupIntro/Continue"
         onPress={() => {
-          if (isSetup) {
-            ValoraAnalytics.track(KeylessBackupEvents.cab_setup_continue)
-            navigate(Screens.SignInWithEmail, { keylessBackupFlow: KeylessBackupFlow.Setup })
-          } else {
-            ValoraAnalytics.track(KeylessBackupEvents.cab_restore_continue)
-            navigate(Screens.SignInWithEmail, { keylessBackupFlow: KeylessBackupFlow.Restore })
-          }
+          ValoraAnalytics.track(KeylessBackupEvents.cab_intro_continue, { keylessBackupFlow })
+          navigate(Screens.SignInWithEmail, { keylessBackupFlow })
         }}
         text={isSetup ? t('continue') : t('next')}
         size={BtnSizes.FULL}
