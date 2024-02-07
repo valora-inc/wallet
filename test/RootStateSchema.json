@@ -2601,8 +2601,6 @@
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
-                "Send",
-                "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
