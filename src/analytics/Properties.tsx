@@ -579,8 +579,8 @@ interface SendEventsProperties {
     partialAddressValidation: boolean
   }
 
-  [SendEvents.send_tx_start]: Web3LibraryProps
-  [SendEvents.send_tx_complete]: Web3LibraryProps & {
+  [SendEvents.send_tx_start]: undefined
+  [SendEvents.send_tx_complete]: {
     txId: string
     recipientAddress: string
     amount: string
