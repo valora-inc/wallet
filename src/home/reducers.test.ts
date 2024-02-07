@@ -1,5 +1,6 @@
 import { Actions, cleverTapInboxMessagesReceived, nftCelebrationDisplayed } from 'src/home/actions'
 import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
+import { NetworkId } from 'src/transactions/types'
 import { mockCleverTapInboxMessage, mockContractAddress } from 'test/values'
 
 const createTestNotification = (body: string) => ({
@@ -150,8 +151,17 @@ describe('home reducer', () => {
   })
 
   it('should update lastDisplayedNftCelebration', () => {
-    const updatedState = reducer(undefined, nftCelebrationDisplayed(mockContractAddress))
+    const updatedState = reducer(
+      undefined,
+      nftCelebrationDisplayed({
+        networkId: NetworkId['celo-alfajores'],
+        contractAddress: mockContractAddress,
+      })
+    )
 
-    expect(updatedState.lastDisplayedNftCelebration).toEqual(mockContractAddress)
+    expect(updatedState.lastDisplayedNftCelebration).toEqual({
+      networkId: NetworkId['celo-alfajores'],
+      contractAddress: mockContractAddress,
+    })
   })
 })

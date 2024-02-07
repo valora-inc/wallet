@@ -1,5 +1,6 @@
 import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { IdToNotification } from 'src/home/reducers'
+import { NetworkId } from 'src/transactions/types'
 
 export enum Actions {
   SET_LOADING = 'HOME/SET_LOADING',
@@ -43,7 +44,8 @@ interface CleverTapInboxMessagesReceivedAction {
 
 interface NftCelebrationDisplayedAction {
   type: Actions.NFT_CELEBRATION_DISPLAYED
-  nftContractAddress: string
+  networkId: NetworkId
+  contractAddress: string
 }
 
 export type ActionTypes =
@@ -94,9 +96,14 @@ export const cleverTapInboxMessagesReceived = (
   messages,
 })
 
-export const nftCelebrationDisplayed = (
-  nftContractAddress: string
-): NftCelebrationDisplayedAction => ({
+export const nftCelebrationDisplayed = ({
+  networkId,
+  contractAddress,
+}: {
+  networkId: NetworkId
+  contractAddress: string
+}): NftCelebrationDisplayedAction => ({
   type: Actions.NFT_CELEBRATION_DISPLAYED,
-  nftContractAddress,
+  networkId,
+  contractAddress,
 })

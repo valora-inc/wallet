@@ -183,7 +183,10 @@ interface HomeEventsProperties {
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
   [HomeEvents.hide_balances]: undefined
   [HomeEvents.show_balances]: undefined
-  [HomeEvents.nft_celebration_displayed]: { nftContractAddress: string }
+  [HomeEvents.nft_celebration_displayed]: {
+    networkId: NetworkId
+    contractAddress: string
+  }
   [HomeEvents.nft_celebration_animation_displayed]: {
     userInterrupted: boolean
     durationInSeconds: number

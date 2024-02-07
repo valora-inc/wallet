@@ -1,5 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -112,6 +112,6 @@ export const DynamicConfigs = {
   },
   [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
     configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
-    defaultValues: {} as { [key in Network]?: { nftContractAddress?: string } },
+    defaultValues: {} as { networkId?: NetworkId; contractAddress?: string },
   },
 }

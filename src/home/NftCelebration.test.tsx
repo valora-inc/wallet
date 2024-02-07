@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig/index'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
-import { mockContractAddress, mockNftAllFields } from 'test/values'
+import { mockNftAllFields } from 'test/values'
 import NftCelebration from './NftCelebration'
 
 jest.mock('src/analytics/ValoraAnalytics')
@@ -35,7 +35,8 @@ describe('NftCelebration', () => {
   beforeEach(() => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      celo: { nftContractAddress: mockContractAddress },
+      networkId: mockNft.networkId,
+      contractAddress: mockNft.contractAddress,
     })
   })
 
@@ -69,7 +70,8 @@ describe('NftCelebration', () => {
 
   it('does not render when celebrated contract does not match with user nft', () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      celo: { nftContractAddress: '0xOTHER' },
+      networkId: NetworkId['celo-alfajores'],
+      contractAddress: '0xNFT',
     })
 
     const { queryByText } = render(
@@ -103,7 +105,10 @@ describe('NftCelebration', () => {
         store={createMockStore({
           ...mockStoreWithNft,
           home: {
-            lastDisplayedNftCelebration: mockContractAddress,
+            lastDisplayedNftCelebration: {
+              networkId: mockNft.networkId,
+              contractAddress: mockNft.contractAddress,
+            },
           },
         })}
       >

@@ -2,6 +2,7 @@ import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/home/actions'
 import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { NetworkId } from 'src/transactions/types'
 
 export const DEFAULT_PRIORITY = 20
 
@@ -34,7 +35,7 @@ export interface State {
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]
   hasVisitedHome: boolean
-  lastDisplayedNftCelebration: string | null
+  lastDisplayedNftCelebration: { networkId: NetworkId; contractAddress: string } | null
 }
 
 export const initialState = {
@@ -115,7 +116,10 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
     case Actions.NFT_CELEBRATION_DISPLAYED:
       return {
         ...state,
-        lastDisplayedNftCelebration: action.nftContractAddress,
+        lastDisplayedNftCelebration: {
+          networkId: action.networkId,
+          contractAddress: action.contractAddress,
+        },
       }
     default:
       return state

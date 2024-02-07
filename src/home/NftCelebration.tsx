@@ -29,13 +29,9 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import confettiAnimation from './confettiAnimation.json'
 
 const ANIMATION_DURATION = 6000 // 6 seconds
-
-const nftNetworkId = networkConfig.defaultNetworkId
-const nftNetwork = networkIdToNetwork[nftNetworkId]
 
 export default function NftCelebration() {
   const { t } = useTranslation()
@@ -51,14 +47,20 @@ export default function NftCelebration() {
     opacity: confettiOpacity.value,
   }))
 
-  const nftContractAddress = getDynamicConfigParams(
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+
+  const celebratedNft = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
-  )?.[nftNetwork]?.nftContractAddress
+  )
 
   const nftsLoading = useSelector(nftsLoadingSelector)
   const nfts = useSelector(nftsWithMetadataSelector)
-  const nft = nfts.find(
-    (nft) => nft.networkId === nftNetworkId && nft.contractAddress === nftContractAddress
+  const matchedNft = nfts.find(
+    (nft) =>
+      !!celebratedNft.networkId &&
+      celebratedNft.networkId === nft.networkId &&
+      !!celebratedNft.contractAddress &&
+      celebratedNft.contractAddress === nft.contractAddress
   )
 
   useEffect(() => {
@@ -67,10 +69,12 @@ export default function NftCelebration() {
     }
   }, [nftsLoading])
 
-  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
-
+  const lastDisplayedCelebration = useSelector(lastDisplayedNftCelebration)
   const celebrationHasBeenDisplayed =
-    nftContractAddress === useSelector(lastDisplayedNftCelebration)
+    !!lastDisplayedCelebration &&
+    !!celebratedNft &&
+    lastDisplayedCelebration.networkId === celebratedNft.networkId &&
+    lastDisplayedCelebration.contractAddress === celebratedNft.contractAddress
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -83,10 +87,10 @@ export default function NftCelebration() {
     const [showError, setShowError] = useState(false)
     return (
       <View style={styles.handleWithImage}>
-        {nft && (
+        {matchedNft && (
           <FastImage
             style={styles.image}
-            source={{ uri: nft.metadata.image }}
+            source={{ uri: matchedNft.metadata.image }}
             resizeMode={FastImage.resizeMode.cover}
             onError={() => setShowError(true)}
           />
@@ -99,15 +103,19 @@ export default function NftCelebration() {
         <View style={styles.handleBar} />
       </View>
     )
-  }, [nft])
+  }, [matchedNft])
 
-  if (!nftContractAddress || !nft || !featureGateEnabled || celebrationHasBeenDisplayed) {
+  if (!featureGateEnabled || !celebratedNft || !matchedNft || celebrationHasBeenDisplayed) {
     return null
   }
 
   const handleBottomSheetPositionChange = (index: number) => {
     if (index === -1) {
-      ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, { nftContractAddress })
+      ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, {
+        networkId: matchedNft.networkId,
+        contractAddress: matchedNft.contractAddress,
+      })
+
       vibrateSuccess()
 
       animationStartTime.current = Date.now()
@@ -136,7 +144,12 @@ export default function NftCelebration() {
     })
 
     setShowAnimation(false)
-    dispatch(nftCelebrationDisplayed(nftContractAddress))
+    dispatch(
+      nftCelebrationDisplayed({
+        networkId: matchedNft.networkId,
+        contractAddress: matchedNft.contractAddress,
+      })
+    )
   }
 
   return (
@@ -183,7 +196,7 @@ export default function NftCelebration() {
         severity={Severity.Informational}
         title={t('nftCelebration.inlineNotification.title')}
         description={t('nftCelebration.inlineNotification.description', {
-          rewardName: nft.metadata.name,
+          rewardName: matchedNft.metadata.name,
         })}
         position="top"
         showIcon={false}
