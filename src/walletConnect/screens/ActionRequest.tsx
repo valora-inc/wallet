@@ -62,10 +62,11 @@ function ActionRequest({
   const chainId = pendingAction.params.chainId
   const networkId = walletConnectChainIdToNetworkId[chainId]
   const networkName = NETWORK_NAMES[networkId]
+  const method = pendingAction.params.request.method
 
   const { description, title, action } = getDisplayTextFromAction(
     t,
-    pendingAction.params.request.method as SupportedActions,
+    method as SupportedActions,
     dappName,
     networkName
   )
@@ -73,10 +74,7 @@ function ActionRequest({
   // Reject and warn if the chain is not supported
   // Note: we still allow personal_sign on unsupported chains (Cred Protocol does this)
   // as this does not depend on the chainId
-  if (
-    !supportedChains.includes(chainId) &&
-    pendingAction.params.request.method !== SupportedActions.personal_sign
-  ) {
+  if (!supportedChains.includes(chainId) && method !== SupportedActions.personal_sign) {
     const supportedNetworkNames = supportedChains
       .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
       .join(`, `)
@@ -128,7 +126,11 @@ function ActionRequest({
           />
         </RequestContent>
       )
-    } else if (!preparedTransaction) {
+    } else if (
+      !preparedTransaction &&
+      (method === SupportedActions.eth_signTransaction ||
+        method === SupportedActions.eth_sendTransaction)
+    ) {
       return (
         <RequestContent
           type="dismiss"

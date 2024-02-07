@@ -99,6 +99,17 @@ describe('ActionRequest with WalletConnect V2', () => {
     },
   }
 
+  const sendTransactionAction = {
+    ...pendingAction,
+    params: {
+      ...pendingAction.params,
+      request: {
+        ...pendingAction.params.request,
+        method: 'eth_sendTransaction',
+      },
+    },
+  }
+
   const preparedTransaction: SerializableTransactionRequest = {
     from: mockAccount,
     to: mockAccount2,
@@ -136,7 +147,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         <Provider store={store}>
           <ActionRequest
             version={2}
-            pendingAction={pendingAction}
+            pendingAction={sendTransactionAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={true}
             feeCurrenciesSymbols={['CELO']}
@@ -154,7 +165,7 @@ describe('ActionRequest with WalletConnect V2', () => {
 
       fireEvent.press(getByText('dismiss'))
       expect(store.getActions()).toEqual([
-        denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
+        denyRequestV2(sendTransactionAction, getSdkError('USER_REJECTED')),
       ])
     })
 
@@ -163,7 +174,7 @@ describe('ActionRequest with WalletConnect V2', () => {
         <Provider store={store}>
           <ActionRequest
             version={2}
-            pendingAction={pendingAction}
+            pendingAction={sendTransactionAction}
             supportedChains={supportedChains}
             hasInsufficientGasFunds={false}
             feeCurrenciesSymbols={['CELO']}
@@ -183,21 +194,11 @@ describe('ActionRequest with WalletConnect V2', () => {
 
       fireEvent.press(getByText('dismiss'))
       expect(store.getActions()).toEqual([
-        denyRequestV2(pendingAction, getSdkError('USER_REJECTED')),
+        denyRequestV2(sendTransactionAction, getSdkError('USER_REJECTED')),
       ])
     })
 
     it('should accept the request with the prepared transaction', () => {
-      const sendTransactionAction = {
-        ...pendingAction,
-        params: {
-          ...pendingAction.params,
-          request: {
-            ...pendingAction.params.request,
-            method: 'eth_sendTransaction',
-          },
-        },
-      }
       const { getByText, getByTestId } = render(
         <Provider store={store}>
           <ActionRequest
