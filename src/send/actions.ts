@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
 import { QrCode } from 'src/send/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -28,7 +27,6 @@ export interface HandleQRCodeDetectedAction {
 export interface HandleQRCodeDetectedSecureSendAction {
   type: Actions.BARCODE_DETECTED_SECURE_SEND
   qrCode: QrCode
-  transactionData?: TransactionDataInput
   requesterAddress?: string
   recipient: Recipient
   forceTokenId?: boolean
@@ -90,14 +88,12 @@ export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction
 export const handleQRCodeDetectedSecureSend = (
   qrCode: QrCode,
   recipient: Recipient,
-  transactionData?: TransactionDataInput,
   requesterAddress?: string,
   forceTokenId?: boolean,
   defaultTokenIdOverride?: string
 ): HandleQRCodeDetectedSecureSendAction => ({
   type: Actions.BARCODE_DETECTED_SECURE_SEND,
   qrCode,
-  transactionData,
   requesterAddress,
   recipient,
   forceTokenId,
