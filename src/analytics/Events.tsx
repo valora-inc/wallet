@@ -112,6 +112,8 @@ export enum KeylessBackupEvents {
   cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
   cab_handle_keyless_backup_failed = 'cab_handle_keyless_backup_failed',
   cab_handle_keyless_backup_success = 'cab_handle_keyless_backup_success',
+  cab_restore_zero_balance_accept = 'cab_restore_zero_balance_accept',
+  cab_restore_zero_balance_bail = 'cab_restore_zero_balance_bail',
 }
 
 export enum OnboardingEvents {
@@ -191,6 +193,9 @@ export enum OnboardingEvents {
 
   cya_button_press = 'cya_button_press',
   cya_later = 'cya_later',
+
+  link_phone_number = 'link_phone_number',
+  link_phone_number_later = 'link_phone_number_later',
 }
 
 // Events emitted in the CPV flow

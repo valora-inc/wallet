@@ -114,6 +114,11 @@
         "later": "Tôi sẽ sao lưu sau",
         "manual": "Sao lưu thủ công"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restoring your wallet"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!",
@@ -871,6 +876,18 @@
       "description": "Ví khoản này không có tiền. Bạn vẫn muốn sử dụng chứ?",
       "action": "Sử dụng ví",
       "title": "Số dư\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restore Your Wallet",
+    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "emailAndPhone": {
+      "title": "From email & phone backup",
+      "description": "Restore your wallet with the phone number & email you set up previously"
+    },
+    "recoveryPhrase": {
+      "title": "From recovery phrase",
+      "description": "Enter your 12 word recovery phrase to regain access to Valora"
     }
   },
   "verificationInput": {
@@ -1852,7 +1869,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Tìm kiếm tài sản",
-    "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
+    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "My tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Recently swapped",
+      "celo": "Celo Network",
+      "ethereum": "Ethereum Network"
+    }
   },
   "homeActions": {
     "add": "Mua",
@@ -1969,7 +1996,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Gửi tài sản Ethereum tới địa chỉ ENS của một người"
+          "subtitle": "Gửi tài sản tới địa chỉ ENS của một người"
         },
         "four": {
           "title": "Tên hồ sơ",
@@ -2004,6 +2031,9 @@
   "viewOnCeloBlockExplorer": "Xem trên CeloExplorer",
   "viewOnCeloScan": "Xem trên CeloScan",
   "viewOnEthereumBlockExplorer": "Xem trên Etherscan",
+  "viewOnArbiscan": "Xem trên Arbiscan",
+  "viewOnOPMainnetExplorer": "Xem trên OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Xem trên OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Nhập số tiền",
     "selectToken": "Chọn token",
@@ -2037,7 +2067,7 @@
   },
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
-    "body": "Mua hoặc chuyển token tương thích với Celo hoặc Ethereum để nhận {{apy}}% tiền thưởng, khám phá web3 và hơn thế nữa!"
+    "body": "Mua hoặc chuyển token tương thích để gửi tiền điện tử và khám phá web3!"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

@@ -1,6 +1,6 @@
 import { debounce } from 'lodash'
 import React, { RefObject, useCallback, useMemo, useRef, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { TokenBottomSheetEvents } from 'src/analytics/Events'
@@ -39,7 +39,6 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
-  preSelectedFilterChips?: FilterChip<TokenBalance>[]
 }
 
 interface TokenOptionProps {
@@ -105,15 +104,21 @@ export function TokenBalanceItemOption({
 function NoResults({
   testID = 'TokenBottomSheet/NoResult',
   searchTerm,
-  selectedFilters,
+  activeFilters,
 }: {
   testID?: string
   searchTerm: string
-  selectedFilters: FilterChip<TokenBalance>[]
+  activeFilters: FilterChip<TokenBalance>[]
 }) {
-  const activeSearchTerms = [searchTerm, ...selectedFilters.map((filter) => filter.name)]
-    .filter((term) => !!term)
-    .join(', ')
+  const { t } = useTranslation()
+
+  const activeFilterNames = activeFilters.map((filter) => `"${filter.name}"`)
+  const noResultsText =
+    activeFilterNames.length > 0 && searchTerm.length > 0
+      ? 'tokenBottomSheet.noFilterSearchResults'
+      : activeFilterNames.length > 0
+        ? 'tokenBottomSheet.noFilterResults'
+        : 'tokenBottomSheet.noSearchResults'
 
   return (
     <View testID={testID} style={styles.noResultsContainer}>
@@ -121,12 +126,7 @@ function NoResults({
         <InfoIcon color={Colors.infoDark} />
       </View>
       <Text style={styles.noResultsText}>
-        <Trans
-          i18nKey="tokenBottomSheet.noTokenInResult"
-          tOptions={{ searchTerm: activeSearchTerms }}
-        >
-          <Text style={styles.noResultsText} />
-        </Trans>
+        {t(noResultsText, { searchTerm: searchTerm, filterNames: activeFilterNames.join(', ') })}
       </Text>
     </View>
   )
@@ -144,26 +144,28 @@ function TokenBottomSheet<T extends TokenBalance>({
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
   filterChips = [],
-  preSelectedFilterChips = [],
 }: TokenBottomSheetProps<T>) {
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedFilters, setSelectedFilters] = useState(preSelectedFilterChips)
+  const [filters, setFilters] = useState(filterChips)
+  const activeFilters = useMemo(() => filters.filter((filter) => filter.isSelected), [filters])
 
   const { t } = useTranslation()
 
   const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
     ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
       filterId: toggledChip.id,
-      isRemoving: selectedFilters.some((chip) => chip.id === toggledChip.id),
-      isPreSelected: preSelectedFilterChips.some((chip) => chip.id === toggledChip.id),
+      isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+      isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
     })
 
-    setSelectedFilters((prev) => {
-      if (prev.some((chip) => chip.id === toggledChip.id)) {
-        return prev.filter((chip) => chip.id !== toggledChip.id)
-      }
-      return [...prev, toggledChip]
+    setFilters((prev) => {
+      return prev.map((chip) => {
+        if (chip.id === toggledChip.id) {
+          return { ...chip, isSelected: !chip.isSelected }
+        }
+        return chip
+      })
     })
   }
 
@@ -173,8 +175,8 @@ function TokenBottomSheet<T extends TokenBalance>({
       tokenAddress: token.address,
       tokenId: token.tokenId,
       networkId: token.networkId,
-      searchTerm,
-      selectedFilters: selectedFilters.map((filter) => filter.id),
+      usedSearchTerm: searchTerm.length > 0,
+      selectedFilters: activeFilters.map((filter) => filter.id),
     })
     onTokenSelected(token)
   }
@@ -190,9 +192,11 @@ function TokenBottomSheet<T extends TokenBalance>({
   )
 
   const tokenList = useMemo(() => {
+    const activeFilterFns = activeFilters.map((filter) => filter.filterFn)
+
     return tokens.filter((token) => {
-      const matchesFilter =
-        selectedFilters.length > 0 ? selectedFilters.some((filter) => filter.filterFn(token)) : true
+      const matchesFilters =
+        activeFilterFns.length > 0 ? activeFilterFns.some((filterFn) => filterFn(token)) : true
 
       const matchesSearch =
         searchTerm.length > 0
@@ -200,12 +204,12 @@ function TokenBottomSheet<T extends TokenBalance>({
             token.name.toLowerCase().includes(searchTerm.toLowerCase())
           : true
 
-      return matchesFilter && matchesSearch
+      return matchesFilters && matchesSearch
     })
-  }, [searchTerm, tokens, selectedFilters])
+  }, [searchTerm, tokens, filters])
 
   const handleOpen = () => {
-    setSelectedFilters(preSelectedFilterChips)
+    setFilters(filterChips)
   }
 
   const handleClose = () => {
@@ -242,8 +246,7 @@ function TokenBottomSheet<T extends TokenBalance>({
           )}
           {filterChips.length > 0 && (
             <FilterChipsCarousel
-              chips={filterChips}
-              selectedChips={selectedFilters}
+              chips={filters}
               onSelectChip={handleToggleFilterChip}
               primaryColor={colors.successDark}
               secondaryColor={colors.successLight}
@@ -259,7 +262,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     >
       {tokenList.length == 0 ? (
         searchEnabled || filterChips.length > 0 ? (
-          <NoResults searchTerm={searchTerm} selectedFilters={selectedFilters} />
+          <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
         ) : null
       ) : (
         tokenList.map((tokenInfo, index) => {

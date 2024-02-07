@@ -114,6 +114,11 @@
         "later": "我稍后再备份",
         "manual": "手动备份"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "恢复您的钱包"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！",
@@ -871,6 +876,18 @@
       "description": "此钱包内没有任何资金。您仍要使用它吗？",
       "action": "使用钱包",
       "title": "余额 \n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "恢复您的钱包",
+    "description": "如果您为保护钱包设置了备份，请选择以下选项。",
+    "emailAndPhone": {
+      "title": "从电子邮件和电话备份",
+      "description": "使用之前设置的电话号码和电子邮件恢复钱包"
+    },
+    "recoveryPhrase": {
+      "title": "从恢复短语",
+      "description": "输入您的 12 个单词恢复短语，重新获得访问 Valora 的权限"
     }
   },
   "verificationInput": {
@@ -1852,7 +1869,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
-    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
+    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。",
+    "noFilterSearchResults": "在以下类别中没有找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
+    "noFilterResults": "在以下类别中没有找到匹配的资产： {{filterNames}}",
+    "noSearchResults": "没有找到与 \"{{searchTerm}}\" 匹配的资产",
+    "filters": {
+      "myTokens": "我的代币",
+      "popular": "热门",
+      "recentlySwapped": "最近交换",
+      "celo": "Celo 网络",
+      "ethereum": "以太坊网络"
+    }
   },
   "homeActions": {
     "add": "买入",
@@ -1969,7 +1996,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "将 Ethereum 资产发送至某人的 ENS 句柄"
+          "subtitle": "将资产发送到某人的 ENS 句柄。"
         },
         "four": {
           "title": "个人资料名称",
@@ -2004,6 +2031,9 @@
   "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
   "viewOnCeloScan": "在 CeloScan 上查看",
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
+  "viewOnArbiscan": "在 Arbiscan 上查看。",
+  "viewOnOPMainnetExplorer": "在 OP Mainnet Explorer 上查看",
+  "viewOnOPSepoliaExplorer": "在 OP Sepolia Explorer 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择代币",
@@ -2037,7 +2067,7 @@
   },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
-    "body": "购买或转移与 celo 或 ethereum 兼容的代币，赚取 {{apy}}% 的奖励，探索 web3 等！"
+    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

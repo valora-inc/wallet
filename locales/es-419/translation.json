@@ -114,6 +114,11 @@
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaurar tu cartera"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
@@ -871,6 +876,18 @@
       "description": "Esta wallet no tiene fondos. ¿Quieres usarla de todos modos?",
       "action": "Usar wallet",
       "title": "Saldo\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restaura tu cartera",
+    "description": "Si configuras una copia de seguridad para proteger tu monedero, elige una opción de las que aparecen a continuación.",
+    "emailAndPhone": {
+      "title": "De copia de seguridad de correo electrónico y teléfono",
+      "description": "Restaura tu monedero con el número de teléfono y el correo electrónico que configuraste anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "De la frase de recuperación",
+      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
+    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Mis fichas",
+      "popular": "Popular",
+      "recentlySwapped": "Cambiado recientemente",
+      "celo": "Supercharge",
+      "ethereum": "Red Ethereum"
+    }
   },
   "homeActions": {
     "add": "Comprar",
@@ -1971,7 +1998,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Envía activos Ethereum a un alias ENS"
+          "subtitle": "Envía activos al nombre ENS de alguien"
         },
         "four": {
           "title": "Nombre de perfil",
@@ -2006,6 +2033,9 @@
   "viewOnCeloBlockExplorer": "Ver en CeloExplorer",
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
+  "viewOnArbiscan": "Ver en Arbiscan",
+  "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vista en OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
@@ -2039,7 +2069,7 @@
   },
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
-    "body": "¡Compra o transfiere tokens compatibles con celo o ethereum para ganar {{apy}}% en recompensas, explorar web3 y mucho más!"
+    "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

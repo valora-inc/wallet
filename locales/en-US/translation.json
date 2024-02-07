@@ -114,6 +114,11 @@
         "later": "I'll backup later",
         "manual": "Manual Backup"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restoring your wallet"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
@@ -871,6 +876,18 @@
       "description": "This wallet doesn’t have any funds. Would you still like to use it?",
       "action": "Use Wallet",
       "title": "Balance\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restore Your Wallet",
+    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "emailAndPhone": {
+      "title": "From email & phone backup",
+      "description": "Restore your wallet with the phone number & email you set up previously"
+    },
+    "recoveryPhrase": {
+      "title": "From recovery phrase",
+      "description": "Enter your 12 word recovery phrase to regain access to Valora"
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",
-    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
+    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "My tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Recently swapped",
+      "celo": "Celo Network",
+      "ethereum": "Ethereum Network"
+    }
   },
   "homeActions": {
     "add": "Buy",
@@ -1971,7 +1998,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Send Ethereum assets to someone's ENS handle"
+          "subtitle": "Send assets to someone's ENS handle"
         },
         "four": {
           "title": "Profile Name",
@@ -2006,6 +2033,9 @@
   "viewOnCeloBlockExplorer": "View on CeloExplorer",
   "viewOnCeloScan": "View on CeloScan",
   "viewOnEthereumBlockExplorer": "View on Etherscan",
+  "viewOnArbiscan": "View on Arbiscan",
+  "viewOnOPMainnetExplorer": "View on OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "View on OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Enter Amount",
     "selectToken": "Select a Token",
@@ -2039,7 +2069,7 @@
   },
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
-    "body": "Buy or transfer celo or ethereum compatible tokens to earn {{apy}}% rewards, explore web3 & more!"
+    "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

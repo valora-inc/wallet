@@ -252,6 +252,8 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -397,6 +399,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.cya_later]: {
     cardOrder: AdventureCardName[]
   }
+  [OnboardingEvents.link_phone_number]: undefined
+  [OnboardingEvents.link_phone_number_later]: undefined
 }
 
 interface PhoneVerificationEventsProperties {
@@ -575,8 +579,8 @@ interface SendEventsProperties {
     partialAddressValidation: boolean
   }
 
-  [SendEvents.send_tx_start]: Web3LibraryProps
-  [SendEvents.send_tx_complete]: Web3LibraryProps & {
+  [SendEvents.send_tx_start]: undefined
+  [SendEvents.send_tx_complete]: {
     txId: string
     recipientAddress: string
     amount: string
@@ -1321,7 +1325,7 @@ interface TokenBottomSheetEventsProperties {
     tokenId: string
     tokenAddress: string | null
     networkId: NetworkId | null
-    searchTerm: string
+    usedSearchTerm: boolean
     selectedFilters: string[]
   }
 }

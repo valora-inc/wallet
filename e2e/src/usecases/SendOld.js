@@ -21,7 +21,7 @@ export default SendOld = () => {
       commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
       await launchApp({
         newInstance: true,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=false,use_viem_for_send=true` },
+        launchArgs: { statsigGateOverrides: `use_new_send_flow=false` },
       })
     })
 
