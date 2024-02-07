@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
-import UpArrowIcon from 'src/icons/UpArrowIcon'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -21,7 +20,7 @@ function Dropdown<T>(props: Props<T>) {
   const [labelSelected, setLabelSelected] = useState<string | undefined>()
 
   const toggleOpen = () => {
-    setIsOpen(!isOpen)
+    setIsOpen((prev) => !prev)
   }
 
   return (
@@ -32,7 +31,11 @@ function Dropdown<T>(props: Props<T>) {
           {!isOpen ? (
             <DownArrowIcon color={Colors.primary} strokeWidth={2} />
           ) : (
-            <UpArrowIcon color={Colors.primary} strokeWidth={2} />
+            <DownArrowIcon
+              color={Colors.primary}
+              strokeWidth={2}
+              style={{ transform: [{ rotate: '180deg' }] }}
+            />
           )}
         </View>
       </Touchable>
