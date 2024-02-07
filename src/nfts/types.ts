@@ -10,26 +10,32 @@ interface NftMedia {
   gateway: string
 }
 
+interface NftMetadata {
+  name: string
+  description: string
+  image: string
+  animation_url?: string
+  dna?: string | null
+  id?: number | null
+  date?: number | null
+  attributes?: NftMetaDataAttribute[] | null
+}
+
 export interface Nft {
   tokenId: string
   contractAddress: string
   tokenUri?: string | null
   ownerAddress?: string | null
-  metadata: {
-    name: string
-    description: string
-    image: string
-    animation_url?: string
-    dna?: string | null
-    id?: number | null
-    date?: number | null
-    attributes?: NftMetaDataAttribute[] | null
-  } | null
+  metadata: NftMetadata | null
   media: NftMedia[]
 }
 
 export interface NftWithNetworkId extends Nft {
   networkId: NetworkId
+}
+
+export interface NftWithMetadata extends Omit<NftWithNetworkId, 'metadata'> {
+  metadata: NftMetadata
 }
 
 export enum NftMediaType {
