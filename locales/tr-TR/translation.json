@@ -1114,6 +1114,10 @@
       "title": "Yetersiz gas token bakiyesi",
       "description": "Gas ücretini karşılamak için yeterli {{feeCurrencies}} bakiyeniz yok. Bu işlemi tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin."
     },
+    "failedToPrepareTransaction": {
+      "title": "İşlem hazırlanamadı",
+      "description": "İşlem hazırlanırken bir hata oluştu. Daha fazla ayrıntı için altta yatan hataya bakın.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
