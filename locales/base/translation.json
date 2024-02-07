@@ -1966,7 +1966,9 @@
       "network": "Network"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support"
+      "invalidAddress": "Invalid token address. Please review it",
+      "invalidToken": "Invalid token. Try again or contact support",
+      "tokenAlreadySupported": "This token is already supported"
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"

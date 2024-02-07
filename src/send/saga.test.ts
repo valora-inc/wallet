@@ -4,16 +4,13 @@ import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { Actions, SendPaymentAction } from 'src/send/actions'
 import { sendPaymentSaga } from 'src/send/saga'
-import { getFeatureGate } from 'src/statsig'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
-import { addStandbyTransaction } from 'src/transactions/actions'
-import { sendTransactionAsync } from 'src/transactions/contract-utils'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
-import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import {
   UnlockResult,
@@ -31,10 +28,8 @@ import {
   mockFeeInfo,
   mockQRCodeRecipient,
 } from 'test/values'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 
 jest.mock('@celo/connect')
-jest.mock('src/statsig')
 
 const mockNewTransactionContext = jest.fn()
 
@@ -94,49 +89,10 @@ describe(sendPaymentSaga, () => {
   })
 
   beforeEach(() => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
     jest.clearAllMocks()
   })
 
-  it('sends a payment successfully with contract kit', async () => {
-    await expectSaga(sendPaymentSaga, sendAction)
-      .withState(createMockStore({}).getState())
-      .provide([
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [call(encryptComment, 'asdf', 'asdf', 'asdf', true), 'Asdf'],
-        [call(getERC20TokenContract, mockCusdAddress), mockContract],
-        [call(getStableTokenContract, mockCusdAddress), mockContract],
-        [matchers.call.fn(sendTransactionAsync), undefined],
-      ])
-      .put(
-        addStandbyTransaction({
-          __typename: 'TokenTransferV3',
-          context: mockContext,
-          networkId: NetworkId['celo-alfajores'],
-          type: TokenTransactionTypeV2.Sent,
-          metadata: {
-            comment: sendAction.comment,
-          },
-          amount: {
-            value: amount.negated().toString(),
-            tokenAddress: mockCusdAddress,
-            tokenId: mockCusdTokenId,
-          },
-          address: mockQRCodeRecipient.address,
-        })
-      )
-      .call.fn(sendAndMonitorTransaction)
-      .run()
-
-    expect(mockContract.methods.transferWithComment).toHaveBeenCalledWith(
-      mockQRCodeRecipient.address,
-      amount.times(1e18).toFixed(0),
-      expect.any(String)
-    )
-  })
-
   it('sends a payment successfully with viem', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     await expectSaga(sendPaymentSaga, sendActionWithPreparedTx)
       .withState(createMockStore({}).getState())
       .provide([
@@ -164,7 +120,6 @@ describe(sendPaymentSaga, () => {
       usdAmount: '10',
       tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase(),
       tokenId: mockCusdTokenId,
-      web3Library: 'viem',
       networkId: 'celo-alfajores',
     })
   })

@@ -114,6 +114,11 @@
         "later": "Eseguirò un backup in un secondo momento",
         "manual": "Backup manuale"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Ripristinare il portafoglio"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!",
@@ -871,6 +876,18 @@
       "description": "Questo wallet non contiene fondi. Desideri utilizzarlo comunque?",
       "action": "Usa il wallet",
       "title": "Saldo\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Ripristina il tuo portafoglio",
+    "description": "Se hai impostato un backup per proteggere il tuo portafoglio, scegli un'opzione qui sotto.",
+    "emailAndPhone": {
+      "title": "Dal backup di e-mail e telefono",
+      "description": "Ripristina il tuo portafoglio con il numero di telefono e l'email che hai impostato in precedenza."
+    },
+    "recoveryPhrase": {
+      "title": "Dalla frase di recupero",
+      "description": "Inserisci la tua frase di recupero di 12 parole per riottenere l'accesso a Valora"
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Cerca asset",
-    "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>.",
+    "noFilterSearchResults": "Non sono state trovate attività corrispondenti per \"{{searchTerm}}\" nelle seguenti categorie: {{filterNames}}",
+    "noFilterResults": "Non sono state trovate attività corrispondenti nelle seguenti categorie: {{filterNames}}",
+    "noSearchResults": "Nessuna corrispondenza trovata per \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "I miei gettoni",
+      "popular": "Popolare",
+      "recentlySwapped": "Scambiato di recente",
+      "celo": "Supercharge",
+      "ethereum": "Rete Ethereum"
+    }
   },
   "homeActions": {
     "add": "Acquista",
@@ -2043,12 +2070,6 @@
   "getStartedHome": {
     "title": "Acquista criptovalute o trasferisci token",
     "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!"
-  },
-  "linkPhoneNumber": {
-    "title": "Collega un numero di telefono all'indirizzo del tuo portafoglio",
-    "description": "Niente più indirizzi di portafogli disordinati! Invia criptovalute ad altri utenti Valora con un semplice numero di telefono",
-    "startButtonLabel": "Numero di telefono del collegamento",
-    "later": "Lo farò più tardi"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"

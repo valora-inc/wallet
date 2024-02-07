@@ -114,6 +114,11 @@
         "later": "ฉันจะสำรองข้อมูลในภายหลัง",
         "manual": "การสำรองข้อมูลด้วยตนเอง"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restoring your wallet"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ Valora ไม่ได้เก็บอีเมลหรือหมายเลขโทรศัพท์ของคุณไว้ โปรดรักษากระเป๋าเงินของคุณให้ปลอดภัย",
@@ -871,6 +876,18 @@
       "description": "กระเป๋าเงินนี้ไม่มีเงินทุนใด ๆ คุณยังต้องการใช้หรือไม่?",
       "action": "ใช้กระเป๋าเงิน",
       "title": "ยอดคงเหลือ\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restore Your Wallet",
+    "description": "If you set up a backup to protect your wallet, choose an option below.",
+    "emailAndPhone": {
+      "title": "From email & phone backup",
+      "description": "Restore your wallet with the phone number & email you set up previously"
+    },
+    "recoveryPhrase": {
+      "title": "From recovery phrase",
+      "description": "Enter your 12 word recovery phrase to regain access to Valora"
     }
   },
   "verificationInput": {
@@ -1852,7 +1869,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "ค้นหาสินทรัพย์",
-    "noTokenInResult": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "ไม่พบผลลัพธ์ที่ตรงกันสำหรับ <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
+    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "My tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Recently swapped",
+      "celo": "Celo Network",
+      "ethereum": "Ethereum Network"
+    }
   },
   "homeActions": {
     "add": "ซื้อ",
@@ -2041,12 +2068,6 @@
   "getStartedHome": {
     "title": "ซื้อคริปโตหรือโอนโทเค็น",
     "body": "ซื้อหรือโอนโทเค็นที่เข้ากันได้เพื่อส่งคริปโตและสำรวจ web3!"
-  },
-  "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
-    "description": "No more messy wallet addresses! Send crypto to other Valora users with just a phone number",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
