@@ -141,6 +141,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: ``,
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: `When keyless backup fails to generate store encrypted mnemonic for setup or fails to retrieve and decrypt mnemonic for restore`,
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: `When keyless backup successfully saves encrypted mnemonic for setup or successfully retrieves and decrypts mnemonic for restore`,
+  [KeylessBackupEvents.cab_restore_zero_balance_accept]: `When a user is restoring from CAB and a dialog is shown informing them that their wallet has zero balance but they proceed anyways`,
+  [KeylessBackupEvents.cab_restore_zero_balance_bail]: `When a user is restoring from CAB and a dialog is shown informing them that their wallet has zero balance and they choose to bail and restart restore flow`,
   [OnboardingEvents.onboarding_education_scroll]: ``,
   [OnboardingEvents.onboarding_education_step_impression]: ``,
   [OnboardingEvents.create_account_start]: ``,

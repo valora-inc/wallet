@@ -114,6 +114,11 @@
         "later": "Daha sonra yedekleyeceğim",
         "manual": "Manuel Yedekleme"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Cüzdanınızı yenilemek"
+      }
     }
   },
   "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
@@ -871,6 +876,18 @@
       "description": "Bu cüzdanda hiç bakiye yok. Yine de kullanmak ister misiniz?",
       "action": "Cüzdan Kullan",
       "title": "Bakiye\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Cüzdanınızı Geri Yükleyin",
+    "description": "Cüzdanınızı korumak için bir yedekleme ayarladıysanız, aşağıdaki seçeneklerden birini seçin.",
+    "emailAndPhone": {
+      "title": "E-posta ve telefon yedeklemesinden",
+      "description": "Cüzdanınızı daha önce ayarladığınız telefon numarası ve e-posta ile geri yükleyin"
+    },
+    "recoveryPhrase": {
+      "title": "Kurtarma cümlesinden",
+      "description": "Valora'ya yeniden erişim kazanmak için 12 kelimelik kurtarma cümlenizi girin"
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",
-    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı"
+    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı",
+    "noFilterSearchResults": "\"{{searchTerm}}\" için aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
+    "noFilterResults": "Aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
+    "noSearchResults": "\"{{searchTerm}}\" için eşleşen varlık bulunamadı",
+    "filters": {
+      "myTokens": "Jetonlarım",
+      "popular": "Popüler",
+      "recentlySwapped": "Yakın zamanda değiştirildi",
+      "celo": "CELO Ağı",
+      "ethereum": "Ethereum Ağı"
+    }
   },
   "homeActions": {
     "add": "Satın Al",
@@ -2043,12 +2070,6 @@
   "getStartedHome": {
     "title": "Kripto satın alın veya token transfer edin",
     "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!"
-  },
-  "linkPhoneNumber": {
-    "title": "Cüzdan adresinize bir telefon numarası bağlayın",
-    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Valora kullanıcılarına kripto gönderin",
-    "startButtonLabel": "Bağlantı Telefon Numarası",
-    "later": "Bunu daha sonra yapacağım."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
