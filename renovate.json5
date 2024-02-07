@@ -51,6 +51,7 @@
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',
+      enabled: false,
     },
     {
       // Group updates for @testing-library packages
