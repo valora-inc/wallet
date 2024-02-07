@@ -1112,6 +1112,10 @@
       "title": "ยอดคงเหลือโทเค็นก๊าซไม่เพียงพอ",
       "description": "คุณมี {{feeCurrencies}} ไม่เพียงพอจ่ายค่าก๊าซ โปรดฝาก {{feeCurrencies}} ไปยังกระเป๋าเงินของคุณเพื่อดำเนินการธุรกรรมนี้ให้เสร็จ"
     },
+    "failedToPrepareTransaction": {
+      "title": "Failed to prepare transaction",
+      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "ไม่รองรับเครือข่าย",
