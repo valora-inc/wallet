@@ -1962,7 +1962,9 @@
       "network": "Mạng lưới"
     },
     "error": {
-      "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ"
+      "invalidAddress": "Invalid token address. Please review it",
+      "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ",
+      "tokenAlreadySupported": "This token is already supported"
     },
     "importSuccess": "Đã nhập thành công token {{tokenSymbol}}",
     "importButton": "Nhập"
