@@ -1112,6 +1112,10 @@
       "title": "Số dư token gas không đủ",
       "description": "Bạn không có đủ {{feeCurrencies}} để trả phí giao dịch. Vui lòng nạp {{feeCurrencies}} vào ví để hoàn thành giao dịch này."
     },
+    "failedToPrepareTransaction": {
+      "title": "Failed to prepare transaction",
+      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chuỗi không được hỗ trợ",
