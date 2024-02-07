@@ -121,6 +121,11 @@
         "later": "I'll backup later",
         "manual": "Manual Backup"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restoring your wallet"
+      }
     }
   },
   "testFaqLink": "{{appName}} FAQ",

@@ -253,6 +253,8 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -595,12 +597,6 @@ interface SendEventsProperties {
     currentTokenId: string
     currentTokenAddress: string | null
     currentNetworkId: NetworkId | null
-  }
-  [SendEvents.token_selected]: {
-    origin: TokenPickerOrigin
-    tokenId: string
-    tokenAddress: string | null
-    networkId: NetworkId | null
   }
   [SendEvents.max_pressed]: {
     tokenId: string
@@ -1319,6 +1315,19 @@ interface TokenBottomSheetEventsProperties {
   [TokenBottomSheetEvents.search_token]: {
     origin: TokenPickerOrigin
     searchInput: string
+  }
+  [TokenBottomSheetEvents.toggle_tokens_filter]: {
+    filterId: string
+    isRemoving: boolean
+    isPreSelected: boolean
+  }
+  [TokenBottomSheetEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
+    usedSearchTerm: boolean
+    selectedFilters: string[]
   }
 }
 

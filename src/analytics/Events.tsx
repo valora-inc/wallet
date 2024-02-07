@@ -113,6 +113,8 @@ export enum KeylessBackupEvents {
   cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
   cab_handle_keyless_backup_failed = 'cab_handle_keyless_backup_failed',
   cab_handle_keyless_backup_success = 'cab_handle_keyless_backup_success',
+  cab_restore_zero_balance_accept = 'cab_restore_zero_balance_accept',
+  cab_restore_zero_balance_bail = 'cab_restore_zero_balance_bail',
 }
 
 export enum OnboardingEvents {
@@ -294,7 +296,6 @@ export enum SendEvents {
   send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  token_selected = 'token_selected',
   max_pressed = 'max_pressed',
   swap_input_pressed = 'swap_input_pressed',
 
@@ -576,6 +577,8 @@ export enum CeloNewsEvents {
 
 export enum TokenBottomSheetEvents {
   search_token = 'search_token',
+  token_selected = 'token_selected',
+  toggle_tokens_filter = 'toggle_tokens_filter',
 }
 
 export enum AssetsEvents {
