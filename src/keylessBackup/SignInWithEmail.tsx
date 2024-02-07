@@ -9,7 +9,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import GoogleIcon from 'src/icons/Google'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
-import { googleSignInCompleted } from 'src/keylessBackup/slice'
+import { googleSignInCompleted, keylessBackupStarted } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -33,6 +33,11 @@ function SignInWithEmail({ route }: Props) {
 
   const onPressGoogle = async () => {
     setLoading(true)
+    dispatch(
+      keylessBackupStarted({
+        keylessBackupFlow,
+      })
+    )
     ValoraAnalytics.track(KeylessBackupEvents.cab_sign_in_with_google, { keylessBackupFlow })
     try {
       // clear any existing saved credentials
