@@ -89,9 +89,9 @@ export function DAppsExplorerScreenSearchFilter() {
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
-  const removeFilter = () => {
+  const removeFilter = (filter: FilterChip<DappWithCategoryNames>) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
-      filterId: selectedFilter?.id ?? 'all',
+      filterId: filter.id,
       remove: true,
     })
     setFilterChips((prev) => prev.map((filter) => ({ ...filter, isSelected: false })))
@@ -100,7 +100,7 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const handleToggleFilterChip = (filter: FilterChip<DappWithCategoryNames>) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
-      filterId: filter?.id ?? 'all',
+      filterId: filter.id,
       remove: selectedFilter?.id === filter.id,
     })
 

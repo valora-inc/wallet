@@ -14,7 +14,7 @@ import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
   selectedFilter?: FilterChip<DappWithCategoryNames>
-  removeFilter: () => void
+  removeFilter: (filter: FilterChip<DappWithCategoryNames>) => void
   searchTerm: string
   testID?: string
 }
@@ -23,8 +23,10 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
   const { t } = useTranslation()
   const language = useSelector(currentLanguageSelector)
 
-  const onPress = () => {
-    removeFilter()
+  const handleRemoveFilter = () => {
+    if (selectedFilter) {
+      removeFilter(selectedFilter)
+    }
   }
 
   return (
@@ -56,7 +58,7 @@ function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) 
           <View style={styles.removeFilterTouchableContainer}>
             <Touchable
               hitSlop={iconHitslop}
-              onPress={onPress}
+              onPress={handleRemoveFilter}
               style={styles.removeFilterTouchable}
               testID={`${testID}/RemoveFilter`}
             >
