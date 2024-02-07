@@ -1964,7 +1964,9 @@
       "network": "Rede"
     },
     "error": {
-      "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte"
+      "invalidAddress": "Endereço de token inválido. Por favor, revise-o",
+      "invalidToken": "Token inválido. Tente novamente ou entre em contato com a Equipe de Suporte",
+      "tokenAlreadySupported": "Esse token já é suportado"
     },
     "importSuccess": "Token {{tokenSymbol}} importado com sucesso",
     "importButton": "Importar"
