@@ -25,7 +25,9 @@ describe('KeylessBackupIntro', () => {
       )
       const continueButton = getByTestId('keylessBackupIntro/Continue')
       fireEvent.press(continueButton)
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(KeylessBackupEvents.cab_intro_continue, {
+        keylessBackupFlow: KeylessBackupFlow.Setup,
+      })
       expect(navigate).toHaveBeenCalledWith(Screens.SignInWithEmail, {
         keylessBackupFlow: KeylessBackupFlow.Setup,
       })
