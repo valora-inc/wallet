@@ -252,6 +252,8 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
 }
 
 interface OnboardingEventsProperties {
