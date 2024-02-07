@@ -63,12 +63,6 @@ export default function NftCelebration() {
       celebratedNft.contractAddress === nft.contractAddress
   )
 
-  useEffect(() => {
-    if (!nftsLoading) {
-      bottomSheetRef.current?.expand()
-    }
-  }, [nftsLoading])
-
   const lastDisplayedCelebration = useSelector(lastDisplayedNftCelebration)
   const celebrationHasBeenDisplayed =
     !!lastDisplayedCelebration &&
@@ -105,7 +99,23 @@ export default function NftCelebration() {
     )
   }, [matchedNft])
 
-  if (!featureGateEnabled || !celebratedNft || !matchedNft || celebrationHasBeenDisplayed) {
+  const isVisible =
+    featureGateEnabled &&
+    celebratedNft &&
+    matchedNft &&
+    !nftsLoading &&
+    !celebrationHasBeenDisplayed
+
+  useEffect(() => {
+    if (isVisible) {
+      const timeoutId = setTimeout(() => {
+        bottomSheetRef.current?.expand()
+      }, 1000 /* delay to ensure the bottom sheet is layed out */)
+      return () => clearTimeout(timeoutId)
+    }
+  }, [isVisible])
+
+  if (!isVisible) {
     return null
   }
 
