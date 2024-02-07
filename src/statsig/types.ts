@@ -32,6 +32,7 @@ export enum StatsigFeatureGates {
   USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API = 'use_price_history_from_blockchain_api',
   SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
+  SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
 }
 
 export enum StatsigExperiments {

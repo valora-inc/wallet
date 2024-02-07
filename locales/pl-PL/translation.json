@@ -114,6 +114,11 @@
         "later": "Stworzę kopię zapasową później",
         "manual": "Ręczna kopia zapasowa"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Odbudowa twojego portfela"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!",
@@ -871,6 +876,18 @@
       "description": "W tym portfelu nie ma żadnych środków. Czy nadal chcesz z niego korzystać?",
       "action": "Użyj Portfela",
       "title": "Saldo\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Przywróć swój portfel",
+    "description": "Jeśli skonfigurowałeś kopię zapasową, aby chronić swój portfel, wybierz opcję poniżej.",
+    "emailAndPhone": {
+      "title": "Z kopii zapasowej poczty e-mail i telefonu",
+      "description": "Przywróć swój portfel przy użyciu skonfigurowanego wcześniej numeru telefonu i adresu e-mail."
+    },
+    "recoveryPhrase": {
+      "title": "Z frazy odzyskiwania",
+      "description": "Wprowadź swoją 12-słowną frazę odzyskiwania, aby odzyskać dostęp do Valora"
     }
   },
   "verificationInput": {
@@ -1858,7 +1875,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",
-    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
+    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>",
+    "noFilterSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\" w następujących kategoriach: {{filterNames}}",
+    "noFilterResults": "Nie znaleziono pasujących zasobów w następujących kategoriach: {{filterNames}}",
+    "noSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Moje żetony",
+      "popular": "Popularny",
+      "recentlySwapped": "Niedawno wymieniony",
+      "celo": "Celo Network",
+      "ethereum": "Sieć Ethereum"
+    }
   },
   "homeActions": {
     "add": "Kup",
@@ -2047,12 +2074,6 @@
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
-  },
-  "linkPhoneNumber": {
-    "title": "Połącz numer telefonu z adresem portfela",
-    "description": "Koniec z nieuporządkowanymi adresami portfeli! Wysyłaj kryptowaluty do innych użytkowników Valora za pomocą numeru telefonu",
-    "startButtonLabel": "Połącz numer telefonu",
-    "later": "Zrobię to później"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
