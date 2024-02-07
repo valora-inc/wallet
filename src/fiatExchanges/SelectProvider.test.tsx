@@ -232,7 +232,7 @@ describe(SelectProviderScreen, () => {
         quotes: [mockFiatConnectQuotes[4]],
       },
     })
-    const { queryByTestId, queryByText, getByTestId, getByText } = render(
+    const { queryByText, getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
