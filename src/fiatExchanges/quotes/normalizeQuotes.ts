@@ -10,9 +10,6 @@ import {
   RawProviderQuote,
   SimplexQuote,
 } from 'src/fiatExchanges/utils'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
-import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'NormalizeQuotes'
@@ -28,26 +25,7 @@ export function normalizeQuotes(
   return [
     ...normalizeFiatConnectQuotes(flow, fiatConnectQuotes, tokenId),
     ...normalizeExternalProviders({ flow, input: externalProviders, tokenId, tokenSymbol }),
-  ].sort(
-    getFeatureGate(StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER)
-      ? quotesByReceiveAmountComparator
-      : quotesByFeeComparator
-  )
-}
-
-export const quotesByFeeComparator = (quote1: NormalizedQuote, quote2: NormalizedQuote) => {
-  // We can use a dummy exchange rate value here since its just a comparator
-  const usdToLocalRate = '1'
-  // also dummy token info. all we need is the priceUsd
-  const dummyTokenInfo = {
-    priceUsd: new BigNumber('1'),
-  }
-  const providerFee1 =
-    quote1.getFeeInFiat(usdToLocalRate, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
-  const providerFee2 =
-    quote2.getFeeInFiat(usdToLocalRate, dummyTokenInfo as TokenBalance) ?? new BigNumber(Infinity)
-
-  return providerFee1.isGreaterThan(providerFee2) ? 1 : -1
+  ].sort(quotesByReceiveAmountComparator)
 }
 
 export const quotesByReceiveAmountComparator = (

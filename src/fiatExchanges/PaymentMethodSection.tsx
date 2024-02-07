@@ -6,7 +6,6 @@ import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Dialog from 'src/components/Dialog'
 import Expandable from 'src/components/Expandable'
-import TokenDisplay from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { CryptoAmount, FiatAmount } from 'src/fiatExchanges/amount'
 import { SettlementEstimation, SettlementTime } from 'src/fiatExchanges/quotes/constants'
@@ -16,8 +15,6 @@ import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -60,13 +57,8 @@ export function PaymentMethodSection({
   const tokenInfo = useTokenInfo(tokenId)
   const localCurrency = useSelector(getLocalCurrencyCode)
 
-  const showReceiveAmountFeatureGate = getFeatureGate(
-    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER
-  )
-
   const isExpandable = sectionQuotes.length > 1
-  // default to true if feature gate is true and the section is expandable
-  const [expanded, setExpanded] = useState(showReceiveAmountFeatureGate && isExpandable)
+  const [expanded, setExpanded] = useState(isExpandable)
   const [newDialogVisible, setNewDialogVisible] = useState(false)
 
   useEffect(() => {
@@ -120,16 +112,7 @@ export function PaymentMethodSection({
     <>
       <View testID={`${paymentMethod}/section`} style={styles.left}>
         <Text style={styles.category}>{getCategoryTitle()}</Text>
-        {!expanded && !showReceiveAmountFeatureGate && (
-          <Text testID={`${paymentMethod}/minFee`} style={styles.fee}>
-            {
-              // quotes assumed to be sorted ascending by fee
-              renderAmount(sectionQuotes[0], t('selectProviderScreen.minFee'))
-            }
-          </Text>
-        )}
       </View>
-
       <View style={styles.right}>
         <Text testID={`${paymentMethod}/numProviders`} style={styles.providerDropdown}>
           {t('selectProviderScreen.numProviders', { count: sectionQuotes.length })}
@@ -176,7 +159,7 @@ export function PaymentMethodSection({
       <View testID={`${paymentMethod}/singleProvider`} style={styles.left}>
         <Text style={styles.category}>{getCategoryTitle()}</Text>
         <Text testID={`${paymentMethod}/provider-0`} style={styles.fee}>
-          {renderAmount(sectionQuotes[0], t('selectProviderScreen.fee'))}
+          {renderAmount(sectionQuotes[0])}
         </Text>
         <Text testID={`${paymentMethod}/provider-0/info`} style={styles.topInfo}>
           {renderInfoText(sectionQuotes[0])}
@@ -205,48 +188,27 @@ export function PaymentMethodSection({
     return `${reqsSubtitleString}${getPaymentMethodSettlementTimeString(quote.getTimeEstimation())}`
   }
 
-  const renderAmount = (normalizedQuote: NormalizedQuote, feePostFix: string) => {
+  const renderAmount = (normalizedQuote: NormalizedQuote) => {
     const defaultText = <Text>{t('selectProviderScreen.feesVary')}</Text>
+    const receiveAmount = normalizedQuote.getReceiveAmount()
 
-    if (showReceiveAmountFeatureGate) {
-      const receiveAmount = normalizedQuote.getReceiveAmount()
-      if (receiveAmount) {
-        return (
-          <Text>
-            <Trans i18nKey="selectProviderScreen.receiveAmount">
-              {flow === CICOFlow.CashIn ? (
-                <CryptoAmount amount={receiveAmount} tokenId={tokenId} />
-              ) : (
-                <FiatAmount amount={receiveAmount} currency={localCurrency} />
-              )}
-            </Trans>
-          </Text>
-        )
-      } else {
-        return defaultText
-      }
+    if (receiveAmount) {
+      return (
+        <Text>
+          <Trans i18nKey="selectProviderScreen.receiveAmount">
+            {flow === CICOFlow.CashIn ? (
+              <CryptoAmount amount={receiveAmount} tokenId={tokenId} />
+            ) : (
+              <FiatAmount amount={receiveAmount} currency={localCurrency} />
+            )}
+          </Trans>
+        </Text>
+      )
+    } else {
+      return defaultText
     }
-
-    const feeAmount = !!tokenInfo && normalizedQuote.getFeeInCrypto(usdToLocalRate, tokenInfo)
-
-    return (
-      <>
-        {feeAmount ? (
-          <Text>
-            <TokenDisplay
-              amount={feeAmount}
-              tokenId={tokenInfo?.tokenId}
-              showLocalAmount={flow === CICOFlow.CashIn}
-              hideSign={false}
-            />{' '}
-            {feePostFix}
-          </Text>
-        ) : (
-          defaultText
-        )}
-      </>
-    )
   }
+
   return (
     <View style={styles.container}>
       <Touchable
@@ -291,7 +253,7 @@ export function PaymentMethodSection({
               <View style={styles.expandedContainer}>
                 <View style={styles.left}>
                   <Text style={styles.expandedFee} testID={`${paymentMethod}/amount-${index}`}>
-                    {renderAmount(normalizedQuote, t('selectProviderScreen.fee'))}
+                    {renderAmount(normalizedQuote)}
                   </Text>
                   <Text style={styles.expandedInfo}>{renderInfoText(normalizedQuote)}</Text>
                   {index === 0 &&

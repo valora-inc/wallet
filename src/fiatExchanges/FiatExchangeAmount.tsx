@@ -17,8 +17,6 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
-import LineItemRow from 'src/components/LineItemRow'
-import TokenDisplay from 'src/components/TokenDisplay'
 import { ALERT_BANNER_DURATION, DOLLAR_ADD_FUNDS_MAX_AMOUNT } from 'src/config'
 import { useMaxSendAmount } from 'src/fees/hooks'
 import { FeeType } from 'src/fees/reducer'
@@ -37,8 +35,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -93,10 +89,6 @@ function FiatExchangeAmount({ route }: Props) {
   if (localCurrencyCode !== LocalCurrencyCode.USD) {
     overLocalLimitDisplayString = ` (${localCurrencySymbol}${roundUp(localCurrencyMaxAmount)})`
   }
-
-  const showExchangeRate = !getFeatureGate(
-    StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER
-  )
 
   const dispatch = useDispatch()
 
@@ -213,37 +205,7 @@ function FiatExchangeAmount({ route }: Props) {
             testID="FiatExchangeInput"
           />
         </View>
-        {showExchangeRate && (
-          <LineItemRow
-            testID="subtotal"
-            textStyle={styles.subtotalBodyText}
-            title={
-              <>
-                {`${tokenSymbol} @ `}
-                {
-                  <TokenDisplay
-                    amount={BigNumber(1)}
-                    tokenId={tokenId}
-                    showLocalAmount={true}
-                    hideSign={false}
-                  />
-                }
-              </>
-            }
-            amount={
-              <TokenDisplay
-                amount={inputCryptoAmount}
-                tokenId={tokenId}
-                showLocalAmount={inputIsCrypto}
-                hideSign={false}
-              />
-            }
-          />
-        )}
       </KeyboardAwareScrollView>
-      {showExchangeRate && (
-        <Text style={styles.disclaimerFiat}>{t('disclaimerFiat', { currency: tokenSymbol })}</Text>
-      )}
       <Button
         onPress={onPressContinue}
         showLoading={usdToLocalRate === null || attemptReturnUserFlowLoading}
@@ -326,9 +288,6 @@ const styles = StyleSheet.create({
   exchangeBodyText: {
     ...fontStyles.regular500,
   },
-  subtotalBodyText: {
-    ...fontStyles.small,
-  },
   currencyInput: {
     ...fontStyles.regular,
     marginLeft: 10,
@@ -343,10 +302,5 @@ const styles = StyleSheet.create({
   },
   reviewBtn: {
     padding: variables.contentPadding,
-  },
-  disclaimerFiat: {
-    ...fontStyles.small,
-    color: colors.gray4,
-    textAlign: 'center',
   },
 })

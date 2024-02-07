@@ -8,7 +8,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
-  [StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY]: false,
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
