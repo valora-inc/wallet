@@ -1962,7 +1962,9 @@
       "network": "网络"
     },
     "error": {
-      "invalidToken": "代币无效。请重试或联系支持人员"
+      "invalidAddress": "令牌地址无效。请复查",
+      "invalidToken": "代币无效。请重试或联系支持人员",
+      "tokenAlreadySupported": "已支持此标记"
     },
     "importSuccess": "成功导入 {{tokenSymbol}} 代币",
     "importButton": "导入"
