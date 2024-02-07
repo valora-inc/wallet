@@ -1964,7 +1964,9 @@
       "network": "Netzwerk"
     },
     "error": {
-      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team"
+      "invalidAddress": "Ungültige Token-Adresse. Bitte überprüfe sie",
+      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team",
+      "tokenAlreadySupported": "Dieses Token wird bereits unterstützt"
     },
     "importSuccess": "{{tokenSymbol}} Token erfolgreich importiert",
     "importButton": "Importieren"
