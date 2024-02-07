@@ -217,7 +217,7 @@ function TokenBottomSheet<T extends TokenBalance>({
 
       return true
     })
-  }, [searchTerm, tokens, filters])
+  }, [searchTerm, tokens, activeFilters])
 
   const handleOpen = () => {
     setFilters(filterChips)
