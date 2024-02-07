@@ -1114,6 +1114,10 @@
       "title": "Saldo insuficiente para cubrir tarifas de transacción",
       "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, agrega {{feeCurrencies}} a tu billetera para completar esta transacción."
     },
+    "failedToPrepareTransaction": {
+      "title": "Error al preparar la transacción",
+      "description": "Se ha producido un error al preparar la transacción. Consulta el error subyacente para más detalles.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadena incompatible",
