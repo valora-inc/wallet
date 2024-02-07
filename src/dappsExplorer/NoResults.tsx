@@ -13,7 +13,7 @@ import { Spacing } from 'src/styles/styles'
 import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
-  selectedFilter: FilterChip<DappWithCategoryNames> | null
+  selectedFilter?: FilterChip<DappWithCategoryNames>
   removeFilter: () => void
   searchTerm: string
   testID?: string

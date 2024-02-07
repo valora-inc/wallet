@@ -71,18 +71,19 @@ export function DAppsExplorerScreenSearchFilter() {
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
-  const filterChips = useMemo(() => {
-    return categories.map((category) => ({
+  const [filterChips, setFilterChips] = useState<FilterChip<DappWithCategoryNames>[]>(
+    categories.map((category) => ({
       id: category.id,
       name: category.name,
       filterFn: (dapp: DappWithCategoryNames) => dapp.categories.includes(category.id),
+      isSelected: false,
     }))
-  }, [categories])
-
-  const [selectedFilter, setSelectedFilter] = useState<FilterChip<DappWithCategoryNames> | null>(
-    null
   )
-  // Some state lifted up from all and favorite sections
+  const selectedFilter = useMemo(
+    () => filterChips.find((filter) => filter.isSelected),
+    [filterChips]
+  )
+
   const [searchTerm, setSearchTerm] = useState('')
 
   const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
@@ -93,17 +94,24 @@ export function DAppsExplorerScreenSearchFilter() {
       filterId: selectedFilter?.id ?? 'all',
       remove: true,
     })
-    setSelectedFilter(null)
+    setFilterChips((prev) => prev.map((filter) => ({ ...filter, isSelected: false })))
     horizontalScrollView.current?.scrollTo({ x: 0, animated: true })
   }
 
   const handleToggleFilterChip = (filter: FilterChip<DappWithCategoryNames>) => {
     ValoraAnalytics.track(DappExplorerEvents.dapp_filter, {
       filterId: filter?.id ?? 'all',
-      remove: selectedFilter !== null,
+      remove: selectedFilter?.id === filter.id,
     })
 
-    setSelectedFilter((prev) => (prev?.id === filter.id ? null : filter))
+    setFilterChips((prev) =>
+      prev.map((prevFilter) => {
+        return {
+          ...prevFilter,
+          isSelected: prevFilter.id === filter.id ? !prevFilter.isSelected : false,
+        }
+      })
+    )
   }
 
   const handleShowDappRankings = () => {
@@ -223,7 +231,6 @@ export function DAppsExplorerScreenSearchFilter() {
                 />
                 <FilterChipsCarousel
                   chips={filterChips}
-                  selectedChips={selectedFilter ? [selectedFilter] : []}
                   onSelectChip={handleToggleFilterChip}
                   primaryColor={colors.infoDark}
                   secondaryColor={colors.infoLight}
