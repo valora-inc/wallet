@@ -114,6 +114,11 @@
         "later": "Vou fazer backup mais tarde",
         "manual": "Backup manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Recuperação de sua carteira"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. A Valora não armazena seu e-mail ou número de celular. Você deve protegê-las!",
@@ -871,6 +876,18 @@
       "description": "Esta carteira não tem fundos. Você ainda gostaria de usá-la?",
       "action": "Usar carteira",
       "title": "Saldo\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Recupere sua carteira",
+    "description": "Se você configurou um backup para proteger sua carteira, escolha uma opção abaixo.",
+    "emailAndPhone": {
+      "title": "De backup de e-mail e telefone",
+      "description": "Restaure sua carteira com o número de telefone e o e-mail que você configurou anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "Da frase de recuperação",
+      "description": "Digite sua frase de recuperação de 12 palavras para recuperar o acesso ao Valora"
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Pesquisar ativos",
-    "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "Nenhum resultado correspondente encontrado para <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "Não foram encontrados ativos correspondentes para \"{{searchTerm}}\" nas seguintes categorias: {{filterNames}}",
+    "noFilterResults": "Não foram encontrados ativos correspondentes nas seguintes categorias: {{filterNames}}",
+    "noSearchResults": "Não foram encontrados ativos correspondentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Meus tokens",
+      "popular": "Popular",
+      "recentlySwapped": "Trocado recentemente",
+      "celo": "Supercharge",
+      "ethereum": "Rede Ethereum"
+    }
   },
   "homeActions": {
     "add": "Comprar",
@@ -2043,12 +2070,6 @@
   "getStartedHome": {
     "title": "Comprar cripto ou transferir tokens",
     "body": "Compre ou transfira tokens compatíveis para enviar cripto e explorar a web3!"
-  },
-  "linkPhoneNumber": {
-    "title": "Vincule um número de telefone ao endereço da sua carteira",
-    "description": "Você não precisa mais de endereços de carteira bagunçados! Envie criptografia para outros usuários Valora com apenas um número de telefone",
-    "startButtonLabel": "Número de telefone do link",
-    "later": "Farei isso mais tarde"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

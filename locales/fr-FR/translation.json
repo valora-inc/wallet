@@ -114,6 +114,11 @@
         "later": "Je sauvegarderai plus tard",
         "manual": "Sauvegarde manuelle"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaure ton portefeuille"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !",
@@ -871,6 +876,18 @@
       "description": "Ce wallet n'a pas de fonds. Voulez-vous l'utiliser ?",
       "action": "Utiliser le wallet",
       "title": "Solde\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restaure ton portefeuille",
+    "description": "Si tu as mis en place une sauvegarde pour protéger ton portefeuille, choisis une option ci-dessous.",
+    "emailAndPhone": {
+      "title": "De la sauvegarde des courriels et du téléphone",
+      "description": "Restaure ton portefeuille avec le numéro de téléphone et l'email que tu as configurés précédemment."
+    },
+    "recoveryPhrase": {
+      "title": "De la phrase de récupération",
+      "description": "Saisis ta phrase de récupération de 12 mots pour retrouver l'accès à Valora."
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Rechercher des actifs",
-    "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>"
+    "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>",
+    "noFilterSearchResults": "Aucun actif correspondant n'a été trouvé pour \"{{searchTerm}}\" dans les catégories suivantes : {{filterNames}}",
+    "noFilterResults": "Aucun actif correspondant n'a été trouvé dans les catégories suivantes : {{filterNames}}",
+    "noSearchResults": "Aucun actif correspondant n'a été trouvé pour \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Mes jetons",
+      "popular": "Populaire",
+      "recentlySwapped": "Récemment échangé",
+      "celo": "Supercharge",
+      "ethereum": "Réseau Ethereum"
+    }
   },
   "homeActions": {
     "add": "Acheter",
@@ -2007,8 +2034,8 @@
   "viewOnCeloScan": "Voir sur CeloScan",
   "viewOnEthereumBlockExplorer": "Voir sur Etherscan",
   "viewOnArbiscan": "Voir sur Arbiscan",
-  "viewOnOPMainnetExplorer": "Vue sur OP Mainnet Explorer",
-  "viewOnOPSepoliaExplorer": "Vue sur OP Sepolia Explorer",
+  "viewOnOPMainnetExplorer": "Voir sur OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Voir sur OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Saisissez le montant",
     "selectToken": "Sélectionnez un jeton",
@@ -2043,12 +2070,6 @@
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
     "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !"
-  },
-  "linkPhoneNumber": {
-    "title": "Associe un numéro de téléphone à l'adresse de ton portefeuille",
-    "description": "Fini les adresses de portefeuilles en désordre ! Envoie du crypto à d'autres utilisateurs de Valora avec un simple numéro de téléphone.",
-    "startButtonLabel": "Numéro de téléphone du lien",
-    "later": "Je le ferai plus tard"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
