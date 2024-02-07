@@ -15,6 +15,7 @@ import {
   optimism,
   optimismSepolia,
 } from 'viem/chains'
+import _ from 'lodash'
 
 export enum Testnets {
   alfajores = 'alfajores',
@@ -482,26 +483,13 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['op-sepolia']]: 'eip155:11155420',
 }
 
-export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
-  'eip155:44787': NetworkId['celo-alfajores'],
-  'eip155:42220': NetworkId['celo-mainnet'],
-  'eip155:1': NetworkId['ethereum-mainnet'],
-  'eip155:11155111': NetworkId['ethereum-sepolia'],
-  'eip155:42161': NetworkId['arbitrum-one'],
-  'eip155:421614': NetworkId['arbitrum-sepolia'],
-  'eip155:10': NetworkId['op-mainnet'],
-  'eip155:11155420': NetworkId['op-sepolia'],
-}
+export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = _.invert(
+  networkIdToWalletConnectChainId
+) as Record<string, NetworkId>
 
-export const walletConnectChainIdToNetwork: Record<string, Network> = {
-  'eip155:44787': Network.Celo,
-  'eip155:42220': Network.Celo,
-  'eip155:1': Network.Ethereum,
-  'eip155:11155111': Network.Ethereum,
-  'eip155:42161': Network.Arbitrum,
-  'eip155:421614': Network.Arbitrum,
-  'eip155:10': Network.Optimism,
-  'eip155:11155420': Network.Optimism,
+export const walletConnectChainIdToNetwork: Record<string, Network> = {}
+for (const [walletConnectChainId, networkId] of Object.entries(walletConnectChainIdToNetworkId)) {
+  walletConnectChainIdToNetwork[walletConnectChainId] = networkIdToNetwork[networkId]
 }
 
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)
