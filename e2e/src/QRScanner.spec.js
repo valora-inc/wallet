@@ -45,7 +45,7 @@ describe(':ios: Given QR Scanner', () => {
     })
   })
 
-  describe('When scanning QR', () => {
+  describe("When 'scanning' QR", () => {
     beforeEach(async () => {
       await reloadReactNative()
       await waitForElementId('HomeAction-Receive')
