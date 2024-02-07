@@ -20,7 +20,7 @@ const launchDeepLink = async (url, newInstance = true) => {
   await launchApp({
     url,
     newInstance,
-    launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
+    launchArgs: { statsigGateOverrides: `use_new_send_flow=true` },
   })
 }
 
