@@ -1964,7 +1964,9 @@
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico"
+      "invalidAddress": "Dirección de token no válida. Por favor, revísala",
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
+      "tokenAlreadySupported": "Este token ya está soportado"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
