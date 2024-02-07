@@ -7,8 +7,10 @@ import { Platform, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
@@ -20,8 +22,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { FeeType } from 'src/fees/reducer'
-import { feeEstimatesSelector } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { getSecureSendAddress } from 'src/identity/secureSend'
@@ -160,12 +160,11 @@ function SendConfirmation(props: Props) {
   )
   const recipient = useRecipientToSendTo(paramRecipient)
 
-  const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeType = FeeType.SEND
-  const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
-
-  // We could consider making the preparedTx a required field if we handle those
-  // scenarios differently after the old send flow is cleaned up
+  // preparedTransaction is expected to be present except for some
+  // payment requests (which may not include one if a tx is not possible, e.g.,
+  // amount > balance, not enough for gas, etc).
+  // We could consider making preparedTx a required field if we handle those
+  // scenarios differently
   const disableSend = isSending || !preparedTransaction
 
   const feeTokenInfo = useTokenInfo(feeTokenId)
@@ -224,6 +223,12 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
+    if (!preparedTransaction) {
+      // This should never happen because the confirm button is disabled if this happens.
+      dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
+      return
+    }
+
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
       recipientType: recipient.recipientType,
@@ -247,7 +252,7 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         fromModal,
-        feeEstimate?.feeInfo,
+        undefined,
         preparedTransaction
       )
     )
