@@ -1114,6 +1114,10 @@
       "title": "Balanço insuficiente de tokens de Gas",
       "description": "Você não tem {{feeCurrencies}} o suficiente para cobrir as taxas de gas. Adicione {{feeCurrencies}} à sua carteira para concluir esta transação."
     },
+    "failedToPrepareTransaction": {
+      "title": "Falha ao preparar a transação",
+      "description": "Ocorreu um erro ao preparar a transação. Consulte o erro subjacente para obter mais detalhes.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadeia não suportada",
