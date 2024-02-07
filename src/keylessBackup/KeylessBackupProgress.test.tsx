@@ -8,12 +8,20 @@ import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBa
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import Logger from 'src/utils/Logger'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockOnboardingProps } from 'test/values'
+
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 
 jest.mock('src/navigator/NavigationService')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/utils/Logger')
+jest.mock('src/onboarding/steps', () => ({
+  goToNextOnboardingScreen: jest.fn(),
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
+}))
 
 function createStore(keylessBackupStatus: KeylessBackupStatus) {
   return createMockStore({
@@ -140,6 +148,23 @@ describe('KeylessBackupProgress', () => {
         KeylessBackupEvents.cab_restore_zero_balance_bail
       )
       expect(store.getActions()).toEqual([keylessBackupBail()])
+    })
+    it('shows the completed screen shen cab is completed', () => {
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Completed)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+
+      fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_completed_continue
+      )
+      expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+        onboardingProps: expect.any(Object),
+        firstScreenInCurrentStep: Screens.ImportSelect,
+      })
     })
   })
 })

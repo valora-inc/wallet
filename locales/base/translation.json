@@ -118,6 +118,11 @@
     "restore": {
       "inProgress": {
         "title": "Restoring your wallet"
+      },
+      "completed": {
+        "title": "Your wallet has been restored!",
+        "bodyZeroBalance": "You can add funds to your wallet once you are finished setting up.",
+        "bodyBalance": "You have a balance of {{localCurrencySymbol}}{{totalBalance}}"
       }
     }
   },

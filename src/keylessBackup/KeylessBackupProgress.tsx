@@ -16,12 +16,16 @@ import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
 import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
-import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import { useDollarsToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
+import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
+import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { useTotalTokenBalance } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'keylessBackup/KeylessBackupProgress'
@@ -46,6 +50,14 @@ function KeylessBackupProgress({
 function Restore() {
   const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
   const localCurrencyCode = useLocalCurrencyCode()
+  const onboardingProps = useSelector(onboardingPropsSelector)
+
+  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
+  const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
+  const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
+  const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
+  const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
+  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -89,7 +101,41 @@ function Restore() {
         </SafeAreaView>
       )
     }
-    // TODO(ACT-781): Implement Success screen
+    case KeylessBackupStatus.Completed: {
+      return (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.finishedContainer}>
+            <View style={styles.iconContainer}>
+              <GreenLoadingSpinnerToCheck />
+            </View>
+            <Text style={styles.title}>{t('keylessBackupStatus.restore.completed.title')}</Text>
+            <Text style={styles.body}>
+              {totalBalanceLocal.gt(0)
+                ? t('keylessBackupStatus.restore.completed.bodyBalance', {
+                    localCurrencySymbol,
+                    totalBalance: totalBalanceLocal.toFormat(2),
+                  })
+                : t('keylessBackupStatus.restore.completed.bodyZeroBalance')}
+            </Text>
+          </View>
+          <Button
+            testID="KeylessBackupProgress/Continue"
+            onPress={() => {
+              ValoraAnalytics.track(KeylessBackupEvents.cab_restore_completed_continue)
+              goToNextOnboardingScreen({
+                onboardingProps,
+                firstScreenInCurrentStep: Screens.ImportSelect,
+              })
+            }}
+            text={t('continue')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.PRIMARY}
+            style={styles.button}
+            touchableStyle={styles.buttonTouchable}
+          />
+        </SafeAreaView>
+      )
+    }
     // TODO(ACT-780): Implement Failure screens
     default:
       Logger.error(TAG, `Got unexpected keyless backup status: ${keylessBackupStatus}`)
@@ -142,7 +188,7 @@ function Setup() {
             onPress={onPressContinue}
             text={t('continue')}
             size={BtnSizes.FULL}
-            type={BtnTypes.ONBOARDING}
+            type={BtnTypes.PRIMARY}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
           />
