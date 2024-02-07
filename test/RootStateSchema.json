@@ -1632,58 +1632,7 @@
                 "metadata": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "properties": {
-                                "animation_url": {
-                                    "type": "string"
-                                },
-                                "attributes": {
-                                    "anyOf": [
-                                        {
-                                            "items": {
-                                                "$ref": "#/definitions/NftMetaDataAttribute"
-                                            },
-                                            "type": "array"
-                                        },
-                                        {
-                                            "type": "null"
-                                        }
-                                    ]
-                                },
-                                "date": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "dna": {
-                                    "type": [
-                                        "null",
-                                        "string"
-                                    ]
-                                },
-                                "id": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "image": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "description",
-                                "image",
-                                "name"
-                            ],
-                            "type": "object"
+                            "$ref": "#/definitions/NftMetadata"
                         },
                         {
                             "type": "null"
@@ -1743,6 +1692,60 @@
             "required": [
                 "trait_type",
                 "value"
+            ],
+            "type": "object"
+        },
+        "NftMetadata": {
+            "additionalProperties": false,
+            "properties": {
+                "animation_url": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/NftMetaDataAttribute"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "date": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dna": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "id": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "image",
+                "name"
             ],
             "type": "object"
         },
@@ -1810,58 +1813,7 @@
                 "metadata": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "properties": {
-                                "animation_url": {
-                                    "type": "string"
-                                },
-                                "attributes": {
-                                    "anyOf": [
-                                        {
-                                            "items": {
-                                                "$ref": "#/definitions/NftMetaDataAttribute"
-                                            },
-                                            "type": "array"
-                                        },
-                                        {
-                                            "type": "null"
-                                        }
-                                    ]
-                                },
-                                "date": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "dna": {
-                                    "type": [
-                                        "null",
-                                        "string"
-                                    ]
-                                },
-                                "id": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "image": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "description",
-                                "image",
-                                "name"
-                            ],
-                            "type": "object"
+                            "$ref": "#/definitions/NftMetadata"
                         },
                         {
                             "type": "null"
