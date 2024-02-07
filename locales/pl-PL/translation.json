@@ -1118,6 +1118,10 @@
       "title": "Niewystarczające saldo tokenów gazu",
       "description": "Nie masz wystarczającej ilości {{feeCurrencies}}, aby pokryć opłaty za gaz. Dodaj {{feeCurrencies}} do swojego portfela, aby sfinalizować tę transakcję."
     },
+    "failedToPrepareTransaction": {
+      "title": "Nie udało się przygotować transakcji",
+      "description": "Wystąpił błąd podczas przygotowywania transakcji. Zobacz podstawowy błąd, aby uzyskać więcej informacji.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nieobsługiwany łańcuch",
