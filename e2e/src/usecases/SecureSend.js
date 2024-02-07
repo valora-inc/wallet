@@ -103,8 +103,7 @@ export default SecureSend = () => {
     })
   })
 
-  // TODO(ACT-1044): Enable test after new send flow is fixed.
-  xdescribe('Secure send flow with phone number lookup (new flow)', () => {
+  describe('Secure send flow with phone number lookup (new flow)', () => {
     beforeAll(async () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()

@@ -778,8 +778,6 @@ describe('getSendTxFeeDetails', () => {
       .run()
   })
 
-  // TODO(ACT-925): remove this test once we've ensured gas and gasPrice are
-  // consistently BigNumbers or strings
   it('returns fee if gas and gasPrice are strings', async () => {
     const recipientAddress = mockAccount
     const amount = new BigNumber(10)
