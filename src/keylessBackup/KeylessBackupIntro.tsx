@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollContainer: {
-    padding: Spacing.Thick24,
+    paddingHorizontal: Spacing.Thick24,
   },
   title: {
     ...typeScale.labelSemiBoldLarge,
