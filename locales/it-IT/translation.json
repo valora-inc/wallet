@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Ripristinare il portafoglio"
       },
+      "completed": {
+        "title": "Il tuo portafoglio è stato ripristinato!",
+        "bodyZeroBalance": "Puoi aggiungere fondi al tuo portafoglio una volta terminata la configurazione.",
+        "bodyBalance": "Hai un equilibrio di <0></0>"
+      },
       "failed": {
         "title": "Il tuo portafoglio non è stato ripristinato",
         "body": "Si è verificato un problema tecnico nel tentativo di ripristinare il tuo portafoglio. Contatta l'assistenza per maggiori informazioni.",
