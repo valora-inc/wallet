@@ -86,7 +86,7 @@ import {
   takeEvery,
   takeLeading,
 } from 'typed-redux-saga'
-import { Address, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
+import { Address, BaseError, GetTransactionCountParameters, hexToBigInt, isHex } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 let client: IWeb3Wallet | null = null
@@ -410,6 +410,14 @@ export function* normalizeTransaction(rawTx: any, network: Network) {
     tx.nonce = yield* call(getTransactionCount, publicClient[network], txCountParams)
   }
 
+  if ('chainId' in tx) {
+    // Strip chainId as viem on Celo currently doesn't serialize it to a string
+    // and it causes the following RPC node error during gas estimation:
+    // `Gas estimation failed: Could not decode transaction failure reason or Error: invalid argument 0: json: cannot unmarshal non-string into Go struct field TransactionArgs.chainId of type *hexutil.Big`
+    // The right chainId will be set by the viem client anyway when signing the transaction
+    delete tx.chainId
+  }
+
   // Strip undefined keys, just to avoid noise in the logs or tests
   for (const key of Object.keys(tx) as Array<keyof TransactionRequest>) {
     if (tx[key] === undefined) {
@@ -461,6 +469,7 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
   const networkId = walletConnectChainIdToNetworkId[request.params.chainId]
   const feeCurrencies = yield* select((state) => feeCurrenciesSelector(state, networkId))
   let preparedTransactionsResult: PreparedTransactionsResult | undefined = undefined
+  let prepareTransactionErrorMessage: string | undefined = undefined
   if (
     method === SupportedActions.eth_signTransaction ||
     method === SupportedActions.eth_sendTransaction
@@ -468,12 +477,19 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     const rawTx = request.params.request.params[0]
     Logger.debug(TAG + '@showActionRequest', 'Received transaction', rawTx)
     const network = walletConnectChainIdToNetwork[request.params.chainId]
-    const normalizedTx = yield* call(normalizeTransaction, rawTx, network)
-    preparedTransactionsResult = yield* call(prepareTransactions, {
-      feeCurrencies,
-      decreasedAmountGasFeeMultiplier: 1,
-      baseTransactions: [normalizedTx],
-    })
+    try {
+      const normalizedTx = yield* call(normalizeTransaction, rawTx, network)
+      preparedTransactionsResult = yield* call(prepareTransactions, {
+        feeCurrencies,
+        decreasedAmountGasFeeMultiplier: 1,
+        baseTransactions: [normalizedTx],
+      })
+    } catch (err) {
+      Logger.warn(TAG + '@showActionRequest', 'Failed to prepare transaction', err)
+      const e = ensureError(err)
+      // Viem has short user-friendly error messages
+      prepareTransactionErrorMessage = e instanceof BaseError ? e.shortMessage : e.message
+    }
   }
 
   const preparedTransaction =
@@ -495,8 +511,12 @@ function* showActionRequest(request: Web3WalletTypes.EventArguments['session_req
     hasInsufficientGasFunds: preparedTransactionsResult?.type === 'not-enough-balance-for-gas',
     feeCurrenciesSymbols: feeCurrencies.map((token) => token.symbol),
     preparedTransaction,
+    prepareTransactionErrorMessage,
   })
 }
+
+// Export for testing
+export const _showActionRequest = showActionRequest
 
 function* acceptSession({ session, approvedNamespaces }: AcceptSession) {
   const defaultTrackedProperties: WalletConnect2Properties = yield* call(

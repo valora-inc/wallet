@@ -1,4 +1,4 @@
-import { reloadReactNative } from './utils/retries'
+import { reloadReactNative, launchApp } from './utils/retries'
 import { quickOnboarding, waitForElementId } from './utils/utils'
 
 // Re-enable for android when react-native-reanimated is updated to v3
@@ -6,6 +6,12 @@ import { quickOnboarding, waitForElementId } from './utils/utils'
 describe(':ios: Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
+    await launchApp({
+      newInstance: true,
+      launchArgs: {
+        statsigGateOverrides: `use_new_send_flow=true`,
+      },
+    })
   })
 
   describe('When opening QR scanner', () => {
@@ -57,8 +63,8 @@ describe(':ios: Given QR Scanner', () => {
       )
       await waitForElementId('ManualSubmit')
       await element(by.id('ManualSubmit')).tap()
-      await waitForElementId('Review')
-      await expect(element(by.id('Review'))).toBeVisible()
+      await waitForElementId('SendEnterAmount/ReviewButton')
+      await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })
 
     it('Then should handle address only QR', async () => {
@@ -66,8 +72,8 @@ describe(':ios: Given QR Scanner', () => {
       await element(by.id('ManualInput')).replaceText('0xe5F5363e31351C38ac82DBAdeaD91Fd5a7B08846')
       await waitForElementId('ManualSubmit')
       await element(by.id('ManualSubmit')).tap()
-      await waitForElementId('Review')
-      await expect(element(by.id('Review'))).toBeVisible()
+      await waitForElementId('SendEnterAmount/ReviewButton')
+      await expect(element(by.id('SendEnterAmount/ReviewButton'))).toBeVisible()
     })
 
     it.todo('Then should be able to wc QR')
