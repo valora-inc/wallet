@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Recuperação de sua carteira"
       },
+      "completed": {
+        "title": "Sua carteira foi restaurada!",
+        "bodyZeroBalance": "Você pode adicionar fundos à sua carteira depois de concluir a configuração.",
+        "bodyBalance": "Você tem um equilíbrio de <0></0>"
+      },
       "failed": {
         "title": "Sua carteira não foi restaurada",
         "body": "Houve um problema técnico ao tentar restaurar sua carteira. Entre em contato com o suporte para obter mais informações.",
