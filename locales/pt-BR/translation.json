@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Recuperação de sua carteira"
+      },
+      "failed": {
+        "title": "Sua carteira não foi restaurada",
+        "body": "Houve um problema técnico ao tentar restaurar sua carteira. Entre em contato com o suporte para obter mais informações.",
+        "tryAgain": "Repetir",
+        "createNewWallet": "Criar carteira",
+        "help": "Ajuda"
       }
     }
   },
