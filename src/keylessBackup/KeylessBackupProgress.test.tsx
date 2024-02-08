@@ -8,19 +8,35 @@ import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBa
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import Logger from 'src/utils/Logger'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockOnboardingProps } from 'test/values'
+
+const mockOnboardingPropsSelector = jest.fn(() => mockOnboardingProps)
 
 jest.mock('src/navigator/NavigationService')
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/utils/Logger')
+jest.mock('src/onboarding/steps', () => ({
+  goToNextOnboardingScreen: jest.fn(),
+  onboardingPropsSelector: () => mockOnboardingPropsSelector(),
+}))
 
-function createStore(keylessBackupStatus: KeylessBackupStatus) {
+function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = false) {
   return createMockStore({
     keylessBackup: {
       backupStatus: keylessBackupStatus,
     },
+    ...(zeroBalance && {
+      tokens: {
+        tokenBalances: {},
+      },
+      positions: {
+        positions: [],
+      },
+    }),
   })
 }
 
@@ -141,6 +157,35 @@ describe('KeylessBackupProgress', () => {
         KeylessBackupEvents.cab_restore_zero_balance_bail
       )
       expect(store.getActions()).toEqual([keylessBackupBail()])
+    })
+    it('shows the completed screen when cab is completed', () => {
+      const { getByTestId, getByText } = render(
+        <Provider store={createStore(KeylessBackupStatus.Completed)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+      expect(getByText(`₱`, { exact: false })).toBeTruthy()
+      expect(getByText(`45.22`, { exact: false })).toBeTruthy()
+
+      fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_completed_continue
+      )
+      expect(goToNextOnboardingScreen).toHaveBeenCalledWith({
+        onboardingProps: expect.any(Object),
+        firstScreenInCurrentStep: Screens.ImportSelect,
+      })
+    })
+    it('shows the zero balance text when completed and the user has no balance', () => {
+      const { getByText, getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Completed, true)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+      expect(getByTestId('KeylessBackupProgress/Continue')).toBeTruthy()
+      expect(getByText('keylessBackupStatus.restore.completed.bodyZeroBalance')).toBeTruthy()
     })
     it('navigates to ImportSelect on failure', async () => {
       const { getByTestId } = render(
