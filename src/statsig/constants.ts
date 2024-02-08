@@ -13,7 +13,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
-  [StatsigFeatureGates.USE_VIEM_FOR_SEND]: false,
   [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
@@ -26,6 +25,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API]: false,
   [StatsigFeatureGates.SHOW_GET_STARTED]: false,
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
+  [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
 }
 
 export const ExperimentConfigs = {

@@ -40,7 +40,7 @@ export default SecureSend = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
         launchArgs: {
-          statsigGateOverrides: `use_new_send_flow=false,use_viem_for_send=true`,
+          statsigGateOverrides: `use_new_send_flow=false`,
         },
       })
       await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
@@ -120,7 +120,7 @@ export default SecureSend = () => {
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
         launchArgs: {
-          statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true`,
+          statsigGateOverrides: `use_new_send_flow=true`,
         },
       })
       await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)

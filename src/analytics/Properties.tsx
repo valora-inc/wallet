@@ -228,13 +228,13 @@ interface CommonKeylessBackupProps {
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
-  [KeylessBackupEvents.cab_setup_continue]: undefined
   [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
@@ -252,6 +252,11 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
+  [KeylessBackupEvents.cab_restore_failed_try_again]: undefined
+  [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: undefined
+  [KeylessBackupEvents.cab_restore_failed_help]: undefined
 }
 
 interface OnboardingEventsProperties {
@@ -577,8 +582,8 @@ interface SendEventsProperties {
     partialAddressValidation: boolean
   }
 
-  [SendEvents.send_tx_start]: Web3LibraryProps
-  [SendEvents.send_tx_complete]: Web3LibraryProps & {
+  [SendEvents.send_tx_start]: undefined
+  [SendEvents.send_tx_complete]: {
     txId: string
     recipientAddress: string
     amount: string
@@ -594,12 +599,6 @@ interface SendEventsProperties {
     currentTokenId: string
     currentTokenAddress: string | null
     currentNetworkId: NetworkId | null
-  }
-  [SendEvents.token_selected]: {
-    origin: TokenPickerOrigin
-    tokenId: string
-    tokenAddress: string | null
-    networkId: NetworkId | null
   }
   [SendEvents.max_pressed]: {
     tokenId: string
@@ -1318,6 +1317,19 @@ interface TokenBottomSheetEventsProperties {
   [TokenBottomSheetEvents.search_token]: {
     origin: TokenPickerOrigin
     searchInput: string
+  }
+  [TokenBottomSheetEvents.toggle_tokens_filter]: {
+    filterId: string
+    isRemoving: boolean
+    isPreSelected: boolean
+  }
+  [TokenBottomSheetEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
+    usedSearchTerm: boolean
+    selectedFilters: string[]
   }
 }
 

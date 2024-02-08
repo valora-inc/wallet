@@ -90,7 +90,6 @@ export enum SettingsEvents {
 
 export enum KeylessBackupEvents {
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
-  cab_setup_continue = 'cab_setup_continue',
   cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
@@ -98,6 +97,7 @@ export enum KeylessBackupEvents {
   cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
   cab_enter_phone_number_continue = 'cab_enter_phone_number_continue',
   cab_enter_phone_number_cancel = 'cab_enter_phone_number_cancel',
+  cab_intro_continue = 'cab_intro_continue',
   cab_issue_sms_code_start = 'cab_issue_sms_code_start',
   cab_issue_sms_code_success = 'cab_issue_sms_code_success',
   cab_issue_sms_code_error = 'cab_issue_sms_code_error',
@@ -112,6 +112,11 @@ export enum KeylessBackupEvents {
   cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
   cab_handle_keyless_backup_failed = 'cab_handle_keyless_backup_failed',
   cab_handle_keyless_backup_success = 'cab_handle_keyless_backup_success',
+  cab_restore_zero_balance_accept = 'cab_restore_zero_balance_accept',
+  cab_restore_zero_balance_bail = 'cab_restore_zero_balance_bail',
+  cab_restore_failed_try_again = 'cab_restore_failed_try_again',
+  cab_restore_failed_create_new_wallet = 'cab_restore_failed_create_new_wallet',
+  cab_restore_failed_help = 'cab_restore_failed_help',
 }
 
 export enum OnboardingEvents {
@@ -293,7 +298,6 @@ export enum SendEvents {
   send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  token_selected = 'token_selected',
   max_pressed = 'max_pressed',
   swap_input_pressed = 'swap_input_pressed',
 
@@ -575,6 +579,8 @@ export enum CeloNewsEvents {
 
 export enum TokenBottomSheetEvents {
   search_token = 'search_token',
+  token_selected = 'token_selected',
+  toggle_tokens_filter = 'toggle_tokens_filter',
 }
 
 export enum AssetsEvents {

@@ -19,7 +19,6 @@ export enum StatsigFeatureGates {
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
-  USE_VIEM_FOR_SEND = 'use_viem_for_send',
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS = 'use_viem_for_walletconnect_transactions',
@@ -32,6 +31,7 @@ export enum StatsigFeatureGates {
   USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API = 'use_price_history_from_blockchain_api',
   SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
+  SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
 }
 
 export enum StatsigExperiments {

@@ -56,11 +56,12 @@ import KycPending from 'src/fiatconnect/kyc/KycPending'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
+import ImportSelect from 'src/importSelect/ImportSelect'
+import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
 import KeylessBackupProgress from 'src/keylessBackup/KeylessBackupProgress'
 import LinkPhoneNumber from 'src/keylessBackup/LinkPhoneNumber'
-import SetUpKeylessBackup from 'src/keylessBackup/SetUpKeylessBackup'
 import SignInWithEmail from 'src/keylessBackup/SignInWithEmail'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
 import Language from 'src/language/Language'
@@ -199,6 +200,11 @@ const nuxScreens = (Navigator: typeof Stack) => (
       name={Screens.PincodeSet}
       component={PincodeSet}
       options={PincodeSet.navigationOptions}
+    />
+    <Navigator.Screen
+      name={Screens.ImportSelect}
+      component={ImportSelect}
+      options={ImportSelect.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.ImportWallet}
@@ -449,9 +455,9 @@ const settingsScreens = (Navigator: typeof Stack) => (
       component={WalletSecurityPrimer}
     />
     <Navigator.Screen
-      name={Screens.SetUpKeylessBackup}
-      options={SetUpKeylessBackup.navigationOptions}
-      component={SetUpKeylessBackup}
+      name={Screens.KeylessBackupIntro}
+      options={KeylessBackupIntro.navigationOptions}
+      component={KeylessBackupIntro}
     />
     <Navigator.Screen
       name={Screens.SignInWithEmail}

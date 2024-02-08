@@ -135,10 +135,12 @@ function SendConfirmation(props: Props) {
   const feeType = FeeType.SEND
   const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
 
-  // for new send flow, preparedTransaction must be present
+  // for new send flow, preparedTransaction is expected to be present except for
+  // payment requests (which may not include one if a tx is not possible, e.g.,
+  // amount > balance, not enough for gas, etc).
   // for old send flow, feeEstimate must be present if network is celo
-  // when old send flow is cleaned up, we can make preparedTransaction a
-  // required field and remove this check
+  // We could consider making the preparedTx a required field if we handle those
+  // scenarios differently after the old send flow is cleaned up
   const isFeeAvailable = newSendScreen
     ? !!preparedTransaction
     : tokenNetwork !== Network.Celo || !!feeEstimate?.feeInfo
