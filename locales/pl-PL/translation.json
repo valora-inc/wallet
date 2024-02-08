@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Odbudowa twojego portfela"
+      },
+      "failed": {
+        "title": "Twój portfel nie został przywrócony",
+        "body": "Wystąpił problem techniczny podczas próby przywrócenia Twojego portfela. Skontaktuj się z pomocą techniczną, aby uzyskać więcej informacji.",
+        "tryAgain": "Spróbuj ponownie",
+        "createNewWallet": "Utwórz portfel",
+        "help": "Pomoc"
       }
     }
   },
