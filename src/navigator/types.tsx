@@ -162,6 +162,9 @@ export type StackParamList = {
   [Screens.KeylessBackupProgress]: {
     keylessBackupFlow: KeylessBackupFlow
   }
+  [Screens.KeylessBackupIntro]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.KycDenied]: {
     flow: CICOFlow
     quote: FiatConnectQuote
@@ -271,7 +274,6 @@ export type StackParamList = {
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
-  [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
