@@ -126,7 +126,6 @@
     "date-fns": "^2.30.0",
     "dot-prop-immutable": "^2.1.1",
     "ethereumjs-util": "^7.1.5",
-    "ethers": "^6.10.0",
     "fast-levenshtein": "^3.0.0",
     "fp-ts": "2.16.2",
     "futoin-hkdf": "^1.5.3",
