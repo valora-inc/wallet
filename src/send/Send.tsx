@@ -192,7 +192,7 @@ function Send({ route }: Props) {
   }
 
   const onPressStartVerification = () => {
-    navigate(Screens.VerificationStartScreen)
+    navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
   }
 
   const onPressContactsSettings = () => {
