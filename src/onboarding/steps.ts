@@ -279,7 +279,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             navigateHomeOrChooseAdventure()
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            navigate(Screens.VerificationStartScreen, { isOnboarding: true })
+            navigate(Screens.VerificationStartScreen)
           }
         },
       }
@@ -298,7 +298,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             dispatch(setHasSeenVerificationNux(true))
             finishOnboarding(Screens.WalletHome)
           } else {
-            navigate(Screens.VerificationStartScreen, { isOnboarding: true })
+            navigate(Screens.VerificationStartScreen)
           }
         },
       }
