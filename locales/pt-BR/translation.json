@@ -1896,8 +1896,7 @@
       "myTokens": "Meus tokens",
       "popular": "Popular",
       "recentlySwapped": "Trocado recentemente",
-      "celo": "Supercharge",
-      "ethereum": "Rede Ethereum"
+      "network": "Rede {{networkName}}"
     }
   },
   "homeActions": {
