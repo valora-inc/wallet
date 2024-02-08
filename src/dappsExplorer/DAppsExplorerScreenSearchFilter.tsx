@@ -71,7 +71,7 @@ export function DAppsExplorerScreenSearchFilter() {
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
 
-  const [filterChips, setFilterChips] = useState<FilterChip<DappWithCategoryNames>[]>(
+  const [filterChips, setFilterChips] = useState<FilterChip<DappWithCategoryNames>[]>(() =>
     categories.map((category) => ({
       id: category.id,
       name: category.name,
