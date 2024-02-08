@@ -9,6 +9,7 @@ import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/navigator/NavigationService')
@@ -140,6 +141,62 @@ describe('KeylessBackupProgress', () => {
         KeylessBackupEvents.cab_restore_zero_balance_bail
       )
       expect(store.getActions()).toEqual([keylessBackupBail()])
+    })
+    it('navigates to ImportSelect on failure', async () => {
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(getByTestId('RedLoadingSpinnerToInfo')).toBeTruthy()
+      expect(getByTestId('KeylessBackupProgress/RestoreTryAgain')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/RestoreTryAgain'))
+
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_failed_try_again
+      )
+    })
+    it('navigates to Welcome screen on failure', async () => {
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(getByTestId('RedLoadingSpinnerToInfo')).toBeTruthy()
+      expect(getByTestId('KeylessBackupProgress/RestoreCreateNewWallet')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupProgress/RestoreCreateNewWallet'))
+
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.Welcome)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_failed_create_new_wallet
+      )
+    })
+    it('navigates to SupportContact screen on failure', async () => {
+      const { getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Failed)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+          <MockedNavigator
+            component={KeylessBackupProgress}
+            params={{
+              keylessBackupFlow: KeylessBackupFlow.Restore,
+            }}
+          />
+        </Provider>
+      )
+      expect(getByTestId('KeylessBackupRestoreHelp')).toBeTruthy()
+      fireEvent.press(getByTestId('KeylessBackupRestoreHelp'))
+
+      expect(navigate).toHaveBeenCalledTimes(1)
+      expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+        KeylessBackupEvents.cab_restore_failed_help
+      )
     })
   })
 })
