@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Ripristinare il portafoglio"
+      },
+      "failed": {
+        "title": "Il tuo portafoglio non è stato ripristinato",
+        "body": "Si è verificato un problema tecnico nel tentativo di ripristinare il tuo portafoglio. Contatta l'assistenza per maggiori informazioni.",
+        "tryAgain": "Riprova",
+        "createNewWallet": "Crea un wallet",
+        "help": "Guida"
       }
     }
   },
