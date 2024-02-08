@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Cüzdanınızı yenilemek"
+      },
+      "failed": {
+        "title": "Cüzdanınız geri yüklenmedi",
+        "body": "Cüzdanınızı geri yüklemeye çalışırken teknik bir sorun oluştu. Daha fazla bilgi için lütfen destek ekibiyle iletişime geçin.",
+        "tryAgain": "Tekrar Deneyin",
+        "createNewWallet": "Cüzdan oluştur",
+        "help": "Yardım"
       }
     }
   },
