@@ -254,6 +254,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
   [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
   [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help_skip]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help_go_back]: undefined
 }
 
 interface OnboardingEventsProperties {

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import TextButton from 'src/components/TextButton'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
@@ -14,7 +15,7 @@ import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 
@@ -29,17 +30,17 @@ function KeylessBackupPhoneCodeInput({
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressHelp = () => {
-    // TODO: Add in analytics track
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help)
     bottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressHelpGoBack = () => {
-    // TODO: Add in analytics track
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back)
     bottomSheetRef.current?.close()
   }
 
   const onPressHelpSkip = () => {
-    // TODO: Add in analytics track
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip)
     navigate(
       keylessBackupFlow === KeylessBackupFlow.Setup ? Screens.WalletHome : Screens.ImportSelect
     )
@@ -49,40 +50,23 @@ function KeylessBackupPhoneCodeInput({
     <BottomSheet
       forwardedRef={bottomSheetRef}
       title={t('phoneVerificationInput.helpDialog.title')}
-      titleStyle={{
-        ...fontStyles.h2,
-        textAlign: 'center',
-      }}
+      titleStyle={styles.bottomSheetTitle}
       testId="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet"
     >
-      <View
-        style={{
-          paddingHorizontal: 24,
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <Text
-          style={{
-            ...fontStyles.regular,
-            textAlign: 'center',
-            // marginTop: 12,
-          }}
-        >
-          {t('phoneVerificationInput.helpDialog.body')}
-        </Text>
+      <View style={styles.bottomSheetView}>
+        <Text style={styles.bottomSheetBody}>{t('phoneVerificationInput.helpDialog.body')}</Text>
         <View style={styles.buttonContainer}>
           <TextButton
             onPress={onPressHelpSkip}
             testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip"
-            style={{ color: '#9CA4A9' }}
+            style={styles.skipButton}
           >
             {t('phoneVerificationInput.helpDialog.skip')}
           </TextButton>
           <TextButton
             onPress={onPressHelpGoBack}
             testID="KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack"
-            style={{ color: colors.primary }}
+            style={styles.goBackButton}
           >
             {t('phoneVerificationInput.helpDialog.dismiss')}
           </TextButton>
@@ -142,6 +126,19 @@ const styles = StyleSheet.create({
     color: colors.primary,
     ...typeScale.labelSemiBoldMedium,
   },
+  bottomSheetTitle: {
+    ...typeScale.titleSmall,
+    textAlign: 'center',
+  },
+  bottomSheetView: {
+    paddingHorizontal: 24,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  bottomSheetBody: {
+    ...typeScale.bodyMedium,
+    textAlign: 'center',
+  },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 37,
@@ -149,6 +146,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 96,
+  },
+  goBackButton: {
+    color: colors.primary,
+  },
+  skipButton: {
+    color: '#9CA4A9',
   },
 })
 

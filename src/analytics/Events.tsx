@@ -114,6 +114,9 @@ export enum KeylessBackupEvents {
   cab_handle_keyless_backup_success = 'cab_handle_keyless_backup_success',
   cab_restore_zero_balance_accept = 'cab_restore_zero_balance_accept',
   cab_restore_zero_balance_bail = 'cab_restore_zero_balance_bail',
+  cab_phone_verification_help = 'cab_phone_verification_help',
+  cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
+  cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',
 }
 
 export enum OnboardingEvents {
