@@ -90,7 +90,6 @@ export enum SettingsEvents {
 
 export enum KeylessBackupEvents {
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
-  cab_setup_continue = 'cab_setup_continue',
   cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
@@ -98,6 +97,7 @@ export enum KeylessBackupEvents {
   cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
   cab_enter_phone_number_continue = 'cab_enter_phone_number_continue',
   cab_enter_phone_number_cancel = 'cab_enter_phone_number_cancel',
+  cab_intro_continue = 'cab_intro_continue',
   cab_issue_sms_code_start = 'cab_issue_sms_code_start',
   cab_issue_sms_code_success = 'cab_issue_sms_code_success',
   cab_issue_sms_code_error = 'cab_issue_sms_code_error',
