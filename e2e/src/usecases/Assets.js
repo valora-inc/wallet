@@ -10,14 +10,14 @@ import {
 
 async function validateSendFlow(tokenSymbol) {
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
-  await waitForElementId('SendSearchInput')
-  await element(by.id('SearchInput')).tap()
-  await element(by.id('SearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-  await element(by.id('SearchInput')).tapReturnKey()
+  await waitForElementByIdAndTap('SendSelectRecipientSearchInput')
+  await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
+  await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
   await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
   await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+  await waitForElementByIdAndTap('SendOrInviteButton')
   await expect(
-    element(by.text(tokenSymbol).withAncestor(by.id('TokenPickerSelector')))
+    element(by.text(tokenSymbol).withAncestor(by.id('SendEnterAmount/TokenSelect')))
   ).toBeVisible()
   await element(by.id('BackChevron')).tap()
   await element(by.id('Times')).tap()
@@ -81,7 +81,7 @@ export default Assets = () => {
         newInstance: true,
         launchArgs: {
           // NFT flag must also be true, otherwise Collectibles tab show an empty screen
-          statsigGateOverrides: `show_asset_details_screen=true,show_in_app_nft_gallery=true`,
+          statsigGateOverrides: `show_asset_details_screen=true,show_in_app_nft_gallery=true,use_new_send_flow=true`,
         },
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
       })
