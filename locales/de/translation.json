@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Dein Portemonnaie wiederherstellen"
+      },
+      "failed": {
+        "title": "Dein Geldbeutel wurde nicht wiederhergestellt",
+        "body": "Es gab ein technisches Problem bei dem Versuch, deine Brieftasche wiederherzustellen. Bitte kontaktiere den Support für weitere Informationen.",
+        "tryAgain": "Wiederholen",
+        "createNewWallet": "Wallet erstellen",
+        "help": "Hilfe"
       }
     }
   },
