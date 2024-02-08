@@ -17,7 +17,6 @@ import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { useDollarsToLocalAmount, useLocalCurrencyCode } from 'src/localCurrency/hooks'
-import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
@@ -83,7 +82,6 @@ function Restore() {
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
-  const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -146,14 +144,23 @@ function Restore() {
             </View>
             <Text style={styles.title}>{t('keylessBackupStatus.restore.completed.title')}</Text>
             <Text style={styles.body}>
-              {totalBalanceLocal.gt(0)
-                ? t('keylessBackupStatus.restore.completed.bodyBalance', {
-                    localCurrencySymbol,
-                    totalBalance: totalBalanceLocal.toFormat(2),
-                  })
-                : t('keylessBackupStatus.restore.completed.bodyZeroBalance')}
+              {totalBalanceLocal.gt(0) ? (
+                <Trans i18nKey="keylessBackupStatus.restore.completed.bodyBalance">
+                  <TokenDisplay
+                    localAmount={{
+                      value: totalBalanceLocal,
+                      currencyCode: localCurrencyCode,
+                      exchangeRate: '1',
+                    }}
+                    amount={0}
+                  />
+                </Trans>
+              ) : (
+                t('keylessBackupStatus.restore.completed.bodyZeroBalance')
+              )}
             </Text>
           </View>
+
           <Button
             testID="KeylessBackupProgress/Continue"
             onPress={() => {
@@ -164,7 +171,12 @@ function Restore() {
               })
             }}
             text={t('continue')}
-    // TODO(ACT-781): Implement Success screen
+            style={styles.button}
+            touchableStyle={styles.buttonTouchable}
+          />
+        </SafeAreaView>
+      )
+    }
     case KeylessBackupStatus.Failed:
       return (
         <SafeAreaView style={styles.container}>

@@ -165,11 +165,8 @@ describe('KeylessBackupProgress', () => {
         </Provider>
       )
       expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
-      expect(
-        getByText(
-          'keylessBackupStatus.restore.completed.bodyBalance, {"localCurrencySymbol":"₱","totalBalance":"45.22"}'
-        )
-      ).toBeTruthy()
+      expect(getByText(`₱`, { exact: false })).toBeTruthy()
+      expect(getByText(`45.22`, { exact: false })).toBeTruthy()
 
       fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -180,7 +177,7 @@ describe('KeylessBackupProgress', () => {
         firstScreenInCurrentStep: Screens.ImportSelect,
       })
     })
-    it('shows the zero balance text when comploeted and the user has no balance', () => {
+    it('shows the zero balance text when completed and the user has no balance', () => {
       const { getByText, getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Completed, true)}>
           <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
@@ -189,6 +186,7 @@ describe('KeylessBackupProgress', () => {
       expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
       expect(getByTestId('KeylessBackupProgress/Continue')).toBeTruthy()
       expect(getByText('keylessBackupStatus.restore.completed.bodyZeroBalance')).toBeTruthy()
+    })
     it('navigates to ImportSelect on failure', async () => {
       const { getByTestId } = render(
         <Provider store={createStore(KeylessBackupStatus.Failed)}>
