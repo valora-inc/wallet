@@ -173,6 +173,7 @@ function Restore() {
             text={t('continue')}
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
+            type={BtnTypes.PRIMARY}
           />
         </SafeAreaView>
       )
