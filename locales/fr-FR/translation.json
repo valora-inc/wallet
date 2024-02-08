@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Restauration en cours"
       },
+      "completed": {
+        "title": "Ton portefeuille a été restauré !",
+        "bodyZeroBalance": "Tu peux ajouter des fonds à ton portefeuille une fois que tu as terminé la configuration.",
+        "bodyBalance": "Tu as un équilibre entre <0></0>"
+      },
       "failed": {
         "title": "Ton portefeuille n'a pas été restauré",
         "body": "Il y a eu un problème technique en essayant de restaurer ton portefeuille. Contacte l'assistance pour plus d'informations.",
