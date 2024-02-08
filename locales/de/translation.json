@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Dein Portemonnaie wiederherstellen"
       },
+      "completed": {
+        "title": "Dein Geldbeutel wurde wiederhergestellt!",
+        "bodyZeroBalance": "Sobald du mit der Einrichtung fertig bist, kannst du Geld in dein Portemonnaie einzahlen.",
+        "bodyBalance": "Du hast ein Gleichgewicht von <0></0>"
+      },
       "failed": {
         "title": "Dein Geldbeutel wurde nicht wiederhergestellt",
         "body": "Es gab ein technisches Problem bei dem Versuch, deine Brieftasche wiederherzustellen. Bitte kontaktiere den Support für weitere Informationen.",
