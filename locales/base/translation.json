@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Restoring your wallet"
+      },
+      "failed": {
+        "title": "Your wallet was not restored",
+        "body": "There was a technical issue in trying to restore your wallet. Please contact support for more information.",
+        "tryAgain": "Try Again",
+        "createNewWallet": "Create new wallet",
+        "help": "Help"
       }
     }
   },
