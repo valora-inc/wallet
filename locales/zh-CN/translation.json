@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "恢复您的钱包"
       },
+      "completed": {
+        "title": "您的钱包已经恢复！",
+        "bodyZeroBalance": "完成设置后，您就可以向钱包添加资金了。",
+        "bodyBalance": "您有以下方面的平衡<0></0>"
+      },
       "failed": {
         "title": "您的钱包没有恢复",
         "body": "在尝试恢复您的钱包时出现了技术问题。请联系技术支持获取更多信息。",
