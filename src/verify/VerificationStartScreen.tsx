@@ -71,7 +71,7 @@ function VerificationStartScreen({
     onboardingProps
   )
   const choseToRestoreAccount = useSelector(choseToRestoreAccountSelector)
-  const showSteps = route.params?.isOnboarding && !choseToRestoreAccount
+  const showSteps = !route.params?.hasOnboarded && !choseToRestoreAccount
 
   const countries = useMemo(() => new Countries(i18n.language), [i18n.language])
   const country = phoneNumberInfo.countryCodeAlpha2
@@ -121,7 +121,7 @@ function VerificationStartScreen({
     navigation.setOptions({
       headerTitle: title,
       headerRight: () =>
-        route.params?.isOnboarding && (
+        !route.params?.hasOnboarded && (
           <TopBarTextButton
             title={t('skip')}
             testID="PhoneVerificationSkipHeader"
@@ -129,15 +129,15 @@ function VerificationStartScreen({
             titleStyle={{ color: colors.onboardingBrownLight }}
           />
         ),
-      headerLeft: () => !route.params?.isOnboarding && <BackButton />,
+      headerLeft: () => route.params?.hasOnboarded && <BackButton />,
       // Disable iOS back during onboarding
-      gestureEnabled: !route.params?.isOnboarding,
+      gestureEnabled: !!route.params?.hasOnboarded,
     })
   }, [navigation, step, totalSteps, route.params, showSteps])
 
   // Prevent device back on Android during onboarding
   useEffect(() => {
-    if (route.params?.isOnboarding) {
+    if (!route.params?.hasOnboarded) {
       const backPressListener = () => true
       BackHandler.addEventListener('hardwareBackPress', backPressListener)
       return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
@@ -184,7 +184,7 @@ function VerificationStartScreen({
       selectedCountryCodeAlpha2: phoneNumberInfo.countryCodeAlpha2,
       onSelectCountry: (countryCodeAlpha2: string) => {
         navigate(Screens.VerificationStartScreen, {
-          isOnboarding: !!route.params?.isOnboarding,
+          hasOnboarded: !!route.params?.hasOnboarded,
           selectedCountryCodeAlpha2: countryCodeAlpha2,
         })
       },

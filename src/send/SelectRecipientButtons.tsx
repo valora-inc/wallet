@@ -130,7 +130,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
       // reset state so the next time the modal is dismissed, this doesn't end
       // up navigating
       setNavigateToPhoneVerification(false)
-      navigate(Screens.VerificationStartScreen)
+      navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
     }
   }
 

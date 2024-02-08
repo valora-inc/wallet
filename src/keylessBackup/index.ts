@@ -1,5 +1,4 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
-import { ethers } from 'ethers'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -7,6 +6,8 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
+import { Hex } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 const SIWE_STATEMENT = 'Sign in with Ethereum'
 const SIWE_VERSION = '1'
@@ -44,10 +45,10 @@ export async function getEncryptedMnemonic({
   encryptionPrivateKey,
   encryptionAddress,
 }: {
-  encryptionPrivateKey: string
+  encryptionPrivateKey: Hex
   encryptionAddress: string
 }) {
-  const wallet = new ethers.Wallet(encryptionPrivateKey)
+  const account = privateKeyToAccount(encryptionPrivateKey)
   const siweClient = new SiweClient(
     {
       accountAddress: encryptionAddress,
@@ -61,7 +62,7 @@ export async function getEncryptedMnemonic({
         getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
           .default * 1000,
     },
-    (message) => wallet.signMessage(message)
+    (message) => account.signMessage({ message })
   )
   await siweClient.login()
   const response = await siweClient.fetch(networkConfig.cabGetEncryptedMnemonicUrl)
