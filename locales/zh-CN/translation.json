@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "恢复您的钱包"
+      },
+      "failed": {
+        "title": "您的钱包没有恢复",
+        "body": "在尝试恢复您的钱包时出现了技术问题。请联系技术支持获取更多信息。",
+        "tryAgain": "再试一次",
+        "createNewWallet": "新建钱包",
+        "help": "帮助"
       }
     }
   },
