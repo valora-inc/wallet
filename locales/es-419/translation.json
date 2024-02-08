@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Restaurar tu cartera"
+      },
+      "failed": {
+        "title": "Tu cartera no ha sido restaurada",
+        "body": "Se ha producido un problema técnico al intentar restaurar tu monedero. Ponte en contacto con el servicio de asistencia para obtener más información.",
+        "tryAgain": "Reintentar",
+        "createNewWallet": "Crear wallet",
+        "help": "Ayuda"
       }
     }
   },
