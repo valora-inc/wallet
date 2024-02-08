@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Odbudowa twojego portfela"
       },
+      "completed": {
+        "title": "Twój portfel został przywrócony!",
+        "bodyZeroBalance": "Po zakończeniu konfiguracji możesz dodać środki do swojego portfela.",
+        "bodyBalance": "Masz równowagę <0></0>"
+      },
       "failed": {
         "title": "Twój portfel nie został przywrócony",
         "body": "Wystąpił problem techniczny podczas próby przywrócenia Twojego portfela. Skontaktuj się z pomocą techniczną, aby uzyskać więcej informacji.",
