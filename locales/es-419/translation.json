@@ -77,12 +77,19 @@
     "title": "Resguarda tu wallet",
     "description": "Solo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para resguardar tu wallet y proteger tus fondos."
   },
-  "setUpKeylessBackup": {
-    "title": "Configurar la copia de seguridad de la billetera",
-    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+  "keylessBackupIntro": {
     "emailAddress": "Dirección de email",
     "phoneNumber": "Número de teléfono",
-    "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación"
+    "setup": {
+      "title": "Configurar la copia de seguridad de la billetera",
+      "description": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+      "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación",
+      "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
+    },
+    "restore": {
+      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu monedero.",
+      "reminder": "<0>Recuerda</0> que necesitas acceder al mismo correo electrónico y número de teléfono que utilizaste cuando hiciste la copia de seguridad"
+    }
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
@@ -121,7 +128,6 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
