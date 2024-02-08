@@ -283,6 +283,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           }
         },
       }
+    case Screens.LinkPhoneNumber:
     case Screens.VerificationStartScreen:
       return {
         next: () => {

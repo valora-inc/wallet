@@ -23,11 +23,19 @@ jest.mock('src/onboarding/steps', () => ({
   onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
 
-function createStore(keylessBackupStatus: KeylessBackupStatus) {
+function createStore(keylessBackupStatus: KeylessBackupStatus, zeroBalance = false) {
   return createMockStore({
     keylessBackup: {
       backupStatus: keylessBackupStatus,
     },
+    ...(zeroBalance && {
+      tokens: {
+        tokenBalances: {},
+      },
+      positions: {
+        positions: [],
+      },
+    }),
   })
 }
 
@@ -149,13 +157,18 @@ describe('KeylessBackupProgress', () => {
       )
       expect(store.getActions()).toEqual([keylessBackupBail()])
     })
-    it('shows the completed screen shen cab is completed', () => {
-      const { getByTestId } = render(
+    it('shows the completed screen when cab is completed', () => {
+      const { getByTestId, getByText } = render(
         <Provider store={createStore(KeylessBackupStatus.Completed)}>
           <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
         </Provider>
       )
       expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+      expect(
+        getByText(
+          'keylessBackupStatus.restore.completed.bodyBalance, {"localCurrencySymbol":"₱","totalBalance":"45.22"}'
+        )
+      ).toBeTruthy()
 
       fireEvent.press(getByTestId('KeylessBackupProgress/Continue'))
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(
@@ -165,6 +178,16 @@ describe('KeylessBackupProgress', () => {
         onboardingProps: expect.any(Object),
         firstScreenInCurrentStep: Screens.ImportSelect,
       })
+    })
+    it('shows the zero balance text when comploeted and the user has no balance', () => {
+      const { getByText, getByTestId } = render(
+        <Provider store={createStore(KeylessBackupStatus.Completed, true)}>
+          <KeylessBackupProgress {...getProps(KeylessBackupFlow.Restore)} />
+        </Provider>
+      )
+      expect(getByTestId('GreenLoadingSpinnerToCheck')).toBeTruthy()
+      expect(getByTestId('KeylessBackupProgress/Continue')).toBeTruthy()
+      expect(getByText('keylessBackupStatus.restore.completed.bodyZeroBalance')).toBeTruthy()
     })
   })
 })

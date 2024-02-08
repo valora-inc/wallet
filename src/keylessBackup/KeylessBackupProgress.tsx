@@ -52,7 +52,7 @@ function Restore() {
   const localCurrencyCode = useLocalCurrencyCode()
   const onboardingProps = useSelector(onboardingPropsSelector)
 
-  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
+  // TODO(ACT-1095): Update these to filter out unsupported networks once positions support non-Celo chains
   const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
