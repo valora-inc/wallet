@@ -13,6 +13,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
   importedTokensSelector,
   lastKnownTokenBalancesSelector,
+  networksIconSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
@@ -207,6 +208,9 @@ export function* fetchTokenBalancesSaga() {
 
     const supportedNetworks = getSupportedNetworkIdsForTokenBalances()
     const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
+    console.log('diego 0')
+    const networkIconByNetworkId = yield* select(networksIconSelector, supportedNetworks)
+    console.log('diego 1')
 
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
@@ -222,6 +226,8 @@ export function* fetchTokenBalancesSaga() {
       }
     }
 
+    console.log('dIEGO 1')
+
     /* We are including the fetchedBalancesByTokenId since some balances might be already fetched
      * so we avoid fetching them again.
      * This could happen if the data source includes more tokens than we support (e.g. Blockscout).
@@ -232,6 +238,13 @@ export function* fetchTokenBalancesSaga() {
       importedTokens,
       fetchedBalancesByTokenId
     )
+
+    for (const tokenId of Object.keys(importedTokensWithBalance)) {
+      const token = importedTokensWithBalance[tokenId]
+      if (token) {
+        token.networkIconUrl = networkIconByNetworkId[token.networkId]
+      }
+    }
 
     yield* put(
       setTokenBalances({

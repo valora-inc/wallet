@@ -518,18 +518,10 @@ export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage
 
-export const importedTokensSelector = createSelector(
-  [tokensListSelector, networksIconSelector],
-  (tokenList, networksIcon) => {
-    if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
-      return []
-    }
-
-    return tokenList
-      .filter((token) => token?.isManuallyImported)
-      .map((token) => ({
-        ...token,
-        networkIconUrl: networksIcon[token.networkId] ?? token.networkIconUrl,
-      })) as TokenBalance[]
+export const importedTokensSelector = createSelector([tokensListSelector], (tokenList) => {
+  if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
+    return []
   }
-)
+
+  return tokenList.filter((token) => token?.isManuallyImported) as TokenBalance[]
+})
