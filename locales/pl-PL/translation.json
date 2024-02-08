@@ -77,12 +77,19 @@
     "title": "Zadbaj o bezpieczeństwo swojego portfela",
     "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie będzie mogła przywrócić dostępu.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
-  "setUpKeylessBackup": {
-    "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
-    "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+  "keylessBackupIntro": {
     "emailAddress": "Adres e-mail",
     "phoneNumber": "Numer telefonu",
-    "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania"
+    "setup": {
+      "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
+      "description": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+      "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
+      "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
+    },
+    "restore": {
+      "description": "Upewnij się, że masz dostępne następujące elementy, aby przywrócić swój portfel.",
+      "reminder": "<0>Pamiętaj</0>, że musisz mieć dostęp do tego samego adresu e-mail i numeru telefonu, których użyłeś podczas tworzenia kopii zapasowej"
+    }
   },
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
@@ -121,7 +128,6 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
