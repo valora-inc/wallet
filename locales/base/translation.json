@@ -1898,8 +1898,7 @@
       "myTokens": "My tokens",
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
-      "celo": "Celo Network",
-      "ethereum": "Ethereum Network"
+      "network": "{{networkName}} Network"
     }
   },
   "homeActions": {
