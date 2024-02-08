@@ -59,7 +59,7 @@ const TokenOption = React.memo(({ tokenInfo, onPress, index }: TokenOptionProps)
     <>
       {index > 0 && <View style={styles.separator} />}
       <Touchable onPress={onPress} testID={`${tokenInfo.symbol}Touchable`}>
-        <View style={[styles.tokenOptionContainer, {}]}>
+        <View style={styles.tokenOptionContainer}>
           <TokenIcon token={tokenInfo} viewStyle={styles.tokenImage} size={IconSize.LARGE} />
           <View style={styles.tokenNameContainer}>
             <Text style={styles.localBalance}>{tokenInfo.symbol}</Text>
