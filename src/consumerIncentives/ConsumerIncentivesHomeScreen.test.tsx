@@ -228,7 +228,7 @@ describe('ConsumerIncentivesHomeScreen', () => {
 
     fireEvent.press(getByTestId('ConsumerIncentives/CTA'))
 
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
   })
 
   it('opens a WebView when Learn More is tapped', () => {

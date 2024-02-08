@@ -39,7 +39,7 @@ const renderComponent = (
         component={VerificationStartScreen}
         params={{
           selectedCountryCodeAlpha2: 'NL',
-          isOnboarding: false,
+          hasOnboarded: true,
           ...navParams,
         }}
       />
@@ -81,7 +81,7 @@ describe('VerificationStartScreen', () => {
       service: 'service',
       storage: 'storage',
     })
-    const { getByText, getByTestId } = renderComponent({ isOnboarding: true })
+    const { getByText, getByTestId } = renderComponent({ hasOnboarded: false })
 
     await act(() => {
       jest.advanceTimersByTime(5000)
@@ -106,7 +106,7 @@ describe('VerificationStartScreen', () => {
       service: 'service',
       storage: 'storage',
     })
-    const { getByText, getByTestId, queryByTestId } = renderComponent({ isOnboarding: true }, true)
+    const { getByText, getByTestId, queryByTestId } = renderComponent({ hasOnboarded: false }, true)
 
     await act(() => {
       jest.advanceTimersByTime(5000)
@@ -152,7 +152,7 @@ describe('VerificationStartScreen', () => {
   })
 
   it('skip button works', async () => {
-    const { getByText } = renderComponent({ isOnboarding: true })
+    const { getByText } = renderComponent({ hasOnboarded: false })
 
     await act(() => {
       fireEvent.press(getByText('skip'))
@@ -171,7 +171,7 @@ describe('VerificationStartScreen', () => {
       service: 'service',
       storage: 'storage',
     })
-    const { getByText, getByTestId } = renderComponent({ isOnboarding: true })
+    const { getByText, getByTestId } = renderComponent({ hasOnboarded: false })
 
     await act(() => {
       jest.advanceTimersByTime(5000)
@@ -196,7 +196,7 @@ describe('VerificationStartScreen', () => {
       service: 'service',
       storage: 'storage',
     })
-    const { getByText, getByTestId } = renderComponent({ isOnboarding: true }, true)
+    const { getByText, getByTestId } = renderComponent({ hasOnboarded: false }, true)
 
     await act(() => {
       jest.advanceTimersByTime(5000)
