@@ -1896,8 +1896,7 @@
       "myTokens": "Jetonlarım",
       "popular": "Popüler",
       "recentlySwapped": "Yakın zamanda değiştirildi",
-      "celo": "CELO Ağı",
-      "ethereum": "Ethereum Ağı"
+      "network": "{{networkName}} Ağı"
     }
   },
   "homeActions": {
