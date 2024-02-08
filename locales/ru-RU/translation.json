@@ -1900,8 +1900,7 @@
       "myTokens": "Мои жетоны",
       "popular": "Популярные",
       "recentlySwapped": "Недавно поменял",
-      "celo": "Supercharge",
-      "ethereum": "Сеть Ethereum"
+      "network": "Сеть {{networkName}}"
     }
   },
   "homeActions": {
