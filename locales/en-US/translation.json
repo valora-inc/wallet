@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Restoring your wallet"
       },
+      "completed": {
+        "title": "Your wallet has been restored!",
+        "bodyZeroBalance": "You can add funds to your wallet once you are finished setting up.",
+        "bodyBalance": "You have a balance of <0></0>"
+      },
       "failed": {
         "title": "Your wallet was not restored",
         "body": "There was a technical issue in trying to restore your wallet. Please contact support for more information.",
