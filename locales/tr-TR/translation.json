@@ -77,12 +77,19 @@
     "title": "Cüzdanınızı güvende tutun",
     "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
-  "setUpKeylessBackup": {
-    "title": "Cüzdan Yedeklemeyi Ayarlama",
-    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
+  "keylessBackupIntro": {
     "emailAddress": "E-posta Adresi",
     "phoneNumber": "Telefon Numarası",
-    "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın"
+    "setup": {
+      "title": "Cüzdan Yedeklemeyi Ayarlama",
+      "description": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
+      "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın",
+      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!"
+    },
+    "restore": {
+      "description": "Cüzdanınızı geri yüklemek için aşağıdakilere sahip olduğunuzdan emin olun.",
+      "reminder": "Yedekleme yaparken kullandığınız e-posta ve telefon numarasına erişmeniz gerektiğini <0>unutmayın</0>"
+    }
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
@@ -121,7 +128,6 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
