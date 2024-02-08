@@ -1896,8 +1896,7 @@
       "myTokens": "Meine Spielsteine",
       "popular": "Beliebt",
       "recentlySwapped": "Kürzlich getauscht",
-      "celo": "Supercharge",
-      "ethereum": "Ethereum Netzwerk"
+      "network": "{{networkName}} Netzwerk"
     }
   },
   "homeActions": {
