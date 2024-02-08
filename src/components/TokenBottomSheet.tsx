@@ -1,5 +1,5 @@
 import { debounce } from 'lodash'
-import React, { RefObject, useCallback, useMemo, useRef, useState } from 'react'
+import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -207,6 +207,14 @@ function TokenBottomSheet<T extends TokenBalance>({
       return matchesFilters && matchesSearch
     })
   }, [searchTerm, tokens, filters])
+
+  useEffect(() => {
+    if (tokenList.length > 0) {
+      requestAnimationFrame(() => {
+        tokenListRef.current?.scrollToIndex({ index: 0 })
+      })
+    }
+  }, [tokenList])
 
   const handleOpen = () => {
     setFilters(filterChips)
