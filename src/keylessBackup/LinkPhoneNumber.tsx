@@ -31,7 +31,7 @@ export default function LinkPhoneNumber({ navigation }: Props) {
 
   const continueButtonOnPress = async () => {
     ValoraAnalytics.track(OnboardingEvents.link_phone_number)
-    navigate(Screens.VerificationStartScreen, { isOnboarding: false })
+    navigate(Screens.VerificationStartScreen, { hasOnboarded: false })
   }
   const laterButtonOnPress = async () => {
     ValoraAnalytics.track(OnboardingEvents.link_phone_number_later)
