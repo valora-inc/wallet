@@ -30,6 +30,7 @@ import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import { Hex, fromBytes } from 'viem'
 
 const TAG = 'keylessBackup/saga'
 
@@ -60,7 +61,7 @@ export function* handleValoraKeyshareIssued({
         torusKeyshareBuffer,
         valoraKeyshareBuffer,
         encryptionAddress,
-        encryptionPrivateKey: Buffer.from(encryptionPrivateKey).toString('hex'),
+        encryptionPrivateKey: fromBytes(encryptionPrivateKey, 'hex'),
       })
     }
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
@@ -111,7 +112,7 @@ function* handleKeylessBackupRestore({
 }: {
   torusKeyshareBuffer: Buffer
   valoraKeyshareBuffer: Buffer
-  encryptionPrivateKey: string
+  encryptionPrivateKey: Hex
   encryptionAddress: string
 }) {
   const encryptedMnemonic = yield* call(getEncryptedMnemonic, {
