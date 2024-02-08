@@ -126,6 +126,11 @@
       "inProgress": {
         "title": "Cüzdanınızı yenilemek"
       },
+      "completed": {
+        "title": "Cüzdanınız yenilendi!",
+        "bodyZeroBalance": "Kurulumu tamamladıktan sonra cüzdanınıza para ekleyebilirsiniz.",
+        "bodyBalance": "Bir dengeniz var <0></0>"
+      },
       "failed": {
         "title": "Cüzdanınız geri yüklenmedi",
         "body": "Cüzdanınızı geri yüklemeye çalışırken teknik bir sorun oluştu. Daha fazla bilgi için lütfen destek ekibiyle iletişime geçin.",
