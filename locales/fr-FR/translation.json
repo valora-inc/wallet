@@ -1896,8 +1896,7 @@
       "myTokens": "Mes jetons",
       "popular": "Populaires",
       "recentlySwapped": "Échangés récemment",
-      "celo": "Réseau Celo",
-      "ethereum": "Réseau Ethereum"
+      "network": "Réseau {{networkName}}"
     }
   },
   "homeActions": {
