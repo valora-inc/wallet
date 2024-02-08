@@ -24,9 +24,7 @@ const WALLET_FUNDING_MULTIPLIER = 2.2
 
 export default SecureSend = () => {
   describe('Secure send flow with phone number lookup (old flow)', () => {
-    let commentText
     beforeAll(async () => {
-      commentText = createCommentText()
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
@@ -89,6 +87,7 @@ export default SecureSend = () => {
       await element(by.id('ConfirmAccountButton')).tap()
 
       // Write a comment.
+      const commentText = createCommentText()
       await addComment(commentText)
 
       // Confirm and input PIN if necessary.
@@ -105,9 +104,7 @@ export default SecureSend = () => {
   })
 
   describe('Secure send flow with phone number lookup (new flow)', () => {
-    let commentText
     beforeAll(async () => {
-      commentText = createCommentText()
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
@@ -160,6 +157,7 @@ export default SecureSend = () => {
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.
+      const commentText = createCommentText()
       await addComment(commentText)
 
       // Confirm and input PIN if necessary.
