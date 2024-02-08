@@ -77,12 +77,19 @@
     "title": "Sorge für die Sicherheit deiner Wallet",
     "description": "Nur du kannst auf deine Wallet zugreifen. Wenn du dein Telefon verloren hast oder es dir gestohlen wurde, kann Valora deine Wallet für dich nicht wiederherstellen.\n\nDu musst eine Methode einrichten, durch die deine Wallet sicher und dein Guthaben geschützt sind."
   },
-  "setUpKeylessBackup": {
-    "title": "Wallet-Back-up einrichten",
-    "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet",
+  "keylessBackupIntro": {
     "emailAddress": "E-Mail-Adresse",
     "phoneNumber": "Telefonnummer",
-    "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase"
+    "setup": {
+      "title": "Wallet-Back-up einrichten",
+      "description": "Folgendes wird zum Einrichten der Sicherung verwendet",
+      "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase",
+      "reminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!"
+    },
+    "restore": {
+      "description": "Vergewissere dich, dass du die folgenden Dinge zur Verfügung hast, um deine Geldbörse wiederherzustellen.",
+      "reminder": "<0>Denke daran</0>, dass du Zugang zu derselben E-Mail-Adresse und Telefonnummer brauchst, die du beim Backup verwendet hast."
+    }
   },
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
@@ -121,7 +128,6 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
