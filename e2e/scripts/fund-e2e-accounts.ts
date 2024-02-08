@@ -109,7 +109,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
       console.log(
         `Received swap tx hash ${swapTxReceipt.transactionHash} with status ${swapTxReceipt.status}`
       )
-      if (swapTxReceipt.status === 0) {
+      if (swapTxReceipt.status !== 1) {
         throw new Error(`Swap reverted. Tx hash: ${swapTxReceipt.transactionHash}`)
       }
     } catch (err) {
@@ -152,7 +152,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
       console.log(
         `Received swap tx hash ${swapTxReceipt.transactionHash} with status ${swapTxReceipt.status}`
       )
-      if (swapTxReceipt.status === 0) {
+      if (swapTxReceipt.status !== 1) {
         throw new Error(`Swap reverted. Tx hash: ${swapTxReceipt.transactionHash}`)
       }
     } catch (err) {
@@ -207,7 +207,7 @@ const TOKENS_BY_SYMBOL: Record<string, Token> = {
       `Received transfer tx hash ${receipt.transactionHash} with status ${receipt.status}`
     )
 
-    if (receipt.status === 0) {
+    if (receipt.status !== 1) {
       throw new Error(`Transfer reverted. Tx hash: ${receipt.transactionHash}`)
     }
 
