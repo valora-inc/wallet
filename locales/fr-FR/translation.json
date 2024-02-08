@@ -77,12 +77,19 @@
     "title": "Gardez votre portefeuille en sécurité",
     "description": "Vous seul pouvez accéder à votre portefeuille. Si votre téléphone est perdu ou volé, Valora ne pourra pas le récupérer pour vous.\n\nTrouvez un moyen pour garder votre portefeuille en sécurité et protéger vos fonds."
   },
-  "setUpKeylessBackup": {
-    "title": "Configurer la sauvegarde du portefeuille",
-    "subtitle": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
+  "keylessBackupIntro": {
     "emailAddress": "Adresse e-mail",
     "phoneNumber": "Numéro de téléphone",
-    "useRecoveryPhrase": "Utiliser une phrase de récupération"
+    "setup": {
+      "title": "Configurer la sauvegarde du portefeuille",
+      "description": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
+      "useRecoveryPhrase": "Utiliser une phrase de récupération",
+      "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
+    },
+    "restore": {
+      "description": "Assure-toi d'avoir les éléments suivants à ta disposition pour restaurer ton portefeuille.",
+      "reminder": "<0>N'oublie pas</0> que tu dois avoir accès au même courriel et au même numéro de téléphone que ceux que tu as utilisés lors de la sauvegarde."
+    }
   },
   "signInWithEmail": {
     "title": "Se connecter avec un e-mail",
@@ -121,7 +128,6 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !",
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",
   "privacyPolicy": "Politique de confidentialité",
