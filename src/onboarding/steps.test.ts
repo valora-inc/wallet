@@ -293,25 +293,78 @@ describe('onboarding steps', () => {
         expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
       })
     })
-    describe('Screens.VerificationStartScreen', () => {
-      it('should navigate to the home screen', () => {
+    describe('Screens.ImportSelect', () => {
+      it('should navigate to the home screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps,
         })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.WalletHome)
         )
       })
-      it('should navigate to the Screens.ChooseYourAdventure if chooseAdventureEnabled is true', () => {
+      it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
         })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
         )
       })
+      it('should also navigate to the home screen if numberAlreadyVerifiedCentrally is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ImportSelect,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: false,
+            numberAlreadyVerifiedCentrally: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
+      })
+      it('should otherwise navigate to LinkPhoneNumber', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ImportSelect,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: false,
+          },
+        })
+        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(navigate).toHaveBeenCalledWith(Screens.LinkPhoneNumber)
+      })
+    })
+    describe('Screens.VerificationStartScreen and Screens.LinkPhoneNumber', () => {
+      it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
+        'From %s should navigate to the home screen',
+        (screen) => {
+          goToNextOnboardingScreen({
+            firstScreenInCurrentStep: screen,
+            onboardingProps,
+          })
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateStatsigAndNavigate(Screens.WalletHome)
+          )
+        }
+      )
+      it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
+        'From %s should navigate to the Screens.ChooseYourAdventure if chooseAdventureEnabled is true',
+        (screen) => {
+          goToNextOnboardingScreen({
+            firstScreenInCurrentStep: screen,
+            onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
+          })
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+          )
+        }
+      )
     })
     describe('Screens.ProtectWallet', () => {
       it('should navigate to the home screen if skipVerification is true', () => {
