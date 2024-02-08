@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect } from 'react'
+import React, { useEffect, useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { BackHandler, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -19,8 +19,10 @@ import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { useLocalCurrencyCode } from 'src/localCurrency/hooks'
 import { ensurePincode, navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
+import colors from 'src/styles/colors'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 
@@ -28,13 +30,37 @@ const TAG = 'keylessBackup/KeylessBackupProgress'
 
 function KeylessBackupProgress({
   route,
+  navigation,
 }: NativeStackScreenProps<StackParamList, Screens.KeylessBackupProgress>) {
+  const keylessBackupStatus = useSelector(keylessBackupStatusSelector)
+  const { t } = useTranslation()
+
+  const onPressHelp = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_help)
+    navigate(Screens.SupportContact)
+  }
+
   // Disable back button on Android
   useEffect(() => {
     const backPressListener = () => true
     BackHandler.addEventListener('hardwareBackPress', backPressListener)
     return () => BackHandler.removeEventListener('hardwareBackPress', backPressListener)
   }, [])
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () =>
+        keylessBackupStatus === KeylessBackupStatus.Failed &&
+        route.params.keylessBackupFlow === KeylessBackupFlow.Restore && (
+          <TopBarTextButton
+            title={t('keylessBackupStatus.restore.failed.help')}
+            testID="KeylessBackupRestoreHelp"
+            onPress={onPressHelp}
+            titleStyle={styles.help}
+          />
+        ),
+    })
+  })
 
   if (route.params.keylessBackupFlow === KeylessBackupFlow.Restore) {
     return <Restore />
@@ -49,6 +75,16 @@ function Restore() {
 
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const onPressTryAgain = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again)
+    navigate(Screens.ImportSelect)
+  }
+
+  const onPressCreateNewWallet = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet)
+    navigate(Screens.Welcome)
+  }
 
   switch (keylessBackupStatus) {
     case KeylessBackupStatus.InProgress: {
@@ -90,7 +126,34 @@ function Restore() {
       )
     }
     // TODO(ACT-781): Implement Success screen
-    // TODO(ACT-780): Implement Failure screens
+    case KeylessBackupStatus.Failed:
+      return (
+        <SafeAreaView style={styles.container}>
+          <View style={styles.finishedContainer}>
+            <RedLoadingSpinnerToInfo />
+            <Text style={styles.title}>{t('keylessBackupStatus.restore.failed.title')}</Text>
+            <Text style={styles.body}>{t('keylessBackupStatus.restore.failed.body')}</Text>
+          </View>
+          <Button
+            testID="KeylessBackupProgress/RestoreTryAgain"
+            onPress={onPressTryAgain}
+            text={t('keylessBackupStatus.restore.failed.tryAgain')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.PRIMARY}
+            style={styles.button}
+            touchableStyle={styles.buttonTouchable}
+          />
+          <Button
+            testID="KeylessBackupProgress/RestoreCreateNewWallet"
+            onPress={onPressCreateNewWallet}
+            text={t('keylessBackupStatus.restore.failed.createNewWallet')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.GRAY_WITH_BORDER}
+            style={styles.button}
+            touchableStyle={styles.buttonTouchable}
+          />
+        </SafeAreaView>
+      )
     default:
       Logger.error(TAG, `Got unexpected keyless backup status: ${keylessBackupStatus}`)
       return <></>
@@ -229,6 +292,10 @@ const styles = StyleSheet.create({
   },
   buttonTouchable: {
     justifyContent: 'center',
+  },
+  help: {
+    color: colors.primary,
+    ...typeScale.labelSemiBoldMedium,
   },
 })
 
