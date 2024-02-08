@@ -125,6 +125,13 @@
     "restore": {
       "inProgress": {
         "title": "Restauration en cours"
+      },
+      "failed": {
+        "title": "Ton portefeuille n'a pas été restauré",
+        "body": "Il y a eu un problème technique en essayant de restaurer ton portefeuille. Contacte l'assistance pour plus d'informations.",
+        "tryAgain": "Réessayer",
+        "createNewWallet": "Créer un wallet",
+        "help": "Aide"
       }
     }
   },
