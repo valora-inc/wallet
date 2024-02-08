@@ -51,6 +51,9 @@
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',
+      // major upgrade has multiple breaking changes
+      // TODO(ACT-1088): enable once done
+      enabled: false,
     },
     {
       // Group updates for @testing-library packages
