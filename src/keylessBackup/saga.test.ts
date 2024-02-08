@@ -35,6 +35,7 @@ import { Screens } from 'src/navigator/Screens'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockPrivateDEK } from 'test/values'
+import { Hex } from 'viem'
 
 describe('keylessBackup saga', () => {
   beforeEach(() => {
@@ -122,6 +123,7 @@ describe('keylessBackup saga', () => {
 
     const mockEncryptionPrivateKey =
       '0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb'
+    const mockEncryptionPrivateKeyHex: Hex = `0x${mockEncryptionPrivateKey}`
     const mockEncryptionPrivateKeyBuffer = Buffer.from(mockEncryptionPrivateKey, 'hex')
     const mockEncryptionPublicKeyBuffer = Buffer.from(
       '02e966cd1e93c10d6462e665b1a45039200e1faff289ef5265ecfbf06b5ddb94b2',
@@ -231,7 +233,7 @@ describe('keylessBackup saga', () => {
             ],
             [
               call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKey,
+                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
                 encryptionAddress: mockEncryptionAddress,
               }),
               mockEncryptedMnemonic,
@@ -273,7 +275,7 @@ describe('keylessBackup saga', () => {
             ],
             [
               call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKey,
+                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
                 encryptionAddress: mockEncryptionAddress,
               }),
               mockEncryptedMnemonic,
@@ -314,7 +316,7 @@ describe('keylessBackup saga', () => {
             ],
             [
               call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKey,
+                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
                 encryptionAddress: mockEncryptionAddress,
               }),
               throwError(new Error('mock error getting encrypted mnemonic')),
