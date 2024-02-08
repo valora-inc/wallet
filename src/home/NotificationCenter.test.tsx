@@ -294,7 +294,7 @@ describe('NotificationCenter', () => {
       expect(getByText('reverifyUsingCPVHomecard.description')).toBeTruthy()
 
       fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
     })
 
     it('emits correct analytics event when CTA button is pressed', () => {

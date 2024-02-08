@@ -116,7 +116,7 @@ export const Account = ({ navigation, route }: Props) => {
 
   const goToConfirmNumber = () => {
     ValoraAnalytics.track(SettingsEvents.settings_verify_number)
-    navigate(Screens.VerificationStartScreen)
+    navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
   }
 
   const goToLanguageSetting = () => {

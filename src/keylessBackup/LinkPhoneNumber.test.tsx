@@ -26,7 +26,7 @@ describe('LinkPhoneNumber', () => {
 
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
-      isOnboarding: true,
+      hasOnboarded: false,
     })
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.link_phone_number)
   })
