@@ -77,12 +77,19 @@
     "title": "Keep your wallet safe",
     "description": "Only you can access your wallet. If your phone is lost or stolen, Valora cannot recover it for you.\n\nYou’ll need to set up a method to keep your wallet safe and protect your funds."
   },
-  "setUpKeylessBackup": {
-    "title": "Set Up Wallet Backup",
-    "subtitle": "You'll use the following to set up backup",
+  "keylessBackupIntro": {
     "emailAddress": "Email Address",
     "phoneNumber": "Phone Number",
-    "useRecoveryPhrase": "Use recovery phrase instead"
+    "setup": {
+      "title": "Set Up Wallet Backup",
+      "description": "You'll use the following to set up backup",
+      "useRecoveryPhrase": "Use recovery phrase instead",
+      "reminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!"
+    },
+    "restore": {
+      "description": "Make sure you have the following available to restore your wallet.",
+      "reminder": "<0>Remember</0>, you need access to the same email & phone number you used when you backed up"
+    }
   },
   "signInWithEmail": {
     "title": "Sign in with email",
@@ -121,7 +128,6 @@
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Terms of Service",
   "privacyPolicy": "Privacy Policy",
@@ -1116,6 +1122,10 @@
       "title": "Insufficient gas token balance",
       "description": "You don't have enough {{feeCurrencies}} to cover gas fees. Please add {{feeCurrencies}} to your wallet to complete this transaction."
     },
+    "failedToPrepareTransaction": {
+      "title": "Failed to prepare transaction",
+      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Unsupported chain",
@@ -1966,7 +1976,9 @@
       "network": "Network"
     },
     "error": {
-      "invalidToken": "Invalid token. Try again or contact support"
+      "invalidAddress": "Invalid token address. Please review it",
+      "invalidToken": "Invalid token. Try again or contact support",
+      "tokenAlreadySupported": "This token is already supported"
     },
     "importSuccess": "Successfully imported {{tokenSymbol}} token",
     "importButton": "Import"

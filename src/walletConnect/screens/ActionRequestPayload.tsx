@@ -34,7 +34,7 @@ function ActionRequestPayload(props: Props) {
     () =>
       method === SupportedActions.eth_signTransaction ||
       method === SupportedActions.eth_sendTransaction
-        ? JSON.stringify(useViem ? props.preparedTransaction : params)
+        ? JSON.stringify(useViem ? props.preparedTransaction ?? params : params)
         : method === SupportedActions.eth_signTypedData ||
             method === SupportedActions.eth_signTypedData_v4
           ? JSON.stringify(params[1])

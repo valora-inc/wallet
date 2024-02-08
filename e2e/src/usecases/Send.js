@@ -28,7 +28,7 @@ export default Send = () => {
       await launchApp({
         newInstance: true,
         launchArgs: {
-          statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true`,
+          statsigGateOverrides: `use_new_send_flow=true`,
         },
       })
     })
@@ -117,7 +117,7 @@ export default Send = () => {
       commentText = `${new Date().getTime()}`
       await launchApp({
         newInstance: true,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
+        launchArgs: { statsigGateOverrides: `use_new_send_flow=true` },
       })
     })
 
@@ -174,7 +174,7 @@ export default Send = () => {
       await device.installApp()
       await launchApp({
         newInstance: true,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=true,use_viem_for_send=true` },
+        launchArgs: { statsigGateOverrides: `use_new_send_flow=true` },
       })
       await quickOnboarding(SAMPLE_BACKUP_KEY_VERIFIED)
     })

@@ -114,6 +114,11 @@
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaurar tu cartera"
+      }
     }
   },
   "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
@@ -871,6 +876,18 @@
       "description": "Esta wallet no tiene fondos. ¿Quieres usarla de todos modos?",
       "action": "Usar wallet",
       "title": "Saldo\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restaura tu cartera",
+    "description": "Si configuras una copia de seguridad para proteger tu monedero, elige una opción de las que aparecen a continuación.",
+    "emailAndPhone": {
+      "title": "De copia de seguridad de correo electrónico y teléfono",
+      "description": "Restaura tu monedero con el número de teléfono y el correo electrónico que configuraste anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "De la frase de recuperación",
+      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
     }
   },
   "verificationInput": {
@@ -1854,7 +1871,17 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
+    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Mis fichas",
+      "popular": "Popular",
+      "recentlySwapped": "Cambiado recientemente",
+      "celo": "Supercharge",
+      "ethereum": "Red Ethereum"
+    }
   },
   "homeActions": {
     "add": "Comprar",
@@ -2043,12 +2070,6 @@
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
     "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
-  },
-  "linkPhoneNumber": {
-    "title": "Vincular un número de teléfono a la dirección de tu monedero",
-    "description": "¡Se acabaron las direcciones de monedero desordenadas! Envía criptomonedas a otros usuarios de Valora con sólo un número de teléfono",
-    "startButtonLabel": "Enlace Número de teléfono",
-    "later": "Lo haré más tarde"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
