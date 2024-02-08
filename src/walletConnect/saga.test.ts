@@ -2,8 +2,8 @@ import { CoreTypes, SessionTypes } from '@walletconnect/types'
 import { buildApprovedNamespaces } from '@walletconnect/utils'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { expectSaga } from 'redux-saga-test-plan'
-import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { call, select } from 'redux-saga/effects'
+import { call, select } from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { showMessage } from 'src/alert/actions'
 import { DappRequestOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { walletConnectEnabledSelector } from 'src/app/selectors'
@@ -15,6 +15,7 @@ import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
+import { prepareTransactions } from 'src/viem/prepareTransactions'
 import {
   Actions,
   acceptSession as acceptSessionAction,
@@ -25,6 +26,7 @@ import {
   _acceptSession,
   _applyIconFixIfNeeded,
   _setClientForTesting,
+  _showActionRequest,
   _showSessionRequest,
   getDefaultSessionTrackedProperties,
   initialiseWalletConnect,
@@ -36,6 +38,7 @@ import { WalletConnectRequestType } from 'src/walletConnect/types'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import { mockAccount } from 'test/values'
+import { BaseError } from 'viem'
 import { getTransactionCount } from 'viem/actions'
 
 jest.mock('src/statsig')
@@ -485,6 +488,168 @@ describe('acceptSession', () => {
   })
 })
 
+describe('showActionRequest', () => {
+  const actionRequest: Web3WalletTypes.EventArguments['session_request'] = {
+    id: 1707297778331031,
+    topic: '243b33442b6190b97055201b5a8817f4e604e3f37b5376e78ee0b3715cc6211c',
+    params: {
+      request: {
+        method: 'eth_sendTransaction',
+        params: [
+          {
+            data: '0x580d747a0000000000000000000000007194dfe766a92308880a943fd70f31c8e7c50e66000000000000000000000000000000000000000000000000002386f26fc100000000000000000000000000007c75b0b81a54359e9dccda9cb663ca2e3de6b71000000000000000000000000089d5bd54c43ddd10905a030de6ff02ebb6c51654',
+            from: '0xccc9576F841de93Cd32bEe7B98fE8B9BD3070e3D',
+            to: '0x8D6677192144292870907E3Fa8A5527fE55A7ff6',
+          },
+        ],
+      },
+      chainId: 'eip155:42220',
+    },
+    verifyContext: {
+      verified: {
+        verifyUrl: 'https://verify.walletconnect.com',
+        validation: 'UNKNOWN',
+        origin: 'https://churrito.fi',
+      },
+    },
+  }
+  const session = createSession({
+    url: 'someUrl',
+    icons: ['someIcon'],
+    description: 'someDescription',
+    name: 'someName',
+  })
+
+  let mockClient: any
+
+  beforeEach(() => {
+    mockClient = {
+      approveSession: jest.fn(),
+      getActiveSessions: jest.fn(() => {
+        return Promise.resolve({
+          [actionRequest.topic]: session,
+        })
+      }),
+    }
+    _setClientForTesting(mockClient as any)
+  })
+
+  it('navigates to the screen to approve the request', async () => {
+    const mockPreparedTransactions = {
+      type: 'possible',
+      transactions: [
+        {
+          from: '0xfrom',
+          to: '0xto',
+          data: '0xdata',
+        },
+      ],
+    }
+    const state = createMockStore({}).getState()
+    await expectSaga(_showActionRequest, actionRequest)
+      .withState(state)
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [
+          call(getTransactionCount, publicClient[Network.Celo], {
+            address: mockAccount,
+            blockTag: 'pending',
+          }),
+          123,
+        ],
+        [call.fn(prepareTransactions), mockPreparedTransactions],
+      ])
+      .run()
+
+    // 2 calls, one in loading state and one in the action request state
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Loading,
+      origin: WalletConnectPairingOrigin.Deeplink,
+    })
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Action,
+      pendingAction: actionRequest,
+      supportedChains: ['eip155:44787'],
+      version: 2,
+      hasInsufficientGasFunds: false,
+      feeCurrenciesSymbols: [],
+      preparedTransaction: mockPreparedTransactions.transactions[0],
+      prepareTransactionErrorMessage: undefined,
+    })
+  })
+
+  it('navigates to the screen to reject the request when the transaction preparation fails', async () => {
+    const state = createMockStore({}).getState()
+    await expectSaga(_showActionRequest, actionRequest)
+      .withState(state)
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [
+          call(getTransactionCount, publicClient[Network.Celo], {
+            address: mockAccount,
+            blockTag: 'pending',
+          }),
+          123,
+        ],
+        [call.fn(prepareTransactions), throwError(new Error('Some error'))],
+      ])
+      .run()
+
+    // 2 calls, one in loading state and one in the action request state
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Loading,
+      origin: WalletConnectPairingOrigin.Deeplink,
+    })
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Action,
+      pendingAction: actionRequest,
+      supportedChains: ['eip155:44787'],
+      version: 2,
+      hasInsufficientGasFunds: false,
+      feeCurrenciesSymbols: [],
+      preparedTransaction: undefined,
+      prepareTransactionErrorMessage: 'Some error',
+    })
+  })
+
+  it('navigates to the screen to reject the request when the transaction preparation fails with a viem error', async () => {
+    const state = createMockStore({}).getState()
+    await expectSaga(_showActionRequest, actionRequest)
+      .withState(state)
+      .provide([
+        [select(walletAddressSelector), mockAccount],
+        [
+          call(getTransactionCount, publicClient[Network.Celo], {
+            address: mockAccount,
+            blockTag: 'pending',
+          }),
+          123,
+        ],
+        [call.fn(prepareTransactions), throwError(new BaseError('viem short message', {}))],
+      ])
+      .run()
+
+    // 2 calls, one in loading state and one in the action request state
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenNthCalledWith(1, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Loading,
+      origin: WalletConnectPairingOrigin.Deeplink,
+    })
+    expect(navigate).toHaveBeenNthCalledWith(2, Screens.WalletConnectRequest, {
+      type: WalletConnectRequestType.Action,
+      pendingAction: actionRequest,
+      supportedChains: ['eip155:44787'],
+      version: 2,
+      hasInsufficientGasFunds: false,
+      feeCurrenciesSymbols: [],
+      preparedTransaction: undefined,
+      prepareTransactionErrorMessage: 'viem short message',
+    })
+  })
+})
+
 // TODO: use a real connection string
 const v2ConnectionString =
   'wc:79a02f869d0f921e435a5e0643304548ebfa4a0430f9c66fe8b1a9254db7ef77@2?controller=false&publicKey=f661b0a9316a4ce0b6892bdce42bea0f45037f2c1bee9e118a3a4bc868a32a39&relay={"protocol":"waku"}'
@@ -624,6 +789,19 @@ describe('normalizeTransaction', () => {
       data: '0xABC',
       from: '0xTEST',
       nonce: 19,
+    })
+  })
+
+  it('strips `chainId` if present', async () => {
+    expect(
+      await callNormalizeTransaction(
+        { from: '0xTEST', data: '0xABC', chainId: 1 },
+        Network.Ethereum
+      )
+    ).toStrictEqual({
+      data: '0xABC',
+      from: '0xTEST',
+      nonce: 123,
     })
   })
 
