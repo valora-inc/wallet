@@ -14,7 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
-import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
+import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -1086,7 +1086,7 @@ export const mockDappList: Dapp[] = [
   },
 ]
 
-export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
+export const mockDappListWithCategoryNames: DappWithCategoryNames[] = [
   {
     name: 'Dapp 1',
     id: 'dapp1',

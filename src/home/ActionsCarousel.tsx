@@ -103,7 +103,12 @@ function ActionsCarousel() {
             >
               <>
                 {icon}
-                <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
+                <Text
+                  numberOfLines={1}
+                  allowFontScaling={false}
+                  style={styles.name}
+                  testID={`HomeAction/Title-${name}`}
+                >
                   {title}
                 </Text>
               </>

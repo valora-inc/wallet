@@ -1681,7 +1681,7 @@ describe('SwapScreen', () => {
       })
     })
 
-    it('should not show the network filters if there is only Celo enabled', () => {
+    it('should not show the network filters if there is only 1 network enabled', () => {
       jest.mocked(getDynamicConfigParams).mockReturnValue({
         maxSlippagePercentage: '0.3',
         showSwap: ['celo-alfajores'],
@@ -1698,8 +1698,10 @@ describe('SwapScreen', () => {
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-      expect(queryByText('tokenBottomSheet.filters.celo')).toBeFalsy()
-      expect(queryByText('tokenBottomSheet.filters.ethereum')).toBeFalsy()
+      expect(queryByText('tokenBottomSheet.filters.network, {"networkName":"Celo"}')).toBeFalsy()
+      expect(
+        queryByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum"}')
+      ).toBeFalsy()
 
       // deselect pre-selected filters to show all tokens
       fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
@@ -1712,7 +1714,7 @@ describe('SwapScreen', () => {
       )
     })
 
-    it('should show the network filters', () => {
+    it('should show the network filters when there are multiple supported networks', () => {
       const expectedEthTokens = expectedAllFromTokens.filter(
         (token) => token.networkId === NetworkId['ethereum-sepolia']
       )
@@ -1726,7 +1728,7 @@ describe('SwapScreen', () => {
       // deselect pre-selected filters to show all tokens
       fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
       // select celo filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.celo'))
+      fireEvent.press(getByText('tokenBottomSheet.filters.network, {"networkName":"Celo"}'))
 
       expectedCeloTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1736,8 +1738,8 @@ describe('SwapScreen', () => {
       )
 
       // select eth filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.celo'))
-      fireEvent.press(getByText('tokenBottomSheet.filters.ethereum'))
+      fireEvent.press(getByText('tokenBottomSheet.filters.network, {"networkName":"Celo"}'))
+      fireEvent.press(getByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum"}'))
 
       expectedEthTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()

@@ -27,11 +27,11 @@ describe('onboarding steps', () => {
       chooseAdventureEnabled: false,
     },
     screens: [
-      { screen: Screens.NameAndPicture, props: undefined },
-      { screen: Screens.PincodeSet, props: undefined },
-      { screen: Screens.EnableBiometry, props: undefined },
-      { screen: Screens.ProtectWallet, props: undefined },
-      { screen: Screens.VerificationStartScreen, props: { isOnboarding: true } },
+      Screens.NameAndPicture,
+      Screens.PincodeSet,
+      Screens.EnableBiometry,
+      Screens.ProtectWallet,
+      Screens.VerificationStartScreen,
     ],
     name: 'newUserFlowWithEverythingEnabled',
     finalScreen: Screens.WalletHome,
@@ -47,10 +47,10 @@ describe('onboarding steps', () => {
       onboardingNameScreenEnabled: false,
     },
     screens: [
-      { screen: Screens.PincodeSet, props: undefined },
-      { screen: Screens.EnableBiometry, props: undefined },
-      { screen: Screens.ProtectWallet, props: undefined },
-      { screen: Screens.VerificationStartScreen, props: { isOnboarding: true } },
+      Screens.PincodeSet,
+      Screens.EnableBiometry,
+      Screens.ProtectWallet,
+      Screens.VerificationStartScreen,
     ],
     name: 'newUserChooseAdventure',
     finalScreen: Screens.ChooseYourAdventure,
@@ -64,11 +64,7 @@ describe('onboarding steps', () => {
       recoveringFromStoreWipe: false,
       chooseAdventureEnabled: false,
     },
-    screens: [
-      { screen: Screens.NameAndPicture, props: undefined },
-      { screen: Screens.PincodeSet, props: undefined },
-      { screen: Screens.ProtectWallet, props: undefined },
-    ],
+    screens: [Screens.NameAndPicture, Screens.PincodeSet, Screens.ProtectWallet],
     name: 'newUserFlowWithEverythingDisabled',
     finalScreen: Screens.WalletHome,
   }
@@ -83,11 +79,11 @@ describe('onboarding steps', () => {
       chooseAdventureEnabled: false,
     },
     screens: [
-      { screen: Screens.NameAndPicture, props: undefined },
-      { screen: Screens.PincodeSet, props: undefined },
-      { screen: Screens.EnableBiometry, props: undefined },
-      { screen: Screens.ImportWallet, props: undefined },
-      { screen: Screens.VerificationStartScreen, props: { isOnboarding: true } },
+      Screens.NameAndPicture,
+      Screens.PincodeSet,
+      Screens.EnableBiometry,
+      Screens.ImportWallet,
+      Screens.VerificationStartScreen,
     ],
     name: 'importWalletFlowEverythingEnabled',
     finalScreen: Screens.WalletHome,
@@ -106,7 +102,7 @@ describe('onboarding steps', () => {
     'goToNextOnboardingScreen and getOnboardingStepValues work as expected for $name',
     ({ onboardingProps, screens, name, finalScreen }) => {
       const expectedTotalSteps = screens.length
-      screens.forEach(({ screen, props }, index) => {
+      screens.forEach((screen, index) => {
         const { totalSteps, step } = getOnboardingStepValues(screen, onboardingProps)
         // Checking that the step number is correct
         try {
@@ -130,16 +126,12 @@ describe('onboarding steps', () => {
             updateStatsigAndNavigate(finalScreen as keyof StackParamList)
           )
         } else {
-          const args: any[] = [screens[index + 1].screen]
-          if (screens[index + 1].props) {
-            args.push(screens[index + 1].props)
-          }
           try {
             // eslint-disable-next-line jest/no-conditional-expect
-            expect(navigate).toHaveBeenCalledWith(...args)
+            expect(navigate).toHaveBeenCalledWith(screens[index + 1])
           } catch {
             // eslint-disable-next-line jest/no-conditional-expect
-            expect(navigateClearingStack).toHaveBeenCalledWith(...args)
+            expect(navigateClearingStack).toHaveBeenCalledWith(screens[index + 1])
           }
         }
       })
@@ -298,30 +290,81 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
-          isOnboarding: true,
-        })
+        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
       })
     })
-    describe('Screens.VerificationStartScreen', () => {
-      it('should navigate to the home screen', () => {
+    describe('Screens.ImportSelect', () => {
+      it('should navigate to the home screen if skipVerification is true', () => {
         goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps,
         })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.WalletHome)
         )
       })
-      it('should navigate to the Screens.ChooseYourAdventure if chooseAdventureEnabled is true', () => {
+      it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
-          firstScreenInCurrentStep: Screens.VerificationStartScreen,
+          firstScreenInCurrentStep: Screens.ImportSelect,
           onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
         })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
         expect(mockStore.dispatch).toHaveBeenCalledWith(
           updateStatsigAndNavigate(Screens.ChooseYourAdventure)
         )
       })
+      it('should also navigate to the home screen if numberAlreadyVerifiedCentrally is true', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ImportSelect,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: false,
+            numberAlreadyVerifiedCentrally: true,
+          },
+        })
+        expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
+        expect(mockStore.dispatch).toHaveBeenCalledWith(
+          updateStatsigAndNavigate(Screens.WalletHome)
+        )
+      })
+      it('should otherwise navigate to LinkPhoneNumber', () => {
+        goToNextOnboardingScreen({
+          firstScreenInCurrentStep: Screens.ImportSelect,
+          onboardingProps: {
+            ...onboardingProps,
+            skipVerification: false,
+          },
+        })
+        expect(mockStore.dispatch).not.toHaveBeenCalled()
+        expect(navigate).toHaveBeenCalledWith(Screens.LinkPhoneNumber)
+      })
+    })
+    describe('Screens.VerificationStartScreen and Screens.LinkPhoneNumber', () => {
+      it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
+        'From %s should navigate to the home screen',
+        (screen) => {
+          goToNextOnboardingScreen({
+            firstScreenInCurrentStep: screen,
+            onboardingProps,
+          })
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateStatsigAndNavigate(Screens.WalletHome)
+          )
+        }
+      )
+      it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
+        'From %s should navigate to the Screens.ChooseYourAdventure if chooseAdventureEnabled is true',
+        (screen) => {
+          goToNextOnboardingScreen({
+            firstScreenInCurrentStep: screen,
+            onboardingProps: { ...onboardingProps, chooseAdventureEnabled: true },
+          })
+          expect(mockStore.dispatch).toHaveBeenCalledWith(
+            updateStatsigAndNavigate(Screens.ChooseYourAdventure)
+          )
+        }
+      )
     })
     describe('Screens.ProtectWallet', () => {
       it('should navigate to the home screen if skipVerification is true', () => {
@@ -344,9 +387,7 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).not.toHaveBeenCalled()
-        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
-          isOnboarding: true,
-        })
+        expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
       })
     })
   })
