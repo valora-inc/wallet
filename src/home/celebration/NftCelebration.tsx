@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -25,6 +26,9 @@ import { Spacing } from 'src/styles/styles'
 export default function NftCelebration() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+
+  const insets = useSafeAreaInsets()
+  const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
@@ -156,7 +160,7 @@ export default function NftCelebration() {
         backgroundStyle={styles.bottomSheetBackground}
         onChange={handleBottomSheetPositionChange}
       >
-        <BottomSheetView style={styles.container}>
+        <BottomSheetView style={[styles.container, insetsStyle]}>
           <View style={styles.content}>
             <Text style={styles.title}>{t('nftCelebration.bottomSheet.title')}</Text>
             <Text style={styles.description}>{t('nftCelebration.bottomSheet.description')}</Text>
