@@ -19,34 +19,17 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import VerificationCodeInput from 'src/verify/VerificationCodeInput'
 
-function KeylessBackupPhoneCodeInput({
-  route,
-  navigation,
-}: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneCodeInput>) {
+function HelpInfoBottomSheet({
+  onPressHelpGoBack,
+  onPressHelpSkip,
+  bottomSheetRef,
+}: {
+  onPressHelpGoBack: () => void
+  onPressHelpSkip: () => void
+  bottomSheetRef: React.RefObject<BottomSheetRefType>
+}) {
   const { t } = useTranslation()
-  const { e164Number, keylessBackupFlow } = route.params
-  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(e164Number, keylessBackupFlow)
-
-  const bottomSheetRef = useRef<BottomSheetRefType>(null)
-
-  const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help)
-    bottomSheetRef.current?.snapToIndex(0)
-  }
-
-  const onPressHelpGoBack = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back)
-    bottomSheetRef.current?.close()
-  }
-
-  const onPressHelpSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip)
-    navigate(
-      keylessBackupFlow === KeylessBackupFlow.Setup ? Screens.WalletHome : Screens.ImportSelect
-    )
-  }
-
-  const HelpInfoBottomSheet = (
+  return (
     <BottomSheet
       forwardedRef={bottomSheetRef}
       title={t('phoneVerificationInput.helpDialog.title')}
@@ -74,6 +57,34 @@ function KeylessBackupPhoneCodeInput({
       </View>
     </BottomSheet>
   )
+}
+
+function KeylessBackupPhoneCodeInput({
+  route,
+  navigation,
+}: NativeStackScreenProps<StackParamList, Screens.KeylessBackupPhoneCodeInput>) {
+  const { t } = useTranslation()
+  const { e164Number, keylessBackupFlow } = route.params
+  const { setSmsCode, verificationStatus } = useVerifyPhoneNumber(e164Number, keylessBackupFlow)
+
+  const bottomSheetRef = useRef<BottomSheetRefType>(null)
+
+  const onPressHelp = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help)
+    bottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const onPressHelpGoBack = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back)
+    bottomSheetRef.current?.close()
+  }
+
+  const onPressHelpSkip = () => {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip)
+    navigate(
+      keylessBackupFlow === KeylessBackupFlow.Setup ? Screens.WalletHome : Screens.ImportSelect
+    )
+  }
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -107,7 +118,11 @@ function KeylessBackupPhoneCodeInput({
         }}
         title={<Text style={styles.title}>{t('phoneVerificationInput.title')}</Text>}
       />
-      {HelpInfoBottomSheet}
+      <HelpInfoBottomSheet
+        onPressHelpGoBack={onPressHelpGoBack}
+        onPressHelpSkip={onPressHelpSkip}
+        bottomSheetRef={bottomSheetRef}
+      />
     </SafeAreaView>
   )
 }
