@@ -8,7 +8,14 @@ import {
   TouchableWithoutFeedback,
   View,
 } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { PanGestureHandler } from 'react-native-gesture-handler'
+import Animated, {
+  runOnJS,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
@@ -58,6 +65,34 @@ const ConfettiCelebration = ({
     opacity: progress.value,
   }))
 
+  const handleGesture = useAnimatedGestureHandler({
+    onStart: (_, ctx: { initialProgress: number }) => {
+      ctx.initialProgress = progress.value
+    },
+    onActive: (event, ctx) => {
+      const translationY = event.translationY
+      if (translationY > 0 /* swiping in wrong direction */) {
+        const dampedTranslation = Math.sqrt(Math.abs(translationY))
+        progress.value = ctx.initialProgress + dampedTranslation / slidingAreaHeight
+      } else {
+        progress.value = ctx.initialProgress + translationY / slidingAreaHeight
+      }
+    },
+    onEnd: (event: { translationY: number }) => {
+      const dismissThreshold = 0.33 * notificationHeight
+      const translationY = Math.abs(event.translationY)
+      if (translationY > dismissThreshold) {
+        progress.value = withSpring(0, undefined, () => {
+          if (onDismiss) {
+            runOnJS(onDismiss)()
+          }
+        })
+      } else {
+        progress.value = withSpring(1)
+      }
+    },
+  })
+
   useShowOrHideAnimation(
     progress,
     showAnimation,
@@ -92,15 +127,17 @@ const ConfettiCelebration = ({
           onAnimationFinish={onAnimationFinish}
         />
       </Animated.View>
-      <Animated.View
-        style={[styles.notificationContainer, positionStyle, animatedTransform]}
-        onLayout={handleLayout}
-      >
-        <View style={styles.notification}>
-          {title && <Text style={styles.titleText}>{title}</Text>}
-          <Text style={styles.descriptionText}>{description}</Text>
-        </View>
-      </Animated.View>
+      <PanGestureHandler onGestureEvent={handleGesture}>
+        <Animated.View
+          style={[styles.notificationContainer, positionStyle, animatedTransform]}
+          onLayout={handleLayout}
+        >
+          <View style={styles.notification}>
+            {title && <Text style={styles.titleText}>{title}</Text>}
+            <Text style={styles.descriptionText}>{description}</Text>
+          </View>
+        </Animated.View>
+      </PanGestureHandler>
     </>
   )
 }
