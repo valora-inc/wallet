@@ -18,6 +18,7 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
 import { blockExplorerUrls } from 'src/web3/networkConfig'
+import { NFT_EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
 
 const DEFAULT_HEIGHT = 360
 
@@ -98,17 +99,6 @@ function NftImageCarousel({ nfts, handleOnPress, activeNft }: NftImageCarouselPr
       </ScrollView>
     </View>
   )
-}
-
-const EXPLORER_LINK_TRANSLATION_STRINGS: Record<NetworkId, string> = {
-  [NetworkId['celo-mainnet']]: 'nftInfoCarousel.viewOnCeloExplorer',
-  [NetworkId['celo-alfajores']]: 'nftInfoCarousel.viewOnCeloExplorer',
-  [NetworkId['ethereum-mainnet']]: 'viewOnEthereumBlockExplorer',
-  [NetworkId['ethereum-sepolia']]: 'viewOnEthereumBlockExplorer',
-  [NetworkId['arbitrum-one']]: 'viewOnArbiscan',
-  [NetworkId['arbitrum-sepolia']]: 'viewOnArbiscan',
-  [NetworkId['op-mainnet']]: 'viewOnOPMainnetExplorer',
-  [NetworkId['op-sepolia']]: 'viewOnOPSepoliaExplorer',
 }
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
@@ -216,7 +206,7 @@ export default function NftsInfoCarousel({ route }: Props) {
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
                 <Text style={styles.explorerLink}>
-                  {t(EXPLORER_LINK_TRANSLATION_STRINGS[networkId])}
+                  {t(NFT_EXPLORER_LINK_TRANSLATION_STRINGS[networkId])}
                 </Text>
                 <OpenLinkIcon color={colors.successDark} />
               </View>
