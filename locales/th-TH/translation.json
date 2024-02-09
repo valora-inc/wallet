@@ -77,12 +77,19 @@
     "title": "รักษากระเป๋าเงินของคุณให้ปลอดภัย",
     "description": "มีเพียงคุณเท่านั้นที่สามารถเข้าถึงกระเป๋าเงินของคุณได้ หากโทรศัพท์ของคุณสูญหายหรือถูกขโมย Valora จะไม่สามารถกู้คืนให้คุณได้\n\nคุณจะต้องตั้งค่าวิธีการเพื่อรักษากระเป๋าเงินของคุณให้ปลอดภัยและปกป้องเงินของคุณ"
   },
-  "setUpKeylessBackup": {
-    "title": "ตั้งค่าการสำรองข้อมูลกระเป๋าเงิน",
-    "subtitle": "ต่อไปนี้คือสิ่งที่คุณจะต้องใช้ในการตั้งค่าการสำรองข้อมูล",
+  "keylessBackupIntro": {
     "emailAddress": "อีเมล",
     "phoneNumber": "หมายเลขโทรศัพท์",
-    "useRecoveryPhrase": "ใช้วลีกู้คืนรหัสแทน"
+    "setup": {
+      "title": "ตั้งค่าการสำรองข้อมูลกระเป๋าเงิน",
+      "description": "ต่อไปนี้คือสิ่งที่คุณจะต้องใช้ในการตั้งค่าการสำรองข้อมูล",
+      "useRecoveryPhrase": "ใช้วลีกู้คืนรหัสแทน",
+      "reminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ Valora ไม่ได้เก็บอีเมลหรือหมายเลขโทรศัพท์ของคุณไว้ โปรดรักษากระเป๋าเงินของคุณให้ปลอดภัย"
+    },
+    "restore": {
+      "description": "Make sure you have the following available to restore your wallet.",
+      "reminder": "<0>Remember</0>, you need access to the same email & phone number you used when you backed up"
+    }
   },
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
@@ -118,10 +125,21 @@
     "restore": {
       "inProgress": {
         "title": "Restoring your wallet"
+      },
+      "completed": {
+        "title": "Your wallet has been restored!",
+        "bodyZeroBalance": "You can add funds to your wallet once you are finished setting up.",
+        "bodyBalance": "You have a balance of <0></0>"
+      },
+      "failed": {
+        "title": "Your wallet was not restored",
+        "body": "There was a technical issue in trying to restore your wallet. Please contact support for more information.",
+        "tryAgain": "ลองอีกครั้ง",
+        "createNewWallet": "สร้างกระเป๋าเงินใหม่",
+        "help": "ความช่วยเหลือ"
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ Valora ไม่ได้เก็บอีเมลหรือหมายเลขโทรศัพท์ของคุณไว้ โปรดรักษากระเป๋าเงินของคุณให้ปลอดภัย",
   "testFaqLink": "คำถามที่พบบ่อยเกี่ยวกับ {{appName}}",
   "termsOfServiceLink": "ข้อกำหนดการใช้บริการ",
   "privacyPolicy": "นโยบายความเป็นส่วนตัว",
@@ -1112,6 +1130,10 @@
       "title": "ยอดคงเหลือโทเค็นก๊าซไม่เพียงพอ",
       "description": "คุณมี {{feeCurrencies}} ไม่เพียงพอจ่ายค่าก๊าซ โปรดฝาก {{feeCurrencies}} ไปยังกระเป๋าเงินของคุณเพื่อดำเนินการธุรกรรมนี้ให้เสร็จ"
     },
+    "failedToPrepareTransaction": {
+      "title": "Failed to prepare transaction",
+      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "ไม่รองรับเครือข่าย",
@@ -1877,8 +1899,7 @@
       "myTokens": "My tokens",
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
-      "celo": "Celo Network",
-      "ethereum": "Ethereum Network"
+      "network": "เครือข่าย {{networkName}}"
     }
   },
   "homeActions": {
@@ -1962,7 +1983,9 @@
       "network": "เครือข่าย"
     },
     "error": {
-      "invalidToken": "โทเค็นไม่ถูกต้อง โปรดลองใหม่อีกครั้งหรือติดต่อฝ่ายบริการลูกค้า"
+      "invalidAddress": "Invalid token address. Please review it",
+      "invalidToken": "โทเค็นไม่ถูกต้อง โปรดลองใหม่อีกครั้งหรือติดต่อฝ่ายบริการลูกค้า",
+      "tokenAlreadySupported": "This token is already supported"
     },
     "importSuccess": "นำเข้าโทเค็น {{tokenSymbol}} สำเร็จ",
     "importButton": "นำเข้า"

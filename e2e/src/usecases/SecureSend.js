@@ -16,6 +16,7 @@ import {
   waitForElementId,
   waitForElementByIdAndTap,
   confirmTransaction,
+  createCommentText,
 } from '../utils/utils'
 
 const AMOUNT_TO_SEND = '0.01'
@@ -23,9 +24,7 @@ const WALLET_FUNDING_MULTIPLIER = 2.2
 
 export default SecureSend = () => {
   describe('Secure send flow with phone number lookup (old flow)', () => {
-    let commentText
     beforeAll(async () => {
-      commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
       await device.installApp()
@@ -88,6 +87,7 @@ export default SecureSend = () => {
       await element(by.id('ConfirmAccountButton')).tap()
 
       // Write a comment.
+      const commentText = createCommentText()
       await addComment(commentText)
 
       // Confirm and input PIN if necessary.
@@ -103,8 +103,7 @@ export default SecureSend = () => {
     })
   })
 
-  // TODO(ACT-1044): Enable test after new send flow is fixed.
-  xdescribe('Secure send flow with phone number lookup (new flow)', () => {
+  describe('Secure send flow with phone number lookup (new flow)', () => {
     beforeAll(async () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
@@ -127,7 +126,6 @@ export default SecureSend = () => {
     })
 
     it('Send cUSD to phone number with multiple mappings', async () => {
-      const commentText = 'test comment new'
       await waitForElementByIdAndTap('HomeAction-Send', 30_000)
       await waitForElementByIdAndTap('SendSelectRecipientSearchInput', 3000)
       await element(by.id('SendSelectRecipientSearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
@@ -159,6 +157,7 @@ export default SecureSend = () => {
       await element(by.id('SendEnterAmount/ReviewButton')).tap()
 
       // Write a comment.
+      const commentText = createCommentText()
       await addComment(commentText)
 
       // Confirm and input PIN if necessary.
@@ -168,9 +167,7 @@ export default SecureSend = () => {
       // Return to home screen.
       await waitForElementId('HomeAction-Send', 30_000)
 
-      await waitFor(element(by.text(`${commentText}`)))
-        .toBeVisible()
-        .withTimeout(60_000)
+      await confirmTransaction(commentText)
     })
   })
 }

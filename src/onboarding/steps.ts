@@ -266,7 +266,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             navigateHomeOrChooseAdventure()
           } else {
             // DO NOT CLEAR NAVIGATION STACK HERE - breaks restore flow on initial app open in native-stack v6
-            navigate(Screens.VerificationStartScreen)
+            navigate(Screens.LinkPhoneNumber)
           }
         },
       }
@@ -283,6 +283,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
           }
         },
       }
+    case Screens.LinkPhoneNumber:
     case Screens.VerificationStartScreen:
       return {
         next: () => {

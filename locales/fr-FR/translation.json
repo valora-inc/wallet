@@ -77,12 +77,19 @@
     "title": "Gardez votre portefeuille en sécurité",
     "description": "Vous seul pouvez accéder à votre portefeuille. Si votre téléphone est perdu ou volé, Valora ne pourra pas le récupérer pour vous.\n\nTrouvez un moyen pour garder votre portefeuille en sécurité et protéger vos fonds."
   },
-  "setUpKeylessBackup": {
-    "title": "Configurer la sauvegarde du portefeuille",
-    "subtitle": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
+  "keylessBackupIntro": {
     "emailAddress": "Adresse e-mail",
     "phoneNumber": "Numéro de téléphone",
-    "useRecoveryPhrase": "Utiliser une phrase de récupération"
+    "setup": {
+      "title": "Configurer la sauvegarde du portefeuille",
+      "description": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
+      "useRecoveryPhrase": "Utiliser une phrase de récupération",
+      "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
+    },
+    "restore": {
+      "description": "Assure-toi d'avoir les éléments suivants à ta disposition pour restaurer ton portefeuille.",
+      "reminder": "<0>N'oublie pas</0> que tu dois avoir accès au même courriel et au même numéro de téléphone que ceux que tu as utilisés lors de la sauvegarde."
+    }
   },
   "signInWithEmail": {
     "title": "Se connecter avec un e-mail",
@@ -117,11 +124,22 @@
     },
     "restore": {
       "inProgress": {
-        "title": "Restaure ton portefeuille"
+        "title": "Restauration en cours"
+      },
+      "completed": {
+        "title": "Ton portefeuille a été restauré !",
+        "bodyZeroBalance": "Tu peux ajouter des fonds à ton portefeuille une fois que tu as terminé la configuration.",
+        "bodyBalance": "Tu as un équilibre entre <0></0>"
+      },
+      "failed": {
+        "title": "Ton portefeuille n'a pas été restauré",
+        "body": "Il y a eu un problème technique en essayant de restaurer ton portefeuille. Contacte l'assistance pour plus d'informations.",
+        "tryAgain": "Réessayer",
+        "createNewWallet": "Créer un wallet",
+        "help": "Aide"
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !",
   "testFaqLink": "FAQ {{appName}}",
   "termsOfServiceLink": "Conditions d'utilisation",
   "privacyPolicy": "Politique de confidentialité",
@@ -879,7 +897,7 @@
     }
   },
   "importSelect": {
-    "title": "Restaure ton portefeuille",
+    "title": "Restaurez votre portefeuille",
     "description": "Si tu as mis en place une sauvegarde pour protéger ton portefeuille, choisis une option ci-dessous.",
     "emailAndPhone": {
       "title": "De la sauvegarde des courriels et du téléphone",
@@ -1113,6 +1131,10 @@
     "notEnoughBalanceForGas": {
       "title": "Solde de jetons de gas insuffisant",
       "description": "Vous n'avez pas assez de {{feeCurrencies}} pour couvrir les frais de gas. Veuillez ajouter {{feeCurrencies}} à votre portefeuille pour réaliser cette transaction."
+    },
+    "failedToPrepareTransaction": {
+      "title": "Échec de la préparation de la transaction",
+      "description": "Une erreur s'est produite lors de la préparation de la transaction. Voir l'erreur sous-jacente pour plus de détails.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1877,10 +1899,9 @@
     "noSearchResults": "Aucun actif correspondant n'a été trouvé pour \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mes jetons",
-      "popular": "Populaire",
-      "recentlySwapped": "Récemment échangé",
-      "celo": "Supercharge",
-      "ethereum": "Réseau Ethereum"
+      "popular": "Populaires",
+      "recentlySwapped": "Échangés récemment",
+      "network": "Réseau {{networkName}}"
     }
   },
   "homeActions": {
@@ -1964,7 +1985,9 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance"
+      "invalidAddress": "L'adresse du jeton n'est pas valide. Révise-la s'il te plaît",
+      "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
+      "tokenAlreadySupported": "Ce jeton est déjà pris en charge"
     },
     "importSuccess": "Importation du jeton {{tokenSymbol}} réussie",
     "importButton": "Importation"
