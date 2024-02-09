@@ -1118,9 +1118,6 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: { section: DappSection }
-  [DappExplorerEvents.dapp_select]: DappEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
   [DappExplorerEvents.dapp_favorite]: DappEventProperties
   [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
   [DappExplorerEvents.dapp_filter]: {
