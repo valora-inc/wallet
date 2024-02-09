@@ -51,7 +51,7 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
   }, [revokeNumberAsync.status])
 
   const handleNavigateToVerifiedNumber = () => {
-    navigate(Screens.VerificationStartScreen)
+    navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
   }
 
   const handleRevokePhoneNumber = async () => {

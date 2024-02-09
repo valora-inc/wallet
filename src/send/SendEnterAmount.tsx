@@ -216,10 +216,6 @@ function SendEnterAmount({ route }: Props) {
     if (parsedAmount.isLessThanOrEqualTo(0) || parsedAmount.isGreaterThan(token.balance)) {
       return
     }
-    // TODO (ACT-973?): Address is not always set on the recipient, even for PN recipients.
-    // This means that for PN recipients with exactly one address mapped (non secure
-    // send flow) the address will not be set. Either ensure address is always set here,
-    // or fix this to work with those recipients.
     const debouncedRefreshTransactions = setTimeout(() => {
       return refreshPreparedTransactions({
         amount: parsedAmount,
