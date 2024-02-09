@@ -77,7 +77,7 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
+  const { onSelectDapp } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   const removeFilter = (filter: FilterChip<DappWithCategoryNames>) => {
@@ -278,7 +278,6 @@ export function DAppsExplorerScreenSearchFilter() {
           />
         )}
       </>
-      {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
       <DappRankingsBottomSheet
         forwardedRef={dappRankingsBottomSheetRef}
