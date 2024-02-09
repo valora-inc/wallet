@@ -42,19 +42,19 @@ const ConfettiCelebration = ({
 }: Props) => {
   const [isVisible, setIsVisible] = useState(showAnimation)
 
-  const windowDimenstions = Dimensions.get('window')
-  const safeInitialHeight = Math.max(windowDimenstions.width, windowDimenstions.height)
+  const window = Dimensions.get('window')
+  const safeInitialHeight = Math.max(window.width, window.height)
   const [notificationHeight, setNotificationHeight] = useState(safeInitialHeight)
 
   const { top } = useSafeAreaInsets()
   const positionStyle = { top }
 
-  const slidingAreaHeight = top + notificationHeight
+  const slidingHeight = top + notificationHeight
 
   const progress = useSharedValue(0)
   const animatedTransform = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: -(1 - progress.value) * slidingAreaHeight }],
+      transform: [{ translateY: -(1 - progress.value) * slidingHeight }],
     }
   })
   const animatedBackdropOpacity = useAnimatedStyle(() => ({
@@ -70,23 +70,18 @@ const ConfettiCelebration = ({
       ctx.initialProgress = progress.value
     },
     onActive: (event, ctx) => {
-      const translationY = event.translationY
-      if (translationY > 0 /* swiping in wrong direction */) {
-        const dampedTranslation = Math.sqrt(Math.abs(translationY))
-        progress.value = ctx.initialProgress + dampedTranslation / slidingAreaHeight
+      if (event.translationY > 0 /* wrong direction */) {
+        const dampedTranslation = Math.sqrt(Math.abs(event.translationY))
+        progress.value = ctx.initialProgress + dampedTranslation / slidingHeight
       } else {
-        progress.value = ctx.initialProgress + translationY / slidingAreaHeight
+        progress.value = ctx.initialProgress + event.translationY / slidingHeight
       }
     },
     onEnd: (event: { translationY: number }) => {
       const dismissThreshold = 0.33 * notificationHeight
       const translationY = Math.abs(event.translationY)
-      if (translationY > dismissThreshold) {
-        progress.value = withSpring(0, undefined, () => {
-          if (onDismiss) {
-            runOnJS(onDismiss)()
-          }
-        })
+      if (onDismiss && translationY > dismissThreshold) {
+        runOnJS(onDismiss)()
       } else {
         progress.value = withSpring(1)
       }
