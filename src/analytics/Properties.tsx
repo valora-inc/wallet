@@ -254,6 +254,7 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
   [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
   [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
+  [KeylessBackupEvents.cab_restore_completed_continue]: undefined
   [KeylessBackupEvents.cab_restore_failed_try_again]: undefined
   [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: undefined
   [KeylessBackupEvents.cab_restore_failed_help]: undefined
@@ -1123,7 +1124,7 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_favorite]: DappEventProperties
   [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
   [DappExplorerEvents.dapp_filter]: {
-    id: string
+    filterId: string
     remove: boolean
   }
   [DappExplorerEvents.dapp_rankings_open]: undefined

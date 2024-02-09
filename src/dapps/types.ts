@@ -16,7 +16,7 @@ export interface Dapp {
   categories: string[]
 }
 
-export interface DappV2WithCategoryNames extends Dapp {
+export interface DappWithCategoryNames extends Dapp {
   categoryNames: string[]
 }
 

@@ -114,6 +114,7 @@ export enum KeylessBackupEvents {
   cab_handle_keyless_backup_success = 'cab_handle_keyless_backup_success',
   cab_restore_zero_balance_accept = 'cab_restore_zero_balance_accept',
   cab_restore_zero_balance_bail = 'cab_restore_zero_balance_bail',
+  cab_restore_completed_continue = 'cab_restore_completed_continue',
   cab_restore_failed_try_again = 'cab_restore_failed_try_again',
   cab_restore_failed_create_new_wallet = 'cab_restore_failed_create_new_wallet',
   cab_restore_failed_help = 'cab_restore_failed_help',

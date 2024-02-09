@@ -188,7 +188,10 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         )}
         <View style={styles.border} />
       </View>
-      <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
+      <CustomDrawerItemList
+        {...props}
+        protectedRoutes={[Screens.BackupIntroduction, Screens.WalletSecurityPrimerDrawer]}
+      />
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />

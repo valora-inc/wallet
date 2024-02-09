@@ -77,12 +77,19 @@
     "title": "Sorge für die Sicherheit deiner Wallet",
     "description": "Nur du kannst auf deine Wallet zugreifen. Wenn du dein Telefon verloren hast oder es dir gestohlen wurde, kann Valora deine Wallet für dich nicht wiederherstellen.\n\nDu musst eine Methode einrichten, durch die deine Wallet sicher und dein Guthaben geschützt sind."
   },
-  "setUpKeylessBackup": {
-    "title": "Wallet-Back-up einrichten",
-    "subtitle": "Folgendes wird zum Einrichten der Sicherung verwendet",
+  "keylessBackupIntro": {
     "emailAddress": "E-Mail-Adresse",
     "phoneNumber": "Telefonnummer",
-    "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase"
+    "setup": {
+      "title": "Wallet-Back-up einrichten",
+      "description": "Folgendes wird zum Einrichten der Sicherung verwendet",
+      "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase",
+      "reminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!"
+    },
+    "restore": {
+      "description": "Vergewissere dich, dass du die folgenden Dinge zur Verfügung hast, um deine Geldbörse wiederherzustellen.",
+      "reminder": "<0>Denke daran</0>, dass du Zugang zu derselben E-Mail-Adresse und Telefonnummer brauchst, die du beim Backup verwendet hast."
+    }
   },
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
@@ -118,10 +125,21 @@
     "restore": {
       "inProgress": {
         "title": "Dein Portemonnaie wiederherstellen"
+      },
+      "completed": {
+        "title": "Dein Geldbeutel wurde wiederhergestellt!",
+        "bodyZeroBalance": "Sobald du mit der Einrichtung fertig bist, kannst du Geld in dein Portemonnaie einzahlen.",
+        "bodyBalance": "Du hast ein Gleichgewicht von <0></0>"
+      },
+      "failed": {
+        "title": "Dein Geldbeutel wurde nicht wiederhergestellt",
+        "body": "Es gab ein technisches Problem bei dem Versuch, deine Brieftasche wiederherzustellen. Bitte kontaktiere den Support für weitere Informationen.",
+        "tryAgain": "Wiederholen",
+        "createNewWallet": "Wallet erstellen",
+        "help": "Hilfe"
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!",
   "testFaqLink": "{{appName}} FAQ",
   "termsOfServiceLink": "Nutzungsbedingungen",
   "privacyPolicy": "Datenschutzrichtlinie",
@@ -1114,6 +1132,10 @@
       "title": "Unzureichendes Gas-Token-Guthaben",
       "description": "Du hast nicht genug {{feeCurrencies}}, um die Gasgebühren zu begleichen. Bitte füge {{feeCurrencies}} zu deiner Wallet hinzu, um diese Transaktion abzuschließen."
     },
+    "failedToPrepareTransaction": {
+      "title": "Transaktion konnte nicht vorbereitet werden",
+      "description": "Bei der Vorbereitung der Transaktion ist ein Fehler aufgetreten. Siehe den zugrunde liegenden Fehler für weitere Details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Nicht unterstützte Kette",
@@ -1879,8 +1901,7 @@
       "myTokens": "Meine Spielsteine",
       "popular": "Beliebt",
       "recentlySwapped": "Kürzlich getauscht",
-      "celo": "Supercharge",
-      "ethereum": "Ethereum Netzwerk"
+      "network": "{{networkName}} Netzwerk"
     }
   },
   "homeActions": {
@@ -1964,7 +1985,9 @@
       "network": "Netzwerk"
     },
     "error": {
-      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team"
+      "invalidAddress": "Ungültige Token-Adresse. Bitte überprüfe sie",
+      "invalidToken": "Ungültiges Token. Versuche es erneut oder kontaktiere das Support-Team",
+      "tokenAlreadySupported": "Dieses Token wird bereits unterstützt"
     },
     "importSuccess": "{{tokenSymbol}} Token erfolgreich importiert",
     "importButton": "Importieren"

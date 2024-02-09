@@ -109,7 +109,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const positionsWithClaimableRewards = useSelector(positionsWithClaimableRewardsSelector)
   const showClaimRewards = dappShortcutsEnabled && positionsWithClaimableRewards.length > 0
 
-  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
+  // TODO(ACT-1095): Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)

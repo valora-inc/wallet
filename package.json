@@ -126,7 +126,6 @@
     "date-fns": "^2.30.0",
     "dot-prop-immutable": "^2.1.1",
     "ethereumjs-util": "^7.1.5",
-    "ethers": "^6.10.0",
     "fast-levenshtein": "^3.0.0",
     "fp-ts": "2.16.2",
     "futoin-hkdf": "^1.5.3",
@@ -205,7 +204,7 @@
     "victory-native": "^36.8.2",
     "viem": "^2.5.0",
     "vm-browserify": "^1.1.2",
-    "web3": "1.10.3"
+    "web3": "1.10.4"
   },
   "devDependencies": {
     "@actions/github": "^5.1.1",
@@ -331,7 +330,7 @@
     "hermes-engine": "^0.11.0",
     "react-native-securerandom": "^1.0.1",
     "minimatch": "^3.1.2",
-    "web3": "1.10.3",
+    "web3": "1.10.4",
     "events": "^3.3.0",
     "qs": "^6.11.2",
     "flat": "^5.0.2",
