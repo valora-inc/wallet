@@ -15,8 +15,6 @@ export const isSendingSelector = (state: RootState) => {
   return state.send.isSending
 }
 
-export const inviteRewardCusdSelector = (state: RootState) => state.send.inviteRewardCusd
-
 export const inviteRewardsTypeSelector = (state: RootState) => {
   switch (state.send.inviteRewardsVersion) {
     case 'v4':

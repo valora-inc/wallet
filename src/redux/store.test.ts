@@ -313,7 +313,6 @@ describe('store state', () => {
           "valoraRecipientCache": {},
         },
         "send": {
-          "inviteRewardCusd": 5,
           "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,

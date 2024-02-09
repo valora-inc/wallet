@@ -94,7 +94,6 @@ describe('Send', () => {
       send: {
         ...defaultStore.send,
         inviteRewardsVersion: 'v4',
-        inviteRewardCusd: 1,
       },
     })
 
@@ -114,7 +113,6 @@ describe('Send', () => {
       send: {
         ...defaultStore.send,
         inviteRewardsVersion: 'v5',
-        inviteRewardCusd: 1,
       },
     })
 
