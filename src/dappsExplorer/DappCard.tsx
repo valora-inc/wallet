@@ -25,6 +25,7 @@ interface DappCardContentProps {
 interface Props {
   onPressDapp: () => void
   dapp: Dapp
+  testID: string
   onFavoriteDapp?: (dapp: Dapp) => void
 }
 
@@ -84,9 +85,9 @@ export function DappCardContent({
   )
 }
 
-function DappCard({ dapp, onPressDapp, onFavoriteDapp }: Props) {
+function DappCard({ dapp, onPressDapp, onFavoriteDapp, testID }: Props) {
   return (
-    <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
+    <Card testID={testID} style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable onPress={onPressDapp} borderRadius={8} testID={`Dapp/${dapp.id}`}>
         <DappCardContent
           dapp={dapp}
