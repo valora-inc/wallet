@@ -37,6 +37,7 @@ describe('WebViewScreen', () => {
     expect(getByTestId('WebViewScreen/GoBack')).toBeDisabled()
     expect(getByTestId('WebViewScreen/GoForward')).toBeDisabled()
     expect(getByTestId('WebViewScreen/OpenBottomSheet')).toBeTruthy()
+    expect(getByTestId('WebViewScreen/KeyboardAwareView')).toBeTruthy()
   })
 
   it('should set the mediaPlaybackRequiresUserAction prop according to the url', () => {

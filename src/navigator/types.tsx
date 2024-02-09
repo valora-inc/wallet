@@ -296,7 +296,7 @@ export type StackParamList = {
   [Screens.ValidateRecipientAccount]: ValidateRecipientParams
   [Screens.VerificationStartScreen]:
     | {
-        isOnboarding?: boolean
+        hasOnboarded?: boolean
         selectedCountryCodeAlpha2?: string
       }
     | undefined

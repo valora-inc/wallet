@@ -143,6 +143,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_handle_keyless_backup_success]: `When keyless backup successfully saves encrypted mnemonic for setup or successfully retrieves and decrypts mnemonic for restore`,
   [KeylessBackupEvents.cab_restore_zero_balance_accept]: `When a user is restoring from CAB and a dialog is shown informing them that their wallet has zero balance but they proceed anyways`,
   [KeylessBackupEvents.cab_restore_zero_balance_bail]: `When a user is restoring from CAB and a dialog is shown informing them that their wallet has zero balance and they choose to bail and restart restore flow`,
+  [KeylessBackupEvents.cab_restore_completed_continue]: `When a user has completed restoring through CAB and on the success screen they press continue`,
   [KeylessBackupEvents.cab_restore_failed_try_again]: `When a user is restoring from CAB and the restore fails, and they opt to try again`,
   [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: `When a user is restoring from CAB and the restore fails, and they opt to create a new wallet`,
   [KeylessBackupEvents.cab_restore_failed_help]: `When a user is restoring from CAB and the restore fails, and they press the Help button`,
