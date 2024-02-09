@@ -26,7 +26,6 @@ import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusI
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
-  Network,
   NetworkId,
   TokenApproval,
   TokenExchange,
@@ -37,10 +36,11 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
-import networkConfig, { blockExplorerUrls, networkIdToNetwork } from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
+import { TX_EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
 
@@ -136,8 +136,6 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
   }
 
-  const transactionNetwork = networkIdToNetwork[transaction.networkId]
-
   const openBlockExplorerHandler =
     transaction.networkId in NetworkId
       ? () =>
@@ -189,8 +187,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
-                  {transactionNetwork === Network.Celo && t('viewOnCeloScan')}
-                  {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
+                  {t(TX_EXPLORER_LINK_TRANSLATION_STRINGS[transaction.networkId])}
                 </Text>
                 <ArrowRightThick size={16} />
               </View>
