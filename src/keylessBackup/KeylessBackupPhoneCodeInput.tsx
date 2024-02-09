@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     color: colors.primary,
   },
   skipButton: {
-    color: '#9CA4A9',
+    color: colors.gray4,
   },
 })
 
