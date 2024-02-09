@@ -61,7 +61,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     expect(getByText('Dapp 2')).toBeTruthy()
 
     fireEvent.press(getByText('Dapp 1'))
-    fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 1"}`))
 
     expect(defaultStore.getActions()).toEqual([
       fetchDappsList(),
@@ -89,29 +88,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     ])
   })
 
-  it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
-    const { getByText } = render(
-      <Provider store={defaultStore}>
-        <DAppsExplorerScreenSearchFilter />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('Dapp 1'))
-
-    expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeTruthy()
-    expect(defaultStore.getActions()).toEqual([
-      fetchDappsList(),
-      // no dapp selected action here, so the dapp is not launched
-    ])
-
-    fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 1"}`))
-    expect(defaultStore.getActions()).toEqual([
-      fetchDappsList(),
-      dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }), // now the dapp is launched
-    ])
-  })
-
-  it('displays the dapps disclaimer and opens dapps directly', () => {
+  it('pens dapps directly', () => {
     const store = createMockStore({
       dapps: {
         dappListApiUrl: 'http://url.com',
@@ -119,7 +96,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
         dappsCategories,
       },
     })
-    const { getByText, queryByText } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <DAppsExplorerScreenSearchFilter />
       </Provider>
@@ -129,7 +106,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
 
     fireEvent.press(getByText('Dapp 1'))
 
-    expect(queryByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeFalsy()
     expect(store.getActions()).toEqual([
       fetchDappsList(),
       dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }),
