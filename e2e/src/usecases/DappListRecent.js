@@ -32,12 +32,10 @@ export default DappListRecent = () => {
     await scrollIntoView(dappToTest, 'DAppsExplorerScreen/DappsList')
     await element(by.text(dappToTest)).tap()
 
-    // Get dapp name in confirmation dialog
-    const dappPressed = await element(by.id('ConfirmDappButton')).getAttributes()
-    const dappPressedName = dappPressed.label.split('Go to ')[1]
-
-    // Confirm dapp open and navigate back to home
-    await element(by.id('ConfirmDappButton')).tap()
+    // Close internal webview and navigate back to home
+    await waitFor(element(by.id(`WebViewScreen/${dappToTest}`)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
     await element(by.text('Close')).tap()
     await navigateToHome()
 
@@ -63,13 +61,10 @@ export default DappListRecent = () => {
     await scrollIntoView(dappToTest, 'DAppsExplorerScreen/DappsList')
     await element(by.text(dappToTest)).tap()
 
-    // Get dapp name in confirmation dialog
-    const dappPressed = await element(by.id('ConfirmDappTitle')).getAttributes()
-    const dappPressedName = dappPressed.text.split(' is an external application')[0]
-
-    // Confirm dapp open and navigate back to home
-    await waitForElementId('ConfirmDappButton')
-    await element(by.id('ConfirmDappButton')).tap()
+    // Close internal webview and navigate back to home
+    await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDappName}`)))
+      .toBeVisible()
+      .withTimeout(10 * 1000)
     await element(by.text('Close')).tap()
     await navigateToHome()
 
@@ -85,8 +80,7 @@ export default DappListRecent = () => {
     await element(by.text(mostRecentlyUsedDappName)).tap()
 
     // Check that dapp open prompt is visible with the correct dapp name
-    await waitForElementId('ConfirmDappButton')
-    await waitFor(element(by.text(`Go to ${mostRecentlyUsedDappName}`)))
+    await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDappName}`)))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })
@@ -100,10 +94,6 @@ export default DappListRecent = () => {
 
     // Open most recently used dapp
     await element(by.text(mostRecentlyUsedDappName)).tap()
-    await waitFor(element(by.text(`Go to ${mostRecentlyUsedDappName}`)))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-    await element(by.id('ConfirmDappButton')).tap()
 
     // Check that webview screen is open for the correct dapp
     await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDappName}`)))
