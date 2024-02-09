@@ -246,7 +246,6 @@ export interface RemoteConfigValues {
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number
   networkTimeoutSeconds: number
-  dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
   dappsMinimalDisclaimerEnabled: boolean

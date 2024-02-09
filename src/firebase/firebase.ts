@@ -349,7 +349,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
-    dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
     dappsMinimalDisclaimerEnabled: flags.dappsMinimalDisclaimerEnabled.asBoolean(),

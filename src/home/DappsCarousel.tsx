@@ -16,7 +16,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
 import {
-  dappFavoritesEnabledSelector,
   favoriteDappsSelector,
   maxNumRecentDappsSelector,
   recentDappsSelector,
@@ -41,11 +40,10 @@ const windowWidth = Dimensions.get('window').width
 
 const useDappsCarouselDapps = () => {
   const { t } = useTranslation()
-  const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const recentlyUsedDapps = useSelector(recentDappsSelector)
   const favoritedDapps = useSelector(favoriteDappsSelector)
 
-  if (dappFavoritesEnabled && favoritedDapps.length > 0) {
+  if (favoritedDapps.length > 0) {
     return {
       dapps: favoritedDapps,
       section: DappSection.FavoritesHomeScreen,

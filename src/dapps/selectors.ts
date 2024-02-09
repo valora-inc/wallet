@@ -79,8 +79,6 @@ export const dappsCategoriesAlphabeticalSelector = createSelector(
 
 export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
 
-export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
-
 const mostPopularDappIdsSelector = (state: RootState) => state.dapps.mostPopularDappIds
 
 export const mostPopularDappsSelector = createSelector(

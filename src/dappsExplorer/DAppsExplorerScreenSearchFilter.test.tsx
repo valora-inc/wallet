@@ -145,7 +145,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: [],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByText, queryByText } = render(
@@ -167,7 +166,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
-          dappFavoritesEnabled: true,
         },
       })
       const { queryByText, getAllByTestId } = render(
@@ -191,7 +189,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -227,7 +224,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -266,7 +262,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: [],
         },
       })
@@ -290,7 +285,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -326,7 +320,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -365,7 +358,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -399,7 +391,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -434,7 +425,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -463,7 +453,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -499,7 +488,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -536,7 +524,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -573,7 +560,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByTestId, getAllByTestId } = render(
@@ -605,7 +591,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByTestId, getByText, getAllByTestId, queryByTestId } = render(
@@ -639,7 +624,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByTestId, getByText, queryByTestId } = render(
@@ -672,7 +656,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       dappsList,
       dappsCategories,
       favoriteDappIds: [],
-      dappFavoritesEnabled: true,
       dappsMinimalDisclaimerEnabled: true,
     }
     const defaultExpectedDappOpenProps = {
