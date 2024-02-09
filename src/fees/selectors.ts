@@ -15,7 +15,7 @@ export function getFeeEstimateDollars(
   tokenInfo: TokenBalance | undefined
 ) {
   return (state: RootState) => {
-    // TODO(ACT-922): Handle cases where address is null ex: Ethereum
+    // TODO(ACT-1075): Clean up
     if (!feeType || !tokenInfo?.address) {
       return null
     }

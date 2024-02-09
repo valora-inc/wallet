@@ -427,3 +427,7 @@ export async function fundWallet(senderPrivateKey, recipientAddress, stableToken
     .sendAndWaitForReceipt({ from: senderAddress })
   console.log('Funding TX receipt', receipt)
 }
+
+export const createCommentText = () => {
+  return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
+}
