@@ -3008,6 +3008,21 @@ export const v187Schema = {
   ),
 }
 
+export const v188Schema = {
+  ...v187Schema,
+  _persist: {
+    ...v187Schema._persist,
+    version: 188,
+  },
+  app: _.omit(
+    v187Schema.app,
+    'celoEuroEnabled',
+    'rewardPillText',
+    'inviteRewardWeeklyLimit',
+    'inviteRewardCusd'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v187Schema as Partial<RootState>
+  return v188Schema as Partial<RootState>
 }

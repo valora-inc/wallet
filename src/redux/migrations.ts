@@ -1542,4 +1542,14 @@ export const migrations = {
       'dappsMinimalDisclaimerEnabled'
     ),
   }),
+  188: (state: any) => ({
+    ...state,
+    app: _.omit(
+      state.app,
+      'celoEuroEnabled',
+      'rewardPillText',
+      'inviteRewardWeeklyLimit',
+      'inviteRewardCusd'
+    ),
+  }),
 }

@@ -3025,9 +3025,6 @@
                         "string"
                     ]
                 },
-                "celoEuroEnabled": {
-                    "type": "boolean"
-                },
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
                 },
@@ -3121,12 +3118,6 @@
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
-                "rewardPillText": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
-                },
                 "sentryNetworkErrors": {
                     "items": {
                         "type": "string"
@@ -3189,7 +3180,6 @@
                 "analyticsEnabled",
                 "appState",
                 "celoEducationUri",
-                "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
@@ -4074,12 +4064,6 @@
         "State_4": {
             "additionalProperties": false,
             "properties": {
-                "inviteRewardCusd": {
-                    "type": "number"
-                },
-                "inviteRewardWeeklyLimit": {
-                    "type": "number"
-                },
                 "inviteRewardsVersion": {
                     "type": "string"
                 },
@@ -4106,8 +4090,6 @@
                 }
             },
             "required": [
-                "inviteRewardCusd",
-                "inviteRewardWeeklyLimit",
                 "inviteRewardsVersion",
                 "isSending",
                 "recentPayments",
