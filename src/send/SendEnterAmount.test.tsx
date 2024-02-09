@@ -315,7 +315,6 @@ describe('SendEnterAmount', () => {
       usedSearchTerm: false,
       selectedFilters: [],
     })
-    // TODO(ACT-955): assert fees
   })
 
   it('pressing max fills in max available amount', () => {

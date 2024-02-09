@@ -77,12 +77,19 @@
     "title": "Bảo vệ an toàn ví của bạn",
     "description": "Chỉ bạn mới có thể truy cập vào ví của mình. Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, Valora sẽ không thể khôi phục lại ví cho bạn.\n\nBạn sẽ phải thiết lập một phương thức bảo vệ an toàn cho ví và tiền của mình."
   },
-  "setUpKeylessBackup": {
-    "title": "Thiết lập chức năng sao lưu ví.",
-    "subtitle": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
+  "keylessBackupIntro": {
     "emailAddress": "Địa chỉ email",
     "phoneNumber": "Số điện thoại",
-    "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục"
+    "setup": {
+      "title": "Thiết lập chức năng sao lưu ví.",
+      "description": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
+      "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục",
+      "reminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!"
+    },
+    "restore": {
+      "description": "Make sure you have the following available to restore your wallet.",
+      "reminder": "<0>Remember</0>, you need access to the same email & phone number you used when you backed up"
+    }
   },
   "signInWithEmail": {
     "title": "Đăng nhập bằng email",
@@ -118,10 +125,21 @@
     "restore": {
       "inProgress": {
         "title": "Restoring your wallet"
+      },
+      "completed": {
+        "title": "Your wallet has been restored!",
+        "bodyZeroBalance": "You can add funds to your wallet once you are finished setting up.",
+        "bodyBalance": "You have a balance of <0></0>"
+      },
+      "failed": {
+        "title": "Your wallet was not restored",
+        "body": "There was a technical issue in trying to restore your wallet. Please contact support for more information.",
+        "tryAgain": "Thử lại",
+        "createNewWallet": "Tạo ví mới",
+        "help": "Trợ giúp"
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!",
   "testFaqLink": "Câu hỏi thường gặp về {{appName}}",
   "termsOfServiceLink": "Điều khoản dịch vụ",
   "privacyPolicy": "Chính sách quyền riêng tư",
@@ -1112,6 +1130,10 @@
       "title": "Số dư token gas không đủ",
       "description": "Bạn không có đủ {{feeCurrencies}} để trả phí giao dịch. Vui lòng nạp {{feeCurrencies}} vào ví để hoàn thành giao dịch này."
     },
+    "failedToPrepareTransaction": {
+      "title": "Failed to prepare transaction",
+      "description": "An error occurred while preparing the transaction. See the underlying error for more details.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Chuỗi không được hỗ trợ",
@@ -1877,8 +1899,7 @@
       "myTokens": "My tokens",
       "popular": "Popular",
       "recentlySwapped": "Recently swapped",
-      "celo": "Celo Network",
-      "ethereum": "Ethereum Network"
+      "network": "Mạng {{networkName}}"
     }
   },
   "homeActions": {
@@ -1962,7 +1983,9 @@
       "network": "Mạng lưới"
     },
     "error": {
-      "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ"
+      "invalidAddress": "Invalid token address. Please review it",
+      "invalidToken": "Token không hợp lệ. Hãy thử lại hoặc liên hệ với bộ phận hỗ trợ",
+      "tokenAlreadySupported": "This token is already supported"
     },
     "importSuccess": "Đã nhập thành công token {{tokenSymbol}}",
     "importButton": "Nhập"
