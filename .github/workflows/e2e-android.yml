@@ -17,6 +17,8 @@ jobs:
       # - uses: valeriangalliat/action-sshd-cloudflared@v2
       - name: Setup emulator
         run: |
+          set -x
+          env
           ls -l $ANDROID_HOME/cmdline-tools
           export PATH=$PATH:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/emulator
           # temporarily disable checking for EPIPE error and use yes to accept all licenses
