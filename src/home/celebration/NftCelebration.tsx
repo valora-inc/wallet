@@ -15,6 +15,7 @@ import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
 import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
+import { NftWithMetadata } from 'src/nfts/types'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
@@ -65,27 +66,10 @@ export default function NftCelebration() {
     []
   )
 
-  const renderHandleWithImage = useCallback(() => {
-    const [showError, setShowError] = useState(false)
-    return (
-      <View style={styles.handleWithImage}>
-        {matchedNft && (
-          <FastImage
-            style={styles.image}
-            source={{ uri: matchedNft.metadata.image }}
-            resizeMode={FastImage.resizeMode.cover}
-            onError={() => setShowError(true)}
-          />
-        )}
-        {showError && (
-          <View style={styles.imageError}>
-            <ImageErrorIcon />
-          </View>
-        )}
-        <View style={styles.handleBar} />
-      </View>
-    )
-  }, [matchedNft])
+  const renderHandleWithImage = useCallback(
+    () => <HandleWithImage nft={matchedNft} />,
+    [matchedNft]
+  )
 
   const isVisible =
     featureGateEnabled &&
@@ -184,6 +168,28 @@ export default function NftCelebration() {
         onDismiss={handleDismissAnimation}
       />
     </>
+  )
+}
+
+const HandleWithImage = ({ nft }: { nft?: NftWithMetadata }) => {
+  const [showError, setShowError] = useState(false)
+  return (
+    <View style={styles.handleWithImage}>
+      {nft && (
+        <FastImage
+          style={styles.image}
+          source={{ uri: nft.metadata.image }}
+          resizeMode={FastImage.resizeMode.cover}
+          onError={() => setShowError(true)}
+        />
+      )}
+      {showError && (
+        <View style={styles.imageError}>
+          <ImageErrorIcon />
+        </View>
+      )}
+      <View style={styles.handleBar} />
+    </View>
   )
 }
 
