@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
-import { ActiveDapp, Dapp, DappCategory, DappConnectInfo } from 'src/dapps/types'
+import { ActiveDapp, Dapp, DappCategory } from 'src/dapps/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
@@ -14,7 +14,6 @@ export interface State {
   dappsListLoading: boolean
   dappsListError: string | null
   dappsCategories: DappCategory[]
-  dappConnectInfo: DappConnectInfo
   favoriteDappIds: string[]
   mostPopularDappIds: string[]
 }
@@ -29,7 +28,6 @@ const initialState: State = {
   dappsListLoading: false,
   dappsListError: null,
   dappsCategories: [],
-  dappConnectInfo: REMOTE_CONFIG_VALUES_DEFAULTS.dappConnectInfo,
   favoriteDappIds: [],
   mostPopularDappIds: [],
 }
@@ -107,7 +105,6 @@ export const slice = createSlice({
           state.maxNumRecentDapps = action.configValues.maxNumRecentDapps
           state.dappsWebViewEnabled = action.configValues.dappsWebViewEnabled
           state.dappListApiUrl = action.configValues.dappListApiUrl
-          state.dappConnectInfo = action.configValues.dappConnectInfo
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({

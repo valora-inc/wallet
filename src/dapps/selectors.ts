@@ -77,8 +77,6 @@ export const dappsCategoriesAlphabeticalSelector = createSelector(
   (categories) => categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
 )
 
-export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
-
 const mostPopularDappIdsSelector = (state: RootState) => state.dapps.mostPopularDappIds
 
 export const mostPopularDappsSelector = createSelector(
