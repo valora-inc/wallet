@@ -327,7 +327,7 @@ describe('WalletHome', () => {
       store.clearActions()
     })
 
-    it('should show the open dapp confirmation on press of external dapp', async () => {
+    it('should open the recently used dapp', async () => {
       const { getAllByTestId, getByText, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
@@ -339,12 +339,9 @@ describe('WalletHome', () => {
       fireEvent.scroll(scrollView, scrollEvent)
 
       const dapps = await waitFor(() => getAllByTestId('RecentlyUsedDapps/Dapp'))
-      fireEvent.press(dapps[0])
-
       expect(dapps).toHaveLength(2)
-      expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"${dapp.name}"}`)).toBeTruthy()
 
-      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
+      fireEvent.press(dapps[0])
 
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
@@ -367,9 +364,6 @@ describe('WalletHome', () => {
       const dapps = await waitFor(() => getAllByTestId('RecentlyUsedDapps/Dapp'))
       fireEvent.press(dapps[1])
 
-      expect(
-        queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
-      ).toBeFalsy()
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           dappSelected({ dapp: { ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed } }),
