@@ -170,16 +170,18 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappFavoritesEnabled: true,
         },
       })
-      const { getByTestId, queryByText } = render(
+      const { queryByText, getAllByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
       )
 
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
-      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
-      expect(within(favoritesSection).getByText(dappsList[1].description)).toBeTruthy()
+      const favoritesSectionResults = getAllByTestId(
+        'DAppsExplorerScreen/FavoritesSection/DappCard'
+      )
+      expect(favoritesSectionResults.length).toBe(1)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[1].name)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[1].description)
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
     })
 
@@ -242,8 +244,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       // should only appear once, in the favorites section
       expect(selectedDappCards).toHaveLength(1)
 
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      fireEvent.press(within(favoritesSection).getByTestId('Dapp/Favorite/dapp2'))
+      fireEvent.press(getByTestId('Dapp/Favorite/dapp2'))
 
       expect(queryByText('dappsScreen.favoritedDappToast.message')).toBeFalsy()
 
@@ -279,8 +280,8 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.changeText(getByTestId('SearchInput'), 'iDoNotExist')
 
       // Should the no results within the all section
-      expect(queryByTestId('FavoriteDappsSection/NoResults')).toBeNull()
-      expect(getByTestId('DAppsExplorerScreen/NoResults')).toBeTruthy()
+      expect(queryByTestId('DAppsExplorerScreen/FavoritesSection/NoResults')).toBeNull()
+      expect(getByTestId('DAppsExplorerScreen/AllSection/NoResults')).toBeTruthy()
     })
 
     it('renders correctly when there are search results in both sections', () => {
@@ -294,7 +295,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
         },
       })
 
-      const { getByTestId, queryByTestId } = render(
+      const { getByTestId, queryByTestId, getAllByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
@@ -303,19 +304,20 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.changeText(getByTestId('SearchInput'), 'dapp')
 
       // Should display the correct sections
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      const favoritesSectionResults = getAllByTestId(
+        'DAppsExplorerScreen/FavoritesSection/DappCard'
+      )
+      expect(favoritesSectionResults.length).toBe(1)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[1].name)
 
-      // Names display correctly in the favorites section
-      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
-      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
-
-      // Names display correctly in the all dapps section
-      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+      const allSectionResults = getAllByTestId('DAppsExplorerScreen/AllSection/DappCard')
+      expect(allSectionResults.length).toBe(2)
+      expect(allSectionResults[0]).toHaveTextContent(dappsList[0].name)
+      expect(allSectionResults[1]).toHaveTextContent(dappsList[2].name)
 
       // No results sections should not be displayed
-      expect(queryByTestId('FavoriteDappsSection/NoResults')).toBeNull()
-      expect(queryByTestId('DAppsExplorerScreen/NoResults')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreen/FavoritesSection/NoResults')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreen/AllSection/NoResults')).toBeNull()
     })
 
     it('clearing search input should show all dapps', () => {
@@ -329,7 +331,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
         },
       })
 
-      const { getByTestId } = render(
+      const { getByTestId, getAllByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
@@ -343,15 +345,16 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.changeText(getByTestId('SearchInput'), '')
 
       // Dapps displayed in the correct sections
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
+      const favoritesSectionResults = getAllByTestId(
+        'DAppsExplorerScreen/FavoritesSection/DappCard'
+      )
+      expect(favoritesSectionResults.length).toBe(1)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[1].name)
 
-      // Names display correctly in the favorites section
-      expect(within(favoritesSection).queryByText(dappsList[0].name)).toBeFalsy()
-      expect(within(favoritesSection).getByText(dappsList[1].name)).toBeTruthy()
-
-      // Names display correctly in the all dapps section
-      expect(within(allDappsSection).getByText(dappsList[0].name)).toBeTruthy()
+      const allSectionResults = getAllByTestId('DAppsExplorerScreen/AllSection/DappCard')
+      expect(allSectionResults.length).toBe(2)
+      expect(allSectionResults[0]).toHaveTextContent(dappsList[0].name)
+      expect(allSectionResults[1]).toHaveTextContent(dappsList[2].name)
     })
   })
 
@@ -366,7 +369,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId, getByText, queryByText } = render(
+      const { getByText, queryByText, getAllByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
@@ -378,17 +381,16 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       expect(getByText(dappsCategories[0].name)).toBeTruthy()
       expect(getByText(dappsCategories[1].name)).toBeTruthy()
 
-      // Displays favorited dapp in Favorites section
-      const favoritesSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      expect(within(favoritesSection).getByText(dappsList[0].name)).toBeTruthy()
-      expect(within(favoritesSection).getByText(dappsList[0].description)).toBeTruthy()
-      expect(within(favoritesSection).queryByText(dappsList[1].name)).toBeFalsy()
-      expect(within(favoritesSection).queryByText(dappsList[1].description)).toBeFalsy()
+      const favoritesSectionResults = getAllByTestId(
+        'DAppsExplorerScreen/FavoritesSection/DappCard'
+      )
+      expect(favoritesSectionResults.length).toBe(1)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[0].name)
 
-      // Displays other dapps in All section
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
-      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
-      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+      const allSectionResults = getAllByTestId('DAppsExplorerScreen/AllSection/DappCard')
+      expect(allSectionResults.length).toBe(2)
+      expect(allSectionResults[0]).toHaveTextContent(dappsList[1].name)
+      expect(allSectionResults[1]).toHaveTextContent(dappsList[2].name)
     })
 
     it('renders correctly when there are filters applied', () => {
@@ -401,7 +403,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           favoriteDappIds: ['dapp1'],
         },
       })
-      const { getByTestId, getByText, queryByTestId } = render(
+      const { getByTestId, getByText, queryByTestId, getAllByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
@@ -411,7 +413,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.press(getByText(dappsCategories[1].name))
 
       // Favorite Section should not show results
-      expect(queryByTestId('FavoriteDappsSection')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreen/FavoritesSection/DappCard')).toBeNull()
 
       // All Section should show only 'dapp 2'
       const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
@@ -420,6 +422,10 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       expect(within(allDappsSection).queryByText(dappsList[0].description)).toBeFalsy()
       expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
       expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+
+      const allSectionResults = getAllByTestId('DAppsExplorerScreen/AllSection/DappCard')
+      expect(allSectionResults.length).toBe(1)
+      expect(allSectionResults[0]).toHaveTextContent(dappsList[1].name)
     })
 
     it('triggers event when filtering', () => {
@@ -446,7 +452,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
+        filterId: '2',
         remove: false,
       })
     })
@@ -478,11 +484,11 @@ describe(DAppsExplorerScreenSearchFilter, () => {
 
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(1, DappExplorerEvents.dapp_filter, {
-        id: '2',
+        filterId: '2',
         remove: false,
       })
       expect(ValoraAnalytics.track).toHaveBeenNthCalledWith(2, DappExplorerEvents.dapp_filter, {
-        id: '2',
+        filterId: '2',
         remove: true,
       })
     })
@@ -510,16 +516,16 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.press(getByText(dappsCategories[1].name))
 
       // Tap on remove filters from all section
-      fireEvent.press(getByTestId('DAppsExplorerScreen/NoResults/RemoveFilter'))
+      fireEvent.press(getByTestId('DAppsExplorerScreen/AllSection/NoResults/RemoveFilter'))
 
       // Assert correct analytics are fired
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
+        filterId: '2',
         remove: false,
       })
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
+        filterId: '2',
         remove: true,
       })
     })
@@ -547,12 +553,13 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.press(getByText(dappsCategories[1].name))
 
       // Should not render favorites section
-      expect(queryByTestId('FavoriteDappsSection')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreen/FavoritesSection/Title')).toBeNull()
+      expect(queryByTestId('DAppsExplorerScreen/FavoritesSection/DappCard')).toBeNull()
 
       // Assert correct analytics are fired
       expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(DappExplorerEvents.dapp_filter, {
-        id: '2',
+        filterId: '2',
         remove: false,
       })
     })
@@ -569,7 +576,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappFavoritesEnabled: true,
         },
       })
-      const { getByTestId } = render(
+      const { getByTestId, getAllByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
@@ -579,16 +586,16 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.changeText(getByTestId('SearchInput'), 'tokens')
 
       // Favorites section displays correctly
-      const favoriteDappsSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      expect(within(favoriteDappsSection).getByText(dappsList[0].name)).toBeTruthy()
-      expect(within(favoriteDappsSection).getByText(dappsList[0].description)).toBeTruthy()
-      expect(within(favoriteDappsSection).queryByText(dappsList[1].name)).toBeFalsy()
-      expect(within(favoriteDappsSection).queryByText(dappsList[1].description)).toBeFalsy()
+      const favoritesSectionResults = getAllByTestId(
+        'DAppsExplorerScreen/FavoritesSection/DappCard'
+      )
+      expect(favoritesSectionResults.length).toBe(1)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[0].name)
 
       // All section displays correctly
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
-      expect(within(allDappsSection).getByText(dappsList[1].name)).toBeTruthy()
-      expect(within(allDappsSection).getByText(dappsList[1].description)).toBeTruthy()
+      const allSectionResults = getAllByTestId('DAppsExplorerScreen/AllSection/DappCard')
+      expect(allSectionResults.length).toBe(1)
+      expect(allSectionResults[0]).toHaveTextContent(dappsList[1].name)
     })
 
     it('renders correctly when there are results in favorites and no results in all', () => {
@@ -601,7 +608,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappFavoritesEnabled: true,
         },
       })
-      const { getByTestId, getByText } = render(
+      const { getByTestId, getByText, getAllByTestId, queryByTestId } = render(
         <Provider store={store}>
           <DAppsExplorerScreenSearchFilter />
         </Provider>
@@ -614,15 +621,15 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.press(getByText(dappsCategories[0].name))
 
       // Favorite Section should show only 'dapp 1'
-      const favoriteDappsSection = getByTestId('DAppsExplorerScreen/FavoriteDappsSection')
-      expect(within(favoriteDappsSection).getByText(dappsList[0].name)).toBeTruthy()
-      expect(within(favoriteDappsSection).getByText(dappsList[0].description)).toBeTruthy()
-      expect(within(favoriteDappsSection).queryByText(dappsList[1].name)).toBeFalsy()
-      expect(within(favoriteDappsSection).queryByText(dappsList[1].description)).toBeFalsy()
+      const favoritesSectionResults = getAllByTestId(
+        'DAppsExplorerScreen/FavoritesSection/DappCard'
+      )
+      expect(favoritesSectionResults.length).toBe(1)
+      expect(favoritesSectionResults[0]).toHaveTextContent(dappsList[0].name)
 
       // All Section should show no results
-      const allDappsSection = getByTestId('DAppsExplorerScreen/DappsList')
-      expect(within(allDappsSection).getByTestId('DAppsExplorerScreen/NoResults')).toBeTruthy()
+      expect(queryByTestId('DAppsExplorerScreen/AllSection/DappCard')).toBeFalsy()
+      expect(getByTestId('DAppsExplorerScreen/AllSection/NoResults')).toBeTruthy()
     })
 
     it('renders correctly when there are no results in favorites and results in all', () => {
@@ -749,7 +756,7 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       fireEvent.changeText(getByTestId('SearchInput'), 'cool')
       fireEvent.press(getByText(dappsCategories[0].name))
 
-      expect(getAllByTestId('DappCard')).toHaveLength(1)
+      expect(getAllByTestId('DAppsExplorerScreen/AllSection/DappCard')).toHaveLength(1)
       fireEvent.press(getByText('Dapp 3'))
 
       expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(DappExplorerEvents.dapp_open, {

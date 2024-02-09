@@ -1,7 +1,8 @@
 import * as secp from '@noble/secp256k1'
 import crypto from 'crypto'
 import hkdf from 'futoin-hkdf'
-import { ethers } from 'ethers'
+import { fromBytes } from 'viem'
+import { privateKeyToAccount } from 'viem/accounts'
 
 /**
  * Derives a key using the HKDF method from two key shares.
@@ -58,7 +59,7 @@ export function getSecp256K1KeyPair(
 }
 
 export function getWalletAddressFromPrivateKey(privateKey: Uint8Array) {
-  return new ethers.Wallet(Buffer.from(privateKey).toString('hex')).address.toLowerCase()
+  return privateKeyToAccount(fromBytes(privateKey, 'hex')).address.toLowerCase()
 }
 
 /**

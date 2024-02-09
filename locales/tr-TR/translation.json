@@ -77,12 +77,19 @@
     "title": "Cüzdanınızı güvende tutun",
     "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
-  "setUpKeylessBackup": {
-    "title": "Cüzdan Yedeklemeyi Ayarlama",
-    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
+  "keylessBackupIntro": {
     "emailAddress": "E-posta Adresi",
     "phoneNumber": "Telefon Numarası",
-    "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın"
+    "setup": {
+      "title": "Cüzdan Yedeklemeyi Ayarlama",
+      "description": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
+      "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın",
+      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!"
+    },
+    "restore": {
+      "description": "Cüzdanınızı geri yüklemek için aşağıdakilere sahip olduğunuzdan emin olun.",
+      "reminder": "Yedekleme yaparken kullandığınız e-posta ve telefon numarasına erişmeniz gerektiğini <0>unutmayın</0>"
+    }
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
@@ -118,10 +125,21 @@
     "restore": {
       "inProgress": {
         "title": "Cüzdanınızı yenilemek"
+      },
+      "completed": {
+        "title": "Cüzdanınız yenilendi!",
+        "bodyZeroBalance": "Kurulumu tamamladıktan sonra cüzdanınıza para ekleyebilirsiniz.",
+        "bodyBalance": "Bir dengeniz var <0></0>"
+      },
+      "failed": {
+        "title": "Cüzdanınız geri yüklenmedi",
+        "body": "Cüzdanınızı geri yüklemeye çalışırken teknik bir sorun oluştu. Daha fazla bilgi için lütfen destek ekibiyle iletişime geçin.",
+        "tryAgain": "Tekrar Deneyin",
+        "createNewWallet": "Cüzdan oluştur",
+        "help": "Yardım"
       }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -1114,6 +1132,10 @@
       "title": "Yetersiz gas token bakiyesi",
       "description": "Gas ücretini karşılamak için yeterli {{feeCurrencies}} bakiyeniz yok. Bu işlemi tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin."
     },
+    "failedToPrepareTransaction": {
+      "title": "İşlem hazırlanamadı",
+      "description": "İşlem hazırlanırken bir hata oluştu. Daha fazla ayrıntı için altta yatan hataya bakın.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Desteklenmeyen zincir",
@@ -1879,8 +1901,7 @@
       "myTokens": "Jetonlarım",
       "popular": "Popüler",
       "recentlySwapped": "Yakın zamanda değiştirildi",
-      "celo": "CELO Ağı",
-      "ethereum": "Ethereum Ağı"
+      "network": "{{networkName}} Ağı"
     }
   },
   "homeActions": {
@@ -1964,7 +1985,9 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun"
+      "invalidAddress": "Geçersiz belirteç adresi. Lütfen gözden geçirin",
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
+      "tokenAlreadySupported": "Bu belirteç zaten desteklenmektedir"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"

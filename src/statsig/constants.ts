@@ -95,6 +95,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
+      popularTokenIds: [] as string[],
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {

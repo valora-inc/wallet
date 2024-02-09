@@ -1,8 +1,8 @@
-import { DappV2WithCategoryNames } from 'src/dapps/types'
+import { DappWithCategoryNames } from 'src/dapps/types'
 import { scoreDapp, searchDappList } from './searchDappList'
 
 // Spanish translation of "Ubeswap"
-const dappV2Ubeswap: DappV2WithCategoryNames = {
+const dappV2Ubeswap: DappWithCategoryNames = {
   name: 'Ubeswap',
   description: 'Intercambia tokens, entra a un fondo o participa del yield farming',
   dappUrl: 'https://app.ubeswap.org/',
@@ -12,7 +12,7 @@ const dappV2Ubeswap: DappV2WithCategoryNames = {
   categoryNames: ['Cambia', 'Gana'],
 }
 
-const dappV2Revo: DappV2WithCategoryNames = {
+const dappV2Revo: DappWithCategoryNames = {
   name: 'Revo',
   description: 'Yield farming sencillo con protocolo de intereses compuestos automáticos',
   dappUrl: 'https://revo.market',

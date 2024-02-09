@@ -1,9 +1,9 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
-import { ethers } from 'ethers'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
+import { generatePrivateKey } from 'viem/accounts'
 
 const mockSiweFetch = jest.fn()
 const mockSiweLogin = jest.fn()
@@ -73,7 +73,7 @@ describe(getEncryptedMnemonic, () => {
     } as any)
     expect(
       await getEncryptedMnemonic({
-        encryptionPrivateKey: ethers.Wallet.createRandom().privateKey,
+        encryptionPrivateKey: generatePrivateKey(),
         encryptionAddress: 'address',
       })
     ).toEqual('encrypted-mnemonic')
@@ -102,7 +102,7 @@ describe(getEncryptedMnemonic, () => {
     } as any)
     await expect(() =>
       getEncryptedMnemonic({
-        encryptionPrivateKey: ethers.Wallet.createRandom().privateKey,
+        encryptionPrivateKey: generatePrivateKey(),
         encryptionAddress: 'address',
       })
     ).rejects.toThrow('Failed to get encrypted mnemonic with status 404, message not found')
