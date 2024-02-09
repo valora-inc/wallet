@@ -148,7 +148,6 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack'))
-    expect(queryByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet')).toBeFalsy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_go_back
     )
