@@ -1586,12 +1586,13 @@ describe('SwapScreen', () => {
         .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
     })
 
+    const expectedAllFromTokens = Object.values(mockStoreTokenBalances).filter(
+      (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
+    )
+
     it('should show "my tokens" for the "from" token selection by default', () => {
-      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
-        (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
-      )
       const mockedZeroBalanceTokens = [mockCeurTokenId, mockCusdTokenId, mockPoofTokenId]
-      const expectedTokensWithBalance = expectedAllTokens.filter(
+      const expectedTokensWithBalance = expectedAllFromTokens.filter(
         (token) => !mockedZeroBalanceTokens.includes(token.tokenId)
       )
 
@@ -1611,17 +1612,14 @@ describe('SwapScreen', () => {
       // deselect pre-selected filters to show all tokens
       fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
 
-      expectedAllTokens.forEach((token) => {
+      expectedAllFromTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
       })
     })
 
     it('should show "recently swapped" tokens', () => {
-      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
-        (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
-      )
       const mockedLastSwapped = [mockCeurTokenId, mockCusdTokenId, mockPoofTokenId]
-      const expectedLastSwapTokens = expectedAllTokens.filter((token) =>
+      const expectedLastSwapTokens = expectedAllFromTokens.filter((token) =>
         mockedLastSwapped.includes(token.tokenId)
       )
 
@@ -1644,7 +1642,41 @@ describe('SwapScreen', () => {
       // de-select last swapped filter
       fireEvent.press(getByText('tokenBottomSheet.filters.recentlySwapped'))
 
-      expectedAllTokens.forEach((token) => {
+      expectedAllFromTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+    })
+
+    it('should show "popular" tokens', () => {
+      const mockedPopularTokens = [mockUSDCTokenId, mockPoofTokenId]
+      jest.mocked(getDynamicConfigParams).mockReturnValue({
+        popularTokenIds: mockedPopularTokens,
+        showSwap: ['celo-alfajores', 'ethereum-sepolia'],
+        showBalances: ['celo-alfajores', 'ethereum-sepolia'],
+        maxSlippagePercentage: '0.3',
+      })
+      const expectedPopularTokens = expectedAllFromTokens.filter((token) =>
+        mockedPopularTokens.includes(token.tokenId)
+      )
+
+      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({})
+
+      fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
+      // deselect pre-selected filters to show all tokens
+      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      // select popular filter
+      fireEvent.press(getByText('tokenBottomSheet.filters.popular'))
+
+      expectedPopularTokens.forEach((token) => {
+        expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
+      })
+      const displayedTokens = within(tokenBottomSheet).getAllByTestId('TokenBalanceItem')
+      expect(displayedTokens.length).toBe(expectedPopularTokens.length)
+
+      // de-select filter
+      fireEvent.press(getByText('tokenBottomSheet.filters.popular'))
+
+      expectedAllFromTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
       })
     })
@@ -1683,13 +1715,10 @@ describe('SwapScreen', () => {
     })
 
     it('should show the network filters when there are multiple supported networks', () => {
-      const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
-        (token) => token.isSwappable !== false || token.balance !== '0' // include unswappable tokens with balance because it is the "from" token
-      )
-      const expectedEthTokens = expectedAllTokens.filter(
+      const expectedEthTokens = expectedAllFromTokens.filter(
         (token) => token.networkId === NetworkId['ethereum-sepolia']
       )
-      const expectedCeloTokens = expectedAllTokens.filter(
+      const expectedCeloTokens = expectedAllFromTokens.filter(
         (token) => token.networkId === NetworkId['celo-alfajores']
       )
 
