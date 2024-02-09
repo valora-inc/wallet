@@ -1533,4 +1533,13 @@ export const migrations = {
     home: { ...state.home, hasVisitedHome: !!state.web3.account },
     app: { ...state.app, pendingDeepLinks: [] },
   }),
+  187: (state: any) => ({
+    ...state,
+    dapps: _.omit(
+      state.dapps,
+      'dappConnectInfo',
+      'dappFavoritesEnabled',
+      'dappsMinimalDisclaimerEnabled'
+    ),
+  }),
 }

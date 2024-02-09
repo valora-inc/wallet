@@ -1002,14 +1002,6 @@
             ],
             "type": "object"
         },
-        "DappConnectInfo": {
-            "enum": [
-                "basic",
-                "default",
-                "full"
-            ],
-            "type": "string"
-        },
         "DappSection": {
             "enum": [
                 "all",
@@ -3720,12 +3712,6 @@
                         }
                     ]
                 },
-                "dappConnectInfo": {
-                    "$ref": "#/definitions/DappConnectInfo"
-                },
-                "dappFavoritesEnabled": {
-                    "type": "boolean"
-                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -3751,9 +3737,6 @@
                     ]
                 },
                 "dappsListLoading": {
-                    "type": "boolean"
-                },
-                "dappsMinimalDisclaimerEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3783,14 +3766,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappConnectInfo",
-                "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",

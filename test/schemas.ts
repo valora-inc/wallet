@@ -2994,6 +2994,20 @@ export const v186Schema = {
   app: { ...v185Schema.app, pendingDeepLinks: [] },
 }
 
+export const v187Schema = {
+  ...v186Schema,
+  _persist: {
+    ...v186Schema._persist,
+    version: 187,
+  },
+  dapps: _.omit(
+    v186Schema.dapps,
+    'dappConnectInfo',
+    'dappFavoritesEnabled',
+    'dappsMinimalDisclaimerEnabled'
+  ),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v186Schema as Partial<RootState>
+  return v187Schema as Partial<RootState>
 }
