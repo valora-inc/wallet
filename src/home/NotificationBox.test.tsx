@@ -162,7 +162,7 @@ describe('NotificationBox', () => {
     expect(getByText('reverifyUsingCPVHomecard.description')).toBeTruthy()
 
     fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen)
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
   })
 
   it('renders educations when not complete yet', () => {

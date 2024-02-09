@@ -77,12 +77,19 @@
     "title": "Resguarda tu wallet",
     "description": "Solo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para resguardar tu wallet y proteger tus fondos."
   },
-  "setUpKeylessBackup": {
-    "title": "Configurar la copia de seguridad de la billetera",
-    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+  "keylessBackupIntro": {
     "emailAddress": "Dirección de email",
     "phoneNumber": "Número de teléfono",
-    "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación"
+    "setup": {
+      "title": "Configurar la copia de seguridad de la billetera",
+      "description": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+      "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación",
+      "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
+    },
+    "restore": {
+      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu monedero.",
+      "reminder": "<0>Recuerda</0> que necesitas acceder al mismo correo electrónico y número de teléfono que utilizaste cuando hiciste la copia de seguridad"
+    }
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
@@ -118,10 +125,21 @@
     "restore": {
       "inProgress": {
         "title": "Restaurar tu cartera"
+      },
+      "completed": {
+        "title": "¡Tu cartera ha sido restaurada!",
+        "bodyZeroBalance": "Puedes añadir fondos a tu monedero una vez que hayas terminado de configurarlo.",
+        "bodyBalance": "Tienes un saldo de <0></0>"
+      },
+      "failed": {
+        "title": "Tu cartera no ha sido restaurada",
+        "body": "Se ha producido un problema técnico al intentar restaurar tu monedero. Ponte en contacto con el servicio de asistencia para obtener más información.",
+        "tryAgain": "Reintentar",
+        "createNewWallet": "Crear wallet",
+        "help": "Ayuda"
       }
     }
   },
-  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -1114,6 +1132,10 @@
       "title": "Saldo insuficiente para cubrir tarifas de transacción",
       "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, agrega {{feeCurrencies}} a tu billetera para completar esta transacción."
     },
+    "failedToPrepareTransaction": {
+      "title": "Error al preparar la transacción",
+      "description": "Se ha producido un error al preparar la transacción. Consulta el error subyacente para más detalles.\n\n\"{{errorMessage}}\""
+    },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadena incompatible",
@@ -1879,8 +1901,7 @@
       "myTokens": "Mis fichas",
       "popular": "Popular",
       "recentlySwapped": "Cambiado recientemente",
-      "celo": "Supercharge",
-      "ethereum": "Red Ethereum"
+      "network": "Red {{networkName}}"
     }
   },
   "homeActions": {
@@ -1964,7 +1985,9 @@
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico"
+      "invalidAddress": "Dirección de token no válida. Por favor, revísala",
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
+      "tokenAlreadySupported": "Este token ya está soportado"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
