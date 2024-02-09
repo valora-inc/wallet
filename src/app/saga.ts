@@ -218,7 +218,6 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  inviteRewardWeeklyLimit: number
   inviteRewardsVersion: string
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean

@@ -20,7 +20,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
 } = {
   celoEuroEnabled: true,
   inviteRewardsVersion: 'none',
-  inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: true,
   superchargeApy: 12,

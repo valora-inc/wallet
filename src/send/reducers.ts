@@ -20,7 +20,6 @@ export interface State {
   // Keep a list of recent (last 24 hours) payments
   recentPayments: PaymentInfo[]
   inviteRewardsVersion: string
-  inviteRewardWeeklyLimit: number
   showSendToAddressWarning: boolean
   lastUsedTokenId?: string
 }
@@ -30,7 +29,6 @@ const initialState = {
   recentRecipients: [],
   recentPayments: [],
   inviteRewardsVersion: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsVersion,
-  inviteRewardWeeklyLimit: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardWeeklyLimit,
   showSendToAddressWarning: true,
 }
 
@@ -74,7 +72,6 @@ export const sendReducer = (
       return {
         ...state,
         inviteRewardsVersion: action.configValues.inviteRewardsVersion,
-        inviteRewardWeeklyLimit: action.configValues.inviteRewardWeeklyLimit,
       }
     case Actions.SET_SHOW_WARNING:
       return {
