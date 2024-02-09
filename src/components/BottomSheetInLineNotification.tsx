@@ -9,7 +9,6 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props extends InLineNotificationProps {
   showNotification: boolean
-  position?: 'top' | 'bottom'
 }
 
 // this value is used to animate the notification on and off the screen. the
@@ -17,27 +16,19 @@ interface Props extends InLineNotificationProps {
 // otherwise the notication will not transition smoothly.
 const NOTIFICATION_HEIGHT = 500
 
-const direction = { top: -1, bottom: 1 }
-const margin = { top: Spacing.Regular16, bottom: Spacing.Large32 }
-
-const BottomSheetInLineNotification = ({
-  showNotification,
-  position = 'bottom',
-  ...inLineNotificationProps
-}: Props) => {
+// for now, this notification is launched from the bottom of the screen only
+const BottomSheetInLineNotification = ({ showNotification, ...inLineNotificationProps }: Props) => {
   const [isVisible, setIsVisible] = useState(showNotification)
 
   const progress = useSharedValue(0)
   const animatedStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: (1 - progress.value) * NOTIFICATION_HEIGHT * direction[position] }],
+      transform: [{ translateY: (1 - progress.value) * NOTIFICATION_HEIGHT }],
     }
   })
   const animatedOpacity = useAnimatedStyle(() => ({
     opacity: 0.5 * progress.value,
   }))
-
-  const marginStyle = { [position]: margin[position] }
 
   useShowOrHideAnimation(
     progress,
@@ -55,9 +46,9 @@ const BottomSheetInLineNotification = ({
   }
 
   return (
-    <SafeAreaView edges={[position]} style={[styles.modal, styles.container]}>
+    <SafeAreaView edges={['bottom']} style={[styles.modal, styles.container]}>
       <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
-      <Animated.View style={[styles.notificationContainer, marginStyle, animatedStyle]}>
+      <Animated.View style={[styles.notificationContainer, animatedStyle]}>
         <InLineNotification {...inLineNotificationProps} />
       </Animated.View>
     </SafeAreaView>
@@ -77,6 +68,7 @@ const styles = StyleSheet.create({
   },
   notificationContainer: {
     position: 'absolute',
+    bottom: Spacing.Large32,
     width: '100%',
   },
 })
