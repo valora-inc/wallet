@@ -208,6 +208,7 @@ function WebViewScreen({ route, navigation }: Props) {
         style={styles.keyboardView}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         keyboardVerticalOffset={headerHeight}
+        testID="WebViewScreen/KeyboardAwareView"
       >
         <WebView
           ref={webViewRef}
