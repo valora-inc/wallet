@@ -4149,9 +4149,26 @@
                     "type": "boolean"
                 },
                 "lastDisplayedNftCelebration": {
-                    "type": [
-                        "null",
-                        "string"
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "contractAddress": {
+                                    "type": "string"
+                                },
+                                "networkId": {
+                                    "$ref": "#/definitions/NetworkId"
+                                }
+                            },
+                            "required": [
+                                "contractAddress",
+                                "networkId"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
                     ]
                 },
                 "loading": {
