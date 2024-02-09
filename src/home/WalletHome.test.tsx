@@ -328,7 +328,7 @@ describe('WalletHome', () => {
     })
 
     it('should open the recently used dapp', async () => {
-      const { getAllByTestId, getByText, getByTestId } = render(
+      const { getAllByTestId, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
         </Provider>
@@ -351,7 +351,7 @@ describe('WalletHome', () => {
     })
 
     it('should open the dapp directly if it is deep linked', async () => {
-      const { getAllByTestId, queryByText, getByTestId } = render(
+      const { getAllByTestId, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
         </Provider>
