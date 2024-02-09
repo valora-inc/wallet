@@ -20,7 +20,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoNews: string
   superchargeTokenConfigByToken: string
 } = {
-  celoEuroEnabled: true,
   inviteRewardsVersion: 'none',
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: true,

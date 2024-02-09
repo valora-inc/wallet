@@ -21,7 +21,6 @@ export interface State {
   sessionId: string
   minVersion: string | null
   celoEducationUri: string | null
-  celoEuroEnabled: boolean
   activeScreen: Screens
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
@@ -75,7 +74,6 @@ const initialState = {
   sessionId: '',
   minVersion: null,
   celoEducationUri: null,
-  celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   activeScreen: Screens.Main,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
@@ -209,7 +207,6 @@ export const appReducer = (
       return {
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
-        celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,

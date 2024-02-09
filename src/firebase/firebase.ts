@@ -315,7 +315,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
-    celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
