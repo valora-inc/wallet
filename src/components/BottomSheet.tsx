@@ -1,10 +1,8 @@
-import GorhomBottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
-import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback, useRef } from 'react'
-import { Keyboard, ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native'
-import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
+import GorhomBottomSheet from '@gorhom/bottom-sheet'
+import React, { useRef } from 'react'
+import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native'
+import BottomSheetBase from 'src/components/BottomSheetBase'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -41,52 +39,15 @@ const BottomSheet = ({
   stickyHeaderComponent,
   testId,
 }: Props) => {
-  const { height } = useSafeAreaFrame()
-  const insets = useSafeAreaInsets()
   const scrollViewRef = useRef<ScrollView>(null)
-
-  const renderBackdrop = useCallback(
-    (props: BottomSheetDefaultBackdropProps) => (
-      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
-    ),
-    []
-  )
-
-  // fires before bottom sheet animation starts
-  const handleAnimate = (fromIndex: number, toIndex: number) => {
-    if (toIndex === -1 || fromIndex === -1) {
-      // ensure that the keyboard dismiss animation starts at the same time as
-      // the bottom sheet
-      Keyboard.dismiss()
-    }
-
-    if (toIndex === 0) {
-      onOpen?.()
-    }
-  }
-
-  const handleClose = () => {
-    onClose?.()
-    // reset scroll position after sheet is closed for the next time it is
-    // reopened (the bottom sheet is not re-mounted on close, so we need to do
-    // this manually)
-    scrollViewRef.current?.scrollTo({ y: 0, animated: false })
-  }
-
   const hasStickyHeader = stickyTitle || stickyHeaderComponent
 
   return (
-    <GorhomBottomSheet
-      ref={forwardedRef}
-      index={-1}
-      enableDynamicSizing={!snapPoints}
+    <BottomSheetBase
+      forwardedRef={forwardedRef}
+      onClose={onClose}
+      onOpen={onOpen}
       snapPoints={snapPoints}
-      enablePanDownToClose
-      backdropComponent={renderBackdrop}
-      handleIndicatorStyle={styles.handle}
-      onAnimate={handleAnimate}
-      onClose={handleClose}
-      maxDynamicContentSize={height - insets.top}
     >
       {hasStickyHeader && (
         <View style={[styles.stickyHeaderContainer, styles.headerContentSpacing]}>
@@ -105,15 +66,11 @@ const BottomSheet = ({
         {description && <Text style={styles.description}>{description}</Text>}
         {children}
       </BottomSheetScrollView>
-    </GorhomBottomSheet>
+    </BottomSheetBase>
   )
 }
 
 const styles = StyleSheet.create({
-  handle: {
-    backgroundColor: Colors.gray2,
-    width: 40,
-  },
   headerContentSpacing: {
     paddingBottom: Spacing.Small12,
   },
