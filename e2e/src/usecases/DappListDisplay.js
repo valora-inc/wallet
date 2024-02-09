@@ -45,7 +45,7 @@ export default DappListDisplay = () => {
     await navigateToDappList()
     // Give a few seconds for the dapp list to load
     await sleep(5 * 1000)
-    const dappCards = await getElementTextList('DappCard')
+    const dappCards = await getElementTextList('DAppsExplorerScreen/AllSection/DappCard')
     jestExpect(dappCards.length).toEqual(iOSDappList.applications.length)
   })
 }
