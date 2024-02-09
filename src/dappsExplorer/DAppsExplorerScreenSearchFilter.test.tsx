@@ -117,7 +117,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
         dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
-        dappsMinimalDisclaimerEnabled: true,
       },
     })
     const { getByText, queryByText } = render(
@@ -656,7 +655,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       dappsList,
       dappsCategories,
       favoriteDappIds: [],
-      dappsMinimalDisclaimerEnabled: true,
     }
     const defaultExpectedDappOpenProps = {
       activeFilter: 'all',
@@ -667,25 +665,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       position: 3,
       section: 'all',
     }
-
-    it('should dispatch with no filter or search, from the normal list with confirmation bottom sheet', () => {
-      const store = createMockStore({
-        dapps: { ...defaultStoreProps, dappsMinimalDisclaimerEnabled: false },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <DAppsExplorerScreenSearchFilter />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('Dapp 3'))
-      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 3"}`))
-
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
-        DappExplorerEvents.dapp_open,
-        defaultExpectedDappOpenProps
-      )
-    })
 
     it('should dispatch with no filter or search, from the normal list with no confirmation bottom sheet', () => {
       const store = createMockStore({

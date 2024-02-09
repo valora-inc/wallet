@@ -248,7 +248,6 @@ export interface RemoteConfigValues {
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
-  dappsMinimalDisclaimerEnabled: boolean
   priceImpactWarningThreshold: number
   superchargeRewardContractAddress: string
 }

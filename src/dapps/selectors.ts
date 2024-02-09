@@ -89,9 +89,6 @@ export const mostPopularDappsSelector = createSelector(
   }
 )
 
-export const dappsMinimalDisclaimerEnabledSelector = (state: RootState) =>
-  state.dapps.dappsMinimalDisclaimerEnabled
-
 export const recentDappsSelector = createSelector(
   dappsListSelector,
   recentDappIdsSelector,
