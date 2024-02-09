@@ -176,8 +176,8 @@ export default function NftCelebration() {
       </GorhomBottomSheet>
       <ConfettiCelebration
         showAnimation={showAnimation}
-        title={t('nftCelebration.inlineNotification.title')}
-        description={t('nftCelebration.inlineNotification.description', {
+        title={t('nftCelebration.notification.title')}
+        description={t('nftCelebration.notification.description', {
           rewardName: matchedNft.metadata.name,
         })}
         onAnimationFinish={handleAnimationFinish}
