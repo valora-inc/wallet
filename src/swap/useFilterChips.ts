@@ -2,8 +2,9 @@ import { useTranslation } from 'react-i18next'
 import { FilterChip } from 'src/components/FilterChipsCarousel'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import useSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { lastSwappedSelector } from 'src/swap/selectors'
 import { Field } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
@@ -15,7 +16,9 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
   const { t } = useTranslation()
   const showSwapTokenFilters = getFeatureGate(StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
   const recentlySwappedTokens = useSelector(lastSwappedSelector)
-  const popularTokens: string[] = [] // TODO
+  const popularTokenIds: string[] = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
+  ).popularTokenIds
   const supportedNetworkIds = getSupportedNetworkIdsForSwap()
 
   const networkIdFilters =
@@ -48,7 +51,7 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
     {
       id: 'popular',
       name: t('tokenBottomSheet.filters.popular'),
-      filterFn: (token: TokenBalance) => popularTokens.includes(token.tokenId),
+      filterFn: (token: TokenBalance) => popularTokenIds.includes(token.tokenId),
       isSelected: selectingField === Field.TO,
     },
     {
