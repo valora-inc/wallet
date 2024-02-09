@@ -1127,7 +1127,7 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_favorite]: DappEventProperties
   [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
   [DappExplorerEvents.dapp_filter]: {
-    id: string
+    filterId: string
     remove: boolean
   }
   [DappExplorerEvents.dapp_rankings_open]: undefined

@@ -1,5 +1,6 @@
 import React from 'react'
-import { ScrollView, StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
