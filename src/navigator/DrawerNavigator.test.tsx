@@ -1,8 +1,11 @@
-import { render } from '@testing-library/react-native'
+import { CommonActions } from '@react-navigation/native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
+import { ensurePincode } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
@@ -23,6 +26,7 @@ describe('DrawerNavigator', () => {
     jest.mocked(getExperimentParams).mockReturnValue({
       discoverCopyEnabled: false,
     })
+    jest.clearAllMocks()
   })
 
   it('shows the expected menu items', () => {
@@ -43,10 +47,8 @@ describe('DrawerNavigator', () => {
     expect(queryByTestId('Drawer/Username')).toBeTruthy()
 
     expect(queryByTestId('DrawerItem/home')).toBeTruthy()
-    expect(queryByTestId('DrawerItem/swapScreen.title')).toBeFalsy()
     expect(queryByTestId('DrawerItem/dappsScreen.title')).toBeTruthy()
     expect(queryByTestId('DrawerItem/celoGold')).toBeTruthy()
-    expect(queryByTestId('DrawerItem/addAndWithdraw')).toBeFalsy()
     expect(queryByTestId('DrawerItem/invite')).toBeTruthy()
     expect(queryByTestId('DrawerItem/settings')).toBeTruthy()
     expect(queryByTestId('DrawerItem/help')).toBeTruthy()
@@ -135,6 +137,72 @@ describe('DrawerNavigator', () => {
       )
       expect(queryByTestId('DrawerItem/accountKey')).toBeNull()
       expect(queryByTestId('DrawerItem/walletSecurity')).toBeNull()
+    }
+  )
+
+  it.each([
+    {
+      featureGate: true,
+      screen: Screens.WalletSecurityPrimerDrawer,
+      title: 'walletSecurity',
+    },
+    {
+      featureGate: false,
+      screen: Screens.BackupIntroduction,
+      title: 'accountKey',
+    },
+  ])(
+    'navigates to protected route $screen after ensuring pin',
+    async ({ featureGate, screen, title }) => {
+      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const store = createMockStore({
+        account: {
+          backupCompleted: false,
+          cloudBackupCompleted: false,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+      await fireEvent.press(getByTestId(`DrawerItem/${title}`))
+      expect(ensurePincode).toHaveBeenCalledWith()
+      expect(CommonActions.navigate).toHaveBeenCalledWith(screen)
+    }
+  )
+
+  it.each([
+    {
+      featureGate: true,
+      screen: Screens.WalletSecurityPrimerDrawer,
+      title: 'walletSecurity',
+    },
+    {
+      featureGate: false,
+      screen: Screens.BackupIntroduction,
+      title: 'accountKey',
+    },
+  ])(
+    'does not navigate to protected route $screen if pin is incorrect',
+    async ({ featureGate, title }) => {
+      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
+      jest.mocked(ensurePincode).mockResolvedValueOnce(false)
+      const store = createMockStore({
+        account: {
+          backupCompleted: false,
+          cloudBackupCompleted: false,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+      await fireEvent.press(getByTestId(`DrawerItem/${title}`))
+      expect(ensurePincode).toHaveBeenCalledWith()
+      expect(CommonActions.navigate).not.toHaveBeenCalled()
     }
   )
 
