@@ -325,7 +325,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       ? JSON.parse(superchargeConfigByTokenString)
       : {},
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
-    rewardPillText: flags.rewardPillText.asString(),
     rampCashInButtonExpEnabled: flags.rampCashInButtonExpEnabled.asBoolean(),
     logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),

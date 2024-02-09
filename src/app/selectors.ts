@@ -54,8 +54,6 @@ export const googleMobileServicesAvailableSelector = (state: RootState) =>
 export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
 
-export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
-
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
 export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentryNetworkErrors

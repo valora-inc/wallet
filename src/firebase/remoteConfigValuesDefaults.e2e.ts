@@ -30,12 +30,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: 50,
   superchargecREALMax: 6000,
   pincodeUseExpandedBlocklist: true,
-  rewardPillText: JSON.stringify({
-    en: 'Rewards',
-    pt: 'Recompensas',
-    es: 'Recompensas',
-    de: 'Belohnungen',
-  }),
   rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,

@@ -225,7 +225,6 @@ export interface RemoteConfigValues {
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText: string
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number

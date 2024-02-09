@@ -163,12 +163,6 @@ describe('store state', () => {
           "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
           "requirePinOnAppOpen": false,
-          "rewardPillText": {
-            "de": "Belohnungen",
-            "en": "Rewards",
-            "es": "Recompensas",
-            "pt": "Recompensas",
-          },
           "sentryNetworkErrors": [
             "network request failed",
             "The network connection was lost",
