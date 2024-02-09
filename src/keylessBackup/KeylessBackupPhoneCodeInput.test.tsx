@@ -142,7 +142,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
     )
   })
   it('dismisses help bottom sheet and track analytics event when pressing go back button', async () => {
-    const { getByTestId, queryByTestId } = renderComponent()
+    const { getByTestId } = renderComponent()
 
     expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
