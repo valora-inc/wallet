@@ -350,7 +350,7 @@ function* getTransferSimulateContract({
  * Helper function to call chooseTxFeeDetails for send transactions (aka
  * transfer contract calls) using parameters that are not specific to contractkit
  *
- * @deprecated will be cleaned up when old send flow is removed
+ * @deprecated will be cleaned up when old send flow is removed (ACT-1090)
  * @param options the getSendTxFeeDetails options
  * @returns an object with the feeInfo compatible with viem
  */
