@@ -1,24 +1,16 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import LottieView from 'lottie-react-native'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, TouchableWithoutFeedback, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
 import FastImage from 'react-native-fast-image'
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
 import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import { Severity } from 'src/components/InLineNotification'
 import { nftCelebrationDisplayed } from 'src/home/actions'
+import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
 import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import { nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
@@ -29,9 +21,6 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
-import confettiAnimation from './confettiAnimation.json'
-
-const ANIMATION_DURATION = 6000 // 6 seconds
 
 export default function NftCelebration() {
   const { t } = useTranslation()
@@ -41,11 +30,6 @@ export default function NftCelebration() {
 
   const [showAnimation, setShowAnimation] = useState(false)
   const animationStartTime = useRef(0)
-
-  const confettiOpacity = useSharedValue(1)
-  const confettiOpacityStyle = useAnimatedStyle(() => ({
-    opacity: confettiOpacity.value,
-  }))
 
   const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
 
@@ -142,9 +126,7 @@ export default function NftCelebration() {
   }
 
   const handleDismissAnimation = () => {
-    confettiOpacity.value = withTiming(0, { duration: 100 }, () =>
-      runOnJS(celebrationFinish)({ userInterrupted: true })
-    )
+    celebrationFinish({ userInterrupted: true })
   }
 
   const celebrationFinish = ({ userInterrupted }: { userInterrupted: boolean }) => {
@@ -188,34 +170,15 @@ export default function NftCelebration() {
           />
         </BottomSheetView>
       </GorhomBottomSheet>
-      {showAnimation && (
-        <Animated.View style={[styles.fullScreen, confettiOpacityStyle]}>
-          <LottieView
-            autoPlay
-            duration={ANIMATION_DURATION}
-            loop={false}
-            source={confettiAnimation}
-            style={[styles.fullScreen]}
-            resizeMode="cover"
-            onAnimationFinish={handleAnimationFinish}
-          />
-        </Animated.View>
-      )}
-      <BottomSheetInLineNotification
-        showNotification={showAnimation}
-        severity={Severity.Informational}
+      <ConfettiCelebration
+        showAnimation={showAnimation}
         title={t('nftCelebration.inlineNotification.title')}
         description={t('nftCelebration.inlineNotification.description', {
           rewardName: matchedNft.metadata.name,
         })}
-        position="top"
-        showIcon={false}
+        onAnimationFinish={handleAnimationFinish}
+        onDismiss={handleDismissAnimation}
       />
-      {showAnimation && (
-        <TouchableWithoutFeedback onPress={handleDismissAnimation}>
-          <View style={styles.fullScreen} />
-        </TouchableWithoutFeedback>
-      )}
     </>
   )
 }
@@ -270,8 +233,5 @@ const styles = StyleSheet.create({
   button: {
     marginTop: Spacing.XLarge48,
     marginBottom: Spacing.Regular16,
-  },
-  fullScreen: {
-    ...StyleSheet.absoluteFillObject,
   },
 })

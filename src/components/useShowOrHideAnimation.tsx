@@ -1,8 +1,8 @@
 import { useEffect } from 'react'
 import Animated, { runOnJS, withTiming } from 'react-native-reanimated'
 
-const SHOW_DURATION = 200
-const HIDE_DURATION = 150
+const SHOW_DURATION = 2000
+const HIDE_DURATION = 1500
 /**
  * - This hook will update the |progress| shared value when |showing| changes from true to
  * false (and viceversa) applying an ease in-out function.
