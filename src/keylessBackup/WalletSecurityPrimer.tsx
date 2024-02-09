@@ -7,6 +7,7 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Chain from 'src/icons/Chain'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -34,7 +35,9 @@ function WalletSecurityPrimer({ route }: Props) {
         testID="WalletSecurityPrimer/GetStarted"
         onPress={function () {
           ValoraAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
-          navigate(Screens.SetUpKeylessBackup)
+          navigate(Screens.KeylessBackupIntro, {
+            keylessBackupFlow: KeylessBackupFlow.Setup,
+          })
         }}
         text={t('getStarted')}
         size={BtnSizes.FULL}
