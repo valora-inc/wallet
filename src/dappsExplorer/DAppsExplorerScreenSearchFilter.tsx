@@ -1,14 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import {
-  RefreshControl,
-  ScrollView,
-  SectionList,
-  SectionListProps,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
+import { RefreshControl, SectionList, SectionListProps, StyleSheet, Text, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
