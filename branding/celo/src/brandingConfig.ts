@@ -12,7 +12,6 @@ export const FUNDING_LINK = 'https://celo.org/fund-wallet'
 export const CELO_REWARDS_LINK = 'https://celo.org/support'
 export const FORUM_LINK = 'https://forum.celo.org'
 export const SUPERCHARGE_LEARN_MORE = 'https://valoraapp.com/support/supercharge-learn-more'
-export const INVITE_REWARDS_LEARN_MORE = 'https://valoraapp.com/support/invite-rewards-learn-more'
 export const DAPPS_LEARN_MORE = 'https://valoraapp.com/support/dapps-learn-more'
 export const SWAP_LEARN_MORE = 'https://valoraapp.com/support/swap-learn-more'
 export const TRANSACTION_FEES_LEARN_MORE =
