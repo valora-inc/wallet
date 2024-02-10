@@ -147,6 +147,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_restore_failed_try_again]: `When a user is restoring from CAB and the restore fails, and they opt to try again`,
   [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: `When a user is restoring from CAB and the restore fails, and they opt to create a new wallet`,
   [KeylessBackupEvents.cab_restore_failed_help]: `When a user is restoring from CAB and the restore fails, and they press the Help button`,
+  [KeylessBackupEvents.cab_restore_mnemonic_not_found]: `When a user is restoring from CAB and the mnemonic is not found. Meaning one or more of the users keyshares/auth methods were incorrect`,
   [OnboardingEvents.onboarding_education_scroll]: ``,
   [OnboardingEvents.onboarding_education_step_impression]: ``,
   [OnboardingEvents.create_account_start]: ``,
