@@ -23,7 +23,7 @@ const AMOUNT_TO_SEND = '0.01'
 const WALLET_FUNDING_MULTIPLIER = 2.2
 
 export default SecureSend = () => {
-  describe('Secure send flow with phone number lookup (old flow)', () => {
+  describe('Secure send flow with phone number lookup', () => {
     beforeAll(async () => {
       // uninstall the app to remove secure send mapping
       await device.uninstallApp()
@@ -38,89 +38,6 @@ export default SecureSend = () => {
       await launchApp({
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES' },
-        launchArgs: {
-          statsigGateOverrides: `use_new_send_flow=false`,
-        },
-      })
-      await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
-    })
-
-    it('Send cUSD to phone number with multiple mappings', async () => {
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30_000)
-      await element(by.id('HomeAction-Send')).tap()
-      await waitFor(element(by.id('SendSearchInput')))
-        .toBeVisible()
-        .withTimeout(30_000)
-
-      await element(by.id('SearchInput')).tap()
-      await element(by.id('SearchInput')).replaceText(VERIFIED_PHONE_NUMBER)
-      await element(by.id('RecipientItem')).tap()
-
-      // Select the currency
-      await waitFor(element(by.id('cUSDTouchable')))
-        .toBeVisible()
-        .withTimeout(30_000)
-      await element(by.id('cUSDTouchable')).tap()
-
-      // Enter the amount and review
-      await element(by.id('SwapInput')).tap()
-      await inputNumberKeypad(AMOUNT_TO_SEND)
-      await element(by.id('Review')).tap()
-
-      // Use the last digits of the account to confirm the sender.
-      await waitFor(element(by.id('confirmAccountButton')))
-        .toBeVisible()
-        .withTimeout(30_000)
-      await element(by.id('confirmAccountButton')).tap()
-
-      for (let index = 0; index < 4; index++) {
-        const character = SAMPLE_WALLET_ADDRESS_VERIFIED_2.charAt(
-          SAMPLE_WALLET_ADDRESS_VERIFIED_2.length - (4 - index)
-        )
-        await element(by.id(`SingleDigitInput/digit${index}`)).replaceText(character)
-      }
-
-      // Scroll to see submit button
-      await scrollIntoView('Submit', 'KeyboardAwareScrollView', 50)
-      await element(by.id('ConfirmAccountButton')).tap()
-
-      // Write a comment.
-      const commentText = createCommentText()
-      await addComment(commentText)
-
-      // Confirm and input PIN if necessary.
-      await element(by.id('ConfirmButton')).tap()
-      await enterPinUiIfNecessary()
-
-      // Return to home screen.
-      await waitFor(element(by.id('HomeAction-Send')))
-        .toBeVisible()
-        .withTimeout(30_000)
-
-      await confirmTransaction(commentText)
-    })
-  })
-
-  describe('Secure send flow with phone number lookup (new flow)', () => {
-    beforeAll(async () => {
-      // uninstall the app to remove secure send mapping
-      await device.uninstallApp()
-      await device.installApp()
-      // fund wallet for send
-      await fundWallet(
-        SAMPLE_PRIVATE_KEY,
-        SAMPLE_WALLET_ADDRESS_SINGLE_ADDRESS_VERIFIED,
-        'cUSD',
-        `${AMOUNT_TO_SEND * WALLET_FUNDING_MULTIPLIER}`
-      )
-      await launchApp({
-        newInstance: true,
-        permissions: { notifications: 'YES', contacts: 'YES' },
-        launchArgs: {
-          statsigGateOverrides: `use_new_send_flow=true`,
-        },
       })
       await quickOnboarding(SAMPLE_BACKUP_KEY_SINGLE_ADDRESS_VERIFIED)
     })
