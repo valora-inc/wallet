@@ -40,7 +40,6 @@ import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
-import { TX_EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
 
@@ -150,6 +149,17 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
   const primaryActionHanlder =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
 
+  const networkIdToExplorerString: Record<NetworkId, string> = {
+    [NetworkId['celo-mainnet']]: t('viewOnCeloScan'),
+    [NetworkId['celo-alfajores']]: t('viewOnCeloScan'),
+    [NetworkId['ethereum-mainnet']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['ethereum-sepolia']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['arbitrum-one']]: t('viewOnArbiscan'),
+    [NetworkId['arbitrum-sepolia']]: t('viewOnArbiscan'),
+    [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
+    [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView edges={['bottom']}>
@@ -187,7 +197,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
-                  {t(TX_EXPLORER_LINK_TRANSLATION_STRINGS[transaction.networkId])}
+                  {networkIdToExplorerString[transaction.networkId]}
                 </Text>
                 <ArrowRightThick size={16} />
               </View>
