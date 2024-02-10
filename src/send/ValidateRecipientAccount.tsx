@@ -4,7 +4,6 @@ import { WithTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
@@ -29,7 +28,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -67,7 +66,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { route } = ownProps
-  const transactionData = route.params.transactionData
   const { recipient } = route.params
   const e164PhoneNumber = recipient.e164PhoneNumber
   const error = state.alert ? state.alert.underlyingError : null
@@ -82,7 +80,6 @@ const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
 
   return {
     recipient,
-    transactionData,
     validationSuccessful,
     addressValidationType,
     error,
@@ -94,14 +91,6 @@ export const validateRecipientAccountScreenNavOptions = () => ({
   ...emptyHeader,
   headerLeft: () => <BackButton eventName={SendEvents.send_secure_back} />,
 })
-
-function navigateToConfirmationScreen(transactionData: TransactionDataInput, origin: SendOrigin) {
-  navigate(Screens.SendConfirmation, {
-    transactionData,
-    origin,
-    isFromScan: false,
-  })
-}
 
 export class ValidateRecipientAccount extends React.Component<Props, State> {
   state: State = {
@@ -119,24 +108,20 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   componentDidUpdate = (prevProps: Props) => {
-    const { validationSuccessful, transactionData, route, validatedAddress } = this.props
+    const { validationSuccessful, route, validatedAddress } = this.props
     const { singleDigitInputValueArr } = this.state
 
     if (validationSuccessful && !prevProps.validationSuccessful && validatedAddress) {
-      if (transactionData) {
-        navigateToConfirmationScreen(transactionData, route.params.origin)
-      } else {
-        navigate(Screens.SendEnterAmount, {
-          origin: route.params.origin,
-          recipient: {
-            ...route.params.recipient,
-            address: validatedAddress,
-          },
-          isFromScan: false,
-          forceTokenId: route.params.forceTokenId,
-          defaultTokenIdOverride: route.params.defaultTokenIdOverride,
-        })
-      }
+      navigate(Screens.SendEnterAmount, {
+        origin: route.params.origin,
+        recipient: {
+          ...route.params.recipient,
+          address: validatedAddress,
+        },
+        isFromScan: false,
+        forceTokenId: route.params.forceTokenId,
+        defaultTokenIdOverride: route.params.defaultTokenIdOverride,
+      })
     }
 
     // If the user has entered 4 valid digits, dismiss the keyboard
