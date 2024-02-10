@@ -136,7 +136,7 @@ describe('SendConfirmation', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders correctly for send payment confirmation with fees from props (new UI)', async () => {
+  it('renders correctly for send payment confirmation with fees from props', async () => {
     const { getByTestId } = renderScreen()
 
     const feeComponent = getByTestId('LineItemRow/SendConfirmation/fee')
