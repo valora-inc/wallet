@@ -2331,6 +2331,18 @@
     "@json-rpc-tools/types" "^1.7.6"
     "@pedrouid/environment" "^1.0.1"
 
+"@mento-protocol/mento-core-ts@^0.2.0":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@mento-protocol/mento-core-ts/-/mento-core-ts-0.2.1.tgz#d8f1f1aaf8e11645541badf9e308410996f82a24"
+  integrity sha512-p99LMVVZ7VEHgirdjgUjDH1HA9810c8z+i0EzcgTPBK8TjkGY47aV2DDWknjETcjIYfXek7V/GYhwdjeKoqEbw==
+
+"@mento-protocol/mento-sdk@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@mento-protocol/mento-sdk/-/mento-sdk-0.2.3.tgz#9afb791b3f39cce8bb50f6e56d58939977923a70"
+  integrity sha512-Rf/RBAW5+gekHWoAeNPuN1G3JbiDNEfN5QvInDvpy5JQKhqXC0ZuH7N5ja/D7ziEnY912rBGyylE1QP/H1toCA==
+  dependencies:
+    "@mento-protocol/mento-core-ts" "^0.2.0"
+
 "@noble/curves@1.1.0", "@noble/curves@~1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@noble/curves/-/curves-1.1.0.tgz#f13fc667c89184bc04cccb9b11e8e7bae27d8c3d"
@@ -8778,7 +8790,7 @@ ethereumjs-util@^7.1.5:
     ethereum-cryptography "^0.1.3"
     rlp "^2.2.4"
 
-ethers@^5.0.13, ethers@^5.5.4:
+ethers@^5.0.13, ethers@^5.5.4, ethers@^5.7.2:
   version "5.7.2"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-5.7.2.tgz#3a7deeabbb8c030d4126b24f84e525466145872e"
   integrity sha512-wswUsmWo1aOK8rR7DIKiWSw9DbLWe6x98Jrn8wcTflTVvaXhAMaB5zGAXy0GYQEQp9iO1iSHWVyARQm11zUtyg==
