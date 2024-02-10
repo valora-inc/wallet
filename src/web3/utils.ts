@@ -5,7 +5,7 @@ import { GAS_INFLATION_FACTOR } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { getContractKitAsync, getWeb3Async } from 'src/web3/contracts'
 import { Network, NetworkId } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 const TAG = 'web3/utils'
 
@@ -97,8 +97,5 @@ export function buildTxo(kit: ContractKit, tx: CeloTx): CeloTxObject<never> {
 }
 
 export function getNetworkFromNetworkId(networkId?: NetworkId): Network | undefined {
-  const networkPair = Object.entries(networkConfig.networkToNetworkId).find(
-    ([_, mappedNetworkId]) => networkId === mappedNetworkId
-  )
-  return networkPair ? (networkPair[0] as Network) : undefined
+  return networkId ? networkIdToNetwork[networkId] : undefined
 }
