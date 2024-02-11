@@ -1,7 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
 import { QrCode } from 'src/send/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -17,7 +16,6 @@ export enum Actions {
   SEND_PAYMENT_SUCCESS = 'SEND/SEND_PAYMENT_SUCCESS',
   SEND_PAYMENT_FAILURE = 'SEND/SEND_PAYMENT_FAILURE',
   UPDATE_LAST_USED_CURRENCY = 'SEND/UPDATE_LAST_USED_CURRENCY',
-  SET_SHOW_WARNING = 'SEND/SHOW_WARNING',
 }
 
 export interface HandleQRCodeDetectedAction {
@@ -28,7 +26,6 @@ export interface HandleQRCodeDetectedAction {
 export interface HandleQRCodeDetectedSecureSendAction {
   type: Actions.BARCODE_DETECTED_SECURE_SEND
   qrCode: QrCode
-  transactionData?: TransactionDataInput
   requesterAddress?: string
   recipient: Recipient
   forceTokenId?: boolean
@@ -67,11 +64,6 @@ export interface UpdateLastUsedCurrencyAction {
   currency: Currency
 }
 
-export interface SetShowWarningAction {
-  type: Actions.SET_SHOW_WARNING
-  showWarning: boolean
-}
-
 export type ActionTypes =
   | HandleQRCodeDetectedAction
   | HandleQRCodeDetectedSecureSendAction
@@ -80,7 +72,6 @@ export type ActionTypes =
   | SendPaymentSuccessAction
   | SendPaymentFailureAction
   | UpdateLastUsedCurrencyAction
-  | SetShowWarningAction
 
 export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction => ({
   type: Actions.BARCODE_DETECTED,
@@ -90,14 +81,12 @@ export const handleQRCodeDetected = (qrCode: QrCode): HandleQRCodeDetectedAction
 export const handleQRCodeDetectedSecureSend = (
   qrCode: QrCode,
   recipient: Recipient,
-  transactionData?: TransactionDataInput,
   requesterAddress?: string,
   forceTokenId?: boolean,
   defaultTokenIdOverride?: string
 ): HandleQRCodeDetectedSecureSendAction => ({
   type: Actions.BARCODE_DETECTED_SECURE_SEND,
   qrCode,
-  transactionData,
   requesterAddress,
   recipient,
   forceTokenId,
@@ -149,9 +138,4 @@ export const sendPaymentFailure = (): SendPaymentFailureAction => ({
 export const updateLastUsedCurrency = (currency: Currency): UpdateLastUsedCurrencyAction => ({
   type: Actions.UPDATE_LAST_USED_CURRENCY,
   currency,
-})
-
-export const setShowWarning = (showWarning: boolean): SetShowWarningAction => ({
-  type: Actions.SET_SHOW_WARNING,
-  showWarning,
 })
