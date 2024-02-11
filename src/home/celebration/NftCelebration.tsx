@@ -36,6 +36,8 @@ export default function NftCelebration() {
   const [showAnimation, setShowAnimation] = useState(false)
   const animationStartTime = useRef(0)
 
+  const [nftsLoaded, setNftsLoaded] = useState(false)
+
   const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
 
   const celebratedNft = getDynamicConfigParams(
@@ -43,9 +45,17 @@ export default function NftCelebration() {
   )
 
   const nftsLoading = useSelector(nftsLoadingSelector)
+  useEffect(() => {
+    // ensure we wait until NFTs are loaded only once
+    if (!nftsLoading && !nftsLoaded) {
+      setNftsLoaded(true)
+    }
+  }, [nftsLoading])
+
   const nfts = useSelector(nftsWithMetadataSelector)
   const matchedNft = nfts.find(
     (nft) =>
+      !!celebratedNft &&
       !!celebratedNft.networkId &&
       celebratedNft.networkId === nft.networkId &&
       !!celebratedNft.contractAddress &&
@@ -71,12 +81,7 @@ export default function NftCelebration() {
     [matchedNft]
   )
 
-  const isVisible =
-    featureGateEnabled &&
-    celebratedNft &&
-    matchedNft &&
-    !nftsLoading &&
-    !celebrationHasBeenDisplayed
+  const isVisible = featureGateEnabled && matchedNft && nftsLoaded && !celebrationHasBeenDisplayed
 
   useEffect(() => {
     if (isVisible) {
