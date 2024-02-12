@@ -18,7 +18,6 @@ import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { NetworkId } from 'src/transactions/types'
 import { blockExplorerUrls } from 'src/web3/networkConfig'
-import { NFT_EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
 
 const DEFAULT_HEIGHT = 360
 
@@ -143,6 +142,17 @@ export default function NftsInfoCarousel({ route }: Props) {
     return <NftsLoadError testID="NftsInfoCarousel/NftsLoadErrorScreen" />
   }
 
+  const networkIdToExplorerString: Record<NetworkId, string> = {
+    [NetworkId['celo-mainnet']]: t('nftInfoCarousel.viewOnCeloExplorer'),
+    [NetworkId['celo-alfajores']]: t('nftInfoCarousel.viewOnCeloExplorer'),
+    [NetworkId['ethereum-mainnet']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['ethereum-sepolia']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['arbitrum-one']]: t('viewOnArbiscan'),
+    [NetworkId['arbitrum-sepolia']]: t('viewOnArbiscan'),
+    [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
+    [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
+  }
+
   return (
     <SafeAreaView edges={['top']} style={styles.safeAreaView} testID="NftsInfoCarousel">
       <ScrollView>
@@ -205,9 +215,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
-                <Text style={styles.explorerLink}>
-                  {t(NFT_EXPLORER_LINK_TRANSLATION_STRINGS[networkId])}
-                </Text>
+                <Text style={styles.explorerLink}>{networkIdToExplorerString[networkId]}</Text>
                 <OpenLinkIcon color={colors.successDark} />
               </View>
             </Touchable>

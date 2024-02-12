@@ -209,13 +209,6 @@ export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (to
 /**
  * @deprecated
  */
-export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
-})
-
-/**
- * @deprecated
- */
 export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
@@ -235,22 +228,6 @@ export const tokensByCurrencySelector = createSelector(
       [Currency.Euro]: cEurTokenInfo,
       [Currency.Celo]: celoTokenInfo,
     }
-  }
-)
-
-// Returns the token with the highest usd balance to use as default.
-/**
- * @deprecated
- */
-export const defaultTokenToSendSelector = createSelector(
-  tokensSortedToShowInSendSelector,
-  stablecoinsSelector,
-  (tokens, stableCoins) => {
-    if (tokens.length === 0) {
-      // TODO: ideally we return based on location - cUSD for now.
-      return stableCoins.find((coin) => coin.symbol === 'cUSD')?.tokenId ?? ''
-    }
-    return tokens[0].tokenId
   }
 )
 
