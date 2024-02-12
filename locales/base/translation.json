@@ -2076,7 +2076,7 @@
     },
     "feeEstimationError": {
       "title": "Error estimating network fee",
-      "description": "There was an error estimating the network fee. Please try again later"
+      "description": "There was an error estimating the network fee. Please try again later."
     }
   },
   "transactionFeed": {
