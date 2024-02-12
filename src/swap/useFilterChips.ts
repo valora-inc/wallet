@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next'
 import { FilterChip } from 'src/components/FilterChipsCarousel'
 import { TOKEN_MIN_AMOUNT } from 'src/config'
 import useSelector from 'src/redux/useSelector'
+import { NETWORK_NAMES } from 'src/shared/conts'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
@@ -10,7 +11,6 @@ import { Field } from 'src/swap/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
 
 export default function useFilterChip(selectingField: Field | null): FilterChip<TokenBalance>[] {
   const { t } = useTranslation()
@@ -24,12 +24,10 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
   const networkIdFilters =
     supportedNetworkIds.length > 1
       ? supportedNetworkIds.map((networkId: NetworkId) => {
-          const networkName = networkIdToNetwork[networkId]
           return {
             id: networkId,
             name: t('tokenBottomSheet.filters.network', {
-              // title cased network name (always english)
-              networkName: `${networkName.charAt(0).toUpperCase()}${networkName.slice(1)}`,
+              networkName: NETWORK_NAMES[networkId],
             }),
             filterFn: (token: TokenBalance) => token.networkId === networkId,
             isSelected: false,
