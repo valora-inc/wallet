@@ -11,7 +11,7 @@ jobs:
     env:
       BASH_ENV: ~/.profile
     name: Android (SDK ${{ inputs.android-api-level }})
-    runs-on: warp-ubuntu-latest-x64-4x
+    runs-on: warp-ubuntu-latest-x64-16x
     steps:
       - uses: actions/checkout@v3
       # - uses: valeriangalliat/action-sshd-cloudflared@v2
