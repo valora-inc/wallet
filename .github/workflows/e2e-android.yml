@@ -128,7 +128,7 @@ jobs:
       - name: Create Detox Build
         run: |
           export CELO_TEST_CONFIG=e2e
-          # export ANDROID_SDK_ROOT=$HOME/android-tools
+          export ANDROID_SDK_ROOT=$HOME/android-tools
           yarn detox build -c android.release
       # - name: AVD cache
       #   uses: actions/cache@v3
