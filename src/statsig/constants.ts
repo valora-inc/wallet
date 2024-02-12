@@ -42,12 +42,6 @@ export const ExperimentConfigs = {
       dappRankingsEnabled: false,
     },
   },
-  [StatsigExperiments.DAPP_MENU_ITEM_COPY]: {
-    experimentName: StatsigExperiments.DAPP_MENU_ITEM_COPY,
-    defaultValues: {
-      discoverCopyEnabled: false,
-    },
-  },
   [StatsigExperiments.SWAP_BUY_AMOUNT]: {
     experimentName: StatsigExperiments.SWAP_BUY_AMOUNT,
     defaultValues: {
