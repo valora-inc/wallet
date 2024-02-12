@@ -3,7 +3,6 @@ import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typesc
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import FastImage from 'react-native-fast-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -15,8 +14,9 @@ import { nftCelebrationDisplayed } from 'src/home/actions'
 import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
 import { lastDisplayedNftCelebration } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
+import NftMedia from 'src/nfts/NftMedia'
 import { nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
-import { NftWithMetadata } from 'src/nfts/types'
+import { NftOrigin } from 'src/nfts/types'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
@@ -78,7 +78,24 @@ export default function NftCelebration() {
   )
 
   const renderHandleWithImage = useCallback(
-    () => <HandleWithImage nft={matchedNft} />,
+    () => (
+      <View style={styles.handleWithImage}>
+        {matchedNft && (
+          <NftMedia
+            shouldAutoScaleHeight
+            nft={matchedNft}
+            ErrorComponent={
+              <View style={styles.imageError}>
+                <ImageErrorIcon />
+              </View>
+            }
+            origin={NftOrigin.NftCelebration}
+            mediaType="image"
+          />
+        )}
+        <View style={styles.handleBar} />
+      </View>
+    ),
     [matchedNft]
   )
 
@@ -191,28 +208,6 @@ export default function NftCelebration() {
   )
 }
 
-const HandleWithImage = ({ nft }: { nft?: NftWithMetadata }) => {
-  const [showError, setShowError] = useState(false)
-  return (
-    <View style={styles.handleWithImage}>
-      {nft && (
-        <FastImage
-          style={styles.image}
-          source={{ uri: nft.metadata.image }}
-          resizeMode={FastImage.resizeMode.cover}
-          onError={() => setShowError(true)}
-        />
-      )}
-      {showError && (
-        <View style={styles.imageError}>
-          <ImageErrorIcon />
-        </View>
-      )}
-      <View style={styles.handleBar} />
-    </View>
-  )
-}
-
 const IMAGE_BORDER_RADIUS = 20
 
 const styles = StyleSheet.create({
@@ -228,12 +223,11 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Smallest8,
   },
   handleWithImage: {
+    justifyContent: 'center',
     borderTopLeftRadius: IMAGE_BORDER_RADIUS,
     borderTopRightRadius: IMAGE_BORDER_RADIUS,
-    overflow: 'hidden',
-  },
-  image: {
     aspectRatio: 1.45,
+    overflow: 'hidden',
     backgroundColor: Colors.successLight,
   },
   imageError: {

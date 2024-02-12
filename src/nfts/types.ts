@@ -48,4 +48,5 @@ export enum NftOrigin {
   TransactionFeed = 'transactionFeed',
   NftGallery = 'nftGallery',
   Assets = 'assets',
+  NftCelebration = 'nftCelebration',
 }

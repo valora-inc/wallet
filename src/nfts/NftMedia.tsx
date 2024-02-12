@@ -17,7 +17,7 @@ import networkConfig from 'src/web3/networkConfig'
 const DEFAULT_HEIGHT = 360
 
 interface PlaceHolderProps {
-  testID: string
+  testID?: string
   height?: number
   width?: number
   borderRadius?: number
