@@ -5,7 +5,6 @@ import {
   _feeCurrenciesByNetworkIdSelector,
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
-  defaultTokenToSendSelector,
   feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
   importedTokensSelector,
@@ -354,14 +353,6 @@ describe('tokensWithUsdValueSelector', () => {
         },
       ]
     `)
-  })
-})
-
-describe(defaultTokenToSendSelector, () => {
-  describe('when fetching the token with the highest balance', () => {
-    it('returns the right token', () => {
-      expect(defaultTokenToSendSelector(state)).toEqual('celo-alfajores:0x1')
-    })
   })
 })
 

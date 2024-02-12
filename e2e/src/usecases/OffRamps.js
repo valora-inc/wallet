@@ -5,9 +5,6 @@ export default offRamps = () => {
   beforeAll(async () => {
     await launchApp({
       newInstance: true,
-      launchArgs: {
-        statsigGateOverrides: `use_new_send_flow=true`,
-      },
     })
   })
   beforeEach(async () => {

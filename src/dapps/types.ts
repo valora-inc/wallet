@@ -30,10 +30,3 @@ export interface DappCategory {
   id: string
   name: string
 }
-
-// used for the dapp connect request bottom sheet
-export enum DappConnectInfo {
-  Default = 'default', // display the same content as before app version 1.35
-  Basic = 'basic', // display more correct title for connection request, indicate if dapp is in dappsList, display dapp logo for dappkit requests
-  Full = 'full', // display detailed transaction data (future feature)
-}

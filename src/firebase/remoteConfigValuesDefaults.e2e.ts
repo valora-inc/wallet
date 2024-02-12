@@ -1,5 +1,4 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { DappConnectInfo } from 'src/dapps/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -51,16 +50,13 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsWebViewEnabled: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: true,
-  dappConnectInfo: DappConnectInfo.Basic,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,
   networkTimeoutSeconds: 30,
-  dappFavoritesEnabled: false,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
   twelveWordMnemonicEnabled: true,
-  dappsMinimalDisclaimerEnabled: false,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
   superchargeTokenConfigByToken: JSON.stringify(

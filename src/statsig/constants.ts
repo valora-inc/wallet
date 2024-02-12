@@ -16,7 +16,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
-  [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
   [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
@@ -42,12 +41,6 @@ export const ExperimentConfigs = {
     experimentName: StatsigExperiments.DAPP_RANKINGS,
     defaultValues: {
       dappRankingsEnabled: false,
-    },
-  },
-  [StatsigExperiments.DAPP_MENU_ITEM_COPY]: {
-    experimentName: StatsigExperiments.DAPP_MENU_ITEM_COPY,
-    defaultValues: {
-      discoverCopyEnabled: false,
     },
   },
   [StatsigExperiments.SWAP_BUY_AMOUNT]: {
