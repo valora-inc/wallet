@@ -14,7 +14,7 @@ jobs:
     runs-on: nscloud-ubuntu-22.04-amd64-8x16
     steps:
       - uses: actions/checkout@v3
-      # - uses: valeriangalliat/action-sshd-cloudflared@v2
+      - uses: valeriangalliat/action-sshd-cloudflared@v2
       - name: Setup emulator
         run: |
           ls -l $ANDROID_HOME/cmdline-tools
