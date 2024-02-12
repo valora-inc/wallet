@@ -14,7 +14,7 @@ jobs:
     runs-on: warp-ubuntu-latest-x64-4x
     steps:
       - uses: actions/checkout@v3
-      - uses: valeriangalliat/action-sshd-cloudflared@v2
+      # - uses: valeriangalliat/action-sshd-cloudflared@v2
       - name: Setup emulator
         run: |
           ls -l $ANDROID_HOME/cmdline-tools
@@ -42,6 +42,10 @@ jobs:
           # Allow the emulator to use /dev/kvm
           sudo adduser $USER kvm
           sudo chown $USER /dev/kvm
+          # Fix permissions
+          sudo mkdir /run/user/$UID
+          sudo chown -R $UID:$(id -g) /run/user/$UID
+          chmod -R 700 /run/user/$UID
 
           emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim &
           echo "Waiting for device to be ready..."
