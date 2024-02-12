@@ -177,6 +177,7 @@ jobs:
       #   timeout-minutes: 45
       - name: Run Detox
         run: >
+          export ANDROID_SDK_ROOT=$HOME/android-tools &&
           export PATH=$ANDROID_HOME/platform-tools:$PATH &&
           yarn detox test
           --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
