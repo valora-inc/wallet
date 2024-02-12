@@ -52,6 +52,10 @@ jobs:
 
           cat $INI_LOCATION
 
+          # Allow the emulator to use /dev/kvm
+          sudo adduser $USER kvm
+          sudo chown $USER /dev/kvm
+
           emulator -avd Pixel_API_30_AOSP_x86_64 -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim &
           echo "Waiting for device to be ready..."
           # Source: https://android.stackexchange.com/a/83747
