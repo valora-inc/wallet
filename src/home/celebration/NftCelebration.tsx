@@ -86,9 +86,11 @@ export default function NftCelebration() {
 
   useEffect(() => {
     if (isVisible) {
+      // Wait for the home screen to have less ongoing async tasks.
+      // This should help the bottom sheet animation run smoothly.
       const timeoutId = setTimeout(() => {
         bottomSheetRef.current?.expand()
-      }, 1000 /* delay to ensure the bottom sheet is layed out */)
+      }, 1000)
       return () => clearTimeout(timeoutId)
     }
   }, [isVisible])
