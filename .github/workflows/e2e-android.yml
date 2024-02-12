@@ -98,7 +98,7 @@ jobs:
           done
 
           # try to start the emulator again
-          emulator -verbose -no-audio -no-boot-anim -no-window -read-only -gpu swiftshader_indirect -port 13784 -snapshot ci_boot @Pixel_API_30_AOSP_x86_64
+          # emulator -verbose -no-audio -no-boot-anim -no-window -read-only -gpu swiftshader_indirect -port 13784 -snapshot ci_boot @Pixel_API_30_AOSP_x86_64
 
         shell: bash
       - uses: ./.github/actions/yarn-install
@@ -191,7 +191,7 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 6
+          --maxWorkers 3
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"
