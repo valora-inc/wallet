@@ -34,8 +34,8 @@ export default function NftCelebration() {
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const [showAnimation, setShowAnimation] = useState(false)
-  const animationStartTime = useRef(0)
+  const [showConfettiCelebration, setShowConfettiCelebration] = useState(false)
+  const confettiCelebrationStartTime = useRef(0)
 
   const [nftsLoaded, setNftsLoaded] = useState(false)
 
@@ -106,8 +106,8 @@ export default function NftCelebration() {
 
       vibrateSuccess()
 
-      animationStartTime.current = Date.now()
-      setShowAnimation(true)
+      confettiCelebrationStartTime.current = Date.now()
+      setShowConfettiCelebration(true)
     }
   }
 
@@ -115,25 +115,26 @@ export default function NftCelebration() {
     bottomSheetRef.current?.close()
   }
 
-  const handleAnimationFinish = () => {
-    celebrationFinish({ userInterrupted: false })
+  const handleConfettiCelebrationFinish = () => {
+    finishCelebration({ userInterrupted: false })
   }
 
-  const handleDismissAnimation = () => {
-    celebrationFinish({ userInterrupted: true })
+  const handleConfettiCelebrationDismiss = () => {
+    finishCelebration({ userInterrupted: true })
   }
 
-  const celebrationFinish = ({ userInterrupted }: { userInterrupted: boolean }) => {
+  const finishCelebration = ({ userInterrupted }: { userInterrupted: boolean }) => {
     if (!matchedNft) {
       return // this should never happen
     }
 
     ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
       userInterrupted,
-      durationInSeconds: Math.round((Date.now() - animationStartTime.current) / 1000),
+      durationInSeconds: Math.round((Date.now() - confettiCelebrationStartTime.current) / 1000),
     })
 
-    setShowAnimation(false)
+    setShowConfettiCelebration(false)
+
     dispatch(
       nftCelebrationDisplayed({
         networkId: matchedNft.networkId,
@@ -175,14 +176,14 @@ export default function NftCelebration() {
         </BottomSheetView>
       </GorhomBottomSheet>
       <ConfettiCelebration
-        showAnimation={showAnimation}
+        showAnimation={showConfettiCelebration}
         title={t('nftCelebration.notification.title')}
         description={t('nftCelebration.notification.description', {
           rewardName: matchedNft.metadata.name,
           appName: APP_NAME,
         })}
-        onAnimationFinish={handleAnimationFinish}
-        onDismiss={handleDismissAnimation}
+        onAnimationFinish={handleConfettiCelebrationFinish}
+        onDismiss={handleConfettiCelebrationDismiss}
       />
     </>
   )
