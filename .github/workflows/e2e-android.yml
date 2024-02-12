@@ -18,6 +18,10 @@ jobs:
       - name: Setup emulator
         run: |
           set -e
+
+          # Fix for missing killall command
+          sudo apt install psmisc
+
           export ANDROID_SDK_ROOT=$HOME/android-tools
           mkdir -p $ANDROID_SDK_ROOT
           cd $ANDROID_SDK_ROOT
