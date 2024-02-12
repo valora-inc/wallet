@@ -74,6 +74,8 @@ function WalletHome() {
 
   const isFocused = useIsFocused()
 
+  const showNftCelebration = isFocused && !showNotificationSpotlight
+
   useEffect(() => {
     dispatch(visitHome())
   }, [])
@@ -126,6 +128,10 @@ function WalletHome() {
 
   const shouldShowCashInBottomSheet = () => {
     if (showNotificationSpotlight) {
+      return false
+    }
+
+    if (showNftCelebration) {
       return false
     }
 
@@ -211,9 +217,6 @@ function WalletHome() {
     </View>
   )
 
-  const showCashInBottomSheet = shouldShowCashInBottomSheet()
-  const showNftCelebration = isFocused && !showNotificationSpotlight && !showCashInBottomSheet
-
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
       <DrawerTopBar
@@ -236,7 +239,7 @@ function WalletHome() {
         testID="WalletHome/SectionList"
       />
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
-      {showCashInBottomSheet && <CashInBottomSheet />}
+      {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {showNftCelebration && <NftCelebration />}
       {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
