@@ -93,11 +93,11 @@ export default function NftCelebration() {
     }
   }, [isVisible])
 
-  if (!isVisible) {
-    return null
-  }
-
   const handleBottomSheetPositionChange = (index: number) => {
+    if (!matchedNft) {
+      return // this should never happen
+    }
+
     if (index === -1) {
       ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, {
         networkId: matchedNft.networkId,
@@ -124,6 +124,10 @@ export default function NftCelebration() {
   }
 
   const celebrationFinish = ({ userInterrupted }: { userInterrupted: boolean }) => {
+    if (!matchedNft) {
+      return // this should never happen
+    }
+
     ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
       userInterrupted,
       durationInSeconds: Math.round((Date.now() - animationStartTime.current) / 1000),
@@ -136,6 +140,10 @@ export default function NftCelebration() {
         contractAddress: matchedNft.contractAddress,
       })
     )
+  }
+
+  if (!isVisible) {
+    return null
   }
 
   return (
