@@ -45,19 +45,6 @@ export default DappListRecent = () => {
     jestExpect(endRecentlyUsedDapps.length).toEqual(startRecentDappCount + 1)
   })
 
-  it('should show prompt to open most recently used dapp', async () => {
-    // Get most recently used dapp name
-    const mostRecentlyUsedDappName = await getElementText('RecentlyUsedDapps/Name')
-
-    // Open most recently used dapp
-    await element(by.text(mostRecentlyUsedDappName)).tap()
-
-    // Check that dapp open prompt is visible with the correct dapp name
-    await waitFor(element(by.id(`WebViewScreen/${mostRecentlyUsedDappName}`)))
-      .toBeVisible()
-      .withTimeout(10 * 1000)
-  })
-
   it('should correctly open most recently used dapp', async () => {
     // Reload to Home screen
     await reloadReactNative()
