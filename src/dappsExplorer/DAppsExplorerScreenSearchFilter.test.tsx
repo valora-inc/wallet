@@ -61,7 +61,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     expect(getByText('Dapp 2')).toBeTruthy()
 
     fireEvent.press(getByText('Dapp 1'))
-    fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 1"}`))
 
     expect(defaultStore.getActions()).toEqual([
       fetchDappsList(),
@@ -89,38 +88,15 @@ describe(DAppsExplorerScreenSearchFilter, () => {
     ])
   })
 
-  it('displays the dapps disclaimer bottom sheet when selecting a dapp', () => {
-    const { getByText } = render(
-      <Provider store={defaultStore}>
-        <DAppsExplorerScreenSearchFilter />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('Dapp 1'))
-
-    expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeTruthy()
-    expect(defaultStore.getActions()).toEqual([
-      fetchDappsList(),
-      // no dapp selected action here, so the dapp is not launched
-    ])
-
-    fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 1"}`))
-    expect(defaultStore.getActions()).toEqual([
-      fetchDappsList(),
-      dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }), // now the dapp is launched
-    ])
-  })
-
-  it('displays the dapps disclaimer and opens dapps directly', () => {
+  it('pens dapps directly', () => {
     const store = createMockStore({
       dapps: {
         dappListApiUrl: 'http://url.com',
         dappsList,
         dappsCategories,
-        dappsMinimalDisclaimerEnabled: true,
       },
     })
-    const { getByText, queryByText } = render(
+    const { getByText } = render(
       <Provider store={store}>
         <DAppsExplorerScreenSearchFilter />
       </Provider>
@@ -130,7 +106,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
 
     fireEvent.press(getByText('Dapp 1'))
 
-    expect(queryByText(`dappsScreenBottomSheet.title, {"dappName":"Dapp 1"}`)).toBeFalsy()
     expect(store.getActions()).toEqual([
       fetchDappsList(),
       dappSelected({ dapp: { ...dappsList[0], openedFrom: DappSection.All } }),
@@ -145,7 +120,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: [],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByText, queryByText } = render(
@@ -167,7 +141,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
-          dappFavoritesEnabled: true,
         },
       })
       const { queryByText, getAllByTestId } = render(
@@ -191,7 +164,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -227,7 +199,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -266,7 +237,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: [],
         },
       })
@@ -290,7 +260,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -326,7 +295,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -365,7 +333,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -399,7 +366,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -434,7 +400,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -463,7 +428,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -499,7 +463,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp2'],
         },
       })
@@ -536,7 +499,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappListApiUrl: 'http://url.com',
           dappsList,
           dappsCategories,
-          dappFavoritesEnabled: true,
           favoriteDappIds: ['dapp1'],
         },
       })
@@ -573,7 +535,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByTestId, getAllByTestId } = render(
@@ -605,7 +566,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp1'],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByTestId, getByText, getAllByTestId, queryByTestId } = render(
@@ -639,7 +599,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
           dappsList,
           dappsCategories,
           favoriteDappIds: ['dapp2'],
-          dappFavoritesEnabled: true,
         },
       })
       const { getByTestId, getByText, queryByTestId } = render(
@@ -672,8 +631,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       dappsList,
       dappsCategories,
       favoriteDappIds: [],
-      dappFavoritesEnabled: true,
-      dappsMinimalDisclaimerEnabled: true,
     }
     const defaultExpectedDappOpenProps = {
       activeFilter: 'all',
@@ -684,25 +641,6 @@ describe(DAppsExplorerScreenSearchFilter, () => {
       position: 3,
       section: 'all',
     }
-
-    it('should dispatch with no filter or search, from the normal list with confirmation bottom sheet', () => {
-      const store = createMockStore({
-        dapps: { ...defaultStoreProps, dappsMinimalDisclaimerEnabled: false },
-      })
-      const { getByText } = render(
-        <Provider store={store}>
-          <DAppsExplorerScreenSearchFilter />
-        </Provider>
-      )
-
-      fireEvent.press(getByText('Dapp 3'))
-      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"Dapp 3"}`))
-
-      expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
-        DappExplorerEvents.dapp_open,
-        defaultExpectedDappOpenProps
-      )
-    })
 
     it('should dispatch with no filter or search, from the normal list with no confirmation bottom sheet', () => {
       const store = createMockStore({

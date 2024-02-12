@@ -77,10 +77,6 @@ export const dappsCategoriesAlphabeticalSelector = createSelector(
   (categories) => categories.slice(0).sort((a, b) => a.name.localeCompare(b.name))
 )
 
-export const dappConnectInfoSelector = (state: RootState) => state.dapps.dappConnectInfo
-
-export const dappFavoritesEnabledSelector = (state: RootState) => state.dapps.dappFavoritesEnabled
-
 const mostPopularDappIdsSelector = (state: RootState) => state.dapps.mostPopularDappIds
 
 export const mostPopularDappsSelector = createSelector(
@@ -90,9 +86,6 @@ export const mostPopularDappsSelector = createSelector(
     return getDappsById(dapps, mostPopularDappIds)
   }
 )
-
-export const dappsMinimalDisclaimerEnabledSelector = (state: RootState) =>
-  state.dapps.dappsMinimalDisclaimerEnabled
 
 export const recentDappsSelector = createSelector(
   dappsListSelector,
