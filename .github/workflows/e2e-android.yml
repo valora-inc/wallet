@@ -97,6 +97,9 @@ jobs:
             sleep 3
           done
 
+          # try to start the emulator again
+          emulator -verbose -no-audio -no-boot-anim -no-window -read-only -gpu swiftshader_indirect -port 13784 -snapshot ci_boot @Pixel_API_30_AOSP_x86_64
+
         shell: bash
       - uses: ./.github/actions/yarn-install
       - uses: actions/cache@v3
