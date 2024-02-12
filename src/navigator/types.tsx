@@ -12,8 +12,7 @@ import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
-import { QrCode } from 'src/send/types'
+import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
@@ -48,7 +47,6 @@ interface SendEnterAmountParams {
 }
 
 interface ValidateRecipientParams {
-  transactionData?: TransactionDataInput
   requesterAddress?: string
   origin: SendOrigin
   recipient: Recipient
@@ -250,26 +248,12 @@ export type StackParamList = {
       fiat: number
     }
   }
-  [Screens.Send]:
-    | {
-        skipContactsImport?: boolean
-        forceTokenId?: boolean
-        defaultTokenIdOverride?: string
-      }
-    | undefined
   [Screens.SendSelectRecipient]:
     | {
         forceTokenId?: boolean
         defaultTokenIdOverride?: string
       }
     | undefined
-  [Screens.SendAmount]: {
-    recipient: Recipient
-    isFromScan: boolean
-    origin: SendOrigin
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
-  }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams

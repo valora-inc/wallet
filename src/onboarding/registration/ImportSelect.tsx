@@ -40,13 +40,13 @@ function ActionCard({
   return (
     <Card style={styles.card} rounded={true} shadow={Shadow.SoftLight} testID={testID}>
       <Touchable borderRadius={8} style={styles.touchable} onPress={onPress}>
-        <View style={styles.cardContent}>
+        <>
           <View style={styles.topLine}>
             {icon}
             <Text style={styles.cardTitle}>{title}</Text>
           </View>
           <Text style={styles.cardDescription}>{description}</Text>
-        </View>
+        </>
       </Touchable>
     </Card>
   )
@@ -80,10 +80,7 @@ export default function ImportSelect({ navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['bottom']}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContainer}
-        style={[headerHeight ? { marginTop: headerHeight } : undefined]}
-      >
+      <ScrollView style={[headerHeight ? { marginTop: headerHeight } : undefined]}>
         <View style={styles.viewContainer}>
           <View style={styles.screenTextContainer}>
             <Text style={styles.screenTitle}>{t('importSelect.title')}</Text>
@@ -119,11 +116,9 @@ ImportSelect.navigationOptions = {
 
 const styles = StyleSheet.create({
   card: {
+    alignSelf: 'stretch',
+    flex: 1,
     padding: 0,
-    width: '100%',
-  },
-  cardContent: {
-    padding: Spacing.Regular16,
   },
   cardDescription: {
     ...typeScale.bodySmall,
@@ -132,15 +127,11 @@ const styles = StyleSheet.create({
   cardTitle: {
     ...typeScale.labelMedium,
     color: colors.primary,
+    flex: 1,
   },
   safeArea: {
-    alignItems: 'center',
     backgroundColor: colors.gray1,
-    flexGrow: 1,
-    justifyContent: 'space-between',
-  },
-  scrollContainer: {
-    flexGrow: 1,
+    flex: 1,
   },
   screenDescription: {
     ...typeScale.bodyMedium,
@@ -148,7 +139,6 @@ const styles = StyleSheet.create({
   },
   screenTitle: {
     ...typeScale.titleSmall,
-    marginTop: Spacing.Thick24,
     textAlign: 'center',
   },
   screenTextContainer: {
@@ -156,16 +146,16 @@ const styles = StyleSheet.create({
   },
   topLine: {
     alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
     gap: Spacing.Smallest8,
   },
   touchable: {
-    overflow: 'hidden',
+    padding: Spacing.Regular16,
   },
   viewContainer: {
     alignItems: 'center',
-    flex: 1,
     gap: Spacing.Thick24,
-    paddingHorizontal: Spacing.Thick24,
+    padding: Spacing.Thick24,
   },
 })
