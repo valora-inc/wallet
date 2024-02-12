@@ -138,7 +138,8 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet')).toBeTruthy()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_phone_verification_help
+      KeylessBackupEvents.cab_phone_verification_help,
+      { keylessBackupFlow: KeylessBackupFlow.Setup }
     )
   })
   it('tracks analytics event when pressing go back button', async () => {
@@ -149,7 +150,8 @@ describe('KeylessBackupPhoneCodeInput', () => {
     expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack'))
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_phone_verification_help_go_back
+      KeylessBackupEvents.cab_phone_verification_help_go_back,
+      { keylessBackupFlow: KeylessBackupFlow.Setup }
     )
   })
   it('goes to WalletHome screen and track analytics event when pressing skip button in setup flow', async () => {
@@ -161,7 +163,8 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip'))
     expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_phone_verification_help_skip
+      KeylessBackupEvents.cab_phone_verification_help_skip,
+      { keylessBackupFlow: KeylessBackupFlow.Setup }
     )
   })
   it('goes to ImportSelect screen and track analytics event when pressing skip button in restore flow', async () => {
@@ -173,7 +176,8 @@ describe('KeylessBackupPhoneCodeInput', () => {
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip'))
     expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
-      KeylessBackupEvents.cab_phone_verification_help_skip
+      KeylessBackupEvents.cab_phone_verification_help_skip,
+      { keylessBackupFlow: KeylessBackupFlow.Restore }
     )
   })
 })
