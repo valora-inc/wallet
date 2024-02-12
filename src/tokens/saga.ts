@@ -223,12 +223,8 @@ export function* fetchTokenBalancesSaga() {
     }
 
     /* We are including the fetchedBalancesByTokenId since some balances might be already fetched
-<<<<<<< HEAD
-     * so we avoid fetching them again. This could happen if we turn the FETCH_BALANCES_VIA_BLOCKSCOUT flag on.
-=======
      * so we avoid fetching them again.
      * This could happen if the data source includes more tokens than we support (e.g. Blockscout).
->>>>>>> main
      */
     const importedTokensWithBalance = yield* call(
       fetchImportedTokenBalances,
