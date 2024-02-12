@@ -2,9 +2,9 @@ import BigNumber from 'bignumber.js'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
@@ -29,7 +29,9 @@ import {
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { deterministicShuffle } from 'src/utils/random'
 import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 /**
  * @deprecated use useTokenInfo and select using tokenId
@@ -90,13 +92,22 @@ export function useSwappableTokens() {
   const networkIdsForSwap = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSwap
+  const showRandomisedTokenOrder = getFeatureGate(StatsigFeatureGates.SWAP_HOLDOUT_GROUP_ENABLED)
 
+  const walletAddress = useSelector(walletAddressSelector)
   const swappableFromTokens = useSelector((state) =>
     swappableFromTokensByNetworkIdSelector(state, networkIdsForSwap)
   )
   const swappableToTokens = useSelector((state) =>
     swappableToTokensByNetworkIdSelector(state, networkIdsForSwap)
   )
+
+  if (showRandomisedTokenOrder && walletAddress) {
+    return {
+      swappableFromTokens: deterministicShuffle(swappableFromTokens, 'tokenId', walletAddress),
+      swappableToTokens: deterministicShuffle(swappableToTokens, 'tokenId', walletAddress),
+    }
+  }
 
   return {
     swappableFromTokens,

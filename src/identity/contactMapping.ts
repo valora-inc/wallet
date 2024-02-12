@@ -3,7 +3,6 @@ import { AttestationStat, AttestationsWrapper } from '@celo/contractkit/lib/wrap
 import { isValidAddress } from '@celo/utils/lib/address'
 import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
-import crypto from 'crypto'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
 import { setUserContactDetails } from 'src/account/actions'
@@ -51,6 +50,7 @@ import { getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { checkContactsPermission } from 'src/utils/permissions'
+import { calculateHash } from 'src/utils/random'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
@@ -418,12 +418,6 @@ export function getAddressFromPhoneNumber(
 
   // Normal case when there is only one address in the mapping
   return addresses[0]
-}
-
-function calculateHash(str: string) {
-  const hash = crypto.createHash('sha256')
-  hash.update(str)
-  return hash.digest('hex')
 }
 
 export function* saveContacts() {

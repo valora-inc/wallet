@@ -1,3 +1,4 @@
+import crypto from 'crypto'
 import seedrandom from 'seedrandom'
 
 // https://stackoverflow.com/a/2450976/112731
@@ -21,4 +22,27 @@ export function shuffle(array: any[], seed: string) {
   }
 
   return array
+}
+
+export function calculateHash(str: string) {
+  const hash = crypto.createHash('sha256')
+  hash.update(str)
+  return hash.digest('hex')
+}
+
+export function deterministicShuffle<T>(
+  objectArray: T[],
+  identifyingProperty: keyof T,
+  pepper: string
+): T[] {
+  const map = new Map<string, T>()
+  objectArray.forEach((element) => {
+    const hash = calculateHash(`${element[identifyingProperty]}${pepper}`)
+    map.set(hash, element)
+  })
+
+  // sort the tokens array based on hash of the identifying property and user's address
+  return Array.from(map.entries())
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([_, token]) => token)
 }
