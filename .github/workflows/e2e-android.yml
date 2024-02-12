@@ -39,6 +39,7 @@ jobs:
           yes | sdkmanager "platform-tools"
           yes | sdkmanager "build-tools;29.0.2"
           yes | sdkmanager "platforms;android-33"
+          yes | sdkmanager "ndk;21.0.6113669"
           yes | sdkmanager "system-images;android-30;default;x86_64"
           set -o pipefail
 
