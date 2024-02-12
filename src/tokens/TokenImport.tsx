@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { ReactElement, useState } from 'react'
+import React, { ReactElement, useEffect, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
@@ -11,6 +11,7 @@ import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
+import Dropdown from 'src/components/Dropdown'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
@@ -28,12 +29,13 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { PasteButton } from 'src/tokens/PasteButton'
-import { tokensByIdSelector } from 'src/tokens/selectors'
+import { networksIconSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { importToken } from 'src/tokens/slice'
-import { getTokenId } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForTokenBalances, getTokenId } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, BaseError, TimeoutError, formatUnits, getContract, isAddress } from 'viem'
 
@@ -47,6 +49,7 @@ interface TokenDetails {
   decimals: number
   name: string
   balance: string
+  networkId: NetworkId
 }
 
 enum Errors {
@@ -60,26 +63,35 @@ export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const [tokenAddress, setTokenAddress] = useState('')
+  // Should I create a new config for this?
+  const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
+  const networkShouldBeEditable = supportedNetworkIds.length > 1
+
+  const [tokenAddress, setTokenAddress] = useState<string | undefined>()
   const [tokenDetails, setTokenDetails] = useState<TokenDetails>()
   const [error, setError] = useState<string | null>(null)
-  const [networkId] = useState(networkConfig.defaultNetworkId)
 
+  const [networkId, setNetworkId] = useState<NetworkId | null>(
+    networkShouldBeEditable ? null : supportedNetworkIds[0]
+  )
   const walletAddress = useSelector(walletAddressSelector)
-  const supportedTokens = useSelector((state) => tokensByIdSelector(state, [networkId]))
+  const supportedTokens = useSelector((state) => tokensByIdSelector(state, supportedNetworkIds))
 
-  const validateAddress = (address: string): address is Address => {
-    if (!address) return false
+  const networkIconByNetworkId = useSelector((state) =>
+    networksIconSelector(state, supportedNetworkIds)
+  )
 
-    if (!isAddress(address)) {
-      setError(t('tokenImport.error.invalidToken'))
+  const validateAddress = (tokenAddress: string): tokenAddress is Address => {
+    if (!tokenAddress || !networkId) return false
+
+    if (!isAddress(tokenAddress)) {
+      setError(t('tokenImport.error.invalidAddress'))
       return false
     }
 
-    // TODO(RET-891): if already imported, set error
-    const tokenId = getTokenId(networkId, address.toLowerCase())
+    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
     if (supportedTokens[tokenId]) {
-      setError(t('tokenImport.error.invalidToken'))
+      setError(t('tokenImport.error.tokenAlreadySupported'))
       ValoraAnalytics.track(AssetsEvents.import_token_error, {
         networkId,
         tokenId,
@@ -93,19 +105,14 @@ export default function TokenImportScreen(_: Props) {
     return true
   }
 
-  const fetchTokenDetails = async (address: Address): Promise<TokenDetails> => {
-    if (!isAddress(address)) {
-      // shouldn't happen as this function is called only after validating the address
-      throw new Error('Invalid token address')
-    }
-    if (!walletAddress || !isAddress(walletAddress)) {
-      // should never happen
-      throw new Error('No wallet address found when fetching token details')
-    }
-
+  const fetchTokenDetails = async (
+    walletAddress: Address,
+    tokenAddress: Address,
+    networkId: NetworkId
+  ): Promise<TokenDetails> => {
     const contract = getContract({
       abi: erc20.abi,
-      address,
+      address: tokenAddress,
       client: {
         public: publicClient[networkIdToNetwork[networkId]],
       },
@@ -122,9 +129,10 @@ export default function TokenImportScreen(_: Props) {
 
     Logger.info(
       TAG,
-      `Wallet ${walletAddress} holds ${balanceInDecimal} ${symbol} (${name} = ${address})})`
+      `Wallet ${walletAddress} holds ${balanceInDecimal} ${symbol} (${name} = ${tokenAddress})})`
     )
-    return { address, symbol, decimals, name, balance: balanceInDecimal }
+
+    return { address: tokenAddress, symbol, decimals, name, balance: balanceInDecimal, networkId }
   }
 
   const validateContract = useAsyncCallback(fetchTokenDetails, {
@@ -140,6 +148,12 @@ export default function TokenImportScreen(_: Props) {
         error instanceof BaseError &&
         (error instanceof TimeoutError || (error.cause !== undefined && hasTimeout(error.cause)))
 
+      // This shouldn't happen
+      if (!tokenAddress || !networkId) {
+        Logger.error(TAG, 'Token address or network id is not set')
+        return
+      }
+
       const trackedError = hasTimeout(error) ? Errors.Timeout : Errors.NotERC20
       const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
       ValoraAnalytics.track(AssetsEvents.import_token_error, {
@@ -151,19 +165,15 @@ export default function TokenImportScreen(_: Props) {
     },
   })
 
-  const ensure0xPrefixOrEmpty = (address: string) =>
+  const isLoadingTokenDetails = validateContract.status === 'loading'
+
+  const ensure0xPrefixOrEmpty = (address: string): string =>
     !address || address.startsWith('0x') ? address : `0x${address}`
 
   const handleAddressBlur = async () => {
-    // ignore when handlePaste has already started validation (note - blur is called when focussed and keyboard is dismissed)
-    if (validateContract.status === 'loading' || error || tokenAddress.length === 0) return
-
+    if (!tokenAddress) return
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(tokenAddress)
     setTokenAddress(addressWith0xPrefix)
-    if (validateAddress(addressWith0xPrefix)) {
-      // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
-      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
-    }
   }
 
   const handlePaste = async (address: string) => {
@@ -171,11 +181,19 @@ export default function TokenImportScreen(_: Props) {
     const addressWith0xPrefix = ensure0xPrefixOrEmpty(address)
     setTokenAddress(addressWith0xPrefix)
     Keyboard.dismiss()
-    if (validateAddress(addressWith0xPrefix)) {
-      // ignore propagated error as it's already handled, see https://github.com/slorber/react-async-hook/issues/85
-      await validateContract.execute(addressWith0xPrefix).catch(() => undefined)
-    }
   }
+
+  useEffect(() => {
+    if (
+      walletAddress &&
+      tokenAddress &&
+      networkId &&
+      isAddress(walletAddress) &&
+      validateAddress(tokenAddress)
+    ) {
+      validateContract.execute(walletAddress, tokenAddress, networkId).catch(() => undefined)
+    }
+  }, [walletAddress, tokenAddress, networkId])
 
   const handleImportToken = () => {
     if (!tokenDetails) {
@@ -183,7 +201,14 @@ export default function TokenImportScreen(_: Props) {
       return
     }
 
-    const tokenId = getTokenId(networkId, tokenAddress.toLowerCase())
+    const networkId = tokenDetails.networkId
+    const tokenAddress = tokenDetails.address.toLowerCase()
+
+    // This should always be present, unless we support a network without tokens,
+    // or if we can't fetch the token list (e.g. network issues?), should we fail instead to be safe?
+    const networkIconUrl = networkIconByNetworkId[networkId]
+
+    const tokenId = getTokenId(networkId, tokenAddress)
     ValoraAnalytics.track(AssetsEvents.import_token_submit, {
       tokenAddress,
       tokenSymbol: tokenDetails.symbol,
@@ -192,10 +217,15 @@ export default function TokenImportScreen(_: Props) {
     })
 
     Logger.info(TAG, `Importing token: ${tokenId})})`)
-    dispatch(importToken({ ...tokenDetails, tokenId, networkId }))
+    dispatch(importToken({ ...tokenDetails, tokenId, networkIconUrl }))
 
     navigateBack()
     dispatch(showMessage(t('tokenImport.importSuccess', { tokenSymbol: tokenDetails.symbol })))
+  }
+
+  const clearFetchedState = () => {
+    setError(null)
+    setTokenDetails(undefined)
   }
 
   return (
@@ -212,16 +242,42 @@ export default function TokenImportScreen(_: Props) {
         />
 
         <View style={styles.inputContainer}>
+          {/* Network */}
+          <View style={{ ...styles.textInputGroup, zIndex: 1 }}>
+            {networkShouldBeEditable ? (
+              <>
+                <Text style={styles.label}>{t('tokenImport.input.network')}</Text>
+                <Dropdown
+                  options={supportedNetworkIds.map((networkId) => ({
+                    value: networkId,
+                    label: NETWORK_NAMES[networkId],
+                  }))}
+                  onValueSelected={(networkId) => {
+                    clearFetchedState()
+                    setNetworkId(networkId)
+                  }}
+                  testId="NetworkDropdown"
+                />
+              </>
+            ) : (
+              <TextInputGroup
+                label={t('tokenImport.input.network')}
+                value={NETWORK_NAMES[supportedNetworkIds[0]]}
+                onChangeText={() => undefined}
+                editable={false}
+              />
+            )}
+          </View>
+
           {/* Token Address */}
           <TextInputGroup
             label={t('tokenImport.input.tokenAddress')}
             value={tokenAddress}
             onChangeText={(address) => {
+              clearFetchedState()
               setTokenAddress(address)
-              setError(null)
-              setTokenDetails(undefined)
             }}
-            editable={['not-requested', 'error'].includes(validateContract.status)}
+            editable={!isLoadingTokenDetails}
             placeholder={t('tokenImport.input.tokenAddressPlaceholder') ?? undefined}
             rightElement={!tokenAddress && <PasteButton onPress={handlePaste} />}
             onBlur={handleAddressBlur}
@@ -241,14 +297,6 @@ export default function TokenImportScreen(_: Props) {
             }
             errorElement={error ? <Text style={styles.errorLabel}>{error}</Text> : <></>}
             testID={'tokenSymbol'}
-          />
-
-          {/* Network */}
-          <TextInputGroup
-            label={t('tokenImport.input.network')}
-            value={NETWORK_NAMES[networkId]}
-            onChangeText={() => undefined}
-            editable={false}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -298,7 +346,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: variables.contentPadding,
   },
   headerTitle: {
-    ...typeScale.bodyMedium,
+    ...typeScale.labelSemiBoldMedium,
   },
   messageTextInput: {
     paddingHorizontal: Spacing.Small12,

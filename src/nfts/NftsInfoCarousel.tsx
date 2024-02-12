@@ -100,13 +100,6 @@ function NftImageCarousel({ nfts, handleOnPress, activeNft }: NftImageCarouselPr
   )
 }
 
-const EXPLORER_LINK_TRANSLATION_STRINGS: Record<NetworkId, string> = {
-  [NetworkId['celo-mainnet']]: 'nftInfoCarousel.viewOnCeloExplorer',
-  [NetworkId['celo-alfajores']]: 'nftInfoCarousel.viewOnCeloExplorer',
-  [NetworkId['ethereum-mainnet']]: 'viewOnEthereumBlockExplorer',
-  [NetworkId['ethereum-sepolia']]: 'viewOnEthereumBlockExplorer',
-}
-
 type Props = NativeStackScreenProps<StackParamList, Screens.NftsInfoCarousel>
 
 export default function NftsInfoCarousel({ route }: Props) {
@@ -147,6 +140,17 @@ export default function NftsInfoCarousel({ route }: Props) {
   // Full page error screen shown when ntfs === []
   if (!activeNft) {
     return <NftsLoadError testID="NftsInfoCarousel/NftsLoadErrorScreen" />
+  }
+
+  const networkIdToExplorerString: Record<NetworkId, string> = {
+    [NetworkId['celo-mainnet']]: t('nftInfoCarousel.viewOnCeloExplorer'),
+    [NetworkId['celo-alfajores']]: t('nftInfoCarousel.viewOnCeloExplorer'),
+    [NetworkId['ethereum-mainnet']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['ethereum-sepolia']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['arbitrum-one']]: t('viewOnArbiscan'),
+    [NetworkId['arbitrum-sepolia']]: t('viewOnArbiscan'),
+    [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
+    [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
   }
 
   return (
@@ -211,9 +215,7 @@ export default function NftsInfoCarousel({ route }: Props) {
           <View style={[styles.sectionContainer, styles.sectionContainerLast]}>
             <Touchable onPress={pressExplorerLink} testID="ViewOnExplorer">
               <View style={styles.explorerLinkContainer}>
-                <Text style={styles.explorerLink}>
-                  {t(EXPLORER_LINK_TRANSLATION_STRINGS[networkId])}
-                </Text>
+                <Text style={styles.explorerLink}>{networkIdToExplorerString[networkId]}</Text>
                 <OpenLinkIcon color={colors.successDark} />
               </View>
             </Touchable>

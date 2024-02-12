@@ -77,12 +77,19 @@
     "title": "确保钱包安全",
     "description": "只有您自己才能访问您的钱包。如果您的手机丢失或被盗，Valora 无法协助找回钱包。\n\n您需要设置适当方法来保护钱包及资金的安全。"
   },
-  "setUpKeylessBackup": {
-    "title": "设置钱包备份。",
-    "subtitle": "您将使用以下方法设置备份。",
+  "keylessBackupIntro": {
     "emailAddress": "电子邮件地址",
     "phoneNumber": "手机号码",
-    "useRecoveryPhrase": "使用恢复短语代替。"
+    "setup": {
+      "title": "设置钱包备份。",
+      "description": "您将使用以下方法设置备份。",
+      "useRecoveryPhrase": "使用恢复短语代替。",
+      "reminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！"
+    },
+    "restore": {
+      "description": "确保您有以下可用物品来恢复钱包。",
+      "reminder": "<0>请记住</0>，您需要访问备份时使用的同一电子邮件和电话号码"
+    }
   },
   "signInWithEmail": {
     "title": "使用电子邮件登录",
@@ -114,9 +121,25 @@
         "later": "我稍后再备份",
         "manual": "手动备份"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "恢复您的钱包"
+      },
+      "completed": {
+        "title": "您的钱包已经恢复！",
+        "bodyZeroBalance": "完成设置后，您就可以向钱包添加资金了。",
+        "bodyBalance": "您有以下方面的平衡<0></0>"
+      },
+      "failed": {
+        "title": "您的钱包没有恢复",
+        "body": "在尝试恢复您的钱包时出现了技术问题。请联系技术支持获取更多信息。",
+        "tryAgain": "再试一次",
+        "createNewWallet": "新建钱包",
+        "help": "帮助"
+      }
     }
   },
-  "setupKeylessBackupReminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！",
   "testFaqLink": "{{appName}} 常见问题",
   "termsOfServiceLink": "服务条款",
   "privacyPolicy": "隐私政策",
@@ -873,6 +896,18 @@
       "title": "余额 \n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "恢复您的钱包",
+    "description": "如果您为保护钱包设置了备份，请选择以下选项。",
+    "emailAndPhone": {
+      "title": "从电子邮件和电话备份",
+      "description": "使用之前设置的电话号码和电子邮件恢复钱包"
+    },
+    "recoveryPhrase": {
+      "title": "从恢复短语",
+      "description": "输入您的 12 个单词恢复短语，重新获得访问 Valora 的权限"
+    }
+  },
   "verificationInput": {
     "title": "确认",
     "body": "我们向您发送了三条短信。请将它们复制并粘贴到下方。",
@@ -1094,6 +1129,10 @@
     "notEnoughBalanceForGas": {
       "title": "手续费代币余额不足",
       "description": "您没有足够的 {{feeCurrencies}} 来支付手续费。请将 {{feeCurrencies}} 加入您的钱包，以完成此次交易。"
+    },
+    "failedToPrepareTransaction": {
+      "title": "准备交易失败",
+      "description": "准备交易时发生错误。详情请查看基本错误。\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1852,7 +1891,16 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
-    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。"
+    "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。",
+    "noFilterSearchResults": "在以下类别中没有找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
+    "noFilterResults": "在以下类别中没有找到匹配的资产： {{filterNames}}",
+    "noSearchResults": "没有找到与 \"{{searchTerm}}\" 匹配的资产",
+    "filters": {
+      "myTokens": "我的代币",
+      "popular": "热门",
+      "recentlySwapped": "最近交换",
+      "network": "{{networkName}} 网络"
+    }
   },
   "homeActions": {
     "add": "买入",
@@ -1935,7 +1983,9 @@
       "network": "网络"
     },
     "error": {
-      "invalidToken": "代币无效。请重试或联系支持人员"
+      "invalidAddress": "令牌地址无效。请复查",
+      "invalidToken": "代币无效。请重试或联系支持人员",
+      "tokenAlreadySupported": "已支持此标记"
     },
     "importSuccess": "成功导入 {{tokenSymbol}} 代币",
     "importButton": "导入"
@@ -1969,7 +2019,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "将 Ethereum 资产发送至某人的 ENS 句柄"
+          "subtitle": "将资产发送到某人的 ENS 句柄。"
         },
         "four": {
           "title": "个人资料名称",
@@ -2004,6 +2054,9 @@
   "viewOnCeloBlockExplorer": "在 CeloExplorer 上查看",
   "viewOnCeloScan": "在 CeloScan 上查看",
   "viewOnEthereumBlockExplorer": "在 Etherscan 上查看",
+  "viewOnArbiscan": "在 Arbiscan 上查看。",
+  "viewOnOPMainnetExplorer": "在 OP Mainnet Explorer 上查看",
+  "viewOnOPSepoliaExplorer": "在 OP Sepolia Explorer 上查看",
   "sendEnterAmountScreen": {
     "title": "输入金额",
     "selectToken": "选择代币",
@@ -2037,7 +2090,7 @@
   },
   "getStartedHome": {
     "title": "购买加密货币或转移代币。",
-    "body": "购买或转移与 celo 或 ethereum 兼容的代币，赚取 {{apy}}% 的奖励，探索 web3 等！"
+    "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }

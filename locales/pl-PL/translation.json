@@ -77,12 +77,19 @@
     "title": "Zadbaj o bezpieczeństwo swojego portfela",
     "description": "Tylko Ty masz dostęp do swojego portfela. Jeśli Twój telefon zostanie zgubiony lub skradziony, Valora nie będzie mogła przywrócić dostępu.\n\nMusisz skonfigurować metodę zabezpieczenia portfela i ochrony swoich środków."
   },
-  "setUpKeylessBackup": {
-    "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
-    "subtitle": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+  "keylessBackupIntro": {
     "emailAddress": "Adres e-mail",
     "phoneNumber": "Numer telefonu",
-    "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania"
+    "setup": {
+      "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
+      "description": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+      "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
+      "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
+    },
+    "restore": {
+      "description": "Upewnij się, że masz dostępne następujące elementy, aby przywrócić swój portfel.",
+      "reminder": "<0>Pamiętaj</0>, że musisz mieć dostęp do tego samego adresu e-mail i numeru telefonu, których użyłeś podczas tworzenia kopii zapasowej"
+    }
   },
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
@@ -114,9 +121,25 @@
         "later": "Stworzę kopię zapasową później",
         "manual": "Ręczna kopia zapasowa"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Odbudowa twojego portfela"
+      },
+      "completed": {
+        "title": "Twój portfel został przywrócony!",
+        "bodyZeroBalance": "Po zakończeniu konfiguracji możesz dodać środki do swojego portfela.",
+        "bodyBalance": "Masz równowagę <0></0>"
+      },
+      "failed": {
+        "title": "Twój portfel nie został przywrócony",
+        "body": "Wystąpił problem techniczny podczas próby przywrócenia Twojego portfela. Skontaktuj się z pomocą techniczną, aby uzyskać więcej informacji.",
+        "tryAgain": "Spróbuj ponownie",
+        "createNewWallet": "Utwórz portfel",
+        "help": "Pomoc"
+      }
     }
   },
-  "setupKeylessBackupReminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!",
   "testFaqLink": "FAQ dotyczące aplikacji {{appName}}",
   "termsOfServiceLink": "Warunki użytkowania",
   "privacyPolicy": "Polityka prywatności",
@@ -873,6 +896,18 @@
       "title": "Saldo\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Przywróć swój portfel",
+    "description": "Jeśli skonfigurowałeś kopię zapasową, aby chronić swój portfel, wybierz opcję poniżej.",
+    "emailAndPhone": {
+      "title": "Z kopii zapasowej poczty e-mail i telefonu",
+      "description": "Przywróć swój portfel przy użyciu skonfigurowanego wcześniej numeru telefonu i adresu e-mail."
+    },
+    "recoveryPhrase": {
+      "title": "Z frazy odzyskiwania",
+      "description": "Wprowadź swoją 12-słowną frazę odzyskiwania, aby odzyskać dostęp do Valora"
+    }
+  },
   "verificationInput": {
     "title": "Potwierdź",
     "body": "Wysłaliśmy do Ciebie trzy wiadomości (SMS-y). Skopiuj je i wklej poniżej.",
@@ -1100,6 +1135,10 @@
     "notEnoughBalanceForGas": {
       "title": "Niewystarczające saldo tokenów gazu",
       "description": "Nie masz wystarczającej ilości {{feeCurrencies}}, aby pokryć opłaty za gaz. Dodaj {{feeCurrencies}} do swojego portfela, aby sfinalizować tę transakcję."
+    },
+    "failedToPrepareTransaction": {
+      "title": "Nie udało się przygotować transakcji",
+      "description": "Wystąpił błąd podczas przygotowywania transakcji. Zobacz podstawowy błąd, aby uzyskać więcej informacji.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1858,7 +1897,16 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",
-    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>"
+    "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>",
+    "noFilterSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\" w następujących kategoriach: {{filterNames}}",
+    "noFilterResults": "Nie znaleziono pasujących zasobów w następujących kategoriach: {{filterNames}}",
+    "noSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Moje żetony",
+      "popular": "Popularny",
+      "recentlySwapped": "Niedawno wymieniony",
+      "network": "Sieć {{networkName}}"
+    }
   },
   "homeActions": {
     "add": "Kup",
@@ -1941,7 +1989,9 @@
       "network": "Sieć"
     },
     "error": {
-      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną"
+      "invalidAddress": "Nieprawidłowy adres tokena. Sprawdź go",
+      "invalidToken": "Niepoprawny token. Spróbuj ponownie lub skontaktuj się z pomocą techniczną",
+      "tokenAlreadySupported": "Ten token jest już obsługiwany"
     },
     "importSuccess": "Pomyślnie zaimportowano token {{tokenSymbol}}",
     "importButton": "Import"
@@ -1975,7 +2025,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Wyślij aktywa Ethereum do czyjejś usługi ENS"
+          "subtitle": "Wyślij aktywa do czyjejś usługi ENS"
         },
         "four": {
           "title": "Nazwa profilu",
@@ -2010,6 +2060,9 @@
   "viewOnCeloBlockExplorer": "Wyświetl w CeloExplorer",
   "viewOnCeloScan": "Wyświetl w CeloScan",
   "viewOnEthereumBlockExplorer": "Wyświetl w Etherscan",
+  "viewOnArbiscan": "Wyświetl w Arbiscan",
+  "viewOnOPMainnetExplorer": "Widok na OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Widok na OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Wprowadź kwotę",
     "selectToken": "Wybierz token",
@@ -2043,7 +2096,7 @@
   },
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
-    "body": "Kupuj lub przesyłaj tokeny kompatybilne z celo lub ethereum, aby zdobywać nagrody {{apy}}%, odkrywać web3 i nie tylko!"
+    "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

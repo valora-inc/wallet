@@ -77,12 +77,19 @@
     "title": "Cüzdanınızı güvende tutun",
     "description": "Cüzdanınıza yalnızca siz erişebilirsiniz. Telefonunuz kaybolur veya çalınırsa, Valora onu sizin için kurtaramaz.\n\nCüzdanınızı güvende tutmak ve paranızı korumak için bir yöntem ayarlamanız gerekir."
   },
-  "setUpKeylessBackup": {
-    "title": "Cüzdan Yedeklemeyi Ayarlama",
-    "subtitle": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
+  "keylessBackupIntro": {
     "emailAddress": "E-posta Adresi",
     "phoneNumber": "Telefon Numarası",
-    "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın"
+    "setup": {
+      "title": "Cüzdan Yedeklemeyi Ayarlama",
+      "description": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
+      "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın",
+      "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!"
+    },
+    "restore": {
+      "description": "Cüzdanınızı geri yüklemek için aşağıdakilere sahip olduğunuzdan emin olun.",
+      "reminder": "Yedekleme yaparken kullandığınız e-posta ve telefon numarasına erişmeniz gerektiğini <0>unutmayın</0>"
+    }
   },
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
@@ -114,9 +121,25 @@
         "later": "Daha sonra yedekleyeceğim",
         "manual": "Manuel Yedekleme"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Cüzdanınızı yenilemek"
+      },
+      "completed": {
+        "title": "Cüzdanınız yenilendi!",
+        "bodyZeroBalance": "Kurulumu tamamladıktan sonra cüzdanınıza para ekleyebilirsiniz.",
+        "bodyBalance": "Bir dengeniz var <0></0>"
+      },
+      "failed": {
+        "title": "Cüzdanınız geri yüklenmedi",
+        "body": "Cüzdanınızı geri yüklemeye çalışırken teknik bir sorun oluştu. Daha fazla bilgi için lütfen destek ekibiyle iletişime geçin.",
+        "tryAgain": "Tekrar Deneyin",
+        "createNewWallet": "Cüzdan oluştur",
+        "help": "Yardım"
+      }
     }
   },
-  "setupKeylessBackupReminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!",
   "testFaqLink": "{{appName}} SSS",
   "termsOfServiceLink": "Kullanım Şartları",
   "privacyPolicy": "Gizlilik Politikası",
@@ -873,6 +896,18 @@
       "title": "Bakiye\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Cüzdanınızı Geri Yükleyin",
+    "description": "Cüzdanınızı korumak için bir yedekleme ayarladıysanız, aşağıdaki seçeneklerden birini seçin.",
+    "emailAndPhone": {
+      "title": "E-posta ve telefon yedeklemesinden",
+      "description": "Cüzdanınızı daha önce ayarladığınız telefon numarası ve e-posta ile geri yükleyin"
+    },
+    "recoveryPhrase": {
+      "title": "Kurtarma cümlesinden",
+      "description": "Valora'ya yeniden erişim kazanmak için 12 kelimelik kurtarma cümlenizi girin"
+    }
+  },
   "verificationInput": {
     "title": "Onayla",
     "body": "Size üç mesaj (SMS) gönderdik. Lütfen bunları kopyalayıp aşağıya yapıştırın.",
@@ -1096,6 +1131,10 @@
     "notEnoughBalanceForGas": {
       "title": "Yetersiz gas token bakiyesi",
       "description": "Gas ücretini karşılamak için yeterli {{feeCurrencies}} bakiyeniz yok. Bu işlemi tamamlamak için lütfen cüzdanınıza {{feeCurrencies}} ekleyin."
+    },
+    "failedToPrepareTransaction": {
+      "title": "İşlem hazırlanamadı",
+      "description": "İşlem hazırlanırken bir hata oluştu. Daha fazla ayrıntı için altta yatan hataya bakın.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1854,7 +1893,16 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",
-    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı"
+    "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı",
+    "noFilterSearchResults": "\"{{searchTerm}}\" için aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
+    "noFilterResults": "Aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
+    "noSearchResults": "\"{{searchTerm}}\" için eşleşen varlık bulunamadı",
+    "filters": {
+      "myTokens": "Jetonlarım",
+      "popular": "Popüler",
+      "recentlySwapped": "Yakın zamanda değiştirildi",
+      "network": "{{networkName}} Ağı"
+    }
   },
   "homeActions": {
     "add": "Satın Al",
@@ -1937,7 +1985,9 @@
       "network": "Ağ"
     },
     "error": {
-      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun"
+      "invalidAddress": "Geçersiz belirteç adresi. Lütfen gözden geçirin",
+      "invalidToken": "Geçersiz token. Tekrar deneyin veya desteğe başvurun",
+      "tokenAlreadySupported": "Bu belirteç zaten desteklenmektedir"
     },
     "importSuccess": "{{tokenSymbol}} tokeni başarıyla içe aktarıldı",
     "importButton": "İçe Aktar"
@@ -1971,7 +2021,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Ethereum varlıklarını birinin ENS tanıtıcısına gönderin"
+          "subtitle": "Varlıkları birinin ENS tanıtıcısına gönderin"
         },
         "four": {
           "title": "Profil Adı",
@@ -2006,6 +2056,9 @@
   "viewOnCeloBlockExplorer": "CeloExplorer'da görüntüle",
   "viewOnCeloScan": "CeloScan'de görüntüle",
   "viewOnEthereumBlockExplorer": "Etherscan'da görüntüle",
+  "viewOnArbiscan": "Arbiscan'da görüntüle",
+  "viewOnOPMainnetExplorer": "OP Mainnet Explorer'da görüntüle",
+  "viewOnOPSepoliaExplorer": "OP Sepolia Explorer'da görüntüle",
   "sendEnterAmountScreen": {
     "title": "Tutar Girin",
     "selectToken": "Bir Token seçin",
@@ -2039,7 +2092,7 @@
   },
   "getStartedHome": {
     "title": "Kripto satın alın veya token transfer edin",
-    "body": "{{apy}}% ödülleri kazanmak, web3 ve daha fazlasını keşfetmek için celo veya ethereum uyumlu tokenler satın alın veya transfer edin!"
+    "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

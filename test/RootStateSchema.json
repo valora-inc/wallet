@@ -270,7 +270,6 @@
                                 "keychainFetchAccounts",
                                 "keychainStorageError",
                                 "missingFullName",
-                                "needMoreFundsToSend",
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
@@ -1002,14 +1001,6 @@
             ],
             "type": "object"
         },
-        "DappConnectInfo": {
-            "enum": [
-                "basic",
-                "default",
-                "full"
-            ],
-            "type": "string"
-        },
         "DappSection": {
             "enum": [
                 "all",
@@ -1555,7 +1546,8 @@
                 "Completed",
                 "Failed",
                 "InProgress",
-                "NotStarted"
+                "NotStarted",
+                "RestoreZeroBalance"
             ],
             "type": "string"
         },
@@ -1605,10 +1597,14 @@
         },
         "NetworkId": {
             "enum": [
+                "arbitrum-one",
+                "arbitrum-sepolia",
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
-                "ethereum-sepolia"
+                "ethereum-sepolia",
+                "op-mainnet",
+                "op-sepolia"
             ],
             "type": "string"
         },
@@ -1627,58 +1623,7 @@
                 "metadata": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "properties": {
-                                "animation_url": {
-                                    "type": "string"
-                                },
-                                "attributes": {
-                                    "anyOf": [
-                                        {
-                                            "items": {
-                                                "$ref": "#/definitions/NftMetaDataAttribute"
-                                            },
-                                            "type": "array"
-                                        },
-                                        {
-                                            "type": "null"
-                                        }
-                                    ]
-                                },
-                                "date": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "dna": {
-                                    "type": [
-                                        "null",
-                                        "string"
-                                    ]
-                                },
-                                "id": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "image": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "description",
-                                "image",
-                                "name"
-                            ],
-                            "type": "object"
+                            "$ref": "#/definitions/NftMetadata"
                         },
                         {
                             "type": "null"
@@ -1738,6 +1683,60 @@
             "required": [
                 "trait_type",
                 "value"
+            ],
+            "type": "object"
+        },
+        "NftMetadata": {
+            "additionalProperties": false,
+            "properties": {
+                "animation_url": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/NftMetaDataAttribute"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "date": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dna": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "id": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "image",
+                "name"
             ],
             "type": "object"
         },
@@ -1805,58 +1804,7 @@
                 "metadata": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "properties": {
-                                "animation_url": {
-                                    "type": "string"
-                                },
-                                "attributes": {
-                                    "anyOf": [
-                                        {
-                                            "items": {
-                                                "$ref": "#/definitions/NftMetaDataAttribute"
-                                            },
-                                            "type": "array"
-                                        },
-                                        {
-                                            "type": "null"
-                                        }
-                                    ]
-                                },
-                                "date": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "dna": {
-                                    "type": [
-                                        "null",
-                                        "string"
-                                    ]
-                                },
-                                "id": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "image": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "description",
-                                "image",
-                                "name"
-                            ],
-                            "type": "object"
+                            "$ref": "#/definitions/NftMetadata"
                         },
                         {
                             "type": "null"
@@ -2607,8 +2555,10 @@
                 "FiatExchangeCurrency",
                 "FiatExchangeCurrencyBottomSheet",
                 "GoldEducation",
+                "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
                 "KeylessBackupProgress",
@@ -2619,6 +2569,7 @@
                 "Language",
                 "LanguageModal",
                 "Licenses",
+                "LinkPhoneNumber",
                 "Main",
                 "MainModal",
                 "MultichainBeta",
@@ -2641,13 +2592,10 @@
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
-                "Send",
-                "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
                 "SendSelectRecipient",
-                "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
                 "Simplex",
@@ -3761,12 +3709,6 @@
                         }
                     ]
                 },
-                "dappConnectInfo": {
-                    "$ref": "#/definitions/DappConnectInfo"
-                },
-                "dappFavoritesEnabled": {
-                    "type": "boolean"
-                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -3792,9 +3734,6 @@
                     ]
                 },
                 "dappsListLoading": {
-                    "type": "boolean"
-                },
-                "dappsMinimalDisclaimerEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3824,14 +3763,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappConnectInfo",
-                "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
@@ -4874,6 +4810,18 @@
         "TransactionsByNetworkId": {
             "additionalProperties": false,
             "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "celo-alfajores": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -4893,6 +4841,18 @@
                     "type": "array"
                 },
                 "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },

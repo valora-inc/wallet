@@ -7,8 +7,7 @@ import { DappKitEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import { approveAccountAuth, getDefaultRequestTrackedProperties } from 'src/dappkit/dappkit'
-import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/types'
+import { activeDappSelector } from 'src/dapps/selectors'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -28,7 +27,6 @@ const DappKitAccountScreen = ({ route }: Props) => {
   const account = useSelector(currentAccountSelector)
   const phoneNumber = useSelector(e164NumberSelector)
   const activeDapp = useSelector(activeDappSelector)
-  const dappConnectInfo = useSelector(dappConnectInfoSelector)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -62,13 +60,9 @@ const DappKitAccountScreen = ({ route }: Props) => {
         type="confirm"
         onAccept={handleAllow}
         onDeny={handleCancel}
-        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+        dappImageUrl={activeDapp?.iconUrl}
         dappName={dappKitRequest.dappName}
-        title={
-          dappConnectInfo === DappConnectInfo.Basic
-            ? t('connectToWallet', { dappName: dappKitRequest.dappName })
-            : t('confirmTransaction')
-        }
+        title={t('connectToWallet', { dappName: dappKitRequest.dappName })}
         description={phoneNumber ? t('connectWalletInfoDappkit') : t('shareInfo')}
         requestDetails={[
           {

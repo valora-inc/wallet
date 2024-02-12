@@ -10,14 +10,14 @@ import {
 
 async function validateSendFlow(tokenSymbol) {
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
-  await waitForElementId('SendSearchInput')
-  await element(by.id('SearchInput')).tap()
-  await element(by.id('SearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
-  await element(by.id('SearchInput')).tapReturnKey()
+  await waitForElementByIdAndTap('SendSelectRecipientSearchInput')
+  await element(by.id('SendSelectRecipientSearchInput')).replaceText(DEFAULT_RECIPIENT_ADDRESS)
+  await element(by.id('SendSelectRecipientSearchInput')).tapReturnKey()
   await expect(element(by.text('0xe5f5...8846')).atIndex(0)).toBeVisible()
   await element(by.text('0xe5f5...8846')).atIndex(0).tap()
+  await waitForElementByIdAndTap('SendOrInviteButton')
   await expect(
-    element(by.text(tokenSymbol).withAncestor(by.id('TokenPickerSelector')))
+    element(by.text(tokenSymbol).withAncestor(by.id('SendEnterAmount/TokenSelect')))
   ).toBeVisible()
   await element(by.id('BackChevron')).tap()
   await element(by.id('Times')).tap()

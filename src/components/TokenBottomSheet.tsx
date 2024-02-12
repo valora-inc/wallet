@@ -1,17 +1,22 @@
+import { BottomSheetFlatList, BottomSheetFlatListMethods } from '@gorhom/bottom-sheet'
 import { debounce } from 'lodash'
-import React, { RefObject, useCallback, useMemo, useState } from 'react'
-import { Trans, useTranslation } from 'react-i18next'
+import React, { RefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
+import { ScrollView } from 'react-native-gesture-handler'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetBase from 'src/components/BottomSheetBase'
+import FilterChipsCarousel, { FilterChip } from 'src/components/FilterChipsCarousel'
 import SearchInput from 'src/components/SearchInput'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import InfoIcon from 'src/icons/InfoIcon'
 import colors, { Colors } from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { TokenBalance } from 'src/tokens/slice'
@@ -25,7 +30,7 @@ export enum TokenPickerOrigin {
 
 export const DEBOUCE_WAIT_TIME = 200
 
-interface Props<T extends TokenBalance> {
+export interface TokenBottomSheetProps<T extends TokenBalance> {
   forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
   onTokenSelected: (token: T) => void
@@ -36,9 +41,10 @@ interface Props<T extends TokenBalance> {
   tokens: T[]
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
+  filterChips?: FilterChip<TokenBalance>[]
 }
 
-export interface TokenOptionProps {
+interface TokenOptionProps {
   tokenInfo: TokenBalance
   onPress: () => void
   index: number
@@ -48,7 +54,7 @@ export interface TokenOptionProps {
 /**
  * @deprecated new bottom sheets should use TokenBalanceItemOption
  */
-export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
+const TokenOption = React.memo(({ tokenInfo, onPress, index }: TokenOptionProps) => {
   return (
     <>
       {index > 0 && <View style={styles.separator} />}
@@ -79,41 +85,49 @@ export function TokenOption({ tokenInfo, onPress, index }: TokenOptionProps) {
       </Touchable>
     </>
   )
-}
+})
 
-export function TokenBalanceItemOption({
-  tokenInfo,
-  onPress,
-  showPriceUsdUnavailableWarning,
-}: TokenOptionProps) {
-  const { t } = useTranslation()
-  return (
-    <TokenBalanceItem
-      token={tokenInfo}
-      balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
-      onPress={onPress}
-      containerStyle={styles.tokenBalanceItemContainer}
-      showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-    />
-  )
-}
+export const TokenBalanceItemOption = React.memo(
+  ({ tokenInfo, onPress, showPriceUsdUnavailableWarning }: TokenOptionProps) => {
+    const { t } = useTranslation()
+    return (
+      <TokenBalanceItem
+        token={tokenInfo}
+        balanceUsdErrorFallback={t('tokenDetails.priceUnavailable') ?? undefined}
+        onPress={onPress}
+        containerStyle={styles.tokenBalanceItemContainer}
+        showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+      />
+    )
+  }
+)
 
 function NoResults({
   testID = 'TokenBottomSheet/NoResult',
   searchTerm,
+  activeFilters,
 }: {
   testID?: string
   searchTerm: string
+  activeFilters: FilterChip<TokenBalance>[]
 }) {
+  const { t } = useTranslation()
+
+  const activeFilterNames = activeFilters.map((filter) => `"${filter.name}"`)
+  const noResultsText =
+    activeFilterNames.length > 0 && searchTerm.length > 0
+      ? 'tokenBottomSheet.noFilterSearchResults'
+      : activeFilterNames.length > 0
+        ? 'tokenBottomSheet.noFilterResults'
+        : 'tokenBottomSheet.noSearchResults'
+
   return (
     <View testID={testID} style={styles.noResultsContainer}>
       <View style={styles.iconContainer}>
         <InfoIcon color={Colors.infoDark} />
       </View>
       <Text style={styles.noResultsText}>
-        <Trans i18nKey="tokenBottomSheet.noTokenInResult" tOptions={{ searchTerm }}>
-          <Text style={styles.noResultsText} />
-        </Trans>
+        {t(noResultsText, { searchTerm: searchTerm, filterNames: activeFilterNames.join(', ') })}
       </Text>
     </View>
   )
@@ -130,17 +144,43 @@ function TokenBottomSheet<T extends TokenBalance>({
   titleStyle,
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
-}: Props<T>) {
+  filterChips = [],
+}: TokenBottomSheetProps<T>) {
+  const insets = useSafeAreaInsets()
+
+  const filterChipsCarouselRef = useRef<ScrollView>(null)
+  const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
   const [searchTerm, setSearchTerm] = useState('')
+  const [filters, setFilters] = useState(filterChips)
+  const activeFilters = useMemo(() => filters.filter((filter) => filter.isSelected), [filters])
 
   const { t } = useTranslation()
 
+  const handleToggleFilterChip = (toggledChip: FilterChip<TokenBalance>) => {
+    ValoraAnalytics.track(TokenBottomSheetEvents.toggle_tokens_filter, {
+      filterId: toggledChip.id,
+      isRemoving: filters.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+      isPreSelected: filterChips.find((chip) => chip.id === toggledChip.id)?.isSelected ?? false,
+    })
+
+    setFilters((prev) => {
+      return prev.map((chip) => {
+        if (chip.id === toggledChip.id) {
+          return { ...chip, isSelected: !chip.isSelected }
+        }
+        return chip
+      })
+    })
+  }
+
   const onTokenPressed = (token: T) => () => {
-    ValoraAnalytics.track(SendEvents.token_selected, {
+    ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
       tokenId: token.tokenId,
       networkId: token.networkId,
+      usedSearchTerm: searchTerm.length > 0,
+      selectedFilters: activeFilters.map((filter) => filter.id),
     })
     onTokenSelected(token)
   }
@@ -155,74 +195,113 @@ function TokenBottomSheet<T extends TokenBalance>({
     []
   )
 
-  const tokenList = useMemo(
-    () =>
-      tokens.filter((tokenInfo) => {
-        if (searchTerm.length === 0) {
-          return true
-        }
-        return (
-          tokenInfo.symbol.toLowerCase().includes(searchTerm.toLowerCase()) ||
-          tokenInfo.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const tokenList = useMemo(() => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase()
+    const activeFilterFns =
+      activeFilters.length > 0 ? activeFilters.map((filter) => filter.filterFn) : null
+
+    return tokens.filter((token) => {
+      // Exclude the token if it does not match the active filters
+      if (activeFilterFns && !activeFilterFns.some((filterFn) => filterFn(token))) {
+        return false
+      }
+
+      // Exclude the token if it does not match the search term
+      if (
+        searchTerm &&
+        !(
+          token.symbol.toLowerCase().includes(lowercasedSearchTerm) ||
+          token.name.toLowerCase().includes(lowercasedSearchTerm)
         )
-      }),
-    [searchTerm, tokens]
-  )
+      ) {
+        return false
+      }
+
+      return true
+    })
+  }, [searchTerm, tokens, activeFilters])
+
+  useEffect(() => {
+    if (tokenList.length > 0) {
+      tokenListRef.current?.scrollToOffset({ offset: 0, animated: true })
+    }
+  }, [tokenList])
+
+  const handleOpen = () => {
+    setFilters(filterChips)
+  }
 
   const handleClose = () => {
     setSearchTerm('')
+    filterChipsCarouselRef.current?.scrollTo({ x: 0 })
   }
 
   return (
-    <BottomSheet
+    <BottomSheetBase
       forwardedRef={forwardedRef}
       snapPoints={snapPoints}
-      title={title}
-      titleStyle={titleStyle}
-      stickyTitle={searchEnabled}
-      stickyHeaderComponent={
-        searchEnabled && (
-          <SearchInput
-            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-            value={searchTerm}
-            onChangeText={(text) => {
-              setSearchTerm(text)
-              sendAnalytics(text)
-            }}
-            style={styles.searchInput}
-            returnKeyType={'search'}
-            // disable autoCorrect and spellCheck since the search terms here
-            // are token names which autoCorrect would get in the way of. This
-            // combination also hides the keyboard suggestions bar from the top
-            // of the iOS keyboard, preserving screen real estate.
-            autoCorrect={false}
-            spellCheck={false}
-          />
-        )
-      }
+      onOpen={handleOpen}
       onClose={handleClose}
-      testId="TokenBottomSheet"
     >
-      {tokenList.length == 0 ? (
-        searchEnabled ? (
-          <NoResults searchTerm={searchTerm} />
-        ) : null
-      ) : (
-        tokenList.map((tokenInfo, index) => {
+      <BottomSheetFlatList
+        ref={tokenListRef}
+        testID="TokenBottomSheet"
+        data={tokenList}
+        keyExtractor={(item) => item.tokenId}
+        contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+        renderItem={({ item, index }) => {
           return (
-            // Duplicate keys could happen with token.address
-            <React.Fragment key={`token-${tokenInfo.tokenId ?? index}`}>
-              <TokenOptionComponent
-                tokenInfo={tokenInfo}
-                onPress={onTokenPressed(tokenInfo)}
-                index={index}
-                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
-              />
-            </React.Fragment>
+            <TokenOptionComponent
+              tokenInfo={item}
+              onPress={onTokenPressed(item)}
+              index={index}
+              showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+            />
           )
-        })
-      )}
-    </BottomSheet>
+        }}
+        ListHeaderComponent={
+          <>
+            <Text style={[styles.title, titleStyle]}>{title}</Text>
+            {searchEnabled && (
+              <SearchInput
+                placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+                value={searchTerm}
+                onChangeText={(text) => {
+                  setSearchTerm(text)
+                  sendAnalytics(text)
+                }}
+                style={styles.searchInput}
+                returnKeyType={'search'}
+                // disable autoCorrect and spellCheck since the search terms here
+                // are token names which autoCorrect would get in the way of. This
+                // combination also hides the keyboard suggestions bar from the top
+                // of the iOS keyboard, preserving screen real estate.
+                autoCorrect={false}
+                spellCheck={false}
+              />
+            )}
+            {filterChips.length > 0 && (
+              <FilterChipsCarousel
+                chips={filters}
+                onSelectChip={handleToggleFilterChip}
+                primaryColor={colors.successDark}
+                secondaryColor={colors.successLight}
+                style={styles.filterChipsCarouselContainer}
+                forwardedRef={filterChipsCarouselRef}
+              />
+            )}
+          </>
+        }
+        ListHeaderComponentStyle={styles.headerContainer}
+        stickyHeaderIndices={[0]}
+        ListEmptyComponent={() => {
+          if (searchEnabled || filterChips.length > 0) {
+            return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
+          }
+          return null
+        }}
+      />
+    </BottomSheetBase>
   )
 }
 
@@ -252,11 +331,11 @@ const styles = StyleSheet.create({
   },
   localBalance: {
     flexShrink: 1,
-    ...fontStyles.regular,
+    ...typeScale.labelMedium,
   },
   currencyBalance: {
     flexShrink: 1,
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray4,
   },
   separator: {
@@ -271,7 +350,7 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Small12,
   },
   noResultsText: {
-    ...fontStyles.regular500,
+    ...typeScale.labelSmall,
     flex: 1,
   },
   noResultsContainer: {
@@ -282,6 +361,19 @@ const styles = StyleSheet.create({
   },
   tokenBalanceItemContainer: {
     marginHorizontal: 0,
+  },
+  filterChipsCarouselContainer: {
+    paddingTop: Spacing.Thick24,
+  },
+  headerContainer: {
+    paddingVertical: Spacing.Thick24,
+    backgroundColor: colors.white,
+  },
+  tokenListContainer: {
+    paddingHorizontal: Spacing.Thick24,
+  },
+  title: {
+    ...typeScale.titleSmall,
   },
 })
 

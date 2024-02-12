@@ -77,12 +77,19 @@
     "title": "Resguarda tu wallet",
     "description": "Solo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para resguardar tu wallet y proteger tus fondos."
   },
-  "setUpKeylessBackup": {
-    "title": "Configurar la copia de seguridad de la billetera",
-    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+  "keylessBackupIntro": {
     "emailAddress": "Dirección de email",
     "phoneNumber": "Número de teléfono",
-    "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación"
+    "setup": {
+      "title": "Configurar la copia de seguridad de la billetera",
+      "description": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+      "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación",
+      "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
+    },
+    "restore": {
+      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu monedero.",
+      "reminder": "<0>Recuerda</0> que necesitas acceder al mismo correo electrónico y número de teléfono que utilizaste cuando hiciste la copia de seguridad"
+    }
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
@@ -114,9 +121,25 @@
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaurar tu cartera"
+      },
+      "completed": {
+        "title": "¡Tu cartera ha sido restaurada!",
+        "bodyZeroBalance": "Puedes añadir fondos a tu monedero una vez que hayas terminado de configurarlo.",
+        "bodyBalance": "Tienes un saldo de <0></0>"
+      },
+      "failed": {
+        "title": "Tu cartera no ha sido restaurada",
+        "body": "Se ha producido un problema técnico al intentar restaurar tu monedero. Ponte en contacto con el servicio de asistencia para obtener más información.",
+        "tryAgain": "Reintentar",
+        "createNewWallet": "Crear wallet",
+        "help": "Ayuda"
+      }
     }
   },
-  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -873,6 +896,18 @@
       "title": "Saldo\n<0></0>"
     }
   },
+  "importSelect": {
+    "title": "Restaura tu cartera",
+    "description": "Si configuras una copia de seguridad para proteger tu monedero, elige una opción de las que aparecen a continuación.",
+    "emailAndPhone": {
+      "title": "De copia de seguridad de correo electrónico y teléfono",
+      "description": "Restaura tu monedero con el número de teléfono y el correo electrónico que configuraste anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "De la frase de recuperación",
+      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
+    }
+  },
   "verificationInput": {
     "title": "Confirmar",
     "body": "Te enviamos tres mensajes de texto (SMS). Por favor cópialos y pégalos a continuación.",
@@ -1096,6 +1131,10 @@
     "notEnoughBalanceForGas": {
       "title": "Saldo insuficiente para cubrir tarifas de transacción",
       "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, agrega {{feeCurrencies}} a tu billetera para completar esta transacción."
+    },
+    "failedToPrepareTransaction": {
+      "title": "Error al preparar la transacción",
+      "description": "Se ha producido un error al preparar la transacción. Consulta el error subyacente para más detalles.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1854,7 +1893,16 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
+    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Mis fichas",
+      "popular": "Popular",
+      "recentlySwapped": "Cambiado recientemente",
+      "network": "Red {{networkName}}"
+    }
   },
   "homeActions": {
     "add": "Comprar",
@@ -1937,7 +1985,9 @@
       "network": "Red"
     },
     "error": {
-      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico"
+      "invalidAddress": "Dirección de token no válida. Por favor, revísala",
+      "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
+      "tokenAlreadySupported": "Este token ya está soportado"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
@@ -1971,7 +2021,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Envía activos Ethereum a un alias ENS"
+          "subtitle": "Envía activos al nombre ENS de alguien"
         },
         "four": {
           "title": "Nombre de perfil",
@@ -2006,6 +2056,9 @@
   "viewOnCeloBlockExplorer": "Ver en CeloExplorer",
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
+  "viewOnArbiscan": "Ver en Arbiscan",
+  "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vista en OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
@@ -2039,7 +2092,7 @@
   },
   "getStartedHome": {
     "title": "Comprar cripto o transferir tokens",
-    "body": "¡Compra o transfiere tokens compatibles con celo o ethereum para ganar {{apy}}% en recompensas, explorar web3 y mucho más!"
+    "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

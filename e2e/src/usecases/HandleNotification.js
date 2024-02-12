@@ -31,12 +31,12 @@ export default HandleNotification = () => {
           type: DetoxConstants.userNotificationTriggers.push,
         },
         payload: {
-          wzrk_dl: 'celo://wallet/openScreen?screen=Send',
+          wzrk_dl: 'celo://wallet/openScreen?screen=SendSelectRecipient',
         },
       },
     })
 
-    await waitFor(element(by.id('RecipientPicker')))
+    await waitFor(element(by.id('SendSelectRecipientSearchInput')))
       .toBeVisible()
       .withTimeout(10 * 1000)
   })

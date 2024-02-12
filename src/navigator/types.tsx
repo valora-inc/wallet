@@ -12,8 +12,7 @@ import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
-import { QrCode } from 'src/send/types'
+import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
@@ -48,7 +47,6 @@ interface SendEnterAmountParams {
 }
 
 interface ValidateRecipientParams {
-  transactionData?: TransactionDataInput
   requesterAddress?: string
   origin: SendOrigin
   recipient: Recipient
@@ -162,6 +160,9 @@ export type StackParamList = {
   [Screens.KeylessBackupProgress]: {
     keylessBackupFlow: KeylessBackupFlow
   }
+  [Screens.KeylessBackupIntro]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.KycDenied]: {
     flow: CICOFlow
     quote: FiatConnectQuote
@@ -180,6 +181,7 @@ export type StackParamList = {
     tokenId: string
   }
   [Screens.GoldEducation]: undefined
+  [Screens.ImportSelect]: undefined
   [Screens.ImportWallet]:
     | {
         clean: boolean
@@ -200,6 +202,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
+  [Screens.LinkPhoneNumber]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MultichainBeta]: undefined
@@ -245,31 +248,16 @@ export type StackParamList = {
       fiat: number
     }
   }
-  [Screens.Send]:
-    | {
-        skipContactsImport?: boolean
-        forceTokenId?: boolean
-        defaultTokenIdOverride?: string
-      }
-    | undefined
   [Screens.SendSelectRecipient]:
     | {
         forceTokenId?: boolean
         defaultTokenIdOverride?: string
       }
     | undefined
-  [Screens.SendAmount]: {
-    recipient: Recipient
-    isFromScan: boolean
-    origin: SendOrigin
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
-  }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
-  [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
@@ -292,9 +280,8 @@ export type StackParamList = {
   [Screens.ValidateRecipientAccount]: ValidateRecipientParams
   [Screens.VerificationStartScreen]:
     | {
-        hideOnboardingStep?: boolean
+        hasOnboarded?: boolean
         selectedCountryCodeAlpha2?: string
-        choseToRestoreAccount?: boolean
       }
     | undefined
   [Screens.VerificationCodeInputScreen]: {
