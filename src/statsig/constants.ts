@@ -25,7 +25,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_GET_STARTED]: false,
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
-  [StatsigFeatureGates.SWAP_HOLDOUT_GROUP_ENABLED]: false,
+  [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
 }
 
 export const ExperimentConfigs = {

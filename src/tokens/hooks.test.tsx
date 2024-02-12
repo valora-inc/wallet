@@ -253,7 +253,7 @@ describe('useSwappableTokens', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SWAP_HOLDOUT_GROUP_ENABLED
+        (featureGate) => featureGate !== StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER
       )
 
     const { result } = renderHook(() => useSwappableTokens(), {
@@ -272,13 +272,14 @@ describe('useSwappableTokens', () => {
       mockPoofTokenId,
       mockCrealTokenId,
     ])
+    expect(result.current.areSwapTokensShuffled).toBe(false)
   })
 
   it('returns sorted tokens with balance for multiple networks for the non-holdout group', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SWAP_HOLDOUT_GROUP_ENABLED
+        (featureGate) => featureGate !== StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER
       )
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showSwap: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
@@ -335,6 +336,7 @@ describe('useSwappableTokens', () => {
     expect(result1.current.swappableFromTokens.map((token) => token.tokenId)).toEqual(
       expectedFromTokens1
     )
+    expect(result1.current.areSwapTokensShuffled).toBe(true)
 
     expect(result2.current.swappableToTokens.map((token) => token.tokenId)).toEqual(
       expectedToTokens2
@@ -342,6 +344,7 @@ describe('useSwappableTokens', () => {
     expect(result2.current.swappableFromTokens.map((token) => token.tokenId)).toEqual(
       expectedFromTokens2
     )
+    expect(result2.current.areSwapTokensShuffled).toBe(true)
   })
 })
 

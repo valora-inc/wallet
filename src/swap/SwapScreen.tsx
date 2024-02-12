@@ -32,9 +32,9 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getExperimentParams } from 'src/statsig'
 import { DynamicConfigs, ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigExperiments } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -230,11 +230,9 @@ export function SwapScreen({ route }: Props) {
   const slippagePercentage = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).maxSlippagePercentage
-  const isTokenOrderShuffled = getFeatureGate(StatsigFeatureGates.SWAP_HOLDOUT_GROUP_ENABLED)
-
   const parsedSlippagePercentage = new BigNumber(slippagePercentage).toFormat()
 
-  const { swappableFromTokens, swappableToTokens } = useSwappableTokens()
+  const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
 
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
@@ -506,7 +504,7 @@ export function SwapScreen({ route }: Props) {
       toTokenId: newToToken?.tokenId,
       toTokenNetworkId: newToToken?.networkId,
       switchedNetworkId: !!newSwitchedToNetworkId,
-      isTokenOrderShuffled,
+      areSwapTokensShuffled,
     })
 
     localDispatch(
@@ -779,7 +777,7 @@ export function SwapScreen({ route }: Props) {
         TokenOptionComponent={TokenBalanceItemOption}
         showPriceUsdUnavailableWarning={true}
         filterChips={filterChips}
-        isTokenOrderShuffled={isTokenOrderShuffled}
+        areSwapTokensShuffled={areSwapTokensShuffled}
       />
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet

@@ -42,7 +42,7 @@ export interface TokenBottomSheetProps<T extends TokenBalance> {
   TokenOptionComponent?: React.ComponentType<TokenOptionProps>
   showPriceUsdUnavailableWarning?: boolean
   filterChips?: FilterChip<TokenBalance>[]
-  isTokenOrderShuffled?: boolean
+  areSwapTokensShuffled?: boolean
 }
 
 interface TokenOptionProps {
@@ -146,7 +146,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   TokenOptionComponent = TokenOption,
   showPriceUsdUnavailableWarning,
   filterChips = [],
-  isTokenOrderShuffled,
+  areSwapTokensShuffled,
 }: TokenBottomSheetProps<T>) {
   const insets = useSafeAreaInsets()
 
@@ -183,7 +183,7 @@ function TokenBottomSheet<T extends TokenBalance>({
       networkId: token.networkId,
       usedSearchTerm: searchTerm.length > 0,
       selectedFilters: activeFilters.map((filter) => filter.id),
-      isTokenOrderShuffled,
+      areSwapTokensShuffled,
     })
     onTokenSelected(token)
   }

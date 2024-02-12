@@ -92,7 +92,7 @@ export function useSwappableTokens() {
   const networkIdsForSwap = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSwap
-  const showRandomizedTokenOrder = getFeatureGate(StatsigFeatureGates.SWAP_HOLDOUT_GROUP_ENABLED)
+  const shouldShuffleTokens = getFeatureGate(StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER)
 
   const walletAddress = useSelector(walletAddressSelector)
   const swappableFromTokens = useSelector((state) =>
@@ -102,16 +102,18 @@ export function useSwappableTokens() {
     swappableToTokensByNetworkIdSelector(state, networkIdsForSwap)
   )
 
-  if (showRandomizedTokenOrder && walletAddress) {
+  if (shouldShuffleTokens && walletAddress) {
     return {
       swappableFromTokens: deterministicShuffle(swappableFromTokens, 'tokenId', walletAddress),
       swappableToTokens: deterministicShuffle(swappableToTokens, 'tokenId', walletAddress),
+      areSwapTokensShuffled: true,
     }
   }
 
   return {
     swappableFromTokens,
     swappableToTokens,
+    areSwapTokensShuffled: false,
   }
 }
 

@@ -31,7 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_GET_STARTED = 'show_get_started',
   CLEVERTAP_INBOX = 'clevertap_inbox',
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
-  SWAP_HOLDOUT_GROUP_ENABLED = 'swap_holdout_group_enabled',
+  SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
 }
 
 export enum StatsigExperiments {
