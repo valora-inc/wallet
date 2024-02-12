@@ -21,7 +21,6 @@ import {
   pushNotificationsEnabledSelector,
 } from 'src/app/selectors'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
-import { DappConnectInfo } from 'src/dapps/types'
 import { Actions } from 'src/firebase/actions'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -343,16 +342,13 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
-    dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
-    dappsMinimalDisclaimerEnabled: flags.dappsMinimalDisclaimerEnabled.asBoolean(),
     // Convert to percentage, so we're consistent with the price impact value returned by our swap API
     priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),

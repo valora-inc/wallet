@@ -15,8 +15,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -40,7 +38,6 @@ import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
-import { TX_EXPLORER_LINK_TRANSLATION_STRINGS } from 'src/shared/conts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TransactionDetailsScreen>
 
@@ -104,12 +101,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
-      retryHandler = () =>
-        navigate(
-          getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
-            ? Screens.SendSelectRecipient
-            : Screens.Send
-        )
+      retryHandler = () => navigate(Screens.SendSelectRecipient)
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.InviteSent:
@@ -150,6 +142,17 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
   const primaryActionHanlder =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
 
+  const networkIdToExplorerString: Record<NetworkId, string> = {
+    [NetworkId['celo-mainnet']]: t('viewOnCeloScan'),
+    [NetworkId['celo-alfajores']]: t('viewOnCeloScan'),
+    [NetworkId['ethereum-mainnet']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['ethereum-sepolia']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['arbitrum-one']]: t('viewOnArbiscan'),
+    [NetworkId['arbitrum-sepolia']]: t('viewOnArbiscan'),
+    [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
+    [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
+  }
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <SafeAreaView edges={['bottom']}>
@@ -187,7 +190,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
-                  {t(TX_EXPLORER_LINK_TRANSLATION_STRINGS[transaction.networkId])}
+                  {networkIdToExplorerString[transaction.networkId]}
                 </Text>
                 <ArrowRightThick size={16} />
               </View>
