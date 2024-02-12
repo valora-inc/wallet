@@ -17,7 +17,7 @@ jobs:
       #- uses: valeriangalliat/action-sshd-cloudflared@v2
       - name: Setup emulator
         run: |
-          set -e
+          set -x
 
           # Fix for missing killall command
           sudo apt install psmisc
@@ -42,6 +42,8 @@ jobs:
           yes | sdkmanager "ndk;21.0.6113669"
           yes | sdkmanager "system-images;android-30;default;x86_64"
           set -o pipefail
+
+          ANDROID_NDK_HOME=$ANDROID_HOME/ndk/21.0.6113669
 
           #ls -l ~/.android/avd # not yet there
           avdmanager create avd --force --name Pixel_API_30_AOSP_x86_64 --package "system-images;android-30;default;x86_64" --device pixel
