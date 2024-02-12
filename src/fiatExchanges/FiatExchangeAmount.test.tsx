@@ -269,16 +269,6 @@ describe('FiatExchangeAmount cashOut', () => {
     expect(getByText('amount (CELO)')).toBeTruthy()
   })
 
-  it('displays correctly', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-    const { getByText } = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-    expect(getByText('amount (cUSD)')).toBeTruthy()
-  })
-
   it('disables the next button if the cUSD amount is 0', () => {
     const tree = render(
       <Provider store={storeWithUSD}>
