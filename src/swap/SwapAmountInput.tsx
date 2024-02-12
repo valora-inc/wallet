@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Image,
   Platform,
   TextInput as RNTextInput,
   StyleProp,
@@ -14,6 +13,7 @@ import {
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder'
 import TextInput from 'src/components/TextInput'
 import TokenDisplay from 'src/components/TokenDisplay'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import Colors from 'src/styles/colors'
@@ -139,7 +139,7 @@ const SwapAmountInput = ({
         >
           {token ? (
             <>
-              <Image source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+              <TokenIcon token={token} viewStyle={styles.tokenImage} size={IconSize.SMALL} />
               <Text style={styles.tokenName}>{token.symbol}</Text>
               <DownArrowIcon color={Colors.gray5} />
             </>

@@ -366,6 +366,7 @@ export const swappableToTokensByNetworkIdSelector = createSelector(
     return tokens.filter(
       (tokenInfo) =>
         tokenInfo.isSwappable ||
+        tokenInfo.isManuallyImported ||
         (tokenInfo.minimumAppVersionToSwap &&
           !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
     )
