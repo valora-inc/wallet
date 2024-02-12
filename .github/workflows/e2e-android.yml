@@ -11,7 +11,7 @@ jobs:
     env:
       BASH_ENV: ~/.profile
     name: Android (SDK ${{ inputs.android-api-level }})
-    runs-on: buildjet-8vcpu-ubuntu-2204
+    runs-on: nscloud-ubuntu-22.04-amd64-8x16
     steps:
       - uses: actions/checkout@v3
       # - uses: valeriangalliat/action-sshd-cloudflared@v2
