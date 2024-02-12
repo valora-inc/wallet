@@ -70,17 +70,21 @@ function KeylessBackupPhoneCodeInput({
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const onPressHelp = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help, { keylessBackupFlow })
     bottomSheetRef.current?.snapToIndex(0)
   }
 
   const onPressHelpGoBack = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_go_back, {
+      keylessBackupFlow,
+    })
     bottomSheetRef.current?.close()
   }
 
   const onPressHelpSkip = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip)
+    ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
+      keylessBackupFlow,
+    })
     navigate(
       keylessBackupFlow === KeylessBackupFlow.Setup ? Screens.WalletHome : Screens.ImportSelect
     )

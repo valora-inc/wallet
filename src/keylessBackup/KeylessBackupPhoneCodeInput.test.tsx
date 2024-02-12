@@ -141,7 +141,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       KeylessBackupEvents.cab_phone_verification_help
     )
   })
-  it('dismisses help bottom sheet and track analytics event when pressing go back button', async () => {
+  it('tracks analytics event when pressing go back button', async () => {
     const { getByTestId } = renderComponent()
 
     expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
