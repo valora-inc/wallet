@@ -258,6 +258,9 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_restore_failed_try_again]: undefined
   [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: undefined
   [KeylessBackupEvents.cab_restore_failed_help]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
 }
 
 interface OnboardingEventsProperties {
