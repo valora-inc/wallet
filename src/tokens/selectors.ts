@@ -496,17 +496,12 @@ export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =
   state.app.visualizeNFTsEnabledInHomeAssetsPage
 
 export const importedTokensSelector = createSelector(
-  [tokensListSelector, networksIconSelector],
-  (tokenList, networksIcon) => {
+  [tokensListSelector],
+  (tokenList): TokenBalance[] => {
     if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
       return []
     }
 
-    return tokenList
-      .filter((token) => token?.isManuallyImported)
-      .map((token) => ({
-        ...token,
-        networkIconUrl: networksIcon[token.networkId] ?? token.networkIconUrl,
-      })) as TokenBalance[]
+    return tokenList.filter((token) => token?.isManuallyImported)
   }
 )

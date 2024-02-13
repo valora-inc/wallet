@@ -1263,6 +1263,7 @@ interface SwapEventsProperties {
     toTokenId: string | undefined
     toTokenNetworkId: string | undefined
     switchedNetworkId: boolean
+    areSwapTokensShuffled: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1334,6 +1335,7 @@ interface TokenBottomSheetEventsProperties {
     networkId: NetworkId | null
     usedSearchTerm: boolean
     selectedFilters: string[]
+    areSwapTokensShuffled?: boolean
   }
 }
 
