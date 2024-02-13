@@ -122,7 +122,6 @@ export enum KeylessBackupEvents {
   cab_phone_verification_help = 'cab_phone_verification_help',
   cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
   cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',
-  cab_restore_mnemonic_not_found = 'cab_restore_mnemonic_not_found',
 }
 
 export enum OnboardingEvents {
