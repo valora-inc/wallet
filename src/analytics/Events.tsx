@@ -118,6 +118,9 @@ export enum KeylessBackupEvents {
   cab_restore_failed_try_again = 'cab_restore_failed_try_again',
   cab_restore_failed_create_new_wallet = 'cab_restore_failed_create_new_wallet',
   cab_restore_failed_help = 'cab_restore_failed_help',
+  cab_phone_verification_help = 'cab_phone_verification_help',
+  cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
+  cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',
 }
 
 export enum OnboardingEvents {
@@ -535,9 +538,6 @@ export enum DappExplorerEvents {
   dapp_open = 'dapp_open',
   dapp_close = 'dapp_close',
   dapp_screen_open = 'dapp_screen_open',
-  dapp_select = 'dapp_select',
-  dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
-  dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all',
   dapp_favorite = 'dapp_favorite',
   dapp_unfavorite = 'dapp_unfavorite',
