@@ -44,7 +44,6 @@ import {
   v178Schema,
   v179Schema,
   v17Schema,
-  v187Schema,
   v18Schema,
   v1Schema,
   v21Schema,
@@ -1531,14 +1530,6 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[180](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.send.recentRecipients = [mockRecipient, mockRecipient2]
-    expect(migratedSchema).toStrictEqual(expectedSchema)
-  })
-
-  it('works from 187 to 188', () => {
-    const oldSchema = v187Schema
-    const migratedSchema = migrations[188](oldSchema)
-    const expectedSchema: any = _.cloneDeep(oldSchema)
-    expectedSchema.keylessBackup.jwt = null
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

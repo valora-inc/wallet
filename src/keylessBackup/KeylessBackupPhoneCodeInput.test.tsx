@@ -73,7 +73,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       status: 200,
     })
     mockFetch.mockResponseOnce(
-      JSON.stringify({ keyshare: 'valora-keyshare', jwt: 'abc.def.ghi' }),
+      JSON.stringify({ keyshare: 'valora-keyshare', token: 'abc.def.ghi' }),
       {
         status: 200,
       }

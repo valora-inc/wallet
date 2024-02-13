@@ -274,7 +274,6 @@ describe('store state', () => {
           "googleIdToken": null,
           "torusKeyshare": null,
           "valoraKeyshare": null,
-          "jwt": null,
         },
         "localCurrency": {
           "error": false,
