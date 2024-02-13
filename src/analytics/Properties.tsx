@@ -59,7 +59,7 @@ import { DappSection } from 'src/dapps/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -255,9 +255,12 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
   [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
   [KeylessBackupEvents.cab_restore_completed_continue]: undefined
-  [KeylessBackupEvents.cab_restore_failed_try_again]: undefined
-  [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: undefined
+  [KeylessBackupEvents.cab_restore_failed_try_again]: { keylessBackupStatus: KeylessBackupStatus }
+  [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: {
+    keylessBackupStatus: KeylessBackupStatus
+  }
   [KeylessBackupEvents.cab_restore_failed_help]: undefined
+  [KeylessBackupEvents.cab_restore_mnemonic_not_found]: undefined
   [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
