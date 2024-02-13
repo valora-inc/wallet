@@ -59,7 +59,7 @@ import { DappSection } from 'src/dapps/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
@@ -255,9 +255,15 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
   [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
   [KeylessBackupEvents.cab_restore_completed_continue]: undefined
-  [KeylessBackupEvents.cab_restore_failed_try_again]: undefined
-  [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: undefined
+  [KeylessBackupEvents.cab_restore_failed_try_again]: { keylessBackupStatus: KeylessBackupStatus }
+  [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: {
+    keylessBackupStatus: KeylessBackupStatus
+  }
   [KeylessBackupEvents.cab_restore_failed_help]: undefined
+  [KeylessBackupEvents.cab_restore_mnemonic_not_found]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
 }
 
 interface OnboardingEventsProperties {
@@ -1118,13 +1124,10 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: { section: DappSection }
-  [DappExplorerEvents.dapp_select]: DappEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
   [DappExplorerEvents.dapp_favorite]: DappEventProperties
   [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
   [DappExplorerEvents.dapp_filter]: {
-    id: string
+    filterId: string
     remove: boolean
   }
   [DappExplorerEvents.dapp_rankings_open]: undefined
@@ -1260,6 +1263,7 @@ interface SwapEventsProperties {
     toTokenId: string | undefined
     toTokenNetworkId: string | undefined
     switchedNetworkId: boolean
+    areSwapTokensShuffled: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1331,6 +1335,7 @@ interface TokenBottomSheetEventsProperties {
     networkId: NetworkId | null
     usedSearchTerm: boolean
     selectedFilters: string[]
+    areSwapTokensShuffled?: boolean
   }
 }
 

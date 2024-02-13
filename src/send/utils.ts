@@ -15,10 +15,8 @@ import { UriData, uriDataFromUrl } from 'src/qrcode/schema'
 import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recipient'
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/types'
 import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { feeCurrenciesSelector, tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
@@ -41,8 +39,6 @@ export function* handleSendPaymentData(
   isFromScan: boolean,
   cachedRecipient?: Recipient
 ) {
-  const useNewSendFlow = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
-  const sendAmountScreen = useNewSendFlow ? Screens.SendEnterAmount : Screens.SendAmount
   const recipient: AddressRecipient = {
     address: data.address.toLowerCase(),
     name: data.displayName || cachedRecipient?.name,
@@ -65,7 +61,7 @@ export function* handleSendPaymentData(
   const tokenInfo = tokens.find((token) => token?.symbol === (data.token ?? Currency.Dollar))
 
   if (!tokenInfo?.priceUsd) {
-    navigate(sendAmountScreen, {
+    navigate(Screens.SendEnterAmount, {
       recipient,
       isFromScan,
       origin: SendOrigin.AppSendFlow,
@@ -125,7 +121,7 @@ export function* handleSendPaymentData(
     if (!canSendTokens) {
       throw new Error("Precondition failed: Can't send tokens from payment data")
     }
-    navigate(sendAmountScreen, {
+    navigate(Screens.SendEnterAmount, {
       recipient,
       isFromScan,
       origin: SendOrigin.AppSendFlow,

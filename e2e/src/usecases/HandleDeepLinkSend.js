@@ -7,6 +7,7 @@ import {
   waitForElementByIdAndTap,
   quote,
   waitForElementId,
+  createCommentText,
 } from '../utils/utils'
 
 const deepLinks = {
@@ -20,12 +21,7 @@ const launchDeepLink = async (url, newInstance = true) => {
   await launchApp({
     url,
     newInstance,
-    launchArgs: { statsigGateOverrides: `use_new_send_flow=true` },
   })
-}
-
-const createCommentText = () => {
-  return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
 }
 
 const openDeepLink = async (payUrl) => {

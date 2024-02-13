@@ -16,7 +16,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
   [StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS]: false,
-  [StatsigFeatureGates.USE_NEW_SEND_FLOW]: false,
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
   [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
@@ -26,6 +25,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_GET_STARTED]: false,
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
+  [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
 }
 
 export const ExperimentConfigs = {
@@ -42,12 +42,6 @@ export const ExperimentConfigs = {
     experimentName: StatsigExperiments.DAPP_RANKINGS,
     defaultValues: {
       dappRankingsEnabled: false,
-    },
-  },
-  [StatsigExperiments.DAPP_MENU_ITEM_COPY]: {
-    experimentName: StatsigExperiments.DAPP_MENU_ITEM_COPY,
-    defaultValues: {
-      discoverCopyEnabled: false,
     },
   },
   [StatsigExperiments.SWAP_BUY_AMOUNT]: {
@@ -96,6 +90,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.SWAP_CONFIG,
     defaultValues: {
       maxSlippagePercentage: '0.3',
+      popularTokenIds: [] as string[],
     },
   },
   [StatsigDynamicConfigs.CICO_TOKEN_INFO]: {

@@ -8,14 +8,12 @@ import { Screens } from 'src/navigator/Screens'
 import { Price } from 'src/priceHistory/slice'
 import { getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
-import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
   exchangePriceHistory,
   mockCeloTokenId,
-  mockEthTokenId,
   mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
@@ -432,7 +430,9 @@ describe('TokenDetails', () => {
     )
 
     fireEvent.press(getByTestId('TokenDetails/Action/Send'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
+      defaultTokenIdOverride: mockCeloTokenId,
+    })
     fireEvent.press(getByTestId('TokenDetails/Action/Swap'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
       fromTokenId: mockCeloTokenId,
@@ -448,66 +448,5 @@ describe('TokenDetails', () => {
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
-  })
-
-  it('navigates to the new send flow when enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new send flow
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockCeloTokenId]: {
-            ...mockTokenBalances[mockCeloTokenId],
-            balance: '10',
-          },
-        },
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('TokenDetails/Action/Send'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
-      defaultTokenIdOverride: mockCeloTokenId,
-    })
-  })
-
-  // TODO(ACT-954): remove once we switch to passing just token ids, above test
-  // should be sufficient
-  it('add action sends appropriate network', async () => {
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockEthTokenId]: {
-            symbol: 'ETH',
-            balance: '0',
-            showZeroBalance: true,
-            isCashInEligible: true,
-            tokenId: mockEthTokenId,
-            networkId: NetworkId['ethereum-sepolia'],
-          },
-        },
-      },
-      app: {
-        showSwapMenuInDrawerMenu: true,
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockEthTokenId }} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('TokenDetails/Action/Add'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      tokenId: mockEthTokenId,
-      flow: CICOFlow.CashIn,
-      tokenSymbol: 'ETH',
-    })
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 })

@@ -13,6 +13,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import {
   importedTokensSelector,
   lastKnownTokenBalancesSelector,
+  networksIconSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
 } from 'src/tokens/selectors'
@@ -207,6 +208,7 @@ export function* fetchTokenBalancesSaga() {
 
     const supportedNetworks = getSupportedNetworkIdsForTokenBalances()
     const importedTokens = yield* select(importedTokensSelector, supportedNetworks)
+    const networkIconByNetworkId = yield* select(networksIconSelector, supportedNetworks)
 
     const supportedTokens = yield* call(getTokensInfo)
     const fetchedBalancesByTokenId = yield* call(fetchTokenBalancesForAddressByTokenId, address)
@@ -232,6 +234,13 @@ export function* fetchTokenBalancesSaga() {
       importedTokens,
       fetchedBalancesByTokenId
     )
+
+    for (const tokenId of Object.keys(importedTokensWithBalance)) {
+      const token = importedTokensWithBalance[tokenId]
+      if (token) {
+        token.networkIconUrl = networkIconByNetworkId[token.networkId]
+      }
+    }
 
     yield* put(
       setTokenBalances({

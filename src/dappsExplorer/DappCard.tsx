@@ -5,10 +5,9 @@ import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
 import Touchable from 'src/components/Touchable'
-import { dappFavoritesEnabledSelector, favoriteDappIdsSelector } from 'src/dapps/selectors'
+import { favoriteDappIdsSelector } from 'src/dapps/selectors'
 import { favoriteDapp, unfavoriteDapp } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
-import LinkArrow from 'src/icons/LinkArrow'
 import Star from 'src/icons/Star'
 import StarOutline from 'src/icons/StarOutline'
 import { Colors } from 'src/styles/colors'
@@ -25,6 +24,7 @@ interface DappCardContentProps {
 interface Props {
   onPressDapp: () => void
   dapp: Dapp
+  testID: string
   onFavoriteDapp?: (dapp: Dapp) => void
 }
 
@@ -37,7 +37,6 @@ export function DappCardContent({
   favoritedFromSection,
 }: DappCardContentProps) {
   const dispatch = useDispatch()
-  const dappFavoritesEnabled = useSelector(dappFavoritesEnabledSelector)
   const favoriteDappIds = useSelector(favoriteDappIdsSelector)
 
   const isFavorited = favoriteDappIds.includes(dapp.id)
@@ -69,24 +68,20 @@ export function DappCardContent({
         <Text style={styles.title}>{dapp.name}</Text>
         <Text style={styles.subtitle}>{dapp.description}</Text>
       </View>
-      {dappFavoritesEnabled ? (
-        <Touchable
-          onPress={onPressFavorite}
-          hitSlop={favoriteIconHitslop}
-          testID={`Dapp/Favorite/${dapp.id}`}
-        >
-          {isFavorited ? <Star /> : <StarOutline />}
-        </Touchable>
-      ) : (
-        <LinkArrow size={24} />
-      )}
+      <Touchable
+        onPress={onPressFavorite}
+        hitSlop={favoriteIconHitslop}
+        testID={`Dapp/Favorite/${dapp.id}`}
+      >
+        {isFavorited ? <Star /> : <StarOutline />}
+      </Touchable>
     </View>
   )
 }
 
-function DappCard({ dapp, onPressDapp, onFavoriteDapp }: Props) {
+function DappCard({ dapp, onPressDapp, onFavoriteDapp, testID }: Props) {
   return (
-    <Card testID="DappCard" style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
+    <Card testID={testID} style={styles.card} rounded={true} shadow={Shadow.SoftLight}>
       <Touchable onPress={onPressDapp} borderRadius={8} testID={`Dapp/${dapp.id}`}>
         <DappCardContent
           dapp={dapp}

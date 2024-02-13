@@ -65,7 +65,7 @@ function WalletHome() {
 
   const dispatch = useDispatch()
 
-  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
+  const { onSelectDapp } = useOpenDapp()
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
@@ -230,7 +230,6 @@ function WalletHome() {
       />
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
-      {ConfirmOpenDappBottomSheet}
     </SafeAreaView>
   )
 }

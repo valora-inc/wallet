@@ -79,11 +79,6 @@ export const sendReducer = (
         inviteRewardCusd: action.configValues.inviteRewardCusd,
         inviteRewardWeeklyLimit: action.configValues.inviteRewardWeeklyLimit,
       }
-    case Actions.SET_SHOW_WARNING:
-      return {
-        ...state,
-        showSendToAddressWarning: action.showWarning,
-      }
     default:
       return state
   }
