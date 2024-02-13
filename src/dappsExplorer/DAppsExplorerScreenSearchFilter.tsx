@@ -15,7 +15,6 @@ import {
   dappsCategoriesAlphabeticalSelector,
   dappsListErrorSelector,
   dappsListLoadingSelector,
-  dappsMinimalDisclaimerEnabledSelector,
   favoriteDappsWithCategoryNamesSelector,
   nonFavoriteDappsWithCategoryNamesSelector,
 } from 'src/dapps/selectors'
@@ -59,7 +58,6 @@ export function DAppsExplorerScreenSearchFilter() {
   const loading = useSelector(dappsListLoadingSelector)
   const error = useSelector(dappsListErrorSelector)
   const categories = useSelector(dappsCategoriesAlphabeticalSelector)
-  const dappsMinimalDisclaimerEnabled = useSelector(dappsMinimalDisclaimerEnabledSelector)
   const language = useSelector(currentLanguageSelector)
   const nonFavoriteDappsWithCategoryNames = useSelector(nonFavoriteDappsWithCategoryNamesSelector)
   const favoriteDappsWithCategoryNames = useSelector(favoriteDappsWithCategoryNamesSelector)
@@ -79,7 +77,7 @@ export function DAppsExplorerScreenSearchFilter() {
 
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
+  const { onSelectDapp } = useOpenDapp()
   const { onFavoriteDapp, DappFavoritedToast } = useDappFavoritedToast(sectionListRef)
 
   const removeFilter = (filter: FilterChip<DappWithCategoryNames>) => {
@@ -201,11 +199,7 @@ export function DAppsExplorerScreenSearchFilter() {
             // @ts-expect-error
             ref={sectionListRef}
             ListFooterComponent={
-              <>
-                {dappsMinimalDisclaimerEnabled ? (
-                  <Text style={styles.disclaimer}>{t('dappsDisclaimerAllDapps')}</Text>
-                ) : null}
-              </>
+              <Text style={styles.disclaimer}>{t('dappsDisclaimerAllDapps')}</Text>
             }
             ListHeaderComponent={
               <>
@@ -284,7 +278,6 @@ export function DAppsExplorerScreenSearchFilter() {
           />
         )}
       </>
-      {ConfirmOpenDappBottomSheet}
       {DappFavoritedToast}
       <DappRankingsBottomSheet
         forwardedRef={dappRankingsBottomSheetRef}
