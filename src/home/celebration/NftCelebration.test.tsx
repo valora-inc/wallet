@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { APP_NAME } from 'src/brandingConfig'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig/index'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
@@ -52,7 +53,9 @@ describe('NftCelebration', () => {
     )
 
     expect(getByText('nftCelebration.bottomSheet.title')).toBeTruthy()
-    expect(getByText('nftCelebration.bottomSheet.description')).toBeTruthy()
+    expect(
+      getByText(`nftCelebration.bottomSheet.description, {"appName":"${APP_NAME}"}`)
+    ).toBeTruthy()
     expect(getByText('nftCelebration.bottomSheet.cta')).toBeTruthy()
   })
 
@@ -64,7 +67,9 @@ describe('NftCelebration', () => {
     )
 
     expect(queryByText('nftCelebration.bottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
+    expect(
+      queryByText(`nftCelebration.bottomSheet.description, {"appName":"${APP_NAME}"}`)
+    ).toBeNull()
     expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
   })
 
@@ -81,7 +86,9 @@ describe('NftCelebration', () => {
     )
 
     expect(queryByText('nftCelebration.bottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
+    expect(
+      queryByText(`nftCelebration.bottomSheet.description, {"appName":"${APP_NAME}"}`)
+    ).toBeNull()
     expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
   })
 
@@ -95,7 +102,9 @@ describe('NftCelebration', () => {
     )
 
     expect(queryByText('nftCelebration.bottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
+    expect(
+      queryByText(`nftCelebration.bottomSheet.description, {"appName":"${APP_NAME}"}`)
+    ).toBeNull()
     expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
   })
 
@@ -117,7 +126,9 @@ describe('NftCelebration', () => {
     )
 
     expect(queryByText('nftCelebration.bottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
+    expect(
+      queryByText(`nftCelebration.bottomSheet.description, {"appName":"${APP_NAME}"}`)
+    ).toBeNull()
     expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
   })
 })
