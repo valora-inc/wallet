@@ -1546,6 +1546,7 @@
                 "Completed",
                 "Failed",
                 "InProgress",
+                "NotFound",
                 "NotStarted",
                 "RestoreZeroBalance"
             ],

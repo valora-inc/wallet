@@ -137,6 +137,12 @@
         "tryAgain": "Try Again",
         "createNewWallet": "Create new wallet",
         "help": "Help"
+      },
+      "notFound": {
+        "title": "Wallet not found",
+        "body": "To restore your wallet, use the <0>same email address & phone number</0> you used when you set up.\n\nYou can also restore your wallet with your recovery phrase.",
+        "tryAgain": "Try Again",
+        "createNewWallet": "Create new wallet"
       }
     }
   },
