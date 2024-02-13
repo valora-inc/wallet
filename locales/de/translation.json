@@ -137,6 +137,12 @@
         "tryAgain": "Wiederholen",
         "createNewWallet": "Wallet erstellen",
         "help": "Hilfe"
+      },
+      "notFound": {
+        "title": "Geldbeutel nicht gefunden",
+        "body": "Um dein Portemonnaie wiederherzustellen, verwende <0>dieselbe E-Mail-Adresse und Telefonnummer</0>, die du bei der Einrichtung verwendet hast.\n\nDu kannst dein Portemonnaie auch mit deiner Wiederherstellungsphrase wiederherstellen.",
+        "tryAgain": "Wiederholen",
+        "createNewWallet": "Wallet erstellen"
       }
     }
   },
