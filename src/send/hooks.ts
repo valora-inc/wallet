@@ -7,7 +7,6 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
-import { resolveId } from 'src/recipients/RecipientPicker'
 import {
   Recipient,
   RecipientType,
@@ -16,6 +15,7 @@ import {
   sortRecipients,
 } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
+import { resolveId } from 'src/recipients/resolve-id'
 import useSelector from 'src/redux/useSelector'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300

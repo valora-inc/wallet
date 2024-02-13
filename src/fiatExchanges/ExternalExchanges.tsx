@@ -74,11 +74,7 @@ function ExternalExchanges({ route }: Props) {
           )
         })}
       </ScrollView>
-      {providers?.length ? (
-        <SendBar skipImport={true} selectedTokenId={route.params.tokenId} />
-      ) : (
-        <></>
-      )}
+      {providers?.length ? <SendBar selectedTokenId={route.params.tokenId} /> : <></>}
     </SafeAreaView>
   )
 }

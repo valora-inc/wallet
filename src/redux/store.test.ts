@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 186,
+          "version": 187,
         },
         "account": {
           "acceptedTerms": false,
@@ -188,14 +188,11 @@ describe('store state', () => {
         },
         "dapps": {
           "activeDapp": null,
-          "dappConnectInfo": "default",
-          "dappFavoritesEnabled": false,
           "dappListApiUrl": null,
           "dappsCategories": [],
           "dappsList": [],
           "dappsListError": null,
           "dappsListLoading": false,
-          "dappsMinimalDisclaimerEnabled": false,
           "dappsWebViewEnabled": false,
           "favoriteDappIds": [],
           "maxNumRecentDapps": 0,

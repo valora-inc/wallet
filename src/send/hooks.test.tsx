@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { View } from 'react-native'
 import { Provider } from 'react-redux'
 import TextInput from 'src/components/TextInput'
-import { resolveId } from 'src/recipients/RecipientPicker'
 import { RecipientType } from 'src/recipients/recipient'
+import { resolveId } from 'src/recipients/resolve-id'
 import {
   mergeRecipients,
   useMapResolutionsToRecipients,
@@ -27,7 +27,7 @@ import {
   mockRecipient4,
 } from 'test/values'
 
-jest.mock('src/recipients/RecipientPicker')
+jest.mock('src/recipients/resolve-id')
 
 const getStore = (phoneNumberVerified: boolean = true) =>
   createMockStore({

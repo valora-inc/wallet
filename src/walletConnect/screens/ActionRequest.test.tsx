@@ -236,9 +236,6 @@ describe('ActionRequest with WalletConnect V2', () => {
       walletConnect: {
         sessions: [v2Session],
       },
-      dapps: {
-        dappsMinimalDisclaimerEnabled: true,
-      },
     })
 
     beforeEach(() => {

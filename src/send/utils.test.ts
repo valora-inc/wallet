@@ -10,14 +10,14 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { UriData, urlFromUriData } from 'src/qrcode/schema'
 import { RecipientType } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/types'
 import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
 import {
   handlePaymentDeeplink,
   handleSendPaymentData,
   preparePaymentRequestTransaction,
 } from 'src/send/utils'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams } from 'src/statsig'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsResult } from 'src/viem/prepareTransactions'
@@ -43,7 +43,6 @@ describe('send/utils', () => {
   describe('handleSendPaymentData', () => {
     beforeEach(() => {
       jest.clearAllMocks()
-      jest.mocked(getFeatureGate).mockReturnValue(true)
       jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
         showSend: [NetworkId['celo-alfajores']],
       })
@@ -65,20 +64,6 @@ describe('send/utils', () => {
         .run()
       expect(navigate).toHaveBeenCalledWith(
         Screens.SendEnterAmount,
-        expect.objectContaining({
-          origin: SendOrigin.AppSendFlow,
-          recipient: { address: mockData.address, recipientType: RecipientType.Address },
-          forceTokenId: false,
-        })
-      )
-    })
-    it('should navigate to SendAmount screen when no amount nor token is sent and useNewSend is false', async () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-      await expectSaga(handleSendPaymentData, mockData, false, undefined)
-        .withState(createMockStore({}).getState())
-        .run()
-      expect(navigate).toHaveBeenCalledWith(
-        Screens.SendAmount,
         expect.objectContaining({
           origin: SendOrigin.AppSendFlow,
           recipient: { address: mockData.address, recipientType: RecipientType.Address },
