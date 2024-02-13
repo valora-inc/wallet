@@ -31,8 +31,8 @@ export default function NftCelebration() {
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const [showConfettiCelebration, setShowConfettiCelebration] = useState(false)
-  const confettiCelebrationStartTime = useRef(0)
+  const [showConfetti, setShowConfetti] = useState(false)
+  const confettiStartTime = useRef(0)
 
   const canShowNftCelebration = useSelector(showNftCelebrationSelector)
   const celebratedNft = useSelector(celebratedNftSelector)
@@ -102,8 +102,8 @@ export default function NftCelebration() {
 
       vibrateSuccess()
 
-      confettiCelebrationStartTime.current = Date.now()
-      setShowConfettiCelebration(true)
+      confettiStartTime.current = Date.now()
+      setShowConfetti(true)
     }
   }
 
@@ -111,11 +111,11 @@ export default function NftCelebration() {
     bottomSheetRef.current?.close()
   }
 
-  const handleConfettiCelebrationFinish = () => {
+  const handleConfettiFinish = () => {
     finishCelebration({ userInterrupted: false })
   }
 
-  const handleConfettiCelebrationDismiss = () => {
+  const handleConfettiDismiss = () => {
     finishCelebration({ userInterrupted: true })
   }
 
@@ -126,10 +126,10 @@ export default function NftCelebration() {
 
     ValoraAnalytics.track(HomeEvents.nft_celebration_animation_displayed, {
       userInterrupted,
-      durationInSeconds: Math.round((Date.now() - confettiCelebrationStartTime.current) / 1000),
+      durationInSeconds: Math.round((Date.now() - confettiStartTime.current) / 1000),
     })
 
-    setShowConfettiCelebration(false)
+    setShowConfetti(false)
 
     dispatch(nftCelebrationDisplayed())
   }
@@ -167,14 +167,14 @@ export default function NftCelebration() {
         </BottomSheetView>
       </GorhomBottomSheet>
       <ConfettiCelebration
-        showAnimation={showConfettiCelebration}
+        showAnimation={showConfetti}
         title={t('nftCelebration.notification.title')}
         description={t('nftCelebration.notification.description', {
           rewardName: matchingNft.metadata.name,
           appName: APP_NAME,
         })}
-        onAnimationFinish={handleConfettiCelebrationFinish}
-        onDismiss={handleConfettiCelebrationDismiss}
+        onAnimationFinish={handleConfettiFinish}
+        onDismiss={handleConfettiDismiss}
       />
     </>
   )
