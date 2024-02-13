@@ -77,13 +77,6 @@ function WalletHome() {
   const canShowNftCelebration = useSelector(showNftCelebrationSelector)
   const showNftCelebration = canShowNftCelebration && isFocused && !showNotificationSpotlight
 
-  console.log('---', {
-    showNftCelebration,
-    canShowNftCelebration,
-    isFocused,
-    showNotificationSpotlight,
-  })
-
   useEffect(() => {
     dispatch(visitHome())
   }, [])
