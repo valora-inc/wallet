@@ -354,7 +354,11 @@ describe('keylessBackup saga', () => {
       })
       it('puts not found event if encrypted mnemonic not found', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
-          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Restore,
+            jwt: mockJwt,
+          },
           type: valoraKeyshareIssued.type,
         })
           .provide([
