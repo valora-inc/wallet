@@ -4015,6 +4015,12 @@
                         "string"
                     ]
                 },
+                "jwt": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "torusKeyshare": {
                     "type": [
                         "null",
@@ -4031,6 +4037,7 @@
             "required": [
                 "backupStatus",
                 "googleIdToken",
+                "jwt",
                 "torusKeyshare",
                 "valoraKeyshare"
             ],

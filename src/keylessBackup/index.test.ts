@@ -31,6 +31,7 @@ describe(storeEncryptedMnemonic, () => {
       storeEncryptedMnemonic({
         encryptedMnemonic: 'encrypted',
         encryptionAddress: 'address',
+        jwt: 'abc.def.ghi',
       })
     ).rejects.toThrow('Failed to post encrypted mnemonic with status 500, message bad news')
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_post_encrypted_mnemonic_failed', {
@@ -47,6 +48,7 @@ describe(storeEncryptedMnemonic, () => {
       storeEncryptedMnemonic({
         encryptedMnemonic: 'encrypted',
         encryptionAddress: 'address',
+        jwt: 'abc.def.ghi',
       })
     ).rejects.toThrow('Failed to post encrypted mnemonic with status 409, message backup exists')
     expect(ValoraAnalytics.track).toHaveBeenCalledWith('cab_post_encrypted_mnemonic_failed', {
@@ -59,6 +61,7 @@ describe(storeEncryptedMnemonic, () => {
       await storeEncryptedMnemonic({
         encryptedMnemonic: 'encrypted',
         encryptionAddress: 'address',
+        jwt: 'abc.def.ghi',
       })
     ).toBeUndefined()
   })

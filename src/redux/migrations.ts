@@ -1542,4 +1542,11 @@ export const migrations = {
       'dappsMinimalDisclaimerEnabled'
     ),
   }),
+  188: (state: any) => ({
+    ...state,
+    keylessBackup: {
+      ...state.keylessBackup,
+      jwt: false,
+    },
+  }),
 }

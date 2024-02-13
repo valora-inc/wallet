@@ -4,6 +4,7 @@ import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 export interface State {
   googleIdToken: string | null
   valoraKeyshare: string | null
+  jwt: string | null
   torusKeyshare: string | null
   backupStatus: KeylessBackupStatus
 }
@@ -11,6 +12,7 @@ export interface State {
 export const initialState: State = {
   googleIdToken: null,
   valoraKeyshare: null,
+  jwt: null,
   torusKeyshare: null,
   backupStatus: KeylessBackupStatus.NotStarted,
 }
@@ -24,9 +26,10 @@ export const slice = createSlice({
     },
     valoraKeyshareIssued: (
       state,
-      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow }>
+      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow; jwt: string }>
     ) => {
       state.valoraKeyshare = action.payload.keyshare
+      state.jwt = action.payload.jwt
     },
     torusKeyshareIssued: (state, action: PayloadAction<{ keyshare: string }>) => {
       state.torusKeyshare = action.payload.keyshare
