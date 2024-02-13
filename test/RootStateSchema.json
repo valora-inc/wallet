@@ -270,7 +270,6 @@
                                 "keychainFetchAccounts",
                                 "keychainStorageError",
                                 "missingFullName",
-                                "needMoreFundsToSend",
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
@@ -1002,14 +1001,6 @@
             ],
             "type": "object"
         },
-        "DappConnectInfo": {
-            "enum": [
-                "basic",
-                "default",
-                "full"
-            ],
-            "type": "string"
-        },
         "DappSection": {
             "enum": [
                 "all",
@@ -1555,6 +1546,7 @@
                 "Completed",
                 "Failed",
                 "InProgress",
+                "NotFound",
                 "NotStarted",
                 "RestoreZeroBalance"
             ],
@@ -2601,8 +2593,6 @@
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
-                "Send",
-                "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
@@ -3720,12 +3710,6 @@
                         }
                     ]
                 },
-                "dappConnectInfo": {
-                    "$ref": "#/definitions/DappConnectInfo"
-                },
-                "dappFavoritesEnabled": {
-                    "type": "boolean"
-                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -3751,9 +3735,6 @@
                     ]
                 },
                 "dappsListLoading": {
-                    "type": "boolean"
-                },
-                "dappsMinimalDisclaimerEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3783,14 +3764,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappConnectInfo",
-                "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",

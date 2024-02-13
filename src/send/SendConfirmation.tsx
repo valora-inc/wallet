@@ -1,8 +1,10 @@
+import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
+import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -13,7 +15,6 @@ import BackButton from 'src/components/BackButton'
 import CommentTextInput from 'src/components/CommentTextInput'
 import ContactCircle from 'src/components/ContactCircle'
 import Dialog from 'src/components/Dialog'
-import LegacyFeeDrawer from 'src/components/LegacyFeeDrawer'
 import LineItemRow from 'src/components/LineItemRow'
 import ReviewFrame from 'src/components/ReviewFrame'
 import ShortenedAddress from 'src/components/ShortenedAddress'
@@ -21,8 +22,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { FeeType, estimateFee } from 'src/fees/reducer'
-import { feeEstimatesSelector } from 'src/fees/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { getSecureSendAddress } from 'src/identity/secureSend'
@@ -31,27 +30,26 @@ import {
   e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
+import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { useInputAmounts } from 'src/send/SendAmount'
 import { sendPayment } from 'src/send/actions'
 import { isSendingSelector } from 'src/send/selectors'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import { useTokenInfo } from 'src/tokens/hooks'
+import {
+  useAmountAsUsd,
+  useLocalToTokenAmount,
+  useTokenInfo,
+  useTokenToLocalAmount,
+} from 'src/tokens/hooks'
 import { tokenSupportsComments } from 'src/tokens/utils'
-import { Network } from 'src/transactions/types'
-import networkConfig from 'src/web3/networkConfig'
-import { isDekRegisteredSelector } from 'src/web3/selectors'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
 
 type OwnProps = NativeStackScreenProps<
   StackParamList,
@@ -85,6 +83,42 @@ export function useRecipientToSendTo(paramRecipient: Recipient) {
   }, [paramRecipient])
 }
 
+const { decimalSeparator } = getNumberFormatSettings()
+
+function useInputAmounts(
+  inputAmount: string,
+  usingLocalAmount: boolean,
+  tokenId?: string,
+  inputTokenAmount?: BigNumber
+) {
+  const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
+  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId)
+  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId)
+
+  const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
+  // when using the local amount, the "inputAmount" value received here was
+  // already converted once from the token value. if we calculate the token
+  // value by converting again from local to token, we introduce rounding
+  // precision errors. most of the time this is fine but when pressing the "max"
+  // button and using the max token value this becomes a problem because the
+  // precision error introduced may result in a higher token value than
+  // original, preventing the user from sending the amount e.g. the max token
+  // balance could be something like 15.00, after conversion to local currency
+  // then back to token amount, it could be 15.000000001.
+
+  const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
+  const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
+
+  const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
+
+  return {
+    localAmount,
+    tokenAmount,
+    usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
+  }
+}
+
 function SendConfirmation(props: Props) {
   const { t } = useTranslation()
 
@@ -93,7 +127,6 @@ function SendConfirmation(props: Props) {
     transactionData: {
       recipient: paramRecipient,
       tokenAmount: inputTokenAmount,
-      amountIsInLocalCurrency,
       tokenAddress,
       comment: commentFromParams,
       tokenId,
@@ -103,14 +136,10 @@ function SendConfirmation(props: Props) {
     preparedTransaction,
   } = props.route.params
 
-  const newSendScreen = getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
-
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
 
   const tokenInfo = useTokenInfo(tokenId)
-  const tokenNetwork = getNetworkFromNetworkId(tokenInfo?.networkId)
-  const isDekRegistered = useSelector(isDekRegisteredSelector) ?? false
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
@@ -131,85 +160,42 @@ function SendConfirmation(props: Props) {
   )
   const recipient = useRecipientToSendTo(paramRecipient)
 
-  const feeEstimates = useSelector(feeEstimatesSelector)
-  const feeType = FeeType.SEND
-  const feeEstimate = tokenAddress ? feeEstimates[tokenAddress]?.[feeType] : undefined
-
-  // for new send flow, preparedTransaction is expected to be present except for
+  // preparedTransaction is expected to be present except for some
   // payment requests (which may not include one if a tx is not possible, e.g.,
   // amount > balance, not enough for gas, etc).
-  // for old send flow, feeEstimate must be present if network is celo
-  // We could consider making the preparedTx a required field if we handle those
-  // scenarios differently after the old send flow is cleaned up
-  const isFeeAvailable = newSendScreen
-    ? !!preparedTransaction
-    : tokenNetwork !== Network.Celo || !!feeEstimate?.feeInfo
-  const disableSend = isSending || !isFeeAvailable
+  // We could consider making preparedTx a required field if we handle those
+  // scenarios differently
+  const disableSend = isSending || !preparedTransaction
 
-  useEffect(() => {
-    if (!newSendScreen && !feeEstimate && tokenAddress) {
-      dispatch(estimateFee({ feeType, tokenAddress }))
-    }
-  }, [feeEstimate, newSendScreen])
-
-  useEffect(() => {
-    if (!newSendScreen && !isDekRegistered && tokenAddress) {
-      dispatch(estimateFee({ feeType: FeeType.REGISTER_DEK, tokenAddress }))
-    }
-  }, [isDekRegistered, newSendScreen])
-
-  // old flow fees
-  const securityFeeInUsd = feeEstimate?.usdFee ? new BigNumber(feeEstimate.usdFee) : undefined
-  const storedDekFee = tokenAddress ? feeEstimates[tokenAddress]?.[FeeType.REGISTER_DEK] : undefined
-  const dekFeeInUsd = storedDekFee?.usdFee ? new BigNumber(storedDekFee.usdFee) : undefined
-
-  // new flow fee
   const feeTokenInfo = useTokenInfo(feeTokenId)
   const feeInUsd =
     feeAmount && feeTokenInfo?.priceUsd
       ? new BigNumber(feeAmount).times(feeTokenInfo.priceUsd)
       : undefined
 
-  const totalFeeInUsd = newSendScreen ? feeInUsd : securityFeeInUsd?.plus(dekFeeInUsd ?? 0)
-
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        {newSendScreen ? (
-          feeAmount && (
-            <LineItemRow
-              testID="SendConfirmation/fee"
-              title={t('feeEstimate')}
-              amount={
-                <TokenDisplay
-                  amount={new BigNumber(feeAmount)}
-                  tokenId={feeTokenId}
-                  showLocalAmount={false}
-                />
-              }
-            />
-          )
-        ) : (
-          <LegacyFeeDrawer
-            testID={'feeDrawer/SendConfirmation'}
-            isEstimate={true}
-            securityFeeTokenId={networkConfig.cusdTokenId}
-            securityFee={securityFeeInUsd}
-            showDekfee={!isDekRegistered}
-            dekFee={dekFeeInUsd}
-            feeLoading={feeEstimate?.loading || storedDekFee?.loading}
-            feeHasError={feeEstimate?.error || storedDekFee?.error}
-            totalFee={totalFeeInUsd}
-            showLocalAmount={true}
+        {feeAmount && (
+          <LineItemRow
+            testID="SendConfirmation/fee"
+            title={t('feeEstimate')}
+            amount={
+              <TokenDisplay
+                amount={new BigNumber(feeAmount)}
+                tokenId={feeTokenId}
+                showLocalAmount={false}
+              />
+            }
           />
         )}
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenId}
-          feeToAddInUsd={totalFeeInUsd}
-          showLocalAmountForTotal={!newSendScreen}
-          showApproxTotalBalance={newSendScreen}
-          showApproxExchangeRate={newSendScreen}
+          feeToAddInUsd={feeInUsd}
+          showLocalAmountForTotal={false}
+          showApproxTotalBalance={true}
+          showApproxExchangeRate={true}
         />
       </View>
     )
@@ -237,11 +223,12 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
-    if (!isFeeAvailable) {
+    if (!preparedTransaction) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
       return
     }
+
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
       recipientType: recipient.recipientType,
@@ -265,7 +252,7 @@ function SendConfirmation(props: Props) {
         comment,
         recipient,
         fromModal,
-        feeEstimate?.feeInfo,
+        undefined,
         preparedTransaction
       )
     )
@@ -320,17 +307,15 @@ function SendConfirmation(props: Props) {
             style={styles.amount}
             amount={tokenAmount}
             tokenId={tokenId}
-            showLocalAmount={!newSendScreen && amountIsInLocalCurrency}
+            showLocalAmount={false}
           />
-          {newSendScreen && (
-            <TokenDisplay
-              testID="SendAmountFiat"
-              style={styles.amountSubscript}
-              amount={tokenAmount}
-              tokenId={tokenInfo?.tokenId}
-              showLocalAmount={true}
-            />
-          )}
+          <TokenDisplay
+            testID="SendAmountFiat"
+            style={styles.amountSubscript}
+            amount={tokenAmount}
+            tokenId={tokenInfo?.tokenId}
+            showLocalAmount={true}
+          />
           {allowComment && (
             <CommentTextInput
               testID={'send'}

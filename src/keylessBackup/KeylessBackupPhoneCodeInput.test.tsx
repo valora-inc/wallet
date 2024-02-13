@@ -3,6 +3,8 @@ import { FetchMock } from 'jest-fetch-mock'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { showError } from 'src/alert/actions'
+import { KeylessBackupEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
@@ -128,5 +130,54 @@ describe('KeylessBackupPhoneCodeInput', () => {
 
     jest.runOnlyPendingTimers()
     expect(navigate).not.toHaveBeenCalled()
+  })
+  it('displays the help bottom sheet and track analytics event when pressing the help button', async () => {
+    const { getByTestId } = renderComponent()
+
+    expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
+    expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet')).toBeTruthy()
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      KeylessBackupEvents.cab_phone_verification_help,
+      { keylessBackupFlow: KeylessBackupFlow.Setup }
+    )
+  })
+  it('tracks analytics event when pressing go back button', async () => {
+    const { getByTestId } = renderComponent()
+
+    expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
+    expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/GoBack'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      KeylessBackupEvents.cab_phone_verification_help_go_back,
+      { keylessBackupFlow: KeylessBackupFlow.Setup }
+    )
+  })
+  it('goes to WalletHome screen and track analytics event when pressing skip button in setup flow', async () => {
+    const { getByTestId } = renderComponent()
+
+    expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
+    expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip'))
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      KeylessBackupEvents.cab_phone_verification_help_skip,
+      { keylessBackupFlow: KeylessBackupFlow.Setup }
+    )
+  })
+  it('goes to ImportSelect screen and track analytics event when pressing skip button in restore flow', async () => {
+    const { getByTestId } = renderComponent(KeylessBackupFlow.Restore)
+
+    expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
+    expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip'))
+    expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      KeylessBackupEvents.cab_phone_verification_help_skip,
+      { keylessBackupFlow: KeylessBackupFlow.Restore }
+    )
   })
 })
