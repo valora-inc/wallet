@@ -118,6 +118,7 @@ export enum KeylessBackupEvents {
   cab_restore_failed_try_again = 'cab_restore_failed_try_again',
   cab_restore_failed_create_new_wallet = 'cab_restore_failed_create_new_wallet',
   cab_restore_failed_help = 'cab_restore_failed_help',
+  cab_restore_mnemonic_not_found = 'cab_restore_mnemonic_not_found',
   cab_phone_verification_help = 'cab_phone_verification_help',
   cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
   cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',

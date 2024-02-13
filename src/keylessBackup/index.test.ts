@@ -94,18 +94,48 @@ describe(getEncryptedMnemonic, () => {
     )
   })
 
-  it('throws if non 200 response', async () => {
+  it('throws if non 500 response', async () => {
     mockSiweFetch.mockResolvedValueOnce({
-      status: 404,
+      status: 500,
       ok: false,
-      json: () => Promise.resolve({ message: 'not found' }),
+      json: () => Promise.resolve({ message: 'internal server error' }),
     } as any)
     await expect(() =>
       getEncryptedMnemonic({
         encryptionPrivateKey: generatePrivateKey(),
         encryptionAddress: 'address',
       })
-    ).rejects.toThrow('Failed to get encrypted mnemonic with status 404, message not found')
+    ).rejects.toThrow(
+      'Failed to get encrypted mnemonic with status 500, message internal server error'
+    )
+    expect(mockSiweLogin).toHaveBeenCalledWith()
+    expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabGetEncryptedMnemonicUrl)
+    expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
+      {
+        accountAddress: 'address',
+        chainId: 44787,
+        clockUrl: networkConfig.cabClockUrl,
+        loginUrl: networkConfig.cabLoginUrl,
+        sessionDurationMs: 300000,
+        statement: 'Sign in with Ethereum',
+        timeout: 10000,
+        version: '1',
+      },
+      expect.any(Function)
+    )
+  })
+  it('returns null if 404 response', async () => {
+    mockSiweFetch.mockResolvedValueOnce({
+      status: 404,
+      ok: false,
+      json: () => Promise.resolve({ message: 'not found' }),
+    } as any)
+    expect(
+      await getEncryptedMnemonic({
+        encryptionPrivateKey: generatePrivateKey(),
+        encryptionAddress: 'address',
+      })
+    ).toBeNull()
     expect(mockSiweLogin).toHaveBeenCalledWith()
     expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabGetEncryptedMnemonicUrl)
     expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
