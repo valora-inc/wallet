@@ -3000,7 +3000,7 @@ export const v187Schema = {
     ...v186Schema._persist,
     version: 187,
   },
-  home: { ...v186Schema.home, lastDisplayedNftCelebration: null },
+  home: { ...v186Schema.home, nftCelebration: null },
 }
 
 export function getLatestSchema(): Partial<RootState> {

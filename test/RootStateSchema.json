@@ -4145,7 +4145,7 @@
                 "hasVisitedHome": {
                     "type": "boolean"
                 },
-                "lastDisplayedNftCelebration": {
+                "nftCelebration": {
                     "anyOf": [
                         {
                             "additionalProperties": false,
@@ -4153,12 +4153,16 @@
                                 "contractAddress": {
                                     "type": "string"
                                 },
+                                "displayed": {
+                                    "type": "boolean"
+                                },
                                 "networkId": {
                                     "$ref": "#/definitions/NetworkId"
                                 }
                             },
                             "required": [
                                 "contractAddress",
+                                "displayed",
                                 "networkId"
                             ],
                             "type": "object"
@@ -4178,7 +4182,7 @@
             "required": [
                 "cleverTapInboxMessages",
                 "hasVisitedHome",
-                "lastDisplayedNftCelebration",
+                "nftCelebration",
                 "loading",
                 "notifications"
             ],

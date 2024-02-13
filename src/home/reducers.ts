@@ -35,7 +35,11 @@ export interface State {
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]
   hasVisitedHome: boolean
-  lastDisplayedNftCelebration: { networkId: NetworkId; contractAddress: string } | null
+  nftCelebration: {
+    networkId: NetworkId
+    contractAddress: string
+    displayed: boolean
+  } | null
 }
 
 export const initialState = {
@@ -43,7 +47,7 @@ export const initialState = {
   notifications: {},
   cleverTapInboxMessages: [],
   hasVisitedHome: false,
-  lastDisplayedNftCelebration: null,
+  nftCelebration: null,
 }
 
 export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -113,12 +117,21 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         ...state,
         hasVisitedHome: true,
       }
+    case Actions.CELEBRATED_NFT_FOUND:
+      return {
+        ...state,
+        nftCelebration: {
+          networkId: action.networkId,
+          contractAddress: action.contractAddress,
+          displayed: false,
+        },
+      }
     case Actions.NFT_CELEBRATION_DISPLAYED:
       return {
         ...state,
-        lastDisplayedNftCelebration: {
-          networkId: action.networkId,
-          contractAddress: action.contractAddress,
+        nftCelebration: {
+          ...state.nftCelebration,
+          displayed: true,
         },
       }
     default:

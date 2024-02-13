@@ -16,19 +16,57 @@ const mockNft = {
   networkId: NetworkId['celo-alfajores'],
 }
 
+const mockStoreWithoutNft = {
+  nfts: {
+    nfts: [],
+    nftsLoading: false,
+    nftsError: null,
+  },
+  home: { nftCelebration: null },
+}
+
 const mockStoreWithNft = {
   nfts: {
     nfts: [mockNft],
     nftsLoading: false,
     nftsError: null,
   },
+  home: {
+    nftCelebration: {
+      networkId: mockNft.networkId,
+      contractAddress: mockNft.contractAddress,
+      displayed: false,
+    },
+  },
 }
 
-const mockStoreWithoutNft = {
+const mockStoreWithNftAndCelebrationDisplayed = {
   nfts: {
-    nfts: [],
+    nfts: [mockNft],
     nftsLoading: false,
     nftsError: null,
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNft.networkId,
+      contractAddress: mockNft.contractAddress,
+      displayed: true,
+    },
+  },
+}
+
+const mockStoreWithDifferentNft = {
+  nfts: {
+    nfts: [{ ...mockNft, contractAddress: '0xNFT' }],
+    nftsLoading: false,
+    nftsError: null,
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNft.networkId,
+      contractAddress: mockNft.contractAddress,
+      displayed: false,
+    },
   },
 }
 
@@ -74,13 +112,8 @@ describe('NftCelebration', () => {
   })
 
   it('does not render when celebrated contract does not match with user nft', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      networkId: NetworkId['celo-alfajores'],
-      contractAddress: '0xNFT',
-    })
-
     const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreWithNft)}>
+      <Provider store={createMockStore(mockStoreWithDifferentNft)}>
         <NftCelebration />
       </Provider>
     )
@@ -92,7 +125,7 @@ describe('NftCelebration', () => {
     expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
   })
 
-  it('does not render feature gate is closed', () => {
+  it('does not render when feature gate is closed', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false)
 
     const { queryByText } = render(
@@ -110,17 +143,7 @@ describe('NftCelebration', () => {
 
   it('does not render when user has alredy seen celebration for this contract', () => {
     const { queryByText } = render(
-      <Provider
-        store={createMockStore({
-          ...mockStoreWithNft,
-          home: {
-            lastDisplayedNftCelebration: {
-              networkId: mockNft.networkId,
-              contractAddress: mockNft.contractAddress,
-            },
-          },
-        })}
-      >
+      <Provider store={createMockStore(mockStoreWithNftAndCelebrationDisplayed)}>
         <NftCelebration />
       </Provider>
     )

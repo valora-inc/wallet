@@ -12,14 +12,11 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftCelebrationDisplayed } from 'src/home/actions'
 import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
-import { lastDisplayedNftCelebration } from 'src/home/selectors'
+import { celebratedNftSelector, showNftCelebrationSelector } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import NftMedia from 'src/nfts/NftMedia'
-import { nftsLoadingSelector, nftsWithMetadataSelector } from 'src/nfts/selectors'
+import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { NftOrigin } from 'src/nfts/types'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
@@ -37,24 +34,11 @@ export default function NftCelebration() {
   const [showConfettiCelebration, setShowConfettiCelebration] = useState(false)
   const confettiCelebrationStartTime = useRef(0)
 
-  const [nftsLoaded, setNftsLoaded] = useState(false)
-
-  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
-
-  const celebratedNft = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
-  )
-
-  const nftsLoading = useSelector(nftsLoadingSelector)
-  useEffect(() => {
-    // ensure we wait until NFTs are loaded only once
-    if (!nftsLoading && !nftsLoaded) {
-      setNftsLoaded(true)
-    }
-  }, [nftsLoading])
+  const canShowNftCelebration = useSelector(showNftCelebrationSelector)
+  const celebratedNft = useSelector(celebratedNftSelector)
 
   const nfts = useSelector(nftsWithMetadataSelector)
-  const matchedNft = nfts.find(
+  const matchingNft = nfts.find(
     (nft) =>
       !!celebratedNft &&
       !!celebratedNft.networkId &&
@@ -63,12 +47,7 @@ export default function NftCelebration() {
       celebratedNft.contractAddress === nft.contractAddress
   )
 
-  const lastDisplayedCelebration = useSelector(lastDisplayedNftCelebration)
-  const celebrationHasBeenDisplayed =
-    !!lastDisplayedCelebration &&
-    !!celebratedNft &&
-    lastDisplayedCelebration.networkId === celebratedNft.networkId &&
-    lastDisplayedCelebration.contractAddress === celebratedNft.contractAddress
+  const isVisible = canShowNftCelebration && matchingNft
 
   const renderBackdrop = useCallback(
     (props: BottomSheetDefaultBackdropProps) => (
@@ -80,10 +59,10 @@ export default function NftCelebration() {
   const renderHandleWithImage = useCallback(
     () => (
       <View style={styles.handleWithImage}>
-        {matchedNft && (
+        {matchingNft && (
           <NftMedia
             shouldAutoScaleHeight
-            nft={matchedNft}
+            nft={matchingNft}
             ErrorComponent={
               <View style={styles.imageError}>
                 <ImageErrorIcon />
@@ -96,10 +75,8 @@ export default function NftCelebration() {
         <View style={styles.handleBar} />
       </View>
     ),
-    [matchedNft]
+    [matchingNft]
   )
-
-  const isVisible = featureGateEnabled && matchedNft && nftsLoaded && !celebrationHasBeenDisplayed
 
   useEffect(() => {
     if (isVisible) {
@@ -113,14 +90,14 @@ export default function NftCelebration() {
   }, [isVisible])
 
   const handleBottomSheetPositionChange = (index: number) => {
-    if (!matchedNft) {
+    if (!matchingNft) {
       return // this should never happen
     }
 
     if (index === -1) {
       ValoraAnalytics.track(HomeEvents.nft_celebration_displayed, {
-        networkId: matchedNft.networkId,
-        contractAddress: matchedNft.contractAddress,
+        networkId: matchingNft.networkId,
+        contractAddress: matchingNft.contractAddress,
       })
 
       vibrateSuccess()
@@ -143,7 +120,7 @@ export default function NftCelebration() {
   }
 
   const finishCelebration = ({ userInterrupted }: { userInterrupted: boolean }) => {
-    if (!matchedNft) {
+    if (!matchingNft) {
       return // this should never happen
     }
 
@@ -154,12 +131,7 @@ export default function NftCelebration() {
 
     setShowConfettiCelebration(false)
 
-    dispatch(
-      nftCelebrationDisplayed({
-        networkId: matchedNft.networkId,
-        contractAddress: matchedNft.contractAddress,
-      })
-    )
+    dispatch(nftCelebrationDisplayed())
   }
 
   if (!isVisible) {
@@ -198,7 +170,7 @@ export default function NftCelebration() {
         showAnimation={showConfettiCelebration}
         title={t('nftCelebration.notification.title')}
         description={t('nftCelebration.notification.description', {
-          rewardName: matchedNft.metadata.name,
+          rewardName: matchingNft.metadata.name,
           appName: APP_NAME,
         })}
         onAnimationFinish={handleConfettiCelebrationFinish}

@@ -241,8 +241,8 @@ describe('store state', () => {
         "home": {
           "cleverTapInboxMessages": [],
           "hasVisitedHome": true,
-          "lastDisplayedNftCelebration": null,
           "loading": false,
+          "nftCelebration": null,
           "notifications": {},
         },
         "i18n": {

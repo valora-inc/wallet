@@ -1535,6 +1535,6 @@ export const migrations = {
   }),
   187: (state: any) => ({
     ...state,
-    home: { ...state.home, lastDisplayedNftCelebration: null },
+    home: { ...state.home, nftCelebration: null },
   }),
 }

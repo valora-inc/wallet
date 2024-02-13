@@ -11,6 +11,7 @@ export enum Actions {
   STOP_BALANCE_AUTOREFRESH = 'HOME/STOP_BALANCE_AUTOREFRESH',
   VISIT_HOME = 'HOME/VISIT_HOME',
   CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
+  CELEBRATED_NFT_FOUND = 'HOME/CELEBRATED_NFT_FOUND',
   NFT_CELEBRATION_DISPLAYED = 'HOME/NFT_CELEBRATION_DISPLAYED',
 }
 
@@ -42,10 +43,14 @@ interface CleverTapInboxMessagesReceivedAction {
   messages: CleverTapInboxMessage[]
 }
 
-interface NftCelebrationDisplayedAction {
-  type: Actions.NFT_CELEBRATION_DISPLAYED
+interface CelebratedNftFoundAction {
+  type: Actions.CELEBRATED_NFT_FOUND
   networkId: NetworkId
   contractAddress: string
+}
+
+interface NftCelebrationDisplayedAction {
+  type: Actions.NFT_CELEBRATION_DISPLAYED
 }
 
 export type ActionTypes =
@@ -54,6 +59,7 @@ export type ActionTypes =
   | DismissNotificationAction
   | CleverTapInboxMessagesReceivedAction
   | VisitHomeAction
+  | CelebratedNftFoundAction
   | NftCelebrationDisplayedAction
 
 export const visitHome = (): VisitHomeAction => ({
@@ -96,14 +102,18 @@ export const cleverTapInboxMessagesReceived = (
   messages,
 })
 
-export const nftCelebrationDisplayed = ({
+export const celebratedNftFound = ({
   networkId,
   contractAddress,
 }: {
   networkId: NetworkId
   contractAddress: string
-}): NftCelebrationDisplayedAction => ({
-  type: Actions.NFT_CELEBRATION_DISPLAYED,
+}): CelebratedNftFoundAction => ({
+  type: Actions.CELEBRATED_NFT_FOUND,
   networkId,
   contractAddress,
+})
+
+export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
+  type: Actions.NFT_CELEBRATION_DISPLAYED,
 })
