@@ -2073,6 +2073,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    },
+    "feeEstimationError": {
+      "title": "Error estimating network fee",
+      "description": "There was an error estimating the network fee. Please try again later."
     }
   },
   "transactionFeed": {

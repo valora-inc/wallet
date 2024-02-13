@@ -68,10 +68,12 @@ export function usePrepareSendTransactions() {
   const [prepareTransactionsResult, setPrepareTransactionsResult] = useState<
     PreparedTransactionsResult | undefined
   >()
+  const [prepareTransactionError, setPrepareTransactionError] = useState<Error | undefined>()
 
   const prepareTransactions = useAsyncCallback(prepareSendTransactionsCallback, {
     onError: (error) => {
       Logger.error(TAG, `prepareTransactionsOutput: ${error}`)
+      setPrepareTransactionError(error)
     },
     onSuccess: setPrepareTransactionsResult,
   })
@@ -80,6 +82,8 @@ export function usePrepareSendTransactions() {
     refreshPreparedTransactions: prepareTransactions.execute,
     clearPreparedTransactions: () => {
       setPrepareTransactionsResult(undefined)
+      setPrepareTransactionError(undefined)
     },
+    prepareTransactionError,
   }
 }
