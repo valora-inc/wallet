@@ -22,7 +22,6 @@ export enum StatsigFeatureGates {
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS = 'use_viem_for_walletconnect_transactions',
-  USE_NEW_SEND_FLOW = 'use_new_send_flow',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',

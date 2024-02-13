@@ -5,7 +5,7 @@ import {
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
 import { AppState, MultichainBetaStatus } from 'src/app/actions'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
@@ -1363,7 +1363,7 @@ export const v56Schema = {
   },
   dapps: {
     ...v55Schema.dapps,
-    dappConnectInfo: DappConnectInfo.Default,
+    dappConnectInfo: 'default',
   },
 }
 

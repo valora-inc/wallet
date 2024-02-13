@@ -73,11 +73,6 @@ export const sendReducer = (
         ...state,
         inviteRewardsVersion: action.configValues.inviteRewardsVersion,
       }
-    case Actions.SET_SHOW_WARNING:
-      return {
-        ...state,
-        showSendToAddressWarning: action.showWarning,
-      }
     default:
       return state
   }

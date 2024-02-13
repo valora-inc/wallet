@@ -1698,9 +1698,11 @@ describe('SwapScreen', () => {
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-      expect(queryByText('tokenBottomSheet.filters.network, {"networkName":"Celo"}')).toBeFalsy()
       expect(
-        queryByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum"}')
+        queryByText('tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}')
+      ).toBeFalsy()
+      expect(
+        queryByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}')
       ).toBeFalsy()
 
       // deselect pre-selected filters to show all tokens
@@ -1728,7 +1730,9 @@ describe('SwapScreen', () => {
       // deselect pre-selected filters to show all tokens
       fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
       // select celo filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.network, {"networkName":"Celo"}'))
+      fireEvent.press(
+        getByText('tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}')
+      )
 
       expectedCeloTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1738,8 +1742,12 @@ describe('SwapScreen', () => {
       )
 
       // select eth filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.network, {"networkName":"Celo"}'))
-      fireEvent.press(getByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum"}'))
+      fireEvent.press(
+        getByText('tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}')
+      )
+      fireEvent.press(
+        getByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}')
+      )
 
       expectedEthTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()

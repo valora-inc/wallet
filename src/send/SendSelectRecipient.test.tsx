@@ -12,7 +12,6 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
-import { getFeatureGate } from 'src/statsig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockAccount,
@@ -29,7 +28,7 @@ import {
 
 jest.mock('@react-native-clipboard/clipboard')
 jest.mock('src/utils/IosVersionUtils')
-jest.mock('src/recipients/RecipientPicker')
+jest.mock('src/recipients/resolve-id')
 jest.mock('src/recipients/recipient', () => ({
   ...(jest.requireActual('src/recipients/recipient') as any),
   getRecipientVerificationStatus: jest.fn(),
@@ -38,7 +37,6 @@ jest.mock('src/recipients/recipient', () => ({
 jest.mock('react-native-device-info', () => ({ getFontScaleSync: () => 1 }))
 // this mock defaults to granting all permissions
 jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
-jest.mock('src/statsig')
 
 const mockScreenProps = ({
   defaultTokenIdOverride,
@@ -282,7 +280,6 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('InviteModalContainer')).toBeTruthy()
   })
   it('does not show unknown address info text when searching for known valora address', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.VERIFIED)
@@ -316,7 +313,6 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
   it('does not show unknown address info text when searching for phone number', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
@@ -347,7 +343,6 @@ describe('SendSelectRecipient', () => {
   })
 
   it('shows unknown address info text when searching for unknown address after making address verification request', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)
@@ -382,8 +377,6 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
   it('shows unknown address info text and skips CPV request when searching for any address if PN not verified', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-
     const store = createMockStore(defaultStore)
 
     const { getByTestId } = render(
@@ -414,7 +407,6 @@ describe('SendSelectRecipient', () => {
     expect(getByTestId('SendOrInviteButton')).toBeTruthy()
   })
   it('shows unknown address info text and send button when searching for address with cached phone number but no longer connected to the phone number', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     jest
       .mocked(getRecipientVerificationStatus)
       .mockReturnValue(RecipientVerificationStatus.UNVERIFIED)

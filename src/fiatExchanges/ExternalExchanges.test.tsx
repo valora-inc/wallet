@@ -4,12 +4,10 @@ import { Provider } from 'react-redux'
 import ExternalExchanges from 'src/fiatExchanges/ExternalExchanges'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockCusdTokenId, mockExchanges } from 'test/values'
 
-jest.mock('src/statsig')
 const mockStore = createMockStore({
   web3: {
     account: mockAccount,
@@ -48,29 +46,7 @@ describe('ExternalExchanges', () => {
     expect(navigateToURI).toBeCalledWith('https://coinlist.co/asset/celo')
   })
 
-  it.each([
-    {
-      testName: 'navigates to the correct screen when send is tapped (new flow)',
-      useNewSendFlow: true,
-      expectedScreen: Screens.SendSelectRecipient,
-      navParams: {
-        defaultTokenIdOverride: mockCusdTokenId,
-        forceTokenId: true,
-      },
-    },
-    {
-      testName: 'navigates to the correct screen when send is tapped (old flow)',
-      useNewSendFlow: false,
-      expectedScreen: Screens.Send,
-      navParams: {
-        skipContactsImport: true,
-        defaultTokenIdOverride: mockCusdTokenId,
-        forceTokenId: true,
-      },
-    },
-  ])('$testName', async ({ useNewSendFlow, expectedScreen, navParams }) => {
-    jest.mocked(getFeatureGate).mockReturnValue(useNewSendFlow)
-
+  it('navigates to the correct screen when send is tapped', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
       tokenId: mockCusdTokenId,
       exchanges: mockExchanges,
@@ -83,6 +59,9 @@ describe('ExternalExchanges', () => {
     )
 
     await fireEvent.press(getByTestId('SendBar/SendButton'))
-    expect(navigate).toHaveBeenCalledWith(expectedScreen, navParams)
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
+      defaultTokenIdOverride: mockCusdTokenId,
+      forceTokenId: true,
+    })
   })
 })
