@@ -261,6 +261,9 @@ interface KeylessBackupEventsProperties {
   }
   [KeylessBackupEvents.cab_restore_failed_help]: undefined
   [KeylessBackupEvents.cab_restore_mnemonic_not_found]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
 }
 
 interface OnboardingEventsProperties {
