@@ -3,18 +3,12 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { APP_NAME } from 'src/brandingConfig'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig/index'
-import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields } from 'test/values'
 import NftCelebration from './NftCelebration'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
-
-const mockNft = {
-  ...mockNftAllFields,
-  networkId: NetworkId['celo-alfajores'],
-}
 
 const mockStoreWithoutNft = {
   nfts: {
@@ -27,14 +21,14 @@ const mockStoreWithoutNft = {
 
 const mockStoreWithNft = {
   nfts: {
-    nfts: [mockNft],
+    nfts: [mockNftAllFields],
     nftsLoading: false,
     nftsError: null,
   },
   home: {
     nftCelebration: {
-      networkId: mockNft.networkId,
-      contractAddress: mockNft.contractAddress,
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
       displayed: false,
     },
   },
@@ -42,14 +36,14 @@ const mockStoreWithNft = {
 
 const mockStoreWithNftAndCelebrationDisplayed = {
   nfts: {
-    nfts: [mockNft],
+    nfts: [mockNftAllFields],
     nftsLoading: false,
     nftsError: null,
   },
   home: {
     nftCelebration: {
-      networkId: mockNft.networkId,
-      contractAddress: mockNft.contractAddress,
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
       displayed: true,
     },
   },
@@ -57,14 +51,14 @@ const mockStoreWithNftAndCelebrationDisplayed = {
 
 const mockStoreWithDifferentNft = {
   nfts: {
-    nfts: [{ ...mockNft, contractAddress: '0xNFT' }],
+    nfts: [{ ...mockNftAllFields, contractAddress: '0xNFT' }],
     nftsLoading: false,
     nftsError: null,
   },
   home: {
     nftCelebration: {
-      networkId: mockNft.networkId,
-      contractAddress: mockNft.contractAddress,
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
       displayed: false,
     },
   },
@@ -74,8 +68,8 @@ describe('NftCelebration', () => {
   beforeEach(() => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     jest.mocked(getDynamicConfigParams).mockReturnValue({
-      networkId: mockNft.networkId,
-      contractAddress: mockNft.contractAddress,
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
     })
   })
 

@@ -1,7 +1,11 @@
 import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
-import { handleFetchNfts } from 'src/nfts/saga'
+import { Actions, celebratedNftFound } from 'src/home/actions'
+import { celebratedNftSelector } from 'src/home/selectors'
+import * as nftSaga from 'src/nfts/saga'
+import { handleFetchNfts, watchFirstFetchCompleted } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -132,6 +136,88 @@ describe('Given Nfts saga', () => {
         .provide([[select(walletAddressSelector), '0xabc']])
         .not.put.actionType(fetchNftsCompleted.type)
         .run()
+    })
+  })
+
+  describe('findCelebratedNft saga', () => {
+    it('should put celebrated NFT once found', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+      const mockCelebratedNft = {
+        networkId: mockNftAllFields.networkId,
+        contractAddress: mockNftAllFields.contractAddress,
+      }
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockCelebratedNft)
+
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(celebratedNftSelector), null]])
+        .put(
+          celebratedNftFound({
+            networkId: mockCelebratedNft.networkId,
+            contractAddress: mockCelebratedNft.contractAddress,
+          })
+        )
+        .run()
+    })
+
+    it('should not put celebrated NFT if feature gate is closed', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+      const mockCelebratedNft = {
+        networkId: mockNftAllFields.networkId,
+        contractAddress: mockNftAllFields.contractAddress,
+      }
+
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockCelebratedNft)
+
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(celebratedNftSelector), null]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+    })
+
+    it('should not put celebrated NFT if dynamic config is empty', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue({})
+
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(celebratedNftSelector), null]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+    })
+
+    it('should not put celebrated NFT if celebrated NFT already exists', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+      const mockCelebratedNft = {
+        networkId: mockNftAllFields.networkId,
+        contractAddress: mockNftAllFields.contractAddress,
+      }
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockCelebratedNft)
+
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(celebratedNftSelector), mockCelebratedNft]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+    })
+  })
+
+  describe('watchFirstFetchCompleted saga', () => {
+    it('should call findCelebratedNft only once even if multiple fetchNftsCompleted actions are dispatched', async () => {
+      const mockFindCelebratedNft = jest.fn()
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      await expectSaga(watchFirstFetchCompleted)
+        .provide([[matchers.call.fn(nftSaga.findCelebratedNft), mockFindCelebratedNft()]])
+        .dispatch(mockAction)
+        .dispatch(mockAction)
+        .run()
+
+      expect(mockFindCelebratedNft).toHaveBeenCalledTimes(1)
     })
   })
 })

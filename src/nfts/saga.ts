@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import { celebratedNftFound } from 'src/home/actions'
 import { celebratedNftSelector } from 'src/home/selectors'
 import {
@@ -75,7 +76,7 @@ export function* handleFetchNfts() {
   }
 }
 
-function* findCelebratedNft({ nfts }: FetchNftsCompletedAction) {
+export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNftsCompletedAction>) {
   const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
   if (!featureGateEnabled) {
     return
@@ -120,8 +121,7 @@ export function* watchFetchNfts() {
 }
 
 export function* watchFirstFetchCompleted() {
-  // TODO: maybe fix typing?
-  const action = (yield* take(fetchNftsCompleted.type)) as unknown as FetchNftsCompletedAction
+  const action = (yield* take(fetchNftsCompleted.type)) as PayloadAction<FetchNftsCompletedAction>
   yield* call(findCelebratedNft, action)
 }
 
