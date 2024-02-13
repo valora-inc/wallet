@@ -43,6 +43,6 @@ export function deterministicShuffle<T>(
 
   // sort the tokens array based on hash of the identifying property and user's address
   return Array.from(map.entries())
-    .sort((a, b) => a[0].localeCompare(b[0]))
+    .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
     .map(([_, token]) => token)
 }
