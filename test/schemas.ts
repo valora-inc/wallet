@@ -5,7 +5,7 @@ import {
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
 import { AppState, MultichainBetaStatus } from 'src/app/actions'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
@@ -1363,7 +1363,7 @@ export const v56Schema = {
   },
   dapps: {
     ...v55Schema.dapps,
-    dappConnectInfo: DappConnectInfo.Default,
+    dappConnectInfo: 'default',
   },
 }
 
@@ -3000,9 +3000,23 @@ export const v187Schema = {
     ...v186Schema._persist,
     version: 187,
   },
-  home: { ...v186Schema.home, nftCelebration: null },
+  dapps: _.omit(
+    v186Schema.dapps,
+    'dappConnectInfo',
+    'dappFavoritesEnabled',
+    'dappsMinimalDisclaimerEnabled'
+  ),
+}
+
+export const v188Schema = {
+  ...v187Schema,
+  _persist: {
+    ...v187Schema._persist,
+    version: 188,
+  },
+  home: { ...v187Schema.home, nftCelebration: null },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v187Schema as Partial<RootState>
+  return v188Schema as Partial<RootState>
 }

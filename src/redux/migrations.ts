@@ -2,7 +2,7 @@ import _ from 'lodash'
 import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { MultichainBetaStatus } from 'src/app/actions'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { Dapp } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -688,7 +688,7 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      dappConnectInfo: DappConnectInfo.Default,
+      dappConnectInfo: 'default',
     },
   }),
   57: (state: any) => ({
@@ -1534,6 +1534,15 @@ export const migrations = {
     app: { ...state.app, pendingDeepLinks: [] },
   }),
   187: (state: any) => ({
+    ...state,
+    dapps: _.omit(
+      state.dapps,
+      'dappConnectInfo',
+      'dappFavoritesEnabled',
+      'dappsMinimalDisclaimerEnabled'
+    ),
+  }),
+  188: (state: any) => ({
     ...state,
     home: { ...state.home, nftCelebration: null },
   }),

@@ -6,8 +6,6 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
-import { dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/types'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { NETWORK_NAMES } from 'src/shared/conts'
@@ -42,7 +40,6 @@ function SessionRequest({
   const dispatch = useDispatch()
 
   const address = useSelector(currentAccountSelector)
-  const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const { dappName, dappImageUrl } = useDappMetadata(metadata)
 
   const requestDetails: RequestDetail[] = [
@@ -79,12 +76,8 @@ function SessionRequest({
         }}
         dappName={dappName}
         dappImageUrl={dappImageUrl}
-        title={
-          dappConnectInfo === DappConnectInfo.Basic
-            ? t('connectToWallet', { dappName })
-            : t('confirmTransaction', { dappName })
-        }
-        description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : null}
+        title={t('connectToWallet', { dappName })}
+        description={t('shareInfo')}
         testId="WalletConnectSessionRequest"
       >
         <InLineNotification
@@ -114,13 +107,9 @@ function SessionRequest({
       }}
       dappName={dappName}
       dappImageUrl={dappImageUrl}
-      title={
-        dappConnectInfo === DappConnectInfo.Basic
-          ? t('connectToWallet', { dappName })
-          : t('confirmTransaction', { dappName })
-      }
-      description={dappConnectInfo === DappConnectInfo.Basic ? t('shareInfo') : null}
-      requestDetails={dappConnectInfo === DappConnectInfo.Basic ? requestDetails : undefined}
+      title={t('connectToWallet', { dappName })}
+      description={t('shareInfo')}
+      requestDetails={requestDetails}
       testId="WalletConnectSessionRequest"
     >
       <NamespacesWarning
