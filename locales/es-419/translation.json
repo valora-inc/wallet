@@ -137,6 +137,12 @@
         "tryAgain": "Reintentar",
         "createNewWallet": "Crear wallet",
         "help": "Ayuda"
+      },
+      "notFound": {
+        "title": "Cartera no encontrada",
+        "body": "Para restaurar tu monedero, utiliza la <0>misma dirección de correo electrónico y el mismo número de teléfono</0> que utilizaste al configurarlo.\n\nTambién puedes restaurar tu monedero con tu frase de recuperación.",
+        "tryAgain": "Reintentar",
+        "createNewWallet": "Crear wallet"
       }
     }
   },
