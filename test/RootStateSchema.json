@@ -4125,6 +4125,9 @@
                 "hasVisitedHome": {
                     "type": "boolean"
                 },
+                "loading": {
+                    "type": "boolean"
+                },
                 "nftCelebration": {
                     "anyOf": [
                         {
@@ -4152,9 +4155,6 @@
                         }
                     ]
                 },
-                "loading": {
-                    "type": "boolean"
-                },
                 "notifications": {
                     "$ref": "#/definitions/IdToNotification"
                 }
@@ -4162,8 +4162,8 @@
             "required": [
                 "cleverTapInboxMessages",
                 "hasVisitedHome",
-                "nftCelebration",
                 "loading",
+                "nftCelebration",
                 "notifications"
             ],
             "type": "object"
