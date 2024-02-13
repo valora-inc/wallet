@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { BackHandler, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
@@ -214,7 +214,7 @@ function Restore() {
     case KeylessBackupStatus.NotFound:
       return (
         <SafeAreaView style={styles.container}>
-          <View style={styles.finishedContainer}>
+          <ScrollView contentContainerStyle={styles.finishedContainer}>
             <Help size={60} color={colors.gray4} />
             <Text style={styles.title}>{t('keylessBackupStatus.restore.notFound.title')}</Text>
             <Text style={styles.body}>
@@ -222,7 +222,7 @@ function Restore() {
                 <Text style={styles.bold} />
               </Trans>
             </Text>
-          </View>
+          </ScrollView>
           <Button
             testID="KeylessBackupProgress/RestoreNotFoundTryAgain"
             onPress={onPressTryAgain}

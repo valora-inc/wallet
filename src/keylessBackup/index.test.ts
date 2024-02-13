@@ -94,18 +94,20 @@ describe(getEncryptedMnemonic, () => {
     )
   })
 
-  it('throws if non 200 response', async () => {
+  it('throws if non 500 response', async () => {
     mockSiweFetch.mockResolvedValueOnce({
       status: 500,
       ok: false,
-      json: () => Promise.resolve({ message: 'not found' }),
+      json: () => Promise.resolve({ message: 'internal server error' }),
     } as any)
     await expect(() =>
       getEncryptedMnemonic({
         encryptionPrivateKey: generatePrivateKey(),
         encryptionAddress: 'address',
       })
-    ).rejects.toThrow('Failed to get encrypted mnemonic with status 500, message not found')
+    ).rejects.toThrow(
+      'Failed to get encrypted mnemonic with status 500, message internal server error'
+    )
     expect(mockSiweLogin).toHaveBeenCalledWith()
     expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabGetEncryptedMnemonicUrl)
     expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
