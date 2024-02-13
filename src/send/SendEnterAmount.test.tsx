@@ -102,6 +102,7 @@ describe('SendEnterAmount', () => {
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
     }
     jest
       .mocked(getSupportedNetworkIdsForSend)
