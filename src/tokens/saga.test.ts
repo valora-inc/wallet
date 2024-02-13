@@ -329,6 +329,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'TestToken',
         symbol: 'TT',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockPoofTokenId]: {
         address: mockPoofAddress,
@@ -339,6 +341,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'PoofToken',
         symbol: 'Poof',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockUSDCTokenId]: {
         address: mockUSDCAddress,
@@ -350,6 +354,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'USD Coin',
         symbol: 'USDC',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
     }
 
@@ -381,14 +387,103 @@ describe(fetchImportedTokenBalances, () => {
       [mockTestTokenTokenId]: {
         ...mockImportedTokens[mockTestTokenTokenId],
         balance: new BigNumber(0.000000001).toFixed(),
+        priceUsd: undefined,
       },
       [mockPoofTokenId]: {
         ...mockImportedTokens[mockPoofTokenId],
         balance: new BigNumber(0.0005).toFixed(),
+        priceUsd: undefined,
       },
       [mockUSDCTokenId]: {
         ...mockImportedTokens[mockUSDCTokenId],
         balance: new BigNumber(10).toFixed(),
+        priceUsd: undefined,
+      },
+    })
+  })
+})
+
+describe(fetchImportedTokenBalances, () => {
+  it('returns token balances for multiple chains', async () => {
+    const mockImportedTokens = {
+      [mockTestTokenTokenId]: {
+        address: mockTestTokenAddress,
+        decimals: 18,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
+        balance: new BigNumber(100),
+        name: 'TestToken',
+        symbol: 'TT',
+        isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
+      },
+      [mockPoofTokenId]: {
+        address: mockPoofAddress,
+        decimals: 18,
+        tokenId: mockPoofTokenId,
+        networkId: NetworkId['celo-alfajores'],
+        balance: new BigNumber(100),
+        name: 'PoofToken',
+        symbol: 'Poof',
+        isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
+      },
+      [mockUSDCTokenId]: {
+        address: mockUSDCAddress,
+        decimals: 8,
+        tokenId: mockUSDCTokenId,
+        showZeroBalance: true,
+        networkId: NetworkId['ethereum-sepolia'],
+        balance: new BigNumber(100),
+        name: 'USD Coin',
+        symbol: 'USDC',
+        isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
+      },
+    }
+
+    const mockKnownTokenBalances = {
+      [mockPoofTokenId]: {
+        tokenId: mockPoofTokenId,
+        balance: '500000000000000',
+      },
+    }
+
+    // @ts-ignore
+    jest.mocked(getContract).mockImplementation((_args: any) => {
+      return {
+        read: {
+          balanceOf: (_argsArray: any) => {
+            return BigInt(1000000000)
+          },
+        },
+      }
+    })
+
+    const result = await fetchImportedTokenBalances(
+      mockAccount,
+      Object.values(mockImportedTokens),
+      mockKnownTokenBalances
+    )
+
+    expect(result).toEqual({
+      [mockTestTokenTokenId]: {
+        ...mockImportedTokens[mockTestTokenTokenId],
+        balance: new BigNumber(0.000000001).toFixed(),
+        priceUsd: undefined,
+      },
+      [mockPoofTokenId]: {
+        ...mockImportedTokens[mockPoofTokenId],
+        balance: new BigNumber(0.0005).toFixed(),
+        priceUsd: undefined,
+      },
+      [mockUSDCTokenId]: {
+        ...mockImportedTokens[mockUSDCTokenId],
+        balance: new BigNumber(10).toFixed(),
+        priceUsd: undefined,
       },
     })
   })
