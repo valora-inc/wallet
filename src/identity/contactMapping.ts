@@ -50,7 +50,7 @@ import { getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { checkContactsPermission } from 'src/utils/permissions'
-import { calculateHash } from 'src/utils/random'
+import { calculateSha256Hash } from 'src/utils/random'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
@@ -441,7 +441,7 @@ export function* saveContacts() {
     const contacts = Object.keys(recipientCache).sort()
     const lastSavedContactsHash = yield* select(lastSavedContactsHashSelector)
 
-    const hash = calculateHash(`${ownPhoneNumber}:${contacts.join(',')}`)
+    const hash = calculateSha256Hash(`${ownPhoneNumber}:${contacts.join(',')}`)
 
     if (hash === lastSavedContactsHash) {
       Logger.debug(

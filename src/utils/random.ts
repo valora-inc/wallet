@@ -24,9 +24,9 @@ export function shuffle(array: any[], seed: string) {
   return array
 }
 
-export function calculateHash(str: string) {
+export function calculateSha256Hash(input: string) {
   const hash = crypto.createHash('sha256')
-  hash.update(str)
+  hash.update(input)
   return hash.digest('hex')
 }
 
@@ -37,7 +37,7 @@ export function deterministicShuffle<T>(
 ): T[] {
   const map = new Map<string, T>()
   objectArray.forEach((element) => {
-    const hash = calculateHash(`${element[identifyingProperty]}${pepper}`)
+    const hash = calculateSha256Hash(`${element[identifyingProperty]}${pepper}`)
     map.set(hash, element)
   })
 
