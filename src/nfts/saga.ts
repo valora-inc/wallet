@@ -116,7 +116,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
   )
 }
 
-export function* watchFetchNfts() {
+function* watchFetchNfts() {
   yield* takeLeading([fetchNfts.type, Actions.SET_ACCOUNT], safely(handleFetchNfts))
 }
 
