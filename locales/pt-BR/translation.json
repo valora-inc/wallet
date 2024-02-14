@@ -137,6 +137,12 @@
         "tryAgain": "Repetir",
         "createNewWallet": "Criar carteira",
         "help": "Ajuda"
+      },
+      "notFound": {
+        "title": "Carteira não encontrada",
+        "body": "Para restaurar sua carteira, use o <0>mesmo endereço de e-mail e número de telefone</0> que você usou quando fez a configuração.\n\nVocê também pode restaurar sua carteira com sua frase de recuperação.",
+        "tryAgain": "Repetir",
+        "createNewWallet": "Criar carteira"
       }
     }
   },

@@ -14,7 +14,11 @@ import {
   tokenAmountInSmallestUnit,
   watchAccountFundedOrLiquidated,
 } from 'src/tokens/saga'
-import { importedTokensSelector, lastKnownTokenBalancesSelector } from 'src/tokens/selectors'
+import {
+  importedTokensSelector,
+  lastKnownTokenBalancesSelector,
+  networksIconSelector,
+} from 'src/tokens/selectors'
 import {
   StoredTokenBalance,
   StoredTokenBalances,
@@ -143,6 +147,19 @@ describe(fetchTokenBalancesSaga, () => {
       showZeroBalance: true,
       networkId: NetworkId['celo-alfajores'],
       isManuallyImported: true,
+      networkIconUrl: 'oldCeloUrl',
+    },
+    [mockUSDCTokenId]: {
+      address: mockUSDCAddress,
+      decimals: 8,
+      name: 'USD Coin',
+      symbol: 'USDC',
+      tokenId: mockUSDCTokenId,
+      balance: new BigNumber(0),
+      showZeroBalance: true,
+      networkId: NetworkId['ethereum-sepolia'],
+      isManuallyImported: true,
+      networkIconUrl: 'oldEthUrl',
     },
   }
 
@@ -155,6 +172,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(importedTokensSelector, supportedNetworks), []],
+        [select(networksIconSelector, supportedNetworks), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
@@ -184,6 +202,7 @@ describe(fetchTokenBalancesSaga, () => {
     await expectSaga(fetchTokenBalancesSaga)
       .provide([
         [select(importedTokensSelector, supportedNetworks), []],
+        [select(networksIconSelector, supportedNetworks), {}],
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(walletAddressSelector), mockAccount],
         [
@@ -199,8 +218,8 @@ describe(fetchTokenBalancesSaga, () => {
     })
   })
 
-  it('includes imported tokens', async () => {
-    const supportedNetworks = [NetworkId['celo-alfajores']]
+  it('includes imported tokens for multiple networks', async () => {
+    const supportedNetworks = [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']]
     jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
       showBalances: supportedNetworks,
     })
@@ -210,7 +229,12 @@ describe(fetchTokenBalancesSaga, () => {
       [mockTestTokenTokenId]: {
         ...mockImportedTokensInfo[mockTestTokenTokenId],
         balance: '1000',
-        showZeroBalance: true,
+        networkIconUrl: 'newCeloUrl',
+      },
+      [mockUSDCTokenId]: {
+        ...mockImportedTokensInfo[mockUSDCTokenId],
+        balance: '0',
+        networkIconUrl: 'newEthUrl',
       },
     }
 
@@ -220,6 +244,13 @@ describe(fetchTokenBalancesSaga, () => {
       .provide([
         [call(getTokensInfo), mockBlockchainApiTokenInfo],
         [select(importedTokensSelector, supportedNetworks), importedTokens],
+        [
+          select(networksIconSelector, supportedNetworks),
+          {
+            [NetworkId['celo-alfajores']]: 'newCeloUrl',
+            [NetworkId['ethereum-sepolia']]: 'newEthUrl',
+          },
+        ],
         [select(walletAddressSelector), mockAccount],
         [call(fetchTokenBalancesForAddressByTokenId, mockAccount), fetchBalancesResponse],
         [
@@ -233,6 +264,10 @@ describe(fetchTokenBalancesSaga, () => {
             [mockTestTokenTokenId]: {
               ...mockImportedTokensInfo[mockTestTokenTokenId],
               balance: new BigNumber(1000).toFixed(),
+            },
+            [mockUSDCTokenId]: {
+              ...mockImportedTokensInfo[mockUSDCTokenId],
+              balance: new BigNumber(0).toFixed(),
             },
           },
         ],

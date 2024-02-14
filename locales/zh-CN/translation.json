@@ -137,6 +137,12 @@
         "tryAgain": "再试一次",
         "createNewWallet": "新建钱包",
         "help": "帮助"
+      },
+      "notFound": {
+        "title": "未找到钱包",
+        "body": "要恢复钱包，请使用与设置时<0>相同的电子邮件地址和电话号码</0>。\n\n您也可以使用恢复短语恢复钱包。",
+        "tryAgain": "再试一次",
+        "createNewWallet": "新建钱包"
       }
     }
   },

@@ -137,6 +137,12 @@
         "tryAgain": "Réessayer",
         "createNewWallet": "Créer un wallet",
         "help": "Aide"
+      },
+      "notFound": {
+        "title": "Portefeuille introuvable",
+        "body": "Pour restaurer ton portefeuille, utilise la <0>même adresse e-mail et le même numéro de téléphone que</0> ceux que tu as utilisés lors de la création.\n\nTu peux aussi restaurer ton portefeuille avec ta phrase de récupération.",
+        "tryAgain": "Réessayer",
+        "createNewWallet": "Créer un wallet"
       }
     }
   },

@@ -470,7 +470,6 @@ describe('SendSelectRecipient', () => {
         send: {
           ...storeWithPhoneVerified.send,
           inviteRewardsVersion: 'v5',
-          inviteRewardCusd: 1,
         },
       })
 
@@ -491,7 +490,6 @@ describe('SendSelectRecipient', () => {
         send: {
           ...storeWithPhoneVerified.send,
           inviteRewardsVersion: 'none',
-          inviteRewardCusd: 1,
         },
       })
 
@@ -510,7 +508,6 @@ describe('SendSelectRecipient', () => {
         send: {
           ...defaultStore.send,
           inviteRewardsVersion: 'v5',
-          inviteRewardCusd: 1,
         },
       })
 
