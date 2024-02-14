@@ -2100,6 +2100,17 @@
     "title": "Kripto satın alın veya token transfer edin",
     "body": "Kripto göndermek ve web3'ü keşfetmek için uyumlu tokenları satın alın veya transfer edin!"
   },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Çoklu zinciri erken benimseyen 🎁",
+      "description": "Çok zincirli bir beta test kullanıcısı olduğunuz için bir teşekkür olarak, {{appName}} cüzdanınıza ücretsiz bir hediye ekledik! Erken benimseyen NFT, koleksiyonlarınızda bulunabilir.",
+      "cta": "Teşekkürler!"
+    },
+    "notification": {
+      "title": "Tebrikler 🎉",
+      "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
