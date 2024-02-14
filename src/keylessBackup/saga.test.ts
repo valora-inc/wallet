@@ -25,6 +25,7 @@ import {
   keylessBackupBail,
   keylessBackupCompleted,
   keylessBackupFailed,
+  keylessBackupNotFound,
   torusKeyshareIssued,
   valoraKeyshareIssued,
 } from 'src/keylessBackup/slice'
@@ -327,6 +328,32 @@ describe('keylessBackup saga', () => {
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
         })
+      })
+      it('puts not found event if encrypted mnemonic not found', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [
+              call(getEncryptedMnemonic, {
+                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              null,
+            ],
+          ])
+          .put(keylessBackupNotFound())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_restore_mnemonic_not_found')
       })
     })
   })

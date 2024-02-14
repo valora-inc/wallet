@@ -1544,6 +1544,11 @@ export const migrations = {
   }),
   188: (state: any) => ({
     ...state,
+    app: _.omit(state.app, 'celoEuroEnabled', 'rewardPillText'),
+    send: _.omit(state.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
+  }),
+  189: (state: any) => ({
+    ...state,
     home: { ...state.home, nftCelebration: null },
   }),
 }

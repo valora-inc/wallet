@@ -3014,9 +3014,19 @@ export const v188Schema = {
     ...v187Schema._persist,
     version: 188,
   },
-  home: { ...v187Schema.home, nftCelebration: null },
+  app: _.omit(v187Schema.app, 'celoEuroEnabled', 'rewardPillText'),
+  send: _.omit(v187Schema.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
+}
+
+export const v189Schema = {
+  ...v188Schema,
+  _persist: {
+    ...v188Schema._persist,
+    version: 189,
+  },
+  home: { ...v188Schema.home, nftCelebration: null },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v188Schema as Partial<RootState>
+  return v189Schema as Partial<RootState>
 }

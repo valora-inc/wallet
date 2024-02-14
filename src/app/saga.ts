@@ -216,10 +216,7 @@ export function* checkAndroidMobileServicesSaga() {
 
 export interface RemoteConfigValues {
   celoEducationUri: string | null
-  celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  inviteRewardCusd: number
-  inviteRewardWeeklyLimit: number
   inviteRewardsVersion: string
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
@@ -227,7 +224,6 @@ export interface RemoteConfigValues {
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText: string
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
