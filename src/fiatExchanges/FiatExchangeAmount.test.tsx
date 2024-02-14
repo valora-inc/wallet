@@ -12,7 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { CiCoCurrency } from 'src/utils/currencies'
-import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   mockCeloAddress,
   mockCeloTokenId,
@@ -243,51 +243,30 @@ describe('FiatExchangeAmount cashOut', () => {
   })
 
   it('displays correctly for cUSD when local currency is USD', () => {
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenProps} />
       </Provider>
     )
     expect(getByText('amount (cUSD)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('cUSD @ $1.00')
-    expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
-    expect(getByText('disclaimerFiat, {"currency":"cUSD"}')).toBeTruthy()
   })
 
   it('displays correctly for cEUR when local currency is USD', () => {
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenPropsEuro} />
       </Provider>
     )
     expect(getByText('amount (cEUR)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('cEUR @ $1.20')
-    expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
-    expect(getByText('disclaimerFiat, {"currency":"cEUR"}')).toBeTruthy()
   })
 
   it('displays correctly for CELO when local currency is USD', () => {
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <Provider store={storeWithUSD}>
         <FiatExchangeAmount {...mockScreenPropsCelo} />
       </Provider>
     )
     expect(getByText('amount (CELO)')).toBeTruthy()
-    expect(getElementText(getByTestId('LineItemRowTitle/subtotal'))).toBe('CELO @ $5.00')
-    expect(getElementText(getByTestId('LineItemRow/subtotal'))).toBe('$0.00')
-  })
-
-  it('displays correctly when the SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER feature flag is on', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
-    const { getByText, queryByTestId, queryByText } = render(
-      <Provider store={storeWithUSD}>
-        <FiatExchangeAmount {...mockScreenProps} />
-      </Provider>
-    )
-    expect(getByText('amount (cUSD)')).toBeTruthy()
-    expect(queryByTestId('LineItemRowTitle/subtotal')).toBeFalsy()
-    expect(queryByTestId('LineItemRow/subtotal')).toBeFalsy()
-    expect(queryByText('disclaimerFiat, {"currency":"cUSD"}')).toBeFalsy()
   })
 
   it('disables the next button if the cUSD amount is 0', () => {
