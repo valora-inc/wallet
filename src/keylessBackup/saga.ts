@@ -18,6 +18,7 @@ import {
   keylessBackupBail,
   keylessBackupCompleted,
   keylessBackupFailed,
+  keylessBackupNotFound,
   keylessBackupShowZeroBalance,
   torusKeyshareIssued,
   valoraKeyshareIssued,
@@ -119,6 +120,12 @@ function* handleKeylessBackupRestore({
     encryptionPrivateKey,
     encryptionAddress,
   })
+
+  if (!encryptedMnemonic) {
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_mnemonic_not_found)
+    yield* put(keylessBackupNotFound())
+    return
+  }
 
   const decryptedMnemonic = yield* call(
     decryptPassphrase,

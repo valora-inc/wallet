@@ -6,7 +6,8 @@ export enum KeylessBackupFlow {
 export enum KeylessBackupStatus {
   NotStarted = 'NotStarted',
   InProgress = 'InProgress',
-  RestoreZeroBalance = 'RestoreZeroBalance',
+  RestoreZeroBalance = 'RestoreZeroBalance', // only in restore flow
   Completed = 'Completed',
   Failed = 'Failed',
+  NotFound = 'NotFound', // only in restore flow
 }

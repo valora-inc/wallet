@@ -137,6 +137,12 @@
         "tryAgain": "Tekrar Deneyin",
         "createNewWallet": "Cüzdan oluştur",
         "help": "Yardım"
+      },
+      "notFound": {
+        "title": "Cüzdan bulunamadı",
+        "body": "Cüzdanınızı geri yüklemek için, kurulum sırasında kullandığınız <0>e-posta adresini ve telefon numarasını</0> kullanın.\n\nCüzdanınızı kurtarma cümlenizle de geri yükleyebilirsiniz.",
+        "tryAgain": "Tekrar Deneyin",
+        "createNewWallet": "Cüzdan oluştur"
       }
     }
   },
