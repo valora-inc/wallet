@@ -11,6 +11,7 @@ import {
 } from 'src/dapps/slice'
 import { DappCategory } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import { setLanguage } from 'src/i18n/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isDeepLink } from 'src/utils/linking'
@@ -117,7 +118,10 @@ export function* watchDappSelected() {
 }
 
 export function* watchFetchDappsList() {
-  yield* takeLeading([fetchDappsList.type, Actions.SET_ACCOUNT], safely(handleFetchDappsList))
+  yield* takeLeading(
+    [fetchDappsList.type, Actions.SET_ACCOUNT, setLanguage.type],
+    safely(handleFetchDappsList)
+  )
 }
 
 export function* dappsSaga() {

@@ -196,12 +196,7 @@ export const useActions = (token: TokenBalance) => {
       }),
       iconComponent: QuickActionsSend,
       onPress: () => {
-        navigate(
-          getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
-            ? Screens.SendSelectRecipient
-            : Screens.Send,
-          { defaultTokenIdOverride: token.tokenId }
-        )
+        navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId })
       },
       visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },

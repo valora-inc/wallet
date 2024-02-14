@@ -430,7 +430,9 @@ describe('TokenDetails', () => {
     )
 
     fireEvent.press(getByTestId('TokenDetails/Action/Send'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
+      defaultTokenIdOverride: mockCeloTokenId,
+    })
     fireEvent.press(getByTestId('TokenDetails/Action/Swap'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
       fromTokenId: mockCeloTokenId,
@@ -446,30 +448,5 @@ describe('TokenDetails', () => {
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
-  })
-
-  it('navigates to the new send flow when enabled', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new send flow
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockCeloTokenId]: {
-            ...mockTokenBalances[mockCeloTokenId],
-            balance: '10',
-          },
-        },
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('TokenDetails/Action/Send'))
-    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
-      defaultTokenIdOverride: mockCeloTokenId,
-    })
   })
 })

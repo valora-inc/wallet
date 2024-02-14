@@ -15,8 +15,6 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { coinbasePaySendersSelector, rewardsSendersSelector } from 'src/recipients/reducer'
 import useSelector from 'src/redux/useSelector'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -103,12 +101,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
-      retryHandler = () =>
-        navigate(
-          getFeatureGate(StatsigFeatureGates.USE_NEW_SEND_FLOW)
-            ? Screens.SendSelectRecipient
-            : Screens.Send
-        )
+      retryHandler = () => navigate(Screens.SendSelectRecipient)
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.InviteSent:

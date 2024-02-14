@@ -42,7 +42,6 @@ import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/conf
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
@@ -217,10 +216,7 @@ export function* checkAndroidMobileServicesSaga() {
 
 export interface RemoteConfigValues {
   celoEducationUri: string | null
-  celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  inviteRewardCusd: number
-  inviteRewardWeeklyLimit: number
   inviteRewardsVersion: string
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
@@ -228,7 +224,6 @@ export interface RemoteConfigValues {
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText: string
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
@@ -240,16 +235,13 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  dappConnectInfo: DappConnectInfo
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number
   networkTimeoutSeconds: number
-  dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
-  dappsMinimalDisclaimerEnabled: boolean
   priceImpactWarningThreshold: number
   superchargeRewardContractAddress: string
 }

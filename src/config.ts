@@ -43,7 +43,6 @@ export const GAS_INFLATION_FACTOR = 1.5 // Used when estimating gas for txs
 export const GAS_PRICE_INFLATION_FACTOR = 5 // Used when getting gas price, must match what Geth does
 export const BALANCE_OUT_OF_SYNC_THRESHOLD = 1 * 60 // 1 minute
 export const ALERT_BANNER_DURATION = 5000
-export const NUMBER_INPUT_MAX_DECIMALS = 2
 export const MAX_COMMENT_LENGTH = 70
 export const MAX_ENCRYPTED_COMMENT_LENGTH_APPROX = 640 // used to estimate fees. should be updated if MAX_COMMENT_LENGTH is changed. chosen empirically by encrypting a comment of max length
 export const INPUT_DEBOUNCE_TIME = 1000 // milliseconds

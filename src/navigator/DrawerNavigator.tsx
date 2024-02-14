@@ -60,9 +60,8 @@ import { StackParamList } from 'src/navigator/types'
 import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors, { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -221,9 +220,6 @@ export default function DrawerNavigator({ route }: Props) {
 
   const backupCompleted = useSelector(backupCompletedSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
-  const { discoverCopyEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.DAPP_MENU_ITEM_COPY]
-  )
 
   const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
@@ -278,9 +274,7 @@ export default function DrawerNavigator({ route }: Props) {
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreenSearchFilter}
           options={{
-            title:
-              (discoverCopyEnabled ? t('dappsScreen.titleDiscover') : t('dappsScreen.title')) ??
-              undefined,
+            title: t('dappsScreen.title') ?? undefined,
             drawerIcon: DappsExplorer,
             // Special case for the Dapps explorer,
             // so it reloads the list when the user comes back to it

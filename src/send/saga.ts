@@ -208,6 +208,7 @@ function* sendPayment(
       tokenAddress: tokenInfo.address ?? undefined,
       tokenId: tokenInfo.tokenId,
       networkId: tokenInfo.networkId,
+      isTokenManuallyImported: !!tokenInfo?.isManuallyImported,
     })
   } catch (err) {
     const error = ensureError(err)

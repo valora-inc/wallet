@@ -56,7 +56,6 @@ import KycPending from 'src/fiatconnect/kyc/KycPending'
 import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
-import ImportSelect from 'src/importSelect/ImportSelect'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -81,6 +80,7 @@ import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import EnableBiometry from 'src/onboarding/registration/EnableBiometry'
+import ImportSelect from 'src/onboarding/registration/ImportSelect'
 import NameAndPicture from 'src/onboarding/registration/NameAndPicture'
 import OnboardingRecoveryPhrase from 'src/onboarding/registration/OnboardingRecoveryPhrase'
 import ProtectWallet from 'src/onboarding/registration/ProtectWallet'
@@ -92,8 +92,6 @@ import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
-import Send from 'src/send/Send'
-import SendAmount from 'src/send/SendAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
@@ -227,19 +225,9 @@ const nuxScreens = (Navigator: typeof Stack) => (
 const sendScreens = (Navigator: typeof Stack) => (
   <>
     <Navigator.Screen
-      name={Screens.Send}
-      component={Send}
-      options={Send.navigationOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
       name={Screens.SendSelectRecipient}
       component={SendSelectRecipient}
       options={SendSelectRecipient.navigationOptions as NativeStackNavigationOptions}
-    />
-    <Navigator.Screen
-      name={Screens.SendAmount}
-      component={SendAmount}
-      options={SendAmount.navigationOptions}
     />
     <Navigator.Screen
       name={Screens.SendConfirmation}

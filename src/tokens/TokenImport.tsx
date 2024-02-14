@@ -63,7 +63,6 @@ export default function TokenImportScreen(_: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  // Should I create a new config for this?
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
   const networkShouldBeEditable = supportedNetworkIds.length > 1
 
@@ -204,8 +203,6 @@ export default function TokenImportScreen(_: Props) {
     const networkId = tokenDetails.networkId
     const tokenAddress = tokenDetails.address.toLowerCase()
 
-    // This should always be present, unless we support a network without tokens,
-    // or if we can't fetch the token list (e.g. network issues?), should we fail instead to be safe?
     const networkIconUrl = networkIconByNetworkId[networkId]
 
     const tokenId = getTokenId(networkId, tokenAddress)

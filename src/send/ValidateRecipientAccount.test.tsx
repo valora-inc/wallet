@@ -11,10 +11,14 @@ import {
   mockAccountInvite,
   mockCusdAddress,
   mockE164NumberInvite,
-  mockTransactionData,
+  mockInvitableRecipient2,
 } from 'test/values'
 
 describe('ValidateRecipientAccount', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly when full validation required', () => {
     const store = createMockStore({
       identity: {
@@ -30,8 +34,7 @@ describe('ValidateRecipientAccount', () => {
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            recipient: mockTransactionData.recipient,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -55,8 +58,7 @@ describe('ValidateRecipientAccount', () => {
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            recipient: mockTransactionData.recipient,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -80,8 +82,7 @@ describe('ValidateRecipientAccount', () => {
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            recipient: mockTransactionData.recipient,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -110,8 +111,7 @@ describe('ValidateRecipientAccount', () => {
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            recipient: mockTransactionData.recipient,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -126,7 +126,7 @@ describe('ValidateRecipientAccount', () => {
     expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
   })
 
-  it('navigates to send confirmation when validation successful for send flow', () => {
+  it('navigates to send enter amount with validated address when validation is successful', () => {
     const store = createMockStore({
       identity: {
         secureSendPhoneNumberMapping: {
@@ -139,8 +139,7 @@ describe('ValidateRecipientAccount', () => {
     })
 
     const props = getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-      transactionData: mockTransactionData,
-      recipient: mockTransactionData.recipient,
+      recipient: mockInvitableRecipient2,
       origin: SendOrigin.AppSendFlow,
     })
 
@@ -168,10 +167,15 @@ describe('ValidateRecipientAccount', () => {
       </Provider>
     )
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionData,
       isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: {
+        ...mockInvitableRecipient2,
+        address: mockAccountInvite,
+      },
     })
   })
 })

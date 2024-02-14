@@ -2,10 +2,10 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
-import ImportSelect from 'src/importSelect/ImportSelect'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import ImportSelect from 'src/onboarding/registration/ImportSelect'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
 jest.mock('src/analytics/ValoraAnalytics')

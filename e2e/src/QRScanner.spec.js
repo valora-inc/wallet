@@ -6,12 +6,6 @@ import { quickOnboarding, waitForElementId } from './utils/utils'
 describe(':ios: Given QR Scanner', () => {
   beforeAll(async () => {
     await quickOnboarding()
-    await launchApp({
-      newInstance: true,
-      launchArgs: {
-        statsigGateOverrides: `use_new_send_flow=true`,
-      },
-    })
   })
 
   describe('When opening QR scanner', () => {

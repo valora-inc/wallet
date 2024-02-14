@@ -30,21 +30,13 @@ export const validateRecipientIntroScreenNavOptions = () => ({
 const ValidateRecipientIntro = ({ route }: Props) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const {
-    transactionData,
-    requesterAddress,
-    origin,
-    recipient,
-    forceTokenId,
-    defaultTokenIdOverride,
-  } = route.params
+  const { requesterAddress, origin, recipient, forceTokenId, defaultTokenIdOverride } = route.params
 
   const onQRCodeDetected = (data: QrCode) => {
     dispatch(
       handleQRCodeDetectedSecureSend(
         data,
         recipient,
-        transactionData,
         requesterAddress,
         forceTokenId,
         defaultTokenIdOverride
@@ -66,7 +58,6 @@ const ValidateRecipientIntro = ({ route }: Props) => {
 
   const onPressConfirmAccount = () => {
     navigate(Screens.ValidateRecipientAccount, {
-      transactionData,
       requesterAddress,
       origin,
       recipient,

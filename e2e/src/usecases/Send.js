@@ -21,16 +21,11 @@ export default Send = () => {
     await quickOnboarding()
   })
 
-  describe('When multi-token send flow to address (new flow)', () => {
+  describe('When multi-token send flow to address', () => {
     let commentText
     beforeAll(async () => {
       commentText = `${new Date().getTime()}-${parseInt(Math.random() * 100000)}`
-      await launchApp({
-        newInstance: true,
-        launchArgs: {
-          statsigGateOverrides: `use_new_send_flow=true`,
-        },
-      })
+      await launchApp({ newInstance: true })
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -111,14 +106,11 @@ export default Send = () => {
     })
   })
 
-  describe('When multi-token send flow to recent recipient (new flow)', () => {
+  describe('When multi-token send flow to recent recipient', () => {
     let commentText
     beforeAll(async () => {
       commentText = `${new Date().getTime()}`
-      await launchApp({
-        newInstance: true,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=true` },
-      })
+      await launchApp({ newInstance: true })
     })
 
     it('Then should navigate to send search input from home action', async () => {
@@ -166,16 +158,13 @@ export default Send = () => {
     })
   })
 
-  describe('When multi-token send flow to phone number with one address (new flow)', () => {
+  describe('When multi-token send flow to phone number with one address', () => {
     let commentText
     beforeAll(async () => {
       commentText = `${new Date().getTime()}`
       await device.uninstallApp()
       await device.installApp()
-      await launchApp({
-        newInstance: true,
-        launchArgs: { statsigGateOverrides: `use_new_send_flow=true` },
-      })
+      await launchApp({ newInstance: true })
       await quickOnboarding(SAMPLE_BACKUP_KEY_VERIFIED)
     })
 

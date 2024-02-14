@@ -9,12 +9,7 @@ import ActionsCarousel from 'src/home/ActionsCarousel'
 import { HomeActionName } from 'src/home/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
 import { createMockStore } from 'test/utils'
-
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn().mockReturnValue(false),
-}))
 
 function getStore(shouldShowSwapAction: boolean) {
   return createMockStore({
@@ -56,7 +51,7 @@ describe('ActionsCarousel', () => {
     expect(queryByTestId(`HomeAction/Title-Swap`)).toBeFalsy()
   })
   it.each([
-    [HomeActionName.Send, 'send', Screens.Send, undefined],
+    [HomeActionName.Send, 'send', Screens.SendSelectRecipient, undefined],
     [HomeActionName.Receive, 'receive', Screens.QRNavigator, { screen: Screens.QRCode }],
     [HomeActionName.Swap, 'swap', Screens.SwapScreenWithBack, undefined],
     [HomeActionName.Withdraw, 'withdraw', Screens.WithdrawSpend, undefined],
@@ -106,17 +101,5 @@ describe('ActionsCarousel', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.home_action_pressed, {
       action: HomeActionName.Add,
     })
-  })
-  it('navigates to send redesign if feature gate is true', () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <ActionsCarousel />
-      </Provider>
-    )
-    expect(within(getByTestId(`HomeAction/Title-Send`)).getByText(`homeActions.send`)).toBeTruthy()
-    fireEvent.press(getByTestId(`HomeActionTouchable-Send`))
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
   })
 })

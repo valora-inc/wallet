@@ -36,7 +36,6 @@ describe('ValidateRecipientIntro', () => {
     fireEvent.press(tree.getByTestId('confirmAccountButton'))
     expect(navigate).toHaveBeenCalledWith(Screens.ValidateRecipientAccount, {
       origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionData,
       defaultTokenIdOverride: mockEthTokenId,
       forceTokenId: undefined,
       requesterAddress: undefined,

@@ -175,7 +175,6 @@ export function* handleQRCodeDefault({ qrCode }: HandleQRCodeDetectedAction) {
 
 export function* handleQRCodeSecureSend({
   qrCode,
-  transactionData,
   requesterAddress,
   recipient,
   forceTokenId,
@@ -200,29 +199,21 @@ export function* handleQRCodeSecureSend({
     return
   }
 
-  if (transactionData) {
-    navigate(Screens.SendConfirmation, {
-      transactionData,
-      origin: SendOrigin.AppSendFlow,
-      isFromScan: true,
-    })
-  } else {
-    const secureSendPhoneNumberMapping = yield* select(secureSendPhoneNumberMappingSelector)
-    const address = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
-    if (!address) {
-      // should never happen b/c if handleSecureSend succeeds then address should be there
-      Logger.error(TAG, `No secure send address found for recipient ${recipient}`)
-      return
-    }
-    navigate(Screens.SendEnterAmount, {
-      origin: SendOrigin.AppSendFlow,
-      recipient: {
-        ...recipient,
-        address,
-      },
-      isFromScan: true,
-      forceTokenId,
-      defaultTokenIdOverride,
-    })
+  const secureSendPhoneNumberMapping = yield* select(secureSendPhoneNumberMappingSelector)
+  const address = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
+  if (!address) {
+    // should never happen b/c if handleSecureSend succeeds then address should be there
+    Logger.error(TAG, `No secure send address found for recipient ${recipient}`)
+    return
   }
+  navigate(Screens.SendEnterAmount, {
+    origin: SendOrigin.AppSendFlow,
+    recipient: {
+      ...recipient,
+      address,
+    },
+    isFromScan: true,
+    forceTokenId,
+    defaultTokenIdOverride,
+  })
 }

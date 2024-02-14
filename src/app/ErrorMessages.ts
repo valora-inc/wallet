@@ -7,7 +7,6 @@ export enum ErrorMessages {
   SET_PIN_FAILED = 'setPinFailed',
   NSF_GOLD = 'notEnoughGoldError',
   NSF_STABLE = 'notEnoughStableError',
-  NSF_TO_SEND = 'needMoreFundsToSend',
   INVALID_AMOUNT = 'invalidAmount',
   INVALID_BACKUP_PHRASE = 'invalidBackupPhrase',
   INVALID_WORDS_IN_BACKUP_PHRASE = 'invalidWordsInBackupPhrase',

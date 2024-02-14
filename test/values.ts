@@ -47,7 +47,7 @@ import {
   RecipientInfo,
   RecipientType,
 } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/types'
 import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import {
   NetworkId,

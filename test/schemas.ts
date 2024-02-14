@@ -5,7 +5,7 @@ import {
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
 import { AppState, MultichainBetaStatus } from 'src/app/actions'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
@@ -1363,7 +1363,7 @@ export const v56Schema = {
   },
   dapps: {
     ...v55Schema.dapps,
-    dappConnectInfo: DappConnectInfo.Default,
+    dappConnectInfo: 'default',
   },
 }
 
@@ -2994,6 +2994,30 @@ export const v186Schema = {
   app: { ...v185Schema.app, pendingDeepLinks: [] },
 }
 
+export const v187Schema = {
+  ...v186Schema,
+  _persist: {
+    ...v186Schema._persist,
+    version: 187,
+  },
+  dapps: _.omit(
+    v186Schema.dapps,
+    'dappConnectInfo',
+    'dappFavoritesEnabled',
+    'dappsMinimalDisclaimerEnabled'
+  ),
+}
+
+export const v188Schema = {
+  ...v187Schema,
+  _persist: {
+    ...v187Schema._persist,
+    version: 188,
+  },
+  app: _.omit(v187Schema.app, 'celoEuroEnabled', 'rewardPillText'),
+  send: _.omit(v187Schema.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v186Schema as Partial<RootState>
+  return v188Schema as Partial<RootState>
 }

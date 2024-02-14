@@ -50,12 +50,8 @@ export function recipientHasNumber(recipient: Recipient): recipient is MobileRec
   return recipient && 'e164PhoneNumber' in recipient && !!recipient.e164PhoneNumber
 }
 
-export function recipientHasAddress(recipient: Recipient): recipient is AddressRecipient {
+function recipientHasAddress(recipient: Recipient): recipient is AddressRecipient {
   return recipient && 'address' in recipient && !!recipient.address
-}
-
-export function recipientHasContact(recipient: Recipient): recipient is ContactRecipient {
-  return recipient && 'contactId' in recipient && 'name' in recipient && !!recipient.contactId
 }
 
 export function getDisplayName(recipient: Recipient, t: TFunction) {

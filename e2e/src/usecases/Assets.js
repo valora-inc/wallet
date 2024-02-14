@@ -81,7 +81,7 @@ export default Assets = () => {
         newInstance: true,
         launchArgs: {
           // NFT flag must also be true, otherwise Collectibles tab show an empty screen
-          statsigGateOverrides: `show_asset_details_screen=true,show_in_app_nft_gallery=true,use_new_send_flow=true`,
+          statsigGateOverrides: `show_asset_details_screen=true,show_in_app_nft_gallery=true`,
         },
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
       })
