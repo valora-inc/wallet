@@ -453,8 +453,8 @@ export const Account = ({ navigation, route }: Props) => {
             />
           )}
           <SettingsExpandedItem
-            title={t('removeAccountTitle')}
-            details={t('removeAccountDetails')}
+            title={t('deleteAccountTitle')}
+            details={t('deleteAccountDetails')}
             onPress={onRemoveAccountPress}
             testID="ResetAccount"
           />

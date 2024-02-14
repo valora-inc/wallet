@@ -6,6 +6,8 @@
   "licenses": "Licenses",
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
+  "deleteAccountTitle": "Delete Account",
+  "deleteAccountDetails": "Deleting your account will remove it from {{appName}}. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
   "legal": "Legal",
   "appPreferences": "App Preferences",
   "security": "Security",
