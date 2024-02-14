@@ -15,7 +15,6 @@ export enum StatsigFeatureGates {
   ALLOW_HOOKS_PREVIEW = 'allow_hooks_preview',
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
-  SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
