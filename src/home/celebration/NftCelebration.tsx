@@ -1,6 +1,6 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -38,13 +38,17 @@ export default function NftCelebration() {
   const celebratedNft = useSelector(celebratedNftSelector)
 
   const nfts = useSelector(nftsWithMetadataSelector)
-  const matchingNft = nfts.find(
-    (nft) =>
-      !!celebratedNft &&
-      !!celebratedNft.networkId &&
-      celebratedNft.networkId === nft.networkId &&
-      !!celebratedNft.contractAddress &&
-      celebratedNft.contractAddress === nft.contractAddress
+  const matchingNft = useMemo(
+    () =>
+      nfts.find(
+        (nft) =>
+          !!celebratedNft &&
+          !!celebratedNft.networkId &&
+          celebratedNft.networkId === nft.networkId &&
+          !!celebratedNft.contractAddress &&
+          celebratedNft.contractAddress === nft.contractAddress
+      ),
+    [celebratedNft]
   )
 
   const isVisible = canShowNftCelebration && matchingNft
