@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -23,13 +24,15 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
+import { refreshAllBalances, visitHome } from 'src/home/actions'
+import NftCelebration from 'src/home/celebration/NftCelebration'
+import { showNftCelebrationSelector } from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -69,6 +72,10 @@ function WalletHome() {
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
+
+  const isFocused = useIsFocused()
+  const canShowNftCelebration = useSelector(showNftCelebrationSelector)
+  const showNftCelebration = canShowNftCelebration && isFocused && !showNotificationSpotlight
 
   useEffect(() => {
     dispatch(visitHome())
@@ -122,6 +129,10 @@ function WalletHome() {
 
   const shouldShowCashInBottomSheet = () => {
     if (showNotificationSpotlight) {
+      return false
+    }
+
+    if (showNftCelebration) {
       return false
     }
 
@@ -230,6 +241,7 @@ function WalletHome() {
       />
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
+      {showNftCelebration && <NftCelebration />}
     </SafeAreaView>
   )
 }

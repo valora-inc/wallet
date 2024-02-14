@@ -1,5 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -26,6 +26,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
   [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
+  [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
 }
 
 export const ExperimentConfigs = {
@@ -102,5 +103,9 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]: {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {} as { [key in Network]?: { contractAddress?: string } },
+  },
+  [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
+    configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
+    defaultValues: {} as { networkId?: NetworkId; contractAddress?: string },
   },
 }
