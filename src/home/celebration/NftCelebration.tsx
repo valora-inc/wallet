@@ -1,6 +1,5 @@
-import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetView } from '@gorhom/bottom-sheet'
-import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { BottomSheetView } from '@gorhom/bottom-sheet'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -8,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftCelebrationDisplayed } from 'src/home/actions'
 import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
@@ -51,13 +51,6 @@ export default function NftCelebration() {
   )
 
   const isVisible = canShowNftCelebration && matchingNft
-
-  const renderBackdrop = useCallback(
-    (props: BottomSheetDefaultBackdropProps) => (
-      <BottomSheetBackdrop {...props} disappearsOnIndex={-1} appearsOnIndex={0} />
-    ),
-    []
-  )
 
   useEffect(() => {
     if (isVisible) {
@@ -121,12 +114,8 @@ export default function NftCelebration() {
 
   return (
     <>
-      <GorhomBottomSheet
-        ref={bottomSheetRef}
-        enableDynamicSizing
-        enablePanDownToClose
-        index={-1}
-        backdropComponent={renderBackdrop}
+      <BottomSheetBase
+        forwardedRef={bottomSheetRef}
         handleComponent={null} // hanlde is rendered within content
         backgroundStyle={styles.bottomSheetBackground}
         onChange={handleBottomSheetPositionChange}
@@ -161,7 +150,7 @@ export default function NftCelebration() {
             text={t('nftCelebration.bottomSheet.cta')}
           />
         </BottomSheetView>
-      </GorhomBottomSheet>
+      </BottomSheetBase>
       <ConfettiCelebration
         showAnimation={showConfetti}
         title={t('nftCelebration.notification.title')}
