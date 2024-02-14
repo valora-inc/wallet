@@ -11,7 +11,7 @@ jobs:
     env:
       BASH_ENV: ~/.profile
     name: Android (SDK ${{ inputs.android-api-level }})
-    runs-on: nscloud-ubuntu-22.04-amd64-16x64
+    runs-on: nscloud-ubuntu-22.04-amd64-16x32
     steps:
       - uses: actions/checkout@v3
       #- uses: valeriangalliat/action-sshd-cloudflared@v2
@@ -53,7 +53,7 @@ jobs:
           cat $INI_LOCATION
 
           echo "hw.cpu.ncore=1" >> $INI_LOCATION
-          echo "hw.ramSize=4096" >> $INI_LOCATION
+          echo "hw.ramSize=2048" >> $INI_LOCATION
           echo "hw.sdCard=yes" >> $INI_LOCATION
           echo "sdcard.size=1000M" >> $INI_LOCATION
 
