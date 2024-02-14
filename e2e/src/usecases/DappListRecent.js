@@ -1,10 +1,5 @@
 import { reloadReactNative } from '../utils/retries'
-import {
-  waitForElementId,
-  getElementText,
-  getElementTextList,
-  scrollIntoView,
-} from '../utils/utils'
+import { getElementText, getElementTextList, scrollIntoView } from '../utils/utils'
 import { navigateToDappList, navigateToHome } from '../utils/dappList'
 
 import jestExpect from 'expect'

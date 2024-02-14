@@ -21,7 +21,6 @@ export interface State {
   sessionId: string
   minVersion: string | null
   celoEducationUri: string | null
-  celoEuroEnabled: boolean
   activeScreen: Screens
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
@@ -33,9 +32,6 @@ export interface State {
   googleMobileServicesAvailable?: boolean
   huaweiMobileServicesAvailable?: boolean
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText?: {
-    [lang: string]: string
-  }
   rampCashInButtonExpEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
@@ -78,7 +74,6 @@ const initialState = {
   sessionId: '',
   minVersion: null,
   celoEducationUri: null,
-  celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   activeScreen: Screens.Main,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
@@ -90,7 +85,6 @@ const initialState = {
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
-  rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
@@ -213,14 +207,12 @@ export const appReducer = (
       return {
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
-        celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
-        rewardPillText: JSON.parse(action.configValues.rewardPillText),
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,

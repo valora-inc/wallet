@@ -315,11 +315,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
-    celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
-    inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
@@ -327,7 +324,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       ? JSON.parse(superchargeConfigByTokenString)
       : {},
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
-    rewardPillText: flags.rewardPillText.asString(),
     rampCashInButtonExpEnabled: flags.rampCashInButtonExpEnabled.asBoolean(),
     logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),

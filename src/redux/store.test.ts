@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 187,
+          "version": 188,
         },
         "account": {
           "acceptedTerms": false,
@@ -136,7 +136,6 @@ describe('store state', () => {
           "analyticsEnabled": true,
           "appState": "Active",
           "celoEducationUri": null,
-          "celoEuroEnabled": true,
           "celoNews": {},
           "coinbasePayEnabled": false,
           "fiatConnectCashInEnabled": false,
@@ -163,12 +162,6 @@ describe('store state', () => {
           "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
           "requirePinOnAppOpen": false,
-          "rewardPillText": {
-            "de": "Belohnungen",
-            "en": "Rewards",
-            "es": "Recompensas",
-            "pt": "Recompensas",
-          },
           "sentryNetworkErrors": [
             "network request failed",
             "The network connection was lost",
@@ -313,8 +306,6 @@ describe('store state', () => {
           "valoraRecipientCache": {},
         },
         "send": {
-          "inviteRewardCusd": 5,
-          "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,
           "lastUsedTokenId": undefined,

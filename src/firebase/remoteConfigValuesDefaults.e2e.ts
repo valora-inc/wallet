@@ -18,10 +18,7 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   celoNews: string
   superchargeTokenConfigByToken: string
 } = {
-  celoEuroEnabled: true,
   inviteRewardsVersion: 'none',
-  inviteRewardCusd: 1,
-  inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: true,
   superchargeApy: 12,
@@ -32,12 +29,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: 50,
   superchargecREALMax: 6000,
   pincodeUseExpandedBlocklist: true,
-  rewardPillText: JSON.stringify({
-    en: 'Rewards',
-    pt: 'Recompensas',
-    es: 'Recompensas',
-    de: 'Belohnungen',
-  }),
   rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
