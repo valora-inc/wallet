@@ -2075,8 +2075,8 @@
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
     },
     "feeEstimationError": {
-      "title": "Error estimating network fee",
-      "description": "There was an error estimating the network fee. Please try again later."
+      "title": "Something went wrong!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {
