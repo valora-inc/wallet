@@ -8,12 +8,12 @@ runs:
       with:
         node-version-file: 'package.json'
         check-latest: true
-    - uses: actions/cache@v3
-      with:
-        path: |
-          node_modules
-          */*/node_modules
-        key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+    # - uses: actions/cache@v3
+    #   with:
+    #     path: |
+    #       node_modules
+    #       */*/node_modules
+    #     key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
     - name: Install Yarn dependencies
       run: |
         # Deals with yarn (v1) install flakiness
