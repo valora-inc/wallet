@@ -116,7 +116,7 @@ export default function NftCelebration() {
     <>
       <BottomSheetBase
         forwardedRef={bottomSheetRef}
-        handleComponent={null} // hanlde is rendered within content
+        handleComponent={() => null} // handle is rendered within the content body
         backgroundStyle={styles.bottomSheetBackground}
         onChange={handleBottomSheetPositionChange}
       >
