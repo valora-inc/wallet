@@ -6,6 +6,7 @@ export enum StatsigDynamicConfigs {
   SWAP_CONFIG = 'swap_config',
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
+  NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
 }
 
 export enum StatsigFeatureGates {
@@ -32,6 +33,7 @@ export enum StatsigFeatureGates {
   CLEVERTAP_INBOX = 'clevertap_inbox',
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
   SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
+  SHOW_NFT_CELEBRATION = 'show_nft_celebration',
 }
 
 export enum StatsigExperiments {

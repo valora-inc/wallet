@@ -86,6 +86,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.notification_bell_pressed]: ``,
   [HomeEvents.hide_balances]: `When the eye icon is clicked to hide balances on the home screen`,
   [HomeEvents.show_balances]: `When the crossed out eye icon is clicked to show balances on the home screen`,
+  [HomeEvents.nft_celebration_displayed]: `When user has seen an NFT celebration bottom sheet`,
+  [HomeEvents.nft_celebration_animation_displayed]: `When user has seen an NFT celebration confetti animation`,
   [SettingsEvents.settings_profile_edit]: ``,
   [SettingsEvents.profile_generate_name]: ``,
   [SettingsEvents.profile_save]: ``,
