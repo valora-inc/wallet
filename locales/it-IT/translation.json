@@ -137,6 +137,12 @@
         "tryAgain": "Riprova",
         "createNewWallet": "Crea un wallet",
         "help": "Guida"
+      },
+      "notFound": {
+        "title": "Portafoglio non trovato",
+        "body": "Per ripristinare il tuo portafoglio, utilizza lo <0>stesso indirizzo e-mail e lo stesso numero di telefono</0> che hai usato al momento della registrazione.\n\nPuoi anche ripristinare il tuo portafoglio con la tua frase di recupero.",
+        "tryAgain": "Riprova",
+        "createNewWallet": "Crea un wallet"
       }
     }
   },

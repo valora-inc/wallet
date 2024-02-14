@@ -137,6 +137,12 @@
         "tryAgain": "Spróbuj ponownie",
         "createNewWallet": "Utwórz portfel",
         "help": "Pomoc"
+      },
+      "notFound": {
+        "title": "Nie znaleziono portfela",
+        "body": "Aby przywrócić portfel, użyj <0>tego samego adresu e-mail i numeru telefonu</0>, których użyłeś podczas konfiguracji.\n\nMożesz również przywrócić portfel za pomocą frazy odzyskiwania.",
+        "tryAgain": "Spróbuj ponownie",
+        "createNewWallet": "Utwórz portfel"
       }
     }
   },
