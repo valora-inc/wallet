@@ -3014,13 +3014,8 @@ export const v188Schema = {
     ...v187Schema._persist,
     version: 188,
   },
-  app: _.omit(
-    v187Schema.app,
-    'celoEuroEnabled',
-    'rewardPillText',
-    'inviteRewardWeeklyLimit',
-    'inviteRewardCusd'
-  ),
+  app: _.omit(v187Schema.app, 'celoEuroEnabled', 'rewardPillText'),
+  send: _.omit(v187Schema.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
 }
 
 export function getLatestSchema(): Partial<RootState> {
