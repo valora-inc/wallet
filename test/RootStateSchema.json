@@ -4111,6 +4111,33 @@
                 "loading": {
                     "type": "boolean"
                 },
+                "nftCelebration": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "contractAddress": {
+                                    "type": "string"
+                                },
+                                "displayed": {
+                                    "type": "boolean"
+                                },
+                                "networkId": {
+                                    "$ref": "#/definitions/NetworkId"
+                                }
+                            },
+                            "required": [
+                                "contractAddress",
+                                "displayed",
+                                "networkId"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "notifications": {
                     "$ref": "#/definitions/IdToNotification"
                 }
@@ -4119,6 +4146,7 @@
                 "cleverTapInboxMessages",
                 "hasVisitedHome",
                 "loading",
+                "nftCelebration",
                 "notifications"
             ],
             "type": "object"

@@ -242,6 +242,7 @@ function SendConfirmation(props: Props) {
       networkId: tokenInfo?.networkId ?? null,
       tokenId,
       commentLength: comment.length,
+      isTokenManuallyImported: !!tokenInfo?.isManuallyImported,
     })
 
     dispatch(
