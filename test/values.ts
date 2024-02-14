@@ -34,7 +34,7 @@ import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
-import { Nft } from 'src/nfts/types'
+import { Nft, NftWithMetadata } from 'src/nfts/types'
 import { Position, Shortcut } from 'src/positions/types'
 import { PriceHistoryStatus } from 'src/priceHistory/slice'
 import { UriData } from 'src/qrcode/schema'
@@ -1337,7 +1337,7 @@ export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
   },
 }
 
-export const mockNftAllFields: Nft = {
+export const mockNftAllFields: NftWithMetadata = {
   contractAddress: mockContractAddress,
   media: [
     {
@@ -1362,6 +1362,7 @@ export const mockNftAllFields: Nft = {
   ownerAddress: mockAccount,
   tokenId: '1',
   tokenUri: 'https://example.com/1',
+  networkId: NetworkId['celo-alfajores'],
 }
 
 export const mockNftMinimumFields: Nft = {

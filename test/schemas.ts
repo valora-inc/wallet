@@ -3008,6 +3008,25 @@ export const v187Schema = {
   ),
 }
 
+export const v188Schema = {
+  ...v187Schema,
+  _persist: {
+    ...v187Schema._persist,
+    version: 188,
+  },
+  app: _.omit(v187Schema.app, 'celoEuroEnabled', 'rewardPillText'),
+  send: _.omit(v187Schema.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
+}
+
+export const v189Schema = {
+  ...v188Schema,
+  _persist: {
+    ...v188Schema._persist,
+    version: 189,
+  },
+  home: { ...v188Schema.home, nftCelebration: null },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v187Schema as Partial<RootState>
+  return v189Schema as Partial<RootState>
 }
