@@ -27,6 +27,7 @@ import {
   devModeSelector,
   pincodeTypeSelector,
 } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -46,7 +47,8 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
@@ -69,8 +71,10 @@ import { getFeatureGate } from 'src/statsig/index'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -82,6 +86,8 @@ export const Account = ({ navigation, route }: Props) => {
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
 
   const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
 
@@ -258,6 +264,24 @@ export const Account = ({ navigation, route }: Props) => {
 
   const onRemoveAccountPress = () => {
     setShowAccountKeyModal(true)
+  }
+
+  const onDeleteAccountPress = () => {
+    deleteAccountBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const handleDeleteAccount = async () => {
+    if (numberVerified) {
+      try {
+        await revokeNumberAsync.execute()
+      } catch (error) {
+        dispatch(showError(t('revokePhoneNumber.revokeError')))
+        return
+      }
+    }
+
+    deleteAccountBottomSheetRef.current?.close()
+    return onPressContinueWithAccountRemoval()
   }
 
   const hideRemoveAccountModal = () => {
@@ -453,9 +477,15 @@ export const Account = ({ navigation, route }: Props) => {
             />
           )}
           <SettingsExpandedItem
+            title={t('removeAccountTitle')}
+            details={t('removeAccountDetails')}
+            onPress={onRemoveAccountPress}
+            testID="ResetAccount"
+          />
+          <SettingsExpandedItem
             title={t('deleteAccountTitle')}
             details={t('deleteAccountDetails')}
-            onPress={onRemoveAccountPress}
+            onPress={onDeleteAccountPress}
             testID="ResetAccount"
           />
         </View>
@@ -487,6 +517,26 @@ export const Account = ({ navigation, route }: Props) => {
       </ScrollView>
 
       <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
+      <BottomSheet
+        forwardedRef={deleteAccountBottomSheetRef}
+        title={t('deleteAccountWarning.title')}
+        description={t('deleteAccountWarning.description')}
+        testId="DeleteAccountBottomSheet"
+      >
+        <Button
+          style={{ marginTop: Spacing.Regular16 }}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          onPress={handleDeleteAccount}
+          text={
+            revokeNumberAsync.loading
+              ? t('deleteAccountWarning.buttonLabelRevokingPhoneNumber')
+              : t('deleteAccountWarning.buttonLabel')
+          }
+          disabled={revokeNumberAsync.loading}
+          testID="DeleteAccountButton"
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
