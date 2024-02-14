@@ -491,7 +491,7 @@ export const Account = ({ navigation, route }: Props) => {
             title={t('deleteAccountTitle')}
             details={t('deleteAccountDetails')}
             onPress={onDeleteAccountPress}
-            testID="ResetAccount"
+            testID="DeleteAccount"
           />
         </View>
         {getDevSettingsComp()}
