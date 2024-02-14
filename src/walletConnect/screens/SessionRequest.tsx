@@ -185,7 +185,9 @@ function NetworkChips({ networkNames }: { networkNames: string[] }) {
   return (
     <View style={styles.networkChipsContainer} testID="SessionRequest/NetworkChips">
       {networkNames.map((networkName) => (
-        <Text style={styles.networkChip}>{networkName}</Text>
+        <Text key={networkName} style={styles.networkChip}>
+          {networkName}
+        </Text>
       ))}
     </View>
   )

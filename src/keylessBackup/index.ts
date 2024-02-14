@@ -66,6 +66,9 @@ export async function getEncryptedMnemonic({
   )
   await siweClient.login()
   const response = await siweClient.fetch(networkConfig.cabGetEncryptedMnemonicUrl)
+  if (response.status === 404) {
+    return null
+  }
   if (!response.ok) {
     const message = (await response.json())?.message
     throw new Error(

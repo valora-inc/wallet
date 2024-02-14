@@ -232,7 +232,7 @@ export function SwapScreen({ route }: Props) {
   ).maxSlippagePercentage
   const parsedSlippagePercentage = new BigNumber(slippagePercentage).toFormat()
 
-  const { swappableFromTokens, swappableToTokens } = useSwappableTokens()
+  const { swappableFromTokens, swappableToTokens, areSwapTokensShuffled } = useSwappableTokens()
 
   const priceImpactWarningThreshold = useSelector(priceImpactWarningThresholdSelector)
 
@@ -504,6 +504,7 @@ export function SwapScreen({ route }: Props) {
       toTokenId: newToToken?.tokenId,
       toTokenNetworkId: newToToken?.networkId,
       switchedNetworkId: !!newSwitchedToNetworkId,
+      areSwapTokensShuffled,
     })
 
     localDispatch(
@@ -776,6 +777,7 @@ export function SwapScreen({ route }: Props) {
         TokenOptionComponent={TokenBalanceItemOption}
         showPriceUsdUnavailableWarning={true}
         filterChips={filterChips}
+        areSwapTokensShuffled={areSwapTokensShuffled}
       />
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
