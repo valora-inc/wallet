@@ -73,6 +73,7 @@ export default function NftCelebration() {
             }
             origin={NftOrigin.NftCelebration}
             mediaType="image"
+            testID="NftMedia"
           />
         )}
         <View style={styles.handleBar} />
