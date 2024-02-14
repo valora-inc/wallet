@@ -25,7 +25,8 @@ export enum TokenPickerOrigin {
   Send = 'Send',
   SendConfirmation = 'SendConfirmation',
   Exchange = 'Exchange',
-  Swap = 'Swap',
+  SwapFrom = 'Swap/From',
+  SwapTo = 'Swap/To',
 }
 
 export const DEBOUCE_WAIT_TIME = 200
@@ -206,7 +207,7 @@ function TokenBottomSheet<T extends TokenBalance>({
 
     return tokens.filter((token) => {
       // Exclude the token if it does not match the active filters
-      if (activeFilterFns && !activeFilterFns.some((filterFn) => filterFn(token))) {
+      if (activeFilterFns && !activeFilterFns.every((filterFn) => filterFn(token))) {
         return false
       }
 
@@ -226,19 +227,12 @@ function TokenBottomSheet<T extends TokenBalance>({
   }, [searchTerm, tokens, activeFilters])
 
   useEffect(() => {
+    // Scroll to top when the token list changes (e.g. when there are new
+    // filters and search terms applied)
     if (tokenList.length > 0) {
       tokenListRef.current?.scrollToOffset({ offset: 0, animated: true })
     }
   }, [tokenList])
-
-  const handleOpen = () => {
-    setFilters(filterChips)
-  }
-
-  const handleClose = () => {
-    setSearchTerm('')
-    filterChipsCarouselRef.current?.scrollTo({ x: 0 })
-  }
 
   const handleMeasureHeader = (event: { nativeEvent: { layout: { height: number } } }) => {
     setHeaderHeight(event.nativeEvent.layout.height)
@@ -252,12 +246,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
-    <BottomSheetBase
-      forwardedRef={forwardedRef}
-      snapPoints={snapPoints}
-      onOpen={handleOpen}
-      onClose={handleClose}
-    >
+    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
       <BottomSheetFlatList
         ref={tokenListRef}
         testID="TokenBottomSheet"
@@ -311,6 +300,7 @@ function TokenBottomSheet<T extends TokenBalance>({
             secondaryColor={colors.successLight}
             style={styles.filterChipsCarouselContainer}
             forwardedRef={filterChipsCarouselRef}
+            scrollEnabled={false}
           />
         )}
       </View>
