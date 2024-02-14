@@ -7,7 +7,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { APP_NAME } from 'src/brandingConfig'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftCelebrationDisplayed } from 'src/home/actions'
@@ -157,9 +156,7 @@ export default function NftCelebration() {
         <BottomSheetView style={[styles.container, insetsStyle]}>
           <View style={styles.content}>
             <Text style={styles.title}>{t('nftCelebration.bottomSheet.title')}</Text>
-            <Text style={styles.description}>
-              {t('nftCelebration.bottomSheet.description', { appName: APP_NAME })}
-            </Text>
+            <Text style={styles.description}>{t('nftCelebration.bottomSheet.description')}</Text>
           </View>
           <Button
             style={styles.button}
@@ -175,7 +172,6 @@ export default function NftCelebration() {
         title={t('nftCelebration.notification.title')}
         description={t('nftCelebration.notification.description', {
           rewardName: matchingNft.metadata.name,
-          appName: APP_NAME,
         })}
         onAnimationFinish={handleConfettiFinish}
         onDismiss={handleConfettiDismiss}
