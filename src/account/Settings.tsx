@@ -267,10 +267,13 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const onDeleteAccountPress = () => {
+    ValoraAnalytics.track(SettingsEvents.settings_delete_account)
     deleteAccountBottomSheetRef.current?.snapToIndex(0)
   }
 
   const handleDeleteAccount = async () => {
+    ValoraAnalytics.track(SettingsEvents.settings_delete_account_confirm)
+
     if (numberVerified) {
       try {
         await revokeNumberAsync.execute()
