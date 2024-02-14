@@ -59,29 +59,6 @@ export default function NftCelebration() {
     []
   )
 
-  const renderHandleWithImage = useCallback(
-    () => (
-      <View style={styles.handleWithImage}>
-        {matchingNft && (
-          <NftMedia
-            shouldAutoScaleHeight
-            nft={matchingNft}
-            ErrorComponent={
-              <View style={styles.imageError}>
-                <ImageErrorIcon />
-              </View>
-            }
-            origin={NftOrigin.NftCelebration}
-            mediaType="image"
-            testID="NftMedia"
-          />
-        )}
-        <View style={styles.handleBar} />
-      </View>
-    ),
-    [matchingNft]
-  )
-
   useEffect(() => {
     if (isVisible) {
       // Wait for the home screen to have less ongoing async tasks.
@@ -150,11 +127,28 @@ export default function NftCelebration() {
         enablePanDownToClose
         index={-1}
         backdropComponent={renderBackdrop}
-        handleComponent={renderHandleWithImage}
+        handleComponent={null} // hanlde is rendered within content
         backgroundStyle={styles.bottomSheetBackground}
         onChange={handleBottomSheetPositionChange}
       >
-        <BottomSheetView style={[styles.container, insetsStyle]}>
+        <BottomSheetView style={insetsStyle}>
+          <View style={styles.handleWithImage}>
+            {matchingNft && (
+              <NftMedia
+                shouldAutoScaleHeight
+                nft={matchingNft}
+                ErrorComponent={
+                  <View style={styles.imageError}>
+                    <ImageErrorIcon />
+                  </View>
+                }
+                origin={NftOrigin.NftCelebration}
+                mediaType="image"
+                testID="NftMedia"
+              />
+            )}
+            <View style={styles.handleBar} />
+          </View>
           <View style={styles.content}>
             <Text style={styles.title}>{t('nftCelebration.bottomSheet.title')}</Text>
             <Text style={styles.description}>{t('nftCelebration.bottomSheet.description')}</Text>
@@ -188,12 +182,9 @@ const styles = StyleSheet.create({
     marginTop: IMAGE_BORDER_RADIUS, // to not interfere with image rounded corners
     borderRadius: 0,
   },
-  container: {
-    padding: Spacing.Regular16,
-  },
   content: {
-    marginTop: Spacing.Smallest8,
-    marginHorizontal: Spacing.Smallest8,
+    marginTop: Spacing.Thick24,
+    marginHorizontal: Spacing.Thick24,
   },
   handleWithImage: {
     justifyContent: 'center',
@@ -229,6 +220,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: Spacing.XLarge48,
-    marginBottom: Spacing.Regular16,
+    marginHorizontal: Spacing.Regular16,
+    marginBottom: Spacing.Smallest8,
   },
 })
