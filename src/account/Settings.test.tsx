@@ -395,7 +395,7 @@ describe('Account', () => {
     expect(mockFetch).toHaveBeenCalledTimes(1)
   })
 
-  it('deletes the account successfully', async () => {
+  it('deletes the account and unlinks the phone number successfully', async () => {
     mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
     mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
       status: 200,
@@ -429,6 +429,27 @@ describe('Account', () => {
       body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
     })
     expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+  })
+
+  it('deletes the account for an unverified account successfully', async () => {
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    const store = createMockStore({
+      app: { phoneNumberVerified: false },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByText('deleteAccountTitle'))
+    fireEvent.press(tree.getByText('deleteAccountWarning.buttonLabel'))
+
+    await waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+    )
+    expect(mockFetch).not.toHaveBeenCalled()
   })
 
   it('fails the delete account request if phone number revoke fails', async () => {
