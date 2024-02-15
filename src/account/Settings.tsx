@@ -460,21 +460,19 @@ export const Account = ({ navigation, route }: Props) => {
 
           <View style={styles.spacer} />
           {numberVerified && (
-            <>
-              <SettingsExpandedItem
-                title={t('revokePhoneNumber.title')}
-                details={t('revokePhoneNumber.description')}
-                onPress={handleShowConfirmRevoke}
-                testID="RevokePhoneNumber"
-              />
-              <SettingsExpandedItem
-                title={t('removeAccountTitle')}
-                details={t('removeAccountDetails')}
-                onPress={onRemoveAccountPress}
-                testID="ResetAccount"
-              />
-            </>
+            <SettingsExpandedItem
+              title={t('revokePhoneNumber.title')}
+              details={t('revokePhoneNumber.description')}
+              onPress={handleShowConfirmRevoke}
+              testID="RevokePhoneNumber"
+            />
           )}
+          <SettingsExpandedItem
+            title={t('removeAccountTitle')}
+            details={t('removeAccountDetails')}
+            onPress={onRemoveAccountPress}
+            testID="ResetAccount"
+          />
           <SettingsExpandedItem
             title={t('deleteAccountTitle')}
             details={t('deleteAccountDetails')}
