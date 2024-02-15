@@ -1,5 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import { Network } from 'src/transactions/types'
+import { Network, NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -8,7 +8,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.ALLOW_HOOKS_PREVIEW]: true,
   [StatsigFeatureGates.APP_REVIEW]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_VIEWER]: false,
-  [StatsigFeatureGates.SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER]: false,
   [StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY]: false,
   [StatsigFeatureGates.SHOW_NOTIFICATION_CENTER]: false,
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP]: false,
@@ -26,6 +25,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.CLEVERTAP_INBOX]: false,
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
   [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
+  [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
 }
 
 export const ExperimentConfigs = {
@@ -102,5 +102,9 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]: {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {} as { [key in Network]?: { contractAddress?: string } },
+  },
+  [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
+    configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
+    defaultValues: {} as { networkId?: NetworkId; contractAddress?: string },
   },
 }

@@ -6,6 +6,7 @@ export enum StatsigDynamicConfigs {
   SWAP_CONFIG = 'swap_config',
   CICO_TOKEN_INFO = 'cico_token_info',
   WALLET_JUMPSTART_CONFIG = 'wallet_jumpstart_config',
+  NFT_CELEBRATION_CONFIG = 'nft_celebration_config',
 }
 
 export enum StatsigFeatureGates {
@@ -14,7 +15,6 @@ export enum StatsigFeatureGates {
   ALLOW_HOOKS_PREVIEW = 'allow_hooks_preview',
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
-  SHOW_RECEIVE_AMOUNT_IN_SELECT_PROVIDER = 'show_receive_amount_in_select_provider',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
   SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
@@ -32,6 +32,7 @@ export enum StatsigFeatureGates {
   CLEVERTAP_INBOX = 'clevertap_inbox',
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
   SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
+  SHOW_NFT_CELEBRATION = 'show_nft_celebration',
 }
 
 export enum StatsigExperiments {

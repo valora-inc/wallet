@@ -232,7 +232,7 @@ describe(SelectProviderScreen, () => {
         quotes: [mockFiatConnectQuotes[4]],
       },
     })
-    const { queryByTestId, queryByText, getByTestId, getByText } = render(
+    const { queryByText, getByTestId, getByText } = render(
       <Provider store={mockStore}>
         <SelectProviderScreen {...mockScreenProps()} />
       </Provider>
@@ -248,8 +248,8 @@ describe(SelectProviderScreen, () => {
 
     expect(queryByText('selectProviderScreen.somePaymentsUnavailable')).toBeFalsy()
     expect(getByText('selectProviderScreen.disclaimer')).toBeTruthy()
-    expect(queryByTestId('AmountSpentInfo')).toBeFalsy()
   })
+
   it('shows you will pay fiat amount for cash ins if feature flag is true', async () => {
     jest.mocked(fetchProviders).mockResolvedValue(mockProviders)
     jest.mocked(fetchLegacyMobileMoneyProviders).mockResolvedValue(mockLegacyProviders)
