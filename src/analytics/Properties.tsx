@@ -183,6 +183,14 @@ interface HomeEventsProperties {
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
   [HomeEvents.hide_balances]: undefined
   [HomeEvents.show_balances]: undefined
+  [HomeEvents.nft_celebration_displayed]: {
+    networkId: NetworkId
+    contractAddress: string
+  }
+  [HomeEvents.nft_celebration_animation_displayed]: {
+    userInterrupted: boolean
+    durationInSeconds: number
+  }
 }
 
 interface SettingsEventsProperties {
@@ -218,6 +226,8 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_analytics]: { enabled: boolean }
   [SettingsEvents.settings_revoke_phone_number]: undefined
   [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
+  [SettingsEvents.settings_delete_account]: undefined
+  [SettingsEvents.settings_delete_account_confirm]: undefined
   [SettingsEvents.settings_set_up_keyless_backup]: undefined
   [SettingsEvents.settings_delete_keyless_backup]: undefined
 }
@@ -562,6 +572,7 @@ interface SendEventsProperties {
         networkId: NetworkId | null
         tokenId: string
         commentLength: number
+        isTokenManuallyImported: boolean
       }
 
   [SendEvents.send_secure_start]: {
@@ -598,6 +609,7 @@ interface SendEventsProperties {
     tokenAddress: string | undefined
     tokenId: string
     networkId: string
+    isTokenManuallyImported: boolean
   }
   [SendEvents.send_tx_error]: {
     error: string

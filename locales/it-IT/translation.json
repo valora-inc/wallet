@@ -2100,6 +2100,17 @@
     "title": "Acquista criptovalute o trasferisci token",
     "body": "Compra o trasferisci token compatibili per inviare criptovalute ed esplorare il Web3!"
   },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Adottatore di catene multiple 🎁",
+      "description": "Per ringraziarti di essere un beta tester multi-catena, abbiamo aggiunto un omaggio al tuo portafoglio {{appName}} ! L'NFT per gli early adopter si trova nei tuoi oggetti da collezione.",
+      "cta": "Grazie!"
+    },
+    "notification": {
+      "title": "Congratulazioni 🎉",
+      "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
