@@ -1,4 +1,4 @@
-import GorhomBottomSheet, { BottomSheetBackdrop } from '@gorhom/bottom-sheet'
+import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import React, { useCallback } from 'react'
 import { Keyboard, StyleSheet } from 'react-native'
@@ -8,17 +8,23 @@ import Colors from 'src/styles/colors'
 interface BottomSheetBaseProps {
   forwardedRef: React.RefObject<GorhomBottomSheet>
   children?: React.ReactNode | React.ReactNode[]
+  onChange?: BottomSheetProps['onChange']
   onClose?: () => void
   onOpen?: () => void
   snapPoints?: (string | number)[]
+  handleComponent?: BottomSheetProps['handleComponent']
+  backgroundStyle?: BottomSheetProps['backgroundStyle']
 }
 
 const BottomSheetBase = ({
   forwardedRef,
   children,
+  onChange,
   onClose,
   onOpen,
   snapPoints,
+  handleComponent,
+  backgroundStyle,
 }: BottomSheetBaseProps) => {
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
@@ -55,9 +61,12 @@ const BottomSheetBase = ({
       snapPoints={snapPoints}
       enablePanDownToClose
       backdropComponent={renderBackdrop}
+      handleComponent={handleComponent}
       handleIndicatorStyle={styles.handle}
+      backgroundStyle={backgroundStyle}
       onAnimate={handleAnimate}
       onClose={handleClose}
+      onChange={onChange}
       maxDynamicContentSize={height - insets.top}
     >
       {children}

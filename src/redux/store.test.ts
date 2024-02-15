@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 188,
+          "version": 189,
         },
         "account": {
           "acceptedTerms": false,
@@ -232,6 +232,7 @@ describe('store state', () => {
           "cleverTapInboxMessages": [],
           "hasVisitedHome": true,
           "loading": false,
+          "nftCelebration": null,
           "notifications": {},
         },
         "i18n": {
