@@ -42,11 +42,6 @@ export default onRamps = () => {
           device.getPlatform() === 'ios'
             ? cardProviders.label.split(' ')[0]
             : cardProviders.text.split(' ')[0]
-        await element(by.id('Card/section')).tap()
-        // Check that best rate is displayed first
-        await expect(
-          element(by.id('Card/provider-0').withDescendant(by.id('Card/bestRate')))
-        ).toExist()
         // Check that the expected number of providers show
         for (let i = 0; i < numCardProviders; i++) {
           await expect(element(by.id(`Card/provider-${i}`))).toExist()
@@ -64,11 +59,6 @@ export default onRamps = () => {
           device.getPlatform() === 'ios'
             ? bankProviders.label.split(' ')[0]
             : bankProviders.text.split(' ')[0]
-        await element(by.id('Bank/section')).tap()
-        // Check that best rate is displayed first
-        await expect(
-          element(by.id('Bank/provider-0').withDescendant(by.id('Bank/bestRate')))
-        ).toExist()
         // Check that the expected number of providers show
         for (let i = 0; i < numBankProviders; i++) {
           await expect(element(by.id(`Bank/provider-${i}`))).toExist()

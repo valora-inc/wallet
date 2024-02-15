@@ -412,6 +412,11 @@ describe('WalletHome', () => {
 
       expect(store.getActions()).toEqual([notificationSpotlightSeen()])
     })
+  })
+  describe('cash in bottom sheet', () => {
+    beforeEach(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
 
     it('shows the cash in bottom sheet after the spotlight for an eligible user', async () => {
       jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
@@ -432,6 +437,47 @@ describe('WalletHome', () => {
             ...zeroBalances,
             app: {
               showNotificationSpotlight: false,
+            },
+          })}
+        >
+          <WalletHome />
+        </Provider>
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+      await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
+    })
+
+    it('shows the cash in bottom sheet after the nft celebration for an eligible user', async () => {
+      jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+
+      const { queryByTestId, rerender, getByTestId } = renderScreen({
+        ...zeroBalances,
+        app: {
+          showNotificationSpotlight: false,
+        },
+        home: {
+          nftCelebration: {
+            displayed: false,
+          },
+        },
+      })
+
+      expect(queryByTestId('cashInBtn')).toBeFalsy()
+
+      rerender(
+        <Provider
+          store={createMockStore({
+            ...zeroBalances,
+            app: {
+              showNotificationSpotlight: false,
+            },
+            home: {
+              nftCelebration: {
+                displayed: true,
+              },
             },
           })}
         >

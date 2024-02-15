@@ -2098,5 +2098,16 @@
     "title": "购买加密货币或转移代币。",
     "body": "购买或转移兼容的代币，发送加密货币并探索 Web3！"
   },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "多链早期采用者 🎁",
+      "description": "为了感谢您成为多链测试者，我们在您的 {{appName}} 钱包中添加了一份免费礼物！早期采用者 NFT 可以在您的收藏品中找到。",
+      "cta": "谢谢！"
+    },
+    "notification": {
+      "title": "恭喜 🎉",
+      "description": "{{rewardName}} 已成功添加到您的 {{appName}} 钱包。"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
