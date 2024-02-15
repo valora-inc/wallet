@@ -137,6 +137,12 @@
         "tryAgain": "Thử lại",
         "createNewWallet": "Tạo ví mới",
         "help": "Trợ giúp"
+      },
+      "notFound": {
+        "title": "Wallet not found",
+        "body": "To restore your wallet, use the <0>same email address & phone number</0> you used when you set up.\n\nYou can also restore your wallet with your recovery phrase.",
+        "tryAgain": "Thử lại",
+        "createNewWallet": "Tạo ví mới"
       }
     }
   },
@@ -2091,6 +2097,17 @@
   "getStartedHome": {
     "title": "Mua tiền kỹ thuật số hoặc chuyển token",
     "body": "Mua hoặc chuyển token tương thích để gửi tiền điện tử và khám phá web3!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Multi-chain early adopter 🎁",
+      "description": "As a thank you for being a multi-chain beta tester, we’ve added a free gift to your {{appName}} wallet! The early adopter NFT can be found in your collectibles.",
+      "cta": "Cảm ơn bạn!"
+    },
+    "notification": {
+      "title": "Congratulations 🎉",
+      "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }

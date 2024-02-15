@@ -2,7 +2,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useEffect, useLayoutEffect } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
-import { BackHandler, StyleSheet, Text, View } from 'react-native'
+import { BackHandler, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
 import { KeylessBackupEvents } from 'src/analytics/Events'
@@ -13,6 +13,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
 import GreenLoadingSpinnerToCheck from 'src/icons/GreenLoadingSpinnerToCheck'
 import RedLoadingSpinnerToInfo from 'src/icons/RedLoadingSpinnerToInfo'
+import { Help } from 'src/icons/navigator/Help'
 import { keylessBackupStatusSelector } from 'src/keylessBackup/selectors'
 import { keylessBackupAcceptZeroBalance, keylessBackupBail } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
@@ -24,7 +25,7 @@ import { StackParamList } from 'src/navigator/types'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import colors from 'src/styles/colors'
-import fontStyles, { typeScale } from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTotalTokenBalance } from 'src/tokens/hooks'
 import Logger from 'src/utils/Logger'
@@ -87,12 +88,16 @@ function Restore() {
   const dispatch = useDispatch()
 
   const onPressTryAgain = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again)
+    dispatch(keylessBackupBail())
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_try_again, { keylessBackupStatus })
     navigate(Screens.ImportSelect)
   }
 
   const onPressCreateNewWallet = () => {
-    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet)
+    dispatch(keylessBackupBail())
+    ValoraAnalytics.track(KeylessBackupEvents.cab_restore_failed_create_new_wallet, {
+      keylessBackupStatus,
+    })
     navigate(Screens.Welcome)
   }
 
@@ -187,7 +192,7 @@ function Restore() {
             <Text style={styles.body}>{t('keylessBackupStatus.restore.failed.body')}</Text>
           </View>
           <Button
-            testID="KeylessBackupProgress/RestoreTryAgain"
+            testID="KeylessBackupProgress/RestoreFailedTryAgain"
             onPress={onPressTryAgain}
             text={t('keylessBackupStatus.restore.failed.tryAgain')}
             size={BtnSizes.FULL}
@@ -196,9 +201,41 @@ function Restore() {
             touchableStyle={styles.buttonTouchable}
           />
           <Button
-            testID="KeylessBackupProgress/RestoreCreateNewWallet"
+            testID="KeylessBackupProgress/RestoreFailedCreateNewWallet"
             onPress={onPressCreateNewWallet}
             text={t('keylessBackupStatus.restore.failed.createNewWallet')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.GRAY_WITH_BORDER}
+            style={styles.button}
+            touchableStyle={styles.buttonTouchable}
+          />
+        </SafeAreaView>
+      )
+    case KeylessBackupStatus.NotFound:
+      return (
+        <SafeAreaView style={styles.container}>
+          <ScrollView contentContainerStyle={styles.finishedContainer}>
+            <Help size={60} color={colors.gray4} />
+            <Text style={styles.title}>{t('keylessBackupStatus.restore.notFound.title')}</Text>
+            <Text style={styles.body}>
+              <Trans i18nKey={'keylessBackupStatus.restore.notFound.body'}>
+                <Text style={styles.bold} />
+              </Trans>
+            </Text>
+          </ScrollView>
+          <Button
+            testID="KeylessBackupProgress/RestoreNotFoundTryAgain"
+            onPress={onPressTryAgain}
+            text={t('keylessBackupStatus.restore.notFound.tryAgain')}
+            size={BtnSizes.FULL}
+            type={BtnTypes.PRIMARY}
+            style={styles.button}
+            touchableStyle={styles.buttonTouchable}
+          />
+          <Button
+            testID="KeylessBackupProgress/RestoreNotFoundCreateNewWallet"
+            onPress={onPressCreateNewWallet}
+            text={t('keylessBackupStatus.restore.notFound.createNewWallet')}
             size={BtnSizes.FULL}
             type={BtnTypes.GRAY_WITH_BORDER}
             style={styles.button}
@@ -310,6 +347,9 @@ function renderInProgressState(title: string) {
 
 const styles = StyleSheet.create({
   iconContainer: {},
+  bold: {
+    fontWeight: '700',
+  },
   progressContainer: {
     flexDirection: 'column',
     justifyContent: 'center',
@@ -328,13 +368,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    ...fontStyles.h2,
+    ...typeScale.labelSemiBoldLarge,
     paddingTop: Spacing.Regular16,
     textAlign: 'center',
-    marginBottom: Spacing.Regular16,
   },
   body: {
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     paddingTop: Spacing.Regular16,
     textAlign: 'center',
     marginBottom: Spacing.Regular16,

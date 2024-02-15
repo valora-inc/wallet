@@ -137,6 +137,12 @@
         "tryAgain": "Spróbuj ponownie",
         "createNewWallet": "Utwórz portfel",
         "help": "Pomoc"
+      },
+      "notFound": {
+        "title": "Nie znaleziono portfela",
+        "body": "Aby przywrócić portfel, użyj <0>tego samego adresu e-mail i numeru telefonu</0>, których użyłeś podczas konfiguracji.\n\nMożesz również przywrócić portfel za pomocą frazy odzyskiwania.",
+        "tryAgain": "Spróbuj ponownie",
+        "createNewWallet": "Utwórz portfel"
       }
     }
   },
@@ -2097,6 +2103,17 @@
   "getStartedHome": {
     "title": "Kup kryptowaluty lub prześlij tokeny",
     "body": "Kupuj lub przesyłaj kompatybilne tokeny, aby wysyłać kryptowaluty i odkrywać web3!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Wczesna adopcja wielu łańcuchów 🎁",
+      "description": "W podziękowaniu za bycie beta testerem multi-chain, dodaliśmy darmowy prezent do Twojego portfela {{appName}} ! NFT dla wczesnych użytkowników znajdziesz w swoich przedmiotach kolekcjonerskich.",
+      "cta": "Dziękujemy!"
+    },
+    "notification": {
+      "title": "Gratulacje 🎉",
+      "description": "{{rewardName}} została pomyślnie dodana do Twojego portfela {{appName}} ."
+    }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",

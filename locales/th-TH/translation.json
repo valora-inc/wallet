@@ -137,6 +137,12 @@
         "tryAgain": "ลองอีกครั้ง",
         "createNewWallet": "สร้างกระเป๋าเงินใหม่",
         "help": "ความช่วยเหลือ"
+      },
+      "notFound": {
+        "title": "Wallet not found",
+        "body": "To restore your wallet, use the <0>same email address & phone number</0> you used when you set up.\n\nYou can also restore your wallet with your recovery phrase.",
+        "tryAgain": "ลองอีกครั้ง",
+        "createNewWallet": "สร้างกระเป๋าเงินใหม่"
       }
     }
   },
@@ -2091,6 +2097,17 @@
   "getStartedHome": {
     "title": "ซื้อคริปโตหรือโอนโทเค็น",
     "body": "ซื้อหรือโอนโทเค็นที่เข้ากันได้เพื่อส่งคริปโตและสำรวจ web3!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Multi-chain early adopter 🎁",
+      "description": "As a thank you for being a multi-chain beta tester, we’ve added a free gift to your {{appName}} wallet! The early adopter NFT can be found in your collectibles.",
+      "cta": "ขอขอบคุณ"
+    },
+    "notification": {
+      "title": "Congratulations 🎉",
+      "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+    }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

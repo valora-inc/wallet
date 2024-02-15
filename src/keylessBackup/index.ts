@@ -16,9 +16,11 @@ const SESSION_DURATION_MS = 5 * 60 * 1000 // 5 mins
 export async function storeEncryptedMnemonic({
   encryptedMnemonic,
   encryptionAddress,
+  jwt,
 }: {
   encryptedMnemonic: string
   encryptionAddress: string
+  jwt: string
 }) {
   const response = await fetchWithTimeout(networkConfig.cabStoreEncryptedMnemonicUrl, {
     method: 'POST',
@@ -28,6 +30,7 @@ export async function storeEncryptedMnemonic({
     body: JSON.stringify({
       encryptedMnemonic,
       encryptionAddress,
+      token: jwt,
     }),
   })
   if (!response.ok) {
@@ -66,6 +69,9 @@ export async function getEncryptedMnemonic({
   )
   await siweClient.login()
   const response = await siweClient.fetch(networkConfig.cabGetEncryptedMnemonicUrl)
+  if (response.status === 404) {
+    return null
+  }
   if (!response.ok) {
     const message = (await response.json())?.message
     throw new Error(

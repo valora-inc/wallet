@@ -25,6 +25,7 @@ import {
   keylessBackupBail,
   keylessBackupCompleted,
   keylessBackupFailed,
+  keylessBackupNotFound,
   torusKeyshareIssued,
   valoraKeyshareIssued,
 } from 'src/keylessBackup/slice'
@@ -120,6 +121,7 @@ describe('keylessBackup saga', () => {
     const mockTorusKeyshareBuffer = Buffer.from(mockTorusKeyshare, 'hex')
     const mockValoraKeyshare = '0xabc'
     const mockValoraKeyshareBuffer = Buffer.from(mockValoraKeyshare, 'hex')
+    const mockJwt = 'abc.def.ghi'
 
     const mockEncryptionPrivateKey =
       '0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb'
@@ -138,7 +140,11 @@ describe('keylessBackup saga', () => {
     describe('setup', () => {
       it('stores encrypted mnemonic and puts success event if no errors', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
-          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Setup },
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Setup,
+            jwt: mockJwt,
+          },
           type: valoraKeyshareIssued.type,
         })
           .provide([
@@ -165,6 +171,7 @@ describe('keylessBackup saga', () => {
               call(storeEncryptedMnemonic, {
                 encryptedMnemonic: mockEncryptedMnemonic,
                 encryptionAddress: mockEncryptionAddress,
+                jwt: mockJwt,
               }),
               undefined,
             ],
@@ -177,7 +184,11 @@ describe('keylessBackup saga', () => {
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
-          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Setup },
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Setup,
+            jwt: mockJwt,
+          },
           type: valoraKeyshareIssued.type,
         })
           .provide([
@@ -204,6 +215,7 @@ describe('keylessBackup saga', () => {
               call(storeEncryptedMnemonic, {
                 encryptedMnemonic: mockEncryptedMnemonic,
                 encryptionAddress: mockEncryptionAddress,
+                jwt: mockJwt,
               }),
               throwError(new Error('mock error storing encrypted mnemonic')),
             ],
@@ -219,7 +231,11 @@ describe('keylessBackup saga', () => {
     describe('restore', () => {
       it('gets encrypted mnemonic and puts success event if no errors', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
-          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Restore,
+            jwt: mockJwt,
+          },
           type: valoraKeyshareIssued.type,
         })
           .provide([
@@ -261,7 +277,11 @@ describe('keylessBackup saga', () => {
       })
       it('bails if the user does not have a balance and chooses to exit', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
-          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Restore,
+            jwt: mockJwt,
+          },
           type: valoraKeyshareIssued.type,
         })
           .provide([
@@ -302,7 +322,11 @@ describe('keylessBackup saga', () => {
       })
       it('puts failure event if error occurs storing encrypted mnemonic', async () => {
         await expectSaga(handleValoraKeyshareIssued, {
-          payload: { keyshare: mockValoraKeyshare, keylessBackupFlow: KeylessBackupFlow.Restore },
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Restore,
+            jwt: mockJwt,
+          },
           type: valoraKeyshareIssued.type,
         })
           .provide([
@@ -327,6 +351,36 @@ describe('keylessBackup saga', () => {
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_failed', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
         })
+      })
+      it('puts not found event if encrypted mnemonic not found', async () => {
+        await expectSaga(handleValoraKeyshareIssued, {
+          payload: {
+            keyshare: mockValoraKeyshare,
+            keylessBackupFlow: KeylessBackupFlow.Restore,
+            jwt: mockJwt,
+          },
+          type: valoraKeyshareIssued.type,
+        })
+          .provide([
+            [select(torusKeyshareSelector), mockTorusKeyshare],
+            [
+              call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
+              {
+                privateKey: mockEncryptionPrivateKeyBuffer,
+                publicKey: mockEncryptionPublicKeyBuffer,
+              },
+            ],
+            [
+              call(getEncryptedMnemonic, {
+                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
+                encryptionAddress: mockEncryptionAddress,
+              }),
+              null,
+            ],
+          ])
+          .put(keylessBackupNotFound())
+          .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_restore_mnemonic_not_found')
       })
     })
   })

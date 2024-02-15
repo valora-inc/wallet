@@ -1,6 +1,12 @@
-import { Actions, cleverTapInboxMessagesReceived } from 'src/home/actions'
+import {
+  Actions,
+  celebratedNftFound,
+  cleverTapInboxMessagesReceived,
+  nftCelebrationDisplayed,
+} from 'src/home/actions'
 import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
-import { mockCleverTapInboxMessage } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
+import { mockCleverTapInboxMessage, mockContractAddress } from 'test/values'
 
 const createTestNotification = (body: string) => ({
   ctaUri: 'https://celo.org',
@@ -147,5 +153,29 @@ describe('home reducer', () => {
     const updatedState = reducer(undefined, cleverTapInboxMessagesReceived(messages))
 
     expect(updatedState.cleverTapInboxMessages).toEqual(messages)
+  })
+
+  it('should set nftCelebration', () => {
+    const updatedState = reducer(
+      undefined,
+      celebratedNftFound({
+        networkId: NetworkId['celo-alfajores'],
+        contractAddress: mockContractAddress,
+      })
+    )
+
+    expect(updatedState.nftCelebration).toEqual({
+      networkId: NetworkId['celo-alfajores'],
+      contractAddress: mockContractAddress,
+      displayed: false,
+    })
+  })
+
+  it('should mark nftCelebration as displayed', () => {
+    const updatedState = reducer(undefined, nftCelebrationDisplayed())
+
+    expect(updatedState.nftCelebration).toEqual({
+      displayed: true,
+    })
   })
 })

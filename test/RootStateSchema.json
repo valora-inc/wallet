@@ -1546,6 +1546,7 @@
                 "Completed",
                 "Failed",
                 "InProgress",
+                "NotFound",
                 "NotStarted",
                 "RestoreZeroBalance"
             ],
@@ -3022,9 +3023,6 @@
                         "string"
                     ]
                 },
-                "celoEuroEnabled": {
-                    "type": "boolean"
-                },
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
                 },
@@ -3118,12 +3116,6 @@
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
-                "rewardPillText": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
-                },
                 "sentryNetworkErrors": {
                     "items": {
                         "type": "string"
@@ -3186,7 +3178,6 @@
                 "analyticsEnabled",
                 "appState",
                 "celoEducationUri",
-                "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
@@ -3469,7 +3460,7 @@
                         "KES",
                         "LRD",
                         "MXN",
-                        "MYS",
+                        "MYR",
                         "NGN",
                         "PAB",
                         "PEN",
@@ -3478,18 +3469,18 @@
                         "PYG",
                         "RUB",
                         "RWF",
-                        "SGP",
+                        "SGD",
                         "SLL",
                         "SRD",
-                        "THI",
+                        "THB",
                         "TRY",
-                        "TWN",
+                        "TWD",
                         "UAH",
                         "UGX",
                         "USD",
                         "UYU",
                         "VES",
-                        "VNM",
+                        "VND",
                         "XAF",
                         "XOF",
                         "ZAR"
@@ -3524,7 +3515,7 @@
                         "KES",
                         "LRD",
                         "MXN",
-                        "MYS",
+                        "MYR",
                         "NGN",
                         "PAB",
                         "PEN",
@@ -3533,18 +3524,18 @@
                         "PYG",
                         "RUB",
                         "RWF",
-                        "SGP",
+                        "SGD",
                         "SLL",
                         "SRD",
-                        "THI",
+                        "THB",
                         "TRY",
-                        "TWN",
+                        "TWD",
                         "UAH",
                         "UGX",
                         "USD",
                         "UYU",
                         "VES",
-                        "VNM",
+                        "VND",
                         "XAF",
                         "XOF",
                         "ZAR"
@@ -4071,12 +4062,6 @@
         "State_4": {
             "additionalProperties": false,
             "properties": {
-                "inviteRewardCusd": {
-                    "type": "number"
-                },
-                "inviteRewardWeeklyLimit": {
-                    "type": "number"
-                },
                 "inviteRewardsVersion": {
                     "type": "string"
                 },
@@ -4103,8 +4088,6 @@
                 }
             },
             "required": [
-                "inviteRewardCusd",
-                "inviteRewardWeeklyLimit",
                 "inviteRewardsVersion",
                 "isSending",
                 "recentPayments",
@@ -4128,6 +4111,33 @@
                 "loading": {
                     "type": "boolean"
                 },
+                "nftCelebration": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "contractAddress": {
+                                    "type": "string"
+                                },
+                                "displayed": {
+                                    "type": "boolean"
+                                },
+                                "networkId": {
+                                    "$ref": "#/definitions/NetworkId"
+                                }
+                            },
+                            "required": [
+                                "contractAddress",
+                                "displayed",
+                                "networkId"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
                 "notifications": {
                     "$ref": "#/definitions/IdToNotification"
                 }
@@ -4136,6 +4146,7 @@
                 "cleverTapInboxMessages",
                 "hasVisitedHome",
                 "loading",
+                "nftCelebration",
                 "notifications"
             ],
             "type": "object"

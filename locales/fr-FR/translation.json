@@ -137,6 +137,12 @@
         "tryAgain": "Réessayer",
         "createNewWallet": "Créer un wallet",
         "help": "Aide"
+      },
+      "notFound": {
+        "title": "Portefeuille introuvable",
+        "body": "Pour restaurer ton portefeuille, utilise la <0>même adresse e-mail et le même numéro de téléphone que</0> ceux que tu as utilisés lors de la création.\n\nTu peux aussi restaurer ton portefeuille avec ta phrase de récupération.",
+        "tryAgain": "Réessayer",
+        "createNewWallet": "Créer un wallet"
       }
     }
   },
@@ -2093,6 +2099,17 @@
   "getStartedHome": {
     "title": "Acheter des cryptomonnaies ou des jetons de transfert",
     "body": "Achetez ou transférez des jetons compatibles pour envoyer des cryptomonnaies et découvrir le web3 !"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Adopte rapidement des chaînes multiples 🎁",
+      "description": "Pour te remercier d'avoir été un bêta-testeur multi-chaînes, nous avons ajouté un cadeau gratuit à ton portefeuille {{appName}} ! Le NFT early adopter se trouve dans tes objets à collectionner.",
+      "cta": "Merci !"
+    },
+    "notification": {
+      "title": "Félicitations 🎉",
+      "description": "{{rewardName}} a été ajouté avec succès à ton portefeuille {{appName}} ."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

@@ -137,6 +137,12 @@
         "tryAgain": "Repetir",
         "createNewWallet": "Criar carteira",
         "help": "Ajuda"
+      },
+      "notFound": {
+        "title": "Carteira não encontrada",
+        "body": "Para restaurar sua carteira, use o <0>mesmo endereço de e-mail e número de telefone</0> que você usou quando fez a configuração.\n\nVocê também pode restaurar sua carteira com sua frase de recuperação.",
+        "tryAgain": "Repetir",
+        "createNewWallet": "Criar carteira"
       }
     }
   },
@@ -2093,6 +2099,17 @@
   "getStartedHome": {
     "title": "Comprar cripto ou transferir tokens",
     "body": "Compre ou transfira tokens compatíveis para enviar cripto e explorar a web3!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Adoção antecipada de várias cadeias 🎁",
+      "description": "Como agradecimento por você ser um testador beta de várias cadeias, adicionamos um presente gratuito à sua carteira {{appName}} ! Você pode encontrar o NFT para os primeiros usuários em seus itens colecionáveis.",
+      "cta": "Obrigado!"
+    },
+    "notification": {
+      "title": "Parabéns a você 🎉.",
+      "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

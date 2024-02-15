@@ -49,6 +49,8 @@ export enum HomeEvents {
   notification_center_spotlight_dismiss = 'notification_center_spotlight_dismiss',
   hide_balances = 'hide_balances',
   show_balances = 'show_balances',
+  nft_celebration_displayed = 'nft_celebration_displayed',
+  nft_celebration_animation_displayed = 'nft_celebration_animation_displayed',
 }
 
 export enum SettingsEvents {
@@ -83,6 +85,8 @@ export enum SettingsEvents {
 
   settings_revoke_phone_number = 'settings_revoke_phone_number',
   settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
+  settings_delete_account = 'settings_delete_account',
+  settings_delete_account_confirm = 'settings_delete_account_confirm',
 
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
   settings_delete_keyless_backup = 'settings_delete_keyless_backup',
@@ -118,6 +122,7 @@ export enum KeylessBackupEvents {
   cab_restore_failed_try_again = 'cab_restore_failed_try_again',
   cab_restore_failed_create_new_wallet = 'cab_restore_failed_create_new_wallet',
   cab_restore_failed_help = 'cab_restore_failed_help',
+  cab_restore_mnemonic_not_found = 'cab_restore_mnemonic_not_found',
   cab_phone_verification_help = 'cab_phone_verification_help',
   cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
   cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',

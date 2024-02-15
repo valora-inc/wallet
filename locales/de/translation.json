@@ -137,6 +137,12 @@
         "tryAgain": "Wiederholen",
         "createNewWallet": "Wallet erstellen",
         "help": "Hilfe"
+      },
+      "notFound": {
+        "title": "Geldbeutel nicht gefunden",
+        "body": "Um dein Portemonnaie wiederherzustellen, verwende <0>dieselbe E-Mail-Adresse und Telefonnummer</0>, die du bei der Einrichtung verwendet hast.\n\nDu kannst dein Portemonnaie auch mit deiner Wiederherstellungsphrase wiederherstellen.",
+        "tryAgain": "Wiederholen",
+        "createNewWallet": "Wallet erstellen"
       }
     }
   },
@@ -2093,6 +2099,17 @@
   "getStartedHome": {
     "title": "Krypto kaufen oder Tokens überweisen",
     "body": "Kaufe oder überweise kompatible Token, um Krypto zu senden und web3 zu erkunden!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Multi-Chain Early Adopter 🎁",
+      "description": "Als Dankeschön dafür, dass du ein Multi-Chain-Beta-Tester bist, haben wir ein kostenloses Geschenk zu deiner {{appName}} Geldbörse hinzugefügt! Die Early Adopter NFT findest du in deinen Sammelobjekten.",
+      "cta": "Vielen Dank!"
+    },
+    "notification": {
+      "title": "Herzlichen Glückwunsch 🎉.",
+      "description": "{{rewardName}} wurde erfolgreich zu deiner {{appName}} Brieftasche hinzugefügt."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

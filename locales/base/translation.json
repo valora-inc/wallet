@@ -6,6 +6,14 @@
   "licenses": "Licenses",
   "removeAccountTitle": "Reset Valora",
   "removeAccountDetails": "Resetting will remove your account from this device. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
+  "deleteAccountTitle": "Delete Account",
+  "deleteAccountDetails": "Deleting your account will remove it from {{appName}}. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
+  "deleteAccountWarning": {
+    "title": "Are you sure?",
+    "description": "Deleting your account from {{appName}} also removes any linked phone number. Your funds will remain in the account, but will only be accessible with your Recovery Phrase.",
+    "buttonLabel": "Continue",
+    "buttonLabelRevokingPhoneNumber": "Unlinking phone number..."
+  },
   "legal": "Legal",
   "appPreferences": "App Preferences",
   "security": "Security",
@@ -48,9 +56,9 @@
     "body2": "Nobody, not even Valora, can recover your account without your Phrase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Are you sure you want to reset Valora?",
-    "body": "You will no longer be able to access your funds or your Recovery Phrase from this device. There is no way to recover your Recovery Phrase if you haven't written it down.",
-    "resetNow": "Reset Now"
+    "header": "Are you sure you want to proceed?",
+    "body": "You are about to erase your wallet from this device. This step is final and cannot be reversed. There is no way to recover your Recovery Phrase if you haven't written it down.",
+    "resetNow": "Continue"
   },
   "protectWallet": {
     "title": "Protect Your Wallet",
@@ -137,6 +145,12 @@
         "tryAgain": "Try Again",
         "createNewWallet": "Create new wallet",
         "help": "Help"
+      },
+      "notFound": {
+        "title": "Wallet not found",
+        "body": "To restore your wallet, use the <0>same email address & phone number</0> you used when you set up.\n\nYou can also restore your wallet with your recovery phrase.",
+        "tryAgain": "Try Again",
+        "createNewWallet": "Create new wallet"
       }
     }
   },
@@ -2095,5 +2109,16 @@
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
     "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Multi-chain early adopter 🎁",
+      "description": "As a thank you for being a multi-chain beta tester, we’ve added a free gift to your {{appName}} wallet! The early adopter NFT can be found in your collectibles.",
+      "cta": "Thanks!"
+    },
+    "notification": {
+      "title": "Congratulations 🎉",
+      "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+    }
   }
 }

@@ -152,6 +152,7 @@ function TokenBottomSheet<T extends TokenBalance>({
 
   const filterChipsCarouselRef = useRef<ScrollView>(null)
   const tokenListRef = useRef<BottomSheetFlatListMethods>(null)
+  const [headerHeight, setHeaderHeight] = useState(0)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState(filterChips)
   const activeFilters = useMemo(() => filters.filter((filter) => filter.isSelected), [filters])
@@ -225,6 +226,8 @@ function TokenBottomSheet<T extends TokenBalance>({
   }, [searchTerm, tokens, activeFilters])
 
   useEffect(() => {
+    // Scroll to top when the token list changes (e.g. when there are new
+    // filters and search terms applied)
     if (tokenList.length > 0) {
       tokenListRef.current?.scrollToOffset({ offset: 0, animated: true })
     }
@@ -239,6 +242,17 @@ function TokenBottomSheet<T extends TokenBalance>({
     filterChipsCarouselRef.current?.scrollTo({ x: 0 })
   }
 
+  const handleMeasureHeader = (event: { nativeEvent: { layout: { height: number } } }) => {
+    setHeaderHeight(event.nativeEvent.layout.height)
+  }
+
+  // This component implements a sticky header using an absolutely positioned
+  // component on top of a blank container of the same height in the
+  // ListHeaderComponent of the Flatlist. Unfortunately the out of the box
+  // sticky header implementation of FlatList does not work so well with the
+  // scroll methods inside dynamically sized bottom sheets and it was observed
+  // that the header would be stuck to the wrong position between sheet reopens.
+  // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
     <BottomSheetBase
       forwardedRef={forwardedRef}
@@ -246,64 +260,63 @@ function TokenBottomSheet<T extends TokenBalance>({
       onOpen={handleOpen}
       onClose={handleClose}
     >
-      <BottomSheetFlatList
-        ref={tokenListRef}
-        testID="TokenBottomSheet"
-        data={tokenList}
-        keyExtractor={(item) => item.tokenId}
-        contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
-        renderItem={({ item, index }) => {
-          return (
-            <TokenOptionComponent
-              tokenInfo={item}
-              onPress={onTokenPressed(item)}
-              index={index}
-              showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+      <View style={styles.container} testID="TokenBottomSheet">
+        <BottomSheetFlatList
+          ref={tokenListRef}
+          data={tokenList}
+          keyExtractor={(item) => item.tokenId}
+          contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+          scrollIndicatorInsets={{ top: headerHeight }}
+          renderItem={({ item, index }) => {
+            return (
+              <TokenOptionComponent
+                tokenInfo={item}
+                onPress={onTokenPressed(item)}
+                index={index}
+                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+              />
+            )
+          }}
+          ListHeaderComponent={<View style={{ height: headerHeight }} />}
+          ListEmptyComponent={() => {
+            if (searchEnabled || filterChips.length > 0) {
+              return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
+            }
+            return null
+          }}
+        />
+        <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
+          <Text style={[styles.title, titleStyle]}>{title}</Text>
+          {searchEnabled && (
+            <SearchInput
+              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+              value={searchTerm}
+              onChangeText={(text) => {
+                setSearchTerm(text)
+                sendAnalytics(text)
+              }}
+              style={styles.searchInput}
+              returnKeyType={'search'}
+              // disable autoCorrect and spellCheck since the search terms here
+              // are token names which autoCorrect would get in the way of. This
+              // combination also hides the keyboard suggestions bar from the top
+              // of the iOS keyboard, preserving screen real estate.
+              autoCorrect={false}
+              spellCheck={false}
             />
-          )
-        }}
-        ListHeaderComponent={
-          <>
-            <Text style={[styles.title, titleStyle]}>{title}</Text>
-            {searchEnabled && (
-              <SearchInput
-                placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-                value={searchTerm}
-                onChangeText={(text) => {
-                  setSearchTerm(text)
-                  sendAnalytics(text)
-                }}
-                style={styles.searchInput}
-                returnKeyType={'search'}
-                // disable autoCorrect and spellCheck since the search terms here
-                // are token names which autoCorrect would get in the way of. This
-                // combination also hides the keyboard suggestions bar from the top
-                // of the iOS keyboard, preserving screen real estate.
-                autoCorrect={false}
-                spellCheck={false}
-              />
-            )}
-            {filterChips.length > 0 && (
-              <FilterChipsCarousel
-                chips={filters}
-                onSelectChip={handleToggleFilterChip}
-                primaryColor={colors.successDark}
-                secondaryColor={colors.successLight}
-                style={styles.filterChipsCarouselContainer}
-                forwardedRef={filterChipsCarouselRef}
-              />
-            )}
-          </>
-        }
-        ListHeaderComponentStyle={styles.headerContainer}
-        stickyHeaderIndices={[0]}
-        ListEmptyComponent={() => {
-          if (searchEnabled || filterChips.length > 0) {
-            return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
-          }
-          return null
-        }}
-      />
+          )}
+          {filterChips.length > 0 && (
+            <FilterChipsCarousel
+              chips={filters}
+              onSelectChip={handleToggleFilterChip}
+              primaryColor={colors.successDark}
+              secondaryColor={colors.successLight}
+              style={styles.filterChipsCarouselContainer}
+              forwardedRef={filterChipsCarouselRef}
+            />
+          )}
+        </View>
+      </View>
     </BottomSheetBase>
   )
 }
@@ -311,6 +324,9 @@ function TokenBottomSheet<T extends TokenBalance>({
 TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   tokenOptionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -369,7 +385,9 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Thick24,
   },
   headerContainer: {
-    paddingVertical: Spacing.Thick24,
+    position: 'absolute',
+    top: 0,
+    padding: Spacing.Thick24,
     backgroundColor: colors.white,
   },
   tokenListContainer: {

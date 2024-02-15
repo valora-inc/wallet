@@ -137,6 +137,12 @@
         "tryAgain": "Try Again",
         "createNewWallet": "Create new wallet",
         "help": "Help"
+      },
+      "notFound": {
+        "title": "Wallet not found",
+        "body": "To restore your wallet, use the <0>same email address & phone number</0> you used when you set up.\n\nYou can also restore your wallet with your recovery phrase.",
+        "tryAgain": "Try Again",
+        "createNewWallet": "Create new wallet"
       }
     }
   },
@@ -2093,6 +2099,17 @@
   "getStartedHome": {
     "title": "Buy crypto or transfer tokens",
     "body": "Buy or transfer compatible tokens to send crypto and explore web3!"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Multi-chain early adopter 🎁",
+      "description": "As a thank you for being a multi-chain beta tester, we’ve added a free gift to your {{appName}} wallet! The early adopter NFT can be found in your collectibles.",
+      "cta": "Thanks!"
+    },
+    "notification": {
+      "title": "Congratulations 🎉",
+      "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
