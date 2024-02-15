@@ -372,6 +372,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     padding: Spacing.Thick24,
+    paddingBottom: Spacing.Smallest8,
     backgroundColor: colors.white,
   },
   tokenListContainer: {
