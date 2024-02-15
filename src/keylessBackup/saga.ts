@@ -39,7 +39,7 @@ export const DELAY_INTERVAL_MS = 500 // how long to wait between checks for keys
 export const WAIT_FOR_KEYSHARE_TIMEOUT_MS = 25 * 1000 // how long to wait for keyshares before failing
 
 export function* handleValoraKeyshareIssued({
-  payload: { keylessBackupFlow, keyshare },
+  payload: { keylessBackupFlow, keyshare, jwt },
 }: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
@@ -56,6 +56,7 @@ export function* handleValoraKeyshareIssued({
         torusKeyshareBuffer,
         valoraKeyshareBuffer,
         encryptionAddress,
+        jwt,
       })
     } else {
       yield* handleKeylessBackupRestore({
@@ -82,10 +83,12 @@ function* handleKeylessBackupSetup({
   torusKeyshareBuffer,
   valoraKeyshareBuffer,
   encryptionAddress,
+  jwt,
 }: {
   torusKeyshareBuffer: Buffer
   valoraKeyshareBuffer: Buffer
   encryptionAddress: string
+  jwt: string
 }) {
   const walletAddress = yield* select(walletAddressSelector)
   const mnemonic = yield* call(getStoredMnemonic, walletAddress)
@@ -101,6 +104,7 @@ function* handleKeylessBackupSetup({
   yield* call(storeEncryptedMnemonic, {
     encryptedMnemonic,
     encryptionAddress,
+    jwt,
   })
   yield* put(keylessBackupCompleted())
 }
