@@ -11,7 +11,7 @@ jobs:
     env:
       BASH_ENV: ~/.profile
     name: Android (SDK ${{ inputs.android-api-level }})
-    runs-on: ubicloud-standard-8
+    runs-on: ubicloud-standard-16
     steps:
       - uses: actions/checkout@v3
       # - uses: valeriangalliat/action-sshd-cloudflared@v2
