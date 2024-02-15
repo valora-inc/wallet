@@ -72,9 +72,12 @@ describe('KeylessBackupPhoneCodeInput', () => {
     mockFetch.mockResponseOnce(JSON.stringify({}), {
       status: 200,
     })
-    mockFetch.mockResponseOnce(JSON.stringify({ keyshare: 'valora-keyshare' }), {
-      status: 200,
-    })
+    mockFetch.mockResponseOnce(
+      JSON.stringify({ keyshare: 'valora-keyshare', token: 'abc.def.ghi' }),
+      {
+        status: 200,
+      }
+    )
 
     const { getByTestId } = renderComponent(KeylessBackupFlow.Setup)
 
@@ -96,6 +99,7 @@ describe('KeylessBackupPhoneCodeInput', () => {
       valoraKeyshareIssued({
         keyshare: 'valora-keyshare',
         keylessBackupFlow: KeylessBackupFlow.Setup,
+        jwt: 'abc.def.ghi',
       }),
     ])
 
