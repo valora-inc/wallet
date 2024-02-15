@@ -34,7 +34,7 @@ export default ResetAccount = () => {
         .scroll(350, 'down')
     } catch {}
     await element(by.id('ResetAccount')).tap()
-    await element(by.id('RemoveAccountModal/PrimaryAction')).tap()
+    await element(by.id('ResetAccountButton')).tap()
 
     await enterPinUiIfNecessary()
 

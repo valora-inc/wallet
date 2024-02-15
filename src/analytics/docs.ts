@@ -118,6 +118,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SettingsEvents.settings_analytics]: ``,
   [SettingsEvents.settings_revoke_phone_number]: ``,
   [SettingsEvents.settings_revoke_phone_number_confirm]: ``,
+  [SettingsEvents.settings_delete_account]: `When the user taps on the Delete Account button in the settings screen`,
+  [SettingsEvents.settings_delete_account_confirm]: `When the user confirms they want to delete their account`,
   [SettingsEvents.settings_set_up_keyless_backup]: ``,
   [SettingsEvents.settings_delete_keyless_backup]: ``,
   [KeylessBackupEvents.wallet_security_primer_get_started]: ``,
