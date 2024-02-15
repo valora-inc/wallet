@@ -7,6 +7,7 @@ import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
 import { Recipient } from 'src/recipients/recipient'
@@ -1551,4 +1552,28 @@ export const migrations = {
     ...state,
     home: { ...state.home, nftCelebration: null },
   }),
+  190: (state: any) => {
+    const currencyMapping: Record<string, LocalCurrencyCode> = {
+      MYS: LocalCurrencyCode.MYR,
+      SGP: LocalCurrencyCode.SGD,
+      THI: LocalCurrencyCode.THB,
+      TWN: LocalCurrencyCode.TWD,
+      VNM: LocalCurrencyCode.VND,
+    }
+    const preferredCurrencyCode =
+      currencyMapping[state.localCurrency.preferredCurrencyCode] ??
+      state.localCurrency.preferredCurrencyCode
+    const fetchedCurrencyCode =
+      currencyMapping[state.localCurrency.fetchedCurrencyCode] ??
+      state.localCurrency.fetchedCurrencyCode
+
+    return {
+      ...state,
+      localCurrency: {
+        ...state.localCurrency,
+        preferredCurrencyCode,
+        fetchedCurrencyCode,
+      },
+    }
+  },
 }
