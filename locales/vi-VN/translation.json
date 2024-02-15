@@ -6,6 +6,14 @@
   "licenses": "Giấy phép",
   "removeAccountTitle": "Thiết lập lại Valora",
   "removeAccountDetails": "Thao tác thiết lập lại sẽ xóa tài khoản của bạn khỏi thiết bị này. Tiền của bạn sẽ giữ nguyên trong tài khoản, nhưng bạn chỉ truy cập được bằng Cụm từ khôi phục",
+  "deleteAccountTitle": "Delete Account",
+  "deleteAccountDetails": "Deleting your account will remove it from {{appName}}. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
+  "deleteAccountWarning": {
+    "title": "Bạn có chắc chắn không?",
+    "description": "Deleting your account from {{appName}} also removes any linked phone number. Your funds will remain in the account, but will only be accessible with your Recovery Phrase.",
+    "buttonLabel": "Tiếp tục",
+    "buttonLabelRevokingPhoneNumber": "Unlinking phone number..."
+  },
   "legal": "Pháp lý",
   "appPreferences": "Tùy chọn ưu tiên trong ứng dụng",
   "security": "Bảo mật",
@@ -48,9 +56,9 @@
     "body2": "Không ai, kể cả Valora, có thể khôi phục tài khoản của bạn khi không có Cụm từ này."
   },
   "promptConfirmRemovalModal": {
-    "header": "Bạn có chắc chắn muốn thiết lập lại Valora không?",
-    "body": "Bạn sẽ không thể truy cập vào tiền hoặc Cụm từ khôi phục của mình bằng thiết bị này nữa. Không có cách nào để khôi phục Cụm từ khôi phục nếu bạn đã không viết ra.",
-    "resetNow": "Đặt lại ngay"
+    "header": "Are you sure you want to proceed?",
+    "body": "You are about to erase your wallet from this device. This step is final and cannot be reversed. There is no way to recover your Recovery Phrase if you haven't written it down.",
+    "resetNow": "Tiếp tục"
   },
   "protectWallet": {
     "title": "Bảo vệ ví của bạn",
