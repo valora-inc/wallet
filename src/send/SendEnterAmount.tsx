@@ -395,8 +395,8 @@ function SendEnterAmount({ route }: Props) {
         {prepareTransactionError && (
           <InLineNotification
             severity={Severity.Error}
-            title={t('sendEnterAmountScreen.feeEstimationError.title')}
-            description={t('sendEnterAmountScreen.feeEstimationError.description')}
+            title={t('sendEnterAmountScreen.prepareTransactionError.title')}
+            description={t('sendEnterAmountScreen.prepareTransactionError.description')}
             style={styles.warning}
             testID="SendEnterAmount/PrepareTransactionError"
           />
