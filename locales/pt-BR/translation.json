@@ -6,6 +6,14 @@
   "licenses": "Licenças",
   "removeAccountTitle": "Redefinir a Valora",
   "removeAccountDetails": "A redefinição removerá sua conta deste dispositivo. Seus fundos permanecerão na conta, mas só estarão acessíveis com a Frase de Recuperação.",
+  "deleteAccountTitle": "Excluir conta",
+  "deleteAccountDetails": "A exclusão da sua conta a removerá do site {{appName}}. Seus fundos permanecerão na conta, mas você só poderá acessá-los com sua frase de recuperação",
+  "deleteAccountWarning": {
+    "title": "Tem certeza?",
+    "description": "A exclusão da sua conta do site {{appName}} também remove qualquer número de telefone vinculado. Seus fundos permanecerão na conta, mas só poderão ser acessados com sua frase de recuperação.",
+    "buttonLabel": "Continuar",
+    "buttonLabelRevokingPhoneNumber": "Desvinculação do número de telefone..."
+  },
   "legal": "Jurídico",
   "appPreferences": "Preferências do app",
   "security": "Segurança",
@@ -48,9 +56,9 @@
     "body2": "Ninguém, nem mesmo a Valora, pode recuperar sua conta sem sua frase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Tem certeza de que deseja redefinir a Valora?",
-    "body": "Você não poderá mais acessar seus fundos ou sua Frase de Recuperação a partir deste dispositivo. Não há como recuperar sua Frase de Recuperação se você não a anotou.",
-    "resetNow": "Redefinir agora"
+    "header": "Você tem certeza de que deseja continuar?",
+    "body": "Você está prestes a apagar sua carteira deste dispositivo. Esta etapa é definitiva e não pode ser revertida. Não há como recuperar sua frase de recuperação se você não a tiver anotado.",
+    "resetNow": "Continuar"
   },
   "protectWallet": {
     "title": "Proteja sua carteira",

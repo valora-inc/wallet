@@ -6,6 +6,14 @@
   "licenses": "许可",
   "removeAccountTitle": "重置 Valora",
   "removeAccountDetails": "如果重置，则您的账户将从此设备上删除。您的资金仍保留在账户中，但将只能借助恢复短语才能访问",
+  "deleteAccountTitle": "删除账户",
+  "deleteAccountDetails": "删除账户将从 {{appName}}中移除。您的资金将保留在账户中，但只能通过您的恢复密码访问",
+  "deleteAccountWarning": {
+    "title": "您确定吗？",
+    "description": "从 {{appName}} 删除账户的同时也会删除任何链接的电话号码。您的资金将保留在账户中，但只能通过您的恢复密码访问。",
+    "buttonLabel": "继续",
+    "buttonLabelRevokingPhoneNumber": "取消连接电话号码..."
+  },
   "legal": "法律条款",
   "appPreferences": "应用程序首选项",
   "security": "安全",
@@ -48,9 +56,9 @@
     "body2": "没有恢复短语，任何人都无法恢复您的账户，包括 Valora。"
   },
   "promptConfirmRemovalModal": {
-    "header": "您确定要重置 Valora 吗？",
-    "body": "您将无法再从此设备上访问您的资金或恢复短语。如果您没有写下恢复短语，则无法恢复它。",
-    "resetNow": "立即重置"
+    "header": "你确定要继续吗？",
+    "body": "您即将从本设备中删除钱包。此步骤是最终步骤，不可逆转。如果您没有写下恢复密码，则无法恢复。",
+    "resetNow": "继续"
   },
   "protectWallet": {
     "title": "保护您的钱包",

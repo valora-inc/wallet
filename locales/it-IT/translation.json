@@ -6,6 +6,14 @@
   "licenses": "Licenze",
   "removeAccountTitle": "Ripristina Valora",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
+  "deleteAccountTitle": "Elimina l'account",
+  "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà dal sito {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
+  "deleteAccountWarning": {
+    "title": "Sei sicuro?",
+    "description": "L'eliminazione del tuo conto da {{appName}} rimuove anche il numero di telefono collegato. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
+    "buttonLabel": "Continua",
+    "buttonLabelRevokingPhoneNumber": "Scollegamento del numero di telefono..."
+  },
   "legal": "Informazioni legali",
   "appPreferences": "Preferenze app",
   "security": "Sicurezza",
@@ -48,9 +56,9 @@
     "body2": "Nessuno, neanche Valora, può recuperare il tuo conto senza la tua Frase di recupero."
   },
   "promptConfirmRemovalModal": {
-    "header": "Ripristinare Valora?",
-    "body": "Non sarai più in grado di accedere ai tuoi fondi o alla tua Frase di recupero da questo dispositivo. Se non l’hai annotata, non esiste alcun modo per recuperarla.",
-    "resetNow": "Ripristina ora"
+    "header": "Sei sicuro di voler procedere?",
+    "body": "Stai per cancellare il tuo portafoglio da questo dispositivo. Questo passo è definitivo e non può essere annullato. Non c'è modo di recuperare la frase di recupero se non l'hai scritta.",
+    "resetNow": "Continua"
   },
   "protectWallet": {
     "title": "Proteggi il tuo portafoglio",
