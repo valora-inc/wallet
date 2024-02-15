@@ -393,13 +393,6 @@
           "os": "iOS 15.0"
         }
       },
-      "simulator.14.5": {
-        "type": "ios.simulator",
-        "device": {
-          "type": "iPhone SE (2nd generation)",
-          "os": "iOS 14.5"
-        }
-      },
       "emulator": {
         "type": "android.emulator",
         "device": {
@@ -417,10 +410,6 @@
       },
       "ios.release": {
         "device": "simulator",
-        "app": "ios.release"
-      },
-      "ios.release.14.5": {
-        "device": "simulator.14.5",
         "app": "ios.release"
       },
       "ios.release.15.0": {
