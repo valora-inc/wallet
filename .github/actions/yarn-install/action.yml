@@ -20,6 +20,7 @@ runs:
         echo "Runner OS: ${{ runner.os }}"
         echo "Runner Group: ${{ runner.group }}"
         echo "Node version: ${{ steps.setup-node.outputs.node-version }}"
+      shell: bash
     - name: Install Yarn dependencies
       run: |
         # Deals with yarn (v1) install flakiness
