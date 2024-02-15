@@ -14,13 +14,6 @@ runs:
           node_modules
           */*/node_modules
         key: ${{ runner.os }}-temp-ios-runner-${{ runner.group }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
-    - name: Debug runner info
-      run: |
-        echo "Runner ${{ runner }}"
-        echo "Runner OS: ${{ runner.os }}"
-        echo "Runner Group: ${{ runner.group }}"
-        echo "Node version: ${{ steps.setup-node.outputs.node-version }}"
-      shell: bash
     - name: Install Yarn dependencies
       run: |
         # Deals with yarn (v1) install flakiness
