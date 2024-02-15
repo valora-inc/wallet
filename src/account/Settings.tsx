@@ -1,11 +1,9 @@
-import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -27,6 +25,7 @@ import {
   devModeSelector,
   pincodeTypeSelector,
 } from 'src/account/selectors'
+import { showError } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -46,7 +45,8 @@ import {
   supportedBiometryTypeSelector,
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
-import { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
@@ -69,8 +69,10 @@ import { getFeatureGate } from 'src/statsig/index'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -82,8 +84,10 @@ export const Account = ({ navigation, route }: Props) => {
   const promptConfirmRemovalModal = route.params?.promptConfirmRemovalModal
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const resetAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
+  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
 
   const sessionId = useSelector(sessionIdSelector)
   const account = useSelector(walletAddressSelector)
@@ -257,22 +261,33 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const onRemoveAccountPress = () => {
-    setShowAccountKeyModal(true)
+    resetAccountBottomSheetRef.current?.snapToIndex(0)
   }
 
-  const hideRemoveAccountModal = () => {
-    setShowAccountKeyModal(false)
+  const onDeleteAccountPress = () => {
+    ValoraAnalytics.track(SettingsEvents.settings_delete_account)
+    deleteAccountBottomSheetRef.current?.snapToIndex(0)
+  }
+
+  const handleDeleteAccount = async () => {
+    ValoraAnalytics.track(SettingsEvents.settings_delete_account_confirm)
+
+    if (numberVerified) {
+      try {
+        await revokeNumberAsync.execute()
+      } catch (error) {
+        dispatch(showError(t('revokePhoneNumber.revokeError')))
+        return
+      }
+    }
+
+    deleteAccountBottomSheetRef.current?.close()
+    return onPressContinueWithAccountRemoval()
   }
 
   const onPressContinueWithAccountRemoval = async () => {
     try {
-      setShowAccountKeyModal(false)
-      // Ugly hack to wait for the modal to close,
-      // otherwise the native modal PIN entry will not show up
-      // TODO: stop using ReactNative modals and switch to react-navigation modals
-      if (Platform.OS === 'ios') {
-        await sleep(500)
-      }
+      resetAccountBottomSheetRef.current?.close()
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
@@ -458,21 +473,14 @@ export const Account = ({ navigation, route }: Props) => {
             onPress={onRemoveAccountPress}
             testID="ResetAccount"
           />
+          <SettingsExpandedItem
+            title={t('deleteAccountTitle')}
+            details={t('deleteAccountDetails')}
+            onPress={onDeleteAccountPress}
+            testID="DeleteAccount"
+          />
         </View>
         {getDevSettingsComp()}
-        <Dialog
-          isVisible={showAccountKeyModal}
-          title={t('accountKeyModal.header')}
-          actionText={t('continue')}
-          actionPress={onPressContinueWithAccountRemoval}
-          secondaryActionText={t('cancel')}
-          secondaryActionPress={hideRemoveAccountModal}
-          testID="RemoveAccountModal"
-        >
-          {t('accountKeyModal.body1')}
-          {'\n\n'}
-          {t('accountKeyModal.body2')}
-        </Dialog>
         <Dialog
           isVisible={!!promptConfirmRemovalModal}
           title={t('promptConfirmRemovalModal.header')}
@@ -487,6 +495,42 @@ export const Account = ({ navigation, route }: Props) => {
       </ScrollView>
 
       <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
+      <BottomSheet
+        forwardedRef={resetAccountBottomSheetRef}
+        title={t('accountKeyModal.header')}
+        description={`${t('accountKeyModal.body1')}\n\n${t('accountKeyModal.body2')}`}
+        testId="ResetAccountBottomSheet"
+      >
+        <Button
+          style={{ marginTop: Spacing.Regular16 }}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          onPress={onPressContinueWithAccountRemoval}
+          text={t('continue')}
+          disabled={revokeNumberAsync.loading}
+          testID="ResetAccountButton"
+        />
+      </BottomSheet>
+      <BottomSheet
+        forwardedRef={deleteAccountBottomSheetRef}
+        title={t('deleteAccountWarning.title')}
+        description={t('deleteAccountWarning.description')}
+        testId="DeleteAccountBottomSheet"
+      >
+        <Button
+          style={styles.bottomSheetButton}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          onPress={handleDeleteAccount}
+          text={
+            revokeNumberAsync.loading
+              ? t('deleteAccountWarning.buttonLabelRevokingPhoneNumber')
+              : t('deleteAccountWarning.buttonLabel')
+          }
+          disabled={revokeNumberAsync.loading}
+          testID="DeleteAccountButton"
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -520,6 +564,9 @@ const styles = StyleSheet.create({
   },
   spacer: {
     height: 80,
+  },
+  bottomSheetButton: {
+    marginTop: Spacing.Regular16,
   },
 })
 
