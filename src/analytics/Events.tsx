@@ -85,6 +85,8 @@ export enum SettingsEvents {
 
   settings_revoke_phone_number = 'settings_revoke_phone_number',
   settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
+  settings_delete_account = 'settings_delete_account',
+  settings_delete_account_confirm = 'settings_delete_account_confirm',
 
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
   settings_delete_keyless_backup = 'settings_delete_keyless_backup',

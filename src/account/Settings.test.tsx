@@ -8,6 +8,7 @@ import { Provider } from 'react-redux'
 import { clearStoredAccount, setPincodeSuccess, toggleBackupState } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import Settings from 'src/account/Settings'
+import { showError } from 'src/alert/actions'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import {
@@ -16,6 +17,7 @@ import {
   setAnalyticsEnabled,
   setNumberVerified,
 } from 'src/app/actions'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -27,7 +29,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockE164Number, mockE164NumberPepper, mockTokenBalances } from 'test/values'
 
-const mockedEnsurePincode = ensurePincode as jest.Mock
+const mockedEnsurePincode = jest.mocked(ensurePincode)
 const mockFetch = fetch as FetchMock
 const mockedKeychain = jest.mocked(Keychain)
 mockedKeychain.getGenericPassword.mockResolvedValue({
@@ -85,7 +87,7 @@ describe('Account', () => {
     expect(getByText('termsOfServiceLink')).toBeTruthy()
     expect(getByText('privacyPolicy')).toBeTruthy()
 
-    expect(getByText('removeAccountTitle')).toBeTruthy()
+    expect(getByText('deleteAccountTitle')).toBeTruthy()
   })
 
   it('triggers the correct actions on change app preferences', () => {
@@ -391,5 +393,103 @@ describe('Account', () => {
       expect(Logger.showError).toHaveBeenCalledWith('revokePhoneNumber.revokeError')
     )
     expect(mockFetch).toHaveBeenCalledTimes(1)
+  })
+
+  it('deletes the account and unlinks the phone number successfully', async () => {
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'OK' }), {
+      status: 200,
+    })
+    const store = createMockStore({
+      app: { phoneNumberVerified: true },
+      account: {
+        e164PhoneNumber: mockE164Number,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByText('deleteAccountTitle'))
+    fireEvent.press(tree.getByText('deleteAccountWarning.buttonLabel'))
+
+    await waitFor(() =>
+      expect(tree.getByText('deleteAccountWarning.buttonLabelRevokingPhoneNumber')).toBeTruthy()
+    )
+
+    expect(mockFetch).toHaveBeenNthCalledWith(1, `${networkConfig.revokePhoneNumberUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+      },
+      body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
+    })
+    expect(navigate).toHaveBeenLastCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+  })
+
+  it('deletes the account for an unverified account successfully', async () => {
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    const store = createMockStore({
+      app: { phoneNumberVerified: false },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    fireEvent.press(tree.getByText('deleteAccountTitle'))
+    fireEvent.press(tree.getByText('deleteAccountWarning.buttonLabel'))
+
+    await waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith(Screens.BackupPhrase, { navigatedFromSettings: true })
+    )
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('fails the delete account request if phone number revoke fails', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ message: 'something went wrong' }), {
+      status: 500,
+    })
+    const store = createMockStore({
+      app: { phoneNumberVerified: true },
+      account: {
+        e164PhoneNumber: mockE164Number,
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+
+    // ignore dispatched actions on initial render
+    store.clearActions()
+
+    fireEvent.press(tree.getByText('deleteAccountTitle'))
+    fireEvent.press(tree.getByText('deleteAccountWarning.buttonLabel'))
+
+    await waitFor(() =>
+      expect(tree.getByText('deleteAccountWarning.buttonLabelRevokingPhoneNumber')).toBeTruthy()
+    )
+
+    expect(mockFetch).toHaveBeenNthCalledWith(1, `${networkConfig.revokePhoneNumberUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: 'Valora 0x0000000000000000000000000000000000007e57:someSignedMessage',
+      },
+      body: '{"phoneNumber":"+14155550000","clientPlatform":"android","clientVersion":"0.0.1"}',
+    })
+    expect(store.getActions()).toEqual([
+      showError('revokePhoneNumber.revokeError' as ErrorMessages),
+    ])
+    expect(navigate).not.toHaveBeenCalled()
   })
 })
