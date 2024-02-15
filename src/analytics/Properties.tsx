@@ -226,6 +226,8 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_analytics]: { enabled: boolean }
   [SettingsEvents.settings_revoke_phone_number]: undefined
   [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
+  [SettingsEvents.settings_delete_account]: undefined
+  [SettingsEvents.settings_delete_account_confirm]: undefined
   [SettingsEvents.settings_set_up_keyless_backup]: undefined
   [SettingsEvents.settings_delete_keyless_backup]: undefined
 }
