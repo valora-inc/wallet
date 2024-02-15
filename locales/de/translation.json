@@ -6,6 +6,14 @@
   "licenses": "Lizenzen",
   "removeAccountTitle": "Valora zurücksetzen",
   "removeAccountDetails": "Das Zurücksetzen wird dein Konto von diesem Gerät entfernen. Dein Guthaben bleibt im Konto, wird aber nur mit deiner Wiederherstellungsphrase erreichbar sein",
+  "deleteAccountTitle": "Konto löschen",
+  "deleteAccountDetails": "Wenn du dein Konto löschst, wird es von {{appName}}entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Recovery Phrase zugänglich.",
+  "deleteAccountWarning": {
+    "title": "Bist Du sicher?",
+    "description": "Wenn du dein Konto von {{appName}} löschst, wird auch die damit verbundene Telefonnummer entfernt. Dein Guthaben bleibt auf dem Konto, ist aber nur noch mit deiner Recovery Phrase zugänglich.",
+    "buttonLabel": "Weiter",
+    "buttonLabelRevokingPhoneNumber": "Telefonnummer entkoppeln..."
+  },
   "legal": "Rechtshinweisen",
   "appPreferences": "App-Einstellungen",
   "security": "Sicherheit",
@@ -48,9 +56,9 @@
     "body2": "Niemand, nicht einmal Valora, kann dein Konto ohne deine Phrase wiederherstellen."
   },
   "promptConfirmRemovalModal": {
-    "header": "Bist du dir sicher, dass du Valora zurücksetzen möchtest?",
-    "body": "Du wirst nicht mehr auf deine Guthaben oder deine Wiederherstellungsphrase von diesem Gerät aus zugreifen können. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
-    "resetNow": "Jetzt zurücksetzen"
+    "header": "Bist du sicher, dass du fortfahren willst?",
+    "body": "Du bist dabei, deine Brieftasche von diesem Gerät zu löschen. Dieser Schritt ist endgültig und kann nicht rückgängig gemacht werden. Es gibt keine Möglichkeit, deine Wiederherstellungsphrase wiederherzustellen, wenn du sie nicht aufgeschrieben hast.",
+    "resetNow": "Weiter"
   },
   "protectWallet": {
     "title": "Schütze deine Wallet",
