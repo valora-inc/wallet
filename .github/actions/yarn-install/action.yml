@@ -8,12 +8,12 @@ runs:
       with:
         node-version-file: 'package.json'
         check-latest: true
-    # - uses: actions/cache@v3
-    #   with:
-    #     path: |
-    #       node_modules
-    #       */*/node_modules
-    #     key: ${{ runner.os }}-${{ runner.group }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+    - uses: actions/cache@v3
+      with:
+        path: |
+          node_modules
+          */*/node_modules
+        key: ${{ runner.os }}-temp-ios-runner-${{ runner.group }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
     - name: Debug runner info
       run: |
         echo "Runner ${{ runner }}"
