@@ -6,6 +6,14 @@
   "licenses": "Licencias",
   "removeAccountTitle": "Restablecer Valora",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
+  "deleteAccountTitle": "Eliminar cuenta",
+  "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de Recuperación",
+  "deleteAccountWarning": {
+    "title": "Estas seguro",
+    "description": "Al eliminar tu cuenta de {{appName}} también se elimina cualquier número de teléfono vinculado. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de Recuperación.",
+    "buttonLabel": "Continuar",
+    "buttonLabelRevokingPhoneNumber": "Desvincular número de teléfono..."
+  },
   "legal": "Legal",
   "appPreferences": "Preferencias de la app",
   "security": "Seguridad",
@@ -48,9 +56,9 @@
     "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu clave."
   },
   "promptConfirmRemovalModal": {
-    "header": "¿Estás seguro que quieres restablecer Valora?",
-    "body": "Ya no podrás acceder a tu dinero ni a tu Frase de recuperación desde este dispositivo. No hay forma de recuperar tu Frase de recuperación si no la has guardado.",
-    "resetNow": "Restablecer"
+    "header": "¿Estás seguro de que quieres continuar?",
+    "body": "Estás a punto de borrar tu monedero de este dispositivo. Este paso es definitivo y no se puede revertir. No hay forma de recuperar tu Frase de Recuperación si no la has escrito.",
+    "resetNow": "Continuar"
   },
   "protectWallet": {
     "title": "Protege tu wallet",
