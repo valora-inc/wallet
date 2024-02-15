@@ -1,11 +1,9 @@
-import { sleep } from '@celo/utils/lib/async'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
-  Platform,
   ScrollView,
   StyleSheet,
   Text,
@@ -87,9 +85,9 @@ export const Account = ({ navigation, route }: Props) => {
 
   const revokeBottomSheetRef = useRef<BottomSheetRefType>(null)
   const deleteAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
-  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
+  const resetAccountBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const [showAccountKeyModal, setShowAccountKeyModal] = useState(false)
+  const revokeNumberAsync = useRevokeCurrentPhoneNumber()
 
   const sessionId = useSelector(sessionIdSelector)
   const account = useSelector(walletAddressSelector)
@@ -263,7 +261,7 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   const onRemoveAccountPress = () => {
-    setShowAccountKeyModal(true)
+    resetAccountBottomSheetRef.current?.snapToIndex(0)
   }
 
   const onDeleteAccountPress = () => {
@@ -287,19 +285,9 @@ export const Account = ({ navigation, route }: Props) => {
     return onPressContinueWithAccountRemoval()
   }
 
-  const hideRemoveAccountModal = () => {
-    setShowAccountKeyModal(false)
-  }
-
   const onPressContinueWithAccountRemoval = async () => {
     try {
-      setShowAccountKeyModal(false)
-      // Ugly hack to wait for the modal to close,
-      // otherwise the native modal PIN entry will not show up
-      // TODO: stop using ReactNative modals and switch to react-navigation modals
-      if (Platform.OS === 'ios') {
-        await sleep(500)
-      }
+      resetAccountBottomSheetRef.current?.close()
       const pinIsCorrect = await ensurePincode()
       if (pinIsCorrect) {
         ValoraAnalytics.track(SettingsEvents.start_account_removal)
@@ -496,19 +484,6 @@ export const Account = ({ navigation, route }: Props) => {
         </View>
         {getDevSettingsComp()}
         <Dialog
-          isVisible={showAccountKeyModal}
-          title={t('accountKeyModal.header')}
-          actionText={t('continue')}
-          actionPress={onPressContinueWithAccountRemoval}
-          secondaryActionText={t('cancel')}
-          secondaryActionPress={hideRemoveAccountModal}
-          testID="RemoveAccountModal"
-        >
-          {t('accountKeyModal.body1')}
-          {'\n\n'}
-          {t('accountKeyModal.body2')}
-        </Dialog>
-        <Dialog
           isVisible={!!promptConfirmRemovalModal}
           title={t('promptConfirmRemovalModal.header')}
           actionText={t('promptConfirmRemovalModal.resetNow')}
@@ -523,13 +498,29 @@ export const Account = ({ navigation, route }: Props) => {
 
       <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
       <BottomSheet
+        forwardedRef={resetAccountBottomSheetRef}
+        title={t('accountKeyModal.header')}
+        description={`${t('accountKeyModal.body1')}\n\n${t('accountKeyModal.body2')}`}
+        testId="ResetAccountBottomSheet"
+      >
+        <Button
+          style={{ marginTop: Spacing.Regular16 }}
+          size={BtnSizes.FULL}
+          type={BtnTypes.SECONDARY}
+          onPress={onPressContinueWithAccountRemoval}
+          text={t('continue')}
+          disabled={revokeNumberAsync.loading}
+          testID="ResetAccountButton"
+        />
+      </BottomSheet>
+      <BottomSheet
         forwardedRef={deleteAccountBottomSheetRef}
         title={t('deleteAccountWarning.title')}
         description={t('deleteAccountWarning.description')}
         testId="DeleteAccountBottomSheet"
       >
         <Button
-          style={{ marginTop: Spacing.Regular16 }}
+          style={styles.bottomSheetButton}
           size={BtnSizes.FULL}
           type={BtnTypes.SECONDARY}
           onPress={handleDeleteAccount}
@@ -575,6 +566,9 @@ const styles = StyleSheet.create({
   },
   spacer: {
     height: 80,
+  },
+  bottomSheetButton: {
+    marginTop: Spacing.Regular16,
   },
 })
 
