@@ -28,12 +28,12 @@ export default ResetAccount = () => {
     // await sleep(2000)
     // await element(by.id('SettingsScrollView')).scrollTo('bottom')
     try {
-      await waitFor(element(by.id('DeleteAccount')))
+      await waitFor(element(by.text('ResetAccount')))
         .toBeVisible()
         .whileElement(by.id('SettingsScrollView'))
         .scroll(350, 'down')
     } catch {}
-    await element(by.id('DeleteAccount')).tap()
+    await element(by.id('ResetAccount')).tap()
     await element(by.id('RemoveAccountModal/PrimaryAction')).tap()
 
     await enterPinUiIfNecessary()
