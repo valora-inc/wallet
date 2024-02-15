@@ -246,10 +246,9 @@ function TokenBottomSheet<T extends TokenBalance>({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
-    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints} testID="TokenBottomSheet">
       <BottomSheetFlatList
         ref={tokenListRef}
-        testID="TokenBottomSheet"
         data={tokenList}
         keyExtractor={(item) => item.tokenId}
         contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
