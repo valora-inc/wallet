@@ -364,6 +364,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'TestToken',
         symbol: 'TT',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockPoofTokenId]: {
         address: mockPoofAddress,
@@ -374,6 +376,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'PoofToken',
         symbol: 'Poof',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
       [mockUSDCTokenId]: {
         address: mockUSDCAddress,
@@ -385,6 +389,8 @@ describe(fetchImportedTokenBalances, () => {
         name: 'USD Coin',
         symbol: 'USDC',
         isManuallyImported: true,
+        priceUsd: null,
+        lastKnownPriceUsd: null,
       },
     }
 
@@ -416,14 +422,17 @@ describe(fetchImportedTokenBalances, () => {
       [mockTestTokenTokenId]: {
         ...mockImportedTokens[mockTestTokenTokenId],
         balance: new BigNumber(0.000000001).toFixed(),
+        priceUsd: undefined,
       },
       [mockPoofTokenId]: {
         ...mockImportedTokens[mockPoofTokenId],
         balance: new BigNumber(0.0005).toFixed(),
+        priceUsd: undefined,
       },
       [mockUSDCTokenId]: {
         ...mockImportedTokens[mockUSDCTokenId],
         balance: new BigNumber(10).toFixed(),
+        priceUsd: undefined,
       },
     })
   })

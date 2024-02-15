@@ -49,6 +49,8 @@ export enum HomeEvents {
   notification_center_spotlight_dismiss = 'notification_center_spotlight_dismiss',
   hide_balances = 'hide_balances',
   show_balances = 'show_balances',
+  nft_celebration_displayed = 'nft_celebration_displayed',
+  nft_celebration_animation_displayed = 'nft_celebration_animation_displayed',
 }
 
 export enum SettingsEvents {

@@ -2100,6 +2100,17 @@
     "title": "Comprar cripto o transferir tokens",
     "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
   },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Precoz multicadena 🎁",
+      "description": "Como agradecimiento por ser un probador beta multicadena, ¡hemos añadido un regalo gratuito a tu monedero {{appName}} ! El NFT de early adopter se puede encontrar en tus coleccionables.",
+      "cta": "¡Gracias!"
+    },
+    "notification": {
+      "title": "Enhorabuena 🎉",
+      "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
