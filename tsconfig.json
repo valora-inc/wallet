@@ -9,7 +9,7 @@
       "locales/*": ["locales/*"],
       "src/*": ["src/*"],
       "test/*": ["test/*"],
-      "react": ["./node_modules/@types/react"],
+      "react": ["./node_modules/@types/react"]
     },
     "importHelpers": true,
     "jsx": "react",
@@ -22,9 +22,9 @@
     "strictNullChecks": true,
     "skipLibCheck": true,
     "target": "es2015",
-    "strict": true,
+    "strict": true
   },
   "files": ["jest_setup.ts"],
   "include": ["src"],
-  "exclude": ["node_modules", "vendor", ".bundle"],
+  "exclude": ["node_modules", "vendor", ".bundle"]
 }
