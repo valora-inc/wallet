@@ -24,7 +24,7 @@ export const slice = createSlice({
     },
     valoraKeyshareIssued: (
       state,
-      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow }>
+      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow; jwt: string }>
     ) => {
       state.valoraKeyshare = action.payload.keyshare
     },

@@ -9,6 +9,7 @@ import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
@@ -3027,6 +3028,30 @@ export const v189Schema = {
   home: { ...v188Schema.home, nftCelebration: null },
 }
 
+const currencyMapping: Record<string, LocalCurrencyCode> = {
+  MYS: LocalCurrencyCode.MYR,
+  SGP: LocalCurrencyCode.SGD,
+  THI: LocalCurrencyCode.THB,
+  TWN: LocalCurrencyCode.TWD,
+  VNM: LocalCurrencyCode.VND,
+}
+export const v190Schema = {
+  ...v189Schema,
+  _persist: {
+    ...v189Schema._persist,
+    version: 190,
+  },
+  localCurrency: {
+    ...v189Schema.localCurrency,
+    preferredCurrencyCode:
+      currencyMapping[v189Schema.localCurrency.preferredCurrencyCode] ??
+      v189Schema.localCurrency.preferredCurrencyCode,
+    fetchedCurrencyCode:
+      currencyMapping[v189Schema.localCurrency.fetchedCurrencyCode] ??
+      v189Schema.localCurrency.fetchedCurrencyCode,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v189Schema as Partial<RootState>
+  return v190Schema as Partial<RootState>
 }
