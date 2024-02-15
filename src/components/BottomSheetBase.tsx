@@ -1,7 +1,7 @@
 import GorhomBottomSheet, { BottomSheetBackdrop, BottomSheetProps } from '@gorhom/bottom-sheet'
 import { BottomSheetDefaultBackdropProps } from '@gorhom/bottom-sheet/lib/typescript/components/bottomSheetBackdrop/types'
 import React, { useCallback } from 'react'
-import { Keyboard, StyleSheet, View } from 'react-native'
+import { Keyboard, StyleSheet } from 'react-native'
 import { useSafeAreaFrame, useSafeAreaInsets } from 'react-native-safe-area-context'
 import Colors from 'src/styles/colors'
 
@@ -14,7 +14,6 @@ interface BottomSheetBaseProps {
   snapPoints?: (string | number)[]
   handleComponent?: BottomSheetProps['handleComponent']
   backgroundStyle?: BottomSheetProps['backgroundStyle']
-  testID?: string
 }
 
 const BottomSheetBase = ({
@@ -26,7 +25,6 @@ const BottomSheetBase = ({
   snapPoints,
   handleComponent,
   backgroundStyle,
-  testID,
 }: BottomSheetBaseProps) => {
   const { height } = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
@@ -71,9 +69,7 @@ const BottomSheetBase = ({
       onChange={onChange}
       maxDynamicContentSize={height - insets.top}
     >
-      <View style={styles.container} testID={testID}>
-        {children}
-      </View>
+      {children}
     </GorhomBottomSheet>
   )
 }
@@ -82,9 +78,6 @@ const styles = StyleSheet.create({
   handle: {
     backgroundColor: Colors.gray2,
     width: 40,
-  },
-  container: {
-    flex: 1,
   },
 })
 

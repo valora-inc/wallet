@@ -246,62 +246,64 @@ function TokenBottomSheet<T extends TokenBalance>({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
-    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints} testID="TokenBottomSheet">
-      <BottomSheetFlatList
-        ref={tokenListRef}
-        data={tokenList}
-        keyExtractor={(item) => item.tokenId}
-        contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
-        scrollIndicatorInsets={{ top: headerHeight }}
-        renderItem={({ item, index }) => {
-          return (
-            <TokenOptionComponent
-              tokenInfo={item}
-              onPress={onTokenPressed(item)}
-              index={index}
-              showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
+      <View style={styles.container} testID="TokenBottomSheet">
+        <BottomSheetFlatList
+          ref={tokenListRef}
+          data={tokenList}
+          keyExtractor={(item) => item.tokenId}
+          contentContainerStyle={[styles.tokenListContainer, { paddingBottom: insets.bottom }]}
+          scrollIndicatorInsets={{ top: headerHeight }}
+          renderItem={({ item, index }) => {
+            return (
+              <TokenOptionComponent
+                tokenInfo={item}
+                onPress={onTokenPressed(item)}
+                index={index}
+                showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
+              />
+            )
+          }}
+          ListHeaderComponent={<View style={{ height: headerHeight }} />}
+          ListEmptyComponent={() => {
+            if (searchEnabled || filterChips.length > 0) {
+              return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
+            }
+            return null
+          }}
+        />
+        <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
+          <Text style={[styles.title, titleStyle]}>{title}</Text>
+          {searchEnabled && (
+            <SearchInput
+              placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
+              value={searchTerm}
+              onChangeText={(text) => {
+                setSearchTerm(text)
+                sendAnalytics(text)
+              }}
+              style={styles.searchInput}
+              returnKeyType={'search'}
+              // disable autoCorrect and spellCheck since the search terms here
+              // are token names which autoCorrect would get in the way of. This
+              // combination also hides the keyboard suggestions bar from the top
+              // of the iOS keyboard, preserving screen real estate.
+              autoCorrect={false}
+              spellCheck={false}
             />
-          )
-        }}
-        ListHeaderComponent={<View style={{ height: headerHeight }} />}
-        ListEmptyComponent={() => {
-          if (searchEnabled || filterChips.length > 0) {
-            return <NoResults searchTerm={searchTerm} activeFilters={activeFilters} />
-          }
-          return null
-        }}
-      />
-      <View style={styles.headerContainer} onLayout={handleMeasureHeader}>
-        <Text style={[styles.title, titleStyle]}>{title}</Text>
-        {searchEnabled && (
-          <SearchInput
-            placeholder={t('tokenBottomSheet.searchAssets') ?? undefined}
-            value={searchTerm}
-            onChangeText={(text) => {
-              setSearchTerm(text)
-              sendAnalytics(text)
-            }}
-            style={styles.searchInput}
-            returnKeyType={'search'}
-            // disable autoCorrect and spellCheck since the search terms here
-            // are token names which autoCorrect would get in the way of. This
-            // combination also hides the keyboard suggestions bar from the top
-            // of the iOS keyboard, preserving screen real estate.
-            autoCorrect={false}
-            spellCheck={false}
-          />
-        )}
-        {filterChips.length > 0 && (
-          <FilterChipsCarousel
-            chips={filters}
-            onSelectChip={handleToggleFilterChip}
-            primaryColor={colors.successDark}
-            secondaryColor={colors.successLight}
-            style={styles.filterChipsCarouselContainer}
-            forwardedRef={filterChipsCarouselRef}
-            scrollEnabled={false}
-          />
-        )}
+          )}
+          {filterChips.length > 0 && (
+            <FilterChipsCarousel
+              chips={filters}
+              onSelectChip={handleToggleFilterChip}
+              primaryColor={colors.successDark}
+              secondaryColor={colors.successLight}
+              style={styles.filterChipsCarouselContainer}
+              forwardedRef={filterChipsCarouselRef}
+              scrollEnabled={false}
+            />
+          )}
+        </View>
       </View>
     </BottomSheetBase>
   )
@@ -310,6 +312,9 @@ function TokenBottomSheet<T extends TokenBalance>({
 TokenBottomSheet.navigationOptions = {}
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   tokenOptionContainer: {
     flexDirection: 'row',
     alignItems: 'center',
