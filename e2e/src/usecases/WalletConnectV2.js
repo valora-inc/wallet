@@ -242,7 +242,6 @@ export default WalletConnect = () => {
     // TODO: assert transaction signer address once Viem could provide it
     const recoveredTx = parseTransaction(signedTx)
     jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
-    jestExpect(recoveredTx.from).toEqual(tx.from)
     jestExpect(recoveredTx.to).toEqual(tx.to)
     jestExpect(recoveredTx.value).toEqual(BigInt(tx.value))
   })
