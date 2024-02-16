@@ -158,7 +158,7 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
   try {
     // Select Language if present
     try {
-      await element(by.id('ChooseLanguageTitle')).toBeVisible()
+      await expect(element(by.id('ChooseLanguageTitle'))).toBeVisible()
       await element(by.id('ChooseLanguage/en-US')).tap()
     } catch {}
 
