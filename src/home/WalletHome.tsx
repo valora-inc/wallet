@@ -185,12 +185,12 @@ function WalletHome() {
     renderItem: () => <ActionsCarousel key={'ActionsCarousel'} />,
   }
 
-  const dappsCarousel = {
+  const dappsCarouselSection = {
     data: [{}],
     renderItem: () => <DappsCarousel key="DappsCarousel" onSelectDapp={onSelectDapp} />,
   }
 
-  const transactionFeed = {
+  const transactionFeedSection = {
     data: [{}],
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   }
@@ -199,8 +199,8 @@ function WalletHome() {
     notificationBoxSection,
     tokenBalanceSection,
     actionsCarouselSection,
-    dappsCarousel,
-    transactionFeed,
+    dappsCarouselSection,
+    transactionFeedSection,
   ]
 
   const showBetaTag = getFeatureGate(StatsigFeatureGates.SHOW_BETA_TAG)
