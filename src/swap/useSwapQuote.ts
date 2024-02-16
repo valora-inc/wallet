@@ -181,6 +181,10 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
         throw new Error(await response.text())
       }
 
+      if (!quote.unvalidatedSwapTransaction) {
+        throw new Error('No quote available')
+      }
+
       const quote: FetchQuoteResponse = await response.json()
       const swapPrice = quote.unvalidatedSwapTransaction.price
       const price =
