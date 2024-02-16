@@ -1912,9 +1912,9 @@
   "tokenBottomSheet": {
     "searchAssets": "Пошук активів",
     "noTokenInResult": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "Для \"{{searchTerm}}\" не знайдено відповідних активів у наступних категоріях: {{filterNames}}",
-    "noFilterResults": "Не знайдено відповідних активів у наступних категоріях: {{filterNames}}",
-    "noSearchResults": "Для \"{{searchTerm}}\" не знайдено відповідних активів",
+    "noFilterSearchResults": "Не знайдено активів, які відповідають \"{{searchTerm}}\" в наступних категоріях: {{filterNames}}",
+    "noFilterResults": "Не знайдено активів, що відповідають наступним категоріям: {{filterNames}}",
+    "noSearchResults": "Не знайдено активів, що відповідають \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Мої жетони",
       "popular": "Популярні",
