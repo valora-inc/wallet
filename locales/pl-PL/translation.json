@@ -6,6 +6,14 @@
   "licenses": "Licencje",
   "removeAccountTitle": "Resetuj aplikację Valora",
   "removeAccountDetails": "Zresetowanie spowoduje usunięcie Twojego konta z tego urządzenia. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
+  "deleteAccountTitle": "Usuń konto",
+  "deleteAccountDetails": "Usunięcie konta spowoduje usunięcie go z {{appName}}. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania",
+  "deleteAccountWarning": {
+    "title": "Czy na pewno?",
+    "description": "Usunięcie Twojego konta z {{appName}} spowoduje również usunięcie powiązanego z nim numeru telefonu. Twoje środki pozostaną na koncie, ale będą dostępne tylko przy użyciu frazy odzyskiwania.",
+    "buttonLabel": "Kontynuuj",
+    "buttonLabelRevokingPhoneNumber": "Odłącz numer telefonu..."
+  },
   "legal": "Informacje prawne",
   "appPreferences": "Preferencje aplikacji",
   "security": "Bezpieczeństwo",
@@ -48,9 +56,9 @@
     "body2": "Bez Twojej frazy nikt, nawet Valora, nie będzie w stanie odzyskać Twojego konta."
   },
   "promptConfirmRemovalModal": {
-    "header": "Czy na pewno chcesz zresetować aplikację Valora?",
-    "body": "Nie będziesz mieć więcej dostępu do swoich środków ani do frazy odzyskiwania z tego urządzenia. Nie ma sposobu na odzyskanie frazy, jeśli nie masz jej nigdzie zapisanej.",
-    "resetNow": "Resetuj teraz"
+    "header": "Czy na pewno chcesz kontynuować?",
+    "body": "Zamierzasz usunąć swój portfel z tego urządzenia. Ten krok jest ostateczny i nie można go cofnąć. Nie ma możliwości odzyskania frazy odzyskiwania, jeśli jej nie zapisałeś.",
+    "resetNow": "Kontynuuj"
   },
   "protectWallet": {
     "title": "Chroń swój portfel",

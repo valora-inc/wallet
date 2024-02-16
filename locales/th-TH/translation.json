@@ -6,6 +6,14 @@
   "licenses": "สิทธิ์การใช้งาน",
   "removeAccountTitle": "รีเซ็ต Valora",
   "removeAccountDetails": "การรีเซ็ตจะลบบัญชีออกจากอุปกรณ์นี้ เงินของคุณจะยังคงอยู่ในบัญชี แต่จะสามารถเข้าถึงได้ด้วยวลีกู้คืนรหัส",
+  "deleteAccountTitle": "Delete Account",
+  "deleteAccountDetails": "Deleting your account will remove it from {{appName}}. Your funds will remain in the account, but will only be accessible with your Recovery Phrase",
+  "deleteAccountWarning": {
+    "title": "คุณแน่ใจหรือไม่",
+    "description": "Deleting your account from {{appName}} also removes any linked phone number. Your funds will remain in the account, but will only be accessible with your Recovery Phrase.",
+    "buttonLabel": "ดำเนินการต่อ",
+    "buttonLabelRevokingPhoneNumber": "Unlinking phone number..."
+  },
   "legal": "กฎหมาย",
   "appPreferences": "การตั้งค่าแอป",
   "security": "ความปลอดภัย",
@@ -48,9 +56,9 @@
     "body2": "ไม่มีใครหรือแม้แต่ Valora ที่สามารถกู้คืนบัญชีของคุณได้ หากไม่มีวลีนี้"
   },
   "promptConfirmRemovalModal": {
-    "header": "คุณแน่ใจหรือไม่ว่าต้องการรีเซ็ต Valora",
-    "body": "คุณจะไม่สามารถเข้าถึงเงินทุนของคุณหรือวลีกู้คืนรหัสจากอุปกรณ์นี้ได้อีกต่อไป ไม่มีวิธีการกู้คืนวลีกู้คืนรหัส หากคุณไม่จดบันทึกไว้",
-    "resetNow": "รีเซ็ตตอนนี้"
+    "header": "Are you sure you want to proceed?",
+    "body": "You are about to erase your wallet from this device. This step is final and cannot be reversed. There is no way to recover your Recovery Phrase if you haven't written it down.",
+    "resetNow": "ดำเนินการต่อ"
   },
   "protectWallet": {
     "title": "ป้องกันกระเป๋าเงินของคุณ",
