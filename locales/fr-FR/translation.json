@@ -6,6 +6,14 @@
   "licenses": "Licences",
   "removeAccountTitle": "Réinitialiser Valora",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre Phrase de récupération",
+  "deleteAccountTitle": "Supprimer le compte",
+  "deleteAccountDetails": "La suppression de ton compte l'enlèvera de {{appName}}. Tes fonds resteront sur le compte, mais ne seront accessibles qu'avec ta phrase de récupération.",
+  "deleteAccountWarning": {
+    "title": "Êtes-vous sûr ?",
+    "description": "La suppression de ton compte sur {{appName}} supprime également tout numéro de téléphone lié. Tes fonds resteront sur le compte, mais ne seront accessibles qu'avec ta phrase de récupération.",
+    "buttonLabel": "Continuer",
+    "buttonLabelRevokingPhoneNumber": "Déconnecter le numéro de téléphone..."
+  },
   "legal": "Mentions légales",
   "appPreferences": "Préférences de l'application",
   "security": "Sécurité",
@@ -48,9 +56,9 @@
     "body2": "Personne, même pas Valora, ne sera en mesure de récupérer votre compte sans votre phrase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Êtes-vous sûr de vouloir réinitialiser Valora ?",
-    "body": "Vous ne pourrez plus accéder à vos fonds ou à votre Phrase de récupération depuis cet appareil. Il n'y a aucun moyen de récupérer votre Phrase de récupération si vous ne l'avez pas enregistrée quelque part.",
-    "resetNow": "Réinitialiser maintenant"
+    "header": "Es-tu sûr de vouloir continuer ?",
+    "body": "Tu es sur le point d'effacer ton portefeuille de cet appareil. Cette étape est définitive et ne peut pas être annulée. Il n'y a aucun moyen de récupérer ta phrase de récupération si tu ne l'as pas notée.",
+    "resetNow": "Continuer"
   },
   "protectWallet": {
     "title": "Protégez votre portefeuille",
