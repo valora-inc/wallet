@@ -666,7 +666,7 @@ function* handleAcceptRequest({ request, preparedTransaction }: AcceptRequest) {
     const result = yield* call(handleRequest, params, preparedTransaction)
     const response: JsonRpcResult<string> = formatJsonRpcResult(
       id,
-      (params.request.method = typeof result === 'string' ? result : result.raw)
+      (params.request.method = result)
     )
     yield* call([client, 'respondSessionRequest'], { topic, response })
 
