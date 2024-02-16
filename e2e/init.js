@@ -6,8 +6,5 @@ beforeAll(async () => {
   await launchApp({
     newInstance: false,
     permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
-    launchArgs: {
-      language: 'en-US',
-    },
   })
 })
