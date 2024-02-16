@@ -3166,9 +3166,6 @@
                 "visualizeNFTsEnabledInHomeAssetsPage": {
                     "type": "boolean"
                 },
-                "walletConnectV1Enabled": {
-                    "type": "boolean"
-                },
                 "walletConnectV2Enabled": {
                     "type": "boolean"
                 }
@@ -3213,7 +3210,6 @@
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
                 "visualizeNFTsEnabledInHomeAssetsPage",
-                "walletConnectV1Enabled",
                 "walletConnectV2Enabled"
             ],
             "type": "object"
