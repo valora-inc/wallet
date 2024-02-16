@@ -12,7 +12,6 @@ import { PincodeType } from 'src/account/reducer'
 import { pincodeTypeSelector } from 'src/account/selectors'
 import { AuthenticationEvents, NavigationEvents, OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -21,8 +20,6 @@ import {
   requestPincodeInput,
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { isUserCancelledError } from 'src/storage/keychain'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
@@ -249,11 +246,4 @@ export function navigateHome(options?: NavigateHomeOptions) {
 export function navigateToError(errorMessage: string, error?: Error) {
   Logger.debug(`${TAG}@navigateToError`, `Navigating to error screen: ${errorMessage}`, error)
   navigate(Screens.ErrorScreen, { errorMessage })
-}
-
-export function navigateToFiatCurrencySelection(flow: FiatExchangeFlow) {
-  const screen = getFeatureGate(StatsigFeatureGates.USE_CICO_CURRENCY_BOTTOM_SHEET)
-    ? Screens.FiatExchangeCurrencyBottomSheet
-    : Screens.FiatExchangeCurrency
-  navigate(screen, { flow })
 }

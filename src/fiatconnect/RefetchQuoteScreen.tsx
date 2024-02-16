@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
+import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.FiatConnectRefetchQuote>
 
@@ -20,13 +21,18 @@ export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
   const dispatch = useDispatch()
   const fiatConnectQuotesError = useSelector(fiatConnectQuotesErrorSelector)
   const cachedQuoteParamsList = useSelector(cachedQuoteParamsSelector)
+  const cachedQuoteParams = cachedQuoteParamsList?.[providerId]?.[kycSchema]
+  // TODO (ACT-985): remove deprecated function call when cachedQuoteParams updated to have token IDs
+  const tokenInfo = useTokenInfoWithAddressBySymbol(cachedQuoteParams?.cryptoType)
 
   useEffect(() => {
-    const cachedQuoteParams = cachedQuoteParamsList?.[providerId]?.[kycSchema]
     if (!cachedQuoteParams) {
       // For some reason, we don't have a cached quote; go to beginning of CICO flow
       navigateHome()
     } else {
+      if (!tokenInfo) {
+        throw new Error(`Token info not found for token symbol ${cachedQuoteParams.cryptoType}`)
+      }
       dispatch(
         refetchQuote({
           flow: cachedQuoteParams.flow,
@@ -34,6 +40,7 @@ export default function FiatConnectRefetchQuoteScreen({ route }: Props) {
           cryptoAmount: cachedQuoteParams.cryptoAmount,
           fiatAmount: cachedQuoteParams.fiatAmount,
           providerId,
+          tokenId: tokenInfo.tokenId,
         })
       )
     }

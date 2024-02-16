@@ -14,7 +14,7 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import { range } from 'lodash'
 import { MinimalContact } from 'react-native-contacts'
-import { Dapp, DappV2WithCategoryNames } from 'src/dapps/types'
+import { Dapp, DappWithCategoryNames } from 'src/dapps/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { FeeType } from 'src/fees/reducer'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -30,11 +30,13 @@ import {
   FiatConnectQuoteSuccess,
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
+import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
-import { Nft } from 'src/nfts/types'
+import { Nft, NftWithMetadata } from 'src/nfts/types'
 import { Position, Shortcut } from 'src/positions/types'
+import { PriceHistoryStatus } from 'src/priceHistory/slice'
 import { UriData } from 'src/qrcode/schema'
 import {
   AddressRecipient,
@@ -45,7 +47,7 @@ import {
   RecipientInfo,
   RecipientType,
 } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/types'
 import { NativeTokenBalance, StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import {
   NetworkId,
@@ -93,6 +95,8 @@ export const mockE164Number2 = '+12095559790'
 export const mockDisplayNumber2 = '+1 209-555-9790'
 export const mockComment = 'Rent request for June, it is already late!!!'
 export const mockCountryCode = '+1'
+
+export const mockE164Number3 = '+14155550123'
 
 export const mockQrCodeData = {
   address: mockAccount,
@@ -258,6 +262,11 @@ export const mockPhoneRecipient: AddressRecipient = {
   recipientType: RecipientType.Address,
 }
 
+export const mockAddressRecipient: AddressRecipient = {
+  address: mockAccount3,
+  recipientType: RecipientType.Address,
+}
+
 export const mockE164NumberToInvitableRecipient = {
   [mockE164Number]: mockInvitableRecipient,
   [mockE164NumberInvite]: mockInvitableRecipient2,
@@ -298,15 +307,15 @@ export const mockNavigation: NativeStackNavigationProp<StackParamList, any> = {
 } as unknown as NativeStackNavigationProp<StackParamList, any>
 
 export const mockAddressToE164Number: AddressToE164NumberType = {
-  [mockAccount]: mockE164Number,
-  [mockAccountInvite]: mockE164NumberInvite,
-  [mockAccount2Invite]: mockE164Number2Invite,
+  [mockAccount.toLowerCase()]: mockE164Number,
+  [mockAccountInvite.toLowerCase()]: mockE164NumberInvite,
+  [mockAccount2Invite.toLowerCase()]: mockE164Number2Invite,
 }
 
 export const mockE164NumberToAddress: E164NumberToAddressType = {
-  [mockE164Number]: [mockAccount],
-  [mockE164NumberInvite]: [mockAccountInvite],
-  [mockE164Number2Invite]: [mockAccount2Invite],
+  [mockE164Number]: [mockAccount.toLowerCase()],
+  [mockE164NumberInvite]: [mockAccountInvite.toLowerCase()],
+  [mockE164Number2Invite]: [mockAccount2Invite.toLowerCase()],
 }
 
 export const mockContactWithPhone: MinimalContact = {
@@ -459,7 +468,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo Euro',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
     isCashOutEligible: true,
@@ -475,7 +485,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo Dollar',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
     isCashInEligible: true,
@@ -492,7 +503,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo native asset',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     showZeroBalance: true,
     isCashInEligible: true,
@@ -510,7 +522,8 @@ export const mockTokenBalances: Record<string, StoredTokenBalance> = {
     name: 'Celo Real',
     decimals: 18,
     balance: '0',
-    isCoreToken: true,
+    isFeeCurrency: true,
+    canTransferWithComment: true,
     priceFetchedAt: Date.now(),
     isCashInEligible: true,
   },
@@ -566,8 +579,8 @@ export const mockTokenBalancesWithHistoricalPrices = {
       },
     },
   },
-  '0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F': {
-    ...mockTokenBalances['0x10c892A6EC43a53E45D0B916B4b7D383B1b78C0F'],
+  [mockCeurTokenId]: {
+    ...mockTokenBalances[mockCeurTokenId],
     historicalPricesUsd: {
       lastDay: {
         price: '1.14',
@@ -575,8 +588,8 @@ export const mockTokenBalancesWithHistoricalPrices = {
       },
     },
   },
-  '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1': {
-    ...mockTokenBalances['0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'],
+  [mockCusdTokenId]: {
+    ...mockTokenBalances[mockCusdTokenId],
     historicalPricesUsd: {
       lastDay: {
         price: '0.99',
@@ -1051,6 +1064,7 @@ export const mockOnboardingProps = {
   showRecoveryPhrase: false,
   onboardingNameScreenEnabled: true,
   cashInBottomSheetEnabled: true,
+  showCloudAccountBackupRestore: false,
 }
 
 export const mockDappList: Dapp[] = [
@@ -1072,7 +1086,7 @@ export const mockDappList: Dapp[] = [
   },
 ]
 
-export const mockDappListWithCategoryNames: DappV2WithCategoryNames[] = [
+export const mockDappListWithCategoryNames: DappWithCategoryNames[] = [
   {
     name: 'Dapp 1',
     id: 'dapp1',
@@ -1108,12 +1122,24 @@ const celoExchangeRates = range(60).map((i) => ({
   exchangeRate: (i / 60).toString(),
   timestamp: endDate - i * 24 * 3600 * 1000,
 }))
+
 export const exchangePriceHistory = {
   aggregatedExchangeRates: celoExchangeRates,
   celoGoldExchangeRates: celoExchangeRates,
   granularity: 60,
   lastTimeUpdated: endDate,
   range: 30 * 24 * 60 * 60 * 1000, // 30 days
+}
+
+// Generate mock CELO prices
+const prices = range(60).map((i) => ({
+  priceUsd: (i / 60).toString(),
+  priceFetchedAt: endDate - i * 24 * 3600 * 1000,
+}))
+
+export const priceHistory = {
+  status: 'success' as PriceHistoryStatus,
+  prices,
 }
 
 export const mockPositions: Position[] = [
@@ -1292,6 +1318,7 @@ export const mockProviderSelectionAnalyticsData: ProviderSelectionAnalyticsData 
   lowestFeeCryptoAmount: 1.0,
   lowestFeeProvider: 'mock-provider-1',
   lowestFeePaymentMethod: PaymentMethod.Bank,
+  networkId: NetworkId['celo-mainnet'],
 }
 
 export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
@@ -1310,7 +1337,7 @@ export const mockLegacyMobileMoneyProvider: LegacyMobileMoneyProvider = {
   },
 }
 
-export const mockNftAllFields: Nft = {
+export const mockNftAllFields: NftWithMetadata = {
   contractAddress: mockContractAddress,
   media: [
     {
@@ -1335,6 +1362,7 @@ export const mockNftAllFields: Nft = {
   ownerAddress: mockAccount,
   tokenId: '1',
   tokenUri: 'https://example.com/1',
+  networkId: NetworkId['celo-alfajores'],
 }
 
 export const mockNftMinimumFields: Nft = {
@@ -1418,4 +1446,76 @@ export const mockApprovalTransaction: TokenApproval = {
     },
   ],
   status: TransactionStatus.Complete,
+}
+
+export const mockExpectedCleverTapInboxMessage = {
+  wzrkParams: { wzrk_id: '0_0' },
+  id: '1704393845',
+  wzrk_id: '0_0',
+  msg: {
+    tags: [],
+    type: 'message-icon',
+    content: [
+      {
+        icon: {
+          processing: false,
+          poster: '',
+          filename: '',
+          content_type: 'image/jpeg',
+          key: 'fd152d1004504c0ab68a99ce9e3fe5e7',
+          url: 'https://d2trgtv8344lrj.cloudfront.net/dist/1634904064/i/fd152d1004504c0ab68a99ce9e3fe5e7.jpeg?v=1704392507',
+        },
+        title: {
+          color: '#434761',
+          replacements: 'CleverTap Message Header',
+          text: 'CleverTap Message Header',
+        },
+        action: {
+          url: { ios: { replacements: '', text: '' }, android: { replacements: '', text: '' } },
+          links: [
+            {
+              kv: {},
+              url: {
+                ios: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+                android: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+              },
+              copyText: { replacements: 'https://valoraapp.com', text: 'https://valoraapp.com' },
+              text: 'CleverTap Message CTA',
+              bg: '#ffffff',
+              color: '#007bff',
+              type: 'url',
+            },
+          ],
+          hasLinks: true,
+          hasUrl: false,
+        },
+        message: {
+          color: '#434761',
+          replacements: 'CleverTap Message Body Text',
+          text: 'CleverTap Message Body Text',
+        },
+        media: {},
+        key: 99060129,
+      },
+    ],
+    enableTags: false,
+    custom_kv: [],
+    orientation: 'p',
+    bg: '#ffffff',
+  },
+  tags: [''],
+  isRead: true,
+}
+
+export const mockCleverTapInboxMessage: CleverTapInboxMessage = {
+  messageId: '1704393845',
+  header: 'CleverTap Message Header',
+  text: 'CleverTap Message Body Text',
+  icon: {
+    uri: 'https://d2trgtv8344lrj.cloudfront.net/dist/1634904064/i/fd152d1004504c0ab68a99ce9e3fe5e7.jpeg?v=1704392507',
+  },
+  ctaText: 'CleverTap Message CTA',
+  ctaUrl: 'https://valoraapp.com',
+  priority: undefined,
+  openInExternalBrowser: false,
 }

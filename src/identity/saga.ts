@@ -8,7 +8,12 @@ import {
   validateRecipientAddressSuccess,
 } from 'src/identity/actions'
 import { checkTxsForIdentityMetadata } from 'src/identity/commentEncryption'
-import { doImportContactsWrapper, fetchAddressesAndValidateSaga } from 'src/identity/contactMapping'
+import {
+  doImportContactsWrapper,
+  fetchAddressVerificationSaga,
+  fetchAddressesAndValidateSaga,
+  saveContacts,
+} from 'src/identity/contactMapping'
 import { AddressValidationType } from 'src/identity/reducer'
 import { validateAndReturnMatch } from 'src/identity/secureSend'
 import { e164NumberToAddressSelector } from 'src/identity/selectors'
@@ -107,6 +112,10 @@ function* watchFetchDataEncryptionKey() {
   yield* takeLeading(Actions.FETCH_DATA_ENCRYPTION_KEY, safely(fetchDataEncryptionKeyWrapper))
 }
 
+function* watchFetchAddressVerification() {
+  yield* takeEvery(Actions.FETCH_ADDRESS_VERIFICATION_STATUS, safely(fetchAddressVerificationSaga))
+}
+
 export function* identitySaga() {
   Logger.debug(TAG, 'Initializing identity sagas')
   try {
@@ -114,6 +123,8 @@ export function* identitySaga() {
     yield* spawn(watchValidateRecipientAddress)
     yield* spawn(watchNewFeedTransactions)
     yield* spawn(watchFetchDataEncryptionKey)
+    yield* spawn(watchFetchAddressVerification)
+    yield* spawn(saveContacts) // save contacts on app start
   } catch (error) {
     Logger.error(TAG, 'Error initializing identity sagas', error)
   } finally {

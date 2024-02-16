@@ -17,7 +17,10 @@ const TAG = 'web3/KeychainSigner'
  */
 export class KeychainSigner implements Signer {
   protected unlockedLocalSigner: LocalSigner | null = null
-  constructor(protected account: KeychainAccount, protected lock: KeychainLock) {}
+  constructor(
+    protected account: KeychainAccount,
+    protected lock: KeychainLock
+  ) {}
 
   async init(privateKey: string, passphrase: string) {
     await storePrivateKey(privateKey, this.account, passphrase)

@@ -10,6 +10,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getExperimentParams } from 'src/statsig'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { mockAccount } from 'test/values'
 
 jest.mock('src/statsig')
 
@@ -48,7 +49,10 @@ describe('Dapps saga', () => {
           },
         })
       )
-        .provide([[select(dappsWebViewEnabledSelector), true]])
+        .provide([
+          [select(dappsWebViewEnabledSelector), true],
+          [select(walletAddressSelector), mockAccount],
+        ])
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.BidaliScreen, { currency: undefined })

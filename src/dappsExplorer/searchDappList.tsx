@@ -1,5 +1,5 @@
 import { get } from 'fast-levenshtein'
-import { DappV2WithCategoryNames } from 'src/dapps/types'
+import { DappWithCategoryNames } from 'src/dapps/types'
 
 const LEVENSHTEIN_THRESHOLD = 0.7 // levenshtein distance threshold
 
@@ -21,7 +21,7 @@ const getSimilarity = (a: string, b: string) => {
   return 1 - get(a, b, { useCollator: true }) / maxLength
 }
 
-export const scoreDapp = (dapp: DappV2WithCategoryNames, searchTerm: string) => {
+export const scoreDapp = (dapp: DappWithCategoryNames, searchTerm: string) => {
   let score = 0
   // Early return if there is no search term
   if (searchTerm === '') return score
@@ -89,7 +89,7 @@ export const scoreDapp = (dapp: DappV2WithCategoryNames, searchTerm: string) => 
   return score
 }
 
-export const searchDappList = (dappList: DappV2WithCategoryNames[], searchTerm: string) => {
+export const searchDappList = (dappList: DappWithCategoryNames[], searchTerm: string) => {
   // A map of dapp id to score
   const dappResults: Record<string, number> = {}
 
@@ -104,7 +104,9 @@ export const searchDappList = (dappList: DappV2WithCategoryNames[], searchTerm: 
   // Convert the map to an array, sort it by score and convert it back to a list of dapps
   const dappResultsArray = Object.entries(dappResults).map(([id, score]) => ({ id, score }))
   dappResultsArray.sort((a, b) => b.score - a.score)
-  const sortedDappList = dappResultsArray.map(({ id }) => dappList.find((dapp) => dapp.id === id))
+  const sortedDappList = dappResultsArray
+    .map(({ id }) => dappList.find((dapp) => dapp.id === id))
+    .filter((dapp): dapp is DappWithCategoryNames => dapp !== undefined)
 
   // Return the sorted list of dapps or an empty list if there are no results
   return sortedDappList ?? []

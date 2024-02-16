@@ -4,6 +4,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { ReactTestInstance } from 'react-test-renderer'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
 import { QueryResponse } from 'src/transactions/feed/queryHelper'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import {
@@ -18,7 +19,7 @@ import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
 
 jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(() => false),
+  getFeatureGate: jest.fn(),
   getDynamicConfigParams: jest.fn(() => ({
     showCico: ['celo-alfajores'],
     showBalances: ['celo-alfajores'],
@@ -347,5 +348,22 @@ describe('TransactionFeed', () => {
     fireEvent(tree.getByTestId('TransactionList'), 'onEndReached')
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(3))
     expect(getNumTransactionItems(tree.getByTestId('TransactionList'))).toBe(11)
+  })
+
+  it('renders GetStarted if SHOW_GET_STARTED is enabled and transaction feed is empty', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const { getByTestId } = renderScreen({
+      app: {
+        superchargeApy: 12,
+      },
+    })
+    expect(getByTestId('GetStarted')).toBeDefined()
+  })
+
+  it('renders NoActivity by default if transaction feed is empty', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const { getByTestId, getByText } = renderScreen({})
+    expect(getByTestId('NoActivity/loading')).toBeDefined()
+    expect(getByText('noTransactionActivity')).toBeTruthy()
   })
 })

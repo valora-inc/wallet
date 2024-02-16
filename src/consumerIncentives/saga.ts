@@ -4,7 +4,7 @@ import { showError, showMessage } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import { superchargeRewardContractAddressSelector } from 'src/consumerIncentives/selectors'
 import {
   claimRewards,
@@ -19,7 +19,7 @@ import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import i18n from 'src/i18n'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
@@ -146,9 +146,28 @@ function* claimReward(reward: SuperchargePendingReward, index: number, baseNonce
 }
 
 export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchAvailableRewards>) {
+  const rewardsEnabled = yield* select(rewardsEnabledSelector)
+  if (!rewardsEnabled) {
+    yield* put(fetchAvailableRewardsSuccess())
+    Logger.debug(TAG, 'Skipping fetching available rewards since rewards are not enabled')
+    return
+  }
+
   const address = yield* select(walletAddressSelector)
   if (!address) {
+    yield* put(fetchAvailableRewardsSuccess())
     Logger.debug(TAG, 'Skipping fetching available rewards since no address was found')
+    return
+  }
+
+  const supportedNetworkIds = [networkConfig.defaultNetworkId] // rewards are only availabe on Celo
+  const tokensWithTokenBalance = yield* select(tokensWithTokenBalanceSelector, supportedNetworkIds)
+  if (tokensWithTokenBalance.length === 0) {
+    yield* put(fetchAvailableRewardsSuccess())
+    Logger.debug(
+      TAG,
+      'Skipping fetching available rewards due to lack of tokens with sufficient balance'
+    )
     return
   }
 
@@ -185,7 +204,6 @@ export function* fetchAvailableRewardsSaga({ payload }: ReturnType<typeof fetchA
     yield* put(fetchAvailableRewardsSuccess())
   } catch (e) {
     yield* put(fetchAvailableRewardsFailure())
-    yield* put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
     Logger.error(TAG, 'Error fetching supercharge rewards', e as Error)
   }
 }

@@ -1,5 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
+import * as matchers from 'redux-saga-test-plan/matchers'
 import { call, select } from 'redux-saga/effects'
 import { SendOrigin } from 'src/analytics/types'
 import { activeScreenChanged } from 'src/app/actions'
@@ -15,6 +16,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType } from 'src/recipients/recipient'
 import { sendPayment, sendPaymentFailure, sendPaymentSuccess } from 'src/send/actions'
+import { preparePaymentRequestTransaction } from 'src/send/utils'
 import { tokensByCurrencySelector } from 'src/tokens/selectors'
 import { updateTransactions } from 'src/transactions/actions'
 import {
@@ -27,6 +29,7 @@ import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
 import {
   mockAccount,
+  mockCeloTokenId,
   mockCeurAddress,
   mockCeurTokenId,
   mockCusdAddress,
@@ -72,6 +75,14 @@ describe(watchBidaliPaymentRequests, () => {
             select(tokensByCurrencySelector),
             { [expectedCurrency]: { address: expectedTokenAddress, tokenId: expectedTokenId } },
           ],
+          [
+            matchers.call.fn(preparePaymentRequestTransaction),
+            {
+              preparedTransaction: 'mock-prepared-tx',
+              feeAmount: '0.1',
+              feeTokenId: mockCeloTokenId,
+            },
+          ],
         ])
         .put(
           updateKnownAddresses({
@@ -106,6 +117,11 @@ describe(watchBidaliPaymentRequests, () => {
           )
         )
         .dispatch(sendPaymentSuccess({ amount, tokenId: expectedTokenId }))
+        .call(preparePaymentRequestTransaction, {
+          amount,
+          token: { address: expectedTokenAddress, tokenId: expectedTokenId },
+          recipientAddress: recipient.address,
+        })
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
@@ -120,6 +136,9 @@ describe(watchBidaliPaymentRequests, () => {
           tokenAmount: amount,
         },
         isFromScan: false,
+        preparedTransaction: 'mock-prepared-tx',
+        feeAmount: '0.1',
+        feeTokenId: mockCeloTokenId,
       })
       expect(onPaymentSent).toHaveBeenCalledTimes(1)
       expect(onCancelled).not.toHaveBeenCalled()
@@ -135,6 +154,14 @@ describe(watchBidaliPaymentRequests, () => {
         [
           select(tokensByCurrencySelector),
           { [Currency.Dollar]: { address: mockCusdAddress, tokenId: mockCusdTokenId } },
+        ],
+        [
+          matchers.call.fn(preparePaymentRequestTransaction),
+          {
+            preparedTransaction: 'mock-prepared-tx',
+            feeAmount: '0.1',
+            feeTokenId: mockCeloTokenId,
+          },
         ],
       ])
       .not.put.actionType(IdentityActions.UPDATE_KNOWN_ADDRESSES)
@@ -167,6 +194,11 @@ describe(watchBidaliPaymentRequests, () => {
       )
       .dispatch(sendPaymentFailure())
       .dispatch(activeScreenChanged(Screens.BidaliScreen))
+      .call(preparePaymentRequestTransaction, {
+        amount,
+        token: { address: mockCusdAddress, tokenId: mockCusdTokenId },
+        recipientAddress: recipient.address,
+      })
       .run()
 
     expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
@@ -181,6 +213,9 @@ describe(watchBidaliPaymentRequests, () => {
         tokenId: mockCusdTokenId,
       },
       isFromScan: false,
+      preparedTransaction: 'mock-prepared-tx',
+      feeAmount: '0.1',
+      feeTokenId: mockCeloTokenId,
     })
     expect(onPaymentSent).not.toHaveBeenCalled()
     expect(onCancelled).toHaveBeenCalled()

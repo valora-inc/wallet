@@ -436,7 +436,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               balance: '1',
               priceUsd: '0.90',
               priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
-              isCoreToken: true,
+              isFeeCurrency: true,
             },
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',
@@ -478,7 +478,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
               balance: '1',
               priceUsd: '0.90',
               priceFetchedAt: Date.now() - ONE_DAY_IN_MILLIS,
-              isCoreToken: true,
+              isFeeCurrency: true,
             },
             'celo-alfajores:0x048F47d358EC521a6cf384461d674750a3cB58C8': {
               address: '0x048F47d358EC521a6cf384461d674750a3cB58C8',

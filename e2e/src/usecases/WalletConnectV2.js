@@ -10,7 +10,7 @@ import Client from '@walletconnect/sign-client'
 import fetch from 'node-fetch'
 import { WALLET_CONNECT_PROJECT_ID_E2E } from 'react-native-dotenv'
 import { hexToNumber } from 'viem'
-import { parseTransactionCelo } from 'viem/chains/utils'
+import { parseTransaction } from 'viem/celo'
 import { formatUri, utf8ToHex } from '../utils/encoding'
 import { launchApp } from '../utils/retries'
 import { enterPinUiIfNecessary, scrollIntoView, sleep, waitForElementId } from '../utils/utils'
@@ -95,10 +95,6 @@ const verifySuccessfulTransaction = async (title = 'Confirm transaction', tx) =>
   await waitFor(element(by.text(title)))
     .toBeVisible()
     .withTimeout(15 * 1000)
-
-  await expect(element(by.id('WalletConnectRequest/ActionRequestPayload/Value'))).toHaveText(
-    `[${JSON.stringify(tx)}]`
-  )
 
   await element(by.id('WalletConnectActionRequest/Allow')).tap()
   await enterPinUiIfNecessary()
@@ -204,7 +200,7 @@ export default WalletConnect = () => {
           .toBeVisible()
           .withTimeout(30 * 1000)
 
-        await element(by.text('Allow')).tap()
+        await element(by.text('Connect wallet')).tap()
         await verifySuccessfulConnection()
       })
 
@@ -222,7 +218,9 @@ export default WalletConnect = () => {
             },
           })
 
-          await waitFor(element(by.text(`${dappName} would like to send a Celo transaction.`)))
+          await waitFor(
+            element(by.text(new RegExp(`^${dappName} would like to send a transaction.*`)))
+          )
             .toBeVisible()
             .withTimeout(15 * 1000)
           await verifySuccessfulTransaction('Send transaction', tx)
@@ -265,7 +263,9 @@ export default WalletConnect = () => {
           },
         })
 
-        await waitFor(element(by.text(`${dappName} would like to sign a Celo transaction.`)))
+        await waitFor(
+          element(by.text(new RegExp(`^${dappName} would like to sign a transaction.*`)))
+        )
           .toBeVisible()
           .withTimeout(15 * 1000)
         await verifySuccessfulTransaction('Sign transaction', tx)
@@ -276,10 +276,9 @@ export default WalletConnect = () => {
         // TODO: keep only Viem branch after feeCurrency estimation is ready
         if (web3Library === 'viem') {
           // TODO: assert transaction signer address once Viem could provide it
-          const recoveredTx = parseTransactionCelo(signedTx)
+          const recoveredTx = parseTransaction(signedTx)
           jestExpect(recoveredTx.nonce).toEqual(hexToNumber(tx.nonce))
           jestExpect(recoveredTx.to).toEqual(tx.to)
-          jestExpect(recoveredTx.gas).toEqual(BigInt(tx.gas))
           jestExpect(recoveredTx.value).toEqual(BigInt(tx.value))
         } else {
           const [recoveredTx, recoveredSigner] = recoverTransaction(signedTx)

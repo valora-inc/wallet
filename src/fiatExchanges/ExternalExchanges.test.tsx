@@ -2,11 +2,11 @@ import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import ExternalExchanges from 'src/fiatExchanges/ExternalExchanges'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockExchanges } from 'test/values'
+import { mockAccount, mockCusdTokenId, mockExchanges } from 'test/values'
 
 const mockStore = createMockStore({
   web3: {
@@ -29,7 +29,7 @@ describe('ExternalExchanges', () => {
   // ExternalExchanges Screen will always have providers passed in via props
   it('shows list of available exchanges', async () => {
     const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
-      currency: CiCoCurrency.cUSD,
+      tokenId: mockCusdTokenId,
       exchanges: mockExchanges,
     })
 
@@ -44,5 +44,24 @@ describe('ExternalExchanges', () => {
     expect(getByTestId('provider-2')).toBeTruthy()
     await fireEvent.press(getByTestId('provider-1'))
     expect(navigateToURI).toBeCalledWith('https://coinlist.co/asset/celo')
+  })
+
+  it('navigates to the correct screen when send is tapped', async () => {
+    const mockScreenProps = getMockStackScreenProps(Screens.ExternalExchanges, {
+      tokenId: mockCusdTokenId,
+      exchanges: mockExchanges,
+    })
+
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <ExternalExchanges {...mockScreenProps} />
+      </Provider>
+    )
+
+    await fireEvent.press(getByTestId('SendBar/SendButton'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
+      defaultTokenIdOverride: mockCusdTokenId,
+      forceTokenId: true,
+    })
   })
 })

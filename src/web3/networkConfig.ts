@@ -1,15 +1,19 @@
-import { Address } from '@celo/base'
 import { Environment as PersonaEnvironment } from 'react-native-persona'
 import { BIDALI_URL, DEFAULT_FORNO_URL, DEFAULT_TESTNET, RECAPTCHA_SITE_KEY } from 'src/config'
 import { Network, NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Address } from 'viem'
 import {
   Chain as ViemChain,
+  arbitrum,
+  arbitrumSepolia,
   celo,
   celoAlfajores,
   mainnet as ethereum,
   sepolia as ethereumSepolia,
+  optimism,
+  optimismSepolia,
 } from 'viem/chains'
 
 export enum Testnets {
@@ -38,15 +42,14 @@ interface NetworkConfig {
   setRegistrationPropertiesUrl: string
   fetchExchangesUrl: string
   nftsValoraAppUrl: string
-  celoExplorerBaseNFTUrl: string
   getSwapQuoteUrl: string
   walletJumpstartUrl: string
-  walletJumpstartAddress: string
   verifyPhoneNumberUrl: string
   verifySmsCodeUrl: string
   getPublicDEKUrl: string
   lookupPhoneNumberUrl: string
   lookupAddressUrl: string
+  checkAddressVerifiedUrl: string
   revokePhoneNumberUrl: string
   migratePhoneVerificationUrl: string
   fetchAvailableSuperchargeRewards: string
@@ -55,6 +58,9 @@ interface NetworkConfig {
   cabIssueSmsCodeUrl: string
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
+  cabGetEncryptedMnemonicUrl: string
+  cabLoginUrl: string
+  cabClockUrl: string
   networkToNetworkId: Record<Network, NetworkId>
   defaultNetworkId: NetworkId
   getTokensInfoUrl: string
@@ -64,19 +70,32 @@ interface NetworkConfig {
   currencyToTokenId: {
     [key in CiCoCurrency | Currency]: string
   }
-  celoTokenAddress: string
-  alchemyEthereumRpcUrl: string
+  celoTokenAddress: Address
+  celoGasPriceMinimumAddress: Address
+  alchemyRpcUrl: Record<Exclude<Network, Network.Celo>, string>
+  cusdTokenId: string
+  ceurTokenId: string
+  crealTokenId: string
+  celoTokenId: string
   spendTokenIds: string[]
+  saveContactsUrl: string
 }
 
 const ALCHEMY_ETHEREUM_RPC_URL_STAGING = 'https://eth-sepolia.g.alchemy.com/v2/'
 const ALCHEMY_ETHEREUM_RPC_URL_MAINNET = 'https://eth-mainnet.g.alchemy.com/v2/'
+
+const ALCHEMY_ARBITRUM_RPC_URL_STAGING = 'https://arb-sepolia.g.alchemy.com/v2/'
+const ALCHEMY_ARBITRUM_RPC_URL_MAINNET = 'https://arb-mainnet.g.alchemy.com/v2/'
+
+const ALCHEMY_OPTIMISM_RPC_URL_STAGING = 'https://opt-sepolia.g.alchemy.com/v2/'
+const ALCHEMY_OPTIMISM_RPC_URL_MAINNET = 'https://opt-mainnet.g.alchemy.com/v2/'
 
 export type BlockExplorerUrls = {
   [key in NetworkId]: {
     baseTxUrl: string
     baseAddressUrl: string
     baseTokenUrl: string
+    baseNftUrl: string
   }
 }
 
@@ -86,6 +105,10 @@ export type NetworkIdToNetwork = {
 
 const CELO_TOKEN_ADDRESS_STAGING = '0xf194afdf50b03e69bd7d057c1aa9e10c9954e4c9'
 const CELO_TOKEN_ADDRESS_MAINNET = '0x471ece3750da237f93b8e339c536989b8978a438'
+
+// From https://docs.celo.org/contract-addresses
+const CELO_GAS_PRICE_MINIMUM_ADDRESS_STAGING = '0xd0bf87a5936ee17014a057143a494dc5c5d51e5e'
+const CELO_GAS_PRICE_MINIMUM_ADDRESS_MAINNET = '0xdfca3a8d7699d8bafe656823ad60c17cb8270ecc'
 
 const CELO_TOKEN_ID_STAGING = `${NetworkId['celo-alfajores']}:native`
 const CELO_TOKEN_ID_MAINNET = `${NetworkId['celo-mainnet']}:native`
@@ -166,6 +189,9 @@ const REVOKE_PHONE_NUMBER_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/revokePhoneNumbe
 const MIGRATE_PHONE_VERIFICATION_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/migrateASv1Verification`
 const MIGRATE_PHONE_VERIFICATION_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/migrateASv1Verification`
 
+const CHECK_ADDRESS_VERIFIED_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/checkAddressVerified`
+const CHECK_ADDRESS_VERIFIED_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/checkAddressVerified`
+
 const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getSuperchargeRewards`
 const FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getSuperchargeRewards`
 
@@ -182,9 +208,6 @@ const HOOKS_API_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/hooks-api`
 const JUMPSTART_CLAIM_URL_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/walletJumpstart`
 const JUMPSTART_CLAIM_URL_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/walletJumpstart`
 
-const JUMPSTART_ADDRESS_ALFAJORES = '0xf25a016E53644EEfe4A167Ff05482213BCd627ED'
-const JUMPSTART_ADDRESS_MAINNET = '0x22Bac00dB51FfD2eb5a02e58974b64726c684BaA'
-
 const GET_NFTS_BY_OWNER_ADDRESS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getNfts`
 const GET_NFTS_BY_OWNER_ADDRESS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getNfts`
 
@@ -196,12 +219,26 @@ const CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/storeEn
 const CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/issueValoraKeyshare`
 const CAB_ISSUE_VALORA_KEYSHARE_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/issueValoraKeyshare`
 
+const CAB_LOGIN_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/cloudBackupLogin`
+const CAB_LOGIN_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/cloudBackupLogin`
+
+const CAB_CLOCK_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/clock`
+const CAB_CLOCK_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/clock`
+
+const CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getEncryptedMnemonic`
+const CAB_GET_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getEncryptedMnemonic`
+
+const SAVE_CONTACTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/saveContacts`
+const SAVE_CONTACTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/saveContacts`
+
 const networkConfigs: { [testnet: string]: NetworkConfig } = {
   [Testnets.alfajores]: {
     networkId: '44787',
     networkToNetworkId: {
       [Network.Celo]: NetworkId['celo-alfajores'],
       [Network.Ethereum]: NetworkId['ethereum-sepolia'],
+      [Network.Arbitrum]: NetworkId['arbitrum-sepolia'],
+      [Network.Optimism]: NetworkId['op-sepolia'],
     },
     defaultNetworkId: NetworkId['celo-alfajores'],
     // blockchainApiUrl: 'http://127.0.0.1:8080',
@@ -229,15 +266,14 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_ALFAJORES,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_ALFAJORES,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
-    celoExplorerBaseNFTUrl: 'https://explorer.celo.org/alfajores/token/',
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_ALFAJORES,
-    walletJumpstartAddress: JUMPSTART_ADDRESS_ALFAJORES,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_ALFAJORES,
     verifySmsCodeUrl: VERIFY_SMS_CODE_ALFAJORES,
     getPublicDEKUrl: GET_PUBLIC_DEK_ALFAJORES,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_ALFAJORES,
     lookupAddressUrl: LOOKUP_ADDRESS_ALFAJORES,
+    checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_ALFAJORES,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_ALFAJORES,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_ALFAJORES,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_ALFAJORES,
@@ -246,10 +282,15 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_ALFAJORES,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
+    cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES,
+    cabLoginUrl: CAB_LOGIN_ALFAJORES,
+    cabClockUrl: CAB_CLOCK_ALFAJORES,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_ALFAJORES,
     viemChain: {
       [Network.Celo]: celoAlfajores,
       [Network.Ethereum]: ethereumSepolia,
+      [Network.Arbitrum]: arbitrumSepolia,
+      [Network.Optimism]: optimismSepolia,
     },
     currencyToTokenId: {
       [CiCoCurrency.CELO]: CELO_TOKEN_ID_STAGING,
@@ -260,14 +301,26 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Currency.Celo]: CELO_TOKEN_ID_STAGING,
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_STAGING,
-    alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
+    celoGasPriceMinimumAddress: CELO_GAS_PRICE_MINIMUM_ADDRESS_STAGING,
+    alchemyRpcUrl: {
+      [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_STAGING,
+      [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_STAGING,
+      [Network.Optimism]: ALCHEMY_OPTIMISM_RPC_URL_STAGING,
+    },
+    cusdTokenId: CUSD_TOKEN_ID_STAGING,
+    ceurTokenId: CEUR_TOKEN_ID_STAGING,
+    crealTokenId: CREAL_TOKEN_ID_STAGING,
+    celoTokenId: CELO_TOKEN_ID_STAGING,
     spendTokenIds: [CUSD_TOKEN_ID_STAGING, CEUR_TOKEN_ID_STAGING],
+    saveContactsUrl: SAVE_CONTACTS_ALFAJORES,
   },
   [Testnets.mainnet]: {
     networkId: '42220',
     networkToNetworkId: {
       [Network.Celo]: NetworkId['celo-mainnet'],
       [Network.Ethereum]: NetworkId['ethereum-mainnet'],
+      [Network.Arbitrum]: NetworkId['arbitrum-one'],
+      [Network.Optimism]: NetworkId['op-mainnet'],
     },
     defaultNetworkId: NetworkId['celo-mainnet'],
     blockchainApiUrl: BLOCKCHAIN_API_MAINNET,
@@ -294,15 +347,14 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     setRegistrationPropertiesUrl: SET_REGISTRATION_PROPERTIES_MAINNET,
     fetchExchangesUrl: FETCH_EXCHANGES_URL_MAINNET,
     nftsValoraAppUrl: NFTS_VALORA_APP_URL,
-    celoExplorerBaseNFTUrl: 'https://explorer.celo.org/mainnet/token/',
     getSwapQuoteUrl: GET_SWAP_QUOTE_URL,
     walletJumpstartUrl: JUMPSTART_CLAIM_URL_MAINNET,
-    walletJumpstartAddress: JUMPSTART_ADDRESS_MAINNET,
     verifyPhoneNumberUrl: VERIFY_PHONE_NUMBER_MAINNET,
     verifySmsCodeUrl: VERIFY_SMS_CODE_MAINNET,
     getPublicDEKUrl: GET_PUBLIC_DEK_MAINNET,
     lookupPhoneNumberUrl: LOOKUP_PHONE_NUMBER_MAINNET,
     lookupAddressUrl: LOOKUP_ADDRESS_MAINNET,
+    checkAddressVerifiedUrl: CHECK_ADDRESS_VERIFIED_MAINNET,
     revokePhoneNumberUrl: REVOKE_PHONE_NUMBER_MAINNET,
     migratePhoneVerificationUrl: MIGRATE_PHONE_VERIFICATION_MAINNET,
     fetchAvailableSuperchargeRewards: FETCH_AVAILABLE_SUPERCHARGE_REWARDS_MAINNET,
@@ -311,10 +363,15 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueSmsCodeUrl: CAB_ISSUE_SMS_CODE_MAINNET,
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
+    cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_MAINNET,
+    cabLoginUrl: CAB_LOGIN_MAINNET,
+    cabClockUrl: CAB_CLOCK_MAINNET,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_MAINNET,
     viemChain: {
       [Network.Celo]: celo,
       [Network.Ethereum]: ethereum,
+      [Network.Arbitrum]: arbitrum,
+      [Network.Optimism]: optimism,
     },
     currencyToTokenId: {
       [CiCoCurrency.CELO]: CELO_TOKEN_ID_MAINNET,
@@ -325,8 +382,18 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
       [Currency.Celo]: CELO_TOKEN_ID_MAINNET,
     },
     celoTokenAddress: CELO_TOKEN_ADDRESS_MAINNET,
-    alchemyEthereumRpcUrl: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
+    celoGasPriceMinimumAddress: CELO_GAS_PRICE_MINIMUM_ADDRESS_MAINNET,
+    alchemyRpcUrl: {
+      [Network.Ethereum]: ALCHEMY_ETHEREUM_RPC_URL_MAINNET,
+      [Network.Arbitrum]: ALCHEMY_ARBITRUM_RPC_URL_MAINNET,
+      [Network.Optimism]: ALCHEMY_OPTIMISM_RPC_URL_MAINNET,
+    },
+    cusdTokenId: CUSD_TOKEN_ID_MAINNET,
+    ceurTokenId: CEUR_TOKEN_ID_MAINNET,
+    crealTokenId: CREAL_TOKEN_ID_MAINNET,
+    celoTokenId: CELO_TOKEN_ID_MAINNET,
     spendTokenIds: [CUSD_TOKEN_ID_MAINNET, CEUR_TOKEN_ID_MAINNET],
+    saveContactsUrl: SAVE_CONTACTS_MAINNET,
   },
 }
 
@@ -336,26 +403,60 @@ const CELOSCAN_BASE_URL_MAINNET = 'https://celoscan.io'
 const ETHERSCAN_BASE_URL_SEPOLIA = 'https://sepolia.etherscan.io'
 const ETHERSCAN_BASE_URL_MAINNET = 'https://etherscan.io'
 
+const ARBISCAN_BASE_URL_ONE = 'https://arbiscan.io'
+const ARBISCAN_BASE_URL_SEPOLIA = 'https://sepolia.arbiscan.io'
+
+const OP_MAINNET_EXPLORER_BASE_URL = 'https://optimistic.etherscan.io/'
+const OP_SEPOLIA_EXPLORER_BASE_URL = 'https://sepolia-optimism.etherscan.io/'
+
 export const blockExplorerUrls: BlockExplorerUrls = {
   [NetworkId['celo-mainnet']]: {
     baseTxUrl: `${CELOSCAN_BASE_URL_MAINNET}/tx/`,
     baseAddressUrl: `${CELOSCAN_BASE_URL_MAINNET}/address/`,
     baseTokenUrl: `${CELOSCAN_BASE_URL_MAINNET}/token/`,
+    baseNftUrl: 'https://explorer.celo.org/mainnet/token/',
   },
   [NetworkId['celo-alfajores']]: {
     baseTxUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/tx/`,
     baseAddressUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/address/`,
     baseTokenUrl: `${CELOSCAN_BASE_URL_ALFAJORES}/token/`,
+    baseNftUrl: 'https://explorer.celo.org/alfajores/token/',
   },
   [NetworkId['ethereum-mainnet']]: {
     baseTxUrl: `${ETHERSCAN_BASE_URL_MAINNET}/tx/`,
     baseAddressUrl: `${ETHERSCAN_BASE_URL_MAINNET}/address/`,
     baseTokenUrl: `${ETHERSCAN_BASE_URL_MAINNET}/token/`,
+    baseNftUrl: `${ETHERSCAN_BASE_URL_MAINNET}/nft/`,
   },
   [NetworkId['ethereum-sepolia']]: {
     baseTxUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/tx/`,
     baseAddressUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/address/`,
     baseTokenUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/token/`,
+    baseNftUrl: `${ETHERSCAN_BASE_URL_SEPOLIA}/nft/`,
+  },
+  [NetworkId['arbitrum-one']]: {
+    baseTxUrl: `${ARBISCAN_BASE_URL_ONE}/tx/`,
+    baseAddressUrl: `${ARBISCAN_BASE_URL_ONE}/address/`,
+    baseTokenUrl: `${ARBISCAN_BASE_URL_ONE}/token/`,
+    baseNftUrl: `${ARBISCAN_BASE_URL_ONE}/token/`,
+  },
+  [NetworkId['arbitrum-sepolia']]: {
+    baseTxUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/tx/`,
+    baseAddressUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/address/`,
+    baseTokenUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
+    baseNftUrl: `${ARBISCAN_BASE_URL_SEPOLIA}/token/`,
+  },
+  [NetworkId['op-mainnet']]: {
+    baseTxUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/tx/`,
+    baseAddressUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/address/`,
+    baseTokenUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/token/`,
+    baseNftUrl: `${OP_MAINNET_EXPLORER_BASE_URL}/token/`,
+  },
+  [NetworkId['op-sepolia']]: {
+    baseTxUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/tx/`,
+    baseAddressUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/address/`,
+    baseTokenUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/token/`,
+    baseNftUrl: `${OP_SEPOLIA_EXPLORER_BASE_URL}/token/`,
   },
 }
 
@@ -364,6 +465,10 @@ export const networkIdToNetwork: NetworkIdToNetwork = {
   [NetworkId['celo-alfajores']]: Network.Celo,
   [NetworkId['ethereum-mainnet']]: Network.Ethereum,
   [NetworkId['ethereum-sepolia']]: Network.Ethereum,
+  [NetworkId['arbitrum-one']]: Network.Arbitrum,
+  [NetworkId['arbitrum-sepolia']]: Network.Arbitrum,
+  [NetworkId['op-mainnet']]: Network.Optimism,
+  [NetworkId['op-sepolia']]: Network.Optimism,
 }
 
 export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
@@ -371,6 +476,21 @@ export const networkIdToWalletConnectChainId: Record<NetworkId, string> = {
   [NetworkId['celo-mainnet']]: 'eip155:42220',
   [NetworkId['ethereum-mainnet']]: 'eip155:1',
   [NetworkId['ethereum-sepolia']]: 'eip155:11155111',
+  [NetworkId['arbitrum-one']]: 'eip155:42161',
+  [NetworkId['arbitrum-sepolia']]: 'eip155:421614',
+  [NetworkId['op-mainnet']]: 'eip155:10',
+  [NetworkId['op-sepolia']]: 'eip155:11155420',
+}
+
+export const walletConnectChainIdToNetworkId: Record<string, NetworkId> = {
+  'eip155:44787': NetworkId['celo-alfajores'],
+  'eip155:42220': NetworkId['celo-mainnet'],
+  'eip155:1': NetworkId['ethereum-mainnet'],
+  'eip155:11155111': NetworkId['ethereum-sepolia'],
+  'eip155:42161': NetworkId['arbitrum-one'],
+  'eip155:421614': NetworkId['arbitrum-sepolia'],
+  'eip155:10': NetworkId['op-mainnet'],
+  'eip155:11155420': NetworkId['op-sepolia'],
 }
 
 export const walletConnectChainIdToNetwork: Record<string, Network> = {
@@ -378,6 +498,10 @@ export const walletConnectChainIdToNetwork: Record<string, Network> = {
   'eip155:42220': Network.Celo,
   'eip155:1': Network.Ethereum,
   'eip155:11155111': Network.Ethereum,
+  'eip155:42161': Network.Arbitrum,
+  'eip155:421614': Network.Arbitrum,
+  'eip155:10': Network.Optimism,
+  'eip155:11155420': Network.Optimism,
 }
 
 Logger.info('Connecting to testnet: ', DEFAULT_TESTNET)

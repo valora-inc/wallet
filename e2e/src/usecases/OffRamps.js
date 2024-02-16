@@ -1,8 +1,12 @@
-import { DEFAULT_RECIPIENT_ADDRESS } from '../utils/consts'
-import { reloadReactNative } from '../utils/retries'
-import { enterPinUiIfNecessary, sleep, waitForElementId } from '../utils/utils'
+import { launchApp, reloadReactNative } from '../utils/retries'
+import { waitForElementId } from '../utils/utils'
 
 export default offRamps = () => {
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: true,
+    })
+  })
   beforeEach(async () => {
     await reloadReactNative()
     await waitForElementId('HomeActionsCarousel')
@@ -34,17 +38,17 @@ export default offRamps = () => {
     })
 
     it('Then should be able to spend cUSD', async () => {
-      await waitForElementId('radio/cUSD')
-      await element(by.id('radio/cUSD')).tap()
-      await element(by.id('GoToProviderButton')).tap()
+      await waitForElementId(`cUSDSymbol`)
+      await element(by.id(`cUSDSymbol`)).tap()
+
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
 
     it('Then should be able to spend cEUR', async () => {
-      await waitForElementId('radio/cEUR')
-      await element(by.id('radio/cEUR')).tap()
-      await element(by.id('GoToProviderButton')).tap()
+      await waitForElementId(`cEURSymbol`)
+      await element(by.id(`cEURSymbol`)).tap()
+
       await waitForElementId('RNWebView')
       await expect(element(by.text('Bidali'))).toBeVisible()
     })
@@ -56,28 +60,6 @@ export default offRamps = () => {
       await element(by.id('cashOut')).tap()
     })
 
-    it.each`
-      token     | amount | exchanges
-      ${'cUSD'} | ${'2'} | ${{ total: 5, minExpected: 1 }}
-      ${'cEUR'} | ${'2'} | ${{ total: 2, minExpected: 1 }}
-      ${'CELO'} | ${'2'} | ${{ total: 19, minExpected: 5 }}
-    `(
-      'Then should display $token provider(s) for $$amount',
-      async ({ token, amount, exchanges }) => {
-        await waitForElementId(`radio/${token}`)
-        await element(by.id(`radio/${token}`)).tap()
-        await element(by.text('Next')).tap()
-        await waitForElementId('FiatExchangeInput')
-        await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
-        await element(by.id('FiatExchangeNextButton')).tap()
-        await expect(element(by.text('Select Withdraw Method'))).toBeVisible()
-        await waitForElementId('Exchanges')
-        await element(by.id('Exchanges')).tap()
-        // Exchanges start at index 0
-        await waitForElementId(`provider-${exchanges.minExpected - 1}`)
-      }
-    )
-
     // Verify that some exchanges are displayed not the exact total as this could change
     // Maybe use total in the future
     it.each`
@@ -88,11 +70,11 @@ export default offRamps = () => {
     `(
       'Then should display at least $exchanges.minExpected $token exchange(s)',
       async ({ token, exchanges }) => {
-        await waitForElementId(`radio/${token}`)
-        await element(by.id(`radio/${token}`)).tap()
-        await element(by.text('Next')).tap()
+        await waitForElementId(`${token}Symbol`)
+        await element(by.id(`${token}Symbol`)).tap()
+
         await waitForElementId('FiatExchangeInput')
-        await element(by.id('FiatExchangeInput')).replaceText('20')
+        await element(by.id('FiatExchangeInput')).replaceText('2')
         await element(by.id('FiatExchangeNextButton')).tap()
         await expect(element(by.text('Select Withdraw Method'))).toBeVisible()
         await waitForElementId('Exchanges')
@@ -105,16 +87,16 @@ export default offRamps = () => {
 
     it('Then Send To Address', async () => {
       const randomAmount = `${(Math.random() * 10 ** -1).toFixed(3)}`
-      await waitForElementId('radio/CELO')
-      await element(by.id('radio/CELO')).tap()
-      await element(by.text('Next')).tap()
+      await waitForElementId(`CELOSymbol`)
+      await element(by.id(`CELOSymbol`)).tap()
+
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${randomAmount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
       await waitForElementId('Exchanges')
       await element(by.id('Exchanges')).tap()
       await element(by.id('SendBar')).tap()
-      await waitFor(element(by.id('SendSearchInput')))
+      await waitFor(element(by.id('SendSelectRecipientSearchInput')))
         .toBeVisible()
         .withTimeout(10 * 1000)
       // Send e2e test should cover the rest of this flow

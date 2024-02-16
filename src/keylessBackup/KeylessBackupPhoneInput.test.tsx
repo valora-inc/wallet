@@ -25,6 +25,7 @@ describe('KeylessBackupPhoneInput', () => {
             keylessBackupFlow: KeylessBackupFlow.Setup,
             selectedCountryCodeAlpha2: 'US',
           }}
+          options={KeylessBackupPhoneInput.navigationOptions}
         />
       </Provider>
     )
@@ -35,6 +36,7 @@ describe('KeylessBackupPhoneInput', () => {
     expect(getByTestId('KeylessBackupPhoneInput/Continue')).toBeTruthy()
     // not disabled because the phone number from store is valid
     expect(getByTestId('KeylessBackupPhoneInput/Continue')).not.toBeDisabled()
+    expect(getByTestId('CancelButton')).toBeTruthy()
   })
   it('allows continue to be pressed when a valid phone number is entered', () => {
     const { getByTestId } = render(

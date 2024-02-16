@@ -7,6 +7,7 @@ import { passwordHashStorageKey } from 'src/pincode/authentication'
 import { RootState } from 'src/redux/reducers'
 import { retrieveStoredItem } from 'src/storage/keychain'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { clearStoredAccounts } from 'src/web3/KeychainLock'
 import { getWallet } from 'src/web3/contracts'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -50,15 +51,21 @@ export async function resetStateOnInvalidStoredAccount(state: RootState | undefi
     Logger.info(TAG, `Stored wallet address: ${walletAddress}`)
     if (walletAddress) {
       let passwordHash
+      let keychainError: string | undefined
       try {
         passwordHash = await retrieveStoredItem(passwordHashStorageKey(walletAddress))
-      } catch (error) {
+      } catch (err) {
+        const error = ensureError(err).message
         Logger.warn(TAG, `Failed to retrieve password hash for ${walletAddress}: ${error}`)
+        keychainError = error
       }
       if (!passwordHash) {
         // No password hash present, we need to reset the redux state and remove existing accounts from the keychain
         // which we can't unlock without the password hash
-        ValoraAnalytics.track(AppEvents.redux_no_matching_keychain_account, { walletAddress })
+        ValoraAnalytics.track(AppEvents.redux_no_matching_keychain_account, {
+          walletAddress,
+          keychainError,
+        })
         await clearStoredAccounts()
         Logger.info(TAG, `State reset`)
         return undefined

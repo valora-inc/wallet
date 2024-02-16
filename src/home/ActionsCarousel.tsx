@@ -13,11 +13,9 @@ import QuickActionsReceive from 'src/icons/quick-actions/Receive'
 import QuickActionsSend from 'src/icons/quick-actions/Send'
 import QuickActionsSwap from 'src/icons/quick-actions/Swap'
 import QuickActionsWithdraw from 'src/icons/quick-actions/Withdraw'
-import { navigate, navigateToFiatCurrencySelection } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -30,19 +28,15 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Send,
       title: t('homeActions.send'),
-      icon: <QuickActionsSend color={Colors.onboardingGreen} />,
+      icon: <QuickActionsSend color={Colors.successDark} />,
       onPress: () => {
-        const shouldShowSelectRecipient = getFeatureGate(
-          StatsigFeatureGates.USE_NEW_RECIPIENT_SCREEN
-        )
-        const sendScreen = shouldShowSelectRecipient ? Screens.SendSelectRecipient : Screens.Send
-        navigate(sendScreen)
+        navigate(Screens.SendSelectRecipient)
       },
     },
     {
       name: HomeActionName.Receive,
       title: t('homeActions.receive'),
-      icon: <QuickActionsReceive color={Colors.onboardingGreen} />,
+      icon: <QuickActionsReceive color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.QRNavigator, {
           screen: Screens.QRCode,
@@ -52,15 +46,15 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Add,
       title: t('homeActions.add'),
-      icon: <QuickActionsAdd color={Colors.onboardingGreen} />,
+      icon: <QuickActionsAdd color={Colors.successDark} />,
       onPress: () => {
-        navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
     },
     {
       name: HomeActionName.Swap,
       title: t('homeActions.swap'),
-      icon: <QuickActionsSwap color={Colors.onboardingGreen} />,
+      icon: <QuickActionsSwap color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.SwapScreenWithBack)
       },
@@ -69,7 +63,7 @@ function ActionsCarousel() {
     {
       name: HomeActionName.Withdraw,
       title: t('homeActions.withdraw'),
-      icon: <QuickActionsWithdraw color={Colors.onboardingGreen} />,
+      icon: <QuickActionsWithdraw color={Colors.successDark} />,
       onPress: () => {
         navigate(Screens.WithdrawSpend)
       },
@@ -86,19 +80,29 @@ function ActionsCarousel() {
       {actions
         .filter(({ hidden }) => !hidden)
         .map(({ name, title, icon, onPress }) => (
-          <Card style={styles.card} shadow={null} key={`HomeAction-${name}`}>
+          <Card
+            style={styles.card}
+            shadow={null}
+            key={`HomeAction-${name}`}
+            testID={`HomeAction-${name}`}
+          >
             <Touchable
               onPress={() => {
                 ValoraAnalytics.track(HomeEvents.home_action_pressed, { action: name })
                 onPress()
               }}
               style={styles.touchable}
-              testID={`HomeAction-${name}`}
               borderRadius={8}
+              testID={`HomeActionTouchable-${name}`}
             >
               <>
                 {icon}
-                <Text style={styles.name} testID={`HomeAction/Title-${name}`}>
+                <Text
+                  numberOfLines={1}
+                  allowFontScaling={false}
+                  style={styles.name}
+                  testID={`HomeAction/Title-${name}`}
+                >
                   {title}
                 </Text>
               </>
@@ -118,7 +122,7 @@ const styles = StyleSheet.create({
     width: 84,
     marginHorizontal: 6,
     padding: 0,
-    backgroundColor: Colors.greenBackground,
+    backgroundColor: Colors.successLight,
     borderRadius: 10,
   },
   touchable: {
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     ...fontStyles.small500,
     lineHeight: 17,
     paddingTop: 8,
-    color: Colors.onboardingGreen,
+    color: Colors.successDark,
   },
 })
 

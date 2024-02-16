@@ -32,6 +32,13 @@
       prPriority: 2,
     },
     {
+      // Allow renovate to update node
+      matchDepTypes: ['engines'],
+      enabled: true,
+      // a bit higher priority for node updates
+      prPriority: 3,
+    },
+    {
       // Group devDependencies updates
       matchDepTypes: ['devDependencies'],
       groupName: 'devDependencies',
@@ -44,6 +51,9 @@
       // Group updates for @celo packages
       matchPackagePatterns: ['^@celo/'],
       groupName: 'celo',
+      // major upgrade has multiple breaking changes
+      // TODO(ACT-1088): enable once done
+      enabled: false,
     },
     {
       // Group updates for @testing-library packages
@@ -77,8 +87,5 @@
     '@walletconnect/legacy-types',
     '@walletconnect/sign-client',
     '@walletconnect/types',
-    // Temporary until a fix for the CIP-64 serialization bug is released
-    // See https://github.com/valora-inc/wallet/pull/4458
-    'viem',
   ],
 }

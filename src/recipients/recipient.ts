@@ -6,6 +6,7 @@ import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import {
   AddressToDisplayNameType,
   AddressToE164NumberType,
+  AddressToVerificationStatus,
   E164NumberToAddressType,
 } from 'src/identity/reducer'
 import { RecipientVerificationStatus } from 'src/identity/types'
@@ -49,12 +50,8 @@ export function recipientHasNumber(recipient: Recipient): recipient is MobileRec
   return recipient && 'e164PhoneNumber' in recipient && !!recipient.e164PhoneNumber
 }
 
-export function recipientHasAddress(recipient: Recipient): recipient is AddressRecipient {
+function recipientHasAddress(recipient: Recipient): recipient is AddressRecipient {
   return recipient && 'address' in recipient && !!recipient.address
-}
-
-export function recipientHasContact(recipient: Recipient): recipient is ContactRecipient {
-  return recipient && 'contactId' in recipient && 'name' in recipient && !!recipient.contactId
 }
 
 export function getDisplayName(recipient: Recipient, t: TFunction) {
@@ -174,26 +171,34 @@ export function getRecipientFromAddress(
 
 export function getRecipientVerificationStatus(
   recipient: Recipient,
-  e164NumberToAddress: E164NumberToAddressType
+  e164NumberToAddress: E164NumberToAddressType,
+  addressToVerificationStatus: AddressToVerificationStatus
 ): RecipientVerificationStatus {
-  if (recipientHasAddress(recipient)) {
+  // phone recipients should always have a number, the extra check is to ensure typing
+  if (recipient.recipientType === RecipientType.PhoneNumber && recipientHasNumber(recipient)) {
+    const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
+    if (addresses === undefined) {
+      return RecipientVerificationStatus.UNKNOWN
+    }
+
+    if (addresses === null) {
+      return RecipientVerificationStatus.UNVERIFIED
+    }
+
     return RecipientVerificationStatus.VERIFIED
   }
-
-  if (!recipientHasNumber(recipient)) {
+  if (recipientHasAddress(recipient) && recipient.address in addressToVerificationStatus) {
+    switch (addressToVerificationStatus[recipient.address]) {
+      case true:
+        return RecipientVerificationStatus.VERIFIED
+      case false:
+        return RecipientVerificationStatus.UNVERIFIED
+      case undefined:
+        return RecipientVerificationStatus.UNKNOWN
+    }
+  } else {
     return RecipientVerificationStatus.UNKNOWN
   }
-
-  const addresses = e164NumberToAddress[recipient.e164PhoneNumber]
-  if (addresses === undefined) {
-    return RecipientVerificationStatus.UNKNOWN
-  }
-
-  if (addresses === null) {
-    return RecipientVerificationStatus.UNVERIFIED
-  }
-
-  return RecipientVerificationStatus.VERIFIED
 }
 
 type PreparedRecipient = Recipient & {
@@ -252,7 +257,7 @@ function executeFuzzySearch(
   shouldSort?: boolean
 ): FuzzyRecipient[] {
   const parsedQuery = query.replace(/[()-\s/\\]/g, '')
-  if (parsedQuery === '' || parsedQuery.length < 2) {
+  if (parsedQuery === '') {
     // fuzzysort does not handle empty string query
     if (shouldSort) {
       return sortRecipients(recipients)

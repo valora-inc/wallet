@@ -1,8 +1,6 @@
 import React from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
-import { dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/types'
+import { SvgUri } from 'react-native-svg'
 import Logo from 'src/icons/Logo'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -16,9 +14,16 @@ interface Props {
 }
 
 export default function Logos({ dappImageUrl, dappName }: Props) {
-  const dappConnectInfo = useSelector(dappConnectInfoSelector)
-  if (!dappImageUrl && dappConnectInfo !== DappConnectInfo.Basic) {
+  if (!dappImageUrl) {
     return null
+  }
+
+  let isDappImageSvg = false
+  try {
+    const parsedUrl = new URL(dappImageUrl ?? '')
+    isDappImageSvg = parsedUrl.pathname.toLowerCase().endsWith('.svg')
+  } catch (error) {
+    // do nothing if the url cannot be parsed
   }
 
   return (
@@ -29,7 +34,11 @@ export default function Logos({ dappImageUrl, dappName }: Props) {
         </View>
       </View>
       <View style={styles.logoShadow}>
-        {dappImageUrl ? (
+        {isDappImageSvg ? (
+          <View style={styles.logoBackground}>
+            <SvgUri width={24} height={24} uri={dappImageUrl} />
+          </View>
+        ) : dappImageUrl ? (
           <Image style={styles.dappImage} source={{ uri: dappImageUrl }} resizeMode="cover" />
         ) : (
           <View style={[styles.logoBackground, styles.placeholderLogoBackground]}>

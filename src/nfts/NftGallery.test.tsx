@@ -1,9 +1,12 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { NftEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import NftGallery from 'src/nfts/NftGallery'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore } from 'test/utils'
 import {
@@ -20,7 +23,11 @@ const defaultStore = createMockStore({
     account: mockAccount,
   },
   nfts: {
-    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nfts: [
+      { ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] },
+      { ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] },
+      { ...mockNftNullMetadata, networkId: NetworkId['celo-alfajores'] },
+    ],
     nftsLoading: false,
     nftsError: null,
   },
@@ -108,6 +115,27 @@ describe('NftGallery', () => {
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(NftEvents.nft_gallery_screen_open, {
       numNfts: 2,
+    })
+  })
+
+  it('selecting NFT navigates to nft info screen', () => {
+    const { getAllByTestId } = render(
+      <Provider store={defaultStore}>
+        <NftGallery />
+      </Provider>
+    )
+
+    expect(getAllByTestId('NftGallery/NftImage')).toHaveLength(2)
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[0])
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[1])
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] }],
+      networkId: NetworkId['celo-alfajores'],
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] }],
+      networkId: NetworkId['ethereum-sepolia'],
     })
   })
 })

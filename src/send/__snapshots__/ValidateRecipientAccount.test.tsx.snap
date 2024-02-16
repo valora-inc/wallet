@@ -188,7 +188,7 @@ exports[`ValidateRecipientAccount renders correctly when full validation require
                 [
                   {
                     "alignItems": "center",
-                    "backgroundColor": "#97DFC1",
+                    "backgroundColor": "#1AB77580",
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",
@@ -689,7 +689,7 @@ exports[`ValidateRecipientAccount renders correctly when partial validation requ
                 [
                   {
                     "alignItems": "center",
-                    "backgroundColor": "#97DFC1",
+                    "backgroundColor": "#1AB77580",
                     "flexDirection": "row",
                     "height": 48,
                     "justifyContent": "center",

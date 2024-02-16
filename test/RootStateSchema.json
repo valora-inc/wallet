@@ -171,6 +171,12 @@
             },
             "type": "object"
         },
+        "AddressToVerificationStatus": {
+            "additionalProperties": {
+                "type": "boolean"
+            },
+            "type": "object"
+        },
         "AddressValidationType": {
             "enum": [
                 "full",
@@ -264,7 +270,6 @@
                                 "keychainFetchAccounts",
                                 "keychainStorageError",
                                 "missingFullName",
-                                "needMoreFundsToSend",
                                 "notEnoughGoldError",
                                 "notEnoughStableError",
                                 "notReadyForCode",
@@ -409,34 +414,6 @@
                 "symbol",
                 "tokens",
                 "type"
-            ],
-            "type": "object"
-        },
-        "ApproveTransaction": {
-            "additionalProperties": false,
-            "properties": {
-                "chainId": {
-                    "type": "number"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "from": {
-                    "type": "string"
-                },
-                "gas": {
-                    "type": "string"
-                },
-                "to": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "chainId",
-                "data",
-                "from",
-                "gas",
-                "to"
             ],
             "type": "object"
         },
@@ -746,6 +723,52 @@
             ],
             "type": "string"
         },
+        "CleverTapInboxMessage": {
+            "additionalProperties": false,
+            "properties": {
+                "ctaText": {
+                    "type": "string"
+                },
+                "ctaUrl": {
+                    "type": "string"
+                },
+                "header": {
+                    "type": "string"
+                },
+                "icon": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "uri": {
+                            "type": "string"
+                        }
+                    },
+                    "required": [
+                        "uri"
+                    ],
+                    "type": "object"
+                },
+                "messageId": {
+                    "type": "string"
+                },
+                "openInExternalBrowser": {
+                    "type": "boolean"
+                },
+                "priority": {
+                    "type": "number"
+                },
+                "text": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "ctaText",
+                "ctaUrl",
+                "messageId",
+                "openInExternalBrowser",
+                "text"
+            ],
+            "type": "object"
+        },
         "ContactRecipient": {
             "anyOf": [
                 {
@@ -977,14 +1000,6 @@
                 "name"
             ],
             "type": "object"
-        },
-        "DappConnectInfo": {
-            "enum": [
-                "basic",
-                "default",
-                "full"
-            ],
-            "type": "string"
         },
         "DappSection": {
             "enum": [
@@ -1445,71 +1460,6 @@
             ],
             "type": "string"
         },
-        "Field": {
-            "enum": [
-                "FROM",
-                "TO"
-            ],
-            "type": "string"
-        },
-        "Fill": {
-            "additionalProperties": false,
-            "properties": {
-                "adjustedOutput": {
-                    "type": "string"
-                },
-                "gas": {
-                    "type": "number"
-                },
-                "input": {
-                    "type": "string"
-                },
-                "outPut": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "adjustedOutput",
-                "gas",
-                "input",
-                "outPut"
-            ],
-            "type": "object"
-        },
-        "FillData": {
-            "additionalProperties": false,
-            "properties": {
-                "makerAmount": {
-                    "type": "string"
-                },
-                "makerToken": {
-                    "type": "string"
-                },
-                "router": {
-                    "type": "string"
-                },
-                "takerAmount": {
-                    "type": "string"
-                },
-                "takerToken": {
-                    "type": "string"
-                },
-                "tokenAddress": {
-                    "items": {
-                        "type": "string"
-                    },
-                    "type": "array"
-                },
-                "type": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "router",
-                "tokenAddress"
-            ],
-            "type": "object"
-        },
         "HistoricalPricesUsd": {
             "additionalProperties": false,
             "properties": {
@@ -1596,7 +1546,9 @@
                 "Completed",
                 "Failed",
                 "InProgress",
-                "NotStarted"
+                "NotFound",
+                "NotStarted",
+                "RestoreZeroBalance"
             ],
             "type": "string"
         },
@@ -1636,12 +1588,24 @@
             ],
             "type": "object"
         },
+        "MultichainBetaStatus": {
+            "enum": [
+                "NotSeen",
+                "OptedIn",
+                "OptedOut"
+            ],
+            "type": "string"
+        },
         "NetworkId": {
             "enum": [
+                "arbitrum-one",
+                "arbitrum-sepolia",
                 "celo-alfajores",
                 "celo-mainnet",
                 "ethereum-mainnet",
-                "ethereum-sepolia"
+                "ethereum-sepolia",
+                "op-mainnet",
+                "op-sepolia"
             ],
             "type": "string"
         },
@@ -1660,58 +1624,7 @@
                 "metadata": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "properties": {
-                                "animation_url": {
-                                    "type": "string"
-                                },
-                                "attributes": {
-                                    "anyOf": [
-                                        {
-                                            "items": {
-                                                "$ref": "#/definitions/NftMetaDataAttribute"
-                                            },
-                                            "type": "array"
-                                        },
-                                        {
-                                            "type": "null"
-                                        }
-                                    ]
-                                },
-                                "date": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "description": {
-                                    "type": "string"
-                                },
-                                "dna": {
-                                    "type": [
-                                        "null",
-                                        "string"
-                                    ]
-                                },
-                                "id": {
-                                    "type": [
-                                        "null",
-                                        "number"
-                                    ]
-                                },
-                                "image": {
-                                    "type": "string"
-                                },
-                                "name": {
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "description",
-                                "image",
-                                "name"
-                            ],
-                            "type": "object"
+                            "$ref": "#/definitions/NftMetadata"
                         },
                         {
                             "type": "null"
@@ -1774,6 +1687,60 @@
             ],
             "type": "object"
         },
+        "NftMetadata": {
+            "additionalProperties": false,
+            "properties": {
+                "animation_url": {
+                    "type": "string"
+                },
+                "attributes": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/NftMetaDataAttribute"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "date": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "description": {
+                    "type": "string"
+                },
+                "dna": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "id": {
+                    "type": [
+                        "null",
+                        "number"
+                    ]
+                },
+                "image": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "description",
+                "image",
+                "name"
+            ],
+            "type": "object"
+        },
         "NftTransfer": {
             "additionalProperties": false,
             "properties": {
@@ -1820,6 +1787,56 @@
                 "timestamp",
                 "transactionHash",
                 "type"
+            ],
+            "type": "object"
+        },
+        "NftWithNetworkId": {
+            "additionalProperties": false,
+            "properties": {
+                "contractAddress": {
+                    "type": "string"
+                },
+                "media": {
+                    "items": {
+                        "$ref": "#/definitions/NftMedia"
+                    },
+                    "type": "array"
+                },
+                "metadata": {
+                    "anyOf": [
+                        {
+                            "$ref": "#/definitions/NftMetadata"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "ownerAddress": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "tokenUri": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                }
+            },
+            "required": [
+                "contractAddress",
+                "media",
+                "metadata",
+                "networkId",
+                "tokenId"
             ],
             "type": "object"
         },
@@ -1899,46 +1916,6 @@
             "additionalProperties": {
                 "$ref": "#/definitions/ContactRecipient"
             },
-            "type": "object"
-        },
-        "Order": {
-            "additionalProperties": false,
-            "properties": {
-                "fill": {
-                    "$ref": "#/definitions/Fill"
-                },
-                "fillData": {
-                    "$ref": "#/definitions/FillData"
-                },
-                "makerAmount": {
-                    "type": "string"
-                },
-                "makerToken": {
-                    "type": "string"
-                },
-                "source": {
-                    "type": "string"
-                },
-                "takeToken": {
-                    "type": "string"
-                },
-                "takerAmount": {
-                    "type": "string"
-                },
-                "type": {
-                    "type": "number"
-                }
-            },
-            "required": [
-                "fill",
-                "fillData",
-                "makerAmount",
-                "makerToken",
-                "source",
-                "takeToken",
-                "takerAmount",
-                "type"
-            ],
             "type": "object"
         },
         "Partial<Record<FiatAccountType,{fiatAccountSchemas:{fiatAccountSchema:FiatAccountSchema;allowedValues:Record<string,[string,...string[]]>;userActionType?:TransferInUserActionDetails|undefined;}[];settlementTimeLowerBound?:string|undefined;settlementTimeUpperBound?:string|undefined;}>>": {
@@ -2095,6 +2072,73 @@
             ],
             "type": "object"
         },
+        "PendingDeepLink": {
+            "additionalProperties": false,
+            "properties": {
+                "isSecureOrigin": {
+                    "type": "boolean"
+                },
+                "url": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "isSecureOrigin",
+                "url"
+            ],
+            "type": "object"
+        },
+        "PendingStandbyApproval": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "TokenApproval",
+                    "type": "string"
+                },
+                "approvedAmount": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "tokenId": {
+                    "type": "string"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "approvedAmount",
+                "context",
+                "networkId",
+                "status",
+                "timestamp",
+                "tokenId",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbySwap": {
             "additionalProperties": false,
             "properties": {
@@ -2104,6 +2148,9 @@
                 },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
                 },
                 "inAmount": {
                     "$ref": "#/definitions/TokenAmount"
@@ -2158,6 +2205,9 @@
                 },
                 "context": {
                     "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
                 },
                 "metadata": {
                     "$ref": "#/definitions/TokenTransferMetadata"
@@ -2245,6 +2295,30 @@
                 "title"
             ],
             "type": "object"
+        },
+        "Price": {
+            "additionalProperties": false,
+            "properties": {
+                "priceFetchedAt": {
+                    "type": "number"
+                },
+                "priceUsd": {
+                    "$ref": "#/definitions/BigNumber.Value"
+                }
+            },
+            "required": [
+                "priceFetchedAt",
+                "priceUsd"
+            ],
+            "type": "object"
+        },
+        "PriceHistoryStatus": {
+            "enum": [
+                "error",
+                "loading",
+                "success"
+            ],
+            "type": "string"
         },
         "ProposalTypes.OptionalNamespaces": {
             "additionalProperties": false,
@@ -2482,8 +2556,10 @@
                 "FiatExchangeCurrency",
                 "FiatExchangeCurrencyBottomSheet",
                 "GoldEducation",
+                "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
                 "KeylessBackupProgress",
@@ -2494,6 +2570,7 @@
                 "Language",
                 "LanguageModal",
                 "Licenses",
+                "LinkPhoneNumber",
                 "Main",
                 "MainModal",
                 "MultichainBeta",
@@ -2516,13 +2593,10 @@
                 "SelectCountry",
                 "SelectLocalCurrency",
                 "SelectProvider",
-                "Send",
-                "SendAmount",
                 "SendConfirmation",
                 "SendConfirmationModal",
                 "SendEnterAmount",
                 "SendSelectRecipient",
-                "SetUpKeylessBackup",
                 "Settings",
                 "SignInWithEmail",
                 "Simplex",
@@ -2530,7 +2604,6 @@
                 "StoreWipeRecoveryScreen",
                 "Support",
                 "SupportContact",
-                "SwapExecuteScreen",
                 "SwapScreenWithBack",
                 "TokenBalances",
                 "TokenDetails",
@@ -2720,22 +2793,6 @@
             ],
             "type": "object"
         },
-        "Source": {
-            "additionalProperties": false,
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "proportion": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "name",
-                "proportion"
-            ],
-            "type": "object"
-        },
         "StandbyTransaction": {
             "anyOf": [
                 {
@@ -2743,6 +2800,9 @@
                 },
                 {
                     "$ref": "#/definitions/PendingStandbyTransfer"
+                },
+                {
+                    "$ref": "#/definitions/PendingStandbyApproval"
                 },
                 {
                     "additionalProperties": false,
@@ -2756,6 +2816,9 @@
                         },
                         "context": {
                             "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
                         },
                         "fees": {
                             "items": {
@@ -2826,6 +2889,9 @@
                         "context": {
                             "$ref": "#/definitions/TransactionContext"
                         },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
                         "fees": {
                             "items": {
                                 "$ref": "#/definitions/Fee"
@@ -2870,6 +2936,72 @@
                         "type"
                     ],
                     "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
+                            "const": "TokenApproval",
+                            "type": "string"
+                        },
+                        "approvedAmount": {
+                            "type": [
+                                "null",
+                                "string"
+                            ]
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "tokenId": {
+                            "type": "string"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "approvedAmount",
+                        "block",
+                        "context",
+                        "fees",
+                        "networkId",
+                        "status",
+                        "timestamp",
+                        "tokenId",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
                 }
             ]
         },
@@ -2890,9 +3022,6 @@
                         "null",
                         "string"
                     ]
-                },
-                "celoEuroEnabled": {
-                    "type": "boolean"
                 },
                 "celoNews": {
                     "$ref": "#/definitions/CeloNewsConfig"
@@ -2951,11 +3080,20 @@
                         "string"
                     ]
                 },
+                "multichainBetaStatus": {
+                    "$ref": "#/definitions/MultichainBetaStatus"
+                },
                 "networkTimeoutSeconds": {
                     "type": "number"
                 },
                 "numberVerified": {
                     "type": "boolean"
+                },
+                "pendingDeepLinks": {
+                    "items": {
+                        "$ref": "#/definitions/PendingDeepLink"
+                    },
+                    "type": "array"
                 },
                 "phoneNumberVerified": {
                     "type": "boolean"
@@ -2977,12 +3115,6 @@
                 },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
-                },
-                "rewardPillText": {
-                    "additionalProperties": {
-                        "type": "string"
-                    },
-                    "type": "object"
                 },
                 "sentryNetworkErrors": {
                     "items": {
@@ -3046,7 +3178,6 @@
                 "analyticsEnabled",
                 "appState",
                 "celoEducationUri",
-                "celoEuroEnabled",
                 "celoNews",
                 "coinbasePayEnabled",
                 "fiatConnectCashInEnabled",
@@ -3061,8 +3192,10 @@
                 "loggedIn",
                 "maxSwapSlippagePercentage",
                 "minVersion",
+                "multichainBetaStatus",
                 "networkTimeoutSeconds",
                 "numberVerified",
+                "pendingDeepLinks",
                 "phoneNumberVerified",
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
@@ -3327,7 +3460,7 @@
                         "KES",
                         "LRD",
                         "MXN",
-                        "MYS",
+                        "MYR",
                         "NGN",
                         "PAB",
                         "PEN",
@@ -3336,18 +3469,18 @@
                         "PYG",
                         "RUB",
                         "RWF",
-                        "SGP",
+                        "SGD",
                         "SLL",
                         "SRD",
-                        "THI",
+                        "THB",
                         "TRY",
-                        "TWN",
+                        "TWD",
                         "UAH",
                         "UGX",
                         "USD",
                         "UYU",
                         "VES",
-                        "VNM",
+                        "VND",
                         "XAF",
                         "XOF",
                         "ZAR"
@@ -3382,7 +3515,7 @@
                         "KES",
                         "LRD",
                         "MXN",
-                        "MYS",
+                        "MYR",
                         "NGN",
                         "PAB",
                         "PEN",
@@ -3391,18 +3524,18 @@
                         "PYG",
                         "RUB",
                         "RWF",
-                        "SGP",
+                        "SGD",
                         "SLL",
                         "SRD",
-                        "THI",
+                        "THB",
                         "TRY",
-                        "TWN",
+                        "TWD",
                         "UAH",
                         "UGX",
                         "USD",
                         "UYU",
                         "VES",
-                        "VNM",
+                        "VND",
                         "XAF",
                         "XOF",
                         "ZAR"
@@ -3567,12 +3700,6 @@
                         }
                     ]
                 },
-                "dappConnectInfo": {
-                    "$ref": "#/definitions/DappConnectInfo"
-                },
-                "dappFavoritesEnabled": {
-                    "type": "boolean"
-                },
                 "dappListApiUrl": {
                     "type": [
                         "null",
@@ -3598,9 +3725,6 @@
                     ]
                 },
                 "dappsListLoading": {
-                    "type": "boolean"
-                },
-                "dappsMinimalDisclaimerEnabled": {
                     "type": "boolean"
                 },
                 "dappsWebViewEnabled": {
@@ -3630,14 +3754,11 @@
             },
             "required": [
                 "activeDapp",
-                "dappConnectInfo",
-                "dappFavoritesEnabled",
                 "dappListApiUrl",
                 "dappsCategories",
                 "dappsList",
                 "dappsListError",
                 "dappsListLoading",
-                "dappsMinimalDisclaimerEnabled",
                 "dappsWebViewEnabled",
                 "favoriteDappIds",
                 "maxNumRecentDapps",
@@ -3804,31 +3925,31 @@
         "State_22": {
             "additionalProperties": false,
             "properties": {
-                "guaranteedSwapPriceEnabled": {
-                    "type": "boolean"
-                },
-                "priceImpactWarningThreshold": {
-                    "type": "number"
-                },
-                "swapInfo": {
+                "currentSwap": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/SwapInfo"
+                            "$ref": "#/definitions/SwapTask"
                         },
                         {
                             "type": "null"
                         }
                     ]
                 },
-                "swapState": {
-                    "$ref": "#/definitions/SwapState"
+                "lastSwapped": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "priceImpactWarningThreshold": {
+                    "description": "In percentage, between 0 and 100",
+                    "type": "number"
                 }
             },
             "required": [
-                "guaranteedSwapPriceEnabled",
-                "priceImpactWarningThreshold",
-                "swapInfo",
-                "swapState"
+                "currentSwap",
+                "lastSwapped",
+                "priceImpactWarningThreshold"
             ],
             "type": "object"
         },
@@ -3906,30 +4027,26 @@
             ],
             "type": "object"
         },
-        "State_25": {
-            "additionalProperties": false,
-            "properties": {
-                "nfts": {
-                    "items": {
-                        "$ref": "#/definitions/Nft"
+        "State_26": {
+            "additionalProperties": {
+                "additionalProperties": false,
+                "properties": {
+                    "prices": {
+                        "items": {
+                            "$ref": "#/definitions/Price"
+                        },
+                        "type": "array"
                     },
-                    "type": "array"
+                    "status": {
+                        "$ref": "#/definitions/PriceHistoryStatus"
+                    }
                 },
-                "nftsError": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "nftsLoading": {
-                    "type": "boolean"
-                }
+                "required": [
+                    "prices",
+                    "status"
+                ],
+                "type": "object"
             },
-            "required": [
-                "nfts",
-                "nftsError",
-                "nftsLoading"
-            ],
             "type": "object"
         },
         "State_3": {
@@ -3945,12 +4062,6 @@
         "State_4": {
             "additionalProperties": false,
             "properties": {
-                "inviteRewardCusd": {
-                    "type": "number"
-                },
-                "inviteRewardWeeklyLimit": {
-                    "type": "number"
-                },
                 "inviteRewardsVersion": {
                     "type": "string"
                 },
@@ -3977,8 +4088,6 @@
                 }
             },
             "required": [
-                "inviteRewardCusd",
-                "inviteRewardWeeklyLimit",
                 "inviteRewardsVersion",
                 "isSending",
                 "recentPayments",
@@ -3990,15 +4099,54 @@
         "State_5": {
             "additionalProperties": false,
             "properties": {
+                "cleverTapInboxMessages": {
+                    "items": {
+                        "$ref": "#/definitions/CleverTapInboxMessage"
+                    },
+                    "type": "array"
+                },
+                "hasVisitedHome": {
+                    "type": "boolean"
+                },
                 "loading": {
                     "type": "boolean"
+                },
+                "nftCelebration": {
+                    "anyOf": [
+                        {
+                            "additionalProperties": false,
+                            "properties": {
+                                "contractAddress": {
+                                    "type": "string"
+                                },
+                                "displayed": {
+                                    "type": "boolean"
+                                },
+                                "networkId": {
+                                    "$ref": "#/definitions/NetworkId"
+                                }
+                            },
+                            "required": [
+                                "contractAddress",
+                                "displayed",
+                                "networkId"
+                            ],
+                            "type": "object"
+                        },
+                        {
+                            "type": "null"
+                        }
+                    ]
                 },
                 "notifications": {
                     "$ref": "#/definitions/IdToNotification"
                 }
             },
             "required": [
+                "cleverTapInboxMessages",
+                "hasVisitedHome",
                 "loading",
+                "nftCelebration",
                 "notifications"
             ],
             "type": "object"
@@ -4133,6 +4281,9 @@
                 "addressToE164Number": {
                     "$ref": "#/definitions/AddressToE164NumberType"
                 },
+                "addressToVerificationStatus": {
+                    "$ref": "#/definitions/AddressToVerificationStatus"
+                },
                 "askedContactsPermission": {
                     "type": "boolean"
                 },
@@ -4148,6 +4299,12 @@
                 "importContactsProgress": {
                     "$ref": "#/definitions/ImportContactProgress"
                 },
+                "lastSavedContactsHash": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "secureSendPhoneNumberMapping": {
                     "$ref": "#/definitions/SecureSendPhoneNumberMapping"
                 },
@@ -4159,11 +4316,13 @@
                 "addressToDataEncryptionKey",
                 "addressToDisplayName",
                 "addressToE164Number",
+                "addressToVerificationStatus",
                 "askedContactsPermission",
                 "e164NumberToAddress",
                 "e164NumberToSalt",
                 "hasSeenVerificationNux",
                 "importContactsProgress",
+                "lastSavedContactsHash",
                 "secureSendPhoneNumberMapping",
                 "walletToAccountAddress"
             ],
@@ -4196,6 +4355,9 @@
                 "bridge": {
                     "type": "string"
                 },
+                "canTransferWithComment": {
+                    "type": "boolean"
+                },
                 "decimals": {
                     "type": "number"
                 },
@@ -4214,7 +4376,10 @@
                 "isCashOutEligible": {
                     "type": "boolean"
                 },
-                "isCoreToken": {
+                "isFeeCurrency": {
+                    "type": "boolean"
+                },
+                "isManuallyImported": {
                     "type": "boolean"
                 },
                 "isNative": {
@@ -4344,206 +4509,28 @@
             },
             "type": "object"
         },
-        "SwapAmount": {
-            "additionalProperties": false,
-            "properties": {
-                "FROM": {
-                    "type": "string"
-                },
-                "TO": {
-                    "type": "string"
-                }
-            },
-            "required": [
-                "FROM",
-                "TO"
-            ],
-            "type": "object"
-        },
-        "SwapInfo": {
-            "additionalProperties": false,
-            "properties": {
-                "approveTransaction": {
-                    "$ref": "#/definitions/ApproveTransaction"
-                },
-                "details": {
-                    "additionalProperties": false,
-                    "properties": {
-                        "swapProvider": {
-                            "type": "string"
-                        }
-                    },
-                    "required": [
-                        "swapProvider"
-                    ],
-                    "type": "object"
-                },
-                "quoteReceivedAt": {
-                    "type": "number"
-                },
-                "unvalidatedSwapTransaction": {
-                    "$ref": "#/definitions/SwapTransaction"
-                },
-                "userInput": {
-                    "$ref": "#/definitions/SwapUserInput"
-                }
-            },
-            "required": [
-                "approveTransaction",
-                "details",
-                "quoteReceivedAt",
-                "unvalidatedSwapTransaction",
-                "userInput"
-            ],
-            "type": "object"
-        },
-        "SwapState": {
+        "SwapStatus": {
             "enum": [
-                "approve",
-                "complete",
                 "error",
-                "execute",
-                "price-change",
-                "quote",
-                "start",
-                "user-input"
+                "idle",
+                "started",
+                "success"
             ],
             "type": "string"
         },
-        "SwapTransaction": {
+        "SwapTask": {
             "additionalProperties": false,
             "properties": {
-                "allowanceTarget": {
+                "id": {
                     "type": "string"
                 },
-                "buyAmount": {
-                    "type": "string"
-                },
-                "buyTokenAddress": {
-                    "type": "string"
-                },
-                "buyTokenToEthRate": {
-                    "type": "string"
-                },
-                "chainId": {
-                    "type": "number"
-                },
-                "data": {
-                    "type": "string"
-                },
-                "decodedUniqueId": {
-                    "type": "string"
-                },
-                "estimatedGas": {
-                    "type": "string"
-                },
-                "estimatedPriceImpact": {
-                    "type": "string"
-                },
-                "expectedSlippage": {
-                    "type": [
-                        "null",
-                        "string"
-                    ]
-                },
-                "from": {
-                    "type": "string"
-                },
-                "gas": {
-                    "type": "string"
-                },
-                "gasPrice": {
-                    "type": "string"
-                },
-                "guaranteedPrice": {
-                    "type": "string"
-                },
-                "minimumProtocolFee": {
-                    "type": "string"
-                },
-                "orders": {
-                    "items": {
-                        "$ref": "#/definitions/Order"
-                    },
-                    "type": "array"
-                },
-                "price": {
-                    "type": "string"
-                },
-                "protocolFee": {
-                    "type": "string"
-                },
-                "sellAmount": {
-                    "type": "string"
-                },
-                "sellTokenAddress": {
-                    "type": "string"
-                },
-                "sellTokenToEthRate": {
-                    "type": "string"
-                },
-                "sources": {
-                    "items": {
-                        "$ref": "#/definitions/Source"
-                    },
-                    "type": "array"
-                },
-                "to": {
-                    "type": "string"
-                },
-                "value": {
-                    "type": "string"
+                "status": {
+                    "$ref": "#/definitions/SwapStatus"
                 }
             },
             "required": [
-                "allowanceTarget",
-                "buyAmount",
-                "buyTokenAddress",
-                "buyTokenToEthRate",
-                "chainId",
-                "data",
-                "decodedUniqueId",
-                "estimatedGas",
-                "estimatedPriceImpact",
-                "expectedSlippage",
-                "from",
-                "gas",
-                "gasPrice",
-                "guaranteedPrice",
-                "minimumProtocolFee",
-                "orders",
-                "price",
-                "protocolFee",
-                "sellAmount",
-                "sellTokenAddress",
-                "sellTokenToEthRate",
-                "sources",
-                "to",
-                "value"
-            ],
-            "type": "object"
-        },
-        "SwapUserInput": {
-            "additionalProperties": false,
-            "properties": {
-                "fromTokenId": {
-                    "type": "string"
-                },
-                "swapAmount": {
-                    "$ref": "#/definitions/SwapAmount"
-                },
-                "toTokenId": {
-                    "type": "string"
-                },
-                "updatedField": {
-                    "$ref": "#/definitions/Field"
-                }
-            },
-            "required": [
-                "fromTokenId",
-                "swapAmount",
-                "toTokenId",
-                "updatedField"
+                "id",
+                "status"
             ],
             "type": "object"
         },
@@ -4589,7 +4576,7 @@
                 "approvedAmount": {
                     "type": [
                         "null",
-                        "number"
+                        "string"
                     ]
                 },
                 "block": {
@@ -4617,8 +4604,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "const": "APPROVAL",
-                    "type": "string"
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
                 }
             },
             "required": [
@@ -4711,10 +4697,10 @@
                     "$ref": "#/definitions/TokenTransfer"
                 },
                 {
-                    "$ref": "#/definitions/NftTransfer"
+                    "$ref": "#/definitions/TokenApproval"
                 },
                 {
-                    "$ref": "#/definitions/TokenApproval"
+                    "$ref": "#/definitions/NftTransfer"
                 }
             ]
         },
@@ -4835,6 +4821,18 @@
         "TransactionsByNetworkId": {
             "additionalProperties": false,
             "properties": {
+                "arbitrum-one": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "arbitrum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
                 "celo-alfajores": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
@@ -4854,6 +4852,18 @@
                     "type": "array"
                 },
                 "ethereum-sepolia": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-mainnet": {
+                    "items": {
+                        "$ref": "#/definitions/TokenTransaction"
+                    },
+                    "type": "array"
+                },
+                "op-sepolia": {
                     "items": {
                         "$ref": "#/definitions/TokenTransaction"
                     },
@@ -5762,10 +5772,36 @@
             "$ref": "#/definitions/State_2"
         },
         "nfts": {
-            "$ref": "#/definitions/State_25"
+            "additionalProperties": false,
+            "properties": {
+                "nfts": {
+                    "items": {
+                        "$ref": "#/definitions/NftWithNetworkId"
+                    },
+                    "type": "array"
+                },
+                "nftsError": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "nftsLoading": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "nfts",
+                "nftsError",
+                "nftsLoading"
+            ],
+            "type": "object"
         },
         "positions": {
             "$ref": "#/definitions/State_23"
+        },
+        "priceHistory": {
+            "$ref": "#/definitions/State_26"
         },
         "recipients": {
             "$ref": "#/definitions/State_13"
@@ -5812,6 +5848,7 @@
         "networkInfo",
         "nfts",
         "positions",
+        "priceHistory",
         "recipients",
         "send",
         "supercharge",

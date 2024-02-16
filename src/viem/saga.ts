@@ -14,7 +14,7 @@ import {
   fetchTokenBalances,
   tokenBalanceHasAddress,
 } from 'src/tokens/slice'
-import { tokenSupportsComments } from 'src/tokens/utils'
+import { getTokenId, tokenSupportsComments } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { chooseTxFeeDetails, wrapSendTransactionWithRetry } from 'src/transactions/send'
@@ -23,7 +23,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
-import { TransactionRequest } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getFeeCurrency } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
   getPreparedTransaction,
@@ -33,7 +33,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put } from 'typed-redux-saga'
-import { Hash, SimulateContractReturnType, TransactionReceipt, getAddress } from 'viem'
+import { Hash, TransactionReceipt, WriteContractParameters, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
 
@@ -71,6 +71,7 @@ export function* sendPayment({
   if (!tokenInfo || !network) {
     throw new Error('Unknown token network')
   }
+  const networkId = tokenInfo.networkId
 
   const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
 
@@ -99,13 +100,17 @@ export function* sendPayment({
     yield* call(unlockAccount, wallet.account.address)
   }
 
+  const feeCurrency: string | undefined =
+    preparedTransaction && getFeeCurrency(getPreparedTransaction(preparedTransaction))
+  const feeCurrencyId = getTokenId(networkId, feeCurrency)
+
   const addPendingStandbyTransaction = function* (hash: string) {
     yield* put(
       addStandbyTransaction({
         __typename: 'TokenTransferV3',
         type: TokenTransactionTypeV2.Sent,
         context,
-        networkId: tokenInfo.networkId,
+        networkId,
         amount: {
           value: amount.negated().toString(),
           tokenAddress: tokenInfo.address ?? undefined,
@@ -116,6 +121,7 @@ export function* sendPayment({
           comment,
         },
         transactionHash: hash,
+        feeCurrencyId,
       })
     )
   }
@@ -144,10 +150,7 @@ export function* sendPayment({
       yield* call(unlockWallet)
 
       const sendContractTxMethod = function* () {
-        const hash = yield* call(
-          wallet.writeContract,
-          request as SimulateContractReturnType['request']
-        )
+        const hash = yield* call(wallet.writeContract, request as WriteContractParameters)
         yield* call(addPendingStandbyTransaction, hash)
         return hash
       }
@@ -156,6 +159,7 @@ export function* sendPayment({
         context,
         network,
         sendTx: sendContractTxMethod,
+        feeCurrencyId,
       })
 
       return receipt
@@ -200,7 +204,7 @@ export function* sendPayment({
           throw new Error('no account found in the wallet')
         }
 
-        const hash = yield* call(wallet.sendTransaction, {
+        const hash = yield* call([wallet, 'sendTransaction'], {
           account: wallet.account,
           to: getAddress(recipientAddress),
           value: convertedAmount,
@@ -217,6 +221,7 @@ export function* sendPayment({
         context,
         network,
         sendTx: sendNativeTxMethod,
+        feeCurrencyId,
       })
       return receipt
     }
@@ -273,13 +278,19 @@ function* getTransferSimulateContract({
     gas: undefined,
     maxFeePerGas: undefined,
   }
+
   if (preparedTransaction) {
     const preparedTx = getPreparedTransaction(preparedTransaction)
     feeFields = {
       gas: preparedTx.gas,
       maxFeePerGas: preparedTx.maxFeePerGas,
     }
-    if (preparedTx.type === 'cip42' && preparedTx.feeCurrency) {
+    // @ts-ignore feeCurrency should only be present if tx type is cip42, but we never
+    // actually set the tx type to cip42 anywhere, but we /do/ set feeCurrency.
+    // TODO: Remove this once we directly use preparedTransaction to send the TX
+    // and get rid of simulateContract calls.
+    if (preparedTx.feeCurrency) {
+      // @ts-ignore
       feeFields.feeCurrency = preparedTx.feeCurrency
     }
   } else if (feeInfo) {
@@ -339,7 +350,7 @@ function* getTransferSimulateContract({
  * Helper function to call chooseTxFeeDetails for send transactions (aka
  * transfer contract calls) using parameters that are not specific to contractkit
  *
- * @deprecated will be cleaned up when old send flow is removed
+ * @deprecated will be cleaned up when old send flow is removed (ACT-1090)
  * @param options the getSendTxFeeDetails options
  * @returns an object with the feeInfo compatible with viem
  */
@@ -388,10 +399,12 @@ export function* sendAndMonitorTransaction({
   context,
   network,
   sendTx,
+  feeCurrencyId,
 }: {
   context: TransactionContext
   network: Network
   sendTx: () => Generator<any, Hash, any>
+  feeCurrencyId: string
 }) {
   Logger.debug(TAG + '@sendAndMonitorTransaction', `Sending transaction with id: ${context.id}`)
 
@@ -429,7 +442,8 @@ export function* sendAndMonitorTransaction({
       handleTransactionReceiptReceived,
       context.id,
       receipt,
-      networkConfig.networkToNetworkId[network]
+      networkConfig.networkToNetworkId[network],
+      feeCurrencyId
     )
 
     if (receipt.status === 'reverted') {

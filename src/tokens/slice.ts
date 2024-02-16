@@ -14,9 +14,8 @@ export interface BaseToken {
   networkId: NetworkId
   priceFetchedAt?: number
   isNative?: boolean
-  // This field is for tokens that are part of the core contracts that allow paying for fees and
-  // making transfers with a comment.
-  isCoreToken?: boolean
+  isFeeCurrency?: boolean
+  canTransferWithComment?: boolean
   // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean
   minimumAppVersionToSwap?: string
@@ -27,6 +26,7 @@ export interface BaseToken {
   isCashInEligible?: boolean
   isCashOutEligible?: boolean
   isStableCoin?: boolean
+  isManuallyImported?: boolean
 }
 
 interface HistoricalPricesUsd {
@@ -41,10 +41,6 @@ export interface StoredTokenBalance extends BaseToken {
   balance: string | null
   priceUsd?: string
   historicalPricesUsd?: HistoricalPricesUsd
-}
-
-export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
-  address: string
 }
 
 export interface StoredTokenBalanceWithAddress extends StoredTokenBalance {
@@ -98,6 +94,8 @@ export interface TokenBalancesWithAddress {
   [tokenAddress: string]: TokenBalanceWithAddress | undefined
 }
 
+// Create imported token interface but from the base Token type
+
 export interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
@@ -145,6 +143,22 @@ const slice = createSlice({
       loading: false,
       error: true,
     }),
+    importToken: (state, action: PayloadAction<StoredTokenBalance>) => {
+      const importedTokenDetails = {
+        ...action.payload,
+        // Force imported tokens to be visible even with zero balance.
+        showZeroBalance: true,
+        isManuallyImported: true,
+      }
+
+      return {
+        ...state,
+        tokenBalances: {
+          ...state.tokenBalances,
+          [action.payload.tokenId]: importedTokenDetails,
+        },
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(REHYDRATE, (state, action: RehydrateAction) => ({
@@ -159,6 +173,7 @@ export const {
   fetchTokenBalances,
   fetchTokenBalancesSuccess,
   fetchTokenBalancesFailure,
+  importToken,
 } = slice.actions
 
 export default slice.reducer

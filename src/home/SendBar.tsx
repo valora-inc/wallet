@@ -10,21 +10,18 @@ import useSelector from 'src/redux/useSelector'
 import { canSendTokensSelector } from 'src/send/selectors'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
-import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'
-import { CiCoCurrency } from 'src/utils/currencies'
+import { useTokenInfo } from 'src/tokens/hooks'
 
 interface Props {
-  selectedCurrency?: CiCoCurrency
-  skipImport?: boolean
+  selectedTokenId?: string
 }
 
-export default function SendBar({ selectedCurrency, skipImport }: Props) {
+export default function SendBar({ selectedTokenId }: Props) {
   const canSendTokens = useSelector(canSendTokensSelector)
-  const tokenInfo = useTokenInfoWithAddressBySymbol(selectedCurrency ?? '')
+  const tokenInfo = useTokenInfo(selectedTokenId)
 
   const onPressSend = () => {
-    navigate(Screens.Send, {
-      skipContactsImport: skipImport,
+    navigate(Screens.SendSelectRecipient, {
       defaultTokenIdOverride: tokenInfo?.tokenId,
       forceTokenId: !!tokenInfo?.tokenId,
     })

@@ -3,6 +3,7 @@ import { ActionTypes as ExchangeActionTypes } from 'src/exchange/actions'
 import { NumberToRecipient } from 'src/recipients/recipient'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
+import { getSupportedNetworkIdsForApprovalTxsInHomefeed } from 'src/tokens/utils'
 import { Actions, ActionTypes } from 'src/transactions/actions'
 import {
   ConfirmedStandbyTransaction,
@@ -108,10 +109,10 @@ export const reducer = (
             if (standbyTransaction.context.id === action.txId) {
               return {
                 ...standbyTransaction,
-                status: status ? TransactionStatus.Complete : TransactionStatus.Failed,
+                status: status,
                 transactionHash,
                 block,
-                timestamp: Date.now(),
+                timestamp: action.blockTimestampInMs,
                 fees: fees || [],
               }
             }
@@ -163,8 +164,18 @@ export const reducer = (
   }
 }
 
-export const standbyTransactionsSelector = (state: RootState) =>
-  state.transactions.standbyTransactions
+const allStandbyTransactionsSelector = (state: RootState) => state.transactions.standbyTransactions
+export const standbyTransactionsSelector = createSelector(
+  [allStandbyTransactionsSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
+  (standbyTransactions, supportedNetworkIdsForApprovalTxs) => {
+    return standbyTransactions.filter((tx) => {
+      if (tx.__typename === 'TokenApproval') {
+        return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
+      }
+      return true
+    })
+  }
+)
 
 export const pendingStandbyTransactionsSelector = createSelector(
   [standbyTransactionsSelector],

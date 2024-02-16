@@ -10,6 +10,7 @@ import WalletHome from 'src/home/WalletHome'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { RecursivePartial, createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -20,7 +21,6 @@ import {
   mockCusdTokenId,
   mockProviders,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -44,7 +44,7 @@ const mockBalances = {
         symbol: 'cUSD',
         decimals: 18,
         balance: '1',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceUsd: '1',
         priceFetchedAt: Date.now(),
       },
@@ -56,7 +56,7 @@ const mockBalances = {
         decimals: 18,
         balance: '0',
         priceUsd: '1',
-        isCoreToken: true,
+        isFeeCurrency: true,
         priceFetchedAt: Date.now(),
       },
     },
@@ -73,7 +73,7 @@ const zeroBalances = {
         symbol: 'cUSD',
         decimals: 18,
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockCeurTokenId]: {
         address: mockCeurAddress,
@@ -82,7 +82,7 @@ const zeroBalances = {
         symbol: 'cEUR',
         decimals: 18,
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockCeloTokenId]: {
         address: mockCeloAddress,
@@ -91,7 +91,7 @@ const zeroBalances = {
         symbol: 'CELO',
         decimals: 18,
         balance: '0',
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
     },
   },
@@ -145,6 +145,7 @@ describe('WalletHome', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     mockFetch.mockResponse(
       JSON.stringify({
         data: {
@@ -293,6 +294,17 @@ describe('WalletHome', () => {
     expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
 
+  it('shows beta tag when feature gate set to true', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const { getByTestId } = renderScreen()
+    expect(getByTestId('BetaTag')).toBeTruthy()
+  })
+
+  it('does not show beta tag when feature gate set to false', async () => {
+    const { queryByTestId } = renderScreen()
+    expect(queryByTestId('BetaTag')).toBeFalsy()
+  })
+
   describe('recently used dapps', () => {
     const store = createMockStore({
       dapps: {
@@ -315,8 +327,8 @@ describe('WalletHome', () => {
       store.clearActions()
     })
 
-    it('should show the open dapp confirmation on press of external dapp', async () => {
-      const { getAllByTestId, getByText, getByTestId } = render(
+    it('should open the recently used dapp', async () => {
+      const { getAllByTestId, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
         </Provider>
@@ -327,12 +339,9 @@ describe('WalletHome', () => {
       fireEvent.scroll(scrollView, scrollEvent)
 
       const dapps = await waitFor(() => getAllByTestId('RecentlyUsedDapps/Dapp'))
-      fireEvent.press(dapps[0])
-
       expect(dapps).toHaveLength(2)
-      expect(getByText(`dappsScreenBottomSheet.title, {"dappName":"${dapp.name}"}`)).toBeTruthy()
 
-      fireEvent.press(getByText(`dappsScreenBottomSheet.button, {"dappName":"${dapp.name}"}`))
+      fireEvent.press(dapps[0])
 
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
@@ -342,7 +351,7 @@ describe('WalletHome', () => {
     })
 
     it('should open the dapp directly if it is deep linked', async () => {
-      const { getAllByTestId, queryByText, getByTestId } = render(
+      const { getAllByTestId, getByTestId } = render(
         <Provider store={store}>
           <WalletHome />
         </Provider>
@@ -355,9 +364,6 @@ describe('WalletHome', () => {
       const dapps = await waitFor(() => getAllByTestId('RecentlyUsedDapps/Dapp'))
       fireEvent.press(dapps[1])
 
-      expect(
-        queryByText(`dappsScreenBottomSheet.title, {"dappName":"${deepLinkedDapp.name}"}`)
-      ).toBeFalsy()
       expect(store.getActions()).toEqual(
         expect.arrayContaining([
           dappSelected({ dapp: { ...deepLinkedDapp, openedFrom: DappSection.RecentlyUsed } }),
@@ -406,6 +412,11 @@ describe('WalletHome', () => {
 
       expect(store.getActions()).toEqual([notificationSpotlightSeen()])
     })
+  })
+  describe('cash in bottom sheet', () => {
+    beforeEach(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
 
     it('shows the cash in bottom sheet after the spotlight for an eligible user', async () => {
       jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
@@ -426,6 +437,47 @@ describe('WalletHome', () => {
             ...zeroBalances,
             app: {
               showNotificationSpotlight: false,
+            },
+          })}
+        >
+          <WalletHome />
+        </Provider>
+      )
+
+      await act(() => {
+        jest.runOnlyPendingTimers()
+      })
+      await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
+    })
+
+    it('shows the cash in bottom sheet after the nft celebration for an eligible user', async () => {
+      jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
+
+      const { queryByTestId, rerender, getByTestId } = renderScreen({
+        ...zeroBalances,
+        app: {
+          showNotificationSpotlight: false,
+        },
+        home: {
+          nftCelebration: {
+            displayed: false,
+          },
+        },
+      })
+
+      expect(queryByTestId('cashInBtn')).toBeFalsy()
+
+      rerender(
+        <Provider
+          store={createMockStore({
+            ...zeroBalances,
+            app: {
+              showNotificationSpotlight: false,
+            },
+            home: {
+              nftCelebration: {
+                displayed: true,
+              },
             },
           })}
         >

@@ -3,10 +3,9 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
+import { SendEvents, TokenBottomSheetEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
-import { useFeeCurrencies } from 'src/fees/hooks'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
@@ -22,6 +21,7 @@ import {
   mockCeloAddress,
   mockCeloTokenBalance,
   mockCeloTokenId,
+  mockCusdTokenId,
   mockEthTokenId,
   mockPoofAddress,
   mockPoofTokenId,
@@ -40,6 +40,11 @@ const mockStore = {
   tokens: {
     tokenBalances: {
       ...mockTokenBalances,
+      [mockCeloTokenId]: {
+        ...mockTokenBalances[mockCeloTokenId],
+        priceUsd: '0.5',
+        balance: '0.5',
+      }, // fee currency, matches mockCeloTokenBalance
       [mockEthTokenId]: {
         tokenId: mockEthTokenId,
         balance: '0',
@@ -77,6 +82,7 @@ describe('SendEnterAmount', () => {
         gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
       },
       {
         from: '0xfrom',
@@ -85,10 +91,10 @@ describe('SendEnterAmount', () => {
         gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
         maxFeePerGas: BigInt(1),
         maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
       },
     ],
     feeCurrency: mockCeloTokenBalance,
-    maxGasFeeInDecimal: new BigNumber(2),
   }
 
   beforeEach(() => {
@@ -103,7 +109,6 @@ describe('SendEnterAmount', () => {
     jest
       .mocked(getNumberFormatSettings)
       .mockReturnValue({ decimalSeparator: '.', groupingSeparator: ',' })
-    jest.mocked(useFeeCurrencies).mockReturnValue(mockFeeCurrencies)
     jest.mocked(usePrepareSendTransactions).mockReturnValue(mockUsePrepareSendTransactionsOutput)
     BigNumber.config({
       FORMAT: {
@@ -302,13 +307,14 @@ describe('SendEnterAmount', () => {
       currentTokenAddress: mockPoofAddress,
       currentTokenId: mockPoofTokenId,
     })
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.token_selected, {
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(TokenBottomSheetEvents.token_selected, {
       networkId: NetworkId['ethereum-sepolia'],
       tokenAddress: undefined,
       tokenId: mockEthTokenId,
       origin: 'Send',
+      usedSearchTerm: false,
+      selectedFilters: [],
     })
-    // TODO(ACT-955): assert fees
   })
 
   it('pressing max fills in max available amount', () => {
@@ -392,6 +398,7 @@ describe('SendEnterAmount', () => {
       type: 'need-decrease-spend-amount-for-gas',
       feeCurrency: mockCeloTokenBalance,
       maxGasFeeInDecimal: new BigNumber(1),
+      estimatedGasFeeInDecimal: new BigNumber(1),
       decreasedSpendAmount: new BigNumber(9),
     }
 
@@ -498,6 +505,24 @@ describe('SendEnterAmount', () => {
       2
     )
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(4)
+  })
+
+  it('picker icon removed, cannot change token when forceTokenId set', async () => {
+    const store = createMockStore(mockStore)
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={SendEnterAmount}
+          params={{ ...params, defaultTokenIdOverride: mockCusdTokenId, forceTokenId: true }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('cUSD')
+    fireEvent.press(getByTestId('SendEnterAmount/TokenSelect'))
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(0) // Analytics event triggered if dropdown menu opens, shouldn't happen
+    expect(queryByTestId('downArrowIcon')).toBeFalsy()
   })
 
   describe('fee section', () => {

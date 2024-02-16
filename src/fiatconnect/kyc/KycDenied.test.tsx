@@ -1,21 +1,19 @@
-import React from 'react'
+import { FiatAccountType, KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
 import { fireEvent, render } from '@testing-library/react-native'
-import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
-import { mockFiatConnectQuotes } from 'test/values'
-import { CICOFlow } from 'src/fiatExchanges/utils'
-import { FiatAccountType } from '@fiatconnect/fiatconnect-types'
-import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { Screens } from 'src/navigator/Screens'
+import React from 'react'
 import { Provider } from 'react-redux'
-import KycDenied from 'src/fiatconnect/kyc/KycDenied'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
-import { KycStatus as FiatConnectKycStatus } from '@fiatconnect/fiatconnect-types'
-import { navigate } from 'src/navigator/NavigationService'
 import { FiatExchangeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
+import { CICOFlow } from 'src/fiatExchanges/utils'
+import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
+import KycDenied from 'src/fiatconnect/kyc/KycDenied'
+import getNavigationOptions from 'src/fiatconnect/kyc/getNavigationOptions'
 import { kycTryAgain } from 'src/fiatconnect/slice'
-import { Network } from 'src/transactions/types'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/fiatconnect/kyc/getNavigationOptions')
@@ -36,6 +34,7 @@ describe('KycDenied', () => {
     flow: CICOFlow.CashOut,
     fiatAccountType: FiatAccountType.BankAccount,
     quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+    tokenId: mockCusdTokenId,
   })
 
   const mockScreenProps = (retryable?: boolean) =>
@@ -106,12 +105,11 @@ describe('KycDenied', () => {
     expect(navigate).toHaveBeenCalledTimes(1)
     expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
       flow: CICOFlow.CashOut,
-      selectedCrypto: mockQuote.getCryptoType(),
       amount: {
         crypto: Number(mockQuote.getCryptoAmount()),
         fiat: Number(mockQuote.getFiatAmount()),
       },
-      network: Network.Celo,
+      tokenId: mockCusdTokenId,
     })
   })
   it('pressing try again button dispatches action', () => {

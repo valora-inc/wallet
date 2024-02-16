@@ -27,6 +27,7 @@ import tokenReducer, { State as TokensState } from 'src/tokens/slice'
 import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
 import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
 import { reducer as web3, State as Web3State } from 'src/web3/reducer'
+import priceHistoryReducer, { State as priceHistoryState } from 'src/priceHistory/slice'
 
 const appReducer = combineReducers({
   app,
@@ -55,6 +56,7 @@ const appReducer = combineReducers({
   positions: positionsReducer,
   keylessBackup: keylessBackupReducer,
   nfts: nftsReducer,
+  priceHistory: priceHistoryReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -104,6 +106,7 @@ export interface RootState {
   positions: PositionsState
   keylessBackup: KeylessBackupState
   nfts: NFTsState
+  priceHistory: priceHistoryState
 }
 
 export interface PersistedRootState {

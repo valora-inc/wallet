@@ -36,6 +36,13 @@ import {
   v166Schema,
   v167Schema,
   v16Schema,
+  v171Schema,
+  v172Schema,
+  v174Schema,
+  v176Schema,
+  v177Schema,
+  v178Schema,
+  v179Schema,
   v17Schema,
   v18Schema,
   v1Schema,
@@ -68,6 +75,12 @@ import {
   v99Schema,
   vNeg1Schema,
 } from 'test/schemas'
+import {
+  mockInvitableRecipient,
+  mockInvitableRecipient2,
+  mockRecipient,
+  mockRecipient2,
+} from 'test/values'
 
 describe('Redux persist migrations', () => {
   it('works for v-1 to v0', () => {
@@ -1408,6 +1421,115 @@ describe('Redux persist migrations', () => {
     const oldSchema = v167Schema
     const migratedSchema = migrations[168](oldSchema)
     const expectedSchema: any = _.omit(oldSchema, 'swap.swapUserInput')
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 171 to 172', () => {
+    const oldSchema = v171Schema
+    const migratedSchema = migrations[172](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.swap.swapInfo
+    expectedSchema.swap.currentSwap = null
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 172 to 173', () => {
+    const oldSchema = v172Schema
+    const migratedSchema = migrations[173](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.swap.swapState
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 174 to 175', () => {
+    const oldSchema = v174Schema
+    const migratedSchema = migrations[175](oldSchema)
+
+    // CELO
+    const celoToken = migratedSchema.tokens.tokenBalances['celo-alfajores:native']
+    expect(celoToken).not.toHaveProperty('isCoreToken')
+    expect(celoToken).toHaveProperty('isFeeCurrency', true)
+    expect(celoToken).toHaveProperty('canTransferWithComment', true)
+
+    // cUSD
+    const cUSDToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1'
+      ]
+    expect(cUSDToken).not.toHaveProperty('isCoreToken')
+    expect(cUSDToken).toHaveProperty('isFeeCurrency', true)
+    expect(cUSDToken).toHaveProperty('canTransferWithComment', true)
+
+    // cEUR
+    const cEURToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x10c892a6ec43a53e45d0b916b4b7d383b1b78c0f'
+      ]
+    expect(cEURToken).not.toHaveProperty('isCoreToken')
+    expect(cEURToken).toHaveProperty('isFeeCurrency', true)
+    expect(cEURToken).toHaveProperty('canTransferWithComment', true)
+
+    // Test Token
+    const testToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x048f47d358ec521a6cf384461d674750a3cb58c8'
+      ]
+    expect(testToken).not.toHaveProperty('isCoreToken')
+    expect(testToken).not.toHaveProperty('isFeeCurrency')
+    expect(testToken).not.toHaveProperty('canTransferWithComment')
+
+    // Moola
+    const moolaToken =
+      migratedSchema.tokens.tokenBalances[
+        'celo-alfajores:0x17700282592D6917F6A73D0bF8AcCf4D578c131e'
+      ]
+    expect(moolaToken).not.toHaveProperty('isCoreToken')
+    expect(moolaToken).not.toHaveProperty('isFeeCurrency')
+    expect(moolaToken).not.toHaveProperty('canTransferWithComment')
+  })
+
+  it('works from 176 to 177', () => {
+    const oldSchema = v176Schema
+    const migratedSchema = migrations[177](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.swap.priceImpactWarningThreshold =
+      expectedSchema.swap.priceImpactWarningThreshold * 100
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 177 to 178', () => {
+    const oldSchema = v177Schema
+    const migratedSchema = migrations[178](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    delete expectedSchema.swap.guaranteedSwapPriceEnabled
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 178 to 179', () => {
+    const oldSchema = v178Schema
+    const migratedSchema = migrations[179](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.priceHistory = {}
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+
+  it('works from 179 to 180', () => {
+    const oldSchema = {
+      ...v179Schema,
+      send: {
+        ...v179Schema.send,
+        recentRecipients: [
+          // invitable recipients don't include an address
+          mockRecipient,
+          mockInvitableRecipient,
+          mockRecipient2,
+          mockInvitableRecipient2,
+        ],
+      },
+    }
+    const migratedSchema = migrations[180](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.send.recentRecipients = [mockRecipient, mockRecipient2]
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

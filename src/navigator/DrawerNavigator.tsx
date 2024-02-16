@@ -40,7 +40,7 @@ import { dappsListApiUrlSelector } from 'src/dapps/selectors'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import ExchangeHomeScreen from 'src/exchange/ExchangeHomeScreen'
 import WalletHome from 'src/home/WalletHome'
-import ExclamationCircleIcon from 'src/icons/ExclamationCircleIcon'
+import AttentionIcon from 'src/icons/Attention'
 import { Home } from 'src/icons/Home'
 import { AccountKey } from 'src/icons/navigator/AccountKey'
 import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
@@ -59,12 +59,13 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftGallery from 'src/nfts/NftGallery'
 import { default as useSelector } from 'src/redux/useSelector'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import colors, { Colors } from 'src/styles/colors'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -163,6 +164,8 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
   const account = useSelector(currentAccountSelector)
   const appVersion = deviceInfoModule.getVersion()
   const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
+  const networks = getSupportedNetworkIdsForTokenBalances()
+  const networkNames = networks.map((network) => NETWORK_NAMES[network])
 
   return (
     <DrawerContentScrollView {...props}>
@@ -184,10 +187,24 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         )}
         <View style={styles.border} />
       </View>
-      <CustomDrawerItemList {...props} protectedRoutes={[Screens.BackupIntroduction]} />
+      <CustomDrawerItemList
+        {...props}
+        protectedRoutes={[Screens.BackupIntroduction, Screens.WalletSecurityPrimerDrawer]}
+      />
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+        <Text style={styles.supportedNetworks}>
+          {networks.length > 1
+            ? t('supportedNetworks', {
+                networks: `${networkNames.slice(0, -1).join(', ')} ${t('and')} ${networkNames.at(
+                  -1
+                )}`,
+              })
+            : t('supportedNetwork', {
+                network: networkNames[0],
+              })}
+        </Text>
         <Text style={styles.smallLabel}>{t('version', { appVersion })}</Text>
       </View>
     </DrawerContentScrollView>
@@ -203,9 +220,6 @@ export default function DrawerNavigator({ route }: Props) {
 
   const backupCompleted = useSelector(backupCompletedSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
-  const { discoverCopyEnabled } = getExperimentParams(
-    ExperimentConfigs[StatsigExperiments.DAPP_MENU_ITEM_COPY]
-  )
 
   const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
@@ -260,9 +274,7 @@ export default function DrawerNavigator({ route }: Props) {
           name={Screens.DAppsExplorerScreen}
           component={DAppsExplorerScreenSearchFilter}
           options={{
-            title:
-              (discoverCopyEnabled ? t('dappsScreen.titleDiscover') : t('dappsScreen.title')) ??
-              undefined,
+            title: t('dappsScreen.title') ?? undefined,
             drawerIcon: DappsExplorer,
             // Special case for the Dapps explorer,
             // so it reloads the list when the user comes back to it
@@ -289,7 +301,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('walletSecurity')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <ExclamationCircleIcon />
+                  <AttentionIcon color={Colors.primary} size={20} />
                 </View>
               </View>
             ),
@@ -309,7 +321,7 @@ export default function DrawerNavigator({ route }: Props) {
               <View style={styles.itemStyle}>
                 <Text style={styles.itemTitle}>{t('accountKey')}</Text>
                 <View style={styles.drawerItemIcon}>
-                  <ExclamationCircleIcon />
+                  <AttentionIcon color={Colors.primary} size={20} />
                 </View>
               </View>
             ),
@@ -365,11 +377,16 @@ const styles = StyleSheet.create({
   drawerBottom: {
     marginVertical: 32,
     marginHorizontal: 16,
+    gap: Spacing.Smallest8,
   },
   smallLabel: {
     ...fontStyles.small,
     color: colors.gray4,
-    marginTop: 32,
+    marginTop: 24,
+  },
+  supportedNetworks: {
+    ...typeScale.bodyXSmall,
+    color: colors.gray3,
   },
   itemStyle: {
     marginLeft: -20,

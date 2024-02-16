@@ -7,14 +7,10 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
-import { handleBarcode, shareSVGImage } from 'src/qrcode/utils'
-import { RecipientInfo } from 'src/recipients/recipient'
-import { recipientInfoSelector } from 'src/recipients/reducer'
+import { handleQRCodeDefault, handleQRCodeSecureSend, shareSVGImage } from 'src/qrcode/utils'
 import {
   Actions,
-  HandleBarcodeDetectedAction,
   SendPaymentAction,
   ShareQRCodeAction,
   sendPaymentFailure,
@@ -22,8 +18,6 @@ import {
 } from 'src/send/actions'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   getERC20TokenContract,
   getStableTokenContract,
@@ -48,40 +42,10 @@ import { sendPayment as viemSendPayment } from 'src/viem/saga'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { call, put, select, spawn, take, takeLeading } from 'typed-redux-saga'
+import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 
 const TAG = 'send/saga'
-
-export function* watchQrCodeDetections() {
-  while (true) {
-    const action = (yield* take(Actions.BARCODE_DETECTED)) as HandleBarcodeDetectedAction
-    Logger.debug(TAG, 'Barcode detected in watcher')
-    const recipientInfo: RecipientInfo = yield* select(recipientInfoSelector)
-
-    const e164NumberToAddress = yield* select(e164NumberToAddressSelector)
-    let secureSendTxData
-    let requesterAddress
-
-    if (action.scanIsForSecureSend) {
-      secureSendTxData = action.transactionData
-      requesterAddress = action.requesterAddress
-    }
-
-    try {
-      yield* call(
-        handleBarcode,
-        action.data,
-        e164NumberToAddress,
-        recipientInfo,
-        secureSendTxData,
-        requesterAddress
-      )
-    } catch (error) {
-      Logger.error(TAG, 'Error handling the barcode', error)
-    }
-  }
-}
 
 export function* watchQrCodeShare() {
   while (true) {
@@ -114,7 +78,7 @@ export function* buildSendTx(
   const kit: ContractKit = yield* call(getContractKit)
   return toTransactionObject(
     kit.connection,
-    tokenInfo?.isCoreToken && tokenInfo.symbol !== 'CELO'
+    tokenInfo?.canTransferWithComment && tokenInfo.symbol !== 'CELO'
       ? coreContract.methods.transferWithComment(
           recipientAddress,
           convertedAmount,
@@ -156,12 +120,14 @@ export function* buildAndSendPayment(
     feeInfo
   )
 
+  const networkId = networkConfig.defaultNetworkId
+
   yield* put(
     addStandbyTransaction({
       __typename: 'TokenTransferV3',
       type: TokenTransactionTypeV2.Sent,
       context,
-      networkId: networkConfig.defaultNetworkId,
+      networkId,
       amount: {
         value: amount.negated().toString(),
         tokenAddress,
@@ -222,36 +188,17 @@ function* sendPayment(
     throw new Error('token info not found')
   }
 
-  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_SEND)
-  const web3Library = useViem ? 'viem' : 'contract-kit'
-
   try {
-    ValoraAnalytics.track(SendEvents.send_tx_start, { web3Library })
-
-    if (useViem) {
-      yield* call(viemSendPayment, {
-        context,
-        recipientAddress,
-        amount,
-        tokenId,
-        comment,
-        feeInfo,
-        preparedTransaction,
-      })
-    } else {
-      if (!(feeInfo && tokenInfo.address)) {
-        throw new Error('fee info and token address are required for non-viem sends')
-      }
-      yield* call(
-        buildAndSendPayment,
-        context,
-        recipientAddress,
-        amount,
-        tokenInfo.address,
-        comment,
-        feeInfo
-      )
-    }
+    ValoraAnalytics.track(SendEvents.send_tx_start)
+    yield* call(viemSendPayment, {
+      context,
+      recipientAddress,
+      amount,
+      tokenId,
+      comment,
+      feeInfo,
+      preparedTransaction,
+    })
 
     ValoraAnalytics.track(SendEvents.send_tx_complete, {
       txId: context.id,
@@ -260,7 +207,8 @@ function* sendPayment(
       usdAmount: usdAmount?.toString(),
       tokenAddress: tokenInfo.address ?? undefined,
       tokenId: tokenInfo.tokenId,
-      web3Library,
+      networkId: tokenInfo.networkId,
+      isTokenManuallyImported: !!tokenInfo?.isManuallyImported,
     })
   } catch (err) {
     const error = ensureError(err)
@@ -324,7 +272,16 @@ export function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
 }
 
+function* watchQrCodeDetections() {
+  yield* takeEvery(Actions.BARCODE_DETECTED, safely(handleQRCodeDefault))
+}
+
+function* watchQrCodeDetectionsSecureSend() {
+  yield* takeEvery(Actions.BARCODE_DETECTED_SECURE_SEND, safely(handleQRCodeSecureSend))
+}
+
 export function* sendSaga() {
+  yield* spawn(watchQrCodeDetectionsSecureSend)
   yield* spawn(watchQrCodeDetections)
   yield* spawn(watchQrCodeShare)
   yield* spawn(watchSendPayment)

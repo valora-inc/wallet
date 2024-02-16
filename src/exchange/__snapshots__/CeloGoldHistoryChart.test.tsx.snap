@@ -136,7 +136,7 @@ exports[`renders properly 1`] = `
           shapeRendering="auto"
           stroke="#FBCC5C"
           strokeWidth={2}
-          width={4}
+          width={90}
         />
       </g>
       <View
@@ -328,7 +328,7 @@ exports[`renders while update is in progress 1`] = `
           shapeRendering="auto"
           stroke="#FBCC5C"
           strokeWidth={2}
-          width={4}
+          width={90}
         />
       </g>
       <View

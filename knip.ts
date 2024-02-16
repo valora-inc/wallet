@@ -21,10 +21,9 @@ const config: KnipConfig = {
     'jest-html-reporter',
     'jest-junit',
     'jest-snapshot',
+    'lint-staged', // pre-commit hook
     'lokijs', // walletconnect e2e tests requires
-    'metro-react-native-babel-preset',
     'prettier-plugin-java',
-    'pretty-quick',
     'react-devtools', // application profiling
     'react-native-fast-crypto', // react-native-bip39 requires
     'react-native-version',

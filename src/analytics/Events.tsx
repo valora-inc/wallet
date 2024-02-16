@@ -5,7 +5,6 @@ export enum AppEvents {
   app_state_error = 'app_state_error',
   error_displayed = 'error_displayed',
   error_fallback = 'error_fallback',
-  error_boundary = 'error_boundary',
   user_restart = 'user_restart',
   fetch_balance = 'fetch_balance',
   fetch_balance_error = 'fetch_balance_error',
@@ -29,12 +28,11 @@ export enum AppEvents {
   multichain_beta_opt_in = 'multichain_beta_opt_in',
   multichain_beta_opt_out = 'multichain_beta_opt_out',
   multichain_beta_contact_support = 'multichain_beta_contact_support',
+
+  handle_deeplink = 'handle_deeplink',
 }
 
 export enum HomeEvents {
-  home_send = 'home_send', // when "send" button is pressed from home screen send or request bar (NOT from home screen actions)
-  home_request = 'home_request',
-  home_qr = 'home_qr',
   hamburger_tapped = 'hamburger_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
@@ -51,6 +49,8 @@ export enum HomeEvents {
   notification_center_spotlight_dismiss = 'notification_center_spotlight_dismiss',
   hide_balances = 'hide_balances',
   show_balances = 'show_balances',
+  nft_celebration_displayed = 'nft_celebration_displayed',
+  nft_celebration_animation_displayed = 'nft_celebration_animation_displayed',
 }
 
 export enum SettingsEvents {
@@ -85,23 +85,27 @@ export enum SettingsEvents {
 
   settings_revoke_phone_number = 'settings_revoke_phone_number',
   settings_revoke_phone_number_confirm = 'settings_revoke_phone_number_confirm',
+  settings_delete_account = 'settings_delete_account',
+  settings_delete_account_confirm = 'settings_delete_account_confirm',
 
   settings_set_up_keyless_backup = 'settings_set_up_keyless_backup',
   settings_delete_keyless_backup = 'settings_delete_keyless_backup',
 }
 
 export enum KeylessBackupEvents {
-  // TODO(sravi): prefix all events with cab to be consistent
   wallet_security_primer_get_started = 'wallet_security_primer_get_started',
-  set_up_keyless_backup_screen_continue = 'set_up_keyless_backup_screen_continue',
+  cab_setup_recovery_phrase = 'cab_setup_recovery_phrase',
   cab_sign_in_with_google = 'cab_sign_in_with_google',
   cab_sign_in_with_google_success = 'cab_sign_in_with_google_success',
   cab_sign_in_with_email_screen_cancel = 'cab_sign_in_with_email_screen_cancel',
   cab_get_torus_keyshare_failed = 'cab_get_torus_keyshare_failed',
-  enter_phone_number_continue = 'enter_phone_number_continue',
+  cab_enter_phone_number_continue = 'cab_enter_phone_number_continue',
+  cab_enter_phone_number_cancel = 'cab_enter_phone_number_cancel',
+  cab_intro_continue = 'cab_intro_continue',
   cab_issue_sms_code_start = 'cab_issue_sms_code_start',
   cab_issue_sms_code_success = 'cab_issue_sms_code_success',
   cab_issue_sms_code_error = 'cab_issue_sms_code_error',
+  cab_enter_phone_code_cancel = 'cab_enter_phone_code_cancel',
   cab_issue_valora_keyshare_start = 'cab_issue_valora_keyshare_start',
   cab_issue_valora_keyshare_success = 'cab_issue_valora_keyshare_success',
   cab_issue_valora_keyshare_error = 'cab_issue_valora_keyshare_error',
@@ -110,19 +114,25 @@ export enum KeylessBackupEvents {
   cab_progress_failed_manual = 'cab_progress_failed_manual',
   cab_post_encrypted_mnemonic_failed = 'cab_post_encrypted_mnemonic_failed',
   cab_torus_keyshare_timeout = 'cab_torus_keyshare_timeout',
-  cab_handle_keyless_backup_setup_failed = 'cab_handle_keyless_backup_setup_failed',
-  cab_handle_keyless_backup_setup_success = 'cab_handle_keyless_backup_setup_success',
+  cab_handle_keyless_backup_failed = 'cab_handle_keyless_backup_failed',
+  cab_handle_keyless_backup_success = 'cab_handle_keyless_backup_success',
+  cab_restore_zero_balance_accept = 'cab_restore_zero_balance_accept',
+  cab_restore_zero_balance_bail = 'cab_restore_zero_balance_bail',
+  cab_restore_completed_continue = 'cab_restore_completed_continue',
+  cab_restore_failed_try_again = 'cab_restore_failed_try_again',
+  cab_restore_failed_create_new_wallet = 'cab_restore_failed_create_new_wallet',
+  cab_restore_failed_help = 'cab_restore_failed_help',
+  cab_restore_mnemonic_not_found = 'cab_restore_mnemonic_not_found',
+  cab_phone_verification_help = 'cab_phone_verification_help',
+  cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
+  cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',
 }
 
 export enum OnboardingEvents {
-  onboarding_education_start = 'onboarding_education_start',
   onboarding_education_scroll = 'onboarding_education_scroll',
   onboarding_education_step_impression = 'onboarding_education_step_impression',
-  onboarding_education_complete = 'onboarding_education_complete',
-  onboarding_education_cancel = 'onboarding_education_cancel',
 
   create_account_start = 'create_account_start',
-  create_account_cancel = 'create_account_cancel',
 
   restore_account_start = 'restore_account_start',
   restore_account_cancel = 'restore_account_cancel',
@@ -155,13 +165,9 @@ export enum OnboardingEvents {
 
   name_and_picture_set = 'name_and_picture_set',
   name_and_picture_skip = 'name_and_picture_skip',
-  name_and_picture_generate_name = 'name_and_picture_generate_name',
-
-  phone_number_set = 'phone_number_set',
 
   pin_set = 'pin_set',
   pin_invalid = 'pin_invalid',
-  pin_failed_to_set = 'pin_failed_to_set',
   pin_never_set = 'pin_never_set',
 
   biometry_opt_in_start = 'biometry_opt_in_start',
@@ -199,11 +205,13 @@ export enum OnboardingEvents {
 
   cya_button_press = 'cya_button_press',
   cya_later = 'cya_later',
+
+  link_phone_number = 'link_phone_number',
+  link_phone_number_later = 'link_phone_number_later',
 }
 
 // Events emitted in the CPV flow
 export enum PhoneVerificationEvents {
-  phone_verification_skip = 'phone_verification_skip',
   phone_verification_skip_confirm = 'phone_verification_skip_confirm',
   phone_verification_learn_more = 'phone_verification_learn_more',
   phone_verification_start = 'phone_verification_start',
@@ -215,7 +223,6 @@ export enum PhoneVerificationEvents {
   phone_verification_code_verify_error = 'phone_verification_code_verify_error',
 
   phone_verification_input_help = 'phone_verification_input_help',
-  phone_verification_input_help_skip = 'phone_verification_input_help_skip',
   phone_verification_input_help_continue = 'phone_verification_input_help_continue',
 
   phone_verification_resend_message = 'phone_verification_resend_message',
@@ -226,7 +233,6 @@ export enum PhoneVerificationEvents {
 }
 
 export enum IdentityEvents {
-  contacts_connect = 'contacts_connect',
   contacts_import_permission_denied = 'contacts_import_permission_denied',
   contacts_import_start = 'contacts_import_start',
   contacts_import_complete = 'contacts_import_complete',
@@ -237,9 +243,9 @@ export enum IdentityEvents {
   phone_number_lookup_complete = 'phone_number_lookup_complete',
   phone_number_lookup_error = 'phone_number_lookup_error',
 
-  phone_number_lookup_purchase_complete = 'phone_number_lookup_purchase_complete',
-  phone_number_lookup_purchase_error = 'phone_number_lookup_purchase_error',
-  phone_number_lookup_purchase_skip = 'phone_number_lookup_purchase_skip',
+  address_lookup_start = 'address_lookup_start',
+  address_lookup_complete = 'address_lookup_complete',
+  address_lookup_error = 'address_lookup_error',
 }
 
 export enum AuthenticationEvents {
@@ -301,7 +307,6 @@ export enum SendEvents {
   send_tx_error = 'send_tx_error',
 
   token_dropdown_opened = 'token_dropdown_opened',
-  token_selected = 'token_selected',
   max_pressed = 'max_pressed',
   swap_input_pressed = 'swap_input_pressed',
 
@@ -320,33 +325,21 @@ export enum SendEvents {
   send_contacts_modal_dismiss = 'send_contacts_modal_dismiss',
   request_contacts_permission_started = 'request_contacts_permission_started',
   request_contacts_permission_completed = 'request_contacts_permission_completed',
+  send_select_recipient_invite_press = 'send_select_recipient_invite_press',
+  send_select_recipient_send_press = 'send_select_recipient_send_press',
+  send_select_recipient_recent_press = 'send_select_recipient_recent_press',
 }
 
 export enum QrScreenEvents {
   // Events for the QR screen redesign
-  qr_screen_bottom_sheet_open = 'qr_screen_bottom_sheet_open',
-  qr_screen_bottom_sheet_close = 'qr_screen_bottom_sheet_close',
-  qr_screen_bottom_sheet_link_press = 'qr_screen_bottom_sheet_link_press',
   qr_screen_copy_address = 'qr_screen_copy_address',
   qr_scanner_open = 'qr_scanner_open',
-}
-
-export enum RequestEvents {
-  request_scan = 'request_scan',
-  request_select_recipient = 'request_select_recipient',
-  request_cancel = 'request_cancel',
-  request_amount_back = 'request_amount_back',
-  request_amount_continue = 'request_amount_continue',
-  request_confirm_back = 'request_confirm_back',
-  request_confirm_request = 'request_confirm_request',
-  request_error = 'request_error',
+  qr_scanned = 'qr_scanned',
 }
 
 export enum FeeEvents {
-  fee_rendered = 'fee_rendered',
   estimate_fee_failed = 'estimate_fee_failed',
   estimate_fee_success = 'estimate_fee_success',
-  fetch_tobin_tax_failed = 'fetch_tobin_tax_failed',
 }
 
 export enum TransactionEvents {
@@ -362,12 +355,7 @@ export enum TransactionEvents {
 export enum CeloExchangeEvents {
   celo_home_info = 'celo_home_info',
 
-  celo_withdraw_review = 'celo_withdraw_review',
-  celo_withdraw_edit = 'celo_withdraw_edit',
-  celo_withdraw_cancel = 'celo_withdraw_cancel',
-  celo_withdraw_confirm = 'celo_withdraw_confirm',
   celo_withdraw_completed = 'celo_withdraw_completed',
-  celo_withdraw_error = 'celo_withdraw_error',
 
   celo_chart_tapped = 'celo_chart_tapped',
 }
@@ -377,10 +365,6 @@ export enum FiatExchangeEvents {
   cico_landing_token_balance = 'cico_landing_token_balance',
   cico_landing_select_flow = 'cico_landing_select_flow',
   cico_landing_how_to_fund = 'cico_landing_how_to_fund',
-
-  // The CICO Currency screen where the user selects their digital currency
-  cico_currency_chosen = 'cico_currency_chosen',
-  cico_currency_back = 'cico_currency_back',
 
   // The CICO Amount screen where the user selects the amount of money
   cico_amount_chosen = 'cico_amount_chosen',
@@ -408,6 +392,10 @@ export enum FiatExchangeEvents {
   cico_add_bottom_sheet_impression = 'cico_add_bottom_sheet_impression',
   cico_add_bottom_sheet_ramp_selected = 'cico_add_bottom_sheet_ramp_selected',
   cico_add_bottom_sheet_ramp_available = 'cico_add_bottom_sheet_ramp_available',
+
+  // Add fund flow via new user get started card
+  cico_add_get_started_impression = 'cico_add_get_started_impression',
+  cico_add_get_started_selected = 'cico_add_get_started_selected',
 
   // Funding Education Dialog Screen
   cico_add_funds_info_support = 'cico_add_funds_info_support',
@@ -522,7 +510,6 @@ export enum WalletConnectEvents {
 
   // Events related to WalletConnect requests from approved dapps (signing)
   wc_request_propose = 'wc_request_propose',
-  wc_request_details = 'wc_request_details',
   wc_request_accept_start = 'wc_request_accept_start',
   wc_request_accept_success = 'wc_request_accept_success',
   wc_request_accept_error = 'wc_request_accept_error',
@@ -556,17 +543,10 @@ export enum DappExplorerEvents {
   dapp_open = 'dapp_open',
   dapp_close = 'dapp_close',
   dapp_screen_open = 'dapp_screen_open',
-  dapp_select = 'dapp_select',
-  dapp_bottom_sheet_open = 'dapp_bottom_sheet_open',
-  dapp_bottom_sheet_dismiss = 'dapp_bottom_sheet_dismiss',
   dapp_view_all = 'dapp_view_all',
   dapp_favorite = 'dapp_favorite',
   dapp_unfavorite = 'dapp_unfavorite',
-  dapp_open_info = 'dapp_open_info',
-  dapp_open_more_info = 'dapp_open_more_info',
   dapp_filter = 'dapp_filter',
-  dapp_search = 'dapp_search',
-  dapp_rankings_impression = 'dapp_rankings_impression',
   dapp_rankings_open = 'dapp_rankings_open',
 }
 
@@ -587,13 +567,13 @@ export enum SwapEvents {
   swap_screen_max_swap_amount = 'swap_screen_max_swap_amount',
   swap_gas_fees_learn_more = 'swap_gas_fees_learn_more',
   swap_review_submit = 'swap_review_submit',
-  swap_execute_price_change = 'swap_execute_price_change',
   swap_execute_success = 'swap_execute_success',
   swap_execute_error = 'swap_execute_error',
   swap_learn_more = 'swap_learn_more',
   swap_price_impact_warning_displayed = 'swap_price_impact_warning_displayed',
-  swap_again = 'swap_again',
-  swap_try_again = 'swap_try_again',
+  swap_show_info = 'swap_show_info',
+  swap_show_fund_your_wallet = 'swap_show_fund_your_wallet',
+  swap_add_funds = 'swap_add_funds',
 }
 
 export enum CeloNewsEvents {
@@ -605,6 +585,8 @@ export enum CeloNewsEvents {
 
 export enum TokenBottomSheetEvents {
   search_token = 'search_token',
+  token_selected = 'token_selected',
+  toggle_tokens_filter = 'toggle_tokens_filter',
 }
 
 export enum AssetsEvents {
@@ -620,6 +602,7 @@ export enum AssetsEvents {
   import_token_screen_open = 'import_token_screen_open',
   import_token_submit = 'import_token_submit',
   import_token_paste = 'import_token_paste',
+  import_token_error = 'import_token_error',
 }
 
 export enum NftEvents {

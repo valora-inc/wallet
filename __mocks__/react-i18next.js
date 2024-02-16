@@ -25,8 +25,9 @@ useMock.i18n = { language: 'en' }
 
 module.exports = {
   // this mock makes sure any components using the translate HoC receive the t function as a prop
-  withTranslation: () => (Component) => (props) =>
-    <Component t={translationFunction} i18n={{ language: 'en' }} {...props} />,
+  withTranslation: () => (Component) => (props) => (
+    <Component t={translationFunction} i18n={{ language: 'en' }} {...props} />
+  ),
   Trans: renderTrans,
   Translation: ({ children }) => children(translationFunction, { i18n: {} }),
   useTranslation: () => useMock,

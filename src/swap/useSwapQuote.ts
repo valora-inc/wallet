@@ -1,20 +1,19 @@
 import BigNumber from 'bignumber.js'
-import { useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
-import { useSelector } from 'react-redux'
 import erc20 from 'src/abis/IERC20'
-import { useFeeCurrencies } from 'src/fees/hooks'
-import { guaranteedSwapPriceEnabledSelector } from 'src/swap/selectors'
+import useSelector from 'src/redux/useSelector'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { publicClient } from 'src/viem'
 import {
   PreparedTransactionsResult,
   TransactionRequest,
   prepareTransactions,
 } from 'src/viem/prepareTransactions'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
 
@@ -28,24 +27,32 @@ export interface QuoteResult {
   swapAmount: BigNumber
   price: string
   provider: string
-  estimatedPriceImpact: BigNumber | null
-  preparedTransactions?: PreparedTransactionsResult
-  /**
-   * @deprecated Temporary until we remove the swap review screen
-   */
-  rawSwapResponse: FetchQuoteResponse
+  estimatedPriceImpact: string | null
+  allowanceTarget: string
+  preparedTransactions: PreparedTransactionsResult
   receivedAt: number
 }
 
-function createBaseSwapTransactions(
+async function createBaseSwapTransactions(
   fromToken: TokenBalance,
   updatedField: Field,
-  unvalidatedSwapTransaction: SwapTransaction
+  unvalidatedSwapTransaction: SwapTransaction,
+  walletAddress: string
 ) {
   const baseTransactions: TransactionRequest[] = []
 
-  const { guaranteedPrice, buyAmount, sellAmount, allowanceTarget, from, to, value, data, gas } =
-    unvalidatedSwapTransaction
+  const {
+    guaranteedPrice,
+    buyAmount,
+    sellAmount,
+    allowanceTarget,
+    from,
+    to,
+    value,
+    data,
+    gas,
+    estimatedGasUse,
+  } = unvalidatedSwapTransaction
   const amountType: string =
     updatedField === Field.TO ? ('buyAmount' as const) : ('sellAmount' as const)
 
@@ -54,20 +61,32 @@ function createBaseSwapTransactions(
       ? BigInt(new BigNumber(buyAmount).times(guaranteedPrice).toFixed(0, 0))
       : BigInt(sellAmount)
 
-  // Approve transaction if the sell token is ERC-20
+  // If the sell token is ERC-20, we need to check the allowance and add an
+  // approval transaction if necessary
   if (allowanceTarget !== zeroAddress && fromToken.address) {
-    const data = encodeFunctionData({
+    const approvedAllowanceForSpender = await publicClient[
+      networkIdToNetwork[fromToken.networkId]
+    ].readContract({
+      address: fromToken.address as Address,
       abi: erc20.abi,
-      functionName: 'approve',
-      args: [allowanceTarget as Address, amountToApprove],
+      functionName: 'allowance',
+      args: [walletAddress as Address, allowanceTarget as Address],
     })
 
-    const approveTx: TransactionRequest = {
-      from: from as Address,
-      to: fromToken.address as Address,
-      data,
+    if (approvedAllowanceForSpender < amountToApprove) {
+      const data = encodeFunctionData({
+        abi: erc20.abi,
+        functionName: 'approve',
+        args: [allowanceTarget as Address, amountToApprove],
+      })
+
+      const approveTx: TransactionRequest = {
+        from: from as Address,
+        to: fromToken.address as Address,
+        data,
+      }
+      baseTransactions.push(approveTx)
     }
-    baseTransactions.push(approveTx)
   }
 
   const swapTx: TransactionRequest & { gas: bigint } = {
@@ -80,6 +99,8 @@ function createBaseSwapTransactions(
     // See https://www.notion.so/valora-inc/Fee-currency-selection-logic-4c207244893748bd85e23b754334f42d?pvs=4#8b7c27d31ebf4fca981f81e9411f86ee
     // We control this from our API.
     gas: BigInt(gas),
+    // This is the estimated gas use returned by the API.
+    _estimatedGasUse: estimatedGasUse != null ? BigInt(estimatedGasUse) : undefined,
   }
   baseTransactions.push(swapTx)
 
@@ -89,17 +110,18 @@ function createBaseSwapTransactions(
   }
 }
 
-export async function prepareSwapTransactions(
+async function prepareSwapTransactions(
   fromToken: TokenBalance,
   updatedField: Field,
   unvalidatedSwapTransaction: SwapTransaction,
-  price: string,
-  feeCurrencies: TokenBalance[]
+  feeCurrencies: TokenBalance[],
+  walletAddress: string
 ): Promise<PreparedTransactionsResult> {
-  const { amountToApprove, baseTransactions } = createBaseSwapTransactions(
+  const { amountToApprove, baseTransactions } = await createBaseSwapTransactions(
     fromToken,
     updatedField,
-    unvalidatedSwapTransaction
+    unvalidatedSwapTransaction,
+    walletAddress
   )
   return prepareTransactions({
     feeCurrencies,
@@ -114,18 +136,21 @@ export async function prepareSwapTransactions(
 
 function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   const walletAddress = useSelector(walletAddressSelector)
-  const useGuaranteedPrice = useSelector(guaranteedSwapPriceEnabledSelector)
-  const [exchangeRate, setExchangeRate] = useState<QuoteResult | null>(null)
-  const feeCurrencies = useFeeCurrencies(networkId)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, networkId))
 
   const refreshQuote = useAsyncCallback(
     async (
       fromToken: TokenBalance,
       toToken: TokenBalance,
       swapAmount: ParsedSwapAmount,
-      updatedField: Field,
-      shouldPrepareTransactions: boolean
-    ) => {
+      updatedField: Field
+    ): Promise<QuoteResult | null> => {
+      if (!walletAddress) {
+        // should never happen
+        Logger.error('SwapScreen@useSwapQuote', 'No wallet address found when refreshing quote')
+        return null
+      }
+
       if (!swapAmount[updatedField].gt(0)) {
         return null
       }
@@ -157,59 +182,48 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       }
 
       const quote: FetchQuoteResponse = await response.json()
-      const swapPrice = useGuaranteedPrice
-        ? quote.unvalidatedSwapTransaction.guaranteedPrice
-        : quote.unvalidatedSwapTransaction.price
+      const swapPrice = quote.unvalidatedSwapTransaction.price
       const price =
         updatedField === Field.FROM
           ? swapPrice
           : new BigNumber(1).div(new BigNumber(swapPrice)).toFixed()
       const estimatedPriceImpact = quote.unvalidatedSwapTransaction.estimatedPriceImpact
+      const preparedTransactions = await prepareSwapTransactions(
+        fromToken,
+        updatedField,
+        quote.unvalidatedSwapTransaction,
+        feeCurrencies,
+        walletAddress
+      )
       const quoteResult: QuoteResult = {
         toTokenId: toToken.tokenId,
         fromTokenId: fromToken.tokenId,
         swapAmount: swapAmount[updatedField],
         price,
-
         provider: quote.details.swapProvider,
-        estimatedPriceImpact: estimatedPriceImpact
-          ? new BigNumber(estimatedPriceImpact).dividedBy(100)
-          : null,
-        rawSwapResponse: quote,
+        estimatedPriceImpact,
+        allowanceTarget: quote.unvalidatedSwapTransaction.allowanceTarget,
+        preparedTransactions,
         receivedAt: Date.now(),
-      }
-
-      // TODO: this branch will be part of the normal flow once viem is always used
-      if (shouldPrepareTransactions) {
-        const preparedTransactions = await prepareSwapTransactions(
-          fromToken,
-          updatedField,
-          quote.unvalidatedSwapTransaction,
-          price,
-          feeCurrencies
-        )
-        quoteResult.preparedTransactions = preparedTransactions
       }
 
       return quoteResult
     },
     {
-      onSuccess: (updatedExchangeRate: QuoteResult | null) => {
-        setExchangeRate(updatedExchangeRate)
-      },
+      // Keep last result when refreshing
+      setLoading: (state) => ({ ...state, loading: true }),
       onError: (error: Error) => {
-        setExchangeRate(null)
         Logger.warn('SwapScreen@useSwapQuote', 'error from approve swap url', error)
       },
     }
   )
 
   const clearQuote = () => {
-    setExchangeRate(null)
+    refreshQuote.reset()
   }
 
   return {
-    exchangeRate,
+    quote: refreshQuote.result ?? null,
     refreshQuote: refreshQuote.execute,
     fetchSwapQuoteError: refreshQuote.status === 'error',
     fetchingSwapQuote: refreshQuote.loading,

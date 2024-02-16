@@ -16,7 +16,7 @@ import { Screens } from 'src/navigator/Screens'
 import appTheme from 'src/styles/appTheme'
 import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
 
@@ -48,6 +48,7 @@ describe('TransferStatusScreen', () => {
       flow,
       fiatAccountType: FiatAccountType.BankAccount,
       quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
+      tokenId: mockCusdTokenId,
     })
 
   const mockScreenProps = (flow: CICOFlow) =>

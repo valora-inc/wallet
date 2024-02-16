@@ -4,8 +4,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import Touchable from 'src/components/Touchable'
 import CopyIcon from 'src/icons/CopyIcon'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { Colors } from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
@@ -34,7 +34,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
         <Text style={styles.transactionDataLabel}>{label}</Text>
         <Text
           testID={`${testID}/Value`}
-          style={fontStyles.small}
+          style={styles.transactionData}
           numberOfLines={1}
           ellipsizeMode="tail"
         >
@@ -51,7 +51,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
 const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
-    backgroundColor: colors.gray1,
+    backgroundColor: Colors.gray1,
     flexDirection: 'row',
     alignItems: 'center',
     borderRadius: 12,
@@ -63,8 +63,12 @@ const styles = StyleSheet.create({
     marginRight: Spacing.Regular16,
   },
   transactionDataLabel: {
-    ...fontStyles.small600,
-    marginBottom: 4,
+    ...typeScale.labelXSmall,
+    color: Colors.black,
+  },
+  transactionData: {
+    ...typeScale.bodyXSmall,
+    color: Colors.black,
   },
 })
 

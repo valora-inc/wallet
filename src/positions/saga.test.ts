@@ -146,6 +146,7 @@ describe(fetchShortcutsSaga, () => {
       .provide([
         [select(shortcutsStatusSelector), 'idle'],
         [select(hooksPreviewApiUrlSelector), null],
+        [select(walletAddressSelector), mockAccount],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
       ])
       .put(fetchShortcutsSuccess(mockShortcuts))
@@ -160,6 +161,7 @@ describe(fetchShortcutsSaga, () => {
       .provide([
         [select(shortcutsStatusSelector), 'error'],
         [select(hooksPreviewApiUrlSelector), null],
+        [select(walletAddressSelector), mockAccount],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
       ])
       .put(fetchShortcutsSuccess(mockShortcuts))
@@ -184,6 +186,22 @@ describe(fetchShortcutsSaga, () => {
     expect(mockFetch).not.toHaveBeenCalled()
   })
 
+  it('skips fetching shortcuts if no address is available in the store', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+
+    await expectSaga(fetchShortcutsSaga)
+      .provide([
+        [select(shortcutsStatusSelector), 'idle'],
+        [select(hooksPreviewApiUrlSelector), null],
+        [select(walletAddressSelector), null],
+        [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+      ])
+      .not.put(fetchShortcutsSuccess(mockShortcuts))
+      .run()
+
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
   it('updates the shortcuts status there is an error', async () => {
     mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
     jest.mocked(getFeatureGate).mockReturnValue(true)
@@ -193,6 +211,7 @@ describe(fetchShortcutsSaga, () => {
         [select(shortcutsStatusSelector), 'idle'],
         [select(hooksPreviewApiUrlSelector), null],
         [select(hooksApiUrlSelector), networkConfig.hooksApiUrl],
+        [select(walletAddressSelector), mockAccount],
       ])
       .put.actionType(fetchShortcutsFailure.type)
       .not.put(fetchShortcutsSuccess(expect.anything()))

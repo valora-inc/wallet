@@ -9,6 +9,7 @@ import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { mockCusdTokenId } from 'test/values'
 
 const store = createMockStore()
 
@@ -71,6 +72,7 @@ describe('RefetchQuoteScreen', () => {
         cryptoAmount: '10',
         fiatAmount: '10',
         providerId: 'some-provider',
+        tokenId: mockCusdTokenId,
       })
     )
   })
@@ -110,6 +112,7 @@ describe('RefetchQuoteScreen', () => {
         cryptoAmount: '10',
         fiatAmount: '10',
         providerId: 'some-provider',
+        tokenId: mockCusdTokenId,
       })
     )
   })

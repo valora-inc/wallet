@@ -1,11 +1,13 @@
 import { Platform } from 'react-native'
 import { BIOMETRY_TYPE } from 'react-native-keychain'
-import { Actions, ActionTypes, AppState } from 'src/app/actions'
+import { Actions, ActionTypes, AppState, MultichainBetaStatus } from 'src/app/actions'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { Screens } from 'src/navigator/Screens'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+
+const PERSISTED_DEEP_LINKS = ['https://valoraapp.com/share', 'celo://wallet/jumpstart']
 
 export interface State {
   loggedIn: boolean
@@ -19,7 +21,6 @@ export interface State {
   sessionId: string
   minVersion: string | null
   celoEducationUri: string | null
-  celoEuroEnabled: boolean
   activeScreen: Screens
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
@@ -31,9 +32,6 @@ export interface State {
   googleMobileServicesAvailable?: boolean
   huaweiMobileServicesAvailable?: boolean
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText?: {
-    [lang: string]: string
-  }
   rampCashInButtonExpEnabled: boolean
   sentryTracesSampleRate: number
   sentryNetworkErrors: string[]
@@ -55,6 +53,13 @@ export interface State {
   inAppReviewLastInteractionTimestamp: number | null
   showNotificationSpotlight: boolean
   hideHomeBalances: boolean
+  multichainBetaStatus: MultichainBetaStatus
+  pendingDeepLinks: PendingDeepLink[]
+}
+
+interface PendingDeepLink {
+  url: string
+  isSecureOrigin: boolean
 }
 
 const initialState = {
@@ -69,17 +74,17 @@ const initialState = {
   sessionId: '',
   minVersion: null,
   celoEducationUri: null,
-  celoEuroEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.celoEuroEnabled,
   activeScreen: Screens.Main,
   walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
-  superchargeTokenConfigByToken: {},
+  superchargeTokenConfigByToken: JSON.parse(
+    REMOTE_CONFIG_VALUES_DEFAULTS.superchargeTokenConfigByToken
+  ),
   logPhoneNumberTypeEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.logPhoneNumberTypeEnabled,
   googleMobileServicesAvailable: undefined,
   huaweiMobileServicesAvailable: undefined,
   pincodeUseExpandedBlocklist: REMOTE_CONFIG_VALUES_DEFAULTS.pincodeUseExpandedBlocklist,
-  rewardPillText: JSON.parse(REMOTE_CONFIG_VALUES_DEFAULTS.rewardPillText),
   rampCashInButtonExpEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.rampCashInButtonExpEnabled,
   sentryTracesSampleRate: REMOTE_CONFIG_VALUES_DEFAULTS.sentryTracesSampleRate,
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
@@ -103,6 +108,14 @@ const initialState = {
   inAppReviewLastInteractionTimestamp: null,
   showNotificationSpotlight: false,
   hideHomeBalances: false,
+  multichainBetaStatus: MultichainBetaStatus.NotSeen,
+  pendingDeepLinks: [],
+}
+
+function getPersistedDeepLinks(deepLinks: PendingDeepLink[]) {
+  return deepLinks.filter((deepLink) =>
+    PERSISTED_DEEP_LINKS.some((link) => deepLink.url.startsWith(link))
+  )
 }
 
 export const appReducer = (
@@ -119,6 +132,7 @@ export const appReducer = (
         appState: initialState.appState,
         locked: rehydratePayload.requirePinOnAppOpen ?? initialState.locked,
         sessionId: '',
+        pendingDeepLinks: getPersistedDeepLinks(rehydratePayload.pendingDeepLinks ?? []),
       }
     }
     case Actions.SET_APP_STATE:
@@ -193,14 +207,12 @@ export const appReducer = (
       return {
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
-        celoEuroEnabled: action.configValues.celoEuroEnabled,
         walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,
         logPhoneNumberTypeEnabled: action.configValues.logPhoneNumberTypeEnabled,
         pincodeUseExpandedBlocklist: action.configValues.pincodeUseExpandedBlocklist,
-        rewardPillText: JSON.parse(action.configValues.rewardPillText),
         rampCashInButtonExpEnabled: action.configValues.rampCashInButtonExpEnabled,
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
@@ -275,6 +287,28 @@ export const appReducer = (
       return {
         ...state,
         hideHomeBalances: !state.hideHomeBalances,
+      }
+    case Actions.OPT_MULTICHAIN_BETA:
+      return {
+        ...state,
+        multichainBetaStatus: action.optedIn
+          ? MultichainBetaStatus.OptedIn
+          : MultichainBetaStatus.OptedOut,
+      }
+    case Actions.DEEP_LINK_DEFERRED:
+      return {
+        ...state,
+        pendingDeepLinks: [
+          ...state.pendingDeepLinks,
+          { url: action.deepLink, isSecureOrigin: action.isSecureOrigin },
+        ],
+      }
+    case Actions.OPEN_DEEP_LINK:
+      return {
+        ...state,
+        pendingDeepLinks: state.pendingDeepLinks.filter(
+          (pendingDeepLink) => pendingDeepLink.url !== action.deepLink
+        ),
       }
     default:
       return state

@@ -11,9 +11,13 @@ import { showErrorOrFallback } from 'src/alert/actions'
 import { IdentityEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import {
   Actions,
+  FetchAddressVerificationAction,
   FetchAddressesAndValidateAction,
+  addressVerificationStatusReceived,
+  contactsSaved,
   endFetchingAddresses,
   endImportContacts,
   requireSecureSend,
@@ -28,24 +32,30 @@ import {
 } from 'src/identity/reducer'
 import { checkIfValidationRequired } from 'src/identity/secureSend'
 import {
+  addressToVerificationStatusSelector,
   e164NumberToAddressSelector,
+  lastSavedContactsHashSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
 import { ImportContactsStatus } from 'src/identity/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
 import { NumberToRecipient, contactsToRecipients } from 'src/recipients/recipient'
-import { setPhoneRecipientCache } from 'src/recipients/reducer'
+import { phoneRecipientCacheSelector, setPhoneRecipientCache } from 'src/recipients/reducer'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
 import { getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { checkContactsPermission } from 'src/utils/permissions'
+import { calculateSha256Hash } from 'src/utils/random'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { call, delay, put, race, select, take } from 'typed-redux-saga'
+import { call, delay, put, race, select, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
@@ -118,6 +128,8 @@ function* doImportContacts() {
 
   ValoraAnalytics.track(IdentityEvents.contacts_processing_complete)
   SentryTransactionHub.finishTransaction(SentryTransaction.import_contacts)
+
+  yield* spawn(saveContacts)
 
   return true
 }
@@ -207,6 +219,32 @@ export function* fetchAddressesAndValidateSaga({
   }
 }
 
+export function* fetchAddressVerificationSaga({ address }: FetchAddressVerificationAction) {
+  try {
+    const addressToVerificationStatus = yield* select(addressToVerificationStatusSelector)
+    if (!(address in addressToVerificationStatus && addressToVerificationStatus[address])) {
+      ValoraAnalytics.track(IdentityEvents.address_lookup_start)
+      const addressVerified = yield* call(fetchAddressVerification, address)
+      yield* put(addressVerificationStatusReceived(address, addressVerified))
+      ValoraAnalytics.track(IdentityEvents.address_lookup_complete)
+    }
+  } catch (err) {
+    const error = ensureError(err)
+    Logger.debug(
+      TAG + '@fetchAddressVerificationSaga',
+      `Error fetching address verification`,
+      error
+    )
+    ValoraAnalytics.track(IdentityEvents.address_lookup_error, {
+      error: error.message,
+    })
+    // Setting this address to "false" does not mean that the address
+    // if definitely unverified; we set it to false to indicate that
+    // the request is finished, and possibly unverified.
+    yield* put(addressVerificationStatusReceived(address, false))
+  }
+}
+
 function* fetchWalletAddresses(e164Number: string) {
   try {
     const address = yield* select(walletAddressSelector)
@@ -240,6 +278,43 @@ function* fetchWalletAddresses(e164Number: string) {
   } catch (error) {
     Logger.debug(`${TAG}/fetchWalletAddresses`, 'Unable to look up phone number', error)
     throw new Error('Unable to fetch wallet address for this phone number')
+  }
+}
+
+function* fetchAddressVerification(address: string) {
+  try {
+    const walletAddress = yield* select(walletAddressSelector)
+    const signedMessage = yield* call(retrieveSignedMessage)
+
+    const addressVerificationQueryParams = new URLSearchParams({
+      address,
+      clientPlatform: Platform.OS,
+      clientVersion: DeviceInfo.getVersion(),
+    }).toString()
+
+    const response: Response = yield* call(
+      fetchWithTimeout,
+      `${networkConfig.checkAddressVerifiedUrl}?${addressVerificationQueryParams}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Valora ${walletAddress}:${signedMessage}`,
+        },
+      }
+    )
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to look up address verification: ${response.status} ${response.statusText}`
+      )
+    }
+
+    const { data }: { data: { addressVerified: boolean } } = yield* call([response, 'json'])
+    return data.addressVerified
+  } catch (error) {
+    Logger.warn(`${TAG}/fetchAddressVerification`, 'Unable to look up address', error)
+    throw new Error('Unable to fetch verification status for this address')
   }
 }
 
@@ -343,4 +418,70 @@ export function getAddressFromPhoneNumber(
 
   // Normal case when there is only one address in the mapping
   return addresses[0]
+}
+
+export function* saveContacts() {
+  try {
+    const saveContactsGate = getFeatureGate(StatsigFeatureGates.SAVE_CONTACTS)
+    const phoneVerified = yield* select(phoneNumberVerifiedSelector)
+    // TODO(satish): use rn permissions
+    const contactsEnabled: boolean = yield* call(checkContactsPermission)
+
+    if (!saveContactsGate || !phoneVerified || !contactsEnabled) {
+      Logger.debug(`${TAG}/saveContacts`, "Skipping because pre conditions aren't met", {
+        saveContactsGate,
+        phoneVerified,
+        contactsEnabled,
+      })
+      return
+    }
+
+    const recipientCache = yield* select(phoneRecipientCacheSelector)
+    const ownPhoneNumber = yield* select(e164NumberSelector)
+    const contacts = Object.keys(recipientCache).sort()
+    const lastSavedContactsHash = yield* select(lastSavedContactsHashSelector)
+
+    const hash = calculateSha256Hash(`${ownPhoneNumber}:${contacts.join(',')}`)
+
+    if (hash === lastSavedContactsHash) {
+      Logger.debug(
+        `${TAG}/saveContacts`,
+        'Skipping because contacts have not changed since last post'
+      )
+      return
+    }
+
+    const walletAddress = yield* select(walletAddressSelector)
+    const signedMessage = yield* call(retrieveSignedMessage)
+
+    const deviceId =
+      Platform.OS === 'android'
+        ? yield* call(DeviceInfo.getInstanceId)
+        : yield* call(DeviceInfo.getUniqueId)
+
+    const response: Response = yield* call(fetchWithTimeout, `${networkConfig.saveContactsUrl}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Valora ${walletAddress}:${signedMessage}`,
+      },
+      body: JSON.stringify({
+        phoneNumber: ownPhoneNumber,
+        contacts,
+        clientPlatform: Platform.OS,
+        clientVersion: DeviceInfo.getVersion(),
+        deviceId,
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(
+        `Failed to post contacts: ${response.status} ${yield* call([response, 'text'])}`
+      )
+    }
+
+    yield* put(contactsSaved(hash))
+  } catch (err) {
+    Logger.warn(`${TAG}/saveContacts`, 'Post contacts failed', err)
+  }
 }

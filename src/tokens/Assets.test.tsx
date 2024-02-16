@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { fetchNfts } from 'src/nfts/slice'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetsScreen from 'src/tokens/Assets'
@@ -47,7 +48,8 @@ const storeWithTokenBalances = {
         name: 'Celo Euro',
         decimals: 18,
         balance: '5',
-        isCoreToken: true,
+        isFeeCurrency: true,
+        canTransferWithComment: true,
         priceFetchedAt: Date.now(),
         networkId: NetworkId['celo-alfajores'],
       },
@@ -61,7 +63,8 @@ const storeWithTokenBalances = {
         name: 'Celo Dollar',
         decimals: 18,
         balance: '10',
-        isCoreToken: true,
+        isFeeCurrency: true,
+        canTransferWithComment: true,
         priceFetchedAt: Date.now(),
         networkId: NetworkId['celo-alfajores'],
       },
@@ -90,7 +93,11 @@ const storeWithPositionsAndClaimableRewards = {
 const storeWithNfts = {
   ...storeWithTokenBalances,
   nfts: {
-    nfts: [mockNftAllFields, mockNftMinimumFields, mockNftNullMetadata],
+    nfts: [
+      { ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] },
+      { ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] },
+      { ...mockNftNullMetadata, networkId: NetworkId['celo-alfajores'] },
+    ],
     nftsLoading: false,
     nftsError: null,
   },
@@ -276,6 +283,33 @@ describe('AssetsScreen', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 
+  it('clicking an NFT navigates to the nfts info screen', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    const store = createMockStore(storeWithNfts)
+
+    const { getAllByTestId, getByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('assets.tabBar.collectibles'))
+
+    expect(getAllByTestId('NftItem')).toHaveLength(2)
+
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[0])
+    fireEvent.press(getAllByTestId('NftGallery/NftImage')[1])
+    expect(navigate).toHaveBeenCalledTimes(2)
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] }],
+      networkId: NetworkId['celo-alfajores'],
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
+      nfts: [{ ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] }],
+      networkId: NetworkId['ethereum-sepolia'],
+    })
+  })
+
   it('hides claim rewards if feature gate is false', () => {
     jest
       .mocked(getFeatureGate)
@@ -420,5 +454,18 @@ describe('AssetsScreen', () => {
     ;['POOF', 'TK3', 'TK1', 'CELO', 'ETH', 'cUSD'].map((symbol, index) => {
       expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(symbol)
     })
+  })
+
+  it('dispatches action to fetch nfts on load', () => {
+    const store = createMockStore(storeWithPositions)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} />
+      </Provider>
+    )
+
+    expect(getByTestId('AssetsTokenBalance')).toBeTruthy()
+    expect(store.getActions()).toEqual([fetchNfts()])
   })
 })

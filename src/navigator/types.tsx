@@ -1,27 +1,25 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
-import { SessionTypes } from '@walletconnect/types'
-import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
-import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
-import { FiatAccount } from 'src/fiatconnect/slice'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow, FiatExchangeFlow, SimplexQuote } from 'src/fiatExchanges/utils'
-import { AddressValidationType } from 'src/identity/reducer'
+import { Props as KycLandingProps } from 'src/fiatconnect/KycLanding'
+import { FiatAccount } from 'src/fiatconnect/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
-import { TransactionDataInput } from 'src/send/SendAmount'
-import { QRCodeDataType, QRCodeStyle } from 'src/statsig/types'
+import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
-import { Network, TokenTransaction } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { NetworkId, TokenTransaction } from 'src/transactions/types'
+import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
+import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
 
 // Typed nested navigator params
@@ -38,6 +36,22 @@ interface SendConfirmationParams {
   preparedTransaction?: SerializableTransactionRequest
   feeAmount?: string
   feeTokenId?: string
+}
+
+interface SendEnterAmountParams {
+  recipient: Recipient & { address: string }
+  isFromScan: boolean
+  origin: SendOrigin
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
+}
+
+interface ValidateRecipientParams {
+  requesterAddress?: string
+  origin: SendOrigin
+  recipient: Recipient
+  forceTokenId?: boolean
+  defaultTokenIdOverride?: string
 }
 
 export type StackParamList = {
@@ -98,7 +112,7 @@ export type StackParamList = {
   [Screens.EscrowedPaymentListScreen]: undefined
   [Screens.ExchangeHomeScreen]: undefined
   [Screens.ExternalExchanges]: {
-    currency: CiCoCurrency
+    tokenId: string
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.ExchangeQR]: {
@@ -106,10 +120,9 @@ export type StackParamList = {
     exchanges: ExternalExchangeProvider[]
   }
   [Screens.FiatExchangeAmount]: {
-    currency: CiCoCurrency
     tokenId: string
     flow: CICOFlow
-    network: Network
+    tokenSymbol: string
   }
   [Screens.FiatExchangeCurrency]: {
     flow: FiatExchangeFlow
@@ -147,6 +160,9 @@ export type StackParamList = {
   [Screens.KeylessBackupProgress]: {
     keylessBackupFlow: KeylessBackupFlow
   }
+  [Screens.KeylessBackupIntro]: {
+    keylessBackupFlow: KeylessBackupFlow
+  }
   [Screens.KycDenied]: {
     flow: CICOFlow
     quote: FiatConnectQuote
@@ -162,8 +178,10 @@ export type StackParamList = {
   }
   [Screens.Simplex]: {
     simplexQuote: SimplexQuote
+    tokenId: string
   }
   [Screens.GoldEducation]: undefined
+  [Screens.ImportSelect]: undefined
   [Screens.ImportWallet]:
     | {
         clean: boolean
@@ -184,12 +202,13 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Licenses]: undefined
+  [Screens.LinkPhoneNumber]: undefined
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined
   [Screens.MultichainBeta]: undefined
   [Screens.NotificationCenter]: undefined
   [Screens.NftGallery]: undefined
-  [Screens.NftsInfoCarousel]: { nfts: Nft[] }
+  [Screens.NftsInfoCarousel]: { nfts: Nft[]; networkId: NetworkId }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
     withVerification?: boolean
@@ -223,44 +242,22 @@ export type StackParamList = {
   [Screens.SelectLocalCurrency]: undefined
   [Screens.SelectProvider]: {
     flow: CICOFlow
-    selectedCrypto: CiCoCurrency
-    network: Network
+    tokenId: string
     amount: {
       crypto: number
       fiat: number
     }
   }
-  [Screens.Send]:
-    | {
-        skipContactsImport?: boolean
-        forceTokenId?: boolean
-        defaultTokenIdOverride?: string
-      }
-    | undefined
   [Screens.SendSelectRecipient]:
     | {
         forceTokenId?: boolean
         defaultTokenIdOverride?: string
       }
     | undefined
-  [Screens.SendAmount]: {
-    recipient: Recipient
-    isFromScan: boolean
-    origin: SendOrigin
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
-  }
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
-  [Screens.SendEnterAmount]: {
-    recipient: Recipient & { address: string }
-    isFromScan: boolean
-    origin: SendOrigin
-    forceTokenId?: boolean
-    defaultTokenIdOverride?: string
-  }
+  [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
-  [Screens.SetUpKeylessBackup]: undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
@@ -272,7 +269,6 @@ export type StackParamList = {
         prefilledText: string
       }
     | undefined
-  [Screens.SwapExecuteScreen]: undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
@@ -280,23 +276,12 @@ export type StackParamList = {
     transaction: TokenTransaction
   }
   [Screens.UpgradeScreen]: undefined
-  [Screens.ValidateRecipientIntro]: {
-    transactionData: TransactionDataInput
-    addressValidationType: AddressValidationType
-    requesterAddress?: string
-    origin: SendOrigin
-  }
-  [Screens.ValidateRecipientAccount]: {
-    transactionData: TransactionDataInput
-    addressValidationType: AddressValidationType
-    requesterAddress?: string
-    origin: SendOrigin
-  }
+  [Screens.ValidateRecipientIntro]: ValidateRecipientParams
+  [Screens.ValidateRecipientAccount]: ValidateRecipientParams
   [Screens.VerificationStartScreen]:
     | {
-        hideOnboardingStep?: boolean
+        hasOnboarded?: boolean
         selectedCountryCodeAlpha2?: string
-        choseToRestoreAccount?: boolean
       }
     | undefined
   [Screens.VerificationCodeInputScreen]: {
@@ -307,19 +292,12 @@ export type StackParamList = {
   [Screens.OnboardingSuccessScreen]: undefined
   [Screens.WalletConnectRequest]:
     | { type: WalletConnectRequestType.Loading; origin: WalletConnectPairingOrigin }
-    | {
+    | ({
         type: WalletConnectRequestType.Action
-        version: 2
-        pendingAction: Web3WalletTypes.EventArguments['session_request']
-        supportedChains: string[]
-      }
-    | {
+      } & ActionRequestProps)
+    | ({
         type: WalletConnectRequestType.Session
-        version: 2
-        pendingSession: Web3WalletTypes.EventArguments['session_proposal']
-        namespacesToApprove: SessionTypes.Namespaces | null // if null, we need to reject the session
-        supportedChains: string[]
-      }
+      } & SessionRequestProps)
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
   [Screens.WalletHome]: undefined
@@ -343,16 +321,13 @@ export type StackParamList = {
 export type QRTabParamList = {
   [Screens.QRCode]:
     | {
-        qrCodeDataType?: QRCodeDataType
-        qrCodeStyle?: QRCodeStyle
-        scanIsForSecureSend?: true
+        showSecureSendStyling?: true
       }
     | undefined
   [Screens.QRScanner]:
     | {
-        scanIsForSecureSend?: true
-        transactionData?: TransactionDataInput
-        requesterAddress?: string
+        showSecureSendStyling?: true
+        onQRCodeDetected?: (qrCode: QrCode) => void
       }
     | undefined
 }

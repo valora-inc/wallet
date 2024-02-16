@@ -4,7 +4,6 @@ import { WithTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
-import { SendOrigin } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import AccountNumberCard from 'src/components/AccountNumberCard'
@@ -22,13 +21,14 @@ import HamburgerCard from 'src/icons/HamburgerCard'
 import InfoIcon from 'src/icons/InfoIcon'
 import { validateRecipientAddress, validateRecipientAddressReset } from 'src/identity/actions'
 import { AddressValidationType } from 'src/identity/reducer'
+import { getAddressValidationType, getSecureSendAddress } from 'src/identity/secureSend'
 import { emptyHeader } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName, Recipient } from 'src/recipients/recipient'
 import { RootState } from 'src/redux/reducers'
-import { TransactionDataInput } from 'src/send/SendAmount'
+import { TransactionDataInput } from 'src/send/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
@@ -37,10 +37,11 @@ const PARTIAL_ADDRESS_PLACEHOLDER = ['a', '0', 'F', '4']
 
 interface StateProps {
   recipient: Recipient
-  transactionData: TransactionDataInput
+  transactionData?: TransactionDataInput
   addressValidationType: AddressValidationType
   validationSuccessful: boolean
   error?: ErrorMessages | null
+  validatedAddress?: string
 }
 
 interface State {
@@ -65,20 +66,24 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => {
   const { route } = ownProps
-  const transactionData = route.params.transactionData
-  const { recipient } = transactionData
+  const { recipient } = route.params
   const e164PhoneNumber = recipient.e164PhoneNumber
   const error = state.alert ? state.alert.underlyingError : null
-  const validationSuccessful = e164PhoneNumber
-    ? !!state.identity.secureSendPhoneNumberMapping[e164PhoneNumber]?.validationSuccessful
-    : false
+  const secureSendPhoneNumberMapping = state.identity.secureSendPhoneNumberMapping
+  const validationSuccessful =
+    !!e164PhoneNumber && !!secureSendPhoneNumberMapping[e164PhoneNumber]?.validationSuccessful
+  const addressValidationType: AddressValidationType = getAddressValidationType(
+    recipient,
+    secureSendPhoneNumberMapping
+  )
+  const validatedAddress = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
 
   return {
     recipient,
-    transactionData,
     validationSuccessful,
-    addressValidationType: route.params.addressValidationType,
+    addressValidationType,
     error,
+    validatedAddress,
   }
 }
 
@@ -86,14 +91,6 @@ export const validateRecipientAccountScreenNavOptions = () => ({
   ...emptyHeader,
   headerLeft: () => <BackButton eventName={SendEvents.send_secure_back} />,
 })
-
-function navigateToConfirmationScreen(transactionData: TransactionDataInput, origin: SendOrigin) {
-  navigate(Screens.SendConfirmation, {
-    transactionData,
-    origin,
-    isFromScan: false,
-  })
-}
 
 export class ValidateRecipientAccount extends React.Component<Props, State> {
   state: State = {
@@ -111,11 +108,20 @@ export class ValidateRecipientAccount extends React.Component<Props, State> {
   }
 
   componentDidUpdate = (prevProps: Props) => {
-    const { validationSuccessful, transactionData, route } = this.props
+    const { validationSuccessful, route, validatedAddress } = this.props
     const { singleDigitInputValueArr } = this.state
 
-    if (validationSuccessful && prevProps.validationSuccessful === false) {
-      navigateToConfirmationScreen(transactionData, route.params.origin)
+    if (validationSuccessful && !prevProps.validationSuccessful && validatedAddress) {
+      navigate(Screens.SendEnterAmount, {
+        origin: route.params.origin,
+        recipient: {
+          ...route.params.recipient,
+          address: validatedAddress,
+        },
+        isFromScan: false,
+        forceTokenId: route.params.forceTokenId,
+        defaultTokenIdOverride: route.params.defaultTokenIdOverride,
+      })
     }
 
     // If the user has entered 4 valid digits, dismiss the keyboard

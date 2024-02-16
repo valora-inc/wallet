@@ -11,11 +11,7 @@ import { NumberToRecipient } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { BaseToken, fetchTokenBalances } from 'src/tokens/slice'
-import {
-  getSupportedNetworkIdsForSend,
-  getSupportedNetworkIdsForSwap,
-  getTokenId,
-} from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
   Actions,
   UpdateTransactionsAction,
@@ -47,17 +43,23 @@ import Logger from 'src/utils/Logger'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getContractKit } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { call, delay, fork, put, select, spawn, takeEvery, takeLatest } from 'typed-redux-saga'
 import { Hash, TransactionReceipt } from 'viem'
 
 const TAG = 'transactions/saga'
 
 const RECENT_TX_RECIPIENT_CACHE_LIMIT = 10
+
+// These are in msecs and you want a value that's equal to the average
+// blocktime and no less than MINIMUM_WATCHING_DELAY_MS. (will be ignored if under MINIMUM_WATCHING_DELAY_MS)
 const WATCHING_DELAY_BY_NETWORK: Record<Network, number> = {
   [Network.Celo]: 5000,
   [Network.Ethereum]: 15000,
+  [Network.Arbitrum]: 2000,
+  [Network.Optimism]: 2000,
 }
+const MIN_WATCHING_DELAY_MS = 2000
 
 // Remove standby txs from redux state when the real ones show up in the feed
 function* cleanupStandbyTransactions({ transactions, networkId }: UpdateTransactionsAction) {
@@ -167,6 +169,9 @@ export function* sendAndMonitorTransaction<T>(
       context
     )) as unknown as CeloTxReceipt
 
+    // This won't show fees in the standby tx.
+    // Getting the selected fee currency is hard since it happens inside of `sendTransactionPromises`.
+    // This code will be deprecated when we remove the contract kit dependency, so I think it's fine to leave it as is.
     yield* call(
       handleTransactionReceiptReceived,
       context.id,
@@ -248,7 +253,7 @@ export function* getTransactionReceipt(
   transaction: StandbyTransaction & { transactionHash: string },
   network: Network
 ) {
-  const { transactionHash } = transaction
+  const { feeCurrencyId, transactionHash } = transaction
 
   try {
     const receipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
@@ -260,7 +265,8 @@ export function* getTransactionReceipt(
         handleTransactionReceiptReceived,
         transaction.context.id,
         receipt,
-        networkConfig.networkToNetworkId[network]
+        networkConfig.networkToNetworkId[network],
+        feeCurrencyId
       )
     }
   } catch (e) {
@@ -286,7 +292,8 @@ export function* internalWatchPendingTransactionsInNetwork(network: Network) {
 export function* watchPendingTransactionsInNetwork(network: Network) {
   while (true) {
     yield* call(internalWatchPendingTransactionsInNetwork, network)
-    yield* delay(WATCHING_DELAY_BY_NETWORK[network])
+    const delayTimeMs = Math.max(WATCHING_DELAY_BY_NETWORK[network], MIN_WATCHING_DELAY_MS)
+    yield* delay(delayTimeMs) // avoid polling too often and using up CPU
   }
 }
 
@@ -317,13 +324,12 @@ export function* transactionSaga() {
 export function* handleTransactionReceiptReceived(
   txId: string,
   receipt: TransactionReceipt | CeloTxReceipt,
-  networkId: NetworkId
+  networkId: NetworkId,
+  feeCurrencyId?: string
 ) {
   const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
 
-  // TODO: Receive feeCurrencyId from transaction request.
-  const feeCurrencyId = getTokenId(networkId)
-  const feeTokenInfo = tokensById[feeCurrencyId]
+  const feeTokenInfo = feeCurrencyId && tokensById[feeCurrencyId]
 
   if (!feeTokenInfo) {
     Logger.error(TAG, `No information found for token ${feeCurrencyId} in network ${networkId}`)
@@ -342,15 +348,20 @@ export function* handleTransactionReceiptReceived(
         : TransactionStatus.Complete,
   }
 
+  const blockDetails = yield* call([publicClient[networkIdToNetwork[networkId]], 'getBlock'], {
+    blockNumber: BigInt(receipt.blockNumber),
+  })
+  const blockTimestampInMs = Number(blockDetails.timestamp) * 1000
+
   yield* put(
-    transactionConfirmed(txId, {
-      ...baseDetails,
-      // Only add fee data in non-celo transactions
-      fees:
-        !feeTokenInfo || networkId === networkConfig.defaultNetworkId
-          ? []
-          : buildGasFees(feeTokenInfo, gasFeeInSmallestUnit),
-    })
+    transactionConfirmed(
+      txId,
+      {
+        ...baseDetails,
+        fees: feeTokenInfo ? buildGasFees(feeTokenInfo, gasFeeInSmallestUnit) : [],
+      },
+      blockTimestampInMs
+    )
   )
 }
 

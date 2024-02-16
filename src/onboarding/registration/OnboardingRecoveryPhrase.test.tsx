@@ -24,9 +24,6 @@ jest.mock('src/onboarding/steps', () => ({
   getOnboardingStepValues: () => ({ step: 3, totalSteps: 3 }),
   onboardingPropsSelector: () => mockOnboardingPropsSelector(),
 }))
-jest.mock('@react-native-clipboard/clipboard', () => ({
-  setString: jest.fn(),
-}))
 
 const mockScreenProps = getMockStackScreenProps(Screens.OnboardingRecoveryPhrase)
 

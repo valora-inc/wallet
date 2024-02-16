@@ -110,6 +110,7 @@ describe('sendPayment', () => {
     metadata: {
       comment: 'comment',
     },
+    feeCurrencyId: mockCeloTokenId,
   }
 
   const mockSendEthPaymentArgs = {
@@ -128,7 +129,7 @@ describe('sendPayment', () => {
     imageUrl: '',
     balance: '10',
     priceUsd: '1',
-    isCoreToken: true,
+    isNative: true,
   }
   const mockEthPreparedTransaction: SerializableTransactionRequest = {
     type: 'eip1559',
@@ -163,6 +164,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
@@ -180,12 +182,24 @@ describe('sendPayment', () => {
         })
       )
       .put(
-        transactionConfirmed('txId', {
-          transactionHash: mockTxHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [],
-        })
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockCeloTokenId,
+                },
+              },
+            ],
+          },
+          1701102971000
+        )
       )
       .returns(mockTxReceipt)
       .run()
@@ -212,6 +226,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
@@ -220,6 +235,7 @@ describe('sendPayment', () => {
         addStandbyTransaction({
           ...expectedStandbyTransaction,
           transactionHash: mockTxHash,
+          feeCurrencyId: mockCusdTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -246,6 +262,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .not.call.fn(encryptComment)
@@ -268,12 +285,24 @@ describe('sendPayment', () => {
         })
       )
       .put(
-        transactionConfirmed('txId', {
-          transactionHash: mockTxHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [],
-        })
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockCeloTokenId,
+                },
+              },
+            ],
+          },
+          1701102971000
+        )
       )
       .returns(mockTxReceipt)
       .run()
@@ -300,6 +329,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .not.call.fn(encryptComment)
@@ -313,7 +343,28 @@ describe('sendPayment', () => {
             tokenId: mockCeloTokenId,
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockCusdTokenId,
         })
+      )
+      .put(
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockCusdTokenId,
+                },
+              },
+            ],
+          },
+          1701102971000
+        )
       )
       .returns(mockTxReceipt)
       .run()
@@ -414,6 +465,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.sendTransaction), mockTxHash],
         [matchers.call.fn(publicClient.ethereum.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.ethereum.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.ethereum)
       .put(
@@ -429,23 +481,28 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .put(
-        transactionConfirmed('txId', {
-          transactionHash: mockTxHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [
-            {
-              type: 'SECURITY_FEE',
-              amount: {
-                value: '0.001',
-                tokenId: mockEthTokenId,
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockEthTokenId,
+                },
               },
-            },
-          ],
-        })
+            ],
+          },
+          1701102971000
+        )
       )
       .returns(mockTxReceipt)
       .run()
@@ -476,6 +533,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.sendTransaction), mockTxHash],
         [matchers.call.fn(publicClient.ethereum.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.ethereum.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.ethereum)
       .put(
@@ -491,6 +549,7 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -520,6 +579,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.ethereum.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.ethereum.getBlock), { timestamp: 1701102971 }],
       ])
       .not.call.fn(encryptComment)
       .call(getViemWallet, networkConfig.viemChain.ethereum)
@@ -536,23 +596,28 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .put(
-        transactionConfirmed('txId', {
-          transactionHash: mockTxHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [
-            {
-              type: 'SECURITY_FEE',
-              amount: {
-                value: '0.001',
-                tokenId: mockEthTokenId,
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockEthTokenId,
+                },
               },
-            },
-          ],
-        })
+            ],
+          },
+          1701102971000
+        )
       )
       .returns(mockTxReceipt)
       .run()
@@ -603,6 +668,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
         [matchers.call.fn(mockViemWallet.writeContract), mockTxHash],
         [matchers.call.fn(publicClient.ethereum.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.ethereum.getBlock), { timestamp: 1701102971 }],
       ])
       .not.call.fn(encryptComment)
       .call(getViemWallet, networkConfig.viemChain.ethereum)
@@ -619,6 +685,7 @@ describe('sendPayment', () => {
             comment: '',
           },
           transactionHash: mockTxHash,
+          feeCurrencyId: mockEthTokenId,
         })
       )
       .returns(mockTxReceipt)
@@ -711,8 +778,6 @@ describe('getSendTxFeeDetails', () => {
       .run()
   })
 
-  // TODO(ACT-925): remove this test once we've ensured gas and gasPrice are
-  // consistently BigNumbers or strings
   it('returns fee if gas and gasPrice are strings', async () => {
     const recipientAddress = mockAccount
     const amount = new BigNumber(10)
@@ -765,7 +830,7 @@ describe('sendAndMonitorTransaction', () => {
     transactionHash: mockTxHash,
     blockNumber: 123,
     gasUsed: 1e6,
-    effectiveGasPrice: 1e10,
+    effectiveGasPrice: 1e9,
   }
 
   const mockArgs = {
@@ -774,6 +839,7 @@ describe('sendAndMonitorTransaction', () => {
     sendTx: function* () {
       return yield* mockTxHash
     },
+    feeCurrencyId: mockCeloTokenId,
   }
 
   beforeEach(() => {
@@ -782,14 +848,29 @@ describe('sendAndMonitorTransaction', () => {
   it('confirms a transaction if successfully executed', async () => {
     await expectSaga(sendAndMonitorTransaction, mockArgs)
       .withState(storeStateWithTokens.getState())
-      .provide([[matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt]])
+      .provide([
+        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
+      ])
       .put(
-        transactionConfirmed('txId', {
-          transactionHash: mockTxHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [],
-        })
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockCeloTokenId,
+                },
+              },
+            ],
+          },
+          1701102971000
+        )
       )
       .put(fetchTokenBalances({ showLoading: true }))
       .returns(mockTxReceipt)
@@ -810,14 +891,27 @@ describe('sendAndMonitorTransaction', () => {
             effectiveGasPrice: 1e10,
           },
         ],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .put(
-        transactionConfirmed('txId', {
-          transactionHash: mockTxHash,
-          block: '123',
-          status: TransactionStatus.Failed,
-          fees: [],
-        })
+        transactionConfirmed(
+          'txId',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Failed,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.0001',
+                  tokenId: mockCeloTokenId,
+                },
+              },
+            ],
+          },
+          1701102971000
+        )
       )
       .put(showError(ErrorMessages.TRANSACTION_FAILED))
       .throws(new Error('transaction reverted'))

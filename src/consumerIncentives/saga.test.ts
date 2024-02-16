@@ -1,9 +1,8 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import { call, select } from 'redux-saga-test-plan/matchers'
 import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
-import { Actions as AlertActions, AlertTypes, showError } from 'src/alert/actions'
-import { ErrorMessages } from 'src/app/ErrorMessages'
-import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { Actions as AlertActions, AlertTypes } from 'src/alert/actions'
+import { phoneNumberVerifiedSelector, rewardsEnabledSelector } from 'src/app/selectors'
 import {
   SUPERCHARGE_FETCH_TIMEOUT,
   claimRewardsSaga,
@@ -25,15 +24,15 @@ import {
 } from 'src/consumerIncentives/testValues'
 import { SuperchargePendingReward } from 'src/consumerIncentives/types'
 import { navigateHome } from 'src/navigator/NavigationService'
-import { tokensByAddressSelector } from 'src/tokens/selectors'
+import { tokensByAddressSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions } from 'src/transactions/actions'
 import { sendTransaction } from 'src/transactions/send'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getContractKit } from 'src/web3/contracts'
-import config from 'src/web3/networkConfig'
+import { default as config, default as networkConfig } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockAccount, mockCeurAddress, mockCusdAddress } from 'test/values'
+import { mockAccount, mockCeloTokenBalance, mockCeurAddress, mockCusdAddress } from 'test/values'
 
 const mockBaseNonce = 10
 
@@ -106,8 +105,13 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), mockResponse],
       ])
       .put(setAvailableRewards(expectedRewards))
@@ -125,8 +129,13 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards({ forceRefresh: true }))
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [
           call(
             fetchWithTimeout,
@@ -148,32 +157,65 @@ describe('fetchAvailableRewardsSaga', () => {
 
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [call(fetchWithTimeout, uri, null, SUPERCHARGE_FETCH_TIMEOUT), error],
       ])
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
       .put(fetchAvailableRewardsFailure())
-      .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
+      .run()
+  })
+
+  it('skips fetching rewards if rewards are not enabled', async () => {
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .provide([[select(rewardsEnabledSelector), false]])
+      .not.call.fn(fetchWithTimeout)
       .run()
   })
 
   it('skips fetching rewards for an unverified user for supercharge v2', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), false],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
       ])
-      .not.call(fetchWithTimeout)
+      .not.call.fn(fetchWithTimeout)
       .run()
   })
 
-  it('displays an error if a user is not properly verified for supercharge v2', async () => {
+  it('skips fetching rewards in absence of tokens with sufficient balance', async () => {
     await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
       .provide([
+        [select(rewardsEnabledSelector), true],
+        [select(walletAddressSelector), userAddress],
+        [select(phoneNumberVerifiedSelector), true],
+        [select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]), []],
+      ])
+      .not.call.fn(fetchWithTimeout)
+      .run()
+  })
+
+  it('dispatches an error if a user is not properly verified for supercharge v2', async () => {
+    await expectSaga(fetchAvailableRewardsSaga, fetchAvailableRewards())
+      .provide([
+        [select(rewardsEnabledSelector), true],
         [select(phoneNumberVerifiedSelector), true],
         [select(walletAddressSelector), userAddress],
+        [
+          select(tokensWithTokenBalanceSelector, [networkConfig.defaultNetworkId]),
+          [mockCeloTokenBalance],
+        ],
         [
           call(
             fetchWithTimeout,
@@ -187,7 +229,6 @@ describe('fetchAvailableRewardsSaga', () => {
       .not.put(setAvailableRewards(expect.anything()))
       .not.put(fetchAvailableRewardsSuccess())
       .put(fetchAvailableRewardsFailure())
-      .put(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
       .run()
   })
 })

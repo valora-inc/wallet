@@ -10,21 +10,23 @@ import ImportWallet from 'src/import/ImportWallet'
 import { navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import MockedNavigator from 'test/MockedNavigator'
-import { createMockStore, getMockStackScreenProps } from 'test/utils'
+import { createMockStore } from 'test/utils'
 import { mockMnemonic } from 'test/values'
 
-jest.mock('src/analytics/ValoraAnalytics')
-const mockScreenProps = getMockStackScreenProps(Screens.ImportWallet, { clean: true })
+const mockScreenProps = { clean: true }
 
 describe('ImportWallet', () => {
   it('renders correctly and is disabled with no text', () => {
     const wrapper = render(
       <Provider store={createMockStore()}>
-        <ImportWallet {...mockScreenProps} />
+        <MockedNavigator component={ImportWallet} params={mockScreenProps} />
       </Provider>
     )
 
-    expect(wrapper.UNSAFE_getAllByProps({ disabled: true }).length).toBeGreaterThan(0)
+    expect(wrapper.getByTestId('HeaderTitle')).toHaveTextContent('importExistingKey.header')
+    expect(wrapper.queryByTestId('HeaderSubTitle')).toBeFalsy()
+    expect(wrapper.getByTestId('ImportWalletBackupKeyInputField')).toHaveTextContent('')
+    expect(wrapper.getByTestId('ImportWalletButton')).toBeDisabled()
   })
 
   it('calls import with the mnemonic', () => {
@@ -32,7 +34,7 @@ describe('ImportWallet', () => {
 
     const wrapper = render(
       <Provider store={store}>
-        <ImportWallet {...mockScreenProps} />
+        <MockedNavigator component={ImportWallet} params={mockScreenProps} />
       </Provider>
     )
 

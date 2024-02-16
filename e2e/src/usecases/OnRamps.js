@@ -1,7 +1,12 @@
-import { reloadReactNative } from '../utils/retries'
+import { launchApp, reloadReactNative } from '../utils/retries'
 import { isElementVisible, waitForElementId } from '../utils/utils'
 
 export default onRamps = () => {
+  beforeAll(async () => {
+    await launchApp({
+      newInstance: true,
+    })
+  })
   beforeEach(async () => {
     await reloadReactNative()
     await waitForElementId('HomeAction-Add')
@@ -18,9 +23,9 @@ export default onRamps = () => {
       ${'CELO'} | ${'20'}
       ${'CELO'} | ${'2'}
     `('Then should display $token provider(s) for $$amount', async ({ token, amount }) => {
-      await waitForElementId(`radio/${token}`)
-      await element(by.id(`radio/${token}`)).tap()
-      await element(by.text('Next')).tap()
+      await waitForElementId(`${token}Symbol`)
+      await element(by.id(`${token}Symbol`)).tap()
+
       await waitForElementId('FiatExchangeInput')
       await element(by.id('FiatExchangeInput')).replaceText(`${amount}`)
       await element(by.id('FiatExchangeNextButton')).tap()
@@ -37,11 +42,6 @@ export default onRamps = () => {
           device.getPlatform() === 'ios'
             ? cardProviders.label.split(' ')[0]
             : cardProviders.text.split(' ')[0]
-        await element(by.id('Card/section')).tap()
-        // Check that best rate is displayed first
-        await expect(
-          element(by.id('Card/provider-0').withDescendant(by.id('Card/bestRate')))
-        ).toExist()
         // Check that the expected number of providers show
         for (let i = 0; i < numCardProviders; i++) {
           await expect(element(by.id(`Card/provider-${i}`))).toExist()
@@ -59,11 +59,6 @@ export default onRamps = () => {
           device.getPlatform() === 'ios'
             ? bankProviders.label.split(' ')[0]
             : bankProviders.text.split(' ')[0]
-        await element(by.id('Bank/section')).tap()
-        // Check that best rate is displayed first
-        await expect(
-          element(by.id('Bank/provider-0').withDescendant(by.id('Bank/bestRate')))
-        ).toExist()
         // Check that the expected number of providers show
         for (let i = 0; i < numBankProviders; i++) {
           await expect(element(by.id(`Bank/provider-${i}`))).toExist()

@@ -2,7 +2,6 @@ import firebase, { ReactNativeFirebase } from '@react-native-firebase/app'
 import '@react-native-firebase/auth'
 import '@react-native-firebase/database'
 import { FirebaseDatabaseTypes } from '@react-native-firebase/database'
-import dynamicLinks from '@react-native-firebase/dynamic-links'
 import '@react-native-firebase/messaging'
 // We can't combine the 2 imports otherwise it only imports the type and fails at runtime
 import { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
@@ -22,7 +21,6 @@ import {
   pushNotificationsEnabledSelector,
 } from 'src/app/selectors'
 import { DEFAULT_PERSONA_TEMPLATE_ID, FETCH_TIMEOUT_DURATION, FIREBASE_ENABLED } from 'src/config'
-import { DappConnectInfo } from 'src/dapps/types'
 import { Actions } from 'src/firebase/actions'
 import { handleNotification } from 'src/firebase/notifications'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
@@ -317,11 +315,8 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     // that is why we still need to check for it before calling a method
     // in the future it would be great to avoid using these as default values
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
-    celoEuroEnabled: flags.celoEuroEnabled.asBoolean(),
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    inviteRewardCusd: flags.inviteRewardCusd.asNumber(),
-    inviteRewardWeeklyLimit: flags.inviteRewardWeeklyLimit.asNumber(),
     walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
@@ -329,7 +324,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
       ? JSON.parse(superchargeConfigByTokenString)
       : {},
     pincodeUseExpandedBlocklist: flags.pincodeUseExpandedBlocklist.asBoolean(),
-    rewardPillText: flags.rewardPillText.asString(),
     rampCashInButtonExpEnabled: flags.rampCashInButtonExpEnabled.asBoolean(),
     logPhoneNumberTypeEnabled: flags.logPhoneNumberTypeEnabled.asBoolean(),
     allowOtaTranslations: flags.allowOtaTranslations.asBoolean(),
@@ -344,18 +338,15 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    dappConnectInfo: flags.dappConnectInfo.asString() as DappConnectInfo,
     visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),
     networkTimeoutSeconds: flags.networkTimeoutSeconds.asNumber(),
-    dappFavoritesEnabled: flags.dappFavoritesEnabled.asBoolean(),
     celoNews: celoNewsString ? JSON.parse(celoNewsString) : {},
     twelveWordMnemonicEnabled: flags.twelveWordMnemonicEnabled.asBoolean(),
-    dappsMinimalDisclaimerEnabled: flags.dappsMinimalDisclaimerEnabled.asBoolean(),
-    guaranteedSwapPriceEnabled: flags.guaranteedSwapPriceEnabled.asBoolean(),
-    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber(),
+    // Convert to percentage, so we're consistent with the price impact value returned by our swap API
+    priceImpactWarningThreshold: flags.priceImpactWarningThreshold.asNumber() * 100,
     superchargeRewardContractAddress: flags.superchargeRewardContractAddress.asString(),
   }
 }
@@ -441,17 +432,6 @@ export async function readOnceFromFirebase(path: string) {
     .once('value')
     .then((snapshot) => snapshot.val())
   return Promise.race([timeout, fetchFromFirebase])
-}
-
-export async function resolveDynamicLink(link: string) {
-  try {
-    // resolve short and long dynamic links
-    const resolvedLink = await dynamicLinks().resolveLink(link)
-    return resolvedLink.url
-  } catch (error) {
-    Logger.warn('invite/utils/resolveDynamicLink', 'Link could not be resolved', error)
-    return null
-  }
 }
 
 export async function getPersonaTemplateId() {

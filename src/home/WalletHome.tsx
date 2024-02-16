@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -12,6 +13,7 @@ import {
   phoneNumberVerifiedSelector,
   showNotificationSpotlightSelector,
 } from 'src/app/selectors'
+import BetaTag from 'src/components/BetaTag'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
 import {
@@ -22,13 +24,15 @@ import {
   STABLE_TRANSACTION_MIN_AMOUNT,
 } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
-import { refreshAllBalances, visitHome } from 'src/home/actions'
 import ActionsCarousel from 'src/home/ActionsCarousel'
 import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
+import { refreshAllBalances, visitHome } from 'src/home/actions'
+import NftCelebration from 'src/home/celebration/NftCelebration'
+import { showNftCelebrationSelector } from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -64,10 +68,14 @@ function WalletHome() {
 
   const dispatch = useDispatch()
 
-  const { onSelectDapp, ConfirmOpenDappBottomSheet } = useOpenDapp()
+  const { onSelectDapp } = useOpenDapp()
 
   const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
   const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
+
+  const isFocused = useIsFocused()
+  const canShowNftCelebration = useSelector(showNftCelebrationSelector)
+  const showNftCelebration = canShowNftCelebration && isFocused && !showNotificationSpotlight
 
   useEffect(() => {
     dispatch(visitHome())
@@ -121,6 +129,10 @@ function WalletHome() {
 
   const shouldShowCashInBottomSheet = () => {
     if (showNotificationSpotlight) {
+      return false
+    }
+
+    if (showNftCelebration) {
       return false
     }
 
@@ -194,6 +206,9 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   })
 
+  const showBetaTag = getFeatureGate(StatsigFeatureGates.SHOW_BETA_TAG)
+  const topLeftElement = showBetaTag && <BetaTag />
+
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
       <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
@@ -205,7 +220,11 @@ function WalletHome() {
 
   return (
     <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
-      <DrawerTopBar rightElement={topRightElements} scrollPosition={scrollPosition} />
+      <DrawerTopBar
+        leftElement={topLeftElement}
+        rightElement={topRightElements}
+        scrollPosition={scrollPosition}
+      />
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
@@ -222,7 +241,7 @@ function WalletHome() {
       />
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
-      {ConfirmOpenDappBottomSheet}
+      {showNftCelebration && <NftCelebration />}
     </SafeAreaView>
   )
 }

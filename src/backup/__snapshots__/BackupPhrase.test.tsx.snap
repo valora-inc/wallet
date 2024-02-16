@@ -251,7 +251,7 @@ exports[`renders correctly with backup completed 1`] = `
           style={
             {
               "alignContent": "center",
-              "backgroundColor": "#F1F0EB",
+              "backgroundColor": "#F9F6F0",
               "borderRadius": 8,
               "flexDirection": "row",
               "flexWrap": "wrap",
@@ -532,7 +532,7 @@ exports[`renders correctly with backup not completed 1`] = `
           style={
             {
               "alignContent": "center",
-              "backgroundColor": "#F1F0EB",
+              "backgroundColor": "#F9F6F0",
               "borderRadius": 8,
               "flexDirection": "row",
               "flexWrap": "wrap",
@@ -661,7 +661,7 @@ exports[`renders correctly with backup not completed 1`] = `
           [
             {
               "alignItems": "center",
-              "backgroundColor": "#F1F0EB",
+              "backgroundColor": "#F9F6F0",
               "flexDirection": "row",
               "flexGrow": 1,
               "height": 48,
@@ -947,7 +947,7 @@ exports[`still renders when mnemonic doesnt show up 1`] = `
           style={
             {
               "alignContent": "center",
-              "backgroundColor": "#F1F0EB",
+              "backgroundColor": "#F9F6F0",
               "borderRadius": 8,
               "flexDirection": "row",
               "flexWrap": "wrap",

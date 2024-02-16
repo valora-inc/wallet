@@ -14,8 +14,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getDefaultLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { Network } from 'src/transactions/types'
-import { Currency } from 'src/utils/currencies'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore, getMockStackScreenProps, sleep } from 'test/utils'
 import {
   mockCeloAddress,
@@ -27,7 +26,6 @@ import {
   mockFeeInfo,
   mockFiatConnectQuotes,
 } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -68,6 +66,7 @@ function getProps(
     quote: quoteData,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: cryptoType === CryptoType.cEUR ? mockCeurTokenId : mockCusdTokenId,
   })
   const fiatAccount: FiatAccount = {
     fiatAccountId: '123',
@@ -129,7 +128,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           symbol: 'cUSD',
           balance: '200',
           priceUsd: '1',
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
         [mockCeurTokenId]: {
@@ -139,7 +138,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           symbol: 'cEUR',
           balance: '100',
           priceUsd: '1.2',
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
         [mockCeloTokenId]: {
@@ -149,7 +148,7 @@ function getStore({ feeEstimate = defaultFeeEstimate }: { feeEstimate?: FeeEstim
           symbol: 'CELO',
           balance: '200',
           priceUsd: '5',
-          isCoreToken: true,
+          isFeeCurrency: true,
           priceFetchedAt: Date.now(),
         },
       },
@@ -281,6 +280,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
     })
@@ -305,6 +305,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
       expect(queryByTestId('TryAgain')).toBeTruthy()
@@ -317,6 +318,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
     })
@@ -425,6 +427,7 @@ describe('ReviewScreen', () => {
           fiatAmount: props.route.params.normalizedQuote.getFiatAmount(),
           providerId: props.route.params.normalizedQuote.getProviderId(),
           fiatAccount: props.route.params.fiatAccount,
+          tokenId: props.route.params.normalizedQuote.getTokenId(),
         })
       )
     })
@@ -483,12 +486,11 @@ describe('ReviewScreen', () => {
 
       expect(navigate).toHaveBeenCalledWith(Screens.SelectProvider, {
         flow: CICOFlow.CashOut,
-        selectedCrypto: Currency.Dollar,
         amount: {
           fiat: 100,
           crypto: 100,
         },
-        network: Network.Celo,
+        tokenId: mockCusdTokenId,
       })
     })
     describe.each([

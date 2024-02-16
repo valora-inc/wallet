@@ -4,12 +4,12 @@ import {
   PincodeType,
   RecoveryPhraseInOnboardingStatus,
 } from 'src/account/reducer'
-import { AppState } from 'src/app/actions'
-import { CodeInputStatus } from 'src/components/CodeInput'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { AppState, MultichainBetaStatus } from 'src/app/actions'
+import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { KeylessBackupStatus } from 'src/keylessBackup/types'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
 import { RootState } from 'src/redux/reducers'
@@ -479,11 +479,7 @@ export const v9Schema = {
   },
   identity: {
     ...v8Schema.identity,
-    attestationInputStatus: [
-      CodeInputStatus.Inputting,
-      CodeInputStatus.Disabled,
-      CodeInputStatus.Disabled,
-    ],
+    attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
   },
 }
 
@@ -515,11 +511,7 @@ export const v13Schema = {
     attestationCodes: [],
     acceptedAttestationCodes: [],
     lastRevealAttempt: null,
-    attestationInputStatus: [
-      CodeInputStatus.Inputting,
-      CodeInputStatus.Disabled,
-      CodeInputStatus.Disabled,
-    ],
+    attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
   },
 }
 
@@ -1372,7 +1364,7 @@ export const v56Schema = {
   },
   dapps: {
     ...v55Schema.dapps,
-    dappConnectInfo: DappConnectInfo.Default,
+    dappConnectInfo: 'default',
   },
 }
 
@@ -2495,8 +2487,8 @@ export const v145Schema = {
         tx.__typename === 'TokenTransferV2'
           ? 'TokenTransferV3' // @ts-ignore
           : tx.__typename === 'NftTransferV2'
-          ? 'NftTransferV3'
-          : 'TokenExchangeV3'
+            ? 'NftTransferV3'
+            : 'TokenExchangeV3'
       return {
         ...tx,
         __typename,
@@ -2828,6 +2820,238 @@ export const v170Schema = {
   supercharge: _.omit(v169Schema.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
 }
 
+export const v171Schema = {
+  ...v170Schema,
+  _persist: {
+    ...v170Schema._persist,
+    version: 171,
+  },
+  app: {
+    ...v170Schema.app,
+    multichainBetaStatus: MultichainBetaStatus.NotSeen,
+  },
+}
+
+export const v172Schema = {
+  ...v171Schema,
+  _persist: {
+    ...v171Schema._persist,
+    version: 172,
+  },
+  swap: {
+    ..._.omit(v171Schema.swap, 'swapInfo'),
+    currentSwap: null,
+  },
+}
+
+export const v173Schema = {
+  ...v172Schema,
+  _persist: {
+    ...v172Schema._persist,
+    version: 173,
+  },
+  swap: _.omit(v172Schema.swap, 'swapState'),
+}
+
+export const v174Schema = {
+  ...v173Schema,
+  _persist: {
+    ...v173Schema._persist,
+    version: 174,
+  },
+  identity: {
+    ...v173Schema.identity,
+    addressToVerificationStatus: {},
+  },
+}
+
+export const v175Schema = {
+  ...v174Schema,
+  _persist: {
+    ...v174Schema._persist,
+    version: 175,
+  },
+  tokens: {
+    ...v174Schema.tokens,
+    tokenBalances: _.mapValues(v174Schema.tokens.tokenBalances, (item: any) => {
+      const newItem = _.omit(item, 'isCoreToken')
+      if (item.isCoreToken !== undefined) {
+        newItem.isFeeCurrency = item.isCoreToken
+        newItem.canTransferWithComment = item.isCoreToken
+      }
+      return newItem
+    }),
+  },
+}
+
+export const v176Schema = {
+  ...v175Schema,
+  _persist: {
+    ...v175Schema._persist,
+    version: 176,
+  },
+  identity: {
+    ...v175Schema.identity,
+    lastSavedContactsHash: null,
+  },
+}
+
+export const v177Schema = {
+  ...v176Schema,
+  _persist: {
+    ...v176Schema._persist,
+    version: 177,
+  },
+  swap: {
+    ...v176Schema.swap,
+    priceImpactWarningThreshold: v176Schema.swap.priceImpactWarningThreshold * 100,
+  },
+}
+
+export const v178Schema = {
+  ...v177Schema,
+  _persist: {
+    ...v177Schema._persist,
+    version: 178,
+  },
+  swap: _.omit(v177Schema.swap, 'guaranteedSwapPriceEnabled'),
+}
+
+export const v179Schema = {
+  ...v178Schema,
+  _persist: {
+    ...v178Schema._persist,
+    version: 179,
+  },
+  priceHistory: {},
+}
+
+export const v180Schema = {
+  ...v179Schema,
+  _persist: {
+    ...v179Schema._persist,
+    version: 180,
+  },
+}
+
+export const v181Schema = {
+  ...v180Schema,
+  _persist: {
+    ...v180Schema._persist,
+    version: 181,
+  },
+  nfts: {
+    ...v180Schema.nfts,
+    nfts: [],
+  },
+}
+
+export const v182Schema = {
+  ...v181Schema,
+  _persist: {
+    ...v181Schema._persist,
+    version: 182,
+  },
+  tokens: {
+    ...v181Schema.tokens,
+    importedTokens: {},
+  },
+}
+
+export const v183Schema = {
+  ...v182Schema,
+  _persist: {
+    ...v182Schema._persist,
+    version: 183,
+  },
+  home: { ...v182Schema.home, cleverTapInboxMessages: [] },
+}
+
+export const v184Schema = {
+  ...v183Schema,
+  _persist: {
+    ...v183Schema._persist,
+    version: 184,
+  },
+  swap: { ...v183Schema.swap, lastSwapped: [] },
+}
+
+export const v185Schema = {
+  ...v184Schema,
+  _persist: {
+    ...v184Schema._persist,
+    version: 185,
+  },
+  tokens: _.omit(v184Schema.tokens, 'importedTokens'),
+}
+
+export const v186Schema = {
+  ...v185Schema,
+  _persist: {
+    ...v185Schema._persist,
+    version: 186,
+  },
+  home: { ...v185Schema.home, hasVisitedHome: true },
+  app: { ...v185Schema.app, pendingDeepLinks: [] },
+}
+
+export const v187Schema = {
+  ...v186Schema,
+  _persist: {
+    ...v186Schema._persist,
+    version: 187,
+  },
+  dapps: _.omit(
+    v186Schema.dapps,
+    'dappConnectInfo',
+    'dappFavoritesEnabled',
+    'dappsMinimalDisclaimerEnabled'
+  ),
+}
+
+export const v188Schema = {
+  ...v187Schema,
+  _persist: {
+    ...v187Schema._persist,
+    version: 188,
+  },
+  app: _.omit(v187Schema.app, 'celoEuroEnabled', 'rewardPillText'),
+  send: _.omit(v187Schema.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
+}
+
+export const v189Schema = {
+  ...v188Schema,
+  _persist: {
+    ...v188Schema._persist,
+    version: 189,
+  },
+  home: { ...v188Schema.home, nftCelebration: null },
+}
+
+const currencyMapping: Record<string, LocalCurrencyCode> = {
+  MYS: LocalCurrencyCode.MYR,
+  SGP: LocalCurrencyCode.SGD,
+  THI: LocalCurrencyCode.THB,
+  TWN: LocalCurrencyCode.TWD,
+  VNM: LocalCurrencyCode.VND,
+}
+export const v190Schema = {
+  ...v189Schema,
+  _persist: {
+    ...v189Schema._persist,
+    version: 190,
+  },
+  localCurrency: {
+    ...v189Schema.localCurrency,
+    preferredCurrencyCode:
+      currencyMapping[v189Schema.localCurrency.preferredCurrencyCode] ??
+      v189Schema.localCurrency.preferredCurrencyCode,
+    fetchedCurrencyCode:
+      currencyMapping[v189Schema.localCurrency.fetchedCurrencyCode] ??
+      v189Schema.localCurrency.fetchedCurrencyCode,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v170Schema as Partial<RootState>
+  return v190Schema as Partial<RootState>
 }

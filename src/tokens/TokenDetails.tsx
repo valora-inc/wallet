@@ -32,6 +32,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { StackParamList } from 'src/navigator/types'
+import PriceHistoryChart from 'src/priceHistory/PriceHistoryChart'
+import { NETWORK_NAMES } from 'src/shared/conts'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -47,8 +51,12 @@ import {
 } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenDetailsAction, TokenDetailsActionName } from 'src/tokens/types'
-import { getTokenAnalyticsProps, isCicoToken, isHistoricalPriceUpdated } from 'src/tokens/utils'
-import { networkIdToNetwork } from 'src/web3/networkConfig'
+import {
+  getSupportedNetworkIdsForSend,
+  getTokenAnalyticsProps,
+  isHistoricalPriceUpdated,
+} from 'src/tokens/utils'
+import networkConfig from 'src/web3/networkConfig'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.TokenDetails>
 
@@ -62,6 +70,9 @@ export default function TokenDetailsScreen({ route }: Props) {
   const actions = useActions(token)
   const tokenDetailsMoreActionsBottomSheetRef = useRef<BottomSheetRefType>(null)
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
+  const usePriceHistoryFromBlockchainApi = getFeatureGate(
+    StatsigFeatureGates.USE_PRICE_HISTORY_FROM_BLOCKCHAIN_API
+  )
 
   return (
     <SafeAreaView style={styles.container}>
@@ -86,13 +97,23 @@ export default function TokenDetailsScreen({ route }: Props) {
           errorFallback={(localCurrencySymbol ?? '$').concat(' --')}
         />
         {!token.isStableCoin && <PriceInfo token={token} />}
-        {token.isNative && token.symbol === 'CELO' && (
-          <CeloGoldHistoryChart
-            color={Colors.black}
+        {token.isNative && usePriceHistoryFromBlockchainApi ? (
+          <PriceHistoryChart
+            tokenId={tokenId}
             containerStyle={styles.chartContainer}
             chartPadding={Spacing.Thick24}
-            testID="TokenDetails/Chart"
+            testID={`TokenDetails/Chart/${tokenId}`}
+            color={Colors.black}
           />
+        ) : (
+          token.tokenId === networkConfig.celoTokenId && (
+            <CeloGoldHistoryChart
+              color={Colors.black}
+              containerStyle={styles.chartContainer}
+              chartPadding={Spacing.Thick24}
+              testID="TokenDetails/Chart"
+            />
+          )
         )}
         <Actions
           bottomSheetRef={tokenDetailsMoreActionsBottomSheetRef}
@@ -156,20 +177,26 @@ function PriceInfo({ token }: { token: TokenBalance }) {
 export const useActions = (token: TokenBalance) => {
   const { t } = useTranslation()
   const sendableTokens = useTokensForSend()
-  const swappableTokens = useSwappableTokens()
+  const { swappableFromTokens } = useSwappableTokens()
   const cashInTokens = useCashInTokens()
   const cashOutTokens = useCashOutTokens()
   const isSwapEnabled = useSelector(isAppSwapsEnabledSelector)
   const showWithdraw = !!cashOutTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId)
 
+  const supportedNetworkIdsForSend = getSupportedNetworkIdsForSend()
   return [
     {
       name: TokenDetailsActionName.Send,
       title: t('tokenDetails.actions.send'),
-      details: t('tokenDetails.actionDescriptions.send'),
+      details: t('tokenDetails.actionDescriptions.sendV1_74', {
+        supportedNetworkNames: supportedNetworkIdsForSend
+          .map((networkId) => NETWORK_NAMES[networkId])
+          .join(', '),
+        count: supportedNetworkIdsForSend.length,
+      }),
       iconComponent: QuickActionsSend,
       onPress: () => {
-        navigate(Screens.Send, { defaultTokenIdOverride: token.tokenId })
+        navigate(Screens.SendSelectRecipient, { defaultTokenIdOverride: token.tokenId })
       },
       visible: !!sendableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
@@ -183,7 +210,7 @@ export const useActions = (token: TokenBalance) => {
       },
       visible:
         isSwapEnabled &&
-        !!swappableTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId) &&
+        !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId) &&
         token.balance.gt(TOKEN_MIN_AMOUNT),
     },
     {
@@ -192,18 +219,11 @@ export const useActions = (token: TokenBalance) => {
       details: t('tokenDetails.actionDescriptions.add'),
       iconComponent: QuickActionsAdd,
       onPress: () => {
-        const tokenSymbol = token.symbol
-        // this should always be true given that we only show Add / Withdraw if a
-        // token is CiCoCurrency, but adding it here to ensure type safety
-        if (isCicoToken(tokenSymbol)) {
-          navigate(Screens.FiatExchangeAmount, {
-            // TODO(ACT-954): only pass token id
-            currency: tokenSymbol,
-            tokenId: token.tokenId,
-            flow: CICOFlow.CashIn,
-            network: networkIdToNetwork[token.networkId],
-          })
-        }
+        navigate(Screens.FiatExchangeAmount, {
+          tokenId: token.tokenId,
+          flow: CICOFlow.CashIn,
+          tokenSymbol: token.symbol,
+        })
       },
       visible: !!cashInTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },

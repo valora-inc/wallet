@@ -46,15 +46,11 @@ export const rewardsEnabledSelector = createSelector(
 export const logPhoneNumberTypeEnabledSelector = (state: RootState) =>
   state.app.logPhoneNumberTypeEnabled
 
-export const celoEuroEnabledSelector = (state: RootState) => state.app.celoEuroEnabled
-
 export const googleMobileServicesAvailableSelector = (state: RootState) =>
   state.app.googleMobileServicesAvailable
 
 export const huaweiMobileServicesAvailableSelector = (state: RootState) =>
   state.app.huaweiMobileServicesAvailable
-
-export const rewardPillTextSelector = (state: RootState) => state.app.rewardPillText
 
 export const sentryTracesSampleRateSelector = (state: RootState) => state.app.sentryTracesSampleRate
 
@@ -119,3 +115,7 @@ export const showNotificationSpotlightSelector = (state: RootState) =>
   state.app.showNotificationSpotlight
 
 export const hideHomeBalancesSelector = (state: RootState) => state.app.hideHomeBalances
+
+export const multichainBetaStatusSelector = (state: RootState) => state.app.multichainBetaStatus
+
+export const pendingDeepLinkSelector = (state: RootState) => state.app.pendingDeepLinks[0] ?? null

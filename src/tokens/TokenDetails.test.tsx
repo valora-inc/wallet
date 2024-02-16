@@ -5,16 +5,15 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { Price } from 'src/priceHistory/slice'
+import { getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
-import { Network, NetworkId } from 'src/transactions/types'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
   exchangePriceHistory,
   mockCeloTokenId,
-  mockEthTokenId,
   mockPoofTokenId,
   mockTokenBalances,
 } from 'test/values'
@@ -27,6 +26,7 @@ jest.mock('src/statsig', () => ({
       showSwap: ['celo-alfajores', 'ethereum-sepolia'],
     }
   }),
+  getFeatureGate: jest.fn().mockReturnValue(true),
 }))
 
 describe('TokenDetails', () => {
@@ -176,13 +176,9 @@ describe('TokenDetails', () => {
     expect(queryByText('tokenDetails.priceUnavailable')).toBeFalsy()
   })
 
-  it('renders chart if token is native (celo)', () => {
+  it('renders chart if token is native (celo) using firebase', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false) // Use old prices from firebase
     const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockCeloTokenId]: mockTokenBalances[mockCeloTokenId],
-        },
-      },
       exchange: {
         history: exchangePriceHistory,
       },
@@ -197,7 +193,84 @@ describe('TokenDetails', () => {
     expect(getByTestId('TokenDetails/Chart')).toBeTruthy()
   })
 
-  it('renders send action only if token has balance, is not swappable and not a CICO token', () => {
+  it('renders chart loader using blockchain API', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
+    const store = createMockStore({
+      priceHistory: {
+        [mockCeloTokenId]: {
+          status: 'loading',
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    expect(getByTestId(`PriceHistoryChart/Loader`)).toBeTruthy()
+  })
+
+  it('renders chart using blockchain API', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
+    const store = createMockStore({
+      priceHistory: {
+        [mockCeloTokenId]: {
+          status: 'success',
+          prices: [
+            {
+              priceFetchedAt: 1700378258000,
+              priceUsd: '0.97',
+            },
+            {
+              priceFetchedAt: 1701659858000,
+              priceUsd: '1.2',
+            },
+            {
+              priceFetchedAt: 1702941458000,
+              priceUsd: '1.4',
+            },
+          ] as Price[],
+        },
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    expect(getByTestId(`TokenDetails/Chart/${mockCeloTokenId}`)).toBeTruthy()
+  })
+
+  it('does not render chart if no prices are found and error status', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockCeloTokenId]: mockTokenBalances[mockCeloTokenId],
+        },
+      },
+      priceHistory: {
+        [mockCeloTokenId]: {
+          status: 'error',
+          prices: [],
+        },
+      },
+    })
+
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+    expect(queryByTestId(`TokenDetails/Chart/${mockCeloTokenId}`)).toBeFalsy()
+    expect(queryByTestId(`PriceHistoryChart/Loader`)).toBeFalsy()
+  })
+
+  it('renders send and swap action only if token has balance, and not a CICO token', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -216,7 +289,7 @@ describe('TokenDetails', () => {
     )
 
     expect(getByTestId('TokenDetails/Action/Send')).toBeTruthy()
-    expect(queryByTestId('TokenDetails/Action/Swap')).toBeFalsy()
+    expect(getByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Add')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
@@ -334,6 +407,7 @@ describe('TokenDetails', () => {
   })
 
   it('actions navigate to appropriate screens', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false) // Use old send flow
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -356,7 +430,9 @@ describe('TokenDetails', () => {
     )
 
     fireEvent.press(getByTestId('TokenDetails/Action/Send'))
-    expect(navigate).toHaveBeenCalledWith(Screens.Send, { defaultTokenIdOverride: mockCeloTokenId })
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient, {
+      defaultTokenIdOverride: mockCeloTokenId,
+    })
     fireEvent.press(getByTestId('TokenDetails/Action/Swap'))
     expect(navigate).toHaveBeenCalledWith(Screens.SwapScreenWithBack, {
       fromTokenId: mockCeloTokenId,
@@ -365,50 +441,12 @@ describe('TokenDetails', () => {
     await waitFor(() => expect(getByTestId('TokenDetailsMoreActions')).toBeTruthy())
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Add'))
     expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.CELO,
       tokenId: mockCeloTokenId,
       flow: CICOFlow.CashIn,
-      network: Network.Celo,
+      tokenSymbol: 'CELO',
     })
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
-  })
-
-  // TODO(ACT-954): remove once we switch to passing just token ids, above test
-  // should be sufficient
-  it('add action sends appropriate network', async () => {
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          [mockEthTokenId]: {
-            symbol: 'ETH',
-            balance: '0',
-            showZeroBalance: true,
-            isCashInEligible: true,
-            tokenId: mockEthTokenId,
-            networkId: NetworkId['ethereum-sepolia'],
-          },
-        },
-      },
-      app: {
-        showSwapMenuInDrawerMenu: true,
-      },
-    })
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockEthTokenId }} />
-      </Provider>
-    )
-
-    fireEvent.press(getByTestId('TokenDetails/Action/Add'))
-    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeAmount, {
-      currency: CiCoCurrency.ETH,
-      tokenId: mockEthTokenId,
-      flow: CICOFlow.CashIn,
-      network: Network.Ethereum,
-    })
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
   })
 })

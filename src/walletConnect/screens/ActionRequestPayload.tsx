@@ -8,6 +8,9 @@ import { WalletConnectEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { activeDappSelector } from 'src/dapps/selectors'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import {
   getDefaultRequestTrackedProperties,
   getDefaultSessionTrackedProperties,
@@ -17,10 +20,12 @@ import { SupportedActions } from 'src/walletConnect/constants'
 type Props = {
   session: SessionTypes.Struct
   request: Web3WalletTypes.EventArguments['session_request']
+  preparedTransaction?: SerializableTransactionRequest
 }
 
 function ActionRequestPayload(props: Props) {
   const { method, params } = props.request.params.request
+  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS)
 
   const { t } = useTranslation()
   const activeDapp = useSelector(activeDappSelector)
@@ -29,16 +34,16 @@ function ActionRequestPayload(props: Props) {
     () =>
       method === SupportedActions.eth_signTransaction ||
       method === SupportedActions.eth_sendTransaction
-        ? JSON.stringify(params)
+        ? JSON.stringify(useViem ? props.preparedTransaction ?? params : params)
         : method === SupportedActions.eth_signTypedData ||
-          method === SupportedActions.eth_signTypedData_v4
-        ? JSON.stringify(params[1])
-        : method === SupportedActions.personal_sign
-        ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() ||
-          params[0] ||
-          t('action.emptyMessage')
-        : null,
-    [method, params]
+            method === SupportedActions.eth_signTypedData_v4
+          ? JSON.stringify(params[1])
+          : method === SupportedActions.personal_sign
+            ? Buffer.from(trimLeading0x(params[0]), 'hex').toString() ||
+              params[0] ||
+              t('action.emptyMessage')
+            : null,
+    [method, params, useViem, props.preparedTransaction]
   )
 
   const handleTrackCopyRequestPayload = () => {

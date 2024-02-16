@@ -234,7 +234,7 @@ export function* fetchFeeCurrencySaga() {
 
 export function fetchFeeCurrency(tokens: TokenBalanceWithAddress[]) {
   for (const token of tokens) {
-    if (!token.isCoreToken) {
+    if (!token.isFeeCurrency) {
       continue
     }
     if (token.symbol === 'CELO' && token.balance.gte(CELO_TRANSACTION_MIN_AMOUNT)) {

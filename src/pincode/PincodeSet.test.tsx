@@ -7,6 +7,7 @@ import { goToNextOnboardingScreen } from 'src/onboarding/steps'
 import { DEFAULT_CACHE_ACCOUNT, updatePin } from 'src/pincode/authentication'
 import { setCachedPin } from 'src/pincode/PasswordCache'
 import PincodeSet from 'src/pincode/PincodeSet'
+import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 import { mockAccount, mockOnboardingProps } from 'test/values'
 
@@ -166,5 +167,47 @@ describe('Pincode', () => {
 
     expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
     expect(navigate).toBeCalledWith(Screens.Settings)
+  })
+
+  it('renders header subtitle with steps when creating new wallet', () => {
+    const mockStore = createMockStore()
+
+    const { getByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator component={PincodeSet} options={PincodeSet.navigationOptions} />
+      </Provider>
+    )
+
+    expect(getByTestId('HeaderSubTitle')).toHaveTextContent(
+      'registrationSteps, {"step":1,"totalSteps":2}'
+    )
+  })
+
+  it('does not render subtitle when importing wallet', () => {
+    const mockStore = createMockStore({ account: { choseToRestoreAccount: true } })
+
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator component={PincodeSet} options={PincodeSet.navigationOptions} />
+      </Provider>
+    )
+
+    expect(queryByTestId('HeaderSubTitle')).toBeFalsy()
+  })
+
+  it('does not render subtitle when changing pin', () => {
+    const mockStore = createMockStore()
+
+    const { queryByTestId } = render(
+      <Provider store={mockStore}>
+        <MockedNavigator
+          component={PincodeSet}
+          options={PincodeSet.navigationOptions}
+          params={{ changePin: true }}
+        />
+      </Provider>
+    )
+
+    expect(queryByTestId('HeaderSubTitle')).toBeFalsy()
   })
 })

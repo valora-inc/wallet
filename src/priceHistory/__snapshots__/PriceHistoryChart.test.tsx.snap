@@ -1,0 +1,427 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PriceHistoryChart renders while update is in progress 1`] = `
+<View
+  style={
+    [
+      {
+        "marginBottom": 24,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    className="VictoryContainer"
+    onMoveShouldSetResponder={[Function]}
+    onMoveShouldSetResponderCapture={[Function]}
+    onResponderEnd={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderStart={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    pointerEvents="box-none"
+    style={
+      {
+        "position": "relative",
+      }
+    }
+  >
+    <svg
+      height={180}
+      role="img"
+      style={
+        {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      viewBox="0 0 750 180"
+      width={750}
+    >
+      <rect
+        height={180}
+        style={
+          {
+            "fill": "none",
+          }
+        }
+        width={750}
+        x={0}
+        y={0}
+      />
+      <g>
+        <g>
+          <line
+            stroke="#E6E6E6"
+            strokeWidth="1"
+            x1={0}
+            x2={750}
+            y1={150}
+            y2={150}
+          />
+          <circle
+            cx={5}
+            cy={150}
+            fill="#2E3338"
+            r="4"
+          />
+        </g>
+        <text
+          fill="#666666"
+          fontFamily="Inter-Regular"
+          fontSize="14"
+          onLayout={[Function]}
+          textAnchor="middle"
+          x={5}
+          y={175}
+        >
+          ₱1.29
+        </text>
+        <g>
+          <circle
+            cx={745}
+            cy={29.99999999999997}
+            fill="#2E3338"
+            r="4"
+          />
+        </g>
+        <text
+          fill="#666666"
+          fontFamily="Inter-Regular"
+          fontSize="14"
+          onLayout={[Function]}
+          textAnchor="middle"
+          x={745}
+          y={13.999999999999972}
+        >
+          ₱1.86
+        </text>
+      </g>
+      <g
+        clipPath="url(#victory-clip-2)"
+        style={
+          {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      >
+        <g>
+          <defs>
+            <clipPath
+              id="victory-clip-2"
+            >
+              <rect
+                height={180}
+                vectorEffect="non-scaling-stroke"
+                width={750}
+                x={0}
+                y={0}
+              />
+            </clipPath>
+          </defs>
+        </g>
+        <path
+          d="M5,150C128.33333333333331,127.90697674418604,251.66666666666669,105.81395348837206,375,85.81395348837206C498.3333333333333,65.81395348837206,621.6666666666666,47.90697674418602,745,29.99999999999997"
+          fill="none"
+          role="presentation"
+          shapeRendering="auto"
+          stroke="#2E3338"
+          strokeWidth={2}
+          width={94}
+        />
+      </g>
+      <View
+        pointerEvents="box-none"
+        style={
+          {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+            "zIndex": 99,
+          }
+        }
+      >
+        <svg
+          height={180}
+          style={
+            {
+              "height": "100%",
+              "overflow": "visible",
+              "width": "100%",
+            }
+          }
+          viewBox="0 0 750 180"
+          width={750}
+        />
+      </View>
+    </svg>
+  </View>
+  <View
+    style={
+      [
+        {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginTop": 16,
+        },
+        {
+          "paddingHorizontal": undefined,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "left",
+          },
+        ]
+      }
+    >
+      Nov 19
+    </Text>
+    <Text
+      style={
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "right",
+          },
+        ]
+      }
+    >
+      Dec 18
+    </Text>
+  </View>
+</View>
+`;
+
+exports[`PriceHistoryChart renders with history 1`] = `
+<View
+  style={
+    [
+      {
+        "marginBottom": 24,
+      },
+      undefined,
+    ]
+  }
+>
+  <View
+    className="VictoryContainer"
+    onMoveShouldSetResponder={[Function]}
+    onMoveShouldSetResponderCapture={[Function]}
+    onResponderEnd={[Function]}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderReject={[Function]}
+    onResponderRelease={[Function]}
+    onResponderStart={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    onStartShouldSetResponderCapture={[Function]}
+    pointerEvents="box-none"
+    style={
+      {
+        "position": "relative",
+      }
+    }
+  >
+    <svg
+      height={180}
+      role="img"
+      style={
+        {
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+      viewBox="0 0 750 180"
+      width={750}
+    >
+      <rect
+        height={180}
+        style={
+          {
+            "fill": "none",
+          }
+        }
+        width={750}
+        x={0}
+        y={0}
+      />
+      <g>
+        <g>
+          <line
+            stroke="#E6E6E6"
+            strokeWidth="1"
+            x1={0}
+            x2={750}
+            y1={150}
+            y2={150}
+          />
+          <circle
+            cx={5}
+            cy={150}
+            fill="#2E3338"
+            r="4"
+          />
+        </g>
+        <text
+          fill="#666666"
+          fontFamily="Inter-Regular"
+          fontSize="14"
+          onLayout={[Function]}
+          textAnchor="middle"
+          x={5}
+          y={175}
+        >
+          ₱1.29
+        </text>
+        <g>
+          <circle
+            cx={745}
+            cy={29.99999999999997}
+            fill="#2E3338"
+            r="4"
+          />
+        </g>
+        <text
+          fill="#666666"
+          fontFamily="Inter-Regular"
+          fontSize="14"
+          onLayout={[Function]}
+          textAnchor="middle"
+          x={745}
+          y={13.999999999999972}
+        >
+          ₱1.86
+        </text>
+      </g>
+      <g
+        clipPath="url(#victory-clip-4)"
+        style={
+          {
+            "height": "100%",
+            "width": "100%",
+          }
+        }
+      >
+        <g>
+          <defs>
+            <clipPath
+              id="victory-clip-4"
+            >
+              <rect
+                height={180}
+                vectorEffect="non-scaling-stroke"
+                width={750}
+                x={0}
+                y={0}
+              />
+            </clipPath>
+          </defs>
+        </g>
+        <path
+          d="M5,150C128.33333333333331,127.90697674418604,251.66666666666669,105.81395348837206,375,85.81395348837206C498.3333333333333,65.81395348837206,621.6666666666666,47.90697674418602,745,29.99999999999997"
+          fill="none"
+          role="presentation"
+          shapeRendering="auto"
+          stroke="#2E3338"
+          strokeWidth={2}
+          width={94}
+        />
+      </g>
+      <View
+        pointerEvents="box-none"
+        style={
+          {
+            "left": 0,
+            "position": "absolute",
+            "top": 0,
+            "zIndex": 99,
+          }
+        }
+      >
+        <svg
+          height={180}
+          style={
+            {
+              "height": "100%",
+              "overflow": "visible",
+              "width": "100%",
+            }
+          }
+          viewBox="0 0 750 180"
+          width={750}
+        />
+      </View>
+    </svg>
+  </View>
+  <View
+    style={
+      [
+        {
+          "flexDirection": "row",
+          "justifyContent": "space-between",
+          "marginTop": 16,
+        },
+        {
+          "paddingHorizontal": undefined,
+        },
+      ]
+    }
+  >
+    <Text
+      style={
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "left",
+          },
+        ]
+      }
+    >
+      Nov 19
+    </Text>
+    <Text
+      style={
+        [
+          {
+            "color": "#757575",
+            "flexGrow": 1,
+            "fontSize": 16,
+          },
+          {
+            "textAlign": "right",
+          },
+        ]
+      }
+    >
+      Dec 18
+    </Text>
+  </View>
+</View>
+`;

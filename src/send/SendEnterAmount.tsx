@@ -5,7 +5,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, TextInput as RNTextInput, StyleSheet, Text } from 'react-native'
 import { View } from 'react-native-animatable'
-import FastImage from 'react-native-fast-image'
 import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
@@ -23,10 +22,9 @@ import TokenBottomSheet, {
   TokenPickerOrigin,
 } from 'src/components/TokenBottomSheet'
 import TokenDisplay from 'src/components/TokenDisplay'
+import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
-import { useFeeCurrencies } from 'src/fees/hooks'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -35,16 +33,20 @@ import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenToLocalAmount } from 'src/tokens/hooks'
-import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
+import {
+  feeCurrenciesSelector,
+  tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
+} from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmount } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
@@ -52,7 +54,6 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
 const MAX_BORDER_RADIUS = 96
-const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
 
 const TAG = 'SendEnterAmount'
 
@@ -96,7 +97,7 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { defaultTokenIdOverride, origin, recipient, isFromScan } = route.params
+  const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
   const tokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
@@ -171,7 +172,7 @@ function SendEnterAmount({ route }: Props) {
       preparedTransaction: getSerializablePreparedTransaction(
         prepareTransactionsResult.transactions[0]
       ),
-      feeAmount: feeAmount?.toString(),
+      feeAmount: maxFeeAmount?.toString(),
       feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
@@ -201,10 +202,11 @@ function SendEnterAmount({ route }: Props) {
 
   const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
     usePrepareSendTransactions()
-  const { feeAmount, feeCurrency } = getFeeCurrencyAndAmount(prepareTransactionsResult)
+  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
-  const feeCurrencies = useFeeCurrencies(token.networkId)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
+
   useEffect(() => {
     if (!walletAddress) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
@@ -244,10 +246,10 @@ function SendEnterAmount({ route }: Props) {
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
-  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !feeAmount)) {
+  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !maxFeeAmount)) {
     feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
-  } else if (prepareTransactionsResult && feeAmount) {
-    feeAmountSection = <FeeAmount feeAmount={feeAmount} feeTokenId={feeTokenId} />
+  } else if (prepareTransactionsResult && maxFeeAmount) {
+    feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
   }
 
   return (
@@ -306,18 +308,25 @@ function SendEnterAmount({ route }: Props) {
                     : undefined
                 }
               />
-              <Touchable
-                borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
-                onPress={onTokenPickerSelect}
-                style={styles.tokenSelectButton}
-                testID="SendEnterAmount/TokenSelect"
-              >
-                <>
-                  <FastImage source={{ uri: token.imageUrl }} style={styles.tokenImage} />
+              {!forceTokenId ? (
+                <Touchable
+                  borderRadius={TOKEN_SELECTOR_BORDER_RADIUS}
+                  onPress={onTokenPickerSelect}
+                  style={styles.tokenSelectButton}
+                  testID="SendEnterAmount/TokenSelect"
+                >
+                  <>
+                    <TokenIcon token={token} size={IconSize.SMALL} />
+                    <Text style={styles.tokenName}>{token.symbol}</Text>
+                    <DownArrowIcon color={Colors.gray5} />
+                  </>
+                </Touchable>
+              ) : (
+                <View style={styles.tokenSelectButton} testID="SendEnterAmount/TokenSelect">
+                  <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
-                  <DownArrowIcon color={Colors.gray5} />
-                </>
-              </Touchable>
+                </View>
+              )}
             </View>
             {showLowerAmountError && (
               <Text testID="SendEnterAmount/LowerAmountError" style={styles.lowerAmountError}>
@@ -459,11 +468,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelSmall,
     paddingLeft: Spacing.Tiny4,
     paddingRight: Spacing.Smallest8,
-  },
-  tokenImage: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
   },
   localAmount: {
     ...typeScale.labelMedium,

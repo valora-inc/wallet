@@ -2,9 +2,12 @@ import React from 'react'
 import { Image, ImageSourcePropType, StyleSheet, Text, View } from 'react-native'
 import CallToActionsBar, { CallToAction } from 'src/components/CallToActionsBar'
 import MessagingCard from 'src/components/MessagingCard'
-import fontStyles from 'src/styles/fonts'
+import Colors from 'src/styles/colors'
+import fontStyles, { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 export interface Props {
+  header?: string
   text: string
   icon?: ImageSourcePropType | React.ReactNode
   callToActions: CallToAction[]
@@ -13,6 +16,7 @@ export interface Props {
 }
 
 export default function SimpleMessagingCard({
+  header,
   text,
   icon: iconProp,
   callToActions,
@@ -37,9 +41,12 @@ export default function SimpleMessagingCard({
     <MessagingCard style={styles.container} testID={testID}>
       <View style={styles.innerContainer}>
         <View style={styles.content}>
-          <Text style={styles.text} testID={`${testID}/Text`}>
-            {text}
-          </Text>
+          <View>
+            {header && <Text style={styles.header}>{header}</Text>}
+            <Text style={styles.text} testID={`${testID}/Text`}>
+              {text}
+            </Text>
+          </View>
           <CallToActionsBar
             callToActions={callToActions}
             testID={`${testID}/CallToActions`}
@@ -54,6 +61,11 @@ export default function SimpleMessagingCard({
 
 const styles = StyleSheet.create({
   container: {},
+  header: {
+    ...typeScale.bodyXSmall,
+    color: Colors.gray3,
+    marginBottom: Spacing.Smallest8,
+  },
   innerContainer: {
     flexDirection: 'row',
     flex: 1,

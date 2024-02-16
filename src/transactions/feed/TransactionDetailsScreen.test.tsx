@@ -42,6 +42,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/analytics/ValoraAnalytics')
+jest.mock('src/statsig')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -176,7 +177,7 @@ describe('TransactionDetailsScreen', () => {
   }
 
   it('renders correctly for sends', async () => {
-    const { getByTestId } = renderScreen({
+    const { getByTestId, getByText } = renderScreen({
       transaction: tokenTransfer({
         type: TokenTransactionTypeV2.Sent,
         address: mockAddress,
@@ -204,10 +205,13 @@ describe('TransactionDetailsScreen', () => {
     const numberComponent = getByTestId('TransferSent/number')
     expect(getElementText(numberComponent)).toEqual(mockDisplayNumber2)
 
-    const amountComponent = getByTestId('SentAmount')
-    expect(getElementText(amountComponent)).toEqual('€4.00')
-    const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('€4.04')
+    expect(getByTestId('TransactionDetails/NetworkFee')).toHaveTextContent('0.01 CELO')
+    expect(getByTestId('TransactionDetails/NetworkFeeLocalCurrency')).toHaveTextContent('₱0.067')
+
+    expect(getByText('amountSent')).toBeTruthy()
+    expect(getByTestId('TransferSent/AmountSentValue')).toHaveTextContent('10.00 cUSD')
+    expect(getByTestId('TransferSent/TransferTokenExchangeRate')).toHaveTextContent('₱1.33')
+    expect(getByTestId('TransferSent/AmountSentValueFiat')).toHaveTextContent('₱13.30')
   })
 
   it('renders correctly for receives', async () => {
@@ -529,5 +533,17 @@ describe('TransactionDetailsScreen', () => {
         transactionStatus: TransactionStatus.Complete,
       }
     )
+  })
+
+  it('navigates to the send select recipient screen on retry tap', async () => {
+    const { getByText } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+        status: TransactionStatus.Failed,
+      }),
+    })
+
+    fireEvent.press(getByText('transactionDetailsActions.retryFailedTransaction'))
+    expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
   })
 })

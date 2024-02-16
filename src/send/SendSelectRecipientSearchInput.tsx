@@ -1,13 +1,10 @@
-import { isValidAddress } from '@celo/utils/lib/address'
 import * as React from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, View } from 'react-native'
+import { Platform, StyleSheet, View } from 'react-native'
 import TextInput from 'src/components/TextInput'
-import withTextSearchPasteAware from 'src/components/WithTextSearchPasteAware'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
-
-const SearchInput = withTextSearchPasteAware(TextInput)
+import { Spacing } from 'src/styles/styles'
 
 interface SendSelectRecipientSearchInputProps {
   input: string
@@ -20,16 +17,17 @@ export function SendSelectRecipientSearchInput({
 }: SendSelectRecipientSearchInputProps) {
   const { t } = useTranslation()
   return (
-    <View testID="SendSelectRecipientSearchInput" style={styles.textInputContainer}>
-      <SearchInput
-        shouldShowClipboard={isValidAddress}
+    <View style={styles.textInputContainer}>
+      <TextInput
         placeholder={t('sendSelectRecipient.searchText') ?? undefined}
         value={input}
         onChangeText={onChangeText}
         style={styles.search}
         inputStyle={styles.input}
-        leftIcon={<></>}
         placeholderTextColor={colors.gray4}
+        // Font scaling is causing issues on Android
+        allowFontScaling={Platform.OS === 'ios'}
+        testID="SendSelectRecipientSearchInput"
       />
     </View>
   )
@@ -39,19 +37,20 @@ const styles = StyleSheet.create({
   textInputContainer: {
     ...typeScale.bodySmall,
     color: colors.gray4,
-    paddingRight: 24,
-    paddingTop: 16,
-    paddingBottom: 12,
+    marginRight: 24,
     flex: 1,
+    paddingHorizontal: Spacing.Regular16,
+    borderWidth: 1,
+    borderColor: colors.gray2,
+    borderRadius: 100,
   },
   search: {
-    height: 44,
-    alignItems: 'flex-start',
     borderColor: colors.gray2,
     borderRadius: 100,
   },
   input: {
     ...typeScale.bodySmall,
-    height: 44,
+    // Unset lineHeight to avoid font scaling issues
+    lineHeight: undefined,
   },
 })

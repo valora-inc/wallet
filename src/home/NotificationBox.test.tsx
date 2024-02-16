@@ -104,7 +104,7 @@ const mockcUsdBalance = {
     address: mockCusdAddress,
     tokenId: mockCusdTokenId,
     networkId: NetworkId['celo-alfajores'],
-    isCoreToken: true,
+    isFeeCurrency: true,
     balance: '100',
     symbol: 'cUSD',
     priceUsd: '1',
@@ -117,7 +117,7 @@ const mockcUsdWithoutEnoughBalance = {
     address: mockCusdAddress,
     tokenId: mockCusdTokenId,
     networkId: NetworkId['celo-alfajores'],
-    isCoreToken: true,
+    isFeeCurrency: true,
     balance: '5',
     symbol: 'cUSD',
     priceUsd: '1',
@@ -162,9 +162,7 @@ describe('NotificationBox', () => {
     expect(getByText('reverifyUsingCPVHomecard.description')).toBeTruthy()
 
     fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
-      hideOnboardingStep: true,
-    })
+    expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
   })
 
   it('renders educations when not complete yet', () => {

@@ -10,8 +10,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Touchable from 'src/components/Touchable'
 import { getDefaultRequestTrackedProperties, requestTxSignature } from 'src/dappkit/dappkit'
-import { activeDappSelector, dappConnectInfoSelector } from 'src/dapps/selectors'
-import { DappConnectInfo } from 'src/dapps/types'
+import { activeDappSelector } from 'src/dapps/selectors'
 import CopyIcon from 'src/icons/CopyIcon'
 import { isBottomSheetVisible, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -35,7 +34,6 @@ const DappKitSignTxScreen = ({ route }: Props) => {
   const { dappName, txs, callback } = dappKitRequest
 
   const activeDapp = useSelector(activeDappSelector)
-  const dappConnectInfo = useSelector(dappConnectInfoSelector)
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const isDappListed = useIsDappListed(callback)
@@ -80,7 +78,7 @@ const DappKitSignTxScreen = ({ route }: Props) => {
         onAccept={handleAllow}
         onDeny={handleCancel}
         dappName={dappName}
-        dappImageUrl={dappConnectInfo === DappConnectInfo.Basic ? activeDapp?.iconUrl : undefined}
+        dappImageUrl={activeDapp?.iconUrl}
         title={t('confirmTransaction')}
         description={t('walletConnectRequest.signTransaction', { dappName })}
         testId="DappKitSignRequest"

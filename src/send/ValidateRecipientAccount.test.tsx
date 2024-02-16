@@ -7,17 +7,34 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ValidateRecipientAccount from 'src/send/ValidateRecipientAccount'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockCusdAddress, mockE164NumberInvite, mockTransactionData } from 'test/values'
+import {
+  mockAccountInvite,
+  mockCusdAddress,
+  mockE164NumberInvite,
+  mockInvitableRecipient2,
+} from 'test/values'
 
 describe('ValidateRecipientAccount', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly when full validation required', () => {
-    const store = createMockStore()
+    const store = createMockStore({
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164NumberInvite]: {
+            addressValidationType: AddressValidationType.FULL,
+            validationSuccessful: false,
+          },
+        },
+      },
+    })
     const tree = render(
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            addressValidationType: AddressValidationType.FULL,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -27,13 +44,21 @@ describe('ValidateRecipientAccount', () => {
   })
 
   it('renders correctly when partial validation required', () => {
-    const store = createMockStore()
+    const store = createMockStore({
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164NumberInvite]: {
+            addressValidationType: AddressValidationType.PARTIAL,
+            validationSuccessful: false,
+          },
+        },
+      },
+    })
     const tree = render(
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            addressValidationType: AddressValidationType.PARTIAL,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -43,13 +68,21 @@ describe('ValidateRecipientAccount', () => {
   })
 
   it('typing correct last four of account enables submit button', () => {
-    const store = createMockStore()
+    const store = createMockStore({
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164NumberInvite]: {
+            addressValidationType: AddressValidationType.PARTIAL,
+            validationSuccessful: false,
+          },
+        },
+      },
+    })
     const tree = render(
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            addressValidationType: AddressValidationType.PARTIAL,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -64,13 +97,21 @@ describe('ValidateRecipientAccount', () => {
   })
 
   it('enables submit button for full validation', () => {
-    const store = createMockStore()
+    const store = createMockStore({
+      identity: {
+        secureSendPhoneNumberMapping: {
+          [mockE164NumberInvite]: {
+            addressValidationType: AddressValidationType.FULL,
+            validationSuccessful: false,
+          },
+        },
+      },
+    })
     const tree = render(
       <Provider store={store}>
         <ValidateRecipientAccount
           {...getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-            transactionData: mockTransactionData,
-            addressValidationType: AddressValidationType.FULL,
+            recipient: mockInvitableRecipient2,
             origin: SendOrigin.AppSendFlow,
           })}
         />
@@ -85,7 +126,7 @@ describe('ValidateRecipientAccount', () => {
     expect(tree.getByTestId('ConfirmAccountButton')).not.toBeDisabled()
   })
 
-  it('navigates to send confirmation when validation successful for send flow', () => {
+  it('navigates to send enter amount with validated address when validation is successful', () => {
     const store = createMockStore({
       identity: {
         secureSendPhoneNumberMapping: {
@@ -98,8 +139,7 @@ describe('ValidateRecipientAccount', () => {
     })
 
     const props = getMockStackScreenProps(Screens.ValidateRecipientAccount, {
-      transactionData: mockTransactionData,
-      addressValidationType: AddressValidationType.PARTIAL,
+      recipient: mockInvitableRecipient2,
       origin: SendOrigin.AppSendFlow,
     })
 
@@ -114,6 +154,7 @@ describe('ValidateRecipientAccount', () => {
         secureSendPhoneNumberMapping: {
           [mockE164NumberInvite]: {
             addressValidationType: AddressValidationType.NONE,
+            address: mockAccountInvite,
             validationSuccessful: true,
           },
         },
@@ -126,10 +167,15 @@ describe('ValidateRecipientAccount', () => {
       </Provider>
     )
 
-    expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmation, {
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
       origin: SendOrigin.AppSendFlow,
-      transactionData: mockTransactionData,
       isFromScan: false,
+      defaultTokenIdOverride: undefined,
+      forceTokenId: undefined,
+      recipient: {
+        ...mockInvitableRecipient2,
+        address: mockAccountInvite,
+      },
     })
   })
 })

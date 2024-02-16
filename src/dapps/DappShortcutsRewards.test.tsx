@@ -5,9 +5,9 @@ import DappShortcutsRewards from 'src/dapps/DappShortcutsRewards'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
+import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId, mockPositions, mockShortcuts } from 'test/values'
-import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(() => true),
@@ -111,7 +111,7 @@ const defaultState = {
         priceUsd: '0.6959536890241361', // matches data in mockPositions
         balance: '10',
         priceFetchedAt: Date.now(),
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
       [mockUbeTokenId]: {
         address: mockUbeAddress,
@@ -130,7 +130,7 @@ const defaultState = {
         priceUsd: '1',
         balance: '10',
         priceFetchedAt: Date.now(),
-        isCoreToken: true,
+        isFeeCurrency: true,
       },
     },
   },

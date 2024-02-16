@@ -38,24 +38,14 @@ import {
   sentryNetworkErrorsSelector,
   shouldRunVerificationMigrationSelector,
 } from 'src/app/selectors'
-import {
-  DEFAULT_APP_LANGUAGE,
-  DYNAMIC_LINK_DOMAIN_URI_PREFIX,
-  FETCH_TIMEOUT_DURATION,
-  isE2EEnv,
-} from 'src/config'
+import { DEFAULT_APP_LANGUAGE, FETCH_TIMEOUT_DURATION, isE2EEnv } from 'src/config'
 import { claimRewardsSuccess } from 'src/consumerIncentives/slice'
 import { SuperchargeTokenConfigByToken } from 'src/consumerIncentives/types'
 import { handleDappkitDeepLink } from 'src/dappkit/dappkit'
-import { DappConnectInfo } from 'src/dapps/types'
 import { CeloNewsConfig } from 'src/exchange/types'
 import { FiatAccountSchemaCountryOverrides } from 'src/fiatconnect/types'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import {
-  appVersionDeprecationChannel,
-  fetchRemoteConfigValues,
-  resolveDynamicLink,
-} from 'src/firebase/firebase'
+import { appVersionDeprecationChannel, fetchRemoteConfigValues } from 'src/firebase/firebase'
 import { initI18n } from 'src/i18n'
 import {
   allowOtaTranslationsSelector,
@@ -65,11 +55,7 @@ import {
 import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
-import {
-  navigate,
-  navigateHome,
-  navigateToFiatCurrencySelection,
-} from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
@@ -230,10 +216,7 @@ export function* checkAndroidMobileServicesSaga() {
 
 export interface RemoteConfigValues {
   celoEducationUri: string | null
-  celoEuroEnabled: boolean
   dappListApiUrl: string | null
-  inviteRewardCusd: number
-  inviteRewardWeeklyLimit: number
   inviteRewardsVersion: string
   walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
@@ -241,7 +224,6 @@ export interface RemoteConfigValues {
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
   pincodeUseExpandedBlocklist: boolean
-  rewardPillText: string
   rampCashInButtonExpEnabled: boolean
   allowOtaTranslations: boolean
   sentryTracesSampleRate: number
@@ -253,17 +235,13 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  dappConnectInfo: DappConnectInfo
   visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number
   networkTimeoutSeconds: number
-  dappFavoritesEnabled: boolean
   celoNews: CeloNewsConfig
   twelveWordMnemonicEnabled: boolean
-  dappsMinimalDisclaimerEnabled: boolean
-  guaranteedSwapPriceEnabled: boolean
   priceImpactWarningThreshold: number
   superchargeRewardContractAddress: string
 }
@@ -319,32 +297,49 @@ function convertQueryToScreenParams(query: string) {
 }
 
 export function* handleDeepLink(action: OpenDeepLink) {
-  let { deepLink } = action
+  const { deepLink } = action
   const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
+
+  const walletAddress = yield* select(walletAddressSelector)
+  if (!walletAddress) {
+    Logger.error(TAG, 'No wallet address found in store. This should never happen.')
+    return
+  }
 
   if (isWalletConnectDeepLink(deepLink)) {
     yield* call(handleWalletConnectDeepLink, deepLink)
     return
   }
 
-  // Try resolve dynamic links
-  if (deepLink.startsWith(DYNAMIC_LINK_DOMAIN_URI_PREFIX)) {
-    const resolvedDynamicLink = yield* call(resolveDynamicLink, deepLink)
-    if (resolvedDynamicLink) {
-      deepLink = resolvedDynamicLink
-    }
-  }
-
   const rawParams = parse(deepLink)
   if (rawParams.path) {
     const pathParts = rawParams.path.split('/')
+    const pathStartsWith = pathParts[1].split('?')[0]
+    // Only log detailed paramters (fullPath and query) for allowed paths. This is a security precaution so we
+    // don't accidentally log sensitive information on new deeplinks. 'jumpstart' is specifically excluded
+    const pathStartsWithAllowList = [
+      'pay',
+      'dappkit',
+      'cashIn',
+      'bidali',
+      'cash-in-success',
+      'cash-in-failure',
+      'openScreen',
+      'share',
+      'hooks',
+    ]
+    ValoraAnalytics.track(AppEvents.handle_deeplink, {
+      pathStartsWith: pathParts[1].split('?')[0],
+      fullPath: pathStartsWithAllowList.includes(pathStartsWith) ? rawParams.pathname : null,
+      query: pathStartsWithAllowList.includes(pathStartsWith) ? rawParams.query : null,
+    })
     if (rawParams.path.startsWith('/pay')) {
       yield* call(handlePaymentDeeplink, deepLink)
     } else if (rawParams.path.startsWith('/dappkit')) {
       yield* call(handleDappkitDeepLink, deepLink)
     } else if (rawParams.path === '/cashIn') {
-      navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
     } else if (rawParams.pathname === '/bidali') {
       navigate(Screens.BidaliScreen, { currency: undefined })
     } else if (rawParams.path.startsWith('/cash-in-success')) {
@@ -367,11 +362,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
       })
     } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
       const privateKey = pathParts[2]
-      const walletAddress = yield* select(walletAddressSelector)
-      if (!walletAddress) {
-        Logger.error(TAG, 'No wallet address found in store. This should never happen.')
-        return
-      }
       yield* call(jumpstartLinkHandler, privateKey, walletAddress)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&

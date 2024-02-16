@@ -2,14 +2,15 @@ import BigNumber from 'bignumber.js'
 import { TIME_UNTIL_TOKEN_INFO_BECOMES_STALE } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
-import { getDynamicConfigParams } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
   spendTokensByNetworkIdSelector,
-  swappableTokensByNetworkIdSelector,
+  swappableFromTokensByNetworkIdSelector,
+  swappableToTokensByNetworkIdSelector,
   tokensByAddressSelector,
   tokensByCurrencySelector,
   tokensByIdSelector,
@@ -28,7 +29,9 @@ import {
 } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { deterministicShuffle } from 'src/utils/random'
 import networkConfig from 'src/web3/networkConfig'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 /**
  * @deprecated use useTokenInfo and select using tokenId
@@ -89,7 +92,29 @@ export function useSwappableTokens() {
   const networkIdsForSwap = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES]
   ).showSwap
-  return useSelector((state) => swappableTokensByNetworkIdSelector(state, networkIdsForSwap))
+  const shouldShuffleTokens = getFeatureGate(StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER)
+
+  const walletAddress = useSelector(walletAddressSelector)
+  const swappableFromTokens = useSelector((state) =>
+    swappableFromTokensByNetworkIdSelector(state, networkIdsForSwap)
+  )
+  const swappableToTokens = useSelector((state) =>
+    swappableToTokensByNetworkIdSelector(state, networkIdsForSwap)
+  )
+
+  if (shouldShuffleTokens && walletAddress) {
+    return {
+      swappableFromTokens: deterministicShuffle(swappableFromTokens, 'tokenId', walletAddress),
+      swappableToTokens: deterministicShuffle(swappableToTokens, 'tokenId', walletAddress),
+      areSwapTokensShuffled: true,
+    }
+  }
+
+  return {
+    swappableFromTokens,
+    swappableToTokens,
+    areSwapTokensShuffled: false,
+  }
 }
 
 export function useCashInTokens() {
@@ -147,17 +172,6 @@ export function useLocalToTokenAmount(
   })
 }
 
-/**
- * @deprecated use useLocalToTokenAmount
- */
-export function useLocalToTokenAmountByAddress(
-  localAmount: BigNumber,
-  tokenAddress?: string | null
-): BigNumber | null {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useLocalToTokenAmount(localAmount, tokenInfo?.tokenId)
-}
-
 export function useTokenToLocalAmount(
   tokenAmount: BigNumber,
   tokenId: string | undefined
@@ -171,31 +185,12 @@ export function useTokenToLocalAmount(
   })
 }
 
-/**
- * @deprecated use useLocalToTokenAmount
- */
-export function useTokenToLocalAmountByAddress(
-  tokenAmount: BigNumber,
-  tokenAddress?: string | null
-): BigNumber | null {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useTokenToLocalAmount(tokenAmount, tokenInfo?.tokenId)
-}
-
 export function useAmountAsUsd(amount: BigNumber, tokenId: string | undefined) {
   const tokenInfo = useTokenInfo(tokenId)
   if (!tokenInfo?.priceUsd) {
     return null
   }
   return amount.multipliedBy(tokenInfo.priceUsd)
-}
-
-/**
- * @deprecated use useAmountAsUsd
- */
-export function useAmountAsUsdByAddress(amount: BigNumber, tokenAddress: string) {
-  const tokenInfo = useTokenInfoByAddress(tokenAddress)
-  return useAmountAsUsd(amount, tokenInfo?.tokenId)
 }
 
 export function useUsdToTokenAmount(amount: BigNumber, tokenAddress?: string) {

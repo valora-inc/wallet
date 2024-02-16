@@ -37,13 +37,12 @@ describe('VerificationCodeInputWrapper', () => {
   })
 
   it('displays the correct components', () => {
-    const { getByText, getByTestId, queryByTestId } = renderComponent()
+    const { getByText, getByTestId } = renderComponent()
 
     expect(
       getByText(`phoneVerificationInput.description, {"phoneNumber":"${mockPhoneNumber}"}`)
     ).toBeTruthy()
     expect(getByTestId('PhoneVerificationResendSmsBtn')).toBeDisabled()
-    expect(queryByTestId('PasteButton')).toBeFalsy()
   })
 
   it('hides resend button if onResendSms is not set', () => {
@@ -104,29 +103,5 @@ describe('VerificationCodeInputWrapper', () => {
       smsListener({ message: 'Your verification code for Valora is: 456789 5yaJvJcZt2P' })
     })
     expect(mockSetSmsCode).toHaveBeenCalledWith('456789')
-  })
-
-  it('shows paste button if clipboard has content matching code length', async () => {
-    const { findByTestId } = renderComponent()
-
-    await act(() => {
-      jest.mocked(Clipboard.getString).mockResolvedValue('123456')
-      jest.mocked(Clipboard.hasString).mockResolvedValue(true)
-    })
-    const findByPromise = findByTestId('PasteButton')
-    jest.runOnlyPendingTimers()
-    await expect(findByPromise).resolves.toBeTruthy()
-  })
-
-  it('does not show paste button if clipboard has content not matching code length', async () => {
-    const { findByTestId } = renderComponent()
-
-    await act(() => {
-      jest.mocked(Clipboard.getString).mockResolvedValue('12345678')
-      jest.mocked(Clipboard.hasString).mockResolvedValue(true)
-    })
-    const findByPromise = findByTestId('PasteButton')
-    jest.runOnlyPendingTimers()
-    await expect(findByPromise).rejects.toBeTruthy()
   })
 })

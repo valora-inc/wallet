@@ -23,7 +23,7 @@ const TAG = 'exchange/CeloNewsFeed'
 
 const LOADING_SKELETON_DATA = Array.from({ length: 5 }).map(
   // This bypasses the type check, but it's fine because we're just using it for the skeleton
-  (_, i) => ({ id: i } as CeloNewsArticle)
+  (_, i) => ({ id: i }) as CeloNewsArticle
 )
 
 function renderItem({ item: article }: ListRenderItemInfo<CeloNewsArticle>) {

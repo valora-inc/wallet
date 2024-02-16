@@ -1,6 +1,8 @@
 import { RehydrateAction } from 'redux-persist'
 import { Actions, ActionTypes } from 'src/home/actions'
+import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
 import { getRehydratePayload, REHYDRATE } from 'src/redux/persist-helper'
+import { NetworkId } from 'src/transactions/types'
 
 export const DEFAULT_PRIORITY = 20
 
@@ -31,11 +33,21 @@ export interface IdToNotification {
 export interface State {
   loading: boolean
   notifications: IdToNotification
+  cleverTapInboxMessages: CleverTapInboxMessage[]
+  hasVisitedHome: boolean
+  nftCelebration: {
+    networkId: NetworkId
+    contractAddress: string
+    displayed: boolean
+  } | null
 }
 
 export const initialState = {
   loading: false,
   notifications: {},
+  cleverTapInboxMessages: [],
+  hasVisitedHome: false,
+  nftCelebration: null,
 }
 
 export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -93,6 +105,33 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
             ...notification,
             dismissed: true,
           },
+        },
+      }
+    case Actions.CLEVERTAP_INBOX_MESSAGES_RECEIVED:
+      return {
+        ...state,
+        cleverTapInboxMessages: action.messages,
+      }
+    case Actions.VISIT_HOME:
+      return {
+        ...state,
+        hasVisitedHome: true,
+      }
+    case Actions.CELEBRATED_NFT_FOUND:
+      return {
+        ...state,
+        nftCelebration: {
+          networkId: action.networkId,
+          contractAddress: action.contractAddress,
+          displayed: false,
+        },
+      }
+    case Actions.NFT_CELEBRATION_DISPLAYED:
+      return {
+        ...state,
+        nftCelebration: {
+          ...state.nftCelebration,
+          displayed: true,
         },
       }
     default:

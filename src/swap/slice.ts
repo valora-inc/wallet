@@ -2,72 +2,83 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions'
 import { getRehydratePayload } from 'src/redux/persist-helper'
-import { SwapInfo, SwapInfoPrepared } from 'src/swap/types'
+import { SwapInfo } from 'src/swap/types'
 
-export enum SwapState {
-  USER_INPUT = 'user-input',
-  QUOTE = 'quote',
-  START = 'start',
-  APPROVE = 'approve',
-  EXECUTE = 'execute',
-  COMPLETE = 'complete',
-  PRICE_CHANGE = 'price-change',
-  ERROR = 'error',
+type SwapStatus = 'idle' | 'started' | 'success' | 'error'
+
+interface SwapTask {
+  id: string
+  status: SwapStatus
+}
+
+interface SwapResult {
+  swapId: string
+  fromTokenId: string
+  toTokenId: string
 }
 
 export interface State {
-  swapState: SwapState
-  swapInfo: SwapInfo | null
-  guaranteedSwapPriceEnabled: boolean
+  currentSwap: SwapTask | null
+  /**
+   * In percentage, between 0 and 100
+   */
   priceImpactWarningThreshold: number
+  lastSwapped: string[]
 }
 
 const initialState: State = {
-  swapState: SwapState.QUOTE,
-  swapInfo: null,
-  guaranteedSwapPriceEnabled: false,
-  priceImpactWarningThreshold: 0.04,
+  currentSwap: null,
+  priceImpactWarningThreshold: 4, // 4% by default
+  lastSwapped: [],
+}
+
+function updateCurrentSwapStatus(currentSwap: SwapTask | null, swapId: string, status: SwapStatus) {
+  if (!currentSwap || currentSwap.id !== swapId) {
+    return
+  }
+  currentSwap.status = status
+}
+
+export function updateLastSwappedTokens(tokenIds: string[], newTokenIds: string[]) {
+  const MAX_TOKEN_COUNT = 10
+
+  const uniqueNewTokenIds = new Set(newTokenIds)
+  const prevTokenIds = [...tokenIds]
+  tokenIds.length = 0 // clear the array while keeping the reference
+
+  for (const tokenId of prevTokenIds) {
+    if (!uniqueNewTokenIds.has(tokenId)) {
+      tokenIds.push(tokenId)
+    }
+  }
+
+  tokenIds.push(...uniqueNewTokenIds)
+
+  if (tokenIds.length > MAX_TOKEN_COUNT) {
+    tokenIds.splice(0, tokenIds.length - MAX_TOKEN_COUNT)
+  }
 }
 
 export const slice = createSlice({
   name: 'swap',
   initialState,
   reducers: {
-    // Legacy
     swapStart: (state, action: PayloadAction<SwapInfo>) => {
-      state.swapState = SwapState.START
-      state.swapInfo = action.payload
-    },
-    // New flow with prepared transactions
-    swapStartPrepared: (state, action: PayloadAction<SwapInfoPrepared>) => {
-      state.swapState = SwapState.START
-      // Compat for existing code
-      state.swapInfo = {
-        ...action.payload.quote.rawSwapResponse,
-        userInput: action.payload.userInput,
-        quoteReceivedAt: action.payload.quote.receivedAt,
+      state.currentSwap = {
+        id: action.payload.swapId,
+        status: 'started',
       }
     },
-    swapApprove: (state) => {
-      state.swapState = SwapState.APPROVE
+    swapSuccess: (state, action: PayloadAction<SwapResult>) => {
+      const { swapId, fromTokenId, toTokenId } = action.payload
+      updateCurrentSwapStatus(state.currentSwap, swapId, 'success')
+      updateLastSwappedTokens(state.lastSwapped, [fromTokenId, toTokenId])
     },
-    swapExecute: (state) => {
-      state.swapState = SwapState.EXECUTE
+    swapError: (state, action: PayloadAction<string>) => {
+      updateCurrentSwapStatus(state.currentSwap, action.payload, 'error')
     },
-    swapSuccess: (state) => {
-      state.swapState = SwapState.COMPLETE
-      state.swapInfo = null
-    },
-    swapReset: (state) => {
-      state.swapState = SwapState.USER_INPUT
-      state.swapInfo = null
-    },
-    swapPriceChange: (state) => {
-      state.swapState = SwapState.PRICE_CHANGE
-    },
-    swapError: (state) => {
-      state.swapState = SwapState.ERROR
-      state.swapInfo = null
+    swapCancel: (state, action: PayloadAction<string>) => {
+      updateCurrentSwapStatus(state.currentSwap, action.payload, 'idle')
     },
   },
   extraReducers: (builder) => {
@@ -75,28 +86,17 @@ export const slice = createSlice({
       .addCase(
         AppActions.UPDATE_REMOTE_CONFIG_VALUES,
         (state, action: UpdateConfigValuesAction) => {
-          state.guaranteedSwapPriceEnabled = action.configValues.guaranteedSwapPriceEnabled
           state.priceImpactWarningThreshold = action.configValues.priceImpactWarningThreshold
         }
       )
       .addCase(REHYDRATE, (state, action: RehydrateAction) => ({
         ...state,
         ...getRehydratePayload(action, 'swap'),
-        swapState: SwapState.QUOTE,
-        swapInfo: null,
+        currentSwap: null,
       }))
   },
 })
 
-export const {
-  swapStart,
-  swapStartPrepared,
-  swapApprove,
-  swapExecute,
-  swapSuccess,
-  swapReset,
-  swapPriceChange,
-  swapError,
-} = slice.actions
+export const { swapStart, swapSuccess, swapError, swapCancel } = slice.actions
 
 export default slice.reducer

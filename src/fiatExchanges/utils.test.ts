@@ -1,13 +1,14 @@
 import BigNumber from 'bignumber.js'
+import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import {
-  mockCusdAddress,
+  mockCusdTokenId,
   mockExchanges,
   mockLegacyMobileMoneyProvider,
   mockTokenBalances,
 } from '../../test/values'
 import { CiCoCurrency } from '../utils/currencies'
 import NormalizedQuote from './quotes/NormalizedQuote'
-import { PaymentMethod, getProviderSelectionAnalyticsData } from './utils'
+import { PaymentMethod, fetchExchanges, getProviderSelectionAnalyticsData } from './utils'
 
 class MockNormalizedQuote extends NormalizedQuote {
   getCryptoType = jest.fn()
@@ -23,7 +24,14 @@ class MockNormalizedQuote extends NormalizedQuote {
   navigate = jest.fn()
   isProviderNew = jest.fn()
   getReceiveAmount = jest.fn()
+  getTokenId = jest.fn()
 }
+
+jest.mock('../utils/fetchWithTimeout')
+const mockGetExchangesResponse = [{ name: 'exchange-name', link: 'provider-link' }]
+jest
+  .mocked(fetchWithTimeout)
+  .mockResolvedValue(new Response(JSON.stringify(mockGetExchangesResponse)))
 
 describe('fiatExchanges utils', () => {
   const transferCryptoAmount = 10.0
@@ -73,7 +81,7 @@ describe('fiatExchanges utils', () => {
         transferCryptoAmount,
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
-          ...mockTokenBalances[mockCusdAddress],
+          ...mockTokenBalances[mockCusdTokenId],
           lastKnownPriceUsd: new BigNumber('1'),
           priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
@@ -98,6 +106,7 @@ describe('fiatExchanges utils', () => {
           Coinbase: true,
           FiatConnectMobileMoney: true,
         },
+        networkId: 'celo-alfajores',
       })
     })
 
@@ -111,7 +120,7 @@ describe('fiatExchanges utils', () => {
         transferCryptoAmount,
         cryptoType: CiCoCurrency.cUSD,
         tokenInfo: {
-          ...mockTokenBalances[mockCusdAddress],
+          ...mockTokenBalances[mockCusdTokenId],
           lastKnownPriceUsd: new BigNumber('1'),
           priceUsd: new BigNumber('1'),
           balance: new BigNumber('10'),
@@ -136,7 +145,19 @@ describe('fiatExchanges utils', () => {
           Coinbase: false,
           FiatConnectMobileMoney: true,
         },
+        networkId: 'celo-alfajores',
       })
+    })
+  })
+  describe('fetchExchanges', () => {
+    it('fetchExchanges works as expected', async () => {
+      const exchanges = await fetchExchanges('US', 'mock-token-id')
+      expect(fetchWithTimeout).toHaveBeenCalledWith(
+        'https://api.alfajores.valora.xyz/getExchanges?country=US&tokenId=mock-token-id',
+        undefined,
+        30000
+      )
+      expect(exchanges).toStrictEqual(mockGetExchangesResponse)
     })
   })
 })

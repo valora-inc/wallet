@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 170,
+          "version": 190,
         },
         "account": {
           "acceptedTerms": false,
@@ -136,7 +136,6 @@ describe('store state', () => {
           "analyticsEnabled": true,
           "appState": "Active",
           "celoEducationUri": null,
-          "celoEuroEnabled": true,
           "celoNews": {},
           "coinbasePayEnabled": false,
           "fiatConnectCashInEnabled": false,
@@ -153,20 +152,16 @@ describe('store state', () => {
           "loggedIn": false,
           "maxSwapSlippagePercentage": 2,
           "minVersion": null,
+          "multichainBetaStatus": "NotSeen",
           "networkTimeoutSeconds": 30,
           "numberVerified": false,
+          "pendingDeepLinks": [],
           "phoneNumberVerified": false,
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
           "rampCashInButtonExpEnabled": false,
           "requirePinOnAppOpen": false,
-          "rewardPillText": {
-            "de": "Belohnungen",
-            "en": "Rewards",
-            "es": "Recompensas",
-            "pt": "Recompensas",
-          },
           "sentryNetworkErrors": [
             "network request failed",
             "The network connection was lost",
@@ -186,14 +181,11 @@ describe('store state', () => {
         },
         "dapps": {
           "activeDapp": null,
-          "dappConnectInfo": "default",
-          "dappFavoritesEnabled": false,
           "dappListApiUrl": null,
           "dappsCategories": [],
           "dappsList": [],
           "dappsListError": null,
           "dappsListLoading": false,
-          "dappsMinimalDisclaimerEnabled": false,
           "dappsWebViewEnabled": false,
           "favoriteDappIds": [],
           "maxNumRecentDapps": 0,
@@ -237,7 +229,10 @@ describe('store state', () => {
           "txHashToProvider": {},
         },
         "home": {
+          "cleverTapInboxMessages": [],
+          "hasVisitedHome": true,
           "loading": false,
+          "nftCelebration": null,
           "notifications": {},
         },
         "i18n": {
@@ -251,6 +246,7 @@ describe('store state', () => {
           "addressToDataEncryptionKey": {},
           "addressToDisplayName": {},
           "addressToE164Number": {},
+          "addressToVerificationStatus": {},
           "askedContactsPermission": false,
           "e164NumberToAddress": {},
           "e164NumberToSalt": {},
@@ -260,6 +256,7 @@ describe('store state', () => {
             "status": 0,
             "total": 0,
           },
+          "lastSavedContactsHash": null,
           "secureSendPhoneNumberMapping": {},
           "walletToAccountAddress": {},
         },
@@ -301,6 +298,7 @@ describe('store state', () => {
           "status": "idle",
           "triggeredShortcutsStatus": {},
         },
+        "priceHistory": {},
         "recipients": {
           "coinbasePaySenders": [],
           "inviteRewardsSenders": [],
@@ -309,8 +307,6 @@ describe('store state', () => {
           "valoraRecipientCache": {},
         },
         "send": {
-          "inviteRewardCusd": 5,
-          "inviteRewardWeeklyLimit": 20,
           "inviteRewardsVersion": "none",
           "isSending": false,
           "lastUsedTokenId": undefined,
@@ -327,10 +323,9 @@ describe('store state', () => {
           "superchargeRewardContractAddress": "",
         },
         "swap": {
-          "guaranteedSwapPriceEnabled": false,
-          "priceImpactWarningThreshold": 0.04,
-          "swapInfo": null,
-          "swapState": "quote",
+          "currentSwap": null,
+          "lastSwapped": [],
+          "priceImpactWarningThreshold": 4,
         },
         "tokens": {
           "error": false,

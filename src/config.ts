@@ -43,7 +43,6 @@ export const GAS_INFLATION_FACTOR = 1.5 // Used when estimating gas for txs
 export const GAS_PRICE_INFLATION_FACTOR = 5 // Used when getting gas price, must match what Geth does
 export const BALANCE_OUT_OF_SYNC_THRESHOLD = 1 * 60 // 1 minute
 export const ALERT_BANNER_DURATION = 5000
-export const NUMBER_INPUT_MAX_DECIMALS = 2
 export const MAX_COMMENT_LENGTH = 70
 export const MAX_ENCRYPTED_COMMENT_LENGTH_APPROX = 640 // used to estimate fees. should be updated if MAX_COMMENT_LENGTH is changed. chosen empirically by encrypting a comment of max length
 export const INPUT_DEBOUNCE_TIME = 1000 // milliseconds
@@ -110,6 +109,17 @@ export const ALCHEMY_ETHEREUM_API_KEY = keyOrUndefined(
   DEFAULT_TESTNET,
   'ALCHEMY_ETHEREUM_API_KEY'
 )
+export const ALCHEMY_ARBITRUM_API_KEY = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'ALCHEMY_ARBITRUM_API_KEY'
+)
+export const ALCHEMY_OPTIMISM_API_KEY = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'ALCHEMY_OPTIMISM_API_KEY'
+)
+
 export const ZENDESK_API_KEY = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'ZENDESK_API_KEY')
 export const STATSIG_API_KEY =
   keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'STATSIG_API_KEY') ??

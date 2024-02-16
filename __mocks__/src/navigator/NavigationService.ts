@@ -6,7 +6,6 @@ export const popToScreen = jest.fn()
 export const navigateBack = jest.fn()
 export const ensurePincode = jest.fn()
 export const isBottomSheetVisible = jest.fn()
-export const navigateToFiatCurrencySelection = jest.fn()
 
 export enum NavActions {
   SET_NAVIGATOR = 'NAVIGATION/SET_NAVIGATOR',

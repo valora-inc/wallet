@@ -2,6 +2,7 @@ import { EventLog } from '@celo/connect'
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
+import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { getSupportedNetworkIdsForSend, getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import {
@@ -148,17 +149,71 @@ describe('watchPendingTransactions', () => {
     timestamp: 1000,
     status: TransactionStatus.Pending,
     transactionHash,
+    feeCurrencyId: mockCusdTokenId,
   }
 
-  it('updates the pending standby transaction when reverted', async () => {
-    const revertedReceipt = {
-      status: 'reverted',
-      blockNumber: BigInt(123),
-      transactionHash,
-      gasUsed: 200_000,
-      effectiveGasPrice: 1e9,
-    }
+  const successReceipt = {
+    status: 'success',
+    blockNumber: BigInt(123),
+    transactionHash,
+    gasUsed: 2_000_000,
+    effectiveGasPrice: 1e9,
+  }
+  function createDefaultProviders(network: Network) {
+    const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [
+        call([publicClient[network], 'getTransactionReceipt'], { hash: transactionHash }),
+        successReceipt,
+      ],
+      [
+        call([publicClient[network], 'getBlock'], { blockNumber: BigInt(123) }),
+        { timestamp: 1701102971 },
+      ],
+    ]
 
+    return defaultProviders
+  }
+
+  it('updates the pending standby transaction when reverted without fee details', async () => {
+    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
+      .withState(
+        createMockStore({
+          transactions: {
+            standbyTransactions: [
+              {
+                ...pendingTransaction,
+                feeCurrencyId: undefined,
+              },
+            ],
+          },
+        }).getState()
+      )
+      .provide([
+        [
+          call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
+          {
+            ...successReceipt,
+            status: 'reverted',
+          },
+        ],
+        ...createDefaultProviders(Network.Celo),
+      ])
+      .put(
+        transactionConfirmed(
+          transactionId,
+          {
+            transactionHash,
+            block: '123',
+            status: TransactionStatus.Failed,
+            fees: [],
+          },
+          1701102971000
+        )
+      )
+      .run()
+  })
+
+  it('updates the pending standby transaction when successful with fee details in cUSD', async () => {
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
       .withState(
         createMockStore({
@@ -167,66 +222,31 @@ describe('watchPendingTransactions', () => {
           },
         }).getState()
       )
-      .provide([
-        [
-          call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
-          revertedReceipt,
-        ],
-      ])
+      .provide(createDefaultProviders(Network.Celo))
       .put(
-        transactionConfirmed(transactionId, {
-          transactionHash,
-          block: '123',
-          status: TransactionStatus.Failed,
-          fees: [],
-        })
-      )
-      .run()
-  })
-
-  it('updates the pending standby transaction when successful', async () => {
-    const successReceipt = {
-      status: 'success',
-      blockNumber: BigInt(123),
-      transactionHash,
-      gasUsed: 2_000_000,
-      effectiveGasPrice: 1e9,
-    }
-
-    await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Celo)
-      .withState(
-        createMockStore({
-          transactions: {
-            standbyTransactions: [pendingTransaction],
+        transactionConfirmed(
+          transactionId,
+          {
+            transactionHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.002',
+                  tokenId: mockCusdTokenId,
+                },
+              },
+            ],
           },
-        }).getState()
-      )
-      .provide([
-        [
-          call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }),
-          successReceipt,
-        ],
-      ])
-      .put(
-        transactionConfirmed(transactionId, {
-          transactionHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [],
-        })
+          1701102971000
+        )
       )
       .run()
   })
 
-  it('updates the pending standby transaction when successful with fee details', async () => {
-    const successReceipt = {
-      status: 'success',
-      blockNumber: BigInt(123),
-      transactionHash,
-      gasUsed: 2_000_000,
-      effectiveGasPrice: 1e9,
-    }
-
+  it('updates the pending standby transaction when successful with fee details in Ether', async () => {
     await expectSaga(internalWatchPendingTransactionsInNetwork, Network.Ethereum)
       .withState(
         createMockStore({
@@ -235,6 +255,7 @@ describe('watchPendingTransactions', () => {
               {
                 ...pendingTransaction,
                 networkId: NetworkId['ethereum-sepolia'],
+                feeCurrencyId: mockEthTokenId,
               },
             ],
           },
@@ -243,27 +264,26 @@ describe('watchPendingTransactions', () => {
           },
         }).getState()
       )
-      .provide([
-        [
-          call([publicClient.ethereum, 'getTransactionReceipt'], { hash: transactionHash }),
-          successReceipt,
-        ],
-      ])
+      .provide(createDefaultProviders(Network.Ethereum))
       .put(
-        transactionConfirmed(transactionId, {
-          transactionHash,
-          block: '123',
-          status: TransactionStatus.Complete,
-          fees: [
-            {
-              type: 'SECURITY_FEE',
-              amount: {
-                value: '0.002',
-                tokenId: mockEthTokenId,
+        transactionConfirmed(
+          transactionId,
+          {
+            transactionHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.002',
+                  tokenId: mockEthTokenId,
+                },
               },
-            },
-          ],
-        })
+            ],
+          },
+          1701102971000
+        )
       )
       .run()
   })
@@ -279,8 +299,9 @@ describe('watchPendingTransactions', () => {
       )
       .provide([
         [call([publicClient.celo, 'getTransactionReceipt'], { hash: transactionHash }), null],
+        ...createDefaultProviders(Network.Celo),
       ])
-      .not.put(transactionConfirmed(expect.any(String), expect.any(Object)))
+      .not.put(transactionConfirmed(expect.any(String), expect.any(Object), expect.any(Number)))
       .run()
   })
 

@@ -9,12 +9,19 @@ export enum AppState {
   Inactive = 'Inactive',
 }
 
+export enum MultichainBetaStatus {
+  NotSeen = 'NotSeen',
+  OptedIn = 'OptedIn',
+  OptedOut = 'OptedOut',
+}
+
 export enum Actions {
   SET_APP_STATE = 'APP/SET_APP_STATE',
   SET_LOGGED_IN = 'APP/SET_LOGGED_IN',
   SET_NUMBER_VERIFIED = 'APP/SET_NUMBER_VERIFIED',
   SET_SUPPORTED_BIOMETRY_TYPE = 'APP/SET_SUPPORTED_BIOMETRY_TYPE',
   OPEN_DEEP_LINK = 'APP/OPEN_DEEP_LINK',
+  DEEP_LINK_DEFERRED = 'APP/DEEP_LINK_DEFERRED',
   RESET_APP_OPENED_STATE = 'APP/RESET_APP_OPENED_STATE',
   SET_FEED_CACHE = 'APP/SET_FEED_CACHE',
   SET_ANALYTICS_ENABLED = 'APP/SET_ANALYTICS_ENABLED',
@@ -39,6 +46,7 @@ export enum Actions {
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
   TOGGLE_HIDE_HOME_BALANCES = 'APP/TOGGLE_HIDE_HOME_BALANCES',
+  OPT_MULTICHAIN_BETA = 'APP/OPT_MULTICHAIN_BETA',
 }
 
 export interface SetAppState {
@@ -63,6 +71,12 @@ interface SetSupportedBiometryType {
 
 export interface OpenDeepLink {
   type: Actions.OPEN_DEEP_LINK
+  deepLink: string
+  isSecureOrigin: boolean
+}
+
+interface DeepLinkDeferred {
+  type: Actions.DEEP_LINK_DEFERRED
   deepLink: string
   isSecureOrigin: boolean
 }
@@ -174,6 +188,11 @@ interface ToggleHideHomeBalances {
   type: Actions.TOGGLE_HIDE_HOME_BALANCES
 }
 
+interface OptMultichainBeta {
+  type: Actions.OPT_MULTICHAIN_BETA
+  optedIn: boolean
+}
+
 export type ActionTypes =
   | SetAppState
   | SetLoggedIn
@@ -202,6 +221,8 @@ export type ActionTypes =
   | inAppReviewRequested
   | NotificationSpotlightSeen
   | ToggleHideHomeBalances
+  | OptMultichainBeta
+  | DeepLinkDeferred
 
 export const setAppState = (state: string): SetAppState => ({
   type: Actions.SET_APP_STATE,
@@ -226,6 +247,14 @@ export const setSupportedBiometryType = (supportedBiometryType: BIOMETRY_TYPE | 
 export const openDeepLink = (deepLink: string, isSecureOrigin: boolean = false): OpenDeepLink => {
   return {
     type: Actions.OPEN_DEEP_LINK,
+    deepLink,
+    isSecureOrigin,
+  }
+}
+
+export const deepLinkDeferred = (deepLink: string, isSecureOrigin: boolean): DeepLinkDeferred => {
+  return {
+    type: Actions.DEEP_LINK_DEFERRED,
     deepLink,
     isSecureOrigin,
   }
@@ -372,5 +401,12 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
 export const toggleHideHomeBalances = (): ToggleHideHomeBalances => {
   return {
     type: Actions.TOGGLE_HIDE_HOME_BALANCES,
+  }
+}
+
+export const optMultichainBeta = (optedIn: boolean): OptMultichainBeta => {
+  return {
+    type: Actions.OPT_MULTICHAIN_BETA,
+    optedIn,
   }
 }

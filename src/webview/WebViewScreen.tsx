@@ -1,7 +1,15 @@
+import { useHeaderHeight } from '@react-navigation/elements'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ActionSheetIOS, ActivityIndicator, Platform, StyleSheet, View } from 'react-native'
+import {
+  ActionSheetIOS,
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ShouldStartLoadRequest } from 'react-native-webview/lib/WebViewTypes'
 import { useDispatch, useSelector } from 'react-redux'
@@ -41,6 +49,7 @@ function WebViewScreen({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
+  const headerHeight = useHeaderHeight()
   const activeDapp = useSelector(activeDappSelector)
 
   const disabledMediaPlaybackRequiresUserActionOrigins = getDynamicConfigParams(
@@ -195,21 +204,28 @@ function WebViewScreen({ route, navigation }: Props) {
 
   return (
     <SafeAreaView style={styles.container} edges={['bottom']}>
-      <WebView
-        ref={webViewRef}
-        originWhitelist={['https://*', 'celo://*']}
-        onShouldStartLoadWithRequest={handleLoadRequest}
-        source={{ uri }}
-        startInLoadingState={true}
-        renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
-        onNavigationStateChange={(navState) => {
-          setCanGoBack(navState.canGoBack)
-          setCanGoForward(navState.canGoForward)
-          handleSetNavigationTitle(navState.url, navState.title, navState.loading)
-        }}
-        mediaPlaybackRequiresUserAction={mediaPlaybackRequiresUserAction}
-        testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
-      />
+      <KeyboardAvoidingView
+        style={styles.keyboardView}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={headerHeight}
+        testID="WebViewScreen/KeyboardAwareView"
+      >
+        <WebView
+          ref={webViewRef}
+          originWhitelist={['https://*', 'celo://*']}
+          onShouldStartLoadWithRequest={handleLoadRequest}
+          source={{ uri }}
+          startInLoadingState={true}
+          renderLoading={() => <ActivityIndicator style={styles.loading} size="large" />}
+          onNavigationStateChange={(navState) => {
+            setCanGoBack(navState.canGoBack)
+            setCanGoForward(navState.canGoForward)
+            handleSetNavigationTitle(navState.url, navState.title, navState.loading)
+          }}
+          mediaPlaybackRequiresUserAction={mediaPlaybackRequiresUserAction}
+          testID={activeDapp ? `WebViewScreen/${activeDapp.name}` : 'RNWebView'}
+        />
+      </KeyboardAvoidingView>
       {Platform.OS === 'android' && (
         <WebViewAndroidBottomSheet
           currentUrl={currentUrl}
@@ -252,6 +268,9 @@ function WebViewScreen({ route, navigation }: Props) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  keyboardView: {
     flex: 1,
   },
   loading: {

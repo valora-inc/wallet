@@ -1,5 +1,6 @@
 import { getRegionCodeFromCountryCode } from '@celo/phone-utils'
 import BigNumber from 'bignumber.js'
+import { camelCase } from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import * as RNLocalize from 'react-native-localize'
 import { createSelector } from 'reselect'
@@ -16,13 +17,23 @@ import {
   positionsByBalanceUsdSelector,
   totalPositionsBalanceUsdSelector,
 } from 'src/positions/selectors'
-import { coreTokensSelector, tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
+import { RootState } from 'src/redux/reducers'
+import { tokensListSelector, tokensWithTokenBalanceSelector } from 'src/tokens/selectors'
 import { sortByUsdBalance } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import { mtwAddressSelector, rawWalletAddressSelector } from 'src/web3/selectors'
 
+function toPascalCase(str: string) {
+  const camelCaseStr = camelCase(str)
+  return `${camelCaseStr.charAt(0).toUpperCase()}${camelCaseStr.slice(1)}`
+}
+
 const tokensSelector = createSelector(
-  [tokensWithTokenBalanceAndAddressSelector, coreTokensSelector],
-  (tokens, coreTokens) => ({ tokens, coreTokens })
+  [tokensListSelector, tokensWithTokenBalanceSelector],
+  (tokens, tokensWithBalance) => ({
+    tokensWithBalance,
+    feeTokens: tokens.filter(({ isFeeCurrency, isNative }) => isNative || isFeeCurrency),
+  })
 )
 
 const positionsAnalyticsSelector = createSelector(
@@ -81,6 +92,7 @@ export const getCurrentUserTraits = createSelector(
     backupCompletedSelector,
     pincodeTypeSelector,
     superchargeInfoSelector,
+    (_state: RootState, networkIds: NetworkId[]) => networkIds,
   ],
   (
     rawWalletAddress,
@@ -88,7 +100,7 @@ export const getCurrentUserTraits = createSelector(
     phoneCountryCallingCode,
     { countryCodeAlpha2 },
     language,
-    { tokens, coreTokens },
+    { tokensWithBalance, feeTokens },
     {
       totalPositionsBalanceUsd,
       positionsCount,
@@ -101,19 +113,39 @@ export const getCurrentUserTraits = createSelector(
     { numberVerifiedDecentralized, numberVerifiedCentralized },
     hasCompletedBackup,
     pincodeType,
-    superchargeInfo
-  ): // Enforce primitive types, TODO: check this using `satisfies` once we upgrade to TS >= 4.9
-  // so we don't need to erase the named keys
-  Record<string, string | boolean | number | null | undefined> => {
-    const coreTokensAddresses = new Set(coreTokens.map((token) => token?.address))
-    const tokensByUsdBalance = tokens.sort(sortByUsdBalance)
+    superchargeInfo,
+    networkIds
+  ) => {
+    const feeTokenIds = new Set(feeTokens.map(({ tokenId }) => tokenId))
+    const tokensByUsdBalance = tokensWithBalance.sort(sortByUsdBalance)
 
     let totalBalanceUsd = new BigNumber(0)
+    const totalBalanceUsdByNetworkIdBigNumber: Record<string, BigNumber> = Object.fromEntries(
+      networkIds.map((networkId) => [`total${toPascalCase(networkId)}BalanceUsd`, new BigNumber(0)])
+    )
     for (const token of tokensByUsdBalance) {
       const tokenBalanceUsd = token.balance.multipliedBy(token.priceUsd ?? 0)
       if (!tokenBalanceUsd.isNaN()) {
         totalBalanceUsd = totalBalanceUsd.plus(tokenBalanceUsd)
+        totalBalanceUsdByNetworkIdBigNumber[`total${toPascalCase(token.networkId)}BalanceUsd`] =
+          totalBalanceUsdByNetworkIdBigNumber[
+            `total${toPascalCase(token.networkId)}BalanceUsd`
+          ].plus(tokenBalanceUsd)
       }
+    }
+    const totalBalanceUsdByNetworkId: Record<string, number> = {}
+    for (const [key, value] of Object.entries(totalBalanceUsdByNetworkIdBigNumber)) {
+      totalBalanceUsdByNetworkId[key] = value.toNumber()
+    }
+
+    const hasTokenBalanceFields: Record<string, boolean> = {
+      hasTokenBalance: tokensWithBalance.length > 0,
+      ...Object.fromEntries(
+        networkIds.map((networkId) => [
+          `has${toPascalCase(networkId)}TokenBalance`,
+          tokensWithBalance.some((token) => token.networkId === networkId),
+        ])
+      ),
     }
 
     // Don't rename these unless you have a really good reason!
@@ -130,9 +162,10 @@ export const getCurrentUserTraits = createSelector(
       deviceLanguage: RNLocalize.getLocales()[0]?.languageTag, // Example: "en-GB"
       netWorthUsd: new BigNumber(totalBalanceUsd).plus(totalPositionsBalanceUsd).toNumber(), // Tokens + positions
       totalBalanceUsd: totalBalanceUsd?.toNumber(), // Only tokens (with a USD price), no positions
+      ...totalBalanceUsdByNetworkId,
       tokenCount: tokensByUsdBalance.length,
       otherTenTokens: tokensByUsdBalance
-        .filter((token) => !coreTokensAddresses.has(token.address))
+        .filter((token) => !feeTokenIds.has(token.tokenId))
         .slice(0, 10)
         .map(
           (token) =>
@@ -142,13 +175,10 @@ export const getCurrentUserTraits = createSelector(
             )}`
         )
         .join(','),
-      // Map core tokens balances
-      // Example: [Celo, cUSD, cEUR] to { celoBalance: X, cusdBalance: Y, ceurBalance: Z }
+      // Map fee tokens balances
+      // Example: ...{ celoBalance: X, cusdBalance: Y, ceurBalance: Z, crealBalance: W, ethBalance: B }
       ...Object.fromEntries(
-        coreTokens.map((token) => [
-          `${token.symbol.toLowerCase()}Balance`,
-          token.balance.toNumber(),
-        ])
+        feeTokens.map((token) => [`${token.symbol.toLowerCase()}Balance`, token.balance.toNumber()])
       ),
       totalPositionsBalanceUsd,
       positionsCount,
@@ -167,6 +197,7 @@ export const getCurrentUserTraits = createSelector(
       pincodeType,
       superchargingToken: superchargeInfo.superchargingTokenConfig?.tokenSymbol,
       superchargingAmountInUsd: superchargeInfo.superchargeUsdBalance,
-    }
+      ...hasTokenBalanceFields,
+    } satisfies Record<string, string | boolean | number | null | undefined>
   }
 )

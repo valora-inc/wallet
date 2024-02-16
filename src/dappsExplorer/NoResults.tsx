@@ -2,7 +2,9 @@ import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSelector } from 'react-redux'
+import { FilterChip } from 'src/components/FilterChipsCarousel'
 import Touchable from 'src/components/Touchable'
+import { DappWithCategoryNames } from 'src/dapps/types'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import InfoIcon from 'src/icons/InfoIcon'
 import Colors from 'src/styles/colors'
@@ -11,19 +13,20 @@ import { Spacing } from 'src/styles/styles'
 import { iconHitslop } from 'src/styles/variables'
 
 interface Props {
-  filterId: string
-  filterName: string
-  removeFilter: () => void
+  selectedFilter?: FilterChip<DappWithCategoryNames>
+  removeFilter: (filter: FilterChip<DappWithCategoryNames>) => void
   searchTerm: string
   testID?: string
 }
 
-function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: Props) {
+function NoResults({ selectedFilter, removeFilter, testID, searchTerm }: Props) {
   const { t } = useTranslation()
   const language = useSelector(currentLanguageSelector)
 
-  const onPress = () => {
-    removeFilter()
+  const handleRemoveFilter = () => {
+    if (selectedFilter) {
+      removeFilter(selectedFilter)
+    }
   }
 
   return (
@@ -42,12 +45,12 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
           </View>
         </View>
       )}
-      {filterId !== 'all' && (
+      {selectedFilter?.id && (
         <View style={styles.filterContainer}>
           <Text style={styles.filterAppliedText}>
             <Trans
               i18nKey={'dappsScreen.emptyResults.message'}
-              tOptions={{ filter: filterName?.toLocaleUpperCase(language ?? 'en-US') }}
+              tOptions={{ filter: selectedFilter.name.toLocaleUpperCase(language ?? 'en-US') }}
             >
               <Text style={styles.filterText} />
             </Trans>
@@ -55,7 +58,7 @@ function NoResults({ filterId, filterName, removeFilter, testID, searchTerm }: P
           <View style={styles.removeFilterTouchableContainer}>
             <Touchable
               hitSlop={iconHitslop}
-              onPress={onPress}
+              onPress={handleRemoveFilter}
               style={styles.removeFilterTouchable}
               testID={`${testID}/RemoveFilter`}
             >

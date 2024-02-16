@@ -10,7 +10,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
 describe('LinkAccountScreen', () => {
   const store = createMockStore()
@@ -19,6 +19,7 @@ describe('LinkAccountScreen', () => {
     quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: mockCusdTokenId,
   })
 
   const props = getMockStackScreenProps(Screens.FiatConnectLinkAccount, {

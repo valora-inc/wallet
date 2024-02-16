@@ -6,6 +6,14 @@
   "licenses": "Licencias",
   "removeAccountTitle": "Restablecer Valora",
   "removeAccountDetails": "Si seleccionas esta opción, se borrará tu cuenta de este dispositivo. No se perderán los fondos, pero solo podrás acceder a ellos con tu Frase de recuperación.",
+  "deleteAccountTitle": "Eliminar cuenta",
+  "deleteAccountDetails": "Borrar tu cuenta la eliminará de {{appName}}. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de Recuperación",
+  "deleteAccountWarning": {
+    "title": "Estas seguro",
+    "description": "Al eliminar tu cuenta de {{appName}} también se elimina cualquier número de teléfono vinculado. Tus fondos permanecerán en la cuenta, pero sólo serán accesibles con tu Frase de Recuperación.",
+    "buttonLabel": "Continuar",
+    "buttonLabelRevokingPhoneNumber": "Desvincular número de teléfono..."
+  },
   "legal": "Legal",
   "appPreferences": "Preferencias de la app",
   "security": "Seguridad",
@@ -20,7 +28,7 @@
   "shareAnalytics_detail": "Recopilamos datos anónimos sobre cómo utilizas {{appName}} para mejorar la aplicación para todos.",
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
-  "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red Celo a través de un nodo confiable. Puedes cambiar este modo cuantas veces quieras desde Configuración.",
+  "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red a través de un nodo de confianza. Siempre puedes cambiar este modo en los ajustes de la aplicación.",
   "keylessBackupSettingsTitle": "Recuperación de correo electrónico y teléfono",
   "setup": "Configurar",
   "restartModalSwitchOff": {
@@ -48,9 +56,9 @@
     "body2": "Nadie, ni siquiera Valora, podrá recuperar tu cuenta sin tu clave."
   },
   "promptConfirmRemovalModal": {
-    "header": "¿Estás seguro que quieres restablecer Valora?",
-    "body": "Ya no podrás acceder a tu dinero ni a tu Frase de recuperación desde este dispositivo. No hay forma de recuperar tu Frase de recuperación si no la has guardado.",
-    "resetNow": "Restablecer"
+    "header": "¿Estás seguro de que quieres continuar?",
+    "body": "Estás a punto de borrar tu monedero de este dispositivo. Este paso es definitivo y no se puede revertir. No hay forma de recuperar tu Frase de Recuperación si no la has escrito.",
+    "resetNow": "Continuar"
   },
   "protectWallet": {
     "title": "Protege tu wallet",
@@ -77,11 +85,19 @@
     "title": "Resguarda tu wallet",
     "description": "Solo tú puedes acceder a tu wallet. Si pierdes o te roban el teléfono, Valora no podrá recuperarla por ti.\n\nTendrás que establecer un método para resguardar tu wallet y proteger tus fondos."
   },
-  "setUpKeylessBackup": {
-    "title": "Configurar el respaldo sin llave",
-    "subtitle": "Para configurar el respaldo sin llave, necesitarás lo siguiente:",
+  "keylessBackupIntro": {
     "emailAddress": "Dirección de email",
-    "phoneNumber": "Número de teléfono"
+    "phoneNumber": "Número de teléfono",
+    "setup": {
+      "title": "Configurar la copia de seguridad de la billetera",
+      "description": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
+      "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación",
+      "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
+    },
+    "restore": {
+      "description": "Asegúrate de que dispones de lo siguiente para restaurar tu monedero.",
+      "reminder": "<0>Recuerda</0> que necesitas acceder al mismo correo electrónico y número de teléfono que utilizaste cuando hiciste la copia de seguridad"
+    }
   },
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
@@ -113,9 +129,31 @@
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
+    },
+    "restore": {
+      "inProgress": {
+        "title": "Restaurar tu cartera"
+      },
+      "completed": {
+        "title": "¡Tu cartera ha sido restaurada!",
+        "bodyZeroBalance": "Puedes añadir fondos a tu monedero una vez que hayas terminado de configurarlo.",
+        "bodyBalance": "Tienes un saldo de <0></0>"
+      },
+      "failed": {
+        "title": "Tu cartera no ha sido restaurada",
+        "body": "Se ha producido un problema técnico al intentar restaurar tu monedero. Ponte en contacto con el servicio de asistencia para obtener más información.",
+        "tryAgain": "Reintentar",
+        "createNewWallet": "Crear wallet",
+        "help": "Ayuda"
+      },
+      "notFound": {
+        "title": "Cartera no encontrada",
+        "body": "Para restaurar tu monedero, utiliza la <0>misma dirección de correo electrónico y el mismo número de teléfono</0> que utilizaste al configurarlo.\n\nTambién puedes restaurar tu monedero con tu frase de recuperación.",
+        "tryAgain": "Reintentar",
+        "createNewWallet": "Crear wallet"
+      }
     }
   },
-  "setupKeylessBackupReminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu wallet si pierdes o te roban el dispositivo.",
   "testFaqLink": "Preguntas frecuentes sobre {{appName}}",
   "termsOfServiceLink": "Condiciones de uso",
   "privacyPolicy": "Política de privacidad",
@@ -161,7 +199,7 @@
   "introBackUpPhrase": "Respalda tu frase de recuperación",
   "introCompleteQuiz": "Completa la prueba de respaldo para confirmar que podrás restaurar tu wallet si lo necesitas.\n\nSi no la anotaste correctamente, no podrás acceder a tu wallet en caso de que necesites restaurarla.",
   "postSetupTitle": "Esta es tu Frase de recuperación",
-  "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a tus activos Celo. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin esa frase. Guárdala en un lugar seguro y no la compartas con nadie.",
+  "postSetupBody": "Si pierdes tu Frase de recuperación, perderás el acceso a todos tus activos en {{appName}}. Nadie, ni siquiera {{appName}}, podrá ayudarte a recuperar tu cuenta sin tu Frase de recuperación. Guárdala en un lugar seguro y no la compartas.",
   "postSetupCTA": "Conoce más sobre la Frase de recuperación",
   "failedFetchMnemonic": "Error al intentar obtener la Frase de recuperación",
   "backupAndRecovery": "Respaldo y recuperación",
@@ -213,7 +251,7 @@
     }
   ],
   "consumerIncentivesTitle": "Gana recompensas con Supercharge",
-  "consumerIncentivesSummary": "¡Te damos la bienvenida a Supercharge! Obtén un 12% anual en recompensas sobre tu stablecoin con mayor saldo (cUSD, cEUR, o cREAL). Aprovecha esta oportunidad por tiempo limitado:",
+  "consumerIncentivesSummary": "¡Supercharge está aquí! Obtén un {{percent}}% de recompensas anuales sobre tu mayor saldo en stablecoin (cUSD, cEUR, o cREAL). Disponible por tiempo limitado. Así funciona:",
   "earnWeekly": {
     "header": "Conecta tu número de teléfono",
     "text": "Toca Conecta tu número si aún no lo haz hecho."
@@ -229,7 +267,7 @@
   },
   "conclusion": "Es así de simple. ¡Recárgate de cripto hoy!",
   "superchargeTitle": "¡Súmate a Supercharge!",
-  "superchargeDescription": "Obtén un 12% anual en recompensas sobre tu saldo en {{token}}. ¿Cómo? Es muy fácil:",
+  "superchargeDescription": "Obtén un {{apy}}% de recompensas anuales en tu balance de {{token}} . Aquí está cómo empezar:",
   "superchargeConnectNumber": "Conecta tu número de teléfono",
   "superchargeReconnectNumber": "Reconecta tu número de teléfono\n<0>Lanzamos un experiencia mejorada de Supercharge. Reconecta tu número de teléfono para seguir recibiendo recompensas sobre tus {{token}}.</0>",
   "superchargeMinimumBalance": "Agrega un saldo mínimo de {{amount}} {{token}}",
@@ -265,6 +303,9 @@
   "confirmTransaction": "Confirmar transacción",
   "allow": "Permitir",
   "address": "Dirección de wallet",
+  "supportedNetwork": "Red soportada: {{network}}",
+  "supportedNetworks": "Redes soportadas: {{networks}}",
+  "and": "y",
   "phoneNumber": "Número de teléfono",
   "transaction": {
     "operation": "Operación",
@@ -355,16 +396,16 @@
   "payWithCard": "Tarjeta de débito",
   "payWithExchange": "Exchange de criptomonedas",
   "selectCashOutMethod": "Seleccionar método:",
-  "receiveOnAddress": "Dirección Celo",
+  "receiveOnAddress": "Dirección de wallet",
   "receiveWithBidali": "Tarjetas de regalo y recargas móviles",
   "fundingEducationDialog": {
     "title": "Agregar fondos a {{appName}}",
-    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dollars (cUSD), Celo Euros y Celo Real, monedas digitales estables sujetas al dólar estadounidense, el euro y el real brasileño.\n\nPara agregar fondos a tu cuenta de {{appName}}, compra cUSD, cEUR o cREAL de uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "Para fondear tu wallet de {{appName}}, compra tu activo preferido a uno de los proveedores externos disponibles en tu región. Para más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "cashOutEducationDialog": {
     "title": "Retira fondos de {{appName}}",
-    "body": "{{appName}} corre sobre la red Celo. {{appName}} funciona con Celo Dollars (cUSD), Celo Euros (cEUR) y Celo Real (cREAL), monedas digitales estables sujetas al dólar estadounidense, el euro y el real brasileño.\n\nPara retirar el saldo de tu cuenta de {{appName}}, vende cUSD, cEUR o cREAL a uno de los proveedores disponibles en tu ubicación. Para obtener más información, visita <0>{{link}}</0>.",
+    "body": "Para retirar tu saldo de {{appName}}, vende el activo deseado con uno de los proveedores externos disponibles en tu región. Para más información, visita <0>{{link}}</0>.",
     "dismiss": "OK"
   },
   "explanationModal": {
@@ -558,12 +599,12 @@
     "vigésimonovena",
     "trigésima"
   ],
-  "addressValidationError": "Dirección incorrecta del monedero",
-  "addressValidationNoMatch": "Dirección incorrecta del monedero",
-  "addressValidationFullPoorlyFormatted": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres",
-  "addressValidationPartialPoorlyFormatted": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres",
-  "addressValidationFullOwnAddress": "Esta es la dirección de tu monedero, introduce la dirección del monedero de tu contacto.",
-  "addressValidationPartialOwnAddress": "Esta es la dirección de tu monedero, introduce la dirección del monedero de tu contacto.",
+  "addressValidationError": "Dirección de wallet incorrecta",
+  "addressValidationNoMatch": "Dirección de wallet incorrecta",
+  "addressValidationFullPoorlyFormatted": "Las direcciones de wallet empiezan con \"0x\" y tienen 42 caracteres.",
+  "addressValidationPartialPoorlyFormatted": "Las direcciones de wallet empiezan con \"0x\" y tienen 42 caracteres.",
+  "addressValidationFullOwnAddress": "Esta es tu dirección, ingresa la dirección de tu contacto.",
+  "addressValidationPartialOwnAddress": "Esta es tu dirección, ingresa la dirección de tu contacto.",
   "providerRateFetchFailed": "No se pudo obtener la tasa del proveedor. Puedes continuar sin una tasa precargada.",
   "helpFindAccount": "Ayuda a tu contacto a encontrar su Dirección de cuenta",
   "close": "Cerrar",
@@ -631,7 +672,7 @@
   },
   "inviteRewardsBannerCUSD": {
     "title": "Invita a tus amigos y obtén recompensas",
-    "body": "Una vez que se registren y depositen 5 cUSD en su wallet {{appName}}, ambos recibirán 0,50 cUSD."
+    "body": "Una vez que se registren y agreguen fondos a su wallet en {{appName}}, ambos recibirán 0,50 cUSD."
   },
   "inviteWithUrl": {
     "title": "Invita a tus amigos",
@@ -639,28 +680,28 @@
     "button": "Enviar invitación",
     "error": "Hubo un error al crear el enlace compartible",
     "share": "Hola, regístrate en la billetera {{appName}}. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: {{shareUrl}}.",
-    "help": "Para reclamar esta recompensa, el invitado debe descargar la app a través del link de invitación, conectar su número de teléfono y depositar 5 cUSD o más en su wallet {{appName}} durante 7 días. <0>Ver las condiciones</0>",
+    "help": "Para recibir esta recompensa, el invitado debe descargar la app a través del enlace de recomendación, conectar su número de teléfono, agregar fondos y mantenerlos en {{appName}} durante 7 días. <0>Ver todas las condiciones</0>",
     "rewardsActive": {
       "title": "Invita a tus amigos y obtén NFTs",
       "body": "Invita a tus amigos y familiares a descargar {{appName}} y cada uno obtendrá un NFT exclusivo."
     },
     "rewardsActiveCUSD": {
-      "title": "SÓLO POR TIEMPO LIMITADO. ¡Obtén cUSD gratis por invitar a tus amigos a Valora!",
-      "body": "Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen fondos y mantengan 5 cUSD durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
+      "title": "POR TIEMPO LIMITADO. ¡Consigue cUSD gratis por invitar a tus amigos a Valora!",
+      "body": "Vuelven las Recompensas por referidos y son aún más fáciles que antes. Obtén 0,50 cUSD por cada amigo que invites a {{appName}}. Una vez que agreguen fondos, y los mantengan durante 7 días, ambos obtendrán 0,50 cUSD. Date prisa, ¡los fondos son limitados! (Límite de 25 amigos)."
     }
   },
   "getReward": "Obtén ${{reward}}",
   "welcomeCelo": "Te damos la bienvenida a {{appName}}",
   "chooseCountryCode": "Código de país",
   "chooseCountry": "País",
-  "joinText": "{{appName}} te ayuda a enviar, recibir y guardar valor en la red Celo.",
+  "joinText": "{{appName}} te ayuda a enviar, recibir y ahorrar valor en la blockchain.",
   "terms": {
     "title": "Condiciones de uso",
     "heading1": "Datos y privacidad",
-    "heading2": "Activos Celo y cuenta de {{appName}}",
+    "heading2": "Activos digitales y {{appName}}",
     "info": "Para poder usar nuestros servicios, lee nuestro <0>Acuerdo de condiciones de uso</0> y toca el botón Aceptar para indicar que estás de acuerdo.",
-    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada en la red Celo. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
-    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una wallet digital de la que sólo tú tienes la clave. Ninguna otra persona o entidad, incluidos cLabs o Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que CELO y las stablecoins Celo forman parte de una nueva clase de activos y suponen un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo antes de comprar un activo."
+    "privacy": "Al unirte a esta red, nos das permiso para recopilar información anónima sobre tu uso de la aplicación. Además, si conectas tu número de teléfono, se guardará una copia cifrada. Si decides conectar tu lista de contactos, Valora importará el nombre, número de teléfono y foto de perfil de tus contactos para permitirte conectar con ellos a través de Valora. Para obtener más información sobre cómo recopilamos y usamos tus datos, consulta nuestra <0>Política de privacidad</0>.",
+    "goldDisclaimer": "Cuando creas una \"cuenta\" en Valora, estás creando una billetera digital de la que sólo tú tienes las claves. Ninguna otra persona o entidad, incluyendo Valora, puede recuperar tu clave, cambiar o deshacer transacciones, o recuperar fondos perdidos. Ten en cuenta que las criptomonedas forman parte de una nueva clase de activos y presentan un riesgo de pérdida financiera. Considera cuidadosamente tu circunstancia financiera y tu tolerancia al riesgo financiero antes de comprar cualquier activo."
   },
   "fullNameOrPsuedonym": "Nombre o alias",
   "namePlaceholder": "p. ej. nombre",
@@ -722,7 +763,7 @@
   "retryWithFornoModal": {
     "header": "¿Quieres volver a intentarlo en modo de Ahorro de datos?",
     "body1": "Se ha producido un problema al intentar conectar tu número de teléfono. Te recomendamos volver a intentarlo en modo Ahorro de datos.",
-    "body2": "El modo de Ahorro de datos te permite comunicarte con la red Celo de manera más consistente a través de una conexión confiable.",
+    "body2": "El modo de Ahorro de datos te permite comunicarte con la red de manera más consistente a través de una conexión confiable.",
     "retryButton": "Reintentar con Ahorro de datos"
   },
   "congratsVerified": "¡Felicitaciones! tu número de teléfono está conectado.",
@@ -816,7 +857,7 @@
   },
   "verificationSkipDialog": {
     "title": "¿Quieres omitir este paso?",
-    "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no tienen un número de teléfono conectado solo pueden enviar y recibir pagos con direcciones de cuenta Celo o códigos QR.",
+    "body": "Conectar tu número de teléfono te permite enviar y recibir fondos con facilidad.\n\nLas cuentas que no están conectadas solo pueden enviar pagos usando direcciones de billetera o códigos QR.",
     "cancel": "Regresar",
     "confirm": "Omitir por ahora"
   },
@@ -867,6 +908,18 @@
       "description": "Esta wallet no tiene fondos. ¿Quieres usarla de todos modos?",
       "action": "Usar wallet",
       "title": "Saldo\n<0></0>"
+    }
+  },
+  "importSelect": {
+    "title": "Restaura tu cartera",
+    "description": "Si configuras una copia de seguridad para proteger tu monedero, elige una opción de las que aparecen a continuación.",
+    "emailAndPhone": {
+      "title": "De copia de seguridad de correo electrónico y teléfono",
+      "description": "Restaura tu monedero con el número de teléfono y el correo electrónico que configuraste anteriormente"
+    },
+    "recoveryPhrase": {
+      "title": "De la frase de recuperación",
+      "description": "Introduce tu frase de recuperación de 12 palabras para recuperar el acceso a Valora"
     }
   },
   "verificationInput": {
@@ -941,7 +994,7 @@
   "commentLabel": "Mensaje",
   "amountSent": "Monto enviado",
   "amountCeloWithdrawn": "Monto (CELO)",
-  "feeEducation": "La blockchain de Celo cobra una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
+  "feeEducation": "Las blockchains cobran una tarifa de transacción para mantener el soporte de la red y que funcione sin problemas.",
   "reviewPayment": "Revisar pago",
   "requestPayment": "Solicitar pago",
   "max": "MAX",
@@ -962,7 +1015,7 @@
   "inviteWithoutPayment": "¡Hola! Estoy usando {{appName}} para enviar cripto en todo el mundo. Es fácil de usar y me gustaría invitarte a probarla con este link: {{link}}",
   "inviteWithEscrowedPayment": "¡Hola! Estoy usando {{appName}} para enviar dinero en todo el mundo. Acabo de enviarte {{amount}} {{token}}. Puedes descargar la app de {{appName}} y reclamar tus {{token}} con este link: {{link}}",
   "inviteWithRewards": "¡Hola! 👋 Estoy usando la wallet cripto de {{appName}}. Descargarla y conectar tu número es muy fácil, y si lo haces ahora ambos recibiremos un NFT como recompensa 💫 \n\nUsa este enlace: {{link}}",
-  "inviteWithRewardsCUSD": "¡Hola! Ahora ambos podemos obtener una recompensa gratuita de 0,50 cUSD si te registras y depositas fondos en tu billetera Valora. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nPero date prisa, la promoción de referencia termina pronto.",
+  "inviteWithRewardsCUSD": "¡Hola! Ahora ambos podemos obtener una recompensa gratuita de $0,50 si te registras y depositas fondos en tu billetera Valora. Yo la utilizo para hacer crecer mis ahorros en USD y cripto, y puedes configurarla en segundos con sólo un número de teléfono. Asegúrate de registrarte con mi enlace de referencia aquí: \n\n{{link}} \n\nPero date prisa, la promoción de referencia termina pronto.",
   "loadingContacts": "Estamos encontrando tus contactos",
   "myCode": "Mi código",
   "scanCode": "Escanear",
@@ -1001,31 +1054,31 @@
     "importing": "Importando..."
   },
   "confirmAccount": {
-    "header": "{{displayName}} tiene varios monederos.",
-    "headerNoDisplayName": "Este número de teléfono tiene varias carteras.",
-    "button": "Confirmar la dirección de la Cartera"
+    "header": "{{displayName}} tiene múltiples billeteras.",
+    "headerNoDisplayName": "Este número de teléfono tiene varias billeteras.",
+    "button": "Confirma la dirección de la billetera"
   },
   "secureSendExplanation": {
-    "body1": "Hay varios monederos asociados a {{e164PhoneNumber}}. Para confirmar que tienes la cuenta correcta, escanea su código QR o introduce la dirección de su monedero.",
+    "body1": "Hay múltiples billeteras asociadas a {{e164PhoneNumber}}. Para confirmar que tienes la cuenta correcta, por favor escanea su código QR o introduce su dirección de billetera.",
     "body2": "Debes escanear un código QR o confirmar la Dirección de cuenta antes de realizar una transacción."
   },
   "confirmAccountNumber": {
-    "title": "Confirmar la dirección de la Cartera",
-    "bodyPartial": "Pide a {{displayName}} los cuatro últimos dígitos de la dirección de su monedero. Lo más seguro es hacerlo en persona o por teléfono.",
-    "bodyPartialNoDisplayName": "Pide a tu contacto los cuatro últimos dígitos de la dirección de su monedero. Lo más seguro es hacerlo en persona o por teléfono.",
-    "body1Full": "Pregunta a {{displayName}} por la dirección de su monedero.",
-    "body1FullNoDisplayName": "Pide a tu contacto la dirección de su cartera.",
+    "title": "Confirma la dirección de la billetera",
+    "bodyPartial": "Pídele a {{displayName}} los últimos cuatro dígitos de su dirección de billetera. Lo más seguro es hacerlo en persona o por teléfono.",
+    "bodyPartialNoDisplayName": "Pídele a tu contacto los cuatro últimos dígitos de la dirección de su billetera. Lo más seguro es hacerlo en persona o por teléfono.",
+    "body1Full": "Pídele a {{displayName}} la dirección de su billetera.",
+    "body1FullNoDisplayName": "Pídele a tu contacto la dirección de su billetera.",
     "body2Full": "La forma más segura de hacerlo es en persona. Por seguridad, no utilices mensajes de texto (SMS).",
-    "help": "¿Dónde puedo encontrar una Dirección de Cartera?",
+    "help": "¿Dónde puedo encontrar una Dirección de billetera?",
     "submit": "Enviar"
   },
   "accountInputHeaderPartial": "Los últimos 4 dígitos",
   "accountInputHeaderFull": "Dirección de cuenta",
   "helpModal": {
-    "header": "Localizar una dirección de monedero",
-    "body1": "La dirección de tu monedero se encuentra en el menú. Abre el menú pulsando el icono del menú en la esquina superior izquierda.",
-    "body2": "La dirección de tu monedero está cerca de la parte inferior del menú.",
-    "body3": "Las direcciones de las carteras empiezan por \"0x\" y tienen 42 caracteres"
+    "header": "Localizar una dirección de billetera",
+    "body1": "La dirección de tu billetera se encuentra en el menú. Abre el menú tocando el icono del menú en la esquina superior izquierda.",
+    "body2": "La dirección de tu billetera está cerca de la parte inferior del menú.",
+    "body3": "Las direcciones de las billeteras empiezan con \"0x\" y tienen 42 caracteres"
   },
   "transferAddressChanged": "Este contacto cambió su Dirección de cuenta desde la última transacción. Este pago fue enviado a:",
   "addressConfirmed": "Dirección de cuenta confirmada",
@@ -1053,8 +1106,8 @@
     "operation": "Operación",
     "data": "Datos",
     "sign": "Aprobar carga de datos",
-    "signTransaction": "Aprobar transacción Celo",
-    "sendTransaction": "Enviar transacción Celo",
+    "signTransaction": "Firmar una transacción",
+    "sendTransaction": "Enviar una transacción",
     "decrypt": "Descifrar payload de datos",
     "accounts": "Tu Dirección de cuenta de {{appName}}",
     "details": "Datos de la transacción",
@@ -1067,25 +1120,48 @@
     "signPayloadTitle": "Verificar wallet",
     "signPayload": "{{dappName}} desea verificar la propiedad de tu wallet.",
     "signTransactionTitle": "Firmar transacción",
-    "signTransaction": "{{dappName}} desea aprobar una transacción Celo.",
+    "signTransaction": "{{dappName}} desea firmar una transacción.",
+    "signDappTransaction": "{{dappName}} desea firmar una transacción en la red {{networkName}}.",
+    "signDappTransactionUnsupportedNetwork": "{{dappName}} desea firmar una transacción en una red no soportada.",
     "sendTransactionTitle": "Enviar transacción",
-    "sendTransaction": "{{dappName}} desea enviar una transacción Celo.",
+    "sendTransaction": "{{dappName}} desea enviar una transacción.",
+    "sendDappTransaction": "{{dappName}} desea enviar una transacción en la red {{networkName}}.",
+    "sendDappTransactionUnsupportedNetwork": "{{dappName}} desea enviar una transacción en una red no soportada.",
     "decryptPayloadTitle": "Descifrar con wallet",
     "decryptPayload": "{{dappName}} desea desencriptar una carga de datos.",
     "computeSharedSecret": "{{dappName}} desea generar secretos.",
     "transactionDataCopied": "Datos de transacción copiados",
+    "estimatedNetworkFee": "Estimación de la tarifa de la red {{networkName}}",
+    "networksList": "Redes",
+    "connectWalletAction": "Conectar billetera",
+    "signTransactionAction": "Firmar",
+    "sendTransactionAction": "Enviar",
     "unsupportedChain": {
       "title": "Cadena incompatible",
-      "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
+      "description": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo.",
+      "descriptionV1_74_one": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando {{supportedNetworkNames}}.",
+      "descriptionV1_74_other": "{{dappName}} desea realizar esta acción en una cadena incompatible con {{appName}}. Asegúrate de que la cadena activa en la dapp sea una de las siguientes: {{supportedNetworkNames}}."
+    },
+    "notEnoughBalanceForGas": {
+      "title": "Saldo insuficiente para cubrir tarifas de transacción",
+      "description": "No tienes suficientes {{feeCurrencies}} para cubrir los gastos de gasolina. Por favor, agrega {{feeCurrencies}} a tu billetera para completar esta transacción."
+    },
+    "failedToPrepareTransaction": {
+      "title": "Error al preparar la transacción",
+      "description": "Se ha producido un error al preparar la transacción. Consulta el error subyacente para más detalles.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
         "title": "Cadena incompatible",
-        "description": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo."
+        "description": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando Celo.",
+        "descriptionV1_74_one": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la dapp esté usando {{supportedNetworkNames}}.",
+        "descriptionV1_74_other": "{{dappName}} desea conectarse con una cadena incompatible con {{appName}}. Asegúrate de que la cadena activa en la dapp es una de las siguientes: {{supportedNetworkNames}}."
       },
       "warnUnsupportedChains": {
         "title": "Cadena incompatible",
-        "description": "{{dappName}} no cuenta a Celo entre sus cadenas compatibles. Es posible que algunas funciones no funcionen como se espera."
+        "description": "{{dappName}} no cuenta a Celo entre sus cadenas compatibles. Es posible que algunas funciones no estén disponibles.",
+        "descriptionV1_74_one": "{{dappName}} no cuenta a {{supportedNetworkNames}} entre sus cadenas compatibles. Es posible que algunas funciones no estén disponibles.",
+        "descriptionV1_74_other": "{{dappName}} no especificó ninguna de las siguientes como cadenas compatibles: {{supportedNetworkNames}}. Es posible que algunas funciones no estén disponibles."
       },
       "warnSomeUnsupportedMethods": {
         "title": "Métodos incompatibles",
@@ -1257,7 +1333,7 @@
   "totalAssetsInfo": "Total estimado de activos en tu wallet y posiciones DeFi",
   "assetsSegmentedControl": {
     "walletAssets": "Activos de wallet",
-    "dappPositions": "Posiciones DeFi"
+    "dappPositions": "DeFi"
   },
   "open": "Abrir",
   "nftViewer": "NFT Viewer",
@@ -1407,8 +1483,8 @@
   "noMoreTransactions": "No hay más transacciones",
   "selectProviderScreen": {
     "somePaymentsUnavailable": "Las compras se realizan a través de nuestros proveedores asociados. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región.",
-    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
-    "disclaimer": "Los pagos se realizan a través de nuestros socios en Celo. Las tarifas pueden variar. <0>Más información.</0>",
+    "disclaimerWithSomePaymentsUnavailable": "Los pagos se realizan a través de socios de la red. Las tarifass pueden variar. Algunos métodos de pago no están disponibles en tu región. <0>Más información.</0>",
+    "disclaimer": "Los pagos se realizan a través de socios de la red. Las tarifass pueden variar. <0>Más información.</0>",
     "learnMore": "Más información.",
     "whyMissingPayments": "¿Por qué no veo más métodos de pago?",
     "dismiss": "Ignorar",
@@ -1586,10 +1662,11 @@
       "selectCurrencyTitle": "Gastar fondos"
     },
     "exchange": {
+      "informational": "Para evitar la pérdida de fondos, utiliza esta dirección en exchanges o activos compatibles con las siguientes redes: <0>{{networks}}</0>",
       "copyAddress": "Copiar dirección",
-      "informationText": "Utiliza solo exchanges y activos <0>compatibles con la red Celo</0> para evitar la pérdida de fondos.",
+      "informationText": "Utiliza solo exchanges o activos <0>compatibles con las redes soportadas por {{appName}}</0> para evitar la pérdida de fondos",
       "bottomSheetTitle": "¿Qué exchanges puedo utilizar para depositar fondos?",
-      "bottomSheetInfo": "Comprueba que estás enviando activos compatibles con la red Celo."
+      "bottomSheetInfo": "Comprueba que envías activos compatibles con las redes que admite {{appName}}."
     }
   },
   "fiatDetailsScreen": {
@@ -1667,18 +1744,35 @@
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
+    "switchedToNetworkWarning": {
+      "title": "Has cambiado a la red {{networkName}}",
+      "body_swapFrom": "Selecciona un token para intercambiar desde la red {{networkName}} para continuar.",
+      "body_swapTo": "Selecciona un token para intercambiar en la red {{networkName}} para continuar."
+    },
     "maxSwapAmountWarning": {
       "title": "Intercambio de monto MAX",
+      "titleV1_74": "Intercambio de monto MAX",
       "body": "Asegúrate de contar con suficiente CELO en tu wallet para cubrir las tarifas de próximas transacciones.",
+      "bodyV1_74": "Asegúrate de que tienes {{tokenSymbol}} en tu billetera para cubrir las tarifas de gasolina en futuras transacciones",
       "learnMore": "Más información"
     },
     "priceImpactWarning": {
       "title": "Antes de cambiar",
       "body": "Intercambiar estos activos puede afectar el tipo de cambio. Si reduces el monto a cambiar, tal vez obtengas un mejor tipo de cambio."
     },
+    "noUsdPriceWarning": {
+      "title": "{{localCurrency}} precio no disponible",
+      "description": "No tenemos un precio en {{localCurrency}} para {{tokenSymbol}}, lo que podría significar que no se negocia ampliamente. {{appName}} no se hace responsable por las pérdidas que puedes sufrir si decides proceder.",
+      "ctaConfirm": "Comprendo",
+      "ctaDismiss": "Cancelar"
+    },
     "missingSwapImpactWarning": {
       "title": "Antes de cambiar",
       "body": "No podemos estimar el valor de este intercambio. {{appName}} no se hace responsable si decides proceder."
+    },
+    "confirmSwapFailedWarning": {
+      "title": "Algo salió mal",
+      "body": "La velocidad de la red es lenta o hay un error desconocido. Vuelve a intentarlo más tarde"
     },
     "estimatedExchangeRate": "Tasa estimada ≈ <0>0,00</0>",
     "needDecreaseSwapAmountForGas": {
@@ -1692,15 +1786,24 @@
       "dismissButton": "Ignorar"
     },
     "transactionDetails": {
+      "estimatedNetworkFee": "Tarifa de red estimada",
+      "maxNetworkFee": "Tarifa máxima de red",
       "networkFee": "Tarifa de red de {{networkName}}",
       "networkFeeNoNetwork": "Tarifa de red",
       "swapFee": "Tarifa de {{appName}}",
       "swapFeeWaived": "Gratis",
       "slippagePercentage": "Tolerancia al slippage",
       "networkFeeInfo": "Estás intercambiando en la red {{networkName}}.\n\nSe requiere esta tarifa de red estimada para realizar una transacción en la red {{networkName}}. Esta tarifa asegura tu transacción y se destina a mantener la red.",
+      "networkFeeInfoV1_76": "Estás intercambiando en la Red {{networkName}}.\n\nSe requiere una tarifa de red para realizar una transacción en la Red {{networkName}}. Esta tarifa asegura tu transacción y se paga a los validadores de la red.\n\nDado que las condiciones de la red determinan el monto exacto, la estimación indicada es lo que esperamos que sea la tarifa real. La tarifa no superará el monto máximo.",
+      "slippageToleranceInfo": "Tolerancia de deslizamiento\n\nTu swap se ejecutará dentro del porcentaje de tolerancia de deslizamiento. Si el precio varía más que la tolerancia de deslizamiento, {{appName}} te protege impidiendo que se ejecute la operación.",
       "networkFeeInfoDismissButton": "Entendido",
       "exchangeRate": "Tasa de cambio",
       "estimatedValue": "Valor estimado"
+    },
+    "fundYourWalletBottomSheet": {
+      "title": "Agregar fondos a tu billetera",
+      "description": "Antes de poder intercambiar tokens, tendrás que agregar fondos a tu billetera comprando cripto o transfiriendo tokens.",
+      "addFundsButton": "Agregar fondos"
     }
   },
   "swapTransactionDetailPage": {
@@ -1773,7 +1876,7 @@
     },
     "rewardsActiveCUSD": {
       "title": "Invita a {{contactName}} a {{appName}} y gana 0,50 cUSD",
-      "body": "Parece que {{contactName}} no está en Valora. Si conoces su dirección de wallet, envía los fondos directamente a su dirección, o bien envíale una invitación a nuestra app. \n\nUna vez que descargue Valora, conecte su número de teléfono y agregue fondos, ambos obtendrán 0,50 cUSD mientras la promoción esté vigente."
+      "body": "Parece que {{contactName}} no está en Valora. Puedes enviarle un pago si conoces su dirección de billetera, o bien envíale una invitación. \n\nUna vez de que descargue Valora, conecte su número de teléfono, agregue fondos y los mantenga durante 7 días, ambos obtendrán 0,50 cUSD mientras duren los fondos."
     }
   },
   "celoNews": {
@@ -1789,7 +1892,7 @@
     "later": "Exploraré más tarde",
     "options": {
       "add": "Agregar fondos",
-      "dapp": "Descubrir distintas formas de usar mis cripto",
+      "dapp": "Hacer más con mis cripto",
       "profile": "Crear mi perfil",
       "learn": "Aprender sobre Celo"
     }
@@ -1804,7 +1907,16 @@
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
-    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>."
+    "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
+    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "filters": {
+      "myTokens": "Mis fichas",
+      "popular": "Popular",
+      "recentlySwapped": "Cambiado recientemente",
+      "network": "Red {{networkName}}"
+    }
   },
   "homeActions": {
     "add": "Comprar",
@@ -1847,7 +1959,7 @@
     "tabBar": {
       "tokens": "Tokens",
       "collectibles": "Coleccionables",
-      "dappPositions": "Posiciones en dapps"
+      "dappPositions": "DeFi"
     },
     "importToken": "Importar"
   },
@@ -1870,6 +1982,8 @@
     "moreActions": "Más acciones",
     "actionDescriptions": {
       "send": "Utiliza cualquier dominio, número de teléfono, dirección Celo, etc.",
+      "sendV1_74_one": "Utiliza cualquier dirección o dominio {{supportedNetworkNames}} , un número de teléfono, etc.",
+      "sendV1_74_other": "Utiliza cualquier dirección, dominio o número de teléfono en las siguientes redes: {{supportedNetworkNames}}",
       "swap": "Intercambia tokens sin salir de tu wallet",
       "add": "Compra tokens a uno de nuestros proveedores de confianza",
       "withdraw": "Transfiere tokens a una cuenta bancaria, dinero móvil, tarjeta de regalo, etc."
@@ -1885,18 +1999,20 @@
       "network": "Red"
     },
     "error": {
+      "invalidAddress": "Dirección de token no válida. Por favor, revísala",
       "invalidToken": "Token inválido. Inténtalo de nuevo o contacta con el equipo de soporte técnico",
-      "alreadyImported": "El token ya se ha agregado antes.",
-      "alreadySupported": "El token ya es compatible."
+      "tokenAlreadySupported": "Este token ya está soportado"
     },
     "importSuccess": "Token {{tokenSymbol}} importado con éxito",
     "importButton": "Importar"
   },
   "sendSelectRecipient": {
     "searchText": "Busca por nombre, teléfono, wallet...",
+    "paste": "Pegar desde el portapapeles",
     "title": "Selecciona un destinatario",
     "contactsTitle": "Selecciona un contacto",
     "recents": "Recientes",
+    "results": "Resultados",
     "qr": {
       "title": "Escanear o mostrar código QR",
       "subtitle": "Encuentra rápidamente direcciones en Valora"
@@ -1911,7 +2027,7 @@
       "options": {
         "one": {
           "title": "Dirección de wallet",
-          "subtitle": "Ingresa una dirección de wallet compatible con Celo o Ethereum (ej. 0x123...abcde)"
+          "subtitle": "Introduce una dirección de billetera compatible (ej. 0x123...abcde)"
         },
         "two": {
           "title": "Número de teléfono",
@@ -1919,7 +2035,7 @@
         },
         "three": {
           "title": "ENS",
-          "subtitle": "Envía activos Ethereum a un alias ENS"
+          "subtitle": "Envía activos al nombre ENS de alguien"
         },
         "four": {
           "title": "Nombre de perfil",
@@ -1934,6 +2050,11 @@
     "connectPhoneNumberModal": {
       "title": "Conecta tu número de teléfono",
       "description": "Tienes que conectar tu número de teléfono para empezar a enviar cripto a tus amigos"
+    },
+    "unknownAddressInfo": "Asegúrate de que esta dirección es compatible con el activo que intentas enviar. Tus fondos pueden no ser recuperables si esta dirección no es válida.",
+    "buttons": {
+      "send": "Continuar",
+      "invite": "Invitar"
     }
   },
   "transactionStatus": {
@@ -1949,6 +2070,9 @@
   "viewOnCeloBlockExplorer": "Ver en CeloExplorer",
   "viewOnCeloScan": "Ver en CeloScan",
   "viewOnEthereumBlockExplorer": "Ver en Etherscan",
+  "viewOnArbiscan": "Ver en Arbiscan",
+  "viewOnOPMainnetExplorer": "Ver en OP Mainnet Explorer",
+  "viewOnOPSepoliaExplorer": "Vista en OP Sepolia Explorer",
   "sendEnterAmountScreen": {
     "title": "Ingresa el monto",
     "selectToken": "Selecciona un token",
@@ -1965,20 +2089,35 @@
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
-    "estimatedNetworkFee": "Tasa de red estimada",
-    "networkFee": "Tasa de red",
-    "finiteApprovalDescription": "Aprobado {{approvedAmount}} {{tokenSymbol}} para el comercio",
-    "infiniteApprovalDescription": "Aprobado {{tokenSymbol}} para el comercio",
-    "revokeApprovalDescription": "Revocada {{tokenSymbol}} para el comercio",
+    "estimatedNetworkFee": "Estimación de la tarifa de red",
+    "networkFee": "Tarifa de red",
+    "finiteApprovalDescription": "{{approvedAmount}} {{tokenSymbol}} aprobados para operar",
+    "infiniteApprovalDescription": "{{tokenSymbol}} infinitos aprobados para operar",
+    "revokeApprovalDescription": "{{tokenSymbol}} revocado para operar",
     "descriptionLabel": "Detalles"
   },
   "multichainBeta": {
     "beta": "BETA",
-    "title": "Novedad Ethereum está en Valora",
-    "description1": "Primero vamos a abrir esta función a un grupo selecto de personas. ¡Tú eres uno de los afortunados!",
+    "title": "¡Nuevo! Ethereum está en Valora",
+    "description1": "Estamos abriendo esta función a un grupo selecto primero. ¡Eres uno de los afortunados!",
     "description2": "Esto todavía es nuevo, y nuestro equipo sigue trabajando duro para perfeccionar las cosas. Nos encantaría conocer tu opinión.",
     "primaryCta": "Pruébalo ahora",
     "secondaryCta": "No, gracias"
+  },
+  "getStartedHome": {
+    "title": "Comprar cripto o transferir tokens",
+    "body": "Compra o transfiere tokens compatibles para enviar cripto y explora web3"
+  },
+  "nftCelebration": {
+    "bottomSheet": {
+      "title": "Precoz multicadena 🎁",
+      "description": "Como agradecimiento por ser un probador beta multicadena, ¡hemos añadido un regalo gratuito a tu monedero {{appName}} ! El NFT de early adopter se puede encontrar en tus coleccionables.",
+      "cta": "¡Gracias!"
+    },
+    "notification": {
+      "title": "Enhorabuena 🎉",
+      "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"

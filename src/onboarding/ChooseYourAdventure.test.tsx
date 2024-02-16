@@ -5,11 +5,7 @@ import { Provider } from 'react-redux'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { FiatExchangeFlow } from 'src/fiatExchanges/utils'
-import {
-  navigate,
-  navigateHome,
-  navigateToFiatCurrencySelection,
-} from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import ChooseYourAdventure from 'src/onboarding/ChooseYourAdventure'
 import { AdventureCardName } from 'src/onboarding/types'
@@ -92,7 +88,9 @@ describe('ChooseYourAdventure', () => {
     })
     fireEvent.press(getByTestId('AdventureCard/1/chooseYourAdventure.options.add'))
     expect(navigateHome).toHaveBeenLastCalledWith()
-    expect(navigateToFiatCurrencySelection).toHaveBeenLastCalledWith(FiatExchangeFlow.CashIn)
+    expect(navigate).toHaveBeenCalledWith(Screens.FiatExchangeCurrencyBottomSheet, {
+      flow: FiatExchangeFlow.CashIn,
+    })
 
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(OnboardingEvents.cya_button_press, {
       position: 2,

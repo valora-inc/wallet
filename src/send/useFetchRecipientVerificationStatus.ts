@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { fetchAddressesAndValidate } from 'src/identity/actions'
-import { e164NumberToAddressSelector } from 'src/identity/selectors'
+import { phoneNumberVerifiedSelector } from 'src/app/selectors'
+import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
+import {
+  addressToVerificationStatusSelector,
+  e164NumberToAddressSelector,
+} from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
-import { getRecipientVerificationStatus, Recipient } from 'src/recipients/recipient'
+import { Recipient, RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 
 const useFetchRecipientVerificationStatus = () => {
@@ -13,31 +17,50 @@ const useFetchRecipientVerificationStatus = () => {
   )
 
   const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  const addressToVerificationStatus = useSelector(addressToVerificationStatusSelector)
+  const phoneNumberVerified = useSelector(phoneNumberVerifiedSelector)
   const dispatch = useDispatch()
+
+  const unsetSelectedRecipient = () => {
+    setRecipient(null)
+    setRecipientVerificationStatus(RecipientVerificationStatus.UNKNOWN)
+  }
 
   const setSelectedRecipient = (selectedRecipient: Recipient) => {
     setRecipient(selectedRecipient)
-    setRecipientVerificationStatus(
-      selectedRecipient?.address
-        ? RecipientVerificationStatus.VERIFIED
-        : RecipientVerificationStatus.UNKNOWN
-    )
+    setRecipientVerificationStatus(RecipientVerificationStatus.UNKNOWN)
 
-    if (selectedRecipient?.e164PhoneNumber) {
+    // phone recipients should always have a number, the extra check is to ensure typing
+    if (
+      selectedRecipient.recipientType === RecipientType.PhoneNumber &&
+      selectedRecipient.e164PhoneNumber
+    ) {
       dispatch(fetchAddressesAndValidate(selectedRecipient.e164PhoneNumber))
+    } else if (selectedRecipient?.address) {
+      if (addressToVerificationStatus[selectedRecipient.address]) {
+        setRecipientVerificationStatus(RecipientVerificationStatus.VERIFIED)
+      } else if (phoneNumberVerified) {
+        dispatch(fetchAddressVerification(selectedRecipient.address))
+      } else {
+        setRecipientVerificationStatus(RecipientVerificationStatus.UNVERIFIED)
+      }
     }
   }
 
   useEffect(() => {
     if (recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN) {
-      // e164NumberToAddress is updated after a successful phone number lookup
-      setRecipientVerificationStatus(getRecipientVerificationStatus(recipient, e164NumberToAddress))
+      // e164NumberToAddress is updated after a successful phone number lookup,
+      // addressToVerificationStatus is updated after a successful address lookup
+      setRecipientVerificationStatus(
+        getRecipientVerificationStatus(recipient, e164NumberToAddress, addressToVerificationStatus)
+      )
     }
-  }, [e164NumberToAddress, recipient, recipientVerificationStatus])
+  }, [e164NumberToAddress, addressToVerificationStatus, recipient, recipientVerificationStatus])
 
   return {
     recipient,
     setSelectedRecipient,
+    unsetSelectedRecipient,
     recipientVerificationStatus,
   }
 }

@@ -1,14 +1,16 @@
 import _ from 'lodash'
 import { FinclusiveKycStatus, RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
-import { CodeInputStatus } from 'src/components/CodeInput'
+import { MultichainBetaStatus } from 'src/app/actions'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, DEFAULT_SENTRY_TRACES_SAMPLE_RATE } from 'src/config'
-import { Dapp, DappConnectInfo } from 'src/dapps/types'
+import { Dapp } from 'src/dapps/types'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
 import { CachedQuoteParams, SendingFiatAccountStatus } from 'src/fiatconnect/slice'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { AddressToDisplayNameType } from 'src/identity/reducer'
+import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { Position } from 'src/positions/types'
+import { Recipient } from 'src/recipients/recipient'
 import { Network, StandbyTransaction, TokenTransaction } from 'src/transactions/types'
 import { CiCoCurrency, Currency } from 'src/utils/currencies'
 import networkConfig from 'src/web3/networkConfig'
@@ -280,11 +282,7 @@ export const migrations = {
         ...state.identity,
         attestationsCode: [],
         acceptedAttestationCodes: [],
-        attestationInputStatus: [
-          CodeInputStatus.Inputting,
-          CodeInputStatus.Disabled,
-          CodeInputStatus.Disabled,
-        ],
+        attestationInputStatus: ['Inputting', 'Disabled', 'Disabled'],
         numCompleteAttestations: 0,
         verificationStatus: 0,
         hasSeenVerificationNux: state.verify.seenVerificationNux,
@@ -691,7 +689,7 @@ export const migrations = {
     ...state,
     dapps: {
       ...state.dapps,
-      dappConnectInfo: DappConnectInfo.Default,
+      dappConnectInfo: 'default',
     },
   }),
   57: (state: any) => ({
@@ -1043,7 +1041,7 @@ export const migrations = {
     ...state,
     swap: {
       ...state.swap,
-      guaranteedSwapPriceEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.guaranteedSwapPriceEnabled,
+      guaranteedSwapPriceEnabled: false,
     },
   }),
   111: (state: any) => state,
@@ -1233,8 +1231,8 @@ export const migrations = {
           tx.__typename === 'TokenTransferV2'
             ? 'TokenTransferV3' // @ts-ignore
             : tx.__typename === 'NftTransferV2'
-            ? 'NftTransferV3'
-            : 'TokenExchangeV3'
+              ? 'NftTransferV3'
+              : 'TokenExchangeV3'
         return {
           ...tx,
           __typename,
@@ -1433,4 +1431,149 @@ export const migrations = {
     ...state,
     supercharge: _.omit(state.supercharge, 'superchargeV2Enabled', 'superchargeV1Addresses'),
   }),
+  171: (state: any) => ({
+    ...state,
+    app: {
+      ...state.app,
+      multichainBetaStatus: MultichainBetaStatus.NotSeen,
+    },
+  }),
+  172: (state: any) => ({
+    ...state,
+    swap: {
+      ..._.omit(state.swap, 'swapInfo'),
+      currentSwap: null,
+    },
+  }),
+  173: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'swapState'),
+  }),
+  174: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      addressToVerificationStatus: {},
+    },
+  }),
+  175: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      tokenBalances: _.mapValues(state.tokens.tokenBalances, (item: any) => {
+        const newItem = _.omit(item, 'isCoreToken')
+        if (item.isCoreToken !== undefined) {
+          newItem.isFeeCurrency = item.isCoreToken
+          newItem.canTransferWithComment = item.isCoreToken
+        }
+        return newItem
+      }),
+    },
+  }),
+  176: (state: any) => ({
+    ...state,
+    identity: {
+      ...state.identity,
+      lastSavedContactsHash: null,
+    },
+  }),
+  177: (state: any) => ({
+    ...state,
+    swap: {
+      ...state.swap,
+      ...(state.swap.priceImpactWarningThreshold && {
+        priceImpactWarningThreshold: state.swap.priceImpactWarningThreshold * 100,
+      }),
+    },
+  }),
+  178: (state: any) => ({
+    ...state,
+    swap: _.omit(state.swap, 'guaranteedSwapPriceEnabled'),
+  }),
+  179: (state: any) => ({
+    ...state,
+    priceHistory: {},
+  }),
+  180: (state: any) => ({
+    ...state,
+    send: {
+      ...state.send,
+      recentRecipients: state.send.recentRecipients.filter(
+        (recentRecipient: Recipient) => !!recentRecipient.address
+      ),
+    },
+  }),
+  181: (state: any) => ({
+    ...state,
+    nfts: {
+      ...state.nfts,
+      nfts: [],
+    },
+  }),
+  182: (state: any) => ({
+    ...state,
+    tokens: {
+      ...state.tokens,
+      importedTokens: {},
+    },
+  }),
+  183: (state: any) => ({
+    ...state,
+    home: { ...state.home, cleverTapInboxMessages: [] },
+  }),
+  184: (state: any) => ({
+    ...state,
+    swap: { ...state.swap, lastSwapped: [] },
+  }),
+  185: (state: any) => ({
+    ...state,
+    tokens: _.omit(state.tokens, 'importedTokens'),
+  }),
+  186: (state: any) => ({
+    ...state,
+    home: { ...state.home, hasVisitedHome: !!state.web3.account },
+    app: { ...state.app, pendingDeepLinks: [] },
+  }),
+  187: (state: any) => ({
+    ...state,
+    dapps: _.omit(
+      state.dapps,
+      'dappConnectInfo',
+      'dappFavoritesEnabled',
+      'dappsMinimalDisclaimerEnabled'
+    ),
+  }),
+  188: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'celoEuroEnabled', 'rewardPillText'),
+    send: _.omit(state.send, 'inviteRewardWeeklyLimit', 'inviteRewardCusd'),
+  }),
+  189: (state: any) => ({
+    ...state,
+    home: { ...state.home, nftCelebration: null },
+  }),
+  190: (state: any) => {
+    const currencyMapping: Record<string, LocalCurrencyCode> = {
+      MYS: LocalCurrencyCode.MYR,
+      SGP: LocalCurrencyCode.SGD,
+      THI: LocalCurrencyCode.THB,
+      TWN: LocalCurrencyCode.TWD,
+      VNM: LocalCurrencyCode.VND,
+    }
+    const preferredCurrencyCode =
+      currencyMapping[state.localCurrency.preferredCurrencyCode] ??
+      state.localCurrency.preferredCurrencyCode
+    const fetchedCurrencyCode =
+      currencyMapping[state.localCurrency.fetchedCurrencyCode] ??
+      state.localCurrency.fetchedCurrencyCode
+
+    return {
+      ...state,
+      localCurrency: {
+        ...state.localCurrency,
+        preferredCurrencyCode,
+        fetchedCurrencyCode,
+      },
+    }
+  },
 }

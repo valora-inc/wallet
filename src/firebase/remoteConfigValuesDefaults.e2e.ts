@@ -1,5 +1,4 @@
 import { RemoteConfigValues } from 'src/app/saga'
-import { DappConnectInfo } from 'src/dapps/types'
 
 export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   RemoteConfigValues,
@@ -17,11 +16,9 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: number
   superchargecREALMax: number
   celoNews: string
+  superchargeTokenConfigByToken: string
 } = {
-  celoEuroEnabled: true,
   inviteRewardsVersion: 'none',
-  inviteRewardCusd: 1,
-  inviteRewardWeeklyLimit: 20,
   walletConnectV1Enabled: true,
   walletConnectV2Enabled: true,
   superchargeApy: 12,
@@ -32,12 +29,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: 50,
   superchargecREALMax: 6000,
   pincodeUseExpandedBlocklist: true,
-  rewardPillText: JSON.stringify({
-    en: 'Rewards',
-    pt: 'Recompensas',
-    es: 'Recompensas',
-    de: 'Belohnungen',
-  }),
   rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
@@ -50,17 +41,16 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsWebViewEnabled: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: true,
-  dappConnectInfo: DappConnectInfo.Basic,
   visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,
   networkTimeoutSeconds: 30,
-  dappFavoritesEnabled: false,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
   twelveWordMnemonicEnabled: true,
-  dappsMinimalDisclaimerEnabled: false,
-  guaranteedSwapPriceEnabled: false,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
+  superchargeTokenConfigByToken: JSON.stringify(
+    {} as RemoteConfigValues['superchargeTokenConfigByToken']
+  ),
 }

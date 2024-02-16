@@ -68,7 +68,7 @@ function TokenBalance({
   const tokenFetchLoading = useSelector(tokenFetchLoadingSelector)
   const tokenFetchError = useSelector(tokenFetchErrorSelector)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
-  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
+  // TODO(ACT-1095): Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal =

@@ -1,30 +1,50 @@
-import { throttle } from 'lodash'
-import React, { useMemo, useState } from 'react'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
+import { getFontScaleSync } from 'react-native-device-info'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { isAddressFormat } from 'src/account/utils'
 import { SendEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
+import Button, { BtnSizes } from 'src/components/Button'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InviteOptionsModal from 'src/components/InviteOptionsModal'
+import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import CircledIcon from 'src/icons/CircledIcon'
 import Times from 'src/icons/Times'
 import { importContacts } from 'src/identity/actions'
+import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
+import { AddressValidationType } from 'src/identity/reducer'
+import { getAddressValidationType } from 'src/identity/secureSend'
+import {
+  e164NumberToAddressSelector,
+  secureSendPhoneNumberMappingSelector,
+} from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { noHeader } from 'src/navigator/Headers'
-import { navigateBack } from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { StackParamList } from 'src/navigator/types'
 import RecipientPicker from 'src/recipients/RecipientPickerV2'
-import { sortRecipients } from 'src/recipients/recipient'
-import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
+import { Recipient, RecipientType, recipientHasNumber } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
+import InviteRewardsCard from 'src/send/InviteRewardsCard'
+import PasteAddressButton from 'src/send/PasteAddressButton'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
 import { SendSelectRecipientSearchInput } from 'src/send/SendSelectRecipientSearchInput'
+import { useMergedSearchRecipients, useSendRecipients } from 'src/send/hooks'
+import { inviteRewardsActiveSelector } from 'src/send/selectors'
 import useFetchRecipientVerificationStatus from 'src/send/useFetchRecipientVerificationStatus'
 import colors from 'src/styles/colors'
-import { typeScale } from 'src/styles/fonts'
+import { fontStyles, typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 
-const SEARCH_THROTTLE_TIME = 100
+type Props = NativeStackScreenProps<StackParamList, Screens.SendSelectRecipient>
 
 function GetStartedSection() {
   const { t } = useTranslation()
@@ -40,8 +60,14 @@ function GetStartedSection() {
   }) => {
     return (
       <View key={`getStartedOption-${optionNum}`} style={getStartedStyles.optionWrapper}>
-        <CircledIcon radius={24} style={getStartedStyles.optionNum} backgroundColor={colors.white}>
-          <Text style={getStartedStyles.optionNumText}>{optionNum}</Text>
+        <CircledIcon
+          radius={Math.min(24 * getFontScaleSync(), 50)}
+          style={getStartedStyles.optionNum}
+          backgroundColor={colors.white}
+        >
+          <Text adjustsFontSizeToFit={true} style={getStartedStyles.optionNumText}>
+            {optionNum}
+          </Text>
         </CircledIcon>
         <View style={getStartedStyles.optionText}>
           <Text style={getStartedStyles.optionTitle}>{title}</Text>
@@ -61,16 +87,6 @@ function GetStartedSection() {
       optionNum: '2',
       title: t('sendSelectRecipient.getStarted.options.two.title'),
       subtitle: t('sendSelectRecipient.getStarted.options.two.subtitle'),
-    },
-    {
-      optionNum: '3',
-      title: t('sendSelectRecipient.getStarted.options.three.title'),
-      subtitle: t('sendSelectRecipient.getStarted.options.three.subtitle'),
-    },
-    {
-      optionNum: '4',
-      title: t('sendSelectRecipient.getStarted.options.four.title'),
-      subtitle: t('sendSelectRecipient.getStarted.options.four.subtitle'),
     },
   ]
 
@@ -130,32 +146,200 @@ const getStartedStyles = StyleSheet.create({
   },
 })
 
-function SendSelectRecipient() {
+function SendOrInviteButton({
+  recipient,
+  recipientVerificationStatus,
+  onPress,
+}: {
+  recipient: Recipient | null
+  recipientVerificationStatus: RecipientVerificationStatus
+  onPress: (shouldInviteRecipient: boolean) => void
+}) {
   const { t } = useTranslation()
-
-  const [searchQuery, setSearchQuery] = useState('')
-  const throttledSearch = throttle((searchInput: string) => {
-    setSearchQuery(searchInput)
-  }, SEARCH_THROTTLE_TIME)
-
-  const [showContacts, setShowContacts] = useState(false)
-
-  const recentRecipients = useSelector((state) => state.send.recentRecipients)
-  const contactsCache = useSelector(phoneRecipientCacheSelector)
-  const contactRecipients = useMemo(
-    () => sortRecipients(Object.values(contactsCache)),
-    [contactsCache]
+  const sendOrInviteButtonDisabled =
+    !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
+  const shouldInviteRecipient =
+    !sendOrInviteButtonDisabled &&
+    recipient?.recipientType === RecipientType.PhoneNumber &&
+    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
+  return (
+    <Button
+      testID="SendOrInviteButton"
+      style={styles.sendOrInviteButton}
+      onPress={() => onPress(shouldInviteRecipient)}
+      disabled={sendOrInviteButtonDisabled}
+      text={
+        shouldInviteRecipient
+          ? t('sendSelectRecipient.buttons.invite')
+          : t('sendSelectRecipient.buttons.send')
+      }
+      size={BtnSizes.FULL}
+    />
   )
-  const showGetStarted = !recentRecipients.length
+}
+enum SelectRecipientView {
+  Recent = 'Recent',
+  Contacts = 'Contacts',
+}
 
-  const { recipientVerificationStatus, recipient, setSelectedRecipient } =
+function SendSelectRecipient({ route }: Props) {
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const inviteRewardsActive = useSelector(inviteRewardsActiveSelector)
+  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+
+  const forceTokenId = route.params?.forceTokenId
+  const defaultTokenIdOverride = route.params?.defaultTokenIdOverride
+
+  const [showSendOrInviteButton, setShowSendOrInviteButton] = useState(false)
+
+  const [showSearchResults, setShowSearchResults] = useState(false)
+
+  const [activeView, setActiveView] = useState(SelectRecipientView.Recent)
+
+  const [showInviteModal, setShowInviteModal] = useState(false)
+
+  const onSearch = (searchQuery: string) => {
+    // Always unset the selected recipient and hide the send/invite button
+    // when the search query is changed in order to prevent edge cases
+    // where the button appears but is bound to a recipient that is
+    // not present on the page.
+    unsetSelectedRecipient()
+    setShowSendOrInviteButton(false)
+    setShowSearchResults(!!searchQuery)
+  }
+  const { contactRecipients, recentRecipients } = useSendRecipients()
+  const { mergedRecipients, searchQuery, setSearchQuery } = useMergedSearchRecipients(onSearch)
+
+  const { recipientVerificationStatus, recipient, setSelectedRecipient, unsetSelectedRecipient } =
     useFetchRecipientVerificationStatus()
 
-  const dispatch = useDispatch()
+  const showUnknownAddressInfo =
+    showSendOrInviteButton &&
+    showSearchResults &&
+    recipient &&
+    recipient.recipientType !== RecipientType.PhoneNumber &&
+    recipientVerificationStatus === RecipientVerificationStatus.UNVERIFIED
+
+  const setSelectedRecipientWrapper = (selectedRecipient: Recipient) => {
+    setSelectedRecipient(selectedRecipient)
+    setShowSendOrInviteButton(true)
+  }
 
   const onContactsPermissionGranted = () => {
     dispatch(importContacts())
-    setShowContacts(true)
+    setActiveView(SelectRecipientView.Contacts)
+  }
+
+  const shouldShowClipboard = (content: string) => {
+    return content !== searchQuery && isAddressFormat(content)
+  }
+
+  const onSelectRecentRecipient = (recentRecipient: Recipient) => {
+    ValoraAnalytics.track(SendEvents.send_select_recipient_recent_press, {
+      recipientType: recentRecipient.recipientType,
+    })
+    setSelectedRecipient(recentRecipient)
+    nextScreen(recentRecipient)
+  }
+
+  const nextScreen = (selectedRecipient: Recipient) => {
+    // use the address from the recipient object
+    let address: string | null | undefined = selectedRecipient.address
+
+    // if not present there must be a phone number, route through secure send or get
+    // the secure send mapped address
+    if (!address && recipientHasNumber(selectedRecipient)) {
+      const addressValidationType: AddressValidationType = getAddressValidationType(
+        selectedRecipient,
+        secureSendPhoneNumberMapping
+      )
+      if (addressValidationType !== AddressValidationType.NONE) {
+        navigate(Screens.ValidateRecipientIntro, {
+          defaultTokenIdOverride,
+          forceTokenId,
+          recipient: selectedRecipient,
+          origin: SendOrigin.AppSendFlow,
+        })
+        return
+      }
+      address = getAddressFromPhoneNumber(
+        selectedRecipient.e164PhoneNumber,
+        e164NumberToAddress,
+        secureSendPhoneNumberMapping,
+        undefined
+      )
+    }
+
+    if (!address) {
+      // this should never happen
+      throw new Error(
+        'No address found, this should never happen. Should have routed to invite or secure send.'
+      )
+    }
+
+    navigate(Screens.SendEnterAmount, {
+      isFromScan: false,
+      defaultTokenIdOverride,
+      forceTokenId,
+      recipient: {
+        ...selectedRecipient,
+        address,
+      },
+      origin: SendOrigin.AppSendFlow,
+    })
+  }
+
+  const onPressSendOrInvite = (shouldInviteRecipient: boolean) => {
+    if (!recipient) {
+      return
+    }
+    if (shouldInviteRecipient) {
+      ValoraAnalytics.track(SendEvents.send_select_recipient_invite_press, {
+        recipientType: recipient.recipientType,
+      })
+      setShowSendOrInviteButton(false)
+      setShowInviteModal(true)
+    } else {
+      ValoraAnalytics.track(SendEvents.send_select_recipient_send_press, {
+        recipientType: recipient.recipientType,
+      })
+      nextScreen(recipient)
+    }
+  }
+
+  const onCloseInviteModal = () => {
+    setShowInviteModal(false)
+  }
+
+  const renderSearchResults = () => {
+    if (mergedRecipients.length) {
+      return (
+        <>
+          <Text style={styles.searchResultsHeader}>{t('sendSelectRecipient.results')}</Text>
+          <RecipientPicker
+            testID={'SelectRecipient/AllRecipientsPicker'}
+            recipients={mergedRecipients}
+            onSelectRecipient={setSelectedRecipientWrapper}
+            selectedRecipient={recipient}
+            isSelectedRecipientLoading={
+              !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
+            }
+          />
+        </>
+      )
+    } else {
+      return (
+        <View testID={'SelectRecipient/NoResults'} style={styles.noResultsWrapper}>
+          <Text style={styles.noResultsTitle}>
+            {t('noResultsFor')}
+            <Text style={styles.noResultsTitle}>{` "${searchQuery}"`}</Text>
+          </Text>
+          <Text style={styles.noResultsSubtitle}>{t('searchForSomeone')}</Text>
+        </View>
+      )
+    }
   }
 
   return (
@@ -167,16 +351,23 @@ function SendSelectRecipient() {
           eventName={SendEvents.send_cancel}
           style={styles.buttonContainer}
         />
-        <SendSelectRecipientSearchInput input={searchQuery} onChangeText={throttledSearch} />
+        <SendSelectRecipientSearchInput input={searchQuery} onChangeText={setSearchQuery} />
       </View>
-      <View style={styles.content}>
-        {showContacts ? (
+      <KeyboardAwareScrollView keyboardDismissMode="on-drag">
+        <PasteAddressButton
+          shouldShowClipboard={shouldShowClipboard}
+          onChangeText={setSearchQuery}
+          value={''}
+        />
+        {showSearchResults ? (
+          renderSearchResults()
+        ) : activeView === SelectRecipientView.Contacts ? (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.contactsTitle')}</Text>
             <RecipientPicker
               testID={'SelectRecipient/ContactRecipientPicker'}
               recipients={contactRecipients}
-              onSelectRecipient={setSelectedRecipient}
+              onSelectRecipient={setSelectedRecipientWrapper}
               selectedRecipient={recipient}
               isSelectedRecipientLoading={
                 !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
@@ -186,25 +377,44 @@ function SendSelectRecipient() {
         ) : (
           <>
             <Text style={styles.title}>{t('sendSelectRecipient.title')}</Text>
+            {inviteRewardsActive && <InviteRewardsCard />}
             <SelectRecipientButtons onContactsPermissionGranted={onContactsPermissionGranted} />
-            {showGetStarted ? (
-              <GetStartedSection />
-            ) : (
+            {activeView === SelectRecipientView.Recent && recentRecipients.length ? (
               <RecipientPicker
                 testID={'SelectRecipient/RecentRecipientPicker'}
                 recipients={recentRecipients}
                 title={t('sendSelectRecipient.recents')}
-                onSelectRecipient={setSelectedRecipient}
+                onSelectRecipient={onSelectRecentRecipient}
                 selectedRecipient={recipient}
                 isSelectedRecipientLoading={
                   !!recipient && recipientVerificationStatus === RecipientVerificationStatus.UNKNOWN
                 }
                 style={styles.recentRecipientPicker}
               />
+            ) : (
+              <GetStartedSection />
             )}
           </>
         )}
-      </View>
+      </KeyboardAwareScrollView>
+      {showInviteModal && recipient && (
+        <InviteOptionsModal recipient={recipient} onClose={onCloseInviteModal} />
+      )}
+      {showUnknownAddressInfo && (
+        <InLineNotification
+          severity={Severity.Informational}
+          description={t('sendSelectRecipient.unknownAddressInfo')}
+          testID="UnknownAddressInfo"
+          style={styles.unknownAddressInfo}
+        />
+      )}
+      {showSendOrInviteButton && (
+        <SendOrInviteButton
+          recipient={recipient}
+          recipientVerificationStatus={recipientVerificationStatus}
+          onPress={onPressSendOrInvite}
+        />
+      )}
     </SafeAreaView>
   )
 }
@@ -226,12 +436,11 @@ const styles = StyleSheet.create({
   header: {
     alignItems: 'center',
     flexDirection: 'row',
-  },
-  content: {
-    flex: 1,
+    paddingVertical: 10,
   },
   body: {
     flex: 1,
+    paddingBottom: variables.contentPadding,
   },
   recentRecipientPicker: {
     paddingTop: Spacing.Large32,
@@ -239,6 +448,37 @@ const styles = StyleSheet.create({
   buttonContainer: {
     padding: variables.contentPadding,
     paddingLeft: Spacing.Thick24,
+  },
+  searchResultsHeader: {
+    ...typeScale.labelXSmall,
+    color: colors.gray4,
+    padding: Spacing.Thick24,
+    paddingBottom: Spacing.Small12,
+  },
+  noResultsWrapper: {
+    textAlign: 'center',
+    marginTop: Spacing.Small12,
+    padding: Spacing.Thick24,
+  },
+  noResultsTitle: {
+    ...fontStyles.regular,
+    color: colors.gray3,
+    textAlign: 'center',
+  },
+  noResultsSubtitle: {
+    ...typeScale.labelXSmall,
+    color: colors.gray3,
+    justifyContent: 'center',
+    padding: Spacing.Thick24,
+    textAlign: 'center',
+  },
+  unknownAddressInfo: {
+    margin: Spacing.Thick24,
+    marginBottom: variables.contentPadding,
+  },
+  sendOrInviteButton: {
+    margin: Spacing.Thick24,
+    marginTop: variables.contentPadding,
   },
 })
 

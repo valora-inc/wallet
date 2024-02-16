@@ -23,7 +23,8 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import colors from 'src/styles/colors'
-import { resolveCICOCurrency, resolveCurrency } from 'src/utils/currencies'
+import { useTokenInfo } from 'src/tokens/hooks'
+import { resolveCurrency } from 'src/utils/currencies'
 import { navigateToURI } from 'src/utils/linking'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -35,7 +36,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const [redirected, setRedirected] = useState(false)
   const { t } = useTranslation()
 
-  const { simplexQuote } = route.params
+  const { simplexQuote, tokenId } = route.params
 
   const account = useSelector(currentAccountSelector)
   const e164PhoneNumber = useSelector(e164NumberSelector)
@@ -45,7 +46,11 @@ function SimplexScreen({ route, navigation }: Props) {
 
   const dispatch = useDispatch()
 
-  const currencyToBuy = resolveCICOCurrency(simplexQuote.digital_money.currency)
+  const tokenInfo = useTokenInfo(tokenId)
+  if (!tokenInfo) {
+    throw new Error(`Token info not found for token ID ${tokenId}`)
+  }
+  const symbol = tokenInfo.symbol
 
   const feeIsWaived =
     simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount <= 0
@@ -61,7 +66,7 @@ function SimplexScreen({ route, navigation }: Props) {
   const onButtonPress = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_simplex_open_webview, {
       amount: simplexQuote.digital_money.amount,
-      cryptoCurrency: currencyToBuy,
+      cryptoCurrency: symbol,
       feeInFiat: simplexQuote.fiat_money.total_amount - simplexQuote.fiat_money.base_amount,
       fiatCurrency: simplexQuote.fiat_money.currency,
     })
@@ -112,7 +117,7 @@ function SimplexScreen({ route, navigation }: Props) {
         <View style={styles.review}>
           <ReviewFees
             provider="Simplex"
-            currencyToBuy={currencyToBuy}
+            tokenIdToBuy={tokenId}
             localCurrency={localCurrency}
             fiat={{
               subTotal: simplexQuote.fiat_money.base_amount,

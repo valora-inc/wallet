@@ -5,7 +5,6 @@ import {
   KycStatus as FiatConnectKycStatus,
 } from '@fiatconnect/fiatconnect-types'
 import { PermissionStatus } from 'react-native-permissions'
-import { PincodeType } from 'src/account/reducer'
 import {
   AppEvents,
   AssetsEvents,
@@ -32,7 +31,6 @@ import {
   PerformanceEvents,
   PhoneVerificationEvents,
   QrScreenEvents,
-  RequestEvents,
   RewardsEvents,
   SendEvents,
   SettingsEvents,
@@ -61,16 +59,17 @@ import { DappSection } from 'src/dapps/types'
 import { ProviderSelectionAnalyticsData } from 'src/fiatExchanges/types'
 import { CICOFlow, FiatExchangeFlow, PaymentMethod } from 'src/fiatExchanges/utils'
 import { HomeActionName, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
+import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { NftOrigin } from 'src/nfts/types'
 import { NotificationReceiveState } from 'src/notifications/types'
 import { AdventureCardName } from 'src/onboarding/types'
 import { RecipientType } from 'src/recipients/recipient'
+import { QrCode } from 'src/send/types'
 import { Field } from 'src/swap/types'
 import { TokenDetailsActionName } from 'src/tokens/types'
 import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
-import { AnalyticsCurrency, CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 
 type Web3LibraryProps = { web3Library: 'contract-kit' | 'viem' }
 
@@ -93,9 +92,6 @@ interface AppEventsProperties {
   [AppEvents.error_fallback]: {
     error: ErrorMessages
   }
-  [AppEvents.error_boundary]: {
-    error: string
-  }
   [AppEvents.user_restart]: undefined
   [AppEvents.fetch_balance]: {
     dollarBalance?: string
@@ -114,6 +110,7 @@ interface AppEventsProperties {
   }
   [AppEvents.redux_no_matching_keychain_account]: {
     walletAddress: string
+    keychainError?: string
   }
   [AppEvents.push_notification_opened]: {
     id?: string
@@ -145,12 +142,15 @@ interface AppEventsProperties {
   [AppEvents.multichain_beta_opt_in]: undefined
   [AppEvents.multichain_beta_opt_out]: undefined
   [AppEvents.multichain_beta_contact_support]: undefined
+
+  [AppEvents.handle_deeplink]: {
+    pathStartsWith: string
+    fullPath: string | null
+    query: string | null
+  }
 }
 
 interface HomeEventsProperties {
-  [HomeEvents.home_send]: undefined
-  [HomeEvents.home_request]: undefined
-  [HomeEvents.home_qr]: undefined
   [HomeEvents.hamburger_tapped]: undefined
   [HomeEvents.drawer_navigation]: {
     navigateTo: string
@@ -183,6 +183,14 @@ interface HomeEventsProperties {
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
   [HomeEvents.hide_balances]: undefined
   [HomeEvents.show_balances]: undefined
+  [HomeEvents.nft_celebration_displayed]: {
+    networkId: NetworkId
+    contractAddress: string
+  }
+  [HomeEvents.nft_celebration_animation_displayed]: {
+    userInterrupted: boolean
+    durationInSeconds: number
+  }
 }
 
 interface SettingsEventsProperties {
@@ -218,6 +226,8 @@ interface SettingsEventsProperties {
   [SettingsEvents.settings_analytics]: { enabled: boolean }
   [SettingsEvents.settings_revoke_phone_number]: undefined
   [SettingsEvents.settings_revoke_phone_number_confirm]: undefined
+  [SettingsEvents.settings_delete_account]: undefined
+  [SettingsEvents.settings_delete_account_confirm]: undefined
   [SettingsEvents.settings_set_up_keyless_backup]: undefined
   [SettingsEvents.settings_delete_keyless_backup]: undefined
 }
@@ -228,14 +238,17 @@ interface CommonKeylessBackupProps {
 
 interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.wallet_security_primer_get_started]: undefined
-  [KeylessBackupEvents.set_up_keyless_backup_screen_continue]: undefined
+  [KeylessBackupEvents.cab_setup_recovery_phrase]: undefined
   [KeylessBackupEvents.cab_sign_in_with_google]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_google_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_sign_in_with_email_screen_cancel]: CommonKeylessBackupProps
-  [KeylessBackupEvents.enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_continue]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_number_cancel]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_intro_continue]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_sms_code_error]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_enter_phone_code_cancel]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_start]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_issue_valora_keyshare_error]: CommonKeylessBackupProps
@@ -246,13 +259,24 @@ interface KeylessBackupEventsProperties {
     backupAlreadyExists: boolean
   }
   [KeylessBackupEvents.cab_torus_keyshare_timeout]: undefined
-  [KeylessBackupEvents.cab_handle_keyless_backup_setup_failed]: undefined
-  [KeylessBackupEvents.cab_handle_keyless_backup_setup_success]: undefined
+  [KeylessBackupEvents.cab_handle_keyless_backup_failed]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_handle_keyless_backup_success]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_get_torus_keyshare_failed]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_accept]: undefined
+  [KeylessBackupEvents.cab_restore_zero_balance_bail]: undefined
+  [KeylessBackupEvents.cab_restore_completed_continue]: undefined
+  [KeylessBackupEvents.cab_restore_failed_try_again]: { keylessBackupStatus: KeylessBackupStatus }
+  [KeylessBackupEvents.cab_restore_failed_create_new_wallet]: {
+    keylessBackupStatus: KeylessBackupStatus
+  }
+  [KeylessBackupEvents.cab_restore_failed_help]: undefined
+  [KeylessBackupEvents.cab_restore_mnemonic_not_found]: undefined
+  [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
 }
 
 interface OnboardingEventsProperties {
-  [OnboardingEvents.onboarding_education_start]: undefined
   [OnboardingEvents.onboarding_education_scroll]: {
     currentStep: number
     direction: ScrollDirection
@@ -260,11 +284,8 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.onboarding_education_step_impression]: {
     step: number
   }
-  [OnboardingEvents.onboarding_education_complete]: undefined
-  [OnboardingEvents.onboarding_education_cancel]: undefined
 
   [OnboardingEvents.create_account_start]: undefined
-  [OnboardingEvents.create_account_cancel]: undefined
 
   [OnboardingEvents.restore_account_start]: undefined
   [OnboardingEvents.restore_account_cancel]: undefined
@@ -311,18 +332,9 @@ interface OnboardingEventsProperties {
     profilePictureSkipped: boolean
   }
   [OnboardingEvents.name_and_picture_skip]: undefined
-  [OnboardingEvents.name_and_picture_generate_name]: undefined
-  [OnboardingEvents.phone_number_set]: {
-    countryCode: string
-    country?: string
-  }
 
   [OnboardingEvents.pin_set]: undefined
   [OnboardingEvents.pin_invalid]: {
-    error: string
-  }
-  [OnboardingEvents.pin_failed_to_set]: {
-    pincodeType: PincodeType
     error: string
   }
   [OnboardingEvents.pin_never_set]: undefined
@@ -407,10 +419,11 @@ interface OnboardingEventsProperties {
   [OnboardingEvents.cya_later]: {
     cardOrder: AdventureCardName[]
   }
+  [OnboardingEvents.link_phone_number]: undefined
+  [OnboardingEvents.link_phone_number_later]: undefined
 }
 
 interface PhoneVerificationEventsProperties {
-  [PhoneVerificationEvents.phone_verification_skip]: undefined
   [PhoneVerificationEvents.phone_verification_skip_confirm]: undefined
   [PhoneVerificationEvents.phone_verification_learn_more]: undefined
   [PhoneVerificationEvents.phone_verification_start]: {
@@ -427,7 +440,6 @@ interface PhoneVerificationEventsProperties {
   [PhoneVerificationEvents.phone_verification_code_verify_error]: undefined
   [PhoneVerificationEvents.phone_verification_input_help]: undefined
   [PhoneVerificationEvents.phone_verification_input_help_continue]: undefined
-  [PhoneVerificationEvents.phone_verification_input_help_skip]: undefined
   [PhoneVerificationEvents.phone_verification_resend_message]: undefined
   [PhoneVerificationEvents.phone_verification_revoke_start]: undefined
   [PhoneVerificationEvents.phone_verification_revoke_success]: undefined
@@ -435,9 +447,6 @@ interface PhoneVerificationEventsProperties {
 }
 
 interface IdentityEventsProperties {
-  [IdentityEvents.contacts_connect]: {
-    matchMakingEnabled: boolean
-  }
   [IdentityEvents.contacts_import_permission_denied]: undefined
   [IdentityEvents.contacts_import_start]: undefined
   [IdentityEvents.contacts_import_complete]: {
@@ -453,12 +462,11 @@ interface IdentityEventsProperties {
   [IdentityEvents.phone_number_lookup_error]: {
     error: string
   }
-
-  [IdentityEvents.phone_number_lookup_purchase_complete]: undefined
-  [IdentityEvents.phone_number_lookup_purchase_error]: {
+  [IdentityEvents.address_lookup_start]: undefined
+  [IdentityEvents.address_lookup_complete]: undefined
+  [IdentityEvents.address_lookup_error]: {
     error: string
   }
-  [IdentityEvents.phone_number_lookup_purchase_skip]: undefined
 }
 
 interface AuthenticationEventsProperties {
@@ -564,6 +572,7 @@ interface SendEventsProperties {
         networkId: NetworkId | null
         tokenId: string
         commentLength: number
+        isTokenManuallyImported: boolean
       }
 
   [SendEvents.send_secure_start]: {
@@ -591,14 +600,16 @@ interface SendEventsProperties {
     partialAddressValidation: boolean
   }
 
-  [SendEvents.send_tx_start]: Web3LibraryProps
-  [SendEvents.send_tx_complete]: Web3LibraryProps & {
+  [SendEvents.send_tx_start]: undefined
+  [SendEvents.send_tx_complete]: {
     txId: string
     recipientAddress: string
     amount: string
     usdAmount: string | undefined
     tokenAddress: string | undefined
     tokenId: string
+    networkId: string
+    isTokenManuallyImported: boolean
   }
   [SendEvents.send_tx_error]: {
     error: string
@@ -607,12 +618,6 @@ interface SendEventsProperties {
     currentTokenId: string
     currentTokenAddress: string | null
     currentNetworkId: NetworkId | null
-  }
-  [SendEvents.token_selected]: {
-    origin: TokenPickerOrigin
-    tokenId: string
-    tokenAddress: string | null
-    networkId: NetworkId | null
   }
   [SendEvents.max_pressed]: {
     tokenId: string
@@ -642,53 +647,18 @@ interface SendEventsProperties {
   [SendEvents.request_contacts_permission_completed]: {
     permissionStatus: PermissionStatus
   }
-}
-
-interface RequestEventsProperties {
-  [RequestEvents.request_amount_back]: undefined
-  [RequestEvents.request_cancel]: undefined
-  [RequestEvents.request_scan]: undefined
-  [RequestEvents.request_select_recipient]: {
-    usedSearchBar: boolean
+  [SendEvents.send_select_recipient_send_press]: {
     recipientType: RecipientType
   }
-  [RequestEvents.request_amount_continue]:
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingCurrency: Currency
-        underlyingAmount: string | null
-      }
-    | {
-        origin: SendOrigin
-        isScan: boolean
-        localCurrencyExchangeRate?: string | null
-        localCurrency: LocalCurrencyCode
-        localCurrencyAmount: string | null
-        underlyingTokenAddress: string | null
-        underlyingTokenSymbol: string
-        underlyingAmount: string | null
-        amountInUsd: string | null
-      }
-  [RequestEvents.request_confirm_back]: undefined
-  [RequestEvents.request_confirm_request]: {
-    requesteeAddress: string
+  [SendEvents.send_select_recipient_invite_press]: {
     recipientType: RecipientType
-    isScan: boolean
   }
-  [RequestEvents.request_error]: {
-    error: string
+  [SendEvents.send_select_recipient_recent_press]: {
+    recipientType: RecipientType
   }
 }
 
 interface FeeEventsProperties {
-  [FeeEvents.fee_rendered]: {
-    feeType: string
-    fee?: string
-  }
   [FeeEvents.estimate_fee_failed]: {
     feeType: string
     tokenAddress: string
@@ -698,9 +668,6 @@ interface FeeEventsProperties {
     feeType: string
     tokenAddress: string
     usdFee: string
-  }
-  [FeeEvents.fetch_tobin_tax_failed]: {
-    error: string
   }
 }
 
@@ -739,20 +706,8 @@ interface TransactionEventsProperties {
 
 interface CeloExchangeEventsProperties {
   [CeloExchangeEvents.celo_home_info]: undefined
-
-  [CeloExchangeEvents.celo_withdraw_review]: {
-    amount: string
-  }
-  [CeloExchangeEvents.celo_withdraw_edit]: undefined
-  [CeloExchangeEvents.celo_withdraw_cancel]: undefined
-  [CeloExchangeEvents.celo_withdraw_confirm]: {
-    amount: string
-  }
   [CeloExchangeEvents.celo_withdraw_completed]: {
     amount: string
-  }
-  [CeloExchangeEvents.celo_withdraw_error]: {
-    error: string
   }
   [CeloExchangeEvents.celo_chart_tapped]: undefined
 }
@@ -777,6 +732,8 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_add_bottom_sheet_impression]: undefined
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_selected]: undefined
   [FiatExchangeEvents.cico_add_bottom_sheet_ramp_available]: undefined
+  [FiatExchangeEvents.cico_add_get_started_impression]: undefined
+  [FiatExchangeEvents.cico_add_get_started_selected]: undefined
   [FiatExchangeEvents.cico_add_funds_info_support]: undefined
   [FiatExchangeEvents.cico_external_exchanges_back]: undefined
   [FiatExchangeEvents.cico_cash_out_copy_address]: undefined
@@ -785,23 +742,18 @@ interface FiatExchangeEventsProperties {
   [FiatExchangeEvents.cico_landing_token_balance]: { totalBalance?: string }
   [FiatExchangeEvents.cico_landing_select_flow]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_landing_how_to_fund]: undefined
-  [FiatExchangeEvents.cico_currency_chosen]: {
-    flow: FiatExchangeFlow
-    currency: AnalyticsCurrency
-  }
-  [FiatExchangeEvents.cico_currency_back]: { flow: FiatExchangeFlow }
   [FiatExchangeEvents.cico_amount_chosen]: {
     amount: number
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_chosen_invalid]: {
     amount: number
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_amount_back]: {
-    currency: AnalyticsCurrency
+    currency: string
     flow: CICOFlow
   }
   [FiatExchangeEvents.cico_providers_section_impression]: {
@@ -916,7 +868,7 @@ interface FiatExchangeEventsProperties {
   }
   [FiatExchangeEvents.cico_simplex_open_webview]: {
     amount: number
-    cryptoCurrency: CiCoCurrency
+    cryptoCurrency: string
     feeInFiat: number
     fiatCurrency: string
   }
@@ -1003,12 +955,8 @@ interface FiatExchangeEventsProperties {
 
 interface QrScreenProperties {
   [QrScreenEvents.qr_screen_copy_address]: undefined
-  [QrScreenEvents.qr_screen_bottom_sheet_open]: undefined
-  [QrScreenEvents.qr_screen_bottom_sheet_close]: undefined
-  [QrScreenEvents.qr_screen_bottom_sheet_link_press]: {
-    exchange: string
-  }
   [QrScreenEvents.qr_scanner_open]: undefined
+  [QrScreenEvents.qr_scanned]: QrCode
 }
 
 interface FiatConnectKycProperties {
@@ -1120,7 +1068,6 @@ interface WalletConnectProperties {
   }
 
   [WalletConnectEvents.wc_request_propose]: WalletConnectRequestDefaultProperties
-  [WalletConnectEvents.wc_request_details]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_start]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_success]: WalletConnectRequestDefaultProperties
   [WalletConnectEvents.wc_request_accept_error]: WalletConnectRequestDefaultProperties & {
@@ -1189,22 +1136,13 @@ interface DappExplorerEventsProperties {
   [DappExplorerEvents.dapp_close]: DappEventProperties
   [DappExplorerEvents.dapp_screen_open]: undefined
   [DappExplorerEvents.dapp_view_all]: { section: DappSection }
-  [DappExplorerEvents.dapp_select]: DappEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_open]: DappEventProperties
-  [DappExplorerEvents.dapp_bottom_sheet_dismiss]: DappEventProperties
   [DappExplorerEvents.dapp_favorite]: DappEventProperties
   [DappExplorerEvents.dapp_unfavorite]: DappEventProperties
-  [DappExplorerEvents.dapp_open_info]: undefined
-  [DappExplorerEvents.dapp_open_more_info]: undefined
   [DappExplorerEvents.dapp_filter]: {
-    id: string
+    filterId: string
     remove: boolean
   }
-  [DappExplorerEvents.dapp_search]: {
-    searchTerm: string
-  }
   [DappExplorerEvents.dapp_rankings_open]: undefined
-  [DappExplorerEvents.dapp_rankings_impression]: undefined
 }
 
 interface WebViewEventsProperties {
@@ -1238,12 +1176,19 @@ interface SwapEvent {
   fromToken: string | null | undefined
   fromTokenId: string
   fromTokenNetworkId: string
+  /**
+   * Starting with v1.74, this amount is always in decimal format
+   * Before that it was in token smallest unit or decimal format depending on the event.
+   */
   amount: string | null
   amountType: 'buyAmount' | 'sellAmount'
 }
 
 type SwapQuoteEvent = SwapEvent & {
   allowanceTarget: string
+  /**
+   * In percentage, between 0 and 100
+   */
   estimatedPriceImpact: string | null
   price: string
   provider: string
@@ -1258,6 +1203,8 @@ export interface SwapTxsProperties {
   gas: number // Gas limit of the swap (approve + swap)
   maxGasFee: number | undefined // Max gas fee for the swap (approve + swap) in feeCurrency (decimal value)
   maxGasFeeUsd: number | undefined // Max gas fee for the swap (approve + swap) in USD
+  estimatedGasFee: number | undefined // Estimated gas fee for the swap (approve + swap) in feeCurrency (decimal value)
+  estimatedGasFeeUsd: number | undefined // Estimated gas fee for the swap (approve + swap) in USD
   txCount: number // Number of transactions for the swap (1 or 2 depending on whether the approve tx is needed)
   feeCurrency: string | undefined // Fee currency used
   feeCurrencySymbol: string | undefined // Fee currency symbol used
@@ -1269,6 +1216,8 @@ export interface TxReceiptProperties {
   txGas: number // Gas limit of the transaction
   txMaxGasFee: number | undefined // Max gas fee of the transaction in feeCurrency (decimal value)
   txMaxGasFeeUsd: number | undefined // Max gas fee of the in USD
+  txEstimatedGasFee: number | undefined // Estimated gas fee of the transaction in feeCurrency (decimal value)
+  txEstimatedGasFeeUsd: number | undefined // Estimated gas fee of the transaction in USD
   txGasUsed: number // Gas used by the transaction
   txGasFee: number // Actual gas fee of the transaction in feeCurrency (decimal value)
   txGasFeeUsd: number // Actual gas fee of the transaction in USD
@@ -1295,6 +1244,8 @@ export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
     gas: number // Gas limit of the swap (approve + swap)
     maxGasFee: number | undefined // Max gas fee for the swap (approve + swap) in feeCurrency (decimal value)
     maxGasFeeUsd: number | undefined // Max gas fee for the swap (approve + swap) in USD
+    estimatedGasFee: number | undefined // Estimated gas fee for the swap (approve + swap) in feeCurrency (decimal value)
+    estimatedGasFeeUsd: number | undefined // Estimated gas fee for the swap (approve + swap) in USD
     gasUsed: number // Gas used by the swap (approve + swap)
     gasFee: number | undefined // Actual gas fee of the swap (approve + swap) in feeCurrency (decimal value)
     gasFeeUsd: number | undefined // Actual gas fee of the swap (approve + swap) in USD
@@ -1302,6 +1253,11 @@ export type SwapTxsReceiptProperties = Partial<ApproveTxReceiptProperties> &
     feeCurrencySymbol: string | undefined // Fee currency symbol used
   }>
 
+export enum SwapShowInfoType {
+  MAX_NETWORK_FEE,
+  ESTIMATED_NETWORK_FEE,
+  SLIPPAGE,
+}
 interface SwapEventsProperties {
   [SwapEvents.swap_screen_open]: undefined
   [SwapEvents.swap_screen_select_token]: {
@@ -1312,6 +1268,14 @@ interface SwapEventsProperties {
     tokenSymbol: string
     tokenId: string
     tokenNetworkId: string
+    fromTokenSymbol: string | undefined
+    fromTokenId: string | undefined
+    fromTokenNetworkId: string | undefined
+    toTokenSymbol: string | undefined
+    toTokenId: string | undefined
+    toTokenNetworkId: string | undefined
+    switchedNetworkId: boolean
+    areSwapTokensShuffled: boolean
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1319,21 +1283,7 @@ interface SwapEventsProperties {
     tokenNetworkId: string
   }
   [SwapEvents.swap_gas_fees_learn_more]: undefined
-  [SwapEvents.swap_review_submit]: SwapQuoteEvent &
-    Web3LibraryProps &
-    Partial<SwapTxsProperties> & {
-      usdTotal: number
-    }
-  [SwapEvents.swap_execute_price_change]: {
-    price: string
-    guaranteedPrice: string
-    toToken: string
-    toTokenId: string
-    toTokenNetworkId: string
-    fromToken: string
-    fromTokenId: string
-    fromTokenNetworkId: string
-  }
+  [SwapEvents.swap_review_submit]: SwapQuoteEvent & Web3LibraryProps & Partial<SwapTxsProperties>
   [SwapEvents.swap_execute_success]: SwapQuoteEvent &
     SwapTimeMetrics &
     Web3LibraryProps &
@@ -1360,10 +1310,13 @@ interface SwapEventsProperties {
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
     provider: string
-    priceImpact?: string
+    priceImpact: string | null
   }
-  [SwapEvents.swap_again]: undefined
-  [SwapEvents.swap_try_again]: undefined
+  [SwapEvents.swap_show_info]: {
+    type: SwapShowInfoType
+  }
+  [SwapEvents.swap_show_fund_your_wallet]: undefined
+  [SwapEvents.swap_add_funds]: undefined
 }
 
 interface CeloNewsEventsProperties {
@@ -1381,6 +1334,20 @@ interface TokenBottomSheetEventsProperties {
   [TokenBottomSheetEvents.search_token]: {
     origin: TokenPickerOrigin
     searchInput: string
+  }
+  [TokenBottomSheetEvents.toggle_tokens_filter]: {
+    filterId: string
+    isRemoving: boolean
+    isPreSelected: boolean
+  }
+  [TokenBottomSheetEvents.token_selected]: {
+    origin: TokenPickerOrigin
+    tokenId: string
+    tokenAddress: string | null
+    networkId: NetworkId | null
+    usedSearchTerm: boolean
+    selectedFilters: string[]
+    areSwapTokensShuffled?: boolean
   }
 }
 
@@ -1429,11 +1396,18 @@ interface AssetsEventsProperties {
   } & TokenProperties
   [AssetsEvents.import_token_screen_open]: undefined
   [AssetsEvents.import_token_submit]: {
+    networkId: string
+    tokenId: string
     tokenAddress: string
     tokenSymbol: string
-    networkId: string
   }
   [AssetsEvents.import_token_paste]: undefined
+  [AssetsEvents.import_token_error]: {
+    networkId: string
+    tokenId: string
+    tokenAddress: string
+    error: string
+  }
 }
 
 interface NftsEventsProperties {
@@ -1518,7 +1492,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
   EscrowEventsProperties &
-  RequestEventsProperties &
   FeeEventsProperties &
   TransactionEventsProperties &
   CeloExchangeEventsProperties &

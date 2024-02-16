@@ -24,7 +24,6 @@ import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusI
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
-  Network,
   NetworkId,
   TokenApproval,
   TokenExchange,
@@ -35,7 +34,7 @@ import {
 } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
-import networkConfig, { blockExplorerUrls, networkIdToNetwork } from 'src/web3/networkConfig'
+import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
 import RewardReceivedContent from './detailContent/RewardReceivedContent'
 import SwapContent from './detailContent/SwapContent'
 import TransferReceivedContent from './detailContent/TransferReceivedContent'
@@ -102,7 +101,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
-      retryHandler = () => navigate(Screens.Send)
+      retryHandler = () => navigate(Screens.SendSelectRecipient)
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.InviteSent:
@@ -129,8 +128,6 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
   }
 
-  const transactionNetwork = networkIdToNetwork[transaction.networkId]
-
   const openBlockExplorerHandler =
     transaction.networkId in NetworkId
       ? () =>
@@ -144,6 +141,17 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   const primaryActionHanlder =
     transaction.status === TransactionStatus.Failed ? retryHandler : openBlockExplorerHandler
+
+  const networkIdToExplorerString: Record<NetworkId, string> = {
+    [NetworkId['celo-mainnet']]: t('viewOnCeloScan'),
+    [NetworkId['celo-alfajores']]: t('viewOnCeloScan'),
+    [NetworkId['ethereum-mainnet']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['ethereum-sepolia']]: t('viewOnEthereumBlockExplorer'),
+    [NetworkId['arbitrum-one']]: t('viewOnArbiscan'),
+    [NetworkId['arbitrum-sepolia']]: t('viewOnArbiscan'),
+    [NetworkId['op-mainnet']]: t('viewOnOPMainnetExplorer'),
+    [NetworkId['op-sepolia']]: t('viewOnOPSepoliaExplorer'),
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -182,8 +190,7 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
             >
               <View style={styles.rowContainer}>
                 <Text style={styles.blockExplorerLink}>
-                  {transactionNetwork === Network.Celo && t('viewOnCeloScan')}
-                  {transactionNetwork === Network.Ethereum && t('viewOnEthereumBlockExplorer')}
+                  {networkIdToExplorerString[transaction.networkId]}
                 </Text>
                 <ArrowRightThick size={16} />
               </View>

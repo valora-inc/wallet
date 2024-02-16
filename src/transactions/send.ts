@@ -263,11 +263,11 @@ export function* sendTransaction(
 
 // SendTransactionMethod is a redux saga generator that takes a nonce and returns a receipt.
 export type SendTransactionMethod<
-  T extends CeloTxReceipt | WaitForTransactionReceiptReturnType = CeloTxReceipt
+  T extends CeloTxReceipt | WaitForTransactionReceiptReturnType = CeloTxReceipt,
 > = (nonce?: number) => Generator<any, T, any>
 
 export function* wrapSendTransactionWithRetry<
-  T extends CeloTxReceipt | TransactionReceipt = CeloTxReceipt
+  T extends CeloTxReceipt | TransactionReceipt = CeloTxReceipt,
 >(sendTxMethod: SendTransactionMethod<T>, context: TransactionContext) {
   for (let i = 1; i <= TX_NUM_TRIES; i++) {
     try {

@@ -56,26 +56,6 @@ const recentDappIds = [dappsList[0].id, dappsList[2].id]
 const favoriteDappIds = [dappsList[1].id, dappsList[3].id]
 
 describe('DappsCarousel', () => {
-  it('renders nothing if recently used dapps and favorited dapps are not enabled', () => {
-    const { toJSON } = render(
-      <Provider
-        store={createMockStore({
-          dapps: {
-            recentDappIds,
-            favoriteDappIds,
-            dappsList,
-            maxNumRecentDapps: 0,
-            dappFavoritesEnabled: false,
-          },
-        })}
-      >
-        <DappsCarousel onSelectDapp={jest.fn()} />
-      </Provider>
-    )
-
-    expect(toJSON()).toBeNull()
-  })
-
   it('renders nothing if there are no recently used or favorited dapps', () => {
     const { toJSON } = render(
       <Provider
@@ -85,7 +65,6 @@ describe('DappsCarousel', () => {
             favoriteDappIds: [],
             dappsList,
             maxNumRecentDapps: 4,
-            dappFavoritesEnabled: true,
           },
         })}
       >
@@ -190,7 +169,6 @@ describe('DappsCarousel', () => {
         recentDappIds,
         dappsList,
         maxNumRecentDapps: 4,
-        dappFavoritesEnabled: true,
         favoriteDappIds,
       },
     })
@@ -243,7 +221,6 @@ describe('DappsCarousel', () => {
               recentDappIds, // this has length 2
               dappsList,
               maxNumRecentDapps: 1,
-              dappFavoritesEnabled: true,
               favoriteDappIds, // this has length 2
             },
           })}

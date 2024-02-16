@@ -13,4 +13,10 @@ module.exports = {
   }),
   useIsFocused: () => true,
   useFocusEffect: jest.fn(),
+  CommonActions: {
+    goBack: jest.fn(),
+    navigate: jest.fn(),
+    reset: jest.fn(),
+    setParams: jest.fn(),
+  },
 }

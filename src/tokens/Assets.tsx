@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useLayoutEffect, useMemo, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   LayoutChangeEvent,
@@ -18,6 +18,7 @@ import Animated, {
   useSharedValue,
 } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
@@ -39,7 +40,8 @@ import {
   nftsLoadingSelector,
   nftsWithMetadataSelector,
 } from 'src/nfts/selectors'
-import { Nft, NftOrigin } from 'src/nfts/types'
+import { fetchNfts } from 'src/nfts/slice'
+import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import {
   positionsSelector,
   positionsWithClaimableRewardsSelector,
@@ -74,11 +76,11 @@ interface SectionData {
 }
 
 const AnimatedSectionList =
-  Animated.createAnimatedComponent<SectionListProps<TokenBalance | Position | Nft[], SectionData>>(
-    SectionList
-  )
+  Animated.createAnimatedComponent<
+    SectionListProps<TokenBalance | Position | NftWithNetworkId[], SectionData>
+  >(SectionList)
 
-const assetIsPosition = (asset: Position | TokenBalance | Nft[]): asset is Position =>
+const assetIsPosition = (asset: Position | TokenBalance | NftWithNetworkId[]): asset is Position =>
   'type' in asset && (asset.type === 'app-token' || asset.type === 'contract-position')
 
 /**
@@ -110,6 +112,7 @@ const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 
 function AssetsScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
 
@@ -136,7 +139,7 @@ function AssetsScreen({ navigation, route }: Props) {
     positionsWithClaimableRewards.length > 0 &&
     activeTab !== AssetTabType.Collectibles
 
-  // TODO: Update these to filter out unsupported networks once positions support non-Celo chains
+  // TODO(ACT-1095): Update these to filter out unsupported networks once positions support non-Celo chains
   const totalPositionsBalanceUsd = useSelector(totalPositionsBalanceUsdSelector)
   const totalPositionsBalanceLocal = useDollarsToLocalAmount(totalPositionsBalanceUsd)
   const totalBalanceLocal = totalTokenBalanceLocal?.plus(totalPositionsBalanceLocal ?? 0)
@@ -147,6 +150,10 @@ function AssetsScreen({ navigation, route }: Props) {
   const nfts = useSelector(nftsWithMetadataSelector)
   // Group nfts for use in the section list
   const nftsGrouped = groupArrayByN(nfts, NUM_OF_NFTS_PER_ROW)
+
+  useEffect(() => {
+    dispatch(fetchNfts())
+  }, [])
 
   const [nonStickyHeaderHeight, setNonStickyHeaderHeight] = useState(0)
   const [listHeaderHeight, setListHeaderHeight] = useState(0)
@@ -286,7 +293,8 @@ function AssetsScreen({ navigation, route }: Props) {
       }
     })
 
-    const sections: SectionListData<TokenBalance | Position | Nft[], SectionData>[] = []
+    const sections: SectionListData<TokenBalance | Position | NftWithNetworkId[], SectionData>[] =
+      []
     positionsByDapp.forEach((positions, appName) => {
       sections.push({
         data: positions,
@@ -300,15 +308,15 @@ function AssetsScreen({ navigation, route }: Props) {
     activeTab === AssetTabType.Tokens
       ? [{ data: tokens }]
       : activeTab === AssetTabType.Positions
-      ? positionSections
-      : nfts.length
-      ? [{ data: nftsGrouped }]
-      : []
+        ? positionSections
+        : nfts.length
+          ? [{ data: nftsGrouped }]
+          : []
 
   const renderSectionHeader = ({
     section,
   }: {
-    section: SectionListData<TokenBalance | Position | Nft[], SectionData>
+    section: SectionListData<TokenBalance | Position | NftWithNetworkId[], SectionData>
   }) => {
     if (section.appName) {
       return (
@@ -322,22 +330,27 @@ function AssetsScreen({ navigation, route }: Props) {
     return null
   }
 
-  const keyExtractor = (item: TokenBalance | Position | Nft[]) => {
+  const keyExtractor = (item: TokenBalance | Position | NftWithNetworkId[], index: number) => {
     if (assetIsPosition(item)) {
-      return item.address
+      // Ideally we wouldn't need the index here, but we need to differentiate
+      // between positions with the same address (e.g. Uniswap V3 pool NFTs)
+      // We may want to consider adding a unique identifier to the position type.
+      return `${activeTab}-${item.appId}-${item.network}-${item.address}-${index}`
     } else if ('balance' in item) {
-      return item.tokenId
+      return `${activeTab}-${item.tokenId}`
     } else {
-      return `${item[0]!.contractAddress}-${item[0]!.tokenId}`
+      return `${activeTab}-${item[0]!.networkId}-${item[0]!.contractAddress}-${item[0]!.tokenId}`
     }
   }
 
-  const NftItem = ({ item }: { item: Nft }) => {
+  const NftItem = ({ item }: { item: NftWithNetworkId }) => {
     return (
       <View testID="NftItem" style={styles.nftsTouchableContainer}>
         <Touchable
           borderless={false}
-          onPress={() => navigate(Screens.NftsInfoCarousel, { nfts: [item] })}
+          onPress={() =>
+            navigate(Screens.NftsInfoCarousel, { nfts: [item], networkId: item.networkId })
+          }
           style={styles.nftsTouchableIcon}
         >
           <NftMedia
@@ -364,7 +377,7 @@ function AssetsScreen({ navigation, route }: Props) {
     )
   }
 
-  const NftGroup = ({ item }: { item: Nft[] }) => {
+  const NftGroup = ({ item }: { item: NftWithNetworkId[] }) => {
     return (
       <View style={styles.nftsPairingContainer}>
         {item.map((nft, index) => (
@@ -378,7 +391,7 @@ function AssetsScreen({ navigation, route }: Props) {
     item,
     index,
   }: {
-    item: TokenBalance | Position | Nft[]
+    item: TokenBalance | Position | NftWithNetworkId[]
     index: number
   }) => {
     if (assetIsPosition(item)) {

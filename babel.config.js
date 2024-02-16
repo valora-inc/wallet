@@ -19,7 +19,7 @@ if (!process.env.JEST_WORKER_ID) {
 
 module.exports = {
   plugins: [
-    [require('@babel/plugin-proposal-decorators').default, { legacy: true }],
+    ['@babel/plugin-proposal-decorators', { legacy: true }],
     [
       'module:react-native-dotenv',
       {
@@ -38,7 +38,9 @@ module.exports = {
   presets: ['module:metro-react-native-babel-preset'],
   overrides: [
     {
-      test: './node_modules/ethers',
+      // required for any dependency (just fiatconnect-sdk as of 2/8/2024)
+      // requiring ethers@6
+      test: './node_modules/**/ethers',
       plugins: [['@babel/plugin-transform-private-methods', { loose: true }]],
     },
   ],

@@ -4,8 +4,10 @@ import { Trans, useTranslation } from 'react-i18next'
 import { ActivityIndicator, Image, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
+import { showError } from 'src/alert/actions'
 import { RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ErrorMessages } from 'src/app/ErrorMessages'
 import {
   numberVerifiedDecentrallySelector,
   phoneNumberVerifiedSelector,
@@ -19,6 +21,7 @@ import Touchable from 'src/components/Touchable'
 import { RewardsScreenCta } from 'src/consumerIncentives/analyticsEventsTracker'
 import {
   availableRewardsSelector,
+  fetchAvailableRewardsErrorSelector,
   superchargeInfoSelector,
   superchargeRewardsLoadingSelector,
 } from 'src/consumerIncentives/selectors'
@@ -30,11 +33,7 @@ import Logo, { LogoTypes } from 'src/icons/Logo'
 import Times from 'src/icons/Times'
 import { boostRewards, earn1, earn2 } from 'src/images/Images'
 import { noHeader } from 'src/navigator/Headers'
-import {
-  navigate,
-  navigateBack,
-  navigateToFiatCurrencySelection,
-} from 'src/navigator/NavigationService'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import useSelector from 'src/redux/useSelector'
@@ -61,8 +60,8 @@ function useDefaultTokenConfigToSupercharge(): Partial<SuperchargeTokenConfig> {
   const superchargeTokenSymbol = IS_IN_EUROPE
     ? 'cEUR'
     : userCountry?.countryCodeAlpha2 === 'BR'
-    ? 'cREAL'
-    : 'cUSD'
+      ? 'cREAL'
+      : 'cUSD'
 
   const superchargeConfig =
     superchargeTokenConfigByToken[tokensBySymbol[superchargeTokenSymbol]?.address] ?? {}
@@ -218,10 +217,17 @@ function ClaimSuperchargeRewards({ rewards }: { rewards: SuperchargePendingRewar
 export default function ConsumerIncentivesHomeScreen() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
+  const superchargeFetchError = useSelector(fetchAvailableRewardsErrorSelector)
 
   useEffect(() => {
     dispatch(fetchAvailableRewards())
   }, [])
+
+  useEffect(() => {
+    if (superchargeFetchError) {
+      dispatch(showError(ErrorMessages.SUPERCHARGE_FETCH_REWARDS_FAILED))
+    }
+  }, [superchargeFetchError])
 
   const restrictSuperchargeForClaimOnly = getFeatureGate(
     StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
@@ -251,12 +257,12 @@ export default function ConsumerIncentivesHomeScreen() {
         buttonPressed: RewardsScreenCta.ClaimRewards,
       })
     } else if (userIsVerified) {
-      navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+      navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.CashIn,
       })
     } else {
-      navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
+      navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
       ValoraAnalytics.track(RewardsEvents.rewards_screen_cta_pressed, {
         buttonPressed: RewardsScreenCta.VerifyPhone,
       })
@@ -307,8 +313,8 @@ export default function ConsumerIncentivesHomeScreen() {
               canClaimRewards
                 ? t('superchargeClaimButton')
                 : userIsVerified
-                ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
-                : t('connectNumber')
+                  ? t('cashIn', { currency: tokenConfigToSupercharge.tokenSymbol })
+                  : t('connectNumber')
             }
             icon={canClaimRewards && <Logo height={24} type={LogoTypes.LIGHT} />}
             showLoading={showLoadingIndicator || claimRewardsLoading}

@@ -99,8 +99,8 @@ export class PincodeSet extends React.Component<Props, State> {
         <HeaderTitleWithSubtitle
           title={changePin ? i18n.t('pincodeSet.changePIN') : i18n.t('pincodeSet.pin')}
           subTitle={
-            changePin
-              ? ' '
+            changePin || route.params?.choseToRestoreAccount
+              ? undefined
               : i18n.t('registrationSteps', {
                   step: route.params?.registrationStep?.step,
                   totalSteps: route.params?.registrationStep?.totalSteps,

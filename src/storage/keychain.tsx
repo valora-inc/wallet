@@ -26,7 +26,7 @@ export async function storeItem({ key, value, options = {} }: SecureStorage) {
   try {
     const result = await Keychain.setGenericPassword('CELO', value, {
       service: key,
-      accessible: Keychain.ACCESSIBLE.ALWAYS_THIS_DEVICE_ONLY,
+      accessible: Keychain.ACCESSIBLE.WHEN_UNLOCKED_THIS_DEVICE_ONLY,
       rules: Keychain.SECURITY_RULES.NONE,
       ...options,
     })

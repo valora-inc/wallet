@@ -87,7 +87,7 @@ KycLanding.navigationOptions = ({
 
 const useComponentSize = (): [
   { width: number; height: number },
-  (event: LayoutChangeEvent) => void
+  (event: LayoutChangeEvent) => void,
 ] => {
   const { width, height } = Dimensions.get('window')
   const [size, setSize] = useState({

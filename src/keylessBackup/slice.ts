@@ -24,7 +24,7 @@ export const slice = createSlice({
     },
     valoraKeyshareIssued: (
       state,
-      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow }>
+      action: PayloadAction<{ keyshare: string; keylessBackupFlow: KeylessBackupFlow; jwt: string }>
     ) => {
       state.valoraKeyshare = action.payload.keyshare
     },
@@ -43,6 +43,21 @@ export const slice = createSlice({
     keylessBackupCompleted: (state) => {
       state.backupStatus = KeylessBackupStatus.Completed
     },
+    keylessBackupShowZeroBalance: (state) => {
+      state.backupStatus = KeylessBackupStatus.RestoreZeroBalance
+    },
+    keylessBackupAcceptZeroBalance: (state) => {
+      state.backupStatus = KeylessBackupStatus.InProgress
+    },
+    keylessBackupBail: (state) => {
+      state.googleIdToken = initialState.googleIdToken
+      state.valoraKeyshare = initialState.valoraKeyshare
+      state.torusKeyshare = initialState.torusKeyshare
+      state.backupStatus = initialState.backupStatus
+    },
+    keylessBackupNotFound: (state) => {
+      state.backupStatus = KeylessBackupStatus.NotFound
+    },
   },
 })
 
@@ -53,6 +68,10 @@ export const {
   keylessBackupStarted,
   keylessBackupFailed,
   keylessBackupCompleted,
+  keylessBackupShowZeroBalance,
+  keylessBackupAcceptZeroBalance,
+  keylessBackupBail,
+  keylessBackupNotFound,
 } = slice.actions
 
 export default slice.reducer

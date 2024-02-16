@@ -9,7 +9,6 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { CiCoCurrency } from 'src/utils/currencies'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { UNLOCK_DURATION } from 'src/web3/consts'
 import networkConfig from 'src/web3/networkConfig'
@@ -100,7 +99,7 @@ export type QuotesInput = {
   fiatConnectProviders: FiatConnectProviderInfo[]
   flow: CICOFlow
   localCurrency: LocalCurrencyCode
-  digitalAsset: CiCoCurrency
+  digitalAsset: string
   cryptoAmount: number
   fiatAmount: number
   country: string

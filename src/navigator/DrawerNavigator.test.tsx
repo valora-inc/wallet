@@ -1,9 +1,13 @@
-import { render } from '@testing-library/react-native'
+import { CommonActions } from '@react-navigation/native'
+import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import DrawerNavigator from 'src/navigator/DrawerNavigator'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
+import { ensurePincode } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { getDynamicConfigParams, getExperimentParams, getFeatureGate } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
@@ -22,6 +26,7 @@ describe('DrawerNavigator', () => {
     jest.mocked(getExperimentParams).mockReturnValue({
       discoverCopyEnabled: false,
     })
+    jest.clearAllMocks()
   })
 
   it('shows the expected menu items', () => {
@@ -42,10 +47,8 @@ describe('DrawerNavigator', () => {
     expect(queryByTestId('Drawer/Username')).toBeTruthy()
 
     expect(queryByTestId('DrawerItem/home')).toBeTruthy()
-    expect(queryByTestId('DrawerItem/swapScreen.title')).toBeFalsy()
     expect(queryByTestId('DrawerItem/dappsScreen.title')).toBeTruthy()
     expect(queryByTestId('DrawerItem/celoGold')).toBeTruthy()
-    expect(queryByTestId('DrawerItem/addAndWithdraw')).toBeFalsy()
     expect(queryByTestId('DrawerItem/invite')).toBeTruthy()
     expect(queryByTestId('DrawerItem/settings')).toBeTruthy()
     expect(queryByTestId('DrawerItem/help')).toBeTruthy()
@@ -137,6 +140,72 @@ describe('DrawerNavigator', () => {
     }
   )
 
+  it.each([
+    {
+      featureGate: true,
+      screen: Screens.WalletSecurityPrimerDrawer,
+      title: 'walletSecurity',
+    },
+    {
+      featureGate: false,
+      screen: Screens.BackupIntroduction,
+      title: 'accountKey',
+    },
+  ])(
+    'navigates to protected route $screen after ensuring pin',
+    async ({ featureGate, screen, title }) => {
+      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
+      jest.mocked(ensurePincode).mockResolvedValueOnce(true)
+      const store = createMockStore({
+        account: {
+          backupCompleted: false,
+          cloudBackupCompleted: false,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+      await fireEvent.press(getByTestId(`DrawerItem/${title}`))
+      expect(ensurePincode).toHaveBeenCalledWith()
+      expect(CommonActions.navigate).toHaveBeenCalledWith(screen)
+    }
+  )
+
+  it.each([
+    {
+      featureGate: true,
+      screen: Screens.WalletSecurityPrimerDrawer,
+      title: 'walletSecurity',
+    },
+    {
+      featureGate: false,
+      screen: Screens.BackupIntroduction,
+      title: 'accountKey',
+    },
+  ])(
+    'does not navigate to protected route $screen if pin is incorrect',
+    async ({ featureGate, title }) => {
+      jest.mocked(getFeatureGate).mockReturnValue(featureGate)
+      jest.mocked(ensurePincode).mockResolvedValueOnce(false)
+      const store = createMockStore({
+        account: {
+          backupCompleted: false,
+          cloudBackupCompleted: false,
+        },
+      })
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+      await fireEvent.press(getByTestId(`DrawerItem/${title}`))
+      expect(ensurePincode).toHaveBeenCalledWith()
+      expect(CommonActions.navigate).not.toHaveBeenCalled()
+    }
+  )
+
   describe('phone number in drawer', () => {
     it('shows the phone number when the user is verified', () => {
       const store = createMockStore({
@@ -193,6 +262,45 @@ describe('DrawerNavigator', () => {
       )
 
       expect(queryByText('+1 302-306-1234')).toBeFalsy()
+    })
+  })
+
+  describe('network display', () => {
+    const testCases = [
+      {
+        testName: 'one network',
+        showBalances: [NetworkId['celo-alfajores']],
+        expectedText: 'supportedNetwork, {"network":"Celo Alfajores"}',
+      },
+      {
+        testName: 'two networks',
+        showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
+        expectedText: 'supportedNetworks, {"networks":"Celo Alfajores and Ethereum Sepolia"}',
+      },
+      {
+        testName: 'three networks',
+        showBalances: [
+          NetworkId['celo-mainnet'],
+          NetworkId['ethereum-sepolia'],
+          NetworkId['celo-alfajores'],
+        ],
+        expectedText: 'supportedNetworks, {"networks":"Celo, Ethereum Sepolia and Celo Alfajores"}',
+      },
+    ]
+
+    it.each(testCases)('shows $testName correctly', ({ showBalances, expectedText }) => {
+      jest.mocked(getDynamicConfigParams).mockReturnValue({
+        showBalances,
+      })
+
+      const store = createMockStore({})
+      const { getByText } = render(
+        <Provider store={store}>
+          <MockedNavigator component={DrawerNavigator}></MockedNavigator>
+        </Provider>
+      )
+
+      expect(getByText(expectedText)).toBeTruthy()
     })
   })
 })

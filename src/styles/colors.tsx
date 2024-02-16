@@ -1,17 +1,8 @@
 // Designer Created Figma Colors
 export enum Colors {
-  // to be updated
-  greenFaint = '#97DFC1', // green
-  goldBrand = '#FBCC5C',
-  beige = '#F1F0EB', // this is more of a gray
-  onboardingBrownLight = '#A49B80', // very dark beige
-  onboardingBackground = '#F9F6F0', // light beigey grey, very similar to beige but slightly lighter
-  onboardingGreen = '#178154', // dark green
-  greenBackground = '#E8FCEF', // light green
-
-  // finalised colors
   error = '#EA6042',
   primary = '#1AB775',
+  primaryDisabled = `${primary}80`, // 50% opacity
   white = '#FFFFFF',
   black = '#2E3338',
   gray5 = '#505050',
@@ -27,6 +18,13 @@ export enum Colors {
   warningLight = '#FFF9EA',
   errorDark = '#C93717',
   errorLight = '#FBF2F0',
+
+  /** @deprecated */
+  goldBrand = '#FBCC5C',
+  /** @deprecated */
+  onboardingBrownLight = '#A49B80',
+  /** @deprecated */
+  onboardingBackground = '#F9F6F0',
 }
 
 export default Colors

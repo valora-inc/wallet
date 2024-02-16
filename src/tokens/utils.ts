@@ -5,7 +5,7 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { CurrencyTokens } from 'src/tokens/selectors'
 import { Network, NetworkId } from 'src/transactions/types'
-import { CiCoCurrency, Currency } from 'src/utils/currencies'
+import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
 import { TokenBalance } from './slice'
@@ -34,7 +34,7 @@ export function sortByUsdBalance(token1: TokenBalance, token2: TokenBalance) {
 
 export function tokenSupportsComments(token: TokenBalance | undefined) {
   return (
-    token?.isCoreToken &&
+    token?.canTransferWithComment &&
     token.symbol !== 'CELO' &&
     token.networkId === networkConfig.networkToNetworkId[Network.Celo]
   )
@@ -52,16 +52,16 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
   token1: TokenBalance,
   token2: TokenBalance
 ): number {
-  // Show core tokens first
-  if (token1.isCoreToken && !token2.isCoreToken) {
+  // Show fee currency tokens first
+  if (token1.isFeeCurrency && !token2.isFeeCurrency) {
     return -1
   }
-  if (!token1.isCoreToken && token2.isCoreToken) {
+  if (!token1.isFeeCurrency && token2.isFeeCurrency) {
     return 1
   }
 
   // Show stable tokens first
-  if (token1.isCoreToken && token2.isCoreToken) {
+  if (token1.isFeeCurrency && token2.isFeeCurrency) {
     if (token1.symbol === 'CELO' && token2.symbol !== 'CELO') {
       return 1
     }
@@ -85,6 +85,35 @@ export function sortFirstStableThenCeloThenOthersByUsdBalance(
 
   // In each category sort by usd Balance
   return usdBalance(token2).comparedTo(usdBalance(token1))
+}
+
+/**
+ *
+ * Sorts by:
+ * 1. cicoOrder value, smallest first
+ *  1.1. If both tokens have cicoOrder value, sort by sortFirstStableThenCeloThenOthersByUsdBalance
+ * 2. If only one token has cicoOrder value, it goes first
+ * 3. If neither token has cicoOrder value, sort by sortFirstStableThenCeloThenOthersByUsdBalance
+ */
+export function sortCicoTokens(token1: TokenBalance, token2: TokenBalance): number {
+  const cicoTokenInfo = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.CICO_TOKEN_INFO]
+  ).tokenInfo
+  if (
+    (!cicoTokenInfo[token1.tokenId]?.cicoOrder && !cicoTokenInfo[token2.tokenId]?.cicoOrder) ||
+    cicoTokenInfo[token1.tokenId]?.cicoOrder === cicoTokenInfo[token2.tokenId]?.cicoOrder
+  ) {
+    return sortFirstStableThenCeloThenOthersByUsdBalance(token1, token2)
+  }
+  if (!cicoTokenInfo[token1.tokenId]?.cicoOrder) {
+    return 1
+  }
+  if (!cicoTokenInfo[token2.tokenId]?.cicoOrder) {
+    return -1
+  }
+  return cicoTokenInfo[token1.tokenId]?.cicoOrder < cicoTokenInfo[token2.tokenId]?.cicoOrder
+    ? -1
+    : 1
 }
 
 export function usdBalance(token: TokenBalance): BigNumber {
@@ -154,6 +183,11 @@ export function getSupportedNetworkIdsForWalletConnect(): NetworkId[] {
     .showWalletConnect
 }
 
+export function getSupportedNetworkIdsForApprovalTxsInHomefeed(): NetworkId[] {
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.MULTI_CHAIN_FEATURES])
+    .showApprovalTxsInHomefeed
+}
+
 export function getTokenAnalyticsProps(token: TokenBalance): TokenProperties {
   return {
     symbol: token.symbol,
@@ -178,8 +212,4 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
     ONE_HOUR_IN_MILLIS >
       Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
   )
-}
-
-export function isCicoToken(tokenSymbol: string): tokenSymbol is CiCoCurrency {
-  return Object.values(CiCoCurrency).some((cicoSymbol) => cicoSymbol === tokenSymbol)
 }

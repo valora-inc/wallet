@@ -5,13 +5,17 @@ import { format } from 'date-fns'
 import { Platform } from 'react-native'
 import * as RNFS from 'react-native-fs'
 import Toast from 'react-native-simple-toast'
-import { Email } from 'src/account/emailSender'
 import { DEFAULT_SENTRY_NETWORK_ERRORS, LOGGER_LEVEL } from 'src/config'
 import { LoggerLevel } from 'src/utils/LoggerLevels'
 import { ensureError } from 'src/utils/ensureError'
-import { readFileChunked } from 'src/utils/readFile'
 import { stylize } from 'src/utils/stylize'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
+
+type Attachments = Array<{
+  path: string
+  type: string
+  name: string
+}>
 
 class Logger {
   isNetworkConnected: boolean
@@ -163,36 +167,13 @@ class Logger {
   }
 
   getLogsToAttach = async () => {
-    const toAttach: Email['attachments'] = []
+    const toAttach: Attachments = []
     try {
       const logDir = this.getReactNativeLogsDir()
       const logFiles = await RNFS.readDir(logDir)
-      // On Android we need to move the files to a directory we have access to
-      const path = Platform.OS === 'ios' ? logDir : RNFS.ExternalDirectoryPath
       for (const file of logFiles) {
-        const filePath = `${path}/${file.name}`
-        // Android specific file deleting and copying
-        // For now we need to export to a world-readable directory on Android
-        // TODO: use the FileProvider approach so we don't need to do this.
-        // See https://developer.android.com/reference/androidx/core/content/FileProvider
-        // and https://github.com/chirag04/react-native-mail/blame/340618e4ef7f21a29d739d4180c2a267a14093d3/android/src/main/java/com/chirag/RNMail/RNMailModule.java#L106
-        if (Platform.OS === 'android') {
-          // If the file is the current months log file log file, delete the previous copy
-          if (file.name === this.getCurrentLogFileName()) {
-            if (await RNFS.exists(filePath)) {
-              await RNFS.unlink(filePath)
-            }
-            // Then copy it to the folder we have access to
-            await RNFS.copyFile(file.path, filePath)
-            // Else if it is not the current months a log file
-            // And it doesn't exist in the folder we have access to
-            // Then copy it to the folder we have access to
-          } else if (!(await RNFS.exists(filePath))) {
-            await RNFS.copyFile(file.path, filePath)
-          }
-        }
         toAttach.push({
-          path: filePath,
+          path: `${logDir}/${file.name}`,
           name: file.name,
           type: 'text',
         })
@@ -238,21 +219,6 @@ class Logger {
       }
     } catch (error) {
       this.error('Logger@cleanupOldLogs', 'Failed to cleanupOldLogs', error)
-    }
-  }
-
-  // Gets the logs for the current day
-  getMonthLogs = async () => {
-    try {
-      const rnLogsSrc = this.getReactNativeLogFilePath()
-      let reactNativeLogs = null
-      if (await RNFS.exists(rnLogsSrc)) {
-        reactNativeLogs = await readFileChunked(rnLogsSrc)
-      }
-      return reactNativeLogs
-    } catch (error) {
-      this.showError('Failed to read logs: ' + error)
-      return null
     }
   }
 

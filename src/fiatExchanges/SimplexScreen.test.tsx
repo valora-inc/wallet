@@ -9,7 +9,7 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Screens } from 'src/navigator/Screens'
 import { CiCoCurrency } from 'src/utils/currencies'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockAccount, mockE164Number } from 'test/values'
+import { mockAccount, mockCusdTokenId, mockE164Number } from 'test/values'
 import { v4 as uuidv4 } from 'uuid'
 import { SimplexQuote } from './utils'
 
@@ -56,11 +56,13 @@ const MOCK_SIMPLEX_QUOTE = {
   },
   valid_until: new Date().toISOString(),
   supported_digital_currencies: ['CUSD', 'CELO'],
+  tokenId: mockCusdTokenId,
 }
 
 const mockScreenProps = () =>
   getMockStackScreenProps(Screens.Simplex, {
     simplexQuote: MOCK_SIMPLEX_QUOTE as SimplexQuote,
+    tokenId: mockCusdTokenId,
   })
 
 describe('SimplexScreen', () => {

@@ -61,16 +61,20 @@ const POSITIONS_FETCH_TIMEOUT = 45_000 // 45 seconds
 
 function getHooksApiFunctionUrl(
   hooksApiUrl: string,
-  functionName: 'getPositions' | 'getShortcuts' | 'triggerShortcut'
+  functionName: 'getPositions' | 'v2/getShortcuts' | 'triggerShortcut'
 ) {
   const url = new URL(hooksApiUrl)
   url.pathname = path.join(url.pathname, functionName)
   return url.toString()
 }
 
-async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
+async function fetchHooks(
+  hooksApiUrl: string,
+  functionName: 'getPositions' | 'v2/getShortcuts',
+  walletAddress: string
+) {
   const response = await fetchWithTimeout(
-    `${getHooksApiFunctionUrl(hooksApiUrl, 'getPositions')}?` +
+    `${getHooksApiFunctionUrl(hooksApiUrl, functionName)}?` +
       new URLSearchParams({
         network: DEFAULT_TESTNET === 'mainnet' ? 'celo' : 'celoAlfajores',
         address: walletAddress,
@@ -79,15 +83,28 @@ async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
     POSITIONS_FETCH_TIMEOUT
   )
   if (!response.ok) {
-    throw new Error(`Unable to fetch positions: ${response.status} ${response.statusText}`)
+    throw new Error(`Unable to fetch ${functionName}: ${response.status} ${response.statusText}`)
   }
   const json = await response.json()
-  return json.data as Position[]
+  return json.data
+}
+
+async function fetchPositions(hooksApiUrl: string, walletAddress: string) {
+  return (await fetchHooks(hooksApiUrl, 'getPositions', walletAddress)) as Position[]
+}
+
+async function fetchShortcuts(hooksApiUrl: string, walletAddress: string) {
+  return (await fetchHooks(hooksApiUrl, 'v2/getShortcuts', walletAddress)) as Shortcut[]
 }
 
 export function* fetchShortcutsSaga() {
   try {
     if (!getFeatureGate(StatsigFeatureGates.SHOW_CLAIM_SHORTCUTS)) {
+      return
+    }
+    const address: string | null = yield* select(walletAddressSelector)
+    if (!address) {
+      Logger.debug(TAG, 'Skipping fetching shortcuts since no address was found')
       return
     }
 
@@ -101,18 +118,8 @@ export function* fetchShortcutsSaga() {
 
     yield* put(fetchShortcutsStart())
     const hooksApiUrl = yield* select(hooksApiUrlSelector)
-    const response = yield* call(
-      fetchWithTimeout,
-      getHooksApiFunctionUrl(hooksApiUrl, 'getShortcuts')
-    )
-    if (!response.ok) {
-      throw new Error(`Unable to fetch shortcuts: ${response.status} ${response.statusText}`)
-    }
-
-    const result: {
-      data: Shortcut[]
-    } = yield* call([response, 'json'])
-    yield* put(fetchShortcutsSuccess(result.data))
+    const shortcuts = yield* call(fetchShortcuts, hooksApiUrl, address)
+    yield* put(fetchShortcutsSuccess(shortcuts))
   } catch (err) {
     const error = ensureError(err)
     Logger.warn(TAG, 'Unable to fetch shortcuts', error)

@@ -47,6 +47,7 @@ const TAG = 'NotificationBox'
 // Priority of static notifications
 const BACKUP_PRIORITY = 1000
 const VERIFICATION_PRIORITY = 100
+export const CLEVERTAP_PRIORITY = 500
 export const INVITES_PRIORITY = 400
 const CELO_EDUCATION_PRIORITY = 10
 const SUPERCHARGE_AVAILABLE_PRIORITY = 950
@@ -148,7 +149,7 @@ export function useSimpleActions() {
               notificationId: NotificationType.reverify_using_CPV,
               notificationPositionInList: params?.index,
             })
-            navigate(Screens.VerificationStartScreen, { hideOnboardingStep: true })
+            navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
           },
         },
       ],
@@ -281,9 +282,7 @@ export function useSimpleActions() {
               notificationId: NotificationType.verification_prompt,
               notificationPositionInList: params?.index,
             })
-            navigate(Screens.VerificationStartScreen, {
-              hideOnboardingStep: true,
-            })
+            navigate(Screens.VerificationStartScreen, { hasOnboarded: true })
           },
         },
         {

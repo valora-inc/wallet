@@ -8,12 +8,14 @@ describe(SimpleMessagingCard, () => {
     const onPress = jest.fn()
     const { getByText, getByTestId } = render(
       <SimpleMessagingCard
+        header="Header"
         text="Test"
         icon={<View testID="TestIcon" />}
         callToActions={[{ text: 'it goes boom', onPress }]}
       />
     )
 
+    expect(getByText('Header')).toBeDefined()
     expect(getByText('Test')).toBeDefined()
     expect(getByTestId('TestIcon')).toBeDefined()
 

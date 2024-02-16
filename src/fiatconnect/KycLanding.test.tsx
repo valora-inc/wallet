@@ -12,7 +12,7 @@ import FiatConnectQuote from 'src/fiatExchanges/quotes/FiatConnectQuote'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
-import { mockFiatConnectQuotes } from 'test/values'
+import { mockCusdTokenId, mockFiatConnectQuotes } from 'test/values'
 
 jest.mock('src/account/Persona')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -22,6 +22,7 @@ describe('KycLanding', () => {
     quote: mockFiatConnectQuotes[1] as FiatConnectQuoteSuccess,
     fiatAccountType: FiatAccountType.BankAccount,
     flow: CICOFlow.CashOut,
+    tokenId: mockCusdTokenId,
   })
 
   const store = createMockStore({

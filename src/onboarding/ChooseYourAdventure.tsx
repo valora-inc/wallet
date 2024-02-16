@@ -15,11 +15,7 @@ import GraphSparkle from 'src/icons/GraphSparkle'
 import PlusIcon from 'src/icons/PlusIcon'
 import ProfilePlus from 'src/icons/ProfilePlus'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
-import {
-  navigate,
-  navigateHome,
-  navigateToFiatCurrencySelection,
-} from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
 import colors from 'src/styles/colors'
@@ -66,7 +62,7 @@ function ChooseYourAdventure() {
       text: t('chooseYourAdventure.options.add'),
       goToNextScreen: () => {
         navigateHome() // navigate home so that back on the fiat exchange currency screen takes the user back to Home screen
-        navigateToFiatCurrencySelection(FiatExchangeFlow.CashIn)
+        navigate(Screens.FiatExchangeCurrencyBottomSheet, { flow: FiatExchangeFlow.CashIn })
       },
       icon: <PlusIcon />,
       name: AdventureCardName.Add,

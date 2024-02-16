@@ -59,7 +59,6 @@ describe('DappRankingsBottomSheet', () => {
         dappListApiUrl: 'http://url.com',
         dappsList: mockDappList,
         mostPopularDappIds: ['dapp2'],
-        dappFavoritesEnabled: true,
       },
     })
     const { getByTestId } = render(
@@ -85,7 +84,6 @@ describe('DappRankingsBottomSheet', () => {
         dappListApiUrl: 'http://url.com',
         dappsList: mockDappList,
         mostPopularDappIds: ['dapp2'],
-        dappFavoritesEnabled: true,
         favoriteDappIds: ['dapp2'],
       },
     })

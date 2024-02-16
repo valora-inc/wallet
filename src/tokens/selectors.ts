@@ -9,6 +9,8 @@ import {
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import {
   TokenBalance,
   TokenBalanceWithAddress,
@@ -20,7 +22,6 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
-  isCicoToken,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
   usdBalance,
@@ -32,6 +33,10 @@ type TokenBalanceWithPriceUsd = TokenBalance & {
 export type CurrencyTokens = {
   [currency in Currency]: TokenBalanceWithAddress | undefined
 }
+
+// This is somewhat arbitrary, but appears to reliably prevent recalculation
+// for selectors using networkId as a parameter
+const DEFAULT_MEMOIZE_MAX_SIZE = 10
 
 function isNetworkIdList(networkIds: any): networkIds is NetworkId[] {
   return (
@@ -77,8 +82,27 @@ export const tokensByIdSelector = createSelector(
         }
         return previousValue === currentValue
       },
-      maxSize: 10, // This is somewhat arbitrary, but appears to reliably prevent recalculation
+      maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
     },
+  }
+)
+
+export const networksIconSelector = createSelector(
+  [
+    (state: RootState, networkIds: NetworkId[]) => tokensByIdSelector(state, networkIds),
+    (_state: RootState, networkIds: NetworkId[]) => networkIds,
+  ],
+  (tokens, networkIds) => {
+    const result: Partial<Record<NetworkId, string>> = {}
+    for (const networkId of networkIds) {
+      // We use as network icon the network icon of any token in that network.
+      const token = Object.values(tokens).find(
+        (token) => token?.networkId === networkId && token.networkIconUrl
+      )
+      result[networkId] = token?.networkIconUrl
+    }
+
+    return result
   }
 )
 
@@ -140,19 +164,13 @@ export const tokensBySymbolSelector = createSelector(
   }
 )
 
-/**
- * @deprecated
- */
-export const tokensWithLastKnownUsdValueSelector = createSelector(
-  tokensListWithAddressSelector,
-  (tokens) => {
-    return tokens.filter((tokenInfo) =>
-      tokenInfo.balance
-        .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
-        .gt(STABLE_TRANSACTION_MIN_AMOUNT)
-    )
-  }
-)
+export const tokensWithLastKnownUsdValueSelector = createSelector(tokensListSelector, (tokens) => {
+  return tokens.filter((tokenInfo) =>
+    tokenInfo.balance
+      .multipliedBy(tokenInfo.lastKnownPriceUsd ?? 0)
+      .gt(STABLE_TRANSACTION_MIN_AMOUNT)
+  )
+})
 
 /**
  * @deprecated use tokensWithTokenBalanceSelector instead
@@ -185,14 +203,7 @@ export const tokensByUsdBalanceSelector = createSelector(
  * @deprecated
  */
 export const coreTokensSelector = createSelector(tokensByUsdBalanceSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.isCoreToken === true)
-})
-
-/**
- * @deprecated
- */
-export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) => {
-  return tokens.filter((tokenInfo) => tokenInfo.symbol !== 'CELO')
+  return tokens.filter((tokenInfo) => tokenInfo.isFeeCurrency === true)
 })
 
 /**
@@ -201,19 +212,6 @@ export const stablecoinsSelector = createSelector(coreTokensSelector, (tokens) =
 export const celoAddressSelector = createSelector(coreTokensSelector, (tokens) => {
   return tokens.find((tokenInfo) => tokenInfo.symbol === 'CELO')?.address
 })
-
-export function tokenCompareByUsdBalanceThenByName(token1: TokenBalance, token2: TokenBalance) {
-  const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
-  const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
-  const priceUsdComparison = token2UsdBalance.comparedTo(token1UsdBalance)
-  if (priceUsdComparison === 0) {
-    const token1Name = token1.name ?? 'ZZ'
-    const token2Name = token2.name ?? 'ZZ'
-    return token1Name.localeCompare(token2Name)
-  } else {
-    return priceUsdComparison
-  }
-}
 
 /**
  * @deprecated
@@ -233,31 +231,8 @@ export const tokensByCurrencySelector = createSelector(
   }
 )
 
-// Returns the token with the highest usd balance to use as default.
-/**
- * @deprecated
- */
-export const defaultTokenToSendSelector = createSelector(
-  tokensSortedToShowInSendSelector,
-  stablecoinsSelector,
-  (tokens, stableCoins) => {
-    if (tokens.length === 0) {
-      // TODO: ideally we return based on location - cUSD for now.
-      return stableCoins.find((coin) => coin.symbol === 'cUSD')?.tokenId ?? ''
-    }
-    return tokens[0].tokenId
-  }
-)
-
-/**
- * @deprecated
- */
 export const lastKnownTokenBalancesSelector = createSelector(
-  [
-    tokensListWithAddressSelector,
-    tokensWithLastKnownUsdValueSelector,
-    usdToLocalCurrencyRateSelector,
-  ],
+  [tokensListSelector, tokensWithLastKnownUsdValueSelector, usdToLocalCurrencyRateSelector],
   (tokensList, tokensWithLastKnownUsdValue, usdToLocalRate) => {
     if (!usdToLocalRate || tokensList.length === 0) {
       return null
@@ -339,25 +314,67 @@ export const tokensWithTokenBalanceSelector = createSelector(
   }
 )
 
-export const swappableTokensByNetworkIdSelector = createSelector(
+export const swappableFromTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     const appVersion = deviceInfoModule.getVersion()
-    return tokens
-      .filter(
-        (tokenInfo) =>
-          tokenInfo.isSwappable ||
-          (tokenInfo.minimumAppVersionToSwap &&
-            !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
-      )
-      .sort(tokenCompareByUsdBalanceThenByName)
+    return (
+      tokens
+        .filter(
+          (tokenInfo) =>
+            tokenInfo.isSwappable ||
+            (tokenInfo.minimumAppVersionToSwap &&
+              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap)) ||
+            tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)
+        )
+        // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
+        // are pushed last, sorted by name (ASC)
+        .sort((token1, token2) => {
+          // Sort by USD balance first (higher balances first)
+          const token1UsdBalance = token1.balance.multipliedBy(token1.priceUsd ?? 0)
+          const token2UsdBalance = token2.balance.multipliedBy(token2.priceUsd ?? 0)
+          if (token1UsdBalance.gt(token2UsdBalance)) return -1
+          if (token1UsdBalance.lt(token2UsdBalance)) return 1
+
+          // Sort by token balance if there is no priceUsd (higher balances first)
+          const balanceCompare = token2.balance.comparedTo(token1.balance)
+          if (balanceCompare) {
+            return balanceCompare
+          }
+
+          // Sort tokens without priceUsd and balance at bottom of list
+          if (token1.priceUsd === null || token2.priceUsd === null) {
+            // If both prices are null, sort alphabetically by name
+            if (!token1.priceUsd && !token2.priceUsd) {
+              return token1.name.localeCompare(token2.name)
+            }
+            // Otherwise, sort such that the token with a non-null price comes first
+            return token1.priceUsd === null ? 1 : -1
+          }
+
+          // Lastly, sort by name
+          return token1.name.localeCompare(token2.name)
+        })
+    )
+  }
+)
+
+export const swappableToTokensByNetworkIdSelector = createSelector(
+  swappableFromTokensByNetworkIdSelector,
+  (tokens) => {
+    const appVersion = deviceInfoModule.getVersion()
+    return tokens.filter(
+      (tokenInfo) =>
+        tokenInfo.isSwappable ||
+        (tokenInfo.minimumAppVersionToSwap &&
+          !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
+    )
   }
 )
 
 export const cashInTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) =>
-    tokens.filter((tokenInfo) => tokenInfo.isCashInEligible && isCicoToken(tokenInfo.symbol))
+  (tokens) => tokens.filter((tokenInfo) => tokenInfo.isCashInEligible)
 )
 
 export const cashOutTokensByNetworkIdSelector = createSelector(
@@ -371,8 +388,7 @@ export const cashOutTokensByNetworkIdSelector = createSelector(
       (tokenInfo) =>
         ((showZeroBalanceTokens ? tokenInfo.showZeroBalance : false) ||
           tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)) &&
-        tokenInfo.isCashOutEligible &&
-        isCicoToken(tokenInfo.symbol)
+        tokenInfo.isCashOutEligible
     )
 )
 
@@ -410,5 +426,82 @@ export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector
       })
 )
 
+const feeCurrenciesByNetworkIdSelector = createSelector(
+  (state: RootState) => tokensByIdSelector(state, Object.values(NetworkId)),
+  (tokens) => {
+    const feeCurrenciesByNetworkId: { [key in NetworkId]?: TokenBalance[] } = {}
+    // collect fee currencies
+    Object.values(tokens).forEach((token) => {
+      if (token?.isNative || token?.isFeeCurrency) {
+        feeCurrenciesByNetworkId[token.networkId] = [
+          ...(feeCurrenciesByNetworkId[token.networkId] ?? []),
+          token,
+        ]
+      }
+    })
+
+    // sort the fee currencies by native currency first, then by USD balance, and balance otherwise
+    Object.entries(feeCurrenciesByNetworkId).forEach(([networkId, tokens]) => {
+      feeCurrenciesByNetworkId[networkId as NetworkId] = tokens.sort((a, b) => {
+        if (a.isNative && !b.isNative) {
+          return -1
+        }
+        if (b.isNative && !a.isNative) {
+          return 1
+        }
+        if (a.priceUsd && b.priceUsd) {
+          const aBalanceUsd = a.balance.multipliedBy(a.priceUsd)
+          const bBalanceUsd = b.balance.multipliedBy(b.priceUsd)
+          return bBalanceUsd.comparedTo(aBalanceUsd)
+        }
+        if (a.priceUsd) {
+          return -1
+        }
+        if (b.priceUsd) {
+          return 1
+        }
+        return b.balance.comparedTo(a.balance)
+      })
+    })
+
+    return feeCurrenciesByNetworkId
+  }
+)
+
+// for testing
+export const _feeCurrenciesByNetworkIdSelector = feeCurrenciesByNetworkIdSelector
+
+export const feeCurrenciesSelector = createSelector(
+  feeCurrenciesByNetworkIdSelector,
+  (_state: RootState, networkId: NetworkId) => networkId,
+  (feeCurrencies, networkId) => {
+    return feeCurrencies[networkId] ?? []
+  }
+)
+
+// Note this takes a networkId as parameter
+export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
+  feeCurrenciesSelector,
+  (feeCurrencies) => {
+    return feeCurrencies.filter((token) => token.balance.gt(0))
+  },
+  {
+    memoizeOptions: {
+      maxSize: DEFAULT_MEMOIZE_MAX_SIZE,
+    },
+  }
+)
+
 export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
   state.app.visualizeNFTsEnabledInHomeAssetsPage
+
+export const importedTokensSelector = createSelector(
+  [tokensListSelector],
+  (tokenList): TokenBalance[] => {
+    if (!getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)) {
+      return []
+    }
+
+    return tokenList.filter((token) => token?.isManuallyImported)
+  }
+)

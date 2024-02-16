@@ -7,21 +7,20 @@ import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Chain from 'src/icons/Chain'
+import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import fontStyles from 'src/styles/fonts'
-import { keylessBackupStarted } from 'src/keylessBackup/slice'
-import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { useDispatch } from 'react-redux'
+import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 type Props =
   | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimer>
   | NativeStackScreenProps<StackParamList, Screens.WalletSecurityPrimerDrawer>
 
 function WalletSecurityPrimer({ route }: Props) {
-  const dispatch = useDispatch()
   const { t } = useTranslation()
   const showDrawerTopBar = route.params?.showDrawerTopBar
   return (
@@ -36,16 +35,13 @@ function WalletSecurityPrimer({ route }: Props) {
         testID="WalletSecurityPrimer/GetStarted"
         onPress={function () {
           ValoraAnalytics.track(KeylessBackupEvents.wallet_security_primer_get_started)
-          dispatch(
-            keylessBackupStarted({
-              keylessBackupFlow: KeylessBackupFlow.Setup,
-            })
-          )
-          navigate(Screens.SetUpKeylessBackup)
+          navigate(Screens.KeylessBackupIntro, {
+            keylessBackupFlow: KeylessBackupFlow.Setup,
+          })
         }}
         text={t('getStarted')}
         size={BtnSizes.FULL}
-        type={BtnTypes.ONBOARDING}
+        type={BtnTypes.PRIMARY}
         style={styles.button}
       />
     </SafeAreaView>
@@ -60,26 +56,24 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   scrollContainer: {
-    padding: 24,
-    paddingTop: 36,
+    padding: Spacing.Thick24,
   },
   chainIcon: {
     alignSelf: 'center',
   },
   title: {
-    ...fontStyles.large600,
-    fontSize: 20,
-    lineHeight: 28,
+    ...typeScale.labelSemiBoldLarge,
     textAlign: 'center',
-    marginTop: 24,
+    marginTop: Spacing.Thick24,
+    color: colors.black,
   },
   description: {
-    ...fontStyles.regular,
-    lineHeight: 24,
+    ...typeScale.bodyMedium,
     textAlign: 'center',
-    marginTop: 16,
+    marginTop: Spacing.Regular16,
+    color: colors.black,
   },
   button: {
-    padding: 24,
+    padding: Spacing.Thick24,
   },
 })

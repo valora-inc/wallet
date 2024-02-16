@@ -1,5 +1,6 @@
 import { fireEvent, render, waitFor, within } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
+import CleverTap from 'clevertap-react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
@@ -17,11 +18,13 @@ import { NetworkId } from 'src/transactions/types'
 import { multiplyByWei } from 'src/utils/formatting'
 import { createMockStore, getElementText, getMockStackScreenProps } from 'test/utils'
 import {
+  mockCleverTapInboxMessage,
   mockCusdAddress,
   mockCusdTokenId,
   mockE164Number,
   mockE164NumberPepper,
   mockEscrowedPayment,
+  mockExpectedCleverTapInboxMessage,
 } from 'test/values'
 
 jest.mock('src/web3/networkConfig', () => {
@@ -41,6 +44,13 @@ jest.mock('src/navigator/NavigationService', () => ({
   navigate: jest.fn(),
 }))
 jest.mock('src/statsig')
+
+jest.mock('clevertap-react-native', () => ({
+  deleteInboxMessageForId: jest.fn(),
+  markReadInboxMessageForId: jest.fn(),
+  pushInboxNotificationViewedEventForId: jest.fn(),
+  pushInboxNotificationClickedEventForId: jest.fn(),
+}))
 
 const DEVICE_HEIGHT = 850
 
@@ -110,7 +120,7 @@ const mockcUsdBalance = {
     address: mockCusdAddress,
     tokenId: mockCusdTokenId,
     networkId: NetworkId['celo-alfajores'],
-    isCoreToken: true,
+    isFeeCurrency: true,
     balance: '100',
     symbol: 'cUSD',
     priceUsd: '1',
@@ -123,7 +133,7 @@ const mockcUsdWithoutEnoughBalance = {
     address: mockCusdAddress,
     tokenId: mockCusdTokenId,
     networkId: NetworkId['celo-alfajores'],
-    isCoreToken: true,
+    isFeeCurrency: true,
     balance: '5',
     symbol: 'cUSD',
     priceUsd: '1',
@@ -284,9 +294,7 @@ describe('NotificationCenter', () => {
       expect(getByText('reverifyUsingCPVHomecard.description')).toBeTruthy()
 
       fireEvent.press(getByText('reverifyUsingCPVHomecard.buttonLabel'))
-      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, {
-        hideOnboardingStep: true,
-      })
+      expect(navigate).toHaveBeenCalledWith(Screens.VerificationStartScreen, { hasOnboarded: true })
     })
 
     it('emits correct analytics event when CTA button is pressed', () => {
@@ -938,6 +946,118 @@ describe('NotificationCenter', () => {
         notificationId: NotificationType.start_supercharging,
         notificationPositionInList: 0,
       })
+    })
+  })
+
+  describe('clevertap notifications', () => {
+    beforeAll(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
+
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
+    it('renders clevertap notification', () => {
+      const store = createMockStore({
+        ...storeDataNotificationsDisabled,
+        home: {
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+        </Provider>
+      )
+      expect(getByText('CleverTap Message Header')).toBeDefined()
+      expect(getByText('CleverTap Message Body Text')).toBeDefined()
+    })
+
+    it('emits correct events when CTA is pressed', () => {
+      const store = createMockStore({
+        ...storeDataNotificationsDisabled,
+        home: {
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+        </Provider>
+      )
+
+      store.clearActions()
+
+      fireEvent.press(getByText('CleverTap Message CTA'))
+      expect(store.getActions()).toEqual([openUrl('https://valoraapp.com', false, true)])
+
+      expect(CleverTap.pushInboxNotificationClickedEventForId).toBeCalledWith(
+        mockExpectedCleverTapInboxMessage.id
+      )
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+        notificationType: NotificationType.clevertap_notification,
+        selectedAction: NotificationBannerCTATypes.accept,
+        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
+        notificationPositionInList: 0,
+      })
+    })
+
+    it('emits correct events when notification is dismissed', () => {
+      const store = createMockStore({
+        ...storeDataNotificationsDisabled,
+        home: {
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+        },
+      })
+      const { getByText } = render(
+        <Provider store={store}>
+          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+        </Provider>
+      )
+
+      fireEvent.press(getByText('dismiss'))
+
+      expect(CleverTap.deleteInboxMessageForId).toBeCalledWith(mockExpectedCleverTapInboxMessage.id)
+
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_select, {
+        notificationType: NotificationType.clevertap_notification,
+        selectedAction: NotificationBannerCTATypes.decline,
+        notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
+        notificationPositionInList: 0,
+      })
+    })
+
+    it('emits correct events when notification is displayed', async () => {
+      const store = createMockStore({
+        ...storeDataNotificationsDisabled,
+        home: {
+          cleverTapInboxMessages: [mockCleverTapInboxMessage],
+        },
+      })
+      const screen = render(
+        <Provider store={store}>
+          <NotificationCenter {...getMockStackScreenProps(Screens.NotificationCenter)} />
+        </Provider>
+      )
+
+      layoutNotificationList(screen)
+
+      await waitFor(() =>
+        expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.notification_impression, {
+          notificationType: NotificationType.clevertap_notification,
+          notificationId: `${NotificationType.clevertap_notification}/${mockExpectedCleverTapInboxMessage.id}`,
+          notificationPositionInList: 0,
+        })
+      )
+
+      expect(CleverTap.pushInboxNotificationViewedEventForId).toBeCalledWith(
+        mockExpectedCleverTapInboxMessage.id
+      )
+      expect(CleverTap.markReadInboxMessageForId).toBeCalledWith(
+        mockExpectedCleverTapInboxMessage.id
+      )
     })
   })
 })
