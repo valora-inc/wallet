@@ -11,8 +11,7 @@ import { activeDappSelector } from 'src/dapps/selectors'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams } from 'src/statsig'
 import { Network } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { prepareTransactions } from 'src/viem/prepareTransactions'
@@ -123,6 +122,9 @@ function createSession(proposerMetadata: CoreTypes.Metadata): SessionTypes.Struc
 
 beforeEach(() => {
   jest.clearAllMocks()
+  jest.mocked(getDynamicConfigParams).mockReturnValue({
+    showWalletConnect: ['celo-alfajores'],
+  })
 })
 
 describe('getDefaultSessionTrackedProperties', () => {
@@ -236,10 +238,6 @@ describe(walletConnectSaga, () => {
 })
 
 describe('showSessionRequest', () => {
-  beforeEach(() => {
-    jest.resetAllMocks()
-  })
-
   const sessionProposal = createSessionProposal({
     url: 'someUrl',
     icons: ['someIcon'],
@@ -287,11 +285,6 @@ describe('showSessionRequest', () => {
   })
 
   it('includes all supported chains for session approval', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
-      )
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showWalletConnect: ['celo-alfajores', 'ethereum-sepolia'],
     })
