@@ -40,7 +40,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappsWebViewEnabled: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: true,
-  visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,

@@ -234,7 +234,6 @@ export interface RemoteConfigValues {
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number

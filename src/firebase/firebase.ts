@@ -337,7 +337,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     fiatAccountSchemaCountryOverrides: fiatAccountSchemaCountryOverrides
       ? JSON.parse(fiatAccountSchemaCountryOverrides)
       : {},
-    visualizeNFTsEnabledInHomeAssetsPage: flags.visualizeNFTsEnabledInHomeAssetsPage.asBoolean(),
     coinbasePayEnabled: flags.coinbasePayEnabled.asBoolean(),
     showSwapMenuInDrawerMenu: flags.showSwapMenuInDrawerMenu.asBoolean(),
     maxSwapSlippagePercentage: flags.maxSwapSlippagePercentage.asNumber(),

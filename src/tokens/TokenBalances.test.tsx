@@ -118,9 +118,8 @@ describe('TokenBalancesScreen', () => {
     expect(tree.queryByTestId('percentageIndicator:TT:UpIndicator')).toBeTruthy()
   })
 
-  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is true', () => {
+  it('renders correctly the NFT viewer banner', () => {
     const store = createMockStore({
-      app: { visualizeNFTsEnabledInHomeAssetsPage: true },
       web3: {
         account: mockWalletAddress,
       },
@@ -138,17 +137,6 @@ describe('TokenBalancesScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: `${networkConfig.nftsValoraAppUrl}?address=${mockWalletAddress}&hide-header=true`,
     })
-  })
-
-  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is false', () => {
-    const store = createMockStore({ app: { visualizeNFTsEnabledInHomeAssetsPage: false } })
-
-    const tree = render(
-      <Provider store={store}>
-        <TokenBalancesScreen {...mockScreenProps} />
-      </Provider>
-    )
-    expect(tree.queryByTestId('NftViewerBanner')).toBeFalsy()
   })
 
   it('renders the correct components when there are positions', () => {

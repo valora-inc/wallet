@@ -39,7 +39,6 @@ export interface State {
   skipVerification: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
-  visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number
@@ -91,8 +90,6 @@ const initialState = {
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
-  visualizeNFTsEnabledInHomeAssetsPage:
-    REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
   coinbasePayEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.coinbasePayEnabled,
   showSwapMenuInDrawerMenu: REMOTE_CONFIG_VALUES_DEFAULTS.showSwapMenuInDrawerMenu,
   maxSwapSlippagePercentage: REMOTE_CONFIG_VALUES_DEFAULTS.maxSwapSlippagePercentage,
@@ -216,8 +213,6 @@ export const appReducer = (
         skipVerification: action.configValues.skipVerification,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
-        visualizeNFTsEnabledInHomeAssetsPage:
-          action.configValues.visualizeNFTsEnabledInHomeAssetsPage,
         coinbasePayEnabled: action.configValues.coinbasePayEnabled,
         showSwapMenuInDrawerMenu: action.configValues.showSwapMenuInDrawerMenu,
         maxSwapSlippagePercentage: action.configValues.maxSwapSlippagePercentage,

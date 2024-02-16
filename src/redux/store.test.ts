@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 190,
+          "version": 191,
         },
         "account": {
           "acceptedTerms": false,
@@ -169,13 +169,11 @@ describe('store state', () => {
           "sentryTracesSampleRate": 0.2,
           "sessionId": "",
           "showNotificationSpotlight": true,
-          "showPriceChangeIndicatorInBalances": false,
           "showSwapMenuInDrawerMenu": false,
           "skipVerification": false,
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
-          "visualizeNFTsEnabledInHomeAssetsPage": false,
           "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,
         },

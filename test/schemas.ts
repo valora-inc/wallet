@@ -3058,7 +3058,10 @@ export const v191Schema = {
     ...v190Schema._persist,
     version: 191,
   },
-  app: _.omit(v190Schema.app, 'showPriceChangeIndicatorInBalances'),
+  app: _.omit(v190Schema.app, [
+    'showPriceChangeIndicatorInBalances',
+    'visualizeNFTsEnabledInHomeAssetsPage',
+  ]),
 }
 
 export function getLatestSchema(): Partial<RootState> {

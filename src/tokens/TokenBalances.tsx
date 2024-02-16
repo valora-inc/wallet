@@ -51,7 +51,6 @@ import {
   useTokensWithTokenBalance,
   useTotalTokenBalance,
 } from 'src/tokens/hooks'
-import { visualizeNFTsEnabledInHomeAssetsPageSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForTokenBalances, sortByUsdBalance } from 'src/tokens/utils'
 import networkConfig from 'src/web3/networkConfig'
@@ -91,9 +90,6 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
-  const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
-    visualizeNFTsEnabledInHomeAssetsPageSelector
-  )
   const shouldShowNftGallery = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
   const walletAddress = useSelector(walletAddressSelector)
   const insets = useSafeAreaInsets()
@@ -306,30 +302,28 @@ function TokenBalancesScreen({ navigation, route }: Props) {
           ]}
           onLayout={handleMeasureNonStickyHeaderHeight}
         >
-          {shouldVisualizeNFTsInHomeAssetsPage && (
-            <Touchable
-              style={
-                // For larger fonts we need different marginTop for nft banner
-                PixelRatio.getFontScale() > 1.5
-                  ? { marginTop: Spacing.Small12 }
-                  : PixelRatio.getFontScale() > 1.25
-                    ? { marginTop: Spacing.Smallest8 }
-                    : null
-              }
-              testID={'NftViewerBanner'}
-              onPress={onPressNFTsBanner}
-            >
-              <View style={styles.nftBannerContainer}>
-                <Text style={styles.nftBannerText}>
-                  {shouldShowNftGallery ? t('nftGallery.title') : t('nftViewer')}
-                </Text>
-                <View style={styles.nftBannerCtaContainer}>
-                  <Text style={styles.nftBannerText}>{t('open')}</Text>
-                  {!shouldShowNftGallery && <OpenLinkIcon color={Colors.primary} />}
-                </View>
+          <Touchable
+            style={
+              // For larger fonts we need different marginTop for nft banner
+              PixelRatio.getFontScale() > 1.5
+                ? { marginTop: Spacing.Small12 }
+                : PixelRatio.getFontScale() > 1.25
+                  ? { marginTop: Spacing.Smallest8 }
+                  : null
+            }
+            testID={'NftViewerBanner'}
+            onPress={onPressNFTsBanner}
+          >
+            <View style={styles.nftBannerContainer}>
+              <Text style={styles.nftBannerText}>
+                {shouldShowNftGallery ? t('nftGallery.title') : t('nftViewer')}
+              </Text>
+              <View style={styles.nftBannerCtaContainer}>
+                <Text style={styles.nftBannerText}>{t('open')}</Text>
+                {!shouldShowNftGallery && <OpenLinkIcon color={Colors.primary} />}
               </View>
-            </Touchable>
-          )}
+            </View>
+          </Touchable>
           <View style={styles.spacer} />
           <AssetsTokenBalance showInfo={displayPositions} />
         </View>

@@ -695,8 +695,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      visualizeNFTsEnabledInHomeAssetsPage:
-        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+      visualizeNFTsEnabledInHomeAssetsPage: false,
     },
   }),
   58: (state: any) => ({
@@ -1575,4 +1574,11 @@ export const migrations = {
       },
     }
   },
+  191: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, [
+      'showPriceChangeIndicatorInBalances',
+      'visualizeNFTsEnabledInHomeAssetsPage',
+    ]),
+  }),
 }
