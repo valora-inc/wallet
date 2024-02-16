@@ -7,7 +7,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import SelectionOption from 'src/components/SelectionOption'
-import { isE2EEnv } from 'src/config'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
 import { emptyHeader, headerWithBackButton } from 'src/navigator/Headers'
 import { navigate } from 'src/navigator/NavigationService'
@@ -34,15 +33,12 @@ function LanguageScreen({ route }: Props) {
 
   const onSelect = (language: string, code: string) => {
     void changeLanguage(code)
-    if (isE2EEnv) {
+    // Wait for next frame before navigating
+    // so the user can see the changed selection briefly
+    requestAnimationFrame(() => {
       navigate(nextScreen || Screens.Welcome)
-    } else {
-      // Wait for next frame before navigating
-      // so the user can see the changed selection briefly
-      requestAnimationFrame(() => {
-        navigate(nextScreen || Screens.Welcome)
-      })
-    }
+    })
+
     ValoraAnalytics.track(SettingsEvents.language_select, { language: code })
   }
 
