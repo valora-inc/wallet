@@ -1,5 +1,5 @@
 import { StatsigDynamicConfigs, StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
-import { Network, NetworkId } from 'src/transactions/types'
+import { NetworkId } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 
 export const FeatureGates = {
@@ -101,7 +101,9 @@ export const DynamicConfigs = {
   },
   [StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]: {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
-    defaultValues: {} as { [key in Network]?: { contractAddress?: string } },
+    defaultValues: {
+      jumpstartContracts: {} as { [key in NetworkId]?: { contractAddress?: string } },
+    },
   },
   [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
     configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
