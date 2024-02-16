@@ -1907,8 +1907,8 @@
     "searchAssets": "搜索资产",
     "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。",
     "noFilterSearchResults": "在以下类别中没有找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
-    "noFilterResults": "在以下类别中没有找到匹配的资产： {{filterNames}}",
-    "noSearchResults": "没有找到与 \"{{searchTerm}}\" 匹配的资产",
+    "noFilterResults": "未找到与以下类别匹配的资产： {{filterNames}}",
+    "noSearchResults": "未找到与 \"{{searchTerm}}\" 匹配的资产",
     "filters": {
       "myTokens": "我的代币",
       "popular": "热门",
