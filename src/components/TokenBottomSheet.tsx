@@ -34,7 +34,7 @@ export const DEBOUCE_WAIT_TIME = 200
 export interface TokenBottomSheetProps<T extends TokenBalance> {
   forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
-  onTokenSelected: (token: T) => void
+  onTokenSelected: (token: T, tokenPositionInList: number) => void
   title: string
   titleStyle?: TextStyle
   searchEnabled?: boolean
@@ -177,7 +177,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     })
   }
 
-  const onTokenPressed = (token: T) => () => {
+  const onTokenPressed = (token: T, index: number) => () => {
     ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
@@ -186,8 +186,9 @@ function TokenBottomSheet<T extends TokenBalance>({
       usedSearchTerm: searchTerm.length > 0,
       selectedFilters: activeFilters.map((filter) => filter.id),
       areSwapTokensShuffled,
+      tokenPositionInList: index,
     })
-    onTokenSelected(token)
+    onTokenSelected(token, index)
   }
 
   const sendAnalytics = useCallback(
@@ -258,7 +259,7 @@ function TokenBottomSheet<T extends TokenBalance>({
             return (
               <TokenOptionComponent
                 tokenInfo={item}
-                onPress={onTokenPressed(item)}
+                onPress={onTokenPressed(item, index)}
                 index={index}
                 showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
               />
