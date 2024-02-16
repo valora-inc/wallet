@@ -215,7 +215,7 @@ describe('token to fiat exchanges', () => {
 })
 
 describe('useTokensForSend', () => {
-  it('returns tokens with balance', () => {
+  it('returns tokens with balance or with showZeroBalance', () => {
     const { getByTestId } = render(
       <Provider store={storeWithMultipleNetworkTokens()}>
         <TokenHookTestComponent hook={useTokensForSend} />
@@ -223,9 +223,10 @@ describe('useTokensForSend', () => {
     )
 
     expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockPoofTokenId,
       mockCeloTokenId,
+      mockPoofTokenId,
       mockCrealTokenId,
+      mockCusdTokenId,
     ])
   })
 
@@ -240,10 +241,11 @@ describe('useTokensForSend', () => {
     )
 
     expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockPoofTokenId,
-      mockCeloTokenId,
-      mockCrealTokenId,
       ethTokenId,
+      mockCeloTokenId,
+      mockPoofTokenId,
+      mockCrealTokenId,
+      mockCusdTokenId,
     ])
   })
 })
