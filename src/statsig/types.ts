@@ -16,7 +16,6 @@ export enum StatsigFeatureGates {
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
-  SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
