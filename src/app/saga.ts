@@ -230,7 +230,6 @@ export interface RemoteConfigValues {
   sentryNetworkErrors: string[]
   maxNumRecentDapps: number
   skipVerification: boolean
-  showPriceChangeIndicatorInBalances: boolean
   dappsWebViewEnabled: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean

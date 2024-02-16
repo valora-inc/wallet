@@ -20,7 +20,6 @@ import {
   mockPositions,
   mockTestTokenAddress,
   mockTestTokenTokenId,
-  mockTokenBalances,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
 
@@ -32,24 +31,6 @@ jest.mock('src/statsig', () => {
     }),
   }
 })
-
-const storeWithoutHistoricalPrices = {
-  tokens: {
-    tokenBalances: {
-      ...mockTokenBalances,
-      [mockTestTokenTokenId]: {
-        address: mockTestTokenAddress,
-        tokenId: mockTestTokenTokenId,
-        networkId: NetworkId['celo-alfajores'],
-        symbol: 'TT',
-        balance: '50',
-      },
-    },
-  },
-  app: {
-    showPriceChangeIndicatorInBalances: false,
-  },
-}
 
 const storeWithHistoricalPrices = {
   tokens: {
@@ -71,9 +52,6 @@ const storeWithHistoricalPrices = {
         },
       },
     },
-  },
-  app: {
-    showPriceChangeIndicatorInBalances: true,
   },
 }
 
@@ -121,26 +99,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.TokenBalances)
 const mockWalletAddress = '0x123'
 
 describe('TokenBalancesScreen', () => {
-  it('renders correctly when showPriceChangeIndicator ff is off', async () => {
-    const store = createMockStore(storeWithoutHistoricalPrices)
-
-    const tree = render(
-      <Provider store={store}>
-        <TokenBalancesScreen {...mockScreenProps} />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('tokenBalance:POOF'))).toBe('5.00')
-    expect(getElementText(tree.getByTestId('tokenLocalBalance:POOF'))).toBe('₱0.67')
-
-    expect(getElementText(tree.getByTestId('tokenBalance:TT'))).toBe('50.00')
-    expect(tree.queryByTestId('tokenLocalBalance:TT')).toBeFalsy()
-
-    expect(tree.queryByTestId('percentageIndicator:POOF')).toBeFalsy()
-    expect(tree.queryByTestId('percentageIndicator:TT')).toBeFalsy()
-  })
-
-  it('renders correctly when showPriceChangeIndicator ff is on', async () => {
+  it('renders correctly the price change indicator', async () => {
     const store = createMockStore(storeWithHistoricalPrices)
 
     const tree = render(

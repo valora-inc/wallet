@@ -474,8 +474,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      showPriceChangeIndicatorInBalances:
-        REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+      showPriceChangeIndicatorInBalances: false,
     },
   }),
   38: (state: any) => ({

@@ -3131,9 +3131,6 @@
                 "showNotificationSpotlight": {
                     "type": "boolean"
                 },
-                "showPriceChangeIndicatorInBalances": {
-                    "type": "boolean"
-                },
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
@@ -3206,7 +3203,6 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipVerification",
                 "superchargeApy",

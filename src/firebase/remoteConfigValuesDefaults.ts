@@ -38,7 +38,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   maxNumRecentDapps: 0,
   skipVerification: false,
-  showPriceChangeIndicatorInBalances: false,
   dappsWebViewEnabled: false,
   dappListApiUrl: '',
   fiatConnectCashInEnabled: false,

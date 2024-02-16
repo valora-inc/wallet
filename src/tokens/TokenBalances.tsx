@@ -22,7 +22,6 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useSelector } from 'react-redux'
 import { AssetsEvents, HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { showPriceChangeIndicatorInBalancesSelector } from 'src/app/selectors'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
 import Touchable from 'src/components/Touchable'
@@ -92,7 +91,6 @@ function TokenBalancesScreen({ navigation, route }: Props) {
   const localCurrencySymbol = useSelector(getLocalCurrencySymbol)
   const totalTokenBalanceLocal = useTotalTokenBalance() ?? new BigNumber(0)
   const tokensAreStale = useTokenPricesAreStale(supportedNetworkIds)
-  const showPriceChangeIndicatorInBalances = useSelector(showPriceChangeIndicatorInBalancesSelector)
   const shouldVisualizeNFTsInHomeAssetsPage = useSelector(
     visualizeNFTsEnabledInHomeAssetsPageSelector
   )
@@ -285,12 +283,7 @@ function TokenBalancesScreen({ navigation, route }: Props) {
     if (assetIsPosition(item)) {
       return <PositionItem position={item} />
     }
-    return (
-      <TokenBalanceItem
-        token={item}
-        showPriceChangeIndicatorInBalances={showPriceChangeIndicatorInBalances}
-      />
-    )
+    return <TokenBalanceItem token={item} showPriceChangeIndicatorInBalances={true} />
   }
 
   const segmentedControlValues = useMemo(

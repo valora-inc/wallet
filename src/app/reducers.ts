@@ -37,7 +37,6 @@ export interface State {
   sentryNetworkErrors: string[]
   supportedBiometryType: BIOMETRY_TYPE | null
   skipVerification: boolean
-  showPriceChangeIndicatorInBalances: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   visualizeNFTsEnabledInHomeAssetsPage: boolean
@@ -90,8 +89,6 @@ const initialState = {
   sentryNetworkErrors: REMOTE_CONFIG_VALUES_DEFAULTS.sentryNetworkErrors.split(','),
   supportedBiometryType: null,
   skipVerification: REMOTE_CONFIG_VALUES_DEFAULTS.skipVerification,
-  showPriceChangeIndicatorInBalances:
-    REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
   fiatConnectCashInEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashInEnabled,
   fiatConnectCashOutEnabled: REMOTE_CONFIG_VALUES_DEFAULTS.fiatConnectCashOutEnabled,
   visualizeNFTsEnabledInHomeAssetsPage:
@@ -217,7 +214,6 @@ export const appReducer = (
         sentryTracesSampleRate: action.configValues.sentryTracesSampleRate,
         sentryNetworkErrors: action.configValues.sentryNetworkErrors,
         skipVerification: action.configValues.skipVerification,
-        showPriceChangeIndicatorInBalances: action.configValues.showPriceChangeIndicatorInBalances,
         fiatConnectCashInEnabled: action.configValues.fiatConnectCashInEnabled,
         fiatConnectCashOutEnabled: action.configValues.fiatConnectCashOutEnabled,
         visualizeNFTsEnabledInHomeAssetsPage:
