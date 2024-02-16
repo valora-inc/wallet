@@ -22,7 +22,6 @@ function* fetchRewardsSendersSaga() {
     while (true) {
       const rewardsSenders = (yield* take(rewardsSendersChannel)) as string[]
       yield* put(rewardsSendersFetched(rewardsSenders))
-      Logger.info(`${TAG}@fetchRewardsSendersSaga`, rewardsSenders)
     }
   } catch (error) {
     Logger.error(`${TAG}@fetchRewardsSendersSaga`, 'Failed to fetch rewards senders', error)
