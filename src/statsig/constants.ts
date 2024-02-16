@@ -105,6 +105,8 @@ export const DynamicConfigs = {
   },
   [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
     configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
-    defaultValues: {} as { networkId?: NetworkId; contractAddress?: string },
+    defaultValues: {
+      celebratedNft: {} as { networkId?: NetworkId; contractAddress?: string },
+    },
   },
 }
