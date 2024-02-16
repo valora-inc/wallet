@@ -215,7 +215,12 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetFromRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetToRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetRefs = {
+    [Field.FROM]: tokenBottomSheetFromRef,
+    [Field.TO]: tokenBottomSheetToRef,
+  }
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -254,7 +259,8 @@ export function SwapScreen({ route }: Props) {
     startedSwapId,
   } = state
 
-  const filterChips = useFilterChips(selectingField)
+  const filterChipsFrom = useFilterChips(Field.FROM)
+  const filterChipsTo = useFilterChips(Field.TO)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)
@@ -453,7 +459,7 @@ export function SwapScreen({ route }: Props) {
     // bottom sheet (which depends on selectingField) does not change on the
     // screen
     requestAnimationFrame(() => {
-      tokenBottomSheetRef.current?.snapToIndex(0)
+      tokenBottomSheetRefs[fieldType].current?.snapToIndex(0)
     })
   }
 
@@ -524,7 +530,7 @@ export function SwapScreen({ route }: Props) {
     // without this, the keyboard animation lags behind the state updates while
     // the bottom sheet does not
     requestAnimationFrame(() => {
-      tokenBottomSheetRef.current?.close()
+      tokenBottomSheetRefs[selectingField].current?.close()
     })
   }
 
@@ -630,6 +636,23 @@ export function SwapScreen({ route }: Props) {
       })
     }
   }, [showPriceImpactWarning || showMissingPriceImpactWarning])
+
+  const tokenBottomSheetsConfig = [
+    {
+      fieldType: Field.FROM,
+      tokens: swappableFromTokens,
+      title: t('swapScreen.swapFromTokenSelection'),
+      filterChips: filterChipsFrom,
+      origin: TokenPickerOrigin.SwapFrom,
+    },
+    {
+      fieldType: Field.TO,
+      tokens: swappableToTokens,
+      title: t('swapScreen.swapToTokenSelection'),
+      filterChips: filterChipsTo,
+      origin: TokenPickerOrigin.SwapTo,
+    },
+  ]
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} testID="SwapScreen">
@@ -762,23 +785,22 @@ export function SwapScreen({ route }: Props) {
           showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
-      <TokenBottomSheet
-        forwardedRef={tokenBottomSheetRef}
-        snapPoints={['90%']}
-        origin={TokenPickerOrigin.Swap}
-        onTokenSelected={handleSelectToken}
-        searchEnabled={true}
-        tokens={selectingField == Field.FROM ? swappableFromTokens : swappableToTokens}
-        title={
-          selectingField == Field.FROM
-            ? t('swapScreen.swapFromTokenSelection')
-            : t('swapScreen.swapToTokenSelection')
-        }
-        TokenOptionComponent={TokenBalanceItemOption}
-        showPriceUsdUnavailableWarning={true}
-        filterChips={filterChips}
-        areSwapTokensShuffled={areSwapTokensShuffled}
-      />
+      {tokenBottomSheetsConfig.map(({ fieldType, tokens, title, filterChips, origin }) => (
+        <TokenBottomSheet
+          key={`TokenBottomSheet/${fieldType}`}
+          forwardedRef={tokenBottomSheetRefs[fieldType]}
+          tokens={tokens}
+          title={title}
+          filterChips={filterChips}
+          origin={origin}
+          snapPoints={['90%']}
+          onTokenSelected={handleSelectToken}
+          searchEnabled={true}
+          TokenOptionComponent={TokenBalanceItemOption}
+          showPriceUsdUnavailableWarning={true}
+          areSwapTokensShuffled={areSwapTokensShuffled}
+        />
+      ))}
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
           forwardedRef={preparedTransactionsReviewBottomSheetRef}
@@ -815,7 +837,7 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={slippageInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.slippageToleranceInfo')}
-        testId="NetworkFeeInfoBottomSheet"
+        testId="SlippageInfoBottomSheet"
       >
         <Button
           type={BtnTypes.SECONDARY}
