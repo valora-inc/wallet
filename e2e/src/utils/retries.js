@@ -7,7 +7,6 @@ export const launchApp = async (
     permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
     launchArgs: {
       detoxPrintBusyIdleResources: 'YES',
-      language: 'en-US',
     },
   }
 ) => {
