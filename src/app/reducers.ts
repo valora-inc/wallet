@@ -22,7 +22,6 @@ export interface State {
   minVersion: string | null
   celoEducationUri: string | null
   activeScreen: Screens
-  walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   superchargeApy: number
   superchargeTokenConfigByToken: SuperchargeTokenConfigByToken
@@ -75,7 +74,6 @@ const initialState = {
   minVersion: null,
   celoEducationUri: null,
   activeScreen: Screens.Main,
-  walletConnectV1Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV1Enabled,
   walletConnectV2Enabled: REMOTE_CONFIG_VALUES_DEFAULTS.walletConnectV2Enabled,
   superchargeApy: REMOTE_CONFIG_VALUES_DEFAULTS.superchargeApy,
   superchargeTokenConfigByToken: JSON.parse(
@@ -207,7 +205,6 @@ export const appReducer = (
       return {
         ...state,
         celoEducationUri: action.configValues.celoEducationUri,
-        walletConnectV1Enabled: action.configValues.walletConnectV1Enabled,
         walletConnectV2Enabled: action.configValues.walletConnectV2Enabled,
         superchargeApy: action.configValues.superchargeApy,
         superchargeTokenConfigByToken: action.configValues.superchargeTokenConfigByToken,

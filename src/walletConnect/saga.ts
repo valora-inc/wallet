@@ -841,9 +841,8 @@ export function* initialiseWalletConnectV2(uri: string, origin: WalletConnectPai
 
 export function* isWalletConnectEnabled(uri: string) {
   const { version } = parseUri(uri)
-  const { v1, v2 }: { v1: boolean; v2: boolean } = yield* select(walletConnectEnabledSelector)
+  const { v2 } = yield* select(walletConnectEnabledSelector)
   const versionEnabled: { [version: string]: boolean | undefined } = {
-    '1': v1,
     '2': v2,
   }
   return versionEnabled[version] ?? false
