@@ -1908,9 +1908,9 @@
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",
     "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı",
-    "noFilterSearchResults": "\"{{searchTerm}}\" için aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
-    "noFilterResults": "Aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
-    "noSearchResults": "\"{{searchTerm}}\" için eşleşen varlık bulunamadı",
+    "noFilterSearchResults": "Aşağıdaki kategorilerde \"{{searchTerm}}\" ile eşleşen hiçbir varlık bulunamadı: {{filterNames}}",
+    "noFilterResults": "Aşağıdaki kategorilerle eşleşen varlık bulunamadı: {{filterNames}}",
+    "noSearchResults": "\"{{searchTerm}}\" ile eşleşen varlık bulunamadı",
     "filters": {
       "myTokens": "Jetonlarım",
       "popular": "Popüler",

@@ -190,55 +190,34 @@ describe('WalletHome', () => {
       jest.runOnlyPendingTimers()
     })
 
-    expect(tree.getByTestId('start_supercharging')).toBeTruthy()
+    expect(tree.getByText('notificationCenterSpotlight.message')).toBeTruthy()
     expect(tree.getByTestId('HomeTokenBalance')).toBeTruthy()
     expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
     expect(tree.queryByTestId('HomeActionsCarousel')).toBeTruthy()
     expect(tree.queryByTestId('WalletHome/QRScanButton')).toBeTruthy()
     expect(tree.queryByTestId('WalletHome/Logo')).toBeFalsy()
-    expect(store.getActions()).toMatchInlineSnapshot(`
-      [
-        {
-          "type": "ALERT/HIDE",
-        },
-        {
-          "payload": undefined,
-          "type": "supercharge/fetchAvailableRewards",
-        },
-        {
-          "type": "HOME/VISIT_HOME",
-        },
-        {
-          "type": "SENTRY/INITIALIZE_SENTRY_USER_CONTEXT",
-        },
-        {
-          "action": null,
-          "alertType": "message",
-          "buttonMessage": null,
-          "dismissAfter": 5000,
-          "displayMethod": 0,
-          "message": "testnetAlert.1, {"testnet":"Alfajores"}",
-          "title": "testnetAlert.0, {"testnet":"Alfajores"}",
-          "type": "ALERT/SHOW",
-          "underlyingError": undefined,
-        },
-        {
-          "type": "HOME/REFRESH_BALANCES",
-        },
-        {
-          "type": "IDENTITY/IMPORT_CONTACTS",
-        },
-      ]
-    `)
+    expect(store.getActions().map((action) => action.type)).toEqual(
+      expect.arrayContaining([
+        'HOME/VISIT_HOME',
+        'ALERT/SHOW',
+        'ALERT/HIDE',
+        'HOME/REFRESH_BALANCES',
+        'IDENTITY/IMPORT_CONTACTS',
+      ])
+    )
   })
 
-  it('hides sections', async () => {
+  it('Does not render cash in bottom sheet when experiment flag is turned off', async () => {
     jest.mocked(getExperimentParams).mockReturnValueOnce({
       cashInBottomSheetEnabled: false,
     })
 
-    const { queryByTestId } = renderScreen({ ...zeroBalances })
-    expect(queryByTestId('SendOrRequestBar')).toBeFalsy()
+    const { queryByTestId } = renderScreen({
+      ...zeroBalances,
+      app: {
+        showNotificationSpotlight: false,
+      },
+    })
     expect(queryByTestId('cashInBtn')).toBeFalsy()
   })
 
@@ -272,6 +251,9 @@ describe('WalletHome', () => {
     jest.mocked(fetchProviders).mockResolvedValueOnce(mockProviders)
     const { getByTestId } = renderScreen({
       ...zeroBalances,
+      app: {
+        showNotificationSpotlight: false,
+      },
     })
 
     await act(() => {

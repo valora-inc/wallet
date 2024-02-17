@@ -1908,9 +1908,9 @@
   "tokenBottomSheet": {
     "searchAssets": "Rechercher des actifs",
     "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "Aucun actif correspondant n'a été trouvé pour \"{{searchTerm}}\" dans les catégories suivantes : {{filterNames}}",
-    "noFilterResults": "Aucun actif correspondant n'a été trouvé dans les catégories suivantes : {{filterNames}}",
-    "noSearchResults": "Aucun actif correspondant n'a été trouvé pour \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Aucun actif trouvé correspondant à \"{{searchTerm}}\" dans les catégories suivantes : {{filterNames}}",
+    "noFilterResults": "Aucun actif n'a été trouvé correspondant aux catégories suivantes : {{filterNames}}",
+    "noSearchResults": "Aucun actif trouvé correspondant à \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mes jetons",
       "popular": "Populaires",
