@@ -337,6 +337,32 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
+
+    const commonAnalyticsProps = {
+      areSwapTokensShuffled: false,
+      fromTokenId: 'celo-alfajores:native',
+      fromTokenNetworkId: 'celo-alfajores',
+      fromTokenSymbol: 'CELO',
+      switchedNetworkId: false,
+      tokenNetworkId: 'celo-alfajores',
+    }
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
+      ...commonAnalyticsProps,
+      fieldType: 'FROM',
+      tokenId: 'celo-alfajores:native',
+      tokenPositionInList: 1,
+      tokenSymbol: 'CELO',
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
+      ...commonAnalyticsProps,
+      fieldType: 'TO',
+      tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+      tokenPositionInList: 2,
+      tokenSymbol: 'cUSD',
+      toTokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+      toTokenNetworkId: 'celo-alfajores',
+      toTokenSymbol: 'cUSD',
+    })
   })
 
   it('should show only the allowed to and from tokens', async () => {
@@ -389,6 +415,10 @@ describe('SwapScreen', () => {
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+      SwapEvents.swap_screen_confirm_token,
+      expect.anything()
+    )
   })
 
   it('should swap the to/from tokens if the same token is selected', async () => {
@@ -953,6 +983,7 @@ describe('SwapScreen', () => {
             },
             updatedField: Field.FROM,
           },
+          areSwapTokensShuffled: false,
         }),
       ])
     )
@@ -1003,6 +1034,7 @@ describe('SwapScreen', () => {
             },
             updatedField: Field.FROM,
           },
+          areSwapTokensShuffled: false,
         }),
       ])
     )
@@ -1047,6 +1079,7 @@ describe('SwapScreen', () => {
             },
             updatedField: Field.FROM,
           },
+          areSwapTokensShuffled: false,
         }),
       ])
     )
