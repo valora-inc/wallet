@@ -60,7 +60,7 @@ function WalletHome() {
   const coreTokenBalances = useSelector(coreTokensSelector)
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
-  const canShowNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
+  const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -69,9 +69,6 @@ function WalletHome() {
   const dispatch = useDispatch()
 
   const { onSelectDapp } = useOpenDapp()
-
-  const showNotificationCenter = getFeatureGate(StatsigFeatureGates.SHOW_NOTIFICATION_CENTER)
-  const showNotificationSpotlight = showNotificationCenter && canShowNotificationSpotlight
 
   const isFocused = useIsFocused()
   const canShowNftCelebration = useSelector(showNftCelebrationSelector)
@@ -169,15 +166,13 @@ function WalletHome() {
     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
   ) as React.ReactElement<RefreshControlProps>
 
-  const sections = []
-
   const notificationBoxSection = {
     data: [{}],
     renderItem: () => (
       <NotificationBox
         key={'NotificationBox'}
-        // When the notification center is enabled, we only show high priority notifications marked for the home screen
-        showOnlyHomeScreenNotifications={showNotificationCenter}
+        // Only show high priority notifications marked for the home screen
+        showOnlyHomeScreenNotifications={true}
       />
     ),
   }
@@ -190,21 +185,23 @@ function WalletHome() {
     renderItem: () => <ActionsCarousel key={'ActionsCarousel'} />,
   }
 
-  if (showNotificationCenter) {
-    sections.push(notificationBoxSection, tokenBalanceSection, actionsCarouselSection)
-  } else {
-    sections.push(tokenBalanceSection, actionsCarouselSection, notificationBoxSection)
-  }
-
-  sections.push({
+  const dappsCarouselSection = {
     data: [{}],
     renderItem: () => <DappsCarousel key="DappsCarousel" onSelectDapp={onSelectDapp} />,
-  })
+  }
 
-  sections.push({
+  const transactionFeedSection = {
     data: [{}],
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
-  })
+  }
+
+  const sections = [
+    notificationBoxSection,
+    tokenBalanceSection,
+    actionsCarouselSection,
+    dappsCarouselSection,
+    transactionFeedSection,
+  ]
 
   const showBetaTag = getFeatureGate(StatsigFeatureGates.SHOW_BETA_TAG)
   const topLeftElement = showBetaTag && <BetaTag />
@@ -212,9 +209,7 @@ function WalletHome() {
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
       <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
-      {showNotificationCenter && (
-        <NotificationBell testID={'WalletHome/NotificationBell'} style={styles.topRightElement} />
-      )}
+      <NotificationBell testID={'WalletHome/NotificationBell'} style={styles.topRightElement} />
     </View>
   )
 
