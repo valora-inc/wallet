@@ -7,8 +7,6 @@ import * as React from 'react'
 import 'react-native'
 import { Provider } from 'react-redux'
 import { ActiveDapp, DappSection } from 'src/dapps/types'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import {
   acceptRequest as acceptRequestV2,
@@ -17,8 +15,6 @@ import {
 import ActionRequest from 'src/walletConnect/screens/ActionRequest'
 import { createMockStore } from 'test/utils'
 import { mockAccount, mockAccount2 } from 'test/values'
-
-jest.mock('src/statsig')
 
 describe('ActionRequest with WalletConnect V2', () => {
   const v2Session: SessionTypes.Struct = {
@@ -122,11 +118,7 @@ describe('ActionRequest with WalletConnect V2', () => {
 
   const supportedChains = ['eip155:44787']
 
-  beforeEach(() => {
-    jest.mocked(getFeatureGate).mockReset()
-  })
-
-  describe('ActionRequest with viem', () => {
+  describe('eth_sendTransaction', () => {
     const store = createMockStore({
       walletConnect: {
         sessions: [v2Session],
@@ -135,11 +127,6 @@ describe('ActionRequest with WalletConnect V2', () => {
 
     beforeEach(() => {
       store.clearActions()
-      jest
-        .mocked(getFeatureGate)
-        .mockImplementation(
-          (gate) => gate === StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS
-        )
     })
 
     it('should display a dismiss-only bottom sheet if the user has insufficient gas funds', () => {

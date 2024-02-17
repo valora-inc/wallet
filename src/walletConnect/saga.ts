@@ -20,8 +20,6 @@ import { ActiveDapp } from 'src/dapps/types'
 import i18n from 'src/i18n'
 import { isBottomSheetVisible, navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { getSupportedNetworkIdsForWalletConnect } from 'src/tokens/utils'
 import { Network } from 'src/transactions/types'
@@ -335,11 +333,6 @@ function* showSessionRequest(session: Web3WalletTypes.EventArguments['session_pr
 export const _showSessionRequest = showSessionRequest
 
 function getSupportedChains() {
-  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS)
-  if (!useViem) {
-    return [networkIdToWalletConnectChainId[networkConfig.defaultNetworkId]]
-  }
-
   const supportedNetworkIdsForWalletConnect = getSupportedNetworkIdsForWalletConnect()
   return supportedNetworkIdsForWalletConnect.map((networkId) => {
     return networkIdToWalletConnectChainId[networkId]
@@ -671,10 +664,7 @@ function* handleAcceptRequest({ request, preparedTransaction }: AcceptRequest) {
     }
 
     const result = yield* call(handleRequest, params, preparedTransaction)
-    const response: JsonRpcResult<string> = formatJsonRpcResult(
-      id,
-      (params.request.method = typeof result === 'string' ? result : result.raw)
-    )
+    const response: JsonRpcResult<string> = formatJsonRpcResult(id, result)
     yield* call([client, 'respondSessionRequest'], { topic, response })
 
     ValoraAnalytics.track(WalletConnectEvents.wc_request_accept_success, defaultTrackedProperties)
