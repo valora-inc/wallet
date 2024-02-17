@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 190,
+          "version": 191,
         },
         "account": {
           "acceptedTerms": false,
@@ -176,7 +176,6 @@ describe('store state', () => {
           "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
           "visualizeNFTsEnabledInHomeAssetsPage": false,
-          "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,
         },
         "dapps": {

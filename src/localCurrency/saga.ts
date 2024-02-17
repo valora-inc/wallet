@@ -62,7 +62,12 @@ export async function fetchExchangeRate(
     throw new Error(`Invalid response data ${body.data}`)
   }
 
-  return new BigNumber(rate).toString()
+  const fetchedExchangeRate = new BigNumber(rate).toString()
+  Logger.info(
+    TAG,
+    `Fetched exchange rate for ${sourceCurrency} -> ${localCurrencyCode}: ${fetchedExchangeRate}`
+  )
+  return fetchedExchangeRate
 }
 
 // @ts-ignore return type issue, couldn't figure it out
