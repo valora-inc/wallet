@@ -1908,9 +1908,9 @@
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
     "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
-    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
-    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
-    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "noFilterSearchResults": "No se ha encontrado ningún activo que coincida con \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos que coincidan con las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se ha encontrado ningún activo que coincida con \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mis fichas",
       "popular": "Popular",
