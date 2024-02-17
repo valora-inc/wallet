@@ -148,7 +148,7 @@ describe('Given Nfts saga', () => {
       }
 
       jest.mocked(getFeatureGate).mockReturnValue(true)
-      jest.mocked(getDynamicConfigParams).mockReturnValue(mockCelebratedNft)
+      jest.mocked(getDynamicConfigParams).mockReturnValue({ celebratedNft: mockCelebratedNft })
 
       return expectSaga(nftSaga.findCelebratedNft, mockAction)
         .provide([[select(celebratedNftSelector), null]])
@@ -169,7 +169,7 @@ describe('Given Nfts saga', () => {
       }
 
       jest.mocked(getFeatureGate).mockReturnValue(false)
-      jest.mocked(getDynamicConfigParams).mockReturnValue(mockCelebratedNft)
+      jest.mocked(getDynamicConfigParams).mockReturnValue({ celebratedNft: mockCelebratedNft })
 
       return expectSaga(nftSaga.findCelebratedNft, mockAction)
         .provide([[select(celebratedNftSelector), null]])
@@ -197,7 +197,7 @@ describe('Given Nfts saga', () => {
       }
 
       jest.mocked(getFeatureGate).mockReturnValue(true)
-      jest.mocked(getDynamicConfigParams).mockReturnValue(mockCelebratedNft)
+      jest.mocked(getDynamicConfigParams).mockReturnValue({ celebratedNft: mockCelebratedNft })
 
       return expectSaga(nftSaga.findCelebratedNft, mockAction)
         .provide([[select(celebratedNftSelector), mockCelebratedNft]])

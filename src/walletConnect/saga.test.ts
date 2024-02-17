@@ -653,7 +653,7 @@ describe('initialiseWalletConnect', () => {
   it('initializes v2 if enabled', async () => {
     await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
       .provide([
-        [select(walletConnectEnabledSelector), { v1: true, v2: true }],
+        [select(walletConnectEnabledSelector), { v2: true }],
         [call(initialiseWalletConnectV2, v2ConnectionString, origin), {}],
       ])
       .call(initialiseWalletConnectV2, v2ConnectionString, origin)
@@ -662,7 +662,7 @@ describe('initialiseWalletConnect', () => {
 
   it('doesnt initialize v2 if disabled', async () => {
     await expectSaga(initialiseWalletConnect, v2ConnectionString, origin)
-      .provide([[select(walletConnectEnabledSelector), { v1: true, v2: false }]])
+      .provide([[select(walletConnectEnabledSelector), { v2: false }]])
       .not.call(initialiseWalletConnectV2, v2ConnectionString, origin)
       .run()
   })

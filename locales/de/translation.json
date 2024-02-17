@@ -1908,9 +1908,9 @@
   "tokenBottomSheet": {
     "searchAssets": "Vermögen suchen",
     "noTokenInResult": "Keine passenden Ergebnisse gefunden für <0>„{{searchTerm}}”</0>",
-    "noFilterSearchResults": "Keine passenden Assets gefunden für \"{{searchTerm}}\" in den folgenden Kategorien: {{filterNames}}",
-    "noFilterResults": "Es wurden keine passenden Assets in den folgenden Kategorien gefunden: {{filterNames}}",
-    "noSearchResults": "Keine passenden Assets gefunden für \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Es wurden keine Assets zu \"{{searchTerm}}\" in den folgenden Kategorien gefunden: {{filterNames}}",
+    "noFilterResults": "Es wurden keine Vermögenswerte gefunden, die den folgenden Kategorien entsprechen: {{filterNames}}",
+    "noSearchResults": "Keine Assets gefunden zu \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Meine Spielsteine",
       "popular": "Beliebt",
