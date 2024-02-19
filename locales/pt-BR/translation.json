@@ -1903,7 +1903,8 @@
   },
   "profileScreen": {
     "generateName": "Gerar um nome",
-    "namePlaceholder": "Selecione um nome (ex. {{exampleName}})"
+    "namePlaceholder": "Selecione um nome, como \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Personalize o {{appName}} com sua foto de perfil. Sua imagem permanece privada, nunca é compartilhada ou carregada."
   },
   "tokenBottomSheet": {
     "searchAssets": "Pesquisar ativos",
