@@ -1276,6 +1276,7 @@ interface SwapEventsProperties {
     toTokenNetworkId: string | undefined
     switchedNetworkId: boolean
     areSwapTokensShuffled: boolean
+    tokenPositionInList: number
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1294,6 +1295,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
     SwapTimeMetrics &
@@ -1306,6 +1308,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
@@ -1348,6 +1351,7 @@ interface TokenBottomSheetEventsProperties {
     usedSearchTerm: boolean
     selectedFilters: string[]
     areSwapTokensShuffled?: boolean
+    tokenPositionInList: number
   }
 }
 

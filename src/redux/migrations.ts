@@ -1576,4 +1576,8 @@ export const migrations = {
       },
     }
   },
+  191: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'walletConnectV1Enabled'),
+  }),
 }

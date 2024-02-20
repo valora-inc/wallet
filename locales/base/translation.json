@@ -1905,14 +1905,15 @@
   },
   "profileScreen": {
     "generateName": "Generate a name",
-    "namePlaceholder": "Select a name ex) {{exampleName}}"
+    "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "Search Assets",
     "noTokenInResult": "No matching results found for <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
-    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
-    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "noFilterSearchResults": "No assets found matching \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No assets found matching the following categories: {{filterNames}}",
+    "noSearchResults": "No assets found matching \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "My tokens",
       "popular": "Popular",
@@ -2087,6 +2088,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    },
+    "prepareTransactionError": {
+      "title": "Something went wrong!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {
