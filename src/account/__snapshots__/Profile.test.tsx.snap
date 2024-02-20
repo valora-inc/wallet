@@ -390,6 +390,80 @@ exports[`Profile renders correctly 1`] = `
           </Text>
         </View>
       </View>
+      <View
+        style={
+          {
+            "margin": 24,
+          }
+        }
+      >
+        <View
+          style={
+            [
+              {
+                "borderRadius": 16,
+                "padding": 16,
+              },
+              {
+                "backgroundColor": "#F8F9F9",
+              },
+              undefined,
+            ]
+          }
+        >
+          <View
+            style={
+              {
+                "flexDirection": "row",
+              }
+            }
+          >
+            <View
+              style={
+                {
+                  "paddingRight": 8,
+                  "paddingTop": 4,
+                }
+              }
+            >
+              <svg
+                fill="none"
+                height={20}
+                viewBox="0 0 16 16"
+                width={20}
+              >
+                <path
+                  d="M7.2 10.4h1.6V12H7.2v-1.6Zm0-6.4h1.6v4.8H7.2V4Zm.792-4C3.576 0 0 3.584 0 8s3.576 8 7.992 8C12.416 16 16 12.416 16 8s-3.584-8-8.008-8ZM8 14.4A6.398 6.398 0 0 1 1.6 8c0-3.536 2.864-6.4 6.4-6.4 3.536 0 6.4 2.864 6.4 6.4 0 3.536-2.864 6.4-6.4 6.4Z"
+                  fill="#2E3338"
+                />
+              </svg>
+            </View>
+            <View
+              style={
+                {
+                  "flex": 1,
+                }
+              }
+            >
+              <Text
+                style={
+                  [
+                    {
+                      "color": "#2E3338",
+                      "fontFamily": "Inter-Regular",
+                      "fontSize": 12,
+                      "letterSpacing": 0.12,
+                      "lineHeight": 18,
+                    },
+                  ]
+                }
+              >
+                profileScreen.profilePictureDisclaimer
+              </Text>
+            </View>
+          </View>
+        </View>
+      </View>
     </View>
   </RCTScrollView>
   <View

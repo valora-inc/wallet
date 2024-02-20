@@ -314,6 +314,7 @@ describe('SendEnterAmount', () => {
       tokenId: mockEthTokenId,
       origin: 'Send',
       usedSearchTerm: false,
+      tokenPositionInList: 2,
       selectedFilters: [],
     })
   })

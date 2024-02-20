@@ -1903,14 +1903,15 @@
   },
   "profileScreen": {
     "generateName": "Genera un nome",
-    "namePlaceholder": "Seleziona un nome, ad es.: {{exampleName}}"
+    "namePlaceholder": "Seleziona un nome, ad esempio \"{{exampleName}}\".",
+    "profilePictureDisclaimer": "Personalizza {{appName}} con la tua immagine del profilo. La tua immagine rimane privata, non viene mai condivisa o caricata."
   },
   "tokenBottomSheet": {
     "searchAssets": "Cerca asset",
     "noTokenInResult": "Nessun risultato corrispondente trovato per <0>\"{{searchTerm}}\"</0>.",
-    "noFilterSearchResults": "Non sono state trovate attività corrispondenti per \"{{searchTerm}}\" nelle seguenti categorie: {{filterNames}}",
-    "noFilterResults": "Non sono state trovate attività corrispondenti nelle seguenti categorie: {{filterNames}}",
-    "noSearchResults": "Nessuna corrispondenza trovata per \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Non sono state trovate attività corrispondenti a \"{{searchTerm}}\" nelle seguenti categorie: {{filterNames}}",
+    "noFilterResults": "Non sono state trovate attività corrispondenti alle seguenti categorie: {{filterNames}}",
+    "noSearchResults": "Nessuna attività trovata corrispondente a \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "I miei gettoni",
       "popular": "Popolare",
