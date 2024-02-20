@@ -1907,7 +1907,8 @@
   },
   "profileScreen": {
     "generateName": "Сгенерировать имя",
-    "namePlaceholder": "Выберите имя, например, {{exampleName}}"
+    "namePlaceholder": "Выбери имя, например, \"{{exampleName}}\".",
+    "profilePictureDisclaimer": "Настрой {{appName}} с помощью своей фотографии профиля. Твое изображение остается приватным, оно никогда не будет выложено в общий доступ или загружено."
   },
   "tokenBottomSheet": {
     "searchAssets": "Поиск актовов",
