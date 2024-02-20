@@ -3052,6 +3052,15 @@ export const v190Schema = {
   },
 }
 
+export const v191Schema = {
+  ...v190Schema,
+  _persist: {
+    ...v190Schema._persist,
+    version: 191,
+  },
+  app: _.omit(v190Schema.app, 'walletConnectV1Enabled'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v190Schema as Partial<RootState>
+  return v191Schema as Partial<RootState>
 }

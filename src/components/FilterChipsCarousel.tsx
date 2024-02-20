@@ -20,6 +20,7 @@ interface Props<T> {
   secondaryColor: colors
   style?: StyleProp<ViewStyle>
   forwardedRef?: React.RefObject<ScrollView>
+  scrollEnabled?: boolean
 }
 
 function FilterChipsCarousel<T>({
@@ -29,13 +30,15 @@ function FilterChipsCarousel<T>({
   secondaryColor,
   style,
   forwardedRef,
+  scrollEnabled = true,
 }: Props<T>) {
   return (
     <ScrollView
       horizontal={true}
+      scrollEnabled={scrollEnabled}
       showsHorizontalScrollIndicator={false}
       style={[styles.container, style]}
-      contentContainerStyle={styles.contentContainer}
+      contentContainerStyle={[styles.contentContainer, { width: scrollEnabled ? 'auto' : '100%' }]}
       ref={forwardedRef}
     >
       {chips.map((chip) => {
@@ -78,6 +81,7 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: Spacing.Thick24,
     gap: Spacing.Smallest8,
+    flexWrap: 'wrap',
   },
   filterChipBackground: {
     overflow: 'hidden',

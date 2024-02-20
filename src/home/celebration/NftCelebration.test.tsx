@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig/index'
+import { getFeatureGate } from 'src/statsig/index'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields } from 'test/values'
 import NftCelebration from './NftCelebration'
@@ -66,10 +66,6 @@ const mockStoreWithDifferentNft = {
 describe('NftCelebration', () => {
   beforeEach(() => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-    })
   })
 
   afterEach(() => {
