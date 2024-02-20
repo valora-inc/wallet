@@ -378,6 +378,7 @@ const styles = StyleSheet.create({
     top: 0,
     padding: Spacing.Thick24,
     backgroundColor: colors.white,
+    width: '100%',
   },
   tokenListContainer: {
     paddingHorizontal: Spacing.Thick24,
