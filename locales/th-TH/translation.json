@@ -2084,6 +2084,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "คุณต้องใช้อีก {{feeTokenSymbol}} สำหรับค่าก๊าซ",
       "description": "เพิ่ม {{feeTokenSymbol}} เพื่อให้เพียงพอสำหรับค่าก๊าซหรือปรับจำนวนเงินที่คุณจะส่ง"
+    },
+    "prepareTransactionError": {
+      "title": "Something went wrong!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {
