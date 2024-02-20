@@ -2084,6 +2084,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
       "description": "添加 {{feeTokenSymbol}} 来支付手续费或调整发送金额"
+    },
+    "prepareTransactionError": {
+      "title": "出错了!",
+      "description": "无法为该令牌准备交易。"
     }
   },
   "transactionFeed": {
