@@ -2086,6 +2086,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
       "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu begleichen, oder passe den Betrag an, den du senden möchtest."
+    },
+    "prepareTransactionError": {
+      "title": "Etwas ist schief gelaufen!",
+      "description": "Es war nicht möglich, eine Transaktion für diesen Token vorzubereiten."
     }
   },
   "transactionFeed": {
