@@ -48,5 +48,8 @@ export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; 
   if (sharesEthAddressLower !== torusPubKey.finalKeyData.evmAddress.toLowerCase()) {
     throw new Error('sharesEthAddressLower does not match torusPubKey')
   }
-  return shares.finalKeyData.privKey?.toString()
+  if (!shares.finalKeyData.privKey) {
+    throw new Error('private key missing from share data')
+  }
+  return shares.finalKeyData.privKey
 }
