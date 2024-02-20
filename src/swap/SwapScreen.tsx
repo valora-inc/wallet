@@ -67,6 +67,9 @@ const DEFAULT_INPUT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
+type SelectingNoUsdPriceToken = TokenBalance & {
+  tokenPositionInList: number
+}
 interface SwapState {
   fromTokenId: string | undefined
   toTokenId: string | undefined
@@ -74,7 +77,7 @@ interface SwapState {
   inputSwapAmount: SwapAmount
   updatedField: Field
   selectingField: Field | null
-  selectingNoUsdPriceToken: TokenBalance | null
+  selectingNoUsdPriceToken: SelectingNoUsdPriceToken | null
   confirmingSwap: boolean
   // Keep track of which swap is currently being executed from this screen
   // This is because there could be multiple swaps happening at the same time
@@ -130,7 +133,12 @@ const swapSlice = createSlice({
       state.selectingField = action.payload.fieldType
       state.confirmingSwap = false
     },
-    selectNoUsdPriceToken: (state, action: PayloadAction<{ token: TokenBalance }>) => {
+    selectNoUsdPriceToken: (
+      state,
+      action: PayloadAction<{
+        token: SelectingNoUsdPriceToken
+      }>
+    ) => {
       state.selectingNoUsdPriceToken = action.payload.token
     },
     unselectNoUsdPriceToken: (state) => {
@@ -440,6 +448,7 @@ export function SwapScreen({ route }: Props) {
               allowanceTarget,
             },
             userInput,
+            areSwapTokensShuffled,
           })
         )
         break
@@ -463,7 +472,7 @@ export function SwapScreen({ route }: Props) {
     })
   }
 
-  const handleConfirmSelectToken = (selectedToken: TokenBalance) => {
+  const handleConfirmSelectToken = (selectedToken: TokenBalance, tokenPositionInList: number) => {
     if (!selectingField) {
       // Should never happen
       Logger.error(TAG, 'handleSelectToken called without selectingField')
@@ -511,6 +520,7 @@ export function SwapScreen({ route }: Props) {
       toTokenNetworkId: newToToken?.networkId,
       switchedNetworkId: !!newSwitchedToNetworkId,
       areSwapTokensShuffled,
+      tokenPositionInList,
     })
 
     localDispatch(
@@ -536,7 +546,10 @@ export function SwapScreen({ route }: Props) {
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
     if (selectingNoUsdPriceToken) {
-      handleConfirmSelectToken(selectingNoUsdPriceToken)
+      handleConfirmSelectToken(
+        selectingNoUsdPriceToken,
+        selectingNoUsdPriceToken.tokenPositionInList
+      )
     }
   }
 
@@ -544,13 +557,13 @@ export function SwapScreen({ route }: Props) {
     localDispatch(unselectNoUsdPriceToken())
   }
 
-  const handleSelectToken = (selectedToken: TokenBalance) => {
+  const handleSelectToken = (selectedToken: TokenBalance, tokenPositionInList: number) => {
     if (!selectedToken.priceUsd && selectingField === Field.TO) {
-      localDispatch(selectNoUsdPriceToken({ token: selectedToken }))
+      localDispatch(selectNoUsdPriceToken({ token: { ...selectedToken, tokenPositionInList } }))
       return
     }
 
-    handleConfirmSelectToken(selectedToken)
+    handleConfirmSelectToken(selectedToken, tokenPositionInList)
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
