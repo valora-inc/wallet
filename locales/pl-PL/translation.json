@@ -1907,7 +1907,8 @@
   },
   "profileScreen": {
     "generateName": "Wygeneruj nazwę",
-    "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
+    "namePlaceholder": "Wybierz nazwę, na przykład \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Dostosuj {{appName}} za pomocą swojego zdjęcia profilowego. Twoje zdjęcie pozostaje prywatne, nigdy nie jest udostępniane ani przesyłane."
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",

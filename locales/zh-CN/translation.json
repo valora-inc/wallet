@@ -1901,7 +1901,8 @@
   },
   "profileScreen": {
     "generateName": "生成名称",
-    "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
+    "namePlaceholder": "选择一个名称，如 \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "使用您的个人照片自定义 {{appName}} 。您的图片将保持私密，不会被共享或上传。"
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",

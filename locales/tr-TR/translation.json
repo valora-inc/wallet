@@ -1903,7 +1903,8 @@
   },
   "profileScreen": {
     "generateName": "Bir isim oluşturun",
-    "namePlaceholder": "Ad örneği seçme) {{exampleName}}"
+    "namePlaceholder": "Bir ad seçin, örneğin \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "{{appName}} adresini profil resminizle özelleştirin. Resminiz gizli kalır, asla paylaşılmaz veya yüklenmez."
   },
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",

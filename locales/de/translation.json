@@ -1903,7 +1903,8 @@
   },
   "profileScreen": {
     "generateName": "Namen generieren",
-    "namePlaceholder": "Wähle einen Namen, z. B. {{exampleName}}"
+    "namePlaceholder": "Wähle einen Namen, z. B. \"{{exampleName}}\".",
+    "profilePictureDisclaimer": "Passe {{appName}} mit deinem Profilbild an. Dein Bild bleibt privat, es wird nie geteilt oder hochgeladen."
   },
   "tokenBottomSheet": {
     "searchAssets": "Vermögen suchen",

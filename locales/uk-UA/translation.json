@@ -1907,7 +1907,8 @@
   },
   "profileScreen": {
     "generateName": "Згенерувати ім'я",
-    "namePlaceholder": "Вибрати ім’я (напр.) {{exampleName}}"
+    "namePlaceholder": "Виберіть ім'я, наприклад, \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Налаштуйте {{appName}} за допомогою зображення вашого профілю. Ваше зображення залишається приватним, воно ніколи не поширюється і не завантажується."
   },
   "tokenBottomSheet": {
     "searchAssets": "Пошук активів",

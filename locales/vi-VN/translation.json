@@ -1901,7 +1901,8 @@
   },
   "profileScreen": {
     "generateName": "Tạo tên",
-    "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
+    "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "Tìm kiếm tài sản",
