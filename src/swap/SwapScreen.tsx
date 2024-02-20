@@ -326,7 +326,12 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     if (fetchSwapQuoteError) {
-      dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+      Logger.error(TAG, 'Error fetching swap quote', fetchSwapQuoteError.message)
+      if (fetchSwapQuoteError.message.includes('No quote available')) {
+        dispatch(showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS))
+      } else {
+        dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+      }
     }
   }, [fetchSwapQuoteError])
 
