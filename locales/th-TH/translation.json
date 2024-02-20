@@ -1901,7 +1901,8 @@
   },
   "profileScreen": {
     "generateName": "สร้างชื่อ",
-    "namePlaceholder": "เลือกชื่อ เช่น {{exampleName}}"
+    "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "ค้นหาสินทรัพย์",
