@@ -1901,14 +1901,15 @@
   },
   "profileScreen": {
     "generateName": "Tạo tên",
-    "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
+    "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "Tìm kiếm tài sản",
     "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
-    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
-    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "noFilterSearchResults": "No assets found matching \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No assets found matching the following categories: {{filterNames}}",
+    "noSearchResults": "No assets found matching \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "My tokens",
       "popular": "Popular",

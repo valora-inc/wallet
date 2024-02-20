@@ -106,6 +106,7 @@ const mockSwapWithFeeCurrency = (feeCurrency?: Address): PayloadAction<SwapInfo>
         allowanceTarget: mockAllowanceTarget,
         receivedAt: mockQuoteReceivedTimestamp,
       },
+      areSwapTokensShuffled: false,
     },
   }
 }
@@ -152,6 +153,7 @@ const mockSwapEthereum: PayloadAction<SwapInfo> = {
       allowanceTarget: mockAllowanceTarget,
       receivedAt: mockQuoteReceivedTimestamp,
     },
+    areSwapTokensShuffled: false,
   },
 }
 
@@ -498,6 +500,7 @@ describe(swapSubmitSaga, () => {
         swapTxGasFee: 0.00185837,
         swapTxGasFeeUsd: 0.000929185,
         swapTxHash: '0x2',
+        areSwapTokensShuffled: false,
       })
 
       const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
@@ -699,6 +702,7 @@ describe(swapSubmitSaga, () => {
       swapTxGasFee: undefined,
       swapTxGasFeeUsd: undefined,
       swapTxHash: undefined,
+      areSwapTokensShuffled: false,
     })
     const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
     expect(analyticsProps.gas).toBeCloseTo(
@@ -728,5 +732,37 @@ describe(swapSubmitSaga, () => {
       .run()
     expect(navigate).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+  })
+
+  it('should track swap result for a user in the swap tokens order holdout group', async () => {
+    jest.mocked(mockViemWallet.sendRawTransaction).mockImplementationOnce(() => {
+      throw new Error('some error')
+    })
+
+    await expectSaga(swapSubmitSaga, {
+      ...mockSwap,
+      payload: { ...mockSwap.payload, areSwapTokensShuffled: true },
+    })
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SwapEvents.swap_execute_error,
+      expect.objectContaining({ areSwapTokensShuffled: true })
+    )
+
+    await expectSaga(swapSubmitSaga, {
+      ...mockSwap,
+      payload: { ...mockSwap.payload, areSwapTokensShuffled: true },
+    })
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SwapEvents.swap_execute_success,
+      expect.objectContaining({ areSwapTokensShuffled: true })
+    )
   })
 })
