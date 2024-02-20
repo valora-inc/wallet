@@ -10,7 +10,10 @@ import {
 } from 'src/viem/preparedTransactionSerialization'
 import { SupportedActions } from 'src/walletConnect/constants'
 import { getViemWallet } from 'src/web3/contracts'
-import networkConfig, { walletConnectChainIdToNetwork } from 'src/web3/networkConfig'
+import networkConfig, {
+  networkIdToNetwork,
+  walletConnectChainIdToNetwork,
+} from 'src/web3/networkConfig'
 import { getWalletAddress, unlockAccount } from 'src/web3/saga'
 import { call } from 'typed-redux-saga'
 import { SignMessageParameters } from 'viem'
@@ -44,7 +47,7 @@ export function* handleRequest(
 
   const wallet: ViemWallet = yield* call(
     getViemWallet,
-    networkConfig.viemChain[network ?? Network.Celo]
+    networkConfig.viemChain[network ?? networkIdToNetwork[networkConfig.defaultNetworkId]]
   )
   const account = yield* call(getWalletAddress)
   yield* call(unlockAccount, account)
