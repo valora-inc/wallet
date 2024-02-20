@@ -8,7 +8,7 @@ import {
   SerializableTransactionRequest,
   getPreparedTransaction,
 } from 'src/viem/preparedTransactionSerialization'
-import { SupportedActions } from 'src/walletConnect/constants'
+import { SupportedActions, chainAgnosticActions } from 'src/walletConnect/constants'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig, {
   networkIdToNetwork,
@@ -35,12 +35,6 @@ export function* handleRequest(
   // Context
   // https://valora-app.slack.com/archives/C04B61SJ6DS/p1708336430158639?thread_ts=1708021233.998389&cid=C04B61SJ6DS
   const network: Network | undefined = walletConnectChainIdToNetwork[chainId]
-  const chainAgnosticActions = [
-    SupportedActions.eth_signTypedData,
-    SupportedActions.eth_signTypedData_v4,
-    SupportedActions.eth_sign,
-    SupportedActions.personal_sign,
-  ]
   if (!network && !chainAgnosticActions.includes(method as SupportedActions)) {
     throw new Error('unsupported network')
   }
