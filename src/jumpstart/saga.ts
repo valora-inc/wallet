@@ -45,7 +45,7 @@ export function* jumpstartClaim(privateKey: string) {
   }
 }
 
-function* dispatchPendingTransactions(transactionHashes: Hash[]) {
+export function* dispatchPendingTransactions(transactionHashes: Hash[]) {
   const networkId = networkConfig.defaultNetworkId
   const network = networkIdToNetwork[networkId]
 
