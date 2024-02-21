@@ -18,7 +18,7 @@ describe('web3 utils', () => {
     })
   })
 
-  it('getNetworkFromNetworkId', () => {
+  describe('getNetworkFromNetworkId', () => {
     it('spot checks for celo and ethereum', () => {
       // testing every case would be circular
       expect(getNetworkFromNetworkId(NetworkId['celo-mainnet'])).toEqual(Network.Celo)
