@@ -74,3 +74,5 @@ export function getDisplayTextFromAction(
 
   return translations
 }
+
+export const chainAgnosticActions: string[] = [SupportedActions.personal_sign]

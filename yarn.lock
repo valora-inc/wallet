@@ -2686,10 +2686,10 @@
     "@pnpm/resolve-workspace-range" "5.0.1"
     ramda "npm:@pnpm/ramda@0.28.1"
 
-"@react-native-async-storage/async-storage@^1.21.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.21.0.tgz#d7e370028e228ab84637016ceeb495878b7a44c8"
-  integrity sha512-JL0w36KuFHFCvnbOXRekqVAUplmOyT/OuCQkogo6X98MtpSaJOKEAeZnYO8JB0U/RIEixZaGI5px73YbRm/oag==
+"@react-native-async-storage/async-storage@^1.22.0":
+  version "1.22.1"
+  resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.22.1.tgz#0ceeadc21f12bd3b50925a7c13c1cc1c08627535"
+  integrity sha512-kLC0kREjUzXawcNFWrBXD8efBYbQq/F9pchDuUuXf6Wue9dCur9nEkjJYM1Ods81BVisPey1QVDT3qVoOYbqgQ==
   dependencies:
     merge-options "^3.0.4"
 
@@ -10247,10 +10247,10 @@ i18next@^22.5.1:
   dependencies:
     "@babel/runtime" "^7.20.6"
 
-ibantools@^4.3.9:
-  version "4.3.9"
-  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.3.9.tgz#1b3f48c4930bb1fb6516b438bc00186411321690"
-  integrity sha512-PxQuxv1vq1CgOtfBZIMThZBZEi/hFMmPiAzq4QPx2rmbrUVF/p4dFqvk9e9Z+hVXZxUmdW1cgJh21lpt1UYZzg==
+ibantools@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/ibantools/-/ibantools-4.5.0.tgz#b008423d72024e35f34c78ad882802d256fdc20a"
+  integrity sha512-Ab5DeSYzGiCmKm7Qx1FW+B6WCXQ18mfBposz4Kgx0cz6VZ9xTATdYIfjwtismovXu8vPo6aOB2fexYl6jFWwKQ==
 
 iconv-lite@0.4.24, iconv-lite@^0.4.24:
   version "0.4.24"
@@ -14961,10 +14961,10 @@ react-native-in-app-review@^4.3.3:
   resolved "https://registry.yarnpkg.com/react-native-in-app-review/-/react-native-in-app-review-4.3.3.tgz#61f09f110de18f0a470a9bb55b9f49600390085f"
   integrity sha512-Q9sXBtK8tCBYFPCGmMgeMlkxXC5e6vAyPZK26OC1oOKUuKUd0QORnryk/qbwnuN4fLshHQN8UKlLgyHLGRuK3A==
 
-react-native-keychain@^8.1.2:
-  version "8.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.1.2.tgz#34291ae472878e5124d081211af5ede7d810e64f"
-  integrity sha512-bhHEui+yMp3Us41NMoRGtnWEJiBE0g8tw5VFpq4mpmXAx6XJYahuM6K3WN5CsUeUl83hYysSL9oFZNKSTPSvYw==
+react-native-keychain@^8.1.3:
+  version "8.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-keychain/-/react-native-keychain-8.1.3.tgz#3d9ccc5e4884a59521cbf6a2a529a41314497367"
+  integrity sha512-Y4PMfY+VpXn7P1HhszJkWJ5ikKxKwg8djoDxyy7mO3jbsiWtWUtb3AGbFkdOuYaEp7lDc/TPiQgWO8yZ+AMzmw==
 
 react-native-kill-packager@^1.0.0:
   version "1.0.0"

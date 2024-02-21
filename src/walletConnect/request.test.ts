@@ -120,24 +120,8 @@ describe(handleRequest, () => {
     viemWallet = yield* getViemWallet(celoAlfajores)
   })
 
-  it('unlocks the wallet address when a MTW address is set', async () => {
-    const state = createMockStore({ web3: { account: '0xWALLET', mtwAddress: '0xMTW' } }).getState()
-    await expectSaga(handleRequest, signTransactionRequest, serializableTransactionRequest)
-      .provide([[call(getWallet), mockWallet]])
-      .withState(state)
-      .call(unlockAccount, '0xwallet')
-      .run()
-  })
-
-  it('unlocks the wallet address when a MTW address is NOT set', async () => {
-    const state = createMockStore({
-      web3: { account: '0xWALLET', mtwAddress: undefined },
-    }).getState()
-    await expectSaga(handleRequest, signTransactionRequest, serializableTransactionRequest)
-      .provide([[call(getWallet), mockWallet]])
-      .withState(state)
-      .call(unlockAccount, '0xwallet')
-      .run()
+  beforeEach(() => {
+    jest.clearAllMocks()
   })
 
   it('chooses the correct wallet for the request', async () => {
@@ -154,8 +138,13 @@ describe(handleRequest, () => {
       .run()
   })
 
-  it('supports personal_sign', async () => {
+  it('supports personal_sign, including for an unsupported chain', async () => {
     await expectSaga(handleRequest, personalSignRequest)
+      .withState(state)
+      .call([viemWallet, 'signMessage'], { message: { raw: 'Some message' } })
+      .run()
+
+    await expectSaga(handleRequest, { ...personalSignRequest, chainId: 'eip155:unsupported' })
       .withState(state)
       .call([viemWallet, 'signMessage'], { message: { raw: 'Some message' } })
       .run()
@@ -175,7 +164,7 @@ describe(handleRequest, () => {
       .run()
   })
 
-  it('supports eth_signTransaction', async () => {
+  it('supports eth_signTransaction for supported chain', async () => {
     await expectSaga(handleRequest, signTransactionRequest, serializableTransactionRequest)
       .provide([[call(getWallet), mockWallet]])
       .withState(state)
@@ -184,7 +173,22 @@ describe(handleRequest, () => {
       .run()
   })
 
-  it('supports eth_sendTransaction', async () => {
+  it('throws for a eth_signTransaction request on unsupported chain', async () => {
+    await expect(
+      async () =>
+        await expectSaga(
+          handleRequest,
+          { ...signTransactionRequest, chainId: 'eip155:unsupported' },
+          serializableTransactionRequest
+        )
+          .provide([[call(getWallet), mockWallet]])
+          .withState(state)
+          .run()
+    ).rejects.toThrow('unsupported network')
+    expect(viemWallet.signTransaction).not.toHaveBeenCalled()
+  })
+
+  it('supports eth_sendTransaction for supported chain', async () => {
     await expectSaga(handleRequest, sendTransactionRequest, serializableSendTransactionRequest)
       .provide([[call(getWallet), mockWallet]])
       .withState(state)
@@ -194,5 +198,20 @@ describe(handleRequest, () => {
         getPreparedTransaction(serializableSendTransactionRequest)
       )
       .run()
+  })
+
+  it('throws for a eth_sendTransaction request on unsupported chain', async () => {
+    await expect(
+      async () =>
+        await expectSaga(
+          handleRequest,
+          { ...sendTransactionRequest, chainId: 'eip155:unsupported' },
+          serializableSendTransactionRequest
+        )
+          .provide([[call(getWallet), mockWallet]])
+          .withState(state)
+          .run()
+    ).rejects.toThrow('unsupported network')
+    expect(viemWallet.sendTransaction).not.toHaveBeenCalled()
   })
 })
