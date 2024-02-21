@@ -13,5 +13,3 @@ export function Help({ size = 32, color = '#B4B9BD' }) {
     </Svg>
   )
 }
-
-export default React.memo(Help)
