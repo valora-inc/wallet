@@ -3061,6 +3061,18 @@ export const v191Schema = {
   app: _.omit(v190Schema.app, 'walletConnectV1Enabled'),
 }
 
+export const v192Schema = {
+  ...v191Schema,
+  _persist: {
+    ...v191Schema._persist,
+    version: 192,
+  },
+  app: _.omit(v191Schema.app, [
+    'showPriceChangeIndicatorInBalances',
+    'visualizeNFTsEnabledInHomeAssetsPage',
+  ]),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v191Schema as Partial<RootState>
+  return v192Schema as Partial<RootState>
 }

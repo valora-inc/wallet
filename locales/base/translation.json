@@ -2088,6 +2088,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "You need more {{feeTokenSymbol}} for gas",
       "description": "Add {{feeTokenSymbol}} to cover your gas fees or adjust the amount you are sending"
+    },
+    "prepareTransactionError": {
+      "title": "Something went wrong!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {

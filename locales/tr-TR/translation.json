@@ -2086,6 +2086,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
       "description": "Gas ücretlerinizi karşılamak için {{feeTokenSymbol}} ekleyin veya gönderdiğiniz tutarı ayarlayın"
+    },
+    "prepareTransactionError": {
+      "title": "Bir şeyler ters gitti!",
+      "description": "Bu token için bir işlem hazırlamak mümkün olmadı."
     }
   },
   "transactionFeed": {

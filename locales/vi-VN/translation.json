@@ -2084,6 +2084,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
       "description": "Nạp thêm {{feeTokenSymbol}} để trả phí gas hoặc điều chỉnh số tiền cần gửi"
+    },
+    "prepareTransactionError": {
+      "title": "Đã xảy ra lỗi!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {
