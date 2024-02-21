@@ -155,7 +155,7 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         ...state,
         jumpstart: {
           showLoading: false,
-          erroshowErrorr: false,
+          showError: false,
         },
       }
     case Actions.JUMPSTART_CLAIM_FAILED:
