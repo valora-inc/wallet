@@ -1,5 +1,4 @@
 import { getDynamicConfigParams } from 'src/statsig'
-import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { mockAccount, mockAccount2 } from 'test/values'
@@ -43,13 +42,15 @@ describe('jumpstartLinkHandler', () => {
   it('calls executeClaims with correct parameters', async () => {
     ;(fetchWithTimeout as jest.Mock).mockImplementation(() => ({
       ok: true,
+      json: async () => ({ transactionHash: '0xTEST' }),
     }))
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: { [networkConfig.defaultNetworkId]: { contractAddress: '0xTEST' } },
     })
 
-    await jumpstartLinkHandler(privateKey, mockAccount2)
+    const result = await jumpstartLinkHandler(privateKey, mockAccount2)
 
+    expect(result).toEqual(['0xTEST'])
     expect(fetchWithTimeout).toHaveBeenCalledTimes(1)
     expect(fetchWithTimeout).toHaveBeenCalledWith(
       `https://api.alfajores.valora.xyz/walletJumpstart?index=1&beneficiary=${mockAccount}&signature=0xweb3-signature&sendTo=${mockAccount2}&assetType=erc20`,
@@ -61,9 +62,8 @@ describe('jumpstartLinkHandler', () => {
   it('fails when contract address is not provided in dynamic config', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({})
 
-    await jumpstartLinkHandler(privateKey, mockAccount2)
-
-    expect(fetchWithTimeout).not.toHaveBeenCalled()
-    expect(Logger.error).toHaveBeenCalled()
+    await expect(jumpstartLinkHandler(privateKey, mockAccount2)).rejects.toThrow(
+      'Contract address is not provided in dynamic config'
+    )
   })
 })
