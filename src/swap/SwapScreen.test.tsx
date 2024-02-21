@@ -118,6 +118,7 @@ const mockStoreTokenBalances = {
     isSwappable: true,
     balance: '10',
     priceUsd: '1',
+    imageUrl: 'https://example.com/usdc.png',
   },
 }
 
