@@ -1912,15 +1912,15 @@
   resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-5.5.3.tgz#18e3af6b8eae7984072bbeb0c0858474d7c4cefe"
   integrity sha512-R11tGE6yIFwqpaIqcfkcg7AICXzFg14+5h5v0TfF/9+RMDL6jhzCy/pxHVOfbALGdtVYdt6JdR21tuxEgl34dw==
 
-"@fiatconnect/fiatconnect-sdk@^0.5.27":
-  version "0.5.27"
-  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.27.tgz#55848b9cc5a04b17ee979328c075f32c4cccbe3e"
-  integrity sha512-FkAiQQDQvNmyPf6IyJH0lYZ6ArWeZjMcv92V3CcKybw6C3bwWxw+9FDX4cLt6Rsq76HwmWPHin1BMFcqYNqD7A==
+"@fiatconnect/fiatconnect-sdk@^0.5.28":
+  version "0.5.28"
+  resolved "https://registry.yarnpkg.com/@fiatconnect/fiatconnect-sdk/-/fiatconnect-sdk-0.5.28.tgz#cc156be89a81dcffe3b1ddf979ffe1c33819f489"
+  integrity sha512-AzGUidhn61Rk+bQtaY07GZGCQxjhIg2Sy3/CM2ZvJvTV/vfDqpMRfnrASqsS/z4X4Mfv3guCbytg4oznkrVufQ==
   dependencies:
     "@badrap/result" "^0.2.13"
     "@fiatconnect/fiatconnect-types" "^13.3.0"
     cross-fetch "^4.0.0"
-    ethers "^6.11.0"
+    ethers "^6.11.1"
     fetch-cookie "^2.2.0"
     siwe "^2.1.4"
     tough-cookie "^4.0.0"
@@ -8840,7 +8840,7 @@ ethers@^5.0.13, ethers@^5.5.4, ethers@^5.7.2:
     "@ethersproject/web" "5.7.1"
     "@ethersproject/wordlists" "5.7.0"
 
-ethers@^6.11.0:
+ethers@^6.11.1:
   version "6.11.1"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-6.11.1.tgz#96aae00b627c2e35f9b0a4d65c7ab658259ee6af"
   integrity sha512-mxTAE6wqJQAbp5QAe/+o+rXOID7Nw91OZXvgpjDa1r4fAbq2Nu314oEZSbjoRLacuCzs7kUC3clEvkCQowffGg==
