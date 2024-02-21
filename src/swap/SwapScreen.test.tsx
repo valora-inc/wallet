@@ -950,6 +950,24 @@ describe('SwapScreen', () => {
     )
   })
 
+  it('should display an unsupported error banner if quote is not available', async () => {
+    mockFetch.mockReject(new Error('No quote available'))
+
+    const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS)])
+    )
+  })
+
   it('should be able to start a swap', async () => {
     const quoteReceivedTimestamp = 1000
     jest.spyOn(Date, 'now').mockReturnValue(quoteReceivedTimestamp) // quote received timestamp
