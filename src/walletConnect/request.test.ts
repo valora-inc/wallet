@@ -188,7 +188,7 @@ describe(handleRequest, () => {
     expect(viemWallet.signTransaction).not.toHaveBeenCalled()
   })
 
-  it('supports eth_sendTransaction', async () => {
+  it('supports eth_sendTransaction for supported chain', async () => {
     await expectSaga(handleRequest, sendTransactionRequest, serializableSendTransactionRequest)
       .provide([[call(getWallet), mockWallet]])
       .withState(state)
