@@ -13,3 +13,5 @@ export function Help() {
     </Svg>
   )
 }
+
+export default React.memo(Help)
