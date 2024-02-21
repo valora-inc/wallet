@@ -120,7 +120,9 @@ export function* appInit() {
   const allowOtaTranslations = yield* select(allowOtaTranslationsSelector)
   const otaTranslationsAppVersion = yield* select(otaTranslationsAppVersionSelector)
   const language = yield* select(currentLanguageSelector)
-  const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
+  const bestLanguage = !isE2EEnv
+    ? findBestAvailableLanguage(Object.keys(locales))?.languageTag
+    : 'en-US'
 
   yield* all([
     call(initializeSentry),
