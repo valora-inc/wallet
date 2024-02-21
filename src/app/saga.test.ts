@@ -70,7 +70,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockTokenBalances } from 'test/values'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -267,6 +267,13 @@ describe('handleDeepLink', () => {
   it('Handles jumpstart links', async () => {
     const deepLink = 'celo://wallet/jumpstart/0xPrivateKey'
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .withState(
+        createMockStore({
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        }).getState()
+      )
       .provide([[select(walletAddressSelector), '0xwallet']])
       .run()
 
