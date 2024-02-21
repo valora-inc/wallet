@@ -23,7 +23,6 @@ import Dialog from 'src/components/Dialog'
 import { formatValueToDisplay } from 'src/components/TokenDisplay'
 import Touchable from 'src/components/Touchable'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
-import { isE2EEnv } from 'src/config'
 import { refreshAllBalances } from 'src/home/actions'
 import EyeIcon from 'src/icons/EyeIcon'
 import HiddenEyeIcon from 'src/icons/HiddenEyeIcon'
@@ -147,7 +146,7 @@ function useErrorMessageWithRefresh() {
   const shouldShowError = tokensInfoUnavailable && (tokenFetchError || localCurrencyError)
 
   useEffect(() => {
-    if (shouldShowError && !isE2EEnv) {
+    if (shouldShowError) {
       dispatch(
         showToast(
           t('outOfSyncBanner.message'),
