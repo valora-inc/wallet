@@ -2086,6 +2086,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
       "description": "Deposita {{feeTokenSymbol}} para cubrir los las tarifas de transacción o ajusta el monto a enviar"
+    },
+    "prepareTransactionError": {
+      "title": "Algo salió mal!",
+      "description": "No fue posible preparar una transacción para este token."
     }
   },
   "transactionFeed": {
