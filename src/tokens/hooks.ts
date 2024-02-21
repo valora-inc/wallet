@@ -16,7 +16,7 @@ import {
   tokensByIdSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
-  tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
+  tokensWithNonZeroBalance,
   tokensWithTokenBalanceSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
@@ -58,9 +58,7 @@ export function useTokensWithTokenBalance() {
 
 export function useTokensForSend() {
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  return useSelector((state) =>
-    tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
-  )
+  return useSelector((state) => tokensWithNonZeroBalance(state, supportedNetworkIds, false))
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
@@ -101,7 +99,6 @@ export function useSwappableTokens() {
   const swappableFromTokens = useSelector((state) =>
     swappableFromTokensByNetworkIdSelector(state, networkIdsForSwap)
   )
-
   const swappableToTokens = useSelector((state) =>
     swappableToTokensByNetworkIdSelector(state, networkIdsForSwap)
   )

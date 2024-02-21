@@ -372,7 +372,7 @@ describe('TokenDetails', () => {
       </Provider>
     )
 
-    expect(queryByTestId('TokenDetails/Action/Send')).toBeTruthy()
+    expect(queryByTestId('TokenDetails/Action/Send')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(getByTestId('TokenDetails/Action/Add')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
@@ -480,7 +480,7 @@ describe('TokenDetails', () => {
       </Provider>
     )
 
-    expect(queryByTestId('TokenDetails/Action/Send')).toBeTruthy()
+    expect(queryByTestId('TokenDetails/Action/Send')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Add')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()

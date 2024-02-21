@@ -400,11 +400,16 @@ export const spendTokensByNetworkIdSelector = createSelector(
   (tokens) => tokens.filter((tokenInfo) => networkConfig.spendTokenIds.includes(tokenInfo.tokenId))
 )
 
-export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector(
+export const tokensWithNonZeroBalance = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
-  (tokens) =>
+  (_state: RootState, _networkIds: NetworkId[], showZeroBalanceTokens: boolean) =>
+    showZeroBalanceTokens,
+  (tokens, showZeroBalance) =>
     tokens
-      .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
+      .filter(
+        (tokenInfo) =>
+          tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || (showZeroBalance && tokenInfo.showZeroBalance)
+      )
       .sort((token1, token2) => {
         // Sorts by usd balance, then token balance, then zero balance natives by
         // network id, then zero balance non natives by network id
