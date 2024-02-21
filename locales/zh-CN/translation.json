@@ -1901,14 +1901,15 @@
   },
   "profileScreen": {
     "generateName": "生成名称",
-    "namePlaceholder": "选择一个名称，例如 {{exampleName}}"
+    "namePlaceholder": "选择一个名称，如 \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "使用您的个人照片自定义 {{appName}} 。您的图片将保持私密，不会被共享或上传。"
   },
   "tokenBottomSheet": {
     "searchAssets": "搜索资产",
     "noTokenInResult": "没有找到 <0>\"{{searchTerm}}\"</0> 的匹配结果。",
     "noFilterSearchResults": "在以下类别中没有找到与 \"{{searchTerm}}\" 匹配的资产： {{filterNames}}",
-    "noFilterResults": "在以下类别中没有找到匹配的资产： {{filterNames}}",
-    "noSearchResults": "没有找到与 \"{{searchTerm}}\" 匹配的资产",
+    "noFilterResults": "未找到与以下类别匹配的资产： {{filterNames}}",
+    "noSearchResults": "未找到与 \"{{searchTerm}}\" 匹配的资产",
     "filters": {
       "myTokens": "我的代币",
       "popular": "热门",
@@ -2083,6 +2084,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "您需要更多 {{feeTokenSymbol}} 来支付手续费",
       "description": "添加 {{feeTokenSymbol}} 来支付手续费或调整发送金额"
+    },
+    "prepareTransactionError": {
+      "title": "出错了!",
+      "description": "无法为该令牌准备交易。"
     }
   },
   "transactionFeed": {

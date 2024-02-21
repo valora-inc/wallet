@@ -174,7 +174,6 @@ describe('store state', () => {
           "superchargeApy": 12,
           "superchargeTokenConfigByToken": {},
           "supportedBiometryType": null,
-          "walletConnectV1Enabled": true,
           "walletConnectV2Enabled": true,
         },
         "dapps": {

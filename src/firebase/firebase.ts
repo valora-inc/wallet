@@ -317,7 +317,6 @@ export async function fetchRemoteConfigValues(): Promise<RemoteConfigValues | nu
     celoEducationUri: flags.celoEducationUri?.asString() ?? null,
     dappListApiUrl: flags.dappListApiUrl?.asString() ?? null,
     inviteRewardsVersion: flags.inviteRewardsVersion.asString(),
-    walletConnectV1Enabled: flags.walletConnectV1Enabled.asBoolean(),
     walletConnectV2Enabled: flags.walletConnectV2Enabled.asBoolean(),
     superchargeApy: flags.superchargeApy.asNumber(),
     superchargeTokenConfigByToken: superchargeConfigByTokenString

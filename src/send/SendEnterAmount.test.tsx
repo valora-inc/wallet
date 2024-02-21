@@ -102,6 +102,7 @@ describe('SendEnterAmount', () => {
       prepareTransactionsResult: undefined,
       refreshPreparedTransactions: jest.fn(),
       clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
     }
     jest
       .mocked(getSupportedNetworkIdsForSend)
@@ -313,6 +314,7 @@ describe('SendEnterAmount', () => {
       tokenId: mockEthTokenId,
       origin: 'Send',
       usedSearchTerm: false,
+      tokenPositionInList: 2,
       selectedFilters: [],
     })
   })

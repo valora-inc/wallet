@@ -3160,9 +3160,6 @@
                         }
                     ]
                 },
-                "walletConnectV1Enabled": {
-                    "type": "boolean"
-                },
                 "walletConnectV2Enabled": {
                     "type": "boolean"
                 }
@@ -3205,7 +3202,6 @@
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
-                "walletConnectV1Enabled",
                 "walletConnectV2Enabled"
             ],
             "type": "object"
