@@ -1,3 +1,4 @@
+import { FetchMock } from 'jest-fetch-mock'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
@@ -18,6 +19,7 @@ import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 
 const now = Date.now()
 Date.now = jest.fn(() => now)
+const mockFetch = fetch as FetchMock
 
 describe(watchFetchCurrentRate, () => {
   beforeAll(() => {
@@ -65,5 +67,18 @@ describe(watchSelectPreferredCurrency, () => {
       .put(fetchCurrentRate())
       .dispatch(selectPreferredCurrency(LocalCurrencyCode.PHP))
       .run()
+  })
+})
+
+describe(fetchExchangeRate, () => {
+  it('does not fetch when the local currency code is the same as source currency code', async () => {
+    await fetchExchangeRate(LocalCurrencyCode.USD, LocalCurrencyCode.USD)
+    expect(mockFetch).not.toHaveBeenCalled()
+  })
+
+  it('fetches the exchange rate and returns it', async () => {
+    mockFetch.mockResponseOnce(JSON.stringify({ data: { currencyConversion: { rate: 1.33 } } }))
+    await fetchExchangeRate(LocalCurrencyCode.PHP, LocalCurrencyCode.USD)
+    expect(mockFetch).toHaveBeenCalled()
   })
 })

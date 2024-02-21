@@ -2086,6 +2086,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
       "description": "Ajoutez {{feeTokenSymbol}} pour couvrir vos frais de gas ou modifiez le montant que vous envoyez"
+    },
+    "prepareTransactionError": {
+      "title": "Une erreur s'est produite!",
+      "description": "Il n'a pas été possible de préparer une transaction pour ce jeton."
     }
   },
   "transactionFeed": {
