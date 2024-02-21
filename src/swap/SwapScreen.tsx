@@ -629,6 +629,7 @@ export function SwapScreen({ route }: Props) {
   }, [fromToken, quote])
 
   useEffect(() => {
+    console.log('DIEGOOOO', showPriceImpactWarning, showMissingPriceImpactWarning)
     if (showPriceImpactWarning || showMissingPriceImpactWarning) {
       if (!quote) {
         return

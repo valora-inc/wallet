@@ -594,9 +594,11 @@ describe('SwapScreen', () => {
         toToken: mockCusdAddress,
         toTokenId: mockCusdTokenId,
         toTokenNetworkId: NetworkId['celo-alfajores'],
+        toTokenIsImported: false,
         fromToken: mockCeloAddress,
         fromTokenId: mockCeloTokenId,
         fromTokenNetworkId: NetworkId['celo-alfajores'],
+        fromTokenIsImported: false,
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: '5.2',
@@ -660,9 +662,11 @@ describe('SwapScreen', () => {
         toToken: mockCusdAddress,
         toTokenId: mockCusdTokenId,
         toTokenNetworkId: NetworkId['celo-alfajores'],
+        toTokenIsImported: false,
         fromToken: mockCeloAddress,
         fromTokenId: mockCeloTokenId,
         fromTokenNetworkId: NetworkId['celo-alfajores'],
+        fromTokenIsImported: false,
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: null,
@@ -928,7 +932,7 @@ describe('SwapScreen', () => {
   })
 
   it('should display an error banner if api request fails', async () => {
-    mockFetch.mockReject()
+    mockFetch.mockReject(new Error('Failed to fetch'))
 
     const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
 
@@ -1106,9 +1110,11 @@ describe('SwapScreen', () => {
       toToken: mockCusdAddress,
       toTokenId: mockCusdTokenId,
       toTokenNetworkId: NetworkId['celo-alfajores'],
+      toTokenIsImported: false,
       fromToken: mockCeloAddress,
       fromTokenId: mockCeloTokenId,
       fromTokenNetworkId: NetworkId['celo-alfajores'],
+      fromTokenIsImported: false,
       amount: '10',
       amountType: 'sellAmount',
       allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
