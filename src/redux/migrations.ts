@@ -474,8 +474,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      showPriceChangeIndicatorInBalances:
-        REMOTE_CONFIG_VALUES_DEFAULTS.showPriceChangeIndicatorInBalances,
+      showPriceChangeIndicatorInBalances: false,
     },
   }),
   38: (state: any) => ({
@@ -696,8 +695,7 @@ export const migrations = {
     ...state,
     app: {
       ...state.app,
-      visualizeNFTsEnabledInHomeAssetsPage:
-        REMOTE_CONFIG_VALUES_DEFAULTS.visualizeNFTsEnabledInHomeAssetsPage,
+      visualizeNFTsEnabledInHomeAssetsPage: false,
     },
   }),
   58: (state: any) => ({
@@ -1579,5 +1577,12 @@ export const migrations = {
   191: (state: any) => ({
     ...state,
     app: _.omit(state.app, 'walletConnectV1Enabled'),
+  }),
+  192: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, [
+      'showPriceChangeIndicatorInBalances',
+      'visualizeNFTsEnabledInHomeAssetsPage',
+    ]),
   }),
 }
