@@ -8,6 +8,7 @@ import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import { lastSwappedSelector } from 'src/swap/selectors'
 import { Field } from 'src/swap/types'
+import { useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
@@ -16,6 +17,7 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
   const { t } = useTranslation()
   const showSwapTokenFilters = getFeatureGate(StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS)
   const recentlySwappedTokens = useSelector(lastSwappedSelector)
+  const tokensWithBalance = useTokensWithTokenBalance()
   const popularTokenIds: string[] = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.SWAP_CONFIG]
   ).popularTokenIds
@@ -44,7 +46,7 @@ export default function useFilterChip(selectingField: Field | null): FilterChip<
       id: 'my-tokens',
       name: t('tokenBottomSheet.filters.myTokens'),
       filterFn: (token: TokenBalance) => token.balance.gte(TOKEN_MIN_AMOUNT),
-      isSelected: true,
+      isSelected: selectingField === Field.FROM && tokensWithBalance.length > 0,
     },
     {
       id: 'popular',

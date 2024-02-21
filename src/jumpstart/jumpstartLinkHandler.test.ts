@@ -1,6 +1,7 @@
 import { getDynamicConfigParams } from 'src/statsig'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import networkConfig from 'src/web3/networkConfig'
 import { mockAccount, mockAccount2 } from 'test/values'
 import { jumpstartLinkHandler } from './jumpstartLinkHandler'
 
@@ -43,7 +44,9 @@ describe('jumpstartLinkHandler', () => {
     ;(fetchWithTimeout as jest.Mock).mockImplementation(() => ({
       ok: true,
     }))
-    jest.mocked(getDynamicConfigParams).mockReturnValue({ celo: { contractAddress: '0xTEST' } })
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: { [networkConfig.defaultNetworkId]: { contractAddress: '0xTEST' } },
+    })
 
     await jumpstartLinkHandler(privateKey, mockAccount2)
 

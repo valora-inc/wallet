@@ -13,6 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput from 'src/components/TextInput'
@@ -25,6 +26,7 @@ import { StackParamList } from 'src/navigator/types'
 import PictureInput from 'src/onboarding/registration/PictureInput'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import { saveProfilePicture } from 'src/utils/image'
 import Logger from 'src/utils/Logger'
 
@@ -106,6 +108,12 @@ function Profile({ navigation, route }: Props) {
             <Text style={styles.saveButton}>{t('save')}</Text>
           </Touchable>
         </View>
+        <View style={styles.disclaimerContainer}>
+          <InLineNotification
+            severity={Severity.Informational}
+            description={t('profileScreen.profilePictureDisclaimer')}
+          />
+        </View>
       </KeyboardAwareScrollView>
       <KeyboardSpacer />
     </SafeAreaView>
@@ -152,5 +160,8 @@ const styles = StyleSheet.create({
   saveButton: {
     ...fontStyles.regular,
     color: colors.primary,
+  },
+  disclaimerContainer: {
+    margin: Spacing.Thick24,
   },
 })

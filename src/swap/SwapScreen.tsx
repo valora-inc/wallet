@@ -67,6 +67,9 @@ const DEFAULT_INPUT_SWAP_AMOUNT: SwapAmount = {
   [Field.TO]: '',
 }
 
+type SelectingNoUsdPriceToken = TokenBalance & {
+  tokenPositionInList: number
+}
 interface SwapState {
   fromTokenId: string | undefined
   toTokenId: string | undefined
@@ -74,7 +77,7 @@ interface SwapState {
   inputSwapAmount: SwapAmount
   updatedField: Field
   selectingField: Field | null
-  selectingNoUsdPriceToken: TokenBalance | null
+  selectingNoUsdPriceToken: SelectingNoUsdPriceToken | null
   confirmingSwap: boolean
   // Keep track of which swap is currently being executed from this screen
   // This is because there could be multiple swaps happening at the same time
@@ -130,7 +133,12 @@ const swapSlice = createSlice({
       state.selectingField = action.payload.fieldType
       state.confirmingSwap = false
     },
-    selectNoUsdPriceToken: (state, action: PayloadAction<{ token: TokenBalance }>) => {
+    selectNoUsdPriceToken: (
+      state,
+      action: PayloadAction<{
+        token: SelectingNoUsdPriceToken
+      }>
+    ) => {
       state.selectingNoUsdPriceToken = action.payload.token
     },
     unselectNoUsdPriceToken: (state) => {
@@ -215,7 +223,12 @@ type Props = NativeStackScreenProps<StackParamList, Screens.SwapScreenWithBack>
 export function SwapScreen({ route }: Props) {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetFromRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetToRef = useRef<BottomSheetRefType>(null)
+  const tokenBottomSheetRefs = {
+    [Field.FROM]: tokenBottomSheetFromRef,
+    [Field.TO]: tokenBottomSheetToRef,
+  }
   const preparedTransactionsReviewBottomSheetRef = useRef<BottomSheetRefType>(null)
   const networkFeeInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
   const slippageInfoBottomSheetRef = useRef<BottomSheetRefType>(null)
@@ -254,7 +267,8 @@ export function SwapScreen({ route }: Props) {
     startedSwapId,
   } = state
 
-  const filterChips = useFilterChips(selectingField)
+  const filterChipsFrom = useFilterChips(Field.FROM)
+  const filterChipsTo = useFilterChips(Field.TO)
 
   const { fromToken, toToken } = useMemo(() => {
     const fromToken = swappableFromTokens.find((token) => token.tokenId === fromTokenId)
@@ -434,6 +448,7 @@ export function SwapScreen({ route }: Props) {
               allowanceTarget,
             },
             userInput,
+            areSwapTokensShuffled,
           })
         )
         break
@@ -453,11 +468,11 @@ export function SwapScreen({ route }: Props) {
     // bottom sheet (which depends on selectingField) does not change on the
     // screen
     requestAnimationFrame(() => {
-      tokenBottomSheetRef.current?.snapToIndex(0)
+      tokenBottomSheetRefs[fieldType].current?.snapToIndex(0)
     })
   }
 
-  const handleConfirmSelectToken = (selectedToken: TokenBalance) => {
+  const handleConfirmSelectToken = (selectedToken: TokenBalance, tokenPositionInList: number) => {
     if (!selectingField) {
       // Should never happen
       Logger.error(TAG, 'handleSelectToken called without selectingField')
@@ -505,6 +520,7 @@ export function SwapScreen({ route }: Props) {
       toTokenNetworkId: newToToken?.networkId,
       switchedNetworkId: !!newSwitchedToNetworkId,
       areSwapTokensShuffled,
+      tokenPositionInList,
     })
 
     localDispatch(
@@ -524,13 +540,16 @@ export function SwapScreen({ route }: Props) {
     // without this, the keyboard animation lags behind the state updates while
     // the bottom sheet does not
     requestAnimationFrame(() => {
-      tokenBottomSheetRef.current?.close()
+      tokenBottomSheetRefs[selectingField].current?.close()
     })
   }
 
   const handleConfirmSelectTokenNoUsdPrice = () => {
     if (selectingNoUsdPriceToken) {
-      handleConfirmSelectToken(selectingNoUsdPriceToken)
+      handleConfirmSelectToken(
+        selectingNoUsdPriceToken,
+        selectingNoUsdPriceToken.tokenPositionInList
+      )
     }
   }
 
@@ -538,13 +557,13 @@ export function SwapScreen({ route }: Props) {
     localDispatch(unselectNoUsdPriceToken())
   }
 
-  const handleSelectToken = (selectedToken: TokenBalance) => {
+  const handleSelectToken = (selectedToken: TokenBalance, tokenPositionInList: number) => {
     if (!selectedToken.priceUsd && selectingField === Field.TO) {
-      localDispatch(selectNoUsdPriceToken({ token: selectedToken }))
+      localDispatch(selectNoUsdPriceToken({ token: { ...selectedToken, tokenPositionInList } }))
       return
     }
 
-    handleConfirmSelectToken(selectedToken)
+    handleConfirmSelectToken(selectedToken, tokenPositionInList)
   }
 
   const handleChangeAmount = (fieldType: Field) => (value: string) => {
@@ -630,6 +649,23 @@ export function SwapScreen({ route }: Props) {
       })
     }
   }, [showPriceImpactWarning || showMissingPriceImpactWarning])
+
+  const tokenBottomSheetsConfig = [
+    {
+      fieldType: Field.FROM,
+      tokens: swappableFromTokens,
+      title: t('swapScreen.swapFromTokenSelection'),
+      filterChips: filterChipsFrom,
+      origin: TokenPickerOrigin.SwapFrom,
+    },
+    {
+      fieldType: Field.TO,
+      tokens: swappableToTokens,
+      title: t('swapScreen.swapToTokenSelection'),
+      filterChips: filterChipsTo,
+      origin: TokenPickerOrigin.SwapTo,
+    },
+  ]
 
   return (
     <SafeAreaView style={styles.safeAreaContainer} testID="SwapScreen">
@@ -762,23 +798,22 @@ export function SwapScreen({ route }: Props) {
           showLoading={confirmSwapIsLoading}
         />
       </ScrollView>
-      <TokenBottomSheet
-        forwardedRef={tokenBottomSheetRef}
-        snapPoints={['90%']}
-        origin={TokenPickerOrigin.Swap}
-        onTokenSelected={handleSelectToken}
-        searchEnabled={true}
-        tokens={selectingField == Field.FROM ? swappableFromTokens : swappableToTokens}
-        title={
-          selectingField == Field.FROM
-            ? t('swapScreen.swapFromTokenSelection')
-            : t('swapScreen.swapToTokenSelection')
-        }
-        TokenOptionComponent={TokenBalanceItemOption}
-        showPriceUsdUnavailableWarning={true}
-        filterChips={filterChips}
-        areSwapTokensShuffled={areSwapTokensShuffled}
-      />
+      {tokenBottomSheetsConfig.map(({ fieldType, tokens, title, filterChips, origin }) => (
+        <TokenBottomSheet
+          key={`TokenBottomSheet/${fieldType}`}
+          forwardedRef={tokenBottomSheetRefs[fieldType]}
+          tokens={tokens}
+          title={title}
+          filterChips={filterChips}
+          origin={origin}
+          snapPoints={['90%']}
+          onTokenSelected={handleSelectToken}
+          searchEnabled={true}
+          TokenOptionComponent={TokenBalanceItemOption}
+          showPriceUsdUnavailableWarning={true}
+          areSwapTokensShuffled={areSwapTokensShuffled}
+        />
+      ))}
       {quote?.preparedTransactions && (
         <PreparedTransactionsReviewBottomSheet
           forwardedRef={preparedTransactionsReviewBottomSheetRef}
@@ -815,7 +850,7 @@ export function SwapScreen({ route }: Props) {
       <BottomSheet
         forwardedRef={slippageInfoBottomSheetRef}
         description={t('swapScreen.transactionDetails.slippageToleranceInfo')}
-        testId="NetworkFeeInfoBottomSheet"
+        testId="SlippageInfoBottomSheet"
       >
         <Button
           type={BtnTypes.SECONDARY}
