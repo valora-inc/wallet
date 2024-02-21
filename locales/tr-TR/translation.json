@@ -1903,14 +1903,15 @@
   },
   "profileScreen": {
     "generateName": "Bir isim oluşturun",
-    "namePlaceholder": "Ad örneği seçme) {{exampleName}}"
+    "namePlaceholder": "Bir ad seçin, örneğin \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "{{appName}} adresini profil resminizle özelleştirin. Resminiz gizli kalır, asla paylaşılmaz veya yüklenmez."
   },
   "tokenBottomSheet": {
     "searchAssets": "Varlıkları Ara",
     "noTokenInResult": "<0>\"{{searchTerm}}\"</0> için eşleşen sonuç bulunamadı",
-    "noFilterSearchResults": "\"{{searchTerm}}\" için aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
-    "noFilterResults": "Aşağıdaki kategorilerde eşleşen varlık bulunamadı: {{filterNames}}",
-    "noSearchResults": "\"{{searchTerm}}\" için eşleşen varlık bulunamadı",
+    "noFilterSearchResults": "Aşağıdaki kategorilerde \"{{searchTerm}}\" ile eşleşen hiçbir varlık bulunamadı: {{filterNames}}",
+    "noFilterResults": "Aşağıdaki kategorilerle eşleşen varlık bulunamadı: {{filterNames}}",
+    "noSearchResults": "\"{{searchTerm}}\" ile eşleşen varlık bulunamadı",
     "filters": {
       "myTokens": "Jetonlarım",
       "popular": "Popüler",
@@ -2085,6 +2086,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Gas için daha fazla {{feeTokenSymbol}} bakiyesine ihtiyacınız var",
       "description": "Gas ücretlerinizi karşılamak için {{feeTokenSymbol}} ekleyin veya gönderdiğiniz tutarı ayarlayın"
+    },
+    "prepareTransactionError": {
+      "title": "Bir şeyler ters gitti!",
+      "description": "Bu token için bir işlem hazırlamak mümkün olmadı."
     }
   },
   "transactionFeed": {

@@ -56,6 +56,7 @@ export interface SwapInfo {
     estimatedPriceImpact: string | null
     allowanceTarget: string
   }
+  areSwapTokensShuffled: boolean
 }
 
 export interface FetchQuoteResponse {
