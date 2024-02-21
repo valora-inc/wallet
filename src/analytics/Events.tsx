@@ -636,3 +636,9 @@ export enum TransactionDetailsEvents {
   transaction_details_tap_retry = 'transaction_details_tap_retry',
   transaction_details_tap_block_explorer = 'transaction_details_tap_block_explorer',
 }
+
+export enum JumpstartEvents {
+  jumpstart_started = 'jumpstart_started',
+  jumpstart_succeeded = 'jumpstart_succeeded',
+  jumpstart_failed = 'jumpstart_failed',
+}

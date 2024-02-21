@@ -24,6 +24,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  JumpstartEvents,
   KeylessBackupEvents,
   NavigationEvents,
   NftEvents,
@@ -1485,6 +1486,12 @@ interface TransactionDetailsProperties {
   }
 }
 
+interface WalletJumpstartProperties {
+  [JumpstartEvents.jumpstart_started]: undefined
+  [JumpstartEvents.jumpstart_succeeded]: undefined
+  [JumpstartEvents.jumpstart_failed]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1518,6 +1525,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  WalletJumpstartProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

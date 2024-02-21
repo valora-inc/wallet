@@ -41,6 +41,13 @@ export type PendingStandbyApproval = {
   feeCurrencyId?: string
 } & Omit<TokenApproval, 'block' | 'fees' | 'transactionHash' | 'status'>
 
+export type PendingStandbyNFTTransfer = {
+  transactionHash?: string
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+} & Omit<NftTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
+
 export type ConfirmedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>

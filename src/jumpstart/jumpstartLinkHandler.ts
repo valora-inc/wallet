@@ -9,17 +9,20 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getWeb3Async } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getContract } from 'src/web3/utils'
+import { Hash } from 'viem'
 
 const TAG = 'WalletJumpstart'
 
-export async function jumpstartLinkHandler(privateKey: string, userAddress: string) {
+export async function jumpstartLinkHandler(
+  privateKey: string,
+  userAddress: string
+): Promise<Hash[]> {
   const contractAddress = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
   ).jumpstartContracts?.[networkConfig.defaultNetworkId]?.contractAddress
 
   if (!contractAddress) {
-    Logger.error(TAG, 'Contract address is not provided in dynamic config')
-    return
+    throw new Error('Contract address is not provided in dynamic config')
   }
 
   const kit = newKitFromWeb3(await getWeb3Async())
@@ -29,8 +32,16 @@ export async function jumpstartLinkHandler(privateKey: string, userAddress: stri
 
   const jumpstart: Contract = await getContract(jumpstartAbi, contractAddress)
 
-  await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey)
-  await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey)
+  const transactionHashes = [
+    ...(await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey)),
+    ...(await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey)),
+  ]
+
+  if (transactionHashes.length === 0) {
+    throw new Error('Failed to claim any jumpstart reward')
+  }
+
+  return transactionHashes
 }
 
 export async function executeClaims(
@@ -40,8 +51,9 @@ export async function executeClaims(
   userAddress: string,
   assetType: 'erc20' | 'erc721',
   privateKey: string
-) {
+): Promise<Hash[]> {
   let index = 0
+  const transactionHashes: Hash[] = []
   while (true) {
     try {
       const info =
@@ -64,13 +76,17 @@ export async function executeClaims(
 
       const { signature } = await kit.web3.eth.accounts.sign(messageHash, privateKey)
 
-      await claimReward({
+      const { transactionHash } = await claimReward({
         index: index.toString(),
         beneficiary,
         signature,
         sendTo: userAddress,
         assetType,
       })
+
+      if (transactionHash) {
+        transactionHashes.push(transactionHash)
+      }
     } catch (error: any) {
       if (error.message === 'execution reverted') {
         // This happens when using an index that doesn't exist.
@@ -83,7 +99,7 @@ export async function executeClaims(
       } else {
         Logger.error(TAG, 'Error claiming jumpstart reward', error)
       }
-      return
+      return transactionHashes
     } finally {
       index++
     }
@@ -107,4 +123,5 @@ export async function claimReward(rewardInfo: RewardInfo) {
       `Failure response claiming wallet jumpstart reward. ${response.status}  ${response.statusText}`
     )
   }
+  return response.json()
 }

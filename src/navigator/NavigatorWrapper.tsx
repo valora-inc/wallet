@@ -15,6 +15,7 @@ import { getAppLocked } from 'src/app/selectors'
 import UpgradeScreen from 'src/app/UpgradeScreen'
 import { useDeepLinks } from 'src/app/useDeepLinks'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
+import JumpstartToasts from 'src/jumpstart/JumpstartToasts'
 import {
   navigateClearingStack,
   navigationRef,
@@ -176,6 +177,7 @@ export const NavigatorWrapper = () => {
         )}
         <AlertBanner />
         <ShakeForSupport />
+        <JumpstartToasts />
       </View>
     </NavigationContainer>
   )

@@ -54,7 +54,7 @@ import {
 } from 'src/i18n/selectors'
 import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
-import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
+import { jumpstartClaim } from 'src/jumpstart/saga'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -298,12 +298,6 @@ export function* handleDeepLink(action: OpenDeepLink) {
   const { isSecureOrigin } = action
   Logger.debug(TAG, 'Handling deep link', deepLink)
 
-  const walletAddress = yield* select(walletAddressSelector)
-  if (!walletAddress) {
-    Logger.error(TAG, 'No wallet address found in store. This should never happen.')
-    return
-  }
-
   if (isWalletConnectDeepLink(deepLink)) {
     yield* call(handleWalletConnectDeepLink, deepLink)
     return
@@ -359,7 +353,7 @@ export function* handleDeepLink(action: OpenDeepLink) {
       })
     } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
       const privateKey = pathParts[2]
-      yield* call(jumpstartLinkHandler, privateKey, walletAddress)
+      yield* call(jumpstartClaim, privateKey)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&
       rawParams.pathname === '/hooks/enablePreview'
