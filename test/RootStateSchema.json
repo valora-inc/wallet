@@ -3132,9 +3132,6 @@
                 "showNotificationSpotlight": {
                     "type": "boolean"
                 },
-                "showPriceChangeIndicatorInBalances": {
-                    "type": "boolean"
-                },
                 "showSwapMenuInDrawerMenu": {
                     "type": "boolean"
                 },
@@ -3163,9 +3160,6 @@
                             "type": "null"
                         }
                     ]
-                },
-                "visualizeNFTsEnabledInHomeAssetsPage": {
-                    "type": "boolean"
                 },
                 "walletConnectV2Enabled": {
                     "type": "boolean"
@@ -3204,13 +3198,11 @@
                 "sentryTracesSampleRate",
                 "sessionId",
                 "showNotificationSpotlight",
-                "showPriceChangeIndicatorInBalances",
                 "showSwapMenuInDrawerMenu",
                 "skipVerification",
                 "superchargeApy",
                 "superchargeTokenConfigByToken",
                 "supportedBiometryType",
-                "visualizeNFTsEnabledInHomeAssetsPage",
                 "walletConnectV2Enabled"
             ],
             "type": "object"

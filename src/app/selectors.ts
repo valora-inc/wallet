@@ -59,9 +59,6 @@ export const supportedBiometryTypeSelector = (state: RootState) => state.app.sup
 
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
 
-export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
-  state.app.showPriceChangeIndicatorInBalances
-
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 
 export const fiatConnectCashInEnabledSelector = (state: RootState) =>

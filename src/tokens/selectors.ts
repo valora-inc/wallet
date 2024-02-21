@@ -495,9 +495,6 @@ export const feeCurrenciesWithPositiveBalancesSelector = createSelector(
   }
 )
 
-export const visualizeNFTsEnabledInHomeAssetsPageSelector = (state: RootState) =>
-  state.app.visualizeNFTsEnabledInHomeAssetsPage
-
 export const importedTokensSelector = createSelector(
   [tokensListSelector],
   (tokenList): TokenBalance[] => {
