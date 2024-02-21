@@ -2185,5 +2185,17 @@
     "discover": {
       "tabName": "Discover"
     }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Your funds are on their way",
+      "description": "The funds that your friend sent you are being sent over using crypto magic. Please wait..."
+    },
+    "error": {
+      "title": "Unable to claim funds",
+      "description": "Try your claim link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "contactSupport": "Contact Support",
+      "dismiss": "Dismiss"
+    }
   }
 }
