@@ -218,7 +218,6 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   dappListApiUrl: string | null
   inviteRewardsVersion: string
-  walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number

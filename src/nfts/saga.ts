@@ -82,7 +82,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  const celebratedNft = getDynamicConfigParams(
+  const { celebratedNft } = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
   )
   if (!celebratedNft || !celebratedNft.networkId || !celebratedNft.contractAddress) {

@@ -1907,14 +1907,15 @@
   },
   "profileScreen": {
     "generateName": "Wygeneruj nazwę",
-    "namePlaceholder": "Wybierz nazwę ex) {{exampleName}}"
+    "namePlaceholder": "Wybierz nazwę, na przykład \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Dostosuj {{appName}} za pomocą swojego zdjęcia profilowego. Twoje zdjęcie pozostaje prywatne, nigdy nie jest udostępniane ani przesyłane."
   },
   "tokenBottomSheet": {
     "searchAssets": "Wyszukaj aktywa",
     "noTokenInResult": "Nie znaleziono pasujących wyników dla <0>„{{searchTerm}}”</0>",
-    "noFilterSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\" w następujących kategoriach: {{filterNames}}",
-    "noFilterResults": "Nie znaleziono pasujących zasobów w następujących kategoriach: {{filterNames}}",
-    "noSearchResults": "Nie znaleziono pasujących zasobów dla \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Nie znaleziono żadnych zasobów pasujących do \"{{searchTerm}}\" w następujących kategoriach: {{filterNames}}",
+    "noFilterResults": "Nie znaleziono zasobów pasujących do następujących kategorii: {{filterNames}}",
+    "noSearchResults": "Nie znaleziono żadnych zasobów pasujących do \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Moje żetony",
       "popular": "Popularny",
@@ -2089,6 +2090,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Potrzebujesz więcej {{feeTokenSymbol}} na gaz",
       "description": "Dodaj {{feeTokenSymbol}}, aby pokryć opłaty za gaz lub dostosuj wysyłaną kwotę"
+    },
+    "prepareTransactionError": {
+      "title": "Coś poszło nie tak!",
+      "description": "Nie było możliwe przygotowanie transakcji dla tego tokena."
     }
   },
   "transactionFeed": {

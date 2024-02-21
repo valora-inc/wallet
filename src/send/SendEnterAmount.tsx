@@ -193,8 +193,12 @@ function SendEnterAmount({ route }: Props) {
   const { decimalSeparator } = getNumberFormatSettings()
   const parsedAmount = useMemo(() => parseInputAmount(amount, decimalSeparator), [amount])
 
-  const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
-    usePrepareSendTransactions()
+  const {
+    prepareTransactionsResult,
+    refreshPreparedTransactions,
+    clearPreparedTransactions,
+    prepareTransactionError,
+  } = usePrepareSendTransactions()
   const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
@@ -239,7 +243,12 @@ function SendEnterAmount({ route }: Props) {
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
-  if (amount === '' || showLowerAmountError || (prepareTransactionsResult && !maxFeeAmount)) {
+  if (
+    amount === '' ||
+    showLowerAmountError ||
+    (prepareTransactionsResult && !maxFeeAmount) ||
+    prepareTransactionError
+  ) {
     feeAmountSection = <FeePlaceholder feeTokenSymbol={feeTokenSymbol} />
   } else if (prepareTransactionsResult && maxFeeAmount) {
     feeAmountSection = <FeeAmount feeAmount={maxFeeAmount} feeTokenId={feeTokenId} />
@@ -374,6 +383,15 @@ function SendEnterAmount({ route }: Props) {
             })}
             style={styles.warning}
             testID="SendEnterAmount/NotEnoughForGasWarning"
+          />
+        )}
+        {prepareTransactionError && (
+          <InLineNotification
+            severity={Severity.Error}
+            title={t('sendEnterAmountScreen.prepareTransactionError.title')}
+            description={t('sendEnterAmountScreen.prepareTransactionError.description')}
+            style={styles.warning}
+            testID="SendEnterAmount/PrepareTransactionError"
           />
         )}
         <Button
