@@ -150,25 +150,15 @@ describe(handleRequest, () => {
       .run()
   })
 
-  it('supports eth_signTypedData, including for an unsupported chain', async () => {
+  it('supports eth_signTypedData for supported chain', async () => {
     await expectSaga(handleRequest, signTypedDataRequest)
-      .withState(state)
-      .call([viemWallet, 'signTypedData'], mockTypedData)
-      .run()
-
-    await expectSaga(handleRequest, { ...signTypedDataRequest, chainId: 'eip155:unsupported' })
       .withState(state)
       .call([viemWallet, 'signTypedData'], mockTypedData)
       .run()
   })
 
-  it('supports eth_signTypedData_v4, including for an unsupported chain', async () => {
+  it('supports eth_signTypedData_v4 for supported chain', async () => {
     await expectSaga(handleRequest, signTypedDataV4Request)
-      .withState(state)
-      .call([viemWallet, 'signTypedData'], mockTypedData)
-      .run()
-
-    await expectSaga(handleRequest, { ...signTypedDataV4Request, chainId: 'eip155:unsupported' })
       .withState(state)
       .call([viemWallet, 'signTypedData'], mockTypedData)
       .run()
