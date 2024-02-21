@@ -35,7 +35,7 @@ export function* handleRequest(
   // Context
   // https://valora-app.slack.com/archives/C04B61SJ6DS/p1708336430158639?thread_ts=1708021233.998389&cid=C04B61SJ6DS
   const network: Network | undefined = walletConnectChainIdToNetwork[chainId]
-  if (!network && !chainAgnosticActions.includes(method as SupportedActions)) {
+  if (!network && !chainAgnosticActions.includes(method)) {
     throw new Error('unsupported network')
   }
 

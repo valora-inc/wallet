@@ -72,9 +72,9 @@ function ActionRequest({
     networkName
   )
 
-  // Reject and warn if the chain is not supported Note: we still allow
-  // off-chain actions like personal_sign on unsupported chains (Cred Protocol
-  // does this) as this does not depend on the chainId
+  // Reject and warn if the chain is not supported
+  // Note: we still allow off-chain actions like personal_sign on unsupported
+  // chains (Cred Protocol does this) as this does not depend on the chainId
   if (!supportedChains.includes(chainId) && !chainAgnosticActions.includes(method)) {
     const supportedNetworkNames = supportedChains
       .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])

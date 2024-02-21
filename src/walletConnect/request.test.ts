@@ -150,14 +150,14 @@ describe(handleRequest, () => {
       .run()
   })
 
-  it('supports eth_signTypedData for supported chain', async () => {
+  it('supports eth_signTypedData', async () => {
     await expectSaga(handleRequest, signTypedDataRequest)
       .withState(state)
       .call([viemWallet, 'signTypedData'], mockTypedData)
       .run()
   })
 
-  it('supports eth_signTypedData_v4 for supported chain', async () => {
+  it('supports eth_signTypedData_v4', async () => {
     await expectSaga(handleRequest, signTypedDataV4Request)
       .withState(state)
       .call([viemWallet, 'signTypedData'], mockTypedData)
