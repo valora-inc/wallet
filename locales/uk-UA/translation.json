@@ -2090,6 +2090,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
       "description": "Додайте {{feeTokenSymbol}}, щоб покрити комісію на газ або скоригувати суму, яку ви надсилаєте"
+    },
+    "prepareTransactionError": {
+      "title": "Щось пішло не так!",
+      "description": "Підготувати транзакцію для цього токена не вдалося."
     }
   },
   "transactionFeed": {
