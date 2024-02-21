@@ -1282,7 +1282,7 @@ describe('SwapScreen', () => {
     expect(queryByText('swapScreen.confirmSwapFailedWarning.body')).toBeFalsy()
   })
 
-  it.only('should show and hide the switched network warning', async () => {
+  it('should show and hide the switched network warning', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
     const {
       getByText,
