@@ -102,13 +102,13 @@ export function* dispatchPendingTransactions(transactionHashes: Hash[]) {
 
         if (eventName === 'ERC721Claimed') {
           const contractAddress = args.token
-          const tokenId = args.tokenId.toString()
+          const tokenId = args.tokenId
 
           try {
             const tokenUri = (yield* call([publicClient[network], 'readContract'], {
               address: contractAddress,
               abi: parseAbi(['function tokenURI(uint256 tokenId) returns (string memory)']),
-              functionName: 'tokenUri',
+              functionName: 'tokenURI',
               args: [tokenId],
             })) as string
 
@@ -126,7 +126,7 @@ export function* dispatchPendingTransactions(transactionHashes: Hash[]) {
                 networkId,
                 nfts: [
                   {
-                    tokenId,
+                    tokenId: tokenId.toString(),
                     contractAddress,
                     tokenUri,
                     metadata,
