@@ -31,7 +31,7 @@ export default DappListDisplay = () => {
   })
 
   it(':ios: should correctly filter dapp list based on user agent', async () => {
-    const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 14.5; iPhone)')
+    const iOSDappList = await fetchDappList('Valora/1.0.0 (iOS 15.0; iPhone)')
     await reloadReactNative()
     await navigateToDappList()
     // Give a few seconds for the dapp list to load
