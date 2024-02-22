@@ -4,13 +4,13 @@ import { throwError } from 'redux-saga-test-plan/providers'
 import { call, fork, select } from 'redux-saga/effects'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
+import { dispatchPendingTransactions, jumpstartClaim } from 'src/jumpstart/saga'
 import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
-} from 'src/home/actions'
-import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
-import { dispatchPendingTransactions, jumpstartClaim } from 'src/jumpstart/saga'
+} from 'src/jumpstart/slice'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'

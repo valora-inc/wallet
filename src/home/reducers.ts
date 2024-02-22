@@ -40,10 +40,6 @@ export interface State {
     contractAddress: string
     displayed: boolean
   } | null
-  jumpstart: {
-    showLoading: boolean
-    showError: boolean
-  }
 }
 
 export const initialState = {
@@ -52,10 +48,6 @@ export const initialState = {
   cleverTapInboxMessages: [],
   hasVisitedHome: false,
   nftCelebration: null,
-  jumpstart: {
-    showLoading: false,
-    showError: false,
-  },
 }
 
 export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
@@ -140,46 +132,6 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         nftCelebration: {
           ...state.nftCelebration,
           displayed: true,
-        },
-      }
-    case Actions.JUMPSTART_CLAIM_STARTED:
-      return {
-        ...state,
-        jumpstart: {
-          showLoading: true,
-          showError: false,
-        },
-      }
-    case Actions.JUMPSTART_CLAIM_SUCCEEDED:
-      return {
-        ...state,
-        jumpstart: {
-          showLoading: false,
-          showError: false,
-        },
-      }
-    case Actions.JUMPSTART_CLAIM_FAILED:
-      return {
-        ...state,
-        jumpstart: {
-          showLoading: false,
-          showError: true,
-        },
-      }
-    case Actions.JUMPSTART_LOADING_DISMISSED:
-      return {
-        ...state,
-        jumpstart: {
-          ...state.jumpstart,
-          showLoading: false,
-        },
-      }
-    case Actions.JUMPSTART_ERROR_DISMISSED:
-      return {
-        ...state,
-        jumpstart: {
-          ...state.jumpstart,
-          showError: false,
         },
       }
     default:

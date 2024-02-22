@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next'
 import { useDispatch } from 'react-redux'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import { Severity } from 'src/components/InLineNotification'
-import { jumpstartErrorDismissed } from 'src/home/actions'
-import { showJumstartError } from 'src/home/selectors'
+import { showJumstartError } from 'src/jumpstart/selectors'
+import { jumpstartErrorDismissed } from 'src/jumpstart/slice'
 import useSelector from 'src/redux/useSelector'
 
 export default function JumpstartToastError() {

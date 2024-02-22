@@ -1,12 +1,12 @@
 import BigNumber from 'bignumber.js'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
-} from 'src/home/actions'
-import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
+} from 'src/jumpstart/slice'
 import { NftMetadata } from 'src/nfts/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'

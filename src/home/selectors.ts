@@ -60,11 +60,3 @@ export const showNftCelebrationSelector = (state: RootState) => {
 
   return !state.home.nftCelebration.displayed
 }
-
-export const showJumstartLoading = (state: RootState) => {
-  return state.home.jumpstart.showLoading
-}
-
-export const showJumstartError = (state: RootState) => {
-  return state.home.jumpstart.showError
-}

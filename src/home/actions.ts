@@ -13,11 +13,6 @@ export enum Actions {
   CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
   CELEBRATED_NFT_FOUND = 'HOME/CELEBRATED_NFT_FOUND',
   NFT_CELEBRATION_DISPLAYED = 'HOME/NFT_CELEBRATION_DISPLAYED',
-  JUMPSTART_CLAIM_STARTED = 'HOME/JUMPSTART_CLAIM_STARTED',
-  JUMPSTART_CLAIM_SUCCEEDED = 'HOME/JUMPSTART_CLAIM_SUCCEEDED',
-  JUMPSTART_CLAIM_FAILED = 'HOME/JUMPSTART_CLAIM_FAILED',
-  JUMPSTART_LOADING_DISMISSED = 'HOME/JUMPSTART_LOADING_DISMISSED',
-  JUMPSTART_ERROR_DISMISSED = 'HOME/JUMPSTART_ERROR_DISMISSED',
 }
 
 export interface VisitHomeAction {
@@ -58,25 +53,6 @@ interface NftCelebrationDisplayedAction {
   type: Actions.NFT_CELEBRATION_DISPLAYED
 }
 
-interface JumpstartClaimStartedAction {
-  type: Actions.JUMPSTART_CLAIM_STARTED
-}
-
-interface JumpstartClaimSucceededdAction {
-  type: Actions.JUMPSTART_CLAIM_SUCCEEDED
-}
-interface JumpstartClaimFailedAction {
-  type: Actions.JUMPSTART_CLAIM_FAILED
-}
-
-interface JumpstartLoadingDismissedAction {
-  type: Actions.JUMPSTART_LOADING_DISMISSED
-}
-
-interface JumpstartErrorDismissedAction {
-  type: Actions.JUMPSTART_ERROR_DISMISSED
-}
-
 export type ActionTypes =
   | SetLoadingAction
   | UpdateNotificationsAction
@@ -85,11 +61,6 @@ export type ActionTypes =
   | VisitHomeAction
   | CelebratedNftFoundAction
   | NftCelebrationDisplayedAction
-  | JumpstartClaimStartedAction
-  | JumpstartClaimSucceededdAction
-  | JumpstartClaimFailedAction
-  | JumpstartLoadingDismissedAction
-  | JumpstartErrorDismissedAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
@@ -145,24 +116,4 @@ export const celebratedNftFound = ({
 
 export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
   type: Actions.NFT_CELEBRATION_DISPLAYED,
-})
-
-export const jumpstartClaimStarted = (): JumpstartClaimStartedAction => ({
-  type: Actions.JUMPSTART_CLAIM_STARTED,
-})
-
-export const jumpstartClaimSucceeded = (): JumpstartClaimSucceededdAction => ({
-  type: Actions.JUMPSTART_CLAIM_SUCCEEDED,
-})
-
-export const jumpstartClaimFailed = (): JumpstartClaimFailedAction => ({
-  type: Actions.JUMPSTART_CLAIM_FAILED,
-})
-
-export const jumpstartLoadingDismissed = (): JumpstartLoadingDismissedAction => ({
-  type: Actions.JUMPSTART_LOADING_DISMISSED,
-})
-
-export const jumpstartErrorDismissed = (): JumpstartErrorDismissedAction => ({
-  type: Actions.JUMPSTART_ERROR_DISMISSED,
 })

@@ -1585,4 +1585,11 @@ export const migrations = {
       'visualizeNFTsEnabledInHomeAssetsPage',
     ]),
   }),
+  193: (state: any) => ({
+    ...state,
+    jumpstart: {
+      showLoading: false,
+      showError: false,
+    },
+  }),
 }

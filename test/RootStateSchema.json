@@ -4037,6 +4037,22 @@
             },
             "type": "object"
         },
+        "State_27": {
+            "additionalProperties": false,
+            "properties": {
+                "showError": {
+                    "type": "boolean"
+                },
+                "showLoading": {
+                    "type": "boolean"
+                }
+            },
+            "required": [
+                "showError",
+                "showLoading"
+            ],
+            "type": "object"
+        },
         "State_3": {
             "anyOf": [
                 {
@@ -5750,6 +5766,9 @@
         "imports": {
             "$ref": "#/definitions/State_15"
         },
+        "jumpstart": {
+            "$ref": "#/definitions/State_27"
+        },
         "keylessBackup": {
             "$ref": "#/definitions/State_24"
         },
@@ -5831,6 +5850,7 @@
         "i18n",
         "identity",
         "imports",
+        "jumpstart",
         "keylessBackup",
         "localCurrency",
         "networkInfo",
