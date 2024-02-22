@@ -274,6 +274,8 @@ interface KeylessBackupEventsProperties {
   [KeylessBackupEvents.cab_phone_verification_help]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_phone_verification_help_skip]: CommonKeylessBackupProps
   [KeylessBackupEvents.cab_phone_verification_help_go_back]: CommonKeylessBackupProps
+  [KeylessBackupEvents.cab_setup_hashed_keyshare_phone]: { hashedKeyshare: string }
+  [KeylessBackupEvents.cab_setup_hashed_keyshare_email]: { hashedKeyshare: string }
 }
 
 interface OnboardingEventsProperties {
