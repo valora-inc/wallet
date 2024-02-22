@@ -24,6 +24,7 @@ import BackupComplete from 'src/backup/BackupComplete'
 import BackupIntroduction from 'src/backup/BackupIntroduction'
 import BackupPhrase, { navOptionsForBackupPhrase } from 'src/backup/BackupPhrase'
 import BackupQuiz, { navOptionsForQuiz } from 'src/backup/BackupQuiz'
+import { isE2EEnv } from 'src/config'
 import ConsumerIncentivesHomeScreen from 'src/consumerIncentives/ConsumerIncentivesHomeScreen'
 import DappKitAccountScreen from 'src/dappkit/DappKitAccountScreen'
 import DappKitSignTxScreen from 'src/dappkit/DappKitSignTxScreen'
@@ -574,7 +575,7 @@ export function MainStackScreen() {
 
     const initialRoute: InitialRouteName = getInitialRoute({
       choseToRestoreAccount,
-      language,
+      language: language ?? isE2EEnv ? 'en-US' : language,
       acceptedTerms,
       pincodeType,
       account,
