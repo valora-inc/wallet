@@ -8,6 +8,7 @@ import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
+  sortedTokensWithBalanceSelector,
   spendTokensByNetworkIdSelector,
   swappableFromTokensByNetworkIdSelector,
   swappableToTokensByNetworkIdSelector,
@@ -16,7 +17,6 @@ import {
   tokensByIdSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
-  tokensWithNonZeroBalance,
   tokensWithTokenBalanceSelector,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
@@ -58,7 +58,7 @@ export function useTokensWithTokenBalance() {
 
 export function useTokensForSend() {
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  return useSelector((state) => tokensWithNonZeroBalance(state, supportedNetworkIds, false))
+  return useSelector((state) => sortedTokensWithBalanceSelector(state, supportedNetworkIds))
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {

@@ -373,7 +373,7 @@ describe('TokenDetails', () => {
     )
 
     expect(queryByTestId('TokenDetails/Action/Send')).toBeFalsy()
-    expect(queryByTestId('TokenDetails/Action/Swap')).toBeTruthy()
+    expect(getByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(getByTestId('TokenDetails/Action/Add')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
@@ -452,15 +452,14 @@ describe('TokenDetails', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
   })
 
-  it('renders the send and swap actions for the imported tokens even with 0 balance', () => {
+  it('renders the send and swap actions for the imported tokens', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
           [mockTestTokenTokenId]: {
             tokenId: mockTestTokenTokenId,
-            balance: '0',
+            balance: '10',
             isManuallyImported: true,
-            showZeroBalance: true,
             networkId: NetworkId['celo-alfajores'],
             symbol: 'TT',
           },
@@ -471,7 +470,7 @@ describe('TokenDetails', () => {
       },
     })
 
-    const { queryByTestId } = render(
+    const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
         <MockedNavigator
           component={TokenDetailsScreen}
@@ -480,8 +479,8 @@ describe('TokenDetails', () => {
       </Provider>
     )
 
-    expect(queryByTestId('TokenDetails/Action/Send')).toBeFalsy()
-    expect(queryByTestId('TokenDetails/Action/Swap')).toBeTruthy()
+    expect(getByTestId('TokenDetails/Action/Send')).toBeTruthy()
+    expect(getByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Add')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()

@@ -9,6 +9,8 @@ import {
   feeCurrenciesWithPositiveBalancesSelector,
   importedTokensSelector,
   lastKnownTokenBalancesSelector,
+  sortedTokensWithBalanceOrShowZeroBalanceSelector,
+  sortedTokensWithBalanceSelector,
   spendTokensByNetworkIdSelector,
   swappableFromTokensByNetworkIdSelector,
   swappableToTokensByNetworkIdSelector,
@@ -17,7 +19,6 @@ import {
   tokensByUsdBalanceSelector,
   tokensListSelector,
   tokensListWithAddressSelector,
-  tokensWithNonZeroBalance,
   tokensWithUsdValueSelector,
   totalTokenBalanceSelector,
 } from 'src/tokens/selectors'
@@ -378,13 +379,39 @@ describe(totalTokenBalanceSelector, () => {
   })
 })
 
-describe('tokensWithNonZeroBalance', () => {
-  it('returns expected tokens in the correct order for with zero balance', () => {
-    const tokens = tokensWithNonZeroBalance(
-      state,
-      [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      true
+describe('sortedTokensWithBalanceSelector', () => {
+  it('returns expected tokens in the correct order without zero balances', () => {
+    const tokens = sortedTokensWithBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
+
+    expect(tokens.map((token) => token.tokenId)).toEqual([
+      'celo-alfajores:0x1',
+      'celo-alfajores:0xeur',
+      'celo-alfajores:0x4',
+      'celo-alfajores:0x5',
+      'ethereum-sepolia:0x7',
+    ])
+  })
+
+  it('avoids unnecessary recomputation', () => {
+    const prevComputations = sortedTokensWithBalanceSelector.recomputations()
+    const tokens = sortedTokensWithBalanceSelector(state, [NetworkId['celo-alfajores']])
+    const tokens2 = sortedTokensWithBalanceSelector(state, [NetworkId['celo-alfajores']])
+    expect(tokens).toEqual(tokens2)
+    expect(sortedTokensWithBalanceOrShowZeroBalanceSelector.recomputations()).toEqual(
+      prevComputations + 1
     )
+  })
+})
+
+describe('sortedTokensWithBalanceOrShowZeroBalanceSelector', () => {
+  it('returns expected tokens in the correct order including show zero balances', () => {
+    const tokens = sortedTokensWithBalanceOrShowZeroBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+      NetworkId['ethereum-sepolia'],
+    ])
 
     expect(tokens.map((token) => token.tokenId)).toEqual([
       'celo-alfajores:0x1',
@@ -397,28 +424,18 @@ describe('tokensWithNonZeroBalance', () => {
     ])
   })
 
-  it('returns expected tokens in the correct order without zero balances', () => {
-    const tokens = tokensWithNonZeroBalance(
-      state,
-      [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-      false
-    )
-
-    expect(tokens.map((token) => token.tokenId)).toEqual([
-      'celo-alfajores:0x1',
-      'celo-alfajores:0xeur',
-      'celo-alfajores:0x4',
-      'celo-alfajores:0x5',
-      'ethereum-sepolia:0x7',
-    ])
-  })
-
   it('avoids unnecessary recomputation', () => {
-    const prevComputations = tokensWithNonZeroBalance.recomputations()
-    const tokens = tokensWithNonZeroBalance(state, [NetworkId['celo-alfajores']], true)
-    const tokens2 = tokensWithNonZeroBalance(state, [NetworkId['celo-alfajores']], true)
+    const prevComputations = sortedTokensWithBalanceOrShowZeroBalanceSelector.recomputations()
+    const tokens = sortedTokensWithBalanceOrShowZeroBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+    ])
+    const tokens2 = sortedTokensWithBalanceOrShowZeroBalanceSelector(state, [
+      NetworkId['celo-alfajores'],
+    ])
     expect(tokens).toEqual(tokens2)
-    expect(tokensWithNonZeroBalance.recomputations()).toEqual(prevComputations + 1)
+    expect(sortedTokensWithBalanceOrShowZeroBalanceSelector.recomputations()).toEqual(
+      prevComputations + 1
+    )
   })
 })
 
