@@ -22,6 +22,7 @@ export const launchApp = async (
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
   ).then(async () => {
     await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.*'])
+    await device.setLocation(40.785091, -73.968285) // Set location to Central Park NYC
   })
 }
 
