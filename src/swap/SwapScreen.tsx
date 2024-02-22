@@ -47,7 +47,7 @@ import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/sw
 import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
-import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
+import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -334,8 +334,7 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     if (fetchSwapQuoteError) {
-      Logger.error(TAG, 'Error fetching swap quote', fetchSwapQuoteError.message)
-      if (fetchSwapQuoteError.message.includes('No quote available')) {
+      if (fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
         dispatch(showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS))
       } else {
         dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))

@@ -17,6 +17,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
+import { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
 import { NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -951,7 +952,7 @@ describe('SwapScreen', () => {
   })
 
   it('should display an unsupported error banner if quote is not available', async () => {
-    mockFetch.mockReject(new Error('No quote available'))
+    mockFetch.mockReject(new Error(NO_QUOTE_ERROR_MESSAGE))
 
     const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
 
