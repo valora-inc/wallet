@@ -5,6 +5,7 @@ const childProcess = require('child_process')
 const fs = require('fs')
 const PNG = require('pngjs').PNG
 const pixelmatch = require('pixelmatch')
+const { log, device } = require('detox')
 
 function exec(command, options = { cwd: process.cwd() }) {
   return new Promise((resolve, reject) => {
@@ -436,4 +437,19 @@ export async function fundWallet(senderPrivateKey, recipientAddress, stableToken
 
 export const createCommentText = () => {
   return `${new Date().getTime()}-${parseInt(Math.random() * 100_000)}`
+}
+
+// Set location
+// https://github.com/wix/Detox/issues/3240#issuecomment-1632609813
+export const setLocation = async (lat, lon) => {
+  if (device.getPlatform() === 'ios') {
+    exec(
+      `applesimutils --byId ${device.id} --setLocation "[${lat}, ${lon}]"`,
+      (err, stdout, stderr) => {
+        log.info('applesimutils setLocation', err, stdout, stderr)
+      }
+    )
+  } else {
+    await device.setLocation(lat, lon)
+  }
 }

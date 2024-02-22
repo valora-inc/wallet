@@ -1,5 +1,5 @@
 import { retry } from 'ts-retry-promise'
-import { dismissCashInBottomSheet } from './utils'
+import { dismissCashInBottomSheet, setLocation } from './utils'
 
 export const launchApp = async (
   launchArgs = {
@@ -13,6 +13,8 @@ export const launchApp = async (
   await retry(
     async () => {
       try {
+        // Set location to Central Park NYC
+        await setLocation(40.785091, -73.968285)
         await device.launchApp(launchArgs)
       } catch (error) {
         error.message = `Failed to launch app with error: ${error.message}`
@@ -22,7 +24,6 @@ export const launchApp = async (
     { retries: 5, delay: 10 * 1000, timeout: 30 * 10000 }
   ).then(async () => {
     await device.setURLBlacklist(['.*blockchain-api-dot-celo-mobile-alfajores.*'])
-    await device.setLocation(40.785091, -73.968285) // Set location to Central Park NYC
   })
 }
 
