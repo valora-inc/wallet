@@ -2023,6 +2023,10 @@
       "title": "Envoyez des crypto à vos amis",
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
       "subtitle": "COMMENCER",
