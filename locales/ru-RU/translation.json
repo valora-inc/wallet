@@ -1748,6 +1748,7 @@
     "swapFromTokenSelection": "Что обменять",
     "swapToTokenSelection": "На что обменять",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Вы переключились на сообщество {{networkName}}",
       "body_swapFrom": "Выберите токен, с которого нужно выполнить обмен, в сообществе {{networkName}}.",
@@ -2025,6 +2026,10 @@
     "invite": {
       "title": "Отправляйте криптовалюту друзьям",
       "subtitle": "Приглашайте друзей из списка контактов"
+    },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
     },
     "getStarted": {
       "title": "Способы отправки средств на Valora",
