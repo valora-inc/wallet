@@ -23,39 +23,39 @@ export default function JumpstartToastLoading() {
   return (
     <BottomToast showToast={showToast} onDismiss={handleToastDismiss}>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <GreenLoadingSpinner height={Spacing.Thick24} />
+        <GreenLoadingSpinner height={ICON_HEIGHT} />
+        <View style={styles.content}>
           <Text style={styles.title}>{t('jumpstart.loading.title')}</Text>
+          <Text style={styles.description}>{t('jumpstart.loading.description')}</Text>
         </View>
-        <Text style={styles.description}>{t('jumpstart.loading.description')}</Text>
       </View>
     </BottomToast>
   )
 }
 
+const ICON_HEIGHT = Spacing.Thick24
+
 const styles = StyleSheet.create({
   container: {
+    flexDirection: 'row',
+    gap: Spacing.Smallest8,
     margin: Spacing.Regular16,
     marginBottom: 0,
-    paddingTop: Spacing.Regular16,
-    paddingHorizontal: Spacing.Regular16,
-    paddingBottom: Spacing.Small12,
+    padding: Spacing.Regular16,
     borderRadius: Spacing.Regular16,
     backgroundColor: Colors.gray1,
   },
-  header: {
-    flexDirection: 'row',
+  content: {
+    flex: 1,
     gap: Spacing.Smallest8,
-    alignItems: 'center',
   },
   title: {
     ...typeScale.labelSemiBoldSmall,
     color: Colors.black,
+    lineHeight: ICON_HEIGHT,
   },
   description: {
     ...typeScale.bodyXSmall,
     color: Colors.black,
-    marginTop: Spacing.Tiny4,
-    marginLeft: Spacing.Large32,
   },
 })
