@@ -159,32 +159,15 @@ export function SettingsItemInput({
 }
 
 type SettingsItemCtaProps = {
-  ctaText: string
-  ctaColor?: colors
-  showChevron?: boolean
+  cta: JSX.Element
 } & BaseProps
 
-export function SettingsItemCta({
-  testID,
-  title,
-  showChevron,
-  onPress,
-  ctaText,
-  ctaColor,
-}: SettingsItemCtaProps) {
+export function SettingsItemCta({ testID, title, cta, onPress }: SettingsItemCtaProps) {
   return (
     <Wrapper testID={testID} onPress={onPress}>
       <View style={styles.container}>
         <Title value={title} />
-        <View style={styles.right}>
-          <Text
-            testID={testID ? `${testID}/cta` : `${title}/cta`}
-            style={[styles.value, { color: ctaColor }]}
-          >
-            {ctaText}
-          </Text>
-          {showChevron && <ForwardChevron color={ctaColor} />}
-        </View>
+        <View style={styles.right}>{cta}</View>
       </View>
     </Wrapper>
   )

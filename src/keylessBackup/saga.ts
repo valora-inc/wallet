@@ -10,9 +10,16 @@ import {
   getSecp256K1KeyPair,
   getWalletAddressFromPrivateKey,
 } from 'src/keylessBackup/encryption'
-import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import {
+  deleteEncryptedMnemonic,
+  getEncryptedMnemonic,
+  storeEncryptedMnemonic,
+} from 'src/keylessBackup/index'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  deleteKeylessBackupCompleted,
+  deleteKeylessBackupFailed,
+  deleteKeylessBackupStarted,
   googleSignInCompleted,
   keylessBackupAcceptZeroBalance,
   keylessBackupBail,
@@ -28,7 +35,9 @@ import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { assignAccountFromPrivateKey } from 'src/web3/saga'
+import { getViemWallet } from 'src/web3/contracts'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
+import { assignAccountFromPrivateKey, unlockAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
 import { Hex, fromBytes } from 'viem'
@@ -203,6 +212,25 @@ export function* handleGoogleSignInCompleted({
   }
 }
 
+export function* handleDeleteKeylessBackup() {
+  try {
+    const wallet = yield* call(
+      getViemWallet,
+      networkConfig.viemChain[networkIdToNetwork[networkConfig.defaultNetworkId]]
+    )
+    if (!wallet.account) {
+      throw new Error('no account found in the wallet')
+    }
+
+    yield* call(unlockAccount, wallet.account.address)
+    yield* call(deleteEncryptedMnemonic, wallet)
+    yield* put(deleteKeylessBackupCompleted())
+  } catch (error) {
+    Logger.error(TAG, 'Error deleting keyless backup', error)
+    yield* put(deleteKeylessBackupFailed())
+  }
+}
+
 function* watchGoogleSignInCompleted() {
   yield* takeLeading(googleSignInCompleted.type, handleGoogleSignInCompleted)
 }
@@ -211,7 +239,12 @@ function* watchValoraKeyshareIssued() {
   yield* takeLeading(valoraKeyshareIssued.type, handleValoraKeyshareIssued)
 }
 
+function* watchDeleteKeylessBackupStarted() {
+  yield* takeLeading(deleteKeylessBackupStarted.type, handleDeleteKeylessBackup)
+}
+
 export function* keylessBackupSaga() {
   yield* spawn(watchGoogleSignInCompleted)
   yield* spawn(watchValoraKeyshareIssued)
+  yield* spawn(watchDeleteKeylessBackupStarted)
 }

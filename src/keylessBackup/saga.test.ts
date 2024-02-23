@@ -11,16 +11,23 @@ import {
   encryptPassphrase,
   getSecp256K1KeyPair,
 } from 'src/keylessBackup/encryption'
-import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import {
+  deleteEncryptedMnemonic,
+  getEncryptedMnemonic,
+  storeEncryptedMnemonic,
+} from 'src/keylessBackup/index'
 import {
   DELAY_INTERVAL_MS,
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
+  handleDeleteKeylessBackup,
   handleGoogleSignInCompleted,
   handleValoraKeyshareIssued,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  deleteKeylessBackupCompleted,
+  deleteKeylessBackupFailed,
   googleSignInCompleted,
   keylessBackupBail,
   keylessBackupCompleted,
@@ -33,14 +40,57 @@ import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { ViemWallet } from 'src/viem/getLockableWallet'
+import { getViemWallet } from 'src/web3/contracts'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockPrivateDEK } from 'test/values'
+import { mockAccount, mockPrivateDEK } from 'test/values'
 import { Hex } from 'viem'
 
 describe('keylessBackup saga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  describe('handleDeleteKeylessBackup', () => {
+    const mockViemWallet = {
+      account: { address: mockAccount },
+      signMessage: jest.fn(),
+    } as any as ViemWallet
+    it('success case', async () => {
+      await expectSaga(handleDeleteKeylessBackup)
+        .provide([
+          [
+            call(
+              getViemWallet,
+              networkConfig.viemChain[networkIdToNetwork[networkConfig.defaultNetworkId]]
+            ),
+            mockViemWallet,
+          ],
+          [call(deleteEncryptedMnemonic, mockViemWallet), undefined],
+        ])
+        .put(deleteKeylessBackupCompleted())
+        .run()
+    })
+    it('failure case', async () => {
+      await expectSaga(handleDeleteKeylessBackup)
+        .provide([
+          [
+            call(
+              getViemWallet,
+              networkConfig.viemChain[networkIdToNetwork[networkConfig.defaultNetworkId]]
+            ),
+            mockViemWallet,
+          ],
+          [
+            call(deleteEncryptedMnemonic, mockViemWallet),
+            throwError(new Error('(test) Error deleting encrypted mnemonic')),
+          ],
+        ])
+        .put(deleteKeylessBackupFailed())
+        .run()
+    })
   })
 
   describe('handleGoogleSignInCompleted', () => {

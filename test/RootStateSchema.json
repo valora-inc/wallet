@@ -1541,6 +1541,15 @@
             },
             "type": "object"
         },
+        "KeylessBackupDeleteStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "KeylessBackupStatus": {
             "enum": [
                 "Completed",
@@ -3988,6 +3997,9 @@
                 "backupStatus": {
                     "$ref": "#/definitions/KeylessBackupStatus"
                 },
+                "deleteBackupStatus": {
+                    "$ref": "#/definitions/KeylessBackupDeleteStatus"
+                },
                 "googleIdToken": {
                     "type": [
                         "null",
@@ -4009,6 +4021,7 @@
             },
             "required": [
                 "backupStatus",
+                "deleteBackupStatus",
                 "googleIdToken",
                 "torusKeyshare",
                 "valoraKeyshare"

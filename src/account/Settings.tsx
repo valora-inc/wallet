@@ -58,6 +58,11 @@ import {
 } from 'src/components/SettingsItem'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import ForwardChevron from 'src/icons/ForwardChevron'
+import LoadingSpinner from 'src/icons/LoadingSpinner'
+import { deleteKeylessBackupStatusSelector } from 'src/keylessBackup/selectors'
+import { deleteKeylessBackupStarted } from 'src/keylessBackup/slice'
+import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -103,7 +108,7 @@ export const Account = ({ navigation, route }: Props) => {
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
-
+  const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
 
@@ -316,7 +321,7 @@ export const Account = ({ navigation, route }: Props) => {
 
   const onPressDeleteKeylessBackup = () => {
     ValoraAnalytics.track(SettingsEvents.settings_delete_keyless_backup)
-    // TODO(ACT-766): invoke API to delete and update status
+    dispatch(deleteKeylessBackupStarted())
   }
 
   const wipeReduxStore = () => {
@@ -411,12 +416,33 @@ export const Account = ({ navigation, route }: Props) => {
             <SettingsItemCta
               title={t('keylessBackupSettingsTitle')}
               onPress={
-                cloudBackupCompleted ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
+                deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress
+                  ? () => {
+                      // do nothing
+                    }
+                  : cloudBackupCompleted
+                    ? onPressDeleteKeylessBackup
+                    : onPressSetUpKeylessBackup
               }
               testID="KeylessBackup"
-              ctaText={cloudBackupCompleted ? t('delete') : t('setup')}
-              ctaColor={cloudBackupCompleted ? colors.error : colors.primary}
-              showChevron={!cloudBackupCompleted}
+              cta={
+                <>
+                  {deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress && (
+                    <LoadingSpinner width={32} />
+                  )}
+                  <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                    {deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress
+                      ? t('pleaseWait')
+                      : cloudBackupCompleted
+                        ? t('delete')
+                        : t('setup')}
+                  </Text>
+                  {!cloudBackupCompleted &&
+                    deleteKeylessBackupStatus !== KeylessBackupDeleteStatus.InProgress && (
+                      <ForwardChevron />
+                    )}
+                </>
+              }
             />
           )}
           <SettingsItemTextValue
@@ -567,6 +593,11 @@ const styles = StyleSheet.create({
   },
   bottomSheetButton: {
     marginTop: Spacing.Regular16,
+  },
+  value: {
+    ...fontStyles.regular,
+    color: colors.gray4,
+    marginRight: 8,
   },
 })
 

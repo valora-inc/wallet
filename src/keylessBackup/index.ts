@@ -5,6 +5,7 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import networkConfig from 'src/web3/networkConfig'
 import { Hex } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -80,4 +81,36 @@ export async function getEncryptedMnemonic({
   }
   const { encryptedMnemonic } = (await response.json()) as { encryptedMnemonic: string }
   return encryptedMnemonic
+}
+
+export async function deleteEncryptedMnemonic(wallet: ViemWallet) {
+  if (!wallet.account) {
+    // This should never happen
+    throw new Error('no account found in the wallet')
+  }
+  const siweClient = new SiweClient(
+    {
+      accountAddress: wallet.account.address,
+      statement: SIWE_STATEMENT,
+      version: SIWE_VERSION,
+      chainId: parseInt(networkConfig.networkId),
+      sessionDurationMs: SESSION_DURATION_MS,
+      loginUrl: networkConfig.cabLoginUrl,
+      clockUrl: networkConfig.cabClockUrl,
+      timeout:
+        getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
+          .default * 1000,
+    },
+    (message) => wallet.signMessage({ message })
+  )
+  await siweClient.login()
+  const response = await siweClient.fetch(networkConfig.cabDeleteEncryptedMnemonicUrl, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    const message = (await response.json())?.message
+    throw new Error(
+      `Failed to delete encrypted mnemonic with status ${response.status}, message ${message}`
+    )
+  }
 }

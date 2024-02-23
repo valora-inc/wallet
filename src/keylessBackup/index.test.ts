@@ -1,8 +1,14 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import {
+  deleteEncryptedMnemonic,
+  getEncryptedMnemonic,
+  storeEncryptedMnemonic,
+} from 'src/keylessBackup/index'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { ViemWallet } from 'src/viem/getLockableWallet'
 import networkConfig from 'src/web3/networkConfig'
+import { mockAccount } from 'test/values'
 import { generatePrivateKey } from 'viem/accounts'
 
 const mockSiweFetch = jest.fn()
@@ -144,6 +150,72 @@ describe(getEncryptedMnemonic, () => {
     expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
       {
         accountAddress: 'address',
+        chainId: 44787,
+        clockUrl: networkConfig.cabClockUrl,
+        loginUrl: networkConfig.cabLoginUrl,
+        sessionDurationMs: 300000,
+        statement: 'Sign in with Ethereum',
+        timeout: 10000,
+        version: '1',
+      },
+      expect.any(Function)
+    )
+  })
+})
+
+describe(deleteEncryptedMnemonic, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('deletes encrypted mnemonic', async () => {
+    const mockViemWallet = {
+      account: { address: mockAccount },
+      signMessage: jest.fn(),
+    } as any as ViemWallet
+
+    mockSiweFetch.mockResolvedValueOnce({
+      status: 204,
+      ok: true,
+    } as any)
+    await deleteEncryptedMnemonic(mockViemWallet)
+    expect(mockSiweLogin).toHaveBeenCalledWith()
+    expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabDeleteEncryptedMnemonicUrl, {
+      method: 'DELETE',
+    })
+    expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
+      {
+        accountAddress: mockAccount,
+        chainId: 44787,
+        clockUrl: networkConfig.cabClockUrl,
+        loginUrl: networkConfig.cabLoginUrl,
+        sessionDurationMs: 300000,
+        statement: 'Sign in with Ethereum',
+        timeout: 10000,
+        version: '1',
+      },
+      expect.any(Function)
+    )
+  })
+  it('throws if 404 response', async () => {
+    const mockViemWallet = {
+      account: { address: mockAccount },
+      signMessage: jest.fn(),
+    } as any as ViemWallet
+    mockSiweFetch.mockResolvedValueOnce({
+      status: 404,
+      ok: false,
+      json: () => Promise.resolve({ message: 'not found' }),
+    } as any)
+    await expect(() => deleteEncryptedMnemonic(mockViemWallet)).rejects.toThrow(
+      'Failed to delete encrypted mnemonic with status 404, message not found'
+    )
+    expect(mockSiweLogin).toHaveBeenCalledWith()
+    expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabDeleteEncryptedMnemonicUrl, {
+      method: 'DELETE',
+    })
+    expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
+      {
+        accountAddress: mockAccount,
         chainId: 44787,
         clockUrl: networkConfig.cabClockUrl,
         loginUrl: networkConfig.cabLoginUrl,
