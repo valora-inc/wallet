@@ -17,6 +17,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
+import { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
 import { NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -118,6 +119,7 @@ const mockStoreTokenBalances = {
     isSwappable: true,
     balance: '10',
     priceUsd: '1',
+    imageUrl: 'https://example.com/usdc.png',
   },
 }
 
@@ -594,9 +596,11 @@ describe('SwapScreen', () => {
         toToken: mockCusdAddress,
         toTokenId: mockCusdTokenId,
         toTokenNetworkId: NetworkId['celo-alfajores'],
+        toTokenIsImported: false,
         fromToken: mockCeloAddress,
         fromTokenId: mockCeloTokenId,
         fromTokenNetworkId: NetworkId['celo-alfajores'],
+        fromTokenIsImported: false,
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: '5.2',
@@ -660,9 +664,11 @@ describe('SwapScreen', () => {
         toToken: mockCusdAddress,
         toTokenId: mockCusdTokenId,
         toTokenNetworkId: NetworkId['celo-alfajores'],
+        toTokenIsImported: false,
         fromToken: mockCeloAddress,
         fromTokenId: mockCeloTokenId,
         fromTokenNetworkId: NetworkId['celo-alfajores'],
+        fromTokenIsImported: false,
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: null,
@@ -928,7 +934,7 @@ describe('SwapScreen', () => {
   })
 
   it('should display an error banner if api request fails', async () => {
-    mockFetch.mockReject()
+    mockFetch.mockReject(new Error('Failed to fetch'))
 
     const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
 
@@ -942,6 +948,24 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
+    )
+  })
+
+  it('should display an unsupported error banner if quote is not available', async () => {
+    mockFetch.mockReject(new Error(NO_QUOTE_ERROR_MESSAGE))
+
+    const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS)])
     )
   })
 
@@ -1106,9 +1130,11 @@ describe('SwapScreen', () => {
       toToken: mockCusdAddress,
       toTokenId: mockCusdTokenId,
       toTokenNetworkId: NetworkId['celo-alfajores'],
+      toTokenIsImported: false,
       fromToken: mockCeloAddress,
       fromTokenId: mockCeloTokenId,
       fromTokenNetworkId: NetworkId['celo-alfajores'],
+      fromTokenIsImported: false,
       amount: '10',
       amountType: 'sellAmount',
       allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
