@@ -39,7 +39,7 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenToLocalAmount } from 'src/tokens/hooks'
+import { useTokenToLocalAmount, useTokensForJumpstart } from 'src/tokens/hooks'
 import {
   feeCurrenciesSelector,
   tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
@@ -50,6 +50,7 @@ import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -100,17 +101,30 @@ function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
   const { defaultTokenIdOverride, origin, isFromScan, forceTokenId } = route.params
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokens = useSelector((state) =>
+  const supportedSendTokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
   )
+  const supportedJumpstartTokens = useTokensForJumpstart()
   const lastUsedTokenId = useSelector(lastUsedTokenIdSelector)
 
+  const tokens = useMemo(() => {
+    return origin === SendOrigin.Jumpstart ? supportedJumpstartTokens : supportedSendTokens
+  }, [supportedSendTokens, supportedJumpstartTokens, origin])
   const defaultToken = useMemo(() => {
     const defaultToken = tokens.find((token) => token.tokenId === defaultTokenIdOverride)
     const lastUsedToken = tokens.find((token) => token.tokenId === lastUsedTokenId)
 
     return defaultToken ?? lastUsedToken ?? tokens[0]
   }, [tokens, defaultTokenIdOverride, lastUsedTokenId])
+
+  const jumpstartLink = useMemo(() => {
+    const privateKey = generatePrivateKey()
+    const publicKey = privateKeyToAccount(privateKey).address
+    return {
+      publicKey,
+      privateKey,
+    }
+  }, [origin])
 
   // the startPosition and textInputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -162,6 +176,8 @@ function SendEnterAmount({ route }: Props) {
 
     if (origin === SendOrigin.Jumpstart) {
       // TODO handle send transaction and navigation
+      // the next screen can generate a scrambled dynamic link, e.g.:
+      // const link = await createJumpstartDynamicLink(jumpstartLink.privateKey)
       return
     }
 
@@ -220,12 +236,6 @@ function SendEnterAmount({ route }: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, token.networkId))
 
   useEffect(() => {
-    if (origin === SendOrigin.Jumpstart) {
-      // TODO: remove this block and handle preparing jumpstart transactions
-      return
-    }
-
-    const recipient = route.params.recipient
     if (!walletAddress) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
       return
@@ -235,17 +245,29 @@ function SendEnterAmount({ route }: Props) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return refreshPreparedTransactions({
-        amount: parsedAmount,
-        token,
-        recipientAddress: recipient.address,
-        walletAddress,
-        feeCurrencies,
-        comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
-      })
+      return refreshPreparedTransactions(
+        origin === SendOrigin.Jumpstart
+          ? {
+              sendOrigin: origin,
+              amount: parsedAmount,
+              token,
+              walletAddress,
+              feeCurrencies,
+              publicKey: jumpstartLink.publicKey,
+            }
+          : {
+              sendOrigin: origin,
+              amount: parsedAmount,
+              token,
+              recipientAddress: route.params.recipient.address,
+              walletAddress,
+              feeCurrencies,
+              comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
+            }
+      )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [parsedAmount, token])
+  }, [parsedAmount, token, origin, route.params])
 
   const showLowerAmountError = token.balance.lt(amount)
   const showMaxAmountWarning =

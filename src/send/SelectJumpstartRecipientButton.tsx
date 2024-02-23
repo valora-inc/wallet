@@ -14,12 +14,12 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokensWithTokenBalance } from 'src/tokens/hooks'
+import { useTokensForJumpstart } from 'src/tokens/hooks'
 
 function SelectRecipientJumpstartButton() {
   const { t } = useTranslation()
   const showJumpstart = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
-  const tokensWithBalance = useTokensWithTokenBalance()
+  const jumpstartTokens = useTokensForJumpstart()
 
   const handlePress = () => {
     ValoraAnalytics.track(SendEvents.send_select_recipient_jumpstart)
@@ -29,7 +29,7 @@ function SelectRecipientJumpstartButton() {
     })
   }
 
-  if (!showJumpstart || tokensWithBalance.length === 0) {
+  if (!showJumpstart || jumpstartTokens.length === 0) {
     return null
   }
 

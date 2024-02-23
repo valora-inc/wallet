@@ -502,3 +502,14 @@ export const importedTokensSelector = createSelector(
     return tokenList.filter((token) => token?.isManuallyImported)
   }
 )
+
+export const jumpstartSendTokensSelector = createSelector(
+  [tokensWithTokenBalanceSelector],
+  (tokensWithBalance) => {
+    return tokensWithBalance.filter((token) => {
+      // the jumpstart contract currently requires a token address for the
+      // depositERC20 method
+      return !!token.address
+    })
+  }
+)
