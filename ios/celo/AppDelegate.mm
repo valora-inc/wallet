@@ -59,7 +59,7 @@ static void SetCustomNSURLSessionConfiguration() {
     NSDictionary *infoDictionary = NSBundle.mainBundle.infoDictionary;
     NSString *appVersion = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
     UIDevice *device = UIDevice.currentDevice;
-    // Format we want: Valora/1.0.0 (iOS 14.5; iPhone)
+    // Format we want: Valora/1.0.0 (iOS 15.0; iPhone)
     NSString *userAgent = [NSString stringWithFormat:@"Valora/%@ (%@ %@; %@)", appVersion, device.systemName, device.systemVersion, device.model];
     configuration.HTTPAdditionalHeaders = @{ @"User-Agent": userAgent };
     
