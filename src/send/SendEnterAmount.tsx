@@ -9,6 +9,7 @@ import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
@@ -25,6 +26,7 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
+import { DYNAMIC_LINK_DOMAIN_URI_PREFIX } from 'src/config'
 import DownArrowIcon from 'src/icons/DownArrowIcon'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigate } from 'src/navigator/NavigationService'
@@ -41,6 +43,7 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import {
   feeCurrenciesSelector,
+  jumpstartSendTokensSelector,
   tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -49,6 +52,7 @@ import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
+import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
 
@@ -97,19 +101,34 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
 
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
-  const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
+  const { defaultTokenIdOverride, origin, isFromScan, forceTokenId } = route.params
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokens = useSelector((state) =>
+  const supportedSendTokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
+  )
+  const supportedJumpstartTokens = useSelector((state) =>
+    jumpstartSendTokensSelector(state, supportedNetworkIds)
   )
   const lastUsedTokenId = useSelector(lastUsedTokenIdSelector)
 
+  const tokens = useMemo(() => {
+    return origin === SendOrigin.Jumpstart ? supportedJumpstartTokens : supportedSendTokens
+  }, [supportedSendTokens, supportedJumpstartTokens, origin])
   const defaultToken = useMemo(() => {
     const defaultToken = tokens.find((token) => token.tokenId === defaultTokenIdOverride)
     const lastUsedToken = tokens.find((token) => token.tokenId === lastUsedTokenId)
 
     return defaultToken ?? lastUsedToken ?? tokens[0]
   }, [tokens, defaultTokenIdOverride, lastUsedTokenId])
+
+  const jumpstartLink = useMemo(() => {
+    const privateKey = generatePrivateKey()
+    const publicKey = privateKeyToAccount(privateKey).address
+    return {
+      publicKey,
+      url: new URL(`/jumpstart/${privateKey}`, DYNAMIC_LINK_DOMAIN_URI_PREFIX).href,
+    }
+  }, [origin])
 
   // the startPosition and textInputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android
@@ -158,6 +177,13 @@ function SendEnterAmount({ route }: Props) {
       // should never happen because button is disabled if send is not possible
       throw new Error('Send is not possible')
     }
+
+    if (origin === SendOrigin.Jumpstart) {
+      // TODO handle send transaction and navigation
+      return
+    }
+
+    const recipient = route.params.recipient
     navigate(Screens.SendConfirmation, {
       origin,
       isFromScan,
@@ -221,17 +247,29 @@ function SendEnterAmount({ route }: Props) {
       return
     }
     const debouncedRefreshTransactions = setTimeout(() => {
-      return refreshPreparedTransactions({
-        amount: parsedAmount,
-        token,
-        recipientAddress: recipient.address,
-        walletAddress,
-        feeCurrencies,
-        comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
-      })
+      return refreshPreparedTransactions(
+        origin === SendOrigin.Jumpstart
+          ? {
+              sendOrigin: SendOrigin.Jumpstart,
+              amount: parsedAmount,
+              token,
+              walletAddress,
+              feeCurrencies,
+              publicKey: jumpstartLink.publicKey,
+            }
+          : {
+              sendOrigin: origin,
+              amount: parsedAmount,
+              token,
+              recipientAddress: route.params.recipient.address,
+              walletAddress,
+              feeCurrencies,
+              comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
+            }
+      )
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
-  }, [parsedAmount, token])
+  }, [parsedAmount, token, origin, route.params])
 
   const showLowerAmountError = token.balance.lt(amount)
   const showMaxAmountWarning =
