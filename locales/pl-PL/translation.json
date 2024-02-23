@@ -1748,6 +1748,7 @@
     "swapFromTokenSelection": "ZAMIANA Z",
     "swapToTokenSelection": "ZAMIANA NA",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Przełączono do sieci {{networkName}}",
       "body_swapFrom": "Aby kontynuować, wybierz token do wymiany w sieci {{networkName}}.",
@@ -2025,6 +2026,10 @@
     "invite": {
       "title": "Wyślij kryptowalutę do znajomego",
       "subtitle": "Zaproś znajomych z listy kontaktów"
+    },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
     },
     "getStarted": {
       "title": "Sposoby wysyłania środków w Valorze",

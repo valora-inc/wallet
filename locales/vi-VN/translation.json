@@ -1742,6 +1742,7 @@
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Bạn đã chuyển sang mạng {{networkName}}",
       "body_swapFrom": "Để tiếp tục, hãy chọn một token để trao đổi từ mạng {{networkName}}.",
@@ -2019,6 +2020,10 @@
     "invite": {
       "title": "Gửi tiền điện tử cho bạn bè",
       "subtitle": "Mời bạn bè từ danh bạ"
+    },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
     },
     "getStarted": {
       "title": "Các phương thức gửi tiền trên Valora",
