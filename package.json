@@ -201,7 +201,7 @@
     "typed-redux-saga": "^1.5.0",
     "utf8": "^3.0.0",
     "uuid": "^9.0.1",
-    "victory-native": "^36.8.2",
+    "victory-native": "^36.9.1",
     "viem": "^2.5.0",
     "vm-browserify": "^1.1.2",
     "web3": "1.10.4"

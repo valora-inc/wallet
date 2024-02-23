@@ -12,9 +12,9 @@ export enum IconSize {
 
 const IconSizeToStyle = {
   [IconSize.SMALL]: {
-    tokenImageSize: 20,
-    networkImageSize: 8,
-    networkImagePosition: 13,
+    tokenImageSize: 24,
+    networkImageSize: 9,
+    networkImagePosition: 15,
     tokenTextSize: 6,
   },
   [IconSize.MEDIUM]: {
