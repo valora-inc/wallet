@@ -128,7 +128,7 @@ function SendEnterAmount({ route }: Props) {
       publicKey,
       privateKey,
     }
-  }, [origin])
+  }, [])
 
   // the startPosition and textInputRef variables exist to ensure TextInput
   // displays the start of the value for long values on Android

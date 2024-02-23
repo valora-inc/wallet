@@ -504,12 +504,14 @@ export const importedTokensSelector = createSelector(
   }
 )
 
-const jumpstartSupportedNetworkIds = Object.keys(
-  getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG])
-    .jumpstartContracts
-) as NetworkId[]
+const getJumpstartEnabledNetworkIds = () =>
+  Object.keys(
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG])
+      .jumpstartContracts
+  ) as NetworkId[]
+
 export const jumpstartSendTokensSelector = createSelector(
-  [(state) => tokensWithTokenBalanceSelector(state, jumpstartSupportedNetworkIds)],
+  [(state) => tokensWithTokenBalanceSelector(state, getJumpstartEnabledNetworkIds())],
   (tokensWithBalance) => {
     return tokensWithBalance.filter((token) => {
       // the jumpstart contract currently requires a token address for the

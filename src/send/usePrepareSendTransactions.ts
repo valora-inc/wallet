@@ -8,6 +8,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { TokenBalance, isNativeTokenBalance, tokenBalanceHasAddress } from 'src/tokens/slice'
 import { tokenSupportsComments } from 'src/tokens/utils'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import {
@@ -23,33 +24,20 @@ import { Address, encodeFunctionData } from 'viem'
 const TAG = 'src/send/usePrepareSendTransactions'
 
 async function createBaseJumpstartTransactions(
+  jumpstartContractAddress: string,
   spendTokenAmount: BigNumber,
-  spendToken: TokenBalance,
+  spendTokenAddress: string,
+  networkId: NetworkId,
   walletAddress: string,
   publicKey: string
 ) {
-  const { networkId, address } = spendToken
   const baseTransactions: TransactionRequest[] = []
-
-  if (!address) {
-    throw new Error(`jumpstart send token ${spendToken.tokenId} has undefined address`)
-  }
-
-  const jumpstartContractAddress = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  ).jumpstartContracts?.[networkId]?.contractAddress
-
-  if (!jumpstartContractAddress) {
-    throw new Error(
-      `jumpstart contract for send token ${spendToken.tokenId} on network ${spendToken.networkId} is not provided in dynamic config`
-    )
-  }
-
   const spendAmount = BigInt(spendTokenAmount.toFixed(0))
+
   const approvedAllowanceForSpender = await publicClient[
     networkIdToNetwork[networkId]
   ].readContract({
-    address: address as Address,
+    address: spendTokenAddress as Address,
     abi: erc20.abi,
     functionName: 'allowance',
     args: [walletAddress as Address, jumpstartContractAddress as Address],
@@ -58,7 +46,7 @@ async function createBaseJumpstartTransactions(
   if (approvedAllowanceForSpender < spendAmount) {
     const approveTx: TransactionRequest = {
       from: walletAddress as Address,
-      to: spendToken.address as Address,
+      to: spendTokenAddress as Address,
       data: encodeFunctionData({
         abi: erc20.abi,
         functionName: 'approve',
@@ -75,7 +63,7 @@ async function createBaseJumpstartTransactions(
     data: encodeFunctionData({
       abi: jumpstart.abi,
       functionName: 'depositERC20',
-      args: [publicKey as Address, address as Address, spendAmount],
+      args: [publicKey as Address, spendTokenAddress as Address, spendAmount],
     }),
   }
   baseTransactions.push(transferTx)
@@ -104,20 +92,35 @@ type PrepareJumpstartTransactionsInput = {
   walletAddress: string
   feeCurrencies: TokenBalance[]
 }
-type PrepareSendTransactionsCallbackInput =
-  | PrepareJumpstartTransactionsInput
-  | PrepareTransferTransactionsInput
 
-export async function prepareSendTransactionsCallback(input: PrepareSendTransactionsCallbackInput) {
+export async function prepareSendTransactionsCallback(
+  input: PrepareJumpstartTransactionsInput | PrepareTransferTransactionsInput
+) {
   const { amount, token, walletAddress, feeCurrencies } = input
   if (amount.isLessThanOrEqualTo(0)) {
     return
   }
 
   if (input.transactionType === PrepareSendTransactionType.JUMPSTART) {
+    const { address, networkId, tokenId } = token
+    if (!address) {
+      throw new Error(`jumpstart send token ${tokenId} has undefined address`)
+    }
+
+    const jumpstartContractAddress = getDynamicConfigParams(
+      DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+    ).jumpstartContracts?.[networkId]?.contractAddress
+    if (!jumpstartContractAddress) {
+      throw new Error(
+        `jumpstart contract for send token ${tokenId} on network ${networkId} is not provided in dynamic config`
+      )
+    }
+
     const baseTransactions = await createBaseJumpstartTransactions(
+      jumpstartContractAddress,
       amount,
-      token,
+      address,
+      networkId,
       walletAddress,
       input.publicKey
     )
