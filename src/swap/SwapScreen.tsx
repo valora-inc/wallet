@@ -47,7 +47,7 @@ import { currentSwapSelector, priceImpactWarningThresholdSelector } from 'src/sw
 import { swapStart } from 'src/swap/slice'
 import { Field, SwapAmount } from 'src/swap/types'
 import useFilterChips from 'src/swap/useFilterChips'
-import useSwapQuote, { QuoteResult } from 'src/swap/useSwapQuote'
+import useSwapQuote, { NO_QUOTE_ERROR_MESSAGE, QuoteResult } from 'src/swap/useSwapQuote'
 import { useSwappableTokens, useTokenInfo, useTokensWithTokenBalance } from 'src/tokens/hooks'
 import { feeCurrenciesWithPositiveBalancesSelector, tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -334,7 +334,11 @@ export function SwapScreen({ route }: Props) {
 
   useEffect(() => {
     if (fetchSwapQuoteError) {
-      dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+      if (fetchSwapQuoteError.message.includes(NO_QUOTE_ERROR_MESSAGE)) {
+        dispatch(showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS))
+      } else {
+        dispatch(showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED))
+      }
     }
   }, [fetchSwapQuoteError])
 
@@ -415,9 +419,11 @@ export function SwapScreen({ route }: Props) {
           toToken: toToken.address,
           toTokenId: toToken.tokenId,
           toTokenNetworkId: toToken.networkId,
+          toTokenIsImported: !!toToken.isManuallyImported,
           fromToken: fromToken.address,
           fromTokenId: fromToken.tokenId,
           fromTokenNetworkId: fromToken.networkId,
+          fromTokenIsImported: !!fromToken.isManuallyImported,
           amount: inputSwapAmount[updatedField],
           amountType: swapAmountParam,
           allowanceTarget,
@@ -639,9 +645,11 @@ export function SwapScreen({ route }: Props) {
         toToken: toToken.address,
         toTokenId: toToken.tokenId,
         toTokenNetworkId: toToken.networkId,
+        toTokenIsImported: !!toToken.isManuallyImported,
         fromToken: fromToken.address,
         fromTokenId: fromToken.tokenId,
         fromTokenNetworkId: fromToken?.networkId,
+        fromTokenIsImported: !!fromToken.isManuallyImported,
         amount: parsedSwapAmount[updatedField].toString(),
         amountType: updatedField === Field.FROM ? 'sellAmount' : 'buyAmount',
         priceImpact: quote.estimatedPriceImpact,

@@ -658,6 +658,7 @@ interface SendEventsProperties {
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
   }
+  [SendEvents.send_select_recipient_jumpstart]: undefined
 }
 
 interface FeeEventsProperties {
@@ -1170,6 +1171,7 @@ interface SwapEvent {
   toToken: string | null | undefined
   toTokenId: string
   toTokenNetworkId: string
+  toTokenIsImported: boolean
   /**
    * Address of the from token
    *
@@ -1178,6 +1180,7 @@ interface SwapEvent {
   fromToken: string | null | undefined
   fromTokenId: string
   fromTokenNetworkId: string
+  fromTokenIsImported: boolean
   /**
    * Starting with v1.74, this amount is always in decimal format
    * Before that it was in token smallest unit or decimal format depending on the event.

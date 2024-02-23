@@ -318,14 +318,16 @@ export const swappableFromTokensByNetworkIdSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) => {
     const appVersion = deviceInfoModule.getVersion()
+
     return (
       tokens
         .filter(
           (tokenInfo) =>
             tokenInfo.isSwappable ||
+            tokenInfo.isManuallyImported ||
+            tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) ||
             (tokenInfo.minimumAppVersionToSwap &&
-              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap)) ||
-            tokenInfo.balance.gt(TOKEN_MIN_AMOUNT)
+              !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
         )
         // sort by balance USD (DESC) then name (ASC), tokens without a priceUsd
         // are pushed last, sorted by name (ASC)
@@ -366,6 +368,7 @@ export const swappableToTokensByNetworkIdSelector = createSelector(
     return tokens.filter(
       (tokenInfo) =>
         tokenInfo.isSwappable ||
+        tokenInfo.isManuallyImported ||
         (tokenInfo.minimumAppVersionToSwap &&
           !isVersionBelowMinimum(appVersion, tokenInfo.minimumAppVersionToSwap))
     )
