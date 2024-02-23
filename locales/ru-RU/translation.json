@@ -2027,6 +2027,10 @@
       "title": "Отправляйте криптовалюту друзьям",
       "subtitle": "Приглашайте друзей из списка контактов"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Способы отправки средств на Valora",
       "subtitle": "НАЧАТЬ",
