@@ -87,7 +87,7 @@ export enum PrepareSendTransactionType {
   TRANSFER = 'transfer',
   JUMPSTART = 'jumpstart',
 }
-export type PrepareSendTransactionsInput = {
+export type PrepareTransferTransactionsInput = {
   transactionType: PrepareSendTransactionType.TRANSFER
   recipientAddress: string
   comment?: string
@@ -106,7 +106,7 @@ type PrepareJumpstartTransactionsInput = {
 }
 type PrepareSendTransactionsCallbackInput =
   | PrepareJumpstartTransactionsInput
-  | PrepareSendTransactionsInput
+  | PrepareTransferTransactionsInput
 
 export async function prepareSendTransactionsCallback(input: PrepareSendTransactionsCallbackInput) {
   const { amount, token, walletAddress, feeCurrencies } = input

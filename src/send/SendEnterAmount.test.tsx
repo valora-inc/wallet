@@ -11,7 +11,7 @@ import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import {
-  PrepareSendTransactionsInput,
+  PrepareTransferTransactionsInput,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
@@ -499,7 +499,7 @@ describe('SendEnterAmount', () => {
     expect(
       (
         jest.mocked(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).mock
-          .calls[0][0] as PrepareSendTransactionsInput
+          .calls[0][0] as PrepareTransferTransactionsInput
       ).comment?.length
     ).toBeGreaterThanOrEqual(640)
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(3) // doesnt wait for timers
