@@ -30,7 +30,7 @@ function SelectRecipientJumpstartButton() {
     })
   }
 
-  if (showJumpstart || jumpstartTokens.length === 0) {
+  if (!showJumpstart || jumpstartTokens.length === 0) {
     return null
   }
 
