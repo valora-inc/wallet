@@ -5,7 +5,7 @@ export interface State {
   showError: boolean
 }
 
-export const initialState = {
+const initialState = {
   showLoading: false,
   showError: false,
 }
