@@ -2027,6 +2027,10 @@
       "title": "Wyślij kryptowalutę do znajomego",
       "subtitle": "Zaproś znajomych z listy kontaktów"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Sposoby wysyłania środków w Valorze",
       "subtitle": "ROZPOCZNIJ",
