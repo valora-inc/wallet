@@ -49,7 +49,10 @@ describe('keylessBackup saga', () => {
       const mockTorusKeyshare = 'my-torus-keyshare'
       await expectSaga(handleGoogleSignInCompleted, googleSignInCompleted({ idToken: mockJwt }))
         .provide([
-          [call(getTorusPrivateKey, { verifier: 'valora-auth0', jwt: mockJwt }), mockTorusKeyshare],
+          [
+            call(getTorusPrivateKey, { verifier: 'valora-cab-auth0', jwt: mockJwt }),
+            mockTorusKeyshare,
+          ],
         ])
         .put(torusKeyshareIssued({ keyshare: mockTorusKeyshare }))
         .run()
