@@ -1748,6 +1748,7 @@
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Ви перейшли до мережі {{networkName}}",
       "body_swapFrom": "Щоб продовжити, виберіть, який токен ви хочете обміняти для свопу в мережі {{networkName}}.",
