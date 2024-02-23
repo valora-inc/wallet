@@ -200,7 +200,7 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
 
     try {
       // case where account not funded yet. continue with onboarding.
-      await element(by.id('ConfirmUseAccountDialog/PrimaryAction')).tap()
+      await waitForElementByIdAndTap('ConfirmUseAccountDialog/PrimaryAction')
     } catch {}
 
     // this onboarding step is bypassed for already verified wallets

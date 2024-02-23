@@ -19,6 +19,7 @@ import Social from 'src/icons/Social'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
+import SelectRecipientJumpstartButton from 'src/send/SelectJumpstartRecipientButton'
 import Logger from 'src/utils/Logger'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 
@@ -147,6 +148,7 @@ export default function SelectRecipientButtons({ onContactsPermissionGranted }: 
 
   return (
     <>
+      <SelectRecipientJumpstartButton />
       <SelectRecipientButton
         testID={'SelectRecipient/QR'}
         title={t('sendSelectRecipient.qr.title')}

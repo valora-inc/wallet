@@ -10,7 +10,11 @@ import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { SupportedActions, getDisplayTextFromAction } from 'src/walletConnect/constants'
+import {
+  SupportedActions,
+  chainAgnosticActions,
+  getDisplayTextFromAction,
+} from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
@@ -69,9 +73,9 @@ function ActionRequest({
   )
 
   // Reject and warn if the chain is not supported
-  // Note: we still allow personal_sign on unsupported chains (Cred Protocol does this)
-  // as this does not depend on the chainId
-  if (!supportedChains.includes(chainId) && method !== SupportedActions.personal_sign) {
+  // Note: we still allow off-chain actions like personal_sign on unsupported
+  // chains (Cred Protocol does this) as this does not depend on the chainId
+  if (!supportedChains.includes(chainId) && !chainAgnosticActions.includes(method)) {
     const supportedNetworkNames = supportedChains
       .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
       .join(`, `)
