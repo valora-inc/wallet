@@ -1,6 +1,6 @@
 import { Contract } from '@celo/connect'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
-import jumpstartAbi from 'src/abis/WalletJumpStart.json'
+import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -27,7 +27,7 @@ export async function jumpstartLinkHandler(privateKey: string, userAddress: stri
   const accounts: string[] = kit.connection.getLocalAccounts()
   const publicKey = accounts[0]
 
-  const jumpstart: Contract = await getContract(jumpstartAbi, contractAddress)
+  const jumpstart: Contract = await getContract(walletJumpstart.abi, contractAddress)
 
   await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey)
   await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey)
