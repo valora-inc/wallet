@@ -49,8 +49,7 @@ const BottomToast = ({ showToast, onDismiss, children }: PropsWithChildren<Props
     },
     onEnd: (event: { translationY: number }) => {
       const dismissThreshold = 0.33 * toastHeight
-      const translationY = Math.abs(event.translationY)
-      if (onDismiss && translationY > dismissThreshold) {
+      if (onDismiss && event.translationY > dismissThreshold) {
         runOnJS(onDismiss)()
       } else {
         progress.value = withSpring(1)
