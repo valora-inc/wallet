@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import {
   _feeCurrenciesByNetworkIdSelector,
   cashInTokensByNetworkIdSelector,
@@ -8,6 +8,7 @@ import {
   feeCurrenciesSelector,
   feeCurrenciesWithPositiveBalancesSelector,
   importedTokensSelector,
+  jumpstartSendTokensSelector,
   lastKnownTokenBalancesSelector,
   spendTokensByNetworkIdSelector,
   swappableFromTokensByNetworkIdSelector,
@@ -44,9 +45,7 @@ jest.mock('react-native-device-info', () => ({
   getVersion: () => '1.10.0',
 }))
 
-jest.mock('src/statsig', () => ({
-  getFeatureGate: jest.fn(),
-}))
+jest.mock('src/statsig')
 
 beforeAll(() => {
   jest.useFakeTimers({ now: mockDate })
@@ -54,6 +53,7 @@ beforeAll(() => {
 
 beforeEach(() => {
   jest.mocked(getFeatureGate).mockReturnValue(true)
+  jest.mocked(getDynamicConfigParams).mockReturnValue({})
 })
 
 const state: any = {
@@ -189,6 +189,37 @@ describe(tokensByIdSelector, () => {
       expect(tokensByIdSepolia).not.toEqual(tokensById)
       expect(tokensById).toEqual(tokensById2)
       expect(tokensByIdSelector.recomputations()).toEqual(2) // once for each different networkId
+    })
+  })
+})
+
+describe('jumpstartSendTokensSelector', () => {
+  beforeEach(() => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: {
+        'celo-alfajores': {
+          contractAddress: '0x123',
+        },
+      },
+    })
+  })
+
+  it('avoids unnecessary recomputations', () => {
+    const tokensById = jumpstartSendTokensSelector(state)
+    const tokensById2 = jumpstartSendTokensSelector(state)
+
+    expect(tokensById).toEqual(tokensById2)
+    expect(jumpstartSendTokensSelector.recomputations()).toEqual(1)
+  })
+
+  it('returns the right tokens', () => {
+    const tokens = jumpstartSendTokensSelector(state)
+
+    expect(tokens.length).toEqual(4)
+    tokens.forEach((token) => {
+      expect(token.address).toBeDefined()
+      expect(token.balance.toNumber()).toBeGreaterThan(0)
+      expect(token.networkId).toBe('celo-alfajores')
     })
   })
 })
