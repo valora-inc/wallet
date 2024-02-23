@@ -52,6 +52,7 @@ export type ConfirmedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>
   | Omit<TokenApproval, 'status'>
+  | Omit<NftTransfer, 'status'>
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
@@ -62,6 +63,7 @@ export type StandbyTransaction =
   | PendingStandbySwap
   | PendingStandbyTransfer
   | PendingStandbyApproval
+  | PendingStandbyNFTTransfer
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.
