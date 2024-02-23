@@ -24,6 +24,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
   [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
   [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
+  [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
 }
 
 export const ExperimentConfigs = {

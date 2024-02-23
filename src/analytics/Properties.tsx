@@ -656,6 +656,7 @@ interface SendEventsProperties {
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
   }
+  [SendEvents.send_select_recipient_jumpstart]: undefined
 }
 
 interface FeeEventsProperties {
