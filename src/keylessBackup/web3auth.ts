@@ -6,8 +6,6 @@ import NodeDetailManager from '@toruslabs/fetch-node-details'
 
 const TAG = 'keylessBackup/torus'
 
-// TODO update to use the latest Torus/Web3Auth API and add test coverage https://linear.app/valora/issue/ACT-876
-//  note: @toruslabs/torus.js and @toruslabs/fetch-node-details currently have empty mocks in jest_setup.ts
 export async function getTorusPrivateKey({ verifier, jwt }: { verifier: string; jwt: string }) {
   // largely copied from CustomAuth triggerLogin
   Logger.debug(TAG, `decoding jwt ${jwt}`)
