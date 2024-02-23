@@ -452,7 +452,7 @@ describe('TokenDetails', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
   })
 
-  it('renders the send and swap actions for the imported tokens', () => {
+  it('renders the send and swap actions for the imported tokens with balance', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
