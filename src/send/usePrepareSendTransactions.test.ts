@@ -1,8 +1,8 @@
 import { renderHook } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import { act } from 'react-test-renderer'
-import { SendOrigin } from 'src/analytics/types'
 import {
+  PrepareSendTransactionType,
   prepareSendTransactionsCallback,
   usePrepareSendTransactions,
 } from 'src/send/usePrepareSendTransactions'
@@ -56,7 +56,7 @@ describe('usePrepareSendTransactions', () => {
           recipientAddress: '0xabc',
           walletAddress: '0x123',
           feeCurrencies: [mockCeloTokenBalance],
-          sendOrigin: SendOrigin.AppSendFlow,
+          transactionType: PrepareSendTransactionType.TRANSFER,
         })
       ).toBeUndefined()
     })
@@ -68,7 +68,7 @@ describe('usePrepareSendTransactions', () => {
           recipientAddress: '0xabc',
           walletAddress: '0x123',
           feeCurrencies: [mockCeloTokenBalance],
-          sendOrigin: SendOrigin.AppSendFlow,
+          transactionType: PrepareSendTransactionType.TRANSFER,
         })
       ).toBeUndefined()
     })
@@ -86,7 +86,7 @@ describe('usePrepareSendTransactions', () => {
           recipientAddress: '0xabc',
           walletAddress: '0x123',
           feeCurrencies: [mockCeloTokenBalance],
-          sendOrigin: SendOrigin.AppSendFlow,
+          transactionType: PrepareSendTransactionType.TRANSFER,
         })
       ).toStrictEqual(mockPrepareTransactionsResult)
       expect(prepareERC20TransferTransaction).toHaveBeenCalledWith({
@@ -112,7 +112,7 @@ describe('usePrepareSendTransactions', () => {
           walletAddress: '0x123',
           feeCurrencies: [mockCeloTokenBalance],
           comment: 'mock comment',
-          sendOrigin: SendOrigin.AppSendFlow,
+          transactionType: PrepareSendTransactionType.TRANSFER,
         })
       ).toStrictEqual(mockPrepareTransactionsResult)
       expect(prepareTransferWithCommentTransaction).toHaveBeenCalledWith({
@@ -138,7 +138,7 @@ describe('usePrepareSendTransactions', () => {
           recipientAddress: '0xabc',
           walletAddress: '0x123',
           feeCurrencies: [mockEthTokenBalance],
-          sendOrigin: SendOrigin.AppSendFlow,
+          transactionType: PrepareSendTransactionType.TRANSFER,
         })
       ).toStrictEqual(mockPrepareTransactionsResult)
       expect(prepareSendNativeAssetTransaction).toHaveBeenCalledWith({
@@ -164,7 +164,7 @@ describe('usePrepareSendTransactions', () => {
           recipientAddress: '0xabc',
           walletAddress: '0x123',
           feeCurrencies: [mockCeloTokenBalance],
-          sendOrigin: SendOrigin.AppSendFlow,
+          transactionType: PrepareSendTransactionType.TRANSFER,
         })
       })
       expect(result.current.prepareTransactionsResult).toStrictEqual(mockPossibleResult)

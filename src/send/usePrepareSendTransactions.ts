@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import erc20 from 'src/abis/IERC20'
 import jumpstart from 'src/abis/IWalletJumpstart'
-import { SendOrigin } from 'src/analytics/types'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -84,8 +83,12 @@ async function createBaseJumpstartTransactions(
   return baseTransactions
 }
 
+export enum PrepareSendTransactionType {
+  TRANSFER = 'transfer',
+  JUMPSTART = 'jumpstart',
+}
 export type PrepareSendTransactionsInput = {
-  sendOrigin: SendOrigin.AppSendFlow | SendOrigin.Bidali
+  transactionType: PrepareSendTransactionType.TRANSFER
   recipientAddress: string
   comment?: string
   amount: BigNumber
@@ -94,7 +97,7 @@ export type PrepareSendTransactionsInput = {
   feeCurrencies: TokenBalance[]
 }
 type PrepareJumpstartTransactionsInput = {
-  sendOrigin: SendOrigin.Jumpstart
+  transactionType: PrepareSendTransactionType.JUMPSTART
   publicKey: string
   amount: BigNumber
   token: TokenBalance
@@ -111,7 +114,7 @@ export async function prepareSendTransactionsCallback(input: PrepareSendTransact
     return
   }
 
-  if (input.sendOrigin === SendOrigin.Jumpstart) {
+  if (input.transactionType === PrepareSendTransactionType.JUMPSTART) {
     const baseTransactions = await createBaseJumpstartTransactions(
       amount,
       token,

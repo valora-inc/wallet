@@ -33,7 +33,10 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
-import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import {
+  PrepareSendTransactionType,
+  usePrepareSendTransactions,
+} from 'src/send/usePrepareSendTransactions'
 import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
@@ -249,7 +252,7 @@ function SendEnterAmount({ route }: Props) {
       return refreshPreparedTransactions(
         origin === SendOrigin.Jumpstart
           ? {
-              sendOrigin: origin,
+              transactionType: PrepareSendTransactionType.JUMPSTART,
               amount: parsedAmount,
               token,
               walletAddress,
@@ -257,7 +260,7 @@ function SendEnterAmount({ route }: Props) {
               publicKey: jumpstartLink.publicKey,
             }
           : {
-              sendOrigin: origin,
+              transactionType: PrepareSendTransactionType.TRANSFER,
               amount: parsedAmount,
               token,
               recipientAddress: route.params.recipient.address,

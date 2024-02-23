@@ -454,7 +454,6 @@ describe('send/utils', () => {
         amount: new BigNumber('10'),
         token: mockCeloTokenBalance,
         recipientAddress: mockAccount,
-        sendOrigin: SendOrigin.AppSendFlow,
       })
         .provide([
           [select(walletAddressSelector), mockAccount2],
@@ -487,7 +486,6 @@ describe('send/utils', () => {
       amount: new BigNumber('10'),
       token: mockCeloTokenBalance,
       recipientAddress: mockAccount,
-      sendOrigin: SendOrigin.AppSendFlow,
     })
       .provide([
         [select(walletAddressSelector), mockAccount2],
@@ -507,7 +505,6 @@ describe('send/utils', () => {
       amount: new BigNumber('10'),
       token: mockCeloTokenBalance,
       recipientAddress: mockAccount,
-      sendOrigin: SendOrigin.AppSendFlow,
     })
       .provide([
         [select(walletAddressSelector), mockAccount2],

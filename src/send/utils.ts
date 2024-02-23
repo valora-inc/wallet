@@ -16,7 +16,10 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/types'
-import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
+import {
+  prepareSendTransactionsCallback,
+  PrepareSendTransactionType,
+} from 'src/send/usePrepareSendTransactions'
 import { feeCurrenciesSelector, tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
@@ -105,7 +108,6 @@ export function* handleSendPaymentData(
         amount: tokenAmount,
         token: tokenInfo,
         recipientAddress: recipient.address,
-        sendOrigin: SendOrigin.AppSendFlow as const,
       }
     )
 
@@ -145,12 +147,10 @@ export function* preparePaymentRequestTransaction({
   amount,
   token,
   recipientAddress,
-  sendOrigin,
 }: {
   amount: BigNumber
   token: TokenBalance
   recipientAddress: string
-  sendOrigin: SendOrigin.AppSendFlow | SendOrigin.Bidali
 }) {
   let preparedTransaction: SerializableTransactionRequest | undefined = undefined
   let feeAmount: string | undefined = undefined
@@ -165,7 +165,7 @@ export function* preparePaymentRequestTransaction({
 
   try {
     const prepareTransactionsResult = yield* call(prepareSendTransactionsCallback, {
-      sendOrigin,
+      transactionType: PrepareSendTransactionType.TRANSFER as const,
       amount,
       token,
       recipientAddress,
