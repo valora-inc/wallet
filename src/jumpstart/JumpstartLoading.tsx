@@ -11,17 +11,17 @@ import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-export default function JumpstartToastLoading() {
+export default function JumpstartLoading() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const showToast = useSelector(showJumstartLoading)
 
-  const handleToastDismiss = () => {
+  const handleDismiss = () => {
     dispatch(jumpstartLoadingDismissed())
   }
 
   return (
-    <BottomToast showToast={showToast} onDismiss={handleToastDismiss}>
+    <BottomToast showToast={showToast} onDismiss={handleDismiss}>
       <View style={styles.container}>
         <GreenLoadingSpinner height={ICON_HEIGHT} />
         <View style={styles.content}>

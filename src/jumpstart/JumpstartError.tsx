@@ -7,23 +7,23 @@ import { showJumstartError } from 'src/jumpstart/selectors'
 import { jumpstartErrorDismissed } from 'src/jumpstart/slice'
 import useSelector from 'src/redux/useSelector'
 
-export default function JumpstartToastError() {
+export default function JumpstartError() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
-  const showToast = useSelector(showJumstartError)
+  const showNotification = useSelector(showJumstartError)
 
-  const handleToastDismiss = () => {
+  const handleDismiss = () => {
     dispatch(jumpstartErrorDismissed())
   }
 
   return (
     <BottomSheetInLineNotification
-      showNotification={showToast}
+      showNotification={showNotification}
       severity={Severity.Warning}
       title={t('jumpstart.error.title')}
       description={t('jumpstart.error.description')}
       ctaLabel={t('jumpstart.error.dismiss')}
-      onPressCta={handleToastDismiss}
+      onPressCta={handleDismiss}
     />
   )
 }
