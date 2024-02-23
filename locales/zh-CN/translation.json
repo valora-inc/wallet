@@ -2021,6 +2021,10 @@
       "title": "向朋友发送加密货币",
       "subtitle": "从联系人列表中邀请朋友"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "在 Valora 上发送资金的方式",
       "subtitle": "开始",
