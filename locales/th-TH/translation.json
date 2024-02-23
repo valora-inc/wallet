@@ -1742,6 +1742,7 @@
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "คุณเปลี่ยนไปใช้เครือข่าย {{networkName}} แล้ว",
       "body_swapFrom": "เลือกโทเค็นที่จะสว็อปจากบนเครือข่าย {{networkName}} เพื่อดำเนินการต่อ",
