@@ -1744,6 +1744,7 @@
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
@@ -2022,6 +2023,10 @@
       "title": "Envoyez des crypto à vos amis",
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
       "subtitle": "COMMENCER",
@@ -2086,6 +2091,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Vous avez besoin de plus de {{feeTokenSymbol}} pour le gas",
       "description": "Ajoutez {{feeTokenSymbol}} pour couvrir vos frais de gas ou modifiez le montant que vous envoyez"
+    },
+    "prepareTransactionError": {
+      "title": "Une erreur s'est produite!",
+      "description": "Il n'a pas été possible de préparer une transaction pour ce jeton."
     }
   },
   "transactionFeed": {

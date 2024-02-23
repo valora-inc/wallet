@@ -1748,6 +1748,7 @@
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Ви перейшли до мережі {{networkName}}",
       "body_swapFrom": "Щоб продовжити, виберіть, який токен ви хочете обміняти для свопу в мережі {{networkName}}.",
@@ -2026,6 +2027,10 @@
       "title": "Надіслати криптовалюту друзям",
       "subtitle": "Запросити друзів зі свого списку контактів"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Як надіслати кошти у Valora",
       "subtitle": "ПОЧАТИ РОБОТУ",
@@ -2090,6 +2095,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
       "description": "Додайте {{feeTokenSymbol}}, щоб покрити комісію на газ або скоригувати суму, яку ви надсилаєте"
+    },
+    "prepareTransactionError": {
+      "title": "Щось пішло не так!",
+      "description": "Підготувати транзакцію для цього токена не вдалося."
     }
   },
   "transactionFeed": {

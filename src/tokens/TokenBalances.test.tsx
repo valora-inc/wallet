@@ -20,7 +20,6 @@ import {
   mockPositions,
   mockTestTokenAddress,
   mockTestTokenTokenId,
-  mockTokenBalances,
   mockTokenBalancesWithHistoricalPrices,
 } from 'test/values'
 
@@ -32,24 +31,6 @@ jest.mock('src/statsig', () => {
     }),
   }
 })
-
-const storeWithoutHistoricalPrices = {
-  tokens: {
-    tokenBalances: {
-      ...mockTokenBalances,
-      [mockTestTokenTokenId]: {
-        address: mockTestTokenAddress,
-        tokenId: mockTestTokenTokenId,
-        networkId: NetworkId['celo-alfajores'],
-        symbol: 'TT',
-        balance: '50',
-      },
-    },
-  },
-  app: {
-    showPriceChangeIndicatorInBalances: false,
-  },
-}
 
 const storeWithHistoricalPrices = {
   tokens: {
@@ -71,9 +52,6 @@ const storeWithHistoricalPrices = {
         },
       },
     },
-  },
-  app: {
-    showPriceChangeIndicatorInBalances: true,
   },
 }
 
@@ -121,26 +99,7 @@ const mockScreenProps = getMockStackScreenProps(Screens.TokenBalances)
 const mockWalletAddress = '0x123'
 
 describe('TokenBalancesScreen', () => {
-  it('renders correctly when showPriceChangeIndicator ff is off', async () => {
-    const store = createMockStore(storeWithoutHistoricalPrices)
-
-    const tree = render(
-      <Provider store={store}>
-        <TokenBalancesScreen {...mockScreenProps} />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('tokenBalance:POOF'))).toBe('5.00')
-    expect(getElementText(tree.getByTestId('tokenLocalBalance:POOF'))).toBe('₱0.67')
-
-    expect(getElementText(tree.getByTestId('tokenBalance:TT'))).toBe('50.00')
-    expect(tree.queryByTestId('tokenLocalBalance:TT')).toBeFalsy()
-
-    expect(tree.queryByTestId('percentageIndicator:POOF')).toBeFalsy()
-    expect(tree.queryByTestId('percentageIndicator:TT')).toBeFalsy()
-  })
-
-  it('renders correctly when showPriceChangeIndicator ff is on', async () => {
+  it('renders correctly the price change indicator', async () => {
     const store = createMockStore(storeWithHistoricalPrices)
 
     const tree = render(
@@ -159,9 +118,8 @@ describe('TokenBalancesScreen', () => {
     expect(tree.queryByTestId('percentageIndicator:TT:UpIndicator')).toBeTruthy()
   })
 
-  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is true', () => {
+  it('renders correctly the NFT viewer banner', () => {
     const store = createMockStore({
-      app: { visualizeNFTsEnabledInHomeAssetsPage: true },
       web3: {
         account: mockWalletAddress,
       },
@@ -179,17 +137,6 @@ describe('TokenBalancesScreen', () => {
     expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
       uri: `${networkConfig.nftsValoraAppUrl}?address=${mockWalletAddress}&hide-header=true`,
     })
-  })
-
-  it('renders correctly when visualizeNFTsEnabledInHomeAssetsPage is false', () => {
-    const store = createMockStore({ app: { visualizeNFTsEnabledInHomeAssetsPage: false } })
-
-    const tree = render(
-      <Provider store={store}>
-        <TokenBalancesScreen {...mockScreenProps} />
-      </Provider>
-    )
-    expect(tree.queryByTestId('NftViewerBanner')).toBeFalsy()
   })
 
   it('renders the correct components when there are positions', () => {

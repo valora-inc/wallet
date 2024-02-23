@@ -1744,6 +1744,7 @@
     "swapFromTokenSelection": "TAUSCH VON",
     "swapToTokenSelection": "TAUSCH ZU",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Du bist zum Netzwerk {{networkName}} gewechselt",
       "body_swapFrom": "Wähle einen Token aus, den du im {{networkName}} Netzwerk tauschen möchtest, um fortzufahren.",
@@ -2022,6 +2023,10 @@
       "title": "Sende Krypto an deine Freunde.",
       "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "So kannst du Guthaben auf Valora senden.",
       "subtitle": "ERSTE SCHRITTE",
@@ -2086,6 +2091,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Du benötigst mehr {{feeTokenSymbol}} für Gas.",
       "description": "Füge {{feeTokenSymbol}} hinzu, um deine Gasgebühren zu begleichen, oder passe den Betrag an, den du senden möchtest."
+    },
+    "prepareTransactionError": {
+      "title": "Etwas ist schief gelaufen!",
+      "description": "Es war nicht möglich, eine Transaktion für diesen Token vorzubereiten."
     }
   },
   "transactionFeed": {

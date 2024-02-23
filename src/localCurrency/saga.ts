@@ -30,6 +30,11 @@ export async function fetchExchangeRate(
   sourceCurrency: string,
   localCurrencyCode: string
 ): Promise<string> {
+  if (sourceCurrency === localCurrencyCode) {
+    // If the source currency is the same as the local currency, the exchange rate is always 1
+    return '1'
+  }
+
   const response = await fetch(`${networkConfig.blockchainApiUrl}/graphql`, {
     method: 'POST',
     headers: {
@@ -70,7 +75,6 @@ export async function fetchExchangeRate(
   return fetchedExchangeRate
 }
 
-// @ts-ignore return type issue, couldn't figure it out
 export function* fetchLocalCurrencyRateSaga() {
   try {
     const localCurrencyCode: LocalCurrencyCode | null = yield* select(getLocalCurrencyCode)

@@ -1742,6 +1742,7 @@
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "คุณเปลี่ยนไปใช้เครือข่าย {{networkName}} แล้ว",
       "body_swapFrom": "เลือกโทเค็นที่จะสว็อปจากบนเครือข่าย {{networkName}} เพื่อดำเนินการต่อ",
@@ -2020,6 +2021,10 @@
       "title": "ส่งคริปโตให้เพื่อนของคุณ",
       "subtitle": "เชิญเพื่อนจากรายชื่อผู้ติดต่อของคุณ"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "วิธีส่งเงินบน Valora",
       "subtitle": "เริ่มต้นใช้งาน",
@@ -2084,6 +2089,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "คุณต้องใช้อีก {{feeTokenSymbol}} สำหรับค่าก๊าซ",
       "description": "เพิ่ม {{feeTokenSymbol}} เพื่อให้เพียงพอสำหรับค่าก๊าซหรือปรับจำนวนเงินที่คุณจะส่ง"
+    },
+    "prepareTransactionError": {
+      "title": "Something went wrong!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {
