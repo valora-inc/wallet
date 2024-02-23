@@ -1934,10 +1934,10 @@
   dependencies:
     zod "^3.22.4"
 
-"@gorhom/bottom-sheet@^4.6.0":
-  version "4.6.0"
-  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.6.0.tgz#16bebbe4f5925447ece0d727830cf1776d5620f8"
-  integrity sha512-XgNflkhATUqTIiMDGuLaQZAtjUzcrhGOEJGHT+7Tou1ctTMb958YRGGnU9KFo5TkD6YCZcfWfxHPi9F0FF+DjA==
+"@gorhom/bottom-sheet@^4.6.1":
+  version "4.6.1"
+  resolved "https://registry.yarnpkg.com/@gorhom/bottom-sheet/-/bottom-sheet-4.6.1.tgz#e45e2183246e338cf732fe4f8f2c91875b22ddce"
+  integrity sha512-sXqsYqX1/rAbmCC5fb9o6hwSF3KXriC0EGUGvLlhFvjaEEMBrRKFTNndiluRK1HmpUzazVaYdTm/lLkSiA2ooQ==
   dependencies:
     "@gorhom/portal" "1.0.14"
     invariant "^2.2.4"
@@ -14788,10 +14788,10 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-native-adjust@^4.35.1:
-  version "4.35.1"
-  resolved "https://registry.yarnpkg.com/react-native-adjust/-/react-native-adjust-4.35.1.tgz#995fba796c5bcdcb5f2e46f51d359cc346be3e7a"
-  integrity sha512-XVbkNaypy2y1f43kq8IDbRzZhlDcL2lFVa7wpI5pQvX/Ru1X/yF+eQ/2u0ZJrVEsFHGkhObvUB0H3DR5Bs6aKQ==
+react-native-adjust@^4.37.1:
+  version "4.37.1"
+  resolved "https://registry.yarnpkg.com/react-native-adjust/-/react-native-adjust-4.37.1.tgz#f0977149d99655e379bb5bdcf1bb3f3ea1f157aa"
+  integrity sha512-ukFKdhztgmGgdLsI7WPi11KcJ7gYKLuNbyf5Nxa2N89NI9/xspJuZFcUvLFkqCYaXQB66ssYYfA80wbt/WA/Xw==
 
 react-native-android-open-settings@^1.3.0:
   version "1.3.0"
@@ -15026,10 +15026,10 @@ react-native-platform-touchable@^1.1.1:
   resolved "https://registry.yarnpkg.com/react-native-platform-touchable/-/react-native-platform-touchable-1.1.1.tgz#fde4acc65eea585d28b164d0c3716a42129a68e4"
   integrity sha1-/eSsxl7qWF0osWTQw3FqQhKaaOQ=
 
-react-native-qrcode-svg@^6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.2.0.tgz#62b62c5997ff23ba22544e289a6112a08f8ea306"
-  integrity sha512-rb2PgUwT8QpQyReVYNvzRY84AHsMh81354Tnkfp6MfqRbcdJURhnBWLBOO11pLMS6eXiwlq4SkcQxy88hRq+Dw==
+react-native-qrcode-svg@^6.3.0:
+  version "6.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-qrcode-svg/-/react-native-qrcode-svg-6.3.0.tgz#2b03826b7bd0c95d9c3fb669cb0fb5091f98d687"
+  integrity sha512-DUjgCRs2vaHSoLMVYoc7Oc8cL7CNUdvQmvtSmIurp/VBJ1DJkJlTQjeSxMoMWAjnnK4oFjjjA9+F4AJQL2f5Zw==
   dependencies:
     prop-types "^15.8.0"
     qrcode "^1.5.1"
@@ -15059,10 +15059,10 @@ react-native-restart-android@^0.0.7:
   resolved "https://registry.yarnpkg.com/react-native-restart-android/-/react-native-restart-android-0.0.7.tgz#60bc42530ad8e54c4bfb14d462ba0c779229368d"
   integrity sha512-FxTVAgYDeS+R/PSA8vdwOg0HR5NaLo/FQTOqq0kB+KGKR3APty5Qmcz0xXGBn+Ju09ueyklsRGzPR9YmcewZgg==
 
-react-native-safe-area-context@^4.8.2:
-  version "4.8.2"
-  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.8.2.tgz#e6b3d8acf3c6afcb4b5db03a97f9c37df7668f65"
-  integrity sha512-ffUOv8BJQ6RqO3nLml5gxJ6ab3EestPiyWekxdzO/1MQ7NF8fW1Mzh1C5QE9yq573Xefnc7FuzGXjtesZGv7cQ==
+react-native-safe-area-context@^4.9.0:
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/react-native-safe-area-context/-/react-native-safe-area-context-4.9.0.tgz#21a570ca3594cb4259ba65f93befaa60d91bcbd0"
+  integrity sha512-/OJD9Pb8IURyvn+1tWTszWPJqsbZ4hyHBU9P0xhOmk7h5owSuqL0zkfagU0pg7Vh0G2NKQkaPpUKUMMCUMDh/w==
 
 react-native-safe-modules@^1.0.3:
   version "1.0.3"
@@ -15171,10 +15171,10 @@ react-native-video@^6.0.0-beta.3:
   resolved "https://registry.yarnpkg.com/react-native-video/-/react-native-video-6.0.0-beta.3.tgz#acf7fca5feefb1ac93a6cac3dbfe0e0476714369"
   integrity sha512-WCGhl9drOr670En1taM7YF0r8obSjirnBabBaz+c0n2ZWd6EJUezI2+OtRH+/EQdtpI6hR52nTMIl42cQITEOw==
 
-react-native-webview@^13.6.4:
-  version "13.6.4"
-  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.6.4.tgz#6ef66db9dd78b2a2ae1b4fe79e1e3597aa29186e"
-  integrity sha512-AdgmaMBHPcyERTvng9eSGgHX6AleyUlSusWAxngSOSdiYGgHW81T6C5A8j/ImJAF9oZg0bQDxp43Hu56tzENZQ==
+react-native-webview@^13.8.1:
+  version "13.8.1"
+  resolved "https://registry.yarnpkg.com/react-native-webview/-/react-native-webview-13.8.1.tgz#d0058c063e38241476049aaab2e5cc9f254d5480"
+  integrity sha512-7Jqm1WzWJrOWraBAXQfKtr/Uo5Jw/IJHzC40jYLwgV/eVGmLJ9BpGKw6QVw7wpRkjmTZ2Typ4B1aHJLJJQFslA==
   dependencies:
     escape-string-regexp "2.0.0"
     invariant "2.2.4"
