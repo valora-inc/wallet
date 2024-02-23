@@ -248,27 +248,24 @@ function SendEnterAmount({ route }: Props) {
     if (parsedAmount.isLessThanOrEqualTo(0) || parsedAmount.isGreaterThan(token.balance)) {
       return
     }
+
     const debouncedRefreshTransactions = setTimeout(() => {
-      return refreshPreparedTransactions(
-        origin === SendOrigin.Jumpstart
+      return refreshPreparedTransactions({
+        amount: parsedAmount,
+        token,
+        walletAddress,
+        feeCurrencies,
+        ...(origin === SendOrigin.Jumpstart
           ? {
               transactionType: PrepareSendTransactionType.JUMPSTART,
-              amount: parsedAmount,
-              token,
-              walletAddress,
-              feeCurrencies,
               publicKey: jumpstartLink.publicKey,
             }
           : {
               transactionType: PrepareSendTransactionType.TRANSFER,
-              amount: parsedAmount,
-              token,
               recipientAddress: route.params.recipient.address,
-              walletAddress,
-              feeCurrencies,
               comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE,
-            }
-      )
+            }),
+      })
     }, FETCH_UPDATED_TRANSACTIONS_DEBOUNCE_TIME)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [parsedAmount, token, origin, route.params])
