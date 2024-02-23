@@ -8,7 +8,7 @@ import { LoggerLevel } from 'src/utils/LoggerLevels'
 // eslint-disable-next-line import/no-relative-packages
 import * as secretsFile from '../secrets.json'
 import { ONE_HOUR_IN_MILLIS } from './utils/time'
-
+import { TORUS_SAPPHIRE_NETWORK } from '@toruslabs/constants'
 export * from 'src/brandingConfig'
 
 // extract secrets from secrets.json
@@ -92,9 +92,10 @@ export const STATSIG_ENV = {
 export const E2E_TEST_STATSIG_ID = 'e2e_test_statsig_id'
 
 // Keyless backup settings
-export const TORUS_NETWORK = DEFAULT_TESTNET === 'mainnet' ? 'cyan' : 'testnet'
-export const TORUS_SIGNER_BASE_URL =
-  TORUS_NETWORK === 'cyan' ? 'https://signer-polygon.tor.us' : 'https://signer.tor.us'
+export const TORUS_NETWORK =
+  DEFAULT_TESTNET === 'mainnet'
+    ? TORUS_SAPPHIRE_NETWORK.SAPPHIRE_MAINNET
+    : TORUS_SAPPHIRE_NETWORK.SAPPHIRE_DEVNET
 
 // FEATURE FLAGS
 export const FIREBASE_ENABLED = stringToBoolean(Config.FIREBASE_ENABLED || 'true')
@@ -104,6 +105,8 @@ export const SENTRY_ENABLED = stringToBoolean(Config.SENTRY_ENABLED || 'false')
 export const SUPERCHARGE_AVAILABLE_REWARDS_URL = Config.SUPERCHARGE_AVAILABLE_REWARDS_URL
 
 // SECRETS
+export const WEB3AUTH_CLIENT_ID = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'WEB3AUTH_CLIENT_ID')
+
 export const ALCHEMY_ETHEREUM_API_KEY = keyOrUndefined(
   secretsFile,
   DEFAULT_TESTNET,
