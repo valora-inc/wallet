@@ -1744,6 +1744,7 @@
     "swapFromTokenSelection": "TROCA DE",
     "swapToTokenSelection": "TROCA PARA",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Você mudou para a rede {{networkName}}",
       "body_swapFrom": "Selecione um token de origem para trocar na rede {{networkName}} para continuar.",
