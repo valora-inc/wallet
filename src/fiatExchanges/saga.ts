@@ -82,6 +82,7 @@ function* bidaliPaymentRequest({
       amount: new BigNumber(amount),
       token: tokenInfo,
       recipientAddress: recipient.address,
+      sendOrigin: SendOrigin.Bidali as const,
     }
   )
 

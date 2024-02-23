@@ -10,7 +10,10 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RecipientType } from 'src/recipients/recipient'
 import SendEnterAmount from 'src/send/SendEnterAmount'
-import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import {
+  PrepareSendTransactionsInput,
+  usePrepareSendTransactions,
+} from 'src/send/usePrepareSendTransactions'
 import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
@@ -494,8 +497,10 @@ describe('SendEnterAmount', () => {
       1 // not twice since timers were not run between the two amount changes (zero to 8 and 8 to 9)
     )
     expect(
-      jest.mocked(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).mock.calls[0][0]
-        ?.comment?.length
+      (
+        jest.mocked(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).mock
+          .calls[0][0] as PrepareSendTransactionsInput
+      ).comment?.length
     ).toBeGreaterThanOrEqual(640)
     expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledTimes(3) // doesnt wait for timers
 

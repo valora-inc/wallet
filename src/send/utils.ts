@@ -105,6 +105,7 @@ export function* handleSendPaymentData(
         amount: tokenAmount,
         token: tokenInfo,
         recipientAddress: recipient.address,
+        sendOrigin: SendOrigin.AppSendFlow as const,
       }
     )
 
@@ -144,10 +145,12 @@ export function* preparePaymentRequestTransaction({
   amount,
   token,
   recipientAddress,
+  sendOrigin,
 }: {
   amount: BigNumber
   token: TokenBalance
   recipientAddress: string
+  sendOrigin: SendOrigin.AppSendFlow | SendOrigin.Bidali
 }) {
   let preparedTransaction: SerializableTransactionRequest | undefined = undefined
   let feeAmount: string | undefined = undefined
@@ -162,6 +165,7 @@ export function* preparePaymentRequestTransaction({
 
   try {
     const prepareTransactionsResult = yield* call(prepareSendTransactionsCallback, {
+      sendOrigin,
       amount,
       token,
       recipientAddress,

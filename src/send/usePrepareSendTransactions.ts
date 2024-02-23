@@ -84,24 +84,26 @@ async function createBaseJumpstartTransactions(
   return baseTransactions
 }
 
+export type PrepareSendTransactionsInput = {
+  sendOrigin: SendOrigin.AppSendFlow | SendOrigin.Bidali
+  recipientAddress: string
+  comment?: string
+  amount: BigNumber
+  token: TokenBalance
+  walletAddress: string
+  feeCurrencies: TokenBalance[]
+}
+type PrepareJumpstartTransactionsInput = {
+  sendOrigin: SendOrigin.Jumpstart
+  publicKey: string
+  amount: BigNumber
+  token: TokenBalance
+  walletAddress: string
+  feeCurrencies: TokenBalance[]
+}
 type PrepareSendTransactionsCallbackInput =
-  | {
-      sendOrigin: SendOrigin.Jumpstart
-      publicKey: string
-      amount: BigNumber
-      token: TokenBalance
-      walletAddress: string
-      feeCurrencies: TokenBalance[]
-    }
-  | {
-      sendOrigin: SendOrigin.AppSendFlow | SendOrigin.Bidali
-      recipientAddress: string
-      comment?: string
-      amount: BigNumber
-      token: TokenBalance
-      walletAddress: string
-      feeCurrencies: TokenBalance[]
-    }
+  | PrepareJumpstartTransactionsInput
+  | PrepareSendTransactionsInput
 
 export async function prepareSendTransactionsCallback(input: PrepareSendTransactionsCallbackInput) {
   const { amount, token, walletAddress, feeCurrencies } = input
