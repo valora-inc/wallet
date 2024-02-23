@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { appMounted, appUnmounted } from 'src/app/actions'
+import { isE2EEnv } from 'src/config'
 import i18n from 'src/i18n'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import useChangeLanguage from 'src/i18n/useChangeLanguage'
@@ -27,7 +28,9 @@ const AppInitGate = ({ appStartedMillis, reactLoadTime, children }: Props) => {
   const dispatch = useDispatch()
 
   const language = useSelector(currentLanguageSelector)
-  const bestLanguage = findBestAvailableLanguage(Object.keys(locales))?.languageTag
+  const bestLanguage = !isE2EEnv
+    ? findBestAvailableLanguage(Object.keys(locales))?.languageTag
+    : 'en-US'
 
   useEffect(() => {
     return () => {

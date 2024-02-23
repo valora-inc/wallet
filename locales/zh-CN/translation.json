@@ -1742,6 +1742,7 @@
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "您已转至 {{networkName}} 网络",
       "body_swapFrom": "在 {{networkName}} 网络上选择用于交换的代币，然后继续。",
@@ -2019,6 +2020,10 @@
     "invite": {
       "title": "向朋友发送加密货币",
       "subtitle": "从联系人列表中邀请朋友"
+    },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
     },
     "getStarted": {
       "title": "在 Valora 上发送资金的方式",
