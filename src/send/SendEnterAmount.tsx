@@ -39,9 +39,10 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenToLocalAmount, useTokensForJumpstart } from 'src/tokens/hooks'
+import { useTokenToLocalAmount } from 'src/tokens/hooks'
 import {
   feeCurrenciesSelector,
+  jumpstartSendTokensSelector,
   tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
 } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
@@ -104,7 +105,7 @@ function SendEnterAmount({ route }: Props) {
   const supportedSendTokens = useSelector((state) =>
     tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
   )
-  const supportedJumpstartTokens = useTokensForJumpstart()
+  const supportedJumpstartTokens = useSelector(jumpstartSendTokensSelector)
   const lastUsedTokenId = useSelector(lastUsedTokenIdSelector)
 
   const tokens = useMemo(() => {

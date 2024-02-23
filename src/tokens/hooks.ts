@@ -8,7 +8,6 @@ import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import {
   cashInTokensByNetworkIdSelector,
   cashOutTokensByNetworkIdSelector,
-  jumpstartSendTokensSelector,
   spendTokensByNetworkIdSelector,
   swappableFromTokensByNetworkIdSelector,
   swappableToTokensByNetworkIdSelector,
@@ -59,14 +58,6 @@ export function useTokensWithTokenBalance() {
 export function useTokensForSend() {
   const supportedNetworkIds = getSupportedNetworkIdsForSend()
   return useSelector((state) => tokensWithTokenBalanceSelector(state, supportedNetworkIds))
-}
-
-export function useTokensForJumpstart() {
-  const jumpstartContracts = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  ).jumpstartContracts
-  const supportedNetworkIds = Object.keys(jumpstartContracts) as NetworkId[]
-  return useSelector((state) => jumpstartSendTokensSelector(state, supportedNetworkIds))
 }
 
 export function useTokensInfoUnavailable(networkIds: NetworkId[]) {
