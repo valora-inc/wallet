@@ -3,7 +3,7 @@ import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
-import { PEPPER } from 'src/config'
+import { HASHED_KEYSHARE_PEPPER } from 'src/config'
 import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
@@ -45,16 +45,9 @@ export function* handleValoraKeyshareIssued({
 }: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
-    const hashedKeyshare = calculateSha256Hash(`${keyshare}_${PEPPER}`)
-    const hashedTorusKeyshare = calculateSha256Hash(`${torusKeyshare}_${PEPPER}`)
-    if (keylessBackupFlow === KeylessBackupFlow.Setup) {
-      ValoraAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshare_phone, {
-        hashedKeyshare,
-      })
-      ValoraAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshare_email, {
-        hashedKeyshare: hashedTorusKeyshare,
-      })
-    } else {
+    const hashedKeyshare = calculateSha256Hash(`${keyshare}_${HASHED_KEYSHARE_PEPPER}`)
+    const hashedTorusKeyshare = calculateSha256Hash(`${torusKeyshare}_${HASHED_KEYSHARE_PEPPER}`)
+    if (keylessBackupFlow === KeylessBackupFlow.Restore) {
       Logger.info(TAG, `Phone keyshare: ${hashedKeyshare}, Email keyshare: ${hashedTorusKeyshare}`)
     }
     const torusKeyshareBuffer = Buffer.from(torusKeyshare, 'hex')
@@ -83,6 +76,12 @@ export function* handleValoraKeyshareIssued({
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
       keylessBackupFlow,
     })
+    if (keylessBackupFlow === KeylessBackupFlow.Setup) {
+      ValoraAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshares, {
+        hashedKeysharePhone: hashedKeyshare,
+        hashedKeyshareEmail: hashedTorusKeyshare,
+      })
+    }
   } catch (error) {
     Logger.error(TAG, `Error handling keyless backup ${keylessBackupFlow}`, error)
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_failed, {

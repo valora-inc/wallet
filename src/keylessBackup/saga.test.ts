@@ -181,11 +181,9 @@ describe('keylessBackup saga', () => {
           ])
           .put(keylessBackupCompleted())
           .run()
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshare_phone', {
-          hashedKeyshare: '4b38ca76bf3a7f3904fc3d0257a8ba3f02c740e4ae8313c56e95dc30bc5f75ca',
-        })
-        expect(ValoraAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshare_email', {
-          hashedKeyshare: 'c2f62562adb55e4c28acca96fa517a8c6b7a6a8f29b19826b150a934febafeea',
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshares', {
+          hashedKeysharePhone: '4b38ca76bf3a7f3904fc3d0257a8ba3f02c740e4ae8313c56e95dc30bc5f75ca',
+          hashedKeyshareEmail: 'c2f62562adb55e4c28acca96fa517a8c6b7a6a8f29b19826b150a934febafeea',
         })
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Setup,

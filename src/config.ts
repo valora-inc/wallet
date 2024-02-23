@@ -139,7 +139,11 @@ export const AUTH0_CLIENT_ID =
   // dev app client id as fallback for e2e tests
   'YgsHPq93Egfap5Wc4iEQlGyQMqjLeBf2'
 
-export const PEPPER = keyOrUndefined(secretsFile, DEFAULT_TESTNET, 'PEPPER')
+export const HASHED_KEYSHARE_PEPPER = keyOrUndefined(
+  secretsFile,
+  DEFAULT_TESTNET,
+  'HASHED_KEYSHARE_PEPPER'
+)
 
 export const AUTH0_DOMAIN = configOrThrow('AUTH0_DOMAIN')
 
