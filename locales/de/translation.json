@@ -2023,6 +2023,10 @@
       "title": "Sende Krypto an deine Freunde.",
       "subtitle": "Lade Freunde aus deiner Kontaktliste ein."
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "So kannst du Guthaben auf Valora senden.",
       "subtitle": "ERSTE SCHRITTE",
