@@ -5,6 +5,11 @@ import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
+import {
+  PERMISSIONS,
+  RESULTS as PERMISSION_RESULTS,
+  check as checkPermission,
+} from 'react-native-permissions'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -49,7 +54,6 @@ import Logger from 'src/utils/Logger'
 import { getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { checkContactsPermission } from 'src/utils/permissions'
 import { calculateSha256Hash } from 'src/utils/random'
 import { getContractKit } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
@@ -59,6 +63,9 @@ import { call, delay, put, race, select, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
+
+const CONTACTS_PERMISSION =
+  Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS
 
 export function* doImportContactsWrapper() {
   yield* call(getConnectedAccount)
@@ -92,8 +99,8 @@ export function* doImportContactsWrapper() {
 }
 
 function* doImportContacts() {
-  const hasGivenContactPermission: boolean = yield* call(checkContactsPermission)
-  if (!hasGivenContactPermission) {
+  const contactPermissionStatus = yield* call(checkPermission, CONTACTS_PERMISSION)
+  if (!(contactPermissionStatus === PERMISSION_RESULTS.GRANTED)) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
     ValoraAnalytics.track(IdentityEvents.contacts_import_permission_denied)
     return true
@@ -424,8 +431,8 @@ export function* saveContacts() {
   try {
     const saveContactsGate = getFeatureGate(StatsigFeatureGates.SAVE_CONTACTS)
     const phoneVerified = yield* select(phoneNumberVerifiedSelector)
-    // TODO(satish): use rn permissions
-    const contactsEnabled: boolean = yield* call(checkContactsPermission)
+    const contactPermissionStatus = yield* call(checkPermission, CONTACTS_PERMISSION)
+    const contactsEnabled = contactPermissionStatus === PERMISSION_RESULTS.GRANTED
 
     if (!saveContactsGate || !phoneVerified || !contactsEnabled) {
       Logger.debug(`${TAG}/saveContacts`, "Skipping because pre conditions aren't met", {

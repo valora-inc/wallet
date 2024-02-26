@@ -2,7 +2,19 @@ import { useIsFocused } from '@react-navigation/native'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
+import {
+  Platform,
+  RefreshControl,
+  RefreshControlProps,
+  SectionList,
+  StyleSheet,
+  View,
+} from 'react-native'
+import {
+  PERMISSIONS,
+  RESULTS as PERMISSION_RESULTS,
+  check as checkPermission,
+} from 'react-native-permissions'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -46,7 +58,9 @@ import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
-import { checkContactsPermission } from 'src/utils/permissions'
+
+const CONTACTS_PERMISSION =
+  Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -96,8 +110,8 @@ function WalletHome() {
       return
     }
 
-    const hasGivenContactPermission = await checkContactsPermission()
-    if (hasGivenContactPermission) {
+    const contactPermissionStatus = await checkPermission(CONTACTS_PERMISSION)
+    if (contactPermissionStatus === PERMISSION_RESULTS.GRANTED) {
       dispatch(importContacts())
     }
   }
