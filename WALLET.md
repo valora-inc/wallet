@@ -127,11 +127,11 @@ _If you are a Valora employee, please ask to be added to the Valora iOS developm
 
 Xcode is needed to build and deploy the mobile wallet to your iOS device. If you do not have an iOS device, Xcode can be used to emulate one.
 
-Install [Xcode 14](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
+Install [Xcode 15.2](https://developer.apple.com/download/more/?q=xcode) (an Apple Developer Account is needed to access this link).
 
 We do not recommend installing Xcode through the App Store as it can auto update and become incompatible with our projects.
 
-Note that using the method above, you can have multiple versions of Xcode installed in parallel if you'd like. Simply use different names for the different version of Xcode in your computer's `Applications` folder (e.g., `Xcode10.3.app` and `Xcode11.app`).
+Note that using the method above, you can have multiple versions of Xcode installed in parallel if you'd like. Simply use different names for the different version of Xcode in your computer's `Applications` folder (e.g., `Xcode14.3.1.app` and `Xcode15.2.app`).
 
 #### Install Ruby, Cocoapods, Bundler, and download project dependencies
 
