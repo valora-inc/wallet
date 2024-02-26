@@ -1,4 +1,5 @@
 import BigNumber from 'bignumber.js'
+import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
@@ -104,9 +105,7 @@ export function* dispatchPendingERC20Transactions(
 
   for (const { transactionHash, logs } of transactionReceipts) {
     const parsedLogs = parseEventLogs({
-      abi: parseAbi([
-        'event ERC20Claimed(address indexed beneficiary, address sentTo, address indexed token, uint256 amount)',
-      ]),
+      abi: walletJumpstart.abi,
       eventName: ['ERC20Claimed'],
       logs,
     })
@@ -159,9 +158,7 @@ export function* dispatchPendingERC721Transactions(
 ) {
   for (const { transactionHash, logs } of transactionReceipts) {
     const parsedLogs = parseEventLogs({
-      abi: parseAbi([
-        'event ERC721Claimed(address indexed beneficiary, address sentTo, address indexed token, uint256 tokenId)',
-      ]),
+      abi: walletJumpstart.abi,
       eventName: ['ERC721Claimed'],
       logs,
     })
