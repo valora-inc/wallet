@@ -258,7 +258,7 @@ function EnterAmount({
                 <>
                   <TokenIcon token={token} size={IconSize.SMALL} />
                   <Text style={styles.tokenName}>{token.symbol}</Text>
-                  <DownArrowIcon color={Colors.gray5} />
+                  {!tokenSelectionDisabled && <DownArrowIcon color={Colors.gray5} />}
                 </>
               </Touchable>
             </View>

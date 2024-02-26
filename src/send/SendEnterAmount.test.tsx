@@ -357,6 +357,10 @@ describe('SendEnterAmount', () => {
   })
 
   it('shows warning when prepareTransactionResult type is not-enough-balance-for-gas', () => {
+    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
+      type: 'not-enough-balance-for-gas',
+      feeCurrencies: mockFeeCurrencies,
+    }
     const store = createMockStore(mockStore)
 
     const { getByTestId, queryByTestId } = render(
@@ -364,10 +368,6 @@ describe('SendEnterAmount', () => {
         <MockedNavigator component={SendEnterAmount} params={params} />
       </Provider>
     )
-    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
-      type: 'not-enough-balance-for-gas',
-      feeCurrencies: mockFeeCurrencies,
-    }
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('POOF')
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '2')
@@ -379,6 +379,13 @@ describe('SendEnterAmount', () => {
   })
 
   it('shows warning when prepareTransactionsResult type is need-decrease-spend-amount-for-gas', () => {
+    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
+      type: 'need-decrease-spend-amount-for-gas',
+      feeCurrency: mockCeloTokenBalance,
+      maxGasFeeInDecimal: new BigNumber(1),
+      estimatedGasFeeInDecimal: new BigNumber(1),
+      decreasedSpendAmount: new BigNumber(9),
+    }
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -396,13 +403,6 @@ describe('SendEnterAmount', () => {
         <MockedNavigator component={SendEnterAmount} params={params} />
       </Provider>
     )
-    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
-      type: 'need-decrease-spend-amount-for-gas',
-      feeCurrency: mockCeloTokenBalance,
-      maxGasFeeInDecimal: new BigNumber(1),
-      estimatedGasFeeInDecimal: new BigNumber(1),
-      decreasedSpendAmount: new BigNumber(9),
-    }
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '9.9999')
@@ -414,6 +414,8 @@ describe('SendEnterAmount', () => {
   })
 
   it('able to press Review when prepareTransactionsResult is type possible', () => {
+    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult =
+      mockPrepareTransactionsResultPossible
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -431,8 +433,6 @@ describe('SendEnterAmount', () => {
         <MockedNavigator component={SendEnterAmount} params={params} />
       </Provider>
     )
-    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult =
-      mockPrepareTransactionsResultPossible
 
     expect(getByTestId('SendEnterAmount/TokenSelect')).toHaveTextContent('CELO')
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '8')
@@ -552,21 +552,10 @@ describe('SendEnterAmount', () => {
       expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
     })
     it('shows fee placeholder if prepare transactions result is not possible', () => {
-      const store = createMockStore(mockStore)
-
-      const { getByTestId } = render(
-        <Provider store={store}>
-          <MockedNavigator component={SendEnterAmount} params={params} />
-        </Provider>
-      )
       mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = {
         type: 'not-enough-balance-for-gas',
         feeCurrencies: mockFeeCurrencies,
       }
-      fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
-      expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
-    })
-    it('shows fee amount if available', () => {
       const store = createMockStore(mockStore)
 
       const { getByTestId } = render(
@@ -574,13 +563,26 @@ describe('SendEnterAmount', () => {
           <MockedNavigator component={SendEnterAmount} params={params} />
         </Provider>
       )
+
+      fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
+      expect(getByTestId('SendEnterAmount/FeePlaceholder')).toBeTruthy()
+    })
+    it('shows fee amount if available', () => {
       mockUsePrepareSendTransactionsOutput.prepareTransactionsResult =
         mockPrepareTransactionsResultPossible
+      const store = createMockStore(mockStore)
+
+      const { getByTestId } = render(
+        <Provider store={store}>
+          <MockedNavigator component={SendEnterAmount} params={params} />
+        </Provider>
+      )
 
       fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
       expect(getByTestId('SendEnterAmount/FeeInCrypto')).toHaveTextContent('~0.006 CELO')
     })
     it('shows fee loading if prepare transactions result is undefined', () => {
+      mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = undefined
       const store = createMockStore(mockStore)
 
       const { getByTestId, queryByTestId } = render(
@@ -588,7 +590,7 @@ describe('SendEnterAmount', () => {
           <MockedNavigator component={SendEnterAmount} params={params} />
         </Provider>
       )
-      mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = undefined
+
       fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '1')
       expect(queryByTestId('SendEnterAmount/FeePlaceholder')).toBeFalsy()
       expect(getByTestId('SendEnterAmount/FeeLoading')).toBeTruthy()
