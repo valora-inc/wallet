@@ -8,6 +8,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Price } from 'src/priceHistory/slice'
 import { getFeatureGate } from 'src/statsig'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
+import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -15,6 +16,7 @@ import {
   exchangePriceHistory,
   mockCeloTokenId,
   mockPoofTokenId,
+  mockTestTokenTokenId,
   mockTokenBalances,
 } from 'test/values'
 
@@ -349,7 +351,7 @@ describe('TokenDetails', () => {
     expect(getByTestId('TokenDetails/Action/More')).toBeTruthy()
   })
 
-  it('renders add only for CICO token with 0 balance', () => {
+  it('renders the default actions for the CICO token with 0 balance', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
@@ -371,7 +373,7 @@ describe('TokenDetails', () => {
     )
 
     expect(queryByTestId('TokenDetails/Action/Send')).toBeFalsy()
-    expect(queryByTestId('TokenDetails/Action/Swap')).toBeFalsy()
+    expect(getByTestId('TokenDetails/Action/Swap')).toBeTruthy()
     expect(getByTestId('TokenDetails/Action/Add')).toBeTruthy()
     expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
     expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
@@ -448,5 +450,39 @@ describe('TokenDetails', () => {
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
     expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
+  })
+
+  it('renders the send and swap actions for the imported tokens with balance', () => {
+    const store = createMockStore({
+      tokens: {
+        tokenBalances: {
+          [mockTestTokenTokenId]: {
+            tokenId: mockTestTokenTokenId,
+            balance: '10',
+            isManuallyImported: true,
+            networkId: NetworkId['celo-alfajores'],
+            symbol: 'TT',
+          },
+        },
+      },
+      app: {
+        showSwapMenuInDrawerMenu: true,
+      },
+    })
+
+    const { getByTestId, queryByTestId } = render(
+      <Provider store={store}>
+        <MockedNavigator
+          component={TokenDetailsScreen}
+          params={{ tokenId: mockTestTokenTokenId }}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('TokenDetails/Action/Send')).toBeTruthy()
+    expect(getByTestId('TokenDetails/Action/Swap')).toBeTruthy()
+    expect(queryByTestId('TokenDetails/Action/Add')).toBeFalsy()
+    expect(queryByTestId('TokenDetails/Action/Withdraw')).toBeFalsy()
+    expect(queryByTestId('TokenDetails/Action/More')).toBeFalsy()
   })
 })
