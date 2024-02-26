@@ -308,6 +308,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_select_recipient_send_press]: `When the send button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_invite_press]: `When the invite button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
+  [SendEvents.send_select_recipient_jumpstart]: `When the user taps the Jumpstart button on the select recipient screen to start sending crypto via escrow link`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
