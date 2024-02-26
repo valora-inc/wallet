@@ -2097,6 +2097,16 @@
     "prepareTransactionError": {
       "title": "Something went wrong!",
       "description": "It was not possible to prepare a transaction for this token."
+    },
+    "jumpstart": {
+      "notification": {
+        "title": "Remember to share your link",
+        "description": "Generating a claim link withdraws funds from your wallet. Make sure you share it or reclaim it to ensure funds aren’t lost."
+      },
+      "highSendAmountWarning": {
+        "title": "We’d suggest a lower amount",
+        "description": "Proceeding will withdraw the funds from your wallet and generate a claim link. Share it carefully - anyone with access can claim. Unclaimed funds are reclaimable at any time."
+      }
     }
   },
   "transactionFeed": {

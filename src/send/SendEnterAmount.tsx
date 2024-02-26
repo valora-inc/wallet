@@ -39,6 +39,9 @@ import {
 } from 'src/send/usePrepareSendTransactions'
 import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
 import { NETWORK_NAMES } from 'src/shared/conts'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -121,6 +124,9 @@ function SendEnterAmount({ route }: Props) {
     return defaultToken ?? lastUsedToken ?? tokens[0]
   }, [tokens, defaultTokenIdOverride, lastUsedTokenId])
 
+  const jumpstartWarningThresholdUsd = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+  ).warningThresholdUsd
   const jumpstartLink = useMemo(() => {
     const privateKey = generatePrivateKey()
     const publicKey = privateKeyToAccount(privateKey).address
@@ -173,16 +179,19 @@ function SendEnterAmount({ route }: Props) {
   }
 
   const onReviewPress = () => {
-    if (!sendIsPossible) {
-      // should never happen because button is disabled if send is not possible
-      throw new Error('Send is not possible')
-    }
-
     if (origin === SendOrigin.Jumpstart) {
       // TODO handle send transaction and navigation
       // the next screen can generate a scrambled dynamic link, e.g.:
       // const link = await createJumpstartDynamicLink(jumpstartLink.privateKey)
+
+      // TODO in analytics, track whether the send amount is greater than
+      // jumpstartWarningThresholdUsd
       return
+    }
+
+    if (!sendIsPossible) {
+      // should never happen because button is disabled if send is not possible
+      throw new Error('Send is not possible')
     }
 
     const recipient = route.params.recipient
@@ -279,11 +288,19 @@ function SendEnterAmount({ route }: Props) {
     !showLowerAmountError &&
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'not-enough-balance-for-gas'
-  const sendIsPossible =
-    !showLowerAmountError &&
+  const transactionsSuccessfullyPrepared =
     prepareTransactionsResult &&
     prepareTransactionsResult.type === 'possible' &&
     prepareTransactionsResult.transactions.length > 0
+  const sendIsPossible = !showLowerAmountError && transactionsSuccessfullyPrepared
+  const showJumpstartHighSendAmountWarning =
+    origin === SendOrigin.Jumpstart &&
+    transactionsSuccessfullyPrepared &&
+    parsedAmount.isGreaterThan(jumpstartWarningThresholdUsd)
+  const showJumpstartNotification =
+    origin === SendOrigin.Jumpstart &&
+    transactionsSuccessfullyPrepared &&
+    !showJumpstartHighSendAmountWarning
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
@@ -436,6 +453,24 @@ function SendEnterAmount({ route }: Props) {
             description={t('sendEnterAmountScreen.prepareTransactionError.description')}
             style={styles.warning}
             testID="SendEnterAmount/PrepareTransactionError"
+          />
+        )}
+        {showJumpstartNotification && (
+          <InLineNotification
+            severity={Severity.Informational}
+            title={t('sendEnterAmountScreen.jumpstart.notification.title')}
+            description={t('sendEnterAmountScreen.jumpstart.notification.description')}
+            style={styles.warning}
+            testID="SendEnterAmount/JumpstartNotification"
+          />
+        )}
+        {showJumpstartHighSendAmountWarning && (
+          <InLineNotification
+            severity={Severity.Warning}
+            title={t('sendEnterAmountScreen.jumpstart.highSendAmountWarning.title')}
+            description={t('sendEnterAmountScreen.jumpstart.highSendAmountWarning.description')}
+            style={styles.warning}
+            testID="SendEnterAmount/JumpstartHighSendAmountWarning"
           />
         )}
         <Button
