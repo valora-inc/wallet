@@ -276,7 +276,7 @@
     "patch-package": "^6.2.2",
     "pixelmatch": "^5.2.1",
     "prettier": "3.2.5",
-    "prettier-plugin-java": "^2.5.0",
+    "prettier-plugin-java": "^2.6.0",
     "react-devtools": "^4.26.0",
     "react-native-dotenv": "^3.2.0",
     "react-native-flipper": "^0.127.0",
