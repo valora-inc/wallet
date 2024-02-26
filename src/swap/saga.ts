@@ -155,7 +155,7 @@ function getSwapTxsReceiptAnalyticsProperties(
 
 export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
   const swapSubmittedAt = Date.now()
-  const { swapId, userInput, quote } = action.payload
+  const { swapId, userInput, quote, areSwapTokensShuffled } = action.payload
   const { fromTokenId, toTokenId, updatedField, swapAmount } = userInput
   const {
     provider,
@@ -201,9 +201,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     toToken: toToken.address,
     toTokenId: toToken.tokenId,
     toTokenNetworkId: toToken.networkId,
+    toTokenIsImported: !!toToken.isManuallyImported,
     fromToken: fromToken.address,
     fromTokenId: fromToken.tokenId,
     fromTokenNetworkId: fromToken.networkId,
+    fromTokenIsImported: !!fromToken.isManuallyImported,
     amount,
     amountType,
     price,
@@ -216,6 +218,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     estimatedSellTokenUsdValue,
     estimatedBuyTokenUsdValue,
     web3Library: 'viem' as const,
+    areSwapTokensShuffled,
     ...getSwapTxsAnalyticsProperties(preparedTransactions, fromToken.networkId, tokensById),
   }
 

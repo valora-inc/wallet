@@ -34,6 +34,8 @@ import {
   mockCrealAddress,
   mockCrealTokenId,
   mockEthTokenId,
+  mockTestTokenAddress,
+  mockTestTokenTokenId,
   mockTokenBalances,
   mockUSDCAddress,
   mockUSDCTokenId,
@@ -63,7 +65,7 @@ jest.mock('src/transactions/types', () => {
 const mockAllowanceTarget = '0xdef1c0ded9bec7f1a1670819833240f027b25eff'
 const mockQuoteReceivedTimestamp = 1_000_000_000_000
 
-const mockSwapWithFeeCurrency = (feeCurrency?: Address): PayloadAction<SwapInfo> => {
+const mockSwapFromParams = (toTokenId: string, feeCurrency?: Address): PayloadAction<SwapInfo> => {
   return {
     type: swapStart.type,
     payload: {
@@ -71,7 +73,7 @@ const mockSwapWithFeeCurrency = (feeCurrency?: Address): PayloadAction<SwapInfo>
       userInput: {
         updatedField: Field.TO,
         fromTokenId: mockCeurTokenId,
-        toTokenId: mockCeloTokenId,
+        toTokenId,
         swapAmount: {
           [Field.FROM]: '100',
           [Field.TO]: '200',
@@ -106,11 +108,13 @@ const mockSwapWithFeeCurrency = (feeCurrency?: Address): PayloadAction<SwapInfo>
         allowanceTarget: mockAllowanceTarget,
         receivedAt: mockQuoteReceivedTimestamp,
       },
+      areSwapTokensShuffled: false,
     },
   }
 }
 
-const mockSwap = mockSwapWithFeeCurrency()
+const mockSwap = mockSwapFromParams(mockCeloTokenId)
+const mockSwapToImportedToken = mockSwapFromParams(mockTestTokenTokenId)
 
 const mockSwapEthereum: PayloadAction<SwapInfo> = {
   type: swapStart.type,
@@ -152,6 +156,7 @@ const mockSwapEthereum: PayloadAction<SwapInfo> = {
       allowanceTarget: mockAllowanceTarget,
       receivedAt: mockQuoteReceivedTimestamp,
     },
+    areSwapTokensShuffled: false,
   },
 }
 
@@ -229,6 +234,18 @@ const store = createMockStore({
         ...mockTokenBalances[mockCrealTokenId],
         priceUsd: '0.5',
         balance: '10',
+      },
+      [mockTestTokenTokenId]: {
+        ...mockTokenBalances[mockTestTokenTokenId],
+        priceUsd: '0.1',
+        address: mockTestTokenAddress,
+        tokenId: mockTestTokenTokenId,
+        networkId: NetworkId['celo-alfajores'],
+        symbol: 'TT',
+        name: 'Imported Token',
+        decimals: 18,
+        balance: '5',
+        isManuallyImported: true,
       },
     },
   },
@@ -324,7 +341,7 @@ describe(swapSubmitSaga, () => {
       feeCurrencyAddress: mockCrealAddress,
       feeCurrencyId: mockCrealTokenId,
       feeCurrencySymbol: 'cREAL',
-      swapPrepared: mockSwapWithFeeCurrency(mockCrealAddress as Address),
+      swapPrepared: mockSwapFromParams(mockCeloTokenId, mockCrealAddress as Address),
       expectedFees: [
         {
           type: 'SECURITY_FEE',
@@ -444,9 +461,11 @@ describe(swapSubmitSaga, () => {
         toToken: toTokenAddress,
         toTokenId: toTokenId,
         toTokenNetworkId: networkId,
+        toTokenIsImported: false,
         fromToken: fromTokenAddress,
         fromTokenId: fromTokenId,
         fromTokenNetworkId: networkId,
+        fromTokenIsImported: false,
         amount: swapPrepared.payload.userInput.swapAmount[Field.TO],
         amountType: 'buyAmount',
         price: '1',
@@ -498,6 +517,7 @@ describe(swapSubmitSaga, () => {
         swapTxGasFee: 0.00185837,
         swapTxGasFeeUsd: 0.000929185,
         swapTxHash: '0x2',
+        areSwapTokensShuffled: false,
       })
 
       const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
@@ -623,6 +643,36 @@ describe(swapSubmitSaga, () => {
       .run()
   })
 
+  it('should track correctly the imported tokens', async () => {
+    jest
+      .spyOn(Date, 'now')
+      .mockReturnValueOnce(mockQuoteReceivedTimestamp + 2_500) // swap submitted timestamp
+      .mockReturnValue(mockQuoteReceivedTimestamp + 10_000) // before send swap timestamp
+
+    await expectSaga(swapSubmitSaga, mockSwapToImportedToken)
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .put(
+        swapSuccess({
+          swapId: 'test-swap-id',
+          fromTokenId: mockCeurTokenId,
+          toTokenId: mockTestTokenTokenId,
+        })
+      )
+      .run()
+
+    expect(mockViemWallet.signTransaction).toHaveBeenCalledTimes(2)
+    expect(mockViemWallet.sendRawTransaction).toHaveBeenCalledTimes(2)
+    expect(loggerErrorSpy).not.toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SwapEvents.swap_execute_success,
+      expect.objectContaining({ fromTokenIsImported: false, toTokenIsImported: true })
+    )
+  })
+
   it('should set swap state correctly on error', async () => {
     jest
       .spyOn(Date, 'now')
@@ -644,9 +694,11 @@ describe(swapSubmitSaga, () => {
       toToken: mockCeloAddress,
       toTokenId: mockCeloTokenId,
       toTokenNetworkId: NetworkId['celo-alfajores'],
+      toTokenIsImported: false,
       fromToken: mockCeurAddress,
       fromTokenId: mockCeurTokenId,
       fromTokenNetworkId: NetworkId['celo-alfajores'],
+      fromTokenIsImported: false,
       amount: mockSwap.payload.userInput.swapAmount[Field.TO],
       amountType: 'buyAmount',
       price: '1',
@@ -699,6 +751,7 @@ describe(swapSubmitSaga, () => {
       swapTxGasFee: undefined,
       swapTxGasFeeUsd: undefined,
       swapTxHash: undefined,
+      areSwapTokensShuffled: false,
     })
     const analyticsProps = (ValoraAnalytics.track as jest.Mock).mock.calls[0][1]
     expect(analyticsProps.gas).toBeCloseTo(
@@ -728,5 +781,37 @@ describe(swapSubmitSaga, () => {
       .run()
     expect(navigate).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+  })
+
+  it('should track swap result for a user in the swap tokens order holdout group', async () => {
+    jest.mocked(mockViemWallet.sendRawTransaction).mockImplementationOnce(() => {
+      throw new Error('some error')
+    })
+
+    await expectSaga(swapSubmitSaga, {
+      ...mockSwap,
+      payload: { ...mockSwap.payload, areSwapTokensShuffled: true },
+    })
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SwapEvents.swap_execute_error,
+      expect.objectContaining({ areSwapTokensShuffled: true })
+    )
+
+    await expectSaga(swapSubmitSaga, {
+      ...mockSwap,
+      payload: { ...mockSwap.payload, areSwapTokensShuffled: true },
+    })
+      .withState(store.getState())
+      .provide(createDefaultProviders(Network.Celo))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
+      SwapEvents.swap_execute_success,
+      expect.objectContaining({ areSwapTokensShuffled: true })
+    )
   })
 })

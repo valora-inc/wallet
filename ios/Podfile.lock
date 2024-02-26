@@ -4,9 +4,9 @@ PODS:
     - JWTDecode (= 3.0.1)
     - React-Core
     - SimpleKeychain (= 1.0.1)
-  - Adjust (4.35.2):
-    - Adjust/Core (= 4.35.2)
-  - Adjust/Core (4.35.2)
+  - Adjust (4.37.0):
+    - Adjust/Core (= 4.37.0)
+  - Adjust/Core (4.37.0)
   - Auth0 (2.3.2):
     - JWTDecode (~> 3.0)
     - SimpleKeychain (~> 1.0)
@@ -499,8 +499,8 @@ PODS:
   - React-jsinspector (0.71.12)
   - React-logger (0.71.12):
     - glog
-  - react-native-adjust (4.35.1):
-    - Adjust (= 4.35.2)
+  - react-native-adjust (4.37.1):
+    - Adjust (= 4.37.0)
     - React-Core
   - react-native-camera (4.2.1):
     - React-Core
@@ -533,7 +533,7 @@ PODS:
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
-  - react-native-safe-area-context (4.8.2):
+  - react-native-safe-area-context (4.9.0):
     - React-Core
   - react-native-shake (5.5.2):
     - RCT-Folly (= 2021.07.22.00)
@@ -549,7 +549,7 @@ PODS:
   - react-native-video/Video (6.0.0-beta.3):
     - PromisesSwift
     - React-Core
-  - react-native-webview (13.6.4):
+  - react-native-webview (13.8.1):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
   - React-perflogger (0.71.12)
@@ -636,7 +636,7 @@ PODS:
     - React-jsi (= 0.71.12)
     - React-logger (= 0.71.12)
     - React-perflogger (= 0.71.12)
-  - RNCAsyncStorage (1.21.0):
+  - RNCAsyncStorage (1.22.2):
     - React-Core
   - RNCClipboard (1.13.2):
     - React-Core
@@ -683,19 +683,19 @@ PODS:
     - RNFBApp
   - RNFS (2.20.0):
     - React-Core
-  - RNGestureHandler (2.14.1):
+  - RNGestureHandler (2.15.0):
     - RCT-Folly (= 2021.07.22.00)
     - React-Core
-  - RNImageCropPicker (0.40.2):
+  - RNImageCropPicker (0.40.3):
     - React-Core
     - React-RCTImage
-    - RNImageCropPicker/QBImagePickerController (= 0.40.2)
+    - RNImageCropPicker/QBImagePickerController (= 0.40.3)
     - TOCropViewController
-  - RNImageCropPicker/QBImagePickerController (0.40.2):
+  - RNImageCropPicker/QBImagePickerController (0.40.3):
     - React-Core
     - React-RCTImage
     - TOCropViewController
-  - RNKeychain (8.1.2):
+  - RNKeychain (8.1.3):
     - React-Core
   - RNLocalize (2.2.6):
     - React-Core
@@ -1108,7 +1108,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   A0Auth0: 5ae918d2f043395f83ac26d6eb85b249bcb54634
-  Adjust: cac836ba910f868b38d0350045aaf498f794719a
+  Adjust: 86a6935688251ca6cea371f9b284578ccf3d981b
   Auth0: 64da28fdc5cd499aa516dc4bfd0ace8efae2c1da
   boost: 7dcd2de282d72e344012f7d6564d024930a6a440
   BVLinearGradient: 880f91a7854faff2df62518f0281afb1c60d49a3
@@ -1172,7 +1172,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 509cd947c28834614808ce056ee8eb700a0662aa
   React-jsinspector: ec4dcbfb1f4e72f04f826a0301eceee5fa7ca540
   React-logger: 35538accacf2583693fbc3ee8b53e69a1776fcee
-  react-native-adjust: 4bbce119ab6613cfa7b95af94e5802ab492dcf07
+  react-native-adjust: 0463129823eabe31ff28262295be713ba5f99d2c
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
   react-native-config: 86038147314e2e6d10ea9972022aa171e6b1d4d8
   react-native-contacts: fd1614c74777089ebb6b0a0e3847dd78130ef9f4
@@ -1184,12 +1184,12 @@ SPEC CHECKSUMS:
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
   react-native-netinfo: 48c5f79a84fbc3ba1d28a8b0d04adeda72885fa8
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
-  react-native-safe-area-context: 0ee144a6170530ccc37a0fd9388e28d06f516a89
+  react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
   react-native-simple-toast: 8ee5d23f0b92b935ab7434cdb65159ce12dfb4b7
   react-native-splash-screen: 4312f786b13a81b5169ef346d76d33bc0c6dc457
   react-native-video: 60ecad11b7179ec0e2012dea643775b4fca9b224
-  react-native-webview: 107961c73db53d66549c867a3b64eaa20d34c41f
+  react-native-webview: bdc091de8cf7f8397653e30182efcd9f772e03b3
   React-perflogger: 75b0e25075c67565a830985f3c373e2eae5389e0
   React-RCTActionSheet: a0c3e916b327e297d124d9ebe8b0c721840ee04d
   React-RCTAnimation: 3da7025801d7bf0f8cfd94574d6278d5b82a8b88
@@ -1203,7 +1203,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: a283fefb8cc29d9740a7ff2e87f72ad10f25a433
   React-runtimeexecutor: 7902246857a4ead4166869e6c42d4df329ff721d
   ReactCommon: a023fdfe1c3bd4d465153915a45d8eda51172a45
-  RNCAsyncStorage: 618d03a5f52fbccb3d7010076bc54712844c18ef
+  RNCAsyncStorage: 014a78b2cc8cc107c9e92ee428dc0c1ac3223416
   RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
@@ -1218,9 +1218,9 @@ SPEC CHECKSUMS:
   RNFBMessaging: 216693dd5ba4f18ba65fb39fc73a44a23c26190f
   RNFBRemoteConfig: 85ba519c47cf163d824ed5735e3d9ab59e967f86
   RNFS: 4ac0f0ea233904cb798630b3c077808c06931688
-  RNGestureHandler: fe2be3be5598dc74329b211c58c9f2d231461769
-  RNImageCropPicker: d9616a0cb9b72e8551ff94a7a5021fbd29050aa5
-  RNKeychain: a65256b6ca6ba6976132cc4124b238a5b13b3d9c
+  RNGestureHandler: 7909c50383a18f0cb10ce1db7262b9a6da504c03
+  RNImageCropPicker: e7ab6fb43d2fc3e84651e786ef4a080d63b0ed3d
+  RNKeychain: f1b48665a4646f61191eb048c4c05c58d9a7596f
   RNLocalize: d4b8af4e442d4bcca54e68fc687a2129b4d71a81
   RNPermissions: 74dd0814d683da200baaf4111fe5815906b3274c
   RNPersonaInquiry2: 3ab52078e891a5d2fa39bf7cc9119ca27f0337fd

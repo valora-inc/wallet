@@ -6,13 +6,15 @@ import { StyleSheet } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { acceptRequest, denyRequest } from 'src/walletConnect/actions'
-import { SupportedActions, getDisplayTextFromAction } from 'src/walletConnect/constants'
+import {
+  SupportedActions,
+  chainAgnosticActions,
+  getDisplayTextFromAction,
+} from 'src/walletConnect/constants'
 import ActionRequestPayload from 'src/walletConnect/screens/ActionRequestPayload'
 import DappsDisclaimer from 'src/walletConnect/screens/DappsDisclaimer'
 import EstimatedNetworkFee from 'src/walletConnect/screens/EstimatedNetworkFee'
@@ -48,7 +50,6 @@ function ActionRequest({
   }, [sessions])
   const { url, dappName, dappImageUrl } = useDappMetadata(activeSession?.peer.metadata)
   const isDappListed = useIsDappListed(url)
-  const useViem = getFeatureGate(StatsigFeatureGates.USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS)
 
   if (!activeSession) {
     // should never happen
@@ -72,9 +73,9 @@ function ActionRequest({
   )
 
   // Reject and warn if the chain is not supported
-  // Note: we still allow personal_sign on unsupported chains (Cred Protocol does this)
-  // as this does not depend on the chainId
-  if (!supportedChains.includes(chainId) && method !== SupportedActions.personal_sign) {
+  // Note: we still allow off-chain actions like personal_sign on unsupported
+  // chains (Cred Protocol does this) as this does not depend on the chainId
+  if (!supportedChains.includes(chainId) && !chainAgnosticActions.includes(method)) {
     const supportedNetworkNames = supportedChains
       .map((chain) => NETWORK_NAMES[walletConnectChainIdToNetworkId[chain]])
       .join(`, `)
@@ -104,59 +105,59 @@ function ActionRequest({
     )
   }
 
-  if (useViem) {
-    if (hasInsufficientGasFunds) {
-      return (
-        <RequestContent
-          type="dismiss"
-          onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
-          dappName={dappName}
-          dappImageUrl={dappImageUrl}
-          title={title}
-          description={description}
-          testId="WalletConnectActionRequest"
-        >
-          <InLineNotification
-            severity={Severity.Warning}
-            title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
-            description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
-              feeCurrencies: feeCurrenciesSymbols.join(', '),
-            })}
-            style={styles.warning}
-          />
-        </RequestContent>
-      )
-    } else if (
-      !preparedTransaction &&
-      (method === SupportedActions.eth_signTransaction ||
-        method === SupportedActions.eth_sendTransaction)
-    ) {
-      return (
-        <RequestContent
-          type="dismiss"
-          onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
-          dappName={dappName}
-          dappImageUrl={dappImageUrl}
-          title={title}
-          description={description}
-          testId="WalletConnectActionRequest"
-        >
-          <ActionRequestPayload
-            session={activeSession}
-            request={pendingAction}
-            preparedTransaction={preparedTransaction}
-          />
-          <InLineNotification
-            severity={Severity.Warning}
-            title={t('walletConnectRequest.failedToPrepareTransaction.title')}
-            description={t('walletConnectRequest.failedToPrepareTransaction.description', {
-              errorMessage: prepareTransactionErrorMessage,
-            })}
-            style={styles.warning}
-          />
-        </RequestContent>
-      )
-    }
+  if (hasInsufficientGasFunds) {
+    return (
+      <RequestContent
+        type="dismiss"
+        onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
+        dappName={dappName}
+        dappImageUrl={dappImageUrl}
+        title={title}
+        description={description}
+        testId="WalletConnectActionRequest"
+      >
+        <InLineNotification
+          severity={Severity.Warning}
+          title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
+          description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
+            feeCurrencies: feeCurrenciesSymbols.join(', '),
+          })}
+          style={styles.warning}
+        />
+      </RequestContent>
+    )
+  }
+
+  if (
+    !preparedTransaction &&
+    (method === SupportedActions.eth_signTransaction ||
+      method === SupportedActions.eth_sendTransaction)
+  ) {
+    return (
+      <RequestContent
+        type="dismiss"
+        onDismiss={() => dispatch(denyRequest(pendingAction, getSdkError('USER_REJECTED')))}
+        dappName={dappName}
+        dappImageUrl={dappImageUrl}
+        title={title}
+        description={description}
+        testId="WalletConnectActionRequest"
+      >
+        <ActionRequestPayload
+          session={activeSession}
+          request={pendingAction}
+          preparedTransaction={preparedTransaction}
+        />
+        <InLineNotification
+          severity={Severity.Warning}
+          title={t('walletConnectRequest.failedToPrepareTransaction.title')}
+          description={t('walletConnectRequest.failedToPrepareTransaction.description', {
+            errorMessage: prepareTransactionErrorMessage,
+          })}
+          style={styles.warning}
+        />
+      </RequestContent>
+    )
   }
 
   return (
@@ -178,7 +179,7 @@ function ActionRequest({
         request={pendingAction}
         preparedTransaction={preparedTransaction}
       />
-      {useViem && preparedTransaction && (
+      {preparedTransaction && (
         <EstimatedNetworkFee networkId={networkId} transaction={preparedTransaction} />
       )}
       <DappsDisclaimer isDappListed={isDappListed} />

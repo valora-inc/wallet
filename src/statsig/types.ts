@@ -16,12 +16,10 @@ export enum StatsigFeatureGates {
   APP_REVIEW = 'app_review',
   SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
-  SHOW_NOTIFICATION_CENTER = 'show_notification_center',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
-  USE_VIEM_FOR_WALLETCONNECT_TRANSACTIONS = 'use_viem_for_walletconnect_transactions',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
@@ -33,6 +31,7 @@ export enum StatsigFeatureGates {
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
   SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
   SHOW_NFT_CELEBRATION = 'show_nft_celebration',
+  SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
 }
 
 export enum StatsigExperiments {

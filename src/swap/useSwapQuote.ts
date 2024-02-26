@@ -21,6 +21,8 @@ import { Address, Hex, encodeFunctionData, zeroAddress } from 'viem'
 // varying gas fees of different swap providers (or even the same swap)
 const DECREASED_SWAP_AMOUNT_GAS_FEE_MULTIPLIER = 1.2
 
+export const NO_QUOTE_ERROR_MESSAGE = 'No quote available'
+
 export interface QuoteResult {
   toTokenId: string
   fromTokenId: string
@@ -182,6 +184,11 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
       }
 
       const quote: FetchQuoteResponse = await response.json()
+
+      if (!quote.unvalidatedSwapTransaction) {
+        throw new Error(NO_QUOTE_ERROR_MESSAGE)
+      }
+
       const swapPrice = quote.unvalidatedSwapTransaction.price
       const price =
         updatedField === Field.FROM
@@ -225,7 +232,7 @@ function useSwapQuote(networkId: NetworkId, slippagePercentage: string) {
   return {
     quote: refreshQuote.result ?? null,
     refreshQuote: refreshQuote.execute,
-    fetchSwapQuoteError: refreshQuote.status === 'error',
+    fetchSwapQuoteError: refreshQuote.error,
     fetchingSwapQuote: refreshQuote.loading,
     clearQuote,
   }

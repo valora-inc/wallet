@@ -30,7 +30,6 @@ export const numberVerifiedDecentrallySelector = (state: RootState) => state.app
 
 // this can be called with undefined state in the tests
 export const walletConnectEnabledSelector = (state?: RootState) => ({
-  v1: state?.app.walletConnectV1Enabled ?? false,
   v2: state?.app.walletConnectV2Enabled ?? false,
 })
 
@@ -59,9 +58,6 @@ export const sentryNetworkErrorsSelector = (state: RootState) => state.app.sentr
 export const supportedBiometryTypeSelector = (state: RootState) => state.app.supportedBiometryType
 
 export const activeScreenSelector = (state: RootState) => state.app.activeScreen
-
-export const showPriceChangeIndicatorInBalancesSelector = (state: RootState) =>
-  state.app.showPriceChangeIndicatorInBalances
 
 export const skipVerificationSelector = (state: RootState) => state.app.skipVerification
 

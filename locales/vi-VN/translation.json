@@ -1742,6 +1742,7 @@
     "swapFromTokenSelection": "TRAO ĐỔI TỪ",
     "swapToTokenSelection": "TRAO ĐỔI SANG",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Bạn đã chuyển sang mạng {{networkName}}",
       "body_swapFrom": "Để tiếp tục, hãy chọn một token để trao đổi từ mạng {{networkName}}.",
@@ -1901,14 +1902,15 @@
   },
   "profileScreen": {
     "generateName": "Tạo tên",
-    "namePlaceholder": "Chọn tên, chẳng hạn như {{exampleName}}"
+    "namePlaceholder": "Select a name, like \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Customize {{appName}} with your profile picture. Your image remains private, it is never shared or uploaded."
   },
   "tokenBottomSheet": {
     "searchAssets": "Tìm kiếm tài sản",
     "noTokenInResult": "Không tìm thấy kết quả phù hợp nào cho <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "No matching assets found for \"{{searchTerm}}\" in the following categories: {{filterNames}}",
-    "noFilterResults": "No matching assets found in the following categories: {{filterNames}}",
-    "noSearchResults": "No matching assets found for \"{{searchTerm}}\"",
+    "noFilterSearchResults": "No assets found matching \"{{searchTerm}}\" in the following categories: {{filterNames}}",
+    "noFilterResults": "No assets found matching the following categories: {{filterNames}}",
+    "noSearchResults": "No assets found matching \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "My tokens",
       "popular": "Popular",
@@ -2019,6 +2021,10 @@
       "title": "Gửi tiền điện tử cho bạn bè",
       "subtitle": "Mời bạn bè từ danh bạ"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Các phương thức gửi tiền trên Valora",
       "subtitle": "BẮT ĐẦU",
@@ -2083,6 +2089,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Bạn cần thêm {{feeTokenSymbol}} để trả phí gas",
       "description": "Nạp thêm {{feeTokenSymbol}} để trả phí gas hoặc điều chỉnh số tiền cần gửi"
+    },
+    "prepareTransactionError": {
+      "title": "Đã xảy ra lỗi!",
+      "description": "It was not possible to prepare a transaction for this token."
     }
   },
   "transactionFeed": {

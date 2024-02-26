@@ -1744,6 +1744,7 @@
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Has cambiado a la red {{networkName}}",
       "body_swapFrom": "Selecciona un token para intercambiar desde la red {{networkName}} para continuar.",
@@ -1903,14 +1904,15 @@
   },
   "profileScreen": {
     "generateName": "Generar un nombre",
-    "namePlaceholder": "Elige un nombre, p. ej. {{exampleName}}"
+    "namePlaceholder": "Selecciona un nombre, como \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Personaliza {{appName}} con tu foto de perfil. Tu imagen permanece privada, nunca se comparte ni se sube."
   },
   "tokenBottomSheet": {
     "searchAssets": "Buscar activos",
     "noTokenInResult": "No se encontraron resultados para <0>\"{{searchTerm}}\"</0>.",
-    "noFilterSearchResults": "No se han encontrado coincidencias para \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
-    "noFilterResults": "No se han encontrado activos coincidentes en las siguientes categorías: {{filterNames}}",
-    "noSearchResults": "No se han encontrado activos coincidentes para \"{{searchTerm}}\"",
+    "noFilterSearchResults": "No se ha encontrado ningún activo que coincida con \"{{searchTerm}}\" en las siguientes categorías: {{filterNames}}",
+    "noFilterResults": "No se han encontrado activos que coincidan con las siguientes categorías: {{filterNames}}",
+    "noSearchResults": "No se ha encontrado ningún activo que coincida con \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mis fichas",
       "popular": "Popular",
@@ -2021,6 +2023,10 @@
       "title": "Envía cripto a tus amigos",
       "subtitle": "Invita a amigos de tu lista de contactos"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
       "subtitle": "COMIENZA AHORA MISMO",
@@ -2085,6 +2091,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Necesitas más {{feeTokenSymbol}} para cubrir las tarifas",
       "description": "Deposita {{feeTokenSymbol}} para cubrir los las tarifas de transacción o ajusta el monto a enviar"
+    },
+    "prepareTransactionError": {
+      "title": "Algo salió mal!",
+      "description": "No fue posible preparar una transacción para este token."
     }
   },
   "transactionFeed": {

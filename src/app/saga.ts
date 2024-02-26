@@ -218,7 +218,6 @@ export interface RemoteConfigValues {
   celoEducationUri: string | null
   dappListApiUrl: string | null
   inviteRewardsVersion: string
-  walletConnectV1Enabled: boolean
   walletConnectV2Enabled: boolean
   logPhoneNumberTypeEnabled: boolean
   superchargeApy: number
@@ -230,12 +229,10 @@ export interface RemoteConfigValues {
   sentryNetworkErrors: string[]
   maxNumRecentDapps: number
   skipVerification: boolean
-  showPriceChangeIndicatorInBalances: boolean
   dappsWebViewEnabled: boolean
   fiatConnectCashInEnabled: boolean
   fiatConnectCashOutEnabled: boolean
   fiatAccountSchemaCountryOverrides: FiatAccountSchemaCountryOverrides
-  visualizeNFTsEnabledInHomeAssetsPage: boolean
   coinbasePayEnabled: boolean
   showSwapMenuInDrawerMenu: boolean
   maxSwapSlippagePercentage: number

@@ -3052,6 +3052,27 @@ export const v190Schema = {
   },
 }
 
+export const v191Schema = {
+  ...v190Schema,
+  _persist: {
+    ...v190Schema._persist,
+    version: 191,
+  },
+  app: _.omit(v190Schema.app, 'walletConnectV1Enabled'),
+}
+
+export const v192Schema = {
+  ...v191Schema,
+  _persist: {
+    ...v191Schema._persist,
+    version: 192,
+  },
+  app: _.omit(v191Schema.app, [
+    'showPriceChangeIndicatorInBalances',
+    'visualizeNFTsEnabledInHomeAssetsPage',
+  ]),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v190Schema as Partial<RootState>
+  return v192Schema as Partial<RootState>
 }

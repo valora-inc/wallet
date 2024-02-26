@@ -62,8 +62,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AppEvents.request_tracking_permission_started]: ``,
   [AppEvents.request_tracking_permission_declined]: ``,
   [AppEvents.request_tracking_permission_accepted]: ``,
-  [AppEvents.account_funded]: ``,
-  [AppEvents.account_liquidated]: ``,
+  [AppEvents.account_funded]: `Fired when user balance (total fiat value of all supported tokens) is above $0.01 USD and the last known balance value was less than this`,
+  [AppEvents.account_liquidated]: `Fired when user balance (total fiat value of all supported tokens) falls below $0.01 USD and the last known value was greater than this`,
   [AppEvents.in_app_review_impression]: `User sees an in-app review request`,
   [AppEvents.in_app_review_error]: `Error while attempting to display in-app review`,
   [AppEvents.multichain_beta_opt_in]: `When the user taps the Try it Now button on the multichain beta screen`,
@@ -308,6 +308,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_select_recipient_send_press]: `When the send button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_invite_press]: `When the invite button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
+  [SendEvents.send_select_recipient_jumpstart]: `When the user taps the Jumpstart button on the select recipient screen to start sending crypto via escrow link`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,

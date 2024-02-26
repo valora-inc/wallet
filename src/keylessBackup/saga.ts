@@ -193,7 +193,7 @@ export function* handleGoogleSignInCompleted({
 }: ReturnType<typeof googleSignInCompleted>) {
   // Note: this is done async while the user verifies their phone number.
   try {
-    const torusPrivateKey = yield* call(getTorusPrivateKey, { verifier: 'valora-auth0', jwt })
+    const torusPrivateKey = yield* call(getTorusPrivateKey, { verifier: 'valora-cab-auth0', jwt })
     yield* put(torusKeyshareIssued({ keyshare: torusPrivateKey }))
   } catch (error) {
     Logger.error(TAG, 'Error getting Torus private key from auth0 jwt', error)

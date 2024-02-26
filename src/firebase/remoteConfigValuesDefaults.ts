@@ -21,7 +21,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeTokenConfigByToken: string
 } = {
   inviteRewardsVersion: 'none',
-  walletConnectV1Enabled: true,
   walletConnectV2Enabled: true,
   superchargeApy: 12,
   superchargecUSDMin: 10,
@@ -38,12 +37,10 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   sentryNetworkErrors: DEFAULT_SENTRY_NETWORK_ERRORS.join(','),
   maxNumRecentDapps: 0,
   skipVerification: false,
-  showPriceChangeIndicatorInBalances: false,
   dappsWebViewEnabled: false,
   dappListApiUrl: '',
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: false,
-  visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,

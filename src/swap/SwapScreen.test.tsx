@@ -17,6 +17,7 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import { swapStart } from 'src/swap/slice'
 import { Field } from 'src/swap/types'
+import { NO_QUOTE_ERROR_MESSAGE } from 'src/swap/useSwapQuote'
 import { NetworkId } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -118,6 +119,7 @@ const mockStoreTokenBalances = {
     isSwappable: true,
     balance: '10',
     priceUsd: '1',
+    imageUrl: 'https://example.com/usdc.png',
   },
 }
 
@@ -166,7 +168,7 @@ const renderScreen = ({
     </Provider>
   )
   const [swapFromContainer, swapToContainer] = tree.getAllByTestId('SwapAmountInput')
-  const tokenBottomSheet = tree.getByTestId('TokenBottomSheet')
+  const tokenBottomSheets = tree.getAllByTestId('TokenBottomSheet')
   const swapScreen = tree.getByTestId('SwapScreen')
 
   return {
@@ -174,7 +176,7 @@ const renderScreen = ({
     store,
     swapFromContainer,
     swapToContainer,
-    tokenBottomSheet,
+    tokenBottomSheets,
     swapScreen,
   }
 }
@@ -233,7 +235,10 @@ const selectSingleSwapToken = (
   const token = Object.values(mockStoreTokenBalances).find((token) => token.symbol === tokenSymbol)
   expect(token).toBeTruthy()
 
-  const tokenBottomSheet = within(swapScreen).getByTestId('TokenBottomSheet')
+  const [fromTokenBottomSheet, toTokenBottomSheet] =
+    within(swapScreen).getAllByTestId('TokenBottomSheet')
+  const tokenBottomSheet = swapFieldType === Field.FROM ? fromTokenBottomSheet : toTokenBottomSheet
+
   fireEvent.press(within(swapAmountContainer).getByTestId('SwapAmountInput/TokenSelect'))
   fireEvent.press(within(tokenBottomSheet).getByText(token!.name))
 
@@ -292,6 +297,7 @@ describe('SwapScreen', () => {
       maxSlippagePercentage: '0.3',
       showSwap: ['celo-alfajores', 'ethereum-sepolia'],
       showBalances: ['celo-alfajores', 'ethereum-sepolia'],
+      popularTokenIds: [],
     })
 
     const originalReadContract = publicClient.celo.readContract
@@ -333,35 +339,63 @@ describe('SwapScreen', () => {
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
 
     selectSwapTokens('CELO', 'cUSD', swapScreen)
+
+    const commonAnalyticsProps = {
+      areSwapTokensShuffled: false,
+      fromTokenId: 'celo-alfajores:native',
+      fromTokenNetworkId: 'celo-alfajores',
+      fromTokenSymbol: 'CELO',
+      switchedNetworkId: false,
+      tokenNetworkId: 'celo-alfajores',
+    }
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
+      ...commonAnalyticsProps,
+      fieldType: 'FROM',
+      tokenId: 'celo-alfajores:native',
+      tokenPositionInList: 1,
+      tokenSymbol: 'CELO',
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SwapEvents.swap_screen_confirm_token, {
+      ...commonAnalyticsProps,
+      fieldType: 'TO',
+      tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+      tokenPositionInList: 2,
+      tokenSymbol: 'cUSD',
+      toTokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+      toTokenNetworkId: 'celo-alfajores',
+      toTokenSymbol: 'cUSD',
+    })
   })
 
   it('should show only the allowed to and from tokens', async () => {
-    const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({
+    const { swapFromContainer, swapToContainer, tokenBottomSheets } = renderScreen({
       isPoofSwappable: false,
       poofBalance: '0',
     })
+    const [fromTokenBottomSheet, toTokenBottomSheet] = tokenBottomSheets
 
     fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-    expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    expect(within(fromTokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
     // should see TT even though it is marked as not swappable, because there is a balance
-    expect(within(tokenBottomSheet).getByText('Test Token')).toBeTruthy()
+    expect(within(fromTokenBottomSheet).getByText('Test Token')).toBeTruthy()
     // should see not see POOF because it is marked as not swappable and there is no balance
-    expect(within(tokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
+    expect(within(fromTokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
 
     // finish the token selection
-    fireEvent.press(within(tokenBottomSheet).getByText('Celo Dollar'))
+    fireEvent.press(within(fromTokenBottomSheet).getByText('Celo Dollar'))
     expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-    expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
-    expect(within(tokenBottomSheet).queryByText('Test Token')).toBeFalsy()
-    expect(within(tokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
+    expect(within(toTokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
+    expect(within(toTokenBottomSheet).queryByText('Test Token')).toBeFalsy()
+    expect(within(toTokenBottomSheet).queryByText('Poof Governance Token')).toBeFalsy()
   })
 
   it('should not select a token without usd price if the user dismisses the warning', async () => {
-    const { swapToContainer, queryByText, getByText, tokenBottomSheet } = renderScreen({})
+    const { swapToContainer, queryByText, getByText, tokenBottomSheets } = renderScreen({})
+    const tokenBottomSheet = tokenBottomSheets[1] // "from" token selection
 
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
     fireEvent.press(
@@ -383,14 +417,18 @@ describe('SwapScreen', () => {
     ).toBeFalsy()
     expect(tokenBottomSheet).toBeVisible()
     expect(within(swapToContainer).getByText('swapScreen.swapToTokenSelection')).toBeTruthy()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+      SwapEvents.swap_screen_confirm_token,
+      expect.anything()
+    )
   })
 
   it('should swap the to/from tokens if the same token is selected', async () => {
-    const { swapFromContainer, swapToContainer, tokenBottomSheet } = renderScreen({})
+    const { swapFromContainer, swapToContainer, swapScreen } = renderScreen({})
 
-    selectSingleSwapToken(swapFromContainer, 'CELO', tokenBottomSheet, Field.FROM)
-    selectSingleSwapToken(swapToContainer, 'cUSD', tokenBottomSheet, Field.TO)
-    selectSingleSwapToken(swapFromContainer, 'cUSD', tokenBottomSheet, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
+    selectSingleSwapToken(swapToContainer, 'cUSD', swapScreen, Field.TO)
+    selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
 
     expect(within(swapFromContainer).getByText('cUSD')).toBeTruthy()
     expect(within(swapToContainer).getByText('CELO')).toBeTruthy()
@@ -558,9 +596,11 @@ describe('SwapScreen', () => {
         toToken: mockCusdAddress,
         toTokenId: mockCusdTokenId,
         toTokenNetworkId: NetworkId['celo-alfajores'],
+        toTokenIsImported: false,
         fromToken: mockCeloAddress,
         fromTokenId: mockCeloTokenId,
         fromTokenNetworkId: NetworkId['celo-alfajores'],
+        fromTokenIsImported: false,
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: '5.2',
@@ -624,9 +664,11 @@ describe('SwapScreen', () => {
         toToken: mockCusdAddress,
         toTokenId: mockCusdTokenId,
         toTokenNetworkId: NetworkId['celo-alfajores'],
+        toTokenIsImported: false,
         fromToken: mockCeloAddress,
         fromTokenId: mockCeloTokenId,
         fromTokenNetworkId: NetworkId['celo-alfajores'],
+        fromTokenIsImported: false,
         amount: '100000',
         amountType: 'sellAmount',
         priceImpact: null,
@@ -798,10 +840,12 @@ describe('SwapScreen', () => {
 
   it('should show and hide the max warning for fee currencies', async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByText, getByTestId, queryByTestId, tokenBottomSheet } =
-      renderScreen({ celoBalance: '0', cUSDBalance: '10' }) // so that cUSD is the only feeCurrency with a balance
+    const { swapFromContainer, getByText, getByTestId, queryByTestId, swapScreen } = renderScreen({
+      celoBalance: '0',
+      cUSDBalance: '10',
+    }) // so that cUSD is the only feeCurrency with a balance
 
-    selectSingleSwapToken(swapFromContainer, 'cUSD', tokenBottomSheet, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
     await waitFor(() =>
       expect(
@@ -820,12 +864,12 @@ describe('SwapScreen', () => {
 
   it("shouldn't show the max warning when there's balance for more than 1 fee currency", async () => {
     mockFetch.mockResponse(defaultQuoteResponse)
-    const { swapFromContainer, getByTestId, queryByTestId, tokenBottomSheet } = renderScreen({
+    const { swapFromContainer, getByTestId, queryByTestId, swapScreen } = renderScreen({
       celoBalance: '10',
       cUSDBalance: '20',
     })
 
-    selectSingleSwapToken(swapFromContainer, 'CELO', tokenBottomSheet, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
     fireEvent.press(getByTestId('SwapAmountInput/MaxButton'))
     await waitFor(() => expect(queryByTestId('MaxSwapAmountWarning')).toBeFalsy())
   })
@@ -890,7 +934,7 @@ describe('SwapScreen', () => {
   })
 
   it('should display an error banner if api request fails', async () => {
-    mockFetch.mockReject()
+    mockFetch.mockReject(new Error('Failed to fetch'))
 
     const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
 
@@ -904,6 +948,24 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
     expect(store.getActions()).toEqual(
       expect.arrayContaining([showError(ErrorMessages.FETCH_SWAP_QUOTE_FAILED)])
+    )
+  })
+
+  it('should display an unsupported error banner if quote is not available', async () => {
+    mockFetch.mockReject(new Error(NO_QUOTE_ERROR_MESSAGE))
+
+    const { swapFromContainer, getByText, store, swapScreen } = renderScreen({})
+
+    selectSwapTokens('CELO', 'cUSD', swapScreen)
+    fireEvent.changeText(within(swapFromContainer).getByTestId('SwapAmountInput/Input'), '1.234')
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
+    expect(store.getActions()).toEqual(
+      expect.arrayContaining([showError(ErrorMessages.UNSUPPORTED_SWAP_TOKENS)])
     )
   })
 
@@ -945,6 +1007,7 @@ describe('SwapScreen', () => {
             },
             updatedField: Field.FROM,
           },
+          areSwapTokensShuffled: false,
         }),
       ])
     )
@@ -995,6 +1058,7 @@ describe('SwapScreen', () => {
             },
             updatedField: Field.FROM,
           },
+          areSwapTokensShuffled: false,
         }),
       ])
     )
@@ -1039,6 +1103,7 @@ describe('SwapScreen', () => {
             },
             updatedField: Field.FROM,
           },
+          areSwapTokensShuffled: false,
         }),
       ])
     )
@@ -1065,9 +1130,11 @@ describe('SwapScreen', () => {
       toToken: mockCusdAddress,
       toTokenId: mockCusdTokenId,
       toTokenNetworkId: NetworkId['celo-alfajores'],
+      toTokenIsImported: false,
       fromToken: mockCeloAddress,
       fromTokenId: mockCeloTokenId,
       fromTokenNetworkId: NetworkId['celo-alfajores'],
+      fromTokenIsImported: false,
       amount: '10',
       amountType: 'sellAmount',
       allowanceTarget: defaultQuote.unvalidatedSwapTransaction.allowanceTarget,
@@ -1087,13 +1154,15 @@ describe('SwapScreen', () => {
   })
 
   it('should show swappable tokens and search box', async () => {
-    const { swapToContainer, getByPlaceholderText, swapFromContainer, tokenBottomSheet } =
-      renderScreen({})
+    const { swapToContainer, swapFromContainer, swapScreen, tokenBottomSheets } = renderScreen({})
+    const tokenBottomSheet = tokenBottomSheets[1] // "to" token selection
 
-    selectSingleSwapToken(swapFromContainer, 'CELO', tokenBottomSheet, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'CELO', swapScreen, Field.FROM)
     fireEvent.press(within(swapToContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
-    expect(getByPlaceholderText('tokenBottomSheet.searchAssets')).toBeTruthy()
+    expect(
+      within(tokenBottomSheet).getByPlaceholderText('tokenBottomSheet.searchAssets')
+    ).toBeTruthy()
 
     expect(within(tokenBottomSheet).getByText('Celo Dollar')).toBeTruthy()
     expect(within(tokenBottomSheet).getByText('Celo Euro')).toBeTruthy()
@@ -1247,7 +1316,6 @@ describe('SwapScreen', () => {
       queryByTestId,
       swapToContainer,
       swapFromContainer,
-      tokenBottomSheet,
       swapScreen,
     } = renderScreen({ cUSDBalance: '0' })
 
@@ -1266,7 +1334,7 @@ describe('SwapScreen', () => {
     expect(getByTestId('MaxSwapAmountWarning')).toBeTruthy()
 
     // Now select a "to" token from a different network, the warning should appear
-    selectSingleSwapToken(swapToContainer, 'USDC', tokenBottomSheet, Field.TO)
+    selectSingleSwapToken(swapToContainer, 'USDC', swapScreen, Field.TO)
 
     expect(
       getByText('swapScreen.switchedToNetworkWarning.title, {"networkName":"Ethereum Sepolia"}')
@@ -1287,7 +1355,7 @@ describe('SwapScreen', () => {
     expect(getByText('swapScreen.confirmSwap')).toBeDisabled()
 
     // Now select a "from" token from the same network, the warning should disappear
-    selectSingleSwapToken(swapFromContainer, 'ETH', tokenBottomSheet, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'ETH', swapScreen, Field.FROM)
 
     expect(queryByTestId('SwitchedToNetworkWarning')).toBeFalsy()
     // Max warning is shown again, because both ETH and CELO have the same balance
@@ -1295,7 +1363,7 @@ describe('SwapScreen', () => {
     expect(queryByTestId('MaxSwapAmountWarning')).toBeTruthy()
 
     // Now select a "from" token from a different network again, the warning should reappear
-    selectSingleSwapToken(swapFromContainer, 'cUSD', tokenBottomSheet, Field.FROM)
+    selectSingleSwapToken(swapFromContainer, 'cUSD', swapScreen, Field.FROM)
 
     expect(
       getByText('swapScreen.switchedToNetworkWarning.title, {"networkName":"Celo Alfajores"}')
@@ -1596,10 +1664,11 @@ describe('SwapScreen', () => {
         (token) => !mockedZeroBalanceTokens.includes(token.tokenId)
       )
 
-      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({
+      const { swapFromContainer, tokenBottomSheets } = renderScreen({
         cUSDBalance: '0',
         poofBalance: '0', // cEUR also has 0 balance in the global mock
       })
+      const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
@@ -1610,7 +1679,7 @@ describe('SwapScreen', () => {
       expect(displayedTokens.length).toBe(expectedTokensWithBalance.length)
 
       // deselect pre-selected filters to show all tokens
-      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
 
       expectedAllFromTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1623,15 +1692,18 @@ describe('SwapScreen', () => {
         mockedLastSwapped.includes(token.tokenId)
       )
 
-      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({
+      const { swapFromContainer, tokenBottomSheets } = renderScreen({
         lastSwapped: mockedLastSwapped,
       })
+      const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
       // deselect pre-selected filters to show all tokens
-      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
       // select last swapped filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.recentlySwapped'))
+      fireEvent.press(
+        within(tokenBottomSheet).getByText('tokenBottomSheet.filters.recentlySwapped')
+      )
 
       expectedLastSwapTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1640,7 +1712,9 @@ describe('SwapScreen', () => {
       expect(displayedTokens.length).toBe(expectedLastSwapTokens.length)
 
       // de-select last swapped filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.recentlySwapped'))
+      fireEvent.press(
+        within(tokenBottomSheet).getByText('tokenBottomSheet.filters.recentlySwapped')
+      )
 
       expectedAllFromTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1659,13 +1733,14 @@ describe('SwapScreen', () => {
         mockedPopularTokens.includes(token.tokenId)
       )
 
-      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({})
+      const { swapFromContainer, tokenBottomSheets } = renderScreen({})
+      const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
       // deselect pre-selected filters to show all tokens
-      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
       // select popular filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.popular'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.popular'))
 
       expectedPopularTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1674,7 +1749,7 @@ describe('SwapScreen', () => {
       expect(displayedTokens.length).toBe(expectedPopularTokens.length)
 
       // de-select filter
-      fireEvent.press(getByText('tokenBottomSheet.filters.popular'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.popular'))
 
       expectedAllFromTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1686,6 +1761,7 @@ describe('SwapScreen', () => {
         maxSlippagePercentage: '0.3',
         showSwap: ['celo-alfajores'],
         showBalances: ['celo-alfajores'],
+        popularTokenIds: [],
       })
 
       const expectedAllTokens = Object.values(mockStoreTokenBalances).filter(
@@ -1694,19 +1770,24 @@ describe('SwapScreen', () => {
           token.networkId === NetworkId['celo-alfajores']
       )
 
-      const { swapFromContainer, getByText, tokenBottomSheet, queryByText } = renderScreen({})
+      const { swapFromContainer, tokenBottomSheets } = renderScreen({})
+      const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
 
       expect(
-        queryByText('tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}')
+        within(tokenBottomSheet).queryByText(
+          'tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}'
+        )
       ).toBeFalsy()
       expect(
-        queryByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}')
+        within(tokenBottomSheet).queryByText(
+          'tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}'
+        )
       ).toBeFalsy()
 
       // deselect pre-selected filters to show all tokens
-      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
 
       expectedAllTokens.forEach((token) => {
         expect(within(tokenBottomSheet).getByText(token.name)).toBeTruthy()
@@ -1724,14 +1805,17 @@ describe('SwapScreen', () => {
         (token) => token.networkId === NetworkId['celo-alfajores']
       )
 
-      const { swapFromContainer, getByText, tokenBottomSheet } = renderScreen({})
+      const { swapFromContainer, tokenBottomSheets } = renderScreen({})
+      const tokenBottomSheet = tokenBottomSheets[0] // "from" token selection
 
       fireEvent.press(within(swapFromContainer).getByTestId('SwapAmountInput/TokenSelect'))
       // deselect pre-selected filters to show all tokens
-      fireEvent.press(getByText('tokenBottomSheet.filters.myTokens'))
+      fireEvent.press(within(tokenBottomSheet).getByText('tokenBottomSheet.filters.myTokens'))
       // select celo filter
       fireEvent.press(
-        getByText('tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}')
+        within(tokenBottomSheet).getByText(
+          'tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}'
+        )
       )
 
       expectedCeloTokens.forEach((token) => {
@@ -1743,10 +1827,14 @@ describe('SwapScreen', () => {
 
       // select eth filter
       fireEvent.press(
-        getByText('tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}')
+        within(tokenBottomSheet).getByText(
+          'tokenBottomSheet.filters.network, {"networkName":"Celo Alfajores"}'
+        )
       )
       fireEvent.press(
-        getByText('tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}')
+        within(tokenBottomSheet).getByText(
+          'tokenBottomSheet.filters.network, {"networkName":"Ethereum Sepolia"}'
+        )
       )
 
       expectedEthTokens.forEach((token) => {

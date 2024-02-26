@@ -1748,6 +1748,7 @@
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "Ви перейшли до мережі {{networkName}}",
       "body_swapFrom": "Щоб продовжити, виберіть, який токен ви хочете обміняти для свопу в мережі {{networkName}}.",
@@ -1907,14 +1908,15 @@
   },
   "profileScreen": {
     "generateName": "Згенерувати ім'я",
-    "namePlaceholder": "Вибрати ім’я (напр.) {{exampleName}}"
+    "namePlaceholder": "Виберіть ім'я, наприклад, \"{{exampleName}}\"",
+    "profilePictureDisclaimer": "Налаштуйте {{appName}} за допомогою зображення вашого профілю. Ваше зображення залишається приватним, воно ніколи не поширюється і не завантажується."
   },
   "tokenBottomSheet": {
     "searchAssets": "Пошук активів",
     "noTokenInResult": "Не знайдено жодних збігів із <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "Для \"{{searchTerm}}\" не знайдено відповідних активів у наступних категоріях: {{filterNames}}",
-    "noFilterResults": "Не знайдено відповідних активів у наступних категоріях: {{filterNames}}",
-    "noSearchResults": "Для \"{{searchTerm}}\" не знайдено відповідних активів",
+    "noFilterSearchResults": "Не знайдено активів, які відповідають \"{{searchTerm}}\" в наступних категоріях: {{filterNames}}",
+    "noFilterResults": "Не знайдено активів, що відповідають наступним категоріям: {{filterNames}}",
+    "noSearchResults": "Не знайдено активів, що відповідають \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Мої жетони",
       "popular": "Популярні",
@@ -2025,6 +2027,10 @@
       "title": "Надіслати криптовалюту друзям",
       "subtitle": "Запросити друзів зі свого списку контактів"
     },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+    },
     "getStarted": {
       "title": "Як надіслати кошти у Valora",
       "subtitle": "ПОЧАТИ РОБОТУ",
@@ -2089,6 +2095,10 @@
     "notEnoughBalanceForGasWarning": {
       "title": "Вам потрібно більше {{feeTokenSymbol}} за комісію за газ",
       "description": "Додайте {{feeTokenSymbol}}, щоб покрити комісію на газ або скоригувати суму, яку ви надсилаєте"
+    },
+    "prepareTransactionError": {
+      "title": "Щось пішло не так!",
+      "description": "Підготувати транзакцію для цього токена не вдалося."
     }
   },
   "transactionFeed": {

@@ -656,6 +656,7 @@ interface SendEventsProperties {
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
   }
+  [SendEvents.send_select_recipient_jumpstart]: undefined
 }
 
 interface FeeEventsProperties {
@@ -1168,6 +1169,7 @@ interface SwapEvent {
   toToken: string | null | undefined
   toTokenId: string
   toTokenNetworkId: string
+  toTokenIsImported: boolean
   /**
    * Address of the from token
    *
@@ -1176,6 +1178,7 @@ interface SwapEvent {
   fromToken: string | null | undefined
   fromTokenId: string
   fromTokenNetworkId: string
+  fromTokenIsImported: boolean
   /**
    * Starting with v1.74, this amount is always in decimal format
    * Before that it was in token smallest unit or decimal format depending on the event.
@@ -1276,6 +1279,7 @@ interface SwapEventsProperties {
     toTokenNetworkId: string | undefined
     switchedNetworkId: boolean
     areSwapTokensShuffled: boolean
+    tokenPositionInList: number
   }
   [SwapEvents.swap_screen_max_swap_amount]: {
     tokenSymbol?: string
@@ -1294,6 +1298,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_execute_error]: SwapQuoteEvent &
     SwapTimeMetrics &
@@ -1306,6 +1311,7 @@ interface SwapEventsProperties {
       swapApproveTxId: string
       estimatedSellTokenUsdValue?: number
       estimatedBuyTokenUsdValue?: number
+      areSwapTokensShuffled: boolean
     }
   [SwapEvents.swap_learn_more]: undefined
   [SwapEvents.swap_price_impact_warning_displayed]: SwapEvent & {
@@ -1348,6 +1354,7 @@ interface TokenBottomSheetEventsProperties {
     usedSearchTerm: boolean
     selectedFilters: string[]
     areSwapTokensShuffled?: boolean
+    tokenPositionInList: number
   }
 }
 

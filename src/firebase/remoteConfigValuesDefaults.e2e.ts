@@ -19,7 +19,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargeTokenConfigByToken: string
 } = {
   inviteRewardsVersion: 'none',
-  walletConnectV1Enabled: true,
   walletConnectV2Enabled: true,
   superchargeApy: 12,
   superchargecUSDMin: 10,
@@ -37,11 +36,9 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   dappListApiUrl: 'https://us-central1-celo-mobile-alfajores.cloudfunctions.net/dappList',
   maxNumRecentDapps: 4,
   skipVerification: false,
-  showPriceChangeIndicatorInBalances: false,
   dappsWebViewEnabled: true,
   fiatConnectCashInEnabled: false,
   fiatConnectCashOutEnabled: true,
-  visualizeNFTsEnabledInHomeAssetsPage: false,
   coinbasePayEnabled: false,
   showSwapMenuInDrawerMenu: false,
   maxSwapSlippagePercentage: 2,

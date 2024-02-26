@@ -25,7 +25,8 @@ export enum TokenPickerOrigin {
   Send = 'Send',
   SendConfirmation = 'SendConfirmation',
   Exchange = 'Exchange',
-  Swap = 'Swap',
+  SwapFrom = 'Swap/From',
+  SwapTo = 'Swap/To',
 }
 
 export const DEBOUCE_WAIT_TIME = 200
@@ -33,7 +34,7 @@ export const DEBOUCE_WAIT_TIME = 200
 export interface TokenBottomSheetProps<T extends TokenBalance> {
   forwardedRef: RefObject<BottomSheetRefType>
   origin: TokenPickerOrigin
-  onTokenSelected: (token: T) => void
+  onTokenSelected: (token: T, tokenPositionInList: number) => void
   title: string
   titleStyle?: TextStyle
   searchEnabled?: boolean
@@ -176,7 +177,7 @@ function TokenBottomSheet<T extends TokenBalance>({
     })
   }
 
-  const onTokenPressed = (token: T) => () => {
+  const onTokenPressed = (token: T, index: number) => () => {
     ValoraAnalytics.track(TokenBottomSheetEvents.token_selected, {
       origin,
       tokenAddress: token.address,
@@ -185,8 +186,9 @@ function TokenBottomSheet<T extends TokenBalance>({
       usedSearchTerm: searchTerm.length > 0,
       selectedFilters: activeFilters.map((filter) => filter.id),
       areSwapTokensShuffled,
+      tokenPositionInList: index,
     })
-    onTokenSelected(token)
+    onTokenSelected(token, index)
   }
 
   const sendAnalytics = useCallback(
@@ -206,7 +208,7 @@ function TokenBottomSheet<T extends TokenBalance>({
 
     return tokens.filter((token) => {
       // Exclude the token if it does not match the active filters
-      if (activeFilterFns && !activeFilterFns.some((filterFn) => filterFn(token))) {
+      if (activeFilterFns && !activeFilterFns.every((filterFn) => filterFn(token))) {
         return false
       }
 
@@ -233,15 +235,6 @@ function TokenBottomSheet<T extends TokenBalance>({
     }
   }, [tokenList])
 
-  const handleOpen = () => {
-    setFilters(filterChips)
-  }
-
-  const handleClose = () => {
-    setSearchTerm('')
-    filterChipsCarouselRef.current?.scrollTo({ x: 0 })
-  }
-
   const handleMeasureHeader = (event: { nativeEvent: { layout: { height: number } } }) => {
     setHeaderHeight(event.nativeEvent.layout.height)
   }
@@ -254,12 +247,7 @@ function TokenBottomSheet<T extends TokenBalance>({
   // that the header would be stuck to the wrong position between sheet reopens.
   // See https://valora-app.slack.com/archives/C04B61SJ6DS/p1707757919681089
   return (
-    <BottomSheetBase
-      forwardedRef={forwardedRef}
-      snapPoints={snapPoints}
-      onOpen={handleOpen}
-      onClose={handleClose}
-    >
+    <BottomSheetBase forwardedRef={forwardedRef} snapPoints={snapPoints}>
       <View style={styles.container} testID="TokenBottomSheet">
         <BottomSheetFlatList
           ref={tokenListRef}
@@ -271,7 +259,7 @@ function TokenBottomSheet<T extends TokenBalance>({
             return (
               <TokenOptionComponent
                 tokenInfo={item}
-                onPress={onTokenPressed(item)}
+                onPress={onTokenPressed(item, index)}
                 index={index}
                 showPriceUsdUnavailableWarning={showPriceUsdUnavailableWarning}
               />
@@ -313,6 +301,7 @@ function TokenBottomSheet<T extends TokenBalance>({
               secondaryColor={colors.successLight}
               style={styles.filterChipsCarouselContainer}
               forwardedRef={filterChipsCarouselRef}
+              scrollEnabled={false}
             />
           )}
         </View>
@@ -389,6 +378,7 @@ const styles = StyleSheet.create({
     top: 0,
     padding: Spacing.Thick24,
     backgroundColor: colors.white,
+    width: '100%',
   },
   tokenListContainer: {
     paddingHorizontal: Spacing.Thick24,

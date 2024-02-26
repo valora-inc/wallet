@@ -1,10 +1,9 @@
 import { Contract } from '@celo/connect'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
-import jumpstartAbi from 'src/abis/WalletJumpStart.json'
+import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
-import { Network } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getWeb3Async } from 'src/web3/contracts'
@@ -16,7 +15,7 @@ const TAG = 'WalletJumpstart'
 export async function jumpstartLinkHandler(privateKey: string, userAddress: string) {
   const contractAddress = getDynamicConfigParams(
     DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  )?.[Network.Celo]?.contractAddress
+  ).jumpstartContracts?.[networkConfig.defaultNetworkId]?.contractAddress
 
   if (!contractAddress) {
     Logger.error(TAG, 'Contract address is not provided in dynamic config')
@@ -28,7 +27,7 @@ export async function jumpstartLinkHandler(privateKey: string, userAddress: stri
   const accounts: string[] = kit.connection.getLocalAccounts()
   const publicKey = accounts[0]
 
-  const jumpstart: Contract = await getContract(jumpstartAbi, contractAddress)
+  const jumpstart: Contract = await getContract(walletJumpstart.abi, contractAddress)
 
   await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey)
   await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey)

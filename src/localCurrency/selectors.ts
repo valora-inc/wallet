@@ -3,10 +3,11 @@ import CountryData from 'country-data'
 import { getCurrencies } from 'react-native-localize'
 import { createSelector } from 'reselect'
 import { e164NumberSelector } from 'src/account/selectors'
+import { isE2EEnv } from 'src/config'
 import {
+  LOCAL_CURRENCY_CODES,
   LocalCurrencyCode,
   LocalCurrencySymbol,
-  LOCAL_CURRENCY_CODES,
 } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 
@@ -29,7 +30,9 @@ export const getDefaultLocalCurrencyCode = createSelector(
     // So here we use the country of the phone number
     const countryCurrencies = e164PhoneNumber
       ? getCountryCurrencies(e164PhoneNumber)
-      : getCurrencies()
+      : !isE2EEnv
+        ? getCurrencies()
+        : [LocalCurrencyCode.USD]
     const supportedCurrenciesSet = new Set(LOCAL_CURRENCY_CODES)
 
     for (const countryCurrency of countryCurrencies) {
