@@ -39,18 +39,12 @@ interface SendConfirmationParams {
 }
 
 type SendEnterAmountParams = {
+  recipient: Recipient & { address: string }
   isFromScan: boolean
+  origin: SendOrigin
   forceTokenId?: boolean
   defaultTokenIdOverride?: string
-} & (
-  | {
-      recipient: Recipient & { address: string }
-      origin: Exclude<SendOrigin, 'Jumpstart'>
-    }
-  | {
-      origin: SendOrigin.Jumpstart
-    }
-)
+}
 
 interface ValidateRecipientParams {
   requesterAddress?: string
@@ -263,6 +257,7 @@ export type StackParamList = {
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
+  [Screens.JumpstartEnterAmount]: { defaultTokenId: string } | undefined
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow

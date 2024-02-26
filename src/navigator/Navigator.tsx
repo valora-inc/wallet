@@ -92,6 +92,7 @@ import PincodeEnter from 'src/pincode/PincodeEnter'
 import PincodeSet from 'src/pincode/PincodeSet'
 import { RootState } from 'src/redux/reducers'
 import { store } from 'src/redux/store'
+import JumpstartEnterAmount from 'src/send/JumpstartEnterAmount'
 import SendConfirmation, { sendConfirmationScreenNavOptions } from 'src/send/SendConfirmation'
 import SendEnterAmount from 'src/send/SendEnterAmount'
 import SendSelectRecipient from 'src/send/SendSelectRecipient'
@@ -257,6 +258,11 @@ const sendScreens = (Navigator: typeof Stack) => (
     <Navigator.Screen
       name={Screens.SendEnterAmount}
       component={SendEnterAmount}
+      options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartEnterAmount}
+      component={JumpstartEnterAmount}
       options={noHeader}
     />
   </>
