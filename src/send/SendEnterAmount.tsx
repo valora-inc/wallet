@@ -39,13 +39,9 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokenToLocalAmount } from 'src/tokens/hooks'
-import {
-  feeCurrenciesSelector,
-  tokensWithNonZeroBalanceAndShowZeroBalanceSelector,
-} from 'src/tokens/selectors'
+import { useTokenToLocalAmount, useTokensForSend } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
@@ -99,10 +95,7 @@ function FeeAmount({ feeTokenId, feeAmount }: { feeTokenId: string; feeAmount: B
 function SendEnterAmount({ route }: Props) {
   const { t } = useTranslation()
   const { defaultTokenIdOverride, origin, isFromScan, forceTokenId } = route.params
-  const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokens = useSelector((state) =>
-    tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
-  )
+  const tokens = useTokensForSend()
   const lastUsedTokenId = useSelector(lastUsedTokenIdSelector)
 
   const defaultToken = useMemo(() => {

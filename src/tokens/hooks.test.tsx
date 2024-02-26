@@ -223,8 +223,8 @@ describe('useTokensForSend', () => {
     )
 
     expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockPoofTokenId,
       mockCeloTokenId,
+      mockPoofTokenId,
       mockCrealTokenId,
     ])
   })
@@ -240,10 +240,10 @@ describe('useTokensForSend', () => {
     )
 
     expect(getByTestId('tokenIDs').props.children).toEqual([
-      mockPoofTokenId,
-      mockCeloTokenId,
-      mockCrealTokenId,
       ethTokenId,
+      mockCeloTokenId,
+      mockPoofTokenId,
+      mockCrealTokenId,
     ])
   })
 })

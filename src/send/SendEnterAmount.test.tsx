@@ -47,7 +47,7 @@ const mockStore = {
       }, // fee currency, matches mockCeloTokenBalance
       [mockEthTokenId]: {
         tokenId: mockEthTokenId,
-        balance: '0',
+        balance: '0.1',
         priceUsd: '5',
         networkId: NetworkId['ethereum-sepolia'],
         showZeroBalance: true,
@@ -314,7 +314,7 @@ describe('SendEnterAmount', () => {
       tokenId: mockEthTokenId,
       origin: 'Send',
       usedSearchTerm: false,
-      tokenPositionInList: 2,
+      tokenPositionInList: 1,
       selectedFilters: [],
     })
   })
@@ -510,7 +510,19 @@ describe('SendEnterAmount', () => {
   })
 
   it('picker icon removed, cannot change token when forceTokenId set', async () => {
-    const store = createMockStore(mockStore)
+    const store = createMockStore({
+      ...mockStore,
+      tokens: {
+        tokenBalances: {
+          ...mockStore.tokens.tokenBalances,
+          [mockCusdTokenId]: {
+            ...mockTokenBalances[mockCusdTokenId],
+            pricesUsd: '1',
+            balance: '1.2',
+          },
+        },
+      },
+    })
 
     const { getByTestId, queryByTestId } = render(
       <Provider store={store}>
