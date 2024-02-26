@@ -32,10 +32,12 @@ export async function jumpstartLinkHandler(
 
   const jumpstart: Contract = await getContract(jumpstartAbi, contractAddress)
 
-  const transactionHashes = [
-    ...(await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey)),
-    ...(await executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey)),
-  ]
+  const transactionHashes = (
+    await Promise.all([
+      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc20', privateKey),
+      executeClaims(kit, jumpstart, publicKey, userAddress, 'erc721', privateKey),
+    ])
+  ).flat()
 
   if (transactionHashes.length === 0) {
     throw new Error('Failed to claim any jumpstart reward')
