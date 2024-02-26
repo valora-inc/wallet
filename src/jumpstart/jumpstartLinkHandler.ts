@@ -2,6 +2,7 @@ import { Contract } from '@celo/connect'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import jumpstartAbi from 'src/abis/WalletJumpStart.json'
 import { NetworkId } from 'src/transactions/types'
+import walletJumpstart from 'src/abis/IWalletJumpstart'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getWeb3Async } from 'src/web3/contracts'
@@ -26,7 +27,7 @@ export async function jumpstartLinkHandler(
   const accounts: string[] = kit.connection.getLocalAccounts()
   const publicKey = accounts[0]
 
-  const jumpstart: Contract = await getContract(jumpstartAbi, contractAddress)
+  const jumpstart: Contract = await getContract(walletJumpstart.abi, contractAddress)
 
   const transactionHashes = (
     await Promise.all([

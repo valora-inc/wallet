@@ -5,13 +5,17 @@ import { RESULTS, check, request } from 'react-native-permissions'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { SendOrigin } from 'src/analytics/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 
 jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
+jest.mock('src/statsig')
 
 const renderComponent = (phoneNumberVerified = false) => {
   const onPermissionsGranted = jest.fn()
@@ -27,6 +31,26 @@ describe('SelectRecipientButtons', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(check).mockResolvedValue(RESULTS.DENIED)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showBalances: ['celo-alfajores'],
+    })
+  })
+
+  it('renders the jumpstart button if it is enabled', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_JUMPSTART_SEND)
+    const { getByText } = renderComponent()
+
+    fireEvent.press(getByText('sendSelectRecipient.jumpstart.title'))
+
+    await waitFor(() =>
+      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_jumpstart)
+    )
+    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
+      isFromScan: false,
+      origin: SendOrigin.Jumpstart,
+    })
   })
 
   it('renders QR and contacts button with no check mark on contacts if phone number is not verified', async () => {

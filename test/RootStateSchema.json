@@ -292,6 +292,7 @@
                                 "superchargeFetchRewardsFailed",
                                 "swapScreen.fetchSwapQuoteFailed",
                                 "swapScreen.swapSubmitFailed",
+                                "swapScreen.unsupportedSwapTokens",
                                 "transactionFailed",
                                 "transactionTimeout"
                             ],
