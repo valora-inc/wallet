@@ -42,7 +42,7 @@ jobs:
           mkdir -p $ANDROID_HOME
           cd $ANDROID_HOME
 
-          curl https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -o cli-tools.zip
+          curl https://dl.google.com/android/repository/commandlinetools-mac-6858069_latest.zip -o cli-tools.zip
           unzip cli-tools.zip
 
           rsync -avyz --remove-source-files $ANDROID_HOME/cmdline-tools/* $ANDROID_HOME/cmdline-tools/latest
