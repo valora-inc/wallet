@@ -1744,6 +1744,7 @@
     "swapFromTokenSelection": "SWAP FROM",
     "swapToTokenSelection": "SWAP TO",
     "tokenUsdValueUnknown": "-",
+    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
     "switchedToNetworkWarning": {
       "title": "You switched to the {{networkName}} network",
       "body_swapFrom": "Select a token to swap from on the {{networkName}} network to continue.",
@@ -2021,6 +2022,10 @@
     "invite": {
       "title": "Send crypto to your friends",
       "subtitle": "Invite friends from your contacts list"
+    },
+    "jumpstart": {
+      "title": "Share crypto with a link",
+      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
     },
     "getStarted": {
       "title": "Ways to send funds on Valora",

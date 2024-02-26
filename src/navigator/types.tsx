@@ -38,13 +38,19 @@ interface SendConfirmationParams {
   feeTokenId?: string
 }
 
-interface SendEnterAmountParams {
-  recipient: Recipient & { address: string }
+type SendEnterAmountParams = {
   isFromScan: boolean
-  origin: SendOrigin
   forceTokenId?: boolean
   defaultTokenIdOverride?: string
-}
+} & (
+  | {
+      recipient: Recipient & { address: string }
+      origin: Exclude<SendOrigin, 'Jumpstart'>
+    }
+  | {
+      origin: SendOrigin.Jumpstart
+    }
+)
 
 interface ValidateRecipientParams {
   requesterAddress?: string
