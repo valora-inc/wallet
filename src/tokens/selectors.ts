@@ -400,7 +400,7 @@ export const spendTokensByNetworkIdSelector = createSelector(
   (tokens) => tokens.filter((tokenInfo) => networkConfig.spendTokenIds.includes(tokenInfo.tokenId))
 )
 
-export const tokensWithBalanceOrShowZeroBalanceSelector = createSelector(
+const tokensWithBalanceOrShowZeroBalanceSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>
     tokens.filter(
