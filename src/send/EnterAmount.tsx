@@ -181,8 +181,6 @@ function EnterAmount({
 
   const { tokenId: feeTokenId, symbol: feeTokenSymbol } = feeCurrency ?? feeCurrencies[0]
   let feeAmountSection = <FeeLoading />
-  console.log('=======maxfeeamount', maxFeeAmount)
-  console.log('======prepare', prepareTransactionsResult)
   if (
     amount === '' ||
     showLowerAmountError ||
