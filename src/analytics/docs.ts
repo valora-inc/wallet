@@ -543,7 +543,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
-  [JumpstartEvents.jumpstart_started]: `When user started claim funds from Wallet Jumpstart`,
   [JumpstartEvents.jumpstart_succeeded]: `When claiming funds from Wallet Jumpstart succeeded`,
   [JumpstartEvents.jumpstart_failed]: `When claiming funds from Wallet Jumpstart failed`,
 

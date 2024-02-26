@@ -58,7 +58,6 @@ describe('jumpstartClaim', () => {
       .put(jumpstartClaimSucceeded())
       .run()
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_started)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_succeeded)
   })
 
@@ -78,7 +77,6 @@ describe('jumpstartClaim', () => {
       mockError
     )
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_started)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_failed)
   })
 })

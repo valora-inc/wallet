@@ -30,7 +30,6 @@ export function* jumpstartClaim(privateKey: string) {
   }
 
   try {
-    ValoraAnalytics.track(JumpstartEvents.jumpstart_started)
     yield* put(jumpstartClaimStarted())
 
     const transactionHashes = yield* call(jumpstartLinkHandler, privateKey, walletAddress)

@@ -638,7 +638,6 @@ export enum TransactionDetailsEvents {
 }
 
 export enum JumpstartEvents {
-  jumpstart_started = 'jumpstart_started',
   jumpstart_succeeded = 'jumpstart_succeeded',
   jumpstart_failed = 'jumpstart_failed',
 }

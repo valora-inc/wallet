@@ -1487,7 +1487,6 @@ interface TransactionDetailsProperties {
 }
 
 interface WalletJumpstartProperties {
-  [JumpstartEvents.jumpstart_started]: undefined
   [JumpstartEvents.jumpstart_succeeded]: undefined
   [JumpstartEvents.jumpstart_failed]: undefined
 }
