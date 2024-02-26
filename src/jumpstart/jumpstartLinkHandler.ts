@@ -1,9 +1,7 @@
 import { Contract } from '@celo/connect'
 import { ContractKit, newKitFromWeb3 } from '@celo/contractkit'
 import jumpstartAbi from 'src/abis/WalletJumpStart.json'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { getWeb3Async } from 'src/web3/contracts'
@@ -14,15 +12,13 @@ import { Hash } from 'viem'
 const TAG = 'WalletJumpstart'
 
 export async function jumpstartLinkHandler(
+  networkId: NetworkId,
+  contractAddress: string,
   privateKey: string,
   userAddress: string
 ): Promise<Hash[]> {
-  const contractAddress = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-  ).jumpstartContracts?.[networkConfig.defaultNetworkId]?.contractAddress
-
-  if (!contractAddress) {
-    throw new Error('Contract address is not provided in dynamic config')
+  if (networkId !== networkConfig.defaultNetworkId) {
+    throw new Error(`Unsupported network id: ${networkId}`)
   }
 
   const kit = newKitFromWeb3(await getWeb3Async())
@@ -40,7 +36,7 @@ export async function jumpstartLinkHandler(
   ).flat()
 
   if (transactionHashes.length === 0) {
-    throw new Error('Failed to claim any jumpstart reward')
+    throw new Error(`Failed to claim any jumpstart reward for ${networkId}`)
   }
 
   return transactionHashes

@@ -543,8 +543,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
-  [JumpstartEvents.jumpstart_succeeded]: `When claiming funds from Wallet Jumpstart succeeded`,
-  [JumpstartEvents.jumpstart_failed]: `When claiming funds from Wallet Jumpstart failed`,
+  [JumpstartEvents.jumpstart_claim_succeeded]: `When claiming funds from Wallet Jumpstart succeeded`,
+  [JumpstartEvents.jumpstart_claim_failed]: `When claiming funds from Wallet Jumpstart failed`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

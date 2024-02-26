@@ -1,4 +1,3 @@
-import { getDynamicConfigParams } from 'src/statsig'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { mockAccount, mockAccount2 } from 'test/values'
@@ -29,8 +28,6 @@ jest.mock('src/web3/utils', () => ({
   })),
 }))
 jest.mock('src/utils/fetchWithTimeout')
-jest.mock('src/statsig')
-jest.mock('src/utils/Logger')
 
 describe('jumpstartLinkHandler', () => {
   const privateKey = '0x1234567890abcdef'
@@ -44,11 +41,14 @@ describe('jumpstartLinkHandler', () => {
       ok: true,
       json: async () => ({ transactionHash: '0xTEST' }),
     }))
-    jest.mocked(getDynamicConfigParams).mockReturnValue({
-      jumpstartContracts: { [networkConfig.defaultNetworkId]: { contractAddress: '0xTEST' } },
-    })
+    const contractAddress = '0xTEST'
 
-    const result = await jumpstartLinkHandler(privateKey, mockAccount2)
+    const result = await jumpstartLinkHandler(
+      networkConfig.defaultNetworkId,
+      contractAddress,
+      privateKey,
+      mockAccount2
+    )
 
     expect(result).toEqual(['0xTEST'])
     expect(fetchWithTimeout).toHaveBeenCalledTimes(1)
@@ -56,14 +56,6 @@ describe('jumpstartLinkHandler', () => {
       `https://api.alfajores.valora.xyz/walletJumpstart?index=1&beneficiary=${mockAccount}&signature=0xweb3-signature&sendTo=${mockAccount2}&assetType=erc20`,
       expect.any(Object),
       expect.any(Number)
-    )
-  })
-
-  it('fails when contract address is not provided in dynamic config', async () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValue({})
-
-    await expect(jumpstartLinkHandler(privateKey, mockAccount2)).rejects.toThrow(
-      'Contract address is not provided in dynamic config'
     )
   })
 })
