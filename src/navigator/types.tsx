@@ -257,6 +257,7 @@ export type StackParamList = {
   [Screens.SendConfirmation]: SendConfirmationParams
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
+  [Screens.JumpstartEnterAmount]: { defaultTokenId: string } | undefined
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
