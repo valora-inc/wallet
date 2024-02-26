@@ -1,3 +1,4 @@
+import { spawn } from 'child_process'
 import * as $ from 'shelljs'
 import yargs from 'yargs'
 
@@ -55,27 +56,45 @@ $.echo('hw.ramSize=4096').toEnd(iniLocation)
 $.echo('hw.sdCard=yes').toEnd(iniLocation)
 $.echo('sdcard.size=1000M').toEnd(iniLocation)
 
-const emuChild = $.exec(
+const child = spawn(
   `emulator -avd ${emulatorName} -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim`,
-  {
-    async: true,
-  }
+  // { stdio: 'inherit' }
+  { shell: true }
 )
-if (!emuChild) {
+if (!child) {
   throw new Error('Failed to start the emulator')
 }
 
-emuChild.stdout!.on('data', function (data) {
+child.stdout!.on('data', function (data) {
+  console.log('Child data: ' + data)
+})
+child.stderr!.on('data', function (data) {
   console.log(data)
 })
-emuChild.stderr!.on('data', function (data) {
-  console.log(data)
+child.on('error', function () {
+  console.log('Failed to start child.')
 })
+child.on('close', function (code) {
+  console.log('Child process exited with code ' + code)
+})
+child.stdout!.on('end', function () {
+  console.log('Finished collecting data chunks.')
+})
+
+$.echo(`Emulator started! ${child.pid}`)
+
+// emuChild.stdout!.on('data', function (data) {
+//   console.log(data)
+// })
+// emuChild.stderr!.on('data', function (data) {
+//   console.log(data)
+// })
 
 $.echo('Waiting for device to be ready...')
 $.exec('adb wait-for-device')
 let a = $.exec("adb shell getprop sys.boot_completed | tr -d '\\r'", { silent: true }).stdout
 while (a !== '1') {
+  $.echo('Waiting for device to be ready...')
   $.exec('sleep 2')
   a = $.exec("adb shell getprop sys.boot_completed | tr -d '\\r'", { silent: true }).stdout
 }
