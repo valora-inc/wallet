@@ -394,7 +394,7 @@
           "os": "iOS 15.0"
         }
       },
-      "simulator.17.0": {
+      "simulator.17.2": {
         "type": "ios.simulator",
         "device": {
           "type": "iPhone SE (3rd generation)",
