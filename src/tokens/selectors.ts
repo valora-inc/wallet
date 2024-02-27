@@ -525,7 +525,7 @@ const getJumpstartEnabledNetworkIds = () =>
   ) as NetworkId[]
 
 export const jumpstartSendTokensSelector = createSelector(
-  [(state) => tokensWithTokenBalanceSelector(state, getJumpstartEnabledNetworkIds())],
+  [(state) => sortedTokensWithBalanceSelector(state, getJumpstartEnabledNetworkIds())],
   (tokensWithBalance) => {
     return tokensWithBalance.filter((token) => {
       // the jumpstart contract currently requires a token address for the
