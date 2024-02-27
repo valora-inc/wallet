@@ -117,13 +117,6 @@ describe('send/utils', () => {
 
     it('should navigate to SendConfirmation screen when amount and token are sent', async () => {
       const mockState = createMockStore({}).getState()
-      const expectedTokenBalance = mockState.tokens.tokenBalances[mockCeurTokenId]
-      const expectedToken = {
-        ...expectedTokenBalance,
-        priceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
-        balance: new BigNumber(expectedTokenBalance?.balance ?? 0),
-        lastKnownPriceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
-      }
       // 1 PHP in cEUR: 1 (input) / 1.33 (PHP price) / 1.2 (cEUR price)
       const expectedTokenAmount = new BigNumber('0.62656641604010025063')
       await expectSaga(
@@ -157,13 +150,6 @@ describe('send/utils', () => {
 
     it('should navigate to SendConfirmation screen defaulting to cUSD when amount is sent but token isnt', async () => {
       const mockState = createMockStore({}).getState()
-      const expectedTokenBalance = mockState.tokens.tokenBalances[mockCusdTokenId]
-      const expectedToken = {
-        ...expectedTokenBalance,
-        priceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
-        balance: new BigNumber(expectedTokenBalance?.balance ?? 0),
-        lastKnownPriceUsd: new BigNumber(expectedTokenBalance?.priceUsd ?? 0),
-      }
       // 1 PHP in cUSD: 1 (input) / 1.33 (PHP price)
       const expectedTokenAmount = new BigNumber('0.75187969924812030075')
       await expectSaga(
