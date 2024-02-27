@@ -44,7 +44,6 @@ import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
@@ -170,11 +169,6 @@ function SendEnterAmount({ route }: Props) {
         tokenAddress: token.address!,
         tokenAmount: parsedAmount,
       },
-      preparedTransaction: getSerializablePreparedTransaction(
-        prepareTransactionsResult.transactions[0]
-      ),
-      feeAmount: maxFeeAmount?.toString(),
-      feeTokenId: feeCurrency?.tokenId,
     })
     ValoraAnalytics.track(SendEvents.send_amount_continue, {
       origin,
