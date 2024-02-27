@@ -3,7 +3,6 @@ import { initializeAccountSaga } from 'src/account/saga'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { generateKeysFromMnemonic, getStoredMnemonic, storeMnemonic } from 'src/backup/utils'
-import { HASHED_KEYSHARE_PEPPER } from 'src/config'
 import { walletHasBalance } from 'src/import/saga'
 import {
   decryptPassphrase,
@@ -45,8 +44,8 @@ export function* handleValoraKeyshareIssued({
 }: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
-    const hashedKeyshare = calculateSha256Hash(`${keyshare}_${HASHED_KEYSHARE_PEPPER}`)
-    const hashedTorusKeyshare = calculateSha256Hash(`${torusKeyshare}_${HASHED_KEYSHARE_PEPPER}`)
+    const hashedKeyshare = calculateSha256Hash(`CAB_KEYSHARE_HASH_${keyshare}`)
+    const hashedTorusKeyshare = calculateSha256Hash(`CAB_KEYSHARE_HASH_${torusKeyshare}`)
     if (keylessBackupFlow === KeylessBackupFlow.Restore) {
       Logger.info(TAG, `Phone keyshare: ${hashedKeyshare}, Email keyshare: ${hashedTorusKeyshare}`)
     }
