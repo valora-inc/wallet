@@ -73,6 +73,8 @@ export function* jumpstartClaim(privateKey: string) {
       throw new Error('Failed to claim any jumpstart reward')
     }
 
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded)
+
     yield* put(jumpstartClaimSucceeded())
   } catch (error) {
     Logger.error(TAG, 'Error handling jumpstart link', error)
@@ -142,8 +144,7 @@ export function* dispatchPendingERC20Transactions(
         })
       )
 
-      ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded, {
-        assetType: 'ERC20',
+      ValoraAnalytics.track(JumpstartEvents.jumpstart_claimed_token, {
         networkId,
         tokenAddress,
         value: Number(value),
@@ -170,7 +171,7 @@ export function* dispatchPendingERC721Transactions(
         const network = networkIdToNetwork[networkId]
         const tokenUri = (yield* call([publicClient[network], 'readContract'], {
           address: contractAddress,
-          abi: parseAbi(['function tokenURI(uint256 tokenId) returns (string memory)']),
+          abi: parseAbi(['function tokenURI(uint256 tokenId) returns (string)']),
           functionName: 'tokenURI',
           args: [tokenId],
         })) as string
@@ -204,8 +205,7 @@ export function* dispatchPendingERC721Transactions(
           })
         )
 
-        ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded, {
-          assetType: 'ERC721',
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_claimed_nft, {
           networkId,
           contractAddress,
           tokenId: tokenId.toString(),

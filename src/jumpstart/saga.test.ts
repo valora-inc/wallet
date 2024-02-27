@@ -61,7 +61,7 @@ const mockJumpstartRemoteConfig = {
   },
 }
 
-const mockErc20ParsedLogs = [
+const mockErc20Logs = [
   {
     eventName: 'ERC20Claimed',
     address: mockAccount2,
@@ -69,7 +69,7 @@ const mockErc20ParsedLogs = [
   },
 ] as unknown as ReturnType<typeof parseEventLogs>
 
-const mockErc721ParsedLogs = [
+const mockErc721Logs = [
   {
     eventName: 'ERC721Claimed',
     address: mockAccount2,
@@ -81,7 +81,7 @@ describe('jumpstartClaim', () => {
   it('handles the happy path', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    return expectSaga(jumpstartClaim, mockPrivateKey)
+    await expectSaga(jumpstartClaim, mockPrivateKey)
       .provide([
         [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
@@ -91,6 +91,8 @@ describe('jumpstartClaim', () => {
       .fork(dispatchPendingTransactions, networkId, mockTransactionHashes)
       .put(jumpstartClaimSucceeded())
       .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_succeeded)
   })
 
   it('handles the jumpstartLinkHandler error', async () => {
@@ -114,7 +116,7 @@ describe('jumpstartClaim', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
   })
 
-  it('does not fail when dispatching pending transaction fails', async () => {
+  it('does not fail when dispatching pending transactions fails', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
     return expectSaga(jumpstartClaim, mockPrivateKey)
@@ -146,7 +148,7 @@ describe('jumpstartClaim', () => {
 
 describe('dispatchPendingTransactions', () => {
   it('successfully dispatches pending transactins', async () => {
-    jest.mocked(parseEventLogs).mockReturnValue(mockErc20ParsedLogs)
+    jest.mocked(parseEventLogs).mockReturnValue(mockErc20Logs)
 
     return expectSaga(dispatchPendingTransactions, networkId, [mockTransactionHashes[0]])
       .withState(
@@ -164,7 +166,7 @@ describe('dispatchPendingTransactions', () => {
       .run()
   })
 
-  it('handles the error while getting transaction receipts', async () => {
+  it('handles the error when getting transaction receipts', async () => {
     await expectSaga(dispatchPendingTransactions, networkId, [mockTransactionHashes[0]])
       .provide([
         [matchers.call.fn(publicClient[network].getTransactionReceipt), throwError(mockError)],
@@ -180,11 +182,11 @@ describe('dispatchPendingTransactions', () => {
 })
 
 describe('dispatchPendingERC20Transactions', () => {
-  it('dispatches TokenTransferV3 standby transaction in response to ERC20Claimed logs event', () => {
+  it('dispatches TokenTransferV3 standby transaction in response to ERC20Claimed logs event', async () => {
     const mockTransactionHash = mockTransactionHashes[0]
-    jest.mocked(parseEventLogs).mockReturnValue(mockErc20ParsedLogs)
+    jest.mocked(parseEventLogs).mockReturnValue(mockErc20Logs)
 
-    return expectSaga(dispatchPendingERC20Transactions, networkId, [mockTransactionReceipt])
+    await expectSaga(dispatchPendingERC20Transactions, networkId, [mockTransactionReceipt])
       .withState(
         createMockStore({
           tokens: {
@@ -205,10 +207,16 @@ describe('dispatchPendingERC20Transactions', () => {
         })
       )
       .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claimed_token, {
+      networkId,
+      tokenAddress: mockCusdAddress,
+      value: 1,
+    })
   })
 
   it('does not dispatch TokenTransferV3 standby transaction for unkown token', () => {
-    jest.mocked(parseEventLogs).mockReturnValue(mockErc20ParsedLogs)
+    jest.mocked(parseEventLogs).mockReturnValue(mockErc20Logs)
 
     return expectSaga(dispatchPendingERC20Transactions, networkId, [mockTransactionReceipt])
       .withState(
@@ -224,15 +232,15 @@ describe('dispatchPendingERC20Transactions', () => {
 })
 
 describe('dispatchPendingERC721Transactions', () => {
-  it('dispatches NftTransferV3 standby transaction in response to ERC721Claimed logs event', () => {
+  it('dispatches NftTransferV3 standby transaction in response to ERC721Claimed logs event', async () => {
     const mockTransactionHash = mockTransactionHashes[0]
 
-    jest.mocked(parseEventLogs).mockReturnValue(mockErc721ParsedLogs)
+    jest.mocked(parseEventLogs).mockReturnValue(mockErc721Logs)
 
     const tokenUri = 'https://example.com'
     const metadata = { ...mockNftAllFields.metadata }
 
-    return expectSaga(dispatchPendingERC721Transactions, networkId, [mockTransactionReceipt])
+    await expectSaga(dispatchPendingERC721Transactions, networkId, [mockTransactionReceipt])
       .provide([
         [matchers.call.fn(publicClient[network].readContract), tokenUri],
         [matchers.call(fetchWithTimeout, tokenUri), { json: () => metadata }],
@@ -256,10 +264,16 @@ describe('dispatchPendingERC721Transactions', () => {
         })
       )
       .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claimed_nft, {
+      networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      tokenId: mockNftAllFields.tokenId,
+    })
   })
 
-  it('handles the error while reading tokenUri from ERC721 contract', async () => {
-    jest.mocked(parseEventLogs).mockReturnValue(mockErc721ParsedLogs)
+  it('handles the error when reading tokenUri from ERC721 contract', async () => {
+    jest.mocked(parseEventLogs).mockReturnValue(mockErc721Logs)
 
     await expectSaga(dispatchPendingERC721Transactions, networkId, [mockTransactionReceipt])
       .provide([[matchers.call.fn(publicClient[network].readContract), throwError(mockError)]])

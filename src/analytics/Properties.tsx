@@ -1490,20 +1490,18 @@ interface TransactionDetailsProperties {
 }
 
 interface WalletJumpstartProperties {
-  [JumpstartEvents.jumpstart_claim_succeeded]:
-    | {
-        assetType: 'ERC20'
-        networkId: NetworkId
-        tokenAddress: string
-        value: number
-      }
-    | {
-        assetType: 'ERC721'
-        networkId: NetworkId
-        contractAddress: string
-        tokenId: string
-      }
+  [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
+  [JumpstartEvents.jumpstart_claimed_token]: {
+    networkId: NetworkId
+    tokenAddress: string
+    value: number
+  }
+  [JumpstartEvents.jumpstart_claimed_nft]: {
+    networkId: NetworkId
+    contractAddress: string
+    tokenId: string
+  }
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

@@ -641,4 +641,6 @@ export enum TransactionDetailsEvents {
 export enum JumpstartEvents {
   jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
   jumpstart_claim_failed = 'jumpstart_claim_failed',
+  jumpstart_claimed_token = 'jumpstart_claimed_token',
+  jumpstart_claimed_nft = 'jumpstart_claimed_nft',
 }
