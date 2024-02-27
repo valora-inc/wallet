@@ -277,6 +277,11 @@ function SendConfirmation(props: Props) {
     ) : null
   }
 
+  const onBlur = () => {
+    const trimmedComment = comment.trim()
+    setComment(trimmedComment)
+  }
+
   const onSend = () => {
     const preparedTransaction =
       prepareTransactionsResult &&
@@ -375,7 +380,12 @@ function SendConfirmation(props: Props) {
             showLocalAmount={true}
           />
           {allowComment && (
-            <CommentTextInput testID={'send'} onCommentChange={setComment} comment={comment} />
+            <CommentTextInput
+              testID={'send'}
+              onCommentChange={setComment}
+              comment={comment}
+              onBlur={onBlur}
+            />
           )}
         </View>
         {/** Encryption warning dialog */}
