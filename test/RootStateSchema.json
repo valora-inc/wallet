@@ -4051,6 +4051,15 @@
         "State_4": {
             "additionalProperties": false,
             "properties": {
+                "encryptedComment": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
+                "encryptedCommentLoading": {
+                    "type": "boolean"
+                },
                 "inviteRewardsVersion": {
                     "type": "string"
                 },
@@ -4071,17 +4080,15 @@
                         "$ref": "#/definitions/Recipient"
                     },
                     "type": "array"
-                },
-                "showSendToAddressWarning": {
-                    "type": "boolean"
                 }
             },
             "required": [
+                "encryptedComment",
+                "encryptedCommentLoading",
                 "inviteRewardsVersion",
                 "isSending",
                 "recentPayments",
-                "recentRecipients",
-                "showSendToAddressWarning"
+                "recentRecipients"
             ],
             "type": "object"
         },
