@@ -16,7 +16,6 @@ import { useTokensForSend } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
-import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.SendEnterAmount>
@@ -84,7 +83,6 @@ function SendEnterAmount({ route }: Props) {
     clearPreparedTransactions,
     prepareTransactionError,
   } = usePrepareSendTransactions()
-  const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const walletAddress = useSelector(walletAddressSelector)
 
