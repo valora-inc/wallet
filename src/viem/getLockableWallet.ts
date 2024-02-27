@@ -39,11 +39,11 @@ export function getTransport(chain: Chain): Transport {
 export type ViemWallet<
   transport extends Transport = Transport,
   chain extends Chain | undefined = Chain | undefined,
-  account extends Account | undefined = Account,
+  account extends Account | undefined = Account | undefined,
 > = Client<transport, chain, account, WalletRpcSchema, Actions>
 
 type Actions = Pick<
-  WalletActions<Chain, Account>,
+  WalletActions,
   | 'sendRawTransaction'
   | 'sendTransaction'
   | 'signTransaction'
@@ -69,7 +69,7 @@ export default function getLockableViemWallet(
     chain,
     transport: getTransport(chain),
     account,
-  }).extend((client: Client<Transport, Chain, Account>): Actions => {
+  }).extend((client: Client): Actions => {
     return {
       // All wallet functions that we want our ViemWallet to have must go here
       // For instance we will later need prepareTransactionRequest which we can add here by
