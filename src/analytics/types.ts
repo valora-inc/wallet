@@ -12,7 +12,6 @@ export enum BackQuizProgress {
 export enum SendOrigin {
   AppSendFlow = 'app_send_flow', // Sending as part of the app send flow
   Bidali = 'bidali', // Sending from Bidali
-  Jumpstart = 'jumpstart', // Sending as part of the jumpstart escrow flow
 }
 
 // Origin of WalletConnect pairing
