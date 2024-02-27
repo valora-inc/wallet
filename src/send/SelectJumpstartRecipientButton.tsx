@@ -3,12 +3,9 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { SendOrigin } from 'src/analytics/types'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
 import MagicWand from 'src/icons/MagicWand'
-import { navigate } from 'src/navigator/NavigationService'
-import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -23,10 +20,7 @@ function SelectRecipientJumpstartButton() {
 
   const handlePress = () => {
     ValoraAnalytics.track(SendEvents.send_select_recipient_jumpstart)
-    navigate(Screens.SendEnterAmount, {
-      isFromScan: false,
-      origin: SendOrigin.Jumpstart,
-    })
+    // TODO navigate to the new jumpstart screen when it is implemented
   }
 
   if (!showJumpstart || tokensWithBalance.length === 0) {
