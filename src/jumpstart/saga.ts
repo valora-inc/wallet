@@ -120,6 +120,7 @@ export function* dispatchPendingERC20Transactions(
 
       const token = tokensById[tokenId]
       if (!token) {
+        Logger.error(TAG, 'Claimed unknown tokenId', tokenId)
         continue
       }
 

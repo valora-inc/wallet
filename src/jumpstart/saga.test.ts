@@ -69,6 +69,14 @@ const mockErc20Logs = [
   },
 ] as unknown as ReturnType<typeof parseEventLogs>
 
+const mockErc20LogsUnkonwnToken = [
+  {
+    eventName: 'ERC20Claimed',
+    address: mockAccount2,
+    args: { token: '0xUNKNOWN', amount: '1000000000000000000' },
+  },
+] as unknown as ReturnType<typeof parseEventLogs>
+
 const mockErc721Logs = [
   {
     eventName: 'ERC721Claimed',
@@ -78,6 +86,10 @@ const mockErc721Logs = [
 ] as unknown as ReturnType<typeof parseEventLogs>
 
 describe('jumpstartClaim', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('handles the happy path', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
@@ -147,6 +159,10 @@ describe('jumpstartClaim', () => {
 })
 
 describe('dispatchPendingTransactions', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('successfully dispatches pending transactins', async () => {
     jest.mocked(parseEventLogs).mockReturnValue(mockErc20Logs)
 
@@ -182,6 +198,10 @@ describe('dispatchPendingTransactions', () => {
 })
 
 describe('dispatchPendingERC20Transactions', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('dispatches TokenTransferV3 standby transaction in response to ERC20Claimed logs event', async () => {
     const mockTransactionHash = mockTransactionHashes[0]
     jest.mocked(parseEventLogs).mockReturnValue(mockErc20Logs)
@@ -215,10 +235,10 @@ describe('dispatchPendingERC20Transactions', () => {
     })
   })
 
-  it('does not dispatch TokenTransferV3 standby transaction for unkown token', () => {
-    jest.mocked(parseEventLogs).mockReturnValue(mockErc20Logs)
+  it('does not dispatch TokenTransferV3 standby transaction for an unknown token', async () => {
+    jest.mocked(parseEventLogs).mockReturnValue(mockErc20LogsUnkonwnToken)
 
-    return expectSaga(dispatchPendingERC20Transactions, networkId, [mockTransactionReceipt])
+    await expectSaga(dispatchPendingERC20Transactions, networkId, [mockTransactionReceipt])
       .withState(
         createMockStore({
           tokens: {
@@ -228,10 +248,20 @@ describe('dispatchPendingERC20Transactions', () => {
       )
       .not.put.like({ action: { type: 'ADD_STANDBY_TRANSACTION' } })
       .run()
+
+    expect(Logger.error).toHaveBeenCalledWith(
+      'WalletJumpstart',
+      'Claimed unknown tokenId',
+      'celo-alfajores:0xUNKNOWN'
+    )
   })
 })
 
 describe('dispatchPendingERC721Transactions', () => {
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('dispatches NftTransferV3 standby transaction in response to ERC721Claimed logs event', async () => {
     const mockTransactionHash = mockTransactionHashes[0]
 
