@@ -400,33 +400,44 @@ export const spendTokensByNetworkIdSelector = createSelector(
   (tokens) => tokens.filter((tokenInfo) => networkConfig.spendTokenIds.includes(tokenInfo.tokenId))
 )
 
-export const tokensWithNonZeroBalanceAndShowZeroBalanceSelector = createSelector(
+const tokensWithBalanceOrShowZeroBalanceSelector = createSelector(
   (state: RootState, networkIds: NetworkId[]) => tokensListSelector(state, networkIds),
   (tokens) =>
-    tokens
-      .filter((tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance)
-      .sort((token1, token2) => {
-        // Sorts by usd balance, then token balance, then zero balance natives by
-        // network id, then zero balance non natives by network id
-        const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
-        if (usdBalanceCompare) {
-          return usdBalanceCompare
-        }
+    tokens.filter(
+      (tokenInfo) => tokenInfo.balance.gt(TOKEN_MIN_AMOUNT) || tokenInfo.showZeroBalance
+    )
+)
 
-        const balanceCompare = token2.balance.comparedTo(token1.balance)
-        if (balanceCompare) {
-          return balanceCompare
-        }
+export const sortedTokensWithBalanceOrShowZeroBalanceSelector = createSelector(
+  tokensWithBalanceOrShowZeroBalanceSelector,
+  (tokens) =>
+    tokens.sort((token1, token2) => {
+      // Sorts by usd balance, then token balance, then zero balance natives by
+      // network id, then zero balance non natives by network id
+      const usdBalanceCompare = usdBalance(token2).comparedTo(usdBalance(token1))
+      if (usdBalanceCompare) {
+        return usdBalanceCompare
+      }
 
-        if (token1.isNative && !token2.isNative) {
-          return -1
-        }
-        if (!token1.isNative && token2.isNative) {
-          return 1
-        }
+      const balanceCompare = token2.balance.comparedTo(token1.balance)
+      if (balanceCompare) {
+        return balanceCompare
+      }
 
-        return token1.networkId.localeCompare(token2.networkId)
-      })
+      if (token1.isNative && !token2.isNative) {
+        return -1
+      }
+      if (!token1.isNative && token2.isNative) {
+        return 1
+      }
+
+      return token1.networkId.localeCompare(token2.networkId)
+    })
+)
+
+export const sortedTokensWithBalanceSelector = createSelector(
+  sortedTokensWithBalanceOrShowZeroBalanceSelector,
+  (tokens) => tokens.filter((token) => token.balance.gt(TOKEN_MIN_AMOUNT))
 )
 
 const feeCurrenciesByNetworkIdSelector = createSelector(
