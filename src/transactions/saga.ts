@@ -331,8 +331,11 @@ export function* handleTransactionReceiptReceived(
 
   const feeTokenInfo = feeCurrencyId && tokensById[feeCurrencyId]
 
-  if (!feeTokenInfo) {
-    Logger.error(TAG, `No information found for token ${feeCurrencyId} in network ${networkId}`)
+  if (!!feeCurrencyId && !feeTokenInfo) {
+    Logger.error(
+      TAG,
+      `No information found for fee currency ${feeCurrencyId} in network ${networkId} for transaction ${txId}`
+    )
   }
 
   const gasFeeInSmallestUnit = new BigNumber(receipt.gasUsed.toString()).times(
