@@ -1,8 +1,5 @@
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
-import { Screens } from 'src/navigator/Screens'
-import { StackParamList } from 'src/navigator/types'
 import useSelector from 'src/redux/useSelector'
 import EnterAmount from 'src/send/EnterAmount'
 import { usePrepareJumpstartTransactions } from 'src/send/usePrepareJumpstartTransactions'
@@ -14,17 +11,9 @@ import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
 const TAG = 'JumpstartEnterAmount'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartEnterAmount>
-
-function JumpstartEnterAmount({ route }: Props) {
+function JumpstartEnterAmount() {
   const walletAddress = useSelector(walletAddressSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
-  const defaultToken = useMemo(() => {
-    const defaultTokenId = route.params?.defaultTokenId
-    return defaultTokenId
-      ? tokens.find((token) => token.tokenId === defaultTokenId) ?? tokens[0]
-      : tokens[0]
-  }, [route])
 
   const jumpstartLink = useMemo(() => {
     const privateKey = generatePrivateKey()
@@ -37,8 +26,11 @@ function JumpstartEnterAmount({ route }: Props) {
 
   const handleSendAndGenerateLink = (parsedAmount: BigNumber, token: TokenBalance) => {
     // TODO:
-    // 1. Send the transaction, probably by dispatching an action and letting a saga handle it.
-    // 2. Generate the link and pass the link in a navigation parameter to the next screen.
+    // 1. Send the transaction, probably by dispatching an action and letting a
+    //    saga handle it.
+    // 2. Generate the link and pass the link in a navigation parameter to the
+    //    next screen. (use navigateClearingStack so that the user cannot come
+    //    back to this screen and reuse the private key)
     // 3. add analytics
   }
 
@@ -66,7 +58,6 @@ function JumpstartEnterAmount({ route }: Props) {
   return (
     <EnterAmount
       tokens={tokens}
-      defaultToken={defaultToken}
       prepareTransactionsResult={prepareJumpstartTransactions.result}
       onClearPreparedTransactions={prepareJumpstartTransactions.reset}
       onRefreshPreparedTransactions={handlRefreshPreparedTransactions}
