@@ -94,7 +94,7 @@ function SendEnterAmount({ route }: Props) {
 
   const walletAddress = useSelector(walletAddressSelector)
 
-  const handlRefreshPreparedTransactions = (
+  const handleRefreshPreparedTransactions = (
     amount: BigNumber,
     token: TokenBalance,
     feeCurrencies: TokenBalance[]
@@ -120,7 +120,7 @@ function SendEnterAmount({ route }: Props) {
       defaultToken={defaultToken}
       prepareTransactionsResult={prepareTransactionsResult}
       onClearPreparedTransactions={clearPreparedTransactions}
-      onRefreshPreparedTransactions={handlRefreshPreparedTransactions}
+      onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
       prepareTransactionError={prepareTransactionError}
       tokenSelectionDisabled={!!forceTokenId}
       onPressProceed={handleReviewSend}
