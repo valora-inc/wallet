@@ -36,7 +36,7 @@ import { PreparedTransactionsResult, getFeeCurrencyAndAmounts } from 'src/viem/p
 
 interface Props {
   tokens: TokenBalance[]
-  defaultToken: TokenBalance
+  defaultToken?: TokenBalance
   prepareTransactionsResult?: PreparedTransactionsResult
   onClearPreparedTransactions(): void
   onRefreshPreparedTransactions(
@@ -108,7 +108,7 @@ function EnterAmount({
   const textInputRef = useRef<RNTextInput | null>(null)
   const tokenBottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const [token, setToken] = useState<TokenBalance>(defaultToken)
+  const [token, setToken] = useState<TokenBalance>(() => defaultToken ?? tokens[0])
   const [amount, setAmount] = useState<string>('')
 
   const onTokenPickerSelect = () => {
