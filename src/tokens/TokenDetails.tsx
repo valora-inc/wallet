@@ -15,7 +15,6 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
-import { TOKEN_MIN_AMOUNT } from 'src/config'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
@@ -210,8 +209,7 @@ export const useActions = (token: TokenBalance) => {
       },
       visible:
         isSwapEnabled &&
-        !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId) &&
-        token.balance.gt(TOKEN_MIN_AMOUNT),
+        !!swappableFromTokens.find((tokenInfo) => tokenInfo.tokenId === token.tokenId),
     },
     {
       name: TokenDetailsActionName.Add,

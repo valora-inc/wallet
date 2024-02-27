@@ -12,9 +12,9 @@ import EnterAmount from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE } from 'src/send/utils'
-import { tokensWithNonZeroBalanceAndShowZeroBalanceSelector } from 'src/tokens/selectors'
+import { useTokensForSend } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
-import { convertTokenToLocalAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
+import { convertTokenToLocalAmount } from 'src/tokens/utils'
 import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
@@ -26,10 +26,7 @@ const TAG = 'SendEnterAmount'
 
 function SendEnterAmount({ route }: Props) {
   const { defaultTokenIdOverride, origin, recipient, isFromScan, forceTokenId } = route.params
-  const supportedNetworkIds = getSupportedNetworkIdsForSend()
-  const tokens = useSelector((state) =>
-    tokensWithNonZeroBalanceAndShowZeroBalanceSelector(state, supportedNetworkIds)
-  )
+  const tokens = useTokensForSend()
   const lastUsedTokenId = useSelector(lastUsedTokenIdSelector)
 
   const defaultToken = useMemo(() => {
@@ -97,7 +94,7 @@ function SendEnterAmount({ route }: Props) {
 
   const walletAddress = useSelector(walletAddressSelector)
 
-  const handlRefreshPreparedTransactions = (
+  const handleRefreshPreparedTransactions = (
     amount: BigNumber,
     token: TokenBalance,
     feeCurrencies: TokenBalance[]
@@ -123,7 +120,7 @@ function SendEnterAmount({ route }: Props) {
       defaultToken={defaultToken}
       prepareTransactionsResult={prepareTransactionsResult}
       onClearPreparedTransactions={clearPreparedTransactions}
-      onRefreshPreparedTransactions={handlRefreshPreparedTransactions}
+      onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
       prepareTransactionError={prepareTransactionError}
       tokenSelectionDisabled={!!forceTokenId}
       onPressProceed={handleReviewSend}
