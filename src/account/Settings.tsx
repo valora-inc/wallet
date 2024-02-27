@@ -382,7 +382,7 @@ export const Account = ({ navigation, route }: Props) => {
           testID="KeylessBackup"
           cta={
             <>
-              <LoadingSpinner width={32} />
+              <LoadingSpinner width={22} />
               <Text testID={`KeylessBackup/cta`} style={styles.value}>
                 {t('pleaseWait')}
               </Text>
@@ -622,6 +622,7 @@ const styles = StyleSheet.create({
     ...fontStyles.regular,
     color: colors.gray4,
     marginRight: Spacing.Smallest8,
+    marginLeft: 4,
   },
 })
 
