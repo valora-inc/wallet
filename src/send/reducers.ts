@@ -66,11 +66,13 @@ export const sendReducer = (
         isSending: false,
         recentPayments: [...paymentsLast24Hours, latestPayment],
         lastUsedTokenId: action.tokenId,
+        encryptedComment: null,
       }
     case Actions.SEND_PAYMENT_FAILURE:
       return {
         ...state,
         isSending: false,
+        encryptedComment: null,
       }
     case Actions.ENCRYPT_COMMENT:
       return {

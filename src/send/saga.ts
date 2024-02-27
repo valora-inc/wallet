@@ -271,7 +271,9 @@ export function* sendPaymentSaga({
 }
 
 export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {
-  const encryptedComment = yield* call(encryptComment, comment, toAddress, fromAddress)
+  const encryptedComment = comment
+    ? yield* call(encryptComment, comment, toAddress, fromAddress)
+    : null
   yield* put(encryptCommentComplete(encryptedComment))
 }
 

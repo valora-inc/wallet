@@ -9,7 +9,7 @@ interface Props {
   testID?: string
   comment: string
   onCommentChange: (comment: string) => void
-  onBlur: () => void
+  onBlur?: () => void
 }
 
 export default function CommentTextInput({ testID, onCommentChange, comment, onBlur }: Props) {

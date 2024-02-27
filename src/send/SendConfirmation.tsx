@@ -66,6 +66,8 @@ type OwnProps = NativeStackScreenProps<
 >
 type Props = OwnProps
 
+const DEBOUNCE_TIME_MS = 250
+
 export const sendConfirmationScreenNavOptions = noHeader
 
 export function useRecipientToSendTo(paramRecipient: Recipient) {
@@ -172,10 +174,13 @@ function SendConfirmation(props: Props) {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!walletAddress || !tokenInfo || isEncryptingComment) {
-      return
+    if (!walletAddress || !tokenInfo) {
+      return // should never happen
     }
     clearPreparedTransactions()
+    if (isEncryptingComment) {
+      return // wait for comment to be encrypted before preparing a tx
+    }
     const debouncedRefreshTransactions = setTimeout(() => {
       return refreshPreparedTransactions({
         amount: inputTokenAmount,
@@ -185,7 +190,7 @@ function SendConfirmation(props: Props) {
         feeCurrencies,
         comment: allowComment && comment ? encryptedComment ?? undefined : undefined,
       })
-    }, 250)
+    }, DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedRefreshTransactions)
   }, [
     encryptedComment,
@@ -199,7 +204,7 @@ function SendConfirmation(props: Props) {
   ])
 
   useEffect(() => {
-    if (!comment || !walletAddress) {
+    if (!walletAddress || !allowComment) {
       return
     }
     const debouncedEncryptComment = setTimeout(() => {
@@ -210,7 +215,7 @@ function SendConfirmation(props: Props) {
           toAddress: paramRecipient.address,
         })
       )
-    }, 250)
+    }, DEBOUNCE_TIME_MS)
     return () => clearTimeout(debouncedEncryptComment)
   }, [comment])
 
@@ -270,11 +275,6 @@ function SendConfirmation(props: Props) {
         </Touchable>
       </View>
     ) : null
-  }
-
-  const onBlur = () => {
-    const trimmedComment = comment.trim()
-    setComment(trimmedComment)
   }
 
   const onSend = () => {
@@ -375,12 +375,7 @@ function SendConfirmation(props: Props) {
             showLocalAmount={true}
           />
           {allowComment && (
-            <CommentTextInput
-              testID={'send'}
-              onCommentChange={setComment}
-              comment={comment}
-              onBlur={onBlur}
-            />
+            <CommentTextInput testID={'send'} onCommentChange={setComment} comment={comment} />
           )}
         </View>
         {/** Encryption warning dialog */}

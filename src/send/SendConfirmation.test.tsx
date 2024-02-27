@@ -212,6 +212,11 @@ describe('SendConfirmation', () => {
     jest.advanceTimersByTime(300)
     expect(store.getActions()).toEqual([
       encryptComment({
+        comment: '', // empty comment dispatched first
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+      encryptComment({
         comment,
         fromAddress: mockAccount.toLowerCase(),
         toAddress: mockTokenTransactionData.recipient.address,

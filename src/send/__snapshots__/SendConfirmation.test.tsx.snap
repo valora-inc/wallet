@@ -285,7 +285,6 @@ exports[`SendConfirmation renders correctly 1`] = `
               maxLength={70}
               multiline={true}
               numberOfLines={5}
-              onBlur={[Function]}
               onChangeText={[Function]}
               placeholder="addDescription"
               placeholderTextColor="#1AB775"
