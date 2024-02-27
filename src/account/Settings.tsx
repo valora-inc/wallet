@@ -368,6 +368,62 @@ export const Account = ({ navigation, route }: Props) => {
 
   const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
+  const getKeylessBackupItem = () => {
+    if (!showKeylessBackup) {
+      return null
+    }
+    if (deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress) {
+      return (
+        <SettingsItemCta
+          title={t('keylessBackupSettingsTitle')}
+          onPress={() => {
+            // do nothing
+          }}
+          testID="KeylessBackup"
+          cta={
+            <>
+              <LoadingSpinner width={32} />
+              <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                {t('pleaseWait')}
+              </Text>
+            </>
+          }
+        />
+      )
+    } else if (cloudBackupCompleted) {
+      return (
+        <SettingsItemCta
+          title={t('keylessBackupSettingsTitle')}
+          onPress={onPressDeleteKeylessBackup}
+          testID="KeylessBackup"
+          cta={
+            <>
+              <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                {t('delete')}
+              </Text>
+            </>
+          }
+        />
+      )
+    } else {
+      return (
+        <SettingsItemCta
+          title={t('keylessBackupSettingsTitle')}
+          onPress={onPressSetUpKeylessBackup}
+          testID="KeylessBackup"
+          cta={
+            <>
+              <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                {t('setup')}
+              </Text>
+              <ForwardChevron />
+            </>
+          }
+        />
+      )
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar />
@@ -412,39 +468,7 @@ export const Account = ({ navigation, route }: Props) => {
             onPress={goToRecoveryPhrase}
             testID="RecoveryPhrase"
           />
-          {showKeylessBackup && (
-            <SettingsItemCta
-              title={t('keylessBackupSettingsTitle')}
-              onPress={
-                deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress
-                  ? () => {
-                      // do nothing
-                    }
-                  : cloudBackupCompleted
-                    ? onPressDeleteKeylessBackup
-                    : onPressSetUpKeylessBackup
-              }
-              testID="KeylessBackup"
-              cta={
-                <>
-                  {deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress && (
-                    <LoadingSpinner width={32} />
-                  )}
-                  <Text testID={`KeylessBackup/cta`} style={styles.value}>
-                    {deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress
-                      ? t('pleaseWait')
-                      : cloudBackupCompleted
-                        ? t('delete')
-                        : t('setup')}
-                  </Text>
-                  {!cloudBackupCompleted &&
-                    deleteKeylessBackupStatus !== KeylessBackupDeleteStatus.InProgress && (
-                      <ForwardChevron />
-                    )}
-                </>
-              }
-            />
-          )}
+          {getKeylessBackupItem()}
           <SettingsItemTextValue
             title={t('changePin')}
             onPress={goToChangePin}
@@ -597,7 +621,7 @@ const styles = StyleSheet.create({
   value: {
     ...fontStyles.regular,
     color: colors.gray4,
-    marginRight: 8,
+    marginRight: Spacing.Smallest8,
   },
 })
 

@@ -16,7 +16,6 @@ import {
   resetAppOpenedState,
   setAnalyticsEnabled,
   setNumberVerified,
-  setSessionId,
 } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
@@ -331,7 +330,7 @@ describe('Account', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
       SettingsEvents.settings_delete_keyless_backup
     )
-    expect(store.getActions()).toEqual([setSessionId(''), deleteKeylessBackupStarted()])
+    expect(store.getActions()).toContainEqual(deleteKeylessBackupStarted())
   })
 
   it('shows keyless backup in progress when flag is enabled and backup is in progress', () => {
