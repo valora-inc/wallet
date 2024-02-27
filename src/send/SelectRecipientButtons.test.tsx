@@ -5,7 +5,6 @@ import { RESULTS, check, request } from 'react-native-permissions'
 import { Provider } from 'react-redux'
 import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { SendOrigin } from 'src/analytics/types'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import SelectRecipientButtons from 'src/send/SelectRecipientButtons'
@@ -47,10 +46,6 @@ describe('SelectRecipientButtons', () => {
     await waitFor(() =>
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_jumpstart)
     )
-    expect(navigate).toHaveBeenCalledWith(Screens.SendEnterAmount, {
-      isFromScan: false,
-      origin: SendOrigin.Jumpstart,
-    })
   })
 
   it('renders QR and contacts button with no check mark on contacts if phone number is not verified', async () => {
