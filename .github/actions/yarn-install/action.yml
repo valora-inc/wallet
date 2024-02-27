@@ -13,7 +13,7 @@ runs:
         path: |
           node_modules
           */*/node_modules
-        key: ${{ runner.os }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
+        key: ${{ runner.os }}-${{ runner.arch }}-node-${{ steps.setup-node.outputs.node-version }}-${{ hashFiles('**/yarn.lock', 'patches/*.patch') }}
     - name: Install Yarn dependencies
       run: |
         # Deals with yarn (v1) install flakiness
