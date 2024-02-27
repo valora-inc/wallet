@@ -20,6 +20,7 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -121,8 +122,10 @@ describe('jumpstartClaim', () => {
 
     expect(Logger.error).toHaveBeenCalledWith(
       'WalletJumpstart',
-      'Error handling jumpstart link for celo-alfajores',
-      mockError
+      'Error handling jumpstart link',
+      new Error(
+        `Failed to claim any jumpstart reward. Last error: ${ensureError(mockError).message}`
+      )
     )
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)

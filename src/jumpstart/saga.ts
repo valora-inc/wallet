@@ -17,6 +17,7 @@ import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -42,6 +43,7 @@ export function* jumpstartClaim(privateKey: string) {
     const networkIds = Object.keys(jumpstartContracts) as Array<keyof typeof jumpstartContracts>
 
     let successfulClaimsCount = 0
+    let lastError: any
 
     for (const networkId of networkIds) {
       try {
@@ -65,12 +67,14 @@ export function* jumpstartClaim(privateKey: string) {
 
         yield* fork(dispatchPendingTransactions, networkId, transactionHashes)
       } catch (error) {
-        Logger.error(TAG, `Error handling jumpstart link for ${networkId}`, error)
+        lastError = error
       }
     }
 
     if (successfulClaimsCount === 0) {
-      throw new Error('Failed to claim any jumpstart reward')
+      throw new Error(
+        `Failed to claim any jumpstart reward. Last error: ${ensureError(lastError).message}`
+      )
     }
 
     ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded)
