@@ -92,3 +92,6 @@ jobs:
         with:
           name: ios-${{ inputs.ios-version }}-test-report
           path: e2e/test-results
+      - name: 'Close simulators'
+        if: always()
+        run: xcrun simctl shutdown all
