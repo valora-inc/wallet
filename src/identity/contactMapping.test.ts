@@ -253,7 +253,7 @@ describe('saveContacts', () => {
       await expectSaga(saveContacts)
         .provide([
           [select(phoneNumberVerifiedSelector), true],
-          [call(checkPermission, PERMISSIONS.IOS.CONTACTS), PERMISSION_RESULTS.GRANTED],
+          [call(checkPermission, PERMISSIONS.ANDROID.READ_CONTACTS), PERMISSION_RESULTS.GRANTED],
           [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
           [select(e164NumberSelector), mockE164Number],
           [select(lastSavedContactsHashSelector), null],
@@ -286,7 +286,7 @@ describe('saveContacts', () => {
     await expectSaga(saveContacts)
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [call(checkPermission, PERMISSIONS.IOS.CONTACTS), PERMISSION_RESULTS.GRANTED],
+        [call(checkPermission, PERMISSIONS.ANDROID.READ_CONTACTS), PERMISSION_RESULTS.GRANTED],
         [
           select(phoneRecipientCacheSelector),
           { ...mockPhoneRecipientCache, [mockE164Number2]: {} },
@@ -324,7 +324,7 @@ describe('saveContacts', () => {
     await expectSaga(saveContacts)
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [call(checkPermission, PERMISSIONS.IOS.CONTACTS), PERMISSION_RESULTS.GRANTED],
+        [call(checkPermission, PERMISSIONS.ANDROID.READ_CONTACTS), PERMISSION_RESULTS.GRANTED],
         [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
         [select(e164NumberSelector), mockE164Number],
         [
@@ -352,7 +352,7 @@ describe('saveContacts', () => {
         .provide([
           [select(phoneNumberVerifiedSelector), phoneVerified],
           [
-            call(checkPermission, PERMISSIONS.IOS.CONTACTS),
+            call(checkPermission, PERMISSIONS.ANDROID.READ_CONTACTS),
             contactsEnabled ? PERMISSION_RESULTS.GRANTED : PERMISSION_RESULTS.DENIED,
           ],
         ])
@@ -369,7 +369,7 @@ describe('saveContacts', () => {
     await expectSaga(saveContacts)
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [call(checkPermission, PERMISSIONS.IOS.CONTACTS), PERMISSION_RESULTS.GRANTED],
+        [call(checkPermission, PERMISSIONS.ANDROID.READ_CONTACTS), PERMISSION_RESULTS.GRANTED],
         [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
         [select(e164NumberSelector), mockE164Number],
         [select(lastSavedContactsHashSelector), undefined],

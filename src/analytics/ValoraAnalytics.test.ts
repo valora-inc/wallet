@@ -23,7 +23,6 @@ jest.mock('@segment/analytics-react-native')
 jest.mock('@segment/analytics-react-native-plugin-adjust')
 jest.mock('@segment/analytics-react-native-plugin-clevertap')
 jest.mock('@segment/analytics-react-native-plugin-firebase')
-jest.mock('react-native-permissions', () => ({}))
 jest.mock('@sentry/react-native', () => ({ init: jest.fn() }))
 jest.mock('src/redux/store', () => ({ store: { getState: jest.fn() } }))
 jest.mock('src/config', () => ({
