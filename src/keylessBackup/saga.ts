@@ -15,6 +15,7 @@ import {
   getEncryptedMnemonic,
   storeEncryptedMnemonic,
 } from 'src/keylessBackup/index'
+import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBackup/keychain'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
   deleteKeylessBackupCompleted,
@@ -35,12 +36,10 @@ import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
-import { getViemWallet } from 'src/web3/contracts'
-import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
-import { assignAccountFromPrivateKey, unlockAccount } from 'src/web3/saga'
+import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
-import { Hex, fromBytes } from 'viem'
+import { Hex } from 'viem'
 
 const TAG = 'keylessBackup/saga'
 
@@ -59,22 +58,24 @@ export function* handleValoraKeyshareIssued({
       torusKeyshareBuffer,
       valoraKeyshareBuffer
     )
+
     const encryptionAddress = getWalletAddressFromPrivateKey(encryptionPrivateKey)
     if (keylessBackupFlow === KeylessBackupFlow.Setup) {
       yield* handleKeylessBackupSetup({
         torusKeyshareBuffer,
         valoraKeyshareBuffer,
         encryptionAddress,
+        encryptionPrivateKey,
         jwt,
       })
     } else {
       yield* handleKeylessBackupRestore({
         torusKeyshareBuffer,
         valoraKeyshareBuffer,
-        encryptionAddress,
-        encryptionPrivateKey: fromBytes(encryptionPrivateKey, 'hex'),
+        encryptionPrivateKey,
       })
     }
+
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
       keylessBackupFlow,
     })
@@ -92,11 +93,13 @@ function* handleKeylessBackupSetup({
   torusKeyshareBuffer,
   valoraKeyshareBuffer,
   encryptionAddress,
+  encryptionPrivateKey,
   jwt,
 }: {
   torusKeyshareBuffer: Buffer
   valoraKeyshareBuffer: Buffer
   encryptionAddress: string
+  encryptionPrivateKey: Hex
   jwt: string
 }) {
   const walletAddress = yield* select(walletAddressSelector)
@@ -115,6 +118,8 @@ function* handleKeylessBackupSetup({
     encryptionAddress,
     jwt,
   })
+  yield* call(storeSECP256k1PrivateKey, encryptionPrivateKey, walletAddress)
+
   yield* put(keylessBackupCompleted())
 }
 
@@ -122,17 +127,12 @@ function* handleKeylessBackupRestore({
   torusKeyshareBuffer,
   valoraKeyshareBuffer,
   encryptionPrivateKey,
-  encryptionAddress,
 }: {
   torusKeyshareBuffer: Buffer
   valoraKeyshareBuffer: Buffer
   encryptionPrivateKey: Hex
-  encryptionAddress: string
 }) {
-  const encryptedMnemonic = yield* call(getEncryptedMnemonic, {
-    encryptionPrivateKey,
-    encryptionAddress,
-  })
+  const encryptedMnemonic = yield* call(getEncryptedMnemonic, encryptionPrivateKey)
 
   if (!encryptedMnemonic) {
     ValoraAnalytics.track(KeylessBackupEvents.cab_restore_mnemonic_not_found)
@@ -175,6 +175,9 @@ function* handleKeylessBackupRestore({
   if (!account) {
     throw new Error('Failed to assign account from private key')
   }
+
+  yield* call(storeSECP256k1PrivateKey, encryptionPrivateKey, account)
+
   // Set key in phone's secure store
   yield* call(storeMnemonic, decryptedMnemonic, account)
 
@@ -214,16 +217,9 @@ export function* handleGoogleSignInCompleted({
 
 export function* handleDeleteKeylessBackup() {
   try {
-    const wallet = yield* call(
-      getViemWallet,
-      networkConfig.viemChain[networkIdToNetwork[networkConfig.defaultNetworkId]]
-    )
-    if (!wallet.account) {
-      throw new Error('no account found in the wallet')
-    }
-
-    yield* call(unlockAccount, wallet.account.address)
-    yield* call(deleteEncryptedMnemonic, wallet)
+    const account = yield* select(walletAddressSelector)
+    const secp256k1PrivateKey = yield* call(getSECP256k1PrivateKey, account)
+    yield* call(deleteEncryptedMnemonic, secp256k1PrivateKey)
     yield* put(deleteKeylessBackupCompleted())
   } catch (error) {
     Logger.error(TAG, 'Error deleting keyless backup', error)

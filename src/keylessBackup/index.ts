@@ -1,11 +1,11 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getWalletAddressFromPrivateKey } from 'src/keylessBackup/encryption'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
-import { ViemWallet } from 'src/viem/getLockableWallet'
 import networkConfig from 'src/web3/networkConfig'
 import { Hex } from 'viem'
 import { privateKeyToAccount } from 'viem/accounts'
@@ -45,17 +45,12 @@ export async function storeEncryptedMnemonic({
   }
 }
 
-export async function getEncryptedMnemonic({
-  encryptionPrivateKey,
-  encryptionAddress,
-}: {
-  encryptionPrivateKey: Hex
-  encryptionAddress: string
-}) {
-  const account = privateKeyToAccount(encryptionPrivateKey)
-  const siweClient = new SiweClient(
+function getSIWEClient(privateKey: Hex) {
+  const account = privateKeyToAccount(privateKey)
+  const accountAddress = getWalletAddressFromPrivateKey(privateKey)
+  return new SiweClient(
     {
-      accountAddress: encryptionAddress,
+      accountAddress,
       statement: SIWE_STATEMENT,
       version: SIWE_VERSION,
       chainId: parseInt(networkConfig.networkId),
@@ -68,6 +63,10 @@ export async function getEncryptedMnemonic({
     },
     (message) => account.signMessage({ message })
   )
+}
+
+export async function getEncryptedMnemonic(encryptionPrivateKey: Hex) {
+  const siweClient = getSIWEClient(encryptionPrivateKey)
   await siweClient.login()
   const response = await siweClient.fetch(networkConfig.cabGetEncryptedMnemonicUrl)
   if (response.status === 404) {
@@ -83,26 +82,8 @@ export async function getEncryptedMnemonic({
   return encryptedMnemonic
 }
 
-export async function deleteEncryptedMnemonic(wallet: ViemWallet) {
-  if (!wallet.account) {
-    // This should never happen
-    throw new Error('no account found in the wallet')
-  }
-  const siweClient = new SiweClient(
-    {
-      accountAddress: wallet.account.address,
-      statement: SIWE_STATEMENT,
-      version: SIWE_VERSION,
-      chainId: parseInt(networkConfig.networkId),
-      sessionDurationMs: SESSION_DURATION_MS,
-      loginUrl: networkConfig.cabLoginUrl,
-      clockUrl: networkConfig.cabClockUrl,
-      timeout:
-        getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_NETWORK_TIMEOUT_SECONDS])
-          .default * 1000,
-    },
-    (message) => wallet.signMessage({ message })
-  )
+export async function deleteEncryptedMnemonic(encryptionPrivateKey: Hex) {
+  const siweClient = getSIWEClient(encryptionPrivateKey)
   await siweClient.login()
   const response = await siweClient.fetch(networkConfig.cabDeleteEncryptedMnemonicUrl, {
     method: 'DELETE',
