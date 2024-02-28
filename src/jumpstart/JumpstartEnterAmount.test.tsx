@@ -18,7 +18,7 @@ import {
 } from 'test/values'
 
 jest.mock('src/statsig')
-jest.mock('src/send/usePrepareJumpstartTransactions')
+jest.mock('src/jumpstart/usePrepareJumpstartTransactions')
 jest.mock('viem/accounts', () => ({
   ...jest.requireActual('viem/accounts'),
   generatePrivateKey: jest
