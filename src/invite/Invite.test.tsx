@@ -5,13 +5,13 @@ import { Share } from 'react-native'
 import { Provider } from 'react-redux'
 import { InviteEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import * as InviteUtils from 'src/invite/utils'
+import * as InviteUtils from 'src/firebase/dynamicLinks'
 import { createMockStore } from 'test/utils'
 import Invite from './Invite'
 
 jest.mock('src/analytics/ValoraAnalytics')
 const mockShare = jest.spyOn(Share, 'share')
-const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createDynamicLink')
+const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createInviteLink')
 
 const { press } = fireEvent
 
