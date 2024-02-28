@@ -259,7 +259,6 @@ describe('SendConfirmation', () => {
         '',
         recipient,
         false,
-        undefined,
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
