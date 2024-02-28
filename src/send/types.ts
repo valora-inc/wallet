@@ -13,7 +13,7 @@ export interface QrCode {
 }
 
 export interface TransactionDataInput {
-  recipient: Recipient
+  recipient: Recipient & { address: string }
   inputAmount: BigNumber
   amountIsInLocalCurrency: boolean
   tokenAddress?: string
