@@ -1738,7 +1738,7 @@
     "swapTo": "เป็น",
     "insufficientFunds": "ยอดคงเหลือ {{token}} ไม่เพียงพอ ลองจำนวนเงินที่น้อยลงหรือเลือกสินทรัพย์อื่น",
     "fetchSwapQuoteFailed": "ขออภัยในความล่าช้า การดำเนินการนี้ใช้เวลานานกว่าปกติเพื่อให้ได้อัตราแลกเปลี่ยนที่ดีที่สุด โปรดลองอีกครั้งในอีกสองสามนาที",
-    "disclaimer": "อัตราที่ดีที่สุดซึ่งกำหนดโดยพาร์ทเนอร์เครือข่าย <0>ดูข้อมูลเพิ่มเติม</0>",
+    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
     "swapFromTokenSelection": "สว็อปจาก",
     "swapToTokenSelection": "สว็อปเป็น",
     "tokenUsdValueUnknown": "-",
