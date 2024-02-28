@@ -2127,5 +2127,6 @@
       "description": "{{rewardName}} 已成功添加到您的 {{appName}} 钱包。"
     }
   },
+  "pleaseWait": "Please wait",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
