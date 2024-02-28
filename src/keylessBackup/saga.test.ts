@@ -11,16 +11,24 @@ import {
   encryptPassphrase,
   getSecp256K1KeyPair,
 } from 'src/keylessBackup/encryption'
-import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import {
+  deleteEncryptedMnemonic,
+  getEncryptedMnemonic,
+  storeEncryptedMnemonic,
+} from 'src/keylessBackup/index'
+import { getSECP256k1PrivateKey, storeSECP256k1PrivateKey } from 'src/keylessBackup/keychain'
 import {
   DELAY_INTERVAL_MS,
   WAIT_FOR_KEYSHARE_TIMEOUT_MS,
+  handleDeleteKeylessBackup,
   handleGoogleSignInCompleted,
   handleValoraKeyshareIssued,
   waitForTorusKeyshare,
 } from 'src/keylessBackup/saga'
 import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
+  deleteKeylessBackupCompleted,
+  deleteKeylessBackupFailed,
   googleSignInCompleted,
   keylessBackupBail,
   keylessBackupCompleted,
@@ -36,14 +44,45 @@ import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { mockPrivateDEK } from 'test/values'
+import { mockAccount, mockPrivateDEK } from 'test/values'
 import { Hex } from 'viem'
+import { generatePrivateKey } from 'viem/accounts'
+
+jest.mock('src/keylessBackup/index')
 
 jest.mock('src/utils/Logger')
 
 describe('keylessBackup saga', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  describe('handleDeleteKeylessBackup', () => {
+    it('success case', async () => {
+      const privateKey = generatePrivateKey()
+      await expectSaga(handleDeleteKeylessBackup)
+        .provide([
+          [select(walletAddressSelector), mockAccount],
+          [call(getSECP256k1PrivateKey, mockAccount), privateKey],
+          [call(deleteEncryptedMnemonic, privateKey), undefined],
+        ])
+        .put(deleteKeylessBackupCompleted())
+        .run()
+    })
+    it('failure case', async () => {
+      const privateKey = generatePrivateKey()
+      await expectSaga(handleDeleteKeylessBackup)
+        .provide([
+          [select(walletAddressSelector), mockAccount],
+          [call(getSECP256k1PrivateKey, mockAccount), privateKey],
+          [
+            call(deleteEncryptedMnemonic, privateKey),
+            throwError(new Error('(test) Error deleting encrypted mnemonic')),
+          ],
+        ])
+        .put(deleteKeylessBackupFailed())
+        .run()
+    })
   })
 
   describe('handleGoogleSignInCompleted', () => {
@@ -132,7 +171,6 @@ describe('keylessBackup saga', () => {
     const mockEncryptionPrivateKey =
       '0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb'
     const mockEncryptionPrivateKeyHex: Hex = `0x${mockEncryptionPrivateKey}`
-    const mockEncryptionPrivateKeyBuffer = Buffer.from(mockEncryptionPrivateKey, 'hex')
     const mockEncryptionPublicKeyBuffer = Buffer.from(
       '02e966cd1e93c10d6462e665b1a45039200e1faff289ef5265ecfbf06b5ddb94b2',
       'hex'
@@ -158,7 +196,7 @@ describe('keylessBackup saga', () => {
             [
               call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
               {
-                privateKey: mockEncryptionPrivateKeyBuffer,
+                privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
               },
             ],
@@ -179,6 +217,10 @@ describe('keylessBackup saga', () => {
                 encryptionAddress: mockEncryptionAddress,
                 jwt: mockJwt,
               }),
+              undefined,
+            ],
+            [
+              call(storeSECP256k1PrivateKey, mockEncryptionPrivateKeyHex, mockWalletAddress),
               undefined,
             ],
           ])
@@ -206,7 +248,7 @@ describe('keylessBackup saga', () => {
             [
               call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
               {
-                privateKey: mockEncryptionPrivateKeyBuffer,
+                privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
               },
             ],
@@ -253,17 +295,11 @@ describe('keylessBackup saga', () => {
             [
               call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
               {
-                privateKey: mockEncryptionPrivateKeyBuffer,
+                privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
               },
             ],
-            [
-              call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
-                encryptionAddress: mockEncryptionAddress,
-              }),
-              mockEncryptedMnemonic,
-            ],
+            [call(getEncryptedMnemonic, mockEncryptionPrivateKeyHex), mockEncryptedMnemonic],
             [
               call(
                 decryptPassphrase,
@@ -276,6 +312,10 @@ describe('keylessBackup saga', () => {
             [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
             [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), true],
             [call(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic), mockWalletAddress],
+            [
+              call(storeSECP256k1PrivateKey, mockEncryptionPrivateKeyHex, mockWalletAddress),
+              undefined,
+            ],
           ])
           .call(storeMnemonic, mockMnemonic, mockWalletAddress)
           .call(initializeAccountSaga)
@@ -303,17 +343,11 @@ describe('keylessBackup saga', () => {
             [
               call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
               {
-                privateKey: mockEncryptionPrivateKeyBuffer,
+                privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
               },
             ],
-            [
-              call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
-                encryptionAddress: mockEncryptionAddress,
-              }),
-              mockEncryptedMnemonic,
-            ],
+            [call(getEncryptedMnemonic, mockEncryptionPrivateKeyHex), mockEncryptedMnemonic],
             [
               call(
                 decryptPassphrase,
@@ -348,15 +382,12 @@ describe('keylessBackup saga', () => {
             [
               call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
               {
-                privateKey: mockEncryptionPrivateKeyBuffer,
+                privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
               },
             ],
             [
-              call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
-                encryptionAddress: mockEncryptionAddress,
-              }),
+              call(getEncryptedMnemonic, mockEncryptionPrivateKeyHex),
               throwError(new Error('mock error getting encrypted mnemonic')),
             ],
           ])
@@ -380,17 +411,11 @@ describe('keylessBackup saga', () => {
             [
               call(getSecp256K1KeyPair, mockTorusKeyshareBuffer, mockValoraKeyshareBuffer),
               {
-                privateKey: mockEncryptionPrivateKeyBuffer,
+                privateKey: mockEncryptionPrivateKeyHex,
                 publicKey: mockEncryptionPublicKeyBuffer,
               },
             ],
-            [
-              call(getEncryptedMnemonic, {
-                encryptionPrivateKey: mockEncryptionPrivateKeyHex,
-                encryptionAddress: mockEncryptionAddress,
-              }),
-              null,
-            ],
+            [call(getEncryptedMnemonic, mockEncryptionPrivateKeyHex), null],
           ])
           .put(keylessBackupNotFound())
           .run()

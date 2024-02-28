@@ -200,6 +200,7 @@ function ImportWallet({ navigation, route }: Props) {
                   !keyboardVisible && insets && { marginBottom: insets.bottom },
                 ]}
                 keyboardShouldPersistTaps={'always'}
+                testID="ImportWalletKeyboardAwareScrollView"
               >
                 <Text style={styles.title}>{t('importExistingKey.title')}</Text>
                 <Text style={styles.description}>{t('importExistingKey.description')}</Text>

@@ -8,7 +8,7 @@ import { AppState, MultichainBetaStatus } from 'src/app/actions'
 import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
-import { KeylessBackupStatus } from 'src/keylessBackup/types'
+import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
@@ -3073,6 +3073,18 @@ export const v192Schema = {
   ]),
 }
 
+export const v193Schema = {
+  ...v192Schema,
+  _persist: {
+    ...v192Schema._persist,
+    version: 193,
+  },
+  keylessBackup: {
+    ...v192Schema.keylessBackup,
+    deleteBackupStatus: KeylessBackupDeleteStatus.NotStarted,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v192Schema as Partial<RootState>
+  return v193Schema as Partial<RootState>
 }

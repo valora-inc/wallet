@@ -19,6 +19,8 @@ import {
 } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
+import { deleteKeylessBackupStarted } from 'src/keylessBackup/slice'
+import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
@@ -328,6 +330,25 @@ describe('Account', () => {
     expect(ValoraAnalytics.track).toHaveBeenLastCalledWith(
       SettingsEvents.settings_delete_keyless_backup
     )
+    expect(store.getActions()).toContainEqual(deleteKeylessBackupStarted())
+  })
+
+  it('shows keyless backup in progress when flag is enabled and backup is in progress', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({
+      account: { cloudBackupCompleted: true },
+      keylessBackup: { deleteBackupStatus: KeylessBackupDeleteStatus.InProgress },
+    })
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(getByTestId('KeylessBackup')).toBeTruthy()
+    expect(getByText('pleaseWait')).toBeTruthy()
+    fireEvent.press(getByTestId('KeylessBackup'))
+    expect(navigate).not.toHaveBeenCalled()
+    expect(ValoraAnalytics.track).not.toHaveBeenCalled()
   })
 
   it('can revoke the phone number successfully', async () => {

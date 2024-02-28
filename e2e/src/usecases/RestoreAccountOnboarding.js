@@ -60,9 +60,7 @@ export default RestoreAccountOnboarding = () => {
       }
 
       // start wallet import
-      await waitFor(element(by.id('ImportWalletButton')))
-        .toBeVisible()
-        .withTimeout(1000 * 5)
+      await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
       await element(by.id('ImportWalletButton')).tap()
 
       // verification step comes after restoring wallet, skip this step
