@@ -1740,7 +1740,7 @@
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Le meilleur tarif est déterminé par les partenaires du réseau. <0>En savoir plus</0>",
+    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "tokenUsdValueUnknown": "-",
