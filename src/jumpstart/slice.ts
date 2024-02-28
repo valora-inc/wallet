@@ -1,13 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 export interface State {
-  showLoading: boolean
-  showError: boolean
+  claimStatus: 'idle' | 'loading' | 'error'
 }
 
-const initialState = {
-  showLoading: false,
-  showError: false,
+const initialState: State = {
+  claimStatus: 'idle',
 }
 
 const slice = createSlice({
@@ -16,30 +14,27 @@ const slice = createSlice({
   reducers: {
     jumpstartClaimStarted: (state) => ({
       ...state,
-      showLoading: true,
-      showError: false,
+      claimStatus: 'loading',
     }),
 
     jumpstartClaimSucceeded: (state) => ({
       ...state,
-      showLoading: false,
-      showError: false,
+      claimStatus: 'idle',
     }),
 
     jumpstartClaimFailed: (state) => ({
       ...state,
-      showLoading: false,
-      showError: true,
+      claimStatus: 'error',
     }),
 
     jumpstartLoadingDismissed: (state) => ({
       ...state,
-      showLoading: false,
+      claimStatus: 'idle',
     }),
 
     jumpstartErrorDismissed: (state) => ({
       ...state,
-      showError: false,
+      claimStatus: 'idle',
     }),
   },
 })

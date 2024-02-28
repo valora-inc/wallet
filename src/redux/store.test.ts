@@ -261,8 +261,7 @@ describe('store state', () => {
           "isImportingWallet": false,
         },
         "jumpstart": {
-          "showError": false,
-          "showLoading": false,
+          "claimStatus": "idle",
         },
         "keylessBackup": {
           "backupStatus": "NotStarted",

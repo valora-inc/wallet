@@ -1588,8 +1588,7 @@ export const migrations = {
   193: (state: any) => ({
     ...state,
     jumpstart: {
-      showLoading: false,
-      showError: false,
+      claimStatus: 'idle',
     },
   }),
 }

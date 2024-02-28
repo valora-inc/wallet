@@ -10,39 +10,30 @@ describe('Wallet Jumpstart', () => {
   it('should handle jumpstart claim start', () => {
     const updatedState = reducer(undefined, jumpstartClaimStarted())
 
-    expect(updatedState).toEqual({
-      showLoading: true,
-      showError: false,
-    })
+    expect(updatedState).toHaveProperty('claimStatus', 'loading')
   })
 
   it('should handle jumpstart claim success', () => {
     const updatedState = reducer(undefined, jumpstartClaimSucceeded())
 
-    expect(updatedState).toEqual({
-      showLoading: false,
-      showError: false,
-    })
+    expect(updatedState).toHaveProperty('claimStatus', 'idle')
   })
 
   it('should handle jumpstart claim failure', () => {
     const updatedState = reducer(undefined, jumpstartClaimFailed())
 
-    expect(updatedState).toEqual({
-      showLoading: false,
-      showError: true,
-    })
+    expect(updatedState).toHaveProperty('claimStatus', 'error')
   })
 
   it('should handle jumpstart loading dismiss', () => {
     const updatedState = reducer(undefined, jumpstartLoadingDismissed())
 
-    expect(updatedState).toHaveProperty('showLoading', false)
+    expect(updatedState).toHaveProperty('claimStatus', 'idle')
   })
 
   it('should handle jumpstart error dismiss', () => {
     const updatedState = reducer(undefined, jumpstartErrorDismissed())
 
-    expect(updatedState).toHaveProperty('showError', false)
+    expect(updatedState).toHaveProperty('claimStatus', 'idle')
   })
 })

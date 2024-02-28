@@ -4,7 +4,7 @@ describe('jumpstart selectors', () => {
   it('should return the correct value for showJumpstartLoading', () => {
     const state: any = {
       jumpstart: {
-        showLoading: true,
+        claimStatus: 'loading',
       },
     }
     expect(showJumstartLoading(state)).toEqual(true)
@@ -13,7 +13,7 @@ describe('jumpstart selectors', () => {
   it('should return the correct value for showJumpstartError', () => {
     const state: any = {
       jumpstart: {
-        showError: true,
+        claimStatus: 'error',
       },
     }
     expect(showJumstartError(state)).toEqual(true)

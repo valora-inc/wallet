@@ -4151,16 +4151,17 @@
         "State_27": {
             "additionalProperties": false,
             "properties": {
-                "showError": {
-                    "type": "boolean"
-                },
-                "showLoading": {
-                    "type": "boolean"
+                "claimStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "showError",
-                "showLoading"
+                "claimStatus"
             ],
             "type": "object"
         },

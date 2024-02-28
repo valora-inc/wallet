@@ -3080,8 +3080,7 @@ export const v193Schema = {
     version: 193,
   },
   jumpstart: {
-    showLoading: false,
-    showError: false,
+    claimStatus: 'idle',
   },
 }
 
