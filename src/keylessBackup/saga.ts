@@ -44,8 +44,8 @@ export function* handleValoraKeyshareIssued({
 }: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
-    const hashedKeyshare = calculateSha256Hash(`CAB_KEYSHARE_HASH_${keyshare}`)
-    const hashedTorusKeyshare = calculateSha256Hash(`CAB_KEYSHARE_HASH_${torusKeyshare}`)
+    const hashedKeyshare = calculateSha256Hash(`CAB_PHONE_KEYSHARE_HASH_${keyshare}`)
+    const hashedTorusKeyshare = calculateSha256Hash(`CAB_EMAIL_KEYSHARE_HASH_${torusKeyshare}`)
     if (keylessBackupFlow === KeylessBackupFlow.Restore) {
       Logger.info(TAG, `Phone keyshare: ${hashedKeyshare}, Email keyshare: ${hashedTorusKeyshare}`)
     }

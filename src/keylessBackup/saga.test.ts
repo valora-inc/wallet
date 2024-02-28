@@ -185,8 +185,8 @@ describe('keylessBackup saga', () => {
           .put(keylessBackupCompleted())
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshares', {
-          hashedKeysharePhone: '2198441cbeaa99fb643fc1fdffeebbe5adf0e68a17548e3e621135291316e05f',
-          hashedKeyshareEmail: 'fbec7513aec558f30579859e0621371d44681d62c30be3a395f81dd6fa6e824a',
+          hashedKeysharePhone: 'a0b7675b466da4059cda48c116c0ead195916e045c6d4e9eff7301242b12b9e0',
+          hashedKeyshareEmail: 'a8ad600b8026607f35817dc15f93a25d9fa6617fae6cfd19b3c927eb633ec331',
         })
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Setup,
@@ -283,7 +283,7 @@ describe('keylessBackup saga', () => {
           .run()
         expect(Logger.info).toHaveBeenCalledWith(
           'keylessBackup/saga',
-          'Phone keyshare: 2198441cbeaa99fb643fc1fdffeebbe5adf0e68a17548e3e621135291316e05f, Email keyshare: fbec7513aec558f30579859e0621371d44681d62c30be3a395f81dd6fa6e824a'
+          'Phone keyshare: a0b7675b466da4059cda48c116c0ead195916e045c6d4e9eff7301242b12b9e0, Email keyshare: a8ad600b8026607f35817dc15f93a25d9fa6617fae6cfd19b3c927eb633ec331'
         )
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
