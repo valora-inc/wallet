@@ -17,7 +17,6 @@ import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -27,7 +26,7 @@ import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 const TAG = 'WalletJumpstart'
 
-export function* jumpstartClaim(privateKey: string) {
+export function* jumpstartClaim(privateKey: string, networkId: NetworkId) {
   try {
     yield* put(jumpstartClaimStarted())
 
@@ -36,46 +35,23 @@ export function* jumpstartClaim(privateKey: string) {
       throw new Error('No wallet address found in store. This should never happen.')
     }
 
-    const jumpstartContracts = getDynamicConfigParams(
+    const contractAddress = getDynamicConfigParams(
       DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
-    ).jumpstartContracts
+    ).jumpstartContracts?.[networkId]?.contractAddress
 
-    const networkIds = Object.keys(jumpstartContracts) as Array<keyof typeof jumpstartContracts>
-
-    let successfulClaimsCount = 0
-    let lastError: any
-
-    for (const networkId of networkIds) {
-      try {
-        const contractAddress = jumpstartContracts[networkId]?.contractAddress
-
-        if (!contractAddress) {
-          throw new Error(
-            `Contract address for ${networkId} is not provided in dynamic config. This should never happen.`
-          )
-        }
-
-        const transactionHashes = yield* call(
-          jumpstartLinkHandler,
-          networkId,
-          contractAddress,
-          privateKey,
-          walletAddress
-        )
-
-        successfulClaimsCount += transactionHashes.length
-
-        yield* fork(dispatchPendingTransactions, networkId, transactionHashes)
-      } catch (error) {
-        lastError = error
-      }
+    if (!contractAddress) {
+      throw new Error(`Contract address for ${networkId} is not provided in dynamic config`)
     }
 
-    if (successfulClaimsCount === 0) {
-      throw new Error(
-        `Failed to claim any jumpstart reward. Last error: ${ensureError(lastError).message}`
-      )
-    }
+    const transactionHashes = yield* call(
+      jumpstartLinkHandler,
+      networkId,
+      contractAddress,
+      privateKey,
+      walletAddress
+    )
+
+    yield* fork(dispatchPendingTransactions, networkId, transactionHashes)
 
     ValoraAnalytics.track(JumpstartEvents.jumpstart_claim_succeeded)
 

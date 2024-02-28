@@ -18,6 +18,7 @@ export async function jumpstartLinkHandler(
   userAddress: string
 ): Promise<Hash[]> {
   if (networkId !== networkConfig.defaultNetworkId) {
+    // TODO: make it multichain (RET-1019)
     throw new Error(`Unsupported network id: ${networkId}`)
   }
 

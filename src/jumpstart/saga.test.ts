@@ -20,7 +20,6 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
-import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -94,7 +93,7 @@ describe('jumpstartClaim', () => {
   it('handles the happy path', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    await expectSaga(jumpstartClaim, mockPrivateKey)
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId)
       .provide([
         [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
@@ -111,7 +110,7 @@ describe('jumpstartClaim', () => {
   it('handles the jumpstartLinkHandler error', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    await expectSaga(jumpstartClaim, mockPrivateKey)
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId)
       .provide([
         [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), throwError(mockError)],
@@ -123,9 +122,7 @@ describe('jumpstartClaim', () => {
     expect(Logger.error).toHaveBeenCalledWith(
       'WalletJumpstart',
       'Error handling jumpstart link',
-      new Error(
-        `Failed to claim any jumpstart reward. Last error: ${ensureError(mockError).message}`
-      )
+      mockError
     )
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_claim_failed)
@@ -134,7 +131,7 @@ describe('jumpstartClaim', () => {
   it('does not fail when dispatching pending transactions fails', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    return expectSaga(jumpstartClaim, mockPrivateKey)
+    return expectSaga(jumpstartClaim, mockPrivateKey, networkId)
       .provide([
         [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
@@ -148,7 +145,7 @@ describe('jumpstartClaim', () => {
   it('fails when dynamic config is empty', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({ jumpstartContracts: {} })
 
-    await expectSaga(jumpstartClaim, mockPrivateKey)
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId)
       .provide([
         [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],

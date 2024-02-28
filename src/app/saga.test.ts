@@ -266,7 +266,7 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles jumpstart links', async () => {
-    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey'
+    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey/celo-alfajores'
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       jumpstartContracts: {
         [NetworkId['celo-alfajores']]: { contractAddress: '0xTEST' },
