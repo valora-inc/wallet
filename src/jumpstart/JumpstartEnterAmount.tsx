@@ -28,9 +28,10 @@ function JumpstartEnterAmount() {
     // TODO:
     // 1. Send the transaction, probably by dispatching an action and letting a
     //    saga handle it.
-    // 2. Generate the link and pass the link in a navigation parameter to the
-    //    next screen. (use navigateClearingStack so that the user cannot come
-    //    back to this screen and reuse the private key)
+    // 2. Generate the link using createJumpstartLink and pass the link in a
+    //    navigation parameter to the next screen. (use navigateClearingStack so
+    //    that the user cannot come back to this screen and reuse the private
+    //    key)
     // 3. add analytics
   }
 
