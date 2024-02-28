@@ -1,7 +1,7 @@
 name: Check translation files
 
 on:
-  # Run on pull request.
+  # Run on pull request and merge queue
   pull_request:
   merge_group:
 
