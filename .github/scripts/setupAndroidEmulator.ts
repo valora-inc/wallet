@@ -37,7 +37,7 @@ $.echo(`Emulator started, pid: ${child.pid}`)
 
 $.echo('Waiting for device to be ready...')
 $.exec('adb wait-for-device')
-while ($.exec('adb shell getprop sys.boot_completed', { silent: false }).stdout.trim() !== '1') {
+while ($.exec('adb shell getprop sys.boot_completed', { silent: true }).stdout.trim() !== '1') {
   $.echo('Waiting for device to be ready...')
   $.exec('sleep 2')
 }
