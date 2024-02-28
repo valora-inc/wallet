@@ -2129,6 +2129,7 @@
       "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
     }
   },
+  "pleaseWait": "Please wait",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
