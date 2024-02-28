@@ -3085,6 +3085,19 @@ export const v193Schema = {
   },
 }
 
+export const v194Schema = {
+  ...v193Schema,
+  _persist: {
+    ...v193Schema._persist,
+    version: 194,
+  },
+  send: {
+    ..._.omit(v193Schema.send, 'showSendToAddressWarning'),
+    encryptedComment: null,
+    isEncryptingComment: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v193Schema as Partial<RootState>
+  return v194Schema as Partial<RootState>
 }
