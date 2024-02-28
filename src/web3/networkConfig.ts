@@ -60,6 +60,7 @@ interface NetworkConfig {
   cabIssueValoraKeyshareUrl: string
   cabStoreEncryptedMnemonicUrl: string
   cabGetEncryptedMnemonicUrl: string
+  cabDeleteEncryptedMnemonicUrl: string
   cabLoginUrl: string
   cabClockUrl: string
   networkToNetworkId: Record<Network, NetworkId>
@@ -229,6 +230,9 @@ const CAB_CLOCK_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/clock`
 const CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/getEncryptedMnemonic`
 const CAB_GET_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/getEncryptedMnemonic`
 
+const CAB_DELETE_ENCRYPTED_MNEMONIC_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/deleteEncryptedMnemonic`
+const CAB_DELETE_ENCRYPTED_MNEMONIC_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/deleteEncryptedMnemonic`
+
 const SAVE_CONTACTS_ALFAJORES = `${CLOUD_FUNCTIONS_STAGING}/saveContacts`
 const SAVE_CONTACTS_MAINNET = `${CLOUD_FUNCTIONS_MAINNET}/saveContacts`
 
@@ -284,6 +288,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_ALFAJORES,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_ALFAJORES,
     cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_ALFAJORES,
+    cabDeleteEncryptedMnemonicUrl: CAB_DELETE_ENCRYPTED_MNEMONIC_ALFAJORES,
     cabLoginUrl: CAB_LOGIN_ALFAJORES,
     cabClockUrl: CAB_CLOCK_ALFAJORES,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_ALFAJORES,
@@ -365,6 +370,7 @@ const networkConfigs: { [testnet: string]: NetworkConfig } = {
     cabIssueValoraKeyshareUrl: CAB_ISSUE_VALORA_KEYSHARE_MAINNET,
     cabStoreEncryptedMnemonicUrl: CAB_STORE_ENCRYPTED_MNEMONIC_MAINNET,
     cabGetEncryptedMnemonicUrl: CAB_GET_ENCRYPTED_MNEMONIC_MAINNET,
+    cabDeleteEncryptedMnemonicUrl: CAB_DELETE_ENCRYPTED_MNEMONIC_MAINNET,
     cabLoginUrl: CAB_LOGIN_MAINNET,
     cabClockUrl: CAB_CLOCK_MAINNET,
     getTokensInfoUrl: GET_TOKENS_INFO_URL_MAINNET,

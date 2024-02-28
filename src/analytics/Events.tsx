@@ -126,6 +126,7 @@ export enum KeylessBackupEvents {
   cab_phone_verification_help = 'cab_phone_verification_help',
   cab_phone_verification_help_skip = 'cab_phone_verification_help_skip',
   cab_phone_verification_help_go_back = 'cab_phone_verification_help_go_back',
+  cab_setup_hashed_keyshares = 'cab_setup_hashed_keyshares',
 }
 
 export enum OnboardingEvents {
