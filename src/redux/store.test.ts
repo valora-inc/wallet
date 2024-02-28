@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 193,
+          "version": 194,
         },
         "account": {
           "acceptedTerms": false,
@@ -262,6 +262,7 @@ describe('store state', () => {
         },
         "keylessBackup": {
           "backupStatus": "NotStarted",
+          "deleteBackupStatus": "NotStarted",
           "googleIdToken": null,
           "torusKeyshare": null,
           "valoraKeyshare": null,
