@@ -111,7 +111,7 @@
     "@segment/analytics-react-native-plugin-firebase": "^0.3.11",
     "@segment/sovran-react-native": "^1.0.4",
     "@sentry/react-native": "^4.15.2",
-    "@sentry/types": "^7.101.1",
+    "@sentry/types": "^7.102.1",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.7",
     "@toruslabs/constants": "^13.1.0",
     "@toruslabs/fetch-node-details": "^13.1.1",
