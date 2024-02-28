@@ -7,6 +7,7 @@ on:
       - reopened
       - edited
       - synchronize
+  merge_group:
 
 jobs:
   semantic-pr-title:
@@ -16,3 +17,6 @@ jobs:
       - uses: amannn/action-semantic-pull-request@v5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # This action can only be run in `pull_request_target` and `pull_request` events
+        # Workaround from https://github.com/amannn/action-semantic-pull-request/issues/236#issuecomment-1695654373
+        if: ${{ github.event_name != 'merge_group' }}
