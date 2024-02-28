@@ -75,7 +75,7 @@ export function* dispatchPendingTransactions(networkId: NetworkId, transactionHa
     yield* fork(dispatchPendingERC20Transactions, networkId, transactionReceipts)
     yield* fork(dispatchPendingERC721Transactions, networkId, transactionReceipts)
   } catch (error) {
-    Logger.error(TAG, 'Error dispatching pending transactions', error)
+    Logger.warn(TAG, 'Error dispatching pending transactions', error)
   }
 }
 
@@ -100,7 +100,7 @@ export function* dispatchPendingERC20Transactions(
 
       const token = tokensById[tokenId]
       if (!token) {
-        Logger.error(TAG, 'Claimed unknown tokenId', tokenId)
+        Logger.warn(TAG, 'Claimed unknown tokenId', tokenId)
         continue
       }
 
@@ -192,7 +192,7 @@ export function* dispatchPendingERC721Transactions(
           tokenId: tokenId.toString(),
         })
       } catch (error) {
-        Logger.error(TAG, 'Error adding pending NFT transaction', error)
+        Logger.warn(TAG, 'Error adding pending NFT transaction', error)
       }
     }
   }

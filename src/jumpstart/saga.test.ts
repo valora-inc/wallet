@@ -189,7 +189,7 @@ describe('dispatchPendingTransactions', () => {
       ])
       .run()
 
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(Logger.warn).toHaveBeenCalledWith(
       'WalletJumpstart',
       'Error dispatching pending transactions',
       mockError
@@ -249,7 +249,7 @@ describe('dispatchPendingERC20Transactions', () => {
       .not.put.like({ action: { type: 'ADD_STANDBY_TRANSACTION' } })
       .run()
 
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(Logger.warn).toHaveBeenCalledWith(
       'WalletJumpstart',
       'Claimed unknown tokenId',
       'celo-alfajores:0xUNKNOWN'
@@ -309,7 +309,7 @@ describe('dispatchPendingERC721Transactions', () => {
       .provide([[matchers.call.fn(publicClient[network].readContract), throwError(mockError)]])
       .run()
 
-    expect(Logger.error).toHaveBeenCalledWith(
+    expect(Logger.warn).toHaveBeenCalledWith(
       'WalletJumpstart',
       'Error adding pending NFT transaction',
       mockError
