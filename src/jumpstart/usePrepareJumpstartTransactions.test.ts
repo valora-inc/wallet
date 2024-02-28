@@ -3,7 +3,7 @@ import BigNumber from 'bignumber.js'
 import { act } from 'react-test-renderer'
 import erc20 from 'src/abis/IERC20'
 import jumpstart from 'src/abis/IWalletJumpstart'
-import { usePrepareJumpstartTransactions } from 'src/send/usePrepareJumpstartTransactions'
+import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { getDynamicConfigParams } from 'src/statsig'
 import { publicClient } from 'src/viem'
 import {
