@@ -12,6 +12,11 @@ const TAG = 'utils/contacts'
 export const CONTACTS_PERMISSION =
   Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS
 
+export async function checkContactPermissionStatusGranted() {
+  const contactPermissionStatus = await checkPermission(CONTACTS_PERMISSION)
+  return contactPermissionStatus !== PERMISSION_RESULTS.GRANTED
+}
+
 // Stop gap solution since getMinimal is not yet implement on iOS
 function customGetAll(callback: (error: any, contacts: MinimalContact[]) => void) {
   getAll((error, fullContacts) => {
@@ -45,8 +50,8 @@ function customGetAll(callback: (error: any, contacts: MinimalContact[]) => void
 }
 
 export async function getAllContacts(): Promise<MinimalContact[] | null> {
-  const contactPermissionStatus = await checkPermission(CONTACTS_PERMISSION)
-  if (contactPermissionStatus !== PERMISSION_RESULTS.GRANTED) {
+  const contactPermissionStatusGranted = await checkContactPermissionStatusGranted()
+  if (!contactPermissionStatusGranted) {
     Logger.warn(TAG, 'Permissions not given for retrieving contacts')
     return null
   }

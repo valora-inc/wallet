@@ -5,7 +5,6 @@ import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { RESULTS as PERMISSION_RESULTS, check as checkPermission } from 'react-native-permissions'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -47,7 +46,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { CONTACTS_PERMISSION, getAllContacts } from 'src/utils/contacts'
+import { checkContactPermissionStatusGranted, getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { calculateSha256Hash } from 'src/utils/random'
@@ -92,8 +91,8 @@ export function* doImportContactsWrapper() {
 }
 
 function* doImportContacts() {
-  const contactPermissionStatus = yield* call(checkPermission, CONTACTS_PERMISSION)
-  if (contactPermissionStatus !== PERMISSION_RESULTS.GRANTED) {
+  const contactPermissionStatusGranted = yield* call(checkContactPermissionStatusGranted)
+  if (!contactPermissionStatusGranted) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
     ValoraAnalytics.track(IdentityEvents.contacts_import_permission_denied)
     return true
@@ -424,8 +423,7 @@ export function* saveContacts() {
   try {
     const saveContactsGate = getFeatureGate(StatsigFeatureGates.SAVE_CONTACTS)
     const phoneVerified = yield* select(phoneNumberVerifiedSelector)
-    const contactPermissionStatus = yield* call(checkPermission, CONTACTS_PERMISSION)
-    const contactsEnabled = contactPermissionStatus === PERMISSION_RESULTS.GRANTED
+    const contactsEnabled = yield* call(checkContactPermissionStatusGranted)
 
     if (!saveContactsGate || !phoneVerified || !contactsEnabled) {
       Logger.debug(`${TAG}/saveContacts`, "Skipping because pre conditions aren't met", {

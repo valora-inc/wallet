@@ -3,7 +3,6 @@ import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
-import { RESULTS as PERMISSION_RESULTS, check as checkPermission } from 'react-native-permissions'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
@@ -46,7 +45,7 @@ import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
-import { CONTACTS_PERMISSION } from 'src/utils/contacts'
+import { checkContactPermissionStatusGranted } from 'src/utils/contacts'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
@@ -97,8 +96,8 @@ function WalletHome() {
       return
     }
 
-    const contactPermissionStatus = await checkPermission(CONTACTS_PERMISSION)
-    if (contactPermissionStatus === PERMISSION_RESULTS.GRANTED) {
+    const contactPermissionStatusGranted = await checkContactPermissionStatusGranted()
+    if (contactPermissionStatusGranted) {
       dispatch(importContacts())
     }
   }
