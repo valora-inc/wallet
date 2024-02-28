@@ -43,7 +43,7 @@ jobs:
       max-parallel: 2
       fail-fast: false
       matrix:
-        ios-version: ['15.0']
+        ios-version: ['15.0', '17.2']
     uses: ./.github/workflows/e2e-ios.yml
     with:
       ios-version: ${{ matrix.ios-version }}

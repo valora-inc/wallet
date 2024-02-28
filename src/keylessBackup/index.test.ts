@@ -1,6 +1,10 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getEncryptedMnemonic, storeEncryptedMnemonic } from 'src/keylessBackup/index'
+import {
+  deleteEncryptedMnemonic,
+  getEncryptedMnemonic,
+  storeEncryptedMnemonic,
+} from 'src/keylessBackup/index'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import networkConfig from 'src/web3/networkConfig'
 import { generatePrivateKey } from 'viem/accounts'
@@ -74,17 +78,12 @@ describe(getEncryptedMnemonic, () => {
       ok: true,
       json: () => Promise.resolve({ encryptedMnemonic: 'encrypted-mnemonic' }),
     } as any)
-    expect(
-      await getEncryptedMnemonic({
-        encryptionPrivateKey: generatePrivateKey(),
-        encryptionAddress: 'address',
-      })
-    ).toEqual('encrypted-mnemonic')
+    expect(await getEncryptedMnemonic(generatePrivateKey())).toEqual('encrypted-mnemonic')
     expect(mockSiweLogin).toHaveBeenCalledWith()
     expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabGetEncryptedMnemonicUrl)
     expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
       {
-        accountAddress: 'address',
+        accountAddress: expect.any(String),
         chainId: 44787,
         clockUrl: networkConfig.cabClockUrl,
         loginUrl: networkConfig.cabLoginUrl,
@@ -103,19 +102,14 @@ describe(getEncryptedMnemonic, () => {
       ok: false,
       json: () => Promise.resolve({ message: 'internal server error' }),
     } as any)
-    await expect(() =>
-      getEncryptedMnemonic({
-        encryptionPrivateKey: generatePrivateKey(),
-        encryptionAddress: 'address',
-      })
-    ).rejects.toThrow(
+    await expect(() => getEncryptedMnemonic(generatePrivateKey())).rejects.toThrow(
       'Failed to get encrypted mnemonic with status 500, message internal server error'
     )
     expect(mockSiweLogin).toHaveBeenCalledWith()
     expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabGetEncryptedMnemonicUrl)
     expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
       {
-        accountAddress: 'address',
+        accountAddress: expect.any(String),
         chainId: 44787,
         clockUrl: networkConfig.cabClockUrl,
         loginUrl: networkConfig.cabLoginUrl,
@@ -133,17 +127,69 @@ describe(getEncryptedMnemonic, () => {
       ok: false,
       json: () => Promise.resolve({ message: 'not found' }),
     } as any)
-    expect(
-      await getEncryptedMnemonic({
-        encryptionPrivateKey: generatePrivateKey(),
-        encryptionAddress: 'address',
-      })
-    ).toBeNull()
+    expect(await getEncryptedMnemonic(generatePrivateKey())).toBeNull()
     expect(mockSiweLogin).toHaveBeenCalledWith()
     expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabGetEncryptedMnemonicUrl)
     expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
       {
-        accountAddress: 'address',
+        accountAddress: expect.any(String),
+        chainId: 44787,
+        clockUrl: networkConfig.cabClockUrl,
+        loginUrl: networkConfig.cabLoginUrl,
+        sessionDurationMs: 300000,
+        statement: 'Sign in with Ethereum',
+        timeout: 10000,
+        version: '1',
+      },
+      expect.any(Function)
+    )
+  })
+})
+
+describe(deleteEncryptedMnemonic, () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+  it('deletes encrypted mnemonic', async () => {
+    mockSiweFetch.mockResolvedValueOnce({
+      status: 204,
+      ok: true,
+    } as any)
+    await deleteEncryptedMnemonic(generatePrivateKey())
+    expect(mockSiweLogin).toHaveBeenCalledWith()
+    expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabDeleteEncryptedMnemonicUrl, {
+      method: 'DELETE',
+    })
+    expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
+      {
+        accountAddress: expect.any(String),
+        chainId: 44787,
+        clockUrl: networkConfig.cabClockUrl,
+        loginUrl: networkConfig.cabLoginUrl,
+        sessionDurationMs: 300000,
+        statement: 'Sign in with Ethereum',
+        timeout: 10000,
+        version: '1',
+      },
+      expect.any(Function)
+    )
+  })
+  it('throws if 404 response', async () => {
+    mockSiweFetch.mockResolvedValueOnce({
+      status: 404,
+      ok: false,
+      json: () => Promise.resolve({ message: 'not found' }),
+    } as any)
+    await expect(() => deleteEncryptedMnemonic(generatePrivateKey())).rejects.toThrow(
+      'Failed to delete encrypted mnemonic with status 404, message not found'
+    )
+    expect(mockSiweLogin).toHaveBeenCalledWith()
+    expect(mockSiweFetch).toHaveBeenCalledWith(networkConfig.cabDeleteEncryptedMnemonicUrl, {
+      method: 'DELETE',
+    })
+    expect(jest.mocked(SiweClient)).toHaveBeenCalledWith(
+      {
+        accountAddress: expect.any(String),
         chainId: 44787,
         clockUrl: networkConfig.cabClockUrl,
         loginUrl: networkConfig.cabLoginUrl,
