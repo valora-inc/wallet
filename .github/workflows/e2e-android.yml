@@ -8,13 +8,57 @@ on:
 
 jobs:
   android:
-    env:
-      BASH_ENV: ~/.profile
     name: Android (SDK ${{ inputs.android-api-level }})
-    runs-on: android-e2e-group
+    runs-on:
+      - nscloud-ubuntu-22.04-amd64-16x64-with-cache
+      - nscloud-cache-size-20gb
+      - nscloud-cache-tag-wallet-e2e-android
+    # We pay by the minute.
+    # If it takes longer it usually fails, so no need to pay for more
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v3
+      - name: Set env
+        run: |
+          ANDROID_HOME="$HOME/android-tools"
+          echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/platform-tools" >> $GITHUB_PATH
+          echo "$ANDROID_HOME/emulator" >> $GITHUB_PATH
+      # See https://namespace.so/docs/actions/nscloud-cache-action
+      - name: Cache
+        uses: namespacelabs/nscloud-cache-action@v1
+        with:
+          cache: gradle
+          path: ${{ env.ANDROID_HOME}}
       - uses: ./.github/actions/yarn-install
+      - name: Setup runner
+        run: |
+          set -x
+
+          mkdir -p $ANDROID_HOME
+
+          curl https://dl.google.com/android/repository/commandlinetools-linux-6858069_latest.zip -o cli-tools.zip
+          unzip cli-tools.zip -d "$ANDROID_HOME/cmdline-tools"
+          # Command line tools need to be placed in $ANDROID_HOME/cmdline-tools/latest to function properly
+          # and because we cache $ANDROID_HOME, we need remove the existing version and move the new one
+          rm -rf "$ANDROID_HOME/cmdline-tools/latest"
+          mv "$ANDROID_HOME/cmdline-tools/cmdline-tools" "$ANDROID_HOME/cmdline-tools/latest"
+
+          # Temporarily disable checking for EPIPE error and use yes to accept all licenses
+          set +o pipefail
+          yes | sdkmanager "platform-tools" "platforms;android-33"
+          set -o pipefail
+
+          # Allow the emulator to use /dev/kvm
+          sudo adduser $USER kvm
+          sudo chown $USER /dev/kvm
+        shell: bash
+      - name: Setup emulator
+        run: >
+          yarn ts-node ./.github/scripts/setupAndroidEmulator.ts
+          --image "system-images;android-${{ inputs.android-api-level }};default;x86_64"
+          --emulatorName Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
       # Since the e2e runners have access to the Valora branding,
       # This check ensures there are no type errors there.
       # The `yarn build` step done in the test workflow also includes it but does it with the default celo branding.
@@ -26,14 +70,9 @@ jobs:
         working-directory: e2e
         run: echo WALLET_CONNECT_PROJECT_ID_E2E=${{ secrets.WALLET_CONNECT_PROJECT_ID_E2E }} >> .env
       - name: Create Detox Build
-        run: |
-          export CELO_TEST_CONFIG=e2e
-          export ANDROID_SDK_ROOT=$HOME/android-tools
-          yarn detox build -c android.release
+        run: CELO_TEST_CONFIG=e2e yarn detox build -c android.release
       - name: Run Detox
         run: >
-          export ANDROID_SDK_ROOT=$HOME/android-tools &&
-          export PATH=$ANDROID_SDK_ROOT/platform-tools:$PATH &&
           yarn detox test
           --device-name Pixel_API_${{ inputs.android-api-level }}_AOSP_x86_64
           --configuration android.release
@@ -43,11 +82,10 @@ jobs:
           --record-logs=failing
           --loglevel info
           --debug-synchronization 10000
-          --maxWorkers 3
+          --maxWorkers 12
           --headless
           --retries 3
           --device-boot-args="-snapshot ci_boot"
-        timeout-minutes: 45
       - name: Publish Android JUnit Report
         if: always()
         uses: mikepenz/action-junit-report@v3

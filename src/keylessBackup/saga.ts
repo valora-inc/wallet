@@ -28,6 +28,7 @@ import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import Logger from 'src/utils/Logger'
+import { calculateSha256Hash } from 'src/utils/random'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { call, delay, put, race, select, spawn, take, takeLeading } from 'typed-redux-saga'
@@ -43,6 +44,11 @@ export function* handleValoraKeyshareIssued({
 }: ReturnType<typeof valoraKeyshareIssued>) {
   try {
     const torusKeyshare = yield* waitForTorusKeyshare()
+    const hashedKeyshare = calculateSha256Hash(`CAB_PHONE_KEYSHARE_HASH_${keyshare}`)
+    const hashedTorusKeyshare = calculateSha256Hash(`CAB_EMAIL_KEYSHARE_HASH_${torusKeyshare}`)
+    if (keylessBackupFlow === KeylessBackupFlow.Restore) {
+      Logger.info(TAG, `Phone keyshare: ${hashedKeyshare}, Email keyshare: ${hashedTorusKeyshare}`)
+    }
     const torusKeyshareBuffer = Buffer.from(torusKeyshare, 'hex')
     const valoraKeyshareBuffer = Buffer.from(keyshare, 'hex')
     const { privateKey: encryptionPrivateKey } = yield* call(
@@ -69,6 +75,12 @@ export function* handleValoraKeyshareIssued({
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_success, {
       keylessBackupFlow,
     })
+    if (keylessBackupFlow === KeylessBackupFlow.Setup) {
+      ValoraAnalytics.track(KeylessBackupEvents.cab_setup_hashed_keyshares, {
+        hashedKeysharePhone: hashedKeyshare,
+        hashedKeyshareEmail: hashedTorusKeyshare,
+      })
+    }
   } catch (error) {
     Logger.error(TAG, `Error handling keyless backup ${keylessBackupFlow}`, error)
     ValoraAnalytics.track(KeylessBackupEvents.cab_handle_keyless_backup_failed, {

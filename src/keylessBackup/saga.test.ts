@@ -33,10 +33,13 @@ import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import Logger from 'src/utils/Logger'
 import { assignAccountFromPrivateKey } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockPrivateDEK } from 'test/values'
 import { Hex } from 'viem'
+
+jest.mock('src/utils/Logger')
 
 describe('keylessBackup saga', () => {
   beforeEach(() => {
@@ -181,6 +184,10 @@ describe('keylessBackup saga', () => {
           ])
           .put(keylessBackupCompleted())
           .run()
+        expect(ValoraAnalytics.track).toBeCalledWith('cab_setup_hashed_keyshares', {
+          hashedKeysharePhone: 'a0b7675b466da4059cda48c116c0ead195916e045c6d4e9eff7301242b12b9e0',
+          hashedKeyshareEmail: 'a8ad600b8026607f35817dc15f93a25d9fa6617fae6cfd19b3c927eb633ec331',
+        })
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Setup,
         })
@@ -274,6 +281,10 @@ describe('keylessBackup saga', () => {
           .call(initializeAccountSaga)
           .put(keylessBackupCompleted())
           .run()
+        expect(Logger.info).toHaveBeenCalledWith(
+          'keylessBackup/saga',
+          'Phone keyshare: a0b7675b466da4059cda48c116c0ead195916e045c6d4e9eff7301242b12b9e0, Email keyshare: a8ad600b8026607f35817dc15f93a25d9fa6617fae6cfd19b3c927eb633ec331'
+        )
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {
           keylessBackupFlow: KeylessBackupFlow.Restore,
         })

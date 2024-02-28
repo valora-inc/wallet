@@ -6,24 +6,27 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
 import MagicWand from 'src/icons/MagicWand'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import useSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { useTokensWithTokenBalance } from 'src/tokens/hooks'
+import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 
 function SelectRecipientJumpstartButton() {
   const { t } = useTranslation()
   const showJumpstart = getFeatureGate(StatsigFeatureGates.SHOW_JUMPSTART_SEND)
-  const tokensWithBalance = useTokensWithTokenBalance()
+  const jumpstartTokens = useSelector(jumpstartSendTokensSelector)
 
   const handlePress = () => {
     ValoraAnalytics.track(SendEvents.send_select_recipient_jumpstart)
-    // TODO navigate to the new jumpstart screen when it is implemented
+    navigate(Screens.JumpstartEnterAmount)
   }
 
-  if (!showJumpstart || tokensWithBalance.length === 0) {
+  if (!showJumpstart || jumpstartTokens.length === 0) {
     return null
   }
 
