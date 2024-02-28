@@ -39,8 +39,8 @@ import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipie
 import useSelector from 'src/redux/useSelector'
 import { encryptComment, sendPayment } from 'src/send/actions'
 import {
-  encryptedCommentLoadingSelector,
   encryptedCommentSelector,
+  isEncryptingCommentSelector,
   isSendingSelector,
 } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
@@ -169,7 +169,7 @@ function SendConfirmation(props: Props) {
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
   const allowComment = tokenSupportsComments(tokenInfo)
   const encryptedComment = useSelector(encryptedCommentSelector)
-  const isEncryptingComment = useSelector(encryptedCommentLoadingSelector)
+  const isEncryptingComment = useSelector(isEncryptingCommentSelector)
 
   const dispatch = useDispatch()
 

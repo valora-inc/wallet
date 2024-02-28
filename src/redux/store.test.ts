@@ -305,8 +305,8 @@ describe('store state', () => {
         },
         "send": {
           "encryptedComment": null,
-          "encryptedCommentLoading": false,
           "inviteRewardsVersion": "none",
+          "isEncryptingComment": false,
           "isSending": false,
           "lastUsedTokenId": undefined,
           "recentPayments": [],

@@ -41,5 +41,4 @@ export const canSendTokensSelector = createSelector(
 )
 
 export const encryptedCommentSelector = (state: RootState) => state.send.encryptedComment
-export const encryptedCommentLoadingSelector = (state: RootState) =>
-  state.send.encryptedCommentLoading
+export const isEncryptingCommentSelector = (state: RootState) => state.send.isEncryptingComment

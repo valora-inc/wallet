@@ -22,7 +22,7 @@ export interface State {
   inviteRewardsVersion: string
   lastUsedTokenId?: string
   encryptedComment: string | null
-  encryptedCommentLoading: boolean
+  isEncryptingComment: boolean
 }
 
 const initialState = {
@@ -31,7 +31,7 @@ const initialState = {
   recentPayments: [],
   inviteRewardsVersion: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsVersion,
   encryptedComment: null,
-  encryptedCommentLoading: false,
+  isEncryptingComment: false,
 }
 
 export const sendReducer = (
@@ -46,7 +46,7 @@ export const sendReducer = (
         ...getRehydratePayload(action, 'send'),
         isSending: false,
         encryptedComment: null,
-        encryptedCommentLoading: false,
+        isEncryptingComment: false,
       }
     }
     case Actions.SEND_PAYMENT:
@@ -77,13 +77,13 @@ export const sendReducer = (
     case Actions.ENCRYPT_COMMENT:
       return {
         ...state,
-        encryptedCommentLoading: true,
+        isEncryptingComment: true,
         encryptedComment: null,
       }
     case Actions.ENCRYPT_COMMENT_COMPLETE:
       return {
         ...state,
-        encryptedCommentLoading: false,
+        isEncryptingComment: false,
         encryptedComment: action.encryptedComment,
       }
     case AppActions.UPDATE_REMOTE_CONFIG_VALUES:

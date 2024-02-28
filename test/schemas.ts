@@ -3082,7 +3082,7 @@ export const v193Schema = {
   send: {
     ..._.omit(v192Schema.send, 'showSendToAddressWarning'),
     encryptedComment: null,
-    encryptedCommentLoading: false,
+    isEncryptingComment: false,
   },
 }
 

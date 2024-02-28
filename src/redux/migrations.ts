@@ -1590,7 +1590,7 @@ export const migrations = {
     send: {
       ..._.omit(state.send, 'showSendToAddressWarning'),
       encryptedComment: null,
-      encryptedCommentLoading: false,
+      isEncryptingComment: false,
     },
   }),
 }

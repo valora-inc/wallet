@@ -4057,11 +4057,11 @@
                         "string"
                     ]
                 },
-                "encryptedCommentLoading": {
-                    "type": "boolean"
-                },
                 "inviteRewardsVersion": {
                     "type": "string"
+                },
+                "isEncryptingComment": {
+                    "type": "boolean"
                 },
                 "isSending": {
                     "type": "boolean"
@@ -4084,8 +4084,8 @@
             },
             "required": [
                 "encryptedComment",
-                "encryptedCommentLoading",
                 "inviteRewardsVersion",
+                "isEncryptingComment",
                 "isSending",
                 "recentPayments",
                 "recentRecipients"
