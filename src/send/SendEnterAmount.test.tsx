@@ -30,12 +30,6 @@ import {
 
 jest.mock('src/statsig')
 jest.mock('src/send/usePrepareSendTransactions')
-jest.mock('viem/accounts', () => ({
-  ...jest.requireActual('viem/accounts'),
-  generatePrivateKey: jest
-    .fn()
-    .mockReturnValue('0x859c770be6bada3b0ae071d5368afaf9eb445584b35d914771dbf351db1e3df3'),
-}))
 
 const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
   type: 'possible',
