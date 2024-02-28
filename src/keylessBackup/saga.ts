@@ -30,7 +30,6 @@ import {
   keylessBackupShowZeroBalance,
   torusKeyshareIssued,
   valoraKeyshareIssued,
-  showDeleteKeylessBackupError,
 } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import { getTorusPrivateKey } from 'src/keylessBackup/web3auth'
@@ -236,7 +235,6 @@ export function* handleDeleteKeylessBackup() {
     yield* put(deleteKeylessBackupCompleted())
   } catch (error) {
     Logger.error(TAG, 'Error deleting keyless backup', error)
-    yield* put(showDeleteKeylessBackupError())
     yield* put(deleteKeylessBackupFailed())
   }
 }

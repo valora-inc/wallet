@@ -29,7 +29,6 @@ import { torusKeyshareSelector } from 'src/keylessBackup/selectors'
 import {
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
-  showDeleteKeylessBackupError,
   googleSignInCompleted,
   keylessBackupBail,
   keylessBackupCompleted,
@@ -81,7 +80,6 @@ describe('keylessBackup saga', () => {
             throwError(new Error('(test) Error deleting encrypted mnemonic')),
           ],
         ])
-        .put(showDeleteKeylessBackupError())
         .put(deleteKeylessBackupFailed())
         .run()
     })

@@ -74,8 +74,6 @@ export const slice = createSlice({
     },
     deleteKeylessBackupFailed: (state) => {
       state.deleteBackupStatus = KeylessBackupDeleteStatus.Failed
-    },
-    showDeleteKeylessBackupError: (state) => {
       state.showDeleteBackupError = true
     },
     hideDeleteKeylessBackupError: (state) => {
@@ -98,7 +96,6 @@ export const {
   deleteKeylessBackupStarted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
-  showDeleteKeylessBackupError,
   hideDeleteKeylessBackupError,
 } = slice.actions
 
