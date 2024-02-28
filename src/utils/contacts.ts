@@ -14,7 +14,7 @@ export const CONTACTS_PERMISSION =
 
 export async function checkContactPermissionStatusGranted() {
   const contactPermissionStatus = await checkPermission(CONTACTS_PERMISSION)
-  return contactPermissionStatus !== PERMISSION_RESULTS.GRANTED
+  return contactPermissionStatus === PERMISSION_RESULTS.GRANTED
 }
 
 // Stop gap solution since getMinimal is not yet implement on iOS
