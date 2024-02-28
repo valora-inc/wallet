@@ -2133,6 +2133,7 @@
       "description": "{{rewardName}} було успішно додано до вашого гаманця {{appName}} ."
     }
   },
+  "pleaseWait": "Please wait",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
