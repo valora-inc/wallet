@@ -42,7 +42,7 @@
     },
     "pendingRequests": {
       ".read": "auth.uid != null && (query.orderByChild == 'requesterAddress' || query.orderByChild == 'requesteeAddress') && query.equalTo == root.child('users').child(auth.uid).child('address').val()",
-      ".write": true,
+      ".write": false,
       ".indexOn": ["requesterAddress", "requesteeAddress"]
     },
     "exchangeRates": {

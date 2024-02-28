@@ -1740,7 +1740,7 @@
     "swapTo": "A",
     "insufficientFunds": "Saldo en {{token}} insuficiente. Ingresa un monto menor o elige otro activo.",
     "fetchSwapQuoteFailed": "¡Lo sentimos! Conseguir la mejor tasa de cambio nos está llevando más tiempo del habitual. Inténtalo de nuevo más tarde.",
-    "disclaimer": "La mejor tarifa la determinan los socios de la red. <0>Más información</0>",
+    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
     "swapFromTokenSelection": "CAMBIAR DE",
     "swapToTokenSelection": "CAMBIAR A",
     "tokenUsdValueUnknown": "-",

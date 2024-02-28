@@ -9,8 +9,9 @@ import {
 } from 'src/config'
 import { usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs, StatsigFeatureGates } from 'src/statsig/types'
 import {
   TokenBalance,
   TokenBalanceWithAddress,
@@ -514,5 +515,22 @@ export const importedTokensSelector = createSelector(
     }
 
     return tokenList.filter((token) => token?.isManuallyImported)
+  }
+)
+
+const getJumpstartEnabledNetworkIds = () =>
+  Object.keys(
+    getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG])
+      .jumpstartContracts
+  ) as NetworkId[]
+
+export const jumpstartSendTokensSelector = createSelector(
+  [(state) => sortedTokensWithBalanceSelector(state, getJumpstartEnabledNetworkIds())],
+  (tokensWithBalance) => {
+    return tokensWithBalance.filter((token) => {
+      // the jumpstart contract currently requires a token address for the
+      // depositERC20 method
+      return !!token.address
+    })
   }
 )
