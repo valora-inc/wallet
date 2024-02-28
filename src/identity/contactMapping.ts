@@ -5,11 +5,7 @@ import { isAccountConsideredVerified } from '@celo/utils/lib/attestations'
 import BigNumber from 'bignumber.js'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import {
-  PERMISSIONS,
-  RESULTS as PERMISSION_RESULTS,
-  check as checkPermission,
-} from 'react-native-permissions'
+import { RESULTS as PERMISSION_RESULTS, check as checkPermission } from 'react-native-permissions'
 import { setUserContactDetails } from 'src/account/actions'
 import { defaultCountryCodeSelector, e164NumberSelector } from 'src/account/selectors'
 import { showErrorOrFallback } from 'src/alert/actions'
@@ -51,7 +47,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { getAllContacts } from 'src/utils/contacts'
+import { CONTACTS_PERMISSION, getAllContacts } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { calculateSha256Hash } from 'src/utils/random'
@@ -63,9 +59,6 @@ import { call, delay, put, race, select, spawn, take } from 'typed-redux-saga'
 
 const TAG = 'identity/contactMapping'
 export const IMPORT_CONTACTS_TIMEOUT = 1 * 60 * 1000 // 1 minute
-
-const CONTACTS_PERMISSION =
-  Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS
 
 export function* doImportContactsWrapper() {
   yield* call(getConnectedAccount)
@@ -100,7 +93,7 @@ export function* doImportContactsWrapper() {
 
 function* doImportContacts() {
   const contactPermissionStatus = yield* call(checkPermission, CONTACTS_PERMISSION)
-  if (!(contactPermissionStatus === PERMISSION_RESULTS.GRANTED)) {
+  if (contactPermissionStatus !== PERMISSION_RESULTS.GRANTED) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
     ValoraAnalytics.track(IdentityEvents.contacts_import_permission_denied)
     return true
