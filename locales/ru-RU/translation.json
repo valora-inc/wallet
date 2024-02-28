@@ -2133,6 +2133,7 @@
       "description": "{{rewardName}} был успешно добавлен в твой кошелек {{appName}} ."
     }
   },
+  "pleaseWait": "Please wait",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
