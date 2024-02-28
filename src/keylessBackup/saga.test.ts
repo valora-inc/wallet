@@ -305,13 +305,13 @@ describe('keylessBackup saga', () => {
             [call(generateKeysFromMnemonic, mockMnemonic), { privateKey: mockPrivateKey }],
             [call(walletHasBalance, privateKeyToAddress(mockPrivateKey)), true],
             [call(assignAccountFromPrivateKey, mockPrivateKey, mockMnemonic), mockWalletAddress],
-            [call(initializeAccountSaga), undefined],
-            [call(storeMnemonic, mockMnemonic, mockWalletAddress), undefined],
             [
               call(storeSECP256k1PrivateKey, mockEncryptionPrivateKeyHex, mockWalletAddress),
               undefined,
             ],
           ])
+          .call(storeMnemonic, mockMnemonic, mockWalletAddress)
+          .call(initializeAccountSaga)
           .put(keylessBackupCompleted())
           .run()
         expect(ValoraAnalytics.track).toBeCalledWith('cab_handle_keyless_backup_success', {

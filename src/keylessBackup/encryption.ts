@@ -51,11 +51,11 @@ export function deriveKeyFromKeyShares(
 export function getSecp256K1KeyPair(
   keyshare1: Buffer,
   keyshare2: Buffer
-): { privateKey: Hex; publicKey: Uint8Array } {
+): { privateKey: Hex; publicKey: Hex } {
   const derivedKey = deriveKeyFromKeyShares(keyshare1, keyshare2, 48) // 40 is the minimum for hashToPrivateKey
   const privateKey = secp.utils.hashToPrivateKey(derivedKey)
   const publicKey = secp.getPublicKey(privateKey, true)
-  return { privateKey: fromBytes(privateKey, 'hex'), publicKey }
+  return { privateKey: fromBytes(privateKey, 'hex'), publicKey: fromBytes(publicKey, 'hex') }
 }
 
 export function getWalletAddressFromPrivateKey(privateKey: Hex) {

@@ -55,13 +55,12 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
     it('should produce a valid secp256k1 key pair', async () => {
       const { privateKey, publicKey } = getSecp256K1KeyPair(keyshare1, keyshare2)
       expect(fromHex(privateKey, 'bytes').byteLength).toEqual(32)
-      expect(publicKey).toBeInstanceOf(Uint8Array)
-      expect(publicKey.byteLength).toEqual(33)
+      expect(fromHex(publicKey, 'bytes').byteLength).toEqual(33)
 
       // able to sign with private key and verify with public key
       const messageHash = await secp.utils.sha256(new TextEncoder().encode('hello world'))
       const signature = await secp.sign(messageHash, fromHex(privateKey, 'bytes'))
-      expect(secp.verify(signature, messageHash, publicKey)).toBe(true)
+      expect(secp.verify(signature, messageHash, fromHex(publicKey, 'bytes'))).toBe(true)
     })
 
     it('gives same result when called twice with same inputs', async () => {
