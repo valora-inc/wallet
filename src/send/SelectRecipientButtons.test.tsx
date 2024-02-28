@@ -32,6 +32,7 @@ describe('SelectRecipientButtons', () => {
     jest.mocked(check).mockResolvedValue(RESULTS.DENIED)
     jest.mocked(getDynamicConfigParams).mockReturnValue({
       showBalances: ['celo-alfajores'],
+      jumpstartContracts: {},
     })
   })
 
@@ -39,13 +40,21 @@ describe('SelectRecipientButtons', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((gate) => gate === StatsigFeatureGates.SHOW_JUMPSTART_SEND)
-    const { getByText } = renderComponent()
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      showBalances: ['celo-alfajores'],
+      jumpstartContracts: {
+        'celo-alfajores': {
+          contractAddress: '0x123',
+        },
+      },
+    })
+    const { getByText, findByTestId } = renderComponent()
 
+    expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()
     fireEvent.press(getByText('sendSelectRecipient.jumpstart.title'))
 
-    await waitFor(() =>
-      expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_jumpstart)
-    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_jumpstart)
+    expect(navigate).toHaveBeenCalledWith(Screens.JumpstartEnterAmount)
   })
 
   it('renders QR and contacts button with no check mark on contacts if phone number is not verified', async () => {
