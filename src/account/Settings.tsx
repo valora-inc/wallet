@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ScrollView,
@@ -60,8 +60,11 @@ import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
-import { deleteKeylessBackupStatusSelector } from 'src/keylessBackup/selectors'
-import { deleteKeylessBackupStarted } from 'src/keylessBackup/slice'
+import {
+  deleteKeylessBackupStatusSelector,
+  showDeleteKeylessBackupErrorSelector,
+} from 'src/keylessBackup/selectors'
+import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -80,6 +83,7 @@ import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
+import ErrorBanner from 'src/components/ErrorBanner'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
@@ -109,14 +113,13 @@ export const Account = ({ navigation, route }: Props) => {
   const currentLanguage = useSelector(currentLanguageSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
   const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
+  const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
 
-  useEffect(() => {
-    if (ValoraAnalytics.getSessionId() !== sessionId) {
-      dispatch(setSessionId(sessionId))
-    }
-  }, [])
+  const onDismissKeylessBackupError = () => {
+    dispatch(hideDeleteKeylessBackupError())
+  }
 
   const goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
@@ -542,6 +545,13 @@ export const Account = ({ navigation, route }: Props) => {
         >
           {t('promptConfirmRemovalModal.body')}
         </Dialog>
+
+        <ErrorBanner
+          text={t('keylessBackupSettingsDeleteError')}
+          isVisible={showDeleteKeylessBackupError}
+          onDismiss={onDismissKeylessBackupError}
+          testID="KeylessBackupDeleteError"
+        />
       </ScrollView>
 
       <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
