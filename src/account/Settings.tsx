@@ -58,6 +58,11 @@ import {
 } from 'src/components/SettingsItem'
 import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
+import ForwardChevron from 'src/icons/ForwardChevron'
+import LoadingSpinner from 'src/icons/LoadingSpinner'
+import { deleteKeylessBackupStatusSelector } from 'src/keylessBackup/selectors'
+import { deleteKeylessBackupStarted } from 'src/keylessBackup/slice'
+import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
@@ -103,7 +108,7 @@ export const Account = ({ navigation, route }: Props) => {
   const hapticFeedbackEnabled = useSelector(hapticFeedbackEnabledSelector)
   const currentLanguage = useSelector(currentLanguageSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
-
+  const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
 
@@ -316,7 +321,7 @@ export const Account = ({ navigation, route }: Props) => {
 
   const onPressDeleteKeylessBackup = () => {
     ValoraAnalytics.track(SettingsEvents.settings_delete_keyless_backup)
-    // TODO(ACT-766): invoke API to delete and update status
+    dispatch(deleteKeylessBackupStarted())
   }
 
   const wipeReduxStore = () => {
@@ -363,6 +368,62 @@ export const Account = ({ navigation, route }: Props) => {
 
   const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
 
+  const getKeylessBackupItem = () => {
+    if (!showKeylessBackup) {
+      return null
+    }
+    if (deleteKeylessBackupStatus === KeylessBackupDeleteStatus.InProgress) {
+      return (
+        <SettingsItemCta
+          title={t('keylessBackupSettingsTitle')}
+          onPress={() => {
+            // do nothing
+          }}
+          testID="KeylessBackup"
+          cta={
+            <>
+              <LoadingSpinner width={22} />
+              <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                {t('pleaseWait')}
+              </Text>
+            </>
+          }
+        />
+      )
+    } else if (cloudBackupCompleted) {
+      return (
+        <SettingsItemCta
+          title={t('keylessBackupSettingsTitle')}
+          onPress={onPressDeleteKeylessBackup}
+          testID="KeylessBackup"
+          cta={
+            <>
+              <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                {t('delete')}
+              </Text>
+            </>
+          }
+        />
+      )
+    } else {
+      return (
+        <SettingsItemCta
+          title={t('keylessBackupSettingsTitle')}
+          onPress={onPressSetUpKeylessBackup}
+          testID="KeylessBackup"
+          cta={
+            <>
+              <Text testID={`KeylessBackup/cta`} style={styles.value}>
+                {t('setup')}
+              </Text>
+              <ForwardChevron />
+            </>
+          }
+        />
+      )
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <DrawerTopBar />
@@ -407,18 +468,7 @@ export const Account = ({ navigation, route }: Props) => {
             onPress={goToRecoveryPhrase}
             testID="RecoveryPhrase"
           />
-          {showKeylessBackup && (
-            <SettingsItemCta
-              title={t('keylessBackupSettingsTitle')}
-              onPress={
-                cloudBackupCompleted ? onPressDeleteKeylessBackup : onPressSetUpKeylessBackup
-              }
-              testID="KeylessBackup"
-              ctaText={cloudBackupCompleted ? t('delete') : t('setup')}
-              ctaColor={cloudBackupCompleted ? colors.error : colors.primary}
-              showChevron={!cloudBackupCompleted}
-            />
-          )}
+          {getKeylessBackupItem()}
           <SettingsItemTextValue
             title={t('changePin')}
             onPress={goToChangePin}
@@ -567,6 +617,12 @@ const styles = StyleSheet.create({
   },
   bottomSheetButton: {
     marginTop: Spacing.Regular16,
+  },
+  value: {
+    ...fontStyles.regular,
+    color: colors.gray4,
+    marginRight: Spacing.Smallest8,
+    marginLeft: 4,
   },
 })
 

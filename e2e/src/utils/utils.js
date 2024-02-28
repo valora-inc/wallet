@@ -193,9 +193,7 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
       await device.pressBack()
     }
 
-    await waitFor(element(by.id('ImportWalletButton')))
-      .toBeVisible()
-      .withTimeout(1000 * 5)
+    await scrollIntoView('Restore', 'ImportWalletKeyboardAwareScrollView')
     await element(by.id('ImportWalletButton')).tap()
 
     try {
