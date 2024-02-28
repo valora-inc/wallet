@@ -3085,6 +3085,18 @@ export const v193Schema = {
   },
 }
 
+export const v194Schema = {
+  ...v193Schema,
+  _persist: {
+    ...v193Schema._persist,
+    version: 194,
+  },
+  keylessBackup: {
+    ...v193Schema.keylessBackup,
+    shoeDeleteBackupError: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v193Schema as Partial<RootState>
+  return v194Schema as Partial<RootState>
 }

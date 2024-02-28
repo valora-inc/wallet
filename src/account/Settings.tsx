@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import * as Sentry from '@sentry/react-native'
 import locales from 'locales'
-import React, { useEffect, useRef, useState, useMemo } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   ScrollView,
@@ -116,6 +116,12 @@ export const Account = ({ navigation, route }: Props) => {
   const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
+
+  useEffect(() => {
+    if (ValoraAnalytics.getSessionId() !== sessionId) {
+      dispatch(setSessionId(sessionId))
+    }
+  }, [])
 
   const onDismissKeylessBackupError = () => {
     dispatch(hideDeleteKeylessBackupError())

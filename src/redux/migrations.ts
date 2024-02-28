@@ -1586,4 +1586,5 @@ export const migrations = {
     ]),
   }),
   193: (state: any) => state,
+  194: (state: any) => state,
 }

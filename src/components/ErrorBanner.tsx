@@ -26,12 +26,12 @@ export default function ErrorBanner({ text, isVisible, testID, onDismiss }: Prop
       onModalHide={onDismiss}
       onBackgroundPress={onDismiss}
     >
-      <View style={styles.primaryContainer}>
+      <View>
         <View style={styles.titleRow}>
           <ExclamationMark size={24} />
           <Text style={styles.title}>{t('error')}</Text>
         </View>
-        <View style={styles.textContainer}>
+        <View>
           <Text style={styles.bodyText}>{text}</Text>
           <Text style={styles.dismissText} testID={`${testID}/Dismiss`} onPress={onDismiss}>
             {t('dismiss')}
@@ -52,15 +52,7 @@ const styles = StyleSheet.create({
     padding: Spacing.Thick24,
     backgroundColor: colors.warningLight,
   },
-  primaryContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
-  textContainer: {
-    flexDirection: 'column',
-  },
   titleRow: {
-    alignItems: 'flex-start',
     flexDirection: 'row',
     paddingBottom: Spacing.Tiny4,
     paddingLeft: Spacing.Tiny4,
