@@ -1542,6 +1542,15 @@
             },
             "type": "object"
         },
+        "KeylessBackupDeleteStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "KeylessBackupStatus": {
             "enum": [
                 "Completed",
@@ -2560,6 +2569,7 @@
                 "ImportSelect",
                 "ImportWallet",
                 "Invite",
+                "JumpstartEnterAmount",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",
@@ -3989,6 +3999,9 @@
                 "backupStatus": {
                     "$ref": "#/definitions/KeylessBackupStatus"
                 },
+                "deleteBackupStatus": {
+                    "$ref": "#/definitions/KeylessBackupDeleteStatus"
+                },
                 "googleIdToken": {
                     "type": [
                         "null",
@@ -4010,6 +4023,7 @@
             },
             "required": [
                 "backupStatus",
+                "deleteBackupStatus",
                 "googleIdToken",
                 "torusKeyshare",
                 "valoraKeyshare"
