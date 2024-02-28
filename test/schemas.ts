@@ -3093,7 +3093,7 @@ export const v194Schema = {
   },
   keylessBackup: {
     ...v193Schema.keylessBackup,
-    shoeDeleteBackupError: false,
+    showDeleteBackupError: false,
   },
 }
 
