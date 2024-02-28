@@ -237,14 +237,14 @@ export async function prepareTransactions({
   feeCurrencies,
   spendToken,
   spendTokenAmount = new BigNumber(0),
-  decreasedAmountGasFeeMultiplier,
+  decreasedAmountGasFeeMultiplier = 1,
   baseTransactions,
   throwOnSpendTokenAmountExceedsBalance = true,
 }: {
   feeCurrencies: TokenBalance[]
   spendToken?: TokenBalance
   spendTokenAmount?: BigNumber
-  decreasedAmountGasFeeMultiplier: number
+  decreasedAmountGasFeeMultiplier?: number
   baseTransactions: (TransactionRequest & { gas?: bigint })[]
   throwOnSpendTokenAmountExceedsBalance?: boolean
 }): Promise<PreparedTransactionsResult> {

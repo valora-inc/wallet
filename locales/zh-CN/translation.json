@@ -1738,7 +1738,7 @@
     "swapTo": "至",
     "insufficientFunds": "{{token}} 余额不足，请尝试使用较小的金额或选择其他资产。",
     "fetchSwapQuoteFailed": "抱歉有所延迟！获取最佳汇率所需时间较往常略长。请在几分钟后重试。",
-    "disclaimer": "网络合作伙伴确定的最佳费率。<0>了解更多信息</0>",
+    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
     "swapFromTokenSelection": "替换自",
     "swapToTokenSelection": "替换至",
     "tokenUsdValueUnknown": "-",

@@ -1744,7 +1744,7 @@
     "swapTo": "НА",
     "insufficientFunds": "{{token}}: недостатній баланс. Спробуйте меншу суму або виберіть інший актив.",
     "fetchSwapQuoteFailed": "Вибачте за затримку! Це забирає більше часу, ніж зазвичай, щоб отримати найкращий обмінний курс. Будь ласка, спробуйте знову за кілька хвилин.",
-    "disclaimer": "Найкращий курс, визначений партнерами з мережі. <0>Дізнатися більше</0>",
+    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
     "swapFromTokenSelection": "СВОП ІЗ",
     "swapToTokenSelection": "СВОП НА",
     "tokenUsdValueUnknown": "-",
