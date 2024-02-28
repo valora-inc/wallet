@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import 'react-native'
+import { View } from 'react-native'
 import {
   SettingsItemCta,
   SettingsItemInput,
@@ -88,30 +89,20 @@ describe('SettingsItemInput', () => {
 })
 
 describe('SettingsItemCta', () => {
+  const mockComponent = <View testID="cta-test"></View>
   it('renders correctly', () => {
-    const { getByTestId, getByText, queryByTestId } = render(
-      <SettingsItemCta testID={testID} title={title} ctaText="cta" />
-    )
-
-    expect(getByText(title)).toBeTruthy()
-    expect(getByTestId(`${testID}/cta`)).toHaveTextContent('cta')
-    expect(queryByTestId('ForwardChevron')).toBeNull()
-  })
-
-  it('renders correctly with forward chevron', () => {
     const { getByTestId, getByText } = render(
-      <SettingsItemCta testID={testID} title={title} ctaText="cta" showChevron={true} />
+      <SettingsItemCta testID={testID} title={title} cta={mockComponent} />
     )
 
     expect(getByText(title)).toBeTruthy()
-    expect(getByTestId(`${testID}/cta`)).toHaveTextContent('cta')
-    expect(getByTestId('ForwardChevron')).toBeTruthy()
+    expect(getByTestId(`cta-test`)).toBeTruthy()
   })
 
   it('reacts on press', () => {
     const onPress = jest.fn()
     const { getByTestId } = render(
-      <SettingsItemCta testID={testID} title={title} ctaText="cta" onPress={onPress} />
+      <SettingsItemCta testID={testID} title={title} cta={mockComponent} onPress={onPress} />
     )
 
     fireEvent.press(getByTestId(testID))

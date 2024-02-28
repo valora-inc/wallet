@@ -1,11 +1,16 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
-import { KeylessBackupFlow, KeylessBackupStatus } from 'src/keylessBackup/types'
+import {
+  KeylessBackupDeleteStatus,
+  KeylessBackupFlow,
+  KeylessBackupStatus,
+} from 'src/keylessBackup/types'
 
 export interface State {
   googleIdToken: string | null
   valoraKeyshare: string | null
   torusKeyshare: string | null
   backupStatus: KeylessBackupStatus
+  deleteBackupStatus: KeylessBackupDeleteStatus
 }
 
 export const initialState: State = {
@@ -13,6 +18,7 @@ export const initialState: State = {
   valoraKeyshare: null,
   torusKeyshare: null,
   backupStatus: KeylessBackupStatus.NotStarted,
+  deleteBackupStatus: KeylessBackupDeleteStatus.NotStarted,
 }
 
 export const slice = createSlice({
@@ -58,6 +64,15 @@ export const slice = createSlice({
     keylessBackupNotFound: (state) => {
       state.backupStatus = KeylessBackupStatus.NotFound
     },
+    deleteKeylessBackupStarted: (state) => {
+      state.deleteBackupStatus = KeylessBackupDeleteStatus.InProgress
+    },
+    deleteKeylessBackupCompleted: (state) => {
+      state.deleteBackupStatus = KeylessBackupDeleteStatus.Completed
+    },
+    deleteKeylessBackupFailed: (state) => {
+      state.deleteBackupStatus = KeylessBackupDeleteStatus.Failed
+    },
   },
 })
 
@@ -72,6 +87,9 @@ export const {
   keylessBackupAcceptZeroBalance,
   keylessBackupBail,
   keylessBackupNotFound,
+  deleteKeylessBackupStarted,
+  deleteKeylessBackupCompleted,
+  deleteKeylessBackupFailed,
 } = slice.actions
 
 export default slice.reducer
