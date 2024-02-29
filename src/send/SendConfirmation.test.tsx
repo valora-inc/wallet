@@ -1,5 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { fireEvent, render } from '@testing-library/react-native'
+import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
@@ -7,24 +8,23 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
 import SendConfirmation from 'src/send/SendConfirmation'
-import { sendPayment } from 'src/send/actions'
-import { NetworkId } from 'src/transactions/types'
-import {
-  RecursivePartial,
-  createMockStore,
-  getElementText,
-  getMockStackScreenProps,
-} from 'test/utils'
+import { encryptComment, sendPayment } from 'src/send/actions'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
+import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test/utils'
 import {
   emptyFees,
+  mockAccount,
   mockCeloAddress,
+  mockCeloTokenBalance,
   mockCeloTokenId,
-  mockCeurAddress,
-  mockCeurTokenId,
   mockCusdAddress,
+  mockCusdTokenBalance,
   mockCusdTokenId,
-  mockTestTokenAddress,
-  mockTestTokenTokenId,
+  mockPoofAddress,
+  mockPoofTokenId,
+  mockTokenBalances,
   mockTokenTransactionData,
 } from 'test/values'
 
@@ -39,21 +39,36 @@ jest.mock('src/web3/networkConfig', () => {
     },
   }
 })
+jest.mock('src/send/usePrepareSendTransactions')
 
-const mockScreenPropsWithPreparedTx = getMockStackScreenProps(Screens.SendConfirmation, {
+const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: {
     ...mockTokenTransactionData,
   },
   origin: SendOrigin.AppSendFlow,
   isFromScan: false,
-  preparedTransaction: {
-    from: '0xfrom',
-    to: '0xto',
-    data: '0xdata',
-  },
-  feeAmount: '0.01',
-  feeTokenId: mockCeloTokenId,
 })
+
+const mockFeeCurrencies = [
+  { ...mockCeloTokenBalance, priceUsd: new BigNumber('5'), lastKnownPriceUsd: new BigNumber('5') },
+  mockCusdTokenBalance,
+]
+
+const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
+  type: 'possible',
+  transactions: [
+    {
+      from: '0xfrom',
+      to: '0xto',
+      data: '0xdata',
+      gas: BigInt('1'.concat('0'.repeat(16))), // 0.01 CELO
+      maxFeePerGas: BigInt(1),
+      maxPriorityFeePerGas: undefined,
+      _baseFeePerGas: BigInt(1),
+    },
+  ],
+  feeCurrency: mockFeeCurrencies[0],
+}
 
 type ScreenProps = NativeStackScreenProps<
   StackParamList,
@@ -61,8 +76,18 @@ type ScreenProps = NativeStackScreenProps<
 >
 
 describe('SendConfirmation', () => {
+  let mockUsePrepareSendTransactionsOutput: ReturnType<typeof usePrepareSendTransactions>
+
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useFakeTimers()
+    mockUsePrepareSendTransactionsOutput = {
+      prepareTransactionsResult: mockPrepareTransactionsResultPossible,
+      refreshPreparedTransactions: jest.fn(),
+      clearPreparedTransactions: jest.fn(),
+      prepareTransactionError: undefined,
+    }
+    jest.mocked(usePrepareSendTransactions).mockReturnValue(mockUsePrepareSendTransactionsOutput)
   })
 
   function renderScreen(
@@ -72,48 +97,9 @@ describe('SendConfirmation', () => {
     const store = createMockStore({
       tokens: {
         tokenBalances: {
-          [mockCusdTokenId]: {
-            address: mockCusdAddress,
-            tokenId: mockCusdTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'cUSD',
-            balance: '200',
-            priceUsd: '1',
-            isFeeCurrency: true,
-            canTransferWithComment: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockCeurTokenId]: {
-            address: mockCeurAddress,
-            tokenId: mockCeurTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'cEUR',
-            balance: '100',
-            priceUsd: '1.2',
-            isFeeCurrency: true,
-            canTransferWithComment: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockCeloTokenId]: {
-            address: mockCeloAddress,
-            tokenId: mockCeloTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'CELO',
-            balance: '20',
-            priceUsd: '5',
-            isFeeCurrency: true,
-            canTransferWithComment: true,
-            priceFetchedAt: Date.now(),
-          },
-          [mockTestTokenTokenId]: {
-            address: mockTestTokenAddress,
-            tokenId: mockTestTokenTokenId,
-            networkId: NetworkId['celo-alfajores'],
-            symbol: 'TT',
-            balance: '10',
-            priceUsd: '0.1234',
-            priceFetchedAt: Date.now(),
-          },
+          [mockPoofTokenId]: mockTokenBalances[mockPoofTokenId],
+          [mockCeloTokenId]: { ...mockTokenBalances[mockCeloTokenId], balance: '5', priceUsd: '5' },
+          [mockCusdTokenId]: mockTokenBalances[mockCusdTokenId],
         },
       },
       ...storeOverrides,
@@ -121,7 +107,7 @@ describe('SendConfirmation', () => {
 
     const tree = render(
       <Provider store={store}>
-        <SendConfirmation {...(screenProps ? screenProps : mockScreenPropsWithPreparedTx)} />
+        <SendConfirmation {...(screenProps ? screenProps : mockScreenProps)} />
       </Provider>
     )
 
@@ -136,23 +122,21 @@ describe('SendConfirmation', () => {
     expect(tree).toMatchSnapshot()
   })
 
-  it('renders correctly for send payment confirmation with fees from props', async () => {
-    const { getByTestId } = renderScreen()
-
-    const feeComponent = getByTestId('LineItemRow/SendConfirmation/fee')
-    expect(getElementText(feeComponent)).toEqual('0.01 CELO')
-
-    const totalComponent = getByTestId('TotalLineItem/Total')
-    expect(getElementText(totalComponent)).toEqual('~1.05 cUSD')
-  })
-
-  it('updates the comment/reason', () => {
-    const { getByTestId, queryAllByDisplayValue } = renderScreen()
-
-    const input = getByTestId('commentInput/send')
-    const comment = 'A comment!'
-    fireEvent.changeText(input, comment)
-    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+  it('prepares a transaction on load', () => {
+    renderScreen()
+    expect(mockUsePrepareSendTransactionsOutput.clearPreparedTransactions).toHaveBeenCalledWith()
+    jest.advanceTimersByTime(300)
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      1
+    )
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledWith({
+      amount: mockTokenTransactionData.tokenAmount,
+      token: mockCusdTokenBalance,
+      recipientAddress: mockTokenTransactionData.recipient.address,
+      walletAddress: mockAccount.toLowerCase(),
+      feeCurrencies: mockFeeCurrencies,
+      comment: undefined,
+    })
   })
 
   it('doesnt show the comment for CELO', () => {
@@ -178,8 +162,8 @@ describe('SendConfirmation', () => {
       getMockStackScreenProps(Screens.SendConfirmation, {
         transactionData: {
           ...mockTokenTransactionData,
-          tokenAddress: mockTestTokenAddress,
-          tokenId: mockTestTokenTokenId,
+          tokenAddress: mockPoofAddress,
+          tokenId: mockPoofTokenId,
         },
         origin: SendOrigin.AppSendFlow,
         isFromScan: false,
@@ -205,11 +189,61 @@ describe('SendConfirmation', () => {
     expect(queryByTestId('commentInput/send')).toBeTruthy()
   })
 
-  it('dispatches an action with prepared transaction when the confirm button is pressed', async () => {
-    const { store, getByTestId } = renderScreen(
-      { fees: { estimates: emptyFees } },
-      mockScreenPropsWithPreparedTx
+  it('updates comment and then encrypts and prepares a tx with encrypted comment', () => {
+    const { getByTestId, queryAllByDisplayValue, store } = renderScreen({
+      send: { encryptedComment: 'enc-comment' },
+    })
+    jest.advanceTimersByTime(300)
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      1
     )
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledWith({
+      amount: mockTokenTransactionData.tokenAmount,
+      token: mockCusdTokenBalance,
+      recipientAddress: mockTokenTransactionData.recipient.address,
+      walletAddress: mockAccount.toLowerCase(),
+      feeCurrencies: mockFeeCurrencies,
+      comment: undefined, // no comment entered yet
+    })
+    const input = getByTestId('commentInput/send')
+    const comment = 'A comment!'
+    fireEvent.changeText(input, comment)
+    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+    jest.advanceTimersByTime(300)
+    expect(store.getActions()).toEqual([
+      encryptComment({
+        comment: '', // empty comment dispatched first
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+      encryptComment({
+        comment,
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+    ])
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledTimes(
+      2
+    )
+    expect(mockUsePrepareSendTransactionsOutput.refreshPreparedTransactions).toHaveBeenCalledWith({
+      amount: mockTokenTransactionData.tokenAmount,
+      token: mockCusdTokenBalance,
+      recipientAddress: mockTokenTransactionData.recipient.address,
+      walletAddress: mockAccount.toLowerCase(),
+      feeCurrencies: mockFeeCurrencies,
+      comment: 'enc-comment',
+    })
+  })
+
+  it('disables send if transaction is not prepared yet', () => {
+    mockUsePrepareSendTransactionsOutput.prepareTransactionsResult = undefined
+    const { getByTestId } = renderScreen()
+
+    expect(getByTestId('ConfirmButton')).toBeDisabled()
+  })
+
+  it('dispatches an action with prepared transaction when the confirm button is pressed', async () => {
+    const { store, getByTestId } = renderScreen({ fees: { estimates: emptyFees } }, mockScreenProps)
 
     expect(store.getActions().length).toEqual(0)
 
@@ -218,11 +252,16 @@ describe('SendConfirmation', () => {
     const { inputAmount, tokenId, recipient } = mockTokenTransactionData
 
     expect(store.getActions()[0]).toEqual(
-      sendPayment(inputAmount, tokenId, inputAmount, '', recipient, false, undefined, {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-      })
+      sendPayment(
+        inputAmount,
+        tokenId,
+        inputAmount.times(1.001),
+        '',
+        recipient,
+        false,
+        undefined,
+        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
+      )
     )
   })
 })
