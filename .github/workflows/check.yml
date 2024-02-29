@@ -16,8 +16,8 @@ on:
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  # Fallback used github.head_ref as it only defined on pull_request
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  # Fallback used github.ref_name as it is always defined
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:

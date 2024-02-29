@@ -12,7 +12,7 @@ on:
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
   cancel-in-progress: true
 
 jobs:
