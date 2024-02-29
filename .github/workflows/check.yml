@@ -18,6 +18,7 @@ on:
 concurrency:
   # Fallback used github.head_ref as it only defined on pull_request
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  if: ${{ github.event_name != 'merge_group' }}
   cancel-in-progress: true
 
 jobs:
