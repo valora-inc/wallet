@@ -4,7 +4,7 @@ import Modal from 'src/components/Modal'
 import { Spacing } from 'src/styles/styles'
 import InLineNotification, { InLineNotificationProps } from 'src/components/InLineNotification'
 
-export type InLineNotificationModalProps = InLineNotificationProps & {
+type InLineNotificationModalProps = InLineNotificationProps & {
   onDismiss: () => void
   isVisible: boolean
 }
