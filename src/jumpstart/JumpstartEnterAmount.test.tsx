@@ -59,7 +59,21 @@ jest.mocked(usePrepareJumpstartTransactions).mockReturnValue({
   execute: executeSpy,
   reset: jest.fn(),
   loading: false,
-  result: undefined,
+  result: {
+    type: 'possible',
+    transactions: [
+      {
+        from: '0xfrom',
+        to: '0xto',
+        data: '0xdata',
+        gas: BigInt(5e15), // 0.005 CELO
+        maxFeePerGas: BigInt(1),
+        maxPriorityFeePerGas: undefined,
+        _baseFeePerGas: BigInt(1),
+      },
+    ],
+    feeCurrency: tokenBalances[mockCeloTokenId],
+  },
   error: undefined,
   status: 'not-requested',
 } as any)
@@ -73,6 +87,7 @@ describe('JumpstartEnterAmount', () => {
           contractAddress: '0xjumpstart',
         },
       },
+      maxAllowedSendAmountUsd: 50,
     })
   })
 
@@ -106,5 +121,30 @@ describe('JumpstartEnterAmount', () => {
       publicKey: '0x2CEc3C5e83eE37261F9f9BB050B2Fbf59d13eEc0', // matches mock private key
       feeCurrencies: mockStoreBalancesToTokenBalances(feeCurrencies),
     })
+  })
+
+  it('should show a blocking warning if the send amount exceeds the threshold', async () => {
+    const { getByTestId, getByText, queryByText } = render(
+      <Provider store={store}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    // default selected token is cEUR, priceUsd: '1.16' so max send amount will be 50 / 1.16 = 43.10
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '43.5')
+
+    await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
+    expect(getByText('review')).toBeDisabled()
+    expect(getByText('jumpstartEnterAmountScreen.maxAmountWarning.title')).toBeTruthy()
+    expect(
+      getByText(
+        'jumpstartEnterAmountScreen.maxAmountWarning.description, {"maxAmount":"66.50","localCurrencyCode":"PHP"}'
+      )
+    ).toBeTruthy()
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '43')
+
+    await waitFor(() => expect(getByText('review')).not.toBeDisabled())
+    expect(queryByText('jumpstartEnterAmountScreen.maxAmountWarning.title')).toBeFalsy()
   })
 })
