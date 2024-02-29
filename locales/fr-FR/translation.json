@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "Se connecter avec un e-mail",
     "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde.\n\nSi vous perdez votre portefeuille, vous serez invité à vous reconnecter.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Se connecter avec Google"
   },
   "keylessBackupPhoneInput": {
