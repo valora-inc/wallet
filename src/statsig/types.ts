@@ -14,8 +14,6 @@ export enum StatsigFeatureGates {
   SHOW_CLAIM_SHORTCUTS = 'show_claim_shortcuts',
   ALLOW_HOOKS_PREVIEW = 'allow_hooks_preview',
   APP_REVIEW = 'app_review',
-  SHOW_IN_APP_NFT_VIEWER = 'show_in_app_nft_viewer',
-  SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
