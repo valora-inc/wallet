@@ -254,7 +254,7 @@ export function* sendPaymentSaga({
     )
 
     if (receipt.status === 'reverted') {
-      throw new Error('transaction reverted')
+      throw new Error(`Send transaction reverted: ${hash}`)
     }
 
     yield* put(fetchTokenBalances({ showLoading: true }))
@@ -285,8 +285,10 @@ export function* sendPaymentSaga({
     yield* put(sendPaymentSuccess({ amount, tokenId }))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (err) {
+    // for pin cancelled, this will show the pin input canceled message, for any
+    // other error, will fallback to payment failed
     yield* put(showErrorOrFallback(err, ErrorMessages.SEND_PAYMENT_FAILED))
-    yield* put(sendPaymentFailure())
+    yield* put(sendPaymentFailure()) // resets isSending state
     const error = ensureError(err)
     if (error.message === ErrorMessages.PIN_INPUT_CANCELED) {
       Logger.info(`${TAG}/sendPaymentSaga`, 'Send cancelled by user')

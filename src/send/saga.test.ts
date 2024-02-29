@@ -4,7 +4,7 @@ import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
-import { SendEvents } from 'src/analytics/Events'
+import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
@@ -38,6 +38,7 @@ import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
+  mockCeloAddress,
   mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenId,
@@ -178,19 +179,90 @@ describe(sendPaymentSaga, () => {
         .run()
 
       expect(navigateFn).toHaveBeenCalledTimes(1)
+      expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
       expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_complete, {
         txId: mockContext.id,
         recipientAddress: mockQRCodeRecipient.address,
         amount: '10',
         usdAmount: '10',
-        tokenAddress: '0x874069Fa1Eb16D44d622F2e0Ca25eeA172369bC1'.toLowerCase(),
+        tokenAddress: mockCusdAddress,
         tokenId: mockCusdTokenId,
         networkId: 'celo-alfajores',
         isTokenManuallyImported: false,
       })
     }
   )
+
+  it('sends a payment successfully for celo and logs a withdrawal event', async () => {
+    await expectSaga(sendPaymentSaga, { ...sendAction, tokenId: mockCeloTokenId })
+      .withState(createMockStore({}).getState())
+      .provide([
+        [call(getConnectedUnlockedAccount), mockAccount],
+        [matchers.call.fn(getViemWallet), mockViemWallet],
+        [matchers.call.fn(mockViemWallet.sendTransaction), mockTxHash],
+        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
+      ])
+      .call(getViemWallet, networkConfig.viemChain.celo)
+      .put(
+        addStandbyTransaction({
+          __typename: 'TokenTransferV3',
+          context: { id: 'mock' },
+          type: TokenTransactionTypeV2.Sent,
+          networkId: NetworkId['celo-alfajores'],
+          amount: {
+            value: BigNumber(10).negated().toString(),
+            tokenAddress: mockCeloAddress,
+            tokenId: mockCeloTokenId,
+          },
+          address: mockQRCodeRecipient.address,
+          metadata: {
+            comment: '',
+          },
+          feeCurrencyId: mockCeloTokenId,
+          transactionHash: mockTxHash,
+        })
+      )
+      .put(
+        transactionConfirmed(
+          'mock',
+          {
+            transactionHash: mockTxHash,
+            block: '123',
+            status: TransactionStatus.Complete,
+            fees: [
+              {
+                type: 'SECURITY_FEE',
+                amount: {
+                  value: '0.001',
+                  tokenId: mockCeloTokenId,
+                },
+              },
+            ],
+          },
+          1701102971000
+        )
+      )
+      .put(sendPaymentSuccess({ amount, tokenId: mockCeloTokenId }))
+      .run()
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_start)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_tx_complete, {
+      txId: mockContext.id,
+      recipientAddress: mockQRCodeRecipient.address,
+      amount: '10',
+      usdAmount: '10',
+      tokenAddress: mockCeloAddress,
+      tokenId: mockCeloTokenId,
+      networkId: 'celo-alfajores',
+      isTokenManuallyImported: false,
+    })
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(CeloExchangeEvents.celo_withdraw_completed, {
+      amount: '10',
+    })
+  })
 
   it('fails if user cancels PIN input', async () => {
     const account = '0x000123'
