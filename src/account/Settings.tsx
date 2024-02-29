@@ -83,7 +83,8 @@ import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
-import ErrorBanner from 'src/components/ErrorBanner'
+import InLineNotificationModal from 'src/components/InLineNotificationModal'
+import { Severity } from 'src/components/InLineNotification'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
@@ -552,10 +553,14 @@ export const Account = ({ navigation, route }: Props) => {
           {t('promptConfirmRemovalModal.body')}
         </Dialog>
 
-        <ErrorBanner
-          text={t('keylessBackupSettingsDeleteError')}
+        <InLineNotificationModal
+          severity={Severity.Warning}
+          description={t('keylessBackupSettingsDeleteError')}
           isVisible={showDeleteKeylessBackupError}
           onDismiss={onDismissKeylessBackupError}
+          onPressCta={onDismissKeylessBackupError}
+          ctaLabel={t('dismiss')}
+          title={t('error')}
           testID="KeylessBackupDeleteError"
         />
       </ScrollView>
