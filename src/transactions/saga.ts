@@ -373,7 +373,11 @@ function buildGasFees(feeCurrencyInfo: BaseToken, gasFeeInSmallestUnit: BigNumbe
     {
       type: 'SECURITY_FEE',
       amount: {
-        value: gasFeeInSmallestUnit.shiftedBy(-feeCurrencyInfo.decimals).toFixed(),
+        // TODO: would be more correct to check the actual fee currency (ERC20 or adapter) set in the TX
+        // in the meantime, this is good enough
+        value: gasFeeInSmallestUnit
+          .shiftedBy(-(feeCurrencyInfo.feeCurrencyAdapterDecimals ?? feeCurrencyInfo.decimals))
+          .toFixed(),
         tokenId: feeCurrencyInfo.tokenId,
       },
     },

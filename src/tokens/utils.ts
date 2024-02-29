@@ -8,6 +8,7 @@ import { Network, NetworkId } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { ONE_DAY_IN_MILLIS, ONE_HOUR_IN_MILLIS } from 'src/utils/time'
 import networkConfig from 'src/web3/networkConfig'
+import { Address } from 'viem'
 import { TokenBalance } from './slice'
 
 export function getHigherBalanceCurrency(
@@ -212,4 +213,8 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
     ONE_HOUR_IN_MILLIS >
       Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
   )
+}
+
+export function isFeeCurrency(token: TokenBalance | undefined): token is TokenBalance {
+  return token?.isNative || !!token?.isFeeCurrency || !!token?.feeCurrencyAdapterAddress
 }

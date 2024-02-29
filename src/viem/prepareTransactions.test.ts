@@ -11,6 +11,8 @@ import {
   getFeeCurrency,
   getFeeCurrencyAddress,
   getFeeCurrencyAndAmounts,
+  getFeeCurrencyToken,
+  getFeeDecimals,
   getMaxGasFee,
   prepareERC20TransferTransaction,
   prepareSendNativeAssetTransaction,
@@ -72,32 +74,47 @@ describe('prepareTransactions module', () => {
     {}
   )
 
-  const mockFeeCurrencies: TokenBalanceWithAddress[] = [
-    {
-      address: '0xfee1',
-      balance: new BigNumber(100), // 10k units, 100.0 decimals
-      decimals: 2,
-      priceUsd: null,
-      lastKnownPriceUsd: null,
-      tokenId: 'celo-mainnet:native',
-      symbol: 'FEE1',
-      name: 'Fee token 1',
-      networkId: NetworkId['celo-mainnet'],
-      isNative: true,
-    },
-    {
-      address: '0xfee2',
-      balance: new BigNumber(70), // 70k units, 70.0 decimals
-      decimals: 3,
-      priceUsd: null,
-      lastKnownPriceUsd: null,
-      tokenId: 'celo-mainnet:0xfee2',
-      symbol: 'FEE2',
-      name: 'Fee token 2',
-      networkId: NetworkId['celo-mainnet'],
-      isNative: false, // means we add 50_000 units / 50.0 decimal padding for gas
-    },
-  ]
+  const mockNativeFeeCurrency = {
+    address: '0xfee1',
+    balance: new BigNumber(100), // 10k units, 100.0 decimals
+    decimals: 2,
+    priceUsd: null,
+    lastKnownPriceUsd: null,
+    tokenId: 'celo-mainnet:native',
+    symbol: 'FEE1',
+    name: 'Fee token 1',
+    networkId: NetworkId['celo-mainnet'],
+    isNative: true,
+  }
+  const mockErc20FeeCurrency = {
+    address: '0xfee2',
+    balance: new BigNumber(70), // 70k units, 70.0 decimals
+    decimals: 3,
+    priceUsd: null,
+    lastKnownPriceUsd: null,
+    tokenId: 'celo-mainnet:0xfee2',
+    symbol: 'FEE2',
+    name: 'Fee token 2',
+    networkId: NetworkId['celo-mainnet'],
+    isNative: false, // means we add 50_000 units / 50.0 decimal padding for gas
+    isFeeCurrency: true,
+  }
+  const mockFeeCurrencyWithAdapter: TokenBalanceWithAddress = {
+    address: '0xfee3',
+    balance: new BigNumber(50), // 50k units, 50.0 decimals
+    decimals: 3,
+    priceUsd: null,
+    lastKnownPriceUsd: null,
+    tokenId: 'celo-mainnet:0xfee3',
+    symbol: 'FEE3',
+    name: 'Fee token 3',
+    networkId: NetworkId['celo-mainnet'],
+    isNative: false, // means we add 50_000 units / 50.0 decimal padding for gas
+    feeCurrencyAdapterAddress: '0xfee3adapter',
+    feeCurrencyAdapterDecimals: 18,
+  }
+
+  const mockFeeCurrencies: TokenBalanceWithAddress[] = [mockNativeFeeCurrency, mockErc20FeeCurrency]
   const mockSpendToken: TokenBalanceWithAddress = {
     address: '0xspend',
     balance: new BigNumber(5), // 50k units, 5.0 decimals
@@ -863,11 +880,29 @@ describe('prepareTransactions module', () => {
   })
 
   describe('getFeeCurrencyAddress', () => {
-    it('returns fee currency address if fee currency is not native', () => {
-      expect(getFeeCurrencyAddress(mockFeeCurrencies[1])).toEqual('0xfee2')
-    })
     it('returns undefined if fee currency is native', () => {
-      expect(getFeeCurrencyAddress(mockFeeCurrencies[0])).toEqual(undefined)
+      expect(getFeeCurrencyAddress(mockNativeFeeCurrency)).toEqual(undefined)
+    })
+    it('returns fee currency address if fee currency is not native', () => {
+      expect(getFeeCurrencyAddress(mockErc20FeeCurrency)).toEqual('0xfee2')
+    })
+    it('returns the fee currency adapter address when not native and not a direct fee currency', () => {
+      expect(getFeeCurrencyAddress(mockFeeCurrencyWithAdapter)).toEqual('0xfee3adapter')
+    })
+    it('throws if the fee currency is not native and does not have an address', () => {
+      expect(() => getFeeCurrencyAddress({ ...mockErc20FeeCurrency, address: null })).toThrowError(
+        'Fee currency address is missing for fee currency celo-mainnet:0xfee2'
+      )
+    })
+    it('throws if the fee currency is not native, does not have an address and not adapter address', () => {
+      expect(() =>
+        getFeeCurrencyAddress({
+          ...mockFeeCurrencyWithAdapter,
+          feeCurrencyAdapterAddress: undefined,
+        })
+      ).toThrowError(
+        'Unable to determine fee currency address for fee currency celo-mainnet:0xfee3'
+      )
     })
   })
 
@@ -1081,6 +1116,145 @@ describe('prepareTransactions module', () => {
           },
         ])
       ).toThrowError('Unexpected usage of multiple fee currencies for prepared transactions')
+    })
+  })
+
+  describe('getFeeCurrencyToken', () => {
+    const basePreparedTransactions = {
+      from: '0xfrom',
+      to: '0xto',
+      data: '0xdata',
+    }
+    const networkId = NetworkId['celo-mainnet']
+    const tokensById = {
+      [mockNativeFeeCurrency.tokenId]: mockNativeFeeCurrency,
+      [mockErc20FeeCurrency.tokenId]: mockErc20FeeCurrency,
+      [mockFeeCurrencyWithAdapter.tokenId]: mockFeeCurrencyWithAdapter,
+    }
+
+    it('returns the native fee currency token when the fee currency field is undefined', () => {
+      const feeCurrencyToken = getFeeCurrencyToken(
+        [
+          {
+            ...basePreparedTransactions,
+            feeCurrency: undefined,
+          } as TransactionRequest,
+        ],
+        networkId,
+        tokensById
+      )
+      expect(feeCurrencyToken).toBe(mockNativeFeeCurrency)
+    })
+    it('returns the ERC20 fee currency token by its address', () => {
+      const feeCurrencyToken = getFeeCurrencyToken(
+        [
+          {
+            ...basePreparedTransactions,
+            feeCurrency: '0xfee2' as Address,
+          } as TransactionRequest,
+        ],
+        networkId,
+        tokensById
+      )
+      expect(feeCurrencyToken).toBe(mockErc20FeeCurrency)
+    })
+    it('returns the fee currency token by its fee currency adapter address', () => {
+      const feeCurrencyToken = getFeeCurrencyToken(
+        [
+          {
+            ...basePreparedTransactions,
+            feeCurrency: '0xfee3adapter' as Address,
+          } as TransactionRequest,
+        ],
+        networkId,
+        tokensById
+      )
+      expect(feeCurrencyToken).toBe(mockFeeCurrencyWithAdapter)
+    })
+    it('returns undefined if the fee currency token is not found', () => {
+      const feeCurrencyToken = getFeeCurrencyToken(
+        [
+          {
+            ...basePreparedTransactions,
+            feeCurrency: '0xfee4' as Address,
+          } as TransactionRequest,
+        ],
+        networkId,
+        tokensById
+      )
+      expect(feeCurrencyToken).toBeUndefined()
+    })
+  })
+
+  describe('getFeeDecimals', () => {
+    const basePreparedTransactions = {
+      from: '0xfrom',
+      to: '0xto',
+      data: '0xdata',
+    } as TransactionRequest
+
+    it('returns the native fee currency decimals when the tx fee currency is native', () => {
+      const result = getFeeDecimals([basePreparedTransactions], mockNativeFeeCurrency)
+      expect(result).toBe(2)
+    })
+    it('returns the ERC20 fee currency decimals when the tx fee currency is the ERC20 address', () => {
+      const result = getFeeDecimals(
+        [
+          {
+            ...basePreparedTransactions,
+            feeCurrency: '0xfee2' as Address,
+          } as TransactionRequest,
+        ],
+        mockErc20FeeCurrency
+      )
+      expect(result).toBe(3)
+    })
+    it('returns the fee currency adapter decimals when the tx fee currency is the fee currency adapter address', () => {
+      const result = getFeeDecimals(
+        [
+          {
+            ...basePreparedTransactions,
+            feeCurrency: '0xfee3adapter' as Address,
+          } as TransactionRequest,
+        ],
+        mockFeeCurrencyWithAdapter
+      )
+      expect(result).toBe(18)
+    })
+    it("throws an error if the passed fee currency doesn't match when the tx fee currency is native", () => {
+      expect(() => getFeeDecimals([basePreparedTransactions], mockErc20FeeCurrency)).toThrowError(
+        'Passed fee currency (celo-mainnet:0xfee2) must be native'
+      )
+    })
+    it("throws an error if the passed fee currency doesn't match when the tx fee currency is ERC20", () => {
+      expect(() =>
+        getFeeDecimals(
+          [
+            {
+              ...basePreparedTransactions,
+              feeCurrency: '0xfee2' as Address,
+            } as TransactionRequest,
+          ],
+          mockFeeCurrencyWithAdapter
+        )
+      ).toThrowError(
+        'Passed fee currency (celo-mainnet:0xfee3) does not match the fee currency of the prepared transactions (0xfee2)'
+      )
+    })
+    it("throws an error if the passed fee currency doesn't have a adapter decimals when the tx fee currency is a fee currency adapter address", () => {
+      expect(() =>
+        getFeeDecimals(
+          [
+            {
+              ...basePreparedTransactions,
+              feeCurrency: '0xfee3adapter' as Address,
+            } as TransactionRequest,
+          ],
+          { ...mockFeeCurrencyWithAdapter, feeCurrencyAdapterDecimals: undefined }
+        )
+      ).toThrowError(
+        "Passed fee currency (celo-mainnet:0xfee3) does not have 'feeCurrencyAdapterDecimals' set"
+      )
     })
   })
 })
