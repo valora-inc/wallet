@@ -2129,6 +2129,7 @@
       "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
     }
   },
+  "pleaseWait": "Please wait",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
