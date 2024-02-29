@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "Entrar com e-mail",
     "subtitle": "Entre com seu e-mail para configurá-lo como um backup.\n\nSerá solicitado que você entre novamente se perder sua carteira.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Entrar com o Google"
   },
   "keylessBackupPhoneInput": {
