@@ -3145,36 +3145,35 @@
     "@noble/hashes" "~1.3.2"
     "@scure/base" "~1.1.4"
 
-"@segment/analytics-react-native-plugin-adjust@^0.6.3":
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.6.3.tgz#284e9a2d3c233a7d6d4bcf1d2d3ceb2cc93298bf"
-  integrity sha512-SuUrIKCx4lhNetWmCusJWN7G1OLWsiAWvRbQsdsn9UzV0LiURvO7HxMc9CYjlywKeg3fpMrdSRJE1qNX8/mNoA==
+"@segment/analytics-react-native-plugin-adjust@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-adjust/-/analytics-react-native-plugin-adjust-0.7.0.tgz#e2ebeb63c65fb91f749a0b15226d4e8c7e02adfe"
+  integrity sha512-ELE8YRFMErmN9NKL/f8JBv+sklBc36gy+VujSiT1YGaDuL6PL2WvBrzJ8P2W7beFOEdjRkWhtApesI5SC/1+qg==
 
-"@segment/analytics-react-native-plugin-clevertap@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.0.3.tgz#abfb12aa085aa4098ee419c2360852e5dd9ad2b5"
-  integrity sha512-KzNpIIwlAwIz65JhsLdcHA67x1c6JB+LCRiPsJbCUST6CnVhqkWnTsWLtJyHEt0yfxwnUwwAyB1FSTD0HH4zQg==
+"@segment/analytics-react-native-plugin-clevertap@^1.1.0":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.1.0.tgz#0047c1875582141424552a80a24e8daa9a69035f"
+  integrity sha512-D/lypeLxR9o53U9MzmgsGEY4yIr1oCINY5uBwmWELfgdFwxAx+5aiRnGzdLm3v7kQl+8nfFwaNMdkq/tGzZMRw==
 
-"@segment/analytics-react-native-plugin-firebase@^0.3.11":
-  version "0.3.11"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.3.11.tgz#42b05ff55462be8d7b7821226bebb035c3f5710b"
-  integrity sha512-d2ip1G621+Cc+Ffwhq8sUI6mCduZnj+uzrQxaEp/GCocuHUp2488aIp4tNK1dKgwdQbvMpxQtE6hB7nIBJesEw==
+"@segment/analytics-react-native-plugin-firebase@^0.4.0":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.1.tgz#b08816e8e875dde7bd4cb9e43ca72cf7d8034bb1"
+  integrity sha512-ywYQZ1LorvtV2uuaBl6qYF1gkM535EbxxRoJ4vmvew/kwLAyPdYynH1qyiwtQNEPnW5dt7jZcWT+ZhtWX8TGpw==
 
-"@segment/analytics-react-native@^2.16.1":
-  version "2.16.1"
-  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.16.1.tgz#450627265fd1f0e8818a69c8899bace8a0571133"
-  integrity sha512-SLuDqdcMjC/vDoC2pOXHQ/H7/oNs84DWk0M47v4jgNum6KOLF/Y21Hplwd8Y7CgLFGfHltkie7JNwiWOHdnN4g==
+"@segment/analytics-react-native@^2.18.0":
+  version "2.19.1"
+  resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.1.tgz#17c36b19c2921839095dd739f611dcde03f5f493"
+  integrity sha512-p/FIF6s6DOrF4WF3oGoFknwB6Z8h5ZCJ02T0ICPjprQUDlsShyCFs5xc1lj0P3Exk/8t5de60VsBp7AU3T0GRg==
   dependencies:
-    "@segment/sovran-react-native" "^1"
     "@segment/tsub" "^2"
-    deepmerge "^4.2.2"
-    js-base64 "^3.7.2"
-    uuid "^9.0.0"
+    deepmerge "^4.3.1"
+    js-base64 "^3.7.5"
+    uuid "^9.0.1"
 
-"@segment/sovran-react-native@^1", "@segment/sovran-react-native@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.0.4.tgz#862c9c01c15f5ea81a77012c6e720ebd56153ccc"
-  integrity sha512-oeIjspLOX9V+YmM7arZ+OXCyjooKdurnyVji+sj8OVkw+tUcXtvy+m9oC8E4yqazR/tghWCYE+tCriNx4jsVTw==
+"@segment/sovran-react-native@^1.1.0":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.1.tgz#55869c5624a297d012a5cef237109c3731f89e0a"
+  integrity sha512-zaMOWz4kjbC+oBRAaw1B3cfserKMk8OBhUTB/oQ/8Thl+zTCQ36zj75dlNm2N00eWJ7p2FZAEEu2uSdLZ2lRKQ==
   dependencies:
     ansi-regex "5.0.1"
     deepmerge "^4.2.2"
@@ -7806,10 +7805,10 @@ deepmerge@^3.2.0:
   resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-3.3.0.tgz#d3c47fd6f3a93d517b14426b0628a17b0125f5f7"
   integrity sha512-GRQOafGHwMHpjPx9iCvTgpu9NojZ49q794EEL94JVEw6VaeA8XTUyBKvAkOOjBX9oJNiV6G3P+T+tihFjo2TqA==
 
-deepmerge@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
-  integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
+deepmerge@^4.2.2, deepmerge@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
+  integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
 
 defaults@^1.0.3:
   version "1.0.3"
@@ -11700,10 +11699,10 @@ joi@^17.2.1:
     "@sideway/formula" "^3.0.0"
     "@sideway/pinpoint" "^2.0.0"
 
-js-base64@^3.7.2:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.7.5.tgz#21e24cf6b886f76d6f5f165bfcd69cc55b9e3fca"
-  integrity sha512-3MEt5DTINKqfScXKfJFrRbxkrnk2AxPWGBL/ycjz4dK8iqiSJ06UxD8jh8xuh6p10TX4t2+7FsBYVxxQbMg+qA==
+js-base64@^3.7.5:
+  version "3.7.7"
+  resolved "https://registry.yarnpkg.com/js-base64/-/js-base64-3.7.7.tgz#e51b84bf78fbf5702b9541e2cb7bfcb893b43e79"
+  integrity sha512-7rCnleh0z2CkXhH67J8K1Ytz0b2Y+yxTPL+/KOJoa20hfnVQ/3/T6W/KflYI4bRHRagNeXeU2bkNGI3v1oS/lw==
 
 js-beautify@^1.7.4:
   version "1.10.2"
