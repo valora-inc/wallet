@@ -57,11 +57,6 @@ jest.mocked(getDynamicConfigParams).mockReturnValue({
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN
-      )
   })
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
@@ -685,9 +680,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGate) =>
-          featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN &&
-          featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
+        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
       )
     const store = createMockStore(defaultStore)
 
@@ -706,9 +699,7 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation(
-        (featureGate) =>
-          featureGate !== StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN &&
-          featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
+        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
       )
     const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
 

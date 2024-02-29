@@ -18,7 +18,6 @@ export enum StatsigFeatureGates {
   SHOW_IN_APP_NFT_GALLERY = 'show_in_app_nft_gallery',
   SHOW_CLOUD_ACCOUNT_BACKUP_SETUP = 'show_cloud_account_backup_setup',
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
-  SHOW_ASSET_DETAILS_SCREEN = 'show_asset_details_screen',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
   SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
