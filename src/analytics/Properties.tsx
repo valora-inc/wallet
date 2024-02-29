@@ -668,6 +668,7 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.send_amount_exceeds_allowed_threshold]: {
     tokenId: string
     sendAmountUsd: string
+    thresholdUsd: number
   }
 }
 
