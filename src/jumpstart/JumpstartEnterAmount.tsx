@@ -1,5 +1,7 @@
 import BigNumber from 'bignumber.js'
 import React, { useMemo } from 'react'
+import { useAsyncCallback } from 'react-async-hook'
+import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import useSelector from 'src/redux/useSelector'
 import EnterAmount from 'src/send/EnterAmount'
@@ -24,15 +26,36 @@ function JumpstartEnterAmount() {
     }
   }, [])
 
-  const handleSendAndGenerateLink = (parsedAmount: BigNumber, token: TokenBalance) => {
-    // TODO:
-    // 1. Send the transaction, probably by dispatching an action and letting a
-    //    saga handle it.
-    // 2. Generate the link and pass the link in a navigation parameter to the
-    //    next screen. (use navigateClearingStack so that the user cannot come
-    //    back to this screen and reuse the private key)
-    // 3. add analytics
-  }
+  const handleProceed = useAsyncCallback(
+    async (parsedAmount: BigNumber, token: TokenBalance) => {
+      const link = await createJumpstartLink(jumpstartLink.privateKey, token.networkId)
+      return {
+        link,
+        parsedAmount,
+        token,
+      }
+    },
+    {
+      onSuccess: ({
+        link,
+        parsedAmount,
+        token,
+      }: {
+        link: string
+        parsedAmount: BigNumber
+        token: TokenBalance
+      }) => {
+        // TODO:
+        // 1. Pass the link in a navigation parameter to the
+        //    next screen. (use navigateClearingStack so that the user cannot come
+        //    back to this screen and reuse the private key)
+        // 2. add analytics
+      },
+      onError: (error) => {
+        Logger.error(TAG, 'Error while generating jumpstart dynamic link', error)
+      },
+    }
+  )
 
   const prepareJumpstartTransactions = usePrepareJumpstartTransactions()
 
@@ -62,7 +85,7 @@ function JumpstartEnterAmount() {
       onClearPreparedTransactions={prepareJumpstartTransactions.reset}
       onRefreshPreparedTransactions={handlRefreshPreparedTransactions}
       prepareTransactionError={prepareJumpstartTransactions.error}
-      onPressProceed={handleSendAndGenerateLink}
+      onPressProceed={handleProceed.execute}
     />
   )
 }

@@ -529,7 +529,7 @@ PODS:
     - React-Core
   - react-native-launch-arguments (4.0.2):
     - React
-  - react-native-netinfo (9.5.0):
+  - react-native-netinfo (11.3.1):
     - React-Core
   - react-native-randombytes (3.6.1):
     - React-Core
@@ -644,7 +644,7 @@ PODS:
     - React-Core
   - RNCPicker (2.6.1):
     - React-Core
-  - RNDeviceInfo (10.12.0):
+  - RNDeviceInfo (10.13.1):
     - React-Core
   - RNExitApp (1.1.0):
     - React-Core
@@ -751,13 +751,13 @@ PODS:
   - SDWebImageWebPCoder (0.8.5):
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.10)
-  - segment-analytics-react-native (2.16.1):
+  - segment-analytics-react-native (2.19.1):
     - React-Core
     - sovran-react-native
   - Sentry/HybridSDK (7.31.5)
   - SimpleKeychain (1.0.1)
   - SocketRocket (0.6.1)
-  - sovran-react-native (1.0.4):
+  - sovran-react-native (1.1.1):
     - React-Core
   - Toast (4.0.0)
   - TOCropViewController (2.6.1)
@@ -1182,7 +1182,7 @@ SPEC CHECKSUMS:
   react-native-get-random-values: 384787fd76976f5aec9465aff6fa9e9129af1e74
   react-native-in-app-review: db8bb167a5f238e7ceca5c242d6b36ce8c4404a4
   react-native-launch-arguments: 5f41e0abf88a15e3c5309b8875d6fd5ac43df49d
-  react-native-netinfo: 48c5f79a84fbc3ba1d28a8b0d04adeda72885fa8
+  react-native-netinfo: bdb108d340cdb41875c9ced535977cac6d2ff321
   react-native-randombytes: 421f1c7d48c0af8dbcd471b0324393ebf8fe7846
   react-native-safe-area-context: b97eb6f9e3b7f437806c2ce5983f479f8eb5de4b
   react-native-shake: 8036ba95a1953c9b10821bdc33f5814c5d0bcef6
@@ -1207,7 +1207,7 @@ SPEC CHECKSUMS:
   RNCClipboard: 60fed4b71560d7bfe40e9d35dea9762b024da86d
   RNCMaskedView: 090213d32d8b3bb83a4dcb7d12c18f0152591906
   RNCPicker: b18aaf30df596e9b1738e7c1f9ee55402a229dca
-  RNDeviceInfo: db5c64a060e66e5db3102d041ebe3ef307a85120
+  RNDeviceInfo: 4f9c7cfd6b9db1b05eb919620a001cf35b536423
   RNExitApp: b6d5fb7a7ef85d502c45fb2d00840f517d6a4ac7
   RNFastImage: 5c9c9fed9c076e521b3f509fe79e790418a544e8
   RNFBAnalytics: b4e2f1fb446c4bd15a5e778b0554464a8a303a1e
@@ -1233,11 +1233,11 @@ SPEC CHECKSUMS:
   RNSVG: d00c8f91c3cbf6d476451313a18f04d220d4f396
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
   SDWebImageWebPCoder: 908b83b6adda48effe7667cd2b7f78c897e5111d
-  segment-analytics-react-native: 13d4ba325add2b2ed796ee58531e3b4cacfe692f
+  segment-analytics-react-native: 1c36d83c0a735795e304178241331e7701dc5d2a
   Sentry: 4c9babff9034785067c896fd580b1f7de44da020
   SimpleKeychain: 130211269f88f038d7dc5254cf0b1b9ce978c398
   SocketRocket: f32cd54efbe0f095c4d7594881e52619cfe80b17
-  sovran-react-native: 791f2f726b4d57ece59676eda58d6da9dc95ad4e
+  sovran-react-native: e6a9c963a8a6b9ebc3563394c39c30f33ab1453f
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Yoga: 39310a10944fc864a7550700de349183450f8aaa
