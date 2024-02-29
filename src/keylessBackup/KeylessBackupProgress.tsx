@@ -179,6 +179,7 @@ function Restore() {
             style={styles.button}
             touchableStyle={styles.buttonTouchable}
             type={BtnTypes.PRIMARY}
+            size={BtnSizes.FULL}
           />
         </SafeAreaView>
       )
