@@ -5,9 +5,10 @@ on:
   push:
     branches:
       - main
-  # ..and any pull request.
+  # ..any pull request, workflow dispatch and merge queue
   pull_request:
   workflow_dispatch:
+  merge_group:
   # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
   schedule:
     - cron: '30 20 * * *'

@@ -17,7 +17,6 @@ import { Screens } from 'src/navigator/Screens'
 import { AddressRecipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
 import { Actions as SendActions } from 'src/send/actions'
 import { TransactionDataInput } from 'src/send/types'
-import { preparePaymentRequestTransaction } from 'src/send/utils'
 import { CurrencyTokens, tokensByCurrencySelector } from 'src/tokens/selectors'
 import { Actions as TransactionActions, UpdateTransactionsAction } from 'src/transactions/actions'
 import { Network, TokenTransactionTypeV2 } from 'src/transactions/types'
@@ -76,22 +75,10 @@ function* bidaliPaymentRequest({
     comment: `${description} (${chargeId})`,
   }
 
-  const { preparedTransaction, feeAmount, feeTokenId } = yield* call(
-    preparePaymentRequestTransaction,
-    {
-      amount: new BigNumber(amount),
-      token: tokenInfo,
-      recipientAddress: recipient.address,
-    }
-  )
-
   navigate(Screens.SendConfirmationModal, {
     transactionData,
     origin: SendOrigin.Bidali,
     isFromScan: false,
-    preparedTransaction,
-    feeAmount,
-    feeTokenId,
   })
 
   while (true) {

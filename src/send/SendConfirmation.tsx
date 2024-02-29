@@ -1,7 +1,7 @@
 import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { getNumberFormatSettings } from 'react-native-localize'
@@ -37,8 +37,13 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
-import { sendPayment } from 'src/send/actions'
-import { isSendingSelector } from 'src/send/selectors'
+import { encryptComment, sendPayment } from 'src/send/actions'
+import {
+  encryptedCommentSelector,
+  isEncryptingCommentSelector,
+  isSendingSelector,
+} from 'src/send/selectors'
+import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
@@ -49,13 +54,19 @@ import {
   useTokenInfo,
   useTokenToLocalAmount,
 } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { tokenSupportsComments } from 'src/tokens/utils'
+import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 type OwnProps = NativeStackScreenProps<
   StackParamList,
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >
 type Props = OwnProps
+
+const DEBOUNCE_TIME_MS = 250
 
 export const sendConfirmationScreenNavOptions = noHeader
 
@@ -131,10 +142,13 @@ function SendConfirmation(props: Props) {
       comment: commentFromParams,
       tokenId,
     },
-    feeAmount,
-    feeTokenId,
-    preparedTransaction,
   } = props.route.params
+
+  const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
+    usePrepareSendTransactions()
+
+  const { maxFeeAmount, feeCurrency: feeTokenInfo } =
+    getFeeCurrencyAndAmounts(prepareTransactionsResult)
 
   const [encryptionDialogVisible, setEncryptionDialogVisible] = useState(false)
   const [comment, setComment] = useState(commentFromParams ?? '')
@@ -151,7 +165,59 @@ function SendConfirmation(props: Props) {
     inputTokenAmount
   )
 
+  const walletAddress = useSelector(walletAddressSelector)
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
+  const allowComment = tokenSupportsComments(tokenInfo)
+  const encryptedComment = useSelector(encryptedCommentSelector)
+  const isEncryptingComment = useSelector(isEncryptingCommentSelector)
+
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (!walletAddress || !tokenInfo) {
+      return // should never happen
+    }
+    clearPreparedTransactions()
+    if (isEncryptingComment) {
+      return // wait for comment to be encrypted before preparing a tx
+    }
+    const debouncedRefreshTransactions = setTimeout(() => {
+      return refreshPreparedTransactions({
+        amount: inputTokenAmount,
+        token: tokenInfo,
+        recipientAddress: paramRecipient.address,
+        walletAddress,
+        feeCurrencies,
+        comment: allowComment && comment ? encryptedComment ?? undefined : undefined,
+      })
+    }, DEBOUNCE_TIME_MS)
+    return () => clearTimeout(debouncedRefreshTransactions)
+  }, [
+    encryptedComment,
+    isEncryptingComment,
+    comment,
+    tokenInfo,
+    inputTokenAmount,
+    paramRecipient,
+    walletAddress,
+    feeCurrencies,
+  ])
+
+  useEffect(() => {
+    if (!walletAddress || !allowComment) {
+      return
+    }
+    const debouncedEncryptComment = setTimeout(() => {
+      dispatch(
+        encryptComment({
+          comment: comment.trim(),
+          fromAddress: walletAddress,
+          toAddress: paramRecipient.address,
+        })
+      )
+    }, DEBOUNCE_TIME_MS)
+    return () => clearTimeout(debouncedEncryptComment)
+  }, [comment])
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
   const validatedRecipientAddress = getSecureSendAddress(
@@ -159,36 +225,30 @@ function SendConfirmation(props: Props) {
     secureSendPhoneNumberMapping
   )
   const recipient = useRecipientToSendTo(paramRecipient)
+  const disableSend =
+    isSending || !prepareTransactionsResult || prepareTransactionsResult.type !== 'possible'
 
-  // preparedTransaction is expected to be present except for some
-  // payment requests (which may not include one if a tx is not possible, e.g.,
-  // amount > balance, not enough for gas, etc).
-  // We could consider making preparedTx a required field if we handle those
-  // scenarios differently
-  const disableSend = isSending || !preparedTransaction
-
-  const feeTokenInfo = useTokenInfo(feeTokenId)
   const feeInUsd =
-    feeAmount && feeTokenInfo?.priceUsd
-      ? new BigNumber(feeAmount).times(feeTokenInfo.priceUsd)
-      : undefined
+    maxFeeAmount && feeTokenInfo?.priceUsd ? maxFeeAmount.times(feeTokenInfo.priceUsd) : undefined
 
   const FeeContainer = () => {
     return (
       <View style={styles.feeContainer}>
-        {feeAmount && (
-          <LineItemRow
-            testID="SendConfirmation/fee"
-            title={t('feeEstimate')}
-            amount={
+        <LineItemRow
+          testID="SendConfirmation/fee"
+          title={t('feeEstimate')}
+          amount={
+            maxFeeAmount && (
               <TokenDisplay
-                amount={new BigNumber(feeAmount)}
-                tokenId={feeTokenId}
+                amount={maxFeeAmount}
+                tokenId={feeTokenInfo?.tokenId}
                 showLocalAmount={false}
               />
-            }
-          />
-        )}
+            )
+          }
+          isLoading={!maxFeeAmount}
+        />
+
         <TokenTotalLineItem
           tokenAmount={tokenAmount}
           tokenId={tokenId}
@@ -223,6 +283,10 @@ function SendConfirmation(props: Props) {
   }
 
   const onSend = () => {
+    const preparedTransaction =
+      prepareTransactionsResult &&
+      prepareTransactionsResult.type === 'possible' &&
+      prepareTransactionsResult.transactions[0]
     if (!preparedTransaction) {
       // This should never happen because the confirm button is disabled if this happens.
       dispatch(showError(ErrorMessages.SEND_PAYMENT_FAILED))
@@ -254,12 +318,10 @@ function SendConfirmation(props: Props) {
         recipient,
         fromModal,
         undefined,
-        preparedTransaction
+        getSerializablePreparedTransaction(preparedTransaction)
       )
     )
   }
-
-  const allowComment = tokenSupportsComments(tokenInfo)
 
   return (
     <SafeAreaView
