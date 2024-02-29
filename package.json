@@ -152,7 +152,7 @@
     "react-native-camera": "^4.2.1",
     "react-native-config": "^1.5.1",
     "react-native-contacts": "https://github.com/celo-org/react-native-contacts#9940121",
-    "react-native-device-info": "^10.12.0",
+    "react-native-device-info": "^10.13.0",
     "react-native-exit-app": "^1.1.0",
     "react-native-fast-crypto": "^2.0.0",
     "react-native-fast-image": "^8.6.3",
