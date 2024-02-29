@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
     "subtitle": "Melde dich mit deiner E-Mail-Adresse an, um diese als Sicherung einzurichten.\nDu wirst aufgefordert, dich erneut anzumelden, wenn du jemals deine Wallet verlierst.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Mit Google anmelden"
   },
   "keylessBackupPhoneInput": {
