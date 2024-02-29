@@ -365,7 +365,7 @@ describe('Account', () => {
     expect(getByTestId('KeylessBackupDeleteError')).toBeTruthy()
 
     await act(() => {
-      fireEvent.press(getByTestId('KeylessBackupDeleteError/Dismiss'))
+      fireEvent.press(getByTestId('KeylessBackupDeleteError/dismiss'))
     })
 
     expect(store.getActions()).toContainEqual(hideDeleteKeylessBackupError())
