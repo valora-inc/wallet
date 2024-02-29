@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Google ile oturum aç"
   },
   "keylessBackupPhoneInput": {
