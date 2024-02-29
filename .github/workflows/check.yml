@@ -18,7 +18,7 @@ on:
 concurrency:
   # Fallback used github.ref_name as it is always defined
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
+  cancel-in-progress: true
 
 jobs:
   vulnerability:
