@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "使用电子邮件登录",
     "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "使用 Google 登录"
   },
   "keylessBackupPhoneInput": {
