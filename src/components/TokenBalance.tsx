@@ -242,11 +242,7 @@ export function HomeTokenBalance() {
     ValoraAnalytics.track(HomeEvents.view_token_balances, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(
-      getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-        ? Screens.Assets
-        : Screens.TokenBalances
-    )
+    navigate(Screens.Assets)
   }
 
   const onCloseDialog = () => {
@@ -307,11 +303,7 @@ export function FiatExchangeTokenBalance() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(
-      getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-        ? Screens.Assets
-        : Screens.TokenBalances
-    )
+    navigate(Screens.Assets)
   }
 
   return (

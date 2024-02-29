@@ -14,7 +14,6 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
-import { AssetViewType } from 'src/tokens/TokenBalances'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
@@ -303,11 +302,6 @@ export type StackParamList = {
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawSpend]: undefined
-  [Screens.TokenBalances]:
-    | {
-        activeView: AssetViewType
-      }
-    | undefined
   [Screens.Assets]:
     | {
         activeTab: AssetTabType
