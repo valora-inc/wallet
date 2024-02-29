@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
     "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง\n\nคุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "ลงชื่อเข้าใช้ด้วย Google"
   },
   "keylessBackupPhoneInput": {
