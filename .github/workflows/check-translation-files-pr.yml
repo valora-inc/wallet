@@ -8,9 +8,8 @@ on:
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
-  if: ${{ github.event_name != 'merge_group' }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   check-translation-files:
