@@ -1431,9 +1431,6 @@ interface NftsEventsProperties {
     error?: string
     mediaType: 'image' | 'video'
   }
-  [NftEvents.nft_gallery_screen_open]: {
-    numNfts: number
-  }
 }
 
 interface BuilderHooksProperties {
