@@ -20,8 +20,9 @@ export interface State {
   // Keep a list of recent (last 24 hours) payments
   recentPayments: PaymentInfo[]
   inviteRewardsVersion: string
-  showSendToAddressWarning: boolean
   lastUsedTokenId?: string
+  encryptedComment: string | null
+  isEncryptingComment: boolean
 }
 
 const initialState = {
@@ -29,7 +30,8 @@ const initialState = {
   recentRecipients: [],
   recentPayments: [],
   inviteRewardsVersion: REMOTE_CONFIG_VALUES_DEFAULTS.inviteRewardsVersion,
-  showSendToAddressWarning: true,
+  encryptedComment: null,
+  isEncryptingComment: false,
 }
 
 export const sendReducer = (
@@ -43,6 +45,8 @@ export const sendReducer = (
         ...state,
         ...getRehydratePayload(action, 'send'),
         isSending: false,
+        encryptedComment: null,
+        isEncryptingComment: false,
       }
     }
     case Actions.SEND_PAYMENT:
@@ -62,11 +66,25 @@ export const sendReducer = (
         isSending: false,
         recentPayments: [...paymentsLast24Hours, latestPayment],
         lastUsedTokenId: action.tokenId,
+        encryptedComment: null,
       }
     case Actions.SEND_PAYMENT_FAILURE:
       return {
         ...state,
         isSending: false,
+        encryptedComment: null,
+      }
+    case Actions.ENCRYPT_COMMENT:
+      return {
+        ...state,
+        isEncryptingComment: true,
+        encryptedComment: null,
+      }
+    case Actions.ENCRYPT_COMMENT_COMPLETE:
+      return {
+        ...state,
+        isEncryptingComment: false,
+        encryptedComment: action.encryptedComment,
       }
     case AppActions.UPDATE_REMOTE_CONFIG_VALUES:
       return {

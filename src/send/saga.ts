@@ -11,8 +11,10 @@ import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { handleQRCodeDefault, handleQRCodeSecureSend, shareSVGImage } from 'src/qrcode/utils'
 import {
   Actions,
+  EncryptCommentAction,
   SendPaymentAction,
   ShareQRCodeAction,
+  encryptCommentComplete,
   sendPaymentFailure,
   sendPaymentSuccess,
 } from 'src/send/actions'
@@ -268,8 +270,19 @@ export function* sendPaymentSaga({
   }
 }
 
+export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {
+  const encryptedComment = comment
+    ? yield* call(encryptComment, comment, toAddress, fromAddress)
+    : null
+  yield* put(encryptCommentComplete(encryptedComment))
+}
+
 export function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
+}
+
+function* watchEncryptComment() {
+  yield* takeLeading(Actions.ENCRYPT_COMMENT, safely(encryptCommentSaga))
 }
 
 function* watchQrCodeDetections() {
@@ -285,4 +298,5 @@ export function* sendSaga() {
   yield* spawn(watchQrCodeDetections)
   yield* spawn(watchQrCodeShare)
   yield* spawn(watchSendPayment)
+  yield* spawn(watchEncryptComment)
 }
