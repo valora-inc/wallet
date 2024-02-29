@@ -198,13 +198,6 @@ export const mockTransactionData = {
   tokenId: mockCusdTokenId,
 }
 
-export const mockTransactionDataLegacy = {
-  recipient: mockInvitableRecipient2,
-  amount: new BigNumber(1),
-  currency: Currency.Dollar,
-  type: TokenTransactionTypeV2.Sent,
-}
-
 export const mockInvitableRecipient3: ContactRecipient = {
   name: mockName2Invite,
   displayNumber: mockDisplayNumber2Invite,
@@ -215,15 +208,6 @@ export const mockInvitableRecipient3: ContactRecipient = {
 
 export const mockTokenTransactionData: TransactionDataInput = {
   recipient: { address: mockAccount, recipientType: RecipientType.Address },
-  inputAmount: new BigNumber(1),
-  amountIsInLocalCurrency: false,
-  tokenAddress: mockCusdAddress,
-  tokenId: mockCusdTokenId,
-  tokenAmount: new BigNumber(1),
-}
-
-export const mockTokenInviteTransactionData: TransactionDataInput = {
-  recipient: mockInvitableRecipient,
   inputAmount: new BigNumber(1),
   amountIsInLocalCurrency: false,
   tokenAddress: mockCusdAddress,
@@ -559,6 +543,13 @@ export const mockCeloTokenBalance: TokenBalance = {
   priceUsd: new BigNumber(0.5),
   lastKnownPriceUsd: new BigNumber(0.4),
   balance: new BigNumber(5),
+}
+
+export const mockCusdTokenBalance: TokenBalance = {
+  ...mockTokenBalances[mockCusdTokenId],
+  priceUsd: new BigNumber(1.001),
+  lastKnownPriceUsd: new BigNumber(1.001),
+  balance: new BigNumber(0),
 }
 
 export const mockEthTokenBalance: NativeTokenBalance = {

@@ -1,3 +1,5 @@
+import * as secp from '@noble/secp256k1'
+import { fromBytes, fromHex } from 'viem'
 import {
   decryptPassphrase,
   deriveKeyFromKeyShares,
@@ -5,7 +7,6 @@ import {
   getSecp256K1KeyPair,
   getWalletAddressFromPrivateKey,
 } from './encryption'
-import * as secp from '@noble/secp256k1'
 
 describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
   let keyshare1: Buffer
@@ -53,15 +54,13 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
   describe('getSecp256K1KeyPair', () => {
     it('should produce a valid secp256k1 key pair', async () => {
       const { privateKey, publicKey } = getSecp256K1KeyPair(keyshare1, keyshare2)
-      expect(privateKey).toBeInstanceOf(Uint8Array)
-      expect(privateKey.byteLength).toEqual(32)
-      expect(publicKey).toBeInstanceOf(Uint8Array)
-      expect(publicKey.byteLength).toEqual(33)
+      expect(fromHex(privateKey, 'bytes').byteLength).toEqual(32)
+      expect(fromHex(publicKey, 'bytes').byteLength).toEqual(33)
 
       // able to sign with private key and verify with public key
       const messageHash = await secp.utils.sha256(new TextEncoder().encode('hello world'))
-      const signature = await secp.sign(messageHash, privateKey)
-      expect(secp.verify(signature, messageHash, publicKey)).toBe(true)
+      const signature = await secp.sign(messageHash, fromHex(privateKey, 'bytes'))
+      expect(secp.verify(signature, messageHash, fromHex(publicKey, 'bytes'))).toBe(true)
     })
 
     it('gives same result when called twice with same inputs', async () => {
@@ -119,7 +118,10 @@ describe("Encryption utilities using Node's crypto and futoin-hkdf", () => {
     it('gives lowercase wallet address associated with private key', () => {
       expect(
         getWalletAddressFromPrivateKey(
-          Buffer.from('0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb', 'hex')
+          fromBytes(
+            Buffer.from('0da7744e59ab530ebaa3ca5c6e67170fd18276fb1e093ba2eaa48f1d5756ffcb', 'hex'),
+            'hex'
+          )
         )
       ).toBe('0xbdde6c4f63a50b23c8bd8409fe4d9cfb33c619de')
     })

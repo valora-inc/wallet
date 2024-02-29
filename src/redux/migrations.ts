@@ -1585,4 +1585,13 @@ export const migrations = {
       'visualizeNFTsEnabledInHomeAssetsPage',
     ]),
   }),
+  193: (state: any) => state,
+  194: (state: any) => ({
+    ...state,
+    send: {
+      ..._.omit(state.send, 'showSendToAddressWarning'),
+      encryptedComment: null,
+      isEncryptingComment: false,
+    },
+  }),
 }

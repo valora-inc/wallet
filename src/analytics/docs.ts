@@ -155,6 +155,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [KeylessBackupEvents.cab_phone_verification_help_skip]: `When a user is on the Help bottom sheet on CAB phone verification screen, and they hit skip`,
   [KeylessBackupEvents.cab_phone_verification_help_go_back]: `When a user is on the Help bottom sheet on CAB phone verification screen, and they hit go back`,
   [KeylessBackupEvents.cab_restore_mnemonic_not_found]: `When a user is restoring from CAB and the mnemonic is not found. Meaning one or more of the user's keyshares/auth methods were incorrect`,
+  [KeylessBackupEvents.cab_setup_hashed_keyshares]: `When a user is setting up CAB, the hashed keyshares from their phone and email are saved`,
   [OnboardingEvents.onboarding_education_scroll]: ``,
   [OnboardingEvents.onboarding_education_step_impression]: ``,
   [OnboardingEvents.create_account_start]: ``,
