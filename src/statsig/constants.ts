@@ -104,7 +104,7 @@ export const DynamicConfigs = {
       jumpstartContracts: {} as {
         [key in NetworkId]?: { contractAddress?: string }
       },
-      maxAllowedSendAmountUsd: 1,
+      maxAllowedSendAmountUsd: 100,
     },
   },
   [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
