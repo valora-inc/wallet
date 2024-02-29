@@ -2129,6 +2129,7 @@
       "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
     }
   },
+  "pleaseWait": "Espera, por favor",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
