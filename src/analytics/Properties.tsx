@@ -24,6 +24,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  JumpstartEvents,
   KeylessBackupEvents,
   NavigationEvents,
   NftEvents,
@@ -660,7 +661,14 @@ interface SendEventsProperties {
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
   }
-  [SendEvents.send_select_recipient_jumpstart]: undefined
+}
+
+interface JumpstartEventsProperties {
+  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
+  [JumpstartEvents.send_amount_exceeds_allowed_threshold]: {
+    tokenId: string
+    sendAmountUsd: string
+  }
 }
 
 interface FeeEventsProperties {
@@ -1502,6 +1510,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   AuthenticationEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
+  JumpstartEventsProperties &
   EscrowEventsProperties &
   FeeEventsProperties &
   TransactionEventsProperties &

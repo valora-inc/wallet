@@ -329,7 +329,11 @@ export enum SendEvents {
   send_select_recipient_invite_press = 'send_select_recipient_invite_press',
   send_select_recipient_send_press = 'send_select_recipient_send_press',
   send_select_recipient_recent_press = 'send_select_recipient_recent_press',
+}
+
+export enum JumpstartEvents {
   send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
+  send_amount_exceeds_allowed_threshold = 'send_amount_exceeds_allowed_threshold',
 }
 
 export enum QrScreenEvents {

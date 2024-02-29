@@ -2,6 +2,8 @@ import BigNumber from 'bignumber.js'
 import React, { useMemo, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
@@ -93,6 +95,12 @@ function JumpstartEnterAmount() {
     const sendAmountUsd = amount.multipliedBy(token.priceUsd ?? 0)
     const sendAmountExceedsMax = sendAmountUsd.isGreaterThan(jumpstartSendThreshold)
     setSendAmountExceedsThreshold(sendAmountExceedsMax)
+    if (sendAmountExceedsMax) {
+      ValoraAnalytics.track(JumpstartEvents.send_amount_exceeds_allowed_threshold, {
+        sendAmountUsd: sendAmountUsd.toString(),
+        tokenId: token.tokenId,
+      })
+    }
 
     return prepareJumpstartTransactions.execute({
       amount,
