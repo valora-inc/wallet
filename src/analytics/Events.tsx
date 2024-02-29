@@ -333,7 +333,7 @@ export enum SendEvents {
 
 export enum JumpstartEvents {
   send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
-  send_amount_exceeds_allowed_threshold = 'send_amount_exceeds_allowed_threshold',
+  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
 }
 
 export enum QrScreenEvents {

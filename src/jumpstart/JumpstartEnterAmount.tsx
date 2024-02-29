@@ -96,7 +96,7 @@ function JumpstartEnterAmount() {
     const sendAmountExceedsMax = sendAmountUsd.isGreaterThan(jumpstartSendThreshold)
     setSendAmountExceedsThreshold(sendAmountExceedsMax)
     if (sendAmountExceedsMax) {
-      ValoraAnalytics.track(JumpstartEvents.send_amount_exceeds_allowed_threshold, {
+      ValoraAnalytics.track(JumpstartEvents.jumpstart_send_amount_exceeds_threshold, {
         sendAmountUsd: sendAmountUsd.toFixed(2),
         tokenId: token.tokenId,
         thresholdUsd: jumpstartSendThreshold,
