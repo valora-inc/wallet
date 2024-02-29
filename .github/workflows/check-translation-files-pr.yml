@@ -1,8 +1,9 @@
 name: Check translation files
 
 on:
-  # Run on pull request.
+  # Run on pull request and merge queue
   pull_request:
+  merge_group:
 
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
