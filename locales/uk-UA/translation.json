@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "Реєстрація за адресою ел. пошти",
     "subtitle": "Зареєструйтеся за адресою ел. пошти, щоб налаштувати резервне копіювання.\n\nУ разі втрати гаманця вам буде запропоновано зареєструватися повторно.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Реєстрація за обліковим записом Google"
   },
   "keylessBackupPhoneInput": {
