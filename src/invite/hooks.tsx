@@ -7,7 +7,7 @@ import { showError } from 'src/alert/actions'
 import { FIREBASE_ENABLED } from 'src/config'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
-import { createDynamicLink } from './utils'
+import { createInviteLink } from '../firebase/dynamicLinks'
 
 const TAG = 'InviteWithReferralURL'
 
@@ -23,7 +23,7 @@ export function useShareUrl() {
       if (isNil(address) || !FIREBASE_ENABLED) {
         return
       } else {
-        const url = await createDynamicLink(address)
+        const url = await createInviteLink(address)
         setShareUrl(url)
       }
     } catch (e) {

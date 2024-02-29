@@ -7,8 +7,13 @@ import { showError } from 'src/alert/actions'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { Actions, SendPaymentAction } from 'src/send/actions'
-import { sendPaymentSaga } from 'src/send/saga'
+import {
+  Actions,
+  SendPaymentAction,
+  encryptComment as encryptCommentAction,
+  encryptCommentComplete,
+} from 'src/send/actions'
+import { encryptCommentSaga, sendPaymentSaga } from 'src/send/saga'
 import { getERC20TokenContract, getStableTokenContract } from 'src/tokens/saga'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import { sendPayment as viemSendPayment } from 'src/viem/saga'
@@ -22,6 +27,7 @@ import { currentAccountSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
+  mockAccount2,
   mockContract,
   mockCusdAddress,
   mockCusdTokenId,
@@ -146,6 +152,29 @@ describe(sendPaymentSaga, () => {
         [call(getERC20TokenContract, mockCusdAddress), mockContract],
         [call(getStableTokenContract, mockCusdAddress), mockContract],
       ])
+      .run()
+  })
+})
+
+describe('encryptCommentSaga', () => {
+  it('encrypts comment and puts an action', async () => {
+    await expectSaga(
+      encryptCommentSaga,
+      encryptCommentAction({ comment: 'test', fromAddress: mockAccount, toAddress: mockAccount2 })
+    )
+      .provide([[matchers.call.fn(encryptComment), 'enc-test']])
+      .put(encryptCommentComplete('enc-test'))
+      .call(encryptComment, 'test', mockAccount2, mockAccount)
+      .run()
+  })
+
+  it('puts complete action with null if comment is empty string', async () => {
+    await expectSaga(
+      encryptCommentSaga,
+      encryptCommentAction({ comment: '', fromAddress: mockAccount, toAddress: mockAccount2 })
+    )
+      .put(encryptCommentComplete(null))
+      .not.call.fn(encryptComment)
       .run()
   })
 })

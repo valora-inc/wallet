@@ -39,3 +39,6 @@ export const canSendTokensSelector = createSelector(
     return tokensList.length > 0 && usdExchangeRate !== null
   }
 )
+
+export const encryptedCommentSelector = (state: RootState) => state.send.encryptedComment
+export const isEncryptingCommentSelector = (state: RootState) => state.send.isEncryptingComment
