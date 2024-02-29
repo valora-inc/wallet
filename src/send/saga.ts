@@ -296,6 +296,7 @@ export function* sendPaymentSaga({
     }
     Logger.error(`${TAG}/sendPaymentSaga`, 'Send payment failed', error)
     ValoraAnalytics.track(SendEvents.send_tx_error, { error: error.message })
+  } finally {
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   }
 }
