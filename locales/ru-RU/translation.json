@@ -102,6 +102,7 @@
   "signInWithEmail": {
     "title": "Войти с помощью электронной почты",
     "subtitle": "Войдите с помощью своей электронной почты, и она станет резервным средством.\n\nЕсли вы потеряте свой кошелек, вам будет предложено снова войти в систему.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Войти с помощью Google"
   },
   "keylessBackupPhoneInput": {
