@@ -609,7 +609,6 @@ export enum AssetsEvents {
 export enum NftEvents {
   nft_error_screen_open = 'nft_error_screen_open',
   nft_media_load = 'nft_media_load',
-  nft_gallery_screen_open = 'nft_gallery_screen_open',
 }
 
 export enum BuilderHooksEvents {

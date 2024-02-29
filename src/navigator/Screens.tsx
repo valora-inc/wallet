@@ -54,7 +54,6 @@ export enum Screens {
   MultichainBeta = 'MultichainBeta',
   NameAndPicture = 'NameAndPicture',
   NotificationCenter = 'NotificationCenter',
-  NftGallery = 'NftGallery',
   NftsInfoCarousel = 'NftsInfoCarousel',
   OnboardingRecoveryPhrase = 'OnboardingRecoveryPhrase',
   OnboardingSuccessScreen = 'OnboardingSuccessScreen',
