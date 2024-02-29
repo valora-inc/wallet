@@ -13,7 +13,6 @@ import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
 import { PreparedTransactionsPossible } from 'src/viem/prepareTransactions'
-import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import {
@@ -38,7 +37,7 @@ const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
       from: '0xfrom',
       to: '0xto',
       data: '0xdata',
-      gas: BigInt('5'.concat('0'.repeat(15))), // 0.005 CELO
+      gas: BigInt(5e15), // 0.005 CELO
       maxFeePerGas: BigInt(1),
       maxPriorityFeePerGas: undefined,
       _baseFeePerGas: BigInt(1),
@@ -47,7 +46,7 @@ const mockPrepareTransactionsResultPossible: PreparedTransactionsPossible = {
       from: '0xfrom',
       to: '0xto',
       data: '0xdata',
-      gas: BigInt('1'.concat('0'.repeat(15))), // 0.001 CELO
+      gas: BigInt(1e15), // 0.001 CELO
       maxFeePerGas: BigInt(1),
       maxPriorityFeePerGas: undefined,
       _baseFeePerGas: BigInt(1),
@@ -191,11 +190,6 @@ describe('SendEnterAmount', () => {
         tokenAddress: mockCeloAddress,
         tokenAmount: new BigNumber(8),
       },
-      feeAmount: '0.006',
-      feeTokenId: mockCeloTokenId,
-      preparedTransaction: getSerializablePreparedTransaction(
-        mockPrepareTransactionsResultPossible.transactions[0]
-      ),
     })
   })
 
