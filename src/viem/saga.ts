@@ -107,6 +107,11 @@ export function* sendPayment({
         ?.tokenId
     : getTokenId(networkId)
 
+  if (!feeCurrencyId) {
+    // This should never happen
+    throw new Error('no fee currency found')
+  }
+
   const addPendingStandbyTransaction = function* (hash: string) {
     yield* put(
       addStandbyTransaction({
