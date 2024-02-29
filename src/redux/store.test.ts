@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 194,
+          "version": 195,
         },
         "account": {
           "acceptedTerms": false,
@@ -306,12 +306,13 @@ describe('store state', () => {
           "valoraRecipientCache": {},
         },
         "send": {
+          "encryptedComment": null,
           "inviteRewardsVersion": "none",
+          "isEncryptingComment": false,
           "isSending": false,
           "lastUsedTokenId": undefined,
           "recentPayments": [],
           "recentRecipients": [],
-          "showSendToAddressWarning": true,
         },
         "supercharge": {
           "availableRewards": [],
