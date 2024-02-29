@@ -11,7 +11,7 @@ import Invite from './Invite'
 
 jest.mock('src/analytics/ValoraAnalytics')
 const mockShare = jest.spyOn(Share, 'share')
-const mockedCreateDynamicLink = jest.spyOn(InviteUtils, 'createInviteLink')
+const mockCreateInviteLink = jest.spyOn(InviteUtils, 'createInviteLink')
 
 const { press } = fireEvent
 
@@ -43,7 +43,7 @@ describe('Invite', () => {
     )
 
   it('should disable button while loading share URL', () => {
-    mockedCreateDynamicLink.mockReturnValue(new Promise(noop))
+    mockCreateInviteLink.mockReturnValue(new Promise(noop))
     const { getByTestId, getByText } = getWrapper()
 
     expect(getByTestId('InviteModalShareButton')).toBeDisabled()
@@ -52,14 +52,14 @@ describe('Invite', () => {
   })
 
   it('should enable button when share URL is loaded', async () => {
-    mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
+    mockCreateInviteLink.mockResolvedValue('https://vlra.app/abc123')
     const { getByTestId } = getWrapper()
 
     await waitFor(() => expect(getByTestId('InviteModalShareButton')).not.toBeDisabled())
   })
 
   it('should share when button is pressed', async () => {
-    mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
+    mockCreateInviteLink.mockResolvedValue('https://vlra.app/abc123')
     mockShare.mockResolvedValue({
       action: Share.sharedAction,
       activityType: 'clipboard',
@@ -83,7 +83,7 @@ describe('Invite', () => {
   })
 
   it('should share when invite rewards NFTs is active and button is pressed', async () => {
-    mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
+    mockCreateInviteLink.mockResolvedValue('https://vlra.app/abc123')
     mockShare.mockResolvedValue({
       action: Share.sharedAction,
       activityType: 'clipboard',
@@ -109,7 +109,7 @@ describe('Invite', () => {
   })
 
   it('should share when invite rewards cUSD is active and button is pressed', async () => {
-    mockedCreateDynamicLink.mockResolvedValue('https://vlra.app/abc123')
+    mockCreateInviteLink.mockResolvedValue('https://vlra.app/abc123')
     mockShare.mockResolvedValue({
       action: Share.sharedAction,
       activityType: 'clipboard',
