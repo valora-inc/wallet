@@ -81,7 +81,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.transaction_feed_item_select]: ``,
   [HomeEvents.transaction_feed_address_copy]: ``,
   [HomeEvents.view_token_balances]: ``,
-  [HomeEvents.view_nft_home_assets]: `When "NFTs" is clicked in Home Assets Pages`,
   [HomeEvents.home_action_pressed]: ``,
   [HomeEvents.notification_bell_pressed]: ``,
   [HomeEvents.hide_balances]: `When the eye icon is clicked to hide balances on the home screen`,
@@ -547,6 +546,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
   // [HomeEvents.home_send]: `when "send" button is pressed from home screen send or request bar (NOT from home screen actions)`,
+  // [HomeEvents.view_nft_home_assets]: `When "NFTs" is clicked in Home Assets Pages`,
   // [DappExplorerEvents.dapp_open_info]: `when a user taps on the help icon`,
   // [DappExplorerEvents.dapp_open_more_info]: `when a user taps on the "more" button from inside the help bottom sheet`,
   // [DappExplorerEvents.dapp_search]: `when a user searches on the dapp explorer screen`,
