@@ -1,8 +1,8 @@
 diff --git a/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m b/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m
-index 1e7021c..9001165 100644
+index 9efac96..270fbcf 100644
 --- a/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m
 +++ b/node_modules/react-native-keychain/RNKeychainManager/RNKeychainManager.m
-@@ -276,6 +276,8 @@ - (OSStatus)deleteCredentialsForServer:(NSString *)server
+@@ -279,6 +279,8 @@ - (OSStatus)deleteCredentialsForServer:(NSString *)server
    NSMutableDictionary *query = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                  (__bridge id)kCFBooleanTrue, (__bridge id)kSecReturnAttributes,
                                  (__bridge id)kSecMatchLimitAll, (__bridge id)kSecMatchLimit,

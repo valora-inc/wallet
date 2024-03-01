@@ -27,7 +27,7 @@ jobs:
             locales/base/translation.json
             ios/celo/Base.lproj/InfoPlist.strings
       - name: Fail if translation files are changed
-        if: ${{ (github.head_ref != 'l10n/main') && (steps.changed-files.outputs.any_changed == 'true') }}
+        if: ${{ (github.event_name != 'merge_group') && (github.head_ref != 'l10n/main') && (steps.changed-files.outputs.any_changed == 'true') }}
         run: |
           echo "❌ Only the base translation files should be modified in non-Crowdin PR's!"
           echo "These translation files should not have been modified:"
