@@ -30,6 +30,7 @@
   "enableDataSaver": "Abilita Risparmio dati",
   "dataSaverDetail": "La modalità Risparmio dati ti permette di comunicare con la rete attraverso un nodo attendibile. Puoi sempre cambiare questa modalità nelle impostazioni dell'app.",
   "keylessBackupSettingsTitle": "Recupero tramite e-mail e telefono",
+  "keylessBackupSettingsDeleteError": "Non è stato possibile eliminare il tuo backup, attendi e riprova più tardi.",
   "setup": "Imposta",
   "restartModalSwitchOff": {
     "header": "Riavvia per disabilitare Risparmio dati",
@@ -2131,6 +2132,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Errore",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
