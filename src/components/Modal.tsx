@@ -9,6 +9,7 @@ interface Props {
   children: React.ReactNode
   isVisible: boolean
   style?: StyleProp<ViewStyle>
+  modalStyle?: StyleProp<ViewStyle>
   testID?: string
   onBackgroundPress?: () => void
   onModalHide?: () => void
@@ -18,6 +19,7 @@ export default function Modal({
   children,
   isVisible,
   style,
+  modalStyle,
   testID,
   onBackgroundPress,
   onModalHide,
@@ -27,6 +29,7 @@ export default function Modal({
   return (
     <ReactNativeModal
       testID={testID}
+      style={modalStyle}
       isVisible={isVisible}
       backdropOpacity={0.1}
       onBackdropPress={onBackgroundPress}

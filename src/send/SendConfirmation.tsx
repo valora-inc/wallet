@@ -1,10 +1,7 @@
-import { parseInputAmount } from '@celo/utils/lib/parsing'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import BigNumber from 'bignumber.js'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
-import { getNumberFormatSettings } from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { showError } from 'src/alert/actions'
@@ -23,19 +20,16 @@ import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import InfoIcon from 'src/icons/InfoIcon'
-import { getAddressFromPhoneNumber } from 'src/identity/contactMapping'
 import { getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
-  e164NumberToAddressSelector,
   secureSendPhoneNumberMappingSelector,
 } from 'src/identity/selectors'
-import { convertToMaxSupportedPrecision } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import { Recipient, RecipientType, getDisplayName } from 'src/recipients/recipient'
+import { getDisplayName } from 'src/recipients/recipient'
 import useSelector from 'src/redux/useSelector'
 import { encryptComment, sendPayment } from 'src/send/actions'
 import {
@@ -48,12 +42,7 @@ import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { iconHitslop } from 'src/styles/variables'
-import {
-  useAmountAsUsd,
-  useLocalToTokenAmount,
-  useTokenInfo,
-  useTokenToLocalAmount,
-} from 'src/tokens/hooks'
+import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { tokenSupportsComments } from 'src/tokens/utils'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
@@ -70,78 +59,12 @@ const DEBOUNCE_TIME_MS = 250
 
 export const sendConfirmationScreenNavOptions = noHeader
 
-export function useRecipientToSendTo(paramRecipient: Recipient) {
-  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
-  return useMemo(() => {
-    if (!paramRecipient.address && paramRecipient.e164PhoneNumber) {
-      const recipientAddress = getAddressFromPhoneNumber(
-        paramRecipient.e164PhoneNumber,
-        e164NumberToAddress,
-        secureSendPhoneNumberMapping,
-        undefined
-      )
-
-      return {
-        ...paramRecipient,
-        // Setting the phone number explicitly so Typescript doesn't complain
-        e164PhoneNumber: paramRecipient.e164PhoneNumber,
-        address: recipientAddress ?? undefined,
-        recipientType: RecipientType.PhoneNumber,
-      }
-    }
-    return paramRecipient
-  }, [paramRecipient])
-}
-
-const { decimalSeparator } = getNumberFormatSettings()
-
-function useInputAmounts(
-  inputAmount: string,
-  usingLocalAmount: boolean,
-  tokenId?: string,
-  inputTokenAmount?: BigNumber
-) {
-  const parsedAmount = parseInputAmount(inputAmount, decimalSeparator)
-  const localToToken = useLocalToTokenAmount(parsedAmount, tokenId)
-  const tokenToLocal = useTokenToLocalAmount(parsedAmount, tokenId)
-
-  const localAmountRaw = usingLocalAmount ? parsedAmount : tokenToLocal
-  // when using the local amount, the "inputAmount" value received here was
-  // already converted once from the token value. if we calculate the token
-  // value by converting again from local to token, we introduce rounding
-  // precision errors. most of the time this is fine but when pressing the "max"
-  // button and using the max token value this becomes a problem because the
-  // precision error introduced may result in a higher token value than
-  // original, preventing the user from sending the amount e.g. the max token
-  // balance could be something like 15.00, after conversion to local currency
-  // then back to token amount, it could be 15.000000001.
-
-  const tokenAmountRaw = usingLocalAmount ? inputTokenAmount ?? localToToken : parsedAmount
-  const localAmount = localAmountRaw && convertToMaxSupportedPrecision(localAmountRaw)
-
-  const tokenAmount = convertToMaxSupportedPrecision(tokenAmountRaw!)
-  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
-
-  return {
-    localAmount,
-    tokenAmount,
-    usdAmount: usdAmount && convertToMaxSupportedPrecision(usdAmount),
-  }
-}
-
 function SendConfirmation(props: Props) {
   const { t } = useTranslation()
 
   const {
     origin,
-    transactionData: {
-      recipient: paramRecipient,
-      tokenAmount: inputTokenAmount,
-      tokenAddress,
-      comment: commentFromParams,
-      tokenId,
-    },
+    transactionData: { recipient, tokenAmount, tokenAddress, comment: commentFromParams, tokenId },
   } = props.route.params
 
   const { prepareTransactionsResult, refreshPreparedTransactions, clearPreparedTransactions } =
@@ -158,12 +81,8 @@ function SendConfirmation(props: Props) {
   const isSending = useSelector(isSendingSelector)
   const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-  const { localAmount, tokenAmount, usdAmount } = useInputAmounts(
-    inputTokenAmount.toString(),
-    false,
-    tokenId,
-    inputTokenAmount
-  )
+  const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
+  const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
 
   const walletAddress = useSelector(walletAddressSelector)
   const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, tokenInfo!.networkId))
@@ -183,9 +102,9 @@ function SendConfirmation(props: Props) {
     }
     const debouncedRefreshTransactions = setTimeout(() => {
       return refreshPreparedTransactions({
-        amount: inputTokenAmount,
+        amount: tokenAmount,
         token: tokenInfo,
-        recipientAddress: paramRecipient.address,
+        recipientAddress: recipient.address,
         walletAddress,
         feeCurrencies,
         comment: allowComment && comment ? encryptedComment ?? undefined : undefined,
@@ -197,8 +116,8 @@ function SendConfirmation(props: Props) {
     isEncryptingComment,
     comment,
     tokenInfo,
-    inputTokenAmount,
-    paramRecipient,
+    tokenAmount,
+    recipient,
     walletAddress,
     feeCurrencies,
   ])
@@ -212,7 +131,7 @@ function SendConfirmation(props: Props) {
         encryptComment({
           comment: comment.trim(),
           fromAddress: walletAddress,
-          toAddress: paramRecipient.address,
+          toAddress: recipient.address,
         })
       )
     }, DEBOUNCE_TIME_MS)
@@ -220,11 +139,7 @@ function SendConfirmation(props: Props) {
   }, [comment])
 
   const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const validatedRecipientAddress = getSecureSendAddress(
-    paramRecipient,
-    secureSendPhoneNumberMapping
-  )
-  const recipient = useRecipientToSendTo(paramRecipient)
+  const validatedRecipientAddress = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
   const disableSend =
     isSending || !prepareTransactionsResult || prepareTransactionsResult.type !== 'possible'
 
@@ -314,7 +229,7 @@ function SendConfirmation(props: Props) {
         tokenAmount,
         tokenId,
         usdAmount,
-        comment,
+        comment.trim(),
         recipient,
         fromModal,
         undefined,
