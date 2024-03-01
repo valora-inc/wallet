@@ -48,6 +48,9 @@ export interface State {
     networkId: NetworkId
     contractAddress: string
     status: NftCelebrationStatus
+    expirationDate: string
+    reminderDate: string
+    deepLink: string
   } | null
 }
 
@@ -132,6 +135,9 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         nftCelebration: {
           networkId: action.networkId,
           contractAddress: action.contractAddress,
+          deepLink: action.deepLink,
+          expirationDate: action.expirationDate,
+          reminderDate: action.reminderDate,
           status: NftCelebrationStatus.celebrationReady,
         },
       }

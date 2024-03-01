@@ -50,6 +50,10 @@ export const celebratedNftSelector = (state: RootState) => {
   }
 }
 
+export const nftCelebrationSelector = (state: RootState) => {
+  return state.home.nftCelebration
+}
+
 export const showNftCelebrationSelector = (state: RootState) => {
   const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
   if (!featureGateEnabled) {

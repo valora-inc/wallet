@@ -1,8 +1,8 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { isPast, isToday, isValid } from 'date-fns'
+import { isPast, isToday } from 'date-fns'
 import { celebratedNftFound, nftRewardReady, nftRewardReminderReady } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
-import { celebratedNftSelector } from 'src/home/selectors'
+import { celebratedNftSelector, nftCelebrationSelector } from 'src/home/selectors'
 import {
   FetchNftsCompletedAction,
   fetchNfts,
@@ -88,6 +88,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     celebratedNft,
     expirationDate: expirationDateString,
     reminderDate: reminderDateString,
+    deepLink,
   } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
 
   if (
@@ -95,22 +96,25 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     !celebratedNft.networkId ||
     !celebratedNft.contractAddress ||
     !expirationDateString ||
-    !reminderDateString
+    !reminderDateString ||
+    !deepLink
   ) {
     return
   }
 
-  if (!isValid(expirationDateString)) {
+  const expirationDate = Date.parse(expirationDateString)
+  const reminderDate = Date.parse(reminderDateString)
+
+  if (Number.isNaN(expirationDate)) {
     Logger.error(TAG, 'Invalid expiration date in remote config')
     return
   }
 
-  if (!isValid(reminderDateString)) {
+  if (Number.isNaN(reminderDate)) {
     Logger.error(TAG, 'Invalid reminder date in remote config')
     return
   }
 
-  const expirationDate = new Date(expirationDateString)
   const expired = isPast(expirationDate)
   if (expired) {
     return
@@ -139,25 +143,36 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
       celebratedNftFound({
         networkId: celebratedNft.networkId,
         contractAddress: celebratedNft.contractAddress,
+        expirationDate: new Date(expirationDate).toISOString(),
+        reminderDate: new Date(reminderDate).toISOString(),
+        deepLink,
       })
     )
     return
   }
 
-  const reminderDate = new Date(reminderDateString)
-  const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
-
-  if (aboutToExpire) {
-    if (
-      lastCelebratedNft.status === NftCelebrationStatus.celebrationDisplayed ||
-      lastCelebratedNft.status === NftCelebrationStatus.rewardDisplayed
-    ) {
-      yield* put(nftRewardReminderReady())
-    }
+  const lastNftCelebration = yield* select(nftCelebrationSelector)
+  if (!lastNftCelebration) {
     return
   }
 
-  if (lastCelebratedNft.status === NftCelebrationStatus.celebrationDisplayed) {
+  // we want to display celebrtion before reward
+  if (lastNftCelebration.status === NftCelebrationStatus.celebrationReady) {
+    return
+  }
+
+  // the journey is over
+  if (lastNftCelebration.status === NftCelebrationStatus.reminderDisplayed) {
+    return
+  }
+
+  const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
+  if (aboutToExpire) {
+    yield* put(nftRewardReminderReady())
+    return
+  }
+
+  if (lastNftCelebration.status !== NftCelebrationStatus.rewardDisplayed) {
     yield* put(nftRewardReady())
   }
 }

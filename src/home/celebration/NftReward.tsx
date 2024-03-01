@@ -10,12 +10,13 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftRewardDisplayed } from 'src/home/actions'
-import { celebratedNftSelector, showNftRewardSelector } from 'src/home/selectors'
+import {
+  celebratedNftSelector,
+  nftCelebrationSelector,
+  showNftRewardSelector,
+} from 'src/home/selectors'
 import i18n from 'src/i18n'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
-import { getDynamicConfigParams } from 'src/statsig'
-import { DynamicConfigs } from 'src/statsig/constants'
-import { StatsigDynamicConfigs } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -47,9 +48,10 @@ export default function NftRewardBottomSheet() {
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const { expirationDate, reminderDate, deepLink } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
-  )
+  const nftCelebration = useSelector(nftCelebrationSelector)
+  const expirationDate = new Date(nftCelebration?.expirationDate ?? 0)
+  const reminderDate = new Date(nftCelebration?.reminderDate ?? 0)
+  const deepLink = nftCelebration?.deepLink ?? ''
 
   const { expirationStatus, expirationLabelText } = useExpirationStatus(
     new Date(expirationDate),
@@ -105,6 +107,7 @@ export default function NftRewardBottomSheet() {
           style={styles.button}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
+          disabled={expirationStatus === ExpirationStatus.expired}
           onPress={handleCtaPress}
           text={t('nftCelebration.rewardBottomSheet.cta')}
         />

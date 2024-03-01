@@ -51,6 +51,9 @@ interface CelebratedNftFoundAction {
   type: Actions.CELEBRATED_NFT_FOUND
   networkId: NetworkId
   contractAddress: string
+  expirationDate: string
+  reminderDate: string
+  deepLink: string
 }
 
 interface NftCelebrationDisplayedAction {
@@ -124,13 +127,22 @@ export const cleverTapInboxMessagesReceived = (
 export const celebratedNftFound = ({
   networkId,
   contractAddress,
+  expirationDate,
+  reminderDate,
+  deepLink,
 }: {
   networkId: NetworkId
   contractAddress: string
+  expirationDate: string
+  reminderDate: string
+  deepLink: string
 }): CelebratedNftFoundAction => ({
   type: Actions.CELEBRATED_NFT_FOUND,
   networkId,
   contractAddress,
+  expirationDate,
+  reminderDate,
+  deepLink,
 })
 
 export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
