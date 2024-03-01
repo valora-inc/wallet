@@ -1595,4 +1595,8 @@ export const migrations = {
     },
   }),
   195: (state: any) => state,
+  196: (state: any) => ({
+    ...state,
+    web3: _.omit(state.web3, 'twelveWordMnemonicEnabled'),
+  }),
 }

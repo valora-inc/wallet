@@ -3110,6 +3110,15 @@ export const v195Schema = {
   },
 }
 
+export const v196Schema = {
+  ...v195Schema,
+  _persist: {
+    ...v195Schema._persist,
+    version: 196,
+  },
+  web3: _.omit(v195Schema.web3, 'twelveWordMnemonicEnabled'),
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v195Schema as Partial<RootState>
+  return v196Schema as Partial<RootState>
 }

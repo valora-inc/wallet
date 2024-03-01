@@ -238,7 +238,6 @@ export interface RemoteConfigValues {
   maxSwapSlippagePercentage: number
   networkTimeoutSeconds: number
   celoNews: CeloNewsConfig
-  twelveWordMnemonicEnabled: boolean
   priceImpactWarningThreshold: number
   superchargeRewardContractAddress: string
 }

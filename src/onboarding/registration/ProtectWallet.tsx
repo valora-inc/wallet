@@ -21,15 +21,14 @@ import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
 import Logger from 'src/utils/Logger'
-import { twelveWordMnemonicEnabledSelector, walletAddressSelector } from 'src/web3/selectors'
+import { walletAddressSelector } from 'src/web3/selectors'
 
 const TAG = 'ProtectWallet'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.ProtectWallet>
 
 function ProtectWallet({ navigation }: Props) {
-  const twelveWordMnemonicEnabled = useSelector(twelveWordMnemonicEnabledSelector)
-  const mnemonicLength = twelveWordMnemonicEnabled ? '12' : '24'
+  const mnemonicLength = 12
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const address = useSelector(walletAddressSelector)

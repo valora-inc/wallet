@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 195,
+          "version": 196,
         },
         "account": {
           "acceptedTerms": false,
@@ -350,7 +350,6 @@ describe('store state', () => {
           "dataEncryptionKey": "0x0000000000000000000000000000000000008F68",
           "isDekRegistered": false,
           "mtwAddress": null,
-          "twelveWordMnemonicEnabled": false,
         },
       }
     `)
