@@ -30,6 +30,7 @@
   "enableDataSaver": "Увімкнути режим збереження даних",
   "dataSaverDetail": "Режим збереження даних дає змогу спілкуватися з мережею через надійний вузол. Ви завжди можете змінити цей режим у налаштуваннях застосунку.",
   "keylessBackupSettingsTitle": "Відновлення ел. пошти або телефону",
+  "keylessBackupSettingsDeleteError": "Вашу резервну копію не вдалося видалити, зачекайте і спробуйте пізніше.",
   "setup": "Встановити",
   "restartModalSwitchOff": {
     "header": "Перезапустіть для вимкнення режиму збереження даних",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Реєстрація за адресою ел. пошти",
     "subtitle": "Зареєструйтеся за адресою ел. пошти, щоб налаштувати резервне копіювання.\n\nУ разі втрати гаманця вам буде запропоновано зареєструватися повторно.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Реєстрація за обліковим записом Google"
   },
   "keylessBackupPhoneInput": {
@@ -2134,6 +2136,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Помилка.",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

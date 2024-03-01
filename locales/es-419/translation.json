@@ -30,6 +30,7 @@
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red a través de un nodo de confianza. Siempre puedes cambiar este modo en los ajustes de la aplicación.",
   "keylessBackupSettingsTitle": "Recuperación de correo electrónico y teléfono",
+  "keylessBackupSettingsDeleteError": "No se ha podido eliminar tu copia de seguridad, espera e inténtalo de nuevo más tarde.",
   "setup": "Configurar",
   "restartModalSwitchOff": {
     "header": "Reinicia la app para desactivar el modo de Ahorro de datos",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Iniciar sesión con email",
     "subtitle": "Inicia sesión con tu correo electrónico para configurarlo como respaldo.\n\nSi pierdes acceso a tu wallet, se te pedirá que inicies sesión de esta forma.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Iniciar sesión con Google"
   },
   "keylessBackupPhoneInput": {
@@ -2130,6 +2132,7 @@
     }
   },
   "pleaseWait": "Espera, por favor",
+  "error": "Error",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

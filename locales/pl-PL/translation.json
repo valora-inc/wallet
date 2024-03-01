@@ -30,6 +30,7 @@
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia komunikację z siecią poprzez zaufany węzeł. Zawsze możesz zmienić ten tryb w ustawieniach aplikacji.",
   "keylessBackupSettingsTitle": "Odzyskiwanie za pomocą adresu e-mail i telefonu",
+  "keylessBackupSettingsDeleteError": "Twoja kopia zapasowa nie mogła zostać usunięta, poczekaj i spróbuj ponownie później.",
   "setup": "Ustaw",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Zaloguj się za pomocą adresu e-mail",
     "subtitle": "Zaloguj się za pomocą swojego adresu e-mail, aby wykorzystać go do tworzenia kopii zapasowych.\n\nW przypadku utraty portfela zostaniesz poproszony(-a) o ponowne zalogowanie się.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Zaloguj się przez Google"
   },
   "keylessBackupPhoneInput": {
@@ -2134,6 +2136,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Błąd",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

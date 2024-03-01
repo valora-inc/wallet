@@ -30,6 +30,7 @@
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla ağ ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
   "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
+  "keylessBackupSettingsDeleteError": "Yedeklemeniz silinemedi, lütfen bekleyin ve daha sonra tekrar deneyin.",
   "setup": "Oluştur",
   "restartModalSwitchOff": {
     "header": "Veri Tasarrufunu Kapatmak İçin Uygulamayı Tekrar Başlatın",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "E-posta ile oturum aç",
     "subtitle": "Yedek olarak ayarlamak için e-postanızla oturum açın.\n\nCüzdanınızı kaybetmeniz durumunda tekrar oturum açmanız istenecektir.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Google ile oturum aç"
   },
   "keylessBackupPhoneInput": {
@@ -2130,6 +2132,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Hata",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
