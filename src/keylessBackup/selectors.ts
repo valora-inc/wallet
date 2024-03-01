@@ -4,3 +4,5 @@ export const keylessBackupStatusSelector = (state: RootState) => state.keylessBa
 export const torusKeyshareSelector = (state: RootState) => state.keylessBackup.torusKeyshare
 export const deleteKeylessBackupStatusSelector = (state: RootState) =>
   state.keylessBackup.deleteBackupStatus
+export const showDeleteKeylessBackupErrorSelector = (state: RootState) =>
+  state.keylessBackup.showDeleteBackupError

@@ -19,7 +19,7 @@ import {
 } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { PRIVACY_LINK, TOS_LINK } from 'src/brandingConfig'
-import { deleteKeylessBackupStarted } from 'src/keylessBackup/slice'
+import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -349,6 +349,26 @@ describe('Account', () => {
     fireEvent.press(getByTestId('KeylessBackup'))
     expect(navigate).not.toHaveBeenCalled()
     expect(ValoraAnalytics.track).not.toHaveBeenCalled()
+  })
+
+  it('shows error banner when keyless backup delete fails', async () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore({
+      account: { cloudBackupCompleted: true },
+      keylessBackup: { showDeleteBackupError: true },
+    })
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <Settings {...getMockStackScreenProps(Screens.Settings)} />
+      </Provider>
+    )
+    expect(getByTestId('KeylessBackupDeleteError')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('KeylessBackupDeleteError/dismiss'))
+    })
+
+    expect(store.getActions()).toContainEqual(hideDeleteKeylessBackupError())
   })
 
   it('can revoke the phone number successfully', async () => {
