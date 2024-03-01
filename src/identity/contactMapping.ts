@@ -46,7 +46,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Logger from 'src/utils/Logger'
-import { checkContactPermissionStatusGranted, getAllContacts } from 'src/utils/contacts'
+import { getAllContacts, hasGrantedContactsPermission } from 'src/utils/contacts'
 import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { calculateSha256Hash } from 'src/utils/random'
@@ -91,7 +91,7 @@ export function* doImportContactsWrapper() {
 }
 
 function* doImportContacts() {
-  const contactPermissionStatusGranted = yield* call(checkContactPermissionStatusGranted)
+  const contactPermissionStatusGranted = yield* call(hasGrantedContactsPermission)
   if (!contactPermissionStatusGranted) {
     Logger.warn(TAG, 'Contact permissions denied. Skipping import.')
     ValoraAnalytics.track(IdentityEvents.contacts_import_permission_denied)
@@ -423,7 +423,7 @@ export function* saveContacts() {
   try {
     const saveContactsGate = getFeatureGate(StatsigFeatureGates.SAVE_CONTACTS)
     const phoneVerified = yield* select(phoneNumberVerifiedSelector)
-    const contactsEnabled = yield* call(checkContactPermissionStatusGranted)
+    const contactsEnabled = yield* call(hasGrantedContactsPermission)
 
     if (!saveContactsGate || !phoneVerified || !contactsEnabled) {
       Logger.debug(`${TAG}/saveContacts`, "Skipping because pre conditions aren't met", {
