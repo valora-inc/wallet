@@ -30,6 +30,7 @@
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia komunikację z siecią poprzez zaufany węzeł. Zawsze możesz zmienić ten tryb w ustawieniach aplikacji.",
   "keylessBackupSettingsTitle": "Odzyskiwanie za pomocą adresu e-mail i telefonu",
+  "keylessBackupSettingsDeleteError": "Twoja kopia zapasowa nie mogła zostać usunięta, poczekaj i spróbuj ponownie później.",
   "setup": "Ustaw",
   "restartModalSwitchOff": {
     "header": "Uruchom ponownie, aby wyłączyć oszczędzanie danych",
@@ -2135,6 +2136,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Błąd",
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
