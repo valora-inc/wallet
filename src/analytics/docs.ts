@@ -19,6 +19,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  JumpstartEvents,
   KeylessBackupEvents,
   NavigationEvents,
   NftEvents,
@@ -544,6 +545,10 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
+  [JumpstartEvents.jumpstart_claim_succeeded]: `When claiming from Wallet Jumpstart succeeded`,
+  [JumpstartEvents.jumpstart_claim_failed]: `When claiming from Wallet Jumpstart failed`,
+  [JumpstartEvents.jumpstart_claimed_token]: `When user successfully claimed an ERC20 token trough Wallet Jumpstart`,
+  [JumpstartEvents.jumpstart_claimed_nft]: `When user successfully claimed an NFT trough Wallet Jumpstart`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

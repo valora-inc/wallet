@@ -1,33 +1,34 @@
 import { Action, combineReducers } from 'redux'
 import { PersistState } from 'redux-persist'
 import { Actions } from 'src/account/actions'
-import { reducer as account, State as AccountState } from 'src/account/reducer'
-import { reducer as alert, State as AlertState } from 'src/alert/reducer'
-import { appReducer as app, State as AppState } from 'src/app/reducers'
+import { State as AccountState, reducer as account } from 'src/account/reducer'
+import { State as AlertState, reducer as alert } from 'src/alert/reducer'
+import { State as AppState, appReducer as app } from 'src/app/reducers'
 import superchargeReducer, { State as SuperchargeState } from 'src/consumerIncentives/slice'
 import dappsReducer, { State as DappsState } from 'src/dapps/slice'
-import { escrowReducer as escrow, State as EscrowState } from 'src/escrow/reducer'
-import { reducer as exchange, State as ExchangeState } from 'src/exchange/reducer'
-import { reducer as fees, State as FeesState } from 'src/fees/reducer'
+import { State as EscrowState, escrowReducer as escrow } from 'src/escrow/reducer'
+import { State as ExchangeState, reducer as exchange } from 'src/exchange/reducer'
+import { State as FeesState, reducer as fees } from 'src/fees/reducer'
+import { State as FiatExchangesState, reducer as fiatExchanges } from 'src/fiatExchanges/reducer'
 import fiatConnectReducer, { State as FiatConnectState } from 'src/fiatconnect/slice'
-import { reducer as fiatExchanges, State as FiatExchangesState } from 'src/fiatExchanges/reducer'
-import { homeReducer as home, State as HomeState } from 'src/home/reducers'
+import { State as HomeState, homeReducer as home } from 'src/home/reducers'
 import i18nReducer, { State as I18nState } from 'src/i18n/slice'
-import { reducer as identity, State as IdentityState } from 'src/identity/reducer'
-import { reducer as imports, State as ImportState } from 'src/import/reducer'
+import { State as IdentityState, reducer as identity } from 'src/identity/reducer'
+import { State as ImportState, reducer as imports } from 'src/import/reducer'
+import jumpstartReducer, { State as JumpstartState } from 'src/jumpstart/slice'
 import keylessBackupReducer, { State as KeylessBackupState } from 'src/keylessBackup/slice'
-import { reducer as localCurrency, State as LocalCurrencyState } from 'src/localCurrency/reducer'
-import { reducer as networkInfo, State as NetworkInfoState } from 'src/networkInfo/reducer'
+import { State as LocalCurrencyState, reducer as localCurrency } from 'src/localCurrency/reducer'
+import { State as NetworkInfoState, reducer as networkInfo } from 'src/networkInfo/reducer'
 import nftsReducer, { State as NFTsState } from 'src/nfts/slice'
 import positionsReducer, { State as PositionsState } from 'src/positions/slice'
-import { recipientsReducer as recipients, State as RecipientsState } from 'src/recipients/reducer'
-import { sendReducer as send, State as SendState } from 'src/send/reducers'
+import priceHistoryReducer, { State as priceHistoryState } from 'src/priceHistory/slice'
+import { State as RecipientsState, recipientsReducer as recipients } from 'src/recipients/reducer'
+import { State as SendState, sendReducer as send } from 'src/send/reducers'
 import swapReducer, { State as SwapState } from 'src/swap/slice'
 import tokenReducer, { State as TokensState } from 'src/tokens/slice'
-import { reducer as transactions, State as TransactionsState } from 'src/transactions/reducer'
-import { reducer as walletConnect, State as WalletConnectState } from 'src/walletConnect/reducer'
-import { reducer as web3, State as Web3State } from 'src/web3/reducer'
-import priceHistoryReducer, { State as priceHistoryState } from 'src/priceHistory/slice'
+import { State as TransactionsState, reducer as transactions } from 'src/transactions/reducer'
+import { State as WalletConnectState, reducer as walletConnect } from 'src/walletConnect/reducer'
+import { State as Web3State, reducer as web3 } from 'src/web3/reducer'
 
 const appReducer = combineReducers({
   app,
@@ -57,6 +58,7 @@ const appReducer = combineReducers({
   keylessBackup: keylessBackupReducer,
   nfts: nftsReducer,
   priceHistory: priceHistoryReducer,
+  jumpstart: jumpstartReducer,
 }) as (state: RootState | undefined, action: Action) => RootState
 
 const rootReducer = (state: RootState | undefined, action: Action): RootState => {
@@ -107,6 +109,7 @@ export interface RootState {
   keylessBackup: KeylessBackupState
   nfts: NFTsState
   priceHistory: priceHistoryState
+  jumpstart: JumpstartState
 }
 
 export interface PersistedRootState {

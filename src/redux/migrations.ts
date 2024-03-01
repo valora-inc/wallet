@@ -1595,4 +1595,10 @@ export const migrations = {
     },
   }),
   195: (state: any) => state,
+  196: (state: any) => ({
+    ...state,
+    jumpstart: {
+      claimStatus: 'idle',
+    },
+  }),
 }
