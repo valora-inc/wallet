@@ -264,4 +264,33 @@ describe('SendConfirmation', () => {
       )
     )
   })
+
+  it('trims comment when encrypting and sending', () => {
+    const { getByTestId, queryAllByDisplayValue, store } = renderScreen()
+    const input = getByTestId('commentInput/send')
+    const comment = '   A comment!   '
+    const trimmedComment = 'A comment!'
+    fireEvent.changeText(input, comment)
+    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+    jest.advanceTimersByTime(300)
+    fireEvent.press(getByTestId('ConfirmButton'))
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
+    expect(store.getActions()).toEqual([
+      encryptComment({
+        comment: trimmedComment,
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+      sendPayment(
+        inputAmount,
+        tokenId,
+        inputAmount.times(1.001),
+        trimmedComment,
+        recipient,
+        false,
+        undefined,
+        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
+      ),
+    ])
+  })
 })
