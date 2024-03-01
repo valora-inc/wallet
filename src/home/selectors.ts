@@ -41,12 +41,11 @@ export const celebratedNftSelector = (state: RootState) => {
     return null
   }
 
-  const { networkId, contractAddress, status } = state.home.nftCelebration
+  const { networkId, contractAddress } = state.home.nftCelebration
 
   return {
     networkId,
     contractAddress,
-    status,
   }
 }
 

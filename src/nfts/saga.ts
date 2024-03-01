@@ -138,7 +138,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     lastCelebratedNft.contractAddress === celebratedNft.contractAddress
 
   if (!isLastCelebratedNft) {
-    // this NFT was not celebrated yet
+    // this NFT was not celebrated yet, let's start the journey
     yield* put(
       celebratedNftFound({
         networkId: celebratedNft.networkId,
@@ -156,23 +156,23 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  // we want to display celebrtion before reward
+  // let's display the celebration first
   if (lastNftCelebration.status === NftCelebrationStatus.celebrationReady) {
     return
   }
 
-  // the journey is over
-  if (lastNftCelebration.status === NftCelebrationStatus.reminderDisplayed) {
+  // at this point the journey is over
+  if (
+    lastNftCelebration.status === NftCelebrationStatus.reminderReady ||
+    lastNftCelebration.status === NftCelebrationStatus.reminderDisplayed
+  ) {
     return
   }
 
   const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
   if (aboutToExpire) {
     yield* put(nftRewardReminderReady())
-    return
-  }
-
-  if (lastNftCelebration.status !== NftCelebrationStatus.rewardDisplayed) {
+  } else {
     yield* put(nftRewardReady())
   }
 }

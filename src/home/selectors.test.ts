@@ -168,13 +168,12 @@ describe('celebratedNftSelector', () => {
     expect(data).toBeNull()
   })
 
-  it('should return networkId, contractAddress and status when nftCelebration is available', () => {
+  it('should return networkId, contractAddress when nftCelebration is available', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
           networkId: NetworkId['celo-alfajores'],
           contractAddress: '0xTEST',
-          status: NftCelebrationStatus.celebrationReady,
         },
       },
     })
@@ -183,7 +182,6 @@ describe('celebratedNftSelector', () => {
     expect(data).toEqual({
       networkId: NetworkId['celo-alfajores'],
       contractAddress: '0xTEST',
-      status: NftCelebrationStatus.celebrationReady,
     })
   })
 })

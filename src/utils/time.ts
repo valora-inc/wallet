@@ -33,11 +33,7 @@ export const formatDistanceToNow = (
   i18next: i18nType,
   options?: Omit<NonNullable<Parameters<typeof dateFnsFormatDistanceToNow>[1]>, 'locale'>
 ) => {
-  return dateFnsFormatDistanceToNow(date, {
-    includeSeconds: options?.includeSeconds,
-    addSuffix: options?.addSuffix,
-    locale: locale(i18next),
-  })
+  return dateFnsFormatDistanceToNow(date, { ...options, locale: locale(i18next) })
 }
 
 const ONE_SECOND_IN_MILLIS = 1000

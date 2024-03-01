@@ -162,8 +162,13 @@ type ExpirationPillProps = { status: ExpirationStatus; label: string }
 
 const ExpirationPill = ({ status, label }: ExpirationPillProps) => (
   <View style={styles.pillContainer}>
-    <View style={[styles.pill, expirationPillStyles[status].pill]}>
-      <Text style={[styles.pillLabel, expirationPillStyles[status].label]}>{label}</Text>
+    <View style={[styles.pill, expirationPillStyles[status].pill]} testID="NftReward/Pill">
+      <Text
+        style={[styles.pillLabel, expirationPillStyles[status].label]}
+        testID="NftReward/PillLabel"
+      >
+        {label}
+      </Text>
     </View>
   </View>
 )
