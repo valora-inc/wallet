@@ -1601,4 +1601,11 @@ export const migrations = {
       claimStatus: 'idle',
     },
   }),
+  197: (state: any) => ({
+    ...state,
+    home: {
+      ...state.home,
+      nftCelebration: null,
+    },
+  }),
 }

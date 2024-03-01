@@ -1,6 +1,7 @@
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
@@ -40,11 +41,12 @@ export const celebratedNftSelector = (state: RootState) => {
     return null
   }
 
-  const { networkId, contractAddress } = state.home.nftCelebration
+  const { networkId, contractAddress, status } = state.home.nftCelebration
 
   return {
     networkId,
     contractAddress,
+    status,
   }
 }
 
@@ -58,5 +60,21 @@ export const showNftCelebrationSelector = (state: RootState) => {
     return false
   }
 
-  return !state.home.nftCelebration.displayed
+  return state.home.nftCelebration.status === NftCelebrationStatus.celebrationReady
+}
+
+export const showNftRewardSelector = (state: RootState) => {
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+  if (!featureGateEnabled) {
+    return false
+  }
+
+  if (!state.home.nftCelebration) {
+    return false
+  }
+
+  return (
+    state.home.nftCelebration.status === NftCelebrationStatus.rewardReady ||
+    state.home.nftCelebration.status === NftCelebrationStatus.reminderReady
+  )
 }

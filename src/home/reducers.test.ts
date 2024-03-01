@@ -4,7 +4,12 @@ import {
   cleverTapInboxMessagesReceived,
   nftCelebrationDisplayed,
 } from 'src/home/actions'
-import { DEFAULT_PRIORITY, initialState, homeReducer as reducer } from 'src/home/reducers'
+import {
+  DEFAULT_PRIORITY,
+  NftCelebrationStatus,
+  initialState,
+  homeReducer as reducer,
+} from 'src/home/reducers'
 import { NetworkId } from 'src/transactions/types'
 import { mockCleverTapInboxMessage, mockContractAddress } from 'test/values'
 
@@ -167,7 +172,7 @@ describe('home reducer', () => {
     expect(updatedState.nftCelebration).toEqual({
       networkId: NetworkId['celo-alfajores'],
       contractAddress: mockContractAddress,
-      displayed: false,
+      status: NftCelebrationStatus.celebrationReady,
     })
   })
 
@@ -175,7 +180,7 @@ describe('home reducer', () => {
     const updatedState = reducer(undefined, nftCelebrationDisplayed())
 
     expect(updatedState.nftCelebration).toEqual({
-      displayed: true,
+      status: NftCelebrationStatus.celebrationDisplayed,
     })
   })
 })

@@ -1,4 +1,5 @@
 import DeviceInfo from 'react-native-device-info'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import {
   celebratedNftSelector,
   cleverTapInboxMessagesSelector,
@@ -167,13 +168,13 @@ describe('celebratedNftSelector', () => {
     expect(data).toBeNull()
   })
 
-  it('should return networkId and contractAddress when nftCelebration is available', () => {
+  it('should return networkId, contractAddress and status when nftCelebration is available', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
           networkId: NetworkId['celo-alfajores'],
           contractAddress: '0xTEST',
-          displayed: false,
+          status: NftCelebrationStatus.celebrationReady,
         },
       },
     })
@@ -182,6 +183,7 @@ describe('celebratedNftSelector', () => {
     expect(data).toEqual({
       networkId: NetworkId['celo-alfajores'],
       contractAddress: '0xTEST',
+      status: NftCelebrationStatus.celebrationReady,
     })
   })
 })
@@ -197,7 +199,7 @@ describe('showNftCelebrationSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          displayed: false,
+          status: NftCelebrationStatus.celebrationReady,
         },
       },
     })
@@ -219,13 +221,13 @@ describe('showNftCelebrationSelector', () => {
     expect(canShowNftCelebration).toBe(false)
   })
 
-  it('should return true when nftCelebration is not displayed', () => {
+  it('should return true when nftCelebration is not yet displayed', () => {
     jest.mocked(getFeatureGate).mockReturnValueOnce(true)
 
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          displayed: false,
+          status: NftCelebrationStatus.celebrationReady,
         },
       },
     })

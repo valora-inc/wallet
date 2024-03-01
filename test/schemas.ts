@@ -3121,6 +3121,18 @@ export const v196Schema = {
   },
 }
 
+export const v197Schema = {
+  ...v196Schema,
+  _persist: {
+    ...v196Schema._persist,
+    version: 197,
+  },
+  home: {
+    ...v196Schema.home,
+    nftCelebration: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v196Schema as Partial<RootState>
+  return v197Schema as Partial<RootState>
 }

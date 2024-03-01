@@ -30,6 +30,15 @@ export interface IdToNotification {
   [id: string]: Notification | undefined
 }
 
+export enum NftCelebrationStatus {
+  celebrationReady = 'celebrationReady',
+  celebrationDisplayed = 'celebrationDisplayed',
+  rewardReady = 'rewardReady',
+  rewardDisplayed = 'rewardDisplayed',
+  reminderReady = 'reminderReady',
+  reminderDisplayed = 'reminderDisplayed',
+}
+
 export interface State {
   loading: boolean
   notifications: IdToNotification
@@ -38,7 +47,7 @@ export interface State {
   nftCelebration: {
     networkId: NetworkId
     contractAddress: string
-    displayed: boolean
+    status: NftCelebrationStatus
   } | null
 }
 
@@ -123,7 +132,7 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         nftCelebration: {
           networkId: action.networkId,
           contractAddress: action.contractAddress,
-          displayed: false,
+          status: NftCelebrationStatus.celebrationReady,
         },
       }
     case Actions.NFT_CELEBRATION_DISPLAYED:
@@ -131,7 +140,34 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         ...state,
         nftCelebration: {
           ...state.nftCelebration,
-          displayed: true,
+          status: NftCelebrationStatus.celebrationDisplayed,
+        },
+      }
+    case Actions.NFT_REWARD_READY:
+      return {
+        ...state,
+        nftCelebration: {
+          ...state.nftCelebration,
+          status: NftCelebrationStatus.rewardReady,
+        },
+      }
+    case Actions.NFT_REWARD_REMINDER_READY:
+      return {
+        ...state,
+        nftCelebration: {
+          ...state.nftCelebration,
+          status: NftCelebrationStatus.reminderReady,
+        },
+      }
+    case Actions.NFT_REWARD_DISPLAYED:
+      return {
+        ...state,
+        nftCelebration: {
+          ...state.nftCelebration,
+          status:
+            state.nftCelebration?.status === NftCelebrationStatus.reminderReady
+              ? NftCelebrationStatus.reminderDisplayed
+              : NftCelebrationStatus.rewardDisplayed,
         },
       }
     default:

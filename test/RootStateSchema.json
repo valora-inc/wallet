@@ -1665,6 +1665,17 @@
             ],
             "type": "object"
         },
+        "NftCelebrationStatus": {
+            "enum": [
+                "celebrationDisplayed",
+                "celebrationReady",
+                "reminderDisplayed",
+                "reminderReady",
+                "rewardDisplayed",
+                "rewardReady"
+            ],
+            "type": "string"
+        },
         "NftMedia": {
             "additionalProperties": false,
             "properties": {
@@ -4259,17 +4270,17 @@
                                 "contractAddress": {
                                     "type": "string"
                                 },
-                                "displayed": {
-                                    "type": "boolean"
-                                },
                                 "networkId": {
                                     "$ref": "#/definitions/NetworkId"
+                                },
+                                "status": {
+                                    "$ref": "#/definitions/NftCelebrationStatus"
                                 }
                             },
                             "required": [
                                 "contractAddress",
-                                "displayed",
-                                "networkId"
+                                "networkId",
+                                "status"
                             ],
                             "type": "object"
                         },

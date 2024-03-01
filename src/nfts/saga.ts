@@ -1,5 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { celebratedNftFound } from 'src/home/actions'
+import { isPast, isToday, isValid } from 'date-fns'
+import { celebratedNftFound, nftRewardReady, nftRewardReminderReady } from 'src/home/actions'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { celebratedNftSelector } from 'src/home/selectors'
 import {
   FetchNftsCompletedAction,
@@ -82,19 +84,35 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  const { celebratedNft } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
-  )
-  if (!celebratedNft || !celebratedNft.networkId || !celebratedNft.contractAddress) {
+  const {
+    celebratedNft,
+    expirationDate: expirationDateString,
+    reminderDate: reminderDateString,
+  } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
+
+  if (
+    !celebratedNft ||
+    !celebratedNft.networkId ||
+    !celebratedNft.contractAddress ||
+    !expirationDateString ||
+    !reminderDateString
+  ) {
     return
   }
 
-  const lastCelebratedNft = yield* select(celebratedNftSelector)
-  if (
-    !!lastCelebratedNft &&
-    lastCelebratedNft.networkId === celebratedNft.networkId &&
-    lastCelebratedNft.contractAddress === celebratedNft.contractAddress
-  ) {
+  if (!isValid(expirationDateString)) {
+    Logger.error(TAG, 'Invalid expiration date in remote config')
+    return
+  }
+
+  if (!isValid(reminderDateString)) {
+    Logger.error(TAG, 'Invalid reminder date in remote config')
+    return
+  }
+
+  const expirationDate = new Date(expirationDateString)
+  const expired = isPast(expirationDate)
+  if (expired) {
     return
   }
 
@@ -108,12 +126,40 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  yield* put(
-    celebratedNftFound({
-      networkId: celebratedNft.networkId,
-      contractAddress: celebratedNft.contractAddress,
-    })
-  )
+  const lastCelebratedNft = yield* select(celebratedNftSelector)
+
+  const isLastCelebratedNft =
+    !!lastCelebratedNft &&
+    lastCelebratedNft.networkId === celebratedNft.networkId &&
+    lastCelebratedNft.contractAddress === celebratedNft.contractAddress
+
+  if (!isLastCelebratedNft) {
+    // this NFT was not celebrated yet
+    yield* put(
+      celebratedNftFound({
+        networkId: celebratedNft.networkId,
+        contractAddress: celebratedNft.contractAddress,
+      })
+    )
+    return
+  }
+
+  const reminderDate = new Date(reminderDateString)
+  const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
+
+  if (aboutToExpire) {
+    if (
+      lastCelebratedNft.status === NftCelebrationStatus.celebrationDisplayed ||
+      lastCelebratedNft.status === NftCelebrationStatus.rewardDisplayed
+    ) {
+      yield* put(nftRewardReminderReady())
+    }
+    return
+  }
+
+  if (lastCelebratedNft.status === NftCelebrationStatus.celebrationDisplayed) {
+    yield* put(nftRewardReady())
+  }
 }
 
 function* watchFetchNfts() {
