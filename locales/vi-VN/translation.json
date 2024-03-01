@@ -30,6 +30,7 @@
   "enableDataSaver": "Bật chế độ Tiết kiệm dữ liệu",
   "dataSaverDetail": "Chế độ Tiết kiệm dữ liệu cho phép bạn kết nối với mạng qua một nút mạng đáng tin cậy. Bạn có thể thay đổi chế độ này bất cứ lúc nào trong phần cài đặt ứng dụng.",
   "keylessBackupSettingsTitle": "Khôi phục bằng email và số điện thoại",
+  "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Thiết lập",
   "restartModalSwitchOff": {
     "header": "Khởi động lại để tắt chế độ Tiết kiệm dữ liệu",
@@ -2129,5 +2130,6 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Error",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
