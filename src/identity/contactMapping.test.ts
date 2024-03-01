@@ -37,8 +37,7 @@ import { contactsToRecipients } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, setPhoneRecipientCache } from 'src/recipients/reducer'
 import { getFeatureGate } from 'src/statsig'
 import Logger from 'src/utils/Logger'
-import { getAllContacts } from 'src/utils/contacts'
-import { checkContactsPermission } from 'src/utils/permissions'
+import { getAllContacts, hasGrantedContactsPermission } from 'src/utils/contacts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -249,7 +248,7 @@ describe('saveContacts', () => {
       await expectSaga(saveContacts)
         .provide([
           [select(phoneNumberVerifiedSelector), true],
-          [call(checkContactsPermission), true],
+          [call(hasGrantedContactsPermission), true],
           [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
           [select(e164NumberSelector), mockE164Number],
           [select(lastSavedContactsHashSelector), null],
@@ -282,7 +281,7 @@ describe('saveContacts', () => {
     await expectSaga(saveContacts)
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [call(checkContactsPermission), true],
+        [call(hasGrantedContactsPermission), true],
         [
           select(phoneRecipientCacheSelector),
           { ...mockPhoneRecipientCache, [mockE164Number2]: {} },
@@ -320,7 +319,7 @@ describe('saveContacts', () => {
     await expectSaga(saveContacts)
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [call(checkContactsPermission), true],
+        [call(hasGrantedContactsPermission), true],
         [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
         [select(e164NumberSelector), mockE164Number],
         [
@@ -347,7 +346,7 @@ describe('saveContacts', () => {
       await expectSaga(saveContacts)
         .provide([
           [select(phoneNumberVerifiedSelector), phoneVerified],
-          [call(checkContactsPermission), contactsEnabled],
+          [call(hasGrantedContactsPermission), contactsEnabled],
         ])
         .not.select(phoneRecipientCacheSelector)
         .not.select(e164NumberSelector)
@@ -362,7 +361,7 @@ describe('saveContacts', () => {
     await expectSaga(saveContacts)
       .provide([
         [select(phoneNumberVerifiedSelector), true],
-        [call(checkContactsPermission), true],
+        [call(hasGrantedContactsPermission), true],
         [select(phoneRecipientCacheSelector), mockPhoneRecipientCache],
         [select(e164NumberSelector), mockE164Number],
         [select(lastSavedContactsHashSelector), undefined],
