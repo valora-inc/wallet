@@ -30,6 +30,7 @@
   "enableDataSaver": "Увімкнути режим збереження даних",
   "dataSaverDetail": "Режим збереження даних дає змогу спілкуватися з мережею через надійний вузол. Ви завжди можете змінити цей режим у налаштуваннях застосунку.",
   "keylessBackupSettingsTitle": "Відновлення ел. пошти або телефону",
+  "keylessBackupSettingsDeleteError": "Вашу резервну копію не вдалося видалити, зачекайте і спробуйте пізніше.",
   "setup": "Встановити",
   "restartModalSwitchOff": {
     "header": "Перезапустіть для вимкнення режиму збереження даних",
@@ -2135,6 +2136,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Помилка.",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
