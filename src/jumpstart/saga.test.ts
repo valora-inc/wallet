@@ -1,7 +1,7 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { throwError } from 'redux-saga-test-plan/providers'
-import { fork, select } from 'redux-saga/effects'
+import { fork } from 'redux-saga/effects'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
@@ -22,7 +22,6 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
-import { walletAddressSelector } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -93,9 +92,8 @@ describe('jumpstartClaim', () => {
   it('handles the happy path', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    await expectSaga(jumpstartClaim, mockPrivateKey, networkId)
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
       .provide([
-        [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
         [fork(dispatchPendingTransactions, networkId, mockTransactionHashes), undefined],
       ])
@@ -110,11 +108,8 @@ describe('jumpstartClaim', () => {
   it('handles the jumpstartLinkHandler error', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    await expectSaga(jumpstartClaim, mockPrivateKey, networkId)
-      .provide([
-        [select(walletAddressSelector), mockWalletAddress],
-        [matchers.call.fn(jumpstartLinkHandler), throwError(mockError)],
-      ])
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
+      .provide([[matchers.call.fn(jumpstartLinkHandler), throwError(mockError)]])
       .put(jumpstartClaimStarted())
       .put(jumpstartClaimFailed())
       .run()
@@ -131,9 +126,8 @@ describe('jumpstartClaim', () => {
   it('does not fail when dispatching pending transactions fails', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
 
-    return expectSaga(jumpstartClaim, mockPrivateKey, networkId)
+    return expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
       .provide([
-        [select(walletAddressSelector), mockWalletAddress],
         [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
         [matchers.call.fn(dispatchPendingTransactions), throwError(mockError)],
       ])
@@ -145,11 +139,8 @@ describe('jumpstartClaim', () => {
   it('fails when dynamic config is empty', async () => {
     jest.mocked(getDynamicConfigParams).mockReturnValue({ jumpstartContracts: {} })
 
-    await expectSaga(jumpstartClaim, mockPrivateKey, networkId)
-      .provide([
-        [select(walletAddressSelector), mockWalletAddress],
-        [matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes],
-      ])
+    await expectSaga(jumpstartClaim, mockPrivateKey, networkId, mockWalletAddress)
+      .provide([[matchers.call.fn(jumpstartLinkHandler), mockTransactionHashes]])
       .put(jumpstartClaimStarted())
       .put(jumpstartClaimFailed())
       .run()

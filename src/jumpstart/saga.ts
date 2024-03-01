@@ -20,20 +20,14 @@ import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { walletAddressSelector } from 'src/web3/selectors'
 import { all, call, fork, put, select } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 const TAG = 'WalletJumpstart'
 
-export function* jumpstartClaim(privateKey: string, networkId: NetworkId) {
+export function* jumpstartClaim(privateKey: string, networkId: NetworkId, walletAddress: string) {
   try {
     yield* put(jumpstartClaimStarted())
-
-    const walletAddress = yield* select(walletAddressSelector)
-    if (!walletAddress) {
-      throw new Error('No wallet address found in store. This should never happen.')
-    }
 
     const contractAddress = getDynamicConfigParams(
       DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
