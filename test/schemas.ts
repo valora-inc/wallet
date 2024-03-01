@@ -8,7 +8,7 @@ import { AppState, MultichainBetaStatus } from 'src/app/actions'
 import { Dapp } from 'src/dapps/types'
 import { FeeEstimates } from 'src/fees/reducer'
 import { SendingFiatAccountStatus } from 'src/fiatconnect/slice'
-import { KeylessBackupStatus } from 'src/keylessBackup/types'
+import { KeylessBackupDeleteStatus, KeylessBackupStatus } from 'src/keylessBackup/types'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { Position } from 'src/positions/types'
 import { updateCachedQuoteParams } from 'src/redux/migrations'
@@ -3079,11 +3079,48 @@ export const v193Schema = {
     ...v192Schema._persist,
     version: 193,
   },
+  keylessBackup: {
+    ...v192Schema.keylessBackup,
+    deleteBackupStatus: KeylessBackupDeleteStatus.NotStarted,
+  },
+}
+
+export const v194Schema = {
+  ...v193Schema,
+  _persist: {
+    ...v193Schema._persist,
+    version: 194,
+  },
+  send: {
+    ..._.omit(v193Schema.send, 'showSendToAddressWarning'),
+    encryptedComment: null,
+    isEncryptingComment: false,
+  },
+}
+
+export const v195Schema = {
+  ...v194Schema,
+  _persist: {
+    ...v194Schema._persist,
+    version: 195,
+  },
+  keylessBackup: {
+    ...v194Schema.keylessBackup,
+    showDeleteBackupError: false,
+  },
+}
+
+export const v196Schema = {
+  ...v195Schema,
+  _persist: {
+    ...v195Schema._persist,
+    version: 196,
+  },
   jumpstart: {
     claimStatus: 'idle',
   },
 }
 
 export function getLatestSchema(): Partial<RootState> {
-  return v193Schema as Partial<RootState>
+  return v196Schema as Partial<RootState>
 }

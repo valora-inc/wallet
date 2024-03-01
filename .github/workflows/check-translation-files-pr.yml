@@ -1,14 +1,15 @@
 name: Check translation files
 
 on:
-  # Run on pull request.
+  # Run on pull request and merge queue
   pull_request:
+  merge_group:
 
-# Cancel any in progress run of the workflow for a given PR
+# Cancel any non merge queue in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   check-translation-files:

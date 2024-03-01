@@ -1,4 +1,3 @@
-import BigNumber from 'bignumber.js'
 import { SendOrigin } from 'src/analytics/types'
 import { MAX_ENCRYPTED_COMMENT_LENGTH_APPROX } from 'src/config'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
@@ -16,18 +15,11 @@ import { AddressRecipient, Recipient, RecipientType } from 'src/recipients/recip
 import { updateValoraRecipientCache } from 'src/recipients/reducer'
 import { canSendTokensSelector } from 'src/send/selectors'
 import { TransactionDataInput } from 'src/send/types'
-import { prepareSendTransactionsCallback } from 'src/send/usePrepareSendTransactions'
-import { feeCurrenciesSelector, tokensListSelector } from 'src/tokens/selectors'
+import { tokensListSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import { convertLocalToTokenAmount, getSupportedNetworkIdsForSend } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 import Logger from 'src/utils/Logger'
-import {
-  getSerializablePreparedTransaction,
-  SerializableTransactionRequest,
-} from 'src/viem/preparedTransactionSerialization'
-import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
-import { walletAddressSelector } from 'src/web3/selectors'
 import { call, put, select } from 'typed-redux-saga'
 
 export const COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE = ' '.repeat(MAX_ENCRYPTED_COMMENT_LENGTH_APPROX)
@@ -99,22 +91,10 @@ export function* handleSendPaymentData(
       comment: data.comment,
     }
 
-    const { preparedTransaction, feeAmount, feeTokenId } = yield* call(
-      preparePaymentRequestTransaction,
-      {
-        amount: tokenAmount,
-        token: tokenInfo,
-        recipientAddress: recipient.address,
-      }
-    )
-
     navigate(Screens.SendConfirmation, {
       transactionData,
       isFromScan,
       origin: SendOrigin.AppSendFlow,
-      preparedTransaction,
-      feeAmount,
-      feeTokenId,
     })
   } else {
     const canSendTokens: boolean = yield* select(canSendTokensSelector)
@@ -137,59 +117,5 @@ export function* handlePaymentDeeplink(deeplink: string) {
     yield* call(handleSendPaymentData, paymentData, true)
   } catch (e) {
     Logger.warn('handlePaymentDeepLink', `deeplink ${deeplink} failed with ${e}`)
-  }
-}
-
-export function* preparePaymentRequestTransaction({
-  amount,
-  token,
-  recipientAddress,
-}: {
-  amount: BigNumber
-  token: TokenBalance
-  recipientAddress: string
-}) {
-  let preparedTransaction: SerializableTransactionRequest | undefined = undefined
-  let feeAmount: string | undefined = undefined
-  let feeTokenId: string | undefined = undefined
-  const feeCurrencies = yield* select(feeCurrenciesSelector, token.networkId)
-  const walletAddress = yield* select(walletAddressSelector)
-
-  if (!walletAddress) {
-    // should never happen
-    throw new Error('wallet address not found')
-  }
-
-  try {
-    const prepareTransactionsResult = yield* call(prepareSendTransactionsCallback, {
-      amount,
-      token,
-      recipientAddress,
-      walletAddress,
-      feeCurrencies,
-      comment: COMMENT_PLACEHOLDER_FOR_FEE_ESTIMATE, // use placeholder since comment can be edited on the confirmation screen
-    })
-
-    if (
-      prepareTransactionsResult?.type === 'possible' &&
-      prepareTransactionsResult.transactions.length > 0
-    ) {
-      preparedTransaction = getSerializablePreparedTransaction(
-        prepareTransactionsResult.transactions[0]
-      )
-      const { maxFeeAmount, feeCurrency } = getFeeCurrencyAndAmounts(prepareTransactionsResult)
-      feeAmount = maxFeeAmount?.toString()
-      feeTokenId = feeCurrency?.tokenId
-    }
-  } catch (err) {
-    Logger.warn(`${TAG}/preparePaymentRequestTransaction`, 'Unable to prepare transaction', err)
-  }
-
-  // if a tx cannot be prepared or is not possible, return undefined, so the
-  // Send button in the SendConfirmation screen is disabled
-  return {
-    preparedTransaction,
-    feeAmount,
-    feeTokenId,
   }
 }

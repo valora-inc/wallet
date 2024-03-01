@@ -40,11 +40,11 @@ function accountStorageKey(account: KeychainAccount) {
   )}`
 }
 
-async function encryptPrivateKey(privateKey: string, password: string) {
+export async function encryptPrivateKey(privateKey: string, password: string) {
   return CryptoJS.AES.encrypt(privateKey, password).toString()
 }
 
-async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
+export async function decryptPrivateKey(encryptedPrivateKey: string, password: string) {
   try {
     const bytes = CryptoJS.AES.decrypt(encryptedPrivateKey, password)
     return bytes.toString(CryptoJS.enc.Utf8)

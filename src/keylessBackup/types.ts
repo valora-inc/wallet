@@ -11,3 +11,10 @@ export enum KeylessBackupStatus {
   Failed = 'Failed',
   NotFound = 'NotFound', // only in restore flow
 }
+
+export enum KeylessBackupDeleteStatus {
+  NotStarted = 'NotStarted',
+  InProgress = 'InProgress',
+  Completed = 'Completed',
+  Failed = 'Failed',
+}

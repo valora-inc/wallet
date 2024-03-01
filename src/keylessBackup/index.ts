@@ -1,6 +1,7 @@
 import { SiweClient } from '@fiatconnect/fiatconnect-sdk'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { getWalletAddressFromPrivateKey } from 'src/keylessBackup/encryption'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
@@ -44,17 +45,12 @@ export async function storeEncryptedMnemonic({
   }
 }
 
-export async function getEncryptedMnemonic({
-  encryptionPrivateKey,
-  encryptionAddress,
-}: {
-  encryptionPrivateKey: Hex
-  encryptionAddress: string
-}) {
-  const account = privateKeyToAccount(encryptionPrivateKey)
-  const siweClient = new SiweClient(
+function getSIWEClient(privateKey: Hex) {
+  const account = privateKeyToAccount(privateKey)
+  const accountAddress = getWalletAddressFromPrivateKey(privateKey)
+  return new SiweClient(
     {
-      accountAddress: encryptionAddress,
+      accountAddress,
       statement: SIWE_STATEMENT,
       version: SIWE_VERSION,
       chainId: parseInt(networkConfig.networkId),
@@ -67,6 +63,10 @@ export async function getEncryptedMnemonic({
     },
     (message) => account.signMessage({ message })
   )
+}
+
+export async function getEncryptedMnemonic(encryptionPrivateKey: Hex) {
+  const siweClient = getSIWEClient(encryptionPrivateKey)
   await siweClient.login()
   const response = await siweClient.fetch(networkConfig.cabGetEncryptedMnemonicUrl)
   if (response.status === 404) {
@@ -80,4 +80,18 @@ export async function getEncryptedMnemonic({
   }
   const { encryptedMnemonic } = (await response.json()) as { encryptedMnemonic: string }
   return encryptedMnemonic
+}
+
+export async function deleteEncryptedMnemonic(encryptionPrivateKey: Hex) {
+  const siweClient = getSIWEClient(encryptionPrivateKey)
+  await siweClient.login()
+  const response = await siweClient.fetch(networkConfig.cabDeleteEncryptedMnemonicUrl, {
+    method: 'DELETE',
+  })
+  if (!response.ok) {
+    const message = (await response.json())?.message
+    throw new Error(
+      `Failed to delete encrypted mnemonic with status ${response.status}, message ${message}`
+    )
+  }
 }

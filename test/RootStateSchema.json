@@ -1542,6 +1542,15 @@
             },
             "type": "object"
         },
+        "KeylessBackupDeleteStatus": {
+            "enum": [
+                "Completed",
+                "Failed",
+                "InProgress",
+                "NotStarted"
+            ],
+            "type": "string"
+        },
         "KeylessBackupStatus": {
             "enum": [
                 "Completed",
@@ -4099,11 +4108,17 @@
                 "backupStatus": {
                     "$ref": "#/definitions/KeylessBackupStatus"
                 },
+                "deleteBackupStatus": {
+                    "$ref": "#/definitions/KeylessBackupDeleteStatus"
+                },
                 "googleIdToken": {
                     "type": [
                         "null",
                         "string"
                     ]
+                },
+                "showDeleteBackupError": {
+                    "type": "boolean"
                 },
                 "torusKeyshare": {
                     "type": [
@@ -4120,7 +4135,9 @@
             },
             "required": [
                 "backupStatus",
+                "deleteBackupStatus",
                 "googleIdToken",
+                "showDeleteBackupError",
                 "torusKeyshare",
                 "valoraKeyshare"
             ],
@@ -4178,8 +4195,17 @@
         "State_4": {
             "additionalProperties": false,
             "properties": {
+                "encryptedComment": {
+                    "type": [
+                        "null",
+                        "string"
+                    ]
+                },
                 "inviteRewardsVersion": {
                     "type": "string"
+                },
+                "isEncryptingComment": {
+                    "type": "boolean"
                 },
                 "isSending": {
                     "type": "boolean"
@@ -4198,17 +4224,15 @@
                         "$ref": "#/definitions/Recipient"
                     },
                     "type": "array"
-                },
-                "showSendToAddressWarning": {
-                    "type": "boolean"
                 }
             },
             "required": [
+                "encryptedComment",
                 "inviteRewardsVersion",
+                "isEncryptingComment",
                 "isSending",
                 "recentPayments",
-                "recentRecipients",
-                "showSendToAddressWarning"
+                "recentRecipients"
             ],
             "type": "object"
         },

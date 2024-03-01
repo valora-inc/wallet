@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 193,
+          "version": 196,
         },
         "account": {
           "acceptedTerms": false,
@@ -265,7 +265,9 @@ describe('store state', () => {
         },
         "keylessBackup": {
           "backupStatus": "NotStarted",
+          "deleteBackupStatus": "NotStarted",
           "googleIdToken": null,
+          "showDeleteBackupError": false,
           "torusKeyshare": null,
           "valoraKeyshare": null,
         },
@@ -307,12 +309,13 @@ describe('store state', () => {
           "valoraRecipientCache": {},
         },
         "send": {
+          "encryptedComment": null,
           "inviteRewardsVersion": "none",
+          "isEncryptingComment": false,
           "isSending": false,
           "lastUsedTokenId": undefined,
           "recentPayments": [],
           "recentRecipients": [],
-          "showSendToAddressWarning": true,
         },
         "supercharge": {
           "availableRewards": [],

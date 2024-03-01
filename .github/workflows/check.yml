@@ -5,19 +5,20 @@ on:
   push:
     branches:
       - main
-  # ..and any pull request.
+  # ..any pull request, workflow dispatch and merge queue
   pull_request:
   workflow_dispatch:
+  merge_group:
   # Cron job to run checks @ 8:30 pm daily on the latest commit on the default branch - main
   schedule:
     - cron: '30 20 * * *'
 
-# Cancel any in progress run of the workflow for a given PR
+# Cancel any non merge queue in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  # Fallback used github.head_ref as it only defined on pull_request
-  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
-  cancel-in-progress: true
+  # Fallback used github.ref_name as it is always defined
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   vulnerability:

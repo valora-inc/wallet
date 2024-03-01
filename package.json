@@ -87,7 +87,7 @@
     "@noble/secp256k1": "^1.7.1",
     "@react-native-async-storage/async-storage": "^1.22.2",
     "@react-native-clipboard/clipboard": "^1.13.2",
-    "@react-native-community/netinfo": "^9.5.0",
+    "@react-native-community/netinfo": "^11.3.0",
     "@react-native-cookies/cookies": "^6.2.1",
     "@react-native-firebase/analytics": "^17.5.0",
     "@react-native-firebase/app": "^17.5.0",
@@ -105,11 +105,11 @@
     "@react-navigation/native": "^6.1.12",
     "@react-navigation/native-stack": "^6.9.20",
     "@reduxjs/toolkit": "^1.9.7",
-    "@segment/analytics-react-native": "^2.16.1",
-    "@segment/analytics-react-native-plugin-adjust": "^0.6.3",
-    "@segment/analytics-react-native-plugin-clevertap": "^1.0.3",
-    "@segment/analytics-react-native-plugin-firebase": "^0.3.11",
-    "@segment/sovran-react-native": "^1.0.4",
+    "@segment/analytics-react-native": "^2.18.0",
+    "@segment/analytics-react-native-plugin-adjust": "^0.7.0",
+    "@segment/analytics-react-native-plugin-clevertap": "^1.1.0",
+    "@segment/analytics-react-native-plugin-firebase": "^0.4.0",
+    "@segment/sovran-react-native": "^1.1.0",
     "@sentry/react-native": "^4.15.2",
     "@sentry/types": "^7.102.1",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.7",
@@ -152,7 +152,7 @@
     "react-native-camera": "^4.2.1",
     "react-native-config": "^1.5.1",
     "react-native-contacts": "https://github.com/celo-org/react-native-contacts#9940121",
-    "react-native-device-info": "^10.12.0",
+    "react-native-device-info": "^10.13.0",
     "react-native-exit-app": "^1.1.0",
     "react-native-fast-crypto": "^2.0.0",
     "react-native-fast-image": "^8.6.3",
@@ -396,6 +396,13 @@
           "os": "iOS 15.0"
         }
       },
+      "simulator.17.2": {
+        "type": "ios.simulator",
+        "device": {
+          "type": "iPhone SE (3rd generation)",
+          "os": "iOS 17.2"
+        }
+      },
       "emulator": {
         "type": "android.emulator",
         "device": {
@@ -417,6 +424,10 @@
       },
       "ios.release.15.0": {
         "device": "simulator.15.0",
+        "app": "ios.release"
+      },
+      "ios.release.17.2": {
+        "device": "simulator.17.2",
         "app": "ios.release"
       },
       "android.debug": {

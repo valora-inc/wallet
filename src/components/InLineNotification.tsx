@@ -48,7 +48,7 @@ export function InLineNotification({
   ) =>
     label &&
     onPress && (
-      <Text style={[styles.ctaLabel, { color }]} onPress={onPress}>
+      <Text testID={`${testID}/${label}`} style={[styles.ctaLabel, { color }]} onPress={onPress}>
         {label}
       </Text>
     )
