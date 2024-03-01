@@ -5,11 +5,11 @@ on:
       - main
   merge_group:
 
-# Cancel any in progress run of the workflow for a given PR
+# Cancel any non merge queue in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   android:
