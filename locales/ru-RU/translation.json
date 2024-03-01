@@ -30,6 +30,7 @@
   "enableDataSaver": "Включить экономию данных",
   "dataSaverDetail": "Режим экономии данных позволяет общаться с сообществом через доверенный узел. Этот режим всегда можно изменить в настройках приложения.",
   "keylessBackupSettingsTitle": "Восстановление эл. почты и телефона",
+  "keylessBackupSettingsDeleteError": "Твою резервную копию не удалось удалить, пожалуйста, подожди и повтори попытку позже.",
   "setup": "Настройка",
   "restartModalSwitchOff": {
     "header": "Перезапустить для отключения экономии данных",
@@ -2135,6 +2136,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Ошибка",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
