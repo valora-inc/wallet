@@ -30,6 +30,7 @@
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Set Up",
   "restartModalSwitchOff": {
     "header": "Restart To Switch Off Data Saver",
@@ -2131,6 +2132,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Error",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
