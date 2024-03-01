@@ -24,6 +24,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  JumpstartEvents,
   KeylessBackupEvents,
   NavigationEvents,
   NftEvents,
@@ -1492,6 +1493,21 @@ interface TransactionDetailsProperties {
   }
 }
 
+interface WalletJumpstartProperties {
+  [JumpstartEvents.jumpstart_claim_succeeded]: undefined
+  [JumpstartEvents.jumpstart_claim_failed]: undefined
+  [JumpstartEvents.jumpstart_claimed_token]: {
+    networkId: NetworkId
+    tokenAddress: string
+    value: number
+  }
+  [JumpstartEvents.jumpstart_claimed_nft]: {
+    networkId: NetworkId
+    contractAddress: string
+    tokenId: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1525,6 +1541,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  WalletJumpstartProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

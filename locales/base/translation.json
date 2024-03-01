@@ -30,6 +30,7 @@
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Set Up",
   "restartModalSwitchOff": {
     "header": "Restart To Switch Off Data Saver",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Sign in with email",
     "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Sign in with Google"
   },
   "keylessBackupPhoneInput": {
@@ -2131,5 +2133,6 @@
       "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
     }
   },
-  "pleaseWait": "Please wait"
+  "pleaseWait": "Please wait",
+  "error": "Error"
 }

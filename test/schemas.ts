@@ -3098,6 +3098,29 @@ export const v194Schema = {
   },
 }
 
+export const v195Schema = {
+  ...v194Schema,
+  _persist: {
+    ...v194Schema._persist,
+    version: 195,
+  },
+  keylessBackup: {
+    ...v194Schema.keylessBackup,
+    showDeleteBackupError: false,
+  },
+}
+
+export const v196Schema = {
+  ...v195Schema,
+  _persist: {
+    ...v195Schema._persist,
+    version: 196,
+  },
+  jumpstart: {
+    claimStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v194Schema as Partial<RootState>
+  return v196Schema as Partial<RootState>
 }

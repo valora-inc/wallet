@@ -2127,5 +2127,6 @@
       "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
     }
   },
+  "pleaseWait": "Please wait",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

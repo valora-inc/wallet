@@ -60,8 +60,11 @@ import { PRIVACY_LINK, TOS_LINK } from 'src/config'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ForwardChevron from 'src/icons/ForwardChevron'
 import LoadingSpinner from 'src/icons/LoadingSpinner'
-import { deleteKeylessBackupStatusSelector } from 'src/keylessBackup/selectors'
-import { deleteKeylessBackupStarted } from 'src/keylessBackup/slice'
+import {
+  deleteKeylessBackupStatusSelector,
+  showDeleteKeylessBackupErrorSelector,
+} from 'src/keylessBackup/selectors'
+import { deleteKeylessBackupStarted, hideDeleteKeylessBackupError } from 'src/keylessBackup/slice'
 import { KeylessBackupDeleteStatus } from 'src/keylessBackup/types'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
@@ -80,6 +83,8 @@ import Logger from 'src/utils/Logger'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
+import InLineNotificationModal from 'src/components/InLineNotificationModal'
+import { Severity } from 'src/components/InLineNotification'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
@@ -109,6 +114,7 @@ export const Account = ({ navigation, route }: Props) => {
   const currentLanguage = useSelector(currentLanguageSelector)
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
   const deleteKeylessBackupStatus = useSelector(deleteKeylessBackupStatusSelector)
+  const showDeleteKeylessBackupError = useSelector(showDeleteKeylessBackupErrorSelector)
   const walletConnectEnabled = v2
   const connectedApplications = sessions.length
 
@@ -117,6 +123,10 @@ export const Account = ({ navigation, route }: Props) => {
       dispatch(setSessionId(sessionId))
     }
   }, [])
+
+  const onDismissKeylessBackupError = () => {
+    dispatch(hideDeleteKeylessBackupError())
+  }
 
   const goToProfile = () => {
     ValoraAnalytics.track(SettingsEvents.settings_profile_edit)
@@ -542,6 +552,17 @@ export const Account = ({ navigation, route }: Props) => {
         >
           {t('promptConfirmRemovalModal.body')}
         </Dialog>
+
+        <InLineNotificationModal
+          severity={Severity.Warning}
+          description={t('keylessBackupSettingsDeleteError')}
+          isVisible={showDeleteKeylessBackupError}
+          onDismiss={onDismissKeylessBackupError}
+          onPressCta={onDismissKeylessBackupError}
+          ctaLabel={t('dismiss')}
+          title={t('error')}
+          testID="KeylessBackupDeleteError"
+        />
       </ScrollView>
 
       <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
