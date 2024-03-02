@@ -57,7 +57,7 @@ const mockViemFeeInfo = {
 }
 
 const mockViemWallet = {
-  account: { address: mockAccount },
+  account: { address: mockAccount2 },
   writeContract: jest.fn(),
   sendTransaction: jest.fn(),
 } as any as ViemWallet
@@ -167,7 +167,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
-      .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
+      .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount2, true)
       .call(getSendTxFeeDetails, {
         recipientAddress: mockSendPaymentArgs.recipientAddress,
         amount: BigNumber(2),
@@ -229,7 +229,7 @@ describe('sendPayment', () => {
         [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
-      .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount, true)
+      .call(encryptComment, 'comment', mockSendPaymentArgs.recipientAddress, mockAccount2, true)
       .not.call.fn(getSendTxFeeDetails)
       .put(
         addStandbyTransaction({
