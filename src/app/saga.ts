@@ -54,7 +54,7 @@ import {
 } from 'src/i18n/selectors'
 import { E164NumberToSaltType } from 'src/identity/reducer'
 import { e164NumberToSaltSelector } from 'src/identity/selectors'
-import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
+import { jumpstartClaim } from 'src/jumpstart/saga'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -69,6 +69,7 @@ import { SentryTransaction } from 'src/sentry/SentryTransactions'
 import { getFeatureGate, patchUpdateStatsigUser, setupOverridesFromLaunchArgs } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import { swapSuccess } from 'src/swap/slice'
+import { NetworkId } from 'src/transactions/types'
 import { ensureError } from 'src/utils/ensureError'
 import { isDeepLink, navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
@@ -357,9 +358,10 @@ export function* handleDeepLink(action: OpenDeepLink) {
       ValoraAnalytics.track(InviteEvents.opened_via_invite_url, {
         inviterAddress,
       })
-    } else if (pathParts.length === 3 && pathParts[1] === 'jumpstart') {
+    } else if (pathParts.length === 4 && pathParts[1] === 'jumpstart') {
       const privateKey = pathParts[2]
-      yield* call(jumpstartLinkHandler, privateKey, walletAddress)
+      const networkId = pathParts[3] as NetworkId
+      yield* call(jumpstartClaim, privateKey, networkId, walletAddress)
     } else if (
       (yield* select(allowHooksPreviewSelector)) &&
       rawParams.pathname === '/hooks/enablePreview'

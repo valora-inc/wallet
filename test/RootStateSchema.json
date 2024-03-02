@@ -2149,6 +2149,52 @@
             ],
             "type": "object"
         },
+        "PendingStandbyNFTTransfer": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "NftTransferV3",
+                    "type": "string"
+                },
+                "context": {
+                    "$ref": "#/definitions/TransactionContext"
+                },
+                "feeCurrencyId": {
+                    "type": "string"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "nfts": {
+                    "items": {
+                        "$ref": "#/definitions/Nft"
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "const": "Pending",
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "context",
+                "networkId",
+                "status",
+                "timestamp",
+                "type"
+            ],
+            "type": "object"
+        },
         "PendingStandbySwap": {
             "additionalProperties": false,
             "properties": {
@@ -2815,6 +2861,9 @@
                     "$ref": "#/definitions/PendingStandbyApproval"
                 },
                 {
+                    "$ref": "#/definitions/PendingStandbyNFTTransfer"
+                },
+                {
                     "additionalProperties": false,
                     "properties": {
                         "__typename": {
@@ -3008,6 +3057,66 @@
                         "status",
                         "timestamp",
                         "tokenId",
+                        "transactionHash",
+                        "type"
+                    ],
+                    "type": "object"
+                },
+                {
+                    "additionalProperties": false,
+                    "properties": {
+                        "__typename": {
+                            "const": "NftTransferV3",
+                            "type": "string"
+                        },
+                        "block": {
+                            "type": "string"
+                        },
+                        "context": {
+                            "$ref": "#/definitions/TransactionContext"
+                        },
+                        "feeCurrencyId": {
+                            "type": "string"
+                        },
+                        "fees": {
+                            "items": {
+                                "$ref": "#/definitions/Fee"
+                            },
+                            "type": "array"
+                        },
+                        "networkId": {
+                            "$ref": "#/definitions/NetworkId"
+                        },
+                        "nfts": {
+                            "items": {
+                                "$ref": "#/definitions/Nft"
+                            },
+                            "type": "array"
+                        },
+                        "status": {
+                            "enum": [
+                                "Complete",
+                                "Failed"
+                            ],
+                            "type": "string"
+                        },
+                        "timestamp": {
+                            "type": "number"
+                        },
+                        "transactionHash": {
+                            "type": "string"
+                        },
+                        "type": {
+                            "$ref": "#/definitions/TokenTransactionTypeV2"
+                        }
+                    },
+                    "required": [
+                        "__typename",
+                        "block",
+                        "context",
+                        "networkId",
+                        "status",
+                        "timestamp",
                         "transactionHash",
                         "type"
                     ],
@@ -4007,6 +4116,9 @@
                         "string"
                     ]
                 },
+                "showDeleteBackupError": {
+                    "type": "boolean"
+                },
                 "torusKeyshare": {
                     "type": [
                         "null",
@@ -4024,6 +4136,7 @@
                 "backupStatus",
                 "deleteBackupStatus",
                 "googleIdToken",
+                "showDeleteBackupError",
                 "torusKeyshare",
                 "valoraKeyshare"
             ],
@@ -4049,6 +4162,23 @@
                 ],
                 "type": "object"
             },
+            "type": "object"
+        },
+        "State_27": {
+            "additionalProperties": false,
+            "properties": {
+                "claimStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading"
+                    ],
+                    "type": "string"
+                }
+            },
+            "required": [
+                "claimStatus"
+            ],
             "type": "object"
         },
         "State_3": {
@@ -5771,6 +5901,9 @@
         "imports": {
             "$ref": "#/definitions/State_15"
         },
+        "jumpstart": {
+            "$ref": "#/definitions/State_27"
+        },
         "keylessBackup": {
             "$ref": "#/definitions/State_24"
         },
@@ -5852,6 +5985,7 @@
         "i18n",
         "identity",
         "imports",
+        "jumpstart",
         "keylessBackup",
         "localCurrency",
         "networkInfo",

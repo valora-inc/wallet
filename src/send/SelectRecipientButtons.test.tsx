@@ -13,7 +13,6 @@ import { StatsigFeatureGates } from 'src/statsig/types'
 import { navigateToPhoneSettings } from 'src/utils/linking'
 import { createMockStore } from 'test/utils'
 
-jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
 jest.mock('src/statsig')
 
 const renderComponent = (phoneNumberVerified = false) => {

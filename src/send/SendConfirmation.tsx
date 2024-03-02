@@ -20,10 +20,9 @@ import TokenTotalLineItem from 'src/components/TokenTotalLineItem'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import InfoIcon from 'src/icons/InfoIcon'
-import { getSecureSendAddress } from 'src/identity/secureSend'
 import {
   addressToDataEncryptionKeySelector,
-  secureSendPhoneNumberMappingSelector,
+  e164NumberToAddressSelector,
 } from 'src/identity/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
@@ -138,8 +137,10 @@ function SendConfirmation(props: Props) {
     return () => clearTimeout(debouncedEncryptComment)
   }, [comment])
 
-  const secureSendPhoneNumberMapping = useSelector(secureSendPhoneNumberMappingSelector)
-  const validatedRecipientAddress = getSecureSendAddress(recipient, secureSendPhoneNumberMapping)
+  const e164NumberToAddress = useSelector(e164NumberToAddressSelector)
+  const showAddress =
+    !!recipient.e164PhoneNumber && (e164NumberToAddress[recipient.e164PhoneNumber]?.length ?? 0) > 1
+
   const disableSend =
     isSending || !prepareTransactionsResult || prepareTransactionsResult.type !== 'possible'
 
@@ -273,9 +274,9 @@ function SendConfirmation(props: Props) {
               <Text testID="DisplayName" style={styles.displayName}>
                 {getDisplayName(recipient, t)}
               </Text>
-              {validatedRecipientAddress && (
-                <View style={styles.addressContainer}>
-                  <ShortenedAddress style={styles.address} address={validatedRecipientAddress} />
+              {showAddress && (
+                <View style={styles.addressContainer} testID="RecipientAddress">
+                  <ShortenedAddress style={styles.address} address={recipient.address} />
                 </View>
               )}
             </View>

@@ -3,7 +3,6 @@ import { useAsync } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
 import {
-  PERMISSIONS,
   RESULTS as PERMISSION_RESULTS,
   PermissionStatus,
   check as checkPermission,
@@ -21,10 +20,8 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import useSelector from 'src/redux/useSelector'
 import Logger from 'src/utils/Logger'
+import { CONTACTS_PERMISSION } from 'src/utils/contacts'
 import { navigateToPhoneSettings } from 'src/utils/linking'
-
-const CONTACTS_PERMISSION =
-  Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS
 
 type Props = {
   onContactsPermissionGranted: () => void

@@ -30,6 +30,7 @@
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
   "keylessBackupSettingsTitle": "E-Mail- und Telefonwiederherstellung",
+  "keylessBackupSettingsDeleteError": "Dein Backup konnte nicht gelöscht werden. Bitte warte und versuche es später noch einmal.",
   "setup": "Einrichten",
   "restartModalSwitchOff": {
     "header": "Neustarten, um Datensparmodus auszuschalten",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Mit der E-Mail-Adresse anmelden",
     "subtitle": "Melde dich mit deiner E-Mail-Adresse an, um diese als Sicherung einzurichten.\nDu wirst aufgefordert, dich erneut anzumelden, wenn du jemals deine Wallet verlierst.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Mit Google anmelden"
   },
   "keylessBackupPhoneInput": {
@@ -2130,6 +2132,7 @@
     }
   },
   "pleaseWait": "Bitte warten",
+  "error": "Fehler",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

@@ -30,6 +30,7 @@
   "enableDataSaver": "Включить экономию данных",
   "dataSaverDetail": "Режим экономии данных позволяет общаться с сообществом через доверенный узел. Этот режим всегда можно изменить в настройках приложения.",
   "keylessBackupSettingsTitle": "Восстановление эл. почты и телефона",
+  "keylessBackupSettingsDeleteError": "Твою резервную копию не удалось удалить, пожалуйста, подожди и повтори попытку позже.",
   "setup": "Настройка",
   "restartModalSwitchOff": {
     "header": "Перезапустить для отключения экономии данных",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Войти с помощью электронной почты",
     "subtitle": "Войдите с помощью своей электронной почты, и она станет резервным средством.\n\nЕсли вы потеряте свой кошелек, вам будет предложено снова войти в систему.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Войти с помощью Google"
   },
   "keylessBackupPhoneInput": {
@@ -2134,6 +2136,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Ошибка",
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

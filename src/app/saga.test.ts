@@ -55,7 +55,8 @@ import { handleEnableHooksPreviewDeepLink } from 'src/positions/saga'
 import { allowHooksPreviewSelector } from 'src/positions/selectors'
 import { handlePaymentDeeplink } from 'src/send/utils'
 import { initializeSentry } from 'src/sentry/Sentry'
-import { getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate, patchUpdateStatsigUser } from 'src/statsig'
+import { NetworkId } from 'src/transactions/types'
 import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
@@ -70,7 +71,7 @@ import {
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { createMockStore } from 'test/utils'
-import { mockAccount } from 'test/values'
+import { mockAccount, mockTokenBalances } from 'test/values'
 
 jest.mock('src/dappkit/dappkit')
 jest.mock('src/analytics/ValoraAnalytics')
@@ -265,12 +266,29 @@ describe('handleDeepLink', () => {
   })
 
   it('Handles jumpstart links', async () => {
-    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey'
+    const deepLink = 'celo://wallet/jumpstart/0xPrivateKey/celo-alfajores'
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: {
+        [NetworkId['celo-alfajores']]: { contractAddress: '0xTEST' },
+      },
+    })
     await expectSaga(handleDeepLink, openDeepLink(deepLink))
+      .withState(
+        createMockStore({
+          tokens: {
+            tokenBalances: mockTokenBalances,
+          },
+        }).getState()
+      )
       .provide([[select(walletAddressSelector), '0xwallet']])
       .run()
 
-    expect(jumpstartLinkHandler).toHaveBeenCalledWith('0xPrivateKey', '0xwallet')
+    expect(jumpstartLinkHandler).toHaveBeenCalledWith(
+      'celo-alfajores',
+      '0xTEST',
+      '0xPrivateKey',
+      '0xwallet'
+    )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(AppEvents.handle_deeplink, {
       pathStartsWith: 'jumpstart',
       fullPath: null,

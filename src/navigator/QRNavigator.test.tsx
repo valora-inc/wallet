@@ -5,8 +5,6 @@ import QRNavigator, { QRCodePicker, QRCodeProps } from 'src/navigator/QRNavigato
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 
-jest.mock('react-native-permissions', () => jest.fn())
-
 jest.mock('src/qrcode/StyledQRGen', () => jest.fn().mockReturnValue(''))
 jest.mock('src/qrcode/QRGen', () => jest.fn().mockReturnValue(''))
 

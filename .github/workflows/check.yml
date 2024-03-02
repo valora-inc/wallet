@@ -13,12 +13,12 @@ on:
   schedule:
     - cron: '30 20 * * *'
 
-# Cancel any in progress run of the workflow for a given PR
+# Cancel any non merge queue in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
   # Fallback used github.ref_name as it is always defined
   group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name != 'merge_group' }}
 
 jobs:
   vulnerability:

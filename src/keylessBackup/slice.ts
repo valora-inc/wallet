@@ -11,6 +11,7 @@ export interface State {
   torusKeyshare: string | null
   backupStatus: KeylessBackupStatus
   deleteBackupStatus: KeylessBackupDeleteStatus
+  showDeleteBackupError: boolean
 }
 
 export const initialState: State = {
@@ -19,6 +20,7 @@ export const initialState: State = {
   torusKeyshare: null,
   backupStatus: KeylessBackupStatus.NotStarted,
   deleteBackupStatus: KeylessBackupDeleteStatus.NotStarted,
+  showDeleteBackupError: false,
 }
 
 export const slice = createSlice({
@@ -72,6 +74,10 @@ export const slice = createSlice({
     },
     deleteKeylessBackupFailed: (state) => {
       state.deleteBackupStatus = KeylessBackupDeleteStatus.Failed
+      state.showDeleteBackupError = true
+    },
+    hideDeleteKeylessBackupError: (state) => {
+      state.showDeleteBackupError = false
     },
   },
 })
@@ -90,6 +96,7 @@ export const {
   deleteKeylessBackupStarted,
   deleteKeylessBackupCompleted,
   deleteKeylessBackupFailed,
+  hideDeleteKeylessBackupError,
 } = slice.actions
 
 export default slice.reducer
