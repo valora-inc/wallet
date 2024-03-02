@@ -118,7 +118,7 @@ export async function tryEstimateTransaction({
   baseTransaction: TransactionRequest
   maxFeePerGas: bigint
   maxPriorityFeePerGas?: bigint
-  baseFeePerGas: bigint
+  baseFeePerGas?: bigint
   feeCurrencySymbol: string
   feeCurrencyAddress?: Address
 }) {
@@ -196,7 +196,7 @@ export async function tryEstimateTransactions(
         _estimatedGasUse: baseTx._estimatedGasUse
           ? baseTx._estimatedGasUse + BigInt(feeCurrency.isNative ? 0 : STATIC_GAS_PADDING)
           : undefined,
-        _baseFeePerGas: baseFeePerGas,
+        _baseFeePerGas: baseFeePerGas ?? undefined,
       })
     } else {
       const tx = await tryEstimateTransaction({
@@ -206,7 +206,7 @@ export async function tryEstimateTransactions(
         feeCurrencyAddress,
         maxFeePerGas,
         maxPriorityFeePerGas,
-        baseFeePerGas,
+        baseFeePerGas: baseFeePerGas ?? undefined,
       })
       if (!tx) {
         return null

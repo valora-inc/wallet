@@ -9,7 +9,7 @@ import {
 export async function estimateFeesPerGas(
   client: Client,
   feeCurrency?: Address
-): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint; baseFeePerGas: bigint }> {
+): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint; baseFeePerGas: bigint | null }> {
   // Custom path for Celo that can be removed once it's supported in viem
   // See https://github.com/wagmi-dev/viem/discussions/914
   if (client.chain?.id === networkConfig.viemChain.celo.id) {
