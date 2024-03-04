@@ -9,7 +9,7 @@ import {
 export async function estimateFeesPerGas(
   client: Client,
   feeCurrency?: Address
-): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint; baseFeePerGas: bigint | null }> {
+): Promise<{ maxFeePerGas: bigint; maxPriorityFeePerGas: bigint; baseFeePerGas: bigint }> {
   // Custom path for Celo that can be removed once it's supported in viem
   // See https://github.com/wagmi-dev/viem/discussions/914
   if (client.chain?.id === networkConfig.viemChain.celo.id) {
@@ -31,6 +31,11 @@ export async function estimateFeesPerGas(
   }
 
   const block = await getBlock(client)
+
+  if (!block.baseFeePerGas) {
+    // should never happen since baseFeePerGas is present on the latest block always
+    throw new Error(`missing base fee per gas on block: ${JSON.stringify(block)}`)
+  }
 
   return {
     ...(await defaultEstimateFeesPerGas(client, {
