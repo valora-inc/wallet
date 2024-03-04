@@ -241,6 +241,44 @@ describe('Given Nfts saga', () => {
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
       })
+
+      it('should log an error if expiration date is invalid', async () => {
+        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+        jest.mocked(getFeatureGate).mockReturnValue(true)
+        jest
+          .mocked(getDynamicConfigParams)
+          .mockReturnValue({ ...mockRemoteConfig, expirationDate: 'INVALID VALUE' })
+
+        await expectSaga(nftSaga.findCelebratedNft, mockAction)
+          .provide([[select(celebratedNftSelector), null]])
+          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+          .run()
+
+        expect(loggerErrorSpy).toHaveBeenCalledWith(
+          'NftsSaga',
+          'Invalid expiration date in remote config'
+        )
+      })
+
+      it('should log an error if reminder date is invalid', async () => {
+        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+        jest.mocked(getFeatureGate).mockReturnValue(true)
+        jest
+          .mocked(getDynamicConfigParams)
+          .mockReturnValue({ ...mockRemoteConfig, reminderDate: 'INVALID VALUE' })
+
+        await expectSaga(nftSaga.findCelebratedNft, mockAction)
+          .provide([[select(celebratedNftSelector), null]])
+          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+          .run()
+
+        expect(loggerErrorSpy).toHaveBeenCalledWith(
+          'NftsSaga',
+          'Invalid reminder date in remote config'
+        )
+      })
     })
 
     describe('reward bottom sheet', () => {
