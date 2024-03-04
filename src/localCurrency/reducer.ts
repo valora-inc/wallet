@@ -2,7 +2,7 @@ import { Actions, ActionTypes } from 'src/localCurrency/actions'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
-export interface State {
+interface State {
   isLoading: boolean
   error?: boolean
   preferredCurrencyCode?: LocalCurrencyCode

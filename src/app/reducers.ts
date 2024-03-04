@@ -9,7 +9,7 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 
 const PERSISTED_DEEP_LINKS = ['https://valoraapp.com/share', 'celo://wallet/jumpstart']
 
-export interface State {
+interface State {
   loggedIn: boolean
   numberVerified: boolean // decentrally verified
   phoneNumberVerified: boolean // centrally verified

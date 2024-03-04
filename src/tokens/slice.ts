@@ -96,7 +96,7 @@ export interface TokenBalancesWithAddress {
 
 // Create imported token interface but from the base Token type
 
-export interface State {
+interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
@@ -112,7 +112,7 @@ export function isNativeTokenBalance(tokenInfo: TokenBalance): tokenInfo is Nati
   return !!tokenInfo.isNative
 }
 
-export const initialState = {
+const initialState: State = {
   tokenBalances: {},
   loading: false,
   error: false,

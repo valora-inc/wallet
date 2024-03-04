@@ -6,18 +6,18 @@ import reducer, {
 import { mockCusdTokenId } from 'test/values'
 
 it('should handle fetchPriceHistoryStart', () => {
-  const initialState = {}
+  const initialState: State = {}
   const action = fetchPriceHistoryStart({
     tokenId: mockCusdTokenId,
     startTimestamp: 0,
     endTimestamp: 1000,
   })
-  const resultState = reducer(initialState, action) as State
+  const resultState = reducer(initialState, action)
   expect(resultState[mockCusdTokenId]).toEqual({ status: 'loading' })
 })
 
 it('should handle fetchPriceHistoryFailure', () => {
-  const initialState = {
+  const initialState: State = {
     [mockCusdTokenId]: {
       status: 'success',
       prices: [
@@ -36,7 +36,7 @@ it('should handle fetchPriceHistoryFailure', () => {
     tokenId: mockCusdTokenId,
   })
 
-  const resultState = reducer(initialState, action) as State
+  const resultState = reducer(initialState, action)
   // Should retain existing prices on failure
   expect(resultState[mockCusdTokenId]).toEqual({
     prices: [
@@ -54,7 +54,7 @@ it('should handle fetchPriceHistoryFailure', () => {
 })
 
 it('should handle fetchPriceHistorySuccess', () => {
-  const initialState = {
+  const initialState: State = {
     [mockCusdTokenId]: {
       status: 'loading',
       prices: [],
@@ -77,7 +77,7 @@ it('should handle fetchPriceHistorySuccess', () => {
     },
   }
 
-  const resultState = reducer(initialState, action) as State
+  const resultState = reducer(initialState, action)
   expect(resultState[mockCusdTokenId]).toEqual({
     prices: [
       {

@@ -23,7 +23,7 @@ export interface InviteTransactions {
 type TransactionsByNetworkId = {
   [networkId in NetworkId]?: TokenTransaction[]
 }
-export interface State {
+interface State {
   // Tracks transactions that have been initiated by the user
   // before they are picked up by the chain explorer and
   // included in the tx feed. Necessary so it shows up in the

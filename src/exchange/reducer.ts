@@ -14,7 +14,7 @@ export interface ExchangeRate {
 
 export type ExchangeRates = Record<Currency, Record<Currency, string>>
 
-export interface State {
+interface State {
   history: {
     // TODO this should be remove once we have aggregation on
     // blockchain api side

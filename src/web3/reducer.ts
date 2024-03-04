@@ -2,7 +2,7 @@ import { UpdateConfigValuesAction } from 'src/app/actions'
 import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { ActionTypes, Actions } from 'src/web3/actions'
 
-export interface State {
+interface State {
   account: string | null // this is the wallet address (EOA)
   mtwAddress: string | null // this is the account address
   accountInWeb3Keystore: string | null
