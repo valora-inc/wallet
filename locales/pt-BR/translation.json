@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Proteja sua carteira",
     "subtitle": "Proteja sua carteira",
-    "body": "Se perder seu celular ou ele for roubado, sua frase recuperação de {{mnemonicLength}} palavras é a única maneira de acessar seus fundos.",
+    "body": "Se o seu telefone for perdido ou roubado, sua frase de recuperação de 12 palavras é a única maneira de você acessar seus fundos.",
     "recoveryPhrase": {
       "title": "Usar frase de recuperação",
       "subtitle": "Anote sua frase de recuperação"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Sua frase de recuperação",
-    "body": "Anote essas {{mnemonicLength}} palavras em algum lugar seguro, onde ninguém possa roubá-las ou danificá-las.",
+    "body": "Escreva essas 12 palavras em um lugar seguro, onde não possam ser roubadas ou danificadas.",
     "continue": "Já salvei",
     "copy": "Copiar para área de transferência",
     "mnemonicCopied": "Frase de recuperação copiada para a área de transferência",
