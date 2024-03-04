@@ -2099,6 +2099,12 @@
       "description": "Bu token için bir işlem hazırlamak mümkün olmadı."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Daha düşük bir miktar öneriyoruz",
+      "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilecektir. {{maxAmount}} {{localCurrencyCode}}adresinden daha fazlasını göndermemenizi öneririz."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
     "estimatedNetworkFee": "Tahmini ağ ücreti",
