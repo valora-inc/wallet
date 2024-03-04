@@ -2097,6 +2097,12 @@
       "description": "无法为该令牌准备交易。"
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "我们建议降低金额",
+      "description": "任何人都可以使用该链接。我们建议发送的链接不超过 {{maxAmount}} {{localCurrencyCode}}。"
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "批准",
     "estimatedNetworkFee": "估算的网络费用",
