@@ -101,7 +101,10 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]: {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {
-      jumpstartContracts: {} as { [key in NetworkId]?: { contractAddress?: string } },
+      jumpstartContracts: {} as {
+        [key in NetworkId]?: { contractAddress?: string }
+      },
+      maxAllowedSendAmountUsd: 100,
     },
   },
   [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {

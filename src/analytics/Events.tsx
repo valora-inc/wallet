@@ -329,7 +329,11 @@ export enum SendEvents {
   send_select_recipient_invite_press = 'send_select_recipient_invite_press',
   send_select_recipient_send_press = 'send_select_recipient_send_press',
   send_select_recipient_recent_press = 'send_select_recipient_recent_press',
+}
+
+export enum JumpstartEvents {
   send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
+  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
 }
 
 export enum QrScreenEvents {
@@ -637,4 +641,11 @@ export enum TransactionDetailsEvents {
   transaction_details_tap_check_status = 'transaction_details_tap_check_status',
   transaction_details_tap_retry = 'transaction_details_tap_retry',
   transaction_details_tap_block_explorer = 'transaction_details_tap_block_explorer',
+}
+
+export enum JumpstartEvents {
+  jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
+  jumpstart_claim_failed = 'jumpstart_claim_failed',
+  jumpstart_claimed_token = 'jumpstart_claimed_token',
+  jumpstart_claimed_nft = 'jumpstart_claimed_nft',
 }

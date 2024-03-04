@@ -1,9 +1,21 @@
 import { Platform } from 'react-native'
 import { getAll, getMinimal, MinimalContact } from 'react-native-contacts'
+import {
+  check as checkPermission,
+  RESULTS as PERMISSION_RESULTS,
+  PERMISSIONS,
+} from 'react-native-permissions'
 import Logger from 'src/utils/Logger'
-import { checkContactsPermission } from 'src/utils/permissions'
 
 const TAG = 'utils/contacts'
+
+export const CONTACTS_PERMISSION =
+  Platform.OS === 'ios' ? PERMISSIONS.IOS.CONTACTS : PERMISSIONS.ANDROID.READ_CONTACTS
+
+export async function hasGrantedContactsPermission() {
+  const contactPermissionStatus = await checkPermission(CONTACTS_PERMISSION)
+  return contactPermissionStatus === PERMISSION_RESULTS.GRANTED
+}
 
 // Stop gap solution since getMinimal is not yet implement on iOS
 function customGetAll(callback: (error: any, contacts: MinimalContact[]) => void) {
@@ -38,8 +50,8 @@ function customGetAll(callback: (error: any, contacts: MinimalContact[]) => void
 }
 
 export async function getAllContacts(): Promise<MinimalContact[] | null> {
-  const contactPermissionsGiven = await checkContactsPermission()
-  if (!contactPermissionsGiven) {
+  const contactPermissionStatusGranted = await hasGrantedContactsPermission()
+  if (!contactPermissionStatusGranted) {
     Logger.warn(TAG, 'Permissions not given for retrieving contacts')
     return null
   }

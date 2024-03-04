@@ -30,6 +30,7 @@
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过可信节点与网络通信。您可以随时在应用程序设置中更改该模式。",
   "keylessBackupSettingsTitle": "电子邮箱和电话恢复",
+  "keylessBackupSettingsDeleteError": "您的备份无法删除，请稍后再试。",
   "setup": "设置",
   "restartModalSwitchOff": {
     "header": "重新启动以关闭数据保护模式",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "使用电子邮件登录",
     "subtitle": "使用您的电子邮件登录，以将其设置为备份。\n\n如果您的钱包丢失，系统将提示您重新登录。",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "使用 Google 登录"
   },
   "keylessBackupPhoneInput": {
@@ -2128,5 +2130,6 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "错误",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
