@@ -2099,6 +2099,12 @@
       "description": "No fue posible preparar una transacción para este token."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugeriríamos una cantidad inferior",
+      "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Te recomendamos que no envíes más de {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
