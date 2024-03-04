@@ -213,3 +213,7 @@ export function isHistoricalPriceUpdated(token: TokenBalance) {
       Math.abs(token.historicalPricesUsd.lastDay.at - (Date.now() - ONE_DAY_IN_MILLIS))
   )
 }
+
+export function isFeeCurrency(token: TokenBalance | undefined): token is TokenBalance {
+  return token?.isNative || !!token?.isFeeCurrency || !!token?.feeCurrencyAdapterAddress
+}

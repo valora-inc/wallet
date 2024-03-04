@@ -30,6 +30,7 @@
   "enableDataSaver": "Activer l'Économiseur de données",
   "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
   "keylessBackupSettingsTitle": "Récupération de l'e-mail et du téléphone",
+  "keylessBackupSettingsDeleteError": "Ta sauvegarde n'a pas pu être supprimée, attends et réessaie plus tard.",
   "setup": "Configuration",
   "restartModalSwitchOff": {
     "header": "Redémarrer pour désactiver l'Économiseur de données",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Se connecter avec un e-mail",
     "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde.\n\nSi vous perdez votre portefeuille, vous serez invité à vous reconnecter.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Se connecter avec Google"
   },
   "keylessBackupPhoneInput": {
@@ -2130,6 +2132,7 @@
     }
   },
   "pleaseWait": "Merci de patienter",
+  "error": "Erreur",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

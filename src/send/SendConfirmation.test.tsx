@@ -16,14 +16,19 @@ import { RecursivePartial, createMockStore, getMockStackScreenProps } from 'test
 import {
   emptyFees,
   mockAccount,
+  mockAccount2,
+  mockAccount3,
+  mockAddressRecipient,
   mockCeloAddress,
   mockCeloTokenBalance,
   mockCeloTokenId,
   mockCusdAddress,
   mockCusdTokenBalance,
   mockCusdTokenId,
+  mockE164Number,
   mockPoofAddress,
   mockPoofTokenId,
+  mockRecipient,
   mockTokenBalances,
   mockTokenTransactionData,
 } from 'test/values'
@@ -262,5 +267,83 @@ describe('SendConfirmation', () => {
         getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
       )
     )
+  })
+
+  it('trims comment when encrypting and sending', () => {
+    const { getByTestId, queryAllByDisplayValue, store } = renderScreen()
+    const input = getByTestId('commentInput/send')
+    const comment = '   A comment!   '
+    const trimmedComment = 'A comment!'
+    fireEvent.changeText(input, comment)
+    expect(queryAllByDisplayValue(comment)).toHaveLength(1)
+    jest.advanceTimersByTime(300)
+    fireEvent.press(getByTestId('ConfirmButton'))
+    const { inputAmount, tokenId, recipient } = mockTokenTransactionData
+    expect(store.getActions()).toEqual([
+      encryptComment({
+        comment: trimmedComment,
+        fromAddress: mockAccount.toLowerCase(),
+        toAddress: mockTokenTransactionData.recipient.address,
+      }),
+      sendPayment(
+        inputAmount,
+        tokenId,
+        inputAmount.times(1.001),
+        trimmedComment,
+        recipient,
+        false,
+        undefined,
+        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
+      ),
+    ])
+  })
+
+  it('renders address for phone recipients with multiple addresses', () => {
+    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
+      transactionData: {
+        ...mockTokenTransactionData,
+        recipient: mockRecipient, // recipient that includes a PN
+      },
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: false,
+    })
+    const { getByTestId } = renderScreen(
+      {
+        identity: {
+          e164NumberToAddress: {
+            [mockE164Number]: [mockAccount3, mockAccount2],
+          },
+        },
+      },
+      screenProps
+    )
+
+    expect(getByTestId('RecipientAddress')).toBeTruthy()
+  })
+
+  it.each([
+    { testSuffix: 'non phone number recipients', recipient: mockAddressRecipient },
+    { testSuffix: 'phone number recipient with one address', recipient: mockRecipient },
+  ])('does not render address for $testSuffix', ({ recipient }) => {
+    const screenProps = getMockStackScreenProps(Screens.SendConfirmation, {
+      transactionData: {
+        ...mockTokenTransactionData,
+        recipient,
+      },
+      origin: SendOrigin.AppSendFlow,
+      isFromScan: false,
+    })
+    const { queryByTestId } = renderScreen(
+      {
+        identity: {
+          e164NumberToAddress: {
+            [mockE164Number]: [mockAccount3],
+          },
+        },
+      },
+      screenProps
+    )
+
+    expect(queryByTestId('RecipientAddress')).toBeFalsy()
   })
 })

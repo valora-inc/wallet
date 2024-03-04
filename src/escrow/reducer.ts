@@ -2,17 +2,20 @@ import { createSelector } from 'reselect'
 import { Actions, ActionTypes, EscrowedPayment } from 'src/escrow/actions'
 import { RootState } from 'src/redux/reducers'
 
-export interface State {
+interface State {
   isReclaiming: boolean
   sentEscrowedPayments: EscrowedPayment[]
 }
 
-export const initialState = {
+const initialState = {
   isReclaiming: false,
   sentEscrowedPayments: [],
 }
 
-export const escrowReducer = (state: State | undefined = initialState, action: ActionTypes) => {
+export const escrowReducer = (
+  state: State | undefined = initialState,
+  action: ActionTypes
+): State => {
   switch (action.type) {
     case Actions.STORE_SENT_PAYMENTS:
       return {

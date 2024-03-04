@@ -30,6 +30,7 @@
   "enableDataSaver": "Ativar Economia de Dados",
   "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a rede por meio de um nó confiável. Você sempre pode alterar esse modo nas configurações do aplicativo.",
   "keylessBackupSettingsTitle": "Recuperação de e-mail e telefone",
+  "keylessBackupSettingsDeleteError": "Seu backup não pôde ser excluído, aguarde e tente novamente mais tarde.",
   "setup": "Configurar",
   "restartModalSwitchOff": {
     "header": "Reinicie para desativar Economia de Dados",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Entrar com e-mail",
     "subtitle": "Entre com seu e-mail para configurá-lo como um backup.\n\nSerá solicitado que você entre novamente se perder sua carteira.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Entrar com o Google"
   },
   "keylessBackupPhoneInput": {
@@ -2130,6 +2132,7 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Erro",
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

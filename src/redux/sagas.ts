@@ -1,5 +1,5 @@
 import { sleep } from '@celo/utils/lib/async'
-import { AnyAction } from 'redux'
+import { UnknownAction } from '@reduxjs/toolkit'
 // Import the actions included in the logger blocklist below.
 import { REHYDRATE } from 'redux-persist'
 import { Actions as AccountActions } from 'src/account/actions'
@@ -68,7 +68,7 @@ function* loggerSaga() {
     return
   }
 
-  yield* takeEvery('*', (action: AnyAction) => {
+  yield* takeEvery('*', (action: UnknownAction) => {
     if (
       action?.type &&
       (action.type.includes('IDENTITY/') || loggerBlocklist.includes(action.type))

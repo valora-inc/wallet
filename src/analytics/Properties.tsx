@@ -24,6 +24,7 @@ import {
   HomeEvents,
   IdentityEvents,
   InviteEvents,
+  JumpstartEvents,
   KeylessBackupEvents,
   NavigationEvents,
   NftEvents,
@@ -660,7 +661,15 @@ interface SendEventsProperties {
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
   }
-  [SendEvents.send_select_recipient_jumpstart]: undefined
+}
+
+interface JumpstartEventsProperties {
+  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
+    tokenId: string
+    sendAmountUsd: string
+    thresholdUsd: number
+  }
 }
 
 interface FeeEventsProperties {
@@ -1492,6 +1501,21 @@ interface TransactionDetailsProperties {
   }
 }
 
+interface WalletJumpstartProperties {
+  [JumpstartEvents.jumpstart_claim_succeeded]: undefined
+  [JumpstartEvents.jumpstart_claim_failed]: undefined
+  [JumpstartEvents.jumpstart_claimed_token]: {
+    networkId: NetworkId
+    tokenAddress: string
+    value: number
+  }
+  [JumpstartEvents.jumpstart_claimed_nft]: {
+    networkId: NetworkId
+    contractAddress: string
+    tokenId: string
+  }
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1502,6 +1526,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   AuthenticationEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
+  JumpstartEventsProperties &
   EscrowEventsProperties &
   FeeEventsProperties &
   TransactionEventsProperties &
@@ -1525,6 +1550,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  WalletJumpstartProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

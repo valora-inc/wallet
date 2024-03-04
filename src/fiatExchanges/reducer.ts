@@ -20,17 +20,20 @@ interface TxHashToDisplayInfo {
   [txHash: string]: ProviderFeedInfo | undefined
 }
 
-export interface State {
+interface State {
   txHashToProvider: TxHashToDisplayInfo
   providerLogos: ProviderLogos
 }
 
-export const initialState = {
+const initialState = {
   txHashToProvider: {},
   providerLogos: {},
 }
 
-export const reducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
+export const reducer = (
+  state: State = initialState,
+  action: ActionTypes | RehydrateAction
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       return {

@@ -1594,4 +1594,15 @@ export const migrations = {
       isEncryptingComment: false,
     },
   }),
+  195: (state: any) => state,
+  196: (state: any) => ({
+    ...state,
+    jumpstart: {
+      claimStatus: 'idle',
+    },
+  }),
+  197: (state: any) => ({
+    ...state,
+    web3: _.omit(state.web3, 'twelveWordMnemonicEnabled'),
+  }),
 }

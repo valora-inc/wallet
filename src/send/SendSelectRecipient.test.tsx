@@ -35,8 +35,6 @@ jest.mock('src/recipients/recipient', () => ({
 }))
 
 jest.mock('react-native-device-info', () => ({ getFontScaleSync: () => 1 }))
-// this mock defaults to granting all permissions
-jest.mock('react-native-permissions', () => require('react-native-permissions/mock'))
 
 const mockScreenProps = ({
   defaultTokenIdOverride,

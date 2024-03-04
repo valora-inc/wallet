@@ -30,6 +30,7 @@
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
   "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Set Up",
   "restartModalSwitchOff": {
     "header": "Restart To Switch Off Data Saver",
@@ -63,7 +64,7 @@
   "protectWallet": {
     "title": "Protect Your Wallet",
     "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "Use Recovery Phrase",
       "subtitle": "Write down your recovery phrase"
@@ -71,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "I've saved it",
     "copy": "Copy to clipboard",
     "mnemonicCopied": "Recovery phrase copied to clipboard",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "Sign in with email",
     "subtitle": "Sign in with your email to set it up as a backup.\n\nYou will be prompted to sign in again if you ever lose your wallet.",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "Sign in with Google"
   },
   "keylessBackupPhoneInput": {
@@ -2099,6 +2101,12 @@
       "description": "It was not possible to prepare a transaction for this token."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "We’d suggest a lower amount",
+      "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
@@ -2131,5 +2139,6 @@
       "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
     }
   },
-  "pleaseWait": "Please wait"
+  "pleaseWait": "Please wait",
+  "error": "Error"
 }

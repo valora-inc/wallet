@@ -27,6 +27,7 @@ import {
   getTokenInfoByAddress,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
@@ -40,13 +41,13 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getFeeCurrency } from 'src/viem/prepareTransactions'
+import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'
 import { getPreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
+import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
 import { TransactionReceipt } from 'viem'
 
@@ -203,7 +204,8 @@ export function* sendPaymentSaga({
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
     const preparedTransaction = getPreparedTransaction(serializablePreparedTransaction)
-    const feeCurrencyId = getTokenId(networkId, getFeeCurrency(preparedTransaction))
+    const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
+    const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
 
     Logger.debug(
       `${TAG}/sendPaymentSaga`,

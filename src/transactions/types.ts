@@ -41,10 +41,18 @@ export type PendingStandbyApproval = {
   feeCurrencyId?: string
 } & Omit<TokenApproval, 'block' | 'fees' | 'transactionHash' | 'status'>
 
+export type PendingStandbyNFTTransfer = {
+  transactionHash?: string
+  context: TransactionContext
+  status: TransactionStatus.Pending
+  feeCurrencyId?: string
+} & Omit<NftTransfer, 'block' | 'fees' | 'transactionHash' | 'status'>
+
 export type ConfirmedStandbyTransaction = (
   | Omit<TokenExchange, 'status'>
   | Omit<TokenTransfer, 'status'>
   | Omit<TokenApproval, 'status'>
+  | Omit<NftTransfer, 'status'>
 ) & {
   status: TransactionStatus.Complete | TransactionStatus.Failed
   context: TransactionContext
@@ -55,6 +63,7 @@ export type StandbyTransaction =
   | PendingStandbySwap
   | PendingStandbyTransfer
   | PendingStandbyApproval
+  | PendingStandbyNFTTransfer
   | ConfirmedStandbyTransaction
 
 // Context used for logging the transaction execution flow.

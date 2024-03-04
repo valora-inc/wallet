@@ -30,6 +30,7 @@
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณสื่อสารกับเครือข่ายผ่านโหนดที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในส่วนการตั้งค่าแอป",
   "keylessBackupSettingsTitle": "การกู้คืนด้วยอีเมลและโทรศัพท์",
+  "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "ตั้งค่า",
   "restartModalSwitchOff": {
     "header": "รีสตาร์ทเพื่อปิดโหมดประหยัดข้อมูล",
@@ -102,6 +103,7 @@
   "signInWithEmail": {
     "title": "ลงชื่อเข้าใช้ด้วยอีเมล",
     "subtitle": "ลงชื่อเข้าใช้ด้วยอีเมลของคุณเพื่อตั้งค่าเป็นข้อมูลสำรอง\n\nคุณจะได้รับแจ้งให้ลงชื่อเข้าใช้อีกครั้งหากทำกระเป๋าเงินหาย",
+    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
     "google": "ลงชื่อเข้าใช้ด้วย Google"
   },
   "keylessBackupPhoneInput": {
@@ -2128,5 +2130,6 @@
     }
   },
   "pleaseWait": "Please wait",
+  "error": "Error",
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }
