@@ -91,8 +91,8 @@
     "phoneNumber": "Số điện thoại",
     "setup": {
       "title": "Thiết lập chức năng sao lưu ví.",
-      "description": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
-      "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục",
+      "description": "You'll use the following to set up your email & phone number backup",
+      "useRecoveryPhrase": "Use a recovery phrase instead",
       "reminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Từ nay, bạn có thể khôi phục ví của mình bằng địa chỉ email và số điện thoại."
       },
       "failed": {
-        "title": "Không hỗ trợ tính năng sao lưu không mã khóa",
-        "body": "Bạn có thể thiết lập sao lưu không dùng mã sau hoặc bảo vệ tài khoản của mình ngay bằng cách sao lưu theo cách thủ công.",
+        "title": "Backup unavailable",
+        "body": "You can set up wallet backup later or protect your account now by backing up manually.",
         "later": "Tôi sẽ sao lưu sau",
         "manual": "Sao lưu thủ công"
       }
