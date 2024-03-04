@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "保护您的钱包",
     "subtitle": "保护您的钱包",
-    "body": "如果您的手机丢失或被盗，{{mnemonicLength}} 单词恢复短语是您访问资金的唯一方式。",
+    "body": "如果您的手机丢失或被盗，您的 12 个单词恢复短语是您获取资金的唯一途径。",
     "recoveryPhrase": {
       "title": "使用恢复短语",
       "subtitle": "写下您的恢复短语"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "您的恢复短语",
-    "body": "将这些 {{mnemonicLength}} 单词写在某个安全的地方，以防被盗或损坏。",
+    "body": "把这 12 个字写在安全的地方，不能被偷或损坏。",
     "continue": "我已保存好",
     "copy": "复制到剪贴板",
     "mnemonicCopied": "恢复短语已复制到剪贴板",
