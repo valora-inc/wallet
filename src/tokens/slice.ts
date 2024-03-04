@@ -112,7 +112,7 @@ export function isNativeTokenBalance(tokenInfo: TokenBalance): tokenInfo is Nati
   return !!tokenInfo.isNative
 }
 
-export const initialState = {
+export const initialState: State = {
   tokenBalances: {},
   loading: false,
   error: false,

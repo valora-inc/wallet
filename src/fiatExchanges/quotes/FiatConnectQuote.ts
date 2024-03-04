@@ -7,7 +7,7 @@ import {
   QuoteResponseKycSchema,
 } from '@fiatconnect/fiatconnect-types'
 import BigNumber from 'bignumber.js'
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { FiatConnectProviderInfo, FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { selectFiatConnectQuote } from 'src/fiatconnect/slice'
 import {

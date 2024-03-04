@@ -30,7 +30,10 @@ export const initialState = {
   providerLogos: {},
 }
 
-export const reducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
+export const reducer = (
+  state: State = initialState,
+  action: ActionTypes | RehydrateAction
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       return {

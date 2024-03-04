@@ -37,7 +37,7 @@ const initialState = {
 export const sendReducer = (
   state: State = initialState,
   action: ActionTypes | RehydrateAction | UpdateConfigValuesAction
-) => {
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       // Ignore some persisted properties

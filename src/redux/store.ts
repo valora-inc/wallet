@@ -1,7 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { configureStore } from '@reduxjs/toolkit'
-import { setupListeners } from '@reduxjs/toolkit/dist/query'
-import { Middleware } from 'redux'
+import { configureStore, Middleware } from '@reduxjs/toolkit'
 import { getStoredState, PersistConfig, persistReducer, persistStore } from 'redux-persist'
 import FSStorage from 'redux-persist-fs-storage'
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
@@ -92,7 +90,7 @@ export const _persistConfig = persistConfig
 // eslint-disable-next-line no-var
 declare var window: any
 
-export const setupStore = (initialState = {}, config = persistConfig) => {
+export const setupStore = (initialState?: RootState, config = persistConfig) => {
   const sagaMiddleware = createSagaMiddleware({
     onError: (error, errorInfo) => {
       // Log the uncaught error so it's captured by Sentry
@@ -168,5 +166,5 @@ export const setupStore = (initialState = {}, config = persistConfig) => {
 }
 
 const { store, persistor } = setupStore()
-setupListeners(store.dispatch)
+
 export { persistor, store }
