@@ -23,6 +23,7 @@ import { Currency } from 'src/utils/currencies'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 import networkConfig from 'src/web3/networkConfig'
 import {
+  isFeeCurrency,
   sortByUsdBalance,
   sortFirstStableThenCeloThenOthersByUsdBalance,
   usdBalance,
@@ -447,7 +448,7 @@ const feeCurrenciesByNetworkIdSelector = createSelector(
     const feeCurrenciesByNetworkId: { [key in NetworkId]?: TokenBalance[] } = {}
     // collect fee currencies
     Object.values(tokens).forEach((token) => {
-      if (token?.isNative || token?.isFeeCurrency) {
+      if (isFeeCurrency(token)) {
         feeCurrenciesByNetworkId[token.networkId] = [
           ...(feeCurrenciesByNetworkId[token.networkId] ?? []),
           token,

@@ -642,27 +642,8 @@ describe('sendPayment', () => {
       comment: '',
       preparedTransaction: mockEthPreparedTransaction,
     }
-    const mockUSDCTokenBalance = {
-      name: 'USDC coin',
-      networkId: NetworkId['ethereum-sepolia'],
-      tokenId: mockUSDCTokenId,
-      address: mockUSDCAddress,
-      symbol: 'USDC',
-      decimals: 18,
-      imageUrl: '',
-      balance: '10',
-      priceUsd: '1',
-    }
     await expectSaga(sendPayment, mockSendUSDCPaymentArgs)
-      .withState(
-        createMockStore({
-          tokens: {
-            tokenBalances: {
-              [mockUSDCTokenId]: mockUSDCTokenBalance,
-            },
-          },
-        }).getState()
-      )
+      .withState(storeStateWithTokens.getState())
       .provide([
         [matchers.call.fn(getViemWallet), mockViemWallet],
         [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
