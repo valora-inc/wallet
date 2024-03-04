@@ -91,7 +91,7 @@
     "phoneNumber": "Numer telefonu",
     "setup": {
       "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
-      "description": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+      "description": "Aby skonfigurować kopię zapasową adresu e-mail i numeru telefonu, użyj następujących elementów",
       "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
       "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
     },
@@ -126,8 +126,8 @@
         "body": "Możesz teraz odzyskać swój portfel za pomocą adresu e-mail i numeru telefonu."
       },
       "failed": {
-        "title": "Kopia zapasowa bez użycia klucza jest niedostępna",
-        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub zapewnić ochronę swojego konta już teraz, tworząc kopię zapasową ręcznie.",
+        "title": "Kopia zapasowa niedostępna",
+        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, wykonując kopię zapasową ręcznie.",
         "later": "Stworzę kopię zapasową później",
         "manual": "Ręczna kopia zapasowa"
       }
