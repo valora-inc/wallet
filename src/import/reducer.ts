@@ -1,6 +1,6 @@
 import { Actions, ActionTypes } from 'src/import/actions'
 
-export interface State {
+interface State {
   isImportingWallet: boolean
 }
 
@@ -8,7 +8,7 @@ const initialState = {
   isImportingWallet: false,
 }
 
-export const reducer = (state: State | undefined = initialState, action: ActionTypes) => {
+export const reducer = (state: State | undefined = initialState, action: ActionTypes): State => {
   switch (action.type) {
     case Actions.IMPORT_BACKUP_PHRASE:
       return {

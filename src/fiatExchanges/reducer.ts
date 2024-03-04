@@ -20,12 +20,12 @@ interface TxHashToDisplayInfo {
   [txHash: string]: ProviderFeedInfo | undefined
 }
 
-export interface State {
+interface State {
   txHashToProvider: TxHashToDisplayInfo
   providerLogos: ProviderLogos
 }
 
-export const initialState = {
+const initialState = {
   txHashToProvider: {},
   providerLogos: {},
 }

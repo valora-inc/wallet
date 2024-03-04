@@ -20,7 +20,7 @@ export interface Alert {
   underlyingError?: ErrorMessages | null
 }
 
-export type State = Alert | null
+type State = Alert | null
 
 const initialState = null
 

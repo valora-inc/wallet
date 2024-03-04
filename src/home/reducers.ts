@@ -30,7 +30,7 @@ export interface IdToNotification {
   [id: string]: Notification | undefined
 }
 
-export interface State {
+interface State {
   loading: boolean
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]

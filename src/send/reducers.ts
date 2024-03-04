@@ -14,7 +14,7 @@ export interface PaymentInfo {
   amount: number
 }
 
-export interface State {
+interface State {
   isSending: boolean
   recentRecipients: Recipient[]
   // Keep a list of recent (last 24 hours) payments
