@@ -34,7 +34,6 @@ import Logger from 'src/utils/Logger'
 type Props = NativeStackScreenProps<StackParamList, Screens.OnboardingRecoveryPhrase>
 
 function OnboardingRecoveryPhrase({ navigation }: Props) {
-  const mnemonicLength = 12
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const accountKey = useAccountKey()
@@ -87,9 +86,7 @@ function OnboardingRecoveryPhrase({ navigation }: Props) {
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
         <Text style={styles.recoveryPhraseTitle}>{t('recoveryPhrase.title')}</Text>
-        <Text style={styles.recoveryPhraseBody}>
-          {t('recoveryPhrase.body', { mnemonicLength })}
-        </Text>
+        <Text style={styles.recoveryPhraseBody}>{t('recoveryPhrase.body')}</Text>
         <BackupPhraseContainer
           readOnlyStyle={styles.backupPhrase}
           value={accountKey}

@@ -28,7 +28,6 @@ const TAG = 'ProtectWallet'
 type Props = NativeStackScreenProps<StackParamList, Screens.ProtectWallet>
 
 function ProtectWallet({ navigation }: Props) {
-  const mnemonicLength = 12
   const onboardingProps = useTypedSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const address = useSelector(walletAddressSelector)
@@ -90,9 +89,7 @@ function ProtectWallet({ navigation }: Props) {
             <GuideKeyIcon />
           </View>
           <Text style={styles.protectWalletTitle}>{t('protectWallet.subtitle')}</Text>
-          <Text style={styles.protectWalletBody}>
-            {t('protectWallet.body', { mnemonicLength })}
-          </Text>
+          <Text style={styles.protectWalletBody}>{t('protectWallet.body')}</Text>
         </View>
         <View style={styles.cardSection}>
           <OnboardingCard
