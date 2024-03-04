@@ -1,3 +1,4 @@
+import isPast from 'date-fns/isPast'
 import _ from 'lodash'
 import DeviceInfo from 'react-native-device-info'
 import { createSelector } from 'reselect'
@@ -63,6 +64,10 @@ export const showNftCelebrationSelector = (state: RootState) => {
     return false
   }
 
+  if (isPast(new Date(state.home.nftCelebration.expirationDate))) {
+    return false
+  }
+
   return state.home.nftCelebration.status === NftCelebrationStatus.celebrationReady
 }
 
@@ -73,6 +78,10 @@ export const showNftRewardSelector = (state: RootState) => {
   }
 
   if (!state.home.nftCelebration) {
+    return false
+  }
+
+  if (isPast(new Date(state.home.nftCelebration.expirationDate))) {
     return false
   }
 
