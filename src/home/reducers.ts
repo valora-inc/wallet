@@ -31,11 +31,11 @@ export interface IdToNotification {
 }
 
 export enum NftCelebrationStatus {
-  celebrationReady = 'celebrationReady',
+  celebrationReadyToDisplay = 'celebrationReadyToDisplay',
   celebrationDisplayed = 'celebrationDisplayed',
-  rewardReady = 'rewardReady',
+  rewardReadyToDisplay = 'rewardReadyToDisplay',
   rewardDisplayed = 'rewardDisplayed',
-  reminderReady = 'reminderReady',
+  reminderReadyToDisplay = 'reminderReadyToDisplay',
   reminderDisplayed = 'reminderDisplayed',
 }
 
@@ -141,7 +141,7 @@ export const homeReducer = (
           deepLink: action.deepLink,
           expirationDate: action.expirationDate,
           reminderDate: action.reminderDate,
-          status: NftCelebrationStatus.celebrationReady,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       }
     case Actions.NFT_CELEBRATION_DISPLAYED:
@@ -156,7 +156,7 @@ export const homeReducer = (
           status: NftCelebrationStatus.celebrationDisplayed,
         },
       }
-    case Actions.NFT_REWARD_READY:
+    case Actions.NFT_REWARD_READY_TO_DISPLAY:
       if (!state.nftCelebration) {
         return state
       }
@@ -165,10 +165,10 @@ export const homeReducer = (
         ...state,
         nftCelebration: {
           ...state.nftCelebration,
-          status: NftCelebrationStatus.rewardReady,
+          status: NftCelebrationStatus.rewardReadyToDisplay,
         },
       }
-    case Actions.NFT_REWARD_REMINDER_READY:
+    case Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY:
       if (!state.nftCelebration) {
         return state
       }
@@ -177,7 +177,7 @@ export const homeReducer = (
         ...state,
         nftCelebration: {
           ...state.nftCelebration,
-          status: NftCelebrationStatus.reminderReady,
+          status: NftCelebrationStatus.reminderReadyToDisplay,
         },
       }
     case Actions.NFT_REWARD_DISPLAYED:
@@ -190,7 +190,7 @@ export const homeReducer = (
         nftCelebration: {
           ...state.nftCelebration,
           status:
-            state.nftCelebration?.status === NftCelebrationStatus.reminderReady
+            state.nftCelebration?.status === NftCelebrationStatus.reminderReadyToDisplay
               ? NftCelebrationStatus.reminderDisplayed
               : NftCelebrationStatus.rewardDisplayed,
         },

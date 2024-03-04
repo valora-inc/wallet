@@ -4,14 +4,14 @@ import {
   cleverTapInboxMessagesReceived,
   nftCelebrationDisplayed,
   nftRewardDisplayed,
-  nftRewardReady,
-  nftRewardReminderReady,
+  nftRewardReadyToDisplay,
+  nftRewardReminderReadyToDisplay,
 } from 'src/home/actions'
 import {
   DEFAULT_PRIORITY,
   NftCelebrationStatus,
-  State,
   Notification,
+  State,
   initialState,
   homeReducer as reducer,
 } from 'src/home/reducers'
@@ -180,7 +180,7 @@ describe('home reducer', () => {
     expect(updatedState.nftCelebration).toEqual({
       networkId: NetworkId['celo-alfajores'],
       contractAddress: mockContractAddress,
-      status: NftCelebrationStatus.celebrationReady,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
       deepLink: 'celo://test',
       expirationDate: '3000-12-01T00:00:00.000Z',
       reminderDate: '3000-01-01T00:00:00.000Z',
@@ -188,7 +188,9 @@ describe('home reducer', () => {
   })
 
   it('should mark nftCelebration as displayed', () => {
-    const state = { nftCelebration: { status: NftCelebrationStatus.celebrationReady } } as State
+    const state = {
+      nftCelebration: { status: NftCelebrationStatus.celebrationReadyToDisplay },
+    } as State
     const updatedState = reducer(state, nftCelebrationDisplayed())
 
     expect(updatedState.nftCelebration).toHaveProperty(
@@ -199,20 +201,26 @@ describe('home reducer', () => {
 
   it('should set reward as ready', () => {
     const state = { nftCelebration: { status: NftCelebrationStatus.celebrationDisplayed } } as State
-    const updatedState = reducer(state, nftRewardReady())
+    const updatedState = reducer(state, nftRewardReadyToDisplay())
 
-    expect(updatedState.nftCelebration).toHaveProperty('status', NftCelebrationStatus.rewardReady)
+    expect(updatedState.nftCelebration).toHaveProperty(
+      'status',
+      NftCelebrationStatus.rewardReadyToDisplay
+    )
   })
 
   it('should set reminder as ready', () => {
     const state = { nftCelebration: { status: NftCelebrationStatus.rewardDisplayed } } as State
-    const updatedState = reducer(state, nftRewardReminderReady())
+    const updatedState = reducer(state, nftRewardReminderReadyToDisplay())
 
-    expect(updatedState.nftCelebration).toHaveProperty('status', NftCelebrationStatus.reminderReady)
+    expect(updatedState.nftCelebration).toHaveProperty(
+      'status',
+      NftCelebrationStatus.reminderReadyToDisplay
+    )
   })
 
   it('should mark reward as displayed', () => {
-    const state = { nftCelebration: { status: NftCelebrationStatus.rewardReady } } as State
+    const state = { nftCelebration: { status: NftCelebrationStatus.rewardReadyToDisplay } } as State
     const updatedState = reducer(state, nftRewardDisplayed())
 
     expect(updatedState.nftCelebration).toHaveProperty(
@@ -222,7 +230,9 @@ describe('home reducer', () => {
   })
 
   it('should mark reminder as displayed', () => {
-    const state = { nftCelebration: { status: NftCelebrationStatus.reminderReady } } as State
+    const state = {
+      nftCelebration: { status: NftCelebrationStatus.reminderReadyToDisplay },
+    } as State
     const updatedState = reducer(state, nftRewardDisplayed())
 
     expect(updatedState.nftCelebration).toEqual({

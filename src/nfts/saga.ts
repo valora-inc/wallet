@@ -1,6 +1,10 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isPast, isToday } from 'date-fns'
-import { celebratedNftFound, nftRewardReady, nftRewardReminderReady } from 'src/home/actions'
+import {
+  celebratedNftFound,
+  nftRewardReadyToDisplay,
+  nftRewardReminderReadyToDisplay,
+} from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { nftCelebrationSelector } from 'src/home/selectors'
 import {
@@ -152,13 +156,13 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
   }
 
   // let's display the celebration first
-  if (lastNftCelebration.status === NftCelebrationStatus.celebrationReady) {
+  if (lastNftCelebration.status === NftCelebrationStatus.celebrationReadyToDisplay) {
     return
   }
 
   // at this point the journey is over
   if (
-    lastNftCelebration.status === NftCelebrationStatus.reminderReady ||
+    lastNftCelebration.status === NftCelebrationStatus.reminderReadyToDisplay ||
     lastNftCelebration.status === NftCelebrationStatus.reminderDisplayed
   ) {
     return
@@ -166,9 +170,9 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
 
   const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
   if (aboutToExpire) {
-    yield* put(nftRewardReminderReady())
+    yield* put(nftRewardReminderReadyToDisplay())
   } else {
-    yield* put(nftRewardReady())
+    yield* put(nftRewardReadyToDisplay())
   }
 }
 

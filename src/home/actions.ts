@@ -13,9 +13,9 @@ export enum Actions {
   CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
   CELEBRATED_NFT_FOUND = 'HOME/CELEBRATED_NFT_FOUND',
   NFT_CELEBRATION_DISPLAYED = 'HOME/NFT_CELEBRATION_DISPLAYED',
-  NFT_REWARD_READY = 'HOME/NFT_REWARD_READY',
+  NFT_REWARD_READY_TO_DISPLAY = 'HOME/NFT_REWARD_READY_TO_DISPLAY',
   NFT_REWARD_DISPLAYED = 'HOME/NFT_REWARD_DISPLAYED',
-  NFT_REWARD_REMINDER_READY = 'HOME/NFT_REWARD_REMINDER_READY',
+  NFT_REWARD_REMINDER_READY_TO_DISPLAY = 'HOME/NFT_REWARD_REMINDER_READY_TO_DISPLAY',
 }
 
 export interface VisitHomeAction {
@@ -59,16 +59,16 @@ interface NftCelebrationDisplayedAction {
   type: Actions.NFT_CELEBRATION_DISPLAYED
 }
 
-interface NftRewardReadyAction {
-  type: Actions.NFT_REWARD_READY
+interface NftRewardReadyToDisplayAction {
+  type: Actions.NFT_REWARD_READY_TO_DISPLAY
 }
 
 interface NftRewardDisplayedAction {
   type: Actions.NFT_REWARD_DISPLAYED
 }
 
-interface NftRewardReminderReadyAction {
-  type: Actions.NFT_REWARD_REMINDER_READY
+interface NftRewardReminderReadyToDisplayAction {
+  type: Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY
 }
 
 export type ActionTypes =
@@ -79,9 +79,9 @@ export type ActionTypes =
   | VisitHomeAction
   | CelebratedNftFoundAction
   | NftCelebrationDisplayedAction
-  | NftRewardReadyAction
+  | NftRewardReadyToDisplayAction
   | NftRewardDisplayedAction
-  | NftRewardReminderReadyAction
+  | NftRewardReminderReadyToDisplayAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
@@ -148,14 +148,14 @@ export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
   type: Actions.NFT_CELEBRATION_DISPLAYED,
 })
 
-export const nftRewardReady = (): NftRewardReadyAction => ({
-  type: Actions.NFT_REWARD_READY,
+export const nftRewardReadyToDisplay = (): NftRewardReadyToDisplayAction => ({
+  type: Actions.NFT_REWARD_READY_TO_DISPLAY,
 })
 
 export const nftRewardDisplayed = (): NftRewardDisplayedAction => ({
   type: Actions.NFT_REWARD_DISPLAYED,
 })
 
-export const nftRewardReminderReady = (): NftRewardReminderReadyAction => ({
-  type: Actions.NFT_REWARD_REMINDER_READY,
+export const nftRewardReminderReadyToDisplay = (): NftRewardReminderReadyToDisplayAction => ({
+  type: Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY,
 })

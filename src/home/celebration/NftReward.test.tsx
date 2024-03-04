@@ -23,7 +23,7 @@ const mockStoreCelebrationReady = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.celebrationReady,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
     },
   },
 }
@@ -36,7 +36,7 @@ const mockStoreRewardReady = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.rewardReady,
+      status: NftCelebrationStatus.rewardReadyToDisplay,
       expirationDate: '3000-12-01T00:00:00.000Z',
       reminderDate: '3000-01-01T00:00:00.000Z',
       deepLink: 'celo://test',
@@ -52,7 +52,7 @@ const mockStoreReminderReady = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.reminderReady,
+      status: NftCelebrationStatus.reminderReadyToDisplay,
     },
   },
 }
@@ -91,7 +91,7 @@ const mockStoreRewardReayWithDifferentNft = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.rewardReady,
+      status: NftCelebrationStatus.rewardReadyToDisplay,
     },
   },
 }

@@ -199,7 +199,7 @@ describe('showNftCelebrationSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.celebrationReady,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       },
     })
@@ -227,7 +227,7 @@ describe('showNftCelebrationSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.celebrationReady,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       },
     })
@@ -242,7 +242,7 @@ describe('showNftCelebrationSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.celebrationReady,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
           expirationDate: '2000-01-01T00:00:00.000Z',
         },
       },
@@ -265,7 +265,7 @@ describe('showNftRewardSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.rewardReady,
+          status: NftCelebrationStatus.rewardReadyToDisplay,
         },
       },
     })
@@ -293,7 +293,7 @@ describe('showNftRewardSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.rewardReady,
+          status: NftCelebrationStatus.rewardReadyToDisplay,
         },
       },
     })
@@ -308,7 +308,7 @@ describe('showNftRewardSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.reminderReady,
+          status: NftCelebrationStatus.reminderReadyToDisplay,
         },
       },
     })
@@ -323,7 +323,7 @@ describe('showNftRewardSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          status: NftCelebrationStatus.celebrationReady,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
           expirationDate: '2000-01-01T00:00:00.000Z',
         },
       },

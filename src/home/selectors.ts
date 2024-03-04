@@ -68,7 +68,7 @@ export const showNftCelebrationSelector = (state: RootState) => {
     return false
   }
 
-  return state.home.nftCelebration.status === NftCelebrationStatus.celebrationReady
+  return state.home.nftCelebration.status === NftCelebrationStatus.celebrationReadyToDisplay
 }
 
 export const showNftRewardSelector = (state: RootState) => {
@@ -86,7 +86,7 @@ export const showNftRewardSelector = (state: RootState) => {
   }
 
   return (
-    state.home.nftCelebration.status === NftCelebrationStatus.rewardReady ||
-    state.home.nftCelebration.status === NftCelebrationStatus.reminderReady
+    state.home.nftCelebration.status === NftCelebrationStatus.rewardReadyToDisplay ||
+    state.home.nftCelebration.status === NftCelebrationStatus.reminderReadyToDisplay
   )
 }

@@ -5,8 +5,8 @@ import { select } from 'redux-saga/effects'
 import {
   Actions,
   celebratedNftFound,
-  nftRewardReady,
-  nftRewardReminderReady,
+  nftRewardReadyToDisplay,
+  nftRewardReminderReadyToDisplay,
 } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { celebratedNftSelector, nftCelebrationSelector } from 'src/home/selectors'
@@ -234,7 +234,7 @@ describe('Given Nfts saga', () => {
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
           .withState(
             createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationReady)
+              mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
             ).getState()
           )
           .provide([[select(celebratedNftSelector), mockCelebratedNft]])
@@ -294,7 +294,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
             ).getState()
           )
-          .put(nftRewardReady())
+          .put(nftRewardReadyToDisplay())
           .run()
       })
 
@@ -307,10 +307,10 @@ describe('Given Nfts saga', () => {
         await expectSaga(nftSaga.findCelebratedNft, mockAction)
           .withState(
             createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationReady)
+              mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
             ).getState()
           )
-          .not.put(nftRewardReady())
+          .not.put(nftRewardReadyToDisplay())
           .run()
       })
     })
@@ -336,7 +336,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.rewardDisplayed)
             ).getState()
           )
-          .put(nftRewardReminderReady())
+          .put(nftRewardReminderReadyToDisplay())
           .run()
       })
 
@@ -352,7 +352,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.rewardDisplayed)
             ).getState()
           )
-          .put(nftRewardReminderReady())
+          .put(nftRewardReminderReadyToDisplay())
           .run()
       })
 
@@ -365,10 +365,10 @@ describe('Given Nfts saga', () => {
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
           .withState(
             createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationReady)
+              mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
             ).getState()
           )
-          .not.put(nftRewardReminderReady())
+          .not.put(nftRewardReminderReadyToDisplay())
           .run()
       })
 
@@ -384,7 +384,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
             ).getState()
           )
-          .not.put(nftRewardReminderReady())
+          .not.put(nftRewardReminderReadyToDisplay())
           .run()
       })
 
@@ -396,9 +396,11 @@ describe('Given Nfts saga', () => {
 
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
           .withState(
-            createMockStore(mockNftCelebrationStore(NftCelebrationStatus.reminderReady)).getState()
+            createMockStore(
+              mockNftCelebrationStore(NftCelebrationStatus.reminderReadyToDisplay)
+            ).getState()
           )
-          .not.put(nftRewardReady())
+          .not.put(nftRewardReadyToDisplay())
           .run()
       })
 
@@ -414,7 +416,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
             ).getState()
           )
-          .not.put(nftRewardReady())
+          .not.put(nftRewardReadyToDisplay())
           .run()
       })
     })
@@ -452,8 +454,8 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
             ).getState()
           )
-          .not.put(nftRewardReady())
-          .not.put(nftRewardReminderReady())
+          .not.put(nftRewardReadyToDisplay())
+          .not.put(nftRewardReminderReadyToDisplay())
           .run()
       })
     })

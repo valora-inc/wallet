@@ -443,7 +443,7 @@ describe('WalletHome', () => {
         },
         home: {
           nftCelebration: {
-            status: NftCelebrationStatus.celebrationReady,
+            status: NftCelebrationStatus.celebrationReadyToDisplay,
           },
         },
       })

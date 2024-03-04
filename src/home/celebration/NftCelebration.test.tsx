@@ -29,7 +29,7 @@ const mockStoreWithNft = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.celebrationReady,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
       expirationDate: '3000-12-01T00:00:00.000Z',
     },
   },
@@ -60,7 +60,7 @@ const mockStoreWithDifferentNft = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.celebrationReady,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
     },
   },
 }
