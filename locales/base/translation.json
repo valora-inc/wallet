@@ -2101,6 +2101,12 @@
       "description": "It was not possible to prepare a transaction for this token."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "We’d suggest a lower amount",
+      "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",

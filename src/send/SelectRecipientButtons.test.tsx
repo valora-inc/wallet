@@ -3,7 +3,7 @@ import * as React from 'react'
 import { Platform } from 'react-native'
 import { RESULTS, check, request } from 'react-native-permissions'
 import { Provider } from 'react-redux'
-import { SendEvents } from 'src/analytics/Events'
+import { JumpstartEvents, SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -52,7 +52,9 @@ describe('SelectRecipientButtons', () => {
     expect(await findByTestId('SelectRecipient/QR')).toBeTruthy()
     fireEvent.press(getByText('sendSelectRecipient.jumpstart.title'))
 
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(SendEvents.send_select_recipient_jumpstart)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.send_select_recipient_jumpstart
+    )
     expect(navigate).toHaveBeenCalledWith(Screens.JumpstartEnterAmount)
   })
 

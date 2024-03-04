@@ -310,7 +310,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_select_recipient_send_press]: `When the send button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_invite_press]: `When the invite button is pressed after selecting a recipient`,
   [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
-  [SendEvents.send_select_recipient_jumpstart]: `When the user taps the Jumpstart button on the select recipient screen to start sending crypto via escrow link`,
+  [JumpstartEvents.send_select_recipient_jumpstart]: `When the user taps the Jumpstart button on the select recipient screen to start sending crypto via escrow link`,
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: `When the user enters a send value greater than allowed threshold, and is shown the max send amount warning`,
 
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,

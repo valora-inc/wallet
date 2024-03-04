@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { SendEvents } from 'src/analytics/Events'
+import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -22,7 +22,7 @@ function SelectRecipientJumpstartButton() {
   const jumpstartTokens = useSelector(jumpstartSendTokensSelector)
 
   const handlePress = () => {
-    ValoraAnalytics.track(SendEvents.send_select_recipient_jumpstart)
+    ValoraAnalytics.track(JumpstartEvents.send_select_recipient_jumpstart)
     navigate(Screens.JumpstartEnterAmount)
   }
 

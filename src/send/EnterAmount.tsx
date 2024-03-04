@@ -47,6 +47,8 @@ interface Props {
   prepareTransactionError?: Error
   tokenSelectionDisabled?: boolean
   onPressProceed(amount: BigNumber, token: TokenBalance): void
+  disableProceed?: boolean
+  children?: React.ReactNode
 }
 
 const TOKEN_SELECTOR_BORDER_RADIUS = 100
@@ -98,6 +100,8 @@ function EnterAmount({
   prepareTransactionError,
   tokenSelectionDisabled = false,
   onPressProceed,
+  disableProceed = false,
+  children,
 }: Props) {
   const { t } = useTranslation()
 
@@ -328,13 +332,15 @@ function EnterAmount({
           />
         )}
 
+        {children}
+
         <Button
           onPress={() => onPressProceed(parsedAmount, token)}
           text={t('review')}
           style={styles.reviewButton}
           size={BtnSizes.FULL}
           fontStyle={styles.reviewButtonText}
-          disabled={!sendIsPossible}
+          disabled={!sendIsPossible || disableProceed}
           testID="SendEnterAmount/ReviewButton"
         />
         <KeyboardSpacer />
