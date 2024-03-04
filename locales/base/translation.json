@@ -2140,5 +2140,10 @@
     }
   },
   "pleaseWait": "Please wait",
-  "error": "Error"
+  "error": "Error",
+  "tabBar": {
+    "wallet": "Wallet",
+    "home": "Home",
+    "discover": "Discover"
+  }
 }
