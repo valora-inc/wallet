@@ -3,10 +3,14 @@ import {
   celebratedNftFound,
   cleverTapInboxMessagesReceived,
   nftCelebrationDisplayed,
+  nftRewardDisplayed,
+  nftRewardReady,
+  nftRewardReminderReady,
 } from 'src/home/actions'
 import {
   DEFAULT_PRIORITY,
   NftCelebrationStatus,
+  State,
   initialState,
   homeReducer as reducer,
 } from 'src/home/reducers'
@@ -187,6 +191,39 @@ describe('home reducer', () => {
 
     expect(updatedState.nftCelebration).toEqual({
       status: NftCelebrationStatus.celebrationDisplayed,
+    })
+  })
+
+  it('should set reward as ready', () => {
+    const updatedState = reducer(undefined, nftRewardReady())
+
+    expect(updatedState.nftCelebration).toEqual({
+      status: NftCelebrationStatus.rewardReady,
+    })
+  })
+
+  it('should set reminder as ready', () => {
+    const updatedState = reducer(undefined, nftRewardReminderReady())
+
+    expect(updatedState.nftCelebration).toEqual({
+      status: NftCelebrationStatus.reminderReady,
+    })
+  })
+
+  it('should mark reward as displayed', () => {
+    const updatedState = reducer(undefined, nftRewardDisplayed())
+
+    expect(updatedState.nftCelebration).toEqual({
+      status: NftCelebrationStatus.rewardDisplayed,
+    })
+  })
+
+  it('should mark reminder as displayed', () => {
+    const state = { nftCelebration: { status: NftCelebrationStatus.reminderReady } } as State
+    const updatedState = reducer(state, nftRewardDisplayed())
+
+    expect(updatedState.nftCelebration).toEqual({
+      status: NftCelebrationStatus.reminderDisplayed,
     })
   })
 })
