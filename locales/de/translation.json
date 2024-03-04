@@ -91,8 +91,8 @@
     "phoneNumber": "Telefonnummer",
     "setup": {
       "title": "Wallet-Back-up einrichten",
-      "description": "Folgendes wird zum Einrichten der Sicherung verwendet",
-      "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase",
+      "description": "So richtest du dein E-Mail- und Telefonnummern-Backup ein",
+      "useRecoveryPhrase": "Verwende stattdessen eine Erholungsphrase",
       "reminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Du kannst jetzt deine Wallet mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
       },
       "failed": {
-        "title": "Schlüsselloses Backup nicht verfügbar",
-        "body": "Du kannst das schlüssellose Backup zu einem späteren Zeitpunkt einrichten oder dein Konto jetzt durch ein manuelles Backup schützen.",
+        "title": "Backup nicht verfügbar",
+        "body": "Du kannst später ein Wallet-Backup einrichten oder dein Konto jetzt schützen, indem du manuell ein Backup erstellst.",
         "later": "Ich führe das Backup später durch",
         "manual": "Manuelles Backup"
       }
