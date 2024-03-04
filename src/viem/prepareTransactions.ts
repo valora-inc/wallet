@@ -590,10 +590,10 @@ export function getFeeCurrencyToken(
   }
 
   // This indicates we're missing some data
-  Logger.warn(TAG, `Could not find fee currency token for prepared transactions`, {
-    feeCurrencyAdapterOrAddress,
-    networkId,
-  })
+  Logger.error(
+    TAG,
+    `Could not find fee currency token for prepared transactions with feeCurrency set to '${feeCurrencyAdapterOrAddress}' in network ${networkId}`
+  )
   return undefined
 }
 

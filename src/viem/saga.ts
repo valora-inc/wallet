@@ -109,7 +109,7 @@ export function* sendPayment({
 
   if (!feeCurrencyId) {
     // This should never happen
-    throw new Error('no fee currency found')
+    throw new Error(`No fee currency found with id '${feeCurrencyId}' in network ${networkId}`)
   }
 
   const addPendingStandbyTransaction = function* (hash: string) {
