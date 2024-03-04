@@ -76,6 +76,7 @@ import {
 } from 'src/navigator/Headers'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
@@ -102,6 +103,8 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -602,7 +605,15 @@ export function MainStackScreen() {
 
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
-      <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
+      {getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) ? (
+        <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
+      ) : (
+        <Stack.Screen
+          name={Screens.DrawerNavigator}
+          component={DrawerNavigator}
+          options={noHeader}
+        />
+      )}
       {commonScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}

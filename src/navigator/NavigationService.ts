@@ -20,6 +20,8 @@ import {
   requestPincodeInput,
 } from 'src/pincode/authentication'
 import { store } from 'src/redux/store'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { isUserCancelledError } from 'src/storage/keychain'
 import { ensureError } from 'src/utils/ensureError'
 import Logger from 'src/utils/Logger'
@@ -224,7 +226,7 @@ export async function isBottomSheetVisible(screen: Screens) {
 }
 
 interface NavigateHomeOptions {
-  params?: StackParamList[Screens.DrawerNavigator]
+  params?: StackParamList[Screens.DrawerNavigator] | StackParamList[Screens.TabNavigator]
 }
 
 /***
@@ -238,7 +240,9 @@ export function navigateHome(options?: NavigateHomeOptions) {
   setTimeout(() => {
     navigationRef.current?.reset({
       index: 0,
-      routes: [{ name: Screens.DrawerNavigator, params }],
+      routes: getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+        ? [{ name: Screens.TabNavigator, params }]
+        : [{ name: Screens.DrawerNavigator, params }],
     })
   }, timeout)
 }

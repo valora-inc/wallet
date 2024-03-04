@@ -4,7 +4,12 @@ import { Keyboard, StyleSheet, TouchableOpacity, View, processColor } from 'reac
 import Animated, { cond, greaterThan } from 'react-native-reanimated'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AccountCircle from 'src/icons/AccountCircle'
 import Hamburger from 'src/icons/Hamburger'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { vibrateInformative } from 'src/styles/hapticFeedback'
 import { Spacing } from 'src/styles/styles'
@@ -20,6 +25,7 @@ interface Props {
 
 function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition, testID }: Props) {
   const navigation = useNavigation()
+  const useTabNavigator = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
   const viewStyle = React.useMemo(
     () => ({
       ...styles.container,
@@ -43,11 +49,22 @@ function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition
     return navigation.toggleDrawer()
   }
 
+  const onPressProfile = () => {
+    // Dismiss keyboard if it's open
+    Keyboard.dismiss()
+    vibrateInformative()
+    // TODO(act-1107): navigate to new profile / setting screen
+    navigate(Screens.Profile)
+  }
+
   return (
     <Animated.View testID={testID} style={viewStyle}>
       <View style={styles.leftElement}>
-        <TouchableOpacity onPress={onPressHamburger} hitSlop={iconHitslop}>
-          <Hamburger />
+        <TouchableOpacity
+          onPress={useTabNavigator ? onPressProfile : onPressHamburger}
+          hitSlop={iconHitslop}
+        >
+          {useTabNavigator ? <AccountCircle /> : <Hamburger />}
         </TouchableOpacity>
         {leftElement}
       </View>
