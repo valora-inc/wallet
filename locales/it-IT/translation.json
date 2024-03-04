@@ -91,8 +91,8 @@
     "phoneNumber": "Numero telefonico",
     "setup": {
       "title": "Imposta il backup del portafoglio",
-      "description": "Per configurare il backup dovrai utilizzare quanto segue",
-      "useRecoveryPhrase": "Oppure usa la frase di recupero",
+      "description": "Per impostare il backup della tua email e del tuo numero di telefono, dovrai utilizzare le seguenti informazioni",
+      "useRecoveryPhrase": "Usa invece una frase di recupero",
       "reminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Ora potrai recuperare il tuo portafoglio tramite il tuo indirizzo e-mail e il tuo numero telefonico."
       },
       "failed": {
-        "title": "Backup senza chiave non disponibile",
-        "body": "Puoi impostare un backup senza chiave in un secondo momento o proteggere immediatamente il tuo account eseguendo il backup manualmente.",
+        "title": "Backup non disponibile",
+        "body": "Puoi impostare il backup del portafoglio in un secondo momento o proteggere il tuo account ora con un backup manuale.",
         "later": "Eseguirò un backup in un secondo momento",
         "manual": "Backup manuale"
       }
