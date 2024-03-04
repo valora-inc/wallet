@@ -5,7 +5,7 @@ import {
   KeylessBackupStatus,
 } from 'src/keylessBackup/types'
 
-export interface State {
+interface State {
   googleIdToken: string | null
   valoraKeyshare: string | null
   torusKeyshare: string | null
@@ -14,7 +14,7 @@ export interface State {
   showDeleteBackupError: boolean
 }
 
-export const initialState: State = {
+const initialState: State = {
   googleIdToken: null,
   valoraKeyshare: null,
   torusKeyshare: null,

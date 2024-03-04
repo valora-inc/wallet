@@ -70,7 +70,7 @@ export interface AddressToVerificationStatus {
   [address: string]: boolean | undefined
 }
 
-export interface State {
+interface State {
   hasSeenVerificationNux: boolean
   addressToE164Number: AddressToE164NumberType
   // Note: Do not access values in this directly, use the `getAddressFromPhoneNumber` helper in contactMapping

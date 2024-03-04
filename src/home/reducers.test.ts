@@ -11,6 +11,7 @@ import {
   DEFAULT_PRIORITY,
   NftCelebrationStatus,
   State,
+  Notification,
   initialState,
   homeReducer as reducer,
 } from 'src/home/reducers'
@@ -99,7 +100,7 @@ describe('home reducer', () => {
         notifications: {
           ...updatedState.notifications,
           notification1: {
-            ...updatedState.notifications.notification1,
+            ...(updatedState.notifications.notification1 as Notification),
             dismissed: true,
           },
         },

@@ -191,7 +191,18 @@
                 "action": {
                     "anyOf": [
                         {
-                            "$ref": "#/definitions/AnyAction"
+                            "additionalProperties": false,
+                            "description": "An *action* is a plain object that represents an intention to change the\nstate. Actions are the only way to get data into the store. Any data,\nwhether from UI events, network callbacks, or other sources such as\nWebSockets needs to eventually be dispatched as actions.\n\nActions must have a `type` field that indicates the type of action being\nperformed. Types can be defined as constants and imported from another\nmodule. These must be strings, as strings are serializable.\n\nOther than `type`, the structure of an action object is really up to you.\nIf you're interested, check out Flux Standard Action for recommendations on\nhow actions should be constructed.",
+                            "properties": {
+                                "type": {
+                                    "description": "the type of the action's `type` tag.",
+                                    "type": "string"
+                                }
+                            },
+                            "required": [
+                                "type"
+                            ],
+                            "type": "object"
                         },
                         {
                             "type": "null"
@@ -318,19 +329,6 @@
                 "toast"
             ],
             "type": "string"
-        },
-        "AnyAction": {
-            "additionalProperties": {},
-            "description": "An Action type which accepts any other properties.\nThis is mainly for the use of the `Reducer` type.\nThis is not part of `Action` itself to prevent types that extend `Action` from\nhaving an index signature.",
-            "properties": {
-                "type": {
-                    "description": "the type of the action's `type` tag."
-                }
-            },
-            "required": [
-                "type"
-            ],
-            "type": "object"
         },
         "AppState": {
             "enum": [

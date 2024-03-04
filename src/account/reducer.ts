@@ -7,7 +7,7 @@ import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persi
 import Logger from 'src/utils/Logger'
 import { Actions as Web3Actions, ActionTypes as Web3ActionTypes } from 'src/web3/actions'
 
-export interface State {
+interface State {
   name: string | null
   e164PhoneNumber: string | null
   pictureUri: string | null
@@ -73,7 +73,7 @@ export enum RecoveryPhraseInOnboardingStatus {
   Completed = 'Completed', // users who have clicked "I've saved it"
 }
 
-export const initialState: State = {
+const initialState: State = {
   name: null,
   e164PhoneNumber: null,
   pictureUri: null,

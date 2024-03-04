@@ -62,7 +62,10 @@ export const initialState = {
   nftCelebration: null,
 }
 
-export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
+export const homeReducer = (
+  state: State = initialState,
+  action: ActionTypes | RehydrateAction
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       // Ignore some persisted properties

@@ -18,7 +18,7 @@ export type TriggeredShortcuts = Record<
   }
 >
 
-export interface State {
+interface State {
   positions: Position[]
   status: Status
   shortcuts: Shortcut[]
