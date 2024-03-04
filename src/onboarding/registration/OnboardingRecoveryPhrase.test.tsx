@@ -30,7 +30,6 @@ const mockScreenProps = getMockStackScreenProps(Screens.OnboardingRecoveryPhrase
 describe('OnboardingRecoveryPhraseScreen', () => {
   const store = createMockStore({
     web3: {
-      twelveWordMnemonicEnabled: true,
       account: '0xaccount',
     },
   })

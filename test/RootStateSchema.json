@@ -4405,9 +4405,6 @@
                         "null",
                         "string"
                     ]
-                },
-                "twelveWordMnemonicEnabled": {
-                    "type": "boolean"
                 }
             },
             "required": [
@@ -4415,8 +4412,7 @@
                 "accountInWeb3Keystore",
                 "dataEncryptionKey",
                 "isDekRegistered",
-                "mtwAddress",
-                "twelveWordMnemonicEnabled"
+                "mtwAddress"
             ],
             "type": "object"
         },
