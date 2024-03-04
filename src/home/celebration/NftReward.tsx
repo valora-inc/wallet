@@ -149,7 +149,7 @@ enum ExpirationStatus {
 const useExpirationStatus = (expirationDate: Date, reminderDate: Date) => {
   const UPDATE_INTERVAL = 1000
 
-  const timeoutID = useRef<NodeJS.Timeout>()
+  const timeoutID = useRef<number>()
 
   useEffect(() => {
     updateExpirationStatus()

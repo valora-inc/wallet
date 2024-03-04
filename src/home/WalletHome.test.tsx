@@ -7,6 +7,7 @@ import { dappSelected } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
@@ -442,7 +443,7 @@ describe('WalletHome', () => {
         },
         home: {
           nftCelebration: {
-            displayed: false,
+            status: NftCelebrationStatus.celebrationReady,
           },
         },
       })
@@ -458,7 +459,7 @@ describe('WalletHome', () => {
             },
             home: {
               nftCelebration: {
-                displayed: true,
+                status: NftCelebrationStatus.celebrationDisplayed,
               },
             },
           })}

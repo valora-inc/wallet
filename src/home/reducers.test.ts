@@ -166,6 +166,9 @@ describe('home reducer', () => {
       celebratedNftFound({
         networkId: NetworkId['celo-alfajores'],
         contractAddress: mockContractAddress,
+        deepLink: 'celo://test',
+        expirationDate: '3000-12-01T00:00:00.000Z',
+        reminderDate: '3000-01-01T00:00:00.000Z',
       })
     )
 
@@ -173,6 +176,9 @@ describe('home reducer', () => {
       networkId: NetworkId['celo-alfajores'],
       contractAddress: mockContractAddress,
       status: NftCelebrationStatus.celebrationReady,
+      deepLink: 'celo://test',
+      expirationDate: '3000-12-01T00:00:00.000Z',
+      reminderDate: '3000-01-01T00:00:00.000Z',
     })
   })
 
