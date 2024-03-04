@@ -4270,8 +4270,17 @@
                                 "contractAddress": {
                                     "type": "string"
                                 },
+                                "deepLink": {
+                                    "type": "string"
+                                },
+                                "expirationDate": {
+                                    "type": "string"
+                                },
                                 "networkId": {
                                     "$ref": "#/definitions/NetworkId"
+                                },
+                                "reminderDate": {
+                                    "type": "string"
                                 },
                                 "status": {
                                     "$ref": "#/definitions/NftCelebrationStatus"
@@ -4279,7 +4288,10 @@
                             },
                             "required": [
                                 "contractAddress",
+                                "deepLink",
+                                "expirationDate",
                                 "networkId",
+                                "reminderDate",
                                 "status"
                             ],
                             "type": "object"
