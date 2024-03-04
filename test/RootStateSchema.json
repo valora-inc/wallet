@@ -2,6 +2,19 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "additionalProperties": false,
     "definitions": {
+        "Action<any>": {
+            "additionalProperties": false,
+            "description": "An *action* is a plain object that represents an intention to change the\nstate. Actions are the only way to get data into the store. Any data,\nwhether from UI events, network callbacks, or other sources such as\nWebSockets needs to eventually be dispatched as actions.\n\nActions must have a `type` field that indicates the type of action being\nperformed. Types can be defined as constants and imported from another\nmodule. It's better to use strings for `type` than Symbols because strings\nare serializable.\n\nOther than `type`, the structure of an action object is really up to you.\nIf you're interested, check out Flux Standard Action for recommendations on\nhow actions should be constructed.",
+            "properties": {
+                "type": {
+                    "description": "the type of the action's `type` tag."
+                }
+            },
+            "required": [
+                "type"
+            ],
+            "type": "object"
+        },
         "ActiveDapp": {
             "additionalProperties": false,
             "properties": {
@@ -191,18 +204,7 @@
                 "action": {
                     "anyOf": [
                         {
-                            "additionalProperties": false,
-                            "description": "An *action* is a plain object that represents an intention to change the\nstate. Actions are the only way to get data into the store. Any data,\nwhether from UI events, network callbacks, or other sources such as\nWebSockets needs to eventually be dispatched as actions.\n\nActions must have a `type` field that indicates the type of action being\nperformed. Types can be defined as constants and imported from another\nmodule. These must be strings, as strings are serializable.\n\nOther than `type`, the structure of an action object is really up to you.\nIf you're interested, check out Flux Standard Action for recommendations on\nhow actions should be constructed.",
-                            "properties": {
-                                "type": {
-                                    "description": "the type of the action's `type` tag.",
-                                    "type": "string"
-                                }
-                            },
-                            "required": [
-                                "type"
-                            ],
-                            "type": "object"
+                            "$ref": "#/definitions/Action<any>"
                         },
                         {
                             "type": "null"
@@ -1666,11 +1668,11 @@
         "NftCelebrationStatus": {
             "enum": [
                 "celebrationDisplayed",
-                "celebrationReady",
+                "celebrationReadyToDisplay",
                 "reminderDisplayed",
-                "reminderReady",
+                "reminderReadyToDisplay",
                 "rewardDisplayed",
-                "rewardReady"
+                "rewardReadyToDisplay"
             ],
             "type": "string"
         },
