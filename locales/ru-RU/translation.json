@@ -2103,6 +2103,12 @@
       "description": "Подготовить транзакцию для этого токена не удалось."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Мы бы предложили меньшую сумму.",
+      "description": "Эта ссылка будет востребована любым, кто получит к ней доступ. Мы рекомендуем отправлять не более {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Утверждение",
     "estimatedNetworkFee": "Примерная комиссия сообщества",
