@@ -91,8 +91,8 @@
     "phoneNumber": "Número de teléfono",
     "setup": {
       "title": "Configurar la copia de seguridad de la billetera",
-      "description": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
-      "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación",
+      "description": "Utilizarás lo siguiente para configurar la copia de seguridad de tu correo electrónico y número de teléfono",
+      "useRecoveryPhrase": "Utiliza en su lugar una frase de recuperación",
       "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Ya puedes recuperar tu wallet con tu dirección de correo electrónico y tu número de teléfono."
       },
       "failed": {
-        "title": "Copia de seguridad sin llave no disponible",
-        "body": "Puedes configurar la copia de seguridad sin llave más adelante o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
+        "title": "Copia de seguridad no disponible",
+        "body": "Puedes configurar una copia de seguridad del monedero más tarde o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
