@@ -111,4 +111,21 @@ describe(estimateFeesPerGas, () => {
     expect(getBlock).not.toHaveBeenCalled()
     expect(readContract).not.toHaveBeenCalled()
   })
+
+  it('should throw on other networks if baseFeePerGas is missing', async () => {
+    jest
+      .mocked(defaultEstimateFeesPerGas)
+      .mockResolvedValue({ maxFeePerGas: BigInt(110), maxPriorityFeePerGas: BigInt(10) })
+    jest.mocked(getBlock).mockResolvedValue({ hash: '0x123', baseFeePerGas: null } as any as Block)
+    const client = {
+      chain: { id: 1 },
+    }
+    await expect(estimateFeesPerGas(client as any)).rejects.toThrowError(
+      'missing baseFeePerGas on block: 0x123'
+    )
+    expect(defaultEstimateFeesPerGas).not.toHaveBeenCalled()
+    expect(getBlock).toHaveBeenCalledWith(client)
+    expect(getBlock).toHaveBeenCalledTimes(1)
+    expect(readContract).not.toHaveBeenCalled()
+  })
 })
