@@ -110,13 +110,10 @@ export const DynamicConfigs = {
   [StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]: {
     configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
     defaultValues: {
-      celebratedNft: {
-        networkId: 'celo-mainnet',
-        contractAddress: '0x38f4f48c9ab6b96daeda4fae1f40c288b8656e8c',
-      } as { networkId?: NetworkId; contractAddress?: string },
-      deepLink: 'celo://wallet/cashIn',
-      expirationDate: '2024-03-01T14:20:00.000Z',
-      reminderDate: '2024-03-01T14:00:00.000Z',
+      celebratedNft: {} as { networkId?: NetworkId; contractAddress?: string },
+      deepLink: '',
+      expirationDate: new Date(0).toISOString(),
+      reminderDate: new Date(0).toISOString(),
     },
   },
 }
