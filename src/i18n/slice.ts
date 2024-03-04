@@ -3,7 +3,7 @@ import { Actions as AppActions, UpdateConfigValuesAction } from 'src/app/actions
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
-export interface State {
+interface State {
   language: string | null
   allowOtaTranslations: boolean
   otaTranslationsLastUpdate: number

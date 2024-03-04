@@ -23,11 +23,11 @@ export interface FeeEstimates {
   }
 }
 
-export interface State {
+interface State {
   estimates: FeeEstimates
 }
 
-export const initialState: State = {
+const initialState: State = {
   estimates: {},
 }
 

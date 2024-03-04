@@ -1,10 +1,19 @@
 import BigNumber from 'bignumber.js'
-import React, { useMemo } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
+import { useTranslation } from 'react-i18next'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import InLineNotification, { Severity } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
+import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import useSelector from 'src/redux/useSelector'
 import EnterAmount from 'src/send/EnterAmount'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -14,6 +23,20 @@ import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 const TAG = 'JumpstartEnterAmount'
 
 function JumpstartEnterAmount() {
+  const { t } = useTranslation()
+
+  const [sendAmountExceedsThreshold, setSendAmountExceedsThreshold] = useState(false)
+
+  const jumpstartSendThreshold = getDynamicConfigParams(
+    DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+  ).maxAllowedSendAmountUsd
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+  const maxSendAmountLocalCurrency = convertDollarsToLocalAmount(
+    jumpstartSendThreshold,
+    usdToLocalRate
+  )
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+
   const walletAddress = useSelector(walletAddressSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
 
@@ -59,7 +82,7 @@ function JumpstartEnterAmount() {
 
   const prepareJumpstartTransactions = usePrepareJumpstartTransactions()
 
-  const handlRefreshPreparedTransactions = (
+  const handleRefreshPreparedTransactions = (
     amount: BigNumber,
     token: TokenBalance,
     feeCurrencies: TokenBalance[]
@@ -67,6 +90,17 @@ function JumpstartEnterAmount() {
     if (!walletAddress) {
       Logger.error(TAG, 'Wallet address not set. Cannot refresh prepared transactions.')
       return
+    }
+
+    const sendAmountUsd = amount.multipliedBy(token.priceUsd ?? 0)
+    const sendAmountExceedsMax = sendAmountUsd.isGreaterThan(jumpstartSendThreshold)
+    setSendAmountExceedsThreshold(sendAmountExceedsMax)
+    if (sendAmountExceedsMax) {
+      ValoraAnalytics.track(JumpstartEvents.jumpstart_send_amount_exceeds_threshold, {
+        sendAmountUsd: sendAmountUsd.toFixed(2),
+        tokenId: token.tokenId,
+        thresholdUsd: jumpstartSendThreshold,
+      })
     }
 
     return prepareJumpstartTransactions.execute({
@@ -83,10 +117,22 @@ function JumpstartEnterAmount() {
       tokens={tokens}
       prepareTransactionsResult={prepareJumpstartTransactions.result}
       onClearPreparedTransactions={prepareJumpstartTransactions.reset}
-      onRefreshPreparedTransactions={handlRefreshPreparedTransactions}
+      onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
       prepareTransactionError={prepareJumpstartTransactions.error}
       onPressProceed={handleProceed.execute}
-    />
+      disableProceed={sendAmountExceedsThreshold}
+    >
+      {sendAmountExceedsThreshold && (
+        <InLineNotification
+          severity={Severity.Warning}
+          title={t('jumpstartEnterAmountScreen.maxAmountWarning.title')}
+          description={t('jumpstartEnterAmountScreen.maxAmountWarning.description', {
+            maxAmount: maxSendAmountLocalCurrency?.toFormat(2),
+            localCurrencyCode,
+          })}
+        />
+      )}
+    </EnterAmount>
   )
 }
 

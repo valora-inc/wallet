@@ -4,7 +4,7 @@ import { ActiveDapp, Dapp, DappCategory } from 'src/dapps/types'
 import { REMOTE_CONFIG_VALUES_DEFAULTS } from 'src/firebase/remoteConfigValuesDefaults'
 import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
 
-export interface State {
+interface State {
   dappsWebViewEnabled: boolean
   activeDapp: ActiveDapp | null
   maxNumRecentDapps: number

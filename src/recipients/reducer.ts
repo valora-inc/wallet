@@ -1,10 +1,10 @@
 import { createAction, createReducer, createSelector } from '@reduxjs/toolkit'
 import { addressToDisplayNameSelector, addressToE164NumberSelector } from 'src/identity/selectors'
 import { AddressToRecipient, NumberToRecipient } from 'src/recipients/recipient'
-import { getRehydratePayload, REHYDRATE, RehydrateAction } from 'src/redux/persist-helper'
+import { REHYDRATE, RehydrateAction, getRehydratePayload } from 'src/redux/persist-helper'
 import { RootState } from 'src/redux/reducers'
 
-export interface State {
+interface State {
   // phoneRecipientCache contains the processed contact data imported from the
   // phone for a single app session.
   // Think of contacts as raw data and recipients as filtered data

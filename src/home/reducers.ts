@@ -30,7 +30,7 @@ export interface IdToNotification {
   [id: string]: Notification | undefined
 }
 
-export interface State {
+interface State {
   loading: boolean
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]
@@ -50,7 +50,10 @@ export const initialState = {
   nftCelebration: null,
 }
 
-export const homeReducer = (state: State = initialState, action: ActionTypes | RehydrateAction) => {
+export const homeReducer = (
+  state: State = initialState,
+  action: ActionTypes | RehydrateAction
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       // Ignore some persisted properties
@@ -127,6 +130,9 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         },
       }
     case Actions.NFT_CELEBRATION_DISPLAYED:
+      if (!state.nftCelebration) {
+        return state
+      }
       return {
         ...state,
         nftCelebration: {
