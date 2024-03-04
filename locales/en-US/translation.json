@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Protect Your Wallet",
     "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "Use Recovery Phrase",
       "subtitle": "Write down your recovery phrase"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "I've saved it",
     "copy": "Copy to clipboard",
     "mnemonicCopied": "Recovery phrase copied to clipboard",
