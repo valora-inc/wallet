@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Bảo vệ ví của bạn",
     "subtitle": "Bảo vệ ví của bạn",
-    "body": "Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, thì cụm từ khôi phục gồm {{mnemonicLength}} từ sẽ là cách duy nhất bạn để truy cập vào tiền của mình.",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "Sử dụng Cụm từ khôi phục",
       "subtitle": "Viết ra cụm từ khôi phục"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Cụm từ khôi phục của bạn",
-    "body": "Viết các từ {{mnemonicLength}} này vào một nơi an toàn mà không ai có thể đánh cắp hoặc làm hư hòng chúng.",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "Tôi đã lưu cụm từ khôi phục",
     "copy": "Sao chép vào bảng nhớ tạm",
     "mnemonicCopied": "Đã sao chép cụm từ khôi phục vào bảng nhớ tạm",
