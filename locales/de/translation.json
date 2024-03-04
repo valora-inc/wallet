@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Schütze deine Wallet",
     "subtitle": "Schütze deine Wallet",
-    "body": "Wenn du dein Telefon verlierst oder es dir gestohlen wird, ist deine {{mnemonicLength}}-Wörter Wiederherstellungsphrase die einzige Möglichkeit, um auf dein Guthaben zugreifen zu können.",
+    "body": "Wenn dein Telefon verloren geht oder gestohlen wird, ist dein 12-Wörter-Wiederherstellungssatz die einzige Möglichkeit, um auf dein Geld zuzugreifen.",
     "recoveryPhrase": {
       "title": "Wiederherstellungsphrase verwenden",
       "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Deine Wiederherstellungsphrase",
-    "body": "Schreibe diese {{mnemonicLength}} Wörter so auf, dass sie nicht gestohlen oder beschädigt werden können.",
+    "body": "Schreibe diese 12 Wörter an einem sicheren Ort auf, wo sie nicht gestohlen oder beschädigt werden können.",
     "continue": "Ich habe sie gespeichert",
     "copy": "In Zwischenablage kopieren",
     "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",
