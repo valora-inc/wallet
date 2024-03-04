@@ -9,6 +9,7 @@ import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
 import { buildSendTx } from 'src/send/saga'
 import { getTokenInfo, tokenAmountInSmallestUnit } from 'src/tokens/saga'
+import { tokensByIdSelector } from 'src/tokens/selectors'
 import {
   TokenBalanceWithAddress,
   fetchTokenBalances,
@@ -23,7 +24,7 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
-import { TransactionRequest, getFeeCurrency } from 'src/viem/prepareTransactions'
+import { TransactionRequest, getFeeCurrencyToken } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
   getPreparedTransaction,
@@ -32,7 +33,7 @@ import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, put } from 'typed-redux-saga'
+import { call, put, select } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, WriteContractParameters, getAddress } from 'viem'
 
 const TAG = 'viem/saga'
@@ -100,9 +101,16 @@ export function* sendPayment({
     yield* call(unlockAccount, wallet.account.address)
   }
 
-  const feeCurrency: string | undefined =
-    preparedTransaction && getFeeCurrency(getPreparedTransaction(preparedTransaction))
-  const feeCurrencyId = getTokenId(networkId, feeCurrency)
+  const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
+  const feeCurrencyId = preparedTransaction
+    ? getFeeCurrencyToken([getPreparedTransaction(preparedTransaction)], networkId, tokensById)
+        ?.tokenId
+    : getTokenId(networkId)
+
+  if (!feeCurrencyId) {
+    // This should never happen
+    throw new Error(`No fee currency found with id '${feeCurrencyId}' in network ${networkId}`)
+  }
 
   const addPendingStandbyTransaction = function* (hash: string) {
     yield* put(
