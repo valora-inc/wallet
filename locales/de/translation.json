@@ -2099,6 +2099,12 @@
       "description": "Es war nicht möglich, eine Transaktion für diesen Token vorzubereiten."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Wir würden einen niedrigeren Betrag vorschlagen",
+      "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Wir empfehlen, nicht mehr als {{maxAmount}} {{localCurrencyCode}}zu senden."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Genehmigt",
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
