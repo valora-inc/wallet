@@ -61,6 +61,7 @@ export enum Screens {
   PincodeEnter = 'PincodeEnter',
   PincodeSet = 'PincodeSet',
   Profile = 'Profile',
+  ProfileMenu = 'ProfileMenu',
   ProtectWallet = 'ProtectWallet',
   QRCode = 'QRCode',
   QRNavigator = 'QRNavigator',
