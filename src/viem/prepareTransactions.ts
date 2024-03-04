@@ -206,7 +206,7 @@ export async function tryEstimateTransactions(
         feeCurrencyAddress,
         maxFeePerGas,
         maxPriorityFeePerGas,
-        baseFeePerGas: baseFeePerGas,
+        baseFeePerGas,
       })
       if (!tx) {
         return null
