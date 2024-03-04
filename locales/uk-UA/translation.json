@@ -2103,6 +2103,12 @@
       "description": "Підготувати транзакцію для цього токена не вдалося."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Ми б запропонували меншу суму",
+      "description": "На це посилання може претендувати будь-хто, хто має до нього доступ. Ми рекомендуємо надсилати не більше {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Затвердження",
     "estimatedNetworkFee": "Орієнтовна комісія мережі",
