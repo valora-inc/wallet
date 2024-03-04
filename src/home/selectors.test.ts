@@ -193,10 +193,6 @@ describe('showNftCelebrationSelector', () => {
     jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
   })
 
-  afterEach(() => {
-    jest.useRealTimers()
-  })
-
   it('should return false when feature gate is disabled', () => {
     jest.mocked(getFeatureGate).mockReturnValueOnce(false)
 
@@ -261,10 +257,6 @@ describe('showNftRewardSelector', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
-  })
-
-  afterEach(() => {
-    jest.useRealTimers()
   })
 
   it('should return false when feature gate is disabled', () => {

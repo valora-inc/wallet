@@ -30,6 +30,7 @@ const mockStoreWithNft = {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
       status: NftCelebrationStatus.celebrationReady,
+      expirationDate: '3000-12-01T00:00:00.000Z',
     },
   },
 }
@@ -126,6 +127,20 @@ describe('NftCelebration', () => {
   it('does not render when user has alredy seen celebration for this contract', () => {
     const { queryByText } = render(
       <Provider store={createMockStore(mockStoreWithNftAndCelebrationDisplayed)}>
+        <NftCelebration />
+      </Provider>
+    )
+
+    expect(queryByText('nftCelebration.bottomSheet.title')).toBeNull()
+    expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
+    expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
+  })
+
+  it('does not render if expired', () => {
+    jest.useFakeTimers().setSystemTime(new Date('3001-01-01T00:00:00.000Z').getTime())
+
+    const { queryByText } = render(
+      <Provider store={createMockStore(mockStoreWithNft)}>
         <NftCelebration />
       </Provider>
     )

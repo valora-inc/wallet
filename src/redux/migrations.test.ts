@@ -2,7 +2,6 @@ import BigNumber from 'bignumber.js'
 import _ from 'lodash'
 import { FinclusiveKycStatus } from 'src/account/reducer'
 import { initialState as exchangeInitialState } from 'src/exchange/reducer'
-import { NftCelebrationStatus } from 'src/home/reducers'
 import { migrations } from 'src/redux/migrations'
 import {
   Network,
@@ -1534,7 +1533,7 @@ describe('Redux persist migrations', () => {
     expectedSchema.send.recentRecipients = [mockRecipient, mockRecipient2]
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
-  it('works from 192 to 193', () => {
+  it('works from 196 to 197', () => {
     const oldSchema = {
       ...v192Schema,
       home: {
@@ -1546,10 +1545,9 @@ describe('Redux persist migrations', () => {
         },
       },
     }
-    const migratedSchema = migrations[193](oldSchema)
+    const migratedSchema = migrations[197](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
-    delete expectedSchema.home.nftCelebration.displayed
-    expectedSchema.home.nftCelebration.status = NftCelebrationStatus.celebrationDisplayed
+    expectedSchema.home.nftCelebration = null
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

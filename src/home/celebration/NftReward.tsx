@@ -57,8 +57,8 @@ export default function NftRewardBottomSheet() {
   const deepLink = nftCelebration?.deepLink ?? ''
 
   const { expirationStatus, expirationLabelText } = useExpirationStatus(
-    new Date(expirationDate),
-    new Date(reminderDate)
+    expirationDate,
+    reminderDate
   )
 
   const isVisible = canShowNftReward && matchingNft
@@ -145,6 +145,7 @@ enum ExpirationStatus {
   expired = 'expired',
 }
 
+// recalculates expiration status every second
 const useExpirationStatus = (expirationDate: Date, reminderDate: Date) => {
   const UPDATE_INTERVAL = 1000
 

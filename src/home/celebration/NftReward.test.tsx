@@ -103,7 +103,6 @@ describe('NftReward', () => {
 
   afterEach(() => {
     jest.clearAllMocks()
-    jest.useRealTimers()
   })
 
   it('renders correctly when status is "reward ready"', () => {
@@ -196,6 +195,20 @@ describe('NftReward', () => {
     expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
   })
 
+  it('does not render if expired', () => {
+    jest.useFakeTimers().setSystemTime(new Date('3001-01-01T00:00:00.000Z').getTime())
+
+    const { queryByText } = render(
+      <Provider store={createMockStore(mockStoreRewardReady)}>
+        <NftReward />
+      </Provider>
+    )
+
+    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+  })
+
   it('hanldes the cta correctly', () => {
     jest.useFakeTimers().setSystemTime(new Date('3000-11-01T00:00:00.000Z').getTime())
 
@@ -262,14 +275,16 @@ describe('NftReward', () => {
       )
     })
 
-    it('renders correct expiration pill when reward expired', () => {
-      jest.useFakeTimers().setSystemTime(new Date('3001-01-01T00:00:00.000Z').getTime())
+    it('renders correct expiration pill when reward is expired', () => {
+      jest.useFakeTimers().setSystemTime(new Date('3000-11-30T23:59:59.000Z').getTime())
 
       const { getByTestId } = render(
         <Provider store={createMockStore(mockStoreRewardReady)}>
           <NftReward />
         </Provider>
       )
+
+      jest.advanceTimersByTime(2000)
 
       const pillLabel = getByTestId('NftReward/PillLabel')
       expect(pillLabel).toHaveTextContent('nftCelebration.rewardBottomSheet.expired')
