@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Protégez votre portefeuille",
     "subtitle": "Protégez votre portefeuille",
-    "body": "Si vous perdez ou vous faites voler votre téléphone, votre phrase de récupération composée de {{mnemonicLength}} mots sera votre seule façon d'accéder à vos fonds.",
+    "body": "Si ton téléphone est perdu ou volé, ta phrase de récupération de 12 mots est le seul moyen d'accéder à tes fonds.",
     "recoveryPhrase": {
       "title": "Utiliser la Phrase de récupération",
       "subtitle": "Écrivez votre Phrase de récupération"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Votre Phrase de récupération",
-    "body": "Écrivez ces {{mnemonicLength}} mots dans un endroit sûr, où ils ne peuvent pas être volés ou endommagés.",
+    "body": "Écris ces 12 mots dans un endroit sûr, où ils ne risquent pas d'être volés ou endommagés.",
     "continue": "Je l'ai enregistrée",
     "copy": "Copier dans le presse-papiers",
     "mnemonicCopied": "Phrase de récupération copiée dans le presse-papiers",
