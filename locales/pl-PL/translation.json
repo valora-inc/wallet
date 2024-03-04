@@ -2103,6 +2103,12 @@
       "description": "Nie było możliwe przygotowanie transakcji dla tego tokena."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugerujemy niższą kwotę",
+      "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
