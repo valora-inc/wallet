@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "ป้องกันกระเป๋าเงินของคุณ",
     "subtitle": "ป้องกันกระเป๋าเงินของคุณ",
-    "body": "หากโทรศัพท์ของคุณสูญหายหรือถูกขโมย วลีกู้คืนรหัสเป็นวิธีเดียวที่คุณสามารถเข้าถึงเงินของคุณได้",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "ใช้วลีกู้คืนรหัส",
       "subtitle": "จดวลีกู้คืนรหัสของคุณไว้"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "วลีกู้คืนรหัสของคุณ",
-    "body": "จดบันทึกคำ {{mnemonicLength}} เหล่านี้ไว้ในที่ที่ปลอดภัยจากการถูกขโมยหรือทำให้เสียหาย",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "ฉันบันทึกไว้แล้ว",
     "copy": "คัดลอกไปยังคลิปบอร์ด",
     "mnemonicCopied": "คัดลอกวลีกู้คืนรหัสไปยังคลิปบอร์ดแล้ว",
