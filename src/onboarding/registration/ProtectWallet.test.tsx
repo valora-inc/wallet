@@ -40,7 +40,6 @@ const mockScreenProps = getMockStackScreenProps(Screens.ProtectWallet)
 describe('ProtectWalletScreen', () => {
   const store = createMockStore({
     web3: {
-      twelveWordMnemonicEnabled: true,
       account: '0xaccount',
     },
   })
@@ -62,7 +61,6 @@ describe('ProtectWalletScreen', () => {
   it('does not dispatch event if recoveryPhraseInOnboardingStatus is not NotStarted', async () => {
     const mockStore = createMockStore({
       web3: {
-        twelveWordMnemonicEnabled: true,
         account: '0xaccount',
       },
       account: {

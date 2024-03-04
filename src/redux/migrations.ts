@@ -1601,4 +1601,8 @@ export const migrations = {
       claimStatus: 'idle',
     },
   }),
+  197: (state: any) => ({
+    ...state,
+    web3: _.omit(state.web3, 'twelveWordMnemonicEnabled'),
+  }),
 }
