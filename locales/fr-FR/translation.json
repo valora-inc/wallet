@@ -2099,6 +2099,12 @@
       "description": "Il n'a pas été possible de préparer une transaction pour ce jeton."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Nous suggérons un montant moins élevé",
+      "description": "Ce lien pourra être revendiqué par toute personne y ayant accès. Nous recommandons de ne pas envoyer plus de {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approbation",
     "estimatedNetworkFee": "Estimation des frais de réseau",
