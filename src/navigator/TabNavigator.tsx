@@ -31,7 +31,7 @@ export default function TabNavigator({ route }: Props) {
     >
       <Tab.Screen
         name={Screens.Assets}
-        // @ts-ignore
+        // @ts-expect-error Type '{}' is missing the following properties from type 'Props': navigation, route
         component={AssetsScreen}
         icon={Wallet}
         options={{
