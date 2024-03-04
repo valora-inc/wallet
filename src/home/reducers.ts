@@ -142,6 +142,10 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         },
       }
     case Actions.NFT_CELEBRATION_DISPLAYED:
+      if (!state.nftCelebration) {
+        return state
+      }
+
       return {
         ...state,
         nftCelebration: {
@@ -150,6 +154,10 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         },
       }
     case Actions.NFT_REWARD_READY:
+      if (!state.nftCelebration) {
+        return state
+      }
+
       return {
         ...state,
         nftCelebration: {
@@ -158,6 +166,10 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         },
       }
     case Actions.NFT_REWARD_REMINDER_READY:
+      if (!state.nftCelebration) {
+        return state
+      }
+
       return {
         ...state,
         nftCelebration: {
@@ -166,6 +178,10 @@ export const homeReducer = (state: State = initialState, action: ActionTypes | R
         },
       }
     case Actions.NFT_REWARD_DISPLAYED:
+      if (!state.nftCelebration) {
+        return state
+      }
+
       return {
         ...state,
         nftCelebration: {

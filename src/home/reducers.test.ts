@@ -187,35 +187,37 @@ describe('home reducer', () => {
   })
 
   it('should mark nftCelebration as displayed', () => {
-    const updatedState = reducer(undefined, nftCelebrationDisplayed())
+    const state = { nftCelebration: { status: NftCelebrationStatus.celebrationReady } } as State
+    const updatedState = reducer(state, nftCelebrationDisplayed())
 
-    expect(updatedState.nftCelebration).toEqual({
-      status: NftCelebrationStatus.celebrationDisplayed,
-    })
+    expect(updatedState.nftCelebration).toHaveProperty(
+      'status',
+      NftCelebrationStatus.celebrationDisplayed
+    )
   })
 
   it('should set reward as ready', () => {
-    const updatedState = reducer(undefined, nftRewardReady())
+    const state = { nftCelebration: { status: NftCelebrationStatus.celebrationDisplayed } } as State
+    const updatedState = reducer(state, nftRewardReady())
 
-    expect(updatedState.nftCelebration).toEqual({
-      status: NftCelebrationStatus.rewardReady,
-    })
+    expect(updatedState.nftCelebration).toHaveProperty('status', NftCelebrationStatus.rewardReady)
   })
 
   it('should set reminder as ready', () => {
-    const updatedState = reducer(undefined, nftRewardReminderReady())
+    const state = { nftCelebration: { status: NftCelebrationStatus.rewardDisplayed } } as State
+    const updatedState = reducer(state, nftRewardReminderReady())
 
-    expect(updatedState.nftCelebration).toEqual({
-      status: NftCelebrationStatus.reminderReady,
-    })
+    expect(updatedState.nftCelebration).toHaveProperty('status', NftCelebrationStatus.reminderReady)
   })
 
   it('should mark reward as displayed', () => {
-    const updatedState = reducer(undefined, nftRewardDisplayed())
+    const state = { nftCelebration: { status: NftCelebrationStatus.rewardReady } } as State
+    const updatedState = reducer(state, nftRewardDisplayed())
 
-    expect(updatedState.nftCelebration).toEqual({
-      status: NftCelebrationStatus.rewardDisplayed,
-    })
+    expect(updatedState.nftCelebration).toHaveProperty(
+      'status',
+      NftCelebrationStatus.rewardDisplayed
+    )
   })
 
   it('should mark reminder as displayed', () => {
