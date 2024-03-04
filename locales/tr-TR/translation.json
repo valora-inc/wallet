@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Cüzdanınızı Koruyun",
     "subtitle": "Cüzdanınızı koruyun",
-    "body": "Telefonunuz kaybolur ya da çalınırsa {{mnemonicLength}} kelimelik kurtarma ifadeniz fonlarınıza erişebilmenizin tek yoludur.",
+    "body": "Telefonunuz kaybolur veya çalınırsa, 12 kelimelik kurtarma cümleniz fonlarınıza erişebilmenizin tek yoludur.",
     "recoveryPhrase": {
       "title": "Kurtarma İfadesini Kullan",
       "subtitle": "Kurtarma ifadenizi not edin"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Kurtarma ifadeniz",
-    "body": "Bu {{mnemonicLength}} kelimeyi çalınamayacağı veya zarar görmeyeceği güvenli bir yere not edin.",
+    "body": "Bu 12 kelimeyi çalınamayacak ya da zarar görmeyecek güvenli bir yere yazın.",
     "continue": "Kaydettim",
     "copy": "Panoya kopyala",
     "mnemonicCopied": "Kurtarma ifadesi panoya kopyalandı",
