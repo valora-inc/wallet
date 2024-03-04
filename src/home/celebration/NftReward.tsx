@@ -1,10 +1,13 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
 import { isPast, isToday } from 'date-fns'
+import differenceInDays from 'date-fns/differenceInDays'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useDispatch, useSelector } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openDeepLink } from 'src/app/actions'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
@@ -72,12 +75,32 @@ export default function NftRewardBottomSheet() {
   }, [isVisible])
 
   const handleBottomSheetPositionChange = (index: number) => {
+    if (!celebratedNft) {
+      return // This should never happen
+    }
+
     if (index === -1) {
+      ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
+        networkId: celebratedNft.networkId,
+        contractAddress: celebratedNft.contractAddress,
+        remainingDays: differenceInDays(expirationDate, Date.now()),
+      })
+
       dispatch(nftRewardDisplayed())
     }
   }
 
   const handleCtaPress = () => {
+    if (!celebratedNft) {
+      return // This should never happen
+    }
+
+    ValoraAnalytics.track(HomeEvents.nft_reward_accept, {
+      networkId: celebratedNft.networkId,
+      contractAddress: celebratedNft.contractAddress,
+      remainingDays: differenceInDays(expirationDate, Date.now()),
+    })
+
     bottomSheetRef.current?.close()
 
     const isSecureOrigin = true

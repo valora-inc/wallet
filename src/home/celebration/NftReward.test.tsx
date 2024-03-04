@@ -1,7 +1,10 @@
-import { render } from '@testing-library/react-native'
+import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { StyleSheet } from 'react-native'
 import { Provider } from 'react-redux'
+import { HomeEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { openDeepLink } from 'src/app/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { getFeatureGate } from 'src/statsig/index'
 import Colors from 'src/styles/colors'
@@ -36,6 +39,7 @@ const mockStoreRewardReady = {
       status: NftCelebrationStatus.rewardReady,
       expirationDate: '3000-12-01T00:00:00.000Z',
       reminderDate: '3000-01-01T00:00:00.000Z',
+      deepLink: 'celo://test',
     },
   },
 }
@@ -99,6 +103,7 @@ describe('NftReward', () => {
 
   afterEach(() => {
     jest.clearAllMocks()
+    jest.useRealTimers()
   })
 
   it('renders correctly when status is "reward ready"', () => {
@@ -191,11 +196,32 @@ describe('NftReward', () => {
     expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
   })
 
-  describe('expiration pill', () => {
-    afterEach(() => {
-      jest.useRealTimers()
-    })
+  it('hanldes the cta correctly', () => {
+    jest.useFakeTimers().setSystemTime(new Date('3000-11-01T00:00:00.000Z').getTime())
 
+    const store = createMockStore(mockStoreRewardReady)
+    store.dispatch = jest.fn()
+
+    const { getByText } = render(
+      <Provider store={store}>
+        <NftReward />
+      </Provider>
+    )
+
+    fireEvent.press(getByText('nftCelebration.rewardBottomSheet.cta'))
+
+    expect(store.dispatch).toHaveBeenCalledWith(
+      openDeepLink(mockStoreRewardReady.home.nftCelebration.deepLink, true)
+    )
+
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.nft_reward_accept, {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      remainingDays: 30,
+    })
+  })
+
+  describe('expiration pill', () => {
     it('renders correct expiration pill when reward is not about to expire', () => {
       jest.useFakeTimers().setSystemTime(new Date('2900-12-01T00:00:00.000Z').getTime())
 

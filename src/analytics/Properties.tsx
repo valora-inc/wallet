@@ -192,6 +192,16 @@ interface HomeEventsProperties {
     userInterrupted: boolean
     durationInSeconds: number
   }
+  [HomeEvents.nft_reward_accept]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
+  }
+  [HomeEvents.nft_reward_dismiss]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
+  }
 }
 
 interface SettingsEventsProperties {

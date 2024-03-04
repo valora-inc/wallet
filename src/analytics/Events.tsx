@@ -51,6 +51,8 @@ export enum HomeEvents {
   show_balances = 'show_balances',
   nft_celebration_displayed = 'nft_celebration_displayed',
   nft_celebration_animation_displayed = 'nft_celebration_animation_displayed',
+  nft_reward_accept = 'nft_reward_accept',
+  nft_reward_dismiss = 'nft_reward_dismiss',
 }
 
 export enum SettingsEvents {
