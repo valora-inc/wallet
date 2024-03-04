@@ -2099,6 +2099,12 @@
       "description": "Non è stato possibile preparare una transazione per questo token."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Suggeriamo un importo inferiore",
+      "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Si consiglia di inviare non più di {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approvazione",
     "estimatedNetworkFee": "Commissione di rete stimata",
