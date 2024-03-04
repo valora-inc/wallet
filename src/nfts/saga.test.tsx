@@ -9,7 +9,7 @@ import {
   nftRewardReminderReady,
 } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
-import { celebratedNftSelector } from 'src/home/selectors'
+import { celebratedNftSelector, nftCelebrationSelector } from 'src/home/selectors'
 import * as nftSaga from 'src/nfts/saga'
 import { handleFetchNfts, watchFirstFetchCompleted } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
@@ -188,7 +188,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(celebratedNftSelector), null]])
+          .provide([[select(nftCelebrationSelector), null]])
           .put(
             celebratedNftFound({
               networkId: mockRemoteConfig.celebratedNft.networkId,
@@ -276,6 +276,7 @@ describe('Given Nfts saga', () => {
           .run()
       })
     })
+
     describe('when reward is about to expire', () => {
       beforeAll(() => {
         jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
@@ -379,6 +380,7 @@ describe('Given Nfts saga', () => {
           .run()
       })
     })
+
     describe('when reward is expired', () => {
       beforeAll(() => {
         jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())

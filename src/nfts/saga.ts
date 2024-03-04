@@ -2,7 +2,7 @@ import { PayloadAction } from '@reduxjs/toolkit'
 import { isPast, isToday } from 'date-fns'
 import { celebratedNftFound, nftRewardReady, nftRewardReminderReady } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
-import { celebratedNftSelector, nftCelebrationSelector } from 'src/home/selectors'
+import { nftCelebrationSelector } from 'src/home/selectors'
 import {
   FetchNftsCompletedAction,
   fetchNfts,
@@ -130,12 +130,12 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  const lastCelebratedNft = yield* select(celebratedNftSelector)
+  const lastNftCelebration = yield* select(nftCelebrationSelector)
 
   const isLastCelebratedNft =
-    !!lastCelebratedNft &&
-    lastCelebratedNft.networkId === celebratedNft.networkId &&
-    lastCelebratedNft.contractAddress === celebratedNft.contractAddress
+    !!lastNftCelebration &&
+    lastNftCelebration.networkId === celebratedNft.networkId &&
+    lastNftCelebration.contractAddress === celebratedNft.contractAddress
 
   if (!isLastCelebratedNft) {
     // this NFT was not celebrated yet, let's start the journey
@@ -148,11 +148,6 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
         deepLink,
       })
     )
-    return
-  }
-
-  const lastNftCelebration = yield* select(nftCelebrationSelector)
-  if (!lastNftCelebration) {
     return
   }
 
