@@ -91,8 +91,8 @@
     "phoneNumber": "Numéro de téléphone",
     "setup": {
       "title": "Configurer la sauvegarde du portefeuille",
-      "description": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
-      "useRecoveryPhrase": "Utiliser une phrase de récupération",
+      "description": "Tu utiliseras les éléments suivants pour configurer la sauvegarde de ton email et de ton numéro de téléphone.",
+      "useRecoveryPhrase": "Utilise plutôt une phrase de récupération",
       "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Vous pouvez maintenant récupérer votre portefeuille avec votre adresse e-mail et votre numéro de téléphone."
       },
       "failed": {
-        "title": "Sauvegarde sans clé indisponible",
-        "body": "Vous pouvez configurer une sauvegarde sans clé plus tard ou protéger votre compte maintenant en sauvegardant manuellement.",
+        "title": "Sauvegarde non disponible",
+        "body": "Tu peux configurer la sauvegarde du portefeuille plus tard ou protéger ton compte dès maintenant en effectuant une sauvegarde manuelle.",
         "later": "Je sauvegarderai plus tard",
         "manual": "Sauvegarde manuelle"
       }
