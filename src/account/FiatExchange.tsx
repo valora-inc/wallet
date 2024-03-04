@@ -13,7 +13,7 @@ import { fiatExchange } from 'src/images/Images'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import useTypedSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -32,7 +32,7 @@ export function FiatExchangeSection({
   showDrawerTopNav?: boolean
 }) {
   const [timestamp, setTimestamp] = useState<number | null>(null)
-  const appState = useTypedSelector((state) => state.app.appState)
+  const appState = useSelector((state) => state.app.appState)
 
   useEffect(() => {
     if (appState === AppState.Active && timestamp) {

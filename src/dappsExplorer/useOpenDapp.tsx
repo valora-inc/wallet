@@ -1,5 +1,4 @@
 import { Keyboard } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import { AnalyticsPropertiesList } from 'src/analytics/Properties'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -8,6 +7,7 @@ import { recentDappsSelector } from 'src/dapps/selectors'
 import { dappSelected } from 'src/dapps/slice'
 import { ActiveDapp } from 'src/dapps/types'
 import { Screens } from 'src/navigator/Screens'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 
 type ExtraAnalyticsProperties = Partial<AnalyticsPropertiesList[DappExplorerEvents.dapp_open]>
 

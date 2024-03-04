@@ -1,6 +1,6 @@
-import { useDispatch } from 'react-redux'
 import i18n from 'src/i18n'
 import { setLanguage } from 'src/i18n/slice'
+import { useDispatch } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'i18n/actions'
