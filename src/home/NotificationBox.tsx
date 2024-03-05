@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
-import { useDispatch } from 'react-redux'
 import {
   dismissGetVerified,
   dismissGoldEducation,
@@ -11,8 +10,8 @@ import {
 } from 'src/account/actions'
 import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
-import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ScrollDirection } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
 import {
   numberVerifiedDecentrallySelector,
@@ -36,12 +35,12 @@ import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
 import { boostRewards, getVerified, learnCelo, lightningPhone } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import useSelector from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import variables from 'src/styles/variables'
-import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
+import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 
 const TAG = 'NotificationBox'
 // Priority of static notifications

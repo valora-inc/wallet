@@ -58,7 +58,7 @@ import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import NftGallery from 'src/nfts/NftGallery'
-import { default as useSelector } from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -314,7 +314,6 @@ export default function DrawerNavigator({ route }: Props) {
       {showRecoveryPhrase && (
         <Drawer.Screen
           name={Screens.BackupIntroduction}
-          // @ts-expect-error component type in native-stack v6
           component={BackupIntroduction}
           options={{
             drawerLabel: () => (

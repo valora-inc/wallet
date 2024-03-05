@@ -6,7 +6,6 @@ import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { Keyboard, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaInsetsContext } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
 import { cancelCreateOrRestoreAccount } from 'src/account/actions'
 import { accountToRecoverSelector, recoveringFromStoreWipeSelector } from 'src/account/selectors'
 import { hideAlert } from 'src/alert/actions'
@@ -30,8 +29,8 @@ import { navigate, navigateClearingStack } from 'src/navigator/NavigationService
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import TopBarTextButtonOnboarding from 'src/onboarding/TopBarTextButtonOnboarding'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isAppConnected } from 'src/redux/selectors'
-import useTypedSelector from 'src/redux/useSelector'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
@@ -50,10 +49,10 @@ function ImportWallet({ navigation, route }: Props) {
   const [backupPhrase, setBackupPhrase] = useState('')
   const [keyboardVisible, setKeyboardVisible] = useState(false)
 
-  const isImportingWallet = useTypedSelector((state) => state.imports.isImportingWallet)
+  const isImportingWallet = useSelector((state) => state.imports.isImportingWallet)
   const appConnected = useSelector(isAppConnected)
-  const isRecoveringFromStoreWipe = useTypedSelector(recoveringFromStoreWipeSelector)
-  const accountToRecoverFromStoreWipe = useTypedSelector(accountToRecoverSelector)
+  const isRecoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
+  const accountToRecoverFromStoreWipe = useSelector(accountToRecoverSelector)
 
   const dispatch = useDispatch()
   const { t } = useTranslation()

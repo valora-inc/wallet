@@ -6,13 +6,13 @@ import { background } from 'src/images/Images'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
-import useTypedSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 function OnboardingSuccessScreen() {
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const onboardingProps = useSelector(onboardingPropsSelector)
   useEffect(() => {
     const timeout = setTimeout(
       () =>

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import { fetchAddressVerification, fetchAddressesAndValidate } from 'src/identity/actions'
 import {
@@ -8,7 +7,7 @@ import {
 } from 'src/identity/selectors'
 import { RecipientVerificationStatus } from 'src/identity/types'
 import { Recipient, RecipientType, getRecipientVerificationStatus } from 'src/recipients/recipient'
-import useSelector from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 
 const useFetchRecipientVerificationStatus = () => {
   const [recipient, setRecipient] = useState<Recipient | null>(null)

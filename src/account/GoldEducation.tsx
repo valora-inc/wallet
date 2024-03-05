@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform } from 'react-native'
-import { useDispatch } from 'react-redux'
-import { setGoldEducationCompleted } from 'src/account/actions'
 import Education, { EducationTopic, EmbeddedNavBar } from 'src/account/Education'
+import { setGoldEducationCompleted } from 'src/account/actions'
 import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -12,7 +11,7 @@ import { celoEducation1, celoEducation2, celoEducation3, celoEducation4 } from '
 import { noHeader } from 'src/navigator/Headers'
 import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import useSelector from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 
 export default function GoldEducation() {
   const { t } = useTranslation()

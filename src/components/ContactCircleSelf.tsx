@@ -1,9 +1,9 @@
 import * as React from 'react'
 import { ViewStyle } from 'react-native'
-import { useSelector } from 'react-redux'
 import { currentUserRecipientSelector } from 'src/account/selectors'
 import ContactCircle from 'src/components/ContactCircle'
 import { Recipient } from 'src/recipients/recipient'
+import { useSelector } from 'src/redux/hooks'
 interface Props {
   style?: ViewStyle
   size?: number
