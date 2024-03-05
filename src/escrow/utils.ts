@@ -1,7 +1,7 @@
 import { EscrowedPayment } from 'src/escrow/actions'
 import { identifierToE164NumberSelector } from 'src/identity/selectors'
 import { ContactRecipient } from 'src/recipients/recipient'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 
 export const useEscrowPaymentRecipient = (payment: EscrowedPayment): ContactRecipient => {
   const { recipientPhone, recipientIdentifier } = payment

@@ -3,7 +3,7 @@ import { TextStyle } from 'react-native'
 import { e164NumberSelector, nameSelector, userContactDetailsSelector } from 'src/account/selectors'
 import Avatar from 'src/components/Avatar'
 import { Recipient, RecipientType } from 'src/recipients/recipient'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import { currentAccountSelector } from 'src/web3/selectors'
 
 interface Props {

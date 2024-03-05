@@ -1,11 +1,7 @@
 name: Test
 
 on:
-  # Run on pushes to main..
-  push:
-    branches:
-      - main
-  # ..any pull request and merge queue
+  # ..any pull request and merge queue (covers main)
   pull_request:
   merge_group:
 

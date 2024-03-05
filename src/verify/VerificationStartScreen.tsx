@@ -7,7 +7,6 @@ import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, BackHandler, StyleSheet, Text, View } from 'react-native'
 import * as RNLocalize from 'react-native-localize'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
 import { initializeAccount } from 'src/account/actions'
 import {
   choseToRestoreAccountSelector,
@@ -37,7 +36,7 @@ import {
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
-import useTypedSelector from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -65,7 +64,7 @@ function VerificationStartScreen({
   const cachedNumber = useSelector(e164NumberSelector)
   const cachedCountryCallingCode = useSelector(defaultCountryCodeSelector)
   const walletAddress = useSelector(walletAddressSelector)
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(
     Screens.VerificationStartScreen,
     onboardingProps

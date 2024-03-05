@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "保护您的钱包",
     "subtitle": "保护您的钱包",
-    "body": "如果您的手机丢失或被盗，{{mnemonicLength}} 单词恢复短语是您访问资金的唯一方式。",
+    "body": "如果您的手机丢失或被盗，您的 12 个单词恢复短语是您获取资金的唯一途径。",
     "recoveryPhrase": {
       "title": "使用恢复短语",
       "subtitle": "写下您的恢复短语"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "您的恢复短语",
-    "body": "将这些 {{mnemonicLength}} 单词写在某个安全的地方，以防被盗或损坏。",
+    "body": "把这 12 个字写在安全的地方，不能被偷或损坏。",
     "continue": "我已保存好",
     "copy": "复制到剪贴板",
     "mnemonicCopied": "恢复短语已复制到剪贴板",
@@ -91,8 +91,8 @@
     "phoneNumber": "手机号码",
     "setup": {
       "title": "设置钱包备份。",
-      "description": "您将使用以下方法设置备份。",
-      "useRecoveryPhrase": "使用恢复短语代替。",
+      "description": "您将使用以下功能设置电子邮件和电话号码备份",
+      "useRecoveryPhrase": "改用恢复短语",
       "reminder": "<0>切记</0>，如果您的设备丢失或被盗，此信息便是访问您钱包的唯一途径。Valora 无法存储您的电子邮件或电话号码。务必妥善保管！"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "现在，您可以通过电子邮件地址和电话号码找回钱包。"
       },
       "failed": {
-        "title": "免密钥备份不可用",
-        "body": "您可以稍后设置免密钥备份，也可以立即通过手动备份来保护您的账户。",
+        "title": "备份不可用",
+        "body": "您可以稍后设置钱包备份，或者现在就手动备份，保护您的账户。",
         "later": "我稍后再备份",
         "manual": "手动备份"
       }
@@ -2095,6 +2095,12 @@
     "prepareTransactionError": {
       "title": "出错了!",
       "description": "无法为该令牌准备交易。"
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "我们建议降低金额",
+      "description": "任何人都可以使用该链接。我们建议发送的链接不超过 {{maxAmount}} {{localCurrencyCode}}。"
     }
   },
   "transactionFeed": {

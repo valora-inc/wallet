@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { WithTranslation } from 'react-i18next'
 import { StyleSheet, Text, TextStyle, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import { defaultCountryCodeSelector } from 'src/account/selectors'
 import ContactCircle from 'src/components/ContactCircle'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import { formatShortenedAddress } from 'src/components/ShortenedAddress'
 import { withTranslation } from 'src/i18n'
-import { getDisplayName, Recipient } from 'src/recipients/recipient'
+import { Recipient, getDisplayName } from 'src/recipients/recipient'
+import { useSelector } from 'src/redux/hooks'
 import fontStyles from 'src/styles/fonts'
 
 const DEFAULT_ICON_SIZE = 40

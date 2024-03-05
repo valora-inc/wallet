@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Protege tu wallet",
     "subtitle": "Protege tu wallet",
-    "body": "Si tu teléfono se pierde o te lo roban, tu frase de recuperación de {{mnemonicLength}} palabras es la única manera de acceder a tus fondos.",
+    "body": "Si pierdes o te roban el teléfono, tu frase de recuperación de 12 palabras es la única forma de acceder a tus fondos.",
     "recoveryPhrase": {
       "title": "Usar frase de recuperación",
       "subtitle": "Escribe tu frase de recuperación"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Tu frase de recuperación",
-    "body": "Anota estas {{mnemonicLength}} palabras y guárdalas en un lugar seguro al que solo tú tengas acceso.",
+    "body": "Escribe estas 12 palabras en algún lugar seguro, donde no puedan robarlas ni dañarlas.",
     "continue": "¡Ya la guardé!",
     "copy": "Copiar al portapapeles",
     "mnemonicCopied": "Frase de recuperación copiada",
@@ -91,8 +91,8 @@
     "phoneNumber": "Número de teléfono",
     "setup": {
       "title": "Configurar la copia de seguridad de la billetera",
-      "description": "Para configurar el respaldo sin llave, necesitarás lo siguiente",
-      "useRecoveryPhrase": "Utiliza en su lugar la frase de recuperación",
+      "description": "Utilizarás lo siguiente para configurar la copia de seguridad de tu correo electrónico y número de teléfono",
+      "useRecoveryPhrase": "Utiliza en su lugar una frase de recuperación",
       "reminder": "<0>Recuerda</0> que esta información es la única forma de acceder a tu billetera si pierdes o te roban el dispositivo. Valora no almacena tu correo electrónico ni tu número de teléfono. ¡Mantenlo a salvo!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Ya puedes recuperar tu wallet con tu dirección de correo electrónico y tu número de teléfono."
       },
       "failed": {
-        "title": "Copia de seguridad sin llave no disponible",
-        "body": "Puedes configurar la copia de seguridad sin llave más adelante o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
+        "title": "Copia de seguridad no disponible",
+        "body": "Puedes configurar una copia de seguridad del monedero más tarde o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
         "later": "Haré una copia de seguridad más tarde",
         "manual": "Copia de seguridad manual"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Algo salió mal!",
       "description": "No fue posible preparar una transacción para este token."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugeriríamos una cantidad inferior",
+      "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Te recomendamos que no envíes más de {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

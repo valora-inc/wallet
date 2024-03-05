@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Schütze deine Wallet",
     "subtitle": "Schütze deine Wallet",
-    "body": "Wenn du dein Telefon verlierst oder es dir gestohlen wird, ist deine {{mnemonicLength}}-Wörter Wiederherstellungsphrase die einzige Möglichkeit, um auf dein Guthaben zugreifen zu können.",
+    "body": "Wenn dein Telefon verloren geht oder gestohlen wird, ist dein 12-Wörter-Wiederherstellungssatz die einzige Möglichkeit, um auf dein Geld zuzugreifen.",
     "recoveryPhrase": {
       "title": "Wiederherstellungsphrase verwenden",
       "subtitle": "Schreibe dir deine Wiederherstellungsphrase auf"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Deine Wiederherstellungsphrase",
-    "body": "Schreibe diese {{mnemonicLength}} Wörter so auf, dass sie nicht gestohlen oder beschädigt werden können.",
+    "body": "Schreibe diese 12 Wörter an einem sicheren Ort auf, wo sie nicht gestohlen oder beschädigt werden können.",
     "continue": "Ich habe sie gespeichert",
     "copy": "In Zwischenablage kopieren",
     "mnemonicCopied": "Wiederherstellungsphrase in die Zwischenablage kopiert",
@@ -91,8 +91,8 @@
     "phoneNumber": "Telefonnummer",
     "setup": {
       "title": "Wallet-Back-up einrichten",
-      "description": "Folgendes wird zum Einrichten der Sicherung verwendet",
-      "useRecoveryPhrase": "Verwende stattdessen die Wiederherstellungsphase",
+      "description": "So richtest du dein E-Mail- und Telefonnummern-Backup ein",
+      "useRecoveryPhrase": "Verwende stattdessen eine Erholungsphrase",
       "reminder": "<0>Denke daran</0>, diese Information ist die einzige Möglichkeit, auf deine Wallet zuzugreifen, wenn dein Gerät verloren geht oder gestohlen wird. Valora speichert weder deine E-Mail-Adresse, noch deine Telefonnummer. Passe gut darauf auf!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Du kannst jetzt deine Wallet mit deiner E-Mail-Adresse und Telefonnummer wiederherstellen."
       },
       "failed": {
-        "title": "Schlüsselloses Backup nicht verfügbar",
-        "body": "Du kannst das schlüssellose Backup zu einem späteren Zeitpunkt einrichten oder dein Konto jetzt durch ein manuelles Backup schützen.",
+        "title": "Backup nicht verfügbar",
+        "body": "Du kannst später ein Wallet-Backup einrichten oder dein Konto jetzt schützen, indem du manuell ein Backup erstellst.",
         "later": "Ich führe das Backup später durch",
         "manual": "Manuelles Backup"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Etwas ist schief gelaufen!",
       "description": "Es war nicht möglich, eine Transaktion für diesen Token vorzubereiten."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Wir würden einen niedrigeren Betrag vorschlagen",
+      "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Wir empfehlen, nicht mehr als {{maxAmount}} {{localCurrencyCode}}zu senden."
     }
   },
   "transactionFeed": {
