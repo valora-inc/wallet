@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Kopia zapasowa niedostępna",
-        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, wykonując kopię zapasową ręcznie.",
-        "later": "Stworzę kopię zapasową później",
-        "manual": "Ręczna kopia zapasowa"
+        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
+        "later": "I'll set up backup later",
+        "manual": "Save recovery phrase"
       }
     },
     "restore": {
@@ -2145,6 +2145,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Błąd",
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
