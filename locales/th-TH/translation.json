@@ -210,6 +210,8 @@
   "completeEducation": "ฉันเข้าใจ",
   "yourAccountKey": "วลีกู้คืนรหัสของคุณ",
   "backupKeyNotification2": "เก็บเงินทุนของคุณให้ปลอดภัย สำรองข้อมูลวลีกู้คืนรหัสตอนนี้",
+  "keylessBackupCTA": "Back up now",
+  "keylessBackupNotification": "Set up your email & phone number to back up your seed phrase",
   "backupKeyCTA": "สำรองข้อมูลให้เสร็จตอนนี้",
   "backupKeySummary": "หาสถานที่ส่วนตัวเพื่อจดบันทึกวลีกู้คืนรหัสของคุณ โปรดเก็บวลีกู้คืนรหัสไว้ในที่ปลอดภัย ห้ามบันทึกลงในโทรศัพท์ของคุณ",
   "backupKeyWarning": "หากคุณทำวลีกู้คืนรหัสหาย คุณจะไม่สามารถเข้าถึงเงินทุนทั้งหมดที่มีอยู่ใน Valora ได้",
