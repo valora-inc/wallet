@@ -171,6 +171,24 @@ describe('HomeTokenBalance', () => {
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
   })
 
+  it('renders correctly with one token balance and zero positions', () => {
+    const store = createMockStore({
+      ...defaultStore,
+      positions: {
+        positions: [],
+      },
+    })
+
+    const tree = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.50')
+  })
+
   it('renders correctly when fetching the token balances failed and no positions', async () => {
     const store = createMockStore({
       tokens: {
@@ -493,27 +511,6 @@ describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
 
       fireEvent.press(getByTestId('ViewBalances'))
       expect(navigate).toHaveBeenCalledWith(Screens.Assets)
-    }
-  )
-
-  it.each([HomeTokenBalance])(
-    'renders correctly with one token balance and zero positions',
-    async (TokenBalanceComponent) => {
-      const store = createMockStore({
-        ...defaultStore,
-        positions: {
-          positions: [],
-        },
-      })
-
-      const tree = render(
-        <Provider store={store}>
-          <TokenBalanceComponent />
-        </Provider>
-      )
-
-      expect(tree.queryByTestId('ViewBalances')).toBeTruthy()
-      expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$0.50')
     }
   )
 
