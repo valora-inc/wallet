@@ -15,6 +15,7 @@ export enum NotificationType {
   invite_prompt = 'invite_prompt',
   verification_prompt = 'verification_prompt',
   backup_prompt = 'backup_prompt',
+  keyless_backup_prompt = 'keyless_backup_prompt',
   supercharge_available = 'supercharge_available',
   remote_notification = 'remote_notification',
   supercharging = 'supercharging',
