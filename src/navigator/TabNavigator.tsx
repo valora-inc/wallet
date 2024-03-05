@@ -34,7 +34,6 @@ export default function TabNavigator({ route }: Props) {
         name={Screens.Assets}
         // @ts-expect-error Type '{}' is missing the following properties from type 'Props': navigation, route
         component={AssetsScreen}
-        icon={Wallet}
         options={{
           tabBarLabel: t('tabBar.wallet') as string,
           tabBarIcon: ({ color, size }) => <Wallet color={color} size={size} />,
