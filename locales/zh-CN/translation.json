@@ -210,6 +210,8 @@
   "completeEducation": "我了解",
   "yourAccountKey": "您的恢复短语",
   "backupKeyNotification2": "保障您的资金安全。马上备份恢复短语。",
+  "keylessBackupCTA": "立即备份",
+  "keylessBackupNotification": "设置您的电子邮件和电话号码，以备份您的种子短语",
   "backupKeyCTA": "立即完成备份",
   "backupKeySummary": "找一个私密地方写下您的恢复短语。请将它存放在另一处安全地点。切勿保存在您的手机上。",
   "backupKeyWarning": "如果丢失恢复短语，您将无法访问您在 Valora 持有的所有资金。",
