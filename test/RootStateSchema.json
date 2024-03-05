@@ -1540,6 +1540,86 @@
             },
             "type": "object"
         },
+        "JumpstartDeposit": {
+            "additionalProperties": false,
+            "properties": {
+                "__typename": {
+                    "const": "JumpstartDeposit",
+                    "type": "string"
+                },
+                "address": {
+                    "type": "string"
+                },
+                "amount": {
+                    "$ref": "#/definitions/TokenAmount"
+                },
+                "block": {
+                    "type": "string"
+                },
+                "fees": {
+                    "items": {
+                        "$ref": "#/definitions/Fee"
+                    },
+                    "type": "array"
+                },
+                "metadata": {
+                    "$ref": "#/definitions/TokenTransferMetadata"
+                },
+                "networkId": {
+                    "$ref": "#/definitions/NetworkId"
+                },
+                "reward": {
+                    "additionalProperties": false,
+                    "properties": {
+                        "beneficiary": {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        "claimed": {
+                            "type": "boolean"
+                        },
+                        "index": {
+                            "type": "number"
+                        }
+                    },
+                    "required": [
+                        "beneficiary",
+                        "claimed",
+                        "index"
+                    ],
+                    "type": "object"
+                },
+                "status": {
+                    "$ref": "#/definitions/TransactionStatus"
+                },
+                "timestamp": {
+                    "type": "number"
+                },
+                "transactionHash": {
+                    "type": "string"
+                },
+                "type": {
+                    "$ref": "#/definitions/TokenTransactionTypeV2"
+                }
+            },
+            "required": [
+                "__typename",
+                "address",
+                "amount",
+                "block",
+                "fees",
+                "metadata",
+                "networkId",
+                "reward",
+                "status",
+                "timestamp",
+                "transactionHash",
+                "type"
+            ],
+            "type": "object"
+        },
         "KeylessBackupDeleteStatus": {
             "enum": [
                 "Completed",
@@ -4844,6 +4924,9 @@
                 },
                 {
                     "$ref": "#/definitions/NftTransfer"
+                },
+                {
+                    "$ref": "#/definitions/JumpstartDeposit"
                 }
             ]
         },
@@ -4853,6 +4936,9 @@
                 "EXCHANGE",
                 "INVITE_RECEIVED",
                 "INVITE_SENT",
+                "JUMPSTART_DEPOSIT",
+                "JUMPSTART_RECEIVED",
+                "JUMPSTART_RECLAIMED",
                 "NFT_RECEIVED",
                 "NFT_SENT",
                 "RECEIVED",
