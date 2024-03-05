@@ -32,6 +32,12 @@ export async function estimateFeesPerGas(
 
   const block = await getBlock(client)
 
+  if (!block.baseFeePerGas) {
+    // should never happen since baseFeePerGas is present on the latest block
+    // always since the EIP-1559 upgrade
+    throw new Error(`missing baseFeePerGas on block: ${block.hash}`)
+  }
+
   return {
     ...(await defaultEstimateFeesPerGas(client, {
       // estimateFeesPerGas calls internal_estimateFeesPerGas

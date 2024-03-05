@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Proteggi il tuo portafoglio",
     "subtitle": "Proteggi il tuo portafoglio",
-    "body": "Se il tuo telefono va perso o viene rubato, la tua Frase di recupero di {{mnemonicLength}} parole è l'unico modo per accedere ai tuoi fondi.",
+    "body": "Se il tuo telefono viene perso o rubato, la tua frase di recupero di 12 parole è l'unico modo per accedere ai tuoi fondi.",
     "recoveryPhrase": {
       "title": "Usa la Frase di recupero",
       "subtitle": "Annota la tua Frase di recupero"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "La tua Frase di recupero",
-    "body": "Scrivi queste {{mnemonicLength}} parole in un posto sicuro, dove non possono essere rubate o danneggiate.",
+    "body": "Scrivi queste 12 parole in un posto sicuro, dove non possano essere rubate o danneggiate.",
     "continue": "Le ho salvate",
     "copy": "Copia negli Appunti",
     "mnemonicCopied": "Frase di recupero copiata negli Appunti",
@@ -91,8 +91,8 @@
     "phoneNumber": "Numero telefonico",
     "setup": {
       "title": "Imposta il backup del portafoglio",
-      "description": "Per configurare il backup dovrai utilizzare quanto segue",
-      "useRecoveryPhrase": "Oppure usa la frase di recupero",
+      "description": "Per impostare il backup della tua email e del tuo numero di telefono, dovrai utilizzare le seguenti informazioni",
+      "useRecoveryPhrase": "Usa invece una frase di recupero",
       "reminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Ora potrai recuperare il tuo portafoglio tramite il tuo indirizzo e-mail e il tuo numero telefonico."
       },
       "failed": {
-        "title": "Backup senza chiave non disponibile",
-        "body": "Puoi impostare un backup senza chiave in un secondo momento o proteggere immediatamente il tuo account eseguendo il backup manualmente.",
+        "title": "Backup non disponibile",
+        "body": "Puoi impostare il backup del portafoglio in un secondo momento o proteggere il tuo account ora con un backup manuale.",
         "later": "Eseguirò un backup in un secondo momento",
         "manual": "Backup manuale"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Si è verificato un errore!",
       "description": "Non è stato possibile preparare una transazione per questo token."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Suggeriamo un importo inferiore",
+      "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Si consiglia di inviare non più di {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {
