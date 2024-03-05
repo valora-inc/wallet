@@ -210,6 +210,8 @@
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Recovery Phrase",
   "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "keylessBackupCTA": "Back up now",
+  "keylessBackupNotification": "Set up your email & phone number to back up your seed phrase",
   "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
   "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
