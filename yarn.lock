@@ -3155,12 +3155,12 @@
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-clevertap/-/analytics-react-native-plugin-clevertap-1.1.0.tgz#0047c1875582141424552a80a24e8daa9a69035f"
   integrity sha512-D/lypeLxR9o53U9MzmgsGEY4yIr1oCINY5uBwmWELfgdFwxAx+5aiRnGzdLm3v7kQl+8nfFwaNMdkq/tGzZMRw==
 
-"@segment/analytics-react-native-plugin-firebase@^0.4.0":
+"@segment/analytics-react-native-plugin-firebase@^0.4.1":
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native-plugin-firebase/-/analytics-react-native-plugin-firebase-0.4.1.tgz#b08816e8e875dde7bd4cb9e43ca72cf7d8034bb1"
   integrity sha512-ywYQZ1LorvtV2uuaBl6qYF1gkM535EbxxRoJ4vmvew/kwLAyPdYynH1qyiwtQNEPnW5dt7jZcWT+ZhtWX8TGpw==
 
-"@segment/analytics-react-native@^2.18.0":
+"@segment/analytics-react-native@^2.19.1":
   version "2.19.1"
   resolved "https://registry.yarnpkg.com/@segment/analytics-react-native/-/analytics-react-native-2.19.1.tgz#17c36b19c2921839095dd739f611dcde03f5f493"
   integrity sha512-p/FIF6s6DOrF4WF3oGoFknwB6Z8h5ZCJ02T0ICPjprQUDlsShyCFs5xc1lj0P3Exk/8t5de60VsBp7AU3T0GRg==
@@ -3170,7 +3170,7 @@
     js-base64 "^3.7.5"
     uuid "^9.0.1"
 
-"@segment/sovran-react-native@^1.1.0":
+"@segment/sovran-react-native@^1.1.1":
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/@segment/sovran-react-native/-/sovran-react-native-1.1.1.tgz#55869c5624a297d012a5cef237109c3731f89e0a"
   integrity sha512-zaMOWz4kjbC+oBRAaw1B3cfserKMk8OBhUTB/oQ/8Thl+zTCQ36zj75dlNm2N00eWJ7p2FZAEEu2uSdLZ2lRKQ==
