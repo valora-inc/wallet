@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Backup non disponibile",
-        "body": "Puoi impostare il backup del portafoglio in un secondo momento o proteggere il tuo account ora con un backup manuale.",
-        "later": "Eseguirò un backup in un secondo momento",
-        "manual": "Backup manuale"
+        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
+        "later": "I'll set up backup later",
+        "manual": "Save recovery phrase"
       }
     },
     "restore": {
@@ -2141,6 +2141,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Errore",
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
