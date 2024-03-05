@@ -9,13 +9,20 @@ import { phoneNumberVerifiedSelector } from 'src/app/selectors'
 import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
+import Touchable from 'src/components/Touchable'
+import Times from 'src/icons/Times'
+import Help from 'src/icons/navigator/Help'
+import { Invite } from 'src/icons/navigator/Invite'
+import Settings from 'src/icons/navigator/Settings'
+import { navigate, navigateBack } from 'src/navigator/NavigationService'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { NETWORK_NAMES } from 'src/shared/conts'
-import colors from 'src/styles/colors'
+import colors, { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -35,9 +42,17 @@ export default function ProfileMenu({ route }: Props) {
     <ScrollView>
       <View style={styles.drawerTop}>
         <View style={styles.drawerHeader} testID="Drawer/Header">
-          <ContactCircleSelf size={64} />
+          <Touchable
+            onPress={navigateBack}
+            borderless={true}
+            hitSlop={variables.iconHitslop}
+            testID="InviteModalCloseButton"
+          >
+            <Times />
+          </Touchable>
           <RewardsPill />
         </View>
+        <ContactCircleSelf size={64} />
         {!!displayName && (
           <Text style={styles.nameLabel} testID="Drawer/Username">
             {displayName}
@@ -49,9 +64,27 @@ export default function ProfileMenu({ route }: Props) {
             defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}
           />
         )}
-        <View style={styles.border} />
       </View>
-      {/* Invite, settings, help go here */}
+      <View style={styles.topBorder} />
+      <Touchable testID="Invite" onPress={() => navigate(Screens.Invite)}>
+        <View style={styles.container}>
+          <Invite color={Colors.gray3} />
+          <Text style={styles.actionLabel}>{t('invite')}</Text>
+        </View>
+      </Touchable>
+      <Touchable testID="Settings" onPress={() => navigate(Screens.Settings)}>
+        <View style={styles.container}>
+          <Settings color={Colors.gray3} />
+          <Text style={styles.actionLabel}>{t('settings')}</Text>
+        </View>
+      </Touchable>
+      <Touchable testID="Help" onPress={() => navigate(Screens.Support)}>
+        <View style={styles.container}>
+          <Help color={Colors.gray3} />
+          <Text style={styles.actionLabel}>{t('help')}</Text>
+        </View>
+      </Touchable>
+      <View style={styles.bottomBorder} />
       <View style={styles.drawerBottom}>
         <Text style={fontStyles.label}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
@@ -74,8 +107,7 @@ export default function ProfileMenu({ route }: Props) {
 
 const styles = StyleSheet.create({
   drawerTop: {
-    marginLeft: 16,
-    marginTop: 16,
+    marginLeft: 24,
     alignItems: 'flex-start',
     marginRight: 16,
   },
@@ -83,15 +115,24 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: Spacing.Smallest8,
+    marginBottom: 16,
   },
   nameLabel: {
-    ...fontStyles.displayName,
+    ...typeScale.titleSmall,
     marginBottom: Spacing.Smallest8,
+    marginTop: Spacing.Smallest8,
   },
-  border: {
-    marginTop: 20,
-    marginBottom: 12,
+  topBorder: {
+    marginTop: 24,
+    marginBottom: 24,
+    marginLeft: 24,
+    height: 1,
+    backgroundColor: colors.gray2,
+    alignSelf: 'stretch',
+  },
+  bottomBorder: {
+    marginTop: 24,
+    marginLeft: 24,
     height: 1,
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
@@ -110,15 +151,15 @@ const styles = StyleSheet.create({
     ...typeScale.bodyXSmall,
     color: colors.gray3,
   },
-  itemStyle: {
-    marginLeft: -20,
+  container: {
     flexDirection: 'row',
     alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 8,
+    marginLeft: 24,
+    gap: 12,
   },
-  drawerItemIcon: {
-    paddingLeft: 10,
-  },
-  itemTitle: {
-    ...fontStyles.regular,
+  actionLabel: {
+    ...typeScale.bodyMedium,
   },
 })
