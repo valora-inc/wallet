@@ -240,6 +240,7 @@ export function navigateHome(options?: NavigateHomeOptions) {
   setTimeout(() => {
     navigationRef.current?.reset({
       index: 0,
+      // TODO (act-1110): handle the case where StatsigFeatureGates.USE_TAB_NAVIGATOR is undefined
       routes: getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
         ? [{ name: Screens.TabNavigator, params }]
         : [{ name: Screens.DrawerNavigator, params }],
