@@ -1,7 +1,7 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
 import { isPast, isToday } from 'date-fns'
 import differenceInDays from 'date-fns/differenceInDays'
-import React, { useEffect, useMemo, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -13,11 +13,7 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftRewardDisplayed } from 'src/home/actions'
-import {
-  celebratedNftSelector,
-  nftCelebrationSelector,
-  showNftRewardSelector,
-} from 'src/home/selectors'
+import { nftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
 import i18n from 'src/i18n'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import Colors from 'src/styles/colors'
@@ -30,40 +26,44 @@ export default function NftRewardBottomSheet() {
   const dispatch = useDispatch()
 
   const canShowNftReward = useSelector(showNftRewardSelector)
-  const celebratedNft = useSelector(celebratedNftSelector)
+  const nftCelebration = useSelector(nftCelebrationSelector)
 
   const nfts = useSelector(nftsWithMetadataSelector)
   const matchingNft = useMemo(
     () =>
       nfts.find(
         (nft) =>
-          !!celebratedNft &&
-          !!celebratedNft.networkId &&
-          celebratedNft.networkId === nft.networkId &&
-          !!celebratedNft.contractAddress &&
-          celebratedNft.contractAddress === nft.contractAddress
+          !!nftCelebration &&
+          !!nftCelebration.networkId &&
+          nftCelebration.networkId === nft.networkId &&
+          !!nftCelebration.contractAddress &&
+          nftCelebration.contractAddress === nft.contractAddress
       ),
-    [celebratedNft]
+    [nftCelebration]
   )
+
+  const isVisible = canShowNftReward && matchingNft
 
   const insets = useSafeAreaInsets()
   const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const nftCelebration = useSelector(nftCelebrationSelector)
   const expirationDate = new Date(nftCelebration?.expirationDate ?? 0)
   const rewardReminderDate = new Date(nftCelebration?.rewardReminderDate ?? 0)
-  const deepLink = nftCelebration?.deepLink ?? ''
 
-  const { expirationStatus, expirationLabelText } = useExpirationStatus(
-    expirationDate,
-    rewardReminderDate
-  )
+  const aboutToExpire = isToday(rewardReminderDate) || isPast(rewardReminderDate)
+  const expirationLabelText = formatDistanceToNow(expirationDate, i18n, { addSuffix: true })
 
-  const expired = expirationStatus === ExpirationStatus.expired
-
-  const isVisible = canShowNftReward && matchingNft
+  const { pillStyle, labelStyle } = aboutToExpire
+    ? {
+        pillStyle: { backgroundColor: Colors.warningLight },
+        labelStyle: { color: Colors.warningDark },
+      }
+    : {
+        pillStyle: { backgroundColor: Colors.gray1 },
+        labelStyle: { color: Colors.black },
+      }
 
   useEffect(() => {
     if (isVisible) {
@@ -76,21 +76,15 @@ export default function NftRewardBottomSheet() {
     }
   }, [isVisible])
 
-  useEffect(() => {
-    if (expired) {
-      bottomSheetRef.current?.close()
-    }
-  }, [expired])
-
   const handleBottomSheetPositionChange = (index: number) => {
-    if (!celebratedNft) {
+    if (!nftCelebration) {
       return // This should never happen
     }
 
     if (index === -1) {
       ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
-        networkId: celebratedNft.networkId,
-        contractAddress: celebratedNft.contractAddress,
+        networkId: nftCelebration.networkId,
+        contractAddress: nftCelebration.contractAddress,
         remainingDays: differenceInDays(expirationDate, Date.now()),
       })
 
@@ -99,20 +93,22 @@ export default function NftRewardBottomSheet() {
   }
 
   const handleCtaPress = () => {
-    if (!celebratedNft) {
+    if (!nftCelebration) {
       return // This should never happen
     }
 
     ValoraAnalytics.track(HomeEvents.nft_reward_accept, {
-      networkId: celebratedNft.networkId,
-      contractAddress: celebratedNft.contractAddress,
+      networkId: nftCelebration.networkId,
+      contractAddress: nftCelebration.contractAddress,
       remainingDays: differenceInDays(expirationDate, Date.now()),
     })
 
     bottomSheetRef.current?.close()
 
-    const isSecureOrigin = true
-    dispatch(openDeepLink(deepLink, isSecureOrigin))
+    if (nftCelebration?.deepLink) {
+      const isSecureOrigin = true
+      dispatch(openDeepLink(nftCelebration.deepLink, isSecureOrigin))
+    }
   }
 
   if (!isVisible) {
@@ -122,10 +118,11 @@ export default function NftRewardBottomSheet() {
   return (
     <BottomSheetBase forwardedRef={bottomSheetRef} onChange={handleBottomSheetPositionChange}>
       <BottomSheetView style={[styles.container, insetsStyle]}>
-        <ExpirationPill
-          status={expirationStatus}
-          label={t('nftCelebration.rewardBottomSheet.expirationLabel', { expirationLabelText })}
-        />
+        <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
+          <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
+            {t('nftCelebration.rewardBottomSheet.expirationLabel', { expirationLabelText })}
+          </Text>
+        </View>
         <Text style={styles.title}>{t('nftCelebration.rewardBottomSheet.title')}</Text>
         <Text style={styles.description}>
           {t('nftCelebration.rewardBottomSheet.description', {
@@ -136,78 +133,11 @@ export default function NftRewardBottomSheet() {
           style={styles.button}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          disabled={expired}
           onPress={handleCtaPress}
           text={t('nftCelebration.rewardBottomSheet.cta')}
         />
       </BottomSheetView>
     </BottomSheetBase>
-  )
-}
-
-enum ExpirationStatus {
-  active = 'active',
-  aboutToExpire = 'aboutToExpire',
-  expired = 'expired',
-}
-
-// recalculates expiration status every second
-const useExpirationStatus = (expirationDate: Date, reminderDate: Date) => {
-  const UPDATE_INTERVAL = 1000
-
-  const timeoutID = useRef<number>()
-
-  useEffect(() => {
-    updateExpirationStatus()
-    return () => clearTimeout(timeoutID.current)
-  }, [])
-
-  const getExpirationLabelText = () =>
-    formatDistanceToNow(new Date(expirationDate), i18n, { addSuffix: true })
-
-  const [{ expirationLabelText, expirationStatus }, setExpirationStatus] = useState<{
-    expirationLabelText: string
-    expirationStatus: ExpirationStatus
-  }>({ expirationLabelText: getExpirationLabelText(), expirationStatus: ExpirationStatus.active })
-
-  const updateExpirationStatus = () => {
-    const expired = isPast(expirationDate)
-    const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
-
-    setExpirationStatus({
-      expirationLabelText: getExpirationLabelText(),
-      expirationStatus: expired
-        ? ExpirationStatus.expired
-        : aboutToExpire
-          ? ExpirationStatus.aboutToExpire
-          : ExpirationStatus.active,
-    })
-    timeoutID.current = setTimeout(updateExpirationStatus, UPDATE_INTERVAL)
-  }
-
-  return { expirationStatus, expirationLabelText }
-}
-
-type ExpirationPillProps = { status: ExpirationStatus; label: string }
-
-const ExpirationPill = ({ status, label }: ExpirationPillProps) => {
-  const { pillStyle, labelStyle } =
-    status === ExpirationStatus.active
-      ? {
-          pillStyle: { backgroundColor: Colors.gray1 },
-          labelStyle: { color: Colors.black },
-        }
-      : {
-          pillStyle: { backgroundColor: Colors.warningLight },
-          labelStyle: { color: Colors.warningDark },
-        }
-
-  return (
-    <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
-      <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
-        {label}
-      </Text>
-    </View>
   )
 }
 
