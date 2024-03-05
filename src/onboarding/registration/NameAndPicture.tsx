@@ -3,7 +3,6 @@ import React, { useLayoutEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { setName } from 'src/account/actions'
 import { nameSelector } from 'src/account/selectors'
 import { hideAlert, showError } from 'src/alert/actions'
@@ -23,16 +22,16 @@ import {
   goToNextOnboardingScreen,
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
-import { default as useTypedSelector } from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.NameAndPicture>
 function NameAndPicture({ navigation, route }: Props) {
   const [nameInput, setNameInput] = useState('')
-  const cachedName = useTypedSelector(nameSelector)
-  const choseToRestoreAccount = useTypedSelector((state) => state.account.choseToRestoreAccount)
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const cachedName = useSelector(nameSelector)
+  const choseToRestoreAccount = useSelector((state) => state.account.choseToRestoreAccount)
+  const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.NameAndPicture, onboardingProps)
   const dispatch = useDispatch()
 

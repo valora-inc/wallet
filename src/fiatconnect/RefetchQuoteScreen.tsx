@@ -1,7 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect } from 'react'
 import { ActivityIndicator, StyleSheet, View } from 'react-native'
-import { useDispatch, useSelector } from 'react-redux'
 import {
   cachedQuoteParamsSelector,
   fiatConnectQuotesErrorSelector,
@@ -10,6 +9,7 @@ import { refetchQuote } from 'src/fiatconnect/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import variables from 'src/styles/variables'
 import { useTokenInfoWithAddressBySymbol } from 'src/tokens/hooks'

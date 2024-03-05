@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Bảo vệ ví của bạn",
     "subtitle": "Bảo vệ ví của bạn",
-    "body": "Nếu điện thoại của bạn bị mất hoặc bị đánh cắp, thì cụm từ khôi phục gồm {{mnemonicLength}} từ sẽ là cách duy nhất bạn để truy cập vào tiền của mình.",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "Sử dụng Cụm từ khôi phục",
       "subtitle": "Viết ra cụm từ khôi phục"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Cụm từ khôi phục của bạn",
-    "body": "Viết các từ {{mnemonicLength}} này vào một nơi an toàn mà không ai có thể đánh cắp hoặc làm hư hòng chúng.",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "Tôi đã lưu cụm từ khôi phục",
     "copy": "Sao chép vào bảng nhớ tạm",
     "mnemonicCopied": "Đã sao chép cụm từ khôi phục vào bảng nhớ tạm",
@@ -91,8 +91,8 @@
     "phoneNumber": "Số điện thoại",
     "setup": {
       "title": "Thiết lập chức năng sao lưu ví.",
-      "description": "Bạn sẽ dùng phương thức sau để thiết lập sao lưu",
-      "useRecoveryPhrase": "Chuyển sang dùng cụm từ khôi phục",
+      "description": "You'll use the following to set up your email & phone number backup",
+      "useRecoveryPhrase": "Use a recovery phrase instead",
       "reminder": "<0>Xin nhớ rằng</0>, thông tin này là cách duy nhất để bạn có thể truy cập vào ví trong trường hợp thiết bị của bạn bị mất hoặc bị đánh cắp. Valora không lưu trữ email hay số điện thoại của bạn. Hãy lưu giữ thông tin này an toàn!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Từ nay, bạn có thể khôi phục ví của mình bằng địa chỉ email và số điện thoại."
       },
       "failed": {
-        "title": "Không hỗ trợ tính năng sao lưu không mã khóa",
-        "body": "Bạn có thể thiết lập sao lưu không dùng mã sau hoặc bảo vệ tài khoản của mình ngay bằng cách sao lưu theo cách thủ công.",
+        "title": "Backup unavailable",
+        "body": "You can set up wallet backup later or protect your account now by backing up manually.",
         "later": "Tôi sẽ sao lưu sau",
         "manual": "Sao lưu thủ công"
       }
@@ -2095,6 +2095,12 @@
     "prepareTransactionError": {
       "title": "Đã xảy ra lỗi!",
       "description": "It was not possible to prepare a transaction for this token."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "We’d suggest a lower amount",
+      "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

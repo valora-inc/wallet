@@ -8,6 +8,7 @@ import {
   Address,
   Chain,
   Client,
+  PrivateKeyAccount,
   Transport,
   WalletActions,
   WalletRpcSchema,
@@ -22,6 +23,7 @@ import {
   signTypedData,
   writeContract,
 } from 'viem/actions'
+import { Prettify } from 'viem/chains'
 
 const TAG = 'viem/getLockableWallet'
 
@@ -35,15 +37,18 @@ export function getTransport(chain: Chain): Transport {
   return viemTransports[result[0] as Network]
 }
 
-// Largely copied from https://github.com/wagmi-dev/viem/blob/main/src/clients/createWalletClient.ts#L32
+// Largely copied from https://github.com/wevm/viem/blob/43df39918f990c039b322c05e7130721f7117bbd/src/clients/createWalletClient.ts#L38
 export type ViemWallet<
   transport extends Transport = Transport,
   chain extends Chain | undefined = Chain | undefined,
   account extends Account | undefined = Account | undefined,
-> = Client<transport, chain, account, WalletRpcSchema, Actions>
+> = Prettify<Client<transport, chain, account, WalletRpcSchema, Actions<chain, account>>>
 
-type Actions = Pick<
-  WalletActions,
+type Actions<
+  chain extends Chain | undefined = Chain | undefined,
+  account extends Account | undefined = Account | undefined,
+> = Pick<
+  WalletActions<chain, account>,
   | 'sendRawTransaction'
   | 'sendTransaction'
   | 'signTransaction'
@@ -69,7 +74,7 @@ export default function getLockableViemWallet(
     chain,
     transport: getTransport(chain),
     account,
-  }).extend((client: Client): Actions => {
+  }).extend((client): Actions<Chain, PrivateKeyAccount> => {
     return {
       // All wallet functions that we want our ViemWallet to have must go here
       // For instance we will later need prepareTransactionRequest which we can add here by

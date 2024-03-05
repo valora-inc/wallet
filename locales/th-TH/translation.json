@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "ป้องกันกระเป๋าเงินของคุณ",
     "subtitle": "ป้องกันกระเป๋าเงินของคุณ",
-    "body": "หากโทรศัพท์ของคุณสูญหายหรือถูกขโมย วลีกู้คืนรหัสเป็นวิธีเดียวที่คุณสามารถเข้าถึงเงินของคุณได้",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "ใช้วลีกู้คืนรหัส",
       "subtitle": "จดวลีกู้คืนรหัสของคุณไว้"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "วลีกู้คืนรหัสของคุณ",
-    "body": "จดบันทึกคำ {{mnemonicLength}} เหล่านี้ไว้ในที่ที่ปลอดภัยจากการถูกขโมยหรือทำให้เสียหาย",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "ฉันบันทึกไว้แล้ว",
     "copy": "คัดลอกไปยังคลิปบอร์ด",
     "mnemonicCopied": "คัดลอกวลีกู้คืนรหัสไปยังคลิปบอร์ดแล้ว",
@@ -91,8 +91,8 @@
     "phoneNumber": "หมายเลขโทรศัพท์",
     "setup": {
       "title": "ตั้งค่าการสำรองข้อมูลกระเป๋าเงิน",
-      "description": "ต่อไปนี้คือสิ่งที่คุณจะต้องใช้ในการตั้งค่าการสำรองข้อมูล",
-      "useRecoveryPhrase": "ใช้วลีกู้คืนรหัสแทน",
+      "description": "You'll use the following to set up your email & phone number backup",
+      "useRecoveryPhrase": "Use a recovery phrase instead",
       "reminder": "<0>โปรดทราบว่า</0> หากอุปกรณ์ของคุณสูญหายหรือถูกขโมย ข้อมูลนี้จะเป็นวิธีเดียวที่คุณสามารถใช้ในการเข้าถึงกระเป๋าเงินของคุณ Valora ไม่ได้เก็บอีเมลหรือหมายเลขโทรศัพท์ของคุณไว้ โปรดรักษากระเป๋าเงินของคุณให้ปลอดภัย"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "ตอนนี้คุณสามารถกู้คืนกระเป๋าเงินด้วยที่อยู่อีเมลและหมายเลขโทรศัพท์ของคุณได้แล้ว"
       },
       "failed": {
-        "title": "การสำรองข้อมูลแบบไร้กุญแจไม่พร้อมใช้งาน",
-        "body": "คุณสามารถตั้งค่าการสำรองข้อมูลแบบไร้กุญแจได้ในภายหลังหรือปกป้องบัญชีของคุณตอนนี้ด้วยการสำรองข้อมูลด้วยตนเอง",
+        "title": "Backup unavailable",
+        "body": "You can set up wallet backup later or protect your account now by backing up manually.",
         "later": "ฉันจะสำรองข้อมูลในภายหลัง",
         "manual": "การสำรองข้อมูลด้วยตนเอง"
       }
@@ -2095,6 +2095,12 @@
     "prepareTransactionError": {
       "title": "Something went wrong!",
       "description": "It was not possible to prepare a transaction for this token."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "We’d suggest a lower amount",
+      "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

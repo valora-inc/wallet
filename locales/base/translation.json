@@ -91,8 +91,8 @@
     "phoneNumber": "Phone Number",
     "setup": {
       "title": "Set Up Wallet Backup",
-      "description": "You'll use the following to set up backup",
-      "useRecoveryPhrase": "Use recovery phrase instead",
+      "description": "You'll use the following to set up your email & phone number backup",
+      "useRecoveryPhrase": "Use a recovery phrase instead",
       "reminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "You are now able to recover your wallet with your email address and phone number."
       },
       "failed": {
-        "title": "Keyless backup unavailable",
-        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "title": "Backup unavailable",
+        "body": "You can set up wallet backup later or protect your account now by backing up manually.",
         "later": "I'll backup later",
         "manual": "Manual Backup"
       }

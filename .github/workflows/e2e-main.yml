@@ -18,33 +18,36 @@ on:
 # Cancel any in progress run of the workflow for a given PR
 # This avoids building outdated code
 concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref }}
+  group: ${{ github.workflow }}-${{ github.ref_name }}
   cancel-in-progress: true
 
 jobs:
-  android:
-    name: Android
-    strategy:
-      max-parallel: 2
-      fail-fast: false
-      matrix:
-        # TODO if/when more CI machines: enable Android sdk 21, 23, 29 and 31
-        # 21 is failing 9 specs
-        # 23 is failing ? spec(s)
-        # 31 is failing ? spec(s)
-        # 24 is currently failing all the time, disabling it for now
-        android-api-level: [30]
-    uses: ./.github/workflows/e2e-android.yml
-    with:
-      android-api-level: ${{ matrix.android-api-level }}
-    secrets: inherit
+  # TODO: enable once we have at least one android-api-level below
+  # android:
+  #   name: Android
+  #   strategy:
+  #     max-parallel: 2
+  #     fail-fast: false
+  #     matrix:
+  #       # TODO if/when more CI machines: enable Android sdk 21, 23, 29 and 31
+  #       # 21 is failing 9 specs
+  #       # 23 is failing ? spec(s)
+  #       # 31 is failing ? spec(s)
+  #       # 24 is currently failing all the time, disabling it for now
+  #       # 30 is not included as it runs on the merge queue
+  #       android-api-level: []
+  #   uses: ./.github/workflows/e2e-android.yml
+  #   with:
+  #     android-api-level: ${{ matrix.android-api-level }}
+  #   secrets: inherit
   ios:
     name: iOS
     strategy:
       max-parallel: 2
       fail-fast: false
       matrix:
-        ios-version: ['15.0', '17.2']
+        # 15.0 is not included as it runs on the merge queue
+        ios-version: ['17.2']
     uses: ./.github/workflows/e2e-ios.yml
     with:
       ios-version: ${{ matrix.ios-version }}

@@ -4520,6 +4520,15 @@
                 "decimals": {
                     "type": "number"
                 },
+                "feeCurrencyAdapterAddress": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "feeCurrencyAdapterDecimals": {
+                    "type": "number"
+                },
                 "historicalPricesUsd": {
                     "$ref": "#/definitions/HistoricalPricesUsd"
                 },

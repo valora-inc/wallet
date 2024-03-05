@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Chroń swój portfel",
     "subtitle": "Chroń swój portfel",
-    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
+    "body": "Jeśli Twój telefon zostanie zgubiony lub skradziony, 12-słowna fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Twoja fraza odzyskiwania",
-    "body": "Zapisz te {{mnemonicLength}} słowa gdzieś w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
+    "body": "Zapisz te 12 słów w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub uszkodzone.",
     "continue": "Mam to zapisane",
     "copy": "Kopiuj do schowka",
     "mnemonicCopied": "Fraza skopiowana do schowka",
@@ -91,7 +91,7 @@
     "phoneNumber": "Numer telefonu",
     "setup": {
       "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
-      "description": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+      "description": "Aby skonfigurować kopię zapasową adresu e-mail i numeru telefonu, użyj następujących elementów",
       "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
       "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
     },
@@ -126,8 +126,8 @@
         "body": "Możesz teraz odzyskać swój portfel za pomocą adresu e-mail i numeru telefonu."
       },
       "failed": {
-        "title": "Kopia zapasowa bez użycia klucza jest niedostępna",
-        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub zapewnić ochronę swojego konta już teraz, tworząc kopię zapasową ręcznie.",
+        "title": "Kopia zapasowa niedostępna",
+        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, wykonując kopię zapasową ręcznie.",
         "later": "Stworzę kopię zapasową później",
         "manual": "Ręczna kopia zapasowa"
       }
@@ -2101,6 +2101,12 @@
     "prepareTransactionError": {
       "title": "Coś poszło nie tak!",
       "description": "Nie było możliwe przygotowanie transakcji dla tego tokena."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugerujemy niższą kwotę",
+      "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

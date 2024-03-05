@@ -8,7 +8,7 @@ import { PerformanceEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { createMigrate } from 'src/redux/createMigrate'
 import { migrations } from 'src/redux/migrations'
-import rootReducer, { RootState } from 'src/redux/reducers'
+import rootReducer, { RootState as ReducersRootState } from 'src/redux/reducers'
 import { rootSaga } from 'src/redux/sagas'
 import { resetStateOnInvalidStoredAccount } from 'src/utils/accountChecker'
 import Logger from 'src/utils/Logger'
@@ -17,7 +17,7 @@ import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 const timeBetweenStoreSizeEvents = ONE_DAY_IN_MILLIS
 let lastEventTime = Date.now()
 
-const persistConfig: PersistConfig<RootState> = {
+const persistConfig: PersistConfig<ReducersRootState> = {
   key: 'root',
   // default is -1, increment as we make migrations
   // See https://github.com/valora-inc/wallet/tree/main/WALLET.md#redux-state-migration
@@ -90,7 +90,7 @@ export const _persistConfig = persistConfig
 // eslint-disable-next-line no-var
 declare var window: any
 
-export const setupStore = (initialState?: RootState, config = persistConfig) => {
+export const setupStore = (initialState?: ReducersRootState, config = persistConfig) => {
   const sagaMiddleware = createSagaMiddleware({
     onError: (error, errorInfo) => {
       // Log the uncaught error so it's captured by Sentry
@@ -168,3 +168,6 @@ export const setupStore = (initialState?: RootState, config = persistConfig) => 
 const { store, persistor } = setupStore()
 
 export { persistor, store }
+
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
