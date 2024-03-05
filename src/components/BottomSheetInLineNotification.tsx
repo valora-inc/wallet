@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -9,6 +9,7 @@ import { Spacing } from 'src/styles/styles'
 
 interface Props extends InLineNotificationProps {
   showNotification: boolean
+  onUnmount?: () => void
 }
 
 // this value is used to animate the notification on and off the screen. the
@@ -17,8 +18,20 @@ interface Props extends InLineNotificationProps {
 const NOTIFICATION_HEIGHT = 500
 
 // for now, this notification is launched from the bottom of the screen only
-const BottomSheetInLineNotification = ({ showNotification, ...inLineNotificationProps }: Props) => {
+const BottomSheetInLineNotification = ({
+  showNotification,
+  onUnmount,
+  ...inLineNotificationProps
+}: Props) => {
   const [isVisible, setIsVisible] = useState(showNotification)
+
+  useEffect(() => {
+    return () => {
+      if (onUnmount) {
+        onUnmount()
+      }
+    }
+  }, [])
 
   const progress = useSharedValue(0)
   const animatedStyle = useAnimatedStyle(() => {
