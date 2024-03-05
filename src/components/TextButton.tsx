@@ -6,7 +6,7 @@ import * as React from 'react'
 import { StyleSheet } from 'react-native'
 import BorderlessButton, { Props } from 'src/components/BorderlessButton'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 export default function TextButton({ style, ...passThroughProps }: Props) {
   return (
@@ -16,7 +16,7 @@ export default function TextButton({ style, ...passThroughProps }: Props) {
 
 const styles = StyleSheet.create({
   text: {
-    ...fontStyles.regular600,
+    ...typeScale.labelSemiBoldMedium,
     color: colors.primary,
   },
 })
