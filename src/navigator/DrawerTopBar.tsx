@@ -25,6 +25,7 @@ interface Props {
 
 function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition, testID }: Props) {
   const navigation = useNavigation()
+  // TODO (act-1108): remove tab navigator related code
   const useTabNavigator = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
   const viewStyle = React.useMemo(
     () => ({
@@ -49,6 +50,7 @@ function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition
     return navigation.toggleDrawer()
   }
 
+  // TODO (act-1108): remove tab navigator related code
   const onPressProfile = () => {
     // Dismiss keyboard if it's open
     Keyboard.dismiss()
@@ -60,6 +62,7 @@ function DrawerTopBar({ leftElement, middleElement, rightElement, scrollPosition
   return (
     <Animated.View testID={testID} style={viewStyle}>
       <View style={styles.leftElement}>
+        {/* TODO (act-1108): remove tab navigator related code */}
         <TouchableOpacity
           onPress={useTabNavigator ? onPressProfile : onPressHamburger}
           hitSlop={iconHitslop}
