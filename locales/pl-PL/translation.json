@@ -210,6 +210,8 @@
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
   "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
+  "keylessBackupCTA": "Utwórz kopię zapasową",
+  "keylessBackupNotification": "Skonfiguruj swój adres e-mail i numer telefonu, aby utworzyć kopię zapasową frazy seed.",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
   "backupKeyWarning": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
