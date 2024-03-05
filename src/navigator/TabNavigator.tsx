@@ -38,7 +38,7 @@ export default function TabNavigator({ route }: Props) {
         // @ts-expect-error Type '{}' is missing the following properties from type 'Props': navigation, route
         component={AssetsScreen}
         options={{
-          tabBarLabel: t('tabBar.wallet') as string,
+          tabBarLabel: t('bottomTabsNavigator.wallet') as string,
           tabBarIcon: ({ color, size }) => <Wallet color={color} size={size} />,
         }}
       />
@@ -49,7 +49,7 @@ export default function TabNavigator({ route }: Props) {
         options={{
           freezeOnBlur: false,
           lazy: false,
-          tabBarLabel: t('tabBar.home') as string,
+          tabBarLabel: t('bottomTabsNavigator.home') as string,
           tabBarIcon: ({ color, size }) => <Home color={color} size={size} />,
         }}
       />
@@ -58,7 +58,7 @@ export default function TabNavigator({ route }: Props) {
         name={Screens.DAppsExplorerScreen}
         component={DAppsExplorerScreenSearchFilter}
         options={{
-          tabBarLabel: t('tabBar.discover') as string,
+          tabBarLabel: t('bottomTabsNavigator.discover') as string,
           tabBarIcon: ({ color, size }) => <Discover color={color} size={size} />,
         }}
       />

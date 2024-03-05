@@ -2141,7 +2141,7 @@
   },
   "pleaseWait": "Please wait",
   "error": "Error",
-  "tabBar": {
+  "bottomTabsNavigator": {
     "wallet": "Wallet",
     "home": "Home",
     "discover": "Discover"
