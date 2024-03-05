@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
@@ -131,6 +131,7 @@ const mockcUsdWithoutEnoughBalance = {
 
 describe('NotificationBox', () => {
   beforeEach(() => {
+    jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(false)
   })
   it('renders correctly for with all notifications', () => {
@@ -327,7 +328,7 @@ describe('NotificationBox', () => {
     ])
   })
 
-  it('renders keylessBackup notification when flag is turned on', () => {
+  it('renders keylessBackup notification when flag is turned on', async () => {
     const store = createMockStore({
       account: {
         backupCompleted: false,
@@ -343,8 +344,34 @@ describe('NotificationBox', () => {
 
     expect(queryByTestId('NotificationView/keyless_backup_prompt')).toBeTruthy()
 
-    fireEvent.press(getByTestId('KeylessBackupNotification/CallToActions/keylessBackupCTA/Button'))
+    await act(() => {
+      fireEvent.press(
+        getByTestId('KeylessBackupNotification/CallToActions/keylessBackupCTA/Button')
+      )
+    })
     expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
+  })
+
+  it('renders seed phrase backup notification when keyless backup flag is turned off', async () => {
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+      },
+    })
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/backup_prompt')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('BackupKeyNotification/CallToActions/backupKeyCTA/Button'))
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
   })
 
   it('renders claim rewards notification when there are supercharge rewards', () => {
