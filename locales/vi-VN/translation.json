@@ -210,6 +210,8 @@
   "completeEducation": "Tôi đã hiểu",
   "yourAccountKey": "Cụm từ khôi phục của bạn",
   "backupKeyNotification2": "Để bảo vệ tiền của bạn, hãy sao lưu Cụm từ khôi phục ngay.",
+  "keylessBackupCTA": "Back up now",
+  "keylessBackupNotification": "Set up your email & phone number to back up your seed phrase",
   "backupKeyCTA": "Hoàn tất quy trình sao lưu ngay",
   "backupKeySummary": "Tìm một nơi riêng tư và viết ra Cụm từ khôi phục của bạn. Vui lòng lưu giữ Cụm từ này ở nơi an toàn. Không lưu vào điện thoại của bạn.",
   "backupKeyWarning": "Nếu làm mất cụm từ khôi phục, bạn sẽ không thể truy cập vào toàn bộ số tiền bạn sở hữu trên Valora.",
