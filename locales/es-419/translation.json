@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Copia de seguridad no disponible",
-        "body": "Puedes configurar una copia de seguridad del monedero más tarde o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
-        "later": "Haré una copia de seguridad más tarde",
-        "manual": "Copia de seguridad manual"
+        "body": "Puedes configurar una copia de seguridad de tu monedero más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
+        "later": "Prepararé una copia de seguridad más tarde",
+        "manual": "Guardar frase de recuperación"
       }
     },
     "restore": {
@@ -2141,6 +2141,12 @@
   },
   "pleaseWait": "Espera, por favor",
   "error": "Error",
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "¡Se acabaron las direcciones de monedero desordenadas! Envía criptomonedas a otros usuarios de Celo con sólo un número de teléfono",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
