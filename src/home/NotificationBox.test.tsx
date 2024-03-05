@@ -1,12 +1,13 @@
-import { fireEvent, render } from '@testing-library/react-native'
+import { act, fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { openUrl } from 'src/app/actions'
 import { fetchAvailableRewards } from 'src/consumerIncentives/slice'
 import { ONE_CUSD_REWARD_RESPONSE } from 'src/consumerIncentives/testValues'
 import NotificationBox from 'src/home/NotificationBox'
-import { navigate } from 'src/navigator/NavigationService'
+import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
 import { createMockStore } from 'test/utils'
 import {
@@ -19,6 +20,9 @@ import {
 
 const TWO_DAYS_MS = 2 * 24 * 60 * 1000
 const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
+
+const mockedEnsurePincode = jest.mocked(ensurePincode)
+jest.mock('src/statsig')
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -126,6 +130,10 @@ const mockcUsdWithoutEnoughBalance = {
 }
 
 describe('NotificationBox', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+  })
   it('renders correctly for with all notifications', () => {
     const store = createMockStore({
       ...storeDataNotificationsEnabled,
@@ -318,6 +326,52 @@ describe('NotificationBox', () => {
       openUrl(testNotification.ctaUri, false, true),
       openUrl(testNotification.ctaUri, true, true),
     ])
+  })
+
+  it('renders keylessBackup notification when flag is turned on', async () => {
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+      },
+    })
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/keyless_backup_prompt')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(
+        getByTestId('KeylessBackupNotification/CallToActions/keylessBackupCTA/Button')
+      )
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.WalletSecurityPrimer)
+  })
+
+  it('renders seed phrase backup notification when keyless backup flag is turned off', async () => {
+    const store = createMockStore({
+      account: {
+        backupCompleted: false,
+      },
+    })
+    jest.mocked(getFeatureGate).mockReturnValue(false)
+    mockedEnsurePincode.mockImplementation(() => Promise.resolve(true))
+    const { queryByTestId, getByTestId } = render(
+      <Provider store={store}>
+        <NotificationBox showOnlyHomeScreenNotifications={false} />
+      </Provider>
+    )
+
+    expect(queryByTestId('NotificationView/backup_prompt')).toBeTruthy()
+
+    await act(() => {
+      fireEvent.press(getByTestId('BackupKeyNotification/CallToActions/backupKeyCTA/Button'))
+    })
+    expect(navigate).toHaveBeenCalledWith(Screens.BackupIntroduction)
   })
 
   it('renders claim rewards notification when there are supercharge rewards', () => {
