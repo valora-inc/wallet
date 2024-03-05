@@ -12,6 +12,7 @@ import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 import AssetsScreen from 'src/tokens/Assets'
 
 const Tab = createBottomTabNavigator()
@@ -30,6 +31,7 @@ export default function TabNavigator({ route }: Props) {
         tabBarActiveTintColor: Colors.black,
         tabBarInactiveTintColor: Colors.gray3,
         tabBarLabelStyle: styles.label,
+        tabBarItemStyle: styles.tabBarItem,
       }}
     >
       <Tab.Screen
@@ -69,5 +71,8 @@ export default function TabNavigator({ route }: Props) {
 const styles = StyleSheet.create({
   label: {
     ...typeScale.labelSemiBoldSmall,
+  },
+  tabBarItem: {
+    paddingTop: Spacing.Smallest8,
   },
 })
