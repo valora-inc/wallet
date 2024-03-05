@@ -269,7 +269,6 @@ export type StackParamList = {
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TabNavigator]: {
     initialScreen?: Screens
-    fromModal?: boolean
   }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
