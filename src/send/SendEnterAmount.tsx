@@ -7,7 +7,7 @@ import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localC
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import EnterAmount from 'src/send/EnterAmount'
 import { lastUsedTokenIdSelector } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'

@@ -1,5 +1,4 @@
 import BigNumber from 'bignumber.js'
-import { FeeInfo } from 'src/fees/saga'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/types'
 import { Currency } from 'src/utils/currencies'
@@ -47,8 +46,7 @@ export interface SendPaymentAction {
   comment: string
   recipient: Recipient
   fromModal: boolean
-  feeInfo?: FeeInfo
-  preparedTransaction?: SerializableTransactionRequest
+  preparedTransaction: SerializableTransactionRequest
 }
 
 export interface SendPaymentSuccessAction {
@@ -121,8 +119,7 @@ export const sendPayment = (
   comment: string,
   recipient: Recipient,
   fromModal: boolean,
-  feeInfo?: FeeInfo,
-  preparedTransaction?: SerializableTransactionRequest
+  preparedTransaction: SerializableTransactionRequest
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
@@ -131,7 +128,6 @@ export const sendPayment = (
   comment,
   recipient,
   fromModal,
-  feeInfo,
   preparedTransaction,
 })
 

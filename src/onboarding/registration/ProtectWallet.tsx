@@ -3,7 +3,6 @@ import React, { useEffect, useLayoutEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
 import { recoveryPhraseInOnboardingStarted } from 'src/account/actions'
 import { RecoveryPhraseInOnboardingStatus } from 'src/account/reducer'
 import { recoveryPhraseInOnboardingStatusSelector } from 'src/account/selectors'
@@ -16,7 +15,7 @@ import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getOnboardingStepValues, onboardingPropsSelector } from 'src/onboarding/steps'
-import { default as useTypedSelector } from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -28,7 +27,7 @@ const TAG = 'ProtectWallet'
 type Props = NativeStackScreenProps<StackParamList, Screens.ProtectWallet>
 
 function ProtectWallet({ navigation }: Props) {
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const onboardingProps = useSelector(onboardingPropsSelector)
   const { step, totalSteps } = getOnboardingStepValues(Screens.ProtectWallet, onboardingProps)
   const address = useSelector(walletAddressSelector)
   const { t } = useTranslation()

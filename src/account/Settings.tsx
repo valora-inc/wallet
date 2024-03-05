@@ -12,7 +12,7 @@ import {
   View,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
+import RevokePhoneNumber from 'src/RevokePhoneNumber'
 import {
   clearStoredAccount,
   devModeTriggerClicked,
@@ -48,6 +48,8 @@ import {
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
+import { Severity } from 'src/components/InLineNotification'
+import InLineNotificationModal from 'src/components/InLineNotificationModal'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
 import {
@@ -72,19 +74,17 @@ import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { removeStoredPin, setPincodeWithBiometry } from 'src/pincode/authentication'
-import RevokePhoneNumber from 'src/RevokePhoneNumber'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig/index'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { navigateToURI } from 'src/utils/linking'
 import Logger from 'src/utils/Logger'
+import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
-import InLineNotificationModal from 'src/components/InLineNotificationModal'
-import { Severity } from 'src/components/InLineNotification'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 

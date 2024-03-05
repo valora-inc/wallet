@@ -16,7 +16,7 @@ import {
 } from 'src/recipients/recipient'
 import { phoneRecipientCacheSelector, recipientInfoSelector } from 'src/recipients/reducer'
 import { resolveId } from 'src/recipients/resolve-id'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 
 const TYPING_DEBOUNCE_MILLSECONDS = 300
 const SEARCH_THROTTLE_TIME = 100

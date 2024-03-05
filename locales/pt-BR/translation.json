@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Proteja sua carteira",
     "subtitle": "Proteja sua carteira",
-    "body": "Se perder seu celular ou ele for roubado, sua frase recuperação de {{mnemonicLength}} palavras é a única maneira de acessar seus fundos.",
+    "body": "Se o seu telefone for perdido ou roubado, sua frase de recuperação de 12 palavras é a única maneira de você acessar seus fundos.",
     "recoveryPhrase": {
       "title": "Usar frase de recuperação",
       "subtitle": "Anote sua frase de recuperação"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Sua frase de recuperação",
-    "body": "Anote essas {{mnemonicLength}} palavras em algum lugar seguro, onde ninguém possa roubá-las ou danificá-las.",
+    "body": "Escreva essas 12 palavras em um lugar seguro, onde não possam ser roubadas ou danificadas.",
     "continue": "Já salvei",
     "copy": "Copiar para área de transferência",
     "mnemonicCopied": "Frase de recuperação copiada para a área de transferência",
@@ -91,8 +91,8 @@
     "phoneNumber": "Número de celular",
     "setup": {
       "title": "Configurar o backup da carteira",
-      "description": "Você vai usar os seguintes itens para configurar o backup",
-      "useRecoveryPhrase": "Usar frase de recuperação",
+      "description": "Você usará o seguinte para configurar seu backup de e-mail e número de telefone",
+      "useRecoveryPhrase": "Em vez disso, use uma frase de recuperação",
       "reminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. A Valora não armazena seu e-mail ou número de celular. Você deve protegê-las!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Agora você pode recuperar sua carteira com seu endereço de e-mail e número de celular."
       },
       "failed": {
-        "title": "Backup sem chave indisponível",
-        "body": "Você pode configurar um backup sem chave mais tarde ou proteger sua conta agora fazendo backup manualmente.",
+        "title": "Backup indisponível",
+        "body": "Você pode configurar o backup da carteira mais tarde ou proteger sua conta agora fazendo o backup manualmente.",
         "later": "Vou fazer backup mais tarde",
         "manual": "Backup manual"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Algo deu errado!",
       "description": "Não foi possível preparar uma transação para esse token."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugerimos um valor menor",
+      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

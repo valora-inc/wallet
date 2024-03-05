@@ -1,5 +1,5 @@
-import { useSelector } from 'react-redux'
 import { dappsListSelector } from 'src/dapps/selectors'
+import { useSelector } from 'src/redux/hooks'
 
 export const useIsDappListed = (dappUrl?: string) => {
   const dappsList = useSelector(dappsListSelector)

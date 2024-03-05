@@ -10,7 +10,7 @@ import Checkmark from 'src/icons/Checkmark'
 import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import fontStyles from 'src/styles/fonts'
 
 /**

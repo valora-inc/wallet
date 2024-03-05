@@ -5,22 +5,22 @@ import { useEffect, useRef, useState } from 'react'
 import { useAsync, useAsyncCallback } from 'react-async-hook'
 import { Platform } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { useDispatch, useSelector } from 'react-redux'
 import { e164NumberSelector } from 'src/account/selectors'
 import { showError } from 'src/alert/actions'
 import { PhoneVerificationEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { phoneNumberRevoked, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { ErrorMessages } from 'src/app/ErrorMessages'
+import { phoneNumberRevoked, phoneNumberVerificationCompleted } from 'src/app/actions'
 import { inviterAddressSelector } from 'src/app/selectors'
 import { PHONE_NUMBER_VERIFICATION_CODE_LENGTH } from 'src/config'
 import {
+  SmsEvent,
   addSmsListener,
   removeSmsListener,
-  SmsEvent,
   startSmsRetriever,
 } from 'src/identity/smsRetrieval'
 import { retrieveSignedMessage } from 'src/pincode/authentication'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Logger from 'src/utils/Logger'
 import networkConfig from 'src/web3/networkConfig'
 import { dataEncryptionKeySelector, walletAddressSelector } from 'src/web3/selectors'

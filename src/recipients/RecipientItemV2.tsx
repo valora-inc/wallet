@@ -6,8 +6,8 @@ import Touchable from 'src/components/Touchable'
 import Logo, { LogoTypes } from 'src/icons/Logo'
 import QuestionIcon from 'src/icons/QuestionIcon'
 import {
-  e164NumberToAddressSelector,
   addressToVerificationStatusSelector,
+  e164NumberToAddressSelector,
 } from 'src/identity/selectors'
 import {
   Recipient,
@@ -15,7 +15,7 @@ import {
   getDisplayDetail,
   getDisplayName,
 } from 'src/recipients/recipient'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
