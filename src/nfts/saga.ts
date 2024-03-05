@@ -91,7 +91,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
   const {
     celebratedNft,
     expirationDate: expirationDateString,
-    reminderDate: reminderDateString,
+    rewardReminderDate: rewardReminderDateString,
     deepLink,
   } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
 
@@ -100,21 +100,21 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     !celebratedNft.networkId ||
     !celebratedNft.contractAddress ||
     !expirationDateString ||
-    !reminderDateString ||
+    !rewardReminderDateString ||
     !deepLink
   ) {
     return
   }
 
   const expirationDate = Date.parse(expirationDateString)
-  const reminderDate = Date.parse(reminderDateString)
+  const rewardReminderDate = Date.parse(rewardReminderDateString)
 
   if (Number.isNaN(expirationDate)) {
     Logger.error(TAG, 'Invalid expiration date in remote config')
     return
   }
 
-  if (Number.isNaN(reminderDate)) {
+  if (Number.isNaN(rewardReminderDate)) {
     Logger.error(TAG, 'Invalid reminder date in remote config')
     return
   }
@@ -147,8 +147,8 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
       celebratedNftFound({
         networkId: celebratedNft.networkId,
         contractAddress: celebratedNft.contractAddress,
-        expirationDate: new Date(expirationDate).toISOString(),
-        reminderDate: new Date(reminderDate).toISOString(),
+        expirationDate: expirationDateString,
+        rewardReminderDate: rewardReminderDateString,
         deepLink,
       })
     )
@@ -168,7 +168,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  const aboutToExpire = isToday(reminderDate) || isPast(reminderDate)
+  const aboutToExpire = isToday(rewardReminderDate) || isPast(rewardReminderDate)
   if (aboutToExpire) {
     yield* put(nftRewardReminderReadyToDisplay())
   } else {

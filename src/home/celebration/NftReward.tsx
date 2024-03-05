@@ -53,12 +53,12 @@ export default function NftRewardBottomSheet() {
 
   const nftCelebration = useSelector(nftCelebrationSelector)
   const expirationDate = new Date(nftCelebration?.expirationDate ?? 0)
-  const reminderDate = new Date(nftCelebration?.reminderDate ?? 0)
+  const rewardReminderDate = new Date(nftCelebration?.rewardReminderDate ?? 0)
   const deepLink = nftCelebration?.deepLink ?? ''
 
   const { expirationStatus, expirationLabelText } = useExpirationStatus(
     expirationDate,
-    reminderDate
+    rewardReminderDate
   )
 
   const isVisible = canShowNftReward && matchingNft

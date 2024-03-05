@@ -49,7 +49,7 @@ export interface State {
     contractAddress: string
     status: NftCelebrationStatus
     expirationDate: string
-    reminderDate: string
+    rewardReminderDate: string
     deepLink: string
   } | null
 }
@@ -140,7 +140,7 @@ export const homeReducer = (
           contractAddress: action.contractAddress,
           deepLink: action.deepLink,
           expirationDate: action.expirationDate,
-          reminderDate: action.reminderDate,
+          rewardReminderDate: action.rewardReminderDate,
           status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       }

@@ -42,13 +42,13 @@ const mockRemoteConfig = {
   celebratedNft: mockCelebratedNft,
   deepLink: 'celo://test',
   expirationDate: '3000-12-01T00:00:00.000Z',
-  reminderDate: '3000-01-01T00:00:00.000Z',
+  rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }
 
 const mockExpiredRemoteConfig = {
   ...mockRemoteConfig,
   expirationDate: '2000-12-01T00:00:00.000Z',
-  reminderDate: '2000-01-01T00:00:00.000Z',
+  rewardReminderDate: '2000-01-01T00:00:00.000Z',
 }
 
 const mockNftCelebrationStore = (status: NftCelebrationStatus) => {
@@ -59,7 +59,7 @@ const mockNftCelebrationStore = (status: NftCelebrationStatus) => {
         contractAddress: mockNftAllFields.contractAddress,
         deepLink: 'celo://test',
         expirationDate: '3000-12-01T00:00:00.000Z',
-        reminderDate: '3000-01-01T00:00:00.000Z',
+        rewardReminderDate: '3000-01-01T00:00:00.000Z',
         status,
       },
     },
@@ -195,7 +195,7 @@ describe('Given Nfts saga', () => {
               contractAddress: mockRemoteConfig.celebratedNft.contractAddress,
               deepLink: mockRemoteConfig.deepLink,
               expirationDate: mockRemoteConfig.expirationDate,
-              reminderDate: mockRemoteConfig.reminderDate,
+              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
             })
           )
           .run()
@@ -267,7 +267,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest
           .mocked(getDynamicConfigParams)
-          .mockReturnValue({ ...mockRemoteConfig, reminderDate: 'INVALID VALUE' })
+          .mockReturnValue({ ...mockRemoteConfig, rewardReminderDate: 'INVALID VALUE' })
 
         await expectSaga(nftSaga.findCelebratedNft, mockAction)
           .provide([[select(celebratedNftSelector), null]])

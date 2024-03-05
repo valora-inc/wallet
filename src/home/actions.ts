@@ -51,7 +51,7 @@ interface CelebratedNftFoundAction {
   networkId: NetworkId
   contractAddress: string
   expirationDate: string
-  reminderDate: string
+  rewardReminderDate: string
   deepLink: string
 }
 
@@ -127,20 +127,20 @@ export const celebratedNftFound = ({
   networkId,
   contractAddress,
   expirationDate,
-  reminderDate,
+  rewardReminderDate,
   deepLink,
 }: {
   networkId: NetworkId
   contractAddress: string
   expirationDate: string
-  reminderDate: string
+  rewardReminderDate: string
   deepLink: string
 }): CelebratedNftFoundAction => ({
   type: Actions.CELEBRATED_NFT_FOUND,
   networkId,
   contractAddress,
   expirationDate,
-  reminderDate,
+  rewardReminderDate,
   deepLink,
 })
 

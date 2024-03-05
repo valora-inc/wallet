@@ -38,7 +38,7 @@ const mockStoreRewardReady = {
       contractAddress: mockNftAllFields.contractAddress,
       status: NftCelebrationStatus.rewardReadyToDisplay,
       expirationDate: '3000-12-01T00:00:00.000Z',
-      reminderDate: '3000-01-01T00:00:00.000Z',
+      rewardReminderDate: '3000-01-01T00:00:00.000Z',
       deepLink: 'celo://test',
     },
   },
