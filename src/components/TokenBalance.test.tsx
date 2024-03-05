@@ -422,7 +422,6 @@ describe('HomeTokenBalance', () => {
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
