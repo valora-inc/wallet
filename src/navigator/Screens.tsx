@@ -82,7 +82,6 @@ export enum Screens {
   Support = 'Support',
   SupportContact = 'SupportContact',
   SwapScreenWithBack = 'SwapScreenWithBack',
-  TokenBalances = 'TokenBalances',
   TokenDetails = 'TokenDetails',
   TokenDetailsMoreActions = 'TokenDetailsMoreActions',
   TokenImport = 'TokenImport',
