@@ -1,9 +1,9 @@
 import DeviceInfo from 'react-native-device-info'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import {
-  celebratedNftSelector,
   cleverTapInboxMessagesSelector,
   getExtraNotifications,
+  nftCelebrationSelector,
   showNftCelebrationSelector,
   showNftRewardSelector,
 } from 'src/home/selectors'
@@ -157,16 +157,16 @@ describe('cleverTapInboxMessages', () => {
   })
 })
 
-describe('celebratedNftSelector', () => {
-  it('should return null when nftCelebration is not set', () => {
+describe('nftCelebrationSelector', () => {
+  it('should return falsy value when nftCelebration is not set', () => {
     const state = getMockStoreData({
       home: {
-        nftCelebration: null,
+        nftCelebration: undefined,
       },
     })
 
-    const data = celebratedNftSelector(state)
-    expect(data).toBeNull()
+    const data = nftCelebrationSelector(state)
+    expect(data).toBeFalsy()
   })
 
   it('should return networkId, contractAddress when nftCelebration is set', () => {
@@ -179,7 +179,7 @@ describe('celebratedNftSelector', () => {
       },
     })
 
-    const data = celebratedNftSelector(state)
+    const data = nftCelebrationSelector(state)
     expect(data).toEqual({
       networkId: NetworkId['celo-alfajores'],
       contractAddress: '0xTEST',

@@ -37,19 +37,6 @@ export const cleverTapInboxMessagesSelector = (state: RootState) =>
 
 export const hasVisitedHomeSelector = (state: RootState) => state.home.hasVisitedHome
 
-export const celebratedNftSelector = (state: RootState) => {
-  if (!state.home.nftCelebration) {
-    return null
-  }
-
-  const { networkId, contractAddress } = state.home.nftCelebration
-
-  return {
-    networkId,
-    contractAddress,
-  }
-}
-
 export const nftCelebrationSelector = (state: RootState) => {
   return state.home.nftCelebration
 }

@@ -9,7 +9,7 @@ import {
   nftRewardReminderReadyToDisplay,
 } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
-import { celebratedNftSelector, nftCelebrationSelector } from 'src/home/selectors'
+import { nftCelebrationSelector } from 'src/home/selectors'
 import * as nftSaga from 'src/nfts/saga'
 import { handleFetchNfts, watchFirstFetchCompleted } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
@@ -208,7 +208,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
 
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(celebratedNftSelector), null]])
+          .provide([[select(nftCelebrationSelector), undefined]])
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
       })
@@ -220,7 +220,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getDynamicConfigParams).mockReturnValue({})
 
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(celebratedNftSelector), null]])
+          .provide([[select(nftCelebrationSelector), undefined]])
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
       })
@@ -237,7 +237,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
             ).getState()
           )
-          .provide([[select(celebratedNftSelector), mockCelebratedNft]])
+          .provide([[select(nftCelebrationSelector), mockCelebratedNft]])
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
       })
@@ -251,7 +251,7 @@ describe('Given Nfts saga', () => {
           .mockReturnValue({ ...mockRemoteConfig, expirationDate: 'INVALID VALUE' })
 
         await expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(celebratedNftSelector), null]])
+          .provide([[select(nftCelebrationSelector), undefined]])
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
 
@@ -270,7 +270,7 @@ describe('Given Nfts saga', () => {
           .mockReturnValue({ ...mockRemoteConfig, rewardReminderDate: 'INVALID VALUE' })
 
         await expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(celebratedNftSelector), null]])
+          .provide([[select(nftCelebrationSelector), undefined]])
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
 
@@ -437,7 +437,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
 
         return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(celebratedNftSelector), null]])
+          .provide([[select(nftCelebrationSelector), undefined]])
           .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
           .run()
       })
