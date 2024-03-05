@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Protect Your Wallet",
     "subtitle": "Protect your wallet",
-    "body": "If your phone is lost or stolen, your {{mnemonicLength}} word recovery phrase is the only way you can access your funds.",
+    "body": "If your phone is lost or stolen, your 12 word recovery phrase is the only way you can access your funds.",
     "recoveryPhrase": {
       "title": "Use Recovery Phrase",
       "subtitle": "Write down your recovery phrase"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Your recovery phrase",
-    "body": "Write these {{mnemonicLength}} words down somewhere safe, where it cannot be stolen or damaged.",
+    "body": "Write these 12 words down somewhere safe, where it cannot be stolen or damaged.",
     "continue": "I've saved it",
     "copy": "Copy to clipboard",
     "mnemonicCopied": "Recovery phrase copied to clipboard",
@@ -91,8 +91,8 @@
     "phoneNumber": "Phone Number",
     "setup": {
       "title": "Set Up Wallet Backup",
-      "description": "You'll use the following to set up backup",
-      "useRecoveryPhrase": "Use recovery phrase instead",
+      "description": "You'll use the following to set up your email & phone number backup",
+      "useRecoveryPhrase": "Use a recovery phrase instead",
       "reminder": "<0>Remember</0>, this information is the only way to access your wallet if your device is lost or stolen. Valora does not store your email or phone number. Keep it safe!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "You are now able to recover your wallet with your email address and phone number."
       },
       "failed": {
-        "title": "Keyless backup unavailable",
-        "body": "You can set up keyless backup later or protect your account now by backing up manually.",
+        "title": "Backup unavailable",
+        "body": "You can set up wallet backup later or protect your account now by backing up manually.",
         "later": "I'll backup later",
         "manual": "Manual Backup"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Something went wrong!",
       "description": "It was not possible to prepare a transaction for this token."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "We’d suggest a lower amount",
+      "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

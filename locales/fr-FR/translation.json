@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Protégez votre portefeuille",
     "subtitle": "Protégez votre portefeuille",
-    "body": "Si vous perdez ou vous faites voler votre téléphone, votre phrase de récupération composée de {{mnemonicLength}} mots sera votre seule façon d'accéder à vos fonds.",
+    "body": "Si ton téléphone est perdu ou volé, ta phrase de récupération de 12 mots est le seul moyen d'accéder à tes fonds.",
     "recoveryPhrase": {
       "title": "Utiliser la Phrase de récupération",
       "subtitle": "Écrivez votre Phrase de récupération"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Votre Phrase de récupération",
-    "body": "Écrivez ces {{mnemonicLength}} mots dans un endroit sûr, où ils ne peuvent pas être volés ou endommagés.",
+    "body": "Écris ces 12 mots dans un endroit sûr, où ils ne risquent pas d'être volés ou endommagés.",
     "continue": "Je l'ai enregistrée",
     "copy": "Copier dans le presse-papiers",
     "mnemonicCopied": "Phrase de récupération copiée dans le presse-papiers",
@@ -91,8 +91,8 @@
     "phoneNumber": "Numéro de téléphone",
     "setup": {
       "title": "Configurer la sauvegarde du portefeuille",
-      "description": "Pour configurer la sauvegarde, vous pourrez avoir recours à :",
-      "useRecoveryPhrase": "Utiliser une phrase de récupération",
+      "description": "Tu utiliseras les éléments suivants pour configurer la sauvegarde de ton email et de ton numéro de téléphone.",
+      "useRecoveryPhrase": "Utilise plutôt une phrase de récupération",
       "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Vous pouvez maintenant récupérer votre portefeuille avec votre adresse e-mail et votre numéro de téléphone."
       },
       "failed": {
-        "title": "Sauvegarde sans clé indisponible",
-        "body": "Vous pouvez configurer une sauvegarde sans clé plus tard ou protéger votre compte maintenant en sauvegardant manuellement.",
+        "title": "Sauvegarde non disponible",
+        "body": "Tu peux configurer la sauvegarde du portefeuille plus tard ou protéger ton compte dès maintenant en effectuant une sauvegarde manuelle.",
         "later": "Je sauvegarderai plus tard",
         "manual": "Sauvegarde manuelle"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Une erreur s'est produite!",
       "description": "Il n'a pas été possible de préparer une transaction pour ce jeton."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Nous suggérons un montant moins élevé",
+      "description": "Ce lien pourra être revendiqué par toute personne y ayant accès. Nous recommandons de ne pas envoyer plus de {{maxAmount}} {{localCurrencyCode}}."
     }
   },
   "transactionFeed": {

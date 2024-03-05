@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Cüzdanınızı Koruyun",
     "subtitle": "Cüzdanınızı koruyun",
-    "body": "Telefonunuz kaybolur ya da çalınırsa {{mnemonicLength}} kelimelik kurtarma ifadeniz fonlarınıza erişebilmenizin tek yoludur.",
+    "body": "Telefonunuz kaybolur veya çalınırsa, 12 kelimelik kurtarma cümleniz fonlarınıza erişebilmenizin tek yoludur.",
     "recoveryPhrase": {
       "title": "Kurtarma İfadesini Kullan",
       "subtitle": "Kurtarma ifadenizi not edin"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Kurtarma ifadeniz",
-    "body": "Bu {{mnemonicLength}} kelimeyi çalınamayacağı veya zarar görmeyeceği güvenli bir yere not edin.",
+    "body": "Bu 12 kelimeyi çalınamayacak ya da zarar görmeyecek güvenli bir yere yazın.",
     "continue": "Kaydettim",
     "copy": "Panoya kopyala",
     "mnemonicCopied": "Kurtarma ifadesi panoya kopyalandı",
@@ -91,8 +91,8 @@
     "phoneNumber": "Telefon Numarası",
     "setup": {
       "title": "Cüzdan Yedeklemeyi Ayarlama",
-      "description": "Yedeklemeyi ayarlamak için aşağıdakileri kullanacaksınız",
-      "useRecoveryPhrase": "Bunun yerine kurtarma ifadesini kullanın",
+      "description": "E-posta ve telefon numarası yedeklemenizi ayarlamak için aşağıdakileri kullanacaksınız",
+      "useRecoveryPhrase": "Bunun yerine bir kurtarma ifadesi kullanın",
       "reminder": "Cihazınızın kaybolması veya çalınması durumunda cüzdanınıza erişmenin tek yolunun bu bilgiler olduğunu <0>unutmayın</0>. Valora e-postanızı veya telefonunuzu saklamaz. Bunları güvende tutun!"
     },
     "restore": {
@@ -126,8 +126,8 @@
         "body": "Artık cüzdanınızı e-posta adresiniz ve telefon numaranızla kurtarabilirsiniz."
       },
       "failed": {
-        "title": "Anahtarsız yedekleme kullanılamıyor",
-        "body": "Anahtarsız yedeklemeyi daha sonra ayarlayabilir veya manuel olarak yedekleyerek hesabınızı şimdi koruyabilirsiniz.",
+        "title": "Yedekleme kullanılamıyor",
+        "body": "Cüzdan yedeklemesini daha sonra ayarlayabilir veya manuel olarak yedekleyerek hesabınızı şimdi koruyabilirsiniz.",
         "later": "Daha sonra yedekleyeceğim",
         "manual": "Manuel Yedekleme"
       }
@@ -2097,6 +2097,12 @@
     "prepareTransactionError": {
       "title": "Bir şeyler ters gitti!",
       "description": "Bu token için bir işlem hazırlamak mümkün olmadı."
+    }
+  },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Daha düşük bir miktar öneriyoruz",
+      "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilecektir. {{maxAmount}} {{localCurrencyCode}}adresinden daha fazlasını göndermemenizi öneririz."
     }
   },
   "transactionFeed": {
