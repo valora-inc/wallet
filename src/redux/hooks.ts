@@ -1,4 +1,4 @@
-import ReactRedux from 'react-redux'
+import * as ReactRedux from 'react-redux'
 import type { AppDispatch, RootState } from 'src/redux/store'
 
 export const useDispatch = ReactRedux.useDispatch.withTypes<AppDispatch>()
