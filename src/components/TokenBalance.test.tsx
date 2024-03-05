@@ -57,7 +57,7 @@ jest.mocked(getDynamicConfigParams).mockReturnValue({
 describe('FiatExchangeTokenBalance and HomeTokenBalance', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.mocked(getFeatureGate).mockImplementation(() => true)
+    jest.mocked(getFeatureGate).mockReturnValue(true)
   })
 
   it.each([HomeTokenBalance, FiatExchangeTokenBalance])(
