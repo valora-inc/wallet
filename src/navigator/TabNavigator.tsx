@@ -32,6 +32,7 @@ export default function TabNavigator({ route }: Props) {
         tabBarInactiveTintColor: Colors.gray3,
         tabBarLabelStyle: styles.label,
         tabBarItemStyle: styles.tabBarItem,
+        tabBarAllowFontScaling: false,
       }}
     >
       <Tab.Screen
