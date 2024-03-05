@@ -8,7 +8,7 @@ import {
   dismissKeepSupercharging,
   dismissStartSupercharging,
 } from 'src/account/actions'
-import { celoEducationCompletedSelector } from 'src/account/selectors'
+import { celoEducationCompletedSelector, cloudBackupCompletedSelector } from 'src/account/selectors'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ScrollDirection } from 'src/analytics/types'
@@ -98,10 +98,11 @@ export function useSimpleActions() {
   }, [])
 
   const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
   const actions: SimpleAction[] = []
   if (!backupCompleted) {
-    if (showKeylessBackup) {
+    if (showKeylessBackup && !cloudBackupCompleted) {
       actions.push({
         id: NotificationType.keyless_backup_prompt,
         type: NotificationType.keyless_backup_prompt,
