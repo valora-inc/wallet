@@ -41,7 +41,6 @@ import {
   LocalAmount,
   TokenAmount,
   TokenTransactionTypeV2,
-  TokenTransfer,
   TransactionStatus,
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
@@ -59,7 +58,7 @@ export function getDecryptedTransferFeedComment(
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-export function useTransactionRecipient(transfer: TokenTransfer): Recipient {
+export function useTransactionRecipient(transfer: FeedTokenTransfer): Recipient {
   const phoneRecipientCache = useSelector(phoneRecipientCacheSelector)
   const recentTxRecipientsCache = useSelector(recentTxRecipientsCacheSelector)
   const recipientInfo: RecipientInfo = useSelector(recipientInfoSelector)

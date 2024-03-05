@@ -349,7 +349,6 @@ async function queryChainTransactionsFeed({
     }),
   })
   const body = (await response.json()) as QueryResponse
-
   // Augment the transactions with networkId, since this is not included by default
   // from blockchain-api and is needed throughout the app.
   return {
@@ -391,7 +390,6 @@ export const TRANSACTIONS_QUERY = gql`
         ...NftTransferItemV3
         ...TokenExchangeItemV3
         ...TokenApprovalItem
-        ...JumpstartDepositItem
       }
     }
   }
@@ -529,49 +527,6 @@ export const TRANSACTIONS_QUERY = gql`
           exchangeRate
         }
       }
-    }
-  }
-
-  fragment JumpstartDepositItem on JumpstartDeposit {
-    __typename
-    type
-    transactionHash
-    timestamp
-    block
-    address
-    metadata {
-      title
-      subtitle
-      image
-      comment
-    }
-    amount {
-      value
-      tokenAddress
-      tokenId
-      localAmount {
-        value
-        currencyCode
-        exchangeRate
-      }
-    }
-    fees {
-      type
-      amount {
-        value
-        tokenAddress
-        tokenId
-        localAmount {
-          value
-          currencyCode
-          exchangeRate
-        }
-      }
-    }
-    reward {
-      beneficiary
-      index
-      claimed
     }
   }
 `

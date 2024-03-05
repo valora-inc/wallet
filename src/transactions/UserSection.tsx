@@ -6,7 +6,7 @@ import AccountNumber from 'src/components/AccountNumber'
 import Expandable from 'src/components/Expandable'
 import Touchable from 'src/components/Touchable'
 import { Screens } from 'src/navigator/Screens'
-import { Recipient, getDisplayName, recipientHasNumber } from 'src/recipients/recipient'
+import { getDisplayName, Recipient, recipientHasNumber } from 'src/recipients/recipient'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 

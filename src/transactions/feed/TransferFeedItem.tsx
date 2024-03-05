@@ -20,8 +20,9 @@ import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemI
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
 import { JumpstartDeposit, TokenTransfer } from 'src/transactions/types'
 
+export type FeedTokenTransfer = TokenTransfer | JumpstartDeposit
 interface Props {
-  transfer: TokenTransfer | JumpstartDeposit
+  transfer: FeedTokenTransfer
 }
 
 function TransferFeedItem({ transfer }: Props) {
