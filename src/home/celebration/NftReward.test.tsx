@@ -274,25 +274,5 @@ describe('NftReward', () => {
         Colors.warningLight
       )
     })
-
-    it('renders correct expiration pill when reward is expired', () => {
-      jest.useFakeTimers().setSystemTime(new Date('3000-11-30T23:59:59.000Z').getTime())
-
-      const { getByTestId } = render(
-        <Provider store={createMockStore(mockStoreRewardReady)}>
-          <NftReward />
-        </Provider>
-      )
-
-      jest.advanceTimersByTime(2000)
-
-      const pillLabel = getByTestId('NftReward/PillLabel')
-      expect(pillLabel).toHaveTextContent('nftCelebration.rewardBottomSheet.expired')
-      expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.errorDark)
-      expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
-        'backgroundColor',
-        Colors.errorLight
-      )
-    })
   })
 })

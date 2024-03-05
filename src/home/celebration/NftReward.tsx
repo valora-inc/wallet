@@ -61,6 +61,8 @@ export default function NftRewardBottomSheet() {
     rewardReminderDate
   )
 
+  const expired = expirationStatus === ExpirationStatus.expired
+
   const isVisible = canShowNftReward && matchingNft
 
   useEffect(() => {
@@ -73,6 +75,12 @@ export default function NftRewardBottomSheet() {
       return () => clearTimeout(timeoutId)
     }
   }, [isVisible])
+
+  useEffect(() => {
+    if (expired) {
+      bottomSheetRef.current?.close()
+    }
+  }, [expired])
 
   const handleBottomSheetPositionChange = (index: number) => {
     if (!celebratedNft) {
@@ -107,11 +115,6 @@ export default function NftRewardBottomSheet() {
     dispatch(openDeepLink(deepLink, isSecureOrigin))
   }
 
-  const pillLabel =
-    expirationStatus === ExpirationStatus.expired
-      ? t('nftCelebration.rewardBottomSheet.expired')
-      : t('nftCelebration.rewardBottomSheet.expirationLabel', { expirationLabelText })
-
   if (!isVisible) {
     return null
   }
@@ -119,7 +122,10 @@ export default function NftRewardBottomSheet() {
   return (
     <BottomSheetBase forwardedRef={bottomSheetRef} onChange={handleBottomSheetPositionChange}>
       <BottomSheetView style={[styles.container, insetsStyle]}>
-        <ExpirationPill status={expirationStatus} label={pillLabel} />
+        <ExpirationPill
+          status={expirationStatus}
+          label={t('nftCelebration.rewardBottomSheet.expirationLabel', { expirationLabelText })}
+        />
         <Text style={styles.title}>{t('nftCelebration.rewardBottomSheet.title')}</Text>
         <Text style={styles.desctiption}>
           {t('nftCelebration.rewardBottomSheet.description', {
@@ -130,7 +136,7 @@ export default function NftRewardBottomSheet() {
           style={styles.button}
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
-          disabled={expirationStatus === ExpirationStatus.expired}
+          disabled={expired}
           onPress={handleCtaPress}
           text={t('nftCelebration.rewardBottomSheet.cta')}
         />
@@ -184,32 +190,27 @@ const useExpirationStatus = (expirationDate: Date, reminderDate: Date) => {
 
 type ExpirationPillProps = { status: ExpirationStatus; label: string }
 
-const ExpirationPill = ({ status, label }: ExpirationPillProps) => (
-  <View style={styles.pillContainer}>
-    <View style={[styles.pill, expirationPillStyles[status].pill]} testID="NftReward/Pill">
-      <Text
-        style={[styles.pillLabel, expirationPillStyles[status].label]}
-        testID="NftReward/PillLabel"
-      >
-        {label}
-      </Text>
-    </View>
-  </View>
-)
+const ExpirationPill = ({ status, label }: ExpirationPillProps) => {
+  const { pillStyle, labelStyle } =
+    status === ExpirationStatus.active
+      ? {
+          pillStyle: { backgroundColor: Colors.gray1 },
+          labelStyle: { color: Colors.black },
+        }
+      : {
+          pillStyle: { backgroundColor: Colors.warningLight },
+          labelStyle: { color: Colors.warningDark },
+        }
 
-const expirationPillStyles = {
-  [ExpirationStatus.active]: {
-    pill: { backgroundColor: Colors.gray1 },
-    label: { color: Colors.black },
-  },
-  [ExpirationStatus.aboutToExpire]: {
-    pill: { backgroundColor: Colors.warningLight },
-    label: { color: Colors.warningDark },
-  },
-  [ExpirationStatus.expired]: {
-    pill: { backgroundColor: Colors.errorLight },
-    label: { color: Colors.errorDark },
-  },
+  return (
+    <View style={styles.pillContainer}>
+      <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
+        <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
+          {label}
+        </Text>
+      </View>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
