@@ -3,6 +3,7 @@ import BigNumber from 'bignumber.js'
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
 import { getRehydratePayload } from 'src/redux/persist-helper'
 import { NetworkId } from 'src/transactions/types'
+import { Address } from 'viem'
 
 export interface BaseToken {
   address: string | null
@@ -15,6 +16,8 @@ export interface BaseToken {
   priceFetchedAt?: number
   isNative?: boolean
   isFeeCurrency?: boolean
+  feeCurrencyAdapterAddress?: Address
+  feeCurrencyAdapterDecimals?: number
   canTransferWithComment?: boolean
   // Deprecated: This flag enables swapping the token in all the releases, use minimumAppVersionToSwap instead.
   isSwappable?: boolean
@@ -96,7 +99,7 @@ export interface TokenBalancesWithAddress {
 
 // Create imported token interface but from the base Token type
 
-export interface State {
+interface State {
   tokenBalances: StoredTokenBalances
   loading: boolean
   error: boolean
@@ -112,7 +115,7 @@ export function isNativeTokenBalance(tokenInfo: TokenBalance): tokenInfo is Nati
   return !!tokenInfo.isNative
 }
 
-export const initialState = {
+const initialState: State = {
   tokenBalances: {},
   loading: false,
   error: false,

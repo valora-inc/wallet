@@ -1,11 +1,12 @@
 import { SwapTxsProperties } from 'src/analytics/Properties'
 import { TokenBalances } from 'src/tokens/slice'
-import { getTokenId } from 'src/tokens/utils'
 import { NetworkId } from 'src/transactions/types'
 import {
   TransactionRequest,
   getEstimatedGasFee,
   getFeeCurrency,
+  getFeeCurrencyToken,
+  getFeeDecimals,
   getMaxGasFee,
 } from 'src/viem/prepareTransactions'
 
@@ -18,16 +19,17 @@ export function getSwapTxsAnalyticsProperties(
     return null
   }
 
-  // undefined means the fee currency is the native currency
-  const feeCurrency = getFeeCurrency(preparedTransactions)
-  const feeCurrencyToken = tokensById[getTokenId(networkId, feeCurrency)]
-  const maxGasFee = feeCurrencyToken
-    ? getMaxGasFee(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
+  const feeCurrencyToken = getFeeCurrencyToken(preparedTransactions, networkId, tokensById)
+  const feeDecimals = feeCurrencyToken
+    ? getFeeDecimals(preparedTransactions, feeCurrencyToken)
+    : undefined
+  const maxGasFee = feeDecimals
+    ? getMaxGasFee(preparedTransactions).shiftedBy(-feeDecimals)
     : undefined
   const maxGasFeeUsd =
     maxGasFee && feeCurrencyToken?.priceUsd ? maxGasFee.times(feeCurrencyToken.priceUsd) : undefined
-  const estimatedGasFee = feeCurrencyToken
-    ? getEstimatedGasFee(preparedTransactions).shiftedBy(-feeCurrencyToken.decimals)
+  const estimatedGasFee = feeDecimals
+    ? getEstimatedGasFee(preparedTransactions).shiftedBy(-feeDecimals)
     : undefined
   const estimatedGasFeeUsd =
     estimatedGasFee && feeCurrencyToken?.priceUsd
@@ -40,7 +42,7 @@ export function getSwapTxsAnalyticsProperties(
     maxGasFeeUsd: maxGasFeeUsd?.toNumber(),
     estimatedGasFee: estimatedGasFee?.toNumber(),
     estimatedGasFeeUsd: estimatedGasFeeUsd?.toNumber(),
-    feeCurrency,
+    feeCurrency: getFeeCurrency(preparedTransactions),
     feeCurrencySymbol: feeCurrencyToken?.symbol,
     txCount: preparedTransactions.length,
   }

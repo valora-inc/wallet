@@ -1,8 +1,8 @@
 import { REHYDRATE, RehydrateAction } from 'redux-persist'
-import { Actions, ActionTypes } from 'src/networkInfo/actions'
+import { ActionTypes, Actions } from 'src/networkInfo/actions'
 import { UserLocationData } from 'src/networkInfo/saga'
 
-export interface State {
+interface State {
   connected: boolean // True if the phone thinks it has a data connection (cellular/Wi-Fi), false otherwise.
   rehydrated: boolean
   userLocationData: UserLocationData

@@ -14,7 +14,7 @@ export interface PaymentInfo {
   amount: number
 }
 
-export interface State {
+interface State {
   isSending: boolean
   recentRecipients: Recipient[]
   // Keep a list of recent (last 24 hours) payments
@@ -37,7 +37,7 @@ const initialState = {
 export const sendReducer = (
   state: State = initialState,
   action: ActionTypes | RehydrateAction | UpdateConfigValuesAction
-) => {
+): State => {
   switch (action.type) {
     case REHYDRATE: {
       // Ignore some persisted properties

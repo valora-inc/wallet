@@ -1,5 +1,7 @@
-import { reducer, initialState } from 'src/account/reducer'
 import { Actions, ChooseCreateAccountAction } from 'src/account/actions'
+import { reducer } from 'src/account/reducer'
+
+const initialState = reducer(undefined, { type: 'INIT' } as any)
 
 describe('account reducer', () => {
   describe('CHOOSE_CREATE_ACCOUNT action', () => {

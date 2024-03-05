@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js'
-import { Dispatch } from 'redux'
+import { Dispatch } from '@reduxjs/toolkit'
 import { FiatExchangeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SettlementEstimation } from 'src/fiatExchanges/quotes/constants'

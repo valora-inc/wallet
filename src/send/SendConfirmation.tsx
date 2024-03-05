@@ -233,7 +233,6 @@ function SendConfirmation(props: Props) {
         comment.trim(),
         recipient,
         fromModal,
-        undefined,
         getSerializablePreparedTransaction(preparedTransaction)
       )
     )

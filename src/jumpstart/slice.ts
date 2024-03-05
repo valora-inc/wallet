@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-export interface State {
+interface State {
   claimStatus: 'idle' | 'loading' | 'error'
 }
 

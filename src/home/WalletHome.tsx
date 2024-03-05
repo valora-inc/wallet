@@ -45,8 +45,8 @@ import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
+import { hasGrantedContactsPermission } from 'src/utils/contacts'
 import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
-import { checkContactsPermission } from 'src/utils/permissions'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -96,8 +96,8 @@ function WalletHome() {
       return
     }
 
-    const hasGivenContactPermission = await checkContactsPermission()
-    if (hasGivenContactPermission) {
+    const contactPermissionStatusGranted = await hasGrantedContactsPermission()
+    if (contactPermissionStatusGranted) {
       dispatch(importContacts())
     }
   }

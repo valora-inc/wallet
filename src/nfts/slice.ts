@@ -9,7 +9,7 @@ export interface FetchNftsFailedAction {
   error: string
 }
 
-export type State = {
+type State = {
   nftsLoading: boolean
   nftsError: string | null
   nfts: NftWithNetworkId[]

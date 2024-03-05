@@ -19,7 +19,7 @@ import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
-import { getSupportedNetworkIdsForSwap, getTokenId } from 'src/tokens/utils'
+import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { handleTransactionReceiptReceived } from 'src/transactions/saga'
 import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
@@ -31,6 +31,8 @@ import {
   TransactionRequest,
   getEstimatedGasFee,
   getFeeCurrency,
+  getFeeCurrencyToken,
+  getFeeDecimals,
   getMaxGasFee,
 } from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
@@ -69,28 +71,25 @@ function getTxReceiptAnalyticsProperties(
   networkId: NetworkId,
   tokensById: TokenBalances
 ): Partial<TxReceiptProperties> {
-  const txFeeCurrency = tx && getFeeCurrency(tx)
-  const feeCurrencyToken = tokensById[getTokenId(networkId, txFeeCurrency)]
+  const feeCurrencyToken = tx && getFeeCurrencyToken([tx], networkId, tokensById)
+  const feeDecimals = tx && feeCurrencyToken ? getFeeDecimals([tx], feeCurrencyToken) : undefined
 
-  const txMaxGasFee =
-    tx && feeCurrencyToken ? getMaxGasFee([tx]).shiftedBy(-feeCurrencyToken.decimals) : undefined
+  const txMaxGasFee = tx && feeDecimals ? getMaxGasFee([tx]).shiftedBy(-feeDecimals) : undefined
   const txMaxGasFeeUsd =
     feeCurrencyToken && txMaxGasFee && feeCurrencyToken.priceUsd
       ? txMaxGasFee.times(feeCurrencyToken.priceUsd)
       : undefined
   const txEstimatedGasFee =
-    tx && feeCurrencyToken
-      ? getEstimatedGasFee([tx]).shiftedBy(-feeCurrencyToken.decimals)
-      : undefined
+    tx && feeDecimals ? getEstimatedGasFee([tx]).shiftedBy(-feeDecimals) : undefined
   const txEstimatedGasFeeUsd =
     feeCurrencyToken && txEstimatedGasFee && feeCurrencyToken.priceUsd
       ? txEstimatedGasFee.times(feeCurrencyToken.priceUsd)
       : undefined
 
   const txGasFee =
-    txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeCurrencyToken
+    txReceipt?.gasUsed && txReceipt?.effectiveGasPrice && feeDecimals
       ? new BigNumber((txReceipt.gasUsed * txReceipt.effectiveGasPrice).toString()).shiftedBy(
-          -feeCurrencyToken.decimals
+          -feeDecimals
         )
       : undefined
   const txGasFeeUsd =
@@ -114,7 +113,7 @@ function getTxReceiptAnalyticsProperties(
     txGasFee: txGasFee?.toNumber(),
     txGasFeeUsd: txGasFeeUsd?.toNumber(),
     txHash,
-    txFeeCurrency,
+    txFeeCurrency: tx && getFeeCurrency(tx),
     txFeeCurrencySymbol: feeCurrencyToken?.symbol,
   }
 }
@@ -287,7 +286,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
 
-    const feeCurrencyId = getTokenId(networkId, getFeeCurrency(preparedTransactions))
+    const feeCurrencyId = getFeeCurrencyToken(preparedTransactions, networkId, tokensById)?.tokenId
 
     // if there is an approval transaction, add a standby transaction for it
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {

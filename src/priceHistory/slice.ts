@@ -17,7 +17,7 @@ export interface State {
 
 const slice = createSlice({
   name: 'priceHistory',
-  initialState: {},
+  initialState: {} as State,
   reducers: {
     fetchPriceHistoryStart: (
       state: Draft<State>,

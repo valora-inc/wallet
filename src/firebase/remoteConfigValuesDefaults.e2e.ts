@@ -44,7 +44,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   maxSwapSlippagePercentage: 2,
   networkTimeoutSeconds: 30,
   celoNews: JSON.stringify({} as RemoteConfigValues['celoNews']),
-  twelveWordMnemonicEnabled: true,
   priceImpactWarningThreshold: 0.04,
   superchargeRewardContractAddress: '',
   superchargeTokenConfigByToken: JSON.stringify(

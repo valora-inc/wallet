@@ -23,7 +23,6 @@ import { createAccountDek } from 'src/web3/dataEncryptionKey'
 import {
   currentAccountSelector,
   mtwAddressSelector,
-  twelveWordMnemonicEnabledSelector,
   walletAddressSelector,
 } from 'src/web3/selectors'
 import { call, delay, put, select, spawn, take } from 'typed-redux-saga'
@@ -61,10 +60,7 @@ export function* getOrCreateAccount() {
   try {
     Logger.debug(TAG + '@getOrCreateAccount', 'Creating a new account')
 
-    const twelveWordMnemonicEnabled = yield* select(twelveWordMnemonicEnabledSelector)
-    const mnemonicBitLength = twelveWordMnemonicEnabled
-      ? MnemonicStrength.s128_12words
-      : MnemonicStrength.s256_24words
+    const mnemonicBitLength = MnemonicStrength.s128_12words
     const mnemonicLanguage = getMnemonicLanguage(yield* select(currentLanguageSelector))
     let mnemonic: string = yield* call(generateMnemonic, mnemonicBitLength, mnemonicLanguage, bip39)
 

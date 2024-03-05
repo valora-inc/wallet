@@ -661,7 +661,15 @@ interface SendEventsProperties {
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
   }
-  [SendEvents.send_select_recipient_jumpstart]: undefined
+}
+
+interface JumpstartEventsProperties {
+  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
+    tokenId: string
+    sendAmountUsd: string
+    thresholdUsd: number
+  }
 }
 
 interface FeeEventsProperties {
@@ -1518,6 +1526,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   AuthenticationEventsProperties &
   InviteEventsProperties &
   SendEventsProperties &
+  JumpstartEventsProperties &
   EscrowEventsProperties &
   FeeEventsProperties &
   TransactionEventsProperties &
