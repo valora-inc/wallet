@@ -283,6 +283,7 @@ export function HomeTokenBalance() {
 export function FiatExchangeTokenBalance() {
   const { t } = useTranslation()
   const totalBalance = useTotalTokenBalance()
+  const tokenBalances = useTokensWithTokenBalance()
 
   const onViewBalances = () => {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
@@ -295,10 +296,14 @@ export function FiatExchangeTokenBalance() {
     <View style={styles.container} testID="FiatExchangeTokenBalance">
       <View style={styles.titleExchange}>
         <View style={styles.row}>
-          <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
+          {tokenBalances.length > 1 ? (
+            <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
+              <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
+              <ProgressArrow style={styles.exchangeArrow} height={9.62} color={Colors.gray4} />
+            </TouchableOpacity>
+          ) : (
             <Text style={styles.exchangeTotalValue}>{t('totalValue')}</Text>
-            <ProgressArrow style={styles.exchangeArrow} height={9.62} color={Colors.gray4} />
-          </TouchableOpacity>
+          )}
         </View>
       </View>
       <TokenBalance style={styles.exchangeBalance} />
