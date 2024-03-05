@@ -235,22 +235,6 @@ describe('showNftCelebrationSelector', () => {
     const canShowNftCelebration = showNftCelebrationSelector(state)
     expect(canShowNftCelebration).toBe(true)
   })
-
-  it('should return false when it is expired', () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
-
-    const state = getMockStoreData({
-      home: {
-        nftCelebration: {
-          status: NftCelebrationStatus.celebrationReadyToDisplay,
-          expirationDate: '2000-01-01T00:00:00.000Z',
-        },
-      },
-    })
-
-    const canShowNftCelebration = showNftCelebrationSelector(state)
-    expect(canShowNftCelebration).toBe(false)
-  })
 })
 
 describe('showNftRewardSelector', () => {

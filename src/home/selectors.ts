@@ -51,10 +51,6 @@ export const showNftCelebrationSelector = (state: RootState) => {
     return false
   }
 
-  if (isPast(new Date(state.home.nftCelebration.expirationDate))) {
-    return false
-  }
-
   return state.home.nftCelebration.status === NftCelebrationStatus.celebrationReadyToDisplay
 }
 
