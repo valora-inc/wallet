@@ -210,6 +210,8 @@
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
   "backupKeyNotification2": "Mantieni i tuoi fondi al sicuro. Esegui ora il backup della Frase di recupero.",
+  "keylessBackupCTA": "Torna indietro ora",
+  "keylessBackupNotification": "Imposta la tua e-mail e il tuo numero di telefono per eseguire il backup della tua frase iniziale",
   "backupKeyCTA": "Termina il backup ora",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
   "backupKeyWarning": "Senza la tua Frase di recupero, perderai l’accesso a tutti i fondi in Valora.",
