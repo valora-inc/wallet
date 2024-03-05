@@ -95,6 +95,55 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     deepLink,
   } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
 
+  if (!celebratedNft || !celebratedNft.networkId || !celebratedNft.contractAddress) {
+    return
+  }
+
+  const userOwnsCelebratedNft = nfts.some(
+    (nft) =>
+      !!nft.metadata &&
+      nft.networkId === celebratedNft.networkId &&
+      nft.contractAddress === celebratedNft.contractAddress
+  )
+  if (!userOwnsCelebratedNft) {
+    return
+  }
+
+  const lastNftCelebration = yield* select(nftCelebrationSelector)
+
+  const isLastCelebratedNft =
+    !!lastNftCelebration &&
+    lastNftCelebration.networkId === celebratedNft.networkId &&
+    lastNftCelebration.contractAddress === celebratedNft.contractAddress
+
+  if (isLastCelebratedNft) {
+    return
+  }
+
+  yield* put(
+    celebratedNftFound({
+      networkId: celebratedNft.networkId,
+      contractAddress: celebratedNft.contractAddress,
+      expirationDate: expirationDateString,
+      rewardReminderDate: rewardReminderDateString,
+      deepLink,
+    })
+  )
+}
+
+export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCompletedAction>) {
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+  if (!featureGateEnabled) {
+    return
+  }
+
+  const {
+    celebratedNft,
+    expirationDate: expirationDateString,
+    rewardReminderDate: rewardReminderDateString,
+    deepLink,
+  } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
+
   if (
     !celebratedNft ||
     !celebratedNft.networkId ||
@@ -142,36 +191,20 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     lastNftCelebration.contractAddress === celebratedNft.contractAddress
 
   if (!isLastCelebratedNft) {
-    // this NFT was not celebrated yet, let's start the journey
-    yield* put(
-      celebratedNftFound({
-        networkId: celebratedNft.networkId,
-        contractAddress: celebratedNft.contractAddress,
-        expirationDate: expirationDateString,
-        rewardReminderDate: rewardReminderDateString,
-        deepLink,
-      })
-    )
     return
   }
 
-  // let's display the celebration first
-  if (lastNftCelebration.status === NftCelebrationStatus.celebrationReadyToDisplay) {
-    return
-  }
+  const canShowReward = lastNftCelebration.status === NftCelebrationStatus.celebrationDisplayed
 
-  // at this point the journey is over
-  if (
-    lastNftCelebration.status === NftCelebrationStatus.reminderReadyToDisplay ||
-    lastNftCelebration.status === NftCelebrationStatus.reminderDisplayed
-  ) {
-    return
-  }
+  const canShowReminder =
+    lastNftCelebration.status === NftCelebrationStatus.celebrationDisplayed ||
+    lastNftCelebration.status === NftCelebrationStatus.rewardDisplayed
 
   const aboutToExpire = isToday(rewardReminderDate) || isPast(rewardReminderDate)
-  if (aboutToExpire) {
+
+  if (aboutToExpire && canShowReminder) {
     yield* put(nftRewardReminderReadyToDisplay())
-  } else {
+  } else if (canShowReward) {
     yield* put(nftRewardReadyToDisplay())
   }
 }
@@ -183,6 +216,7 @@ function* watchFetchNfts() {
 export function* watchFirstFetchCompleted() {
   const action = (yield* take(fetchNftsCompleted.type)) as PayloadAction<FetchNftsCompletedAction>
   yield* call(findCelebratedNft, action)
+  yield* call(findNftReward, action)
 }
 
 export function* nftsSaga() {

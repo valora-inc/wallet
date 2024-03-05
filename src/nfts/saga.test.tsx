@@ -180,148 +180,160 @@ describe('Given Nfts saga', () => {
   })
 
   describe('findCelebratedNft saga', () => {
-    describe('adding celebrated NFT', () => {
-      it('should put celebrated NFT once found', () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+    it('should put celebrated NFT once found', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(nftCelebrationSelector), null]])
-          .put(
-            celebratedNftFound({
-              networkId: mockRemoteConfig.celebratedNft.networkId,
-              contractAddress: mockRemoteConfig.celebratedNft.contractAddress,
-              deepLink: mockRemoteConfig.deepLink,
-              expirationDate: mockRemoteConfig.expirationDate,
-              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
-            })
-          )
-          .run()
-      })
-
-      it('should not put celebrated NFT if feature gate is closed', () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(false)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
-
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(nftCelebrationSelector), undefined]])
-          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
-          .run()
-      })
-
-      it('should not put celebrated NFT if dynamic config is empty', () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue({})
-
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(nftCelebrationSelector), undefined]])
-          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
-          .run()
-      })
-
-      it('should not put celebrated NFT if celebrated NFT already exists', () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
-
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .withState(
-            createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
-            ).getState()
-          )
-          .provide([[select(nftCelebrationSelector), mockCelebratedNft]])
-          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
-          .run()
-      })
-
-      it('should log an error if expiration date is invalid', async () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest
-          .mocked(getDynamicConfigParams)
-          .mockReturnValue({ ...mockRemoteConfig, expirationDate: 'INVALID VALUE' })
-
-        await expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(nftCelebrationSelector), undefined]])
-          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
-          .run()
-
-        expect(loggerErrorSpy).toHaveBeenCalledWith(
-          'NftsSaga',
-          'Invalid expiration date in remote config'
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(nftCelebrationSelector), null]])
+        .put(
+          celebratedNftFound({
+            networkId: mockRemoteConfig.celebratedNft.networkId,
+            contractAddress: mockRemoteConfig.celebratedNft.contractAddress,
+            deepLink: mockRemoteConfig.deepLink,
+            expirationDate: mockRemoteConfig.expirationDate,
+            rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+          })
         )
-      })
-
-      it('should log an error if reminder date is invalid', async () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest
-          .mocked(getDynamicConfigParams)
-          .mockReturnValue({ ...mockRemoteConfig, rewardReminderDate: 'INVALID VALUE' })
-
-        await expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(nftCelebrationSelector), undefined]])
-          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
-          .run()
-
-        expect(loggerErrorSpy).toHaveBeenCalledWith(
-          'NftsSaga',
-          'Invalid reminder date in remote config'
-        )
-      })
+        .run()
     })
 
-    describe('reward bottom sheet', () => {
-      it('should set status "reward ready" if celebration was displayed', () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+    it('should not put celebrated NFT if feature gate is closed', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .withState(
-            createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
-            ).getState()
-          )
-          .put(nftRewardReadyToDisplay())
-          .run()
-      })
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(nftCelebrationSelector), undefined]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+    })
 
-      it('should not set status "reward ready" if celebration was not displayed', async () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+    it('should not put celebrated NFT if dynamic config is empty', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue({})
 
-        await expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .withState(
-            createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
-            ).getState()
-          )
-          .not.put(nftRewardReadyToDisplay())
-          .run()
-      })
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .provide([[select(nftCelebrationSelector), undefined]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+    })
+
+    it('should not put celebrated NFT if celebrated NFT already exists', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
+
+      return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        .withState(
+          createMockStore(
+            mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
+          ).getState()
+        )
+        .provide([[select(nftCelebrationSelector), mockCelebratedNft]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+    })
+  })
+
+  describe('findNftReward saga', () => {
+    it('should log an error if expiration date is invalid', async () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest
+        .mocked(getDynamicConfigParams)
+        .mockReturnValue({ ...mockRemoteConfig, expirationDate: 'INVALID VALUE' })
+
+      await expectSaga(nftSaga.findNftReward, mockAction)
+        .provide([[select(nftCelebrationSelector), undefined]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        'NftsSaga',
+        'Invalid expiration date in remote config'
+      )
+    })
+
+    it('should log an error if reminder date is invalid', async () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest
+        .mocked(getDynamicConfigParams)
+        .mockReturnValue({ ...mockRemoteConfig, rewardReminderDate: 'INVALID VALUE' })
+
+      await expectSaga(nftSaga.findNftReward, mockAction)
+        .provide([[select(nftCelebrationSelector), undefined]])
+        .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
+        .run()
+
+      expect(loggerErrorSpy).toHaveBeenCalledWith(
+        'NftsSaga',
+        'Invalid reminder date in remote config'
+      )
+    })
+
+    it('should set status "reward ready" if celebration was displayed', () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
+
+      return expectSaga(nftSaga.findNftReward, mockAction)
+        .withState(
+          createMockStore(
+            mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
+          ).getState()
+        )
+        .put(nftRewardReadyToDisplay())
+        .run()
+    })
+
+    it('should not set status "reward ready" if celebration was not displayed', async () => {
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
+
+      await expectSaga(nftSaga.findNftReward, mockAction)
+        .withState(
+          createMockStore(
+            mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
+          ).getState()
+        )
+        .not.put(nftRewardReadyToDisplay())
+        .run()
+    })
+
+    it('should not set status "reward ready" or "reminder ready" if reward is expired', async () => {
+      jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
+      const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
+
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+      jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
+
+      return expectSaga(nftSaga.findNftReward, mockAction)
+        .withState(
+          createMockStore(
+            mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
+          ).getState()
+        )
+        .not.put(nftRewardReadyToDisplay())
+        .not.put(nftRewardReminderReadyToDisplay())
+        .run()
     })
 
     describe('when reward is about to expire', () => {
       beforeAll(() => {
         jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
-      })
-
-      afterAll(() => {
-        jest.useRealTimers()
       })
 
       it('should set status "reminder ready" if reward was displayed', async () => {
@@ -330,7 +342,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        return expectSaga(nftSaga.findNftReward, mockAction)
           .withState(
             createMockStore(
               mockNftCelebrationStore(NftCelebrationStatus.rewardDisplayed)
@@ -346,7 +358,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        return expectSaga(nftSaga.findNftReward, mockAction)
           .withState(
             createMockStore(
               mockNftCelebrationStore(NftCelebrationStatus.rewardDisplayed)
@@ -362,7 +374,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        return expectSaga(nftSaga.findNftReward, mockAction)
           .withState(
             createMockStore(
               mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
@@ -378,7 +390,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        return expectSaga(nftSaga.findNftReward, mockAction)
           .withState(
             createMockStore(
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
@@ -394,7 +406,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        return expectSaga(nftSaga.findNftReward, mockAction)
           .withState(
             createMockStore(
               mockNftCelebrationStore(NftCelebrationStatus.reminderReadyToDisplay)
@@ -410,7 +422,7 @@ describe('Given Nfts saga', () => {
         jest.mocked(getFeatureGate).mockReturnValue(true)
         jest.mocked(getDynamicConfigParams).mockReturnValue(mockRemoteConfig)
 
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
+        return expectSaga(nftSaga.findNftReward, mockAction)
           .withState(
             createMockStore(
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
@@ -420,59 +432,24 @@ describe('Given Nfts saga', () => {
           .run()
       })
     })
-
-    describe('when reward is expired', () => {
-      beforeAll(() => {
-        jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
-      })
-
-      afterAll(() => {
-        jest.useRealTimers()
-      })
-
-      it('should not put celebrated NFT if reward is expired', () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
-
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .provide([[select(nftCelebrationSelector), undefined]])
-          .not.put.actionType(Actions.CELEBRATED_NFT_FOUND)
-          .run()
-      })
-
-      it('should not set status "reward ready" or "reminder ready" if reward is expired', async () => {
-        const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
-
-        jest.mocked(getFeatureGate).mockReturnValue(true)
-        jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
-
-        return expectSaga(nftSaga.findCelebratedNft, mockAction)
-          .withState(
-            createMockStore(
-              mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
-            ).getState()
-          )
-          .not.put(nftRewardReadyToDisplay())
-          .not.put(nftRewardReminderReadyToDisplay())
-          .run()
-      })
-    })
   })
 
   describe('watchFirstFetchCompleted saga', () => {
     it('should call findCelebratedNft only once even if multiple fetchNftsCompleted actions are dispatched', async () => {
       const mockFindCelebratedNft = jest.fn()
+      const mockFindNftReward = jest.fn()
       const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
       await expectSaga(watchFirstFetchCompleted)
+        .withState(createMockStore().getState())
         .provide([[matchers.call.fn(nftSaga.findCelebratedNft), mockFindCelebratedNft()]])
+        .provide([[matchers.call.fn(nftSaga.findNftReward), mockFindNftReward()]])
         .dispatch(mockAction)
         .dispatch(mockAction)
         .run()
 
       expect(mockFindCelebratedNft).toHaveBeenCalledTimes(1)
+      expect(mockFindNftReward).toHaveBeenCalledTimes(1)
     })
   })
 })

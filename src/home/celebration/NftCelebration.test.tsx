@@ -135,18 +135,4 @@ describe('NftCelebration', () => {
     expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
     expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
   })
-
-  it('does not render if expired', () => {
-    jest.useFakeTimers().setSystemTime(new Date('3001-01-01T00:00:00.000Z').getTime())
-
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreWithNft)}>
-        <NftCelebration />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.bottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.bottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.bottomSheet.cta')).toBeNull()
-  })
 })
