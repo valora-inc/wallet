@@ -84,6 +84,8 @@ function TransactionFeed() {
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />
       case 'TokenApproval':
         return <TokenApprovalFeedItem key={tx.transactionHash} transaction={tx} />
+      case 'JumpstartDeposit':
+        return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
     }
   }
 

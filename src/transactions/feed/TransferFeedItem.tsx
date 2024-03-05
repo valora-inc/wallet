@@ -16,14 +16,12 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { FeedTokenProperties } from 'src/transactions/feed/TransactionFeed'
 import TransactionFeedItemImage from 'src/transactions/feed/TransactionFeedItemImage'
 import { useTransferFeedDetails } from 'src/transactions/transferFeedUtils'
-import { TokenTransfer } from 'src/transactions/types'
+import { JumpstartDeposit, TokenTransfer } from 'src/transactions/types'
 
-export type FeedTokenTransfer = TokenTransfer & FeedTokenProperties
 interface Props {
-  transfer: FeedTokenTransfer
+  transfer: TokenTransfer | JumpstartDeposit
 }
 
 function TransferFeedItem({ transfer }: Props) {
@@ -51,6 +49,7 @@ function TransferFeedItem({ transfer }: Props) {
           recipient={recipient}
           status={transfer.status}
           transactionType={transfer.__typename}
+          transactionSubtype={transfer.type}
         />
         <View style={styles.contentContainer}>
           <Text style={styles.title} testID={'TransferFeedItem/title'} numberOfLines={1}>

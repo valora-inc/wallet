@@ -4,10 +4,11 @@ import Activity from 'src/icons/Activity'
 import AttentionIcon from 'src/icons/Attention'
 import CircledIcon from 'src/icons/CircledIcon'
 import GreenLoadingSpinner from 'src/icons/GreenLoadingSpinner'
+import JumpstartIcon from 'src/icons/JumpstartIcon'
 import SwapIcon from 'src/icons/SwapIcon'
 import { Recipient } from 'src/recipients/recipient'
 import Colors from 'src/styles/colors'
-import { TransactionStatus } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
 const AVATAR_SIZE = 40
@@ -20,11 +21,16 @@ type Props =
   | {
       status: TransactionStatus
       transactionType: 'TokenTransferV3'
+      transactionSubtype: TokenTransactionTypeV2
       recipient: Recipient
     }
   | {
       status: TransactionStatus
       transactionType: 'TokenApproval'
+    }
+  | {
+      status: TransactionStatus
+      transactionType: 'JumpstartDeposit'
     }
 
 function TransactionFeedItemImage(props: Props) {
@@ -51,7 +57,16 @@ function TransactionFeedItemImage(props: Props) {
     )
   }
   if (transactionType === 'TokenTransferV3') {
-    return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
+    switch (props.transactionSubtype) {
+      case TokenTransactionTypeV2.JumpstartReceived:
+      case TokenTransactionTypeV2.JumpstartReclaimed:
+        return <JumpstartIcon />
+      default:
+        return <ContactCircle recipient={props.recipient} size={AVATAR_SIZE} />
+    }
+  }
+  if (transactionType === 'JumpstartDeposit') {
+    return <JumpstartIcon />
   }
 
   // Should never happen

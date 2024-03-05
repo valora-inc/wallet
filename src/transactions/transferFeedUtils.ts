@@ -39,6 +39,7 @@ import {
 } from 'src/transactions/reducer'
 import {
   LocalAmount,
+  TokenAmount,
   TokenTransactionTypeV2,
   TokenTransfer,
   TransactionStatus,
@@ -201,6 +202,21 @@ export function useTransferFeedDetails(transfer: FeedTokenTransfer) {
       })
       break
     }
+    case TokenTransactionTypeV2.JumpstartDeposit: {
+      title = t('feedItemJumpstartDepositTitle')
+      subtitle = t('feedItemJumpstartSubtitle')
+      break
+    }
+    case TokenTransactionTypeV2.JumpstartReclaimed: {
+      title = t('feedItemJumpstartReclaimedTitle')
+      subtitle = t('feedItemJumpstartSubtitle')
+      break
+    }
+    case TokenTransactionTypeV2.JumpstartReceived: {
+      title = t('feedItemJumpstartReceivedTitle')
+      subtitle = t('feedItemJumpstartReceivedSubtitle')
+      break
+    }
     default: {
       title = t('feedItemGenericTitle', {
         context: !nameOrNumber ? 'noRecipientDetails' : null,
@@ -228,7 +244,13 @@ export function isTokenTxTypeSent(type: TokenTransactionTypeV2) {
 }
 
 // Note: This hook is tested from src/transactions/feed/TransferFeedItem.test.ts
-function useFiatConnectTransferDisplayInfo({ amount, transactionHash }: TokenTransfer) {
+function useFiatConnectTransferDisplayInfo({
+  amount,
+  transactionHash,
+}: {
+  amount: TokenAmount
+  transactionHash: string
+}) {
   const { t } = useTranslation()
   const tokenInfo = useTokenInfoByAddress(amount.tokenAddress)
   const fcTransferDetails = useSelector(getCachedFiatConnectTransferSelector(transactionHash))

@@ -12,12 +12,12 @@ import useSelector from 'src/redux/useSelector'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { useTokenInfo } from 'src/tokens/hooks'
-import networkConfig from 'src/web3/networkConfig'
 import CommentSection from 'src/transactions/CommentSection'
 import TransferAvatars from 'src/transactions/TransferAvatars'
-import { TokenTransfer } from 'src/transactions/types'
 import UserSection from 'src/transactions/UserSection'
+import { TokenTransfer } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import networkConfig from 'src/web3/networkConfig'
 
 // Note that this is tested from TransactionDetailsScreen.test.tsx
 function TransferReceivedContent({ transfer }: { transfer: TokenTransfer }) {

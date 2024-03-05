@@ -82,6 +82,12 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return t('swapScreen.title')
     case TokenTransactionTypeV2.Approval:
       return t('transactionFeed.approvalTransactionTitle')
+    case TokenTransactionTypeV2.JumpstartDeposit:
+      return t('feedItemJumpstartDepositTitle')
+    case TokenTransactionTypeV2.JumpstartReceived:
+      return t('feedItemJumpstartReceivedTitle')
+    case TokenTransactionTypeV2.JumpstartReclaimed:
+      return t('feedItemJumpstartReclaimedTitle')
   }
 }
 
@@ -125,6 +131,15 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
       break
     case TokenTransactionTypeV2.Approval:
       content = <TokenApprovalDetails transaction={transaction as TokenApproval} />
+      break
+    case TokenTransactionTypeV2.JumpstartDeposit:
+      // TODO: Implement JumpstartDepositContent
+      content = <TransferSentContent transfer={transaction as TokenTransfer} />
+      break
+    case TokenTransactionTypeV2.JumpstartReceived:
+    case TokenTransactionTypeV2.JumpstartReclaimed:
+      // TODO: Implement JumpstartReceivedContent
+      content = <TransferReceivedContent transfer={transaction as TokenTransfer} />
       break
   }
 

@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
 import { v4 as uuidv4 } from 'uuid'
+import { Address } from 'viem'
 
 export enum Network {
   Celo = 'celo',
@@ -100,7 +101,12 @@ export enum TransactionStatus {
   Failed = 'Failed',
 }
 
-export type TokenTransaction = TokenTransfer | TokenExchange | NftTransfer | TokenApproval
+export type TokenTransaction =
+  | TokenTransfer
+  | TokenExchange
+  | NftTransfer
+  | TokenApproval
+  | JumpstartDeposit
 
 export interface TokenAmount {
   value: BigNumber.Value
@@ -125,6 +131,9 @@ export enum TokenTransactionTypeV2 {
   NftSent = 'NFT_SENT',
   SwapTransaction = 'SWAP_TRANSACTION',
   Approval = 'APPROVAL',
+  JumpstartDeposit = 'JUMPSTART_DEPOSIT',
+  JumpstartReceived = 'JUMPSTART_RECEIVED',
+  JumpstartReclaimed = 'JUMPSTART_RECLAIMED',
 }
 
 // Can we optional the fields `transactionHash` and `block`?
@@ -203,4 +212,23 @@ export interface TokenApproval {
   approvedAmount: string | null // null represents infinite approval
   fees: Fee[]
   status: TransactionStatus
+}
+
+export interface JumpstartDeposit {
+  __typename: 'JumpstartDeposit'
+  networkId: NetworkId
+  type: TokenTransactionTypeV2
+  transactionHash: string
+  timestamp: number
+  block: string
+  address: string
+  amount: TokenAmount
+  metadata: TokenTransferMetadata
+  fees: Fee[]
+  status: TransactionStatus
+  reward: {
+    beneficiary: Address
+    index: number
+    claimed: boolean
+  }
 }
