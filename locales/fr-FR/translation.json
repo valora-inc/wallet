@@ -210,6 +210,8 @@
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
   "backupKeyNotification2": "Gardez vos fonds en sécurité. Enregistrez votre Phrase de récupération maintenant.",
+  "keylessBackupCTA": "Sauvegarde maintenant",
+  "keylessBackupNotification": "Configure ton email et ton numéro de téléphone pour sauvegarder ta phrase de semence.",
   "backupKeyCTA": "Terminer la sauvegarde maintenant",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
   "backupKeyWarning": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos fonds détenus sur Valora.",
