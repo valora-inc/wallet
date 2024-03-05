@@ -103,8 +103,6 @@ import ValidateRecipientAccount, {
 import ValidateRecipientIntro, {
   validateRecipientIntroScreenNavOptions,
 } from 'src/send/ValidateRecipientIntro'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
 import TokenBalancesScreen from 'src/tokens/TokenBalances'
@@ -605,15 +603,8 @@ export function MainStackScreen() {
 
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
-      {getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) ? (
-        <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
-      ) : (
-        <Stack.Screen
-          name={Screens.DrawerNavigator}
-          component={DrawerNavigator}
-          options={noHeader}
-        />
-      )}
+      <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
+      <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
       {commonScreens(Stack)}
       {sendScreens(Stack)}
       {nuxScreens(Stack)}
