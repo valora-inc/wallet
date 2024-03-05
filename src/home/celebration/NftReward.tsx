@@ -127,7 +127,7 @@ export default function NftRewardBottomSheet() {
           label={t('nftCelebration.rewardBottomSheet.expirationLabel', { expirationLabelText })}
         />
         <Text style={styles.title}>{t('nftCelebration.rewardBottomSheet.title')}</Text>
-        <Text style={styles.desctiption}>
+        <Text style={styles.description}>
           {t('nftCelebration.rewardBottomSheet.description', {
             nftName: matchingNft.metadata.name,
           })}
@@ -203,12 +203,10 @@ const ExpirationPill = ({ status, label }: ExpirationPillProps) => {
         }
 
   return (
-    <View style={styles.pillContainer}>
-      <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
-        <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
-          {label}
-        </Text>
-      </View>
+    <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
+      <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
+        {label}
+      </Text>
     </View>
   )
 }
@@ -218,11 +216,10 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Smallest8,
     marginHorizontal: Spacing.Thick24,
   },
-
   title: {
     ...typeScale.titleSmall,
   },
-  desctiption: {
+  description: {
     marginTop: Spacing.Regular16,
     ...typeScale.bodySmall,
     color: Colors.gray3,
@@ -230,10 +227,8 @@ const styles = StyleSheet.create({
   button: {
     marginTop: Spacing.XLarge48,
   },
-  pillContainer: {
-    flexDirection: 'row',
-  },
   pill: {
+    alignSelf: 'flex-start',
     marginBottom: Spacing.Regular16,
     ...typeScale.labelSemiBoldXSmall,
     paddingHorizontal: Spacing.Small12,
