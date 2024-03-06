@@ -89,7 +89,15 @@ function JumpstartEnterAmount() {
           ),
         })
 
-        // TODO:add analytics
+        ValoraAnalytics.track(JumpstartEvents.jumpstart_send_amount_continue, {
+          localCurrency: localCurrencyCode,
+          localCurrencyExchangeRate: usdToLocalRate,
+          tokenSymbol: token.symbol,
+          tokenAmount: parsedAmount.toString(),
+          amountInUsd: parsedAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
+          tokenId: token.tokenId,
+          networkId: token.networkId,
+        })
       },
       onError: (error) => {
         Logger.error(TAG, 'Error while generating jumpstart dynamic link', error)
