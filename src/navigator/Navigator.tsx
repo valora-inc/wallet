@@ -153,11 +153,7 @@ const commonScreens = (Navigator: typeof Stack) => {
         component={QRNavigator}
         options={QRNavigator.navigationOptions as NativeStackNavigationOptions}
       />
-      <Navigator.Screen
-        name={Screens.ProfileMenu}
-        component={ProfileMenu}
-        options={emptyHeader} // TODO: Need to add X button to close the modal
-      />
+      <Navigator.Screen name={Screens.ProfileMenu} component={ProfileMenu} options={noHeader} />
     </>
   )
 }

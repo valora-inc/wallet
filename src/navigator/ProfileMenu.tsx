@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, StyleSheet, Text, View } from 'react-native'
 import deviceInfoModule from 'react-native-device-info'
 import { useSelector } from 'react-redux'
 import { defaultCountryCodeSelector, e164NumberSelector, nameSelector } from 'src/account/selectors'
@@ -39,9 +39,9 @@ export default function ProfileMenu({ route }: Props) {
   const networks = getSupportedNetworkIdsForTokenBalances()
   const networkNames = networks.map((network) => NETWORK_NAMES[network])
   return (
-    <ScrollView>
-      <View style={styles.drawerTop}>
-        <View style={styles.drawerHeader} testID="Drawer/Header">
+    <SafeAreaView>
+      <View style={styles.top}>
+        <View style={styles.header} testID="ProfileMenu/Header">
           <Touchable
             onPress={navigateBack}
             borderless={true}
@@ -54,7 +54,7 @@ export default function ProfileMenu({ route }: Props) {
         </View>
         <ContactCircleSelf size={64} />
         {!!displayName && (
-          <Text style={styles.nameLabel} testID="Drawer/Username">
+          <Text style={styles.nameLabel} testID="ProfileMenu/Username">
             {displayName}
           </Text>
         )}
@@ -85,9 +85,9 @@ export default function ProfileMenu({ route }: Props) {
         </View>
       </Touchable>
       <View style={styles.bottomBorder} />
-      <View style={styles.drawerBottom}>
-        <Text style={fontStyles.label}>{t('address')}</Text>
-        <AccountNumber address={account || ''} location={Screens.DrawerNavigator} />
+      <View style={styles.bottom}>
+        <Text style={typeScale.labelSemiBoldXSmall}>{t('address')}</Text>
+        <AccountNumber address={account || ''} location={Screens.ProfileMenu} />
         <Text style={styles.supportedNetworks}>
           {networks.length > 1
             ? t('supportedNetworks', {
@@ -101,21 +101,22 @@ export default function ProfileMenu({ route }: Props) {
         </Text>
         <Text style={styles.smallLabel}>{t('version', { appVersion })}</Text>
       </View>
-    </ScrollView>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
-  drawerTop: {
+  top: {
     marginLeft: 24,
     alignItems: 'flex-start',
     marginRight: 16,
   },
-  drawerHeader: {
+  header: {
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginBottom: 16,
+    paddingVertical: 10,
   },
   nameLabel: {
     ...typeScale.titleSmall,
@@ -137,7 +138,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.gray2,
     alignSelf: 'stretch',
   },
-  drawerBottom: {
+  bottom: {
     marginVertical: 32,
     marginHorizontal: 16,
     gap: Spacing.Smallest8,

@@ -38,6 +38,10 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
     if (location === Screens.ExternalExchanges) {
       ValoraAnalytics.track(FiatExchangeEvents.cico_cash_out_copy_address)
     }
+
+    if (location === Screens.ProfileMenu) {
+      // TODO: Track analytics event
+    }
   }
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'
   // into 'ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10 ce10'
