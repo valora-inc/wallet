@@ -2142,10 +2142,10 @@
   "pleaseWait": "Merci de patienter",
   "error": "Erreur",
   "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
+    "title": "Associe un numéro de téléphone à l'adresse de ton portefeuille",
     "description": "Fini les adresses de portefeuilles en désordre ! Envoie de la crypto à d'autres utilisateurs de Celo avec un simple numéro de téléphone.",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
+    "startButtonLabel": "Numéro de téléphone du lien",
+    "later": "Je le ferai plus tard"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
