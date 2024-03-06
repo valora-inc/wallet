@@ -7,6 +7,10 @@ interface Props {
   color?: colors
 }
 
+/**
+ * TODO (ACT-1108) use icon in header
+ * @beta
+ */
 const AccountCircle = ({ size = 24, color = Colors.successDark }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
     <Path
