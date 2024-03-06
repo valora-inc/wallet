@@ -1748,7 +1748,7 @@
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Les jetons sélectionnés ne sont pas pris en charge par nos fournisseurs.",
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
@@ -1908,15 +1908,15 @@
   },
   "profileScreen": {
     "generateName": "Générez un nom",
-    "namePlaceholder": "Choisis un nom, comme \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "Personnalise {{appName}} avec ta photo de profil. Ton image reste privée, elle n'est jamais partagée ou téléchargée."
+    "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})",
+    "profilePictureDisclaimer": "Personnalisez {{appName}} avec votre photo de profil. Votre image reste privée, elle n'est jamais partagée ou téléchargée."
   },
   "tokenBottomSheet": {
     "searchAssets": "Rechercher des actifs",
     "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "Aucun actif trouvé correspondant à \"{{searchTerm}}\" dans les catégories suivantes : {{filterNames}}",
-    "noFilterResults": "Aucun actif n'a été trouvé correspondant aux catégories suivantes : {{filterNames}}",
-    "noSearchResults": "Aucun actif trouvé correspondant à \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Aucun actif n'a été trouvé correspondant à \"{{searchTerm}}\" dans {{filterNames}}",
+    "noFilterResults": "Aucun actif n'a été trouvé dans {{filterNames}}",
+    "noSearchResults": "Aucun actif trouvé n'a été trouvé correspondant à \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mes jetons",
       "popular": "Populaires",
@@ -2005,7 +2005,7 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidAddress": "L'adresse du jeton n'est pas valide. Révise-la s'il te plaît",
+      "invalidAddress": "Adresse de jeton invalide. Veuillez la vérifier",
       "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
       "tokenAlreadySupported": "Ce jeton est déjà pris en charge"
     },
@@ -2028,8 +2028,8 @@
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Partagez du crypto avec un lien",
+      "subtitle": "Copiez le lien et envoyez des cryptomonnaies via une application de messagerie."
     },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
@@ -2103,7 +2103,7 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Nous suggérons un montant moins élevé",
+      "title": "Saisissez un montant inférieur",
       "description": "Ce lien pourra être revendiqué par toute personne y ayant accès. Nous recommandons de ne pas envoyer plus de {{maxAmount}} {{localCurrencyCode}}."
     }
   },
@@ -2130,21 +2130,21 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adopte rapidement des chaînes multiples 🎁",
-      "description": "Pour te remercier d'avoir été un bêta-testeur multi-chaînes, nous avons ajouté un cadeau gratuit à ton portefeuille {{appName}} ! Le NFT early adopter se trouve dans tes objets à collectionner.",
+      "title": "Utilisateur multichaîne 🎁",
+      "description": "Pour vous remercier d'être un bêta-testeur, nous avons ajouté un cadeau à votre portefeuille {{appName}} ! Le NFT d'adoption se trouve dans vos collections.",
       "cta": "Merci !"
     },
     "notification": {
       "title": "Félicitations 🎉",
-      "description": "{{rewardName}} a été ajouté avec succès à ton portefeuille {{appName}} ."
+      "description": "{{rewardName}} a été ajouté à votre portefeuille {{appName}}."
     }
   },
   "pleaseWait": "Merci de patienter",
   "error": "Erreur",
   "linkPhoneNumber": {
-    "title": "Associe un numéro de téléphone à l'adresse de ton portefeuille",
-    "description": "Fini les adresses de portefeuilles en désordre ! Envoie de la crypto à d'autres utilisateurs de Celo avec un simple numéro de téléphone.",
-    "startButtonLabel": "Numéro de téléphone du lien",
+    "title": "Associez un numéro de téléphone à votre portefeuille",
+    "description": "Plus aucune adresse de portefeuille désordonnée ! Envoyez des cryptomonnaies aux autres utilisateurs Celo avec un numéro de téléphone",
+    "startButtonLabel": "Associer un numéro de téléphone",
     "later": "Je le ferai plus tard"
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
