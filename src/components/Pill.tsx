@@ -9,14 +9,22 @@ interface Props {
   icon?: React.ReactNode
   onPress: () => void
   testID?: string
+  textColor?: string
 }
 
-function Pill({ text, icon, onPress, testID }: Props) {
+function Pill({ text, icon, onPress, testID, textColor }: Props) {
   return (
     <Touchable style={styles.container} onPress={onPress} testID={testID}>
       <>
         {icon}
-        <Text style={[styles.text, icon ? { marginLeft: 5 } : {}]}>{text}</Text>
+        <Text
+          style={[
+            { ...styles.text, color: textColor ?? colors.primary },
+            icon ? { marginLeft: 5 } : {},
+          ]}
+        >
+          {text}
+        </Text>
       </>
     </Touchable>
   )
@@ -34,7 +42,6 @@ const styles = StyleSheet.create({
   },
   text: {
     ...fontStyles.small600,
-    color: colors.primary,
   },
 })
 
