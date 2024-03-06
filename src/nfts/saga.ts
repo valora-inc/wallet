@@ -99,6 +99,15 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
+  const lastCelebratedNft = yield* select(nftCelebrationSelector)
+  if (
+    !!lastCelebratedNft &&
+    lastCelebratedNft.networkId === celebratedNft.networkId &&
+    lastCelebratedNft.contractAddress === celebratedNft.contractAddress
+  ) {
+    return
+  }
+
   const userOwnsCelebratedNft = nfts.some(
     (nft) =>
       !!nft.metadata &&
@@ -106,17 +115,6 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
       nft.contractAddress === celebratedNft.contractAddress
   )
   if (!userOwnsCelebratedNft) {
-    return
-  }
-
-  const lastNftCelebration = yield* select(nftCelebrationSelector)
-
-  const isLastCelebratedNft =
-    !!lastNftCelebration &&
-    lastNftCelebration.networkId === celebratedNft.networkId &&
-    lastNftCelebration.contractAddress === celebratedNft.contractAddress
-
-  if (isLastCelebratedNft) {
     return
   }
 
@@ -182,6 +180,8 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
   if (!userOwnsCelebratedNft) {
     return
   }
+
+  // TODO: check if the user is in allowed list (see ACT-1100)
 
   const lastNftCelebration = yield* select(nftCelebrationSelector)
 

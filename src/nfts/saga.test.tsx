@@ -262,7 +262,7 @@ describe('Given Nfts saga', () => {
       )
     })
 
-    it('should log an error if reminder date is invalid', async () => {
+    it('should log an error if reward reminder date is invalid', async () => {
       const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
       jest.mocked(getFeatureGate).mockReturnValue(true)

@@ -263,7 +263,7 @@ describe('showNftRewardSelector', () => {
 
     const state = getMockStoreData({
       home: {
-        nftCelebration: null,
+        nftCelebration: undefined,
       },
     })
 
