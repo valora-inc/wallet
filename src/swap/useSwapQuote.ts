@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { useAsyncCallback } from 'react-async-hook'
 import erc20 from 'src/abis/IERC20'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import { FetchQuoteResponse, Field, ParsedSwapAmount, SwapTransaction } from 'src/swap/types'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'

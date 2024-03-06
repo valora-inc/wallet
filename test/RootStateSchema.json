@@ -2630,7 +2630,6 @@
                 "MainModal",
                 "MultichainBeta",
                 "NameAndPicture",
-                "NftGallery",
                 "NftsInfoCarousel",
                 "NotificationCenter",
                 "OnboardingRecoveryPhrase",
@@ -2660,7 +2659,6 @@
                 "Support",
                 "SupportContact",
                 "SwapScreenWithBack",
-                "TokenBalances",
                 "TokenDetails",
                 "TokenDetailsMoreActions",
                 "TokenImport",
@@ -4493,6 +4491,15 @@
                     "type": "boolean"
                 },
                 "decimals": {
+                    "type": "number"
+                },
+                "feeCurrencyAdapterAddress": {
+                    "items": {
+                        "type": "string"
+                    },
+                    "type": "array"
+                },
+                "feeCurrencyAdapterDecimals": {
                     "type": "number"
                 },
                 "historicalPricesUsd": {

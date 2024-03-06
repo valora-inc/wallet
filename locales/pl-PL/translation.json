@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Chroń swój portfel",
     "subtitle": "Chroń swój portfel",
-    "body": "Jeśli telefon zostanie zgubiony lub skradziony, Twoja fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
+    "body": "Jeśli Twój telefon zostanie zgubiony lub skradziony, 12-słowna fraza odzyskiwania jest jedynym sposobem na uzyskanie dostępu do środków.",
     "recoveryPhrase": {
       "title": "Użyj frazy odzyskiwania",
       "subtitle": "Wprowadź frazę odzyskiwania"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Twoja fraza odzyskiwania",
-    "body": "Zapisz te {{mnemonicLength}} słowa gdzieś w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub zniszczone.",
+    "body": "Zapisz te 12 słów w bezpiecznym miejscu, gdzie nie mogą zostać skradzione lub uszkodzone.",
     "continue": "Mam to zapisane",
     "copy": "Kopiuj do schowka",
     "mnemonicCopied": "Fraza skopiowana do schowka",
@@ -91,7 +91,7 @@
     "phoneNumber": "Numer telefonu",
     "setup": {
       "title": "Skonfiguruj tworzenie kopii zapasowej portfela",
-      "description": "Do konfiguracji kopii zapasowej użyte zostaną następujące informacje",
+      "description": "Aby skonfigurować kopię zapasową adresu e-mail i numeru telefonu, użyj następujących elementów",
       "useRecoveryPhrase": "Zamiast tego użyj frazy odzyskiwania",
       "reminder": "<0>Pamiętaj</0>, że te informacje są jedynym sposobem uzyskania dostępu do portfela w przypadku zgubienia lub kradzieży urządzenia. Valora nie przechowuje Twojego adresu e-mail lub numeru telefonu. Dbaj o bezpieczeństwo!"
     },
@@ -126,10 +126,10 @@
         "body": "Możesz teraz odzyskać swój portfel za pomocą adresu e-mail i numeru telefonu."
       },
       "failed": {
-        "title": "Kopia zapasowa bez użycia klucza jest niedostępna",
-        "body": "Możesz skonfigurować tworzenie kopii zapasowych bez użycia klucza później lub zapewnić ochronę swojego konta już teraz, tworząc kopię zapasową ręcznie.",
-        "later": "Stworzę kopię zapasową później",
-        "manual": "Ręczna kopia zapasowa"
+        "title": "Kopia zapasowa niedostępna",
+        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, zapisując frazę odzyskiwania.",
+        "later": "Utworzę kopię zapasową później",
+        "manual": "Zapisz frazę odzyskiwania"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
   "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
+  "keylessBackupCTA": "Utwórz kopię zapasową",
+  "keylessBackupNotification": "Skonfiguruj swój adres e-mail i numer telefonu, aby utworzyć kopię zapasową frazy seed.",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
   "backupKeyWarning": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
@@ -2103,6 +2105,12 @@
       "description": "Nie było możliwe przygotowanie transakcji dla tego tokena."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugerujemy niższą kwotę",
+      "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
@@ -2137,6 +2145,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Błąd",
+  "linkPhoneNumber": {
+    "title": "Połącz numer telefonu z adresem portfela",
+    "description": "Koniec z nieuporządkowanymi adresami portfeli! Wysyłaj kryptowaluty do innych użytkowników Celo za pomocą numeru telefonu",
+    "startButtonLabel": "Połącz numer telefonu",
+    "later": "Zrobię to później"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

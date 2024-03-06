@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { countryFeatures } from 'src/flags'
 import { userLocationDataSelector } from 'src/networkInfo/selectors'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 
 type CountryFeatures = typeof countryFeatures
 type SpecificCountryFeatures = { [K in keyof CountryFeatures]: boolean }

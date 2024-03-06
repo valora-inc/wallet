@@ -10,7 +10,6 @@ import {
   Text,
   View,
 } from 'react-native'
-import { useSelector } from 'react-redux'
 import { DappExplorerEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Card from 'src/components/Card'
@@ -24,6 +23,7 @@ import { ActiveDapp, DappSection } from 'src/dapps/types'
 import ArrowRight from 'src/icons/ArrowRight'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'

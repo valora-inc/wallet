@@ -11,7 +11,7 @@ import Touchable from 'src/components/Touchable'
 import Times from 'src/icons/Times'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import useTypedSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import variables from 'src/styles/variables'
@@ -19,7 +19,7 @@ import Logger from 'src/utils/Logger'
 
 export default function ShakeForSupport() {
   const { t } = useTranslation()
-  const appState = useTypedSelector(appStateSelector)
+  const appState = useSelector(appStateSelector)
   const [isVisible, setIsVisible] = React.useState(false)
 
   React.useEffect(() => {

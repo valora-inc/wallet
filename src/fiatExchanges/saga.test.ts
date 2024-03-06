@@ -25,6 +25,7 @@ import {
 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { Currency } from 'src/utils/currencies'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import {
   mockAccount,
   mockCeurAddress,
@@ -37,6 +38,11 @@ const now = Date.now()
 Date.now = jest.fn(() => now)
 
 const loggerErrorSpy = jest.spyOn(Logger, 'error')
+const mockPreparedTransaction: SerializableTransactionRequest = {
+  from: '0xfrom',
+  to: '0xto',
+  data: '0xdata',
+}
 
 describe(watchBidaliPaymentRequests, () => {
   const amount = new BigNumber(20)
@@ -97,12 +103,7 @@ describe(watchBidaliPaymentRequests, () => {
             'Some description (TEST_CHARGE_ID)',
             recipient,
             true,
-            {
-              fee: new BigNumber('0.01'),
-              gas: new BigNumber('0.01'),
-              gasPrice: new BigNumber('0.01'),
-              feeCurrency: expectedCurrency,
-            }
+            mockPreparedTransaction
           )
         )
         .dispatch(sendPaymentSuccess({ amount, tokenId: expectedTokenId }))
@@ -157,12 +158,7 @@ describe(watchBidaliPaymentRequests, () => {
           'Some description (TEST_CHARGE_ID)',
           recipient,
           true,
-          {
-            fee: new BigNumber('0.01'),
-            gas: new BigNumber('0.01'),
-            gasPrice: new BigNumber('0.01'),
-            feeCurrency: Currency.Dollar,
-          }
+          mockPreparedTransaction
         )
       )
       .dispatch(sendPaymentFailure())

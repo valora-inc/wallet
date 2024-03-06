@@ -139,7 +139,7 @@ exports[`EscrowedPaymentReminderSummaryNotification renders correctly 1`] = `
                   "color": "#1AB775",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
                   "fontSize": 14,
@@ -364,7 +364,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
                 "fontSize": 14,
@@ -422,7 +422,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more 1 requests renders
                 "color": "#1AB775",
                 "fontFamily": "Inter-SemiBold",
                 "fontSize": 16,
-                "lineHeight": 22,
+                "lineHeight": 24,
               },
               {
                 "fontSize": 14,
@@ -581,7 +581,7 @@ exports[`EscrowedPaymentReminderSummaryNotification when more than 2 requests re
                   "color": "#1AB775",
                   "fontFamily": "Inter-SemiBold",
                   "fontSize": 16,
-                  "lineHeight": 22,
+                  "lineHeight": 24,
                 },
                 {
                   "fontSize": 14,

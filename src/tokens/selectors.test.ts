@@ -513,6 +513,16 @@ describe('feeCurrenciesSelector', () => {
           isFeeCurrency: true,
           balance: '0',
         },
+        ['celo-alfajores:0xstbltest']: {
+          tokenId: 'celo-alfajores:0xstbltest',
+          networkId: NetworkId['celo-alfajores'],
+          name: 'STBLTEST',
+          address: '0xstbltest',
+          balance: '10',
+          symbol: 'STBLTEST',
+          priceFetchedAt: mockDate,
+          feeCurrencyAdapterAddress: '0xstbltest',
+        },
         [mockCeloTokenId]: {
           ...mockTokenBalances[mockCeloTokenId],
           isFeeCurrency: true,
@@ -535,6 +545,7 @@ describe('feeCurrenciesSelector', () => {
       mockCeloTokenId,
       'celo-alfajores:0xusd',
       'celo-alfajores:0xeur',
+      'celo-alfajores:0xstbltest',
     ])
   })
 
@@ -567,6 +578,16 @@ describe('feeCurrenciesWithPositiveBalancesSelector', () => {
           ...state.tokens.tokenBalances['celo-alfajores:0xeur'],
           isFeeCurrency: true,
           balance: '0',
+        },
+        ['celo-alfajores:0xstbltest']: {
+          tokenId: 'celo-alfajores:0xstbltest',
+          networkId: NetworkId['celo-alfajores'],
+          name: 'STBLTEST',
+          address: '0xstbltest',
+          balance: '0',
+          symbol: 'STBLTEST',
+          priceFetchedAt: mockDate,
+          feeCurrencyAdapterAddress: '0xstbltest',
         },
         [mockCeloTokenId]: {
           ...mockTokenBalances[mockCeloTokenId],

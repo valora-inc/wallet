@@ -8,7 +8,7 @@ import {
   NotificationList,
   titleWithBalanceNavigationOptions,
 } from 'src/notifications/NotificationList'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import { Spacing } from 'src/styles/styles'
 
 export const listItemRenderer = (payment: EscrowedPayment, key: number | undefined = undefined) => {

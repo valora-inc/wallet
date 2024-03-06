@@ -64,7 +64,7 @@
   "protectWallet": {
     "title": "Proteja sua carteira",
     "subtitle": "Proteja sua carteira",
-    "body": "Se perder seu celular ou ele for roubado, sua frase recuperação de {{mnemonicLength}} palavras é a única maneira de acessar seus fundos.",
+    "body": "Se o seu telefone for perdido ou roubado, sua frase de recuperação de 12 palavras é a única maneira de você acessar seus fundos.",
     "recoveryPhrase": {
       "title": "Usar frase de recuperação",
       "subtitle": "Anote sua frase de recuperação"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Sua frase de recuperação",
-    "body": "Anote essas {{mnemonicLength}} palavras em algum lugar seguro, onde ninguém possa roubá-las ou danificá-las.",
+    "body": "Escreva essas 12 palavras em um lugar seguro, onde não possam ser roubadas ou danificadas.",
     "continue": "Já salvei",
     "copy": "Copiar para área de transferência",
     "mnemonicCopied": "Frase de recuperação copiada para a área de transferência",
@@ -91,8 +91,8 @@
     "phoneNumber": "Número de celular",
     "setup": {
       "title": "Configurar o backup da carteira",
-      "description": "Você vai usar os seguintes itens para configurar o backup",
-      "useRecoveryPhrase": "Usar frase de recuperação",
+      "description": "Você usará o seguinte para configurar seu backup de e-mail e número de telefone",
+      "useRecoveryPhrase": "Em vez disso, use uma frase de recuperação",
       "reminder": "<0>Lembre-se</0>, estas informações são a única maneira de acessar sua carteira se o seu dispositivo for perdido ou roubado. A Valora não armazena seu e-mail ou número de celular. Você deve protegê-las!"
     },
     "restore": {
@@ -126,10 +126,10 @@
         "body": "Agora você pode recuperar sua carteira com seu endereço de e-mail e número de celular."
       },
       "failed": {
-        "title": "Backup sem chave indisponível",
-        "body": "Você pode configurar um backup sem chave mais tarde ou proteger sua conta agora fazendo backup manualmente.",
-        "later": "Vou fazer backup mais tarde",
-        "manual": "Backup manual"
+        "title": "Backup indisponível",
+        "body": "Você pode configurar o backup da carteira mais tarde ou proteger sua conta agora, salvando a frase de recuperação.",
+        "later": "Vou configurar o backup mais tarde",
+        "manual": "Salvar frase de recuperação"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Eu compreendo",
   "yourAccountKey": "Sua Frase de Recuperação",
   "backupKeyNotification2": "Mantenha seus fundos em segurança. Faça o backup da sua frase de recuperação agora.",
+  "keylessBackupCTA": "Voltar agora",
+  "keylessBackupNotification": "Configure seu e-mail e número de telefone para fazer backup de sua frase-semente",
   "backupKeyCTA": "Concluir backup agora",
   "backupKeySummary": "Encontre um local privado e anote a sua Frase de Recuperação. Guarde-a em um lugar seguro. Não salve em seu telefone.",
   "backupKeyWarning": "Se você perder sua frase de recuperação, perderá acesso a todos os fundos mantidos na Valora.",
@@ -2099,6 +2101,12 @@
       "description": "Não foi possível preparar uma transação para esse token."
     }
   },
+  "jumpstartEnterAmountScreen": {
+    "maxAmountWarning": {
+      "title": "Sugerimos um valor menor",
+      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
+    }
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
@@ -2133,6 +2141,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Erro",
+  "linkPhoneNumber": {
+    "title": "Vincule um número de telefone ao endereço da sua carteira",
+    "description": "Você não precisa mais de endereços de carteira bagunçados! Envie criptografia para outros usuários da Celo com apenas um número de telefone",
+    "startButtonLabel": "Número de telefone do link",
+    "later": "Farei isso mais tarde"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
