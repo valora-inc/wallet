@@ -24,6 +24,9 @@ const BACKUP_TIME = new Date().getTime() - TWO_DAYS_MS
 const mockedEnsurePincode = jest.mocked(ensurePincode)
 jest.mock('src/statsig')
 
+// This icon contains a <mask> element which react-native-test-renderer has trouble with
+jest.mock('src/icons/KeylessBackup')
+
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
   return {

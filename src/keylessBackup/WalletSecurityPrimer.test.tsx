@@ -9,6 +9,9 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore, getMockStackScreenProps } from 'test/utils'
 
+// This icon contains a <mask> element which react-native-test-renderer has trouble with
+jest.mock('src/icons/KeylessBackup')
+
 describe('WalletSecurityPrimer', () => {
   it('renders drawer if prop is set', () => {
     const { getByTestId } = render(
