@@ -5,6 +5,7 @@ import {
   nftRewardReadyToDisplay,
   nftRewardReminderReadyToDisplay,
 } from 'src/home/actions'
+import { isSameNftContract } from 'src/home/celebration/utils'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { nftCelebrationSelector } from 'src/home/selectors'
 import {
@@ -100,19 +101,12 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
   }
 
   const lastCelebratedNft = yield* select(nftCelebrationSelector)
-  if (
-    !!lastCelebratedNft &&
-    lastCelebratedNft.networkId === celebratedNft.networkId &&
-    lastCelebratedNft.contractAddress === celebratedNft.contractAddress
-  ) {
+  if (isSameNftContract(lastCelebratedNft, celebratedNft)) {
     return
   }
 
   const userOwnsCelebratedNft = nfts.some(
-    (nft) =>
-      !!nft.metadata &&
-      nft.networkId === celebratedNft.networkId &&
-      nft.contractAddress === celebratedNft.contractAddress
+    (nft) => isSameNftContract(nft, celebratedNft) && !!nft.metadata
   )
   if (!userOwnsCelebratedNft) {
     return
@@ -172,10 +166,7 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
   }
 
   const userOwnsCelebratedNft = nfts.some(
-    (nft) =>
-      !!nft.metadata &&
-      nft.networkId === celebratedNft.networkId &&
-      nft.contractAddress === celebratedNft.contractAddress
+    (nft) => isSameNftContract(nft, celebratedNft) && !!nft.metadata
   )
   if (!userOwnsCelebratedNft) {
     return
@@ -184,13 +175,11 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
   // TODO: check if the user is in allowed list (see ACT-1100)
 
   const lastNftCelebration = yield* select(nftCelebrationSelector)
+  if (!lastNftCelebration) {
+    return
+  }
 
-  const isLastCelebratedNft =
-    !!lastNftCelebration &&
-    lastNftCelebration.networkId === celebratedNft.networkId &&
-    lastNftCelebration.contractAddress === celebratedNft.contractAddress
-
-  if (!isLastCelebratedNft) {
+  if (!isSameNftContract(lastNftCelebration, celebratedNft)) {
     return
   }
 

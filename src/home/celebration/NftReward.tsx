@@ -12,6 +12,7 @@ import { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftRewardDisplayed } from 'src/home/actions'
+import { isSameNftContract } from 'src/home/celebration/utils'
 import { nftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
 import i18n from 'src/i18n'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
@@ -30,15 +31,7 @@ export default function NftRewardBottomSheet() {
 
   const nfts = useSelector(nftsWithMetadataSelector)
   const matchingNft = useMemo(
-    () =>
-      nfts.find(
-        (nft) =>
-          !!nftCelebration &&
-          !!nftCelebration.networkId &&
-          nftCelebration.networkId === nft.networkId &&
-          !!nftCelebration.contractAddress &&
-          nftCelebration.contractAddress === nft.contractAddress
-      ),
+    () => nfts.find((nft) => isSameNftContract(nft, nftCelebration)),
     [nftCelebration]
   )
 
