@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "备份不可用",
-        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
-        "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "body": "您可以稍后设置钱包备份，或者现在就保存恢复短语，以保护您的账户。",
+        "later": "我稍后会设置备份",
+        "manual": "保存恢复短语"
       }
     },
     "restore": {
@@ -2140,10 +2140,10 @@
   "pleaseWait": "Please wait",
   "error": "错误",
   "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
-    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
+    "title": "将电话号码链接到钱包地址",
+    "description": "不再有杂乱无章的钱包地址！只需一个电话号码即可向其他 Celo 用户发送加密货币",
+    "startButtonLabel": "链接电话号码",
+    "later": "我稍后再做"
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
