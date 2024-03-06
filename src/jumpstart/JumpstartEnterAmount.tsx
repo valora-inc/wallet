@@ -9,6 +9,8 @@ import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import EnterAmount from 'src/send/EnterAmount'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -17,6 +19,7 @@ import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { generatePrivateKey, privateKeyToAccount } from 'viem/accounts'
 
@@ -68,11 +71,25 @@ function JumpstartEnterAmount() {
         parsedAmount: BigNumber
         token: TokenBalance
       }) => {
-        // TODO:
-        // 1. Pass the link in a navigation parameter to the
-        //    next screen. (use navigateClearingStack so that the user cannot come
-        //    back to this screen and reuse the private key)
-        // 2. add analytics
+        if (prepareJumpstartTransactions.result?.type !== 'possible') {
+          // should never happen
+          Logger.error(
+            TAG,
+            'No prepared transactions found when trying to proceed with jumpstart send'
+          )
+          return
+        }
+
+        navigate(Screens.JumpstartSendConfirmation, {
+          link,
+          parsedAmount,
+          token,
+          preparedTransactions: getSerializablePreparedTransactions(
+            prepareJumpstartTransactions.result.transactions
+          ),
+        })
+
+        // TODO:add analytics
       },
       onError: (error) => {
         Logger.error(TAG, 'Error while generating jumpstart dynamic link', error)

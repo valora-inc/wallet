@@ -1,6 +1,7 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
+import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -15,8 +16,10 @@ import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
 import { AssetViewType } from 'src/tokens/TokenBalances'
+import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
 import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -254,6 +257,12 @@ export type StackParamList = {
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.JumpstartEnterAmount]: undefined
+  [Screens.JumpstartSendConfirmation]: {
+    link: string
+    parsedAmount: BigNumber
+    token: TokenBalance
+    preparedTransactions: SerializableTransactionRequest[]
+  }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
