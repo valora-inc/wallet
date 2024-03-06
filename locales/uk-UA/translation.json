@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Резервне копіювання недоступне",
-        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
-        "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "body": "Ви можете налаштувати резервне копіювання гаманця пізніше або захистити свій обліковий запис зараз, зберігши фразу для відновлення.",
+        "later": "Я зроблю резервну копію пізніше.",
+        "manual": "Зберегти фразу відновлення"
       }
     },
     "restore": {
@@ -2146,10 +2146,10 @@
   "pleaseWait": "Please wait",
   "error": "Помилка.",
   "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
-    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
+    "title": "Прив'яжіть номер телефону до адреси вашого гаманця",
+    "description": "Більше ніяких заплутаних адрес гаманців! Надсилайте криптовалюту іншим користувачам Celo, маючи лише номер телефону",
+    "startButtonLabel": "Номер телефону для зв'язку",
+    "later": "Я зроблю це пізніше."
   },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
