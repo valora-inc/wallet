@@ -65,6 +65,8 @@ export default function NftRewardBottomSheet() {
         labelStyle: { color: Colors.black },
       }
 
+  const copyText = aboutToExpire ? 'rewardReminderBottomSheet' : 'rewardBottomSheet'
+
   useEffect(() => {
     if (isVisible) {
       // Wait for the home screen to have less ongoing async tasks.
@@ -120,12 +122,12 @@ export default function NftRewardBottomSheet() {
       <BottomSheetView style={[styles.container, insetsStyle]}>
         <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
           <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
-            {t('nftCelebration.rewardBottomSheet.expirationLabel', { expirationLabelText })}
+            {t(`nftCelebration.${copyText}.expirationLabel`, { expirationLabelText })}
           </Text>
         </View>
-        <Text style={styles.title}>{t('nftCelebration.rewardBottomSheet.title')}</Text>
+        <Text style={styles.title}>{t(`nftCelebration.${copyText}.title`)}</Text>
         <Text style={styles.description}>
-          {t('nftCelebration.rewardBottomSheet.description', {
+          {t(`nftCelebration.${copyText}.description`, {
             nftName: matchingNft.metadata.name,
           })}
         </Text>
@@ -134,7 +136,7 @@ export default function NftRewardBottomSheet() {
           type={BtnTypes.PRIMARY}
           size={BtnSizes.FULL}
           onPress={handleCtaPress}
-          text={t('nftCelebration.rewardBottomSheet.cta')}
+          text={t(`nftCelebration.${copyText}.cta`)}
         />
       </BottomSheetView>
     </BottomSheetBase>

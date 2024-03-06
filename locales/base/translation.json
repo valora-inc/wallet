@@ -2145,6 +2145,12 @@
       "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
       "expirationLabel": "Expires {{expirationLabelText}}",
       "cta": "Use reward"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Free cash-ins for a month",
+      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "expirationLabel": "Expires {{expirationLabelText}}",
+      "cta": "Use reward"
     }
   },
   "pleaseWait": "Please wait",

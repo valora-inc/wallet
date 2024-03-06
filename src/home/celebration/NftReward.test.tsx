@@ -126,11 +126,13 @@ describe('NftReward', () => {
       </Provider>
     )
 
-    expect(getByText('nftCelebration.rewardBottomSheet.title')).toBeTruthy()
+    expect(getByText('nftCelebration.rewardReminderBottomSheet.title')).toBeTruthy()
     expect(
-      getByText('nftCelebration.rewardBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}')
+      getByText(
+        'nftCelebration.rewardReminderBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}'
+      )
     ).toBeTruthy()
-    expect(getByText('nftCelebration.rewardBottomSheet.cta')).toBeTruthy()
+    expect(getByText('nftCelebration.rewardReminderBottomSheet.cta')).toBeTruthy()
   })
 
   it('does not render when status is other than "reward ready" or "reminder ready"', () => {
@@ -221,7 +223,7 @@ describe('NftReward', () => {
       </Provider>
     )
 
-    fireEvent.press(getByText('nftCelebration.rewardBottomSheet.cta'))
+    fireEvent.press(getByText('nftCelebration.rewardReminderBottomSheet.cta'))
 
     expect(store.dispatch).toHaveBeenCalledWith(
       openDeepLink(mockStoreRewardReady.home.nftCelebration.deepLink, true)
@@ -266,7 +268,7 @@ describe('NftReward', () => {
 
       const pillLabel = getByTestId('NftReward/PillLabel')
       expect(pillLabel).toHaveTextContent(
-        'nftCelebration.rewardBottomSheet.expirationLabel, {"expirationLabelText":"in about 1 month"}'
+        'nftCelebration.rewardReminderBottomSheet.expirationLabel, {"expirationLabelText":"in about 1 month"}'
       )
       expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.warningDark)
       expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
