@@ -3,25 +3,40 @@ import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-const TAG = 'JumpstartSendAmount'
-
 type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartSendConfirmation>
 
 function JumpstartSendConfirmation({ route }: Props) {
-  const { link, token, parsedAmount, preparedTransactions } = route.params
+  const { token, parsedAmount } = route.params
   const { t } = useTranslation()
 
+  const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
+  const localCurrencyCode = useSelector(getLocalCurrencyCode)
+
   const handleSendTransaction = () => {
-    // TODO
+    // TODO - send transaction
+
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_confirm, {
+      localCurrency: localCurrencyCode,
+      localCurrencyExchangeRate: usdToLocalRate,
+      tokenSymbol: token.symbol,
+      tokenAmount: parsedAmount.toString(),
+      amountInUsd: parsedAmount.multipliedBy(token.priceUsd ?? 0).toFixed(2),
+      tokenId: token.tokenId,
+      networkId: token.networkId,
+    })
   }
 
   return (

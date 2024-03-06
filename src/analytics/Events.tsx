@@ -642,6 +642,7 @@ export enum JumpstartEvents {
   send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
   jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
   jumpstart_send_amount_continue = 'jumpstart_send_amount_continue',
+  jumpstart_send_confirm = 'jumpstart_send_confirm',
   jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
   jumpstart_claim_failed = 'jumpstart_claim_failed',
   jumpstart_claimed_token = 'jumpstart_claimed_token',

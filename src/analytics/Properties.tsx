@@ -1492,6 +1492,15 @@ interface TransactionDetailsProperties {
   }
 }
 
+interface JumpstartSendProperties {
+  localCurrency: LocalCurrencyCode
+  localCurrencyExchangeRate: string | null
+  tokenSymbol: string
+  tokenAmount: string | null
+  amountInUsd: string | null
+  tokenId: string | null
+  networkId: string | null
+}
 interface JumpstartEventsProperties {
   [JumpstartEvents.send_select_recipient_jumpstart]: undefined
   [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
@@ -1499,15 +1508,8 @@ interface JumpstartEventsProperties {
     sendAmountUsd: string
     thresholdUsd: number
   }
-  [JumpstartEvents.jumpstart_send_amount_continue]: {
-    localCurrency: LocalCurrencyCode
-    localCurrencyExchangeRate: string | null
-    tokenSymbol: string
-    tokenAmount: string | null
-    amountInUsd: string | null
-    tokenId: string | null
-    networkId: string | null
-  }
+  [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_confirm]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
