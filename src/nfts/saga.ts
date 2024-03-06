@@ -183,20 +183,27 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
     return
   }
 
+  // sync values in the redux state with remote config
+  const valuesToSync = {
+    expirationDate: expirationDateString,
+    rewardReminderDate: rewardReminderDateString,
+    deepLink,
+  }
+
   const showReminder = isToday(rewardReminderDate) || isPast(rewardReminderDate)
 
   switch (lastNftCelebration.status) {
     case NftCelebrationStatus.celebrationDisplayed:
       if (showReminder) {
-        yield* put(nftRewardReminderReadyToDisplay())
+        yield* put(nftRewardReminderReadyToDisplay(valuesToSync))
       } else {
-        yield* put(nftRewardReadyToDisplay())
+        yield* put(nftRewardReadyToDisplay(valuesToSync))
       }
       return
     case NftCelebrationStatus.rewardReadyToDisplay:
     case NftCelebrationStatus.rewardDisplayed:
       if (showReminder) {
-        yield* put(nftRewardReminderReadyToDisplay())
+        yield* put(nftRewardReminderReadyToDisplay(valuesToSync))
       }
       return
   }

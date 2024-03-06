@@ -293,7 +293,13 @@ describe('Given Nfts saga', () => {
             mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
           ).getState()
         )
-        .put(nftRewardReadyToDisplay())
+        .put(
+          nftRewardReadyToDisplay({
+            expirationDate: mockRemoteConfig.expirationDate,
+            rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+            deepLink: mockRemoteConfig.deepLink,
+          })
+        )
         .run()
     })
 
@@ -309,7 +315,13 @@ describe('Given Nfts saga', () => {
             mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
           ).getState()
         )
-        .not.put(nftRewardReadyToDisplay())
+        .not.put(
+          nftRewardReadyToDisplay({
+            expirationDate: mockRemoteConfig.expirationDate,
+            rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+            deepLink: mockRemoteConfig.deepLink,
+          })
+        )
         .run()
     })
 
@@ -326,8 +338,8 @@ describe('Given Nfts saga', () => {
             mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
           ).getState()
         )
-        .not.put(nftRewardReadyToDisplay())
-        .not.put(nftRewardReminderReadyToDisplay())
+        .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
+        .not.put.actionType(Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY)
         .run()
     })
 
@@ -348,7 +360,13 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.rewardDisplayed)
             ).getState()
           )
-          .put(nftRewardReminderReadyToDisplay())
+          .put(
+            nftRewardReminderReadyToDisplay({
+              expirationDate: mockRemoteConfig.expirationDate,
+              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+              deepLink: mockRemoteConfig.deepLink,
+            })
+          )
           .run()
       })
 
@@ -364,7 +382,13 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.rewardDisplayed)
             ).getState()
           )
-          .put(nftRewardReminderReadyToDisplay())
+          .put(
+            nftRewardReminderReadyToDisplay({
+              expirationDate: mockRemoteConfig.expirationDate,
+              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+              deepLink: mockRemoteConfig.deepLink,
+            })
+          )
           .run()
       })
 
@@ -380,7 +404,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
             ).getState()
           )
-          .not.put(nftRewardReminderReadyToDisplay())
+          .not.put.actionType(Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY)
           .run()
       })
 
@@ -396,7 +420,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
             ).getState()
           )
-          .not.put(nftRewardReminderReadyToDisplay())
+          .not.put.actionType(Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY)
           .run()
       })
 
@@ -412,7 +436,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderReadyToDisplay)
             ).getState()
           )
-          .not.put(nftRewardReadyToDisplay())
+          .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
           .run()
       })
 
@@ -428,7 +452,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
             ).getState()
           )
-          .not.put(nftRewardReadyToDisplay())
+          .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
           .run()
       })
     })

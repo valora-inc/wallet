@@ -61,6 +61,9 @@ interface NftCelebrationDisplayedAction {
 
 interface NftRewardReadyToDisplayAction {
   type: Actions.NFT_REWARD_READY_TO_DISPLAY
+  expirationDate: string
+  rewardReminderDate: string
+  deepLink: string
 }
 
 interface NftRewardDisplayedAction {
@@ -69,6 +72,9 @@ interface NftRewardDisplayedAction {
 
 interface NftRewardReminderReadyToDisplayAction {
   type: Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY
+  expirationDate: string
+  rewardReminderDate: string
+  deepLink: string
 }
 
 export type ActionTypes =
@@ -148,14 +154,36 @@ export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
   type: Actions.NFT_CELEBRATION_DISPLAYED,
 })
 
-export const nftRewardReadyToDisplay = (): NftRewardReadyToDisplayAction => ({
+export const nftRewardReadyToDisplay = ({
+  expirationDate,
+  rewardReminderDate,
+  deepLink,
+}: {
+  expirationDate: string
+  rewardReminderDate: string
+  deepLink: string
+}): NftRewardReadyToDisplayAction => ({
   type: Actions.NFT_REWARD_READY_TO_DISPLAY,
+  expirationDate,
+  rewardReminderDate,
+  deepLink,
 })
 
 export const nftRewardDisplayed = (): NftRewardDisplayedAction => ({
   type: Actions.NFT_REWARD_DISPLAYED,
 })
 
-export const nftRewardReminderReadyToDisplay = (): NftRewardReminderReadyToDisplayAction => ({
+export const nftRewardReminderReadyToDisplay = ({
+  expirationDate,
+  rewardReminderDate,
+  deepLink,
+}: {
+  expirationDate: string
+  rewardReminderDate: string
+  deepLink: string
+}): NftRewardReminderReadyToDisplayAction => ({
   type: Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY,
+  expirationDate,
+  rewardReminderDate,
+  deepLink,
 })

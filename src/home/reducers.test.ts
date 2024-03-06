@@ -30,6 +30,12 @@ const createTestNotification = (body: string) => ({
   },
 })
 
+const mockRewardProperties = {
+  deepLink: 'celo://test',
+  expirationDate: '3000-12-01T00:00:00.000Z',
+  rewardReminderDate: '3000-01-01T00:00:00.000Z',
+}
+
 describe('home reducer', () => {
   it('should return the initial state', () => {
     // @ts-ignore
@@ -171,9 +177,7 @@ describe('home reducer', () => {
       celebratedNftFound({
         networkId: NetworkId['celo-alfajores'],
         contractAddress: mockContractAddress,
-        deepLink: 'celo://test',
-        expirationDate: '3000-12-01T00:00:00.000Z',
-        rewardReminderDate: '3000-01-01T00:00:00.000Z',
+        ...mockRewardProperties,
       })
     )
 
@@ -181,9 +185,7 @@ describe('home reducer', () => {
       networkId: NetworkId['celo-alfajores'],
       contractAddress: mockContractAddress,
       status: NftCelebrationStatus.celebrationReadyToDisplay,
-      deepLink: 'celo://test',
-      expirationDate: '3000-12-01T00:00:00.000Z',
-      rewardReminderDate: '3000-01-01T00:00:00.000Z',
+      ...mockRewardProperties,
     })
   })
 
@@ -201,22 +203,26 @@ describe('home reducer', () => {
 
   it('should set reward as ready', () => {
     const state = { nftCelebration: { status: NftCelebrationStatus.celebrationDisplayed } } as State
-    const updatedState = reducer(state, nftRewardReadyToDisplay())
+    const updatedState = reducer(state, nftRewardReadyToDisplay(mockRewardProperties))
 
     expect(updatedState.nftCelebration).toHaveProperty(
       'status',
       NftCelebrationStatus.rewardReadyToDisplay
     )
+
+    expect(updatedState.nftCelebration).toEqual(expect.objectContaining(mockRewardProperties))
   })
 
   it('should set reminder as ready', () => {
     const state = { nftCelebration: { status: NftCelebrationStatus.rewardDisplayed } } as State
-    const updatedState = reducer(state, nftRewardReminderReadyToDisplay())
+    const updatedState = reducer(state, nftRewardReminderReadyToDisplay(mockRewardProperties))
 
     expect(updatedState.nftCelebration).toHaveProperty(
       'status',
       NftCelebrationStatus.reminderReadyToDisplay
     )
+
+    expect(updatedState.nftCelebration).toEqual(expect.objectContaining(mockRewardProperties))
   })
 
   it('should mark reward as displayed', () => {
