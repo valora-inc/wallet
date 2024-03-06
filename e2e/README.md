@@ -180,7 +180,7 @@ You should make your testIDs unique by describing the purpose of the element wit
 
 ### Adding TestIDs to custom components
 
-Usually, you will want to pass the testID as a prop from your custom component to some child component. Sometimes is makes sense to automatically generate the testID based on existing props. If you need to identify multiple child components, you should generate their testID from the testID of your custom component, for example:
+Usually, you will want to pass the testID as a prop from your custom component to some child component. Sometimes it makes sense to automatically generate the testID based on existing props. If you need to identify multiple child components, you should generate their testID from the testID of your custom component, for example:
 
 ```jsx
 class ExampleInput extends React.Component {
