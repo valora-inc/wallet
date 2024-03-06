@@ -11,7 +11,7 @@ import {
 import Modal from 'src/components/Modal'
 import TextButton from 'src/components/TextButton'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   image?: ImageSourcePropType
@@ -96,11 +96,11 @@ const styles = StyleSheet.create({
   title: {
     textAlign: 'center',
     marginBottom: 12,
-    ...fontStyles.h2,
+    ...typeScale.titleSmall,
   },
   body: {
     textAlign: 'center',
-    ...fontStyles.regular,
+    ...typeScale.bodyMedium,
     marginBottom: 24,
   },
   actions: {

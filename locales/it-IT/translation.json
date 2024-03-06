@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Backup non disponibile",
-        "body": "Puoi impostare il backup del portafoglio in un secondo momento o proteggere il tuo account ora con un backup manuale.",
-        "later": "Eseguirò un backup in un secondo momento",
-        "manual": "Backup manuale"
+        "body": "Puoi impostare il backup del portafoglio in un secondo momento o proteggere il tuo account ora salvando la frase di recupero.",
+        "later": "Preparerò un backup più tardi",
+        "manual": "Salva la frase di recupero"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
   "backupKeyNotification2": "Mantieni i tuoi fondi al sicuro. Esegui ora il backup della Frase di recupero.",
+  "keylessBackupCTA": "Torna indietro ora",
+  "keylessBackupNotification": "Imposta la tua e-mail e il tuo numero di telefono per eseguire il backup della tua frase iniziale",
   "backupKeyCTA": "Termina il backup ora",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
   "backupKeyWarning": "Senza la tua Frase di recupero, perderai l’accesso a tutti i fondi in Valora.",
@@ -2139,6 +2141,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Errore",
+  "linkPhoneNumber": {
+    "title": "Collega un numero di telefono all'indirizzo del tuo portafoglio",
+    "description": "Niente più indirizzi di portafogli disordinati! Invia criptovalute ad altri utenti Celo con un semplice numero di telefono",
+    "startButtonLabel": "Numero di telefono del collegamento",
+    "later": "Lo farò più tardi"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

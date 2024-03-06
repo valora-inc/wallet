@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Copia de seguridad no disponible",
-        "body": "Puedes configurar una copia de seguridad del monedero más tarde o proteger tu cuenta ahora haciendo una copia de seguridad manual.",
-        "later": "Haré una copia de seguridad más tarde",
-        "manual": "Copia de seguridad manual"
+        "body": "Puedes configurar una copia de seguridad de tu monedero más adelante o proteger tu cuenta ahora guardando tu frase de recuperación.",
+        "later": "Prepararé una copia de seguridad más tarde",
+        "manual": "Guardar frase de recuperación"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Entiendo",
   "yourAccountKey": "Esta es tu Frase de recuperación",
   "backupKeyNotification2": "Resguarda tus fondos. Respalda tu frase de recuperación.",
+  "keylessBackupCTA": "Retrocede ahora",
+  "keylessBackupNotification": "Configura tu correo electrónico y número de teléfono para respaldar tu frase semilla",
   "backupKeyCTA": "Finalizar respaldo",
   "backupKeySummary": "Encuentra un lugar privado y anota tu Frase de recuperación. Por favor, guárdala en un lugar seguro. No la guardes en tu celular.",
   "backupKeyWarning": "Si pierdes tu frase de recuperación, perderás el acceso a tus fondos en Valora.",
@@ -2139,6 +2141,12 @@
   },
   "pleaseWait": "Espera, por favor",
   "error": "Error",
+  "linkPhoneNumber": {
+    "title": "Vincular un número de teléfono a la dirección de tu monedero",
+    "description": "¡Se acabaron las direcciones de monedero desordenadas! Envía criptomonedas a otros usuarios de Celo con sólo un número de teléfono",
+    "startButtonLabel": "Enlace Número de teléfono",
+    "later": "Lo haré más tarde"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
