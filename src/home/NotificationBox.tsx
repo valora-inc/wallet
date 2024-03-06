@@ -101,8 +101,8 @@ export function useSimpleActions() {
   const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
   const actions: SimpleAction[] = []
-  if (!backupCompleted) {
-    if (showKeylessBackup && !cloudBackupCompleted) {
+  if (!backupCompleted && !cloudBackupCompleted) {
+    if (showKeylessBackup) {
       actions.push({
         id: NotificationType.keyless_backup_prompt,
         type: NotificationType.keyless_backup_prompt,
