@@ -29,6 +29,7 @@ export default function TabNavigator({ route }: Props) {
       screenOptions={{
         headerShown: true,
         headerShadowVisible: false,
+        headerTitleAllowFontScaling: false,
         tabBarActiveTintColor: Colors.black,
         tabBarInactiveTintColor: Colors.gray3,
         tabBarLabelStyle: styles.label,
