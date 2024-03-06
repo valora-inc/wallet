@@ -62,6 +62,7 @@ export default function ProfileMenu({ route }: Props) {
           <PhoneNumberWithFlag
             e164PhoneNumber={e164PhoneNumber}
             defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}
+            textColor={Colors.gray4}
           />
         )}
       </View>

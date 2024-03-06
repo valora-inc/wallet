@@ -6,6 +6,8 @@ import fontStyles from 'src/styles/fonts'
 interface Props {
   e164PhoneNumber: string
   defaultCountryCode?: string
+  textColor?: string
+  textFont?: { fontFamily: string; fontSize: string; lineHeight: string; letterSpacing?: string }
 }
 
 export class PhoneNumberWithFlag extends React.PureComponent<Props> {
@@ -22,7 +24,7 @@ export class PhoneNumberWithFlag extends React.PureComponent<Props> {
               )
             : getCountryEmoji(this.props.e164PhoneNumber)}
         </Text>
-        <Text style={fontStyles.small500}>
+        <Text style={{ ...fontStyles.small500, color: this.props.textColor }}>
           {parsedNumber ? parsedNumber.displayNumberInternational : ''}
         </Text>
       </View>
