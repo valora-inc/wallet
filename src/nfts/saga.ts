@@ -183,18 +183,22 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
     return
   }
 
-  const canShowReward = lastNftCelebration.status === NftCelebrationStatus.celebrationDisplayed
+  const showReminder = isToday(rewardReminderDate) || isPast(rewardReminderDate)
 
-  const canShowReminder =
-    lastNftCelebration.status === NftCelebrationStatus.celebrationDisplayed ||
-    lastNftCelebration.status === NftCelebrationStatus.rewardDisplayed
-
-  const aboutToExpire = isToday(rewardReminderDate) || isPast(rewardReminderDate)
-
-  if (aboutToExpire && canShowReminder) {
-    yield* put(nftRewardReminderReadyToDisplay())
-  } else if (canShowReward) {
-    yield* put(nftRewardReadyToDisplay())
+  switch (lastNftCelebration.status) {
+    case NftCelebrationStatus.celebrationDisplayed:
+      if (showReminder) {
+        yield* put(nftRewardReminderReadyToDisplay())
+      } else {
+        yield* put(nftRewardReadyToDisplay())
+      }
+      return
+    case NftCelebrationStatus.rewardReadyToDisplay:
+    case NftCelebrationStatus.rewardDisplayed:
+      if (showReminder) {
+        yield* put(nftRewardReminderReadyToDisplay())
+      }
+      return
   }
 }
 
