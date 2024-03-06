@@ -194,14 +194,15 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
 
   switch (lastNftCelebration.status) {
     case NftCelebrationStatus.celebrationDisplayed:
+    case NftCelebrationStatus.rewardReadyToDisplay:
       if (showReminder) {
         yield* put(nftRewardReminderReadyToDisplay(valuesToSync))
       } else {
         yield* put(nftRewardReadyToDisplay(valuesToSync))
       }
       return
-    case NftCelebrationStatus.rewardReadyToDisplay:
     case NftCelebrationStatus.rewardDisplayed:
+    case NftCelebrationStatus.reminderReadyToDisplay:
       if (showReminder) {
         yield* put(nftRewardReminderReadyToDisplay(valuesToSync))
       }
