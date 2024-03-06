@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Yedekleme kullanılamıyor",
-        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
-        "later": "I'll set up backup later",
-        "manual": "Save recovery phrase"
+        "body": "Cüzdan yedeklemesini daha sonra ayarlayabilir veya kurtarma ifadenizi kaydederek hesabınızı şimdi koruyabilirsiniz.",
+        "later": "Yedeklemeyi daha sonra ayarlayacağım",
+        "manual": "Kurtarma ifadesini kaydet"
       }
     },
     "restore": {
@@ -2142,10 +2142,10 @@
   "pleaseWait": "Please wait",
   "error": "Hata",
   "linkPhoneNumber": {
-    "title": "Link a phone number to your wallet address",
-    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
-    "startButtonLabel": "Link Phone Number",
-    "later": "I'll do this later"
+    "title": "Cüzdan adresinize bir telefon numarası bağlayın",
+    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Celo kullanıcılarına kripto gönderin",
+    "startButtonLabel": "Bağlantı Telefon Numarası",
+    "later": "Bunu daha sonra yapacağım."
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
