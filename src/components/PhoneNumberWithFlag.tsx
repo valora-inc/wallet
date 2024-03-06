@@ -1,7 +1,7 @@
 import { getCountryEmoji, parsePhoneNumber } from '@celo/phone-utils'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 
 interface Props {
