@@ -3,11 +3,11 @@ import { SessionTypes } from '@walletconnect/types'
 import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useSelector } from 'react-redux'
 import { WalletConnectEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import { activeDappSelector } from 'src/dapps/selectors'
+import { useSelector } from 'src/redux/hooks'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import {
   getDefaultRequestTrackedProperties,

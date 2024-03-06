@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { NativeScrollEvent, ScrollView, StyleSheet, View } from 'react-native'
-import { useDispatch } from 'react-redux'
 import {
   dismissGetVerified,
   dismissGoldEducation,
@@ -11,8 +10,8 @@ import {
 } from 'src/account/actions'
 import { celoEducationCompletedSelector } from 'src/account/selectors'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
-import { ScrollDirection } from 'src/analytics/types'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { ScrollDirection } from 'src/analytics/types'
 import { openUrl } from 'src/app/actions'
 import {
   numberVerifiedDecentrallySelector,
@@ -36,12 +35,12 @@ import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
 import { boostRewards, getVerified, learnCelo, lightningPhone } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import useSelector from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import variables from 'src/styles/variables'
-import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 import Logger from 'src/utils/Logger'
+import { getContentForCurrentLang } from 'src/utils/contentTranslations'
 
 const TAG = 'NotificationBox'
 // Priority of static notifications
@@ -92,6 +91,8 @@ export function useSimpleActions() {
     StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY
   )
 
+  const showKeylessBackup = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
+
   useEffect(() => {
     dispatch(fetchAvailableRewards())
   }, [])
@@ -100,36 +101,69 @@ export function useSimpleActions() {
 
   const actions: SimpleAction[] = []
   if (!backupCompleted) {
-    actions.push({
-      id: NotificationType.backup_prompt,
-      type: NotificationType.backup_prompt,
-      text: t('backupKeyNotification2'),
-      icon: <GuideKeyIcon />,
-      priority: BACKUP_PRIORITY,
-      testID: 'BackupKeyNotification',
-      callToActions: [
-        {
-          text: t('backupKeyCTA'),
-          onPress: (params) => {
-            ValoraAnalytics.track(HomeEvents.notification_select, {
-              notificationType: NotificationType.backup_prompt,
-              selectedAction: NotificationBannerCTATypes.accept,
-              notificationId: NotificationType.backup_prompt,
-              notificationPositionInList: params?.index,
-            })
-            ensurePincode()
-              .then((pinIsCorrect) => {
-                if (pinIsCorrect) {
-                  navigate(Screens.BackupIntroduction)
-                }
+    if (showKeylessBackup) {
+      actions.push({
+        id: NotificationType.keyless_backup_prompt,
+        type: NotificationType.keyless_backup_prompt,
+        text: t('keylessBackupNotification'),
+        icon: <GuideKeyIcon />,
+        priority: BACKUP_PRIORITY,
+        testID: 'KeylessBackupNotification',
+        callToActions: [
+          {
+            text: t('keylessBackupCTA'),
+            onPress: (params) => {
+              ValoraAnalytics.track(HomeEvents.notification_select, {
+                notificationType: NotificationType.keyless_backup_prompt,
+                selectedAction: NotificationBannerCTATypes.accept,
+                notificationId: NotificationType.keyless_backup_prompt,
+                notificationPositionInList: params?.index,
               })
-              .catch((error) => {
-                Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
-              })
+              ensurePincode()
+                .then((pinIsCorrect) => {
+                  if (pinIsCorrect) {
+                    navigate(Screens.WalletSecurityPrimer)
+                  }
+                })
+                .catch((error) => {
+                  Logger.error(`${TAG}@keylessBackupNotification`, 'PIN ensure error', error)
+                })
+            },
           },
-        },
-      ],
-    })
+        ],
+      })
+    } else {
+      actions.push({
+        id: NotificationType.backup_prompt,
+        type: NotificationType.backup_prompt,
+        text: t('backupKeyNotification2'),
+        icon: <GuideKeyIcon />,
+        priority: BACKUP_PRIORITY,
+        testID: 'BackupKeyNotification',
+        callToActions: [
+          {
+            text: t('backupKeyCTA'),
+            onPress: (params) => {
+              ValoraAnalytics.track(HomeEvents.notification_select, {
+                notificationType: NotificationType.backup_prompt,
+                selectedAction: NotificationBannerCTATypes.accept,
+                notificationId: NotificationType.backup_prompt,
+                notificationPositionInList: params?.index,
+              })
+              ensurePincode()
+                .then((pinIsCorrect) => {
+                  if (pinIsCorrect) {
+                    navigate(Screens.BackupIntroduction)
+                  }
+                })
+                .catch((error) => {
+                  Logger.error(`${TAG}@backupNotification`, 'PIN ensure error', error)
+                })
+            },
+          },
+        ],
+      })
+    }
   }
 
   if (numberVerifiedDecentrally && !phoneNumberVerified) {
