@@ -54,12 +54,6 @@ async function fetchNftsForSupportedNetworks(address: string): Promise<NftWithNe
 }
 
 export function* handleFetchNfts() {
-  const showNftsInApp = getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY)
-  if (!showNftsInApp) {
-    Logger.debug(TAG, 'Feature gate not enabled, skipping NFTs list fetch')
-    return
-  }
-
   const address = yield* select(walletAddressSelector)
   if (!address) {
     Logger.debug(TAG, 'Wallet address not found, skipping NFTs list fetch')
