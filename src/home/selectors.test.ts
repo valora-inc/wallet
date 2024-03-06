@@ -308,7 +308,7 @@ describe('showNftRewardSelector', () => {
       home: {
         nftCelebration: {
           status: NftCelebrationStatus.celebrationReadyToDisplay,
-          expirationDate: '2000-01-01T00:00:00.000Z',
+          rewardExpirationDate: '2000-01-01T00:00:00.000Z',
         },
       },
     })

@@ -91,7 +91,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
 
   const {
     celebratedNft,
-    expirationDate: expirationDateString,
+    rewardExpirationDate: rewardExpirationDateString,
     rewardReminderDate: rewardReminderDateString,
     deepLink,
   } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
@@ -116,7 +116,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     celebratedNftFound({
       networkId: celebratedNft.networkId,
       contractAddress: celebratedNft.contractAddress,
-      expirationDate: expirationDateString,
+      rewardExpirationDate: rewardExpirationDateString,
       rewardReminderDate: rewardReminderDateString,
       deepLink,
     })
@@ -131,7 +131,7 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
 
   const {
     celebratedNft,
-    expirationDate: expirationDateString,
+    rewardExpirationDate: rewardExpirationDateString,
     rewardReminderDate: rewardReminderDateString,
     deepLink,
   } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
@@ -140,14 +140,14 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
     !celebratedNft ||
     !celebratedNft.networkId ||
     !celebratedNft.contractAddress ||
-    !expirationDateString ||
+    !rewardExpirationDateString ||
     !rewardReminderDateString ||
     !deepLink
   ) {
     return
   }
 
-  const expirationDate = Date.parse(expirationDateString)
+  const expirationDate = Date.parse(rewardExpirationDateString)
   const rewardReminderDate = Date.parse(rewardReminderDateString)
 
   if (Number.isNaN(expirationDate)) {
@@ -160,8 +160,8 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
     return
   }
 
-  const expired = isPast(expirationDate)
-  if (expired) {
+  const rewardExpired = isPast(expirationDate)
+  if (rewardExpired) {
     return
   }
 
@@ -185,7 +185,7 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
 
   // sync values in the redux state with remote config
   const valuesToSync = {
-    expirationDate: expirationDateString,
+    rewardExpirationDate: rewardExpirationDateString,
     rewardReminderDate: rewardReminderDateString,
     deepLink,
   }

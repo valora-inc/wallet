@@ -50,7 +50,7 @@ interface CelebratedNftFoundAction {
   type: Actions.CELEBRATED_NFT_FOUND
   networkId: NetworkId
   contractAddress: string
-  expirationDate: string
+  rewardExpirationDate: string
   rewardReminderDate: string
   deepLink: string
 }
@@ -61,7 +61,7 @@ interface NftCelebrationDisplayedAction {
 
 interface NftRewardReadyToDisplayAction {
   type: Actions.NFT_REWARD_READY_TO_DISPLAY
-  expirationDate: string
+  rewardExpirationDate: string
   rewardReminderDate: string
   deepLink: string
 }
@@ -72,7 +72,7 @@ interface NftRewardDisplayedAction {
 
 interface NftRewardReminderReadyToDisplayAction {
   type: Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY
-  expirationDate: string
+  rewardExpirationDate: string
   rewardReminderDate: string
   deepLink: string
 }
@@ -132,20 +132,20 @@ export const cleverTapInboxMessagesReceived = (
 export const celebratedNftFound = ({
   networkId,
   contractAddress,
-  expirationDate,
+  rewardExpirationDate,
   rewardReminderDate,
   deepLink,
 }: {
   networkId: NetworkId
   contractAddress: string
-  expirationDate: string
+  rewardExpirationDate: string
   rewardReminderDate: string
   deepLink: string
 }): CelebratedNftFoundAction => ({
   type: Actions.CELEBRATED_NFT_FOUND,
   networkId,
   contractAddress,
-  expirationDate,
+  rewardExpirationDate,
   rewardReminderDate,
   deepLink,
 })
@@ -155,16 +155,16 @@ export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
 })
 
 export const nftRewardReadyToDisplay = ({
-  expirationDate,
+  rewardExpirationDate,
   rewardReminderDate,
   deepLink,
 }: {
-  expirationDate: string
+  rewardExpirationDate: string
   rewardReminderDate: string
   deepLink: string
 }): NftRewardReadyToDisplayAction => ({
   type: Actions.NFT_REWARD_READY_TO_DISPLAY,
-  expirationDate,
+  rewardExpirationDate,
   rewardReminderDate,
   deepLink,
 })
@@ -174,16 +174,16 @@ export const nftRewardDisplayed = (): NftRewardDisplayedAction => ({
 })
 
 export const nftRewardReminderReadyToDisplay = ({
-  expirationDate,
+  rewardExpirationDate,
   rewardReminderDate,
   deepLink,
 }: {
-  expirationDate: string
+  rewardExpirationDate: string
   rewardReminderDate: string
   deepLink: string
 }): NftRewardReminderReadyToDisplayAction => ({
   type: Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY,
-  expirationDate,
+  rewardExpirationDate,
   rewardReminderDate,
   deepLink,
 })

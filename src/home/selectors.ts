@@ -64,7 +64,7 @@ export const showNftRewardSelector = (state: RootState) => {
     return false
   }
 
-  if (isPast(new Date(state.home.nftCelebration.expirationDate))) {
+  if (isPast(new Date(state.home.nftCelebration.rewardExpirationDate))) {
     return false
   }
 

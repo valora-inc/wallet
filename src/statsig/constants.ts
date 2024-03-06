@@ -112,7 +112,7 @@ export const DynamicConfigs = {
     defaultValues: {
       celebratedNft: {} as { networkId?: NetworkId; contractAddress?: string },
       deepLink: '',
-      expirationDate: new Date(0).toISOString(),
+      rewardExpirationDate: new Date(0).toISOString(),
       rewardReminderDate: new Date(0).toISOString(),
     },
   },

@@ -32,7 +32,7 @@ const createTestNotification = (body: string) => ({
 
 const mockRewardProperties = {
   deepLink: 'celo://test',
-  expirationDate: '3000-12-01T00:00:00.000Z',
+  rewardExpirationDate: '3000-12-01T00:00:00.000Z',
   rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }
 

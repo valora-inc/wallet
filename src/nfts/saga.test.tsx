@@ -41,13 +41,13 @@ const mockCelebratedNft = {
 const mockRemoteConfig = {
   celebratedNft: mockCelebratedNft,
   deepLink: 'celo://test',
-  expirationDate: '3000-12-01T00:00:00.000Z',
+  rewardExpirationDate: '3000-12-01T00:00:00.000Z',
   rewardReminderDate: '3000-01-01T00:00:00.000Z',
 }
 
 const mockExpiredRemoteConfig = {
   ...mockRemoteConfig,
-  expirationDate: '2000-12-01T00:00:00.000Z',
+  rewardExpirationDate: '2000-12-01T00:00:00.000Z',
   rewardReminderDate: '2000-01-01T00:00:00.000Z',
 }
 
@@ -58,7 +58,7 @@ const mockNftCelebrationStore = (status: NftCelebrationStatus) => {
         networkId: mockNftAllFields.networkId,
         contractAddress: mockNftAllFields.contractAddress,
         deepLink: 'celo://test',
-        expirationDate: '3000-12-01T00:00:00.000Z',
+        rewardExpirationDate: '3000-12-01T00:00:00.000Z',
         rewardReminderDate: '3000-01-01T00:00:00.000Z',
         status,
       },
@@ -193,7 +193,7 @@ describe('Given Nfts saga', () => {
             networkId: mockRemoteConfig.celebratedNft.networkId,
             contractAddress: mockRemoteConfig.celebratedNft.contractAddress,
             deepLink: mockRemoteConfig.deepLink,
-            expirationDate: mockRemoteConfig.expirationDate,
+            rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
             rewardReminderDate: mockRemoteConfig.rewardReminderDate,
           })
         )
@@ -249,7 +249,7 @@ describe('Given Nfts saga', () => {
       jest.mocked(getFeatureGate).mockReturnValue(true)
       jest
         .mocked(getDynamicConfigParams)
-        .mockReturnValue({ ...mockRemoteConfig, expirationDate: 'INVALID VALUE' })
+        .mockReturnValue({ ...mockRemoteConfig, rewardExpirationDate: 'INVALID VALUE' })
 
       await expectSaga(nftSaga.findNftReward, mockAction)
         .provide([[select(nftCelebrationSelector), undefined]])
@@ -295,7 +295,7 @@ describe('Given Nfts saga', () => {
         )
         .put(
           nftRewardReadyToDisplay({
-            expirationDate: mockRemoteConfig.expirationDate,
+            rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
             rewardReminderDate: mockRemoteConfig.rewardReminderDate,
             deepLink: mockRemoteConfig.deepLink,
           })
@@ -317,7 +317,7 @@ describe('Given Nfts saga', () => {
         )
         .not.put(
           nftRewardReadyToDisplay({
-            expirationDate: mockRemoteConfig.expirationDate,
+            rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
             rewardReminderDate: mockRemoteConfig.rewardReminderDate,
             deepLink: mockRemoteConfig.deepLink,
           })
@@ -362,7 +362,7 @@ describe('Given Nfts saga', () => {
           )
           .put(
             nftRewardReminderReadyToDisplay({
-              expirationDate: mockRemoteConfig.expirationDate,
+              rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
               rewardReminderDate: mockRemoteConfig.rewardReminderDate,
               deepLink: mockRemoteConfig.deepLink,
             })
@@ -384,7 +384,7 @@ describe('Given Nfts saga', () => {
           )
           .put(
             nftRewardReminderReadyToDisplay({
-              expirationDate: mockRemoteConfig.expirationDate,
+              rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
               rewardReminderDate: mockRemoteConfig.rewardReminderDate,
               deepLink: mockRemoteConfig.deepLink,
             })

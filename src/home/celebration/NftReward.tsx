@@ -42,11 +42,11 @@ export default function NftRewardBottomSheet() {
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const expirationDate = new Date(nftCelebration?.expirationDate ?? 0)
+  const rewardExpirationDate = new Date(nftCelebration?.rewardExpirationDate ?? 0)
   const rewardReminderDate = new Date(nftCelebration?.rewardReminderDate ?? 0)
 
   const aboutToExpire = isToday(rewardReminderDate) || isPast(rewardReminderDate)
-  const expirationLabelText = formatDistanceToNow(expirationDate, i18n, { addSuffix: true })
+  const expirationLabelText = formatDistanceToNow(rewardExpirationDate, i18n, { addSuffix: true })
 
   const { pillStyle, labelStyle } = aboutToExpire
     ? {
@@ -80,7 +80,7 @@ export default function NftRewardBottomSheet() {
       ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
         networkId: nftCelebration.networkId,
         contractAddress: nftCelebration.contractAddress,
-        remainingDays: differenceInDays(expirationDate, Date.now()),
+        remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
       })
 
       dispatch(nftRewardDisplayed())
@@ -95,7 +95,7 @@ export default function NftRewardBottomSheet() {
     ValoraAnalytics.track(HomeEvents.nft_reward_accept, {
       networkId: nftCelebration.networkId,
       contractAddress: nftCelebration.contractAddress,
-      remainingDays: differenceInDays(expirationDate, Date.now()),
+      remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
     })
 
     bottomSheetRef.current?.close()
