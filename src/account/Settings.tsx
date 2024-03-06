@@ -49,7 +49,6 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
 import { Severity } from 'src/components/InLineNotification'
-import InLineNotificationModal from 'src/components/InLineNotificationModal'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
 import {
@@ -85,6 +84,7 @@ import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
+import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
@@ -552,19 +552,17 @@ export const Account = ({ navigation, route }: Props) => {
         >
           {t('promptConfirmRemovalModal.body')}
         </Dialog>
-
-        <InLineNotificationModal
-          severity={Severity.Warning}
-          description={t('keylessBackupSettingsDeleteError')}
-          isVisible={showDeleteKeylessBackupError}
-          onDismiss={onDismissKeylessBackupError}
-          onPressCta={onDismissKeylessBackupError}
-          ctaLabel={t('dismiss')}
-          title={t('error')}
-          testID="KeylessBackupDeleteError"
-        />
       </ScrollView>
-
+      <BottomSheetInLineNotification
+        severity={Severity.Warning}
+        description={t('keylessBackupSettingsDeleteError')}
+        showNotification={showDeleteKeylessBackupError}
+        onPressCta={onDismissKeylessBackupError}
+        onUnmount={onDismissKeylessBackupError}
+        ctaLabel={t('dismiss')}
+        title={t('error')}
+        testID="KeylessBackupDeleteError"
+      />
       <RevokePhoneNumber forwardedRef={revokeBottomSheetRef} />
       <BottomSheet
         forwardedRef={resetAccountBottomSheetRef}
