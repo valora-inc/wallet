@@ -370,7 +370,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.celebrationReadyToDisplay)
             ).getState()
           )
-          .not.put.actionType(Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY)
+          .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
           .run()
       })
 
@@ -386,7 +386,7 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderDisplayed)
             ).getState()
           )
-          .not.put.actionType(Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY)
+          .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
           .run()
       })
 
