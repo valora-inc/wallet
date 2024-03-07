@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { KeylessBackupEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import Chain from 'src/icons/Chain'
+import KeylessBackup from 'src/icons/KeylessBackup'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
@@ -27,7 +27,7 @@ function WalletSecurityPrimer({ route }: Props) {
     <SafeAreaView style={styles.container} edges={showDrawerTopBar ? undefined : ['bottom']}>
       {showDrawerTopBar && <DrawerTopBar testID="WalletSecurityPrimer/DrawerTopBar" />}
       <ScrollView style={styles.scrollContainer}>
-        <Chain style={styles.chainIcon} />
+        <KeylessBackup style={styles.icon} />
         <Text style={styles.title}>{t('walletSecurityPrimer.title')}</Text>
         <Text style={styles.description}>{t('walletSecurityPrimer.description')}</Text>
       </ScrollView>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: Spacing.Thick24,
   },
-  chainIcon: {
+  icon: {
     alignSelf: 'center',
   },
   title: {

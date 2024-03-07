@@ -8,6 +8,7 @@ import {
   showNftRewardSelector,
 } from 'src/home/selectors'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { getMockStoreData } from 'test/utils'
 import { mockCleverTapInboxMessage } from 'test/values'
@@ -198,7 +199,9 @@ describe('showNftCelebrationSelector', () => {
   })
 
   it('should return false when feature gate is disabled', () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.SHOW_NFT_CELEBRATION)
 
     const state = getMockStoreData({
       home: {
@@ -252,7 +255,9 @@ describe('showNftRewardSelector', () => {
   })
 
   it('should return false when feature gate is disabled', () => {
-    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.SHOW_NFT_REWARD)
 
     const state = getMockStoreData({
       home: {
