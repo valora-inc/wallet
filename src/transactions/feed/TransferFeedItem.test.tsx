@@ -639,4 +639,69 @@ describe('TransferFeedItem', () => {
     expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
   })
+
+  it('renders correctly for jumpstart deposits', async () => {
+    const { getByTestId } = render(
+      <Provider store={createMockStore({})}>
+        <TransferFeedItem
+          transfer={{
+            __typename: 'JumpstartDeposit',
+            networkId: NetworkId['celo-alfajores'],
+            type: TokenTransactionTypeV2.JumpstartDeposit,
+            status: TransactionStatus.Complete,
+            transactionHash: MOCK_TX_HASH,
+            timestamp: 1234,
+            block: '2345',
+            address: MOCK_ADDRESS,
+            amount: {
+              tokenAddress: mockCusdAddress,
+              tokenId: mockCusdTokenId,
+              value: 10,
+            },
+            metadata: {},
+            fees: [],
+            reward: {
+              beneficiary: MOCK_ADDRESS,
+              index: 0,
+              claimed: false,
+            },
+          }}
+        />
+      </Provider>
+    )
+
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemJumpstartDepositTitle'],
+      expectedSubtitleSections: ['feedItemJumpstartSubtitle'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
+  })
+
+  it('renders correctly for jumpstart receive', async () => {
+    const { getByTestId } = renderScreen({
+      type: TokenTransactionTypeV2.JumpstartReceived,
+    })
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemJumpstartReceivedTitle'],
+      expectedSubtitleSections: ['feedItemJumpstartReceivedSubtitle'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
+  })
+
+  it('renders correctly for jumpstart reclaim', async () => {
+    const { getByTestId } = renderScreen({
+      type: TokenTransactionTypeV2.JumpstartReclaimed,
+    })
+    expectDisplay({
+      getByTestId,
+      expectedTitleSections: ['feedItemJumpstartReclaimedTitle'],
+      expectedSubtitleSections: ['feedItemJumpstartSubtitle'],
+      expectedAmount: '+₱13.30',
+      expectedTokenAmount: '10.00 cUSD',
+    })
+  })
 })
