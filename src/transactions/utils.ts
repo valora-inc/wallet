@@ -1,6 +1,7 @@
 import i18n from 'src/i18n'
 import { TokenTransaction } from 'src/transactions/types'
 import { formatFeedSectionTitle, timeDeltaInDays } from 'src/utils/time'
+import { v4 as uuidv4 } from 'uuid'
 
 // Groupings:
 // Recent -> Last 7 days (pending transactions always at the top, followed by recent confirmed transactions).
@@ -46,4 +47,12 @@ export function groupFeedItemsInSections(
       title: key,
       data: value.data,
     }))
+}
+
+export function newTransactionContext(tag: string, description: string) {
+  return {
+    id: uuidv4(),
+    tag,
+    description,
+  }
 }

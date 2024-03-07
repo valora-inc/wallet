@@ -7,7 +7,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import { FeeInfo } from 'src/fees/saga'
 import { encryptComment } from 'src/identity/commentEncryption'
-import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { handleQRCodeDefault, handleQRCodeSecureSend, shareSVGImage } from 'src/qrcode/utils'
 import {
   Actions,
@@ -32,11 +31,7 @@ import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import { addStandbyTransaction } from 'src/transactions/actions'
 import { handleTransactionReceiptReceived, sendAndMonitorTransaction } from 'src/transactions/saga'
-import {
-  TokenTransactionTypeV2,
-  TransactionContext,
-  newTransactionContext,
-} from 'src/transactions/types'
+import { TokenTransactionTypeV2, TransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
@@ -167,25 +162,20 @@ export function* buildAndSendPayment(
   return { receipt, error }
 }
 
-export function* sendPaymentSaga({
-  amount,
-  tokenId,
-  usdAmount,
-  comment,
-  recipient,
-  fromModal,
-  preparedTransaction: serializablePreparedTransaction,
-}: SendPaymentAction) {
+export function* sendPaymentSaga(payload: SendPaymentAction) {
+  const {
+    amount,
+    tokenId,
+    usdAmount,
+    transactionType,
+    context,
+    preparedTransaction: serializablePreparedTransaction,
+    recipientAddress,
+  } = payload
+
   try {
     yield* call(getConnectedUnlockedAccount)
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
-    const context = newTransactionContext(TAG, 'Send payment')
-    const recipientAddress = recipient.address
-    if (!recipientAddress) {
-      // should never happen. TODO(ACT-1046): ensure recipient type here
-      // includes address
-      throw new Error('No address found on recipient')
-    }
 
     const tokenInfo = yield* call(getTokenInfo, tokenId)
     const network = getNetworkFromNetworkId(tokenInfo?.networkId)
@@ -220,25 +210,29 @@ export function* sendPaymentSaga({
 
     Logger.debug(`${TAG}/sendPaymentSaga`, 'Successfully sent transaction to the network', hash)
 
-    yield* put(
-      addStandbyTransaction({
-        __typename: 'TokenTransferV3',
-        type: TokenTransactionTypeV2.Sent,
-        context,
-        networkId,
-        amount: {
-          value: amount.negated().toString(),
-          tokenAddress: tokenInfo.address ?? undefined,
-          tokenId,
-        },
-        address: recipientAddress,
-        metadata: {
-          comment,
-        },
-        transactionHash: hash,
-        feeCurrencyId,
-      })
-    )
+    if (transactionType === 'TokenTransferV3') {
+      yield* put(
+        addStandbyTransaction({
+          __typename: 'TokenTransferV3',
+          type: TokenTransactionTypeV2.Sent,
+          context,
+          networkId,
+          amount: {
+            value: amount.negated().toString(),
+            tokenAddress: tokenInfo.address ?? undefined,
+            tokenId,
+          },
+          address: recipientAddress,
+          metadata: {
+            comment: payload.comment,
+          },
+          transactionHash: hash,
+          feeCurrencyId,
+        })
+      )
+    } else if (transactionType === 'JumpstartDeposit') {
+      // TODO add pending transaction
+    }
 
     const receipt: TransactionReceipt = yield* call(
       [publicClient[network], 'waitForTransactionReceipt'],
@@ -278,13 +272,7 @@ export function* sendPaymentSaga({
       })
     }
 
-    if (fromModal) {
-      navigateBack()
-    } else {
-      navigateHome()
-    }
-
-    yield* put(sendPaymentSuccess({ amount, tokenId }))
+    yield* put(sendPaymentSuccess({ amount, tokenId, contextId: context.id }))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (err) {
     // for pin cancelled, this will show the pin input canceled message, for any

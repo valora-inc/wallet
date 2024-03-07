@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode } from 'src/send/types'
+import { TransactionContext } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { Svg } from 'svgs'
@@ -38,21 +39,30 @@ export interface ShareQRCodeAction {
   qrCodeSvg: SVG
 }
 
-export interface SendPaymentAction {
+export type SendPaymentAction = {
   type: Actions.SEND_PAYMENT
   amount: BigNumber
   tokenId: string
   usdAmount: BigNumber | null
-  comment: string
-  recipient: Recipient
-  fromModal: boolean
   preparedTransaction: SerializableTransactionRequest
-}
+  context: TransactionContext
+  recipientAddress: string
+} & (
+  | {
+      transactionType: 'TokenTransferV3'
+      comment: string
+      recipient: Recipient
+    }
+  | {
+      transactionType: 'JumpstartDeposit'
+    }
+)
 
 export interface SendPaymentSuccessAction {
   type: Actions.SEND_PAYMENT_SUCCESS
   amount: BigNumber
   tokenId: string
+  contextId: string
 }
 
 export interface SendPaymentFailureAction {
@@ -117,30 +127,37 @@ export const sendPayment = (
   tokenId: string,
   usdAmount: BigNumber | null,
   comment: string,
+  recipientAddress: string,
   recipient: Recipient,
-  fromModal: boolean,
-  preparedTransaction: SerializableTransactionRequest
+  transactionType: 'TokenTransferV3' | 'JumpstartDeposit',
+  preparedTransaction: SerializableTransactionRequest,
+  context: TransactionContext
 ): SendPaymentAction => ({
   type: Actions.SEND_PAYMENT,
   amount,
   tokenId,
   usdAmount,
   comment,
+  recipientAddress,
   recipient,
-  fromModal,
   preparedTransaction,
+  context,
+  transactionType,
 })
 
 export const sendPaymentSuccess = ({
   amount,
   tokenId,
+  contextId,
 }: {
   amount: BigNumber
   tokenId: string
+  contextId: string
 }): SendPaymentSuccessAction => ({
   type: Actions.SEND_PAYMENT_SUCCESS,
   amount,
   tokenId,
+  contextId,
 })
 
 export const sendPaymentFailure = (): SendPaymentFailureAction => ({

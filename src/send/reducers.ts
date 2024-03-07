@@ -11,7 +11,8 @@ const RECENT_RECIPIENTS_TO_STORE = 8
 // We need to know the last 24 hours of payments (for compliance reasons)
 export interface PaymentInfo {
   timestamp: number
-  amount: number
+  amount: string
+  contextId: string
 }
 
 interface State {
@@ -41,30 +42,42 @@ export const sendReducer = (
   switch (action.type) {
     case REHYDRATE: {
       // Ignore some persisted properties
+      const now = Date.now()
       return {
         ...state,
         ...getRehydratePayload(action, 'send'),
         isSending: false,
         encryptedComment: null,
         isEncryptingComment: false,
+        // Keep only the last 24 hours recent payments
+        recentPayments: state.recentPayments.filter(
+          (p: PaymentInfo) => timeDeltaInHours(now, p.timestamp) < 24
+        ),
       }
     }
     case Actions.SEND_PAYMENT:
+      if (action.transactionType !== 'TokenTransferV3') {
+        return {
+          ...state,
+          isSending: true,
+        }
+      }
       return {
         ...storeLatestRecentReducer(state, action.recipient),
         isSending: true,
       }
     case Actions.SEND_PAYMENT_SUCCESS:
-      const now = Date.now()
-      // Keep only the last 24 hours
-      const paymentsLast24Hours = state.recentPayments.filter(
-        (p: PaymentInfo) => timeDeltaInHours(now, p.timestamp) < 24
-      )
-      const latestPayment: PaymentInfo = { amount: action.amount.toNumber(), timestamp: now }
       return {
         ...state,
         isSending: false,
-        recentPayments: [...paymentsLast24Hours, latestPayment],
+        recentPayments: [
+          ...state.recentPayments,
+          {
+            amount: action.amount.toString(),
+            timestamp: Date.now(),
+            contextId: action.contextId,
+          },
+        ],
         lastUsedTokenId: action.tokenId,
         encryptedComment: null,
       }

@@ -1,6 +1,5 @@
 import BigNumber from 'bignumber.js'
 import { Nft } from 'src/nfts/types'
-import { v4 as uuidv4 } from 'uuid'
 
 export enum Network {
   Celo = 'celo',
@@ -77,14 +76,6 @@ export interface TransactionContext {
 
   // A short contextual description of what the transaction does. (e.g. "Approve attestations")
   description?: string
-}
-
-export function newTransactionContext(tag: string, description: string) {
-  return {
-    id: uuidv4(),
-    tag,
-    description,
-  }
 }
 
 export interface PageInfo {

@@ -5,7 +5,7 @@ import { RootState } from 'src/redux/reducers'
 import { tokensWithTokenBalanceAndAddressSelector } from 'src/tokens/selectors'
 import { InviteRewardsType } from './types'
 
-export const getRecentPayments = (state: RootState) => {
+export const recentPaymentsSelector = (state: RootState) => {
   return state.send.recentPayments
 }
 

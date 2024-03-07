@@ -1,9 +1,10 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import { fireEvent, render } from '@testing-library/react-native'
+import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { SendOrigin } from 'src/analytics/types'
+import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
@@ -32,6 +33,7 @@ import {
   mockTokenBalances,
   mockTokenTransactionData,
 } from 'test/values'
+import { v4 } from 'uuid'
 
 jest.mock('src/web3/networkConfig', () => {
   const originalModule = jest.requireActual('src/web3/networkConfig')
@@ -45,6 +47,7 @@ jest.mock('src/web3/networkConfig', () => {
   }
 })
 jest.mock('src/send/usePrepareSendTransactions')
+jest.mock('uuid')
 
 const mockScreenProps = getMockStackScreenProps(Screens.SendConfirmation, {
   transactionData: {
@@ -85,7 +88,6 @@ describe('SendConfirmation', () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useFakeTimers()
     mockUsePrepareSendTransactionsOutput = {
       prepareTransactionsResult: mockPrepareTransactionsResultPossible,
       refreshPreparedTransactions: jest.fn(),
@@ -93,6 +95,7 @@ describe('SendConfirmation', () => {
       prepareTransactionError: undefined,
     }
     jest.mocked(usePrepareSendTransactions).mockReturnValue(mockUsePrepareSendTransactionsOutput)
+    jest.mocked(v4).mockReturnValue('someContextId')
   })
 
   function renderScreen(
@@ -262,9 +265,11 @@ describe('SendConfirmation', () => {
         tokenId,
         inputAmount.times(1.001),
         '',
+        recipient.address,
         recipient,
-        false,
-        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
+        'TokenTransferV3',
+        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0]),
+        { id: 'someContextId', description: 'Send payment', tag: 'Send/SendConfirmation' }
       )
     )
   })
@@ -285,14 +290,17 @@ describe('SendConfirmation', () => {
         fromAddress: mockAccount.toLowerCase(),
         toAddress: mockTokenTransactionData.recipient.address,
       }),
+
       sendPayment(
         inputAmount,
         tokenId,
         inputAmount.times(1.001),
         trimmedComment,
+        recipient.address,
         recipient,
-        false,
-        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0])
+        'TokenTransferV3',
+        getSerializablePreparedTransaction(mockPrepareTransactionsResultPossible.transactions[0]),
+        { id: 'someContextId', description: 'Send payment', tag: 'Send/SendConfirmation' }
       ),
     ])
   })
@@ -345,4 +353,41 @@ describe('SendConfirmation', () => {
 
     expect(queryByTestId('RecipientAddress')).toBeFalsy()
   })
+
+  it.each([
+    {
+      screenName: Screens.SendConfirmation as const,
+      navigateFn: navigateHome,
+    },
+    {
+      screenName: Screens.SendConfirmationModal as const,
+      navigateFn: navigateBack,
+    },
+  ])(
+    `navigates correctly after a successful payment when launched from $screenName screen`,
+    async ({ screenName, navigateFn }) => {
+      const screenProps = getMockStackScreenProps(screenName, {
+        // the value of these props don't matter, only the screen name matters here
+        transactionData: mockTokenTransactionData,
+        origin: SendOrigin.AppSendFlow,
+        isFromScan: false,
+      })
+      renderScreen(
+        {
+          send: {
+            recentPayments: [
+              {
+                timestamp: Date.now(), // this value doesn't matter for this test
+                amount: '1234', // this value doesn't matter for this test
+                contextId: 'someContextId',
+              },
+            ],
+          },
+        },
+        screenProps
+      )
+
+      await waitFor(() => expect(navigateFn).toHaveBeenCalled())
+    }
+  )
 })

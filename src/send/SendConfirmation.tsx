@@ -1,5 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Platform, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -25,6 +25,7 @@ import {
 } from 'src/identity/selectors'
 import { getLocalCurrencyCode } from 'src/localCurrency/selectors'
 import { noHeader } from 'src/navigator/Headers'
+import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { getDisplayName } from 'src/recipients/recipient'
@@ -34,6 +35,7 @@ import {
   encryptedCommentSelector,
   isEncryptingCommentSelector,
   isSendingSelector,
+  recentPaymentsSelector,
 } from 'src/send/selectors'
 import { usePrepareSendTransactions } from 'src/send/usePrepareSendTransactions'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
@@ -43,15 +45,16 @@ import { iconHitslop } from 'src/styles/variables'
 import { useAmountAsUsd, useTokenInfo, useTokenToLocalAmount } from 'src/tokens/hooks'
 import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import { tokenSupportsComments } from 'src/tokens/utils'
+import { newTransactionContext } from 'src/transactions/utils'
+import Logger from 'src/utils/Logger'
 import { getFeeCurrencyAndAmounts } from 'src/viem/prepareTransactions'
 import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type OwnProps = NativeStackScreenProps<
+type Props = NativeStackScreenProps<
   StackParamList,
   Screens.SendConfirmation | Screens.SendConfirmationModal
 >
-type Props = OwnProps
 
 const DEBOUNCE_TIME_MS = 250
 
@@ -77,7 +80,6 @@ function SendConfirmation(props: Props) {
   const tokenInfo = useTokenInfo(tokenId)
   const addressToDataEncryptionKey = useSelector(addressToDataEncryptionKeySelector)
   const isSending = useSelector(isSendingSelector)
-  const fromModal = props.route.name === Screens.SendConfirmationModal
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const localAmount = useTokenToLocalAmount(tokenAmount, tokenId)
   const usdAmount = useAmountAsUsd(tokenAmount, tokenId)
@@ -87,8 +89,26 @@ function SendConfirmation(props: Props) {
   const allowComment = tokenSupportsComments(tokenInfo)
   const encryptedComment = useSelector(encryptedCommentSelector)
   const isEncryptingComment = useSelector(isEncryptingCommentSelector)
+  const recentSentTransactions = useSelector(recentPaymentsSelector)
 
   const dispatch = useDispatch()
+
+  const sendTransactionContext = useMemo(() => {
+    return newTransactionContext('Send/SendConfirmation', 'Send payment')
+  }, [])
+
+  useEffect(() => {
+    const transactionSuccessful = recentSentTransactions.some(
+      ({ contextId }) => contextId === sendTransactionContext.id
+    )
+    if (transactionSuccessful) {
+      if (props.route.name === Screens.SendConfirmationModal) {
+        navigateBack()
+      } else {
+        navigateHome()
+      }
+    }
+  }, [recentSentTransactions])
 
   useEffect(() => {
     if (!walletAddress || !tokenInfo) {
@@ -208,6 +228,13 @@ function SendConfirmation(props: Props) {
       return
     }
 
+    if (!recipient.address) {
+      // should never happen. TODO(ACT-1046): ensure recipient type here
+      // includes address
+      Logger.error('SendConfirmation', 'Recipient address is missing')
+      return
+    }
+
     ValoraAnalytics.track(SendEvents.send_confirm_send, {
       origin,
       recipientType: recipient.recipientType,
@@ -230,9 +257,11 @@ function SendConfirmation(props: Props) {
         tokenId,
         usdAmount,
         comment.trim(),
+        recipient.address,
         recipient,
-        fromModal,
-        getSerializablePreparedTransaction(preparedTransaction)
+        'TokenTransferV3',
+        getSerializablePreparedTransaction(preparedTransaction),
+        sendTransactionContext
       )
     )
   }
