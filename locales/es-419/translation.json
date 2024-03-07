@@ -2137,6 +2137,18 @@
     "notification": {
       "title": "Enhorabuena 🎉",
       "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+    },
+    "rewardBottomSheet": {
+      "title": "Cobros gratuitos durante un mes",
+      "description": "Como tú eres el propietario de {{nftName}} en tus coleccionables, nos gustaría darte canjes gratuitos durante el mes de enero.\n\nPara utilizar la recompensa, canjea a través de cualquier socio de {{appName}} y no tendrás que pagar comisiones.",
+      "expirationLabel": "Caduca en {{expirationLabelText}}",
+      "cta": "Utiliza la recompensa"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Cobros gratuitos durante un mes",
+      "description": "Sólo quedan 3 días para aprovechar los cobros gratuitos del mes de enero.\n\nPara utilizar la recompensa, canjea a través de cualquier socio de {{appName}} y no tendrás que pagar comisiones.",
+      "expirationLabel": "Caduca en {{expirationLabelText}}",
+      "cta": "Utiliza la recompensa"
     }
   },
   "pleaseWait": "Espera, por favor",
