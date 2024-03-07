@@ -2143,16 +2143,16 @@
       "description": "{{rewardName}} було успішно додано до вашого гаманця {{appName}} ."
     },
     "rewardBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Безкоштовні кеш-іни протягом місяця",
+      "description": "Оскільки ви є власником {{nftName}} у вашій колекції, ми хотіли б подарувати вам безкоштовні кеш-іни за січень.\n\nЩоб скористатися винагородою, зробіть кеш-іни через будь-якого партнера {{appName}} , і комісія не стягуватиметься.",
+      "expirationLabel": "Закінчується {{expirationLabelText}}",
+      "cta": "Використовуйте винагороду"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Безкоштовні кеш-іни протягом місяця",
+      "description": "Залишилося лише 3 дні, щоб скористатися безкоштовними кеш-інами за січень!\n\nДля цього скористайтеся кеш-іном через будь-якого партнера {{appName}} , і комісія не стягуватиметься.",
+      "expirationLabel": "Закінчується {{expirationLabelText}}",
+      "cta": "Використовуйте винагороду"
     }
   },
   "pleaseWait": "Please wait",
