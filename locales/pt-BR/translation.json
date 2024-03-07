@@ -2139,16 +2139,16 @@
       "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
     },
     "rewardBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Cash-ins gratuitos por um mês",
+      "description": "Como você é o proprietário do {{nftName}} em seus colecionáveis, gostaríamos de oferecer a você cash-ins gratuitos no mês de janeiro.\n\nPara usar o prêmio, você pode fazer o cash-in por meio de qualquer parceiro do {{appName}} e as taxas serão dispensadas.",
+      "expirationLabel": "Expira em {{expirationLabelText}}",
+      "cta": "Usar recompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Cash-ins gratuitos por um mês",
+      "description": "Faltam apenas 3 dias para você aproveitar os saques gratuitos do mês de janeiro!\n\nPara usar o prêmio, você pode fazer o cash-in por meio de qualquer parceiro do {{appName}} e as taxas serão dispensadas.",
+      "expirationLabel": "Expira em {{expirationLabelText}}",
+      "cta": "Usar recompensa"
     }
   },
   "pleaseWait": "Please wait",
