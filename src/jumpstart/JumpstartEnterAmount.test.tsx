@@ -158,9 +158,6 @@ describe('JumpstartEnterAmount', () => {
   })
 
   it('should navigate to the next screen on tap continue', async () => {
-    const mockCeurTokenBalance = mockStoreBalancesToTokenBalances([
-      tokenBalances[mockCeurTokenId],
-    ])[0]
     const mockLink = 'https://vlra.app/abc123'
     jest.mocked(createJumpstartLink).mockResolvedValue(mockLink)
 
@@ -178,8 +175,8 @@ describe('JumpstartEnterAmount', () => {
     await waitFor(() =>
       expect(navigate).toHaveBeenCalledWith(Screens.JumpstartSendConfirmation, {
         link: mockLink,
-        parsedAmount: new BigNumber('0.25'),
-        token: mockCeurTokenBalance,
+        sendAmount: '0.25',
+        tokenId: mockCeurTokenId,
         preparedTransactions: getSerializablePreparedTransactions(mockTransactions),
       })
     )
@@ -189,10 +186,10 @@ describe('JumpstartEnterAmount', () => {
         amountInUsd: '0.29',
         localCurrency: 'PHP',
         localCurrencyExchangeRate: '1.33',
-        networkId: mockCeurTokenBalance.networkId,
+        networkId: 'celo-alfajores',
         tokenAmount: '0.25',
-        tokenId: mockCeurTokenBalance.tokenId,
-        tokenSymbol: mockCeurTokenBalance.symbol,
+        tokenId: mockCeurTokenId,
+        tokenSymbol: 'cEUR',
       }
     )
   })

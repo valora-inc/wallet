@@ -82,8 +82,8 @@ function JumpstartEnterAmount() {
 
         navigate(Screens.JumpstartSendConfirmation, {
           link,
-          parsedAmount,
-          token,
+          sendAmount: parsedAmount.toString(),
+          tokenId: token.tokenId,
           preparedTransactions: getSerializablePreparedTransactions(
             prepareJumpstartTransactions.result.transactions
           ),

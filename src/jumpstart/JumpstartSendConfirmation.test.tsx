@@ -1,5 +1,4 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
@@ -7,7 +6,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
-import { mockCusdTokenBalance } from 'test/values'
+import { mockCusdTokenBalance, mockCusdTokenId } from 'test/values'
 
 describe('JumpstartSendConfirmation', () => {
   beforeEach(() => {
@@ -20,8 +19,8 @@ describe('JumpstartSendConfirmation', () => {
         <MockedNavigator
           component={JumpstartSendConfirmation}
           params={{
-            token: mockCusdTokenBalance,
-            parsedAmount: new BigNumber(12.345),
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
           }}
         />
       </Provider>
@@ -40,8 +39,8 @@ describe('JumpstartSendConfirmation', () => {
         <MockedNavigator
           component={JumpstartSendConfirmation}
           params={{
-            token: mockCusdTokenBalance,
-            parsedAmount: new BigNumber(12.345),
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
           }}
         />
       </Provider>
@@ -50,7 +49,7 @@ describe('JumpstartSendConfirmation', () => {
     fireEvent.press(getByText('jumpstartSendConfirmationScreen.confirmButton'))
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(JumpstartEvents.jumpstart_send_confirm, {
-      amountInUsd: '12.36',
+      amountInUsd: '12.35',
       localCurrency: 'PHP',
       localCurrencyExchangeRate: '1.33',
       networkId: mockCusdTokenBalance.networkId,

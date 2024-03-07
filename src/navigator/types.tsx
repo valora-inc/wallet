@@ -1,7 +1,6 @@
 import { Countries } from '@celo/phone-utils'
 import { AccountAuthRequest, SignTxRequest } from '@celo/utils'
 import { KycSchema } from '@fiatconnect/fiatconnect-types'
-import BigNumber from 'bignumber.js'
 import { SendOrigin, WalletConnectPairingOrigin } from 'src/analytics/types'
 import { EscrowedPayment } from 'src/escrow/actions'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
@@ -15,7 +14,6 @@ import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
 import { AssetTabType } from 'src/tokens/Assets'
-import { TokenBalance } from 'src/tokens/slice'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -257,8 +255,8 @@ export type StackParamList = {
   [Screens.JumpstartEnterAmount]: undefined
   [Screens.JumpstartSendConfirmation]: {
     link: string
-    parsedAmount: BigNumber
-    token: TokenBalance
+    sendAmount: string
+    tokenId: string
     preparedTransactions: SerializableTransactionRequest[]
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
