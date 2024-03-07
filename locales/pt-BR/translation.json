@@ -2107,6 +2107,13 @@
       "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Criar um link compartilhável",
+    "sendAmountLabel": "VALOR DO LINK DA REIVINDICAÇÃO",
+    "confirmButton": "Enviar fundos e criar um link",
+    "detailsLabel": "COMO FUNCIONA",
+    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
