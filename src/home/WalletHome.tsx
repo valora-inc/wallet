@@ -31,7 +31,8 @@ import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
 import NotificationBox from 'src/home/NotificationBox'
 import { refreshAllBalances, visitHome } from 'src/home/actions'
 import NftCelebration from 'src/home/celebration/NftCelebration'
-import { showNftCelebrationSelector } from 'src/home/selectors'
+import NftReward from 'src/home/celebration/NftReward'
+import { showNftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
@@ -72,6 +73,8 @@ function WalletHome() {
   const isFocused = useIsFocused()
   const canShowNftCelebration = useSelector(showNftCelebrationSelector)
   const showNftCelebration = canShowNftCelebration && isFocused && !showNotificationSpotlight
+  const canShowNftReward = useSelector(showNftRewardSelector)
+  const showNftReward = canShowNftReward && isFocused && !showNotificationSpotlight
 
   useEffect(() => {
     dispatch(visitHome())
@@ -128,7 +131,7 @@ function WalletHome() {
       return false
     }
 
-    if (showNftCelebration) {
+    if (showNftCelebration || showNftReward) {
       return false
     }
 
@@ -236,6 +239,7 @@ function WalletHome() {
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {showNftCelebration && <NftCelebration />}
+      {showNftReward && <NftReward />}
     </SafeAreaView>
   )
 }

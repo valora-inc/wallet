@@ -50,6 +50,8 @@ export enum HomeEvents {
   show_balances = 'show_balances',
   nft_celebration_displayed = 'nft_celebration_displayed',
   nft_celebration_animation_displayed = 'nft_celebration_animation_displayed',
+  nft_reward_accept = 'nft_reward_accept',
+  nft_reward_dismiss = 'nft_reward_dismiss',
 }
 
 export enum SettingsEvents {
@@ -328,11 +330,6 @@ export enum SendEvents {
   send_select_recipient_invite_press = 'send_select_recipient_invite_press',
   send_select_recipient_send_press = 'send_select_recipient_send_press',
   send_select_recipient_recent_press = 'send_select_recipient_recent_press',
-}
-
-export enum JumpstartEvents {
-  send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
-  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
 }
 
 export enum QrScreenEvents {
@@ -642,6 +639,10 @@ export enum TransactionDetailsEvents {
 }
 
 export enum JumpstartEvents {
+  send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
+  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
+  jumpstart_send_amount_continue = 'jumpstart_send_amount_continue',
+  jumpstart_send_confirm = 'jumpstart_send_confirm',
   jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
   jumpstart_claim_failed = 'jumpstart_claim_failed',
   jumpstart_claimed_token = 'jumpstart_claimed_token',

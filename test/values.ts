@@ -31,6 +31,7 @@ import {
   GetFiatConnectQuotesResponse,
 } from 'src/fiatconnect'
 import { CleverTapInboxMessage } from 'src/home/cleverTapInbox'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { AddressToE164NumberType, E164NumberToAddressType } from 'src/identity/reducer'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { StackParamList } from 'src/navigator/types'
@@ -1509,4 +1510,88 @@ export const mockCleverTapInboxMessage: CleverTapInboxMessage = {
   ctaUrl: 'https://valoraapp.com',
   priority: undefined,
   openInExternalBrowser: false,
+}
+
+export const mockStoreCelebrationReady = {
+  nfts: {
+    nfts: [mockNftAllFields],
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
+    },
+  },
+}
+
+export const mockStoreRewardReady = {
+  nfts: {
+    nfts: [mockNftAllFields],
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      status: NftCelebrationStatus.rewardReadyToDisplay,
+      rewardExpirationDate: '3000-12-01T00:00:00.000Z',
+      rewardReminderDate: '3000-01-01T00:00:00.000Z',
+      deepLink: 'celo://test',
+    },
+  },
+}
+
+export const mockStoreReminderReady = {
+  nfts: {
+    nfts: [mockNftAllFields],
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      status: NftCelebrationStatus.reminderReadyToDisplay,
+      rewardExpirationDate: '3000-12-01T00:00:00.000Z',
+      rewardReminderDate: '3000-01-01T00:00:00.000Z',
+      deepLink: 'celo://test',
+    },
+  },
+}
+
+export const mockStoreRewardDisplayed = {
+  nfts: {
+    nfts: [mockNftAllFields],
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      status: NftCelebrationStatus.rewardDisplayed,
+    },
+  },
+}
+
+export const mockStoreReminderDisplayed = {
+  nfts: {
+    nfts: [mockNftAllFields],
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      status: NftCelebrationStatus.reminderDisplayed,
+    },
+  },
+}
+
+export const mockStoreRewardReayWithDifferentNft = {
+  nfts: {
+    nfts: [{ ...mockNftAllFields, contractAddress: '0xNFT' }],
+  },
+  home: {
+    nftCelebration: {
+      networkId: mockNftAllFields.networkId,
+      contractAddress: mockNftAllFields.contractAddress,
+      status: NftCelebrationStatus.rewardReadyToDisplay,
+    },
+  },
 }
