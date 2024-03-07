@@ -2107,6 +2107,13 @@
       "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Te recomendamos que no envíes más de {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Crear enlace compartible",
+    "sendAmountLabel": "IMPORTE DEL ENLACE DE RECLAMACIÓN",
+    "confirmButton": "Enviar fondos y crear enlace",
+    "detailsLabel": "CÓMO FUNCIONA",
+    "details": "1. Pulsa generar enlace y tus fondos se enviarán al enlace de reclamación\n2. Envía el enlace de reclamación a un amigo\n3. Ellos aceptarán los fondos\n4. Si no se reclaman los fondos, puedes reclamarlos en cualquier momento."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
