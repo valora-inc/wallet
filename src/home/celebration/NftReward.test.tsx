@@ -211,7 +211,7 @@ describe('NftReward', () => {
     expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
   })
 
-  it('hanldes the cta correctly', () => {
+  it('handles the cta correctly', () => {
     jest.useFakeTimers().setSystemTime(new Date('3000-11-01T00:00:00.000Z').getTime())
 
     const store = createMockStore(mockStoreRewardReady)
