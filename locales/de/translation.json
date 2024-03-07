@@ -2137,6 +2137,18 @@
     "notification": {
       "title": "Herzlichen Glückwunsch 🎉.",
       "description": "{{rewardName}} wurde erfolgreich zu deiner {{appName}} Brieftasche hinzugefügt."
+    },
+    "rewardBottomSheet": {
+      "title": "Einen Monat lang kostenlos einlösen",
+      "description": "Da du die {{nftName}} in deinen Sammlungen besitzt, möchten wir dir für den Monat Januar kostenlose Einzahlungen schenken.\n\nUm die Prämie zu nutzen, musst du sie bei einem beliebigen {{appName}} Partner einlösen und die Gebühren entfallen.",
+      "expirationLabel": "Läuft ab {{expirationLabelText}}",
+      "cta": "Belohnung verwenden"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Einen Monat lang kostenlos einlösen",
+      "description": "Es sind nur noch 3 Tage übrig, um von den kostenlosen Einzahlungen im Januar zu profitieren!\n\nUm die Prämie zu nutzen, musst du bei einem beliebigen {{appName}} Partner einlösen und die Gebühren werden dir erlassen.",
+      "expirationLabel": "Läuft ab {{expirationLabelText}}",
+      "cta": "Belohnung verwenden"
     }
   },
   "pleaseWait": "Bitte warten",
