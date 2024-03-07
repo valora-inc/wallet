@@ -13619,7 +13619,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 The following software may be included in this product: js-sha256. A copy of the source code may be downloaded from https://github.com/emn178/js-sha256.git. This software contains the following license and notice below:
 
-Copyright (c) 2014-2023 Chen, Yi-Cyuan
+Copyright (c) 2014-2024 Chen, Yi-Cyuan
 
 MIT License
 
