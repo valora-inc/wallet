@@ -150,25 +150,7 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
     return
   }
 
-  const rewardExpired = isPast(expirationDate)
-  if (rewardExpired) {
-    return
-  }
-
-  const userOwnsCelebratedNft = nfts.some(
-    (nft) => isSameNftContract(nft, celebratedNft) && !!nft.metadata
-  )
-  if (!userOwnsCelebratedNft) {
-    return
-  }
-
-  // TODO: check if the user is in allowed list (see ACT-1100)
-
   const lastNftCelebration = yield* select(nftCelebrationSelector)
-  if (!lastNftCelebration) {
-    return
-  }
-
   if (!isSameNftContract(lastNftCelebration, celebratedNft)) {
     return
   }
@@ -182,7 +164,7 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
 
   const showReminder = isToday(rewardReminderDate) || isPast(rewardReminderDate)
 
-  switch (lastNftCelebration.status) {
+  switch (lastNftCelebration?.status) {
     case NftCelebrationStatus.celebrationDisplayed:
     case NftCelebrationStatus.rewardReadyToDisplay:
       yield* put(nftRewardReadyToDisplay({ showReminder, valuesToSync }))
