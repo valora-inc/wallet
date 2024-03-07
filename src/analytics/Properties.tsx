@@ -672,15 +672,6 @@ interface SendEventsProperties {
   }
 }
 
-interface JumpstartEventsProperties {
-  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
-  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
-    tokenId: string
-    sendAmountUsd: string
-    thresholdUsd: number
-  }
-}
-
 interface FeeEventsProperties {
   [FeeEvents.estimate_fee_failed]: {
     feeType: string
@@ -1507,7 +1498,24 @@ interface TransactionDetailsProperties {
   }
 }
 
-interface WalletJumpstartProperties {
+interface JumpstartSendProperties {
+  localCurrency: LocalCurrencyCode
+  localCurrencyExchangeRate: string | null
+  tokenSymbol: string
+  tokenAmount: string | null
+  amountInUsd: string | null
+  tokenId: string | null
+  networkId: string | null
+}
+interface JumpstartEventsProperties {
+  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
+    tokenId: string
+    sendAmountUsd: string
+    thresholdUsd: number
+  }
+  [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_confirm]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
@@ -1556,7 +1564,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties &
-  WalletJumpstartProperties
+  TransactionDetailsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList
