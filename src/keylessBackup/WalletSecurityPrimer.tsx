@@ -27,7 +27,7 @@ function WalletSecurityPrimer({ route }: Props) {
     <SafeAreaView style={styles.container} edges={showDrawerTopBar ? undefined : ['bottom']}>
       {showDrawerTopBar && <DrawerTopBar testID="WalletSecurityPrimer/DrawerTopBar" />}
       <ScrollView style={styles.scrollContainer}>
-        <KeylessBackup style={styles.chainIcon} />
+        <KeylessBackup style={styles.icon} />
         <Text style={styles.title}>{t('walletSecurityPrimer.title')}</Text>
         <Text style={styles.description}>{t('walletSecurityPrimer.description')}</Text>
       </ScrollView>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   scrollContainer: {
     padding: Spacing.Thick24,
   },
-  chainIcon: {
+  icon: {
     alignSelf: 'center',
   },
   title: {
