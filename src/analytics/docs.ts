@@ -82,7 +82,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.transaction_feed_item_select]: ``,
   [HomeEvents.transaction_feed_address_copy]: ``,
   [HomeEvents.view_token_balances]: ``,
-  [HomeEvents.view_nft_home_assets]: `When "NFTs" is clicked in Home Assets Pages`,
   [HomeEvents.home_action_pressed]: ``,
   [HomeEvents.notification_bell_pressed]: ``,
   [HomeEvents.hide_balances]: `When the eye icon is clicked to hide balances on the home screen`,
@@ -528,7 +527,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [AssetsEvents.import_token_error]: `When a user enters token address and validation fails in the Import Token screen`,
   [NftEvents.nft_error_screen_open]: `When the high level error screen is mounted`,
   [NftEvents.nft_media_load]: `When attempting to load NFT media`,
-  [NftEvents.nft_gallery_screen_open]: `When the gallery screen is mounted`,
   [BuilderHooksEvents.hooks_enable_preview_propose]: `When a user scans a QR code or opens a deep link to enable hooks preview`,
   [BuilderHooksEvents.hooks_enable_preview_cancel]: `When a user cancels the hooks preview flow`,
   [BuilderHooksEvents.hooks_enable_preview_confirm]: `When a user confirms enabling hooks preview`,
@@ -554,6 +552,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.
   // [HomeEvents.home_send]: `when "send" button is pressed from home screen send or request bar (NOT from home screen actions)`,
+  // [HomeEvents.view_nft_home_assets]: `When "NFTs" is clicked in Home Assets Pages`,
   // [DappExplorerEvents.dapp_open_info]: `when a user taps on the help icon`,
   // [DappExplorerEvents.dapp_open_more_info]: `when a user taps on the "more" button from inside the help bottom sheet`,
   // [DappExplorerEvents.dapp_search]: `when a user searches on the dapp explorer screen`,
@@ -564,6 +563,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   // [CeloExchangeEvents.celo_withdraw_cancel]: `when ’cancel’ is clicked on the review screen`,
   // [CeloExchangeEvents.celo_withdraw_confirm]: `when ‘withdraw’ is clicked on the review screen`,
   // [CeloExchangeEvents.celo_withdraw_error]: `when there's an error on the withdrawal transaction`,
+  // [NftEvents.nft_gallery_screen_open]: `When the gallery screen is mounted`,
   // [PhoneVerificationEvents.phone_verification_input_help_skip]: `when the user presses skip on the help dialog to skip verification`,
   // [PhoneVerificationEvents.phone_verification_skip]: `when skip is pressed in the phone number input screen`,
   // [IdentityEvents.contacts_connect]: `when connect button is pressed`,
