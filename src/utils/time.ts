@@ -1,9 +1,9 @@
 import differenceInYears from 'date-fns/differenceInYears'
 import format from 'date-fns/format'
+import dateFnsFormatDistanceToNow from 'date-fns/formatDistanceToNow'
 import getYear from 'date-fns/getYear'
 import { i18n as i18nType } from 'i18next'
 import locales from 'locales'
-import _ from 'lodash'
 import i18n from 'src/i18n'
 
 export const formatFeedTime = (timestamp: number, i18next: i18nType) => {
@@ -26,6 +26,14 @@ export const getDatetimeDisplayString = (timestamp: number, i18next: i18nType) =
   const timeFormatted = formatFeedTime(timestamp, i18next)
   const dateFormatted = formatFeedDate(timestamp, i18next)
   return `${dateFormatted} ${i18n.t('at')} ${timeFormatted}`
+}
+
+export const formatDistanceToNow = (
+  date: Parameters<typeof dateFnsFormatDistanceToNow>[0],
+  i18next: i18nType,
+  options?: Omit<NonNullable<Parameters<typeof dateFnsFormatDistanceToNow>[1]>, 'locale'>
+) => {
+  return dateFnsFormatDistanceToNow(date, { ...options, locale: locale(i18next) })
 }
 
 const ONE_SECOND_IN_MILLIS = 1000
@@ -56,7 +64,9 @@ function millisecondsSinceEpoch(timestamp: number) {
 }
 
 function quickFormat(timestamp: number, i18next: i18nType, formatRule: string) {
-  return format(millisecondsSinceEpoch(timestamp), formatRule, {
-    locale: locales[i18next?.language]?.dateFns ?? locales['en-US']?.dateFns,
-  })
+  return format(millisecondsSinceEpoch(timestamp), formatRule, { locale: locale(i18next) })
+}
+
+function locale(i18next: i18nType) {
+  return locales[i18next?.language]?.dateFns ?? locales['en-US']?.dateFns
 }

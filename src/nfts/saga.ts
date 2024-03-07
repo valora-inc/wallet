@@ -1,6 +1,9 @@
 import { PayloadAction } from '@reduxjs/toolkit'
-import { celebratedNftFound } from 'src/home/actions'
-import { celebratedNftSelector } from 'src/home/selectors'
+import { isPast, isToday } from 'date-fns'
+import { celebratedNftFound, nftRewardReadyToDisplay } from 'src/home/actions'
+import { isSameNftContract } from 'src/home/celebration/utils'
+import { NftCelebrationStatus } from 'src/home/reducers'
+import { nftCelebrationSelector } from 'src/home/selectors'
 import {
   FetchNftsCompletedAction,
   fetchNfts,
@@ -76,27 +79,24 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     return
   }
 
-  const { celebratedNft } = getDynamicConfigParams(
-    DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG]
-  )
+  const {
+    celebratedNft,
+    rewardExpirationDate: rewardExpirationDateString,
+    rewardReminderDate: rewardReminderDateString,
+    deepLink,
+  } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
+
   if (!celebratedNft || !celebratedNft.networkId || !celebratedNft.contractAddress) {
     return
   }
 
-  const lastCelebratedNft = yield* select(celebratedNftSelector)
-  if (
-    !!lastCelebratedNft &&
-    lastCelebratedNft.networkId === celebratedNft.networkId &&
-    lastCelebratedNft.contractAddress === celebratedNft.contractAddress
-  ) {
+  const lastCelebratedNft = yield* select(nftCelebrationSelector)
+  if (isSameNftContract(lastCelebratedNft, celebratedNft)) {
     return
   }
 
   const userOwnsCelebratedNft = nfts.some(
-    (nft) =>
-      !!nft.metadata &&
-      nft.networkId === celebratedNft.networkId &&
-      nft.contractAddress === celebratedNft.contractAddress
+    (nft) => isSameNftContract(nft, celebratedNft) && !!nft.metadata
   )
   if (!userOwnsCelebratedNft) {
     return
@@ -106,8 +106,76 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
     celebratedNftFound({
       networkId: celebratedNft.networkId,
       contractAddress: celebratedNft.contractAddress,
+      rewardExpirationDate: rewardExpirationDateString,
+      rewardReminderDate: rewardReminderDateString,
+      deepLink,
     })
   )
+}
+
+export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCompletedAction>) {
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+  if (!featureGateEnabled) {
+    return
+  }
+
+  const {
+    celebratedNft,
+    rewardExpirationDate: rewardExpirationDateString,
+    rewardReminderDate: rewardReminderDateString,
+    deepLink,
+  } = getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG])
+
+  if (
+    !celebratedNft ||
+    !celebratedNft.networkId ||
+    !celebratedNft.contractAddress ||
+    !rewardExpirationDateString ||
+    !rewardReminderDateString ||
+    !deepLink
+  ) {
+    return
+  }
+
+  const expirationDate = Date.parse(rewardExpirationDateString)
+  const rewardReminderDate = Date.parse(rewardReminderDateString)
+
+  if (Number.isNaN(expirationDate)) {
+    Logger.error(TAG, 'Invalid expiration date in remote config')
+    return
+  }
+
+  if (Number.isNaN(rewardReminderDate)) {
+    Logger.error(TAG, 'Invalid reminder date in remote config')
+    return
+  }
+
+  const lastNftCelebration = yield* select(nftCelebrationSelector)
+  if (!isSameNftContract(lastNftCelebration, celebratedNft)) {
+    return
+  }
+
+  // sync values in the redux state with remote config
+  const valuesToSync = {
+    rewardExpirationDate: rewardExpirationDateString,
+    rewardReminderDate: rewardReminderDateString,
+    deepLink,
+  }
+
+  const showReminder = isToday(rewardReminderDate) || isPast(rewardReminderDate)
+
+  switch (lastNftCelebration?.status) {
+    case NftCelebrationStatus.celebrationDisplayed:
+    case NftCelebrationStatus.rewardReadyToDisplay:
+      yield* put(nftRewardReadyToDisplay({ showReminder, valuesToSync }))
+      return
+    case NftCelebrationStatus.rewardDisplayed:
+    case NftCelebrationStatus.reminderReadyToDisplay:
+      if (showReminder) {
+        yield* put(nftRewardReadyToDisplay({ showReminder, valuesToSync }))
+      }
+      return
+  }
 }
 
 function* watchFetchNfts() {
@@ -117,6 +185,7 @@ function* watchFetchNfts() {
 export function* watchFirstFetchCompleted() {
   const action = (yield* take(fetchNftsCompleted.type)) as PayloadAction<FetchNftsCompletedAction>
   yield* call(findCelebratedNft, action)
+  yield* call(findNftReward, action)
 }
 
 export function* nftsSaga() {

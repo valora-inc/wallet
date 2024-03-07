@@ -1,9 +1,11 @@
 import DeviceInfo from 'react-native-device-info'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import {
-  celebratedNftSelector,
   cleverTapInboxMessagesSelector,
   getExtraNotifications,
+  nftCelebrationSelector,
   showNftCelebrationSelector,
+  showNftRewardSelector,
 } from 'src/home/selectors'
 import { getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
@@ -155,30 +157,29 @@ describe('cleverTapInboxMessages', () => {
   })
 })
 
-describe('celebratedNftSelector', () => {
-  it('should return null when nftCelebration is not available', () => {
+describe('nftCelebrationSelector', () => {
+  it('should return falsy value when nftCelebration is not set', () => {
     const state = getMockStoreData({
       home: {
-        nftCelebration: null,
+        nftCelebration: undefined,
       },
     })
 
-    const data = celebratedNftSelector(state)
-    expect(data).toBeNull()
+    const data = nftCelebrationSelector(state)
+    expect(data).toBeFalsy()
   })
 
-  it('should return networkId and contractAddress when nftCelebration is available', () => {
+  it('should return networkId, contractAddress when nftCelebration is set', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
           networkId: NetworkId['celo-alfajores'],
           contractAddress: '0xTEST',
-          displayed: false,
         },
       },
     })
 
-    const data = celebratedNftSelector(state)
+    const data = nftCelebrationSelector(state)
     expect(data).toEqual({
       networkId: NetworkId['celo-alfajores'],
       contractAddress: '0xTEST',
@@ -189,6 +190,11 @@ describe('celebratedNftSelector', () => {
 describe('showNftCelebrationSelector', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+    jest.useFakeTimers({ now: new Date('3000-01-01T00:00:00.000Z') })
+  })
+
+  afterEach(() => {
+    jest.useFakeTimers({ doNotFake: ['Date'] })
   })
 
   it('should return false when feature gate is disabled', () => {
@@ -197,7 +203,7 @@ describe('showNftCelebrationSelector', () => {
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          displayed: false,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       },
     })
@@ -219,18 +225,103 @@ describe('showNftCelebrationSelector', () => {
     expect(canShowNftCelebration).toBe(false)
   })
 
-  it('should return true when nftCelebration is not displayed', () => {
+  it('should return true when nftCelebration is not yet displayed', () => {
     jest.mocked(getFeatureGate).mockReturnValueOnce(true)
 
     const state = getMockStoreData({
       home: {
         nftCelebration: {
-          displayed: false,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       },
     })
 
     const canShowNftCelebration = showNftCelebrationSelector(state)
     expect(canShowNftCelebration).toBe(true)
+  })
+})
+
+describe('showNftRewardSelector', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    jest.useFakeTimers({ now: new Date('3000-01-01T00:00:00.000Z') })
+  })
+
+  afterEach(() => {
+    jest.useFakeTimers({ doNotFake: ['Date'] })
+  })
+
+  it('should return false when feature gate is disabled', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(false)
+
+    const state = getMockStoreData({
+      home: {
+        nftCelebration: {
+          status: NftCelebrationStatus.rewardReadyToDisplay,
+        },
+      },
+    })
+
+    const canShowNftReward = showNftRewardSelector(state)
+    expect(canShowNftReward).toBe(false)
+  })
+
+  it('should return false when nftCelebration is not defined', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+
+    const state = getMockStoreData({
+      home: {
+        nftCelebration: undefined,
+      },
+    })
+
+    const canShowNftReward = showNftRewardSelector(state)
+    expect(canShowNftReward).toBe(false)
+  })
+
+  it('should return true when reward is not yet displayed', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+
+    const state = getMockStoreData({
+      home: {
+        nftCelebration: {
+          status: NftCelebrationStatus.rewardReadyToDisplay,
+        },
+      },
+    })
+
+    const canShowNftReward = showNftRewardSelector(state)
+    expect(canShowNftReward).toBe(true)
+  })
+
+  it('should return true when reminder is not yet displayed', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+
+    const state = getMockStoreData({
+      home: {
+        nftCelebration: {
+          status: NftCelebrationStatus.reminderReadyToDisplay,
+        },
+      },
+    })
+
+    const canShowNftReward = showNftRewardSelector(state)
+    expect(canShowNftReward).toBe(true)
+  })
+
+  it('should return false when it is expired', () => {
+    jest.mocked(getFeatureGate).mockReturnValueOnce(true)
+
+    const state = getMockStoreData({
+      home: {
+        nftCelebration: {
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
+          rewardExpirationDate: '2000-01-01T00:00:00.000Z',
+        },
+      },
+    })
+
+    const canShowNftReward = showNftRewardSelector(state)
+    expect(canShowNftReward).toBe(false)
   })
 })

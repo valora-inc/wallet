@@ -108,6 +108,9 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
     defaultValues: {
       celebratedNft: {} as { networkId?: NetworkId; contractAddress?: string },
+      deepLink: '',
+      rewardExpirationDate: new Date(0).toISOString(),
+      rewardReminderDate: new Date(0).toISOString(),
     },
   },
 }

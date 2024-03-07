@@ -88,6 +88,8 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.show_balances]: `When the crossed out eye icon is clicked to show balances on the home screen`,
   [HomeEvents.nft_celebration_displayed]: `When user has seen an NFT celebration bottom sheet`,
   [HomeEvents.nft_celebration_animation_displayed]: `When user has seen an NFT celebration confetti animation`,
+  [HomeEvents.nft_reward_accept]: `When user press "Use reward" button when presented with an NFT reward`,
+  [HomeEvents.nft_reward_dismiss]: `When user dismiss the bottom sheet when presented with an NFT reward`,
   [SettingsEvents.settings_profile_edit]: ``,
   [SettingsEvents.profile_generate_name]: ``,
   [SettingsEvents.profile_save]: ``,

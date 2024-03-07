@@ -1605,4 +1605,11 @@ export const migrations = {
     ...state,
     web3: _.omit(state.web3, 'twelveWordMnemonicEnabled'),
   }),
+  198: (state: any) => ({
+    ...state,
+    home: {
+      ...state.home,
+      nftCelebration: null,
+    },
+  }),
 }
