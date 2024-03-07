@@ -2107,6 +2107,13 @@
       "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Create shareable link",
+    "sendAmountLabel": "CLAIM LINK AMOUNT",
+    "confirmButton": "Send funds and create link",
+    "detailsLabel": "HOW IT WORKS",
+    "details": "1. Tap generate link & your funds are sent into the claim link\n2. Send the claim link to a friend\n3. They’ll accept the funds\n4. If funds aren’t claimed, you can reclaim them anytime."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
