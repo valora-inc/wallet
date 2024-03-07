@@ -2068,7 +2068,10 @@
             "additionalProperties": false,
             "properties": {
                 "amount": {
-                    "type": "number"
+                    "type": "string"
+                },
+                "contextId": {
+                    "type": "string"
                 },
                 "timestamp": {
                     "type": "number"
@@ -2076,6 +2079,7 @@
             },
             "required": [
                 "amount",
+                "contextId",
                 "timestamp"
             ],
             "type": "object"
