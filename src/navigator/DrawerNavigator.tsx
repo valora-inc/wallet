@@ -47,7 +47,6 @@ import { DappsExplorer } from 'src/icons/navigator/DappsExplorer'
 import { Gold } from 'src/icons/navigator/Gold'
 import { Help } from 'src/icons/navigator/Help'
 import { Invite as InviteIcon } from 'src/icons/navigator/Invite'
-import { NFT } from 'src/icons/navigator/NFT'
 import { Settings } from 'src/icons/navigator/Settings'
 import Invite from 'src/invite/Invite'
 import WalletSecurityPrimer from 'src/keylessBackup/WalletSecurityPrimer'
@@ -57,7 +56,6 @@ import { getActiveRouteName } from 'src/navigator/NavigatorWrapper'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
-import NftGallery from 'src/nfts/NftGallery'
 import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { getFeatureGate } from 'src/statsig'
@@ -223,10 +221,6 @@ export default function DrawerNavigator({ route }: Props) {
 
   const drawerContent = (props: DrawerContentComponentProps) => <CustomDrawerContent {...props} />
 
-  const shouldShowNftGallery =
-    getFeatureGate(StatsigFeatureGates.SHOW_IN_APP_NFT_GALLERY) &&
-    !getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-
   const cloudBackupGate = getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_SETUP)
   const anyBackupCompleted = backupCompleted || cloudBackupCompleted
   const showWalletSecurity = !anyBackupCompleted && cloudBackupGate
@@ -256,13 +250,6 @@ export default function DrawerNavigator({ route }: Props) {
           freezeOnBlur: false,
         }}
       />
-      {shouldShowNftGallery && (
-        <Drawer.Screen
-          name={Screens.NftGallery}
-          component={NftGallery}
-          options={{ title: t('nftGallery.title') ?? undefined, drawerIcon: NFT }}
-        />
-      )}
       <Drawer.Screen
         name={Screens.ExchangeHomeScreen}
         component={ExchangeHomeScreen}
