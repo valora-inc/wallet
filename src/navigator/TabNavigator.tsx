@@ -13,6 +13,7 @@ import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
+import variables from 'src/styles/variables'
 import AssetsScreen from 'src/tokens/Assets'
 
 const Tab = createBottomTabNavigator()
@@ -35,6 +36,9 @@ export default function TabNavigator({ route }: Props) {
         tabBarLabelStyle: styles.label,
         tabBarItemStyle: styles.tabBarItem,
         tabBarAllowFontScaling: false,
+        tabBarStyle: {
+          height: variables.height * 0.1,
+        },
       }}
     >
       <Tab.Screen
@@ -76,6 +80,6 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldSmall,
   },
   tabBarItem: {
-    paddingTop: Spacing.Smallest8,
+    paddingVertical: Spacing.Smallest8,
   },
 })
