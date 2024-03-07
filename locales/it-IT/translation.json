@@ -2137,6 +2137,18 @@
     "notification": {
       "title": "Congratulazioni 🎉",
       "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
+    },
+    "rewardBottomSheet": {
+      "title": "Incassi gratuiti per un mese",
+      "description": "Poiché il sito {{nftName}} è di tua proprietà, ti offriamo un cash-in gratuito per il mese di gennaio.\n\nPer utilizzare la ricompensa, effettua il cash-in tramite qualsiasi partner di {{appName}} e le spese non saranno addebitate.",
+      "expirationLabel": "Scade su {{expirationLabelText}}",
+      "cta": "Usa la ricompensa"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Free cash-ins for a month",
+      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "expirationLabel": "Expires {{expirationLabelText}}",
+      "cta": "Use reward"
     }
   },
   "pleaseWait": "Please wait",
