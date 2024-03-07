@@ -29,7 +29,7 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia komunikację z siecią poprzez zaufany węzeł. Zawsze możesz zmienić ten tryb w ustawieniach aplikacji.",
-  "keylessBackupSettingsTitle": "Odzyskiwanie za pomocą adresu e-mail i telefonu",
+  "keylessBackupSettingsTitle": "Kopia zapasowa poczty e-mail i telefonu",
   "keylessBackupSettingsDeleteError": "Twoja kopia zapasowa nie mogła zostać usunięta, poczekaj i spróbuj ponownie później.",
   "setup": "Ustaw",
   "restartModalSwitchOff": {
