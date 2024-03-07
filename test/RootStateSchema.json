@@ -4269,11 +4269,11 @@
                                 "deepLink": {
                                     "type": "string"
                                 },
-                                "expirationDate": {
-                                    "type": "string"
-                                },
                                 "networkId": {
                                     "$ref": "#/definitions/NetworkId"
+                                },
+                                "rewardExpirationDate": {
+                                    "type": "string"
                                 },
                                 "rewardReminderDate": {
                                     "type": "string"
@@ -4285,8 +4285,8 @@
                             "required": [
                                 "contractAddress",
                                 "deepLink",
-                                "expirationDate",
                                 "networkId",
+                                "rewardExpirationDate",
                                 "rewardReminderDate",
                                 "status"
                             ],
