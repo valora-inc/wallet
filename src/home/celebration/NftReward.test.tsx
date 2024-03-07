@@ -53,6 +53,9 @@ const mockStoreReminderReady = {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
       status: NftCelebrationStatus.reminderReadyToDisplay,
+      rewardExpirationDate: '3000-12-01T00:00:00.000Z',
+      rewardReminderDate: '3000-01-01T00:00:00.000Z',
+      deepLink: 'celo://test',
     },
   },
 }
@@ -215,7 +218,7 @@ describe('NftReward', () => {
   it('handles the cta correctly', () => {
     jest.useFakeTimers({ now: new Date('3000-11-01T00:00:00.000Z') })
 
-    const store = createMockStore(mockStoreRewardReady)
+    const store = createMockStore(mockStoreReminderReady)
     store.dispatch = jest.fn()
 
     const { getByText } = render(
@@ -262,7 +265,7 @@ describe('NftReward', () => {
       jest.useFakeTimers({ now: new Date('3000-11-01T00:00:00.000Z') })
 
       const { getByTestId } = render(
-        <Provider store={createMockStore(mockStoreRewardReady)}>
+        <Provider store={createMockStore(mockStoreReminderReady)}>
           <NftReward />
         </Provider>
       )

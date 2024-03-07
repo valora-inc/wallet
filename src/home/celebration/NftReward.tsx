@@ -1,5 +1,4 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
-import { isPast, isToday } from 'date-fns'
 import differenceInDays from 'date-fns/differenceInDays'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -13,6 +12,7 @@ import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftRewardDisplayed } from 'src/home/actions'
 import { isSameNftContract } from 'src/home/celebration/utils'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { nftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
 import i18n from 'src/i18n'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
@@ -45,13 +45,12 @@ export default function NftRewardBottomSheet() {
 
   const bottomSheetRef = useRef<BottomSheetRefType>(null)
 
-  const rewardExpirationDate = new Date(nftCelebration?.rewardExpirationDate ?? 0)
-  const rewardReminderDate = new Date(nftCelebration?.rewardReminderDate ?? 0)
+  const isReminder = nftCelebration?.status === NftCelebrationStatus.reminderReadyToDisplay
 
-  const aboutToExpire = isToday(rewardReminderDate) || isPast(rewardReminderDate)
+  const rewardExpirationDate = new Date(nftCelebration?.rewardExpirationDate ?? 0)
   const expirationLabelText = formatDistanceToNow(rewardExpirationDate, i18n, { addSuffix: true })
 
-  const { pillStyle, labelStyle } = aboutToExpire
+  const { pillStyle, labelStyle } = isReminder
     ? {
         pillStyle: { backgroundColor: Colors.warningLight },
         labelStyle: { color: Colors.warningDark },
@@ -61,7 +60,7 @@ export default function NftRewardBottomSheet() {
         labelStyle: { color: Colors.black },
       }
 
-  const copyText = aboutToExpire ? 'rewardReminderBottomSheet' : 'rewardBottomSheet'
+  const copyText = isReminder ? 'rewardReminderBottomSheet' : 'rewardBottomSheet'
 
   useEffect(() => {
     if (isVisible) {
