@@ -1,5 +1,5 @@
-import { t } from 'i18next'
 import React, { useEffect, useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -84,6 +84,7 @@ export default function AssetList({
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
 }) {
   const dispatch = useDispatch()
+  const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
