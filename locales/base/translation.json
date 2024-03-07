@@ -1313,7 +1313,7 @@
   "feedItemJumpstartSubtitle": "Invitation",
   "feedItemJumpstartReclaimedTitle": "Reclaim",
   "feedItemJumpstartReceivedTitle": "Funds received",
-  "feedItemJumpstartReceivedSubitle": "- -",
+  "feedItemJumpstartReceivedSubtitle": "- -",
   "transactionHeaderVerificationFee": "Confirmation",
   "transactionHeaderNetworkFee": "Network",
   "transactionHeaderFaucet": "Faucet",
