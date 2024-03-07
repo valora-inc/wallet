@@ -2111,6 +2111,13 @@
       "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Utwórz link do udostępnienia",
+    "sendAmountLabel": "KWOTA ŁĄCZA DO ROSZCZENIA",
+    "confirmButton": "Wyślij środki i utwórz link",
+    "detailsLabel": "JAK TO DZIAŁA",
+    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
