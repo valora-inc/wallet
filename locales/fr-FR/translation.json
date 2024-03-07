@@ -2137,6 +2137,18 @@
     "notification": {
       "title": "Félicitations 🎉",
       "description": "{{rewardName}} a été ajouté à votre portefeuille {{appName}}."
+    },
+    "rewardBottomSheet": {
+      "title": "Encaissements gratuits pendant un mois",
+      "description": "Parce que tu es propriétaire du site {{nftName}} de tes objets de collection, nous aimerions t'offrir des encaissements gratuits pour le mois de janvier.\n\nPour utiliser la récompense, encaisse via n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "expirationLabel": "Expire à {{expirationLabelText}}",
+      "cta": "Utilise la récompense"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Encaissements gratuits pendant un mois",
+      "description": "Il ne reste plus que 3 jours pour profiter des encaissements gratuits du mois de janvier !\n\nPour utiliser la récompense, encaisse par l'intermédiaire de n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "expirationLabel": "Expire à {{expirationLabelText}}",
+      "cta": "Utilise la récompense"
     }
   },
   "pleaseWait": "Merci de patienter",
