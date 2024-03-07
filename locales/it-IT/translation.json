@@ -2145,10 +2145,10 @@
       "cta": "Usa la ricompensa"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "Incassi gratuiti per un mese",
+      "description": "Restano solo 3 giorni per approfittare dei cash-in gratuiti per il mese di gennaio!\n\nPer utilizzare il premio incassa tramite un qualsiasi partner di {{appName}} e le spese saranno annullate.",
+      "expirationLabel": "Scade su {{expirationLabelText}}",
+      "cta": "Usa la ricompensa"
     }
   },
   "pleaseWait": "Please wait",
