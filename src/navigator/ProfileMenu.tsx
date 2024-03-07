@@ -67,19 +67,19 @@ export default function ProfileMenu({ route }: Props) {
         )}
       </View>
       <View style={styles.topBorder} />
-      <Touchable testID="Invite" onPress={() => navigate(Screens.Invite)}>
+      <Touchable testID="ProfileMenu/Invite" onPress={() => navigate(Screens.Invite)}>
         <View style={styles.container}>
           <Invite color={Colors.gray3} />
           <Text style={styles.actionLabel}>{t('invite')}</Text>
         </View>
       </Touchable>
-      <Touchable testID="Settings" onPress={() => navigate(Screens.Settings)}>
+      <Touchable testID="ProfileMenu/Settings" onPress={() => navigate(Screens.Settings)}>
         <View style={styles.container}>
           <Settings color={Colors.gray3} />
           <Text style={styles.actionLabel}>{t('settings')}</Text>
         </View>
       </Touchable>
-      <Touchable testID="Help" onPress={() => navigate(Screens.Support)}>
+      <Touchable testID="ProfileMenu/Help" onPress={() => navigate(Screens.Support)}>
         <View style={styles.container}>
           <Help color={Colors.gray3} />
           <Text style={styles.actionLabel}>{t('help')}</Text>
@@ -89,7 +89,7 @@ export default function ProfileMenu({ route }: Props) {
       <View style={styles.bottom}>
         <Text style={typeScale.labelSemiBoldXSmall}>{t('address')}</Text>
         <AccountNumber address={account || ''} location={Screens.ProfileMenu} />
-        <Text style={styles.supportedNetworks}>
+        <Text style={styles.supportedNetworks} testID="ProfileMenu/SupportedNetworks">
           {networks.length > 1
             ? t('supportedNetworks', {
                 networks: `${networkNames.slice(0, -1).join(', ')} ${t('and')} ${networkNames.at(
@@ -100,7 +100,9 @@ export default function ProfileMenu({ route }: Props) {
                 network: networkNames[0],
               })}
         </Text>
-        <Text style={styles.smallLabel}>{t('version', { appVersion })}</Text>
+        <Text style={styles.smallLabel} testID="ProfileMenu/Version">
+          {t('version', { appVersion })}
+        </Text>
       </View>
     </SafeAreaView>
   )
