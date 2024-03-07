@@ -114,7 +114,7 @@ export function* findCelebratedNft({ payload: { nfts } }: PayloadAction<FetchNft
 }
 
 export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCompletedAction>) {
-  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_CELEBRATION)
+  const featureGateEnabled = getFeatureGate(StatsigFeatureGates.SHOW_NFT_REWARD)
   if (!featureGateEnabled) {
     return
   }
