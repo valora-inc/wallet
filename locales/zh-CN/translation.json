@@ -2137,16 +2137,16 @@
       "description": "{{rewardName}} 已成功添加到您的 {{appName}} 钱包。"
     },
     "rewardBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "免费兑现一个月",
+      "description": "因为您拥有收藏品中的 {{nftName}} ，所以我们想在一月份为您提供免费兑奖。\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，都将免收费用。",
+      "expirationLabel": "过期 {{expirationLabelText}}",
+      "cta": "使用奖励"
     },
     "rewardReminderBottomSheet": {
-      "title": "Free cash-ins for a month",
-      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
-      "expirationLabel": "Expires {{expirationLabelText}}",
-      "cta": "Use reward"
+      "title": "免费兑现一个月",
+      "description": "只剩 3 天时间来享受 1 月份的免费兑奖！\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，将免收手续费。",
+      "expirationLabel": "过期 {{expirationLabelText}}",
+      "cta": "使用奖励"
     }
   },
   "pleaseWait": "Please wait",
