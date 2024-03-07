@@ -16,7 +16,7 @@ import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 
-export interface Props {
+interface Props {
   useValoraIcon?: boolean
 }
 
