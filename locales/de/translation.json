@@ -2107,6 +2107,13 @@
       "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Wir empfehlen, nicht mehr als {{maxAmount}} {{localCurrencyCode}}zu senden."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Link zum Teilen erstellen",
+    "sendAmountLabel": "ANSPRUCH LINK BETRAG",
+    "confirmButton": "Geld senden und Link erstellen",
+    "detailsLabel": "WIE ES FUNKTIONIERT",
+    "details": "1. Tippe auf \"Link generieren\" und dein Geld wird an den Claim-Link\ngesendet. 2. Sende den Claim-Link an einen Freund\n3. Er wird das Geld annehmen\n4. Wenn das Geld nicht eingefordert wird, kannst du es jederzeit zurückfordern."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Genehmigt",
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
