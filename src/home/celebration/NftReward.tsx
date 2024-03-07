@@ -1,7 +1,7 @@
 import { BottomSheetView } from '@gorhom/bottom-sheet'
 import { isPast, isToday } from 'date-fns'
 import differenceInDays from 'date-fns/differenceInDays'
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -27,6 +27,9 @@ export default function NftRewardBottomSheet() {
   const dispatch = useDispatch()
 
   const canShowNftReward = useSelector(showNftRewardSelector)
+
+  const [rewardAccepted, setRewardAccepted] = useState(false)
+
   const nftCelebration = useSelector(nftCelebrationSelector)
 
   const nfts = useSelector(nftsWithMetadataSelector)
@@ -77,11 +80,13 @@ export default function NftRewardBottomSheet() {
     }
 
     if (index === -1) {
-      ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
-        networkId: nftCelebration.networkId,
-        contractAddress: nftCelebration.contractAddress,
-        remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
-      })
+      if (!rewardAccepted) {
+        ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
+          networkId: nftCelebration.networkId,
+          contractAddress: nftCelebration.contractAddress,
+          remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
+        })
+      }
 
       dispatch(nftRewardDisplayed())
     }
@@ -97,6 +102,8 @@ export default function NftRewardBottomSheet() {
       contractAddress: nftCelebration.contractAddress,
       remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
     })
+
+    setRewardAccepted(true)
 
     bottomSheetRef.current?.close()
 
