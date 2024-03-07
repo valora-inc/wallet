@@ -29,7 +29,7 @@
   "dataSaver": "โหมดประหยัดข้อมูล",
   "enableDataSaver": "เปิดใช้งานโหมดประหยัดข้อมูล",
   "dataSaverDetail": "โหมดประหยัดข้อมูลช่วยให้คุณสื่อสารกับเครือข่ายผ่านโหนดที่เชื่อถือได้ คุณสามารถเปลี่ยนโหมดนี้ได้ตลอดเวลาในส่วนการตั้งค่าแอป",
-  "keylessBackupSettingsTitle": "การกู้คืนด้วยอีเมลและโทรศัพท์",
+  "keylessBackupSettingsTitle": "Email & Phone Backup",
   "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "ตั้งค่า",
   "restartModalSwitchOff": {
