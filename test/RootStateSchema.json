@@ -1743,6 +1743,17 @@
             ],
             "type": "object"
         },
+        "NftCelebrationStatus": {
+            "enum": [
+                "celebrationDisplayed",
+                "celebrationReadyToDisplay",
+                "reminderDisplayed",
+                "reminderReadyToDisplay",
+                "rewardDisplayed",
+                "rewardReadyToDisplay"
+            ],
+            "type": "string"
+        },
         "NftMedia": {
             "additionalProperties": false,
             "properties": {
@@ -2710,7 +2721,6 @@
                 "MainModal",
                 "MultichainBeta",
                 "NameAndPicture",
-                "NftGallery",
                 "NftsInfoCarousel",
                 "NotificationCenter",
                 "OnboardingRecoveryPhrase",
@@ -2740,7 +2750,6 @@
                 "Support",
                 "SupportContact",
                 "SwapScreenWithBack",
-                "TokenBalances",
                 "TokenDetails",
                 "TokenDetailsMoreActions",
                 "TokenImport",
@@ -4337,17 +4346,29 @@
                                 "contractAddress": {
                                     "type": "string"
                                 },
-                                "displayed": {
-                                    "type": "boolean"
+                                "deepLink": {
+                                    "type": "string"
                                 },
                                 "networkId": {
                                     "$ref": "#/definitions/NetworkId"
+                                },
+                                "rewardExpirationDate": {
+                                    "type": "string"
+                                },
+                                "rewardReminderDate": {
+                                    "type": "string"
+                                },
+                                "status": {
+                                    "$ref": "#/definitions/NftCelebrationStatus"
                                 }
                             },
                             "required": [
                                 "contractAddress",
-                                "displayed",
-                                "networkId"
+                                "deepLink",
+                                "networkId",
+                                "rewardExpirationDate",
+                                "rewardReminderDate",
+                                "status"
                             ],
                             "type": "object"
                         },

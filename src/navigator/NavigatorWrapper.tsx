@@ -6,13 +6,12 @@ import { SeverityLevel } from '@sentry/types'
 import * as React from 'react'
 import { StyleSheet, View } from 'react-native'
 import DeviceInfo from 'react-native-device-info'
-import { useDispatch } from 'react-redux'
 import ShakeForSupport from 'src/account/ShakeForSupport'
 import AlertBanner from 'src/alert/AlertBanner'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import UpgradeScreen from 'src/app/UpgradeScreen'
 import { activeScreenChanged } from 'src/app/actions'
 import { getAppLocked } from 'src/app/selectors'
-import UpgradeScreen from 'src/app/UpgradeScreen'
 import { useDeepLinks } from 'src/app/useDeepLinks'
 import { DEV_RESTORE_NAV_STATE_ON_RELOAD } from 'src/config'
 import {
@@ -24,11 +23,11 @@ import Navigator from 'src/navigator/Navigator'
 import { Screens } from 'src/navigator/Screens'
 import PincodeLock from 'src/pincode/PincodeLock'
 import HooksPreviewModeBanner from 'src/positions/HooksPreviewModeBanner'
-import useTypedSelector from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { sentryRoutingInstrumentation } from 'src/sentry/Sentry'
 import appTheme from 'src/styles/appTheme'
-import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import Logger from 'src/utils/Logger'
+import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 import { isVersionBelowMinimum } from 'src/utils/versionCheck'
 
 // This uses RN Navigation's experimental nav state persistence
@@ -53,10 +52,10 @@ const RESTORE_STATE = __DEV__ && DEV_RESTORE_NAV_STATE_ON_RELOAD
 export const NavigatorWrapper = () => {
   const [isReady, setIsReady] = React.useState(RESTORE_STATE ? false : true)
   const [initialState, setInitialState] = React.useState()
-  const appLocked = useTypedSelector(getAppLocked)
-  const minRequiredVersion = useTypedSelector((state) => state.app.minVersion)
+  const appLocked = useSelector(getAppLocked)
+  const minRequiredVersion = useSelector((state) => state.app.minVersion)
   const routeNameRef = React.useRef()
-  const inSanctionedCountry = useTypedSelector(userInSanctionedCountrySelector)
+  const inSanctionedCountry = useSelector(userInSanctionedCountrySelector)
 
   const dispatch = useDispatch()
 

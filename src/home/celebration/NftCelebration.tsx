@@ -3,7 +3,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { useDispatch, useSelector } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
@@ -11,11 +10,13 @@ import BottomSheetBase from 'src/components/BottomSheetBase'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftCelebrationDisplayed } from 'src/home/actions'
 import ConfettiCelebration from 'src/home/celebration/ConfettiCelebration'
-import { celebratedNftSelector, showNftCelebrationSelector } from 'src/home/selectors'
+import { isSameNftContract } from 'src/home/celebration/utils'
+import { nftCelebrationSelector, showNftCelebrationSelector } from 'src/home/selectors'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
 import NftMedia from 'src/nfts/NftMedia'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { NftOrigin } from 'src/nfts/types'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { vibrateSuccess } from 'src/styles/hapticFeedback'
@@ -34,19 +35,11 @@ export default function NftCelebration() {
   const confettiStartTime = useRef(0)
 
   const canShowNftCelebration = useSelector(showNftCelebrationSelector)
-  const celebratedNft = useSelector(celebratedNftSelector)
+  const celebratedNft = useSelector(nftCelebrationSelector)
 
   const nfts = useSelector(nftsWithMetadataSelector)
   const matchingNft = useMemo(
-    () =>
-      nfts.find(
-        (nft) =>
-          !!celebratedNft &&
-          !!celebratedNft.networkId &&
-          celebratedNft.networkId === nft.networkId &&
-          !!celebratedNft.contractAddress &&
-          celebratedNft.contractAddress === nft.contractAddress
-      ),
+    () => nfts.find((nft) => isSameNftContract(nft, celebratedNft)),
     [celebratedNft]
   )
 

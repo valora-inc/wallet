@@ -178,7 +178,6 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
-  [HomeEvents.view_nft_home_assets]: undefined
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
   [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
@@ -191,6 +190,16 @@ interface HomeEventsProperties {
   [HomeEvents.nft_celebration_animation_displayed]: {
     userInterrupted: boolean
     durationInSeconds: number
+  }
+  [HomeEvents.nft_reward_accept]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
+  }
+  [HomeEvents.nft_reward_dismiss]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
   }
 }
 
@@ -1439,9 +1448,6 @@ interface NftsEventsProperties {
     origin: NftOrigin
     error?: string
     mediaType: 'image' | 'video'
-  }
-  [NftEvents.nft_gallery_screen_open]: {
-    numNfts: number
   }
 }
 

@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react-native'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { getFeatureGate } from 'src/statsig/index'
 import { createMockStore } from 'test/utils'
 import { mockNftAllFields } from 'test/values'
@@ -28,7 +29,7 @@ const mockStoreWithNft = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      displayed: false,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
     },
   },
 }
@@ -43,7 +44,7 @@ const mockStoreWithNftAndCelebrationDisplayed = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      displayed: true,
+      status: NftCelebrationStatus.celebrationDisplayed,
     },
   },
 }
@@ -58,7 +59,7 @@ const mockStoreWithDifferentNft = {
     nftCelebration: {
       networkId: mockNftAllFields.networkId,
       contractAddress: mockNftAllFields.contractAddress,
-      displayed: false,
+      status: NftCelebrationStatus.celebrationReadyToDisplay,
     },
   },
 }

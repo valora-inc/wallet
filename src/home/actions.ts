@@ -13,6 +13,8 @@ export enum Actions {
   CLEVERTAP_INBOX_MESSAGES_RECEIVED = 'HOME/CLEVERTAP_INBOX_MESSAGES_RECEIVED',
   CELEBRATED_NFT_FOUND = 'HOME/CELEBRATED_NFT_FOUND',
   NFT_CELEBRATION_DISPLAYED = 'HOME/NFT_CELEBRATION_DISPLAYED',
+  NFT_REWARD_READY_TO_DISPLAY = 'HOME/NFT_REWARD_READY_TO_DISPLAY',
+  NFT_REWARD_DISPLAYED = 'HOME/NFT_REWARD_DISPLAYED',
 }
 
 export interface VisitHomeAction {
@@ -47,10 +49,27 @@ interface CelebratedNftFoundAction {
   type: Actions.CELEBRATED_NFT_FOUND
   networkId: NetworkId
   contractAddress: string
+  rewardExpirationDate: string
+  rewardReminderDate: string
+  deepLink: string
 }
 
 interface NftCelebrationDisplayedAction {
   type: Actions.NFT_CELEBRATION_DISPLAYED
+}
+
+interface NftRewardReadyToDisplayAction {
+  type: Actions.NFT_REWARD_READY_TO_DISPLAY
+  showReminder: boolean
+  valuesToSync: {
+    rewardExpirationDate: string
+    rewardReminderDate: string
+    deepLink: string
+  }
+}
+
+interface NftRewardDisplayedAction {
+  type: Actions.NFT_REWARD_DISPLAYED
 }
 
 export type ActionTypes =
@@ -61,6 +80,8 @@ export type ActionTypes =
   | VisitHomeAction
   | CelebratedNftFoundAction
   | NftCelebrationDisplayedAction
+  | NftRewardReadyToDisplayAction
+  | NftRewardDisplayedAction
 
 export const visitHome = (): VisitHomeAction => ({
   type: Actions.VISIT_HOME,
@@ -105,15 +126,44 @@ export const cleverTapInboxMessagesReceived = (
 export const celebratedNftFound = ({
   networkId,
   contractAddress,
+  rewardExpirationDate,
+  rewardReminderDate,
+  deepLink,
 }: {
   networkId: NetworkId
   contractAddress: string
+  rewardExpirationDate: string
+  rewardReminderDate: string
+  deepLink: string
 }): CelebratedNftFoundAction => ({
   type: Actions.CELEBRATED_NFT_FOUND,
   networkId,
   contractAddress,
+  rewardExpirationDate,
+  rewardReminderDate,
+  deepLink,
 })
 
 export const nftCelebrationDisplayed = (): NftCelebrationDisplayedAction => ({
   type: Actions.NFT_CELEBRATION_DISPLAYED,
+})
+
+export const nftRewardReadyToDisplay = ({
+  showReminder,
+  valuesToSync: { rewardExpirationDate, rewardReminderDate, deepLink },
+}: {
+  showReminder: boolean
+  valuesToSync: {
+    rewardExpirationDate: string
+    rewardReminderDate: string
+    deepLink: string
+  }
+}): NftRewardReadyToDisplayAction => ({
+  type: Actions.NFT_REWARD_READY_TO_DISPLAY,
+  showReminder,
+  valuesToSync: { rewardExpirationDate, rewardReminderDate, deepLink },
+})
+
+export const nftRewardDisplayed = (): NftRewardDisplayedAction => ({
+  type: Actions.NFT_REWARD_DISPLAYED,
 })

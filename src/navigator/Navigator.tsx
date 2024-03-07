@@ -104,7 +104,6 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
-import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
@@ -136,11 +135,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.WebViewScreen}
         component={WebViewScreen}
         options={emptyHeader}
-      />
-      <Navigator.Screen
-        name={Screens.TokenBalances}
-        component={TokenBalancesScreen}
-        options={TokenBalancesScreen.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.SanctionedCountryErrorScreen}
@@ -627,7 +621,6 @@ const modalAnimatedScreens = (Navigator: typeof Stack) => (
     />
     <Navigator.Screen
       name={Screens.RegulatoryTerms}
-      // @ts-expect-error component type in native-stack v6
       component={RegulatoryTerms}
       options={RegulatoryTerms.navigationOptions as NativeStackNavigationOptions}
     />

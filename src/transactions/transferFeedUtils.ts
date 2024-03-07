@@ -30,7 +30,7 @@ import {
   recipientInfoSelector,
   rewardsSendersSelector,
 } from 'src/recipients/reducer'
-import useSelector from 'src/redux/useSelector'
+import { useSelector } from 'src/redux/hooks'
 import { useTokenInfoByAddress } from 'src/tokens/hooks'
 import { FeedTokenTransfer } from 'src/transactions/feed/TransferFeedItem'
 import {

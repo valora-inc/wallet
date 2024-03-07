@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Backup unavailable",
-        "body": "You can set up wallet backup later or protect your account now by backing up manually.",
-        "later": "I'll backup later",
-        "manual": "Manual Backup"
+        "body": "You can set up wallet backup later or protect your account now by saving your recovery phrase.",
+        "later": "I'll set up backup later",
+        "manual": "Save recovery phrase"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "I Understand",
   "yourAccountKey": "Your Recovery Phrase",
   "backupKeyNotification2": "Keep your funds safe. Back up your Recovery Phrase now.",
+  "keylessBackupCTA": "Back up now",
+  "keylessBackupNotification": "Set up your email & phone number to back up your seed phrase",
   "backupKeyCTA": "Finish Backup Now",
   "backupKeySummary": "Find a private place and write down your Recovery Phrase. Please store it somewhere safe. Do not save it in your phone.",
   "backupKeyWarning": "If you lose your recovery phrase, you will lose access to all funds held in Valora.",
@@ -2139,6 +2141,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Error",
+  "linkPhoneNumber": {
+    "title": "Link a phone number to your wallet address",
+    "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
+    "startButtonLabel": "Link Phone Number",
+    "later": "I'll do this later"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next'
 import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import * as Keychain from 'react-native-keychain'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useDispatch } from 'react-redux'
 import { setPincodeSuccess } from 'src/account/actions'
 import { PincodeType } from 'src/account/reducer'
 import { OnboardingEvents } from 'src/analytics/Events'
@@ -26,7 +25,7 @@ import {
   onboardingPropsSelector,
 } from 'src/onboarding/steps'
 import { setPincodeWithBiometry } from 'src/pincode/authentication'
-import useTypedSelector, { default as useSelector } from 'src/redux/useSelector'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import { isUserCancelledError } from 'src/storage/keychain'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -52,7 +51,7 @@ export default function EnableBiometry({ navigation }: Props) {
 
   // This screen would not be displayed if supportedBiometryType were null
   const supportedBiometryType = useSelector(supportedBiometryTypeSelector)
-  const onboardingProps = useTypedSelector(onboardingPropsSelector)
+  const onboardingProps = useSelector(onboardingPropsSelector)
 
   const { step, totalSteps } = getOnboardingStepValues(Screens.EnableBiometry, onboardingProps)
 
