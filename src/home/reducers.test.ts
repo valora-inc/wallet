@@ -5,7 +5,6 @@ import {
   nftCelebrationDisplayed,
   nftRewardDisplayed,
   nftRewardReadyToDisplay,
-  nftRewardReminderReadyToDisplay,
 } from 'src/home/actions'
 import {
   DEFAULT_PRIORITY,
@@ -203,7 +202,10 @@ describe('home reducer', () => {
 
   it('should set reward as ready', () => {
     const state = { nftCelebration: { status: NftCelebrationStatus.celebrationDisplayed } } as State
-    const updatedState = reducer(state, nftRewardReadyToDisplay(mockRewardProperties))
+    const updatedState = reducer(
+      state,
+      nftRewardReadyToDisplay({ showReminder: false, valuesToSync: mockRewardProperties })
+    )
 
     expect(updatedState.nftCelebration).toHaveProperty(
       'status',
@@ -215,7 +217,10 @@ describe('home reducer', () => {
 
   it('should set reminder as ready', () => {
     const state = { nftCelebration: { status: NftCelebrationStatus.rewardDisplayed } } as State
-    const updatedState = reducer(state, nftRewardReminderReadyToDisplay(mockRewardProperties))
+    const updatedState = reducer(
+      state,
+      nftRewardReadyToDisplay({ showReminder: true, valuesToSync: mockRewardProperties })
+    )
 
     expect(updatedState.nftCelebration).toHaveProperty(
       'status',

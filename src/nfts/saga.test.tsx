@@ -2,12 +2,7 @@ import { FetchMock } from 'jest-fetch-mock/types'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
 import { select } from 'redux-saga/effects'
-import {
-  Actions,
-  celebratedNftFound,
-  nftRewardReadyToDisplay,
-  nftRewardReminderReadyToDisplay,
-} from 'src/home/actions'
+import { Actions, celebratedNftFound, nftRewardReadyToDisplay } from 'src/home/actions'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { nftCelebrationSelector } from 'src/home/selectors'
 import * as nftSaga from 'src/nfts/saga'
@@ -295,9 +290,12 @@ describe('Given Nfts saga', () => {
         )
         .put(
           nftRewardReadyToDisplay({
-            rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
-            rewardReminderDate: mockRemoteConfig.rewardReminderDate,
-            deepLink: mockRemoteConfig.deepLink,
+            showReminder: false,
+            valuesToSync: {
+              rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
+              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+              deepLink: mockRemoteConfig.deepLink,
+            },
           })
         )
         .run()
@@ -317,9 +315,12 @@ describe('Given Nfts saga', () => {
         )
         .not.put(
           nftRewardReadyToDisplay({
-            rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
-            rewardReminderDate: mockRemoteConfig.rewardReminderDate,
-            deepLink: mockRemoteConfig.deepLink,
+            showReminder: false,
+            valuesToSync: {
+              rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
+              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+              deepLink: mockRemoteConfig.deepLink,
+            },
           })
         )
         .run()
@@ -366,10 +367,13 @@ describe('Given Nfts saga', () => {
             ).getState()
           )
           .put(
-            nftRewardReminderReadyToDisplay({
-              rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
-              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
-              deepLink: mockRemoteConfig.deepLink,
+            nftRewardReadyToDisplay({
+              showReminder: true,
+              valuesToSync: {
+                rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
+                rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+                deepLink: mockRemoteConfig.deepLink,
+              },
             })
           )
           .run()
@@ -388,10 +392,13 @@ describe('Given Nfts saga', () => {
             ).getState()
           )
           .put(
-            nftRewardReminderReadyToDisplay({
-              rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
-              rewardReminderDate: mockRemoteConfig.rewardReminderDate,
-              deepLink: mockRemoteConfig.deepLink,
+            nftRewardReadyToDisplay({
+              showReminder: true,
+              valuesToSync: {
+                rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
+                rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+                deepLink: mockRemoteConfig.deepLink,
+              },
             })
           )
           .run()
@@ -441,7 +448,16 @@ describe('Given Nfts saga', () => {
               mockNftCelebrationStore(NftCelebrationStatus.reminderReadyToDisplay)
             ).getState()
           )
-          .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
+          .not.put(
+            nftRewardReadyToDisplay({
+              showReminder: false,
+              valuesToSync: {
+                rewardExpirationDate: mockRemoteConfig.rewardExpirationDate,
+                rewardReminderDate: mockRemoteConfig.rewardReminderDate,
+                deepLink: mockRemoteConfig.deepLink,
+              },
+            })
+          )
           .run()
       })
 

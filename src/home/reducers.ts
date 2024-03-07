@@ -165,25 +165,10 @@ export const homeReducer = (
         ...state,
         nftCelebration: {
           ...state.nftCelebration,
-          status: NftCelebrationStatus.rewardReadyToDisplay,
-          deepLink: action.deepLink,
-          rewardExpirationDate: action.rewardExpirationDate,
-          rewardReminderDate: action.rewardReminderDate,
-        },
-      }
-    case Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY:
-      if (!state.nftCelebration) {
-        return state
-      }
-
-      return {
-        ...state,
-        nftCelebration: {
-          ...state.nftCelebration,
-          status: NftCelebrationStatus.reminderReadyToDisplay,
-          deepLink: action.deepLink,
-          rewardExpirationDate: action.rewardExpirationDate,
-          rewardReminderDate: action.rewardReminderDate,
+          status: action.showReminder
+            ? NftCelebrationStatus.reminderReadyToDisplay
+            : NftCelebrationStatus.rewardReadyToDisplay,
+          ...action.valuesToSync,
         },
       }
     case Actions.NFT_REWARD_DISPLAYED:

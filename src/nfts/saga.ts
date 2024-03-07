@@ -1,10 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { isPast, isToday } from 'date-fns'
-import {
-  celebratedNftFound,
-  nftRewardReadyToDisplay,
-  nftRewardReminderReadyToDisplay,
-} from 'src/home/actions'
+import { celebratedNftFound, nftRewardReadyToDisplay } from 'src/home/actions'
 import { isSameNftContract } from 'src/home/celebration/utils'
 import { NftCelebrationStatus } from 'src/home/reducers'
 import { nftCelebrationSelector } from 'src/home/selectors'
@@ -195,16 +191,12 @@ export function* findNftReward({ payload: { nfts } }: PayloadAction<FetchNftsCom
   switch (lastNftCelebration.status) {
     case NftCelebrationStatus.celebrationDisplayed:
     case NftCelebrationStatus.rewardReadyToDisplay:
-      if (showReminder) {
-        yield* put(nftRewardReminderReadyToDisplay(valuesToSync))
-      } else {
-        yield* put(nftRewardReadyToDisplay(valuesToSync))
-      }
+      yield* put(nftRewardReadyToDisplay({ showReminder, valuesToSync }))
       return
     case NftCelebrationStatus.rewardDisplayed:
     case NftCelebrationStatus.reminderReadyToDisplay:
       if (showReminder) {
-        yield* put(nftRewardReminderReadyToDisplay(valuesToSync))
+        yield* put(nftRewardReadyToDisplay({ showReminder, valuesToSync }))
       }
       return
   }
