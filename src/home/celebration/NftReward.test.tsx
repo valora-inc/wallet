@@ -5,99 +5,14 @@ import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openDeepLink } from 'src/app/actions'
-import { NftCelebrationStatus } from 'src/home/reducers'
 import { getFeatureGate } from 'src/statsig/index'
 import Colors from 'src/styles/colors'
 import { createMockStore } from 'test/utils'
-import { mockNftAllFields } from 'test/values'
+import { mockNftAllFields, mockStoreReminderReady, mockStoreRewardReady } from 'test/values'
 import NftReward from './NftReward'
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
-
-const mockStoreCelebrationReady = {
-  nfts: {
-    nfts: [mockNftAllFields],
-  },
-  home: {
-    nftCelebration: {
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.celebrationReadyToDisplay,
-    },
-  },
-}
-
-const mockStoreRewardReady = {
-  nfts: {
-    nfts: [mockNftAllFields],
-  },
-  home: {
-    nftCelebration: {
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.rewardReadyToDisplay,
-      rewardExpirationDate: '3000-12-01T00:00:00.000Z',
-      rewardReminderDate: '3000-01-01T00:00:00.000Z',
-      deepLink: 'celo://test',
-    },
-  },
-}
-
-const mockStoreReminderReady = {
-  nfts: {
-    nfts: [mockNftAllFields],
-  },
-  home: {
-    nftCelebration: {
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.reminderReadyToDisplay,
-      rewardExpirationDate: '3000-12-01T00:00:00.000Z',
-      rewardReminderDate: '3000-01-01T00:00:00.000Z',
-      deepLink: 'celo://test',
-    },
-  },
-}
-
-const mockStoreRewardDisplayed = {
-  nfts: {
-    nfts: [mockNftAllFields],
-  },
-  home: {
-    nftCelebration: {
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.rewardDisplayed,
-    },
-  },
-}
-
-const mockStoreReminderDisplayed = {
-  nfts: {
-    nfts: [mockNftAllFields],
-  },
-  home: {
-    nftCelebration: {
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.reminderDisplayed,
-    },
-  },
-}
-
-const mockStoreRewardReayWithDifferentNft = {
-  nfts: {
-    nfts: [{ ...mockNftAllFields, contractAddress: '0xNFT' }],
-  },
-  home: {
-    nftCelebration: {
-      networkId: mockNftAllFields.networkId,
-      contractAddress: mockNftAllFields.contractAddress,
-      status: NftCelebrationStatus.rewardReadyToDisplay,
-    },
-  },
-}
 
 describe('NftReward', () => {
   beforeEach(() => {
@@ -107,112 +22,6 @@ describe('NftReward', () => {
   afterEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers({ doNotFake: ['Date'] })
-  })
-
-  it('renders correctly when status is "reward ready"', () => {
-    const { getByText } = render(
-      <Provider store={createMockStore(mockStoreRewardReady)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(getByText('nftCelebration.rewardBottomSheet.title')).toBeTruthy()
-    expect(
-      getByText('nftCelebration.rewardBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}')
-    ).toBeTruthy()
-    expect(getByText('nftCelebration.rewardBottomSheet.cta')).toBeTruthy()
-  })
-
-  it('renders correctly when status is "reminder ready"', () => {
-    const { getByText } = render(
-      <Provider store={createMockStore(mockStoreReminderReady)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(getByText('nftCelebration.rewardReminderBottomSheet.title')).toBeTruthy()
-    expect(
-      getByText(
-        'nftCelebration.rewardReminderBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}'
-      )
-    ).toBeTruthy()
-    expect(getByText('nftCelebration.rewardReminderBottomSheet.cta')).toBeTruthy()
-  })
-
-  it('does not render when status is other than "reward ready" or "reminder ready"', () => {
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreCelebrationReady)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-  })
-
-  it('does not render when celebrated contract does not match with user nft', () => {
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreRewardReayWithDifferentNft)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-  })
-
-  it('does not render when feature gate is closed', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreRewardReady)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-  })
-
-  it('does not render if reward is already displayed', () => {
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreRewardDisplayed)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-  })
-
-  it('does not render if reminder is already displayed', () => {
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreReminderDisplayed)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-  })
-
-  it('does not render if expired', () => {
-    jest.useFakeTimers({ now: new Date('3001-01-01T00:00:00.000Z') })
-
-    const { queryByText } = render(
-      <Provider store={createMockStore(mockStoreRewardReady)}>
-        <NftReward />
-      </Provider>
-    )
-
-    expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-    expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
   })
 
   it('handles the cta correctly', () => {
@@ -240,45 +49,43 @@ describe('NftReward', () => {
     })
   })
 
-  describe('expiration pill', () => {
-    it('renders correct expiration pill when reward is not about to expire', () => {
-      jest.useFakeTimers({ now: new Date('2900-12-01T00:00:00.000Z') })
+  it('renders correct expiration pill when reward is not about to expire', () => {
+    jest.useFakeTimers({ now: new Date('2900-12-01T00:00:00.000Z') })
 
-      const { getByTestId } = render(
-        <Provider store={createMockStore(mockStoreRewardReady)}>
-          <NftReward />
-        </Provider>
-      )
+    const { getByTestId } = render(
+      <Provider store={createMockStore(mockStoreRewardReady)}>
+        <NftReward />
+      </Provider>
+    )
 
-      const pillLabel = getByTestId('NftReward/PillLabel')
-      expect(pillLabel).toHaveTextContent(
-        'nftCelebration.rewardBottomSheet.expirationLabel, {"expirationLabelText":"in about 100 years"}'
-      )
-      expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.black)
-      expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
-        'backgroundColor',
-        Colors.gray1
-      )
-    })
+    const pillLabel = getByTestId('NftReward/PillLabel')
+    expect(pillLabel).toHaveTextContent(
+      'nftCelebration.rewardBottomSheet.expirationLabel, {"expirationLabelText":"in about 100 years"}'
+    )
+    expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.black)
+    expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
+      'backgroundColor',
+      Colors.gray1
+    )
+  })
 
-    it('renders correct expiration pill when reward is about to expire', () => {
-      jest.useFakeTimers({ now: new Date('3000-11-01T00:00:00.000Z') })
+  it('renders correct expiration pill when reward is about to expire', () => {
+    jest.useFakeTimers({ now: new Date('3000-11-01T00:00:00.000Z') })
 
-      const { getByTestId } = render(
-        <Provider store={createMockStore(mockStoreReminderReady)}>
-          <NftReward />
-        </Provider>
-      )
+    const { getByTestId } = render(
+      <Provider store={createMockStore(mockStoreReminderReady)}>
+        <NftReward />
+      </Provider>
+    )
 
-      const pillLabel = getByTestId('NftReward/PillLabel')
-      expect(pillLabel).toHaveTextContent(
-        'nftCelebration.rewardReminderBottomSheet.expirationLabel, {"expirationLabelText":"in about 1 month"}'
-      )
-      expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.warningDark)
-      expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
-        'backgroundColor',
-        Colors.warningLight
-      )
-    })
+    const pillLabel = getByTestId('NftReward/PillLabel')
+    expect(pillLabel).toHaveTextContent(
+      'nftCelebration.rewardReminderBottomSheet.expirationLabel, {"expirationLabelText":"in about 1 month"}'
+    )
+    expect(StyleSheet.flatten(pillLabel.props.style)).toHaveProperty('color', Colors.warningDark)
+    expect(StyleSheet.flatten(getByTestId('NftReward/Pill').props.style)).toHaveProperty(
+      'backgroundColor',
+      Colors.warningLight
+    )
   })
 })

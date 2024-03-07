@@ -13,7 +13,7 @@ import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import { nftRewardDisplayed } from 'src/home/actions'
 import { isSameNftContract } from 'src/home/celebration/utils'
 import { NftCelebrationStatus } from 'src/home/reducers'
-import { nftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
+import { nftCelebrationSelector } from 'src/home/selectors'
 import i18n from 'src/i18n'
 import { nftsWithMetadataSelector } from 'src/nfts/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -26,8 +26,6 @@ export default function NftRewardBottomSheet() {
   const { t } = useTranslation()
   const dispatch = useDispatch()
 
-  const canShowNftReward = useSelector(showNftRewardSelector)
-
   const [rewardAccepted, setRewardAccepted] = useState(false)
 
   const nftCelebration = useSelector(nftCelebrationSelector)
@@ -38,7 +36,7 @@ export default function NftRewardBottomSheet() {
     [nftCelebration]
   )
 
-  const isVisible = canShowNftReward && matchingNft
+  const isVisible = !!matchingNft
 
   const insets = useSafeAreaInsets()
   const insetsStyle = { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) }
