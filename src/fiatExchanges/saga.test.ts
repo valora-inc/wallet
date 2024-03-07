@@ -101,12 +101,16 @@ describe(watchBidaliPaymentRequests, () => {
             expectedTokenId,
             new BigNumber('20'),
             'Some description (TEST_CHARGE_ID)',
+            recipient.address,
             recipient,
-            true,
-            mockPreparedTransaction
+            'TokenTransferV3',
+            mockPreparedTransaction,
+            { id: 'someContextId' }
           )
         )
-        .dispatch(sendPaymentSuccess({ amount, tokenId: expectedTokenId }))
+        .dispatch(
+          sendPaymentSuccess({ amount, tokenId: expectedTokenId, contextId: 'someContextId' })
+        )
         .run()
 
       expect(navigate).toHaveBeenCalledWith(Screens.SendConfirmationModal, {
@@ -156,9 +160,11 @@ describe(watchBidaliPaymentRequests, () => {
           mockCusdTokenId,
           new BigNumber('20'),
           'Some description (TEST_CHARGE_ID)',
+          recipient.address,
           recipient,
-          true,
-          mockPreparedTransaction
+          'TokenTransferV3',
+          mockPreparedTransaction,
+          { id: 'someContextId' }
         )
       )
       .dispatch(sendPaymentFailure())
