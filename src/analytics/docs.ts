@@ -313,7 +313,12 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [SendEvents.send_select_recipient_recent_press]: `When a recent recipient is pressed`,
   [JumpstartEvents.send_select_recipient_jumpstart]: `When the user taps the Jumpstart button on the select recipient screen to start sending crypto via escrow link`,
   [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: `When the user enters a send value greater than allowed threshold, and is shown the max send amount warning`,
-
+  [JumpstartEvents.jumpstart_send_amount_continue]: `When the user taps the continue button on the jumpstart enter amount screen`,
+  [JumpstartEvents.jumpstart_send_confirm]: `When the user taps the confirm button on the jumpstart confirmation screen to start sending the transaction`,
+  [JumpstartEvents.jumpstart_claim_succeeded]: `When claiming from Wallet Jumpstart succeeded`,
+  [JumpstartEvents.jumpstart_claim_failed]: `When claiming from Wallet Jumpstart failed`,
+  [JumpstartEvents.jumpstart_claimed_token]: `When user successfully claimed an ERC20 token trough Wallet Jumpstart`,
+  [JumpstartEvents.jumpstart_claimed_nft]: `When user successfully claimed an NFT trough Wallet Jumpstart`,
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
@@ -546,10 +551,6 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [TransactionDetailsEvents.transaction_details_tap_check_status]: `When a user press 'Check status' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_retry]: `When a user press 'Retry' on transaction details page`,
   [TransactionDetailsEvents.transaction_details_tap_block_explorer]: `When a user press 'View on block explorer' on transaction details page`,
-  [JumpstartEvents.jumpstart_claim_succeeded]: `When claiming from Wallet Jumpstart succeeded`,
-  [JumpstartEvents.jumpstart_claim_failed]: `When claiming from Wallet Jumpstart failed`,
-  [JumpstartEvents.jumpstart_claimed_token]: `When user successfully claimed an ERC20 token trough Wallet Jumpstart`,
-  [JumpstartEvents.jumpstart_claimed_nft]: `When user successfully claimed an NFT trough Wallet Jumpstart`,
 
   // Legacy event docs
   //  The below events had docs, but are no longer produced by the latest app version.

@@ -2625,6 +2625,7 @@
                 "ImportWallet",
                 "Invite",
                 "JumpstartEnterAmount",
+                "JumpstartSendConfirmation",
                 "KeylessBackupIntro",
                 "KeylessBackupPhoneCodeInput",
                 "KeylessBackupPhoneInput",

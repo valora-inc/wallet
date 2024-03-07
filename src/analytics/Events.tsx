@@ -332,11 +332,6 @@ export enum SendEvents {
   send_select_recipient_recent_press = 'send_select_recipient_recent_press',
 }
 
-export enum JumpstartEvents {
-  send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
-  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
-}
-
 export enum QrScreenEvents {
   // Events for the QR screen redesign
   qr_screen_copy_address = 'qr_screen_copy_address',
@@ -644,6 +639,10 @@ export enum TransactionDetailsEvents {
 }
 
 export enum JumpstartEvents {
+  send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
+  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
+  jumpstart_send_amount_continue = 'jumpstart_send_amount_continue',
+  jumpstart_send_confirm = 'jumpstart_send_confirm',
   jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
   jumpstart_claim_failed = 'jumpstart_claim_failed',
   jumpstart_claimed_token = 'jumpstart_claimed_token',
