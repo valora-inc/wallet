@@ -9,6 +9,7 @@ import * as nftSaga from 'src/nfts/saga'
 import { handleFetchNfts, watchFirstFetchCompleted } from 'src/nfts/saga'
 import { fetchNftsCompleted, fetchNftsFailed } from 'src/nfts/slice'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { walletAddressSelector } from 'src/web3/selectors'
@@ -172,7 +173,11 @@ describe('Given Nfts saga', () => {
     it('should not put celebrated NFT if feature gate is closed', () => {
       const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
-      jest.mocked(getFeatureGate).mockReturnValue(false)
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation(
+          (featureGate) => featureGate !== StatsigFeatureGates.SHOW_NFT_CELEBRATION
+        )
       jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
 
       return expectSaga(nftSaga.findCelebratedNft, mockAction)
@@ -215,7 +220,9 @@ describe('Given Nfts saga', () => {
     it('should not set status "reward ready" if feature gate is closed', () => {
       const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
-      jest.mocked(getFeatureGate).mockReturnValue(false)
+      jest
+        .mocked(getFeatureGate)
+        .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.SHOW_NFT_REWARD)
       jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
 
       return expectSaga(nftSaga.findCelebratedNft, mockAction)
