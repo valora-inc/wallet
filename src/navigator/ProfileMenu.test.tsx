@@ -49,7 +49,7 @@ describe('ProfileMenu', () => {
     )
     expect(queryByTestId('ProfileMenu/Username')).toBeFalsy()
   })
-  describe('network display', () => {
+  describe('shows phone number correctly', () => {
     it('shows the phone number when the user is verified', () => {
       const store = createMockStore({
         app: {
