@@ -40,7 +40,7 @@ export default function AccountNumber({ address, touchDisabled, location }: Prop
     }
 
     if (location === Screens.ProfileMenu) {
-      // TODO: Track analytics event
+      ValoraAnalytics.track(HomeEvents.profile_address_copy)
     }
   }
   // Turns '0xce10ce10ce10ce10ce10ce10ce10ce10ce10ce10'

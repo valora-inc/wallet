@@ -8,7 +8,6 @@ interface Props {
   e164PhoneNumber: string
   defaultCountryCode?: string
   textColor?: string
-  textFont?: { fontFamily: string; fontSize: string; lineHeight: string; letterSpacing?: string }
 }
 
 export class PhoneNumberWithFlag extends React.PureComponent<Props> {

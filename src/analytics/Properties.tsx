@@ -157,6 +157,7 @@ interface HomeEventsProperties {
     navigateTo: string
   }
   [HomeEvents.drawer_address_copy]: undefined
+  [HomeEvents.profile_address_copy]: undefined
 
   [HomeEvents.notification_scroll]: {
     // TODO: Pass in notificationType and make param required

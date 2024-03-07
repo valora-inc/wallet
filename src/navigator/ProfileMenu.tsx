@@ -50,7 +50,7 @@ export default function ProfileMenu({ route }: Props) {
           >
             <Times />
           </Touchable>
-          <RewardsPill />
+          <RewardsPill useValoraIcon={true} />
         </View>
         <ContactCircleSelf size={64} />
         {!!displayName && (
