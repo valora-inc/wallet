@@ -326,13 +326,13 @@ describe('Given Nfts saga', () => {
     })
 
     it('should not set status "reward ready" or "reminder ready" if reward is expired', async () => {
-      jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
+      jest.useFakeTimers({ now: new Date('3000-01-01T00:00:00.000Z') })
       const mockAction = fetchNftsCompleted({ nfts: [mockNftAllFields] })
 
       jest.mocked(getFeatureGate).mockReturnValue(true)
       jest.mocked(getDynamicConfigParams).mockReturnValue(mockExpiredRemoteConfig)
 
-      return expectSaga(nftSaga.findNftReward, mockAction)
+      await expectSaga(nftSaga.findNftReward, mockAction)
         .withState(
           createMockStore(
             mockNftCelebrationStore(NftCelebrationStatus.celebrationDisplayed)
@@ -341,11 +341,16 @@ describe('Given Nfts saga', () => {
         .not.put.actionType(Actions.NFT_REWARD_READY_TO_DISPLAY)
         .not.put.actionType(Actions.NFT_REWARD_REMINDER_READY_TO_DISPLAY)
         .run()
+
+      jest.useFakeTimers({ doNotFake: ['Date'] })
     })
 
     describe('when reward is about to expire', () => {
       beforeAll(() => {
-        jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
+        jest.useFakeTimers({ now: new Date('3000-01-01T00:00:00.000Z') })
+      })
+      afterAll(() => {
+        jest.useFakeTimers({ doNotFake: ['Date'] })
       })
 
       it('should set status "reminder ready" if reward was displayed', async () => {

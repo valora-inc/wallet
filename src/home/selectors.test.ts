@@ -190,7 +190,11 @@ describe('nftCelebrationSelector', () => {
 describe('showNftCelebrationSelector', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
+    jest.useFakeTimers({ now: new Date('3000-01-01T00:00:00.000Z') })
+  })
+
+  afterEach(() => {
+    jest.useFakeTimers({ doNotFake: ['Date'] })
   })
 
   it('should return false when feature gate is disabled', () => {
@@ -240,7 +244,11 @@ describe('showNftCelebrationSelector', () => {
 describe('showNftRewardSelector', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    jest.useFakeTimers().setSystemTime(new Date('3000-01-01T00:00:00.000Z').getTime())
+    jest.useFakeTimers({ now: new Date('3000-01-01T00:00:00.000Z') })
+  })
+
+  afterEach(() => {
+    jest.useFakeTimers({ doNotFake: ['Date'] })
   })
 
   it('should return false when feature gate is disabled', () => {
