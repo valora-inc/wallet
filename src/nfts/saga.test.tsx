@@ -73,7 +73,6 @@ describe('Given Nfts saga', () => {
     })
 
     it("should fetch user's NFTs", async () => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponseOnce(nftResponse1)
       mockFetch.mockResponseOnce(nftResponse2)
 
@@ -108,7 +107,6 @@ describe('Given Nfts saga', () => {
     })
 
     it('should save error on parse fail', async () => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponseOnce('invalid json')
 
       await expectSaga(handleFetchNfts)
@@ -124,7 +122,6 @@ describe('Given Nfts saga', () => {
     })
 
     it('should save error on fetch fail', async () => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
       mockFetch.mockResponse(JSON.stringify({ message: 'something went wrong' }), { status: 500 })
 
       await expectSaga(handleFetchNfts)
@@ -139,8 +136,6 @@ describe('Given Nfts saga', () => {
     })
 
     it('should not fetch when no wallet address found', async () => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
-
       await expectSaga(handleFetchNfts)
         .provide([[select(walletAddressSelector), null]])
         .not.put.actionType(fetchNftsCompleted.type)
@@ -150,27 +145,6 @@ describe('Given Nfts saga', () => {
         'NftsSaga',
         'Wallet address not found, skipping NFTs list fetch'
       )
-    })
-
-    it('should be disabled by feature gate', async () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-
-      await expectSaga(handleFetchNfts)
-        .provide([[select(walletAddressSelector), '0xabc']])
-        .not.put.actionType(fetchNftsCompleted.type)
-        .run()
-
-      expect(loggerDebugSpy).toHaveBeenCalledWith(
-        'NftsSaga',
-        'Feature gate not enabled, skipping NFTs list fetch'
-      )
-    })
-
-    it('should be disabled by default', async () => {
-      await expectSaga(handleFetchNfts)
-        .provide([[select(walletAddressSelector), '0xabc']])
-        .not.put.actionType(fetchNftsCompleted.type)
-        .run()
     })
   })
 

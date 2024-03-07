@@ -4,7 +4,6 @@ import { Provider } from 'react-redux'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import { Fee, NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
@@ -71,8 +70,7 @@ describe('NftFeedItem', () => {
     }
   }
 
-  it('shows NFT icon with correct source when enabled from statsig', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+  it('shows NFT icon with correct source', () => {
     const { getByTestId } = renderScreen({})
     expect(getByTestId('NftFeedItem/NftIcon')).toHaveProp(
       'source',
@@ -85,35 +83,12 @@ describe('NftFeedItem', () => {
     )
   })
 
-  it('shows default icon when disabled from statsig', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const { getByText, getByTestId } = renderScreen({})
-    expect(getByText('receivedNft')).toBeTruthy()
-    expect(getByTestId('NftReceivedIcon')).toBeTruthy()
-  })
-
   it('opens NFT Info Carousel correctly when NFT transaction item is clicked', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
     const tree = renderScreen({})
-
     fireEvent.press(tree.getByTestId('NftFeedItem'))
-
     expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
       nfts: [mockNftAllFields],
       networkId: NetworkId['celo-alfajores'],
-    })
-  })
-
-  it('opens NFT Viewer correctly when NFT transaction item is clicked and viewer is disabled in Statsig', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const tree = renderScreen({})
-
-    fireEvent.press(tree.getByTestId('NftFeedItem'))
-
-    expect(navigate).toHaveBeenCalledWith(Screens.WebViewScreen, {
-      uri: `${
-        networkConfig.nftsValoraAppUrl
-      }?address=${mockAccount.toLowerCase()}&hide-header=true`,
     })
   })
 })
