@@ -32,4 +32,8 @@ export function Settings({ color }: Props) {
   )
 }
 
+Settings.defaultProps = {
+  color: '#B4B9BD',
+}
+
 export default React.memo(Settings)

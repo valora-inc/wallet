@@ -41,4 +41,8 @@ export function Invite({ color }: Props) {
   )
 }
 
+Invite.defaultProps = {
+  color: '#B4B9BD',
+}
+
 export default React.memo(Invite)

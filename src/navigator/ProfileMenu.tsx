@@ -53,18 +53,20 @@ export default function ProfileMenu({ route }: Props) {
           <RewardsPill useValoraIcon={true} />
         </View>
         <ContactCircleSelf size={64} />
-        {!!displayName && (
-          <Text style={styles.nameLabel} testID="ProfileMenu/Username">
-            {displayName}
-          </Text>
-        )}
-        {phoneNumberVerified && e164PhoneNumber && (
-          <PhoneNumberWithFlag
-            e164PhoneNumber={e164PhoneNumber}
-            defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}
-            textColor={Colors.gray4}
-          />
-        )}
+        <View style={styles.infoContainer}>
+          {!!displayName && (
+            <Text style={styles.nameLabel} testID="ProfileMenu/Username">
+              {displayName}
+            </Text>
+          )}
+          {phoneNumberVerified && e164PhoneNumber && (
+            <PhoneNumberWithFlag
+              e164PhoneNumber={e164PhoneNumber}
+              defaultCountryCode={defaultCountryCode ? defaultCountryCode : undefined}
+              textColor={Colors.gray4}
+            />
+          )}
+        </View>
       </View>
       <View style={styles.topBorder} />
       <Touchable testID="ProfileMenu/Invite" onPress={() => navigate(Screens.Invite)}>
@@ -124,6 +126,8 @@ const styles = StyleSheet.create({
   nameLabel: {
     ...typeScale.titleSmall,
     marginBottom: Spacing.Smallest8,
+  },
+  infoContainer: {
     marginTop: Spacing.Smallest8,
   },
   topBorder: {
