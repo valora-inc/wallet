@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Kopia zapasowa niedostępna",
-        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, wykonując kopię zapasową ręcznie.",
-        "later": "Stworzę kopię zapasową później",
-        "manual": "Ręczna kopia zapasowa"
+        "body": "Możesz skonfigurować kopię zapasową portfela później lub chronić swoje konto teraz, zapisując frazę odzyskiwania.",
+        "later": "Utworzę kopię zapasową później",
+        "manual": "Zapisz frazę odzyskiwania"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Rozumiem",
   "yourAccountKey": "Twoja fraza odzyskiwania",
   "backupKeyNotification2": "Zadbaj o bezpieczeństwo swoich środków. Stwórz teraz kopię zapasową swojej frazy odzyskiwania.",
+  "keylessBackupCTA": "Utwórz kopię zapasową",
+  "keylessBackupNotification": "Skonfiguruj swój adres e-mail i numer telefonu, aby utworzyć kopię zapasową frazy seed.",
   "backupKeyCTA": "Zakończ tworzenie kopii zapasowej",
   "backupKeySummary": "Znajdź miejsce na osobności i zapisz swoją frazę odzyskiwania. Przechowuj ją w bezpiecznym miejscu. Nie zapisuj jej w swoim telefonie.",
   "backupKeyWarning": "Jeśli stracisz swoją frazę odzyskiwania, stracisz również dostęp do wszystkich funduszy przechowywanych w Valorze.",
@@ -2143,6 +2145,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Błąd",
+  "linkPhoneNumber": {
+    "title": "Połącz numer telefonu z adresem portfela",
+    "description": "Koniec z nieuporządkowanymi adresami portfeli! Wysyłaj kryptowaluty do innych użytkowników Celo za pomocą numeru telefonu",
+    "startButtonLabel": "Połącz numer telefonu",
+    "later": "Zrobię to później"
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",

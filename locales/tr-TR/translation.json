@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Yedekleme kullanılamıyor",
-        "body": "Cüzdan yedeklemesini daha sonra ayarlayabilir veya manuel olarak yedekleyerek hesabınızı şimdi koruyabilirsiniz.",
-        "later": "Daha sonra yedekleyeceğim",
-        "manual": "Manuel Yedekleme"
+        "body": "Cüzdan yedeklemesini daha sonra ayarlayabilir veya kurtarma ifadenizi kaydederek hesabınızı şimdi koruyabilirsiniz.",
+        "later": "Yedeklemeyi daha sonra ayarlayacağım",
+        "manual": "Kurtarma ifadesini kaydet"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Anladım",
   "yourAccountKey": "Kurtarma Kelimeleriniz",
   "backupKeyNotification2": "Fonlarınızı güvende tutun. Kurtarma İfadenizi şimdi yedekleyin.",
+  "keylessBackupCTA": "Şimdi yedekleyin",
+  "keylessBackupNotification": "Tohum ifadenizi yedeklemek için e-posta ve telefon numaranızı ayarlayın",
   "backupKeyCTA": "Yedeklemeyi Şimdi Tamamlayın",
   "backupKeySummary": "Kurtarma Kelimelerinizi yazmak için özel bir yer bulun ve not edin. Lütfen kelimelerinizi güvenli bir yerde saklayın ve telefonunuza kaydetmeyin.",
   "backupKeyWarning": "Kurtarma ifadenizi kaybederseniz Valora'da tutulan tüm fonlarınıza erişimi kaybedersiniz.",
@@ -2139,6 +2141,12 @@
   },
   "pleaseWait": "Please wait",
   "error": "Hata",
+  "linkPhoneNumber": {
+    "title": "Cüzdan adresinize bir telefon numarası bağlayın",
+    "description": "Artık dağınık cüzdan adresleri yok! Sadece bir telefon numarasıyla diğer Celo kullanıcılarına kripto gönderin",
+    "startButtonLabel": "Bağlantı Telefon Numarası",
+    "later": "Bunu daha sonra yapacağım."
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

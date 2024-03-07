@@ -127,9 +127,9 @@
       },
       "failed": {
         "title": "Sauvegarde non disponible",
-        "body": "Tu peux configurer la sauvegarde du portefeuille plus tard ou protéger ton compte dès maintenant en effectuant une sauvegarde manuelle.",
-        "later": "Je sauvegarderai plus tard",
-        "manual": "Sauvegarde manuelle"
+        "body": "Tu peux mettre en place une sauvegarde du portefeuille plus tard ou protéger ton compte maintenant en enregistrant ta phrase de récupération.",
+        "later": "Je mettrai en place une sauvegarde plus tard",
+        "manual": "Sauvegarde la phrase de récupération"
       }
     },
     "restore": {
@@ -210,6 +210,8 @@
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
   "backupKeyNotification2": "Gardez vos fonds en sécurité. Enregistrez votre Phrase de récupération maintenant.",
+  "keylessBackupCTA": "Sauvegarde maintenant",
+  "keylessBackupNotification": "Configure ton email et ton numéro de téléphone pour sauvegarder ta phrase de semence.",
   "backupKeyCTA": "Terminer la sauvegarde maintenant",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
   "backupKeyWarning": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos fonds détenus sur Valora.",
@@ -2139,6 +2141,12 @@
   },
   "pleaseWait": "Merci de patienter",
   "error": "Erreur",
+  "linkPhoneNumber": {
+    "title": "Associe un numéro de téléphone à l'adresse de ton portefeuille",
+    "description": "Fini les adresses de portefeuilles en désordre ! Envoie de la crypto à d'autres utilisateurs de Celo avec un simple numéro de téléphone.",
+    "startButtonLabel": "Numéro de téléphone du lien",
+    "later": "Je le ferai plus tard"
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
