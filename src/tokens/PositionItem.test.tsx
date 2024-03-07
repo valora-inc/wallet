@@ -1,14 +1,12 @@
 import { fireEvent, render } from '@testing-library/react-native'
-import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { AppTokenPosition } from 'src/positions/types'
-import { PositionItem, TokenBalanceItem } from 'src/tokens/AssetItem'
-import { NetworkId } from 'src/transactions/types'
+import { PositionItem } from 'src/tokens/PositionItem'
 import { createMockStore } from 'test/utils'
-import { mockCusdAddress, mockCusdTokenId, mockPositions } from 'test/values'
+import { mockPositions } from 'test/values'
 
 beforeEach(() => {
   jest.clearAllMocks()
@@ -75,42 +73,5 @@ describe('PositionItem', () => {
     expect(getByText('Pool')).toBeTruthy()
     expect(getByText('-')).toBeTruthy()
     expect(getByText('11.90')).toBeTruthy()
-  })
-})
-
-describe('TokenBalanceItem', () => {
-  const mockTokenInfo = {
-    balance: new BigNumber('10'),
-    tokenId: mockCusdTokenId,
-    priceUsd: new BigNumber('1'),
-    networkId: NetworkId['celo-alfajores'],
-    lastKnownPriceUsd: new BigNumber('1'),
-    symbol: 'cUSD',
-    address: mockCusdAddress,
-    isFeeCurrency: true,
-    canTransferWithComment: true,
-    priceFetchedAt: Date.now(),
-    decimals: 18,
-    name: 'Celo Dollar',
-    imageUrl: '',
-  }
-
-  it('tracks data about the asset when tapped', () => {
-    const { getByText } = render(
-      <Provider store={createMockStore({})}>
-        <TokenBalanceItem token={mockTokenInfo} showPriceChangeIndicatorInBalances={true} />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('cUSD'))
-
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.tap_asset, {
-      address: mockCusdAddress,
-      assetType: 'token',
-      balanceUsd: 10,
-      description: 'Celo Dollar',
-      title: 'cUSD',
-    })
   })
 })
