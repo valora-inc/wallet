@@ -28,6 +28,7 @@ export enum StatsigFeatureGates {
   SHOW_SWAP_TOKEN_FILTERS = 'show_swap_token_filters',
   SHUFFLE_SWAP_TOKENS_ORDER = 'shuffle_swap_tokens_order',
   SHOW_NFT_CELEBRATION = 'show_nft_celebration',
+  SHOW_NFT_REWARD = 'show_nft_reward',
   SHOW_JUMPSTART_SEND = 'show_jumpstart_send',
 }
 
