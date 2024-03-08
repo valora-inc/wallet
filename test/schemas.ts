@@ -3130,6 +3130,18 @@ export const v197Schema = {
   web3: _.omit(v196Schema.web3, 'twelveWordMnemonicEnabled'),
 }
 
+export const v198Schema = {
+  ...v197Schema,
+  _persist: {
+    ...v197Schema._persist,
+    version: 198,
+  },
+  home: {
+    ...v197Schema.home,
+    nftCelebration: null,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v197Schema as Partial<RootState>
+  return v198Schema as Partial<RootState>
 }

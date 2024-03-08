@@ -1,5 +1,6 @@
 import i18n from 'src/i18n'
 import {
+  formatDistanceToNow,
   formatFeedDate,
   formatFeedSectionTitle,
   formatFeedTime,
@@ -49,6 +50,11 @@ describe('utils/time', () => {
   describe('timeDeltaInDays', () => {
     it('returns correct time delta', () => {
       expect(timeDeltaInDays(new Date().getTime(), new Date().getTime() - ONE_DAY_MS)).toEqual(1)
+    })
+  })
+  describe('formatDistanceToNow', () => {
+    it('returns correct distance to now', () => {
+      expect(formatDistanceToNow(wedMarch132019at1050, i18n)).toEqual('about 2 years')
     })
   })
 })

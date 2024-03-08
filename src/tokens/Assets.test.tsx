@@ -1,11 +1,9 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { fetchNfts } from 'src/nfts/slice'
-import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
+import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import AssetsScreen from 'src/tokens/Assets'
 import { NetworkId } from 'src/transactions/types'
@@ -21,7 +19,6 @@ import {
   mockNftNullMetadata,
   mockPositions,
   mockShortcuts,
-  mockTokenBalances,
 } from 'test/values'
 
 jest.mock('src/statsig', () => {
@@ -32,8 +29,6 @@ jest.mock('src/statsig', () => {
     })),
   }
 })
-
-const ethTokenId = 'ethereum-sepolia:native'
 
 const storeWithTokenBalances = {
   tokens: {
@@ -203,44 +198,6 @@ describe('AssetsScreen', () => {
     expect(queryAllByTestId('NftItem')).toHaveLength(2)
   })
 
-  it('renders collectibles error', () => {
-    const store = createMockStore({
-      nfts: {
-        nftsLoading: false,
-        nfts: [],
-        nftsError: 'Error fetching nfts',
-      },
-    })
-
-    const { getByText, getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('assets.tabBar.collectibles'))
-    expect(getByTestId('Assets/NftsLoadError')).toBeTruthy()
-  })
-
-  it('renders no collectables text', () => {
-    const store = createMockStore({
-      nfts: {
-        nftsLoading: false,
-        nfts: [],
-        nftsError: null,
-      },
-    })
-
-    const { getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('assets.tabBar.collectibles'))
-    expect(getByText('nftGallery.noNfts')).toBeTruthy()
-  })
-
   it('renders dapp positions on selecting the tab', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true)
     const store = createMockStore(storeWithPositions)
@@ -263,51 +220,6 @@ describe('AssetsScreen', () => {
 
     expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
     expect(queryAllByTestId('PositionItem')).toHaveLength(0)
-  })
-
-  it('clicking a token navigates to the token details screen and fires analytics event', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const store = createMockStore(storeWithPositions)
-
-    const { getAllByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-
-    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(2)
-
-    fireEvent.press(getAllByTestId('TokenBalanceItem')[0])
-    expect(navigate).toHaveBeenCalledTimes(1)
-    expect(navigate).toHaveBeenCalledWith(Screens.TokenDetails, { tokenId: mockCusdTokenId })
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
-  })
-
-  it('clicking an NFT navigates to the nfts info screen', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const store = createMockStore(storeWithNfts)
-
-    const { getAllByTestId, getByText } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-
-    fireEvent.press(getByText('assets.tabBar.collectibles'))
-
-    expect(getAllByTestId('NftItem')).toHaveLength(2)
-
-    fireEvent.press(getAllByTestId('NftGallery/NftImage')[0])
-    fireEvent.press(getAllByTestId('NftGallery/NftImage')[1])
-    expect(navigate).toHaveBeenCalledTimes(2)
-    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
-      nfts: [{ ...mockNftAllFields, networkId: NetworkId['celo-alfajores'] }],
-      networkId: NetworkId['celo-alfajores'],
-    })
-    expect(navigate).toHaveBeenCalledWith(Screens.NftsInfoCarousel, {
-      nfts: [{ ...mockNftMinimumFields, networkId: NetworkId['ethereum-sepolia'] }],
-      networkId: NetworkId['ethereum-sepolia'],
-    })
   })
 
   it('hides claim rewards if feature gate is false', () => {
@@ -403,69 +315,5 @@ describe('AssetsScreen', () => {
     fireEvent.press(button)
 
     expect(navigate).toHaveBeenCalledWith(Screens.TokenImport)
-  })
-
-  it('displays tokens with balance and ones marked with showZeroBalance in the expected order', () => {
-    jest.mocked(getDynamicConfigParams).mockReturnValueOnce({
-      showBalances: [NetworkId['celo-alfajores'], NetworkId['ethereum-sepolia']],
-    })
-    const store = createMockStore({
-      tokens: {
-        tokenBalances: {
-          ...mockTokenBalances,
-          [ethTokenId]: {
-            tokenId: ethTokenId,
-            balance: '0',
-            priceUsd: '5',
-            networkId: NetworkId['ethereum-sepolia'],
-            showZeroBalance: true,
-            isNative: true,
-            symbol: 'ETH',
-          },
-          ['token1']: {
-            tokenId: 'token1',
-            networkId: NetworkId['celo-alfajores'],
-            balance: '10',
-            symbol: 'TK1',
-          },
-          ['token2']: {
-            tokenId: 'token2',
-            networkId: NetworkId['celo-alfajores'],
-            balance: '0',
-            symbol: 'TK2',
-          },
-          ['token3']: {
-            tokenId: 'token3',
-            networkId: NetworkId['ethereum-sepolia'],
-            balance: '20',
-            symbol: 'TK3',
-          },
-        },
-      },
-    })
-
-    const { getAllByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-
-    expect(getAllByTestId('TokenBalanceItem')).toHaveLength(6)
-    ;['POOF', 'TK3', 'TK1', 'CELO', 'ETH', 'cUSD'].map((symbol, index) => {
-      expect(getAllByTestId('TokenBalanceItem')[index]).toHaveTextContent(symbol)
-    })
-  })
-
-  it('dispatches action to fetch nfts on load', () => {
-    const store = createMockStore(storeWithPositions)
-
-    const { getByTestId } = render(
-      <Provider store={store}>
-        <MockedNavigator component={AssetsScreen} />
-      </Provider>
-    )
-
-    expect(getByTestId('AssetsTokenBalance')).toBeTruthy()
-    expect(store.getActions()).toEqual([fetchNfts()])
   })
 })

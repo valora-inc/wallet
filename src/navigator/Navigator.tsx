@@ -57,6 +57,7 @@ import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
+import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -259,6 +260,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.JumpstartEnterAmount}
       component={JumpstartEnterAmount}
       options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartSendConfirmation}
+      component={JumpstartSendConfirmation}
+      options={headerWithBackButton}
     />
   </>
 )
@@ -653,6 +659,11 @@ const mainScreenNavOptions = () => ({
 })
 
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
+  // Note: scrolling views inside bottom sheet screens should use the relevant
+  // components from react-native-gesture-handler instead of directly from
+  // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
+
   return (
     <>
       <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
@@ -698,10 +709,6 @@ function RootStackScreen() {
     []
   )
 
-  // Note: scrolling views inside bottom sheet screens should use the relevant
-  // components from react-native-gesture-handler instead of directly from
-  // react-native
-  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
   return (
     <RootStack.Navigator
       screenOptions={{

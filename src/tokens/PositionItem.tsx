@@ -5,14 +5,10 @@ import { TouchableWithoutFeedback } from 'react-native-gesture-handler'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import LegacyTokenDisplay from 'src/components/LegacyTokenDisplay'
-import PercentageIndicator from 'src/components/PercentageIndicator'
-import TokenDisplay from 'src/components/TokenDisplay'
 import { Position } from 'src/positions/types'
 import Colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import { TokenBalance } from 'src/tokens/slice'
-import { isHistoricalPriceUpdated } from 'src/tokens/utils'
 import { Currency } from 'src/utils/currencies'
 
 export const PositionItem = ({ position }: { position: Position }) => {
@@ -77,70 +73,6 @@ export const PositionItem = ({ position }: { position: Position }) => {
   )
 }
 
-export const TokenBalanceItem = ({
-  token,
-  showPriceChangeIndicatorInBalances,
-}: {
-  token: TokenBalance
-  showPriceChangeIndicatorInBalances: boolean
-}) => {
-  const onPress = () => {
-    ValoraAnalytics.track(AssetsEvents.tap_asset, {
-      assetType: 'token',
-      address: token.address,
-      title: token.symbol,
-      description: token.name,
-      balanceUsd: token.balance.multipliedBy(token.priceUsd ?? 0).toNumber(),
-    })
-  }
-
-  return (
-    <TouchableWithoutFeedback
-      testID="TokenBalanceItem"
-      key={`Token${token.address}`}
-      style={styles.container}
-      onPress={onPress}
-    >
-      <View style={styles.row}>
-        <Image source={{ uri: token.imageUrl }} style={styles.tokenImg} />
-        <View style={styles.tokenLabels}>
-          <Text style={styles.tokenName}>{token.symbol}</Text>
-          <Text style={styles.subtext}>{token.name}</Text>
-        </View>
-      </View>
-      <View style={styles.balances}>
-        <TokenDisplay
-          amount={new BigNumber(token.balance)}
-          tokenId={token.tokenId}
-          style={styles.tokenAmt}
-          showLocalAmount={false}
-          showSymbol={false}
-          testID={`tokenBalance:${token.symbol}`}
-        />
-        {token.priceUsd?.gt(0) && (
-          <View style={styles.tokenContainer}>
-            {showPriceChangeIndicatorInBalances &&
-              token.historicalPricesUsd &&
-              isHistoricalPriceUpdated(token) && (
-                <PercentageIndicator
-                  testID={`percentageIndicator:${token.symbol}`}
-                  comparedValue={token.historicalPricesUsd.lastDay.price}
-                  currentValue={token.priceUsd}
-                />
-              )}
-            <TokenDisplay
-              amount={new BigNumber(token.balance!)}
-              tokenId={token.tokenId}
-              style={{ ...styles.subtext, marginLeft: 8 }}
-              testID={`tokenLocalBalance:${token.symbol}`}
-            />
-          </View>
-        )}
-      </View>
-    </TouchableWithoutFeedback>
-  )
-}
-
 const styles = StyleSheet.create({
   tokenImg: {
     width: 32,
@@ -148,22 +80,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     marginRight: Spacing.Regular16,
   },
-  container: {
-    flexDirection: 'row',
-    paddingHorizontal: Spacing.Thick24,
-    paddingBottom: Spacing.Large32,
-    justifyContent: 'space-between',
-  },
   positionsContainer: {
     flexDirection: 'row',
     paddingHorizontal: Spacing.Thick24,
     paddingBottom: Spacing.Thick24,
     justifyContent: 'space-between',
-  },
-  tokenContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'flex-end',
   },
   tokenLabels: {
     flexShrink: 1,

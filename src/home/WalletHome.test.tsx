@@ -7,6 +7,7 @@ import { dappSelected } from 'src/dapps/slice'
 import { Dapp, DappSection } from 'src/dapps/types'
 import { fetchProviders } from 'src/fiatExchanges/utils'
 import WalletHome from 'src/home/WalletHome'
+import { NftCelebrationStatus } from 'src/home/reducers'
 import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
@@ -20,6 +21,12 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockProviders,
+  mockStoreCelebrationReady,
+  mockStoreReminderDisplayed,
+  mockStoreReminderReady,
+  mockStoreRewardDisplayed,
+  mockStoreRewardReady,
+  mockStoreRewardReayWithDifferentNft,
 } from 'test/values'
 
 jest.mock('src/web3/networkConfig', () => {
@@ -395,6 +402,7 @@ describe('WalletHome', () => {
       expect(store.getActions()).toEqual([notificationSpotlightSeen()])
     })
   })
+
   describe('cash in bottom sheet', () => {
     beforeEach(() => {
       jest.mocked(getFeatureGate).mockReturnValue(true)
@@ -442,7 +450,7 @@ describe('WalletHome', () => {
         },
         home: {
           nftCelebration: {
-            displayed: false,
+            status: NftCelebrationStatus.celebrationReadyToDisplay,
           },
         },
       })
@@ -458,7 +466,7 @@ describe('WalletHome', () => {
             },
             home: {
               nftCelebration: {
-                displayed: true,
+                status: NftCelebrationStatus.celebrationDisplayed,
               },
             },
           })}
@@ -471,6 +479,131 @@ describe('WalletHome', () => {
         jest.runOnlyPendingTimers()
       })
       await waitFor(() => expect(getByTestId('cashInBtn')).toBeTruthy())
+    })
+  })
+
+  describe('nft reward bottom sheet', () => {
+    beforeEach(() => {
+      jest.mocked(getFeatureGate).mockReturnValue(true)
+    })
+
+    afterEach(() => {
+      jest.clearAllMocks()
+      jest.useFakeTimers({ doNotFake: ['Date'] })
+    })
+
+    it('renders correctly when status is "reward ready"', () => {
+      const { getByText } = renderScreen({
+        ...mockStoreRewardReady,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(getByText('nftCelebration.rewardBottomSheet.title')).toBeTruthy()
+      expect(
+        getByText('nftCelebration.rewardBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}')
+      ).toBeTruthy()
+      expect(getByText('nftCelebration.rewardBottomSheet.cta')).toBeTruthy()
+    })
+
+    it('renders correctly when status is "reminder ready"', () => {
+      const { getByText } = renderScreen({
+        ...mockStoreReminderReady,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(getByText('nftCelebration.rewardReminderBottomSheet.title')).toBeTruthy()
+      expect(
+        getByText(
+          'nftCelebration.rewardReminderBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}'
+        )
+      ).toBeTruthy()
+      expect(getByText('nftCelebration.rewardReminderBottomSheet.cta')).toBeTruthy()
+    })
+
+    it('does not render when status is other than "reward ready" or "reminder ready"', () => {
+      const { queryByText } = renderScreen({
+        ...mockStoreCelebrationReady,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+    })
+
+    it('does not render when celebrated contract does not match with user nft', () => {
+      const { queryByText } = renderScreen({
+        ...mockStoreRewardReayWithDifferentNft,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+    })
+
+    it('does not render when feature gate is closed', () => {
+      jest.mocked(getFeatureGate).mockReturnValue(false)
+
+      const { queryByText } = renderScreen({
+        ...mockStoreRewardReady,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+    })
+
+    it('does not render if reward is already displayed', () => {
+      const { queryByText } = renderScreen({
+        ...mockStoreRewardDisplayed,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+    })
+
+    it('does not render if reminder is already displayed', () => {
+      const { queryByText } = renderScreen({
+        ...mockStoreReminderDisplayed,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+    })
+
+    it('does not render if expired', () => {
+      jest.useFakeTimers({ now: new Date('3001-01-01T00:00:00.000Z') })
+
+      const { queryByText } = renderScreen({
+        ...mockStoreRewardReady,
+        app: {
+          showNotificationSpotlight: false,
+        },
+      })
+
+      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
     })
   })
 })
