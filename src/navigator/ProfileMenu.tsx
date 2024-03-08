@@ -11,11 +11,11 @@ import AccountNumber from 'src/components/AccountNumber'
 import ContactCircleSelf from 'src/components/ContactCircleSelf'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import Touchable from 'src/components/Touchable'
-import Times from 'src/icons/Times'
 import Help from 'src/icons/navigator/Help'
 import { Invite } from 'src/icons/navigator/Invite'
 import Settings from 'src/icons/navigator/Settings'
-import { navigate, navigateBack } from 'src/navigator/NavigationService'
+import { headerWithCloseButton } from 'src/navigator/Headers'
+import { navigate } from 'src/navigator/NavigationService'
 import RewardsPill from 'src/navigator/RewardsPill'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -23,7 +23,6 @@ import { NETWORK_NAMES } from 'src/shared/conts'
 import colors, { Colors } from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 import { currentAccountSelector } from 'src/web3/selectors'
 
@@ -43,17 +42,17 @@ export default function ProfileMenu({ route }: Props) {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.top}>
-          <View style={styles.header} testID="ProfileMenu/Header">
+          {/* <View style={styles.header} testID="ProfileMenu/Header">
             <Touchable
               onPress={navigateBack}
               borderless={true}
               hitSlop={variables.iconHitslop}
-              testID="InviteModalCloseButton"
+              testID="ProfileMenu/CloseButton"
             >
               <Times />
             </Touchable>
             <RewardsPill />
-          </View>
+          </View> */}
           <ContactCircleSelf size={64} />
           <View style={styles.infoContainer}>
             {!!displayName && (
@@ -112,6 +111,11 @@ export default function ProfileMenu({ route }: Props) {
     </SafeAreaView>
   )
 }
+
+ProfileMenu.navigationOptions = () => ({
+  ...headerWithCloseButton,
+  headerRight: () => <RewardsPill />,
+})
 
 const styles = StyleSheet.create({
   top: {

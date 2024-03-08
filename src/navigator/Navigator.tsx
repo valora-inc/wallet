@@ -503,7 +503,11 @@ const generalScreens = (Navigator: typeof Stack) => (
       component={MultichainBeta}
       options={MultichainBeta.navigationOptions}
     />
-    <Navigator.Screen name={Screens.ProfileMenu} component={ProfileMenu} options={noHeader} />
+    <Navigator.Screen
+      name={Screens.ProfileMenu}
+      component={ProfileMenu}
+      options={ProfileMenu.navigationOptions as NativeStackNavigationOptions}
+    />
   </>
 )
 
