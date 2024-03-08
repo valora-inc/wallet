@@ -29,7 +29,7 @@
   "dataSaver": "数据保护模式",
   "enableDataSaver": "启用数据保护模式",
   "dataSaverDetail": "数据保护模式允许您通过可信节点与网络通信。您可以随时在应用程序设置中更改该模式。",
-  "keylessBackupSettingsTitle": "电子邮箱和电话恢复",
+  "keylessBackupSettingsTitle": "电子邮件和电话备份",
   "keylessBackupSettingsDeleteError": "您的备份无法删除，请稍后再试。",
   "setup": "设置",
   "restartModalSwitchOff": {
@@ -2105,6 +2105,13 @@
       "description": "任何人都可以使用该链接。我们建议发送的链接不超过 {{maxAmount}} {{localCurrencyCode}}。"
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "创建可共享链接",
+    "sendAmountLabel": "索赔链接金额",
+    "confirmButton": "发送资金并创建链接",
+    "detailsLabel": "工作原理",
+    "details": "1.点击生成链接，您的资金将被发送到索赔链接\n2.将索赔链接发送给朋友\n3.他们会接受资金\n4.如果资金未被认领，您可以随时取回。"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "批准",
     "estimatedNetworkFee": "估算的网络费用",
@@ -2135,6 +2142,18 @@
     "notification": {
       "title": "恭喜 🎉",
       "description": "{{rewardName}} 已成功添加到您的 {{appName}} 钱包。"
+    },
+    "rewardBottomSheet": {
+      "title": "免费兑现一个月",
+      "description": "因为您拥有收藏品中的 {{nftName}} ，所以我们想在一月份为您提供免费兑奖。\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，都将免收费用。",
+      "expirationLabel": "过期 {{expirationLabelText}}",
+      "cta": "使用奖励"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "免费兑现一个月",
+      "description": "只剩 3 天时间来享受 1 月份的免费兑奖！\n\n通过任何 {{appName}} 合作伙伴使用奖励兑现，将免收手续费。",
+      "expirationLabel": "过期 {{expirationLabelText}}",
+      "cta": "使用奖励"
     }
   },
   "pleaseWait": "Please wait",

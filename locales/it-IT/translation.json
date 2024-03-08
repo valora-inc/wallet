@@ -6,13 +6,13 @@
   "licenses": "Licenze",
   "removeAccountTitle": "Ripristina Valora",
   "removeAccountDetails": "Il ripristino rimuoverà il tuo conto da questo dispositivo. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
-  "deleteAccountTitle": "Elimina l'account",
-  "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà dal sito {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
+  "deleteAccountTitle": "Elimina conto",
+  "deleteAccountDetails": "L'eliminazione del tuo conto lo rimuoverà da {{appName}}. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
   "deleteAccountWarning": {
     "title": "Sei sicuro?",
-    "description": "L'eliminazione del tuo conto da {{appName}} rimuove anche il numero di telefono collegato. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua frase di recupero.",
+    "description": "L'eliminazione del tuo conto da {{appName}} rimuove anche il numero di telefono collegato. I tuoi fondi rimarranno nel conto, ma saranno accessibili solo con la tua Frase di recupero.",
     "buttonLabel": "Continua",
-    "buttonLabelRevokingPhoneNumber": "Scollegamento del numero di telefono..."
+    "buttonLabelRevokingPhoneNumber": "Scollegamento del numero di telefono in corso..."
   },
   "legal": "Informazioni legali",
   "appPreferences": "Preferenze app",
@@ -29,8 +29,8 @@
   "dataSaver": "Risparmio dati",
   "enableDataSaver": "Abilita Risparmio dati",
   "dataSaverDetail": "La modalità Risparmio dati ti permette di comunicare con la rete attraverso un nodo attendibile. Puoi sempre cambiare questa modalità nelle impostazioni dell'app.",
-  "keylessBackupSettingsTitle": "Recupero tramite e-mail e telefono",
-  "keylessBackupSettingsDeleteError": "Non è stato possibile eliminare il tuo backup, attendi e riprova più tardi.",
+  "keylessBackupSettingsTitle": "Backup di e-mail e telefono",
+  "keylessBackupSettingsDeleteError": "Non è stato possibile eliminare il tuo backup, riprova più tardi.",
   "setup": "Imposta",
   "restartModalSwitchOff": {
     "header": "Riavvia per disabilitare Risparmio dati",
@@ -58,13 +58,13 @@
   },
   "promptConfirmRemovalModal": {
     "header": "Sei sicuro di voler procedere?",
-    "body": "Stai per cancellare il tuo portafoglio da questo dispositivo. Questo passo è definitivo e non può essere annullato. Non c'è modo di recuperare la frase di recupero se non l'hai scritta.",
+    "body": "Stai per eliminare il tuo portafoglio da questo dispositivo. Questo passo è definitivo e non può essere annullato. Non c'è modo di recuperare la frase di recupero se non l'hai scritta.",
     "resetNow": "Continua"
   },
   "protectWallet": {
     "title": "Proteggi il tuo portafoglio",
     "subtitle": "Proteggi il tuo portafoglio",
-    "body": "Se il tuo telefono viene perso o rubato, la tua frase di recupero di 12 parole è l'unico modo per accedere ai tuoi fondi.",
+    "body": "Se il tuo telefono viene perso o rubato, la tua Frase di recupero di 12 parole è l'unico modo per accedere ai tuoi fondi.",
     "recoveryPhrase": {
       "title": "Usa la Frase di recupero",
       "subtitle": "Annota la tua Frase di recupero"
@@ -92,18 +92,18 @@
     "setup": {
       "title": "Imposta il backup del portafoglio",
       "description": "Per impostare il backup della tua email e del tuo numero di telefono, dovrai utilizzare le seguenti informazioni",
-      "useRecoveryPhrase": "Usa invece una frase di recupero",
+      "useRecoveryPhrase": "Usa una frase di recupero",
       "reminder": "<0>Ricorda</0> che queste informazioni sono l'unico modo per accedere al tuo portafoglio in caso di smarrimento o furto del dispositivo. Valora non memorizza il tuo indirizzo e-mail o il tuo numero telefonico. Tienila al sicuro!"
     },
     "restore": {
       "description": "Assicurati di avere a disposizione quanto segue per ripristinare il tuo portafoglio.",
-      "reminder": "<0>Ricorda</0> che devi accedere allo stesso numero di telefono e di e-mail che hai utilizzato per il backup."
+      "reminder": "Devi accedere allo stesso numero di telefono e di e-mail che hai utilizzato per il backup."
     }
   },
   "signInWithEmail": {
     "title": "Accedi con l'indirizzo e-mail",
     "subtitle": "Accedi con il tuo indirizzo e-mail per impostarlo come backup.\n\nTi verrà richiesto di accedere nuovamente in caso di smarrimento del tuo portafoglio.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Accedi con l'e-mail che hai utilizzato per impostare il backup.",
     "google": "Accedi con Google"
   },
   "keylessBackupPhoneInput": {
@@ -127,19 +127,19 @@
       },
       "failed": {
         "title": "Backup non disponibile",
-        "body": "Puoi impostare il backup del portafoglio in un secondo momento o proteggere il tuo account ora salvando la frase di recupero.",
+        "body": "Puoi impostare il backup in un secondo momento o proteggere il tuo account ora salvando la frase di recupero.",
         "later": "Preparerò un backup più tardi",
-        "manual": "Salva la frase di recupero"
+        "manual": "Salva frase di recupero"
       }
     },
     "restore": {
       "inProgress": {
-        "title": "Ripristinare il portafoglio"
+        "title": "Ripristinare portafoglio"
       },
       "completed": {
         "title": "Il tuo portafoglio è stato ripristinato!",
         "bodyZeroBalance": "Puoi aggiungere fondi al tuo portafoglio una volta terminata la configurazione.",
-        "bodyBalance": "Hai un equilibrio di <0></0>"
+        "bodyBalance": "Hai un saldo di <0></0>."
       },
       "failed": {
         "title": "Il tuo portafoglio non è stato ripristinato",
@@ -210,8 +210,8 @@
   "completeEducation": "Ho capito",
   "yourAccountKey": "La tua Frase di recupero",
   "backupKeyNotification2": "Mantieni i tuoi fondi al sicuro. Esegui ora il backup della Frase di recupero.",
-  "keylessBackupCTA": "Torna indietro ora",
-  "keylessBackupNotification": "Imposta la tua e-mail e il tuo numero di telefono per eseguire il backup della tua frase iniziale",
+  "keylessBackupCTA": "Esegui backup",
+  "keylessBackupNotification": "Imposta la tua e-mail e il tuo numero di telefono per eseguire il backup",
   "backupKeyCTA": "Termina il backup ora",
   "backupKeySummary": "Trova un luogo privato e annota la tua Frase di recupero. Conservala in un luogo sicuro. Non memorizzarla nel tuo telefono.",
   "backupKeyWarning": "Senza la tua Frase di recupero, perderai l’accesso a tutti i fondi in Valora.",
@@ -915,14 +915,14 @@
     }
   },
   "importSelect": {
-    "title": "Ripristina il tuo portafoglio",
+    "title": "Ripristina portafoglio",
     "description": "Se hai impostato un backup per proteggere il tuo portafoglio, scegli un'opzione qui sotto.",
     "emailAndPhone": {
-      "title": "Dal backup di e-mail e telefono",
-      "description": "Ripristina il tuo portafoglio con il numero di telefono e l'email che hai impostato in precedenza."
+      "title": "E-mail e telefono",
+      "description": "Ripristina il tuo portafoglio con il numero di telefono e l'email che hai impostato"
     },
     "recoveryPhrase": {
-      "title": "Dalla frase di recupero",
+      "title": "Frase di recupero",
       "description": "Inserisci la tua frase di recupero di 12 parole per riottenere l'accesso a Valora"
     }
   },
@@ -2107,6 +2107,13 @@
       "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Si consiglia di inviare non più di {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Crea un link condivisibile",
+    "sendAmountLabel": "IMPORTO DEL LINK DI RICHIESTA",
+    "confirmButton": "Invia i fondi e crea il link",
+    "detailsLabel": "COME FUNZIONA",
+    "details": "1. Tocca genera il link e i tuoi fondi saranno inviati al link di richiesta\n2. Invia il link per la richiesta di rimborso a un amico\n3. Questi accetteranno i fondi\n4. Se i fondi non vengono richiesti, puoi reclamarli in qualsiasi momento."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approvazione",
     "estimatedNetworkFee": "Commissione di rete stimata",
@@ -2137,6 +2144,18 @@
     "notification": {
       "title": "Congratulazioni 🎉",
       "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
+    },
+    "rewardBottomSheet": {
+      "title": "Incassi gratuiti per un mese",
+      "description": "Poiché il sito {{nftName}} è di tua proprietà, ti offriamo un cash-in gratuito per il mese di gennaio.\n\nPer utilizzare la ricompensa, effettua il cash-in tramite qualsiasi partner di {{appName}} e le spese non saranno addebitate.",
+      "expirationLabel": "Scade su {{expirationLabelText}}",
+      "cta": "Usa la ricompensa"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Incassi gratuiti per un mese",
+      "description": "Restano solo 3 giorni per approfittare dei cash-in gratuiti per il mese di gennaio!\n\nPer utilizzare il premio incassa tramite un qualsiasi partner di {{appName}} e le spese saranno annullate.",
+      "expirationLabel": "Scade su {{expirationLabelText}}",
+      "cta": "Usa la ricompensa"
     }
   },
   "pleaseWait": "Please wait",

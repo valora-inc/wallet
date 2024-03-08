@@ -29,7 +29,7 @@
   "dataSaver": "Datensparmodus",
   "enableDataSaver": "Datensparmodus aktivieren",
   "dataSaverDetail": "Der Datensparmodus ermöglicht die Kommunikation mit dem Netzwerk über einen vertrauenswürdigen Knoten. Du kannst diesen Modus jederzeit in den App-Einstellungen ändern.",
-  "keylessBackupSettingsTitle": "E-Mail- und Telefonwiederherstellung",
+  "keylessBackupSettingsTitle": "E-Mail & Telefon Backup",
   "keylessBackupSettingsDeleteError": "Dein Backup konnte nicht gelöscht werden. Bitte warte und versuche es später noch einmal.",
   "setup": "Einrichten",
   "restartModalSwitchOff": {
@@ -2107,6 +2107,13 @@
       "description": "Dieser Link kann von jedem beansprucht werden, der Zugang zu ihm hat. Wir empfehlen, nicht mehr als {{maxAmount}} {{localCurrencyCode}}zu senden."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Link zum Teilen erstellen",
+    "sendAmountLabel": "ANSPRUCH LINK BETRAG",
+    "confirmButton": "Geld senden und Link erstellen",
+    "detailsLabel": "WIE ES FUNKTIONIERT",
+    "details": "1. Tippe auf \"Link generieren\" und dein Geld wird an den Claim-Link\ngesendet. 2. Sende den Claim-Link an einen Freund\n3. Er wird das Geld annehmen\n4. Wenn das Geld nicht eingefordert wird, kannst du es jederzeit zurückfordern."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Genehmigt",
     "estimatedNetworkFee": "Geschätzte Netzwerkgebühr",
@@ -2137,6 +2144,18 @@
     "notification": {
       "title": "Herzlichen Glückwunsch 🎉.",
       "description": "{{rewardName}} wurde erfolgreich zu deiner {{appName}} Brieftasche hinzugefügt."
+    },
+    "rewardBottomSheet": {
+      "title": "Einen Monat lang kostenlos einlösen",
+      "description": "Da du die {{nftName}} in deinen Sammlungen besitzt, möchten wir dir für den Monat Januar kostenlose Einzahlungen schenken.\n\nUm die Prämie zu nutzen, musst du sie bei einem beliebigen {{appName}} Partner einlösen und die Gebühren entfallen.",
+      "expirationLabel": "Läuft ab {{expirationLabelText}}",
+      "cta": "Belohnung verwenden"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Einen Monat lang kostenlos einlösen",
+      "description": "Es sind nur noch 3 Tage übrig, um von den kostenlosen Einzahlungen im Januar zu profitieren!\n\nUm die Prämie zu nutzen, musst du bei einem beliebigen {{appName}} Partner einlösen und die Gebühren werden dir erlassen.",
+      "expirationLabel": "Läuft ab {{expirationLabelText}}",
+      "cta": "Belohnung verwenden"
     }
   },
   "pleaseWait": "Bitte warten",

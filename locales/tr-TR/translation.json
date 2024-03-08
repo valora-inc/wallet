@@ -29,7 +29,7 @@
   "dataSaver": "Veri Tasarrufu",
   "enableDataSaver": "Veri Tasarrufunu Etkinleştir",
   "dataSaverDetail": "Veri Tasarrufu modu, güvenilir bir node aracılığıyla ağ ile iletişim kurmanıza olanak tanır. Bu modu her zaman uygulama ayarlarından değiştirebilirsiniz.",
-  "keylessBackupSettingsTitle": "E-posta ve Telefon Kurtarma",
+  "keylessBackupSettingsTitle": "E-posta ve Telefon Yedekleme",
   "keylessBackupSettingsDeleteError": "Yedeklemeniz silinemedi, lütfen bekleyin ve daha sonra tekrar deneyin.",
   "setup": "Oluştur",
   "restartModalSwitchOff": {
@@ -2107,6 +2107,13 @@
       "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilecektir. {{maxAmount}} {{localCurrencyCode}}adresinden daha fazlasını göndermemenizi öneririz."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Paylaşılabilir bağlantı oluşturun",
+    "sendAmountLabel": "TALEP BAĞLANTI TUTARI",
+    "confirmButton": "Fon gönderin ve bağlantı oluşturun",
+    "detailsLabel": "NASIL ÇALIŞIR",
+    "details": "1. Bağlantı oluştur'a dokunun ve fonlarınız talep bağlantısına gönderilir\n2. Talep bağlantısını bir arkadaşınıza gönderin\n3. Fonları kabul edeceklerdir\n4. Fonlar talep edilmezse, istediğiniz zaman geri alabilirsiniz."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
     "estimatedNetworkFee": "Tahmini ağ ücreti",
@@ -2137,6 +2144,18 @@
     "notification": {
       "title": "Tebrikler 🎉",
       "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
+    },
+    "rewardBottomSheet": {
+      "title": "Bir ay boyunca ücretsiz nakit girişleri",
+      "description": "Koleksiyonlarınızda {{nftName}} adresinin sahibi olduğunuz için, Ocak ayı boyunca size ücretsiz para yatırma imkanı sunmak istiyoruz.\n\nÖdülü kullanmak için herhangi bir {{appName}} ortağı aracılığıyla para yatırın ve ücretlerden feragat edilecektir.",
+      "expirationLabel": "Son kullanma tarihi {{expirationLabelText}}",
+      "cta": "Ödül kullanın"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Bir ay boyunca ücretsiz nakit girişleri",
+      "description": "Ocak ayı boyunca ücretsiz para yatırma işlemlerinden yararlanmak için sadece 3 gün kaldı!\n\nÖdülü kullanmak için herhangi bir {{appName}} ortağı aracılığıyla para yatırın ve ücretlerden feragat edilecektir.",
+      "expirationLabel": "Son kullanma tarihi {{expirationLabelText}}",
+      "cta": "Ödül kullanın"
     }
   },
   "pleaseWait": "Please wait",

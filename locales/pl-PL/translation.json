@@ -29,7 +29,7 @@
   "dataSaver": "Oszczędzanie danych",
   "enableDataSaver": "Włącz oszczędzanie danych",
   "dataSaverDetail": "Tryb oszczędzania danych umożliwia komunikację z siecią poprzez zaufany węzeł. Zawsze możesz zmienić ten tryb w ustawieniach aplikacji.",
-  "keylessBackupSettingsTitle": "Odzyskiwanie za pomocą adresu e-mail i telefonu",
+  "keylessBackupSettingsTitle": "Kopia zapasowa poczty e-mail i telefonu",
   "keylessBackupSettingsDeleteError": "Twoja kopia zapasowa nie mogła zostać usunięta, poczekaj i spróbuj ponownie później.",
   "setup": "Ustaw",
   "restartModalSwitchOff": {
@@ -2111,6 +2111,13 @@
       "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Utwórz link do udostępnienia",
+    "sendAmountLabel": "KWOTA ŁĄCZA DO ROSZCZENIA",
+    "confirmButton": "Wyślij środki i utwórz link",
+    "detailsLabel": "JAK TO DZIAŁA",
+    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
@@ -2141,6 +2148,18 @@
     "notification": {
       "title": "Gratulacje 🎉",
       "description": "{{rewardName}} została pomyślnie dodana do Twojego portfela {{appName}} ."
+    },
+    "rewardBottomSheet": {
+      "title": "Darmowe wypłaty przez miesiąc",
+      "description": "Ponieważ jesteś właścicielem {{nftName}} w swoich przedmiotach kolekcjonerskich, chcielibyśmy dać ci darmowe wypłaty w styczniu.\n\nAby skorzystać z nagrody, dokonaj wpłaty za pośrednictwem dowolnego partnera {{appName}} , a opłaty zostaną zniesione.",
+      "expirationLabel": "Wygasa {{expirationLabelText}}",
+      "cta": "Użyj nagrody"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Darmowe wypłaty przez miesiąc",
+      "description": "Zostały tylko 3 dni, aby skorzystać z darmowych cash-inów w styczniu!\n\nAby skorzystać z nagrody, dokonaj wpłaty za pośrednictwem dowolnego partnera {{appName}} , a opłaty zostaną zniesione.",
+      "expirationLabel": "Wygasa {{expirationLabelText}}",
+      "cta": "Użyj nagrody"
     }
   },
   "pleaseWait": "Please wait",

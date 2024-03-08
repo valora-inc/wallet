@@ -29,7 +29,7 @@
   "dataSaver": "Economia de Dados",
   "enableDataSaver": "Ativar Economia de Dados",
   "dataSaverDetail": "O modo de Economia de Dados permite a comunicação com a rede por meio de um nó confiável. Você sempre pode alterar esse modo nas configurações do aplicativo.",
-  "keylessBackupSettingsTitle": "Recuperação de e-mail e telefone",
+  "keylessBackupSettingsTitle": "Backup de e-mail e telefone",
   "keylessBackupSettingsDeleteError": "Seu backup não pôde ser excluído, aguarde e tente novamente mais tarde.",
   "setup": "Configurar",
   "restartModalSwitchOff": {
@@ -2107,6 +2107,13 @@
       "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Criar um link compartilhável",
+    "sendAmountLabel": "VALOR DO LINK DA REIVINDICAÇÃO",
+    "confirmButton": "Enviar fundos e criar um link",
+    "detailsLabel": "COMO FUNCIONA",
+    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
@@ -2137,6 +2144,18 @@
     "notification": {
       "title": "Parabéns a você 🎉.",
       "description": "{{rewardName}} foi adicionado com sucesso à sua carteira {{appName}} ."
+    },
+    "rewardBottomSheet": {
+      "title": "Cash-ins gratuitos por um mês",
+      "description": "Como você é o proprietário do {{nftName}} em seus colecionáveis, gostaríamos de oferecer a você cash-ins gratuitos no mês de janeiro.\n\nPara usar o prêmio, você pode fazer o cash-in por meio de qualquer parceiro do {{appName}} e as taxas serão dispensadas.",
+      "expirationLabel": "Expira em {{expirationLabelText}}",
+      "cta": "Usar recompensa"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Cash-ins gratuitos por um mês",
+      "description": "Faltam apenas 3 dias para você aproveitar os saques gratuitos do mês de janeiro!\n\nPara usar o prêmio, você pode fazer o cash-in por meio de qualquer parceiro do {{appName}} e as taxas serão dispensadas.",
+      "expirationLabel": "Expira em {{expirationLabelText}}",
+      "cta": "Usar recompensa"
     }
   },
   "pleaseWait": "Please wait",

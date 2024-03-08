@@ -29,7 +29,7 @@
   "dataSaver": "Ahorrar datos",
   "enableDataSaver": "Ahorrar datos",
   "dataSaverDetail": "El modo de Ahorro de datos te permite comunicarte con la red a través de un nodo de confianza. Siempre puedes cambiar este modo en los ajustes de la aplicación.",
-  "keylessBackupSettingsTitle": "Recuperación de correo electrónico y teléfono",
+  "keylessBackupSettingsTitle": "Copia de seguridad de correo electrónico y teléfono",
   "keylessBackupSettingsDeleteError": "No se ha podido eliminar tu copia de seguridad, espera e inténtalo de nuevo más tarde.",
   "setup": "Configurar",
   "restartModalSwitchOff": {
@@ -2107,6 +2107,13 @@
       "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Te recomendamos que no envíes más de {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Crear enlace compartible",
+    "sendAmountLabel": "IMPORTE DEL ENLACE DE RECLAMACIÓN",
+    "confirmButton": "Enviar fondos y crear enlace",
+    "detailsLabel": "CÓMO FUNCIONA",
+    "details": "1. Pulsa generar enlace y tus fondos se enviarán al enlace de reclamación\n2. Envía el enlace de reclamación a un amigo\n3. Ellos aceptarán los fondos\n4. Si no se reclaman los fondos, puedes reclamarlos en cualquier momento."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
@@ -2137,6 +2144,18 @@
     "notification": {
       "title": "Enhorabuena 🎉",
       "description": "{{rewardName}} se ha añadido correctamente a tu monedero {{appName}} ."
+    },
+    "rewardBottomSheet": {
+      "title": "Cobros gratuitos durante un mes",
+      "description": "Como tú eres el propietario de {{nftName}} en tus coleccionables, nos gustaría darte canjes gratuitos durante el mes de enero.\n\nPara utilizar la recompensa, canjea a través de cualquier socio de {{appName}} y no tendrás que pagar comisiones.",
+      "expirationLabel": "Caduca en {{expirationLabelText}}",
+      "cta": "Utiliza la recompensa"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Cobros gratuitos durante un mes",
+      "description": "Sólo quedan 3 días para aprovechar los cobros gratuitos del mes de enero.\n\nPara utilizar la recompensa, canjea a través de cualquier socio de {{appName}} y no tendrás que pagar comisiones.",
+      "expirationLabel": "Caduca en {{expirationLabelText}}",
+      "cta": "Utiliza la recompensa"
     }
   },
   "pleaseWait": "Espera, por favor",
