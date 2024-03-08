@@ -43,7 +43,7 @@ export default function TabNavigator({ route }: Props) {
     >
       <Tab.Screen
         // TODO(act-1104) new assets screen
-        name={Screens.Assets}
+        name={Screens.TabWallet}
         // @ts-expect-error Type '{}' is missing the following properties from type 'Props': navigation, route
         component={AssetsScreen}
         options={{
@@ -53,7 +53,7 @@ export default function TabNavigator({ route }: Props) {
       />
       <Tab.Screen
         // TODO(act-1105) new home tab screen
-        name={Screens.WalletHome}
+        name={Screens.TabWallet}
         component={WalletHome}
         options={{
           freezeOnBlur: false,
@@ -64,7 +64,7 @@ export default function TabNavigator({ route }: Props) {
       />
       <Tab.Screen
         // TODO(act-1106) discover tab screen
-        name={Screens.DAppsExplorerScreen}
+        name={Screens.TabDiscover}
         component={DAppsExplorerScreenSearchFilter}
         options={{
           tabBarLabel: t('bottomTabsNavigator.discover.tabName') as string,

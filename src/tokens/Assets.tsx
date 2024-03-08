@@ -69,7 +69,7 @@ const nftImageSize =
   (variables.width - Spacing.Thick24 * 2 - Spacing.Regular16 * (NUM_OF_NFTS_PER_ROW - 1)) /
   NUM_OF_NFTS_PER_ROW
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
+type Props = NativeStackScreenProps<StackParamList, Screens.Assets | Screens.TabWallet>
 interface SectionData {
   appName?: string
 }
