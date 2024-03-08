@@ -2,7 +2,7 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   text: string
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.successLight,
   },
   text: {
-    ...fontStyles.small600,
+    ...typeScale.labelSemiBoldSmall,
   },
 })
 
