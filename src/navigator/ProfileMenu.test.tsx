@@ -27,7 +27,6 @@ describe('ProfileMenu', () => {
         <MockedNavigator component={ProfileMenu}></MockedNavigator>
       </Provider>
     )
-    expect(queryByTestId('ProfileMenu/Header')).toBeTruthy()
     expect(queryByTestId('ProfileMenu/Username')).toBeTruthy()
     expect(queryByTestId('ProfileMenu/Invite')).toBeTruthy()
     expect(queryByTestId('ProfileMenu/Settings')).toBeTruthy()

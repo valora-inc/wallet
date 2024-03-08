@@ -24,7 +24,13 @@ export class PhoneNumberWithFlag extends React.PureComponent<Props> {
               )
             : getCountryEmoji(this.props.e164PhoneNumber)}
         </Text>
-        <Text style={{ ...typeScale.labelSmall, color: this.props.textColor ?? Colors.black }}>
+        <Text
+          style={{
+            ...typeScale.labelSmall,
+            lineHeight: 18,
+            color: this.props.textColor ?? Colors.black,
+          }}
+        >
           {parsedNumber ? parsedNumber.displayNumberInternational : ''}
         </Text>
       </View>
