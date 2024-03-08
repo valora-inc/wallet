@@ -21,7 +21,7 @@ const Tab = createBottomTabNavigator()
 type Props = NativeStackScreenProps<StackParamList, Screens.TabNavigator>
 
 export default function TabNavigator({ route }: Props) {
-  const initialScreen = route.params?.initialScreen ?? Screens.WalletHome
+  const initialScreen = route.params?.initialScreen ?? Screens.TabHome
   const { t } = useTranslation()
 
   return (
