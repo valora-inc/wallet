@@ -2150,8 +2150,15 @@
     "later": "I'll do this later"
   },
   "bottomTabsNavigator": {
-    "wallet": "Wallet",
-    "home": "Home",
-    "discover": "Discover"
+    "wallet": {
+      "tabName": "Wallet",
+      "title": "My Wallet"
+    },
+    "home": {
+      "tabName": "Home"
+    },
+    "discover": {
+      "tabName": "Discover"
+    }
   }
 }
