@@ -34,7 +34,7 @@ function BottomSheetScrollView({
   // content is large enough to require scrolling. The downside of using this
   // ScrollView is the bottom sheet gestures are not enabled (so you cannot
   // overscroll to dismiss)
-  const ScrollViewComponent = scrollEnabled && isScreen ? ScrollView : GorhomBottomSheetScrollView
+  const ScrollViewComponent = isScreen ? ScrollView : GorhomBottomSheetScrollView
   // use max height simulate max 90% snap point for screens. when bottom sheets
   // take up the whole screen, it is no longer obvious that they are a bottom
   // sheet / how to navigate away
