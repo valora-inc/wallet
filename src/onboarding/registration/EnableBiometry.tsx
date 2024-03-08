@@ -43,6 +43,7 @@ const biometryIconMap: { [key in Keychain.BIOMETRY_TYPE]: JSX.Element } = {
   [Keychain.BIOMETRY_TYPE.FINGERPRINT]: <Fingerprint />,
   [Keychain.BIOMETRY_TYPE.FACE]: <Face />,
   [Keychain.BIOMETRY_TYPE.IRIS]: <Iris />,
+  [Keychain.BIOMETRY_TYPE.OPTIC_ID]: <Iris />,
 }
 
 export default function EnableBiometry({ navigation }: Props) {
