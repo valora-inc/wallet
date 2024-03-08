@@ -123,13 +123,6 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     marginRight: Spacing.Regular16,
   },
-  header: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: Spacing.Regular16,
-    paddingVertical: 10,
-  },
   nameLabel: {
     ...typeScale.titleSmall,
     marginBottom: Spacing.Smallest8,
