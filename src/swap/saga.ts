@@ -13,6 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
+import { sendTransactionSaga } from 'src/send/saga'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -20,13 +21,11 @@ import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { addStandbyTransaction } from 'src/transactions/actions'
-import { handleTransactionReceiptReceived } from 'src/transactions/saga'
+import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
-import { publicClient } from 'src/viem'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -38,7 +37,6 @@ import {
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, decodeFunctionData } from 'viem'
@@ -259,9 +257,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       blockTag: 'pending',
     })
 
-    // Unlock account before executing tx
-    yield* call(unlockAccount, wallet.account.address)
-
     // Execute transaction(s)
     Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
 
@@ -280,15 +275,8 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       txHashes.push(hash)
     }
 
-    for (let i = 0; i < txHashes.length; i++) {
-      trackedTxs[i].txHash = txHashes[i]
-    }
-
-    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
-
-    const feeCurrencyId = getFeeCurrencyToken(preparedTransactions, networkId, tokensById)?.tokenId
-
-    // if there is an approval transaction, add a standby transaction for it
+    // If there are 2 transactions, the first should be an approval. verify and
+    // add a standby transaction for it
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
       const { functionName, args } = yield* call(decodeFunctionData, {
         abi: erc20.abi,
@@ -299,75 +287,70 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
           .shiftedBy(-fromToken.decimals)
           .toString()
-        const approvalTxHash = txHashes[0]
 
-        yield* put(
-          addStandbyTransaction({
+        const createApprovalStandybyTx = (
+          txHash: string,
+          feeCurrencyId?: string
+        ): BaseStandbyTransaction => {
+          return {
             context: swapApproveContext,
             __typename: 'TokenApproval',
             networkId,
             type: TokenTransactionTypeV2.Approval,
-            transactionHash: approvalTxHash,
+            transactionHash: txHash,
             tokenId: fromToken.tokenId,
             approvedAmount,
             feeCurrencyId,
-          })
+          }
+        }
+        yield* call(
+          sendTransactionSaga,
+          serializablePreparedTransactions[0],
+          swapApproveContext,
+          networkId,
+          createApprovalStandybyTx,
+          nonce++
         )
       }
     }
 
-    const swapTxHash = txHashes[txHashes.length - 1]
-    yield* put(
-      addStandbyTransaction({
-        context: swapExecuteContext,
-        __typename: 'TokenExchangeV3',
-        networkId,
-        type: TokenTransactionTypeV2.SwapTransaction,
-        inAmount: {
-          value: swapAmount[Field.TO],
-          tokenId: toToken.tokenId,
-        },
-        outAmount: {
-          value: swapAmount[Field.FROM],
-          tokenId: fromToken.tokenId,
-        },
-        transactionHash: swapTxHash,
-        feeCurrencyId,
-      })
+    const createSwapStandybyTx = (
+      txHash: string,
+      feeCurrencyId?: string
+    ): BaseStandbyTransaction => ({
+      context: swapExecuteContext,
+      __typename: 'TokenExchangeV3',
+      networkId,
+      type: TokenTransactionTypeV2.SwapTransaction,
+      inAmount: {
+        value: swapAmount[Field.TO],
+        tokenId: toToken.tokenId,
+      },
+      outAmount: {
+        value: swapAmount[Field.FROM],
+        tokenId: fromToken.tokenId,
+      },
+      transactionHash: txHash,
+      feeCurrencyId,
+    })
+    // the swap transaction should be the last in the array
+    yield* call(
+      sendTransactionSaga,
+      serializablePreparedTransactions[serializablePreparedTransactions.length - 1],
+      swapExecuteContext,
+      networkId,
+      createSwapStandybyTx,
+      nonce
     )
+
+    for (let i = 0; i < txHashes.length; i++) {
+      trackedTxs[i].txHash = txHashes[i]
+    }
+
+    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
+
     navigate(Screens.WalletHome)
     submitted = true
-
-    const swapTxReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-      hash: swapTxHash,
-    })
-    Logger.debug('Got swap transaction receipt', swapTxReceipt)
-    trackedTxs[trackedTxs.length - 1].txReceipt = swapTxReceipt
-
-    // Also get the receipt of the first transaction (approve), for tracking purposes
-    try {
-      if (txHashes.length > 1) {
-        const approveTxReceipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
-          hash: txHashes[0],
-        })
-        Logger.debug('Got approve transaction receipt', approveTxReceipt)
-        trackedTxs[0].txReceipt = approveTxReceipt
-      }
-    } catch (e) {
-      Logger.warn(TAG, 'Error getting approve transaction receipt', e)
-    }
-
-    yield* call(
-      handleTransactionReceiptReceived,
-      swapExecuteContext.id,
-      swapTxReceipt,
-      networkId,
-      feeCurrencyId
-    )
-
-    if (swapTxReceipt.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
-    }
 
     yield* put(swapSuccess({ swapId, fromTokenId, toTokenId }))
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {

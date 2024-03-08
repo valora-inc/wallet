@@ -22,7 +22,7 @@ export enum Actions {
   UPDATE_INVITE_TRANSACTIONS = 'TRANSACTIONS/UPDATE_INVITE_TRANSACTIONS',
 }
 
-type BaseStandbyTransaction =
+export type BaseStandbyTransaction =
   | Omit<PendingStandbyTransfer, 'timestamp' | 'status'>
   | Omit<PendingStandbySwap, 'timestamp' | 'status'>
   | Omit<PendingStandbyApproval, 'timestamp' | 'status'>
