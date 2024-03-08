@@ -30,7 +30,16 @@ export interface IdToNotification {
   [id: string]: Notification | undefined
 }
 
-interface State {
+export enum NftCelebrationStatus {
+  celebrationReadyToDisplay = 'celebrationReadyToDisplay',
+  celebrationDisplayed = 'celebrationDisplayed',
+  rewardReadyToDisplay = 'rewardReadyToDisplay',
+  rewardDisplayed = 'rewardDisplayed',
+  reminderReadyToDisplay = 'reminderReadyToDisplay',
+  reminderDisplayed = 'reminderDisplayed',
+}
+
+export interface State {
   loading: boolean
   notifications: IdToNotification
   cleverTapInboxMessages: CleverTapInboxMessage[]
@@ -38,7 +47,10 @@ interface State {
   nftCelebration: {
     networkId: NetworkId
     contractAddress: string
-    displayed: boolean
+    status: NftCelebrationStatus
+    rewardExpirationDate: string
+    rewardReminderDate: string
+    deepLink: string
   } | null
 }
 
@@ -126,18 +138,52 @@ export const homeReducer = (
         nftCelebration: {
           networkId: action.networkId,
           contractAddress: action.contractAddress,
-          displayed: false,
+          deepLink: action.deepLink,
+          rewardExpirationDate: action.rewardExpirationDate,
+          rewardReminderDate: action.rewardReminderDate,
+          status: NftCelebrationStatus.celebrationReadyToDisplay,
         },
       }
     case Actions.NFT_CELEBRATION_DISPLAYED:
       if (!state.nftCelebration) {
         return state
       }
+
       return {
         ...state,
         nftCelebration: {
           ...state.nftCelebration,
-          displayed: true,
+          status: NftCelebrationStatus.celebrationDisplayed,
+        },
+      }
+    case Actions.NFT_REWARD_READY_TO_DISPLAY:
+      if (!state.nftCelebration) {
+        return state
+      }
+
+      return {
+        ...state,
+        nftCelebration: {
+          ...state.nftCelebration,
+          status: action.showReminder
+            ? NftCelebrationStatus.reminderReadyToDisplay
+            : NftCelebrationStatus.rewardReadyToDisplay,
+          ...action.valuesToSync,
+        },
+      }
+    case Actions.NFT_REWARD_DISPLAYED:
+      if (!state.nftCelebration) {
+        return state
+      }
+
+      return {
+        ...state,
+        nftCelebration: {
+          ...state.nftCelebration,
+          status:
+            state.nftCelebration?.status === NftCelebrationStatus.reminderReadyToDisplay
+              ? NftCelebrationStatus.reminderDisplayed
+              : NftCelebrationStatus.rewardDisplayed,
         },
       }
     default:

@@ -191,6 +191,16 @@ interface HomeEventsProperties {
     userInterrupted: boolean
     durationInSeconds: number
   }
+  [HomeEvents.nft_reward_accept]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
+  }
+  [HomeEvents.nft_reward_dismiss]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
+  }
 }
 
 interface SettingsEventsProperties {
@@ -659,15 +669,6 @@ interface SendEventsProperties {
   }
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
-  }
-}
-
-interface JumpstartEventsProperties {
-  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
-  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
-    tokenId: string
-    sendAmountUsd: string
-    thresholdUsd: number
   }
 }
 
@@ -1497,7 +1498,24 @@ interface TransactionDetailsProperties {
   }
 }
 
-interface WalletJumpstartProperties {
+interface JumpstartSendProperties {
+  localCurrency: LocalCurrencyCode
+  localCurrencyExchangeRate: string | null
+  tokenSymbol: string
+  tokenAmount: string | null
+  amountInUsd: string | null
+  tokenId: string | null
+  networkId: string | null
+}
+interface JumpstartEventsProperties {
+  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
+    tokenId: string
+    sendAmountUsd: string
+    thresholdUsd: number
+  }
+  [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_confirm]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
@@ -1546,7 +1564,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties &
-  WalletJumpstartProperties
+  TransactionDetailsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList
