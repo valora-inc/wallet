@@ -42,17 +42,6 @@ export default function ProfileMenu({ route }: Props) {
     <SafeAreaView>
       <ScrollView>
         <View style={styles.top}>
-          {/* <View style={styles.header} testID="ProfileMenu/Header">
-            <Touchable
-              onPress={navigateBack}
-              borderless={true}
-              hitSlop={variables.iconHitslop}
-              testID="ProfileMenu/CloseButton"
-            >
-              <Times />
-            </Touchable>
-            <RewardsPill />
-          </View> */}
           <ContactCircleSelf size={64} />
           <View style={styles.infoContainer}>
             {!!displayName && (
