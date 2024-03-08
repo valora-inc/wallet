@@ -2164,5 +2164,17 @@
     "startButtonLabel": "Link Phone Number",
     "later": "I'll do this later"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Ví",
+      "title": "My Wallet"
+    },
+    "home": {
+      "tabName": "Trang chủ"
+    },
+    "discover": {
+      "tabName": "Khám phá"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
 }
