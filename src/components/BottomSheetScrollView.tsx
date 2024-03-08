@@ -10,7 +10,7 @@ interface Props {
   containerStyle?: StyleProp<ViewStyle>
   testId?: string
   forwardedRef?: React.RefObject<ScrollView>
-  isScreen?: boolean
+  isScreen?: boolean // should be set to true if using this component directly from a component that is registered as a native bottom sheet screen on the navigator
   children: React.ReactNode
 }
 
@@ -27,14 +27,14 @@ function BottomSheetScrollView({
   const insets = useSafeAreaInsets()
   const scrollEnabled = contentHeight > containerHeight
 
-  // Note: scrolling views inside bottom sheet screens should use the relevant
-  // components from react-native-gesture-handler instead of directly from
-  // react-native, otherwise they do not scroll correctly. This isScreen prop
-  // should be set to true if the bottom sheet is registered as screen in the
-  // Navigator. It is still handy for screens and components to share this
-  // component for the styling and layout logic.
-  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
-  const ScrollViewComponent = isScreen ? ScrollView : GorhomBottomSheetScrollView
+  // the BottomSheetScrollView component from @gorhom/bottom-sheet does not
+  // scroll correctly when it is the root component of a native bottom sheet on
+  // the navigator (i.e. a bottom sheet screen). This is a workaround to enable
+  // scrolling using a ScrollView from react-native-safe-area-context when the
+  // content is large enough to require scrolling. The downside of using this
+  // ScrollView is the bottom sheet gestures are not enabled (so you cannot
+  // overscroll to dismiss)
+  const ScrollViewComponent = scrollEnabled && isScreen ? ScrollView : GorhomBottomSheetScrollView
   // use max height simulate max 90% snap point for screens. when bottom sheets
   // take up the whole screen, it is no longer obvious that they are a bottom
   // sheet / how to navigate away
