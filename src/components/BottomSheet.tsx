@@ -1,6 +1,7 @@
 import GorhomBottomSheet from '@gorhom/bottom-sheet'
 import React, { useRef } from 'react'
-import { ScrollView, StyleSheet, Text, TextStyle, View } from 'react-native'
+import { StyleSheet, Text, TextStyle, View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import BottomSheetBase from 'src/components/BottomSheetBase'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import fontStyles from 'src/styles/fonts'

@@ -55,7 +55,7 @@ const DappKitAccountScreen = ({ route }: Props) => {
   }
 
   return (
-    <BottomSheetScrollView>
+    <BottomSheetScrollView isScreen>
       <RequestContent
         type="confirm"
         onAccept={handleAllow}

@@ -37,6 +37,7 @@ export enum Screens {
   ImportWallet = 'ImportWallet',
   Invite = 'Invite',
   JumpstartEnterAmount = 'JumpstartEnterAmount',
+  JumpstartSendConfirmation = 'JumpstartSendConfirmation',
   KeylessBackupPhoneInput = 'KeylessBackupPhoneInput',
   KeylessBackupPhoneCodeInput = 'KeylessBackupPhoneCodeInput',
   KeylessBackupProgress = 'KeylessBackupProgress',

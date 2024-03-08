@@ -21,6 +21,7 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_SWAP_TOKEN_FILTERS]: false,
   [StatsigFeatureGates.SHUFFLE_SWAP_TOKENS_ORDER]: false,
   [StatsigFeatureGates.SHOW_NFT_CELEBRATION]: false,
+  [StatsigFeatureGates.SHOW_NFT_REWARD]: false,
   [StatsigFeatureGates.SHOW_JUMPSTART_SEND]: false,
   [StatsigFeatureGates.USE_TAB_NAVIGATOR]: false,
 }
@@ -109,6 +110,9 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.NFT_CELEBRATION_CONFIG,
     defaultValues: {
       celebratedNft: {} as { networkId?: NetworkId; contractAddress?: string },
+      deepLink: '',
+      rewardExpirationDate: new Date(0).toISOString(),
+      rewardReminderDate: new Date(0).toISOString(),
     },
   },
 }
