@@ -77,7 +77,7 @@ function DappShortcutTransactionRequest({ route: { params } }: Props) {
   }
 
   return (
-    <BottomSheetScrollView>
+    <BottomSheetScrollView isScreen>
       {pendingAcceptShortcut?.transactions?.length ? (
         <RequestContent
           type="confirm"
