@@ -111,6 +111,7 @@ const styles = StyleSheet.create({
     marginLeft: Spacing.Thick24,
     alignItems: 'flex-start',
     marginRight: Spacing.Regular16,
+    marginTop: Spacing.Thick24,
   },
   nameLabel: {
     ...typeScale.titleSmall,
