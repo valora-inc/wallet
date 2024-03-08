@@ -2164,5 +2164,17 @@
     "startButtonLabel": "链接电话号码",
     "later": "我稍后再做"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "钱包",
+      "title": "我的钱包"
+    },
+    "home": {
+      "tabName": "主页"
+    },
+    "discover": {
+      "tabName": "探索"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
 }
