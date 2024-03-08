@@ -53,7 +53,7 @@ export default function TabNavigator({ route }: Props) {
       />
       <Tab.Screen
         // TODO(act-1105) new home tab screen
-        name={Screens.TabWallet}
+        name={Screens.TabHome}
         component={WalletHome}
         options={{
           freezeOnBlur: false,
