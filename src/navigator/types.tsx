@@ -274,11 +274,7 @@ export type StackParamList = {
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TabDiscover]: undefined
   [Screens.TabHome]: undefined
-  [Screens.TabWallet]:
-    | {
-        activeTab: AssetTabType
-      }
-    | undefined
+  [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {
     initialScreen?: Screens
     fromModal?: boolean
@@ -321,7 +317,8 @@ export type StackParamList = {
   [Screens.WithdrawSpend]: undefined
   [Screens.Assets]:
     | {
-        activeTab: AssetTabType
+        activeAssetTab: AssetTabType
+        isWalletTab?: boolean
       }
     | undefined
 }
