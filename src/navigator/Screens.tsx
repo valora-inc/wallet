@@ -101,7 +101,6 @@ export enum Screens {
   WalletConnectSessions = 'WalletConnectSessions',
   WalletSecurityPrimer = 'WalletSecurityPrimer',
   WalletSecurityPrimerDrawer = 'WalletSecurityPrimerDrawer',
-  WalletTab = 'WalletTab',
   WebViewScreen = 'WebViewScreen',
   Welcome = 'Welcome',
   WithdrawSpend = 'WithdrawSpend',
