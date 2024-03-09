@@ -2166,6 +2166,18 @@
     "startButtonLabel": "Bağlantı Telefon Numarası",
     "later": "Bunu daha sonra yapacağım."
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Cüzdan",
+      "title": "Cüzdanım"
+    },
+    "home": {
+      "tabName": "Ana Sayfa"
+    },
+    "discover": {
+      "tabName": "Keşfedin"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

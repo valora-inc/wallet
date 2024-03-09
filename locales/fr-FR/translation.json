@@ -2166,6 +2166,18 @@
     "startButtonLabel": "Associer un numéro de téléphone",
     "later": "Je le ferai plus tard"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Portefeuille",
+      "title": "Mon portefeuille"
+    },
+    "home": {
+      "tabName": "Accueil"
+    },
+    "discover": {
+      "tabName": "Découvrir"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
