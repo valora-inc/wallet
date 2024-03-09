@@ -78,8 +78,8 @@ describe(getOrCreateAccount, () => {
   it.each`
     appLang             | expectedMnemonicLang
     ${'en-US'}          | ${MnemonicLanguages[MnemonicLanguages.english]}
-    ${'es-419'}         | ${MnemonicLanguages[MnemonicLanguages.spanish]}
-    ${'pt-BR'}          | ${MnemonicLanguages[MnemonicLanguages.portuguese]}
+    ${'es-419'}         | ${MnemonicLanguages[MnemonicLanguages.english]}
+    ${'pt-BR'}          | ${MnemonicLanguages[MnemonicLanguages.english]}
     ${'incorrect-lang'} | ${MnemonicLanguages[MnemonicLanguages.english]}
   `(
     'creates an account with a mnemonic in $expectedMnemonicLang when app language is $appLang',
