@@ -2169,7 +2169,7 @@
   "bottomTabsNavigator": {
     "wallet": {
       "tabName": "Wallet",
-      "title": "Mein Portemonnaie"
+      "title": "Mein Wallet"
     },
     "home": {
       "tabName": "Startseite"
