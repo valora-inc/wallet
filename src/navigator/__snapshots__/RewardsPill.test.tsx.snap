@@ -64,10 +64,12 @@ exports[`RewardsPill renders correctly 1`] = `
       style={
         [
           {
-            "color": "#137211",
             "fontFamily": "Inter-SemiBold",
             "fontSize": 14,
             "lineHeight": 20,
+          },
+          {
+            "color": "#137211",
           },
           {
             "marginLeft": 5,
