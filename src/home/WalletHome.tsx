@@ -15,16 +15,9 @@ import {
 import BetaTag from 'src/components/BetaTag'
 import QrScanButton from 'src/components/QrScanButton'
 import { HomeTokenBalance } from 'src/components/TokenBalance'
-import {
-  ALERT_BANNER_DURATION,
-  CELO_TRANSACTION_MIN_AMOUNT,
-  DEFAULT_TESTNET,
-  SHOW_TESTNET_BANNER,
-  STABLE_TRANSACTION_MIN_AMOUNT,
-} from 'src/config'
+import { ALERT_BANNER_DURATION, DEFAULT_TESTNET, SHOW_TESTNET_BANNER } from 'src/config'
 import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import ActionsCarousel from 'src/home/ActionsCarousel'
-import CashInBottomSheet from 'src/home/CashInBottomSheet'
 import DappsCarousel from 'src/home/DappsCarousel'
 import NotificationBell from 'src/home/NotificationBell'
 import NotificationBellSpotlight from 'src/home/NotificationBellSpotlight'
@@ -38,15 +31,12 @@ import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
-import { getExperimentParams, getFeatureGate } from 'src/statsig'
-import { ExperimentConfigs } from 'src/statsig/constants'
-import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
-import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
 import { hasGrantedContactsPermission } from 'src/utils/contacts'
-import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
@@ -57,9 +47,6 @@ function WalletHome() {
   const isLoading = useSelector((state) => state.home.loading)
   const recipientCache = useSelector(phoneRecipientCacheSelector)
   const isNumberVerified = useSelector(phoneNumberVerifiedSelector)
-  const coreTokenBalances = useSelector(coreTokensSelector)
-  const celoAddress = useSelector(celoAddressSelector)
-  const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
   const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
 
   const insets = useSafeAreaInsets()
@@ -124,40 +111,6 @@ function WalletHome() {
 
   const onRefresh = async () => {
     dispatch(refreshAllBalances())
-  }
-
-  const shouldShowCashInBottomSheet = () => {
-    if (showNotificationSpotlight) {
-      return false
-    }
-
-    if (showNftCelebration || showNftReward) {
-      return false
-    }
-
-    // If user is in a sanctioned country do not show the cash in bottom sheet
-    if (userInSanctionedCountry) {
-      return false
-    }
-    // If there are no core tokens then we are either still loading or loading failed.
-    if (!coreTokenBalances.length) {
-      return false
-    }
-    const hasStable = !!coreTokenBalances.find(
-      (token) => token.balance.gte(STABLE_TRANSACTION_MIN_AMOUNT) && token.address !== celoAddress
-    )
-
-    const hasCelo =
-      coreTokenBalances
-        .find((token) => token.address === celoAddress)
-        ?.balance.isGreaterThan(CELO_TRANSACTION_MIN_AMOUNT) ?? false
-    const isAccountBalanceZero = hasStable === false && hasCelo === false
-
-    const { cashInBottomSheetEnabled } = getExperimentParams(
-      ExperimentConfigs[StatsigExperiments.CHOOSE_YOUR_ADVENTURE]
-    )
-
-    return cashInBottomSheetEnabled && isAccountBalanceZero
   }
 
   const keyExtractor = (_item: any, index: number) => {
@@ -237,7 +190,6 @@ function WalletHome() {
         testID="WalletHome/SectionList"
       />
       <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
-      {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {showNftCelebration && <NftCelebration />}
       {showNftReward && <NftReward />}
     </SafeAreaView>

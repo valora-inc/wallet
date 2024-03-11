@@ -1,12 +1,7 @@
 import { generateMnemonic } from '@celo/cryptographic-utils'
 import { DEFAULT_RECIPIENT_ADDRESS, SAMPLE_BACKUP_KEY } from '../utils/consts'
 import { launchApp } from '../utils/retries'
-import {
-  quickOnboarding,
-  waitForElementByIdAndTap,
-  waitForElementId,
-  dismissCashInBottomSheet,
-} from '../utils/utils'
+import { quickOnboarding, waitForElementByIdAndTap, waitForElementId } from '../utils/utils'
 
 async function validateSendFlow(tokenSymbol) {
   // navigate to send amount screen to ensure the expected token symbol is pre-selected
@@ -86,7 +81,6 @@ export default Assets = () => {
         mnemonic = await generateMnemonic()
       }
       await quickOnboarding(mnemonic)
-      await dismissCashInBottomSheet()
     })
 
     it('navigates to Assets screen from home', async () => {
