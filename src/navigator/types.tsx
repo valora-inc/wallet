@@ -273,6 +273,17 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.TabDiscover]: undefined
+  [Screens.TabHome]: undefined
+  [Screens.TabWallet]:
+    | {
+        activeTab: AssetTabType
+      }
+    | undefined
+  [Screens.TabNavigator]: {
+    initialScreen?: Screens
+    fromModal?: boolean
+  }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
   [Screens.TransactionDetailsScreen]: {

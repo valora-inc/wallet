@@ -39,7 +39,7 @@ import { useTokenPricesAreStale, useTotalTokenBalance } from 'src/tokens/hooks'
 import { AssetTabType } from 'src/tokens/types'
 import { getSupportedNetworkIdsForTokenBalances } from 'src/tokens/utils'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Assets>
+type Props = NativeStackScreenProps<StackParamList, Screens.Assets | Screens.TabWallet>
 
 // offset relative to the bottom of the non sticky header component, where the
 // screen header opacity animation starts

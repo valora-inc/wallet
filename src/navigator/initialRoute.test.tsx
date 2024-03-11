@@ -3,6 +3,7 @@ import { MultichainBetaStatus } from 'src/app/actions'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { Screens } from 'src/navigator/Screens'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 
 jest.mock('src/statsig/index')
 
@@ -98,16 +99,27 @@ describe('initialRoute', () => {
   })
 
   it('returns drawer navigator if all onboarding complete, multichain beta is opted in and feature gate is on', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
     expect(
       getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.OptedIn })
     ).toEqual(Screens.DrawerNavigator)
   })
 
   it('returns drawer navigator if all onboarding complete, multichain beta is opted out and feature gate is on', () => {
-    jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
     expect(
       getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.OptedOut })
     ).toEqual(Screens.DrawerNavigator)
+  })
+
+  it('returns tab navigator if all onboarding complete, multichain beta is opted in and use_tab_navigator feature gate is on', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    expect(
+      getInitialRoute({ ...defaultArgs, multichainBetaStatus: MultichainBetaStatus.OptedIn })
+    ).toEqual(Screens.TabNavigator)
   })
 })

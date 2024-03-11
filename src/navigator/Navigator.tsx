@@ -78,6 +78,7 @@ import {
 import ProfileMenu from 'src/navigator/ProfileMenu'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
@@ -608,6 +609,7 @@ export function MainStackScreen() {
 
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
+      <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
       <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
       {commonScreens(Stack)}
       {sendScreens(Stack)}
