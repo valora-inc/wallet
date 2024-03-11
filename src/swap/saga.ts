@@ -243,14 +243,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       throw new Error('no account found in the wallet')
     }
 
-    for (const tx of preparedTransactions) {
-      trackedTxs.push({
-        tx,
-        txHash: undefined,
-        txReceipt: undefined,
-      })
-    }
-
     // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
     let nonce: number = yield* call(getTransactionCount, wallet, {
       address: wallet.account.address,
@@ -262,18 +254,6 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-
-    const txHashes: Hash[] = []
-    for (const preparedTransaction of preparedTransactions) {
-      const signedTx = yield* call([wallet, 'signTransaction'], {
-        ...preparedTransaction,
-        nonce: nonce++,
-      } as any)
-      const hash = yield* call([wallet, 'sendRawTransaction'], {
-        serializedTransaction: signedTx,
-      })
-      txHashes.push(hash)
-    }
 
     // If there are 2 transactions, the first should be an approval. verify and
     // add a standby transaction for it
@@ -303,7 +283,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
             feeCurrencyId,
           }
         }
-        yield* call(
+        const approvalTxReceipt = yield* call(
           sendTransactionSaga,
           serializablePreparedTransactions[0],
           swapApproveContext,
@@ -311,6 +291,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
           createApprovalStandybyTx,
           nonce++
         )
+        trackedTxs.push({
+          tx: preparedTransactions[0],
+          txHash: approvalTxReceipt.transactionHash,
+          txReceipt: approvalTxReceipt,
+        })
       }
     }
 
@@ -334,7 +319,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       feeCurrencyId,
     })
     // the swap transaction should be the last in the array
-    yield* call(
+    const swapTxReceipt = yield* call(
       sendTransactionSaga,
       serializablePreparedTransactions[serializablePreparedTransactions.length - 1],
       swapExecuteContext,
@@ -342,12 +327,17 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       createSwapStandybyTx,
       nonce
     )
+    trackedTxs.push({
+      tx: preparedTransactions[preparedTransactions.length - 1],
+      txHash: swapTxReceipt.transactionHash,
+      txReceipt: swapTxReceipt,
+    })
 
-    for (let i = 0; i < txHashes.length; i++) {
-      trackedTxs[i].txHash = txHashes[i]
-    }
-
-    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
+    Logger.debug(
+      TAG,
+      'Successfully sent swap transaction(s) to the network',
+      trackedTxs.map((tx) => tx.txHash)
+    )
 
     navigate(Screens.WalletHome)
     submitted = true

@@ -310,9 +310,7 @@ export function* sendTransactionSaga(
 
   yield* call(handleTransactionReceiptReceived, context.id, txReceipt, networkId, feeCurrencyId)
 
-  if (txReceipt.status !== 'success') {
-    throw new Error(`Transaction reverted: ${txReceipt.transactionHash}`)
-  }
+  return txReceipt
 }
 
 export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {
