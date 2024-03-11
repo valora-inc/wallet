@@ -254,7 +254,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
-    const createSwapStandybyTxHandlers = []
+    const createSwapStandbyTxHandlers = []
 
     // If there are 2 transactions, the first should be an approval. verify and
     // add a standby transaction for it
@@ -269,7 +269,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
           .shiftedBy(-fromToken.decimals)
           .toString()
 
-        const createApprovalStandybyTx = (
+        const createApprovalStandbyTx = (
           txHash: string,
           feeCurrencyId?: string
         ): BaseStandbyTransaction => {
@@ -284,11 +284,11 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
             feeCurrencyId,
           }
         }
-        createSwapStandybyTxHandlers.push(createApprovalStandybyTx)
+        createSwapStandbyTxHandlers.push(createApprovalStandbyTx)
       }
     }
 
-    const createSwapStandybyTx = (
+    const createSwapStandbyTx = (
       txHash: string,
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
@@ -307,13 +307,13 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       transactionHash: txHash,
       feeCurrencyId,
     })
-    createSwapStandybyTxHandlers.push(createSwapStandybyTx)
+    createSwapStandbyTxHandlers.push(createSwapStandbyTx)
 
     const txHashes = yield* call(
       sendTransactionsSaga,
       serializablePreparedTransactions,
       networkId,
-      createSwapStandybyTxHandlers
+      createSwapStandbyTxHandlers
     )
 
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)

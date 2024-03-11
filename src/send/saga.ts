@@ -58,7 +58,7 @@ import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'send/saga'
 
-export function* watchQrCodeShare() {
+function* watchQrCodeShare() {
   while (true) {
     const action = (yield* take(Actions.QRCODE_SHARE)) as ShareQRCodeAction
     try {
@@ -338,7 +338,7 @@ export function* encryptCommentSaga({ comment, fromAddress, toAddress }: Encrypt
   yield* put(encryptCommentComplete(encryptedComment))
 }
 
-export function* watchSendPayment() {
+function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
 }
 
