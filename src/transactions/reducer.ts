@@ -221,6 +221,7 @@ export const transactionsSelector = createSelector(
         if (tx.__typename === 'TokenApproval') {
           return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
         }
+        return true
       })
   }
 )
