@@ -218,6 +218,14 @@ export function* sendPaymentSaga({
     })
 
     ValoraAnalytics.track(SendEvents.send_tx_start)
+    Logger.debug(
+      `${TAG}/sendPaymentSaga`,
+      'Executing send transaction',
+      context.description ?? 'No description',
+      context.id,
+      tokenId,
+      amount
+    )
 
     const [hash] = yield* call(
       sendTransactionsSaga,
@@ -320,6 +328,12 @@ export function* sendTransactionsSaga(
     const hash = yield* call([wallet, 'sendRawTransaction'], {
       serializedTransaction: signedTx,
     })
+
+    Logger.debug(
+      `${TAG}/sendTransactionsSaga`,
+      'Successfully sent transaction to the network',
+      hash
+    )
 
     const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
     const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
