@@ -108,8 +108,8 @@ ProfileMenu.navigationOptions = () => ({
 
 const styles = StyleSheet.create({
   top: {
-    marginLeft: Spacing.Thick24,
     alignItems: 'flex-start',
+    marginLeft: Spacing.Thick24,
     marginRight: Spacing.Regular16,
     marginTop: Spacing.Thick24,
   },
@@ -121,8 +121,7 @@ const styles = StyleSheet.create({
     marginTop: Spacing.Smallest8,
   },
   topBorder: {
-    marginTop: Spacing.Thick24,
-    marginBottom: Spacing.Thick24,
+    marginVertical: Spacing.Thick24,
     marginLeft: Spacing.Thick24,
     height: 1,
     backgroundColor: colors.gray2,
@@ -152,8 +151,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: Spacing.Smallest8,
-    marginBottom: Spacing.Smallest8,
+    marginVertical: Spacing.Smallest8,
     marginLeft: Spacing.Thick24,
     gap: Spacing.Small12,
   },

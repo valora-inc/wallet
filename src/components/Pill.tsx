@@ -19,7 +19,8 @@ function Pill({ text, icon, onPress, testID, textColor }: Props) {
         {icon}
         <Text
           style={[
-            { ...styles.text, color: textColor ?? colors.primary },
+            styles.text,
+            { color: textColor ?? colors.primary },
             icon ? { marginLeft: 5 } : {},
           ]}
         >

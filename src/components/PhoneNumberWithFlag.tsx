@@ -7,7 +7,7 @@ import fontStyles, { typeScale } from 'src/styles/fonts'
 interface Props {
   e164PhoneNumber: string
   defaultCountryCode?: string
-  textColor?: string
+  textColor?: Colors
 }
 
 export class PhoneNumberWithFlag extends React.PureComponent<Props> {
