@@ -13,7 +13,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
-import { AssetTabType } from 'src/tokens/Assets'
+import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -272,6 +272,17 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.TabDiscover]: undefined
+  [Screens.TabHome]: undefined
+  [Screens.TabWallet]:
+    | {
+        activeTab: AssetTabType
+      }
+    | undefined
+  [Screens.TabNavigator]: {
+    initialScreen?: Screens
+    fromModal?: boolean
+  }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
   [Screens.TransactionDetailsScreen]: {
