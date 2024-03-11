@@ -45,7 +45,7 @@ import { publicClient } from 'src/viem'
 import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'
 import {
   SerializableTransactionRequest,
-  getPreparedTransaction,
+  getPreparedTransactions,
 } from 'src/viem/preparedTransactionSerialization'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
@@ -53,6 +53,8 @@ import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
+import { Hash } from 'viem'
+import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'send/saga'
 
@@ -217,12 +219,18 @@ export function* sendPaymentSaga({
 
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
-    const hash = yield* call(
-      sendTransactionSaga,
-      serializablePreparedTransaction,
+    const [hash] = yield* call(
+      sendTransactionsSaga,
+      [serializablePreparedTransaction],
       tokenInfo.networkId,
-      createStandbyTransaction
+      [createStandbyTransaction]
     )
+
+    if (fromModal) {
+      navigateBack()
+    } else {
+      navigateHome()
+    }
 
     const receipt = yield* call(
       [publicClient[networkIdToNetwork[tokenInfo.networkId]], 'waitForTransactionReceipt'],
@@ -252,12 +260,6 @@ export function* sendPaymentSaga({
       })
     }
 
-    if (fromModal) {
-      navigateBack()
-    } else {
-      navigateHome()
-    }
-
     yield* put(sendPaymentSuccess({ amount, tokenId }))
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   } catch (err) {
@@ -277,11 +279,13 @@ export function* sendPaymentSaga({
   }
 }
 
-export function* sendTransactionSaga(
-  serializablePreparedTransaction: SerializableTransactionRequest,
+export function* sendTransactionsSaga(
+  serializablePreparedTransactions: SerializableTransactionRequest[],
   networkId: NetworkId,
-  createBaseStandbyTransaction: (hash: string, feeCurrencyId?: string) => BaseStandbyTransaction,
-  nonce?: number
+  createBaseStandbyTransactions: ((
+    hash: string,
+    feeCurrencyId?: string
+  ) => BaseStandbyTransaction)[]
 ) {
   const network = getNetworkFromNetworkId(networkId)
   if (!network) {
@@ -297,21 +301,34 @@ export function* sendTransactionSaga(
   // Unlock account before executing tx
   yield* call(getConnectedUnlockedAccount)
 
-  const preparedTransaction = getPreparedTransaction(serializablePreparedTransaction)
-  const signedTx = yield* call([wallet, 'signTransaction'], {
-    ...preparedTransaction,
-    nonce,
-  } as any)
-  const hash = yield* call([wallet, 'sendRawTransaction'], {
-    serializedTransaction: signedTx,
+  // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
+  let nonce: number = yield* call(getTransactionCount, wallet, {
+    address: wallet.account.address,
+    blockTag: 'pending',
   })
 
-  const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
-  const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
+  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+  const txHashes: Hash[] = []
+  for (let i = 0; i < preparedTransactions.length; i++) {
+    const preparedTransaction = preparedTransactions[i]
+    const createBaseStandbyTransaction = createBaseStandbyTransactions[i]
 
-  yield* put(addStandbyTransaction(createBaseStandbyTransaction(hash, feeCurrencyId)))
+    const signedTx = yield* call([wallet, 'signTransaction'], {
+      ...preparedTransaction,
+      nonce: nonce++,
+    } as any)
+    const hash = yield* call([wallet, 'sendRawTransaction'], {
+      serializedTransaction: signedTx,
+    })
 
-  return hash
+    const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
+    const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
+
+    yield* put(addStandbyTransaction(createBaseStandbyTransaction(hash, feeCurrencyId)))
+    txHashes.push(hash)
+  }
+
+  return txHashes
 }
 
 export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {

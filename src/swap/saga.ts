@@ -13,7 +13,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { sendTransactionSaga } from 'src/send/saga'
+import { sendTransactionsSaga } from 'src/send/saga'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -40,8 +40,7 @@ import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, decodeFunctionData } from 'viem'
-import { getTransactionCount } from 'viem/actions'
+import { TransactionReceipt, decodeFunctionData } from 'viem'
 
 const TAG = 'swap/saga'
 
@@ -61,12 +60,11 @@ function calculateEstimatedUsdValue({
 
 interface TrackedTx {
   tx: TransactionRequest | undefined
-  txHash: Hash | undefined
   txReceipt: TransactionReceipt | undefined
 }
 
 function getTxReceiptAnalyticsProperties(
-  { tx, txHash, txReceipt }: TrackedTx,
+  { tx, txReceipt }: TrackedTx,
   networkId: NetworkId,
   tokensById: TokenBalances
 ): Partial<TxReceiptProperties> {
@@ -111,7 +109,7 @@ function getTxReceiptAnalyticsProperties(
     txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
     txGasFee: txGasFee?.toNumber(),
     txGasFeeUsd: txGasFeeUsd?.toNumber(),
-    txHash,
+    txHash: txReceipt?.transactionHash,
     txFeeCurrency: tx && getFeeCurrency(tx),
     txFeeCurrencySymbol: feeCurrencyToken?.symbol,
   }
@@ -247,22 +245,16 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     for (const tx of preparedTransactions) {
       trackedTxs.push({
         tx,
-        txHash: undefined,
         txReceipt: undefined,
       })
     }
-
-    // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
-    let nonce: number = yield* call(getTransactionCount, wallet, {
-      address: wallet.account.address,
-      blockTag: 'pending',
-    })
 
     // Execute transaction(s)
     Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
+    const createSwapStandybyTxHandlers = []
 
     // If there are 2 transactions, the first should be an approval. verify and
     // add a standby transaction for it
@@ -292,17 +284,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
             feeCurrencyId,
           }
         }
-        const approvalTxHash = yield* call(
-          sendTransactionSaga,
-          serializablePreparedTransactions[0],
-          networkId,
-          createApprovalStandybyTx,
-          nonce
-        )
-        // importantly, incremember the nonce for the next transaction
-        nonce = nonce + 1
-
-        trackedTxs[0].txHash = approvalTxHash
+        createSwapStandybyTxHandlers.push(createApprovalStandybyTx)
       }
     }
 
@@ -325,37 +307,24 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       transactionHash: txHash,
       feeCurrencyId,
     })
-    // the swap transaction should be the last in the array
-    const swapTxHash = yield* call(
-      sendTransactionSaga,
-      serializablePreparedTransactions[serializablePreparedTransactions.length - 1],
-      networkId,
-      createSwapStandybyTx,
-      nonce
-    )
-    trackedTxs[trackedTxs.length - 1].txHash = swapTxHash
+    createSwapStandybyTxHandlers.push(createSwapStandybyTx)
 
-    Logger.debug(
-      TAG,
-      'Successfully sent swap transaction(s) to the network',
-      trackedTxs.map((tx) => tx.txHash)
+    const txHashes = yield* call(
+      sendTransactionsSaga,
+      serializablePreparedTransactions,
+      networkId,
+      createSwapStandybyTxHandlers
     )
+
+    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
 
     navigate(Screens.WalletHome)
     submitted = true
 
     // wait for the tx receipts, so that we can track them
-    for (let i = 0; i < trackedTxs.length; i++) {
-      const trackedTx = trackedTxs[i]
-      if (trackedTx.txHash === undefined) {
-        Logger.debug(
-          `Transaction ${i + 1} of ${trackedTxs.length} has no tx hash, skipping getting receipt`
-        )
-        continue
-      }
-
+    for (let i = 0; i < txHashes.length; i++) {
       const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-        hash: trackedTx.txHash,
+        hash: txHashes[i],
       })
       Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
       trackedTxs[i].txReceipt = txReceipt

@@ -40,6 +40,7 @@ import {
   mockCusdTokenId,
   mockQRCodeRecipient,
 } from 'test/values'
+import { getTransactionCount } from 'viem/actions'
 
 jest.mock('@celo/connect')
 
@@ -108,6 +109,7 @@ describe(sendPaymentSaga, () => {
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
       [call(getConnectedUnlockedAccount), mockAccount],
       [matchers.call.fn(getViemWallet), mockViemWallet],
+      [matchers.call.fn(getTransactionCount), 10],
       [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
       [matchers.call.fn(mockViemWallet.sendRawTransaction), mockTxHash],
       [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
@@ -241,10 +243,8 @@ describe(sendPaymentSaga, () => {
     await expectSaga(sendPaymentSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(getViemWallet), mockViemWallet],
-        [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
         [matchers.call.fn(mockViemWallet.sendRawTransaction), throwError(new Error('tx failed'))],
+        ...createDefaultProviders(),
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .put(sendPaymentFailure())
