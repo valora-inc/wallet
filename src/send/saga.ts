@@ -234,12 +234,6 @@ export function* sendPaymentSaga({
       [createStandbyTransaction]
     )
 
-    if (fromModal) {
-      navigateBack()
-    } else {
-      navigateHome()
-    }
-
     const receipt = yield* call(
       [publicClient[networkIdToNetwork[tokenInfo.networkId]], 'waitForTransactionReceipt'],
       { hash }
@@ -266,6 +260,12 @@ export function* sendPaymentSaga({
       ValoraAnalytics.track(CeloExchangeEvents.celo_withdraw_completed, {
         amount: amount.toString(),
       })
+    }
+
+    if (fromModal) {
+      navigateBack()
+    } else {
+      navigateHome()
     }
 
     yield* put(sendPaymentSuccess({ amount, tokenId }))
