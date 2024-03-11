@@ -1,8 +1,4 @@
-import {
-  CELO_DERIVATION_PATH_BASE,
-  generateKeys,
-  MnemonicLanguages,
-} from '@celo/cryptographic-utils'
+import { CELO_DERIVATION_PATH_BASE, generateKeys } from '@celo/cryptographic-utils'
 import CryptoJS from 'crypto-js'
 import { useAsync } from 'react-async-hook'
 import * as bip39 from 'react-native-bip39'
@@ -25,20 +21,6 @@ export async function generateKeysFromMnemonic(mnemonic: string) {
   const wordCount = countMnemonicWords(mnemonic)
   const derivationPath = wordCount === 24 ? CELO_DERIVATION_PATH_BASE : ETHEREUM_DERIVATION_PATH
   return generateKeys(mnemonic, undefined, undefined, undefined, bip39, derivationPath)
-}
-
-export function getMnemonicLanguage(language: string | null) {
-  switch (language?.slice(0, 2)) {
-    case 'es': {
-      return MnemonicLanguages.spanish
-    }
-    case 'pt': {
-      return MnemonicLanguages.portuguese
-    }
-    default: {
-      return MnemonicLanguages.english
-    }
-  }
 }
 
 export async function storeMnemonic(mnemonic: string, account: string | null, password?: string) {

@@ -7,12 +7,12 @@
   "removeAccountTitle": "Réinitialiser Valora",
   "removeAccountDetails": "La réinitialisation supprimera votre compte de cet appareil. Vos fonds resteront sur votre compte, mais ne seront accessibles qu'avec votre Phrase de récupération",
   "deleteAccountTitle": "Supprimer le compte",
-  "deleteAccountDetails": "La suppression de ton compte l'enlèvera de {{appName}}. Tes fonds resteront sur le compte, mais ne seront accessibles qu'avec ta phrase de récupération.",
+  "deleteAccountDetails": "La suppression de votre compte le supprimera de {{appName}}. Vos fonds resteront dans le compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
   "deleteAccountWarning": {
     "title": "Êtes-vous sûr ?",
-    "description": "La suppression de ton compte sur {{appName}} supprime également tout numéro de téléphone lié. Tes fonds resteront sur le compte, mais ne seront accessibles qu'avec ta phrase de récupération.",
+    "description": "La suppression de votre compte de {{appName}} supprime également les numéros de téléphone liés. Vos fonds resteront dans le compte, mais ne seront accessibles qu'avec votre phrase de récupération.",
     "buttonLabel": "Continuer",
-    "buttonLabelRevokingPhoneNumber": "Déconnecter le numéro de téléphone..."
+    "buttonLabelRevokingPhoneNumber": "Dissociation du téléphone..."
   },
   "legal": "Mentions légales",
   "appPreferences": "Préférences de l'application",
@@ -29,8 +29,8 @@
   "dataSaver": "Économiseur de données",
   "enableDataSaver": "Activer l'Économiseur de données",
   "dataSaverDetail": "Le mode Économiseur de données vous permet de communiquer avec le réseau Celo via un nœud fiable. Vous pouvez toujours modifier ce mode dans les paramètres de l'appli.",
-  "keylessBackupSettingsTitle": "Récupération de l'e-mail et du téléphone",
-  "keylessBackupSettingsDeleteError": "Ta sauvegarde n'a pas pu être supprimée, attends et réessaie plus tard.",
+  "keylessBackupSettingsTitle": "Sauvegarde du courriel et du téléphone",
+  "keylessBackupSettingsDeleteError": "Votre sauvegarde n'a pas pu être supprimée, veuillez réessayer plus tard.",
   "setup": "Configuration",
   "restartModalSwitchOff": {
     "header": "Redémarrer pour désactiver l'Économiseur de données",
@@ -57,14 +57,14 @@
     "body2": "Personne, même pas Valora, ne sera en mesure de récupérer votre compte sans votre phrase."
   },
   "promptConfirmRemovalModal": {
-    "header": "Es-tu sûr de vouloir continuer ?",
-    "body": "Tu es sur le point d'effacer ton portefeuille de cet appareil. Cette étape est définitive et ne peut pas être annulée. Il n'y a aucun moyen de récupérer ta phrase de récupération si tu ne l'as pas notée.",
+    "header": "Êtes-vous sûr de vouloir continuer ?",
+    "body": "Vous êtes sur le point de supprimer votre portefeuille de cet appareil. Cette étape est finale et ne peut pas être inversée. Il n'y a aucun moyen de récupérer votre phrase de récupération si vous ne l'avez pas écrite.",
     "resetNow": "Continuer"
   },
   "protectWallet": {
     "title": "Protégez votre portefeuille",
     "subtitle": "Protégez votre portefeuille",
-    "body": "Si ton téléphone est perdu ou volé, ta phrase de récupération de 12 mots est le seul moyen d'accéder à tes fonds.",
+    "body": "Si votre téléphone est perdu ou volé, votre phrase de récupération de 12 mots est la seule façon d'accéder à vos fonds.",
     "recoveryPhrase": {
       "title": "Utiliser la Phrase de récupération",
       "subtitle": "Écrivez votre Phrase de récupération"
@@ -72,7 +72,7 @@
   },
   "recoveryPhrase": {
     "title": "Votre Phrase de récupération",
-    "body": "Écris ces 12 mots dans un endroit sûr, où ils ne risquent pas d'être volés ou endommagés.",
+    "body": "Écrivez ces 12 mots dans un endroit sûr, où ils ne peuvent pas être volés ou endommagés.",
     "continue": "Je l'ai enregistrée",
     "copy": "Copier dans le presse-papiers",
     "mnemonicCopied": "Phrase de récupération copiée dans le presse-papiers",
@@ -91,19 +91,19 @@
     "phoneNumber": "Numéro de téléphone",
     "setup": {
       "title": "Configurer la sauvegarde du portefeuille",
-      "description": "Tu utiliseras les éléments suivants pour configurer la sauvegarde de ton email et de ton numéro de téléphone.",
-      "useRecoveryPhrase": "Utilise plutôt une phrase de récupération",
+      "description": "Vous utiliserez les éléments suivants pour configurer votre sauvegarde d'e-mail et de numéro de téléphone",
+      "useRecoveryPhrase": "Utiliser une phrase de récupération",
       "reminder": "<0>N'oubliez pas</0>, cette phrase est le seul moyen d'accéder à votre portefeuille si votre appareil est perdu ou volé. Valora ne conserve pas votre adresse e-mail ou votre numéro de téléphone. Gardez-la en sécurité !"
     },
     "restore": {
-      "description": "Assure-toi d'avoir les éléments suivants à ta disposition pour restaurer ton portefeuille.",
-      "reminder": "<0>N'oublie pas</0> que tu dois avoir accès au même courriel et au même numéro de téléphone que ceux que tu as utilisés lors de la sauvegarde."
+      "description": "Assurez-vous d'avoir les éléments suivants pour restaurer votre portefeuille.",
+      "reminder": "Vous avez besoin d'accéder au même e-mail et numéro de téléphone que vous avez utilisé lorsque vous avez sauvegardé."
     }
   },
   "signInWithEmail": {
     "title": "Se connecter avec un e-mail",
     "subtitle": "Connectez-vous avec votre e-mail pour le configurer en tant que données de sauvegarde.\n\nSi vous perdez votre portefeuille, vous serez invité à vous reconnecter.",
-    "subtitleRestore": "Sign in with the email you used to set up your wallet backup.",
+    "subtitleRestore": "Connectez-vous avec l'e-mail que vous avez utilisé pour configurer la sauvegarde.",
     "google": "Se connecter avec Google"
   },
   "keylessBackupPhoneInput": {
@@ -126,10 +126,10 @@
         "body": "Vous pouvez maintenant récupérer votre portefeuille avec votre adresse e-mail et votre numéro de téléphone."
       },
       "failed": {
-        "title": "Sauvegarde non disponible",
-        "body": "Tu peux mettre en place une sauvegarde du portefeuille plus tard ou protéger ton compte maintenant en enregistrant ta phrase de récupération.",
-        "later": "Je mettrai en place une sauvegarde plus tard",
-        "manual": "Sauvegarde la phrase de récupération"
+        "title": "Sauvegarde indisponible",
+        "body": "Vous pouvez configurer une sauvegarde plus tard ou protéger votre compte maintenant en sauvegardant votre phrase de récupération.",
+        "later": "Je sauvegarderai plus tard",
+        "manual": "Sauvegarder phrase de récupération"
       }
     },
     "restore": {
@@ -137,20 +137,20 @@
         "title": "Restauration en cours"
       },
       "completed": {
-        "title": "Ton portefeuille a été restauré !",
-        "bodyZeroBalance": "Tu peux ajouter des fonds à ton portefeuille une fois que tu as terminé la configuration.",
-        "bodyBalance": "Tu as un équilibre entre <0></0>"
+        "title": "Votre portefeuille a été restauré !",
+        "bodyZeroBalance": "Vous pouvez ajouter des fonds une fois la configuration terminée.",
+        "bodyBalance": "Vous avez un solde de <0></0>."
       },
       "failed": {
-        "title": "Ton portefeuille n'a pas été restauré",
-        "body": "Il y a eu un problème technique en essayant de restaurer ton portefeuille. Contacte l'assistance pour plus d'informations.",
+        "title": "Votre portefeuille n'a pas été restauré",
+        "body": "Il y a eu un problème technique lors de la tentative de restauration. Veuillez contacter le support pour plus d'informations.",
         "tryAgain": "Réessayer",
         "createNewWallet": "Créer un wallet",
         "help": "Aide"
       },
       "notFound": {
         "title": "Portefeuille introuvable",
-        "body": "Pour restaurer ton portefeuille, utilise la <0>même adresse e-mail et le même numéro de téléphone que</0> ceux que tu as utilisés lors de la création.\n\nTu peux aussi restaurer ton portefeuille avec ta phrase de récupération.",
+        "body": "Pour restaurer votre portefeuille, utilisez la <0>même adresse e-mail et numéro de téléphone</0> que vous avez utilisé lors de votre configuration.\n\nVous pouvez également restaurer votre portefeuille avec votre phrase de récupération.",
         "tryAgain": "Réessayer",
         "createNewWallet": "Créer un wallet"
       }
@@ -210,8 +210,8 @@
   "completeEducation": "Je comprends",
   "yourAccountKey": "Votre Phrase de récupération",
   "backupKeyNotification2": "Gardez vos fonds en sécurité. Enregistrez votre Phrase de récupération maintenant.",
-  "keylessBackupCTA": "Sauvegarde maintenant",
-  "keylessBackupNotification": "Configure ton email et ton numéro de téléphone pour sauvegarder ta phrase de semence.",
+  "keylessBackupCTA": "Sauvegarder",
+  "keylessBackupNotification": "Configurez votre adresse e-mail et votre numéro de téléphone pour sauvegarder votre phrase de récupération",
   "backupKeyCTA": "Terminer la sauvegarde maintenant",
   "backupKeySummary": "Trouvez un endroit secret et notez-y votre Phrase de récupération. Veuillez la conserver dans un endroit sûr. Ne l'enregistrez pas dans votre téléphone.",
   "backupKeyWarning": "Si vous perdez votre Phrase de récupération, vous perdrez l'accès à tous vos fonds détenus sur Valora.",
@@ -916,14 +916,14 @@
   },
   "importSelect": {
     "title": "Restaurez votre portefeuille",
-    "description": "Si tu as mis en place une sauvegarde pour protéger ton portefeuille, choisis une option ci-dessous.",
+    "description": "Si vous configurez une sauvegarde, choisissez une option ci-dessous.",
     "emailAndPhone": {
-      "title": "De la sauvegarde des courriels et du téléphone",
-      "description": "Restaure ton portefeuille avec le numéro de téléphone et l'email que tu as configurés précédemment."
+      "title": "E-mail et téléphone",
+      "description": "Restaurez votre portefeuille avec le numéro de téléphone et l'e-mail que vous avez configuré"
     },
     "recoveryPhrase": {
-      "title": "De la phrase de récupération",
-      "description": "Saisis ta phrase de récupération de 12 mots pour retrouver l'accès à Valora."
+      "title": "Phrase de récupération",
+      "description": "Saisissez votre phrase de récupération de 12 mots"
     }
   },
   "verificationInput": {
@@ -1152,7 +1152,7 @@
     },
     "failedToPrepareTransaction": {
       "title": "Échec de la préparation de la transaction",
-      "description": "Une erreur s'est produite lors de la préparation de la transaction. Voir l'erreur sous-jacente pour plus de détails.\n\n\"{{errorMessage}}\""
+      "description": "Une erreur s'est produite lors de la préparation de la transaction.\n\n\"{{errorMessage}}\""
     },
     "session": {
       "failUnsupportedNamespace": {
@@ -1744,11 +1744,11 @@
     "swapTo": "CONTRE",
     "insufficientFunds": "{{token}} insuffisants. Veuillez saisir un montant inférieur ou choisissez un autre actif.",
     "fetchSwapQuoteFailed": "Désolé pour le retard ! Obtenir le meilleur taux de change prend plus longtemps que prévu. Veuillez réessayer plus tard.",
-    "disclaimer": "Best rate determined by decentralized sources. <0>Learn more</0>",
+    "disclaimer": "Meilleur taux déterminé par des sources décentralisées. <0>En savoir plus</0>",
     "swapFromTokenSelection": "ÉCHANGE DE",
     "swapToTokenSelection": "ÉCHANGER CONTRE",
     "tokenUsdValueUnknown": "-",
-    "unsupportedSwapTokens": "The selected tokens aren't supported by our swap providers.",
+    "unsupportedSwapTokens": "Les jetons sélectionnés ne sont pas pris en charge par nos fournisseurs.",
     "switchedToNetworkWarning": {
       "title": "Vous êtes passé au réseau {{networkName}}",
       "body_swapFrom": "Sélectionnez un jeton à échanger sur le réseau {{networkName}} pour continuer.",
@@ -1908,15 +1908,15 @@
   },
   "profileScreen": {
     "generateName": "Générez un nom",
-    "namePlaceholder": "Choisis un nom, comme \"{{exampleName}}\"",
-    "profilePictureDisclaimer": "Personnalise {{appName}} avec ta photo de profil. Ton image reste privée, elle n'est jamais partagée ou téléchargée."
+    "namePlaceholder": "Sélectionnez un nom (p. ex. {{exampleName}})",
+    "profilePictureDisclaimer": "Personnalisez {{appName}} avec votre photo de profil. Votre image reste privée, elle n'est jamais partagée ou téléchargée."
   },
   "tokenBottomSheet": {
     "searchAssets": "Rechercher des actifs",
     "noTokenInResult": "Aucun résultat n'a été trouvé pour <0>\"{{searchTerm}}\"</0>",
-    "noFilterSearchResults": "Aucun actif trouvé correspondant à \"{{searchTerm}}\" dans les catégories suivantes : {{filterNames}}",
-    "noFilterResults": "Aucun actif n'a été trouvé correspondant aux catégories suivantes : {{filterNames}}",
-    "noSearchResults": "Aucun actif trouvé correspondant à \"{{searchTerm}}\"",
+    "noFilterSearchResults": "Aucun actif n'a été trouvé correspondant à \"{{searchTerm}}\" dans {{filterNames}}",
+    "noFilterResults": "Aucun actif n'a été trouvé dans {{filterNames}}",
+    "noSearchResults": "Aucun actif trouvé n'a été trouvé correspondant à \"{{searchTerm}}\"",
     "filters": {
       "myTokens": "Mes jetons",
       "popular": "Populaires",
@@ -2005,7 +2005,7 @@
       "network": "Réseau"
     },
     "error": {
-      "invalidAddress": "L'adresse du jeton n'est pas valide. Révise-la s'il te plaît",
+      "invalidAddress": "Adresse de jeton invalide. Veuillez la vérifier",
       "invalidToken": "Jeton invalide. Essayez à nouveau ou contactez l'assistance",
       "tokenAlreadySupported": "Ce jeton est déjà pris en charge"
     },
@@ -2028,8 +2028,8 @@
       "subtitle": "Invitez des amis de votre liste de contacts"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Partagez du crypto avec un lien",
+      "subtitle": "Copiez le lien et envoyez des cryptomonnaies via une application de messagerie."
     },
     "getStarted": {
       "title": "Comment envoyer des fonds sur Valora",
@@ -2103,9 +2103,16 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Nous suggérons un montant moins élevé",
+      "title": "Saisissez un montant inférieur",
       "description": "Ce lien pourra être revendiqué par toute personne y ayant accès. Nous recommandons de ne pas envoyer plus de {{maxAmount}} {{localCurrencyCode}}."
     }
+  },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Créer un lien partageable",
+    "sendAmountLabel": "LIEN DE RÉCLAMATION MONTANT",
+    "confirmButton": "Envoyer des fonds et créer un lien",
+    "detailsLabel": "COMMENT ÇA MARCHE",
+    "details": "1. Appuie sur générer un lien et tes fonds sont envoyés dans le lien de réclamation\n2. Envoie le lien de réclamation à un ami\n3. Il acceptera les fonds\n4. Si les fonds ne sont pas réclamés, tu peux les réclamer à tout moment."
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approbation",
@@ -2130,22 +2137,46 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adopte rapidement des chaînes multiples 🎁",
-      "description": "Pour te remercier d'avoir été un bêta-testeur multi-chaînes, nous avons ajouté un cadeau gratuit à ton portefeuille {{appName}} ! Le NFT early adopter se trouve dans tes objets à collectionner.",
+      "title": "Utilisateur multichaîne 🎁",
+      "description": "Pour vous remercier d'être un bêta-testeur, nous avons ajouté un cadeau à votre portefeuille {{appName}} ! Le NFT d'adoption se trouve dans vos collections.",
       "cta": "Merci !"
     },
     "notification": {
       "title": "Félicitations 🎉",
-      "description": "{{rewardName}} a été ajouté avec succès à ton portefeuille {{appName}} ."
+      "description": "{{rewardName}} a été ajouté à votre portefeuille {{appName}}."
+    },
+    "rewardBottomSheet": {
+      "title": "Encaissements gratuits pendant un mois",
+      "description": "Parce que tu es propriétaire du site {{nftName}} de tes objets de collection, nous aimerions t'offrir des encaissements gratuits pour le mois de janvier.\n\nPour utiliser la récompense, encaisse via n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "expirationLabel": "Expire à {{expirationLabelText}}",
+      "cta": "Utilise la récompense"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Encaissements gratuits pendant un mois",
+      "description": "Il ne reste plus que 3 jours pour profiter des encaissements gratuits du mois de janvier !\n\nPour utiliser la récompense, encaisse par l'intermédiaire de n'importe quel partenaire {{appName}} et les frais seront annulés.",
+      "expirationLabel": "Expire à {{expirationLabelText}}",
+      "cta": "Utilise la récompense"
     }
   },
   "pleaseWait": "Merci de patienter",
   "error": "Erreur",
   "linkPhoneNumber": {
-    "title": "Associe un numéro de téléphone à l'adresse de ton portefeuille",
-    "description": "Fini les adresses de portefeuilles en désordre ! Envoie de la crypto à d'autres utilisateurs de Celo avec un simple numéro de téléphone.",
-    "startButtonLabel": "Numéro de téléphone du lien",
+    "title": "Associez un numéro de téléphone à votre portefeuille",
+    "description": "Plus aucune adresse de portefeuille désordonnée ! Envoyez des cryptomonnaies aux autres utilisateurs Celo avec un numéro de téléphone",
+    "startButtonLabel": "Associer un numéro de téléphone",
     "later": "Je le ferai plus tard"
+  },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Portefeuille",
+      "title": "Mon portefeuille"
+    },
+    "home": {
+      "tabName": "Accueil"
+    },
+    "discover": {
+      "tabName": "Découvrir"
+    }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
