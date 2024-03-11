@@ -31,7 +31,7 @@ import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
-import { handleTransactionReceiptReceived, sendAndMonitorTransaction } from 'src/transactions/saga'
+import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
   NetworkId,
   TokenTransactionTypeV2,
@@ -48,7 +48,7 @@ import {
   getPreparedTransaction,
 } from 'src/viem/preparedTransactionSerialization'
 import { getContractKit, getViemWallet } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
@@ -217,13 +217,22 @@ export function* sendPaymentSaga({
 
     ValoraAnalytics.track(SendEvents.send_tx_start)
 
-    yield* call(
+    const hash = yield* call(
       sendTransactionSaga,
       serializablePreparedTransaction,
-      context,
       tokenInfo.networkId,
       createStandbyTransaction
     )
+
+    const receipt = yield* call(
+      [publicClient[networkIdToNetwork[tokenInfo.networkId]], 'waitForTransactionReceipt'],
+      { hash }
+    )
+    Logger.debug(`${TAG}/sendPaymentSaga`, 'Got send transaction receipt', receipt)
+    if (receipt.status === 'reverted') {
+      throw new Error(`Send transaction reverted: ${hash}`)
+    }
+
     yield* put(fetchTokenBalances({ showLoading: true }))
 
     ValoraAnalytics.track(SendEvents.send_tx_complete, {
@@ -270,7 +279,6 @@ export function* sendPaymentSaga({
 
 export function* sendTransactionSaga(
   serializablePreparedTransaction: SerializableTransactionRequest,
-  context: TransactionContext,
   networkId: NetworkId,
   createBaseStandbyTransaction: (hash: string, feeCurrencyId?: string) => BaseStandbyTransaction,
   nonce?: number
@@ -303,14 +311,7 @@ export function* sendTransactionSaga(
 
   yield* put(addStandbyTransaction(createBaseStandbyTransaction(hash, feeCurrencyId)))
 
-  const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-    hash,
-  })
-  Logger.debug('Got transaction receipt', txReceipt)
-
-  yield* call(handleTransactionReceiptReceived, context.id, txReceipt, networkId, feeCurrencyId)
-
-  return txReceipt
+  return hash
 }
 
 export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {

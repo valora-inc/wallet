@@ -26,6 +26,7 @@ import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/tr
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
+import { publicClient } from 'src/viem'
 import {
   TransactionRequest,
   getEstimatedGasFee,
@@ -243,6 +244,14 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       throw new Error('no account found in the wallet')
     }
 
+    for (const tx of preparedTransactions) {
+      trackedTxs.push({
+        tx,
+        txHash: undefined,
+        txReceipt: undefined,
+      })
+    }
+
     // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
     let nonce: number = yield* call(getTransactionCount, wallet, {
       address: wallet.account.address,
@@ -283,19 +292,17 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
             feeCurrencyId,
           }
         }
-        const approvalTxReceipt = yield* call(
+        const approvalTxHash = yield* call(
           sendTransactionSaga,
           serializablePreparedTransactions[0],
-          swapApproveContext,
           networkId,
           createApprovalStandybyTx,
-          nonce++
+          nonce
         )
-        trackedTxs.push({
-          tx: preparedTransactions[0],
-          txHash: approvalTxReceipt.transactionHash,
-          txReceipt: approvalTxReceipt,
-        })
+        // importantly, incremember the nonce for the next transaction
+        nonce = nonce + 1
+
+        trackedTxs[0].txHash = approvalTxHash
       }
     }
 
@@ -319,19 +326,14 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       feeCurrencyId,
     })
     // the swap transaction should be the last in the array
-    const swapTxReceipt = yield* call(
+    const swapTxHash = yield* call(
       sendTransactionSaga,
       serializablePreparedTransactions[serializablePreparedTransactions.length - 1],
-      swapExecuteContext,
       networkId,
       createSwapStandybyTx,
       nonce
     )
-    trackedTxs.push({
-      tx: preparedTransactions[preparedTransactions.length - 1],
-      txHash: swapTxReceipt.transactionHash,
-      txReceipt: swapTxReceipt,
-    })
+    trackedTxs[trackedTxs.length - 1].txHash = swapTxHash
 
     Logger.debug(
       TAG,
@@ -341,6 +343,28 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
 
     navigate(Screens.WalletHome)
     submitted = true
+
+    // wait for the tx receipts, so that we can track them
+    for (let i = 0; i < trackedTxs.length; i++) {
+      const trackedTx = trackedTxs[i]
+      if (trackedTx.txHash === undefined) {
+        Logger.debug(
+          `Transaction ${i + 1} of ${trackedTxs.length} has no tx hash, skipping getting receipt`
+        )
+        continue
+      }
+
+      const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
+        hash: trackedTx.txHash,
+      })
+      Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
+      trackedTxs[i].txReceipt = txReceipt
+    }
+
+    const swapTxReceipt = trackedTxs[trackedTxs.length - 1].txReceipt
+    if (swapTxReceipt?.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
+    }
 
     yield* put(swapSuccess({ swapId, fromTokenId, toTokenId }))
     ValoraAnalytics.track(SwapEvents.swap_execute_success, {

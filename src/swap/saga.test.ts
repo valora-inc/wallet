@@ -1,7 +1,7 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { EffectProviders, StaticProvider } from 'redux-saga-test-plan/providers'
+import { EffectProviders, StaticProvider, dynamic } from 'redux-saga-test-plan/providers'
 import { SwapEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
@@ -10,20 +10,15 @@ import { getDynamicConfigParams } from 'src/statsig'
 import { swapSubmitSaga } from 'src/swap/saga'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
 import { Field, SwapInfo } from 'src/swap/types'
-import { Actions, addStandbyTransaction, transactionConfirmed } from 'src/transactions/actions'
-import {
-  Network,
-  NetworkId,
-  TokenTransactionTypeV2,
-  TransactionStatus,
-} from 'src/transactions/types'
+import { Actions, addStandbyTransaction } from 'src/transactions/actions'
+import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { UnlockResult, unlockAccount } from 'src/web3/saga'
+import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -287,12 +282,18 @@ describe(swapSubmitSaga, () => {
   }
 
   function createDefaultProviders(network: Network) {
+    let callCount = 0
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
       [matchers.call(getViemWallet, networkConfig.viemChain[network]), mockViemWallet],
       [matchers.call.fn(getTransactionCount), 10],
-      [matchers.call.fn(unlockAccount), UnlockResult.SUCCESS],
-      [matchers.call.fn(publicClient[network].waitForTransactionReceipt), mockSwapTxReceipt],
-      [matchers.call.fn(publicClient[network].getTransactionReceipt), mockApproveTxReceipt],
+      [matchers.call.fn(getConnectedUnlockedAccount), mockAccount],
+      [
+        matchers.call.fn(publicClient[network].waitForTransactionReceipt),
+        dynamic(() => {
+          callCount += 1
+          return callCount > 1 ? mockSwapTxReceipt : mockApproveTxReceipt
+        }),
+      ],
       [matchers.call.fn(publicClient[network].getBlock), { timestamp: 1701102971 }],
       [
         matchers.call.fn(decodeFunctionData),
@@ -436,18 +437,7 @@ describe(swapSubmitSaga, () => {
             feeCurrencyId,
           })
         )
-        .put(
-          transactionConfirmed(
-            'id-swap/saga-Swap/Execute',
-            {
-              transactionHash: mockSwapTxReceipt.transactionHash,
-              block: mockSwapTxReceipt.blockNumber.toString(),
-              status: TransactionStatus.Complete,
-              fees: expectedFees,
-            },
-            1701102971000 // milliseconds
-          )
-        )
+        .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x1' })
         .call([publicClient[network], 'waitForTransactionReceipt'], { hash: '0x2' })
         .run()
 
