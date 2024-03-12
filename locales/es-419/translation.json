@@ -2173,7 +2173,8 @@
       "title": "Mi cartera"
     },
     "home": {
-      "tabName": "Inicio"
+      "tabName": "Inicio",
+      "title": "Bienvenido"
     },
     "discover": {
       "tabName": "Descubre"
