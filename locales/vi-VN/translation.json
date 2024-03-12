@@ -2171,7 +2171,8 @@
       "title": "My Wallet"
     },
     "home": {
-      "tabName": "Trang chủ"
+      "tabName": "Trang chủ",
+      "title": "Welcome"
     },
     "discover": {
       "tabName": "Khám phá"
