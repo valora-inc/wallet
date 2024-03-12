@@ -1,10 +1,12 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View, ViewStyle } from 'react-native'
+import { hideWalletBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import Warning from 'src/icons/Warning'
+import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -28,6 +30,8 @@ export const TokenBalanceItem = ({
 }: Props) => {
   const { t } = useTranslation()
 
+  const hideWalletBalance = useSelector(hideWalletBalancesSelector)
+
   const Content = (
     <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
       <TokenIcon token={token} />
@@ -39,15 +43,17 @@ export const TokenBalanceItem = ({
             </Text>
             {showPriceUsdUnavailableWarning && !token.priceUsd && <Warning size={16} />}
           </View>
-          <TokenDisplay
-            style={styles.amount}
-            amount={token.balance}
-            tokenId={token.tokenId}
-            showSymbol={true}
-            hideSign={true}
-            showLocalAmount={false}
-            testID={`${token.symbol}Balance`}
-          />
+          {!hideWalletBalance && (
+            <TokenDisplay
+              style={styles.amount}
+              amount={token.balance}
+              tokenId={token.tokenId}
+              showSymbol={true}
+              hideSign={true}
+              showLocalAmount={false}
+              testID={`${token.symbol}Balance`}
+            />
+          )}
         </View>
         <View style={styles.line}>
           {token.networkId in NETWORK_NAMES ? (
@@ -57,14 +63,16 @@ export const TokenBalanceItem = ({
           ) : (
             <View />
           )}
-          <TokenDisplay
-            style={styles.subAmount}
-            amount={token.balance}
-            tokenId={token.tokenId}
-            showSymbol={false}
-            hideSign={true}
-            errorFallback={balanceUsdErrorFallback}
-          />
+          {!hideWalletBalance && (
+            <TokenDisplay
+              style={styles.subAmount}
+              amount={token.balance}
+              tokenId={token.tokenId}
+              showSymbol={false}
+              hideSign={true}
+              errorFallback={balanceUsdErrorFallback}
+            />
+          )}
         </View>
         {token.bridge && (
           <Text

@@ -49,7 +49,7 @@ interface State {
   pushNotificationsEnabled: boolean
   inAppReviewLastInteractionTimestamp: number | null
   showNotificationSpotlight: boolean
-  hideHomeBalances: boolean
+  hideBalances: boolean
   multichainBetaStatus: MultichainBetaStatus
   pendingDeepLinks: PendingDeepLink[]
 }
@@ -99,7 +99,7 @@ const initialState = {
   pushNotificationsEnabled: false,
   inAppReviewLastInteractionTimestamp: null,
   showNotificationSpotlight: false,
-  hideHomeBalances: false,
+  hideBalances: false,
   multichainBetaStatus: MultichainBetaStatus.NotSeen,
   pendingDeepLinks: [],
 }
@@ -271,10 +271,10 @@ export const appReducer = (
         ...state,
         inAppReviewLastInteractionTimestamp: action.inAppReviewLastInteractionTimestamp,
       }
-    case Actions.TOGGLE_HIDE_HOME_BALANCES:
+    case Actions.TOGGLE_HIDE_BALANCES:
       return {
         ...state,
-        hideHomeBalances: !state.hideHomeBalances,
+        hideBalances: !state.hideBalances,
       }
     case Actions.OPT_MULTICHAIN_BETA:
       return {

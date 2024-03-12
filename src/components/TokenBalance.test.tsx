@@ -12,7 +12,6 @@ import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 import { ONE_DAY_IN_MILLIS } from 'src/utils/time'
 import { createMockStore, getElementText } from 'test/utils'
@@ -379,7 +378,7 @@ describe('HomeTokenBalance', () => {
   })
 
   it('renders correctly when hideBalance is true', async () => {
-    const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
+    const store = createMockStore({ ...defaultStore, app: { hideBalances: true } })
 
     const tree = render(
       <Provider store={store}>
@@ -387,7 +386,7 @@ describe('HomeTokenBalance', () => {
       </Provider>
     )
 
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('Xx.xx')
     expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
   })
 
@@ -402,44 +401,6 @@ describe('HomeTokenBalance', () => {
 
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
     expect(tree.getByTestId('EyeIcon')).toBeTruthy()
-  })
-
-  it('renders correctly when feature flag is off, hideBalance is false', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
-      )
-    const store = createMockStore(defaultStore)
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
-    expect(tree.queryByTestId('EyeIcon')).toBeFalsy()
-    expect(tree.queryByTestId('HiddenEyeIcon')).toBeFalsy()
-  })
-
-  it('renders correctly when feature flag is off, hideBalance is true', async () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation(
-        (featureGate) => featureGate !== StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
-      )
-    const store = createMockStore({ ...defaultStore, app: { hideHomeBalances: true } })
-
-    const tree = render(
-      <Provider store={store}>
-        <HomeTokenBalance />
-      </Provider>
-    )
-
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('$8.41')
-    expect(tree.queryByTestId('EyeIcon')).toBeFalsy()
-    expect(tree.queryByTestId('HiddenEyeIcon')).toBeFalsy()
   })
 
   it('tracks analytics event when eye icon is pressed', async () => {

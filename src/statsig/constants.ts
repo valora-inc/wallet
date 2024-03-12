@@ -11,7 +11,6 @@ export const FeatureGates = {
   [StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE]: false,
   [StatsigFeatureGates.RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY]: false,
   [StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW]: false,
-  [StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE]: false,
   [StatsigFeatureGates.SHOW_MULTICHAIN_BETA_SCREEN]: false,
   [StatsigFeatureGates.SHOW_BETA_TAG]: false,
   [StatsigFeatureGates.SAVE_CONTACTS]: false,

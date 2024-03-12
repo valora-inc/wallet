@@ -3142,6 +3142,18 @@ export const v198Schema = {
   },
 }
 
+export const v199Schema = {
+  ...v198Schema,
+  _persist: {
+    ...v198Schema._persist,
+    version: 199,
+  },
+  app: {
+    ..._.omit(v198Schema.app, 'hideHomeBalances'),
+    hideBalances: false,
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v198Schema as Partial<RootState>
+  return v199Schema as Partial<RootState>
 }
