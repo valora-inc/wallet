@@ -6,7 +6,7 @@ interface Props {
   size?: number
 }
 
-const Home = ({ color, size }: Props) => (
+const ValoraV = ({ color, size }: Props) => (
   <Svg width={size} height={size} viewBox="0 0 20 20" fill="none">
     <Path
       fill={color}
@@ -14,4 +14,4 @@ const Home = ({ color, size }: Props) => (
     />
   </Svg>
 )
-export default Home
+export default ValoraV

@@ -7,12 +7,13 @@ import Pill from 'src/components/Pill'
 import { isE2EEnv } from 'src/config'
 import { RewardsScreenOrigin } from 'src/consumerIncentives/analyticsEventsTracker'
 import { superchargeInfoSelector } from 'src/consumerIncentives/selectors'
-import Rings from 'src/icons/Rings'
+import ValoraV from 'src/icons/ValoraV'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
+import Colors from 'src/styles/colors'
 
 function RewardsPill() {
   const { t } = useTranslation()
@@ -38,7 +39,15 @@ function RewardsPill() {
   if (hideRewardsPill) {
     return null
   }
-  return <Pill text={t('rewards')} icon={<Rings />} onPress={onOpenRewards} testID="EarnRewards" />
+  return (
+    <Pill
+      text={t('rewards')}
+      icon={<ValoraV size={18} color={Colors.successDark} />}
+      onPress={onOpenRewards}
+      testID="EarnRewards"
+      textColor={Colors.successDark}
+    />
+  )
 }
 
 export default RewardsPill

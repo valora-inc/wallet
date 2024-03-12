@@ -2,21 +2,30 @@ import React from 'react'
 import { StyleSheet, Text } from 'react-native'
 import Touchable from 'src/components/Touchable'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 
 interface Props {
   text: string
   icon?: React.ReactNode
   onPress: () => void
   testID?: string
+  textColor?: string
 }
 
-function Pill({ text, icon, onPress, testID }: Props) {
+function Pill({ text, icon, onPress, testID, textColor }: Props) {
   return (
     <Touchable style={styles.container} onPress={onPress} testID={testID}>
       <>
         {icon}
-        <Text style={[styles.text, icon ? { marginLeft: 5 } : {}]}>{text}</Text>
+        <Text
+          style={[
+            styles.text,
+            { color: textColor ?? colors.primary },
+            icon ? { marginLeft: 5 } : {},
+          ]}
+        >
+          {text}
+        </Text>
       </>
     </Touchable>
   )
@@ -33,8 +42,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.successLight,
   },
   text: {
-    ...fontStyles.small600,
-    color: colors.primary,
+    ...typeScale.labelSemiBoldSmall,
   },
 })
 

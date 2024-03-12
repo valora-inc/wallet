@@ -3148,12 +3148,20 @@ export const v199Schema = {
     ...v198Schema._persist,
     version: 199,
   },
+  app: _.omit(v198Schema.app, 'rampCashInButtonExpEnabled'),
+}
+
+export const v200Schema = {
+  ...v199Schema,
+  _persist: {
+    ...v199Schema._persist,
+    version: 200,
+  },
   app: {
-    ..._.omit(v198Schema.app, 'hideHomeBalances'),
+    ..._.omit(v199Schema.app, 'hideHomeBalances'),
     hideBalances: false,
   },
 }
-
 export function getLatestSchema(): Partial<RootState> {
-  return v199Schema as Partial<RootState>
+  return v200Schema as Partial<RootState>
 }
