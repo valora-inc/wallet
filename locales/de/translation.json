@@ -1967,7 +1967,8 @@
       "collectibles": "Sammlerstücke",
       "dappPositions": "DeFi"
     },
-    "importToken": "Importieren"
+    "importToken": "Importieren",
+    "importTokens": "Token importieren"
   },
   "notificationCenterSpotlight": {
     "message": "Einführung einer neuen Möglichkeit, um an einem Ort Rewards zu beanspruchen und Benachrichtigungen und Updates sehen",
