@@ -33,7 +33,7 @@ export function* sendPreparedTransactions(
   serializablePreparedTransactions: SerializableTransactionRequest[],
   networkId: NetworkId,
   createBaseStandbyTransactions: ((
-    hash: string,
+    transactionHash: string,
     feeCurrencyId?: string
   ) => BaseStandbyTransaction)[]
 ) {

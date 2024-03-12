@@ -272,7 +272,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
           .toString()
 
         const createApprovalStandbyTx = (
-          txHash: string,
+          transactionHash: string,
           feeCurrencyId?: string
         ): BaseStandbyTransaction => {
           return {
@@ -280,7 +280,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
             __typename: 'TokenApproval',
             networkId,
             type: TokenTransactionTypeV2.Approval,
-            transactionHash: txHash,
+            transactionHash,
             tokenId: fromToken.tokenId,
             approvedAmount,
             feeCurrencyId,
@@ -291,7 +291,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     }
 
     const createSwapStandbyTx = (
-      txHash: string,
+      transactionHash: string,
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
       context: swapExecuteContext,
@@ -306,7 +306,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         value: swapAmount[Field.FROM],
         tokenId: fromToken.tokenId,
       },
-      transactionHash: txHash,
+      transactionHash,
       feeCurrencyId,
     })
     createSwapStandbyTxHandlers.push(createSwapStandbyTx)

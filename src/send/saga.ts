@@ -184,11 +184,11 @@ export function* sendPaymentSaga({
 
     const tokenInfo = yield* call(getTokenInfo, tokenId)
     if (!tokenInfo) {
-      throw new Error('Unknown token')
+      throw new Error(`Could not find token info for token id: ${tokenId}`)
     }
 
     const createStandbyTransaction = (
-      hash: string,
+      transactionHash: string,
       feeCurrencyId?: string
     ): BaseStandbyTransaction => ({
       __typename: 'TokenTransferV3',
@@ -204,7 +204,7 @@ export function* sendPaymentSaga({
       metadata: {
         comment,
       },
-      transactionHash: hash,
+      transactionHash,
       feeCurrencyId,
     })
 
