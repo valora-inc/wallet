@@ -46,7 +46,7 @@ import {
   v17Schema,
   v18Schema,
   v197Schema,
-  v198Schema,
+  v199Schema,
   v1Schema,
   v21Schema,
   v28Schema,
@@ -1551,15 +1551,15 @@ describe('Redux persist migrations', () => {
     expectedSchema.home.nftCelebration = null
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
-  it('works from 198 to 199', () => {
+  it('works from 199 to 200', () => {
     const oldSchema = {
-      ...v198Schema,
+      ...v199Schema,
       app: {
-        ...v198Schema.app,
+        ...v199Schema.app,
         hideHomeBalances: true,
       },
     }
-    const migratedSchema = migrations[199](oldSchema)
+    const migratedSchema = migrations[200](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.app.hideBalances = true
     delete expectedSchema.app.hideHomeBalances
