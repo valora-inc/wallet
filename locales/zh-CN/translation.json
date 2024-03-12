@@ -2171,7 +2171,8 @@
       "title": "我的钱包"
     },
     "home": {
-      "tabName": "主页"
+      "tabName": "主页",
+      "title": "欢迎"
     },
     "discover": {
       "tabName": "探索"
