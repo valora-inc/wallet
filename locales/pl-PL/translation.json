@@ -1971,7 +1971,8 @@
       "collectibles": "Kolekcje",
       "dappPositions": "Pozycje dapp"
     },
-    "importToken": "Import"
+    "importToken": "Import",
+    "importTokens": "Importuj tokeny"
   },
   "notificationCenterSpotlight": {
     "message": "Przedstawiamy nowy sposób odbierania nagród, wyświetlania alertów i przeglądania aktualizacji w jednym miejscu",
@@ -2176,7 +2177,8 @@
       "title": "Mój portfel"
     },
     "home": {
-      "tabName": "Strona główna"
+      "tabName": "Strona główna",
+      "title": "Witaj"
     },
     "discover": {
       "tabName": "Odkryj"
