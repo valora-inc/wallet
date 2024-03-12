@@ -1965,7 +1965,8 @@
       "collectibles": "ของสะสม",
       "dappPositions": "สถานะ Dapp"
     },
-    "importToken": "นำเข้า"
+    "importToken": "นำเข้า",
+    "importTokens": "Import Tokens"
   },
   "notificationCenterSpotlight": {
     "message": "แนะนำวิธีการใหม่ในการรับรางวัล ดูการแจ้งเตือน และดูข้อมูลอัปเดตในที่เดียว",
@@ -2170,7 +2171,8 @@
       "title": "My Wallet"
     },
     "home": {
-      "tabName": "หน้าหลัก"
+      "tabName": "หน้าหลัก",
+      "title": "Welcome"
     },
     "discover": {
       "tabName": "สำรวจ"
