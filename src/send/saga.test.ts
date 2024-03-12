@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js'
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { throwError } from 'redux-saga-test-plan/providers'
+import { EffectProviders, StaticProvider, throwError } from 'redux-saga-test-plan/providers'
 import { call } from 'redux-saga/effects'
 import { showError } from 'src/alert/actions'
 import { CeloExchangeEvents, SendEvents } from 'src/analytics/Events'
@@ -18,12 +18,8 @@ import {
   sendPaymentSuccess,
 } from 'src/send/actions'
 import { encryptCommentSaga, sendPaymentSaga } from 'src/send/saga'
-import {
-  Actions as TransactionActions,
-  addStandbyTransaction,
-  transactionConfirmed,
-} from 'src/transactions/actions'
-import { NetworkId, TokenTransactionTypeV2, TransactionStatus } from 'src/transactions/types'
+import { Actions as TransactionActions, addStandbyTransaction } from 'src/transactions/actions'
+import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
 import { publicClient } from 'src/viem'
 import { ViemWallet } from 'src/viem/getLockableWallet'
 import { getViemWallet } from 'src/web3/contracts'
@@ -44,6 +40,7 @@ import {
   mockCusdTokenId,
   mockQRCodeRecipient,
 } from 'test/values'
+import { getTransactionCount } from 'viem/actions'
 
 jest.mock('@celo/connect')
 
@@ -96,8 +93,8 @@ describe(sendPaymentSaga, () => {
   }
   const mockViemWallet = {
     account: { address: mockAccount },
-    writeContract: jest.fn(),
-    sendTransaction: jest.fn(),
+    signTransaction: jest.fn(),
+    sendRawTransaction: jest.fn(),
   } as any as ViemWallet
   const mockTxHash: `0x${string}` = '0x12345678901234'
   const mockTxReceipt = {
@@ -106,6 +103,19 @@ describe(sendPaymentSaga, () => {
     blockNumber: 123,
     gasUsed: BigInt(1e6),
     effectiveGasPrice: BigInt(1e9),
+  }
+  function createDefaultProviders() {
+    const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [call(getConnectedUnlockedAccount), mockAccount],
+      [matchers.call.fn(getViemWallet), mockViemWallet],
+      [matchers.call.fn(getTransactionCount), 10],
+      [matchers.call.fn(mockViemWallet.signTransaction), '0xsomeSerialisedTransaction'],
+      [matchers.call.fn(mockViemWallet.sendRawTransaction), mockTxHash],
+      [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
+      [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
+    ]
+
+    return defaultProviders
   }
 
   beforeEach(() => {
@@ -128,13 +138,7 @@ describe(sendPaymentSaga, () => {
     async ({ fromModal, navigateFn }) => {
       await expectSaga(sendPaymentSaga, { ...sendAction, fromModal })
         .withState(createMockStore({}).getState())
-        .provide([
-          [call(getConnectedUnlockedAccount), mockAccount],
-          [matchers.call.fn(getViemWallet), mockViemWallet],
-          [matchers.call.fn(mockViemWallet.sendTransaction), mockTxHash],
-          [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
-          [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
-        ])
+        .provide(createDefaultProviders())
         .call(getViemWallet, networkConfig.viemChain.celo)
         .put(
           addStandbyTransaction({
@@ -154,26 +158,6 @@ describe(sendPaymentSaga, () => {
             feeCurrencyId: mockCeloTokenId,
             transactionHash: mockTxHash,
           })
-        )
-        .put(
-          transactionConfirmed(
-            'mock',
-            {
-              transactionHash: mockTxHash,
-              block: '123',
-              status: TransactionStatus.Complete,
-              fees: [
-                {
-                  type: 'SECURITY_FEE',
-                  amount: {
-                    value: '0.001',
-                    tokenId: mockCeloTokenId,
-                  },
-                },
-              ],
-            },
-            1701102971000
-          )
         )
         .put(sendPaymentSuccess({ amount, tokenId: mockCusdTokenId }))
         .run()
@@ -197,13 +181,7 @@ describe(sendPaymentSaga, () => {
   it('sends a payment successfully for celo and logs a withdrawal event', async () => {
     await expectSaga(sendPaymentSaga, { ...sendAction, tokenId: mockCeloTokenId })
       .withState(createMockStore({}).getState())
-      .provide([
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(getViemWallet), mockViemWallet],
-        [matchers.call.fn(mockViemWallet.sendTransaction), mockTxHash],
-        [matchers.call.fn(publicClient.celo.waitForTransactionReceipt), mockTxReceipt],
-        [matchers.call.fn(publicClient.celo.getBlock), { timestamp: 1701102971 }],
-      ])
+      .provide(createDefaultProviders())
       .call(getViemWallet, networkConfig.viemChain.celo)
       .put(
         addStandbyTransaction({
@@ -223,26 +201,6 @@ describe(sendPaymentSaga, () => {
           feeCurrencyId: mockCeloTokenId,
           transactionHash: mockTxHash,
         })
-      )
-      .put(
-        transactionConfirmed(
-          'mock',
-          {
-            transactionHash: mockTxHash,
-            block: '123',
-            status: TransactionStatus.Complete,
-            fees: [
-              {
-                type: 'SECURITY_FEE',
-                amount: {
-                  value: '0.001',
-                  tokenId: mockCeloTokenId,
-                },
-              },
-            ],
-          },
-          1701102971000
-        )
       )
       .put(sendPaymentSuccess({ amount, tokenId: mockCeloTokenId }))
       .run()
@@ -267,6 +225,7 @@ describe(sendPaymentSaga, () => {
   it('fails if user cancels PIN input', async () => {
     const account = '0x000123'
     await expectSaga(sendPaymentSaga, sendAction)
+      .withState(createMockStore({}).getState())
       .provide([
         [call(getConnectedAccount), account],
         [matchers.call.fn(unlockAccount), UnlockResult.CANCELED],
@@ -274,18 +233,17 @@ describe(sendPaymentSaga, () => {
       .put(showError(ErrorMessages.PIN_INPUT_CANCELED))
       .put(sendPaymentFailure())
       .run()
-    // 2 calls from showError, one with the error handler and one with the
-    // assertion above, there shouldn't be any other calls
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(2)
+    // 1 call for start of send transaction plus 2 calls from showError, one
+    // with the error handler and one with the assertion above
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(3)
   })
 
-  it('fails if sendTransaction throws', async () => {
+  it('fails if sendRawTransaction throws', async () => {
     await expectSaga(sendPaymentSaga, sendAction)
       .withState(createMockStore({}).getState())
       .provide([
-        [call(getConnectedUnlockedAccount), mockAccount],
-        [matchers.call.fn(getViemWallet), mockViemWallet],
-        [matchers.call.fn(mockViemWallet.sendTransaction), throwError(new Error('tx failed'))],
+        [matchers.call.fn(mockViemWallet.sendRawTransaction), throwError(new Error('tx failed'))],
+        ...createDefaultProviders(),
       ])
       .call(getViemWallet, networkConfig.viemChain.celo)
       .put(sendPaymentFailure())

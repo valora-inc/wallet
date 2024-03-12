@@ -17,6 +17,7 @@ import {
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
 import { mockCusdAddress, mockCusdTokenId } from 'test/values'
+import { mockApprovalTransaction } from 'test/values'
 
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
@@ -24,6 +25,7 @@ jest.mock('src/statsig', () => ({
     showCico: ['celo-alfajores'],
     showBalances: ['celo-alfajores'],
     showTransfers: ['celo-alfajores'],
+    showApprovalTxsInHomefeed: ['celo-alfajores'],
   })),
 }))
 
@@ -76,6 +78,20 @@ const MOCK_EMPTY_RESPONSE: QueryResponse = {
         startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
         endCursor: END_CURSOR,
         hasNextPage: true,
+        hasPreviousPage: false,
+      },
+      transactions: [],
+    },
+  },
+}
+
+const MOCK_EMPTY_RESPONSE_NO_NEXT_PAGE: QueryResponse = {
+  data: {
+    tokenTransactionsV3: {
+      pageInfo: {
+        startCursor: 'YXJyYXljb25uZWN0aW9uOjA=',
+        endCursor: END_CURSOR,
+        hasNextPage: false,
         hasPreviousPage: false,
       },
       transactions: [],
@@ -159,6 +175,33 @@ describe('TransactionFeed', () => {
     // are for the same section / date
     return sectionList.props.data[0].data.length
   }
+
+  it('only renders approval txs from supported networks', async () => {
+    mockFetch.mockResponse(JSON.stringify(MOCK_EMPTY_RESPONSE_NO_NEXT_PAGE))
+
+    const tree = renderScreen({
+      transactions: {
+        transactionsByNetworkId: {
+          [NetworkId['ethereum-sepolia']]: [mockApprovalTransaction],
+          [NetworkId['celo-alfajores']]: [
+            {
+              ...mockApprovalTransaction,
+              networkId: NetworkId['celo-alfajores'],
+              transactionHash: '0xfoo',
+            },
+          ],
+        },
+        standbyTransactions: [],
+      },
+    })
+    await waitFor(() => expect(tree.getByTestId('TransactionList').props.data.length).toBe(1))
+
+    expect(tree.queryByTestId('NoActivity/loading')).toBeNull()
+    expect(tree.queryByTestId('NoActivity/error')).toBeNull()
+    expect(mockFetch).toHaveBeenCalledTimes(1)
+    expect(tree.getAllByTestId(new RegExp('TokenApprovalFeedItem', 'i')).length).toBe(1)
+    expect(tree.queryByTestId(`TokenApprovalFeedItem/0xfoo`)).not.toBeNull()
+  })
 
   it('renders correctly when there is a response', async () => {
     mockFetch.mockResponse(JSON.stringify(MOCK_RESPONSE_NO_NEXT_PAGE))
