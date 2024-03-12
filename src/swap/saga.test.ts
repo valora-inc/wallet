@@ -322,15 +322,6 @@ describe(swapSubmitSaga, () => {
       feeCurrencyId: mockCeloTokenId,
       feeCurrencySymbol: 'CELO',
       swapPrepared: mockSwap,
-      expectedFees: [
-        {
-          type: 'SECURITY_FEE',
-          amount: {
-            value: '0.00185837',
-            tokenId: mockCeloTokenId,
-          },
-        },
-      ],
     },
     {
       network: Network.Celo,
@@ -343,15 +334,6 @@ describe(swapSubmitSaga, () => {
       feeCurrencyId: mockCrealTokenId,
       feeCurrencySymbol: 'cREAL',
       swapPrepared: mockSwapFromParams(mockCeloTokenId, mockCrealAddress as Address),
-      expectedFees: [
-        {
-          type: 'SECURITY_FEE',
-          amount: {
-            value: '0.00185837',
-            tokenId: mockCrealTokenId,
-          },
-        },
-      ],
     },
     {
       network: Network.Ethereum,
@@ -363,15 +345,6 @@ describe(swapSubmitSaga, () => {
       feeCurrencyId: mockEthTokenId,
       feeCurrencySymbol: 'ETH',
       swapPrepared: mockSwapEthereum,
-      expectedFees: [
-        {
-          type: 'SECURITY_FEE',
-          amount: {
-            value: '0.00185837',
-            tokenId: mockEthTokenId,
-          },
-        },
-      ],
     },
   ]
 
@@ -388,7 +361,6 @@ describe(swapSubmitSaga, () => {
       feeCurrencyId,
       feeCurrencySymbol,
       swapPrepared,
-      expectedFees,
     }) => {
       jest
         .spyOn(Date, 'now')

@@ -43,13 +43,13 @@ export function* sendPreparedTransactions(
 
   const network = getNetworkFromNetworkId(networkId)
   if (!network) {
-    throw new Error('Unknown token network')
+    throw new Error(`No matching network found for network id: ${networkId}`)
   }
 
   const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
   if (!wallet.account) {
     // this should never happen
-    throw new Error('no account found in the wallet')
+    throw new Error('No account found in the wallet')
   }
 
   // Unlock account before executing tx
