@@ -1055,7 +1055,6 @@ export const mockOnboardingProps = {
   chooseAdventureEnabled: false,
   showRecoveryPhrase: false,
   onboardingNameScreenEnabled: true,
-  cashInBottomSheetEnabled: true,
   showCloudAccountBackupRestore: false,
 }
 

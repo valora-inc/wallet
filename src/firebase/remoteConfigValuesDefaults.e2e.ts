@@ -28,7 +28,6 @@ export const REMOTE_CONFIG_VALUES_DEFAULTS: Omit<
   superchargecREALMin: 50,
   superchargecREALMax: 6000,
   pincodeUseExpandedBlocklist: true,
-  rampCashInButtonExpEnabled: false,
   logPhoneNumberTypeEnabled: false,
   allowOtaTranslations: false,
   sentryTracesSampleRate: 0.2,
