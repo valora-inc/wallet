@@ -20,8 +20,7 @@ import { Field, SwapInfo } from 'src/swap/types'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, TokenBalances } from 'src/tokens/slice'
 import { getSupportedNetworkIdsForSwap } from 'src/tokens/utils'
-import { addStandbyTransaction } from 'src/transactions/actions'
-import { handleTransactionReceiptReceived } from 'src/transactions/saga'
+import { BaseStandbyTransaction } from 'src/transactions/actions'
 import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
@@ -36,13 +35,12 @@ import {
   getMaxGasFee,
 } from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
-import { unlockAccount } from 'src/web3/saga'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, decodeFunctionData } from 'viem'
-import { getTransactionCount } from 'viem/actions'
 
 const TAG = 'swap/saga'
 
@@ -253,42 +251,15 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
       })
     }
 
-    // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
-    let nonce: number = yield* call(getTransactionCount, wallet, {
-      address: wallet.account.address,
-      blockTag: 'pending',
-    })
-
-    // Unlock account before executing tx
-    yield* call(unlockAccount, wallet.account.address)
-
     // Execute transaction(s)
     Logger.debug(TAG, `Starting to swap execute for address: ${wallet.account.address}`)
 
     const beforeSwapExecutionTimestamp = Date.now()
     quoteToTransactionElapsedTimeInMs = beforeSwapExecutionTimestamp - quoteReceivedAt
+    const createSwapStandbyTxHandlers = []
 
-    const txHashes: Hash[] = []
-    for (const preparedTransaction of preparedTransactions) {
-      const signedTx = yield* call([wallet, 'signTransaction'], {
-        ...preparedTransaction,
-        nonce: nonce++,
-      } as any)
-      const hash = yield* call([wallet, 'sendRawTransaction'], {
-        serializedTransaction: signedTx,
-      })
-      txHashes.push(hash)
-    }
-
-    for (let i = 0; i < txHashes.length; i++) {
-      trackedTxs[i].txHash = txHashes[i]
-    }
-
-    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
-
-    const feeCurrencyId = getFeeCurrencyToken(preparedTransactions, networkId, tokensById)?.tokenId
-
-    // if there is an approval transaction, add a standby transaction for it
+    // If there are 2 transactions, the first should be an approval. verify and
+    // add a standby transaction for it
     if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
       const { functionName, args } = yield* call(decodeFunctionData, {
         abi: erc20.abi,
@@ -299,74 +270,74 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
         const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
           .shiftedBy(-fromToken.decimals)
           .toString()
-        const approvalTxHash = txHashes[0]
 
-        yield* put(
-          addStandbyTransaction({
+        const createApprovalStandbyTx = (
+          transactionHash: string,
+          feeCurrencyId?: string
+        ): BaseStandbyTransaction => {
+          return {
             context: swapApproveContext,
             __typename: 'TokenApproval',
             networkId,
             type: TokenTransactionTypeV2.Approval,
-            transactionHash: approvalTxHash,
+            transactionHash,
             tokenId: fromToken.tokenId,
             approvedAmount,
             feeCurrencyId,
-          })
-        )
+          }
+        }
+        createSwapStandbyTxHandlers.push(createApprovalStandbyTx)
       }
     }
 
-    const swapTxHash = txHashes[txHashes.length - 1]
-    yield* put(
-      addStandbyTransaction({
-        context: swapExecuteContext,
-        __typename: 'TokenExchangeV3',
-        networkId,
-        type: TokenTransactionTypeV2.SwapTransaction,
-        inAmount: {
-          value: swapAmount[Field.TO],
-          tokenId: toToken.tokenId,
-        },
-        outAmount: {
-          value: swapAmount[Field.FROM],
-          tokenId: fromToken.tokenId,
-        },
-        transactionHash: swapTxHash,
-        feeCurrencyId,
-      })
+    const createSwapStandbyTx = (
+      transactionHash: string,
+      feeCurrencyId?: string
+    ): BaseStandbyTransaction => ({
+      context: swapExecuteContext,
+      __typename: 'TokenExchangeV3',
+      networkId,
+      type: TokenTransactionTypeV2.SwapTransaction,
+      inAmount: {
+        value: swapAmount[Field.TO],
+        tokenId: toToken.tokenId,
+      },
+      outAmount: {
+        value: swapAmount[Field.FROM],
+        tokenId: fromToken.tokenId,
+      },
+      transactionHash,
+      feeCurrencyId,
+    })
+    createSwapStandbyTxHandlers.push(createSwapStandbyTx)
+
+    const txHashes = yield* call(
+      sendPreparedTransactions,
+      serializablePreparedTransactions,
+      networkId,
+      createSwapStandbyTxHandlers
     )
+    txHashes.forEach((txHash, i) => {
+      trackedTxs[i].txHash = txHash
+    })
+
+    Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
+
     navigate(Screens.WalletHome)
     submitted = true
 
-    const swapTxReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
-      hash: swapTxHash,
-    })
-    Logger.debug('Got swap transaction receipt', swapTxReceipt)
-    trackedTxs[trackedTxs.length - 1].txReceipt = swapTxReceipt
-
-    // Also get the receipt of the first transaction (approve), for tracking purposes
-    try {
-      if (txHashes.length > 1) {
-        const approveTxReceipt = yield* call([publicClient[network], 'getTransactionReceipt'], {
-          hash: txHashes[0],
-        })
-        Logger.debug('Got approve transaction receipt', approveTxReceipt)
-        trackedTxs[0].txReceipt = approveTxReceipt
-      }
-    } catch (e) {
-      Logger.warn(TAG, 'Error getting approve transaction receipt', e)
+    // wait for the tx receipts, so that we can track them
+    for (let i = 0; i < txHashes.length; i++) {
+      const txReceipt = yield* call([publicClient[network], 'waitForTransactionReceipt'], {
+        hash: txHashes[i],
+      })
+      Logger.debug(`Got transaction receipt ${i + 1} of ${trackedTxs.length}`, txReceipt)
+      trackedTxs[i].txReceipt = txReceipt
     }
 
-    yield* call(
-      handleTransactionReceiptReceived,
-      swapExecuteContext.id,
-      swapTxReceipt,
-      networkId,
-      feeCurrencyId
-    )
-
-    if (swapTxReceipt.status !== 'success') {
-      throw new Error(`Swap transaction reverted: ${swapTxReceipt.transactionHash}`)
+    const swapTxReceipt = trackedTxs[trackedTxs.length - 1].txReceipt
+    if (swapTxReceipt?.status !== 'success') {
+      throw new Error(`Swap transaction reverted: ${swapTxReceipt?.transactionHash}`)
     }
 
     yield* put(swapSuccess({ swapId, fromTokenId, toTokenId }))

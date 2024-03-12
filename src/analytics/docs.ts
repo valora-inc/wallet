@@ -74,6 +74,7 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [HomeEvents.hamburger_tapped]: ``,
   [HomeEvents.drawer_navigation]: ``,
   [HomeEvents.drawer_address_copy]: ``,
+  [HomeEvents.profile_address_copy]: `When a user copies their wallet address from the profile screen`,
   [HomeEvents.notification_scroll]: ``,
   [HomeEvents.notification_impression]: `When the notification appears on the user screen for the first time. Note that the format of the notificationId property for user generated notifications is $NotificationType/$Id, where the $Id can be filtered out with a fuzzy string match.`,
   [HomeEvents.notification_select]: `When user taps on notification CTA(s). Note that the format of the notificationId property for user generated notifications is $NotificationType/$Id, where the $Id can be filtered out with a fuzzy string match.`,

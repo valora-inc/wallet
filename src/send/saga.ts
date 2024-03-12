@@ -27,11 +27,10 @@ import {
   getTokenInfoByAddress,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
-import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction } from 'src/transactions/actions'
-import { handleTransactionReceiptReceived, sendAndMonitorTransaction } from 'src/transactions/saga'
+import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
   TokenTransactionTypeV2,
   TransactionContext,
@@ -41,19 +40,16 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'
-import { getPreparedTransaction } from 'src/viem/preparedTransactionSerialization'
-import { getContractKit, getViemWallet } from 'src/web3/contracts'
-import networkConfig from 'src/web3/networkConfig'
+import { sendPreparedTransactions } from 'src/viem/saga'
+import { getContractKit } from 'src/web3/contracts'
+import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
+import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
-import { TransactionReceipt } from 'viem'
 
-const TAG = 'send/saga'
+export const TAG = 'send/saga'
 
-export function* watchQrCodeShare() {
+function* watchQrCodeShare() {
   while (true) {
     const action = (yield* take(Actions.QRCODE_SHARE)) as ShareQRCodeAction
     try {
@@ -177,7 +173,6 @@ export function* sendPaymentSaga({
   preparedTransaction: serializablePreparedTransaction,
 }: SendPaymentAction) {
   try {
-    yield* call(getConnectedUnlockedAccount)
     SentryTransactionHub.startTransaction(SentryTransaction.send_payment)
     const context = newTransactionContext(TAG, 'Send payment')
     const recipientAddress = recipient.address
@@ -188,25 +183,32 @@ export function* sendPaymentSaga({
     }
 
     const tokenInfo = yield* call(getTokenInfo, tokenId)
-    const network = getNetworkFromNetworkId(tokenInfo?.networkId)
-    if (!tokenInfo || !network) {
-      throw new Error('Unknown token network')
+    if (!tokenInfo) {
+      throw new Error(`Could not find token info for token id: ${tokenId}`)
     }
-    const networkId = tokenInfo.networkId
 
-    const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
-
-    if (!wallet.account) {
-      // this should never happen
-      throw new Error('no account found in the wallet')
-    }
+    const createStandbyTransaction = (
+      transactionHash: string,
+      feeCurrencyId?: string
+    ): BaseStandbyTransaction => ({
+      __typename: 'TokenTransferV3',
+      type: TokenTransactionTypeV2.Sent,
+      context,
+      networkId: tokenInfo.networkId,
+      amount: {
+        value: amount.negated().toString(),
+        tokenAddress: tokenInfo.address ?? undefined,
+        tokenId,
+      },
+      address: recipientAddress,
+      metadata: {
+        comment,
+      },
+      transactionHash,
+      feeCurrencyId,
+    })
 
     ValoraAnalytics.track(SendEvents.send_tx_start)
-
-    const preparedTransaction = getPreparedTransaction(serializablePreparedTransaction)
-    const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
-    const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
-
     Logger.debug(
       `${TAG}/sendPaymentSaga`,
       'Executing send transaction',
@@ -216,45 +218,18 @@ export function* sendPaymentSaga({
       amount
     )
 
-    const hash = yield* call([wallet, 'sendTransaction'], preparedTransaction as any)
-
-    Logger.debug(`${TAG}/sendPaymentSaga`, 'Successfully sent transaction to the network', hash)
-
-    yield* put(
-      addStandbyTransaction({
-        __typename: 'TokenTransferV3',
-        type: TokenTransactionTypeV2.Sent,
-        context,
-        networkId,
-        amount: {
-          value: amount.negated().toString(),
-          tokenAddress: tokenInfo.address ?? undefined,
-          tokenId,
-        },
-        address: recipientAddress,
-        metadata: {
-          comment,
-        },
-        transactionHash: hash,
-        feeCurrencyId,
-      })
+    const [hash] = yield* call(
+      sendPreparedTransactions,
+      [serializablePreparedTransaction],
+      tokenInfo.networkId,
+      [createStandbyTransaction]
     )
 
-    const receipt: TransactionReceipt = yield* call(
-      [publicClient[network], 'waitForTransactionReceipt'],
+    const receipt = yield* call(
+      [publicClient[networkIdToNetwork[tokenInfo.networkId]], 'waitForTransactionReceipt'],
       { hash }
     )
-
     Logger.debug(`${TAG}/sendPaymentSaga`, 'Got send transaction receipt', receipt)
-
-    yield* call(
-      handleTransactionReceiptReceived,
-      context.id,
-      receipt,
-      networkConfig.networkToNetworkId[network],
-      feeCurrencyId
-    )
-
     if (receipt.status === 'reverted') {
       throw new Error(`Send transaction reverted: ${hash}`)
     }
@@ -310,7 +285,7 @@ export function* encryptCommentSaga({ comment, fromAddress, toAddress }: Encrypt
   yield* put(encryptCommentComplete(encryptedComment))
 }
 
-export function* watchSendPayment() {
+function* watchSendPayment() {
   yield* takeLeading(Actions.SEND_PAYMENT, safely(sendPaymentSaga))
 }
 

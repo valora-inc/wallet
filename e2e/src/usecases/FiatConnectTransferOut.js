@@ -4,7 +4,6 @@ import fetch from 'node-fetch'
 import { MOCK_PROVIDER_API_KEY, MOCK_PROVIDER_BASE_URL } from 'react-native-dotenv'
 import { SAMPLE_PRIVATE_KEY } from '../utils/consts'
 import {
-  dismissCashInBottomSheet,
   enterPinUiIfNecessary,
   fundWallet,
   quickOnboarding,
@@ -63,7 +62,6 @@ async function submitTransfer(expectZeroBalance = false) {
 
   // WalletHome
   if (expectZeroBalance) {
-    await dismissCashInBottomSheet()
   }
   await expect(element(by.id('HomeAction-Send'))).toBeVisible() // proxy for reaching home screen, imitating NewAccountOnboarding e2e test
 }

@@ -36,6 +36,7 @@ export enum HomeEvents {
   hamburger_tapped = 'hamburger_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
+  profile_address_copy = 'profile_address_copy',
   notification_scroll = 'notification_scroll',
   notification_impression = 'notification_impression',
   notification_select = 'notification_select',

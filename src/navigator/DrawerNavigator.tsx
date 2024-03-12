@@ -320,17 +320,23 @@ export default function DrawerNavigator({ route }: Props) {
       <Drawer.Screen
         name={Screens.Invite}
         component={Invite}
-        options={{ title: t('invite') ?? undefined, drawerIcon: InviteIcon }}
+        options={{
+          title: t('invite') ?? undefined,
+          drawerIcon: () => <InviteIcon color="#B4B9BD" />,
+        }}
       />
       <Drawer.Screen
         name={Screens.Settings}
         component={SettingsScreen}
-        options={{ title: t('settings') ?? undefined, drawerIcon: Settings }}
+        options={{
+          title: t('settings') ?? undefined,
+          drawerIcon: () => <Settings color="#B4B9BD" />,
+        }}
       />
       <Drawer.Screen
         name={Screens.Support}
         component={Support}
-        options={{ title: t('help') ?? undefined, drawerIcon: Help }}
+        options={{ title: t('help') ?? undefined, drawerIcon: () => <Help color="#B4B9BD" /> }}
       />
     </Drawer.Navigator>
   )
