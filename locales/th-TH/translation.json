@@ -2171,7 +2171,8 @@
       "title": "My Wallet"
     },
     "home": {
-      "tabName": "หน้าหลัก"
+      "tabName": "หน้าหลัก",
+      "title": "Welcome"
     },
     "discover": {
       "tabName": "สำรวจ"
