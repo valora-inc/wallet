@@ -2166,6 +2166,18 @@
     "startButtonLabel": "Numero di telefono del collegamento",
     "later": "Lo farò più tardi"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Wallet",
+      "title": "Il mio portafoglio"
+    },
+    "home": {
+      "tabName": "Home"
+    },
+    "discover": {
+      "tabName": "Scopri"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }

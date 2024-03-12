@@ -2166,6 +2166,18 @@
     "startButtonLabel": "Link Telefonnummer",
     "later": "Ich werde das später tun"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Wallet",
+      "title": "Mein Wallet"
+    },
+    "home": {
+      "tabName": "Startseite"
+    },
+    "discover": {
+      "tabName": "Entdecke"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }

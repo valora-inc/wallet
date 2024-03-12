@@ -2164,5 +2164,17 @@
     "startButtonLabel": "Link Phone Number",
     "later": "I'll do this later"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "กระเป๋าเงิน",
+      "title": "My Wallet"
+    },
+    "home": {
+      "tabName": "หน้าหลัก"
+    },
+    "discover": {
+      "tabName": "สำรวจ"
+    }
+  },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo ดอลลาร์"
 }

@@ -2170,6 +2170,18 @@
     "startButtonLabel": "Номер телефона для связи",
     "later": "Я сделаю это позже"
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Кошелек",
+      "title": "Мой кошелек"
+    },
+    "home": {
+      "tabName": "Главный экран"
+    },
+    "discover": {
+      "tabName": "Узнать"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",

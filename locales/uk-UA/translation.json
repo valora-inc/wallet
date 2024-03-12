@@ -2170,6 +2170,18 @@
     "startButtonLabel": "Номер телефону для зв'язку",
     "later": "Я зроблю це пізніше."
   },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Гаманець",
+      "title": "Мій гаманець"
+    },
+    "home": {
+      "tabName": "Домашня сторінка"
+    },
+    "discover": {
+      "tabName": "Дізнатися"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
