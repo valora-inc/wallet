@@ -2173,7 +2173,8 @@
       "title": "Il mio portafoglio"
     },
     "home": {
-      "tabName": "Home"
+      "tabName": "Home",
+      "title": "Benvenuti"
     },
     "discover": {
       "tabName": "Scopri"
