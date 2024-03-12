@@ -58,8 +58,10 @@ describe.each([{ isTabNavigator: false }, { isTabNavigator: true }, {}])(
       // TODO (ACT-1108): should be true in all cases
       // Shows the QR button
       if (!routeParams.isTabNavigator) {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(getByTestId('DAppsExplorerScreen/QRScanButton')).toBeTruthy()
       } else {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(queryByTestId('DAppsExplorerScreen/QRScanButton')).toBeFalsy()
       }
 
