@@ -16,3 +16,9 @@ export interface TokenDetailsAction {
   onPress: () => void
   visible: boolean
 }
+
+export enum AssetTabType {
+  Tokens = 0,
+  Collectibles = 1,
+  Positions = 2,
+}

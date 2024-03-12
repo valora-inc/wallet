@@ -77,6 +77,7 @@ import {
 } from 'src/navigator/Headers'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
@@ -602,6 +603,7 @@ export function MainStackScreen() {
 
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
+      <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
       <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
       {commonScreens(Stack)}
       {sendScreens(Stack)}
@@ -653,6 +655,11 @@ const mainScreenNavOptions = () => ({
 })
 
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
+  // Note: scrolling views inside bottom sheet screens should use the relevant
+  // components from react-native-gesture-handler instead of directly from
+  // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
+
   return (
     <>
       <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
@@ -698,10 +705,6 @@ function RootStackScreen() {
     []
   )
 
-  // Note: scrolling views inside bottom sheet screens should use the relevant
-  // components from react-native-gesture-handler instead of directly from
-  // react-native
-  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
   return (
     <RootStack.Navigator
       screenOptions={{

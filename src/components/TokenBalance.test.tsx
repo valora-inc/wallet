@@ -64,7 +64,7 @@ describe('AssetsTokenBalance', () => {
   it('should show info on tap', () => {
     const { getByText, getByTestId, queryByText } = render(
       <Provider store={createMockStore()}>
-        <AssetsTokenBalance showInfo />
+        <AssetsTokenBalance showInfo isWalletTab={false} />
       </Provider>
     )
 
@@ -74,6 +74,18 @@ describe('AssetsTokenBalance', () => {
 
     fireEvent.press(getByTestId('AssetsTokenBalance/Info'))
     expect(getByText('totalAssetsInfo')).toBeTruthy()
+  })
+
+  it('should show appropriate title on wallet tab', () => {
+    const { getByText, getByTestId, queryByText } = render(
+      <Provider store={createMockStore()}>
+        <AssetsTokenBalance showInfo={false} isWalletTab={true} />
+      </Provider>
+    )
+
+    expect(getByText('bottomTabsNavigator.wallet.title')).toBeTruthy()
+    expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
+    expect(queryByText('AssetsTokenBalance/Info')).toBeFalsy()
   })
 })
 

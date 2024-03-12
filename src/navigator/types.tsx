@@ -13,7 +13,7 @@ import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
-import { AssetTabType } from 'src/tokens/Assets'
+import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
@@ -272,6 +272,13 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.TabDiscover]: undefined
+  [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
+  [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
+  [Screens.TabNavigator]: {
+    initialScreen?: Screens
+    fromModal?: boolean
+  }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
   [Screens.TransactionDetailsScreen]: {
@@ -302,7 +309,7 @@ export type StackParamList = {
       } & SessionRequestProps)
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletHome]: undefined
+  [Screens.WalletHome]: { isTabNavigator?: boolean } | undefined
   [Screens.WalletSecurityPrimer]: undefined
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
@@ -310,7 +317,8 @@ export type StackParamList = {
   [Screens.WithdrawSpend]: undefined
   [Screens.Assets]:
     | {
-        activeTab: AssetTabType
+        activeAssetTab: AssetTabType
+        isWalletTab?: boolean
       }
     | undefined
 }

@@ -1974,7 +1974,8 @@
       "collectibles": "Collectibles",
       "dappPositions": "Dapp Positions"
     },
-    "importToken": "Import"
+    "importToken": "Import",
+    "importTokens": "Import Tokens"
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
@@ -2172,5 +2173,18 @@
     "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
     "startButtonLabel": "Link Phone Number",
     "later": "I'll do this later"
+  },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Wallet",
+      "title": "My Wallet"
+    },
+    "home": {
+      "tabName": "Home",
+      "title": "Welcome"
+    },
+    "discover": {
+      "tabName": "Discover"
+    }
   }
 }
