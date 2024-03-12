@@ -50,7 +50,10 @@ const HEADER_OPACITY_ANIMATION_DISTANCE = 20
 function AssetsScreen({ navigation, route }: Props) {
   const { t } = useTranslation()
 
-  const activeTab = route.params?.activeTab ?? AssetTabType.Tokens
+  const activeTab = route.params?.activeAssetTab ?? AssetTabType.Tokens
+  // NOTE: isWalletTab is a temporary parameter while we build the tab
+  // navigator, should be cleaned up when we remove the drawer
+  const isWalletTab = !!route.params?.isWalletTab
 
   const supportedNetworkIds = getSupportedNetworkIdsForTokenBalances()
 
@@ -152,26 +155,29 @@ function AssetsScreen({ navigation, route }: Props) {
   }, [footerPosition.value])
 
   useLayoutEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
-          <TopBarTextButton
-            onPress={() => {
-              ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
-              navigate(Screens.TokenImport)
-            }}
-            title={t('assets.importToken')}
-            style={styles.topBarTextButton}
-          />
-        ),
-    })
-  }, [navigation])
+    !isWalletTab &&
+      navigation.setOptions({
+        headerRight: () =>
+          getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW) && (
+            <TopBarTextButton
+              onPress={() => {
+                ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
+                navigate(Screens.TokenImport)
+              }}
+              title={t('assets.importToken')}
+              style={styles.topBarTextButton}
+            />
+          ),
+      })
+  }, [navigation, isWalletTab])
 
+  // TODO(ACT-1108): adjust title style
   useScrollAwareHeader({
     navigation,
-    title: t('totalAssets'),
-    subtitle:
-      !tokensAreStale && totalBalanceLocal.gte(0)
+    title: isWalletTab ? t('bottomTabsNavigator.wallet.title') : t('totalAssets'),
+    subtitle: isWalletTab
+      ? ''
+      : !tokensAreStale && totalBalanceLocal.gte(0)
         ? t('totalBalanceWithLocalCurrencySymbol', {
             localCurrencySymbol,
             totalBalance: totalBalanceLocal.toFormat(2),
@@ -195,7 +201,7 @@ function AssetsScreen({ navigation, route }: Props) {
   }
 
   const handleChangeActiveView = (selectedTab: AssetTabType) => {
-    navigation.setParams({ activeTab: selectedTab })
+    navigation.setParams({ activeAssetTab: selectedTab })
   }
 
   return (
@@ -208,7 +214,7 @@ function AssetsScreen({ navigation, route }: Props) {
           style={[styles.nonStickyHeaderContainer]}
           onLayout={handleMeasureNonStickyHeaderHeight}
         >
-          <AssetsTokenBalance showInfo={displayPositions} />
+          <AssetsTokenBalance showInfo={displayPositions} isWalletTab={isWalletTab} />
         </View>
         <AssetTabBar
           activeTab={activeTab}
@@ -221,12 +227,19 @@ function AssetsScreen({ navigation, route }: Props) {
         activeTab={activeTab}
         listHeaderHeight={listHeaderHeight}
         handleScroll={handleScroll}
+        isWalletTab={isWalletTab}
       />
       {showClaimRewards && (
         <Animated.View
           style={[
             styles.footerContainer,
-            { paddingBottom: Math.max(insets.bottom, Spacing.Regular16) },
+            {
+              // no need to use insets in wallet tab because the tab bar is
+              // below this
+              paddingBottom: isWalletTab
+                ? Spacing.Regular16
+                : Math.max(insets.bottom, Spacing.Regular16),
+            },
             animatedFooterStyles,
           ]}
           onLayout={handleMeasureListFooterHeight}
@@ -253,8 +266,9 @@ AssetsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
-    padding: Spacing.Thick24,
+    paddingHorizontal: Spacing.Thick24,
     paddingTop: Spacing.Smallest8,
+    paddingBottom: Spacing.Regular16,
     backgroundColor: Colors.white,
     position: 'absolute',
     width: '100%',

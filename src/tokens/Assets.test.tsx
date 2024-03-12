@@ -297,6 +297,21 @@ describe('AssetsScreen', () => {
     expect(button).toBeNull()
   })
 
+  it('does not render Import Token on wallets tab', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore(storeWithPositions)
+
+    const component = (
+      <Provider store={store}>
+        <MockedNavigator component={AssetsScreen} params={{ isWalletTab: true }} />
+      </Provider>
+    )
+    const { queryByText } = render(component)
+    const button = queryByText('assets.importToken')
+
+    expect(button).toBeNull()
+  })
+
   it('clicking Import opens Import Token screen', () => {
     jest
       .mocked(getFeatureGate)

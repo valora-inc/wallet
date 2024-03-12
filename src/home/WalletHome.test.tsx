@@ -12,6 +12,7 @@ import { Actions as IdentityActions } from 'src/identity/actions'
 import { RootState } from 'src/redux/reducers'
 import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { NetworkId } from 'src/transactions/types'
+import MockedNavigator from 'test/MockedNavigator'
 import { RecursivePartial, createMockStore } from 'test/utils'
 import {
   mockCeloAddress,
@@ -164,7 +165,7 @@ describe('WalletHome', () => {
     )
   })
 
-  function renderScreen(storeOverrides: RecursivePartial<RootState> = {}) {
+  function renderScreen(storeOverrides: RecursivePartial<RootState> = {}, screenParams = {}) {
     const store = createMockStore({
       ...mockBalances,
       ...storeOverrides,
@@ -172,7 +173,7 @@ describe('WalletHome', () => {
 
     const tree = render(
       <Provider store={store}>
-        <WalletHome />
+        <MockedNavigator component={WalletHome} params={screenParams} />
       </Provider>
     )
 
@@ -208,6 +209,37 @@ describe('WalletHome', () => {
         'HOME/VISIT_HOME',
         'ALERT/SHOW',
         'ALERT/HIDE',
+        'HOME/REFRESH_BALANCES',
+        'IDENTITY/IMPORT_CONTACTS',
+      ])
+    )
+  })
+
+  it('renders home tab correctly and fires initial actions', async () => {
+    const { store, tree } = renderScreen(
+      {
+        app: {
+          phoneNumberVerified: true,
+        },
+        recipients: {
+          phoneRecipientCache: {},
+        },
+      },
+      { isTabNavigator: true }
+    )
+
+    await act(() => {
+      jest.runOnlyPendingTimers()
+    })
+
+    expect(tree.getByText('bottomTabsNavigator.home.title')).toBeTruthy()
+    expect(tree.queryByTestId('HomeActionsCarousel')).toBeTruthy()
+    expect(tree.queryByText('notificationCenterSpotlight.message')).toBeFalsy()
+    expect(tree.queryByTestId('HomeTokenBalance')).toBeFalsy()
+    expect(tree.queryByTestId('cashInBtn')).toBeFalsy()
+    expect(store.getActions().map((action) => action.type)).toEqual(
+      expect.arrayContaining([
+        'HOME/VISIT_HOME',
         'HOME/REFRESH_BALANCES',
         'IDENTITY/IMPORT_CONTACTS',
       ])
@@ -319,7 +351,7 @@ describe('WalletHome', () => {
     it('should open the recently used dapp', async () => {
       const { getAllByTestId, getByTestId } = render(
         <Provider store={store}>
-          <WalletHome />
+          <MockedNavigator component={WalletHome} />
         </Provider>
       )
 
@@ -342,7 +374,7 @@ describe('WalletHome', () => {
     it('should open the dapp directly if it is deep linked', async () => {
       const { getAllByTestId, getByTestId } = render(
         <Provider store={store}>
-          <WalletHome />
+          <MockedNavigator component={WalletHome} />
         </Provider>
       )
 
@@ -430,7 +462,7 @@ describe('WalletHome', () => {
             },
           })}
         >
-          <WalletHome />
+          <MockedNavigator component={WalletHome} />
         </Provider>
       )
 
@@ -471,7 +503,7 @@ describe('WalletHome', () => {
             },
           })}
         >
-          <WalletHome />
+          <MockedNavigator component={WalletHome} />
         </Provider>
       )
 
@@ -482,128 +514,155 @@ describe('WalletHome', () => {
     })
   })
 
-  describe('nft reward bottom sheet', () => {
-    beforeEach(() => {
-      jest.mocked(getFeatureGate).mockReturnValue(true)
-    })
-
-    afterEach(() => {
-      jest.clearAllMocks()
-      jest.useFakeTimers({ doNotFake: ['Date'] })
-    })
-
-    it('renders correctly when status is "reward ready"', () => {
-      const { getByText } = renderScreen({
-        ...mockStoreRewardReady,
-        app: {
-          showNotificationSpotlight: false,
-        },
+  describe.each([{ isTabNavigator: false }, { isTabNavigator: true }])(
+    'nft reward bottom sheet (isTabNavigator: $isTabNavigator)',
+    ({ isTabNavigator }) => {
+      beforeEach(() => {
+        jest.mocked(getFeatureGate).mockReturnValue(true)
       })
 
-      expect(getByText('nftCelebration.rewardBottomSheet.title')).toBeTruthy()
-      expect(
-        getByText('nftCelebration.rewardBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}')
-      ).toBeTruthy()
-      expect(getByText('nftCelebration.rewardBottomSheet.cta')).toBeTruthy()
-    })
-
-    it('renders correctly when status is "reminder ready"', () => {
-      const { getByText } = renderScreen({
-        ...mockStoreReminderReady,
-        app: {
-          showNotificationSpotlight: false,
-        },
+      afterEach(() => {
+        jest.clearAllMocks()
+        jest.useFakeTimers({ doNotFake: ['Date'] })
       })
 
-      expect(getByText('nftCelebration.rewardReminderBottomSheet.title')).toBeTruthy()
-      expect(
-        getByText(
-          'nftCelebration.rewardReminderBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}'
+      it('renders correctly when status is "reward ready"', () => {
+        const { getByText } = renderScreen(
+          {
+            ...mockStoreRewardReady,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
         )
-      ).toBeTruthy()
-      expect(getByText('nftCelebration.rewardReminderBottomSheet.cta')).toBeTruthy()
-    })
 
-    it('does not render when status is other than "reward ready" or "reminder ready"', () => {
-      const { queryByText } = renderScreen({
-        ...mockStoreCelebrationReady,
-        app: {
-          showNotificationSpotlight: false,
-        },
+        expect(getByText('nftCelebration.rewardBottomSheet.title')).toBeTruthy()
+        expect(
+          getByText('nftCelebration.rewardBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}')
+        ).toBeTruthy()
+        expect(getByText('nftCelebration.rewardBottomSheet.cta')).toBeTruthy()
       })
 
-      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-    })
+      it('renders correctly when status is "reminder ready"', () => {
+        const { getByText } = renderScreen(
+          {
+            ...mockStoreReminderReady,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
 
-    it('does not render when celebrated contract does not match with user nft', () => {
-      const { queryByText } = renderScreen({
-        ...mockStoreRewardReayWithDifferentNft,
-        app: {
-          showNotificationSpotlight: false,
-        },
+        expect(getByText('nftCelebration.rewardReminderBottomSheet.title')).toBeTruthy()
+        expect(
+          getByText(
+            'nftCelebration.rewardReminderBottomSheet.description, {"nftName":"John Doe.fizzBuzz"}'
+          )
+        ).toBeTruthy()
+        expect(getByText('nftCelebration.rewardReminderBottomSheet.cta')).toBeTruthy()
       })
 
-      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-    })
+      it('does not render when status is other than "reward ready" or "reminder ready"', () => {
+        const { queryByText } = renderScreen(
+          {
+            ...mockStoreCelebrationReady,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
 
-    it('does not render when feature gate is closed', () => {
-      jest.mocked(getFeatureGate).mockReturnValue(false)
-
-      const { queryByText } = renderScreen({
-        ...mockStoreRewardReady,
-        app: {
-          showNotificationSpotlight: false,
-        },
+        expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
       })
 
-      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-    })
+      it('does not render when celebrated contract does not match with user nft', () => {
+        const { queryByText } = renderScreen(
+          {
+            ...mockStoreRewardReayWithDifferentNft,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
 
-    it('does not render if reward is already displayed', () => {
-      const { queryByText } = renderScreen({
-        ...mockStoreRewardDisplayed,
-        app: {
-          showNotificationSpotlight: false,
-        },
+        expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
       })
 
-      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-    })
+      it('does not render when feature gate is closed', () => {
+        jest.mocked(getFeatureGate).mockReturnValue(false)
 
-    it('does not render if reminder is already displayed', () => {
-      const { queryByText } = renderScreen({
-        ...mockStoreReminderDisplayed,
-        app: {
-          showNotificationSpotlight: false,
-        },
+        const { queryByText } = renderScreen(
+          {
+            ...mockStoreRewardReady,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
+
+        expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
       })
 
-      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-    })
+      it('does not render if reward is already displayed', () => {
+        const { queryByText } = renderScreen(
+          {
+            ...mockStoreRewardDisplayed,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
 
-    it('does not render if expired', () => {
-      jest.useFakeTimers({ now: new Date('3001-01-01T00:00:00.000Z') })
-
-      const { queryByText } = renderScreen({
-        ...mockStoreRewardReady,
-        app: {
-          showNotificationSpotlight: false,
-        },
+        expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
       })
 
-      expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
-      expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
-    })
-  })
+      it('does not render if reminder is already displayed', () => {
+        const { queryByText } = renderScreen(
+          {
+            ...mockStoreReminderDisplayed,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
+
+        expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+      })
+
+      it('does not render if expired', () => {
+        jest.useFakeTimers({ now: new Date('3001-01-01T00:00:00.000Z') })
+
+        const { queryByText } = renderScreen(
+          {
+            ...mockStoreRewardReady,
+            app: {
+              showNotificationSpotlight: false,
+            },
+          },
+          { isTabNavigator }
+        )
+
+        expect(queryByText('nftCelebration.rewardBottomSheet.title')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.description')).toBeNull()
+        expect(queryByText('nftCelebration.rewardBottomSheet.cta')).toBeNull()
+      })
+    }
+  )
 })
