@@ -101,7 +101,7 @@ export default function AssetList({
     sortedTokensWithBalanceOrShowZeroBalanceSelector(state, supportedNetworkIds)
   )
 
-  const hideWalletBalances = useSelector(hideWalletBalancesSelector)
+  const hideWalletBalances = useSelector(hideWalletBalancesSelector) && isWalletTab
 
   const positions = useSelector(positionsSelector)
   const positionSections = useMemo(() => {

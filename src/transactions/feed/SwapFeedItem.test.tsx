@@ -125,7 +125,7 @@ describe('SwapFeedItem', () => {
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-17.54 cEUR')
   })
 
-  it('still shows balances when feature gate true, hide balances root state true', async () => {
+  it('still shows balances when USE_TAB_NAVIGATOR feature gate true, hide balances root state true', async () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
@@ -148,7 +148,7 @@ describe('SwapFeedItem', () => {
     expect(getElementText(getByTestId('SwapFeedItem/outgoingAmount'))).toEqual('-2.87 cUSD')
   })
 
-  it('hides balance when feature gate false, root state hide home balances flag is set', async () => {
+  it('hides balance when USE_TAB_NAVIGATOR feature gate false, root state hide home balances flag is set', async () => {
     jest
       .mocked(getFeatureGate)
       .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
