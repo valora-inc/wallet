@@ -318,7 +318,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Regular16,
   },
   sectionListContentContainer: {
-    padding: Spacing.Thick24,
+    padding: Spacing.Regular16,
     flexGrow: 1,
   },
   refreshControl: {
