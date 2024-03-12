@@ -86,9 +86,6 @@ export function getDynamicConfigParams<T extends Record<string, StatsigParameter
 }
 
 export function getFeatureGate(featureGateName: StatsigFeatureGates) {
-  if (featureGateName === StatsigFeatureGates.USE_TAB_NAVIGATOR) {
-    return true
-  }
   try {
     return Statsig.checkGate(featureGateName)
   } catch (error) {

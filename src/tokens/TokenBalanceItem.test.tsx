@@ -10,7 +10,6 @@ import { createMockStore } from 'test/utils'
 import { mockCusdAddress } from 'test/values'
 
 let mockTokenInfo: TokenBalance
-jest.mock('src/statsig')
 
 describe('TokenBalanceItem', () => {
   beforeEach(() => {
