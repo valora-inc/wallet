@@ -93,7 +93,6 @@ describe(sendPaymentSaga, () => {
   }
   const mockViemWallet = {
     account: { address: mockAccount },
-    writeContract: jest.fn(),
     signTransaction: jest.fn(),
     sendRawTransaction: jest.fn(),
   } as any as ViemWallet
