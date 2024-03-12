@@ -321,7 +321,7 @@ export function* transactionSaga() {
   yield* spawn(watchPendingTransactions)
 }
 
-export function* handleTransactionReceiptReceived(
+function* handleTransactionReceiptReceived(
   txId: string,
   receipt: TransactionReceipt | CeloTxReceipt,
   networkId: NetworkId,
