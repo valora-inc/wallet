@@ -1967,7 +1967,8 @@
       "collectibles": "Collezioni",
       "dappPositions": "Asset DeFi"
     },
-    "importToken": "Importa"
+    "importToken": "Importa",
+    "importTokens": "Importazione di gettoni"
   },
   "notificationCenterSpotlight": {
     "message": "Introduzione di un nuovo modo per richiedere le ricompense, visualizzare gli avvisi e vedere gli aggiornamenti in un'unica posizione",
@@ -2172,7 +2173,8 @@
       "title": "Il mio portafoglio"
     },
     "home": {
-      "tabName": "Home"
+      "tabName": "Home",
+      "title": "Benvenuti"
     },
     "discover": {
       "tabName": "Scopri"
