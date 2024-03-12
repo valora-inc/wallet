@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   homeTabTitle: {
     ...typeScale.titleMedium,
     color: colors.black,
-    marginHorizontal: Spacing.Thick24,
+    marginHorizontal: Spacing.Regular16,
     marginTop: Spacing.Regular16,
     marginBottom: Spacing.Large32,
   },

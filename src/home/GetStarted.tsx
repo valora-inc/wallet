@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   container: {
     gap: 18,
-    margin: Spacing.Thick24,
+    margin: Spacing.Regular16,
   },
   icon: {
     marginBottom: Spacing.Regular16,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     ...typeScale.labelSemiBoldMedium,
   },
   title: {
-    ...typeScale.bodySmall,
+    ...typeScale.labelSemiBoldSmall,
     color: colors.gray4,
   },
 })
