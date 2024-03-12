@@ -1965,7 +1965,8 @@
       "collectibles": "藏品",
       "dappPositions": "Dapp 持仓"
     },
-    "importToken": "导入"
+    "importToken": "导入",
+    "importTokens": "导入令牌"
   },
   "notificationCenterSpotlight": {
     "message": "我们正在推出一种新方法，让您可在同一个地方领取奖励、查看提醒和更新信息",
@@ -2170,7 +2171,8 @@
       "title": "我的钱包"
     },
     "home": {
-      "tabName": "主页"
+      "tabName": "主页",
+      "title": "欢迎"
     },
     "discover": {
       "tabName": "探索"

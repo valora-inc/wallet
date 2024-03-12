@@ -1967,7 +1967,8 @@
       "collectibles": "Colecionáveis",
       "dappPositions": "DeFi"
     },
-    "importToken": "Importar"
+    "importToken": "Importar",
+    "importTokens": "Importar tokens"
   },
   "notificationCenterSpotlight": {
     "message": "Apresentamos uma nova forma de resgatar recompensas, ver alertas e consultar atualizações em um só lugar",
@@ -2172,7 +2173,8 @@
       "title": "Minha carteira"
     },
     "home": {
-      "tabName": "Página inicial"
+      "tabName": "Página inicial",
+      "title": "Bem-vindo"
     },
     "discover": {
       "tabName": "Descobrir"

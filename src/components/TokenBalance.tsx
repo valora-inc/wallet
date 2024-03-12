@@ -161,7 +161,15 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
-export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
+export function AssetsTokenBalance({
+  showInfo,
+  isWalletTab,
+}: {
+  showInfo: boolean
+  // temporary parameter while we build the tab navigator, should be cleaned up
+  // when we remove the DrawerNavigator
+  isWalletTab: boolean
+}) {
   const { t } = useTranslation()
 
   const [infoVisible, setInfoVisible] = useState(false)
@@ -200,7 +208,11 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
     <TouchableWithoutFeedback onPress={handleDismissInfo}>
       <View testID="AssetsTokenBalance">
         <View style={styles.row}>
-          <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+          {isWalletTab ? (
+            <Text style={styles.walletTabTitle}>{t('bottomTabsNavigator.wallet.title')}</Text>
+          ) : (
+            <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+          )}
           {showInfo && (
             <TouchableOpacity
               onPress={toggleInfoVisible}
@@ -319,6 +331,11 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     color: Colors.gray5,
     marginRight: 4,
+  },
+  walletTabTitle: {
+    ...typeScale.titleMedium,
+    color: Colors.black,
+    marginRight: 10,
   },
   totalAssetsInfoContainer: {
     position: 'absolute',

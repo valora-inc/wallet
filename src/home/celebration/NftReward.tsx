@@ -83,9 +83,9 @@ export default function NftRewardBottomSheet() {
           contractAddress: nftCelebration.contractAddress,
           remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
         })
-      }
 
-      dispatch(nftRewardDisplayed())
+        dispatch(nftRewardDisplayed())
+      }
     }
   }
 
@@ -100,14 +100,16 @@ export default function NftRewardBottomSheet() {
       remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
     })
 
-    setRewardAccepted(true)
-
-    bottomSheetRef.current?.close()
-
     if (nftCelebration?.deepLink) {
       const isSecureOrigin = true
       dispatch(openDeepLink(nftCelebration.deepLink, isSecureOrigin))
     }
+
+    setRewardAccepted(true)
+
+    bottomSheetRef.current?.close()
+
+    dispatch(nftRewardDisplayed())
   }
 
   if (!isVisible) {

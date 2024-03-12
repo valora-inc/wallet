@@ -1,11 +1,13 @@
 import { getCountryEmoji, parsePhoneNumber } from '@celo/phone-utils'
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import fontStyles from 'src/styles/fonts'
+import Colors from 'src/styles/colors'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 
 interface Props {
   e164PhoneNumber: string
   defaultCountryCode?: string
+  textColor?: Colors
 }
 
 export class PhoneNumberWithFlag extends React.PureComponent<Props> {
@@ -22,7 +24,13 @@ export class PhoneNumberWithFlag extends React.PureComponent<Props> {
               )
             : getCountryEmoji(this.props.e164PhoneNumber)}
         </Text>
-        <Text style={fontStyles.small500}>
+        <Text
+          style={{
+            ...typeScale.labelSmall,
+            lineHeight: 18,
+            color: this.props.textColor ?? Colors.black,
+          }}
+        >
           {parsedNumber ? parsedNumber.displayNumberInternational : ''}
         </Text>
       </View>

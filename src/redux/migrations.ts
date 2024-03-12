@@ -1612,4 +1612,8 @@ export const migrations = {
       nftCelebration: null,
     },
   }),
+  199: (state: any) => ({
+    ...state,
+    app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
+  }),
 }

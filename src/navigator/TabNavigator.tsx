@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import WalletHome from 'src/home/WalletHome'
+import ValoraV from 'src/icons/ValoraV'
 import Discover from 'src/icons/navigator/Discover'
-import Home from 'src/icons/navigator/Home'
 import Wallet from 'src/icons/navigator/Wallet'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -42,25 +42,24 @@ export default function TabNavigator({ route }: Props) {
       }}
     >
       <Tab.Screen
-        // TODO(act-1104) new assets screen
         name={Screens.TabWallet}
-        // @ts-expect-error Type '{}' is missing the following properties from type 'Props': navigation, route
         component={AssetsScreen}
         options={{
           tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
           tabBarIcon: Wallet,
         }}
+        initialParams={{ isWalletTab: true }}
       />
       <Tab.Screen
-        // TODO(act-1105) new home tab screen
         name={Screens.TabHome}
         component={WalletHome}
         options={{
           freezeOnBlur: false,
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
-          tabBarIcon: Home,
+          tabBarIcon: ValoraV,
         }}
+        initialParams={{ isTabNavigator: true }}
       />
       <Tab.Screen
         // TODO(act-1106) discover tab screen
