@@ -178,7 +178,6 @@ interface HomeEventsProperties {
   [HomeEvents.transaction_feed_item_select]: undefined
   [HomeEvents.transaction_feed_address_copy]: undefined
   [HomeEvents.view_token_balances]: { totalBalance?: string }
-  [HomeEvents.view_nft_home_assets]: undefined
   [HomeEvents.home_action_pressed]: { action: HomeActionName }
   [HomeEvents.notification_bell_pressed]: { hasNotifications: boolean }
   [HomeEvents.notification_center_opened]: { notificationsCount: number }
@@ -191,6 +190,16 @@ interface HomeEventsProperties {
   [HomeEvents.nft_celebration_animation_displayed]: {
     userInterrupted: boolean
     durationInSeconds: number
+  }
+  [HomeEvents.nft_reward_accept]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
+  }
+  [HomeEvents.nft_reward_dismiss]: {
+    networkId: NetworkId
+    contractAddress: string
+    remainingDays: number
   }
 }
 
@@ -660,15 +669,6 @@ interface SendEventsProperties {
   }
   [SendEvents.send_select_recipient_recent_press]: {
     recipientType: RecipientType
-  }
-}
-
-interface JumpstartEventsProperties {
-  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
-  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
-    tokenId: string
-    sendAmountUsd: string
-    thresholdUsd: number
   }
 }
 
@@ -1440,9 +1440,6 @@ interface NftsEventsProperties {
     error?: string
     mediaType: 'image' | 'video'
   }
-  [NftEvents.nft_gallery_screen_open]: {
-    numNfts: number
-  }
 }
 
 interface BuilderHooksProperties {
@@ -1501,7 +1498,24 @@ interface TransactionDetailsProperties {
   }
 }
 
-interface WalletJumpstartProperties {
+interface JumpstartSendProperties {
+  localCurrency: LocalCurrencyCode
+  localCurrencyExchangeRate: string | null
+  tokenSymbol: string
+  tokenAmount: string | null
+  amountInUsd: string | null
+  tokenId: string | null
+  networkId: string | null
+}
+interface JumpstartEventsProperties {
+  [JumpstartEvents.send_select_recipient_jumpstart]: undefined
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
+    tokenId: string
+    sendAmountUsd: string
+    thresholdUsd: number
+  }
+  [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_confirm]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
@@ -1550,7 +1564,6 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties &
-  WalletJumpstartProperties
+  TransactionDetailsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList

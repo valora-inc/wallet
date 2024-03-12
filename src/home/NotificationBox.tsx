@@ -8,7 +8,7 @@ import {
   dismissKeepSupercharging,
   dismissStartSupercharging,
 } from 'src/account/actions'
-import { celoEducationCompletedSelector } from 'src/account/selectors'
+import { celoEducationCompletedSelector, cloudBackupCompletedSelector } from 'src/account/selectors'
 import { HomeEvents, RewardsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ScrollDirection } from 'src/analytics/types'
@@ -32,6 +32,7 @@ import { DEFAULT_PRIORITY } from 'src/home/reducers'
 import { getExtraNotifications } from 'src/home/selectors'
 import { Notification, NotificationBannerCTATypes, NotificationType } from 'src/home/types'
 import GuideKeyIcon from 'src/icons/GuideKeyHomeCardIcon'
+import KeylessBackup from 'src/icons/KeylessBackup'
 import { boostRewards, getVerified, learnCelo, lightningPhone } from 'src/images/Images'
 import { ensurePincode, navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -98,15 +99,16 @@ export function useSimpleActions() {
   }, [])
 
   const superchargeRewards = useSelector((state) => state.supercharge.availableRewards)
+  const cloudBackupCompleted = useSelector(cloudBackupCompletedSelector)
 
   const actions: SimpleAction[] = []
-  if (!backupCompleted) {
+  if (!backupCompleted && !cloudBackupCompleted) {
     if (showKeylessBackup) {
       actions.push({
         id: NotificationType.keyless_backup_prompt,
         type: NotificationType.keyless_backup_prompt,
         text: t('keylessBackupNotification'),
-        icon: <GuideKeyIcon />,
+        icon: <KeylessBackup />,
         priority: BACKUP_PRIORITY,
         testID: 'KeylessBackupNotification',
         callToActions: [

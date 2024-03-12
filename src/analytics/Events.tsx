@@ -42,7 +42,6 @@ export enum HomeEvents {
   transaction_feed_item_select = 'transaction_feed_item_select',
   transaction_feed_address_copy = 'transaction_feed_address_copy',
   view_token_balances = 'view_token_balances',
-  view_nft_home_assets = 'view_nft_home_assets',
   home_action_pressed = 'home_action_pressed',
   notification_bell_pressed = 'notification_bell_pressed',
   notification_center_opened = 'notification_center_opened',
@@ -51,6 +50,8 @@ export enum HomeEvents {
   show_balances = 'show_balances',
   nft_celebration_displayed = 'nft_celebration_displayed',
   nft_celebration_animation_displayed = 'nft_celebration_animation_displayed',
+  nft_reward_accept = 'nft_reward_accept',
+  nft_reward_dismiss = 'nft_reward_dismiss',
 }
 
 export enum SettingsEvents {
@@ -331,11 +332,6 @@ export enum SendEvents {
   send_select_recipient_recent_press = 'send_select_recipient_recent_press',
 }
 
-export enum JumpstartEvents {
-  send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
-  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
-}
-
 export enum QrScreenEvents {
   // Events for the QR screen redesign
   qr_screen_copy_address = 'qr_screen_copy_address',
@@ -614,7 +610,6 @@ export enum AssetsEvents {
 export enum NftEvents {
   nft_error_screen_open = 'nft_error_screen_open',
   nft_media_load = 'nft_media_load',
-  nft_gallery_screen_open = 'nft_gallery_screen_open',
 }
 
 export enum BuilderHooksEvents {
@@ -644,6 +639,10 @@ export enum TransactionDetailsEvents {
 }
 
 export enum JumpstartEvents {
+  send_select_recipient_jumpstart = 'send_select_recipient_jumpstart',
+  jumpstart_send_amount_exceeds_threshold = 'jumpstart_send_amount_exceeds_threshold',
+  jumpstart_send_amount_continue = 'jumpstart_send_amount_continue',
+  jumpstart_send_confirm = 'jumpstart_send_confirm',
   jumpstart_claim_succeeded = 'jumpstart_claim_succeeded',
   jumpstart_claim_failed = 'jumpstart_claim_failed',
   jumpstart_claimed_token = 'jumpstart_claimed_token',

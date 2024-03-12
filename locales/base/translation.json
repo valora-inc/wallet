@@ -29,7 +29,7 @@
   "dataSaver": "Data Saver",
   "enableDataSaver": "Enable Data Saver",
   "dataSaverDetail": "Data Saver mode allows you to communicate with the the network through a trusted node. You can always change this mode in app settings.",
-  "keylessBackupSettingsTitle": "Email & Phone Recovery",
+  "keylessBackupSettingsTitle": "Email & Phone Backup",
   "keylessBackupSettingsDeleteError": "Your backup was not able to be deleted, please wait & try again later.",
   "setup": "Set Up",
   "restartModalSwitchOff": {
@@ -1969,7 +1969,8 @@
       "collectibles": "Collectibles",
       "dappPositions": "Dapp Positions"
     },
-    "importToken": "Import"
+    "importToken": "Import",
+    "importTokens": "Import Tokens"
   },
   "notificationCenterSpotlight": {
     "message": "Introducing a new way to claim rewards, view alerts, and see updates in one place",
@@ -2109,6 +2110,13 @@
       "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
     }
   },
+  "jumpstartSendConfirmationScreen": {
+    "title": "Create shareable link",
+    "sendAmountLabel": "CLAIM LINK AMOUNT",
+    "confirmButton": "Send funds and create link",
+    "detailsLabel": "HOW IT WORKS",
+    "details": "1. Tap generate link & your funds are sent into the claim link\n2. Send the claim link to a friend\n3. They’ll accept the funds\n4. If funds aren’t claimed, you can reclaim them anytime."
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",
@@ -2139,6 +2147,18 @@
     "notification": {
       "title": "Congratulations 🎉",
       "description": "{{rewardName}} has successfully been added to your {{appName}} wallet."
+    },
+    "rewardBottomSheet": {
+      "title": "Free cash-ins for a month",
+      "description": "Because you own the {{nftName}} in your collectibles, we’d like to give you free cash-ins for the month of January.\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "expirationLabel": "Expires {{expirationLabelText}}",
+      "cta": "Use reward"
+    },
+    "rewardReminderBottomSheet": {
+      "title": "Free cash-ins for a month",
+      "description": "There’s only 3 days left to take advantage of free cash-ins for the month of January!\n\nTo use the reward cash-in via any {{appName}} partner and the fees will be waived.",
+      "expirationLabel": "Expires {{expirationLabelText}}",
+      "cta": "Use reward"
     }
   },
   "pleaseWait": "Please wait",
@@ -2148,5 +2168,18 @@
     "description": "No more messy wallet addresses! Send crypto to other Celo users with just a phone number",
     "startButtonLabel": "Link Phone Number",
     "later": "I'll do this later"
+  },
+  "bottomTabsNavigator": {
+    "wallet": {
+      "tabName": "Wallet",
+      "title": "My Wallet"
+    },
+    "home": {
+      "tabName": "Home",
+      "title": "Welcome"
+    },
+    "discover": {
+      "tabName": "Discover"
+    }
   }
 }

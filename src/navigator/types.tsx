@@ -13,10 +13,10 @@ import { Screens } from 'src/navigator/Screens'
 import { Nft } from 'src/nfts/types'
 import { Recipient } from 'src/recipients/recipient'
 import { QrCode, TransactionDataInput } from 'src/send/types'
-import { AssetTabType } from 'src/tokens/Assets'
-import { AssetViewType } from 'src/tokens/TokenBalances'
+import { AssetTabType } from 'src/tokens/types'
 import { NetworkId, TokenTransaction } from 'src/transactions/types'
 import { Currency } from 'src/utils/currencies'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { ActionRequestProps } from 'src/walletConnect/screens/ActionRequest'
 import { SessionRequestProps } from 'src/walletConnect/screens/SessionRequest'
 import { WalletConnectRequestType } from 'src/walletConnect/types'
@@ -203,7 +203,6 @@ export type StackParamList = {
   [Screens.MainModal]: undefined
   [Screens.MultichainBeta]: undefined
   [Screens.NotificationCenter]: undefined
-  [Screens.NftGallery]: undefined
   [Screens.NftsInfoCarousel]: { nfts: Nft[]; networkId: NetworkId }
   [Screens.KycLanding]: KycLandingProps
   [Screens.PincodeEnter]: {
@@ -254,6 +253,12 @@ export type StackParamList = {
   [Screens.SendConfirmationModal]: SendConfirmationParams
   [Screens.SendEnterAmount]: SendEnterAmountParams
   [Screens.JumpstartEnterAmount]: undefined
+  [Screens.JumpstartSendConfirmation]: {
+    link: string
+    sendAmount: string
+    tokenId: string
+    preparedTransactions: SerializableTransactionRequest[]
+  }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
@@ -267,6 +272,13 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
+  [Screens.TabDiscover]: undefined
+  [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
+  [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
+  [Screens.TabNavigator]: {
+    initialScreen?: Screens
+    fromModal?: boolean
+  }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined
   [Screens.TransactionDetailsScreen]: {
@@ -297,20 +309,16 @@ export type StackParamList = {
       } & SessionRequestProps)
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletHome]: undefined
+  [Screens.WalletHome]: { isTabNavigator?: boolean } | undefined
   [Screens.WalletSecurityPrimer]: undefined
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }
   [Screens.Welcome]: undefined
   [Screens.WithdrawSpend]: undefined
-  [Screens.TokenBalances]:
-    | {
-        activeView: AssetViewType
-      }
-    | undefined
   [Screens.Assets]:
     | {
-        activeTab: AssetTabType
+        activeAssetTab: AssetTabType
+        isWalletTab?: boolean
       }
     | undefined
 }

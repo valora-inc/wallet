@@ -17,7 +17,8 @@ import { Screens } from 'src/navigator/Screens'
 import { isAppSwapsEnabledSelector } from 'src/navigator/selectors'
 import { useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
+import { Spacing } from 'src/styles/styles'
 
 function ActionsCarousel() {
   const { t } = useTranslation()
@@ -115,12 +116,12 @@ function ActionsCarousel() {
 
 const styles = StyleSheet.create({
   carouselContainer: {
-    paddingHorizontal: 10,
-    marginBottom: 8,
+    paddingHorizontal: Spacing.Regular16,
+    marginBottom: Spacing.Smallest8,
+    gap: Spacing.Regular16,
   },
   card: {
     width: 84,
-    marginHorizontal: 6,
     padding: 0,
     backgroundColor: Colors.successLight,
     borderRadius: 10,
@@ -130,9 +131,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   name: {
-    ...fontStyles.small500,
+    ...typeScale.labelSmall,
     lineHeight: 17,
-    paddingTop: 8,
+    paddingTop: Spacing.Smallest8,
     color: Colors.successDark,
   },
 })

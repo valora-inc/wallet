@@ -2,10 +2,17 @@ import { fireEvent, render, waitFor } from '@testing-library/react-native'
 import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Provider } from 'react-redux'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams } from 'src/statsig'
 import { StoredTokenBalance, TokenBalance } from 'src/tokens/slice'
+import { TransactionRequest } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
@@ -25,6 +32,7 @@ jest.mock('viem/accounts', () => ({
     .fn()
     .mockReturnValue('0x859c770be6bada3b0ae071d5368afaf9eb445584b35d914771dbf351db1e3df3'),
 }))
+jest.mock('src/firebase/dynamicLinks')
 
 const mockStoreBalancesToTokenBalances = (storeBalances: StoredTokenBalance[]): TokenBalance[] => {
   return storeBalances.map(
@@ -55,23 +63,24 @@ const store = createMockStore({
 })
 
 const executeSpy = jest.fn()
+const mockTransactions: TransactionRequest[] = [
+  {
+    from: '0xfrom',
+    to: '0xto',
+    data: '0xdata',
+    gas: BigInt(5e15), // 0.005 CELO
+    maxFeePerGas: BigInt(1),
+    maxPriorityFeePerGas: undefined,
+    _baseFeePerGas: BigInt(1),
+  },
+]
 jest.mocked(usePrepareJumpstartTransactions).mockReturnValue({
   execute: executeSpy,
   reset: jest.fn(),
   loading: false,
   result: {
     type: 'possible',
-    transactions: [
-      {
-        from: '0xfrom',
-        to: '0xto',
-        data: '0xdata',
-        gas: BigInt(5e15), // 0.005 CELO
-        maxFeePerGas: BigInt(1),
-        maxPriorityFeePerGas: undefined,
-        _baseFeePerGas: BigInt(1),
-      },
-    ],
+    transactions: mockTransactions,
     feeCurrency: tokenBalances[mockCeloTokenId],
   },
   error: undefined,
@@ -146,5 +155,42 @@ describe('JumpstartEnterAmount', () => {
 
     await waitFor(() => expect(getByText('review')).not.toBeDisabled())
     expect(queryByText('jumpstartEnterAmountScreen.maxAmountWarning.title')).toBeFalsy()
+  })
+
+  it('should navigate to the next screen on tap continue', async () => {
+    const mockLink = 'https://vlra.app/abc123'
+    jest.mocked(createJumpstartLink).mockResolvedValue(mockLink)
+
+    const { getByTestId, getByText } = render(
+      <Provider store={store}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+
+    await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
+    fireEvent.press(getByText('review'))
+
+    await waitFor(() =>
+      expect(navigate).toHaveBeenCalledWith(Screens.JumpstartSendConfirmation, {
+        link: mockLink,
+        sendAmount: '0.25',
+        tokenId: mockCeurTokenId,
+        preparedTransactions: getSerializablePreparedTransactions(mockTransactions),
+      })
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_send_amount_continue,
+      {
+        amountInUsd: '0.29',
+        localCurrency: 'PHP',
+        localCurrencyExchangeRate: '1.33',
+        networkId: 'celo-alfajores',
+        tokenAmount: '0.25',
+        tokenId: mockCeurTokenId,
+        tokenSymbol: 'cEUR',
+      }
+    )
   })
 })

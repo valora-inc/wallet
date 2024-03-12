@@ -57,6 +57,7 @@ import NotificationCenter from 'src/home/NotificationCenter'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import ImportWallet from 'src/import/ImportWallet'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
+import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import KeylessBackupIntro from 'src/keylessBackup/KeylessBackupIntro'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import KeylessBackupPhoneInput from 'src/keylessBackup/KeylessBackupPhoneInput'
@@ -76,6 +77,7 @@ import {
 } from 'src/navigator/Headers'
 import QRNavigator from 'src/navigator/QRNavigator'
 import { Screens } from 'src/navigator/Screens'
+import TabNavigator from 'src/navigator/TabNavigator'
 import { getInitialRoute } from 'src/navigator/initialRoute'
 import { StackParamList } from 'src/navigator/types'
 import NftsInfoCarousel from 'src/nfts/NftsInfoCarousel'
@@ -104,7 +106,6 @@ import ValidateRecipientIntro, {
 } from 'src/send/ValidateRecipientIntro'
 import SwapScreen from 'src/swap/SwapScreen'
 import AssetsScreen from 'src/tokens/Assets'
-import TokenBalancesScreen from 'src/tokens/TokenBalances'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
@@ -136,11 +137,6 @@ const commonScreens = (Navigator: typeof Stack) => {
         name={Screens.WebViewScreen}
         component={WebViewScreen}
         options={emptyHeader}
-      />
-      <Navigator.Screen
-        name={Screens.TokenBalances}
-        component={TokenBalancesScreen}
-        options={TokenBalancesScreen.navigationOptions}
       />
       <Navigator.Screen
         name={Screens.SanctionedCountryErrorScreen}
@@ -264,6 +260,11 @@ const sendScreens = (Navigator: typeof Stack) => (
       name={Screens.JumpstartEnterAmount}
       component={JumpstartEnterAmount}
       options={noHeader}
+    />
+    <Navigator.Screen
+      name={Screens.JumpstartSendConfirmation}
+      component={JumpstartSendConfirmation}
+      options={headerWithBackButton}
     />
   </>
 )
@@ -602,6 +603,7 @@ export function MainStackScreen() {
 
   return (
     <Stack.Navigator initialRouteName={initialRouteName} screenOptions={emptyHeader}>
+      <Stack.Screen name={Screens.TabNavigator} component={TabNavigator} options={noHeader} />
       <Stack.Screen name={Screens.DrawerNavigator} component={DrawerNavigator} options={noHeader} />
       {commonScreens(Stack)}
       {sendScreens(Stack)}
@@ -653,6 +655,11 @@ const mainScreenNavOptions = () => ({
 })
 
 function nativeBottomSheets(BottomSheet: typeof RootStack) {
+  // Note: scrolling views inside bottom sheet screens should use the relevant
+  // components from react-native-gesture-handler instead of directly from
+  // react-native
+  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
+
   return (
     <>
       <BottomSheet.Screen name={Screens.WalletConnectRequest} component={WalletConnectRequest} />
@@ -698,10 +705,6 @@ function RootStackScreen() {
     []
   )
 
-  // Note: scrolling views inside bottom sheet screens should use the relevant
-  // components from react-native-gesture-handler instead of directly from
-  // react-native
-  // https://github.com/osdnk/react-native-reanimated-bottom-sheet/issues/264#issuecomment-674757545
   return (
     <RootStack.Navigator
       screenOptions={{

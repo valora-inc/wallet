@@ -45,6 +45,7 @@ import {
   v179Schema,
   v17Schema,
   v18Schema,
+  v197Schema,
   v1Schema,
   v21Schema,
   v28Schema,
@@ -1530,6 +1531,23 @@ describe('Redux persist migrations', () => {
     const migratedSchema = migrations[180](oldSchema)
     const expectedSchema: any = _.cloneDeep(oldSchema)
     expectedSchema.send.recentRecipients = [mockRecipient, mockRecipient2]
+    expect(migratedSchema).toStrictEqual(expectedSchema)
+  })
+  it('works from 197 to 198', () => {
+    const oldSchema = {
+      ...v197Schema,
+      home: {
+        ...v197Schema.home,
+        nftCelebration: {
+          networkId: 'celo-alfajores',
+          contractAddress: '0xTEST',
+          displayed: true,
+        },
+      },
+    }
+    const migratedSchema = migrations[198](oldSchema)
+    const expectedSchema: any = _.cloneDeep(oldSchema)
+    expectedSchema.home.nftCelebration = null
     expect(migratedSchema).toStrictEqual(expectedSchema)
   })
 })

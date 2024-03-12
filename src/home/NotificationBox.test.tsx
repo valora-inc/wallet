@@ -332,6 +332,7 @@ describe('NotificationBox', () => {
     const store = createMockStore({
       account: {
         backupCompleted: false,
+        cloudBackupCompleted: false,
       },
     })
     jest.mocked(getFeatureGate).mockReturnValue(true)

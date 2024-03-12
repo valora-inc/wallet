@@ -161,7 +161,15 @@ function useErrorMessageWithRefresh() {
   }, [shouldShowError])
 }
 
-export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
+export function AssetsTokenBalance({
+  showInfo,
+  isWalletTab,
+}: {
+  showInfo: boolean
+  // temporary parameter while we build the tab navigator, should be cleaned up
+  // when we remove the DrawerNavigator
+  isWalletTab: boolean
+}) {
   const { t } = useTranslation()
 
   const [infoVisible, setInfoVisible] = useState(false)
@@ -200,7 +208,11 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
     <TouchableWithoutFeedback onPress={handleDismissInfo}>
       <View testID="AssetsTokenBalance">
         <View style={styles.row}>
-          <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+          {isWalletTab ? (
+            <Text style={styles.walletTabTitle}>{t('bottomTabsNavigator.wallet.title')}</Text>
+          ) : (
+            <Text style={styles.totalAssets}>{t('totalAssets')}</Text>
+          )}
           {showInfo && (
             <TouchableOpacity
               onPress={toggleInfoVisible}
@@ -211,14 +223,7 @@ export function AssetsTokenBalance({ showInfo }: { showInfo: boolean }) {
             </TouchableOpacity>
           )}
         </View>
-        <TokenBalance
-          style={
-            getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-              ? styles.totalBalance
-              : styles.balance
-          }
-          singleTokenViewEnabled={false}
-        />
+        <TokenBalance style={styles.totalBalance} singleTokenViewEnabled={false} />
 
         {shouldRenderInfoComponent && (
           <Animated.View style={[styles.totalAssetsInfoContainer, animatedStyles]}>
@@ -242,11 +247,7 @@ export function HomeTokenBalance() {
     ValoraAnalytics.track(HomeEvents.view_token_balances, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(
-      getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-        ? Screens.Assets
-        : Screens.TokenBalances
-    )
+    navigate(Screens.Assets)
   }
 
   const onCloseDialog = () => {
@@ -276,20 +277,13 @@ export function HomeTokenBalance() {
         >
           {t('whatTotalValue.body')}
         </Dialog>
-        {(getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN) ||
-          tokenBalances.length >= 1) && (
-          <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
-            <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
-            <ProgressArrow style={styles.arrow} color={Colors.primary} />
-          </TouchableOpacity>
-        )}
+        <TouchableOpacity style={styles.row} onPress={onViewBalances} testID="ViewBalances">
+          <Text style={styles.viewBalances}>{t('viewBalances')}</Text>
+          <ProgressArrow style={styles.arrow} color={Colors.primary} />
+        </TouchableOpacity>
       </View>
       <TokenBalance
-        style={
-          getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-            ? styles.totalBalance
-            : styles.balance
-        }
+        style={styles.totalBalance}
         showHideHomeBalancesToggle={getFeatureGate(
           StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
         )}
@@ -307,11 +301,7 @@ export function FiatExchangeTokenBalance() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(
-      getFeatureGate(StatsigFeatureGates.SHOW_ASSET_DETAILS_SCREEN)
-        ? Screens.Assets
-        : Screens.TokenBalances
-    )
+    navigate(Screens.Assets)
   }
 
   return (
@@ -341,6 +331,11 @@ const styles = StyleSheet.create({
     ...typeScale.labelMedium,
     color: Colors.gray5,
     marginRight: 4,
+  },
+  walletTabTitle: {
+    ...typeScale.titleMedium,
+    color: Colors.black,
+    marginRight: 10,
   },
   totalAssetsInfoContainer: {
     position: 'absolute',
