@@ -2173,7 +2173,8 @@
       "title": "Mon portefeuille"
     },
     "home": {
-      "tabName": "Accueil"
+      "tabName": "Accueil",
+      "title": "Bienvenue"
     },
     "discover": {
       "tabName": "Découvrir"
