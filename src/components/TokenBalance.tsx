@@ -78,7 +78,7 @@ function TokenBalance({
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
   const hideWalletBalance = useSelector(hideWalletBalancesSelector)
   const hideBalance = showBalanceToggle && (hideHomeBalanceState || hideWalletBalance)
-  const balanceDisplay = hideBalance ? `Xx${decimalSeparator}xx` : totalBalanceLocal?.toFormat(2)
+  const balanceDisplay = hideBalance ? `XX${decimalSeparator}XX` : totalBalanceLocal?.toFormat(2)
 
   const TotalTokenBalance = ({ balanceDisplay }: { balanceDisplay: string }) => {
     return (
@@ -225,7 +225,7 @@ export function AssetsTokenBalance({
         <TokenBalance
           style={styles.totalBalance}
           singleTokenViewEnabled={false}
-          showBalanceToggle={true}
+          showBalanceToggle={isWalletTab}
         />
 
         {shouldRenderInfoComponent && (

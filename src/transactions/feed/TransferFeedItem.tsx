@@ -39,7 +39,6 @@ function TransferFeedItem({ transfer }: Props) {
   const colorStyle = new BigNumber(amount.value).isPositive() ? { color: colors.primary } : {}
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-  const hideBalance = hideHomeBalanceState
 
   return (
     <Touchable testID="TransferFeedItem" onPress={openTransferDetails}>
@@ -57,7 +56,7 @@ function TransferFeedItem({ transfer }: Props) {
             {subtitle}
           </Text>
         </View>
-        {!hideBalance && (
+        {!hideHomeBalanceState && (
           <View style={styles.amountContainer}>
             <TokenDisplay
               amount={amount.value}

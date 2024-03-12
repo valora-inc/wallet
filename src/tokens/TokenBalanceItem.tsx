@@ -1,12 +1,10 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View, ViewStyle } from 'react-native'
-import { hideWalletBalancesSelector } from 'src/app/selectors'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import Warning from 'src/icons/Warning'
-import { useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
@@ -19,6 +17,7 @@ interface Props {
   onPress?: () => void
   containerStyle?: ViewStyle
   showPriceUsdUnavailableWarning?: boolean
+  hideBalances?: boolean
 }
 
 export const TokenBalanceItem = ({
@@ -27,10 +26,9 @@ export const TokenBalanceItem = ({
   containerStyle,
   balanceUsdErrorFallback,
   showPriceUsdUnavailableWarning,
+  hideBalances = false,
 }: Props) => {
   const { t } = useTranslation()
-
-  const hideWalletBalance = useSelector(hideWalletBalancesSelector)
 
   const Content = (
     <View style={[styles.container, containerStyle]} testID="TokenBalanceItem">
@@ -43,7 +41,7 @@ export const TokenBalanceItem = ({
             </Text>
             {showPriceUsdUnavailableWarning && !token.priceUsd && <Warning size={16} />}
           </View>
-          {!hideWalletBalance && (
+          {!hideBalances && (
             <TokenDisplay
               style={styles.amount}
               amount={token.balance}
@@ -63,7 +61,7 @@ export const TokenBalanceItem = ({
           ) : (
             <View />
           )}
-          {!hideWalletBalance && (
+          {!hideBalances && (
             <TokenDisplay
               style={styles.subAmount}
               amount={token.balance}

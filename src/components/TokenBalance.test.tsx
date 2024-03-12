@@ -61,7 +61,7 @@ describe('AssetsTokenBalance', () => {
   })
 
   it('should show info on tap', () => {
-    const { getByText, getByTestId, queryByText } = render(
+    const { getByText, getByTestId, queryByText, queryByTestId } = render(
       <Provider store={createMockStore()}>
         <AssetsTokenBalance showInfo isWalletTab={false} />
       </Provider>
@@ -70,6 +70,7 @@ describe('AssetsTokenBalance', () => {
     expect(getByText('totalAssets')).toBeTruthy()
     expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
     expect(queryByText('totalAssetsInfo')).toBeFalsy()
+    expect(queryByTestId('EyeIcon')).toBeFalsy()
 
     fireEvent.press(getByTestId('AssetsTokenBalance/Info'))
     expect(getByText('totalAssetsInfo')).toBeTruthy()
@@ -82,6 +83,7 @@ describe('AssetsTokenBalance', () => {
       </Provider>
     )
 
+    expect(getByTestId('EyeIcon')).toBeTruthy()
     expect(getByText('bottomTabsNavigator.wallet.title')).toBeTruthy()
     expect(getByTestId('TotalTokenBalance')).toHaveTextContent('₱55.74')
     expect(queryByText('AssetsTokenBalance/Info')).toBeFalsy()
@@ -386,7 +388,7 @@ describe('HomeTokenBalance', () => {
       </Provider>
     )
 
-    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('Xx.xx')
+    expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('XX.XX')
     expect(tree.getByTestId('HiddenEyeIcon')).toBeTruthy()
   })
 

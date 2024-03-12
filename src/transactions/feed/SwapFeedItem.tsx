@@ -32,7 +32,6 @@ function SwapFeedItem({ exchange }: Props) {
   }
 
   const hideHomeBalanceState = useSelector(hideHomeBalancesSelector)
-  const hideBalance = hideHomeBalanceState
 
   return (
     <Touchable testID="SwapFeedItem" onPress={handleTransferDetails}>
@@ -49,7 +48,7 @@ function SwapFeedItem({ exchange }: Props) {
             })}
           </Text>
         </View>
-        {!hideBalance && (
+        {!hideHomeBalanceState && (
           <View style={styles.tokenAmountContainer}>
             <TokenDisplay
               amount={exchange.inAmount.value}

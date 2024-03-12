@@ -4,8 +4,6 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import { TokenBalance } from 'src/tokens/slice'
 import { TokenBalanceItem } from 'src/tokens/TokenBalanceItem'
 import { createMockStore } from 'test/utils'
@@ -46,42 +44,10 @@ describe('TokenBalanceItem', () => {
     expect(queryByTestId('BridgeLabel')).toBeFalsy()
   })
 
-  it('displays correctly when balances are hidden and tab navigator is off', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
-    const { getByText, getByTestId, queryByTestId } = render(
-      <Provider
-        store={createMockStore({
-          app: {
-            hideBalances: true,
-          },
-        })}
-      >
-        <TokenBalanceItem token={mockTokenInfo} />
-      </Provider>
-    )
-
-    expect(getByText('Celo Dollar')).toBeTruthy()
-    expect(getByText('10.00 cUSD')).toBeTruthy()
-    expect(getByText('₱13.30')).toBeTruthy()
-    expect(getByTestId('NetworkLabel')).toBeTruthy()
-    expect(queryByTestId('BridgeLabel')).toBeFalsy()
-  })
-
-  it('displays correctly when balances are hidden and tab navigator is on', () => {
-    jest
-      .mocked(getFeatureGate)
-      .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
+  it('displays correctly when balances are hidden', () => {
     const { getByText, getByTestId, queryByTestId, queryByText } = render(
-      <Provider
-        store={createMockStore({
-          app: {
-            hideBalances: true,
-          },
-        })}
-      >
-        <TokenBalanceItem token={mockTokenInfo} />
+      <Provider store={createMockStore()}>
+        <TokenBalanceItem token={mockTokenInfo} hideBalances={true} />
       </Provider>
     )
 
