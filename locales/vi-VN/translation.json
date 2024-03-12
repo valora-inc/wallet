@@ -1965,7 +1965,8 @@
       "collectibles": "Bộ sưu tập",
       "dappPositions": "DeFi"
     },
-    "importToken": "Nhập"
+    "importToken": "Nhập",
+    "importTokens": "Import Tokens"
   },
   "notificationCenterSpotlight": {
     "message": "Giới thiệu phương thức mới để nhận tiền thưởng, xem thông báo và xem thông tin cập nhật ở cùng một nơi",
@@ -2170,7 +2171,8 @@
       "title": "My Wallet"
     },
     "home": {
-      "tabName": "Trang chủ"
+      "tabName": "Trang chủ",
+      "title": "Welcome"
     },
     "discover": {
       "tabName": "Khám phá"

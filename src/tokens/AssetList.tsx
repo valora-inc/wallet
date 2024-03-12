@@ -15,7 +15,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Touchable from 'src/components/Touchable'
+import CircledIcon from 'src/icons/CircledIcon'
 import ImageErrorIcon from 'src/icons/ImageErrorIcon'
+import Add from 'src/icons/quick-actions/Add'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import NftMedia from 'src/nfts/NftMedia'
@@ -30,6 +32,8 @@ import { NftOrigin, NftWithNetworkId } from 'src/nfts/types'
 import { positionsSelector } from 'src/positions/selectors'
 import { Position } from 'src/positions/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -78,10 +82,14 @@ export default function AssetList({
   activeTab,
   listHeaderHeight,
   handleScroll,
+  isWalletTab,
 }: {
   activeTab: AssetTabType
   listHeaderHeight: number
   handleScroll: (event: NativeSyntheticEvent<NativeScrollEvent>) => void
+  // temporary parameter while we build the tab navigator, should be cleaned up
+  // when we remove the drawer
+  isWalletTab?: boolean
 }) {
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -257,11 +265,16 @@ export default function AssetList({
     }
   }
 
+  const showImportTokenFooter =
+    isWalletTab &&
+    activeTab === AssetTabType.Tokens &&
+    getFeatureGate(StatsigFeatureGates.SHOW_IMPORT_TOKENS_FLOW)
+
   return (
     <AnimatedSectionList
       contentContainerStyle={[
         {
-          paddingBottom: insets.bottom,
+          paddingBottom: isWalletTab ? 0 : insets.bottom,
           opacity: listHeaderHeight > 0 ? 1 : 0,
         },
         activeTab === AssetTabType.Collectibles &&
@@ -285,7 +298,28 @@ export default function AssetList({
       }
       ListHeaderComponent={<View style={{ height: listHeaderHeight }} />}
       ListEmptyComponent={renderEmptyState}
+      ListFooterComponent={showImportTokenFooter ? <ImportTokensItem /> : null}
     />
+  )
+}
+
+function ImportTokensItem() {
+  const { t } = useTranslation()
+  return (
+    <Touchable
+      testID="AssetList/ImportTokens"
+      onPress={() => {
+        ValoraAnalytics.track(AssetsEvents.import_token_screen_open)
+        navigate(Screens.TokenImport)
+      }}
+    >
+      <View style={styles.importTokenContainer}>
+        <CircledIcon radius={32} backgroundColor={Colors.successLight}>
+          <Add color={Colors.successDark} />
+        </CircledIcon>
+        <Text style={styles.importTokenText}>{t('assets.importTokens')}</Text>
+      </View>
+    </Touchable>
   )
 }
 
@@ -333,5 +367,17 @@ const styles = StyleSheet.create({
   },
   noNftsTextContainer: {
     paddingHorizontal: Spacing.Thick24,
+  },
+  importTokenContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+    paddingHorizontal: Spacing.Thick24,
+    marginVertical: Spacing.Thick24,
+    gap: Spacing.Small12,
+  },
+  importTokenText: {
+    ...typeScale.labelMedium,
+    color: Colors.black,
   },
 })
