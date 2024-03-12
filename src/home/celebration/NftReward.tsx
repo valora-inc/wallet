@@ -71,20 +71,22 @@ export default function NftRewardBottomSheet() {
     }
   }, [isVisible])
 
-  const handleBottomSheetClose = () => {
+  const handleBottomSheetPositionChange = (index: number) => {
     if (!nftCelebration) {
       return // This should never happen
     }
 
-    if (!rewardAccepted) {
-      ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
-        networkId: nftCelebration.networkId,
-        contractAddress: nftCelebration.contractAddress,
-        remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
-      })
-    }
+    if (index === -1) {
+      if (!rewardAccepted) {
+        ValoraAnalytics.track(HomeEvents.nft_reward_dismiss, {
+          networkId: nftCelebration.networkId,
+          contractAddress: nftCelebration.contractAddress,
+          remainingDays: differenceInDays(rewardExpirationDate, Date.now()),
+        })
 
-    dispatch(nftRewardDisplayed())
+        dispatch(nftRewardDisplayed())
+      }
+    }
   }
 
   const handleCtaPress = () => {
@@ -106,6 +108,8 @@ export default function NftRewardBottomSheet() {
       const isSecureOrigin = true
       dispatch(openDeepLink(nftCelebration.deepLink, isSecureOrigin))
     }
+
+    dispatch(nftRewardDisplayed())
   }
 
   if (!isVisible) {
@@ -113,7 +117,7 @@ export default function NftRewardBottomSheet() {
   }
 
   return (
-    <BottomSheetBase forwardedRef={bottomSheetRef} onClose={handleBottomSheetClose}>
+    <BottomSheetBase forwardedRef={bottomSheetRef} onChange={handleBottomSheetPositionChange}>
       <BottomSheetView style={[styles.container, insetsStyle]}>
         <View style={[styles.pill, pillStyle]} testID="NftReward/Pill">
           <Text style={[styles.pillLabel, labelStyle]} testID="NftReward/PillLabel">
