@@ -37,6 +37,10 @@ export function* sendPreparedTransactions(
     feeCurrencyId?: string
   ) => BaseStandbyTransaction)[]
 ) {
+  if (serializablePreparedTransactions.length !== createBaseStandbyTransactions.length) {
+    throw new Error('Mismatch in number of prepared transactions and standby transaction creators')
+  }
+
   const network = getNetworkFromNetworkId(networkId)
   if (!network) {
     throw new Error('Unknown token network')
