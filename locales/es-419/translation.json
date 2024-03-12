@@ -1967,7 +1967,8 @@
       "collectibles": "Coleccionables",
       "dappPositions": "DeFi"
     },
-    "importToken": "Importar"
+    "importToken": "Importar",
+    "importTokens": "Importar fichas"
   },
   "notificationCenterSpotlight": {
     "message": "Presentamos una nueva forma de reclamar recompensas, ver alertas y consultar actualizaciones en un solo lugar",
