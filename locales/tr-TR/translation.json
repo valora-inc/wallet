@@ -2173,7 +2173,8 @@
       "title": "Cüzdanım"
     },
     "home": {
-      "tabName": "Ana Sayfa"
+      "tabName": "Ana Sayfa",
+      "title": "Hoş geldiniz"
     },
     "discover": {
       "tabName": "Keşfedin"
