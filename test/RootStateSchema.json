@@ -2649,6 +2649,7 @@
                 "PincodeEnter",
                 "PincodeSet",
                 "Profile",
+                "ProfileMenu",
                 "ProtectWallet",
                 "QRCode",
                 "QRNavigator",
