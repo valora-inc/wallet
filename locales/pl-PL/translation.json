@@ -2177,7 +2177,8 @@
       "title": "Mój portfel"
     },
     "home": {
-      "tabName": "Strona główna"
+      "tabName": "Strona główna",
+      "title": "Witaj"
     },
     "discover": {
       "tabName": "Odkryj"
