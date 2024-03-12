@@ -2173,7 +2173,8 @@
       "title": "Mein Wallet"
     },
     "home": {
-      "tabName": "Startseite"
+      "tabName": "Startseite",
+      "title": "Willkommen"
     },
     "discover": {
       "tabName": "Entdecke"
