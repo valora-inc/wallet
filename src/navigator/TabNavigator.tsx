@@ -51,7 +51,6 @@ export default function TabNavigator({ route }: Props) {
         initialParams={{ isWalletTab: true }}
       />
       <Tab.Screen
-        // TODO(act-1105) new home tab screen
         name={Screens.TabHome}
         component={WalletHome}
         options={{
@@ -60,6 +59,7 @@ export default function TabNavigator({ route }: Props) {
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
           tabBarIcon: Home,
         }}
+        initialParams={{ isTabNavigator: true }}
       />
       <Tab.Screen
         // TODO(act-1106) discover tab screen

@@ -1967,7 +1967,8 @@
       "collectibles": "Koleksiyonlar",
       "dappPositions": "DeFi"
     },
-    "importToken": "İçe Aktar"
+    "importToken": "İçe Aktar",
+    "importTokens": "Jetonları İçe Aktar"
   },
   "notificationCenterSpotlight": {
     "message": "Ödülleri talep etmenin, uyarıları görüntülemenin ve güncellemeleri tek bir yerden görmenin yeni bir yolunu sunuyoruz",
@@ -2172,7 +2173,8 @@
       "title": "Cüzdanım"
     },
     "home": {
-      "tabName": "Ana Sayfa"
+      "tabName": "Ana Sayfa",
+      "title": "Hoş geldiniz"
     },
     "discover": {
       "tabName": "Keşfedin"

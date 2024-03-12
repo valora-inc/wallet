@@ -212,10 +212,17 @@ export const transactionsByNetworkIdSelector = (state: RootState) =>
   state.transactions.transactionsByNetworkId
 
 export const transactionsSelector = createSelector(
-  [transactionsByNetworkIdSelector],
-  (transactions) => {
+  [transactionsByNetworkIdSelector, getSupportedNetworkIdsForApprovalTxsInHomefeed],
+  (transactions, supportedNetworkIdsForApprovalTxs) => {
     const transactionsForAllNetworks = Object.values(transactions).flat()
-    return transactionsForAllNetworks.sort((a, b) => b.timestamp - a.timestamp)
+    return transactionsForAllNetworks
+      .sort((a, b) => b.timestamp - a.timestamp)
+      .filter((tx) => {
+        if (tx.__typename === 'TokenApproval') {
+          return supportedNetworkIdsForApprovalTxs.includes(tx.networkId)
+        }
+        return true
+      })
   }
 )
 
