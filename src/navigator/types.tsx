@@ -273,7 +273,7 @@ export type StackParamList = {
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
   [Screens.TabDiscover]: undefined
-  [Screens.TabHome]: undefined
+  [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {
     initialScreen?: Screens
@@ -309,7 +309,7 @@ export type StackParamList = {
       } & SessionRequestProps)
     | { type: WalletConnectRequestType.TimeOut }
   [Screens.WalletConnectSessions]: undefined
-  [Screens.WalletHome]: undefined
+  [Screens.WalletHome]: { isTabNavigator?: boolean } | undefined
   [Screens.WalletSecurityPrimer]: undefined
   [Screens.WalletSecurityPrimerDrawer]: { showDrawerTopBar: boolean }
   [Screens.WebViewScreen]: { uri: string; dappkitDeeplink?: string }

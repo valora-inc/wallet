@@ -1,8 +1,16 @@
 import { useIsFocused } from '@react-navigation/native'
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import _ from 'lodash'
 import React, { useEffect, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { RefreshControl, RefreshControlProps, SectionList, StyleSheet, View } from 'react-native'
+import {
+  RefreshControl,
+  RefreshControlProps,
+  SectionList,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native'
 import Animated from 'react-native-reanimated'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { showMessage } from 'src/alert/actions'
@@ -35,6 +43,8 @@ import NftReward from 'src/home/celebration/NftReward'
 import { showNftCelebrationSelector, showNftRewardSelector } from 'src/home/selectors'
 import { importContacts } from 'src/identity/actions'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { phoneRecipientCacheSelector } from 'src/recipients/reducer'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { initializeSentryUserContext } from 'src/sentry/actions'
@@ -42,6 +52,7 @@ import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { celoAddressSelector, coreTokensSelector } from 'src/tokens/selectors'
 import TransactionFeed from 'src/transactions/feed/TransactionFeed'
@@ -50,7 +61,9 @@ import { userInSanctionedCountrySelector } from 'src/utils/countryFeatures'
 
 const AnimatedSectionList = Animated.createAnimatedComponent(SectionList)
 
-function WalletHome() {
+type Props = NativeStackScreenProps<StackParamList, Screens.WalletHome | Screens.TabHome>
+
+function WalletHome({ route }: Props) {
   const { t } = useTranslation()
 
   const appState = useSelector(appStateSelector)
@@ -61,6 +74,10 @@ function WalletHome() {
   const celoAddress = useSelector(celoAddressSelector)
   const userInSanctionedCountry = useSelector(userInSanctionedCountrySelector)
   const showNotificationSpotlight = useSelector(showNotificationSpotlightSelector)
+
+  // temporary parameter while we build the tab navigator, should be cleaned up
+  // when we remove the drawer
+  const isTabNavigator = !!route.params?.isTabNavigator
 
   const insets = useSafeAreaInsets()
   const scrollPosition = useRef(new Animated.Value(0)).current
@@ -168,6 +185,13 @@ function WalletHome() {
     <RefreshControl refreshing={isLoading} onRefresh={onRefresh} colors={[colors.primary]} />
   ) as React.ReactElement<RefreshControlProps>
 
+  const homeTabTitleSection = {
+    data: [{}],
+    renderItem: () => (
+      <Text style={styles.homeTabTitle}>{t('bottomTabsNavigator.home.title')}</Text>
+    ),
+  }
+
   const notificationBoxSection = {
     data: [{}],
     renderItem: () => (
@@ -197,13 +221,15 @@ function WalletHome() {
     renderItem: () => <TransactionFeed key={'TransactionList'} />,
   }
 
-  const sections = [
-    notificationBoxSection,
-    tokenBalanceSection,
-    actionsCarouselSection,
-    dappsCarouselSection,
-    transactionFeedSection,
-  ]
+  const sections = isTabNavigator
+    ? [homeTabTitleSection, actionsCarouselSection, notificationBoxSection, transactionFeedSection]
+    : [
+        notificationBoxSection,
+        tokenBalanceSection,
+        actionsCarouselSection,
+        dappsCarouselSection,
+        transactionFeedSection,
+      ]
 
   const showBetaTag = getFeatureGate(StatsigFeatureGates.SHOW_BETA_TAG)
   const topLeftElement = showBetaTag && <BetaTag />
@@ -216,12 +242,18 @@ function WalletHome() {
   )
 
   return (
-    <SafeAreaView testID="WalletHome" style={styles.container} edges={['top']}>
-      <DrawerTopBar
-        leftElement={topLeftElement}
-        rightElement={topRightElements}
-        scrollPosition={scrollPosition}
-      />
+    <SafeAreaView
+      testID="WalletHome"
+      style={styles.container}
+      edges={isTabNavigator ? [] : ['top']}
+    >
+      {!isTabNavigator && (
+        <DrawerTopBar
+          leftElement={topLeftElement}
+          rightElement={topRightElements}
+          scrollPosition={scrollPosition}
+        />
+      )}
       <AnimatedSectionList
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
@@ -236,7 +268,7 @@ function WalletHome() {
         keyExtractor={keyExtractor}
         testID="WalletHome/SectionList"
       />
-      <NotificationBellSpotlight isVisible={showNotificationSpotlight} />
+      {!isTabNavigator && <NotificationBellSpotlight isVisible={showNotificationSpotlight} />}
       {shouldShowCashInBottomSheet() && <CashInBottomSheet />}
       {showNftCelebration && <NftCelebration />}
       {showNftReward && <NftReward />}
@@ -255,6 +287,13 @@ const styles = StyleSheet.create({
   },
   topRightElement: {
     marginLeft: Spacing.Regular16,
+  },
+  homeTabTitle: {
+    ...typeScale.titleMedium,
+    color: colors.black,
+    marginHorizontal: Spacing.Thick24,
+    marginTop: Spacing.Regular16,
+    marginBottom: Spacing.Large32,
   },
 })
 
