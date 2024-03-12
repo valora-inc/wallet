@@ -1971,7 +1971,8 @@
       "collectibles": "Коллекции",
       "dappPositions": "DeFi"
     },
-    "importToken": "Импорт"
+    "importToken": "Импорт",
+    "importTokens": "Импортные токены"
   },
   "notificationCenterSpotlight": {
     "message": "Теперь можно заявлять о вознаграждениях, просматривать оповещения и обновления в одном месте",
@@ -2176,7 +2177,8 @@
       "title": "Мой кошелек"
     },
     "home": {
-      "tabName": "Главный экран"
+      "tabName": "Главный экран",
+      "title": "Добро пожаловать"
     },
     "discover": {
       "tabName": "Узнать"

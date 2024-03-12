@@ -20,7 +20,9 @@ describe('TokenApprovalFeedItem', () => {
     const tree = render(<TokenApprovalFeedItem transaction={mockApprovalTransaction} />)
 
     expect(tree.getByText('transactionFeed.approvalTransactionTitle')).toBeTruthy()
-    fireEvent.press(tree.getByTestId('TokenApprovalFeedItem'))
+    fireEvent.press(
+      tree.getByTestId(`TokenApprovalFeedItem/${mockApprovalTransaction.transactionHash}`)
+    )
 
     expect(navigate).toHaveBeenCalledWith(Screens.TransactionDetailsScreen, {
       transaction: mockApprovalTransaction,

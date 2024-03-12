@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -233,5 +234,70 @@ describe('AssetList', () => {
       </Provider>
     )
     expect(store.getActions()).toEqual([fetchNfts()])
+  })
+
+  it('shows import token on tokens tab on wallet tab screen when feature gate is on', () => {
+    const store = createMockStore(storeWithAssets)
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <AssetList
+          activeTab={AssetTabType.Tokens}
+          listHeaderHeight={0}
+          handleScroll={jest.fn()}
+          isWalletTab={true}
+        />
+      </Provider>
+    )
+
+    expect(getByTestId('AssetList/ImportTokens')).toBeTruthy()
+    fireEvent.press(getByTestId('AssetList/ImportTokens'))
+    expect(navigate).toHaveBeenCalledTimes(1)
+    expect(navigate).toHaveBeenCalledWith(Screens.TokenImport)
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(1)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(AssetsEvents.import_token_screen_open)
+  })
+
+  it.each([
+    {
+      name: 'tokens tab on wallet tab when gate is off',
+      tab: AssetTabType.Tokens,
+      isWalletTab: true,
+      gate: false,
+    },
+    {
+      name: 'tokens tab on assets screen when gate is on',
+      tab: AssetTabType.Tokens,
+      isWalletTab: false,
+      gate: true,
+    },
+    {
+      name: 'collections tab on assets screen when gate is on',
+      tab: AssetTabType.Collectibles,
+      isWalletTab: true,
+      gate: true,
+    },
+    {
+      name: 'positions tab on assets screen when gate is on',
+      tab: AssetTabType.Positions,
+      isWalletTab: true,
+      gate: true,
+    },
+  ])('does not show import token on $name', ({ tab, isWalletTab, gate }) => {
+    jest.mocked(getFeatureGate).mockReturnValue(gate)
+    const store = createMockStore(storeWithAssets)
+
+    const { queryByTestId } = render(
+      <Provider store={store}>
+        <AssetList
+          activeTab={tab}
+          listHeaderHeight={0}
+          handleScroll={jest.fn()}
+          isWalletTab={isWalletTab}
+        />
+      </Provider>
+    )
+
+    expect(queryByTestId('AssetList/ImportTokens')).toBeFalsy()
   })
 })

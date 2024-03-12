@@ -1967,7 +1967,8 @@
       "collectibles": "Collections",
       "dappPositions": "DeFi"
     },
-    "importToken": "Importer"
+    "importToken": "Importer",
+    "importTokens": "Importer des jetons"
   },
   "notificationCenterSpotlight": {
     "message": "Découvrez une nouvelle façon de profiter de récompenses, de voir les alertes et de consulter les dernières infos en un seul endroit",
@@ -2172,7 +2173,8 @@
       "title": "Mon portefeuille"
     },
     "home": {
-      "tabName": "Accueil"
+      "tabName": "Accueil",
+      "title": "Bienvenue"
     },
     "discover": {
       "tabName": "Découvrir"

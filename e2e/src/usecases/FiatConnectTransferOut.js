@@ -170,7 +170,7 @@ export const fiatConnectNonKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
     // ******** First time experience ************
     const cashOutAmount = 0.02
-    const gasAmount = 0.01
+    const gasAmount = 0.015
     const fundingAmount = `${2 * cashOutAmount + gasAmount}`
     const token = 'cUSD'
     await onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount)
@@ -194,7 +194,7 @@ export const fiatConnectKycTransferOut = () => {
   it('FiatConnect cash out', async () => {
     // ******** First time experience ************
     const cashOutAmount = 0.01
-    const gasAmount = 0.01
+    const gasAmount = 0.015
     const fundingAmount = `${2 * cashOutAmount + gasAmount}`
     const token = 'cUSD'
     const walletAddress = await onboardAndBeginTransferOut(token, fundingAmount, cashOutAmount)
