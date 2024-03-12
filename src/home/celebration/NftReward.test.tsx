@@ -5,6 +5,7 @@ import { Provider } from 'react-redux'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { openDeepLink } from 'src/app/actions'
+import { nftRewardDisplayed } from 'src/home/actions'
 import { getFeatureGate } from 'src/statsig/index'
 import Colors from 'src/styles/colors'
 import { createMockStore } from 'test/utils'
@@ -41,6 +42,8 @@ describe('NftReward', () => {
     expect(store.dispatch).toHaveBeenCalledWith(
       openDeepLink(mockStoreRewardReady.home.nftCelebration.deepLink, true)
     )
+
+    expect(store.dispatch).toHaveBeenCalledWith(nftRewardDisplayed())
 
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(HomeEvents.nft_reward_accept, {
       networkId: mockNftAllFields.networkId,
