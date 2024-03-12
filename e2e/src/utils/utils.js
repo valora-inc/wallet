@@ -318,6 +318,14 @@ export async function addComment(comment) {
  */
 export async function confirmTransaction(commentText) {
   try {
+    // the transaction should be visible because it is the most recent, however
+    // the comment text may be hidden while the transaction is pending. allow
+    // some time for the transaction to be settled, before asserting on the
+    // comment.
+    await waitFor(element(by.text(commentText)))
+      .toBeVisible()
+      .withTimeout(60 * 1000)
+
     // getAttributes() for multiple elements only supported on iOS for Detox < 20.12.0
     if (device.getPlatform() === 'ios') {
       // Comment should be present in the feed
