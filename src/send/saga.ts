@@ -27,13 +27,11 @@ import {
   getTokenInfoByAddress,
   tokenAmountInSmallestUnit,
 } from 'src/tokens/saga'
-import { tokensByIdSelector } from 'src/tokens/selectors'
 import { TokenBalance, fetchTokenBalances } from 'src/tokens/slice'
 import { getTokenId } from 'src/tokens/utils'
 import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
 import { sendAndMonitorTransaction } from 'src/transactions/saga'
 import {
-  NetworkId,
   TokenTransactionTypeV2,
   TransactionContext,
   newTransactionContext,
@@ -42,21 +40,14 @@ import Logger from 'src/utils/Logger'
 import { ensureError } from 'src/utils/ensureError'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
-import { getFeeCurrencyToken } from 'src/viem/prepareTransactions'
-import {
-  SerializableTransactionRequest,
-  getPreparedTransactions,
-} from 'src/viem/preparedTransactionSerialization'
-import { getContractKit, getViemWallet } from 'src/web3/contracts'
+import { sendPreparedTransactions } from 'src/viem/saga'
+import { getContractKit } from 'src/web3/contracts'
 import networkConfig, { networkIdToNetwork } from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
-import { getNetworkFromNetworkId } from 'src/web3/utils'
-import { call, put, select, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
+import { call, put, spawn, take, takeEvery, takeLeading } from 'typed-redux-saga'
 import * as utf8 from 'utf8'
-import { Hash } from 'viem'
-import { getTransactionCount } from 'viem/actions'
 
-const TAG = 'send/saga'
+export const TAG = 'send/saga'
 
 function* watchQrCodeShare() {
   while (true) {
@@ -228,7 +219,7 @@ export function* sendPaymentSaga({
     )
 
     const [hash] = yield* call(
-      sendTransactionsSaga,
+      sendPreparedTransactions,
       [serializablePreparedTransaction],
       tokenInfo.networkId,
       [createStandbyTransaction]
@@ -285,64 +276,6 @@ export function* sendPaymentSaga({
   } finally {
     SentryTransactionHub.finishTransaction(SentryTransaction.send_payment)
   }
-}
-
-export function* sendTransactionsSaga(
-  serializablePreparedTransactions: SerializableTransactionRequest[],
-  networkId: NetworkId,
-  createBaseStandbyTransactions: ((
-    hash: string,
-    feeCurrencyId?: string
-  ) => BaseStandbyTransaction)[]
-) {
-  const network = getNetworkFromNetworkId(networkId)
-  if (!network) {
-    throw new Error('Unknown token network')
-  }
-
-  const wallet = yield* call(getViemWallet, networkConfig.viemChain[network])
-  if (!wallet.account) {
-    // this should never happen
-    throw new Error('no account found in the wallet')
-  }
-
-  // Unlock account before executing tx
-  yield* call(getConnectedUnlockedAccount)
-
-  // @ts-ignore typed-redux-saga erases the parameterized types causing error, we can address this separately
-  let nonce: number = yield* call(getTransactionCount, wallet, {
-    address: wallet.account.address,
-    blockTag: 'pending',
-  })
-
-  const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
-  const txHashes: Hash[] = []
-  for (let i = 0; i < preparedTransactions.length; i++) {
-    const preparedTransaction = preparedTransactions[i]
-    const createBaseStandbyTransaction = createBaseStandbyTransactions[i]
-
-    const signedTx = yield* call([wallet, 'signTransaction'], {
-      ...preparedTransaction,
-      nonce: nonce++,
-    } as any)
-    const hash = yield* call([wallet, 'sendRawTransaction'], {
-      serializedTransaction: signedTx,
-    })
-
-    Logger.debug(
-      `${TAG}/sendTransactionsSaga`,
-      'Successfully sent transaction to the network',
-      hash
-    )
-
-    const tokensById = yield* select((state) => tokensByIdSelector(state, [networkId]))
-    const feeCurrencyId = getFeeCurrencyToken([preparedTransaction], networkId, tokensById)?.tokenId
-
-    yield* put(addStandbyTransaction(createBaseStandbyTransaction(hash, feeCurrencyId)))
-    txHashes.push(hash)
-  }
-
-  return txHashes
 }
 
 export function* encryptCommentSaga({ comment, fromAddress, toAddress }: EncryptCommentAction) {

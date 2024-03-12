@@ -13,7 +13,6 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
-import { sendTransactionsSaga } from 'src/send/saga'
 import { vibrateError } from 'src/styles/hapticFeedback'
 import { getSwapTxsAnalyticsProperties } from 'src/swap/getSwapTxsAnalyticsProperties'
 import { swapCancel, swapError, swapStart, swapSuccess } from 'src/swap/slice'
@@ -36,11 +35,12 @@ import {
   getMaxGasFee,
 } from 'src/viem/prepareTransactions'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { getViemWallet } from 'src/web3/contracts'
 import networkConfig from 'src/web3/networkConfig'
 import { getNetworkFromNetworkId } from 'src/web3/utils'
 import { call, put, select, takeEvery } from 'typed-redux-saga'
-import { TransactionReceipt, decodeFunctionData } from 'viem'
+import { Hash, TransactionReceipt, decodeFunctionData } from 'viem'
 
 const TAG = 'swap/saga'
 
@@ -60,11 +60,12 @@ function calculateEstimatedUsdValue({
 
 interface TrackedTx {
   tx: TransactionRequest | undefined
+  txHash: Hash | undefined
   txReceipt: TransactionReceipt | undefined
 }
 
 function getTxReceiptAnalyticsProperties(
-  { tx, txReceipt }: TrackedTx,
+  { tx, txHash, txReceipt }: TrackedTx,
   networkId: NetworkId,
   tokensById: TokenBalances
 ): Partial<TxReceiptProperties> {
@@ -109,7 +110,7 @@ function getTxReceiptAnalyticsProperties(
     txGasUsed: txReceipt?.gasUsed ? Number(txReceipt.gasUsed) : undefined,
     txGasFee: txGasFee?.toNumber(),
     txGasFeeUsd: txGasFeeUsd?.toNumber(),
-    txHash: txReceipt?.transactionHash,
+    txHash,
     txFeeCurrency: tx && getFeeCurrency(tx),
     txFeeCurrencySymbol: feeCurrencyToken?.symbol,
   }
@@ -245,6 +246,7 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     for (const tx of preparedTransactions) {
       trackedTxs.push({
         tx,
+        txHash: undefined,
         txReceipt: undefined,
       })
     }
@@ -310,11 +312,14 @@ export function* swapSubmitSaga(action: PayloadAction<SwapInfo>) {
     createSwapStandbyTxHandlers.push(createSwapStandbyTx)
 
     const txHashes = yield* call(
-      sendTransactionsSaga,
+      sendPreparedTransactions,
       serializablePreparedTransactions,
       networkId,
       createSwapStandbyTxHandlers
     )
+    txHashes.forEach((txHash, i) => {
+      trackedTxs[i].txHash = txHash
+    })
 
     Logger.debug(TAG, 'Successfully sent swap transaction(s) to the network', txHashes)
 
