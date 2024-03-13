@@ -429,6 +429,7 @@ exports[`Profile renders correctly 1`] = `
               <svg
                 fill="none"
                 height={20}
+                testID="InLineNotification/Icon"
                 viewBox="0 0 16 16"
                 width={20}
               >
@@ -453,7 +454,7 @@ exports[`Profile renders correctly 1`] = `
                       "fontFamily": "Inter-Regular",
                       "fontSize": 12,
                       "letterSpacing": 0.12,
-                      "lineHeight": 18,
+                      "lineHeight": 16,
                     },
                   ]
                 }

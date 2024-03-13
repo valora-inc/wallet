@@ -11,7 +11,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import Button, { BtnSizes } from 'src/components/Button'
 import Dropdown from 'src/components/Dropdown'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import TextInput, { TextInputProps } from 'src/components/TextInput'
 import CustomHeader from 'src/components/header/CustomHeader'
@@ -233,7 +233,7 @@ export default function TokenImportScreen(_: Props) {
       />
       <KeyboardAwareScrollView contentContainerStyle={styles.scrollViewContainer}>
         <InLineNotification
-          severity={Severity.Informational}
+          variant={NotificationVariant.Info}
           description={t('tokenImport.notification')}
         />
 

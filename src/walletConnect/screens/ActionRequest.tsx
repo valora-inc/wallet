@@ -3,7 +3,7 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React, { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { NETWORK_NAMES } from 'src/shared/conts'
 import { Spacing } from 'src/styles/styles'
@@ -91,7 +91,7 @@ function ActionRequest({
         testId="WalletConnectActionRequest"
       >
         <InLineNotification
-          severity={Severity.Warning}
+          variant={NotificationVariant.Warning}
           title={t('walletConnectRequest.unsupportedChain.title', { dappName, chainId })}
           description={t('walletConnectRequest.unsupportedChain.descriptionV1_74', {
             dappName,
@@ -117,7 +117,7 @@ function ActionRequest({
         testId="WalletConnectActionRequest"
       >
         <InLineNotification
-          severity={Severity.Warning}
+          variant={NotificationVariant.Warning}
           title={t('walletConnectRequest.notEnoughBalanceForGas.title')}
           description={t('walletConnectRequest.notEnoughBalanceForGas.description', {
             feeCurrencies: feeCurrenciesSymbols.join(', '),
@@ -149,7 +149,7 @@ function ActionRequest({
           preparedTransaction={preparedTransaction}
         />
         <InLineNotification
-          severity={Severity.Warning}
+          variant={NotificationVariant.Warning}
           title={t('walletConnectRequest.failedToPrepareTransaction.title')}
           description={t('walletConnectRequest.failedToPrepareTransaction.description', {
             errorMessage: prepareTransactionErrorMessage,
