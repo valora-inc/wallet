@@ -17,7 +17,7 @@ import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
-import InLineNotification, { Variant } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
   TokenPickerOrigin,
@@ -728,7 +728,7 @@ export function SwapScreen({ route }: Props) {
           />
           {showSwitchedToNetworkWarning && (
             <InLineNotification
-              variant={Variant.Info}
+              variant={NotificationVariant.Info}
               title={t('swapScreen.switchedToNetworkWarning.title', {
                 networkName: switchedToNetworkName,
               })}
@@ -742,7 +742,7 @@ export function SwapScreen({ route }: Props) {
           )}
           {showMaxSwapAmountWarning && (
             <InLineNotification
-              variant={Variant.Warning}
+              variant={NotificationVariant.Warning}
               title={t('swapScreen.maxSwapAmountWarning.titleV1_74', {
                 tokenSymbol: fromToken?.symbol,
               })}
@@ -757,7 +757,7 @@ export function SwapScreen({ route }: Props) {
           )}
           {showPriceImpactWarning && (
             <InLineNotification
-              variant={Variant.Warning}
+              variant={NotificationVariant.Warning}
               title={t('swapScreen.priceImpactWarning.title')}
               description={t('swapScreen.priceImpactWarning.body')}
               style={styles.warning}
@@ -765,7 +765,7 @@ export function SwapScreen({ route }: Props) {
           )}
           {showNoUsdPriceWarning && (
             <InLineNotification
-              variant={Variant.Warning}
+              variant={NotificationVariant.Warning}
               title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
               description={t('swapScreen.noUsdPriceWarning.description', {
                 localCurrency,
@@ -776,7 +776,7 @@ export function SwapScreen({ route }: Props) {
           )}
           {showMissingPriceImpactWarning && (
             <InLineNotification
-              variant={Variant.Warning}
+              variant={NotificationVariant.Warning}
               title={t('swapScreen.missingSwapImpactWarning.title')}
               description={t('swapScreen.missingSwapImpactWarning.body')}
               style={styles.warning}
@@ -784,7 +784,7 @@ export function SwapScreen({ route }: Props) {
           )}
           {confirmSwapFailed && (
             <InLineNotification
-              variant={Variant.Warning}
+              variant={NotificationVariant.Warning}
               title={t('swapScreen.confirmSwapFailedWarning.title')}
               description={t('swapScreen.confirmSwapFailedWarning.body')}
               style={styles.warning}
@@ -871,7 +871,7 @@ export function SwapScreen({ route }: Props) {
       </BottomSheet>
       <BottomSheetInLineNotification
         showNotification={!!selectingNoUsdPriceToken}
-        variant={Variant.Warning}
+        variant={NotificationVariant.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
         description={t('swapScreen.noUsdPriceWarning.description', {
           localCurrency,

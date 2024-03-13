@@ -6,7 +6,7 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-export enum Variant {
+export enum NotificationVariant {
   Info,
   Success,
   Warning,
@@ -14,7 +14,7 @@ export enum Variant {
 }
 
 export interface InLineNotificationProps {
-  variant: Variant
+  variant: NotificationVariant
   icon?: JSX.Element | null
   title?: string | null
   description: string | JSX.Element | null
@@ -123,30 +123,30 @@ const styles = StyleSheet.create({
   },
 })
 
-const variantColors: Record<Variant, CustomColors> = {
-  [Variant.Info]: {
+const variantColors: Record<NotificationVariant, CustomColors> = {
+  [NotificationVariant.Info]: {
     primary: Colors.black,
     secondary: Colors.gray1,
   },
-  [Variant.Success]: {
+  [NotificationVariant.Success]: {
     primary: Colors.successDark,
     secondary: Colors.successLight,
   },
-  [Variant.Warning]: {
+  [NotificationVariant.Warning]: {
     primary: Colors.warningDark,
     secondary: Colors.warningLight,
   },
-  [Variant.Error]: {
+  [NotificationVariant.Error]: {
     primary: Colors.errorDark,
     secondary: Colors.errorLight,
   },
 }
 
-const variantIcons: Record<Variant, (args: any) => JSX.Element> = {
-  [Variant.Info]: AttentionIcon,
-  [Variant.Success]: AttentionIcon,
-  [Variant.Warning]: Warning,
-  [Variant.Error]: Warning,
+const variantIcons: Record<NotificationVariant, (args: any) => JSX.Element> = {
+  [NotificationVariant.Info]: AttentionIcon,
+  [NotificationVariant.Success]: AttentionIcon,
+  [NotificationVariant.Warning]: Warning,
+  [NotificationVariant.Error]: Warning,
 }
 
 export default InLineNotification

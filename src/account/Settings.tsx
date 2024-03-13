@@ -49,7 +49,7 @@ import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
-import { Variant } from 'src/components/InLineNotification'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
 import {
@@ -554,7 +554,7 @@ export const Account = ({ navigation, route }: Props) => {
         </Dialog>
       </ScrollView>
       <BottomSheetInLineNotification
-        variant={Variant.Warning}
+        variant={NotificationVariant.Warning}
         description={t('keylessBackupSettingsDeleteError')}
         showNotification={showDeleteKeylessBackupError}
         onPressCta={onDismissKeylessBackupError}

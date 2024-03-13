@@ -1,13 +1,13 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import InLineNotification, { Variant } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import AttentionIcon from 'src/icons/Attention'
 
 describe(InLineNotification, () => {
   it('does not render CTA when onPress function is not provided', async () => {
     const { getByText, queryByText } = render(
       <InLineNotification
-        variant={Variant.Info}
+        variant={NotificationVariant.Info}
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
@@ -27,7 +27,7 @@ describe(InLineNotification, () => {
     const fn2 = jest.fn()
     const { getByText } = render(
       <InLineNotification
-        variant={Variant.Info}
+        variant={NotificationVariant.Info}
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
@@ -45,7 +45,9 @@ describe(InLineNotification, () => {
   })
 
   it('renders the standard icon when the icon is not overridden', () => {
-    const { getByTestId } = render(<InLineNotification variant={Variant.Info} description="Test" />)
+    const { getByTestId } = render(
+      <InLineNotification variant={NotificationVariant.Info} description="Test" />
+    )
 
     expect(getByTestId('InLineNotification/Icon')).toBeTruthy()
   })
@@ -53,7 +55,7 @@ describe(InLineNotification, () => {
   it('renders the provided icon when the icon prop is specified', () => {
     const { getByTestId } = render(
       <InLineNotification
-        variant={Variant.Warning}
+        variant={NotificationVariant.Warning}
         description="Test"
         icon={<AttentionIcon testId="TestIcon" />}
       />
@@ -64,7 +66,7 @@ describe(InLineNotification, () => {
 
   it('does not render the icon when the icon prop is set to null', () => {
     const { queryByTestId } = render(
-      <InLineNotification variant={Variant.Info} description="Test" icon={null} />
+      <InLineNotification variant={NotificationVariant.Info} description="Test" icon={null} />
     )
 
     expect(queryByTestId('InLineNotification/Icon')).toBeFalsy()
