@@ -1,7 +1,17 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
+import {
+  Dimensions,
+  PixelRatio,
+  Platform,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+} from 'react-native'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
 import CurrencyDisplay from 'src/components/CurrencyDisplay'
@@ -244,10 +254,12 @@ export function HeaderTitleWithTokenBalance({
 
 export function HeaderTitleWithSubtitle({
   title,
+  titleStyle,
   subTitle,
   testID,
 }: {
   title: string | React.ReactNode
+  titleStyle?: StyleProp<TextStyle> | null
   subTitle?: string | React.ReactNode
   testID?: string
 }) {
@@ -256,7 +268,7 @@ export function HeaderTitleWithSubtitle({
       {title && (
         <Text
           testID="HeaderTitle"
-          style={styles.headerTitle}
+          style={titleStyle ?? styles.headerTitle}
           numberOfLines={1}
           allowFontScaling={false}
         >
