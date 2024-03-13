@@ -1,23 +1,42 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet } from 'react-native'
+import { Dimensions, LayoutChangeEvent, StyleSheet } from 'react-native'
 import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
-import { SafeAreaView } from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import InLineNotification, { InLineNotificationProps } from 'src/components/InLineNotification'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
-import { Spacing } from 'src/styles/styles'
+import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 
 interface Props extends InLineNotificationProps {
   showToast: boolean
+  position?: 'top' | 'bottom'
+  modal?: boolean
   onUnmount?: () => void
 }
 
-// this value is used to ensure the toast is offset by its own height when transitioning in and out of view
-const TOAST_HEIGHT = 100
+const slidingDirection = {
+  top: -1,
+  bottom: 1,
+}
 
-// for now, this Toast component is launched from the bottom of the screen only
-const ToastWithCTA = ({ showToast, onUnmount, ...inLineNotificationProps }: Props) => {
+const ToastWithCTA = ({
+  showToast,
+  position = 'bottom',
+  modal,
+  onUnmount,
+  ...inLineNotificationProps
+}: Props) => {
   const [isVisible, setIsVisible] = useState(showToast)
+
+  const window = Dimensions.get('window')
+  const safeInitialHeight = Math.max(window.width, window.height)
+  const [toastHeight, setToastHeight] = useState(safeInitialHeight)
+
+  const insets = useSafeAreaInsets()
+  const absolutePosition = Math.max(insets[position], Spacing.Regular16)
+
+  const positionStyle = { [position]: absolutePosition }
+  const slidingHeight = absolutePosition + toastHeight
 
   useEffect(() => {
     return () => {
@@ -28,9 +47,11 @@ const ToastWithCTA = ({ showToast, onUnmount, ...inLineNotificationProps }: Prop
   }, [])
 
   const progress = useSharedValue(0)
-  const animatedStyle = useAnimatedStyle(() => {
+  const animatedTransform = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: (1 - progress.value) * TOAST_HEIGHT }],
+      transform: [
+        { translateY: (1 - progress.value) * slidingHeight * slidingDirection[position] },
+      ],
     }
   })
   const animatedOpacity = useAnimatedStyle(() => ({
@@ -48,17 +69,27 @@ const ToastWithCTA = ({ showToast, onUnmount, ...inLineNotificationProps }: Prop
     }
   )
 
+  const handleLayout = (event: LayoutChangeEvent) => {
+    setToastHeight(event.nativeEvent.layout.height)
+  }
+
   if (!isVisible) {
     return null
   }
 
   return (
-    <SafeAreaView edges={['bottom']} style={[styles.modal, styles.container]}>
-      <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
-      <Animated.View style={[styles.notificationContainer, animatedStyle]}>
-        <InLineNotification {...inLineNotificationProps} />
+    <>
+      {modal && <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />}
+      <Animated.View
+        style={[styles.notificationContainer, animatedTransform, positionStyle]}
+        onLayout={handleLayout}
+      >
+        <InLineNotification
+          style={[styles.notification, !modal && getShadowStyle(Shadow.AlertShadow)]}
+          {...inLineNotificationProps}
+        />
       </Animated.View>
-    </SafeAreaView>
+    </>
   )
 }
 
@@ -66,17 +97,15 @@ const styles = StyleSheet.create({
   modal: {
     ...StyleSheet.absoluteFillObject,
   },
-  container: {
-    paddingHorizontal: Spacing.Regular16,
-    alignItems: 'center',
-  },
   background: {
     backgroundColor: Colors.black,
   },
   notificationContainer: {
     position: 'absolute',
-    bottom: Spacing.Large32,
     width: '100%',
+  },
+  notification: {
+    marginHorizontal: Spacing.Regular16,
   },
 })
 
