@@ -52,21 +52,21 @@ describe(InLineNotification, () => {
     expect(getByTestId('InLineNotification/Icon')).toBeTruthy()
   })
 
-  it('renders the provided icon when the icon prop is specified', () => {
+  it('renders the provided icon when a custom icon is specified', () => {
     const { getByTestId } = render(
       <InLineNotification
         variant={NotificationVariant.Warning}
         description="Test"
-        icon={<AttentionIcon testId="TestIcon" />}
+        customIcon={<AttentionIcon testId="TestIcon" />}
       />
     )
 
     expect(getByTestId('TestIcon')).toBeTruthy()
   })
 
-  it('does not render the icon when the icon prop is set to null', () => {
+  it('does not render the icon when `hideIcon` prop is set', () => {
     const { queryByTestId } = render(
-      <InLineNotification variant={NotificationVariant.Info} description="Test" icon={null} />
+      <InLineNotification variant={NotificationVariant.Info} description="Test" hideIcon />
     )
 
     expect(queryByTestId('InLineNotification/Icon')).toBeFalsy()

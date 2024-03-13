@@ -15,7 +15,8 @@ export enum NotificationVariant {
 
 export interface InLineNotificationProps {
   variant: NotificationVariant
-  icon?: JSX.Element | null
+  hideIcon?: boolean
+  customIcon?: JSX.Element | null
   title?: string | null
   description: string | JSX.Element | null
   style?: StyleProp<ViewStyle>
@@ -33,7 +34,8 @@ interface CustomColors {
 
 export function InLineNotification({
   variant,
-  icon,
+  hideIcon,
+  customIcon,
   title,
   description,
   style,
@@ -63,9 +65,9 @@ export function InLineNotification({
       testID={testID}
     >
       <View style={styles.row}>
-        {icon !== null && (
+        {!hideIcon && (
           <View style={styles.iconContainer}>
-            {icon ?? (
+            {customIcon ?? (
               <Icon color={variantColor.primary} size={20} testId="InLineNotification/Icon" />
             )}
           </View>
