@@ -314,7 +314,7 @@
     "logkitty": "^0.7.1",
     "minimist": "^1.2.8",
     "websocket-extensions": "^0.1.4",
-    "elliptic": "^6.5.4",
+    "elliptic": "^6.5.5",
     "dot-prop": "^8.0.2",
     "bl": "^6.0.12",
     "node-libs-react-native": "^1.2.1",
