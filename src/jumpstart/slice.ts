@@ -9,12 +9,12 @@ export interface SendJumpstartTransactionAction {
 }
 interface State {
   claimStatus: 'idle' | 'loading' | 'error'
-  sendStatus: 'idle' | 'loading' | 'error' | 'success'
+  depositStatus: 'idle' | 'loading' | 'error' | 'success'
 }
 
 const initialState: State = {
   claimStatus: 'idle',
-  sendStatus: 'idle',
+  depositStatus: 'idle',
 }
 
 const slice = createSlice({
@@ -47,23 +47,23 @@ const slice = createSlice({
     }),
     depositTransactionStarted: (state, _action: PayloadAction<SendJumpstartTransactionAction>) => ({
       ...state,
-      sendStatus: 'loading',
+      depositStatus: 'loading',
     }),
     depositTransactionSuccessful: (state) => ({
       ...state,
-      sendStatus: 'success',
+      depositStatus: 'success',
     }),
     depositTransactionFailed: (state) => ({
       ...state,
-      sendStatus: 'error',
+      depositStatus: 'error',
     }),
     depositTransactionCancelled: (state) => ({
       ...state,
-      sendStatus: 'idle',
+      depositStatus: 'idle',
     }),
     depositTransactionCompleted: (state) => ({
       ...state,
-      sendStatus: 'idle',
+      depositStatus: 'idle',
     }),
   },
 })

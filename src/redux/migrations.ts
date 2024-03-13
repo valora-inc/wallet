@@ -1616,4 +1616,11 @@ export const migrations = {
     ...state,
     app: _.omit(state.app, 'rampCashInButtonExpEnabled'),
   }),
+  200: (state: any) => ({
+    ...state,
+    jumpstart: {
+      ...state.jumpstart,
+      depositStatus: 'idle',
+    },
+  }),
 }

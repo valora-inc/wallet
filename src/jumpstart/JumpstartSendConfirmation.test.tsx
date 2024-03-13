@@ -94,7 +94,7 @@ describe('JumpstartSendConfirmation', () => {
   it('should dispatch the correct action after successful transaction', async () => {
     const store = createMockStore({
       jumpstart: {
-        sendStatus: 'idle',
+        depositStatus: 'idle',
       },
     })
     const { rerender } = render(
@@ -112,7 +112,7 @@ describe('JumpstartSendConfirmation', () => {
 
     const updatedStoreLoading = createMockStore({
       jumpstart: {
-        sendStatus: 'loading',
+        depositStatus: 'loading',
       },
     })
     rerender(
@@ -132,7 +132,7 @@ describe('JumpstartSendConfirmation', () => {
 
     const updatedStoreCompleted = createMockStore({
       jumpstart: {
-        sendStatus: 'success',
+        depositStatus: 'success',
       },
     })
     rerender(

@@ -9,5 +9,5 @@ export const showJumstartError = (state: RootState) => {
 }
 
 export const jumpstartSendStatusSelector = (state: RootState) => {
-  return state.jumpstart.sendStatus
+  return state.jumpstart.depositStatus
 }

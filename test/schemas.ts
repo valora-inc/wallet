@@ -3151,6 +3151,18 @@ export const v199Schema = {
   app: _.omit(v198Schema.app, 'rampCashInButtonExpEnabled'),
 }
 
+export const v200Schema = {
+  ...v199Schema,
+  _persist: {
+    ...v199Schema._persist,
+    version: 200,
+  },
+  jumpstart: {
+    ...v199Schema.jumpstart,
+    depositStatus: 'idle',
+  },
+}
+
 export function getLatestSchema(): Partial<RootState> {
-  return v199Schema as Partial<RootState>
+  return v200Schema as Partial<RootState>
 }
