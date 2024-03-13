@@ -6,14 +6,16 @@ import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
-export enum Severity {
-  Informational,
+export enum Variant {
+  Info,
+  Success,
   Warning,
   Error,
 }
 
 export interface InLineNotificationProps {
-  severity: Severity
+  variant: Variant
+  icon?: JSX.Element | null
   title?: string | null
   description: string | JSX.Element | null
   style?: StyleProp<ViewStyle>
@@ -30,7 +32,8 @@ interface CustomColors {
 }
 
 export function InLineNotification({
-  severity,
+  variant,
+  icon,
   title,
   description,
   style,
@@ -40,7 +43,7 @@ export function InLineNotification({
   onPressCta2,
   testID,
 }: InLineNotificationProps) {
-  const severityColor = severityColors[severity]
+  const variantColor = variantColors[variant]
   const renderCtaLabel = (
     label?: string | null,
     onPress?: (event: GestureResponderEvent) => void,
@@ -52,17 +55,19 @@ export function InLineNotification({
         {label}
       </Text>
     )
-  const Icon = severityIcons[severity]
+  const Icon = variantIcons[variant]
 
   return (
     <View
-      style={[styles.container, { backgroundColor: severityColor.secondary }, style]}
+      style={[styles.container, { backgroundColor: variantColor.secondary }, style]}
       testID={testID}
     >
       <View style={styles.row}>
-        <View style={styles.attentionIcon}>
-          <Icon color={severityColor.primary} size={20} />
-        </View>
+        {icon !== null && (
+          <View style={styles.iconContainer}>
+            {icon ?? <Icon color={variantColor.primary} size={20} />}
+          </View>
+        )}
         <View style={styles.contentContainer}>
           {title && <Text style={styles.titleText}>{title}</Text>}
           <Text style={[styles.bodyText]}>{description}</Text>
@@ -71,8 +76,8 @@ export function InLineNotification({
 
       {(ctaLabel || ctaLabel2) && (
         <View style={[styles.row, styles.ctaRow]}>
-          {renderCtaLabel(ctaLabel, onPressCta, severityColor.primary)}
-          {renderCtaLabel(ctaLabel2, onPressCta2, severityColor.primary)}
+          {renderCtaLabel(ctaLabel, onPressCta, variantColor.primary)}
+          {renderCtaLabel(ctaLabel2, onPressCta2, variantColor.primary)}
         </View>
       )}
     </View>
@@ -96,7 +101,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     gap: Spacing.Smallest8,
   },
-  attentionIcon: {
+  iconContainer: {
     paddingTop: Spacing.Tiny4,
     paddingRight: Spacing.Smallest8,
   },
@@ -106,7 +111,6 @@ const styles = StyleSheet.create({
   },
   bodyText: {
     ...typeScale.bodyXSmall,
-    lineHeight: 18,
     color: Colors.black,
   },
   ctaLabel: {
@@ -117,25 +121,30 @@ const styles = StyleSheet.create({
   },
 })
 
-const severityColors: Record<Severity, CustomColors> = {
-  [Severity.Informational]: {
+const variantColors: Record<Variant, CustomColors> = {
+  [Variant.Info]: {
     primary: Colors.black,
     secondary: Colors.gray1,
   },
-  [Severity.Warning]: {
+  [Variant.Success]: {
+    primary: Colors.successDark,
+    secondary: Colors.successLight,
+  },
+  [Variant.Warning]: {
     primary: Colors.warningDark,
     secondary: Colors.warningLight,
   },
-  [Severity.Error]: {
+  [Variant.Error]: {
     primary: Colors.errorDark,
     secondary: Colors.errorLight,
   },
 }
 
-const severityIcons: Record<Severity, (args: any) => JSX.Element> = {
-  [Severity.Informational]: AttentionIcon,
-  [Severity.Warning]: Warning,
-  [Severity.Error]: Warning,
+const variantIcons: Record<Variant, (args: any) => JSX.Element> = {
+  [Variant.Info]: AttentionIcon,
+  [Variant.Success]: AttentionIcon,
+  [Variant.Warning]: Warning,
+  [Variant.Error]: Warning,
 }
 
 export default InLineNotification

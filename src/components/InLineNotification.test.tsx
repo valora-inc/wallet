@@ -1,12 +1,12 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { Variant } from 'src/components/InLineNotification'
 
 describe(InLineNotification, () => {
   it('does not render CTA when onPress function is not provided', async () => {
     const { getByText, queryByText } = render(
       <InLineNotification
-        severity={Severity.Informational}
+        variant={Variant.Info}
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
@@ -26,7 +26,7 @@ describe(InLineNotification, () => {
     const fn2 = jest.fn()
     const { getByText } = render(
       <InLineNotification
-        severity={Severity.Informational}
+        variant={Variant.Info}
         title={'Title'}
         description={'Description'}
         ctaLabel={'Action 1'}
