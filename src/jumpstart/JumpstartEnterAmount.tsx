@@ -4,7 +4,7 @@ import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
@@ -149,7 +149,7 @@ function JumpstartEnterAmount() {
     >
       {sendAmountExceedsThreshold && (
         <InLineNotification
-          severity={Severity.Warning}
+          variant={NotificationVariant.Warning}
           title={t('jumpstartEnterAmountScreen.maxAmountWarning.title')}
           description={t('jumpstartEnterAmountScreen.maxAmountWarning.description', {
             maxAmount: maxSendAmountLocalCurrency?.toFormat(2),

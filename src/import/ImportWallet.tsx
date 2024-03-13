@@ -53,6 +53,9 @@ function ImportWallet({ navigation, route }: Props) {
   const appConnected = useSelector(isAppConnected)
   const isRecoveringFromStoreWipe = useSelector(recoveringFromStoreWipeSelector)
   const accountToRecoverFromStoreWipe = useSelector(accountToRecoverSelector)
+  const cloudAccountBackupEnabled = getFeatureGate(
+    StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE
+  )
 
   const dispatch = useDispatch()
   const { t } = useTranslation()
@@ -69,11 +72,13 @@ function ImportWallet({ navigation, route }: Props) {
   }
 
   const handleNavigateBack = () => {
-    dispatch(cancelCreateOrRestoreAccount())
+    if (cloudAccountBackupEnabled) {
+      navigate(Screens.ImportSelect)
+    } else {
+      dispatch(cancelCreateOrRestoreAccount())
+      navigateClearingStack(Screens.Welcome)
+    }
     ValoraAnalytics.track(OnboardingEvents.restore_account_cancel)
-    getFeatureGate(StatsigFeatureGates.SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE)
-      ? navigate(Screens.ImportSelect)
-      : navigateClearingStack(Screens.Welcome)
   }
 
   useBackHandler(() => {

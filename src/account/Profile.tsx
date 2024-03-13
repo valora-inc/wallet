@@ -12,7 +12,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { ErrorMessages } from 'src/app/ErrorMessages'
 import Button from 'src/components/Button'
 import CancelButton from 'src/components/CancelButton'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import TextInput from 'src/components/TextInput'
@@ -110,7 +110,7 @@ function Profile({ navigation, route }: Props) {
         </View>
         <View style={styles.disclaimerContainer}>
           <InLineNotification
-            severity={Severity.Informational}
+            variant={NotificationVariant.Info}
             description={t('profileScreen.profilePictureDisclaimer')}
           />
         </View>

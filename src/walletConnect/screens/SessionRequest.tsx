@@ -4,7 +4,7 @@ import { Web3WalletTypes } from '@walletconnect/web3wallet'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import { SentryTransactionHub } from 'src/sentry/SentryTransactionHub'
 import { SentryTransaction } from 'src/sentry/SentryTransactions'
@@ -81,7 +81,7 @@ function SessionRequest({
         testId="WalletConnectSessionRequest"
       >
         <InLineNotification
-          severity={Severity.Warning}
+          variant={NotificationVariant.Warning}
           title={t('walletConnectRequest.session.failUnsupportedNamespace.title', { dappName })}
           description={t('walletConnectRequest.session.failUnsupportedNamespace.descriptionV1_74', {
             dappName,
@@ -173,7 +173,7 @@ function NamespacesWarning({
 
   return (
     <InLineNotification
-      severity={Severity.Warning}
+      variant={NotificationVariant.Warning}
       title={title}
       description={description}
       style={styles.warning}

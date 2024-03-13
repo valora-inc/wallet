@@ -9,7 +9,7 @@ import { SendEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { SendOrigin } from 'src/analytics/types'
 import Button, { BtnSizes } from 'src/components/Button'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import InviteOptionsModal from 'src/components/InviteOptionsModal'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import CircledIcon from 'src/icons/CircledIcon'
@@ -401,7 +401,7 @@ function SendSelectRecipient({ route }: Props) {
       )}
       {showUnknownAddressInfo && (
         <InLineNotification
-          severity={Severity.Informational}
+          variant={NotificationVariant.Info}
           description={t('sendSelectRecipient.unknownAddressInfo')}
           testID="UnknownAddressInfo"
           style={styles.unknownAddressInfo}
