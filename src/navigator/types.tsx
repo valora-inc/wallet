@@ -258,7 +258,7 @@ export type StackParamList = {
     link: string
     sendAmount: string
     tokenId: string
-    preparedTransactions: SerializableTransactionRequest[]
+    serializablePreparedTransactions: SerializableTransactionRequest[]
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
