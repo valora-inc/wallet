@@ -46,9 +46,10 @@ import {
   walletConnectEnabledSelector,
 } from 'src/app/selectors'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
+import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import Dialog from 'src/components/Dialog'
-import { Severity } from 'src/components/InLineNotification'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import SectionHead from 'src/components/SectionHead'
 import SessionId from 'src/components/SessionId'
 import {
@@ -84,7 +85,6 @@ import { navigateToURI } from 'src/utils/linking'
 import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 
 type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
 
@@ -554,7 +554,7 @@ export const Account = ({ navigation, route }: Props) => {
         </Dialog>
       </ScrollView>
       <BottomSheetInLineNotification
-        severity={Severity.Warning}
+        variant={NotificationVariant.Warning}
         description={t('keylessBackupSettingsDeleteError')}
         showNotification={showDeleteKeylessBackupError}
         onPressCta={onDismissKeylessBackupError}
