@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { SectionList } from 'react-native'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import ToastWithCTA from 'src/components/ToastWithCTA'
 import { Dapp } from 'src/dapps/types'
 
@@ -34,10 +35,12 @@ const useDappFavoritedToast = (sectionListRef: React.RefObject<SectionList>) => 
     () => (
       <ToastWithCTA
         showToast={showToast}
+        variant={NotificationVariant.Info}
+        hideIcon
         title={favoritedDapp?.name}
-        message={t('dappsScreen.favoritedDappToast.message')}
-        labelCTA={t('dappsScreen.favoritedDappToast.labelCTA')}
-        onPress={onPressToast}
+        description={t('dappsScreen.favoritedDappToast.message')}
+        ctaLabel={t('dappsScreen.favoritedDappToast.labelCTA')}
+        onPressCta={onPressToast}
       />
     ),
     [favoritedDapp, showToast]

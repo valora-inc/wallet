@@ -6,6 +6,7 @@ import { SettingsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import PhoneNumberWithFlag from 'src/components/PhoneNumberWithFlag'
 import ToastWithCTA from 'src/components/ToastWithCTA'
 import AttentionIcon from 'src/icons/Attention'
@@ -93,10 +94,11 @@ export const RevokePhoneNumber = ({ forwardedRef }: Props) => {
       </BottomSheet>
       <ToastWithCTA
         showToast={showRevokeSuccess}
-        message={t('revokePhoneNumber.revokeSuccess')}
-        labelCTA={t('revokePhoneNumber.addNewNumberButton')}
-        ctaAlignment="bottom"
-        onPress={handleNavigateToVerifiedNumber}
+        variant={NotificationVariant.Info}
+        hideIcon
+        description={t('revokePhoneNumber.revokeSuccess')}
+        ctaLabel={t('revokePhoneNumber.addNewNumberButton')}
+        onPressCta={handleNavigateToVerifiedNumber}
       />
     </>
   )

@@ -1,5 +1,6 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import ToastWithCTA from 'src/components/ToastWithCTA'
 
 describe('ToastWithCTA', () => {
@@ -7,10 +8,12 @@ describe('ToastWithCTA', () => {
     const { getByText } = render(
       <ToastWithCTA
         showToast
+        hideIcon
+        variant={NotificationVariant.Info}
         title="some title"
-        message="some message"
-        labelCTA="some cta"
-        onPress={jest.fn()}
+        description="some message"
+        ctaLabel="some cta"
+        onPressCta={jest.fn()}
       />
     )
 
@@ -22,7 +25,14 @@ describe('ToastWithCTA', () => {
   it('fires the correct callback on press', () => {
     const onPressSpy = jest.fn()
     const { getByText } = render(
-      <ToastWithCTA showToast message="some message" labelCTA="some cta" onPress={onPressSpy} />
+      <ToastWithCTA
+        showToast
+        hideIcon
+        variant={NotificationVariant.Info}
+        description="some message"
+        ctaLabel="some cta"
+        onPressCta={onPressSpy}
+      />
     )
 
     fireEvent.press(getByText('some cta'))
