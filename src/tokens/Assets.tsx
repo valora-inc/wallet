@@ -12,8 +12,11 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import AccountCircleButton from 'src/components/AccountCircleButton'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
+import QrScanButton from 'src/components/QrScanButton'
 import { AssetsTokenBalance } from 'src/components/TokenBalance'
+import NotificationBell from 'src/home/NotificationBell'
 import { useDollarsToLocalAmount } from 'src/localCurrency/hooks'
 import { getLocalCurrencySymbol } from 'src/localCurrency/selectors'
 import { headerWithBackButton } from 'src/navigator/Headers'
@@ -171,10 +174,27 @@ function AssetsScreen({ navigation, route }: Props) {
       })
   }, [navigation, isWalletTab])
 
-  // TODO(ACT-1108): adjust title style
+  useLayoutEffect(() => {
+    isWalletTab &&
+      navigation.setOptions({
+        headerRight: () => (
+          <View style={[styles.topElementsContainer, { marginRight: Spacing.Regular16 }]}>
+            <QrScanButton testID="WalletHome/QRScanButton" />
+            <NotificationBell testID="WalletHome/NotificationBell" />
+          </View>
+        ),
+        headerLeft: () => (
+          <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
+            <AccountCircleButton testID="WalletHome/AccountCircle" />
+          </View>
+        ),
+      })
+  }, [navigation, isWalletTab])
+
   useScrollAwareHeader({
     navigation,
     title: isWalletTab ? t('bottomTabsNavigator.wallet.title') : t('totalAssets'),
+    titleStyle: isWalletTab ? { ...typeScale.labelSemiBoldMedium } : null,
     subtitle: isWalletTab
       ? ''
       : !tokensAreStale && totalBalanceLocal.gte(0)
@@ -266,8 +286,8 @@ AssetsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
-    paddingHorizontal: Spacing.Thick24,
-    paddingTop: Spacing.Smallest8,
+    paddingHorizontal: Spacing.Regular16,
+    paddingTop: Spacing.Regular16,
     paddingBottom: Spacing.Regular16,
     backgroundColor: Colors.white,
     position: 'absolute',
@@ -290,6 +310,11 @@ const styles = StyleSheet.create({
   topBarTextButton: {
     ...typeScale.bodyMedium,
     paddingRight: Spacing.Smallest8,
+  },
+  topElementsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: Spacing.Regular16,
   },
 })
 
