@@ -1,6 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import InLineNotification, { Variant } from 'src/components/InLineNotification'
+import AttentionIcon from 'src/icons/Attention'
 
 describe(InLineNotification, () => {
   it('does not render CTA when onPress function is not provided', async () => {
@@ -41,5 +42,31 @@ describe(InLineNotification, () => {
 
     expect(fn).toBeCalled()
     expect(fn2).toBeCalled()
+  })
+
+  it('renders the standard icon when the icon is not overridden', () => {
+    const { getByTestId } = render(<InLineNotification variant={Variant.Info} description="Test" />)
+
+    expect(getByTestId('InLineNotification/Icon')).toBeTruthy()
+  })
+
+  it('renders the provided icon when the icon prop is specified', () => {
+    const { getByTestId } = render(
+      <InLineNotification
+        variant={Variant.Warning}
+        description="Test"
+        icon={<AttentionIcon testId="TestIcon" />}
+      />
+    )
+
+    expect(getByTestId('TestIcon')).toBeTruthy()
+  })
+
+  it('does not render the icon when the icon prop is set to null', () => {
+    const { queryByTestId } = render(
+      <InLineNotification variant={Variant.Info} description="Test" icon={null} />
+    )
+
+    expect(queryByTestId('InLineNotification/Icon')).toBeFalsy()
   })
 })

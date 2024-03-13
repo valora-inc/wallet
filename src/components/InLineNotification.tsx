@@ -65,7 +65,9 @@ export function InLineNotification({
       <View style={styles.row}>
         {icon !== null && (
           <View style={styles.iconContainer}>
-            {icon ?? <Icon color={variantColor.primary} size={20} />}
+            {icon ?? (
+              <Icon color={variantColor.primary} size={20} testId="InLineNotification/Icon" />
+            )}
           </View>
         )}
         <View style={styles.contentContainer}>
