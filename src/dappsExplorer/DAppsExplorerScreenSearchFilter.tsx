@@ -33,8 +33,8 @@ import { styles as headerStyles } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import colors, { Colors } from 'src/styles/colors'
+import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
 const AnimatedSectionList =
@@ -221,6 +221,9 @@ export function DAppsExplorerScreenSearchFilter({ route }: Props) {
             }
             ListHeaderComponent={
               <>
+                {isTabNavigator && (
+                  <Text style={styles.title}>{t('bottomTabsNavigator.discover.title')}</Text>
+                )}
                 <DappFeaturedActions onPressShowDappRankings={handleShowDappRankings} />
                 <SearchInput
                   onChangeText={(text) => {
@@ -342,6 +345,11 @@ const styles = StyleSheet.create({
   listFooterComponent: {
     flex: 1,
     justifyContent: 'flex-end',
+  },
+  title: {
+    ...typeScale.titleMedium,
+    color: Colors.black,
+    marginBottom: Spacing.Large32,
   },
 })
 
