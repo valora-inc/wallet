@@ -341,7 +341,7 @@
     "qs": "^6.11.2",
     "flat": "^5.0.2",
     "crypto-js": "^4.2.0",
-    "browserify-sign": "^4.2.2",
+    "browserify-sign": "^4.2.3",
     "follow-redirects": "^1.15.5",
     "redux": "^5.0.1"
   },
