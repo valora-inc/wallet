@@ -26,7 +26,7 @@ describe('usePrepareJumpstartTransactions', () => {
   const walletAddress = '0x123'
   const jumpstartContractAddress = '0xjumpstart'
   const publicKey = '0xpublicKey'
-  const spendAmount = 1
+  const sendTokenAmountInSmallestUnit = '10000000000000000'
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -34,6 +34,7 @@ describe('usePrepareJumpstartTransactions', () => {
       jumpstartContracts: {
         'celo-alfajores': {
           contractAddress: jumpstartContractAddress,
+          depositERC20GasEstimate: '300000',
         },
       },
     })
@@ -56,6 +57,7 @@ describe('usePrepareJumpstartTransactions', () => {
         to: jumpstartContractAddress,
         value: BigInt(0),
         data: '0xtransferEncodedData',
+        gas: BigInt(300000),
       },
     ]
     const expectedPreparedTransactionsResult: PreparedTransactionsResult = {
@@ -69,7 +71,7 @@ describe('usePrepareJumpstartTransactions', () => {
 
     await act(async () => {
       await result.current.execute({
-        amount: new BigNumber(spendAmount),
+        sendTokenAmountInSmallestUnit: new BigNumber(sendTokenAmountInSmallestUnit),
         token: mockCeloTokenBalance,
         walletAddress,
         feeCurrencies: [mockCeloTokenBalance],
@@ -82,7 +84,7 @@ describe('usePrepareJumpstartTransactions', () => {
     expect(prepareTransactions).toHaveBeenCalledWith({
       feeCurrencies: [mockCeloTokenBalance],
       spendToken: mockCeloTokenBalance,
-      spendTokenAmount: new BigNumber(spendAmount),
+      spendTokenAmount: new BigNumber(sendTokenAmountInSmallestUnit),
       baseTransactions: expectedBaseTransactions,
     })
     expect(publicClient.celo.readContract).toHaveBeenCalledTimes(1)
@@ -95,12 +97,12 @@ describe('usePrepareJumpstartTransactions', () => {
     expect(encodeFunctionData).toHaveBeenNthCalledWith(1, {
       abi: erc20.abi,
       functionName: 'approve',
-      args: [jumpstartContractAddress, BigInt(spendAmount)],
+      args: [jumpstartContractAddress, BigInt(sendTokenAmountInSmallestUnit)],
     })
     expect(encodeFunctionData).toHaveBeenNthCalledWith(2, {
       abi: jumpstart.abi,
       functionName: 'depositERC20',
-      args: [publicKey, mockCeloTokenBalance.address, BigInt(spendAmount)],
+      args: [publicKey, mockCeloTokenBalance.address, BigInt(sendTokenAmountInSmallestUnit)],
     })
   })
 
@@ -112,7 +114,7 @@ describe('usePrepareJumpstartTransactions', () => {
     await act(async () => {
       await expect(async () => {
         await result.current.execute({
-          amount: new BigNumber(spendAmount),
+          sendTokenAmountInSmallestUnit: new BigNumber(sendTokenAmountInSmallestUnit),
           token: mockCeloTokenBalance,
           walletAddress,
           feeCurrencies: [mockCeloTokenBalance],

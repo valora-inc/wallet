@@ -131,7 +131,7 @@ function JumpstartEnterAmount() {
     }
 
     return prepareJumpstartTransactions.execute({
-      sendTokenAmountInSmallestUnit,
+      sendTokenAmountInSmallestUnit: new BigNumber(sendTokenAmountInSmallestUnit),
       token,
       walletAddress,
       feeCurrencies,

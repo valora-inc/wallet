@@ -17,7 +17,7 @@ const TAG = 'src/send/usePrepareJumpstartTransactions'
 
 async function createBaseJumpstartTransactions(
   jumpstartContractAddress: string,
-  sendTokenAmountInSmallestUnit: string,
+  sendTokenAmountInSmallestUnit: BigNumber,
   spendTokenAddress: string,
   networkId: NetworkId,
   walletAddress: string,
@@ -25,7 +25,7 @@ async function createBaseJumpstartTransactions(
   depositERC20GasEstimate: string
 ) {
   const baseTransactions: TransactionRequest[] = []
-  const spendAmount = BigInt(sendTokenAmountInSmallestUnit)
+  const spendAmount = BigInt(sendTokenAmountInSmallestUnit.toFixed(0, 0))
 
   const approvedAllowanceForSpender = await publicClient[
     networkIdToNetwork[networkId]
@@ -75,13 +75,12 @@ export function usePrepareJumpstartTransactions() {
       publicKey,
     }: {
       publicKey: string
-      sendTokenAmountInSmallestUnit: string
+      sendTokenAmountInSmallestUnit: BigNumber
       token: TokenBalance
       walletAddress: string
       feeCurrencies: TokenBalance[]
     }) => {
-      const sendAmount = new BigNumber(sendTokenAmountInSmallestUnit)
-      if (sendAmount.isLessThanOrEqualTo(0)) {
+      if (sendTokenAmountInSmallestUnit.isLessThanOrEqualTo(0)) {
         return
       }
 
@@ -115,7 +114,7 @@ export function usePrepareJumpstartTransactions() {
       return prepareTransactions({
         feeCurrencies,
         spendToken: token,
-        spendTokenAmount: sendAmount,
+        spendTokenAmount: sendTokenAmountInSmallestUnit,
         baseTransactions,
       })
     },
