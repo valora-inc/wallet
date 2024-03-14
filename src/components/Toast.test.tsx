@@ -1,12 +1,12 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import React from 'react'
 import { NotificationVariant } from 'src/components/InLineNotification'
-import ToastWithCTA from 'src/components/ToastWithCTA'
+import Toast from 'src/components/Toast'
 
-describe('ToastWithCTA', () => {
+describe('Toast', () => {
   it('renders the correct elements', () => {
     const { getByText } = render(
-      <ToastWithCTA
+      <Toast
         showToast
         hideIcon
         variant={NotificationVariant.Info}
@@ -25,7 +25,7 @@ describe('ToastWithCTA', () => {
   it('fires the correct callback on press', () => {
     const onPressSpy = jest.fn()
     const { getByText } = render(
-      <ToastWithCTA
+      <Toast
         showToast
         hideIcon
         variant={NotificationVariant.Info}

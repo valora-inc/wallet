@@ -5,7 +5,7 @@ import { AlertTypes, hideAlert } from 'src/alert/actions'
 import { Alert, ErrorDisplayType } from 'src/alert/reducer'
 import { NotificationVariant } from 'src/components/InLineNotification'
 import SmartTopAlert from 'src/components/SmartTopAlert'
-import ToastWithCTA from 'src/components/ToastWithCTA'
+import Toast from 'src/components/Toast'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 
 function AlertBanner() {
@@ -56,7 +56,7 @@ function AlertBanner() {
         <SmartTopAlert alert={displayAlert} />
       </View>
 
-      <ToastWithCTA
+      <Toast
         showToast={!!toastAlert?.isActive}
         title={toastAlert?.title || ''}
         variant={NotificationVariant.Warning}

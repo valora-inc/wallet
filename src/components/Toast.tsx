@@ -27,7 +27,7 @@ const slidingDirection = {
   bottom: 1,
 }
 
-const ToastWithCTA = ({
+const Toast = ({
   showToast,
   modal,
   swipeable,
@@ -146,4 +146,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ToastWithCTA
+export default Toast
