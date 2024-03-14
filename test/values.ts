@@ -1136,7 +1136,7 @@ export const priceHistory = {
 export const mockPositions: Position[] = [
   {
     type: 'app-token',
-    network: 'celo',
+    networkId: NetworkId['celo-mainnet'],
     address: '0x19a75250c5a3ab22a8662e55a2b90ff9d3334b00',
     appId: 'ubeswap',
     symbol: 'ULP',
@@ -1150,7 +1150,7 @@ export const mockPositions: Position[] = [
     tokens: [
       {
         type: 'base-token',
-        network: 'celo',
+        networkId: NetworkId['celo-mainnet'],
         address: '0x17700282592d6917f6a73d0bf8accf4d578c131e',
         symbol: 'MOO',
         decimals: 18,
@@ -1159,7 +1159,7 @@ export const mockPositions: Position[] = [
       },
       {
         type: 'base-token',
-        network: 'celo',
+        networkId: NetworkId['celo-mainnet'],
         address: '0x471ece3750da237f93b8e339c536989b8978a438',
         symbol: 'CELO',
         decimals: 18,
@@ -1175,7 +1175,7 @@ export const mockPositions: Position[] = [
   },
   {
     type: 'app-token',
-    network: 'celo',
+    networkId: NetworkId['celo-mainnet'],
     address: '0x31f9dee850b4284b81b52b25a3194f2fc8ff18cf',
     appId: 'ubeswap',
     symbol: 'ULP',
@@ -1189,7 +1189,7 @@ export const mockPositions: Position[] = [
     tokens: [
       {
         type: 'base-token',
-        network: 'celo',
+        networkId: NetworkId['celo-mainnet'],
         address: '0x62b8b11039fcfe5ab0c56e502b1c372a3d2a9c7a',
         symbol: 'G$',
         decimals: 18,
@@ -1198,7 +1198,7 @@ export const mockPositions: Position[] = [
       },
       {
         type: 'base-token',
-        network: 'celo',
+        networkId: NetworkId['celo-mainnet'],
         address: '0x765de816845861e75a25fca122bb6898b8b1282a',
         symbol: 'cUSD',
         decimals: 18,
@@ -1214,7 +1214,7 @@ export const mockPositions: Position[] = [
   },
   {
     type: 'contract-position',
-    network: 'celo',
+    networkId: NetworkId['celo-mainnet'],
     address: '0xda7f463c27ec862cfbf2369f3f74c364d050d93f',
     appId: 'ubeswap',
     appName: 'Ubeswap',
@@ -1226,7 +1226,7 @@ export const mockPositions: Position[] = [
     tokens: [
       {
         type: 'app-token',
-        network: 'celo',
+        networkId: NetworkId['celo-mainnet'],
         address: '0x1e593f1fe7b61c53874b54ec0c59fd0d5eb8621e',
         appId: 'ubeswap',
         symbol: 'ULP',
@@ -1240,7 +1240,7 @@ export const mockPositions: Position[] = [
         tokens: [
           {
             type: 'base-token',
-            network: 'celo',
+            networkId: NetworkId['celo-mainnet'],
             address: '0x471ece3750da237f93b8e339c536989b8978a438',
             symbol: 'CELO',
             decimals: 18,
@@ -1250,7 +1250,7 @@ export const mockPositions: Position[] = [
           },
           {
             type: 'base-token',
-            network: 'celo',
+            networkId: NetworkId['celo-mainnet'],
             address: '0x765de816845861e75a25fca122bb6898b8b1282a',
             symbol: 'cUSD',
             decimals: 18,
@@ -1269,7 +1269,7 @@ export const mockPositions: Position[] = [
         type: 'base-token',
         category: 'claimable',
         decimals: 18,
-        network: 'celo',
+        networkId: NetworkId['celo-mainnet'],
         balance: '0.098322815093446616', // total USD value = priceUsd * balance = $0.00009
         symbol: 'UBE',
         address: '0x00be915b9dcf56a3cbe739d9b9c202ca692409ec',
@@ -1284,7 +1284,7 @@ export const mockShortcuts: Shortcut[] = [
   {
     category: 'claim',
     name: 'Claim',
-    networks: ['celo'],
+    networkIds: [NetworkId['celo-mainnet']],
     description: 'Claim rewards for staked liquidity',
     id: 'claim-reward',
     appId: 'ubeswap',
