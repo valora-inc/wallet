@@ -37,7 +37,7 @@ interface Swipeable extends Props {
   onDismiss: DismissHandler
 }
 
-// if toast isn't modal nor swipeable it must have at least one CTA
+// if toast isn't swipeable nor has a backdrop it must have at least one CTA
 interface MustHaveCTA extends RequiredProps<Props, 'ctaLabel' | 'onPressCta'> {
   withBackdrop?: false
   swipeable?: false
