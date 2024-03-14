@@ -1,7 +1,8 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
@@ -15,6 +16,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
+import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -76,7 +78,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
-      <ScrollView>
+      <Animated.ScrollView>
         <View style={styles.titleContainer}>
           <TokenIcon
             token={token}
@@ -128,12 +130,13 @@ export default function TokenDetailsScreen({ route }: Props) {
             analyticsProps={getTokenAnalyticsProps(token)}
           />
         )}
-      </ScrollView>
-      <TokenDetailsMoreActions
-        forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
-        token={token}
-        actions={actions}
-      />
+        <TokenDetailsMoreActions
+          forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
+          token={token}
+          actions={actions}
+        />
+        {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
+      </Animated.ScrollView>
     </SafeAreaView>
   )
 }

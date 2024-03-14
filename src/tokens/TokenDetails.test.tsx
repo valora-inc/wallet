@@ -449,7 +449,7 @@ describe('TokenDetails', () => {
     })
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(6) // 4 actions + 1 more action + 1 celo news
   })
 
   it('renders the send and swap actions for the imported tokens with balance', () => {
