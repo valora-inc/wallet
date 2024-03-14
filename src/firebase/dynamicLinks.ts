@@ -1,4 +1,4 @@
-import dynamicLinks from '@react-native-firebase/dynamic-links'
+import dynamicLinks, { FirebaseDynamicLinksTypes } from '@react-native-firebase/dynamic-links'
 import { WEB_LINK } from 'src/brandingConfig'
 import {
   APP_STORE_ID as appStoreId,
@@ -7,24 +7,27 @@ import {
 } from 'src/config'
 import { NetworkId } from 'src/transactions/types'
 
-async function createDynamicLink(link: string) {
-  return dynamicLinks().buildShortLink({
-    link: `${WEB_LINK}${link}`,
-    domainUriPrefix: baseURI,
-    ios: {
-      appStoreId,
-      bundleId,
-    },
-    android: {
-      packageName: bundleId,
-    },
-  })
+const commonDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParameters, 'link'> = {
+  domainUriPrefix: baseURI,
+  ios: {
+    appStoreId,
+    bundleId,
+  },
+  android: {
+    packageName: bundleId,
+  },
 }
 
 export async function createInviteLink(address: string) {
-  return createDynamicLink(`share/${address}`)
+  return dynamicLinks().buildShortLink({
+    ...commonDynamicLinkParams,
+    link: `${WEB_LINK}share/${address}`,
+  })
 }
 
 export async function createJumpstartLink(privateKey: string, networkId: NetworkId) {
-  return createDynamicLink(`jumpstart/${privateKey}/${networkId}`)
+  return dynamicLinks().buildLink({
+    ...commonDynamicLinkParams,
+    link: `${WEB_LINK}jumpstart/${privateKey}/${networkId}`,
+  })
 }
