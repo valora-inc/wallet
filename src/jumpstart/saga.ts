@@ -1,6 +1,5 @@
 import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
-import erc20 from 'src/abis/IERC20'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -34,7 +33,7 @@ import { getPreparedTransactions } from 'src/viem/preparedTransactionSerializati
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, decodeFunctionData, parseAbi, parseEventLogs } from 'viem'
+import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 const TAG = 'WalletJumpstart'
 
@@ -219,39 +218,34 @@ export function* sendJumpstartTransactions(action: PayloadAction<SendJumpstartTr
       )
     }
 
-    const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
     const createStandbyTxHandlers = []
+    const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
 
-    // If there are 2 transactions, the first should be an approval. verify and
-    // add a standby transaction for it
-    if (preparedTransactions.length > 1 && preparedTransactions[0].data) {
-      const { functionName, args } = yield* call(decodeFunctionData, {
-        abi: erc20.abi,
-        data: preparedTransactions[0].data,
-      })
-      if (functionName === 'approve' && preparedTransactions[0].to === sendToken.address && args) {
-        const approvedAmountInSmallestUnit = args[1] as bigint
-        const approvedAmount = new BigNumber(approvedAmountInSmallestUnit.toString())
-          .shiftedBy(-sendToken.decimals)
-          .toString()
+    // in this flow, there should only be 1 or 2 transactions. if there are 2
+    // transactions, the first one should be an approval.
+    if (preparedTransactions.length > 2) {
+      throw new Error(
+        'Received more than the maximum expected number of transactions, only 2 is allowed'
+      )
+    }
 
-        const createApprovalStandbyTx = (
-          txHash: string,
-          feeCurrencyId?: string
-        ): BaseStandbyTransaction => {
-          return {
-            context: newTransactionContext(TAG, 'Approve jumpstart transaction'),
-            __typename: 'TokenApproval',
-            networkId,
-            type: TokenTransactionTypeV2.Approval,
-            transactionHash: txHash,
-            tokenId: sendToken.tokenId,
-            approvedAmount,
-            feeCurrencyId,
-          }
+    if (preparedTransactions.length === 2) {
+      const createApprovalStandbyTx = (
+        txHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          context: newTransactionContext(TAG, 'Approve jumpstart transaction'),
+          __typename: 'TokenApproval',
+          networkId,
+          type: TokenTransactionTypeV2.Approval,
+          transactionHash: txHash,
+          tokenId: sendToken.tokenId,
+          approvedAmount: sendAmount,
+          feeCurrencyId,
         }
-        createStandbyTxHandlers.push(createApprovalStandbyTx)
       }
+      createStandbyTxHandlers.push(createApprovalStandbyTx)
     }
 
     const createStandbySendTransaction = (

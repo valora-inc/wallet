@@ -44,7 +44,7 @@ import {
   mockNftAllFields,
   mockTokenBalances,
 } from 'test/values'
-import { Hash, TransactionReceipt, decodeFunctionData, parseEventLogs } from 'viem'
+import { Hash, TransactionReceipt, parseEventLogs } from 'viem'
 
 jest.mock('src/statsig')
 jest.mock('src/utils/Logger')
@@ -360,10 +360,6 @@ describe('sendJumpstartTransactions', () => {
   function createDefaultProviders(transactionStatus = 'success') {
     let waitForTransactionReceiptCallCount = 0
     const defaultProviders: (EffectProviders | StaticProvider)[] = [
-      [
-        matchers.call.fn(decodeFunctionData),
-        { functionName: 'approve', args: ['0xTEST', BigInt(0)] },
-      ],
       [
         matchers.call.fn(publicClient[network].waitForTransactionReceipt),
         dynamic(() => {
