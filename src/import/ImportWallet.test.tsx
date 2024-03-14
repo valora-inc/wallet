@@ -7,15 +7,22 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { Actions } from 'src/import/actions'
 import ImportWallet from 'src/import/ImportWallet'
-import { navigateClearingStack } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
 import { mockMnemonic } from 'test/values'
 
 const mockScreenProps = { clean: true }
 
+jest.mock('src/statsig')
+
 describe('ImportWallet', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it('renders correctly and is disabled with no text', () => {
     const wrapper = render(
       <Provider store={createMockStore()}>
@@ -47,7 +54,8 @@ describe('ImportWallet', () => {
     expect(importAction.length).toBe(1)
   })
 
-  it('navigates to the welcome screen on cancel', () => {
+  it('navigates to the welcome screen on cancel when cloud backup is disabled', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(false)
     const store = createMockStore()
     const wrapper = render(
       <Provider store={store}>
@@ -60,5 +68,21 @@ describe('ImportWallet', () => {
     expect(navigateClearingStack).toHaveBeenCalledWith(Screens.Welcome)
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_cancel)
     expect(store.getActions()).toEqual([cancelCreateOrRestoreAccount()])
+  })
+
+  it('navigates to the import select screen on cancel when cloud backup is enabled', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true)
+    const store = createMockStore()
+    const wrapper = render(
+      <Provider store={store}>
+        <MockedNavigator component={ImportWallet} params={mockScreenProps} />
+      </Provider>
+    )
+
+    fireEvent.press(wrapper.getByText('cancel'))
+
+    expect(navigate).toHaveBeenCalledWith(Screens.ImportSelect)
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(OnboardingEvents.restore_account_cancel)
+    expect(store.getActions()).toEqual([])
   })
 })
