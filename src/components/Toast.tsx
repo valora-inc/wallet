@@ -139,7 +139,7 @@ const Toast = ({
   return (
     <>
       {modal && (
-        <TouchableWithoutFeedback onPress={onDismiss}>
+        <TouchableWithoutFeedback onPress={onDismiss} testID="Toast/Backdrop">
           <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
         </TouchableWithoutFeedback>
       )}

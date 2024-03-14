@@ -22,7 +22,7 @@ describe('Toast', () => {
     expect(getByText('some cta')).toBeTruthy()
   })
 
-  it('fires the correct callback on press', () => {
+  it('fires the correct callback on CTA press', () => {
     const onPressSpy = jest.fn()
     const { getByText } = render(
       <Toast
@@ -38,5 +38,25 @@ describe('Toast', () => {
     fireEvent.press(getByText('some cta'))
 
     expect(onPressSpy).toHaveBeenCalledTimes(1)
+  })
+
+  it('fires the correct callback on modal backdrop press', () => {
+    const onDismissSpy = jest.fn()
+    const { getByTestId } = render(
+      <Toast
+        showToast
+        hideIcon
+        modal
+        onDismiss={onDismissSpy}
+        variant={NotificationVariant.Info}
+        description="some message"
+        ctaLabel="some cta"
+        onPressCta={jest.fn()}
+      />
+    )
+
+    fireEvent.press(getByTestId('Toast/Backdrop'))
+
+    expect(onDismissSpy).toHaveBeenCalledTimes(1)
   })
 })
