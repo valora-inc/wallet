@@ -100,7 +100,6 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
-    fromModal?: boolean
   }
   [Screens.ErrorScreen]: {
     errorMessage?: string
@@ -278,7 +277,6 @@ export type StackParamList = {
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {
     initialScreen?: Screens
-    fromModal?: boolean
   }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined

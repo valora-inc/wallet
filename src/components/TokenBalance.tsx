@@ -301,7 +301,9 @@ export function FiatExchangeTokenBalance() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(Screens.Assets)
+    navigate(
+      getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) ? Screens.TabWallet : Screens.Assets
+    )
   }
 
   return (
