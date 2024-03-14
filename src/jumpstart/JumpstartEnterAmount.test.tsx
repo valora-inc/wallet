@@ -124,7 +124,7 @@ describe('JumpstartEnterAmount', () => {
 
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
     expect(executeSpy).toHaveBeenCalledWith({
-      amount: new BigNumber('0.25'),
+      sendTokenAmountInSmallestUnit: new BigNumber('250000000000000000'),
       token: mockStoreBalancesToTokenBalances([tokenBalances[mockCeurTokenId]])[0],
       walletAddress: mockAccount.toLowerCase(),
       publicKey: '0x2CEc3C5e83eE37261F9f9BB050B2Fbf59d13eEc0', // matches mock private key
@@ -177,7 +177,7 @@ describe('JumpstartEnterAmount', () => {
         link: mockLink,
         sendAmount: '0.25',
         tokenId: mockCeurTokenId,
-        preparedTransactions: getSerializablePreparedTransactions(mockTransactions),
+        serializablePreparedTransactions: getSerializablePreparedTransactions(mockTransactions),
       })
     )
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(

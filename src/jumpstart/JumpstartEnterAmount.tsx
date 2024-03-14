@@ -16,6 +16,7 @@ import EnterAmount from 'src/send/EnterAmount'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { tokenAmountInSmallestUnit } from 'src/tokens/saga'
 import { jumpstartSendTokensSelector } from 'src/tokens/selectors'
 import { TokenBalance } from 'src/tokens/slice'
 import Logger from 'src/utils/Logger'
@@ -84,7 +85,7 @@ function JumpstartEnterAmount() {
           link,
           sendAmount: parsedAmount.toString(),
           tokenId: token.tokenId,
-          preparedTransactions: getSerializablePreparedTransactions(
+          serializablePreparedTransactions: getSerializablePreparedTransactions(
             prepareJumpstartTransactions.result.transactions
           ),
         })
@@ -108,7 +109,7 @@ function JumpstartEnterAmount() {
   const prepareJumpstartTransactions = usePrepareJumpstartTransactions()
 
   const handleRefreshPreparedTransactions = (
-    amount: BigNumber,
+    userInputAmount: BigNumber,
     token: TokenBalance,
     feeCurrencies: TokenBalance[]
   ) => {
@@ -117,7 +118,8 @@ function JumpstartEnterAmount() {
       return
     }
 
-    const sendAmountUsd = amount.multipliedBy(token.priceUsd ?? 0)
+    const sendTokenAmountInSmallestUnit = tokenAmountInSmallestUnit(userInputAmount, token.decimals)
+    const sendAmountUsd = userInputAmount.multipliedBy(token.priceUsd ?? 0)
     const sendAmountExceedsMax = sendAmountUsd.isGreaterThan(jumpstartSendThreshold)
     setSendAmountExceedsThreshold(sendAmountExceedsMax)
     if (sendAmountExceedsMax) {
@@ -129,7 +131,7 @@ function JumpstartEnterAmount() {
     }
 
     return prepareJumpstartTransactions.execute({
-      amount,
+      sendTokenAmountInSmallestUnit: new BigNumber(sendTokenAmountInSmallestUnit),
       token,
       walletAddress,
       feeCurrencies,
