@@ -115,7 +115,7 @@
     "@sentry/types": "^7.106.1",
     "@th3rdwave/react-navigation-bottom-sheet": "^0.2.7",
     "@toruslabs/constants": "^13.2.0",
-    "@toruslabs/fetch-node-details": "^13.1.1",
+    "@toruslabs/fetch-node-details": "^13.2.0",
     "@toruslabs/torus.js": "^12.1.1",
     "@walletconnect/react-native-compat": "2.10.0",
     "@walletconnect/utils": "2.10.0",

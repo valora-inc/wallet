@@ -4503,22 +4503,22 @@
   dependencies:
     elliptic "^6.5.4"
 
-"@toruslabs/fetch-node-details@^13.1.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-13.1.1.tgz#f656d2969fa9225691d736831afc5d0208a77efc"
-  integrity sha512-RjAPh+KAaXL406MaAJacyNhekIHojHJlgB5oU45o5l9rnCJrIEhcLVpWVeucdyDyq0L+btko1RYvIRUNqALPyQ==
+"@toruslabs/fetch-node-details@^13.2.0":
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fetch-node-details/-/fetch-node-details-13.2.0.tgz#d732b05f1982e0118c5463dbdecbc0408db29a08"
+  integrity sha512-RhrudJUeuEnrCgYn244Si8opBIrYccRJpG0THFtHhDVeeqGutHplAqG0WehkR+oIiXC9VOlVaCkNkn2cWW8/Mw==
   dependencies:
-    "@toruslabs/constants" "^13.1.0"
-    "@toruslabs/fnd-base" "^13.1.1"
-    "@toruslabs/http-helpers" "^5.0.0"
-    loglevel "^1.8.1"
+    "@toruslabs/constants" "^13.2.0"
+    "@toruslabs/fnd-base" "^13.2.0"
+    "@toruslabs/http-helpers" "^6.1.0"
+    loglevel "^1.9.1"
 
-"@toruslabs/fnd-base@^13.1.1":
-  version "13.1.1"
-  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-13.1.1.tgz#d23742d923737085f73d5497b0cacdf8fb08ea4e"
-  integrity sha512-tfEAtQVm8K4YOvF7NAc6qCBpXPz1vThYU5vD+7rxqFirnA/h7fUCKaSTLIE+9LWEHPJ1zBVybYU4S6kX87o+Kg==
+"@toruslabs/fnd-base@^13.2.0":
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/fnd-base/-/fnd-base-13.2.0.tgz#02d133227789fcc6313e4df10b54a7b6ec278815"
+  integrity sha512-GPrAztgh3FNPl0BrALFHgZbnGU4pmFAEJE8xkeLxV1GGmqA4YxzQfrpkPz9RsAv+HbYIS1DHKTEvvgOjmym+5A==
   dependencies:
-    "@toruslabs/constants" "^13.1.0"
+    "@toruslabs/constants" "^13.2.0"
 
 "@toruslabs/http-helpers@^5.0.0":
   version "5.0.0"
@@ -4527,6 +4527,14 @@
   dependencies:
     lodash.merge "^4.6.2"
     loglevel "^1.8.1"
+
+"@toruslabs/http-helpers@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/http-helpers/-/http-helpers-6.1.0.tgz#195c69b00c7ffdcb902d463fc109b498cfffe8f9"
+  integrity sha512-tRBhlY5ccFAf3yZC5/gPXPq9LWX8ipeYyVjJO6exZjeXNxPEyz3IIsuQvxpBYLaQ72XihNdsKiYp2dEdUPEFyw==
+  dependencies:
+    lodash.merge "^4.6.2"
+    loglevel "^1.9.1"
 
 "@toruslabs/torus.js@^12.1.1":
   version "12.1.1"
@@ -12420,7 +12428,7 @@ logkitty@^0.7.1:
     dayjs "^1.8.15"
     yargs "^15.1.0"
 
-loglevel@^1.8.1:
+loglevel@^1.8.1, loglevel@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.9.1.tgz#d63976ac9bcd03c7c873116d41c2a85bafff1be7"
   integrity sha512-hP3I3kCrDIMuRwAwHltphhDM1r8i55H33GgqjXbrisuJhF4kRhW1dNuxsRklp4bXl8DSdLaNLuiL4A/LWRfxvg==
