@@ -7,7 +7,7 @@ import {
 } from 'src/config'
 import { NetworkId } from 'src/transactions/types'
 
-const commentDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParameters, 'link'> = {
+const commonDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParameters, 'link'> = {
   domainUriPrefix: baseURI,
   ios: {
     appStoreId,
@@ -20,14 +20,14 @@ const commentDynamicLinkParams: Omit<FirebaseDynamicLinksTypes.DynamicLinkParame
 
 export async function createInviteLink(address: string) {
   return dynamicLinks().buildShortLink({
-    ...commentDynamicLinkParams,
+    ...commonDynamicLinkParams,
     link: `${WEB_LINK}share/${address}`,
   })
 }
 
 export async function createJumpstartLink(privateKey: string, networkId: NetworkId) {
   return dynamicLinks().buildLink({
-    ...commentDynamicLinkParams,
+    ...commonDynamicLinkParams,
     link: `${WEB_LINK}jumpstart/${privateKey}/${networkId}`,
   })
 }
