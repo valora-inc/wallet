@@ -20,7 +20,7 @@ import { getExperimentParams, getFeatureGate } from 'src/statsig'
 import { ExperimentConfigs } from 'src/statsig/constants'
 import { StatsigExperiments, StatsigFeatureGates } from 'src/statsig/types'
 
-export const END_OF_ONBOARDING_SCREENS = [Screens.TabWallet, Screens.ChooseYourAdventure]
+export const END_OF_ONBOARDING_SCREENS = [Screens.TabHome, Screens.ChooseYourAdventure]
 
 interface NavigatorFunctions {
   navigate: typeof NavigationService.navigate
@@ -211,10 +211,11 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
     } else {
       // NOTE: We don't need to conditionally navigate here because this screen
       // is just a marker. `updateStatsigAndNavigate` saga calls `navigateHome`
-      // if the screen is set to `TabWallet` which handles navigating to the
+      // if the screen is set to `TabHome` which handles navigating to the
       // correct home screen. This will be cleaned up when we remove the CYA
-      // experiment code. (ACT-1114)
-      finishOnboarding(Screens.TabWallet)
+      // experiment code as the end screen can only be `ChooseYourAdventure`.
+      // (ACT-1114)
+      finishOnboarding(Screens.TabHome)
     }
   }
 
@@ -306,7 +307,7 @@ export function _getStepInfo({ firstScreenInStep, navigator, dispatch, props }: 
             // skipping phone verification. Every other case navigates to CYA at
             // the end of onboarding, including when skipping verification on
             // the import flow. TODO(ACT-1114): make this consistent with other cases
-            finishOnboarding(Screens.TabWallet)
+            finishOnboarding(Screens.TabHome)
           } else {
             navigate(Screens.VerificationStartScreen)
           }
