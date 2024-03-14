@@ -4491,10 +4491,10 @@
   resolved "https://registry.yarnpkg.com/@th3rdwave/react-navigation-bottom-sheet/-/react-navigation-bottom-sheet-0.2.7.tgz#c9a0d1a270c5d5d275769fc4cccb8cebe25f22f8"
   integrity sha512-tO6W7RJTQVWJb/Q4aD3mokmilKFCU//g5YCvh1Al7fveMGLZDTaZGwte/ReuRm5Wl5oKIYd6IURruCE1G8/n9A==
 
-"@toruslabs/constants@^13.1.0":
-  version "13.1.0"
-  resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-13.1.0.tgz#f1077a6654d98c0444fb0831f479007fb5cff79d"
-  integrity sha512-W1LyRoM5xCTyNivGnxa+mOit4yWPZjyYHfM+whYBujP1nQVnJ09nSFCBn1ePm6ONxB5mp58jsI3TJugeY2KFSg==
+"@toruslabs/constants@^13.1.0", "@toruslabs/constants@^13.2.0":
+  version "13.2.0"
+  resolved "https://registry.yarnpkg.com/@toruslabs/constants/-/constants-13.2.0.tgz#0600ea1fc0d3215fda2717f29aa4bb585f6bef0b"
+  integrity sha512-n3nQxzsogjs76Zq3QqB9KbHfSFhlBtW4v6Z9zlVX6Pf8QraLd4OCHQFzZgrI2cDRz0oAix6Ihrzl0S7z18/J1g==
 
 "@toruslabs/eccrypto@^4.0.0":
   version "4.0.0"
