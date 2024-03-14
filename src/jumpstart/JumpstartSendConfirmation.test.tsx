@@ -149,4 +149,52 @@ describe('JumpstartSendConfirmation', () => {
     )
     expect(navigateHome).toHaveBeenCalled()
   })
+
+  it('should render a dismissable error notification if the transaction is unsuccessful', async () => {
+    const { rerender, queryByText, getByText } = render(
+      <Provider
+        store={createMockStore({
+          jumpstart: {
+            depositStatus: 'idle',
+          },
+        })}
+      >
+        <MockedNavigator
+          component={JumpstartSendConfirmation}
+          params={{
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
+            serializablePreparedTransactions,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(queryByText('jumpstartSendConfirmationScreen.error.title')).toBeFalsy()
+
+    rerender(
+      <Provider
+        store={createMockStore({
+          jumpstart: {
+            depositStatus: 'error',
+          },
+        })}
+      >
+        <MockedNavigator
+          component={JumpstartSendConfirmation}
+          params={{
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
+            serializablePreparedTransactions,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartSendConfirmationScreen.error.title')).toBeTruthy()
+
+    fireEvent.press(getByText('jumpstartSendConfirmationScreen.error.ctaLabel'))
+
+    expect(queryByText('jumpstartSendConfirmationScreen.error.title')).toBeFalsy()
+  })
 })

@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -8,7 +8,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes } from 'src/components/Button'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
@@ -39,13 +41,16 @@ function JumpstartSendConfirmation({ route }: Props) {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
 
+  const [showError, setShowError] = useState(false)
+
   useEffect(() => {
     if (jumpstartSendStatus === 'success') {
       // TODO: navigate clearing stack to the next screen, navigateHome is just
       // a placeholder for now
       navigateHome()
     }
-    // TODO: handle error state
+
+    setShowError(jumpstartSendStatus === 'error')
   }, [jumpstartSendStatus])
 
   const handleSendTransaction = () => {
@@ -70,6 +75,10 @@ function JumpstartSendConfirmation({ route }: Props) {
     }
   }
 
+  const handleDismissError = () => {
+    setShowError(false)
+  }
+
   if (!token) {
     // should never happen
     Logger.error(TAG, 'Token is undefined')
@@ -77,40 +86,53 @@ function JumpstartSendConfirmation({ route }: Props) {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <SafeAreaView edges={['bottom']}>
-        <Text style={styles.heading}>{t('jumpstartSendConfirmationScreen.title')}</Text>
-        <View style={styles.amountContainer}>
-          <View style={styles.amountTextContainer}>
-            <Text style={styles.sendAmountLabel}>
-              {t('jumpstartSendConfirmationScreen.sendAmountLabel')}
-            </Text>
-            <TokenDisplay
-              style={styles.sendAmount}
-              amount={parsedAmount}
-              tokenId={token.tokenId}
-              showLocalAmount={false}
-            />
-            <TokenDisplay
-              style={styles.sendAmountLocalCurrency}
-              amount={parsedAmount}
-              tokenId={token.tokenId}
-              showLocalAmount
-            />
+    <>
+      <ScrollView contentContainerStyle={styles.container}>
+        <SafeAreaView edges={['bottom']}>
+          <Text style={styles.heading}>{t('jumpstartSendConfirmationScreen.title')}</Text>
+          <View style={styles.amountContainer}>
+            <View style={styles.amountTextContainer}>
+              <Text style={styles.sendAmountLabel}>
+                {t('jumpstartSendConfirmationScreen.sendAmountLabel')}
+              </Text>
+              <TokenDisplay
+                style={styles.sendAmount}
+                amount={parsedAmount}
+                tokenId={token.tokenId}
+                showLocalAmount={false}
+              />
+              <TokenDisplay
+                style={styles.sendAmountLocalCurrency}
+                amount={parsedAmount}
+                tokenId={token.tokenId}
+                showLocalAmount
+              />
+            </View>
+            <TokenIcon token={token} size={IconSize.LARGE} />
           </View>
-          <TokenIcon token={token} size={IconSize.LARGE} />
-        </View>
-        <Button
-          text={t('jumpstartSendConfirmationScreen.confirmButton')}
-          onPress={handleSendTransaction}
-          size={BtnSizes.FULL}
-          style={styles.button}
-          showLoading={jumpstartSendStatus === 'loading'}
-        />
-        <Text style={styles.detailsLabel}>{t('jumpstartSendConfirmationScreen.detailsLabel')}</Text>
-        <Text style={styles.detailsText}>{t('jumpstartSendConfirmationScreen.details')}</Text>
-      </SafeAreaView>
-    </ScrollView>
+          <Button
+            text={t('jumpstartSendConfirmationScreen.confirmButton')}
+            onPress={handleSendTransaction}
+            size={BtnSizes.FULL}
+            style={styles.button}
+            showLoading={jumpstartSendStatus === 'loading'}
+          />
+          <Text style={styles.detailsLabel}>
+            {t('jumpstartSendConfirmationScreen.detailsLabel')}
+          </Text>
+          <Text style={styles.detailsText}>{t('jumpstartSendConfirmationScreen.details')}</Text>
+        </SafeAreaView>
+      </ScrollView>
+      <BottomSheetInLineNotification
+        showNotification={showError && jumpstartSendStatus === 'error'}
+        variant={NotificationVariant.Error}
+        title={t('jumpstartSendConfirmationScreen.error.title')}
+        description={t('jumpstartSendConfirmationScreen.error.description')}
+        ctaLabel={t('jumpstartSendConfirmationScreen.error.ctaLabel')}
+        onPressCta={handleDismissError}
+        withBackdrop={false}
+      />
+    </>
   )
 }
 
