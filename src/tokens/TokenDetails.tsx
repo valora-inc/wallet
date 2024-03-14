@@ -129,13 +129,13 @@ export default function TokenDetailsScreen({ route }: Props) {
             analyticsProps={getTokenAnalyticsProps(token)}
           />
         )}
-        <TokenDetailsMoreActions
-          forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
-          token={token}
-          actions={actions}
-        />
         {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
       </ScrollView>
+      <TokenDetailsMoreActions
+        forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
+        token={token}
+        actions={actions}
+      />
     </SafeAreaView>
   )
 }
