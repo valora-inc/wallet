@@ -23,9 +23,9 @@ interface Props extends InLineNotificationProps {
   position?: 'top' | 'bottom'
 }
 
-// modal toast must have `onDismiss` handler (fired when user taps on the backdrop)
-interface Modal extends Props {
-  modal: true
+// toast with backdrop must have `onDismiss` handler (fired when user taps on the backdrop)
+interface WithBackdrop extends Props {
+  withBackdrop: true
   swipeable?: boolean
   onDismiss: DismissHandler
 }
@@ -33,13 +33,13 @@ interface Modal extends Props {
 // swipeable toast must have `onDismiss` handler (fired when user swipes the toast away)
 interface Swipeable extends Props {
   swipeable: true
-  modal?: boolean
+  withBackdrop?: boolean
   onDismiss: DismissHandler
 }
 
 // if toast isn't modal nor swipeable it must have at least one CTA
 interface MustHaveCTA extends RequiredProps<Props, 'ctaLabel' | 'onPressCta'> {
-  modal?: false
+  withBackdrop?: false
   swipeable?: false
   onDismiss?: never
 }
@@ -51,12 +51,12 @@ const slidingDirection = {
 
 const Toast = ({
   showToast,
-  modal,
+  withBackdrop,
   swipeable,
   position = 'bottom',
   onDismiss,
   ...inLineNotificationProps
-}: Modal | Swipeable | MustHaveCTA) => {
+}: WithBackdrop | Swipeable | MustHaveCTA) => {
   const [isVisible, setIsVisible] = useState(showToast)
 
   const window = Dimensions.get('window')
@@ -126,7 +126,7 @@ const Toast = ({
       onLayout={handleLayout}
     >
       <InLineNotification
-        style={[styles.notification, !modal && getShadowStyle(Shadow.AlertShadow)]}
+        style={[styles.notification, !withBackdrop && getShadowStyle(Shadow.AlertShadow)]}
         {...inLineNotificationProps}
       />
     </Animated.View>
@@ -138,7 +138,7 @@ const Toast = ({
 
   return (
     <>
-      {modal && (
+      {withBackdrop && (
         <TouchableWithoutFeedback onPress={onDismiss} testID="Toast/Backdrop">
           <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
         </TouchableWithoutFeedback>

@@ -46,7 +46,7 @@ describe('Toast', () => {
       <Toast
         showToast
         hideIcon
-        modal
+        withBackdrop
         onDismiss={onDismissSpy}
         variant={NotificationVariant.Info}
         description="some message"
