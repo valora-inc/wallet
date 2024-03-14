@@ -10,7 +10,7 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes } from 'src/components/Button'
-import { NotificationVariant } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
@@ -117,10 +117,10 @@ function JumpstartSendConfirmation({ route }: Props) {
             style={styles.button}
             showLoading={jumpstartSendStatus === 'loading'}
           />
-          <Text style={styles.detailsLabel}>
-            {t('jumpstartSendConfirmationScreen.detailsLabel')}
-          </Text>
-          <Text style={styles.detailsText}>{t('jumpstartSendConfirmationScreen.details')}</Text>
+          <InLineNotification
+            variant={NotificationVariant.Info}
+            description={t('jumpstartSendConfirmationScreen.info')}
+          />
         </SafeAreaView>
       </ScrollView>
       <BottomSheetInLineNotification
@@ -171,13 +171,6 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: Spacing.Large32,
-  },
-  detailsLabel: {
-    ...typeScale.labelXSmall,
-    marginBottom: Spacing.Regular16,
-  },
-  detailsText: {
-    ...typeScale.bodySmall,
   },
 })
 

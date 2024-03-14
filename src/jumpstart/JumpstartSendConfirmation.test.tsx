@@ -49,7 +49,7 @@ describe('JumpstartSendConfirmation', () => {
     expect(getByText('jumpstartSendConfirmationScreen.title')).toBeTruthy()
     expect(getByText('12.35 cUSD')).toBeTruthy() // correct rounding
     expect(getByText('₱16.42')).toBeTruthy() // local amount parsedAmount (12.345) *exchangeRate (1.33)
-    expect(getByText('jumpstartSendConfirmationScreen.details')).toBeTruthy()
+    expect(getByText('jumpstartSendConfirmationScreen.info')).toBeTruthy()
     expect(getByText('jumpstartSendConfirmationScreen.confirmButton')).toBeEnabled()
   })
 
