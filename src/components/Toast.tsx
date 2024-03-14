@@ -14,12 +14,34 @@ import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 
+type RequiredProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
+
+type DismissHandler = () => void
+
 interface Props extends InLineNotificationProps {
   showToast: boolean
-  modal?: boolean
-  swipeable?: boolean
   position?: 'top' | 'bottom'
-  onDismiss?: () => void
+}
+
+// modal toast must have `onDismiss` handler (fired when user taps on the backdrop)
+interface Modal extends Props {
+  modal: true
+  swipeable?: boolean
+  onDismiss: DismissHandler
+}
+
+// swipeable toast must have `onDismiss` handler (fired when user swipes the toast away)
+interface Swipeable extends Props {
+  swipeable: true
+  modal?: boolean
+  onDismiss: DismissHandler
+}
+
+// if toast isn't modal nor swipeable it must have at least one CTA
+interface MustHaveCTA extends RequiredProps<Props, 'ctaLabel' | 'onPressCta'> {
+  modal?: false
+  swipeable?: false
+  onDismiss?: never
 }
 
 const slidingDirection = {
@@ -34,7 +56,7 @@ const Toast = ({
   position = 'bottom',
   onDismiss,
   ...inLineNotificationProps
-}: Props) => {
+}: Modal | Swipeable | MustHaveCTA) => {
   const [isVisible, setIsVisible] = useState(showToast)
 
   const window = Dimensions.get('window')
