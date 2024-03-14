@@ -43,6 +43,7 @@ import networkConfig from 'src/web3/networkConfig'
 import { getConnectedUnlockedAccount } from 'src/web3/saga'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { mockAccount, mockPositions, mockShortcuts } from 'test/values'
+import { NetworkId } from 'src/transactions/types'
 
 jest.mock('src/sentry/SentryTransactionHub')
 jest.mock('src/statsig')
@@ -268,7 +269,7 @@ describe(triggerShortcutSaga, () => {
     data: {
       address: mockAccount,
       appId: 'gooddollar',
-      network: 'celo',
+      networkId: NetworkId['celo-mainnet'],
       positionAddress: '0x43d72Ff17701B2DA814620735C39C620Ce0ea4A1',
       shortcutId: 'claim-reward',
     },
