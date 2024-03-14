@@ -233,12 +233,9 @@ export async function isBottomSheetVisible(screen: Screens) {
 export function navigateHome(fromModal?: boolean) {
   const timeout = fromModal && Platform.OS === 'ios' ? 500 : 0
   setTimeout(() => {
-    navigationRef.current?.reset({
-      index: 0,
-      routes: getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-        ? [{ name: Screens.TabNavigator }]
-        : [{ name: Screens.DrawerNavigator }],
-    })
+    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+      ? navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabHome })
+      : navigateClearingStack(Screens.DrawerNavigator, { initialScreen: Screens.WalletHome })
   }, timeout)
 }
 

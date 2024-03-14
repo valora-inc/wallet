@@ -9,7 +9,7 @@ import {
   HomeTokenBalance,
 } from 'src/components/TokenBalance'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
@@ -183,7 +183,9 @@ describe('FiatExchangeTokenBalance', () => {
     )
 
     fireEvent.press(tree.getByTestId('ViewBalances'))
-    expect(navigate).toHaveBeenCalledWith(Screens.TabWallet)
+    expect(navigateClearingStack).toHaveBeenCalledWith(Screens.TabNavigator, {
+      initialScreen: Screens.TabWallet,
+    })
   })
 })
 
@@ -552,6 +554,9 @@ describe.each([
   })
 
   it('navigates to Assets screen on View Balances tap', async () => {
+    // Tests use_tab_navigator=false case for FiatExchangeTokenBalance, true
+    // case is specific to FiatExchangeTokenBalance since HomeTokenBalance is
+    // never used in the tab navigator
     const store = createMockStore({
       ...defaultStore,
       tokens: {
