@@ -4,7 +4,8 @@ import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
-import { depositTransactionCompleted, depositTransactionStarted } from 'src/jumpstart/slice'
+import { depositTransactionStarted } from 'src/jumpstart/slice'
+import { navigateHome } from 'src/navigator/NavigationService'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -127,8 +128,7 @@ describe('JumpstartSendConfirmation', () => {
         />
       </Provider>
     )
-
-    expect(updatedStoreLoading.getActions()).toEqual([])
+    expect(navigateHome).not.toHaveBeenCalled()
 
     const updatedStoreCompleted = createMockStore({
       jumpstart: {
@@ -147,7 +147,6 @@ describe('JumpstartSendConfirmation', () => {
         />
       </Provider>
     )
-
-    expect(updatedStoreCompleted.getActions()).toEqual([depositTransactionCompleted()])
+    expect(navigateHome).toHaveBeenCalled()
   })
 })

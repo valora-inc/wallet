@@ -12,8 +12,9 @@ import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
-import { depositTransactionCompleted, depositTransactionStarted } from 'src/jumpstart/slice'
+import { depositTransactionStarted } from 'src/jumpstart/slice'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
@@ -40,8 +41,9 @@ function JumpstartSendConfirmation({ route }: Props) {
 
   useEffect(() => {
     if (jumpstartSendStatus === 'success') {
-      // TODO: navigate clearing stack to the next screen
-      dispatch(depositTransactionCompleted())
+      // TODO: navigate clearing stack to the next screen, navigateHome is just
+      // a placeholder for now
+      navigateHome()
     }
     // TODO: handle error state
   }, [jumpstartSendStatus])

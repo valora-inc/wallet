@@ -5,11 +5,11 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
-  SendJumpstartTransactionAction,
+  JumpstartTransactionStartedAction,
   depositTransactionCancelled,
   depositTransactionFailed,
   depositTransactionStarted,
-  depositTransactionSuccessful,
+  depositTransactionSucceeded,
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
@@ -204,7 +204,9 @@ export function* dispatchPendingERC721Transactions(
   }
 }
 
-export function* sendJumpstartTransactions(action: PayloadAction<SendJumpstartTransactionAction>) {
+export function* sendJumpstartTransactions(
+  action: PayloadAction<JumpstartTransactionStartedAction>
+) {
   const { serializablePreparedTransactions, sendToken, sendAmount } = action.payload
 
   try {
@@ -300,7 +302,7 @@ export function* sendJumpstartTransactions(action: PayloadAction<SendJumpstartTr
       throw new Error('One or more transactions failed')
     }
 
-    yield* put(depositTransactionSuccessful())
+    yield* put(depositTransactionSucceeded())
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Transaction cancelled by user')

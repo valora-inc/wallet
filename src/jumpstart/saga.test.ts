@@ -20,7 +20,7 @@ import {
 import {
   depositTransactionFailed,
   depositTransactionStarted,
-  depositTransactionSuccessful,
+  depositTransactionSucceeded,
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
@@ -387,7 +387,7 @@ describe('sendJumpstartTransactions', () => {
       },
     })
       .provide(createDefaultProviders())
-      .put(depositTransactionSuccessful())
+      .put(depositTransactionSucceeded())
       .run()
 
     expect(sendPreparedTransactions).toHaveBeenCalledWith(
@@ -408,7 +408,7 @@ describe('sendJumpstartTransactions', () => {
     })
       .provide(createDefaultProviders('reverted'))
       .put(depositTransactionFailed())
-      .not.put(depositTransactionSuccessful())
+      .not.put(depositTransactionSucceeded())
       .run()
 
     expect(sendPreparedTransactions).toHaveBeenCalledWith(

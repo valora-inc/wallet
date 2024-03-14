@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import { TokenBalance } from 'src/tokens/slice'
 import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
-export interface SendJumpstartTransactionAction {
+export interface JumpstartTransactionStartedAction {
   serializablePreparedTransactions: SerializableTransactionRequest[]
   sendToken: TokenBalance
   sendAmount: string
@@ -45,11 +45,18 @@ const slice = createSlice({
       ...state,
       claimStatus: 'idle',
     }),
-    depositTransactionStarted: (state, _action: PayloadAction<SendJumpstartTransactionAction>) => ({
+    depositTransactionFlowStarted: (state) => ({
+      ...state,
+      depositStatus: 'idle',
+    }),
+    depositTransactionStarted: (
+      state,
+      _action: PayloadAction<JumpstartTransactionStartedAction>
+    ) => ({
       ...state,
       depositStatus: 'loading',
     }),
-    depositTransactionSuccessful: (state) => ({
+    depositTransactionSucceeded: (state) => ({
       ...state,
       depositStatus: 'success',
     }),
@@ -58,10 +65,6 @@ const slice = createSlice({
       depositStatus: 'error',
     }),
     depositTransactionCancelled: (state) => ({
-      ...state,
-      depositStatus: 'idle',
-    }),
-    depositTransactionCompleted: (state) => ({
       ...state,
       depositStatus: 'idle',
     }),
@@ -74,11 +77,11 @@ export const {
   jumpstartClaimFailed,
   jumpstartLoadingDismissed,
   jumpstartErrorDismissed,
+  depositTransactionFlowStarted,
   depositTransactionStarted,
-  depositTransactionSuccessful,
+  depositTransactionSucceeded,
   depositTransactionFailed,
   depositTransactionCancelled,
-  depositTransactionCompleted,
 } = slice.actions
 
 export default slice.reducer
