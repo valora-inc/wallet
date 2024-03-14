@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { NativeStackHeaderProps, NativeStackScreenProps } from '@react-navigation/native-stack'
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
@@ -8,6 +8,7 @@ import WalletHome from 'src/home/WalletHome'
 import ValoraV from 'src/icons/ValoraV'
 import Discover from 'src/icons/navigator/Discover'
 import Wallet from 'src/icons/navigator/Wallet'
+import { tabHeader } from 'src/navigator/Headers'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import Colors from 'src/styles/colors'
@@ -47,6 +48,7 @@ export default function TabNavigator({ route }: Props) {
         options={{
           tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
           tabBarIcon: Wallet,
+          ...(tabHeader as NativeStackHeaderProps),
         }}
         initialParams={{ isWalletTab: true }}
       />
@@ -58,6 +60,7 @@ export default function TabNavigator({ route }: Props) {
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
           tabBarIcon: ValoraV,
+          ...(tabHeader as NativeStackHeaderProps),
         }}
         initialParams={{ isTabNavigator: true }}
       />
@@ -72,6 +75,7 @@ export default function TabNavigator({ route }: Props) {
           // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
           // but here it's the right expectation
           unmountOnBlur: true,
+          ...(tabHeader as NativeStackHeaderProps),
         }}
         initialParams={{ isTabNavigator: true }}
       />
