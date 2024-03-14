@@ -1,8 +1,7 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text, View } from 'react-native'
-import Animated from 'react-native-reanimated'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { AssetsEvents } from 'src/analytics/Events'
 import { TokenProperties } from 'src/analytics/Properties'
@@ -78,7 +77,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   return (
     <SafeAreaView style={styles.container}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
-      <Animated.ScrollView>
+      <ScrollView>
         <View style={styles.titleContainer}>
           <TokenIcon
             token={token}
@@ -136,7 +135,7 @@ export default function TokenDetailsScreen({ route }: Props) {
           actions={actions}
         />
         {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
-      </Animated.ScrollView>
+      </ScrollView>
     </SafeAreaView>
   )
 }
