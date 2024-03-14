@@ -254,7 +254,7 @@ export function* executeShortcutSaga({ payload }: ReturnType<typeof executeShort
   const trackedShortcutProperties = {
     appName: shortcut.appName,
     appId: shortcut.appId,
-    network: shortcut.network,
+    network: shortcut.networkId,
     shortcutId: shortcut.shortcutId,
     rewardId: payload,
   }
