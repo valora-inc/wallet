@@ -205,7 +205,7 @@ function AssetsScreen({ navigation, route }: Props) {
   }
 
   return (
-    <>
+    <Animated.View>
       <Animated.View
         style={[styles.listHeaderContainer, animatedListHeaderStyles]}
         onLayout={handleMeasureListHeaderHeight}
@@ -255,7 +255,7 @@ function AssetsScreen({ navigation, route }: Props) {
           />
         </Animated.View>
       )}
-    </>
+    </Animated.View>
   )
 }
 
