@@ -11,7 +11,7 @@ import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import BackButton from 'src/components/BackButton'
 import { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import KeyboardAwareScrollView from 'src/components/KeyboardAwareScrollView'
 import KeyboardSpacer from 'src/components/KeyboardSpacer'
 import SkeletonPlaceholder from 'src/components/SkeletonPlaceholder'
@@ -300,7 +300,7 @@ function EnterAmount({
 
         {showMaxAmountWarning && (
           <InLineNotification
-            severity={Severity.Warning}
+            variant={NotificationVariant.Warning}
             title={t('sendEnterAmountScreen.maxAmountWarning.title')}
             description={t('sendEnterAmountScreen.maxAmountWarning.description', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrency.symbol,
@@ -311,7 +311,7 @@ function EnterAmount({
         )}
         {showNotEnoughBalanceForGasWarning && (
           <InLineNotification
-            severity={Severity.Warning}
+            variant={NotificationVariant.Warning}
             title={t('sendEnterAmountScreen.notEnoughBalanceForGasWarning.title', {
               feeTokenSymbol: prepareTransactionsResult.feeCurrencies[0].symbol,
             })}
@@ -324,7 +324,7 @@ function EnterAmount({
         )}
         {prepareTransactionError && (
           <InLineNotification
-            severity={Severity.Error}
+            variant={NotificationVariant.Error}
             title={t('sendEnterAmountScreen.prepareTransactionError.title')}
             description={t('sendEnterAmountScreen.prepareTransactionError.description')}
             style={styles.warning}
