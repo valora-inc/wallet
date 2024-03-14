@@ -1,20 +1,40 @@
 import React, { useState } from 'react'
-import { Dimensions, LayoutChangeEvent, StyleSheet } from 'react-native'
-import Animated, { useAnimatedStyle, useSharedValue } from 'react-native-reanimated'
+import { Dimensions, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback } from 'react-native'
+import { PanGestureHandler } from 'react-native-gesture-handler'
+import Animated, {
+  runOnJS,
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+} from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import InLineNotification, { InLineNotificationProps } from 'src/components/InLineNotification'
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
 import { Shadow, Spacing, getShadowStyle } from 'src/styles/styles'
 
-type RequiredProps<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>
-
-interface Props extends RequiredProps<InLineNotificationProps, 'ctaLabel' | 'onPressCta'> {
+interface Props extends InLineNotificationProps {
   showToast: boolean
   modal?: boolean
+  swipeable?: boolean
+  position?: 'top' | 'bottom'
+  onDismiss?: () => void
 }
 
-const ToastWithCTA = ({ showToast, modal, ...inLineNotificationProps }: Props) => {
+const slidingDirection = {
+  top: -1,
+  bottom: 1,
+}
+
+const ToastWithCTA = ({
+  showToast,
+  modal,
+  swipeable,
+  position = 'bottom',
+  onDismiss,
+  ...inLineNotificationProps
+}: Props) => {
   const [isVisible, setIsVisible] = useState(showToast)
 
   const window = Dimensions.get('window')
@@ -22,15 +42,17 @@ const ToastWithCTA = ({ showToast, modal, ...inLineNotificationProps }: Props) =
   const [toastHeight, setToastHeight] = useState(safeInitialHeight)
 
   const insets = useSafeAreaInsets()
-  const absolutePosition = Math.max(insets.bottom, Spacing.Regular16)
+  const absolutePosition = Math.max(insets[position], Spacing.Regular16)
 
-  const positionStyle = { bottom: absolutePosition }
+  const positionStyle = { [position]: absolutePosition }
   const slidingHeight = absolutePosition + toastHeight
 
   const progress = useSharedValue(0)
   const animatedTransform = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: (1 - progress.value) * slidingHeight }],
+      transform: [
+        { translateY: (1 - progress.value) * slidingHeight * slidingDirection[position] },
+      ],
     }
   })
   const animatedOpacity = useAnimatedStyle(() => ({
@@ -48,9 +70,45 @@ const ToastWithCTA = ({ showToast, modal, ...inLineNotificationProps }: Props) =
     }
   )
 
+  const handleGesture = useAnimatedGestureHandler({
+    onStart: (_, ctx: { initialProgress: number }) => {
+      ctx.initialProgress = progress.value
+    },
+    onActive: (event, ctx) => {
+      const translationY = event.translationY * slidingDirection[position]
+      if (translationY < 0 /* wrong direction */) {
+        const dampedTranslation = Math.sqrt(Math.abs(translationY))
+        progress.value = ctx.initialProgress + dampedTranslation / slidingHeight
+      } else {
+        progress.value = ctx.initialProgress - translationY / slidingHeight
+      }
+    },
+    onEnd: (event: { translationY: number }) => {
+      const dismissThreshold = 0.33 * toastHeight
+      const translationY = Math.abs(event.translationY)
+      if (onDismiss && translationY > dismissThreshold) {
+        runOnJS(onDismiss)()
+      } else {
+        progress.value = withSpring(1)
+      }
+    },
+  })
+
   const handleLayout = (event: LayoutChangeEvent) => {
     setToastHeight(event.nativeEvent.layout.height)
   }
+
+  const toast = (
+    <Animated.View
+      style={[styles.notificationContainer, animatedTransform, positionStyle]}
+      onLayout={handleLayout}
+    >
+      <InLineNotification
+        style={[styles.notification, !modal && getShadowStyle(Shadow.AlertShadow)]}
+        {...inLineNotificationProps}
+      />
+    </Animated.View>
+  )
 
   if (!isVisible) {
     return null
@@ -58,16 +116,16 @@ const ToastWithCTA = ({ showToast, modal, ...inLineNotificationProps }: Props) =
 
   return (
     <>
-      {modal && <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />}
-      <Animated.View
-        style={[styles.notificationContainer, animatedTransform, positionStyle]}
-        onLayout={handleLayout}
-      >
-        <InLineNotification
-          style={[styles.notification, !modal && getShadowStyle(Shadow.AlertShadow)]}
-          {...inLineNotificationProps}
-        />
-      </Animated.View>
+      {modal && (
+        <TouchableWithoutFeedback onPress={onDismiss}>
+          <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
+        </TouchableWithoutFeedback>
+      )}
+      {swipeable ? (
+        <PanGestureHandler onGestureEvent={handleGesture}>{toast}</PanGestureHandler>
+      ) : (
+        toast
+      )}
     </>
   )
 }
