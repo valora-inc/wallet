@@ -1517,6 +1517,10 @@ interface JumpstartEventsProperties {
   }
   [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_confirm]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_start]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_succeeded]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_failed]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_send_cancelled]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
