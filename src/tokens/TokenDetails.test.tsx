@@ -178,7 +178,7 @@ describe('TokenDetails', () => {
     expect(queryByText('tokenDetails.priceUnavailable')).toBeFalsy()
   })
 
-  it('renders chart if token is native (celo) using firebase', () => {
+  it('renders chart and news feed if token is native (celo) using firebase', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false) // Use old prices from firebase
     const store = createMockStore({
       exchange: {
@@ -186,13 +186,14 @@ describe('TokenDetails', () => {
       },
     })
 
-    const { getByTestId } = render(
+    const { getByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
       </Provider>
     )
 
     expect(getByTestId('TokenDetails/Chart')).toBeTruthy()
+    expect(queryByText('celoNews.headerTitle')).toBeTruthy()
   })
 
   it('renders chart loader using blockchain API', () => {
