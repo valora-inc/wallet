@@ -99,7 +99,13 @@ function JumpstartShareLink({ route }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeAreaContainer}>
       <CustomHeader
         style={styles.customHeader}
-        left={<TopBarIconButton icon={<Times />} onPress={handleShowNavigationWarning} />}
+        left={
+          <TopBarIconButton
+            icon={<Times />}
+            onPress={handleShowNavigationWarning}
+            testID="JumpstartShareLink/CloseButton"
+          />
+        }
       />
       <ScrollView
         contentContainerStyle={[
