@@ -1,18 +1,22 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useRef, useState } from 'react'
+import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
-import { StyleSheet, Text } from 'react-native'
+import { Share, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
+import ShareIcon from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
+import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
@@ -24,7 +28,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartShareLink>
 const TAG = 'JumpstartShareLink'
 
 function JumpstartShareLink({ route }: Props) {
-  const { tokenId, link } = route.params
+  const { tokenId, link, sendAmount } = route.params
 
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
@@ -40,6 +44,27 @@ function JumpstartShareLink({ route }: Props) {
     }
     return true
   }, [])
+
+  const nativeShare = useAsyncCallback(
+    async () => {
+      const result = await Share.share({
+        message: t('jumpstartShareLinkScreen.shareMessage', {
+          link,
+          tokenAmount: sendAmount,
+          tokenSymbol: token?.symbol,
+        }),
+      })
+      return result
+    },
+    {
+      onSuccess: (result) => {
+        // TODO: analytics
+      },
+      onError: (error) => {
+        // TODO: analytics
+      },
+    }
+  )
 
   const handleShowNavigationWarning = () => {
     setShowNavigationWarning(true)
@@ -91,11 +116,22 @@ function JumpstartShareLink({ route }: Props) {
           value={link}
           copySuccessMessage={t('jumpstartShareLinkScreen.linkCopiedMessage')}
           testID="JumpstartShareLink/LiveLink"
+          style={styles.copyContainer}
         />
+        <View style={styles.buttonsContainer}>
+          <Button
+            text={t('jumpstartShareLinkScreen.ctaShare')}
+            onPress={nativeShare.execute}
+            style={styles.button}
+            icon={<ShareIcon color={Colors.white} />}
+            iconPositionLeft={false}
+            size={BtnSizes.FULL}
+          />
+        </View>
         <Dialog
           title={t('jumpstartShareLinkScreen.navigationWarning.title')}
           isVisible={showNavigationWarning}
-          actionText={t('jumpstartShareLinkScreen.navigationWarning.ctaDoNotNavigate')}
+          actionText={t('jumpstartShareLinkScreen.ctaShare')}
           actionPress={handleDismissNavigationWarning}
           testID="JumpstartShareLink/ConfirmNavigationDialog"
           secondaryActionText={t('jumpstartShareLinkScreen.navigationWarning.ctaNavigate')}
@@ -129,6 +165,17 @@ const styles = StyleSheet.create({
   description: {
     ...typeScale.bodyMedium,
     marginBottom: Spacing.Large32,
+  },
+  copyContainer: {
+    marginTop: 0,
+    marginBottom: Spacing.Regular16,
+  },
+  buttonsContainer: {
+    flexDirection: 'row',
+    gap: Spacing.Regular16,
+  },
+  button: {
+    flex: 1,
   },
 })
 

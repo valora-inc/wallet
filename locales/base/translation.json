@@ -2129,9 +2129,10 @@
     "navigationWarning": {
       "title": "Did you share your link?",
       "description": "Make sure to share this unique link or save it somewhere safe, as it won't be visible again in the app.\n\nIf a link is unclaimed, you'll be able to reclaim it from your activity feed.",
-      "ctaDoNotNavigate": "Share Link",
       "ctaNavigate": "Go Home"
-    }
+    },
+    "ctaShare": "Share Link",
+    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}"
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approval",

@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import Touchable from 'src/components/Touchable'
 import CopyIcon from 'src/icons/CopyIcon'
@@ -16,9 +16,10 @@ interface Props {
   copySuccessMessage: string
   testID: string
   onCopy?: () => void
+  style?: StyleProp<ViewStyle>
 }
 
-function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }: Props) {
+function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy, style }: Props) {
   const handleCopy = () => {
     onCopy?.()
 
@@ -29,7 +30,7 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
   }
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={[styles.container, style]} testID={testID}>
       <Text style={styles.transactionDataLabel}>{label}</Text>
       <View style={styles.transactionDataContainer}>
         <Text
