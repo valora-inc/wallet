@@ -214,8 +214,8 @@ function WalletHome({ navigation, route }: Props) {
 
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
-      <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
-      <NotificationBell testID={'WalletHome/NotificationBell'} style={styles.topRightElement} />
+      <QrScanButton testID={'WalletHome/QRScanButton'} />
+      <NotificationBell testID={'WalletHome/NotificationBell'} />
     </View>
   )
 
@@ -261,9 +261,7 @@ const styles = StyleSheet.create({
   topRightElementsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  topRightElement: {
-    marginLeft: Spacing.Regular16,
+    marginRight: -Spacing.Small12,
   },
   homeTabTitle: {
     ...typeScale.titleMedium,
