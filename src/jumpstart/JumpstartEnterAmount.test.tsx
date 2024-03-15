@@ -146,12 +146,12 @@ describe('JumpstartEnterAmount', () => {
 
     await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
     expect(getByText('review')).toBeDisabled()
-    expect(getByText('jumpstartEnterAmountScreen.maxAmountWarning.title')).toBeTruthy()
     expect(
       getByText(
-        'jumpstartEnterAmountScreen.maxAmountWarning.description, {"maxAmount":"66.50","localCurrencyCode":"PHP"}'
+        'jumpstartEnterAmountScreen.maxAmountWarning.title, {"amountInLocalCurrency":"66.5","formatParams":{"amountInLocalCurrency":{"currency":"PHP","locale":"es-419"}}}'
       )
     ).toBeTruthy()
+    expect(getByText('jumpstartEnterAmountScreen.maxAmountWarning.description')).toBeTruthy()
 
     fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '43')
 

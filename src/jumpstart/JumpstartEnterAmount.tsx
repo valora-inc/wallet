@@ -7,6 +7,7 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
+import { currentLanguageSelector } from 'src/i18n/selectors'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
 import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
@@ -44,6 +45,7 @@ function JumpstartEnterAmount() {
     usdToLocalRate
   )
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const locale = useSelector(currentLanguageSelector)
   const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
   const walletAddress = useSelector(walletAddressSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
@@ -170,11 +172,13 @@ function JumpstartEnterAmount() {
       {sendAmountExceedsThreshold && (
         <InLineNotification
           variant={NotificationVariant.Warning}
-          title={t('jumpstartEnterAmountScreen.maxAmountWarning.title')}
-          description={t('jumpstartEnterAmountScreen.maxAmountWarning.description', {
-            maxAmount: maxSendAmountLocalCurrency?.toFormat(2),
-            localCurrencyCode,
+          title={t('jumpstartEnterAmountScreen.maxAmountWarning.title', {
+            amountInLocalCurrency: maxSendAmountLocalCurrency,
+            formatParams: {
+              amountInLocalCurrency: { currency: localCurrencyCode, locale },
+            },
           })}
+          description={t('jumpstartEnterAmountScreen.maxAmountWarning.description')}
         />
       )}
     </EnterAmount>
