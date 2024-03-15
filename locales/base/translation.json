@@ -2129,7 +2129,7 @@
     "linkCopiedMessage": "Live Link copied",
     "navigationWarning": {
       "title": "Did you share your link?",
-      "description": "Make sure to share this unique link or save it somewhere safe, as it won't be visible again in the app.\n\nDon't worry if it goes unclaimed — you can easily reclaim the funds from your activity feed.",
+      "description": "Make sure to share this unique link or save it somewhere safe, as it won't be visible again in the app.\n\nIf a link is unclaimed, you'll be able to reclaim it from your activity feed.",
       "ctaDoNotNavigate": "Share Link",
       "ctaNavigate": "Go Home"
     }

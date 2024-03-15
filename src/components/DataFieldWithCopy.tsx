@@ -30,8 +30,8 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
 
   return (
     <View style={styles.container} testID={testID}>
+      <Text style={styles.transactionDataLabel}>{label}</Text>
       <View style={styles.transactionDataContainer}>
-        <Text style={styles.transactionDataLabel}>{label}</Text>
         <Text
           testID={`${testID}/Value`}
           style={styles.transactionData}
@@ -40,10 +40,10 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
         >
           {value}
         </Text>
+        <Touchable hitSlop={variables.iconHitslop} onPress={handleCopy} testID={`${testID}/Copy`}>
+          <CopyIcon color={Colors.gray4} />
+        </Touchable>
       </View>
-      <Touchable hitSlop={variables.iconHitslop} onPress={handleCopy} testID={`${testID}/Copy`}>
-        <CopyIcon color={Colors.gray4} />
-      </Touchable>
     </View>
   )
 }
@@ -52,22 +52,24 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
     backgroundColor: Colors.gray1,
-    flexDirection: 'row',
-    alignItems: 'center',
     marginTop: Spacing.Smallest8,
     marginBottom: Spacing.Large32,
   },
   transactionDataContainer: {
-    flex: 1,
-    marginRight: Spacing.Regular16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Spacing.Large32,
   },
   transactionDataLabel: {
     ...typeScale.labelXSmall,
     color: Colors.black,
+    marginBottom: Spacing.Smallest8,
   },
   transactionData: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.bodyMedium,
     color: Colors.black,
+    flex: 1,
   },
 })
 

@@ -39,11 +39,13 @@ function JumpstartShareLink({ route }: Props) {
     setShowNavigationWarning(true)
   }
 
-  const handleNavigate = () => {
+  const handleConfirmNavigation = () => {
+    // calling navigateHome directly from this function causes an app crash,
+    // possibly because of the race condition between navigation and unmounting
+    // the Dialog (Modal). Using a ref to track the user's intention to navigate
+    // as a quick fix here, as we plan to remove the use of the Dialog soon.
     setShowNavigationWarning(false)
-    setTimeout(() => {
-      navigateHome()
-    }, 1000)
+    shouldNavigate.current = true
   }
 
   const handleDismissNavigationWarning = () => {
@@ -98,7 +100,7 @@ function JumpstartShareLink({ route }: Props) {
           actionPress={handleDismissNavigationWarning}
           testID="JumpstartShareLink/ConfirmNavigationDialog"
           secondaryActionText={t('jumpstartShareLinkScreen.navigationWarning.ctaNavigate')}
-          secondaryActionPress={handleNavigate}
+          secondaryActionPress={handleConfirmNavigation}
           onDialogHide={handleNavigation}
         >
           <Text style={styles.description}>
