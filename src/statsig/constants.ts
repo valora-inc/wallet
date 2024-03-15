@@ -101,7 +101,7 @@ export const DynamicConfigs = {
     configName: StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG,
     defaultValues: {
       jumpstartContracts: {} as {
-        [key in NetworkId]?: { contractAddress?: string }
+        [key in NetworkId]?: { contractAddress?: string; depositERC20GasEstimate: string }
       },
       maxAllowedSendAmountUsd: 100,
     },
