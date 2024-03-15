@@ -13,7 +13,7 @@ import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import Logger from 'src/utils/Logger'
@@ -145,10 +145,10 @@ const styles = StyleSheet.create({
     marginHorizontal: Spacing.Thick24,
   },
   headerTitle: {
-    ...fontStyles.h2,
+    ...typeScale.labelMedium,
   },
   headerDescription: {
-    ...fontStyles.small,
+    ...typeScale.bodySmall,
     color: colors.gray5,
     marginTop: Spacing.Smallest8,
   },

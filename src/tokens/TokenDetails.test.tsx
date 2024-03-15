@@ -178,7 +178,7 @@ describe('TokenDetails', () => {
     expect(queryByText('tokenDetails.priceUnavailable')).toBeFalsy()
   })
 
-  it('renders chart if token is native (celo) using firebase', () => {
+  it('renders chart and news feed if token is native (celo) using firebase', () => {
     jest.mocked(getFeatureGate).mockReturnValue(false) // Use old prices from firebase
     const store = createMockStore({
       exchange: {
@@ -186,13 +186,14 @@ describe('TokenDetails', () => {
       },
     })
 
-    const { getByTestId } = render(
+    const { getByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
       </Provider>
     )
 
     expect(getByTestId('TokenDetails/Chart')).toBeTruthy()
+    expect(queryByText('celoNews.headerTitle')).toBeTruthy()
   })
 
   it('renders chart loader using blockchain API', () => {
@@ -214,7 +215,7 @@ describe('TokenDetails', () => {
     expect(getByTestId(`PriceHistoryChart/Loader`)).toBeTruthy()
   })
 
-  it('renders chart using blockchain API', () => {
+  it('renders chart and celo news using blockchain API', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
     const store = createMockStore({
       priceHistory: {
@@ -245,6 +246,39 @@ describe('TokenDetails', () => {
     )
 
     expect(getByTestId(`TokenDetails/Chart/${mockCeloTokenId}`)).toBeTruthy()
+  })
+
+  it('renders celo news when using blockchain API', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
+    const store = createMockStore({
+      priceHistory: {
+        [mockCeloTokenId]: {
+          status: 'success',
+          prices: [
+            {
+              priceFetchedAt: 1700378258000,
+              priceUsd: '0.97',
+            },
+            {
+              priceFetchedAt: 1701659858000,
+              priceUsd: '1.2',
+            },
+            {
+              priceFetchedAt: 1702941458000,
+              priceUsd: '1.4',
+            },
+          ] as Price[],
+        },
+      },
+    })
+
+    const { queryByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    expect(queryByText('celoNews.headerTitle')).toBeTruthy()
   })
 
   it('does not render chart if no prices are found and error status', () => {
@@ -449,7 +483,7 @@ describe('TokenDetails', () => {
     })
     fireEvent.press(getByTestId('TokenDetailsMoreActions/Withdraw'))
     expect(navigate).toHaveBeenCalledWith(Screens.WithdrawSpend)
-    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(5) // 4 actions + 1 more action
+    expect(ValoraAnalytics.track).toHaveBeenCalledTimes(6) // 4 actions + 1 more action + 1 celo news
   })
 
   it('renders the send and swap actions for the imported tokens with balance', () => {
