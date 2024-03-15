@@ -170,7 +170,7 @@ describe('JumpstartSendConfirmation', () => {
       </Provider>
     )
 
-    expect(queryByText('jumpstartSendConfirmationScreen.error.title')).toBeFalsy()
+    expect(queryByText('jumpstartSendConfirmationScreen.sendError.title')).toBeFalsy()
 
     rerender(
       <Provider
@@ -191,10 +191,10 @@ describe('JumpstartSendConfirmation', () => {
       </Provider>
     )
 
-    expect(getByText('jumpstartSendConfirmationScreen.error.title')).toBeTruthy()
+    expect(getByText('jumpstartSendConfirmationScreen.sendError.title')).toBeTruthy()
 
-    fireEvent.press(getByText('jumpstartSendConfirmationScreen.error.ctaLabel'))
+    fireEvent.press(getByText('jumpstartSendConfirmationScreen.sendError.ctaLabel'))
 
-    expect(queryByText('jumpstartSendConfirmationScreen.error.title')).toBeFalsy()
+    expect(queryByText('jumpstartSendConfirmationScreen.sendError.title')).toBeFalsy()
   })
 })
