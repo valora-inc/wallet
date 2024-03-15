@@ -62,7 +62,10 @@ export function InLineNotification({
   const Icon = variantIcons[variant]
 
   const backgroundStyle = { backgroundColor: variantColor.secondary }
-  const borderStyle = withBorder && { borderWidth: 1, borderColor: variantColor.primary }
+  const borderStyle = withBorder && {
+    borderWidth: 1,
+    borderColor: `${variantColor.primary}80`, // primary color with 50% opacity
+  }
 
   return (
     <View style={[styles.container, backgroundStyle, borderStyle, style]} testID={testID}>
