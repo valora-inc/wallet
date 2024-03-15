@@ -68,7 +68,7 @@ export function InLineNotification({
         {!hideIcon && (
           <View style={styles.iconContainer}>
             {customIcon ?? (
-              <Icon color={variantColor.primary} size={16} testId="InLineNotification/Icon" />
+              <Icon color={variantColor.primary} size={20} testId="InLineNotification/Icon" />
             )}
           </View>
         )}
