@@ -8,9 +8,9 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes } from 'src/components/Button'
 import { NotificationVariant } from 'src/components/InLineNotification'
+import Toast from 'src/components/Toast'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
@@ -123,14 +123,13 @@ function JumpstartSendConfirmation({ route }: Props) {
           <Text style={styles.detailsText}>{t('jumpstartSendConfirmationScreen.details')}</Text>
         </SafeAreaView>
       </ScrollView>
-      <BottomSheetInLineNotification
-        showNotification={showError && jumpstartSendStatus === 'error'}
+      <Toast
+        showToast={showError && jumpstartSendStatus === 'error'}
         variant={NotificationVariant.Error}
         title={t('jumpstartSendConfirmationScreen.error.title')}
         description={t('jumpstartSendConfirmationScreen.error.description')}
         ctaLabel={t('jumpstartSendConfirmationScreen.error.ctaLabel')}
         onPressCta={handleDismissError}
-        withBackdrop={false}
       />
     </>
   )
