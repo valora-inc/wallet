@@ -223,7 +223,13 @@ export function AssetsTokenBalance({
             </TouchableOpacity>
           )}
         </View>
-        <TokenBalance style={styles.totalBalance} singleTokenViewEnabled={false} />
+        <TokenBalance
+          showHideHomeBalancesToggle={getFeatureGate(
+            StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE
+          )}
+          style={styles.totalBalance}
+          singleTokenViewEnabled={false}
+        />
 
         {shouldRenderInfoComponent && (
           <Animated.View style={[styles.totalAssetsInfoContainer, animatedStyles]}>
