@@ -2027,8 +2027,8 @@
       "subtitle": "Mời bạn bè từ danh bạ"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Send with a live link",
+      "subtitle": "Copy the link and share it to send crypto just like a text"
     },
     "getStarted": {
       "title": "Các phương thức gửi tiền trên Valora",
@@ -2102,16 +2102,15 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "We’d suggest a lower amount",
-      "description": "This link will be claimable by anyone who has access to it. We recommend sending no more than {{maxAmount}} {{localCurrencyCode}}."
+      "title": "You can send up to {{amountInLocalCurrency,currency}} in a link",
+      "description": "This link will be claimable by anyone who has access to it. Make sure you send links to people you trust."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Create shareable link",
-    "sendAmountLabel": "CLAIM LINK AMOUNT",
-    "confirmButton": "Send funds and create link",
-    "detailsLabel": "HOW IT WORKS",
-    "details": "1. Tap generate link & your funds are sent into the claim link\n2. Send the claim link to a friend\n3. They’ll accept the funds\n4. If funds aren’t claimed, you can reclaim them anytime.",
+    "title": "Create Live Link",
+    "sendAmountLabel": "Live Link Amount",
+    "confirmButton": "Send and create link",
+    "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
     "sendError": {
       "title": "Unable to create link",
       "description": "Your live link wasn’t created. Please try again.",
