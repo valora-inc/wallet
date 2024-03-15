@@ -15,6 +15,7 @@ export enum NotificationVariant {
 
 export interface InLineNotificationProps {
   variant: NotificationVariant
+  withBorder?: boolean
   hideIcon?: boolean
   customIcon?: JSX.Element | null
   title?: string | null
@@ -34,6 +35,7 @@ interface CustomColors {
 
 export function InLineNotification({
   variant,
+  withBorder,
   hideIcon,
   customIcon,
   title,
@@ -59,11 +61,11 @@ export function InLineNotification({
     )
   const Icon = variantIcons[variant]
 
+  const backgroundStyle = { backgroundColor: variantColor.secondary }
+  const borderStyle = withBorder && { borderWidth: 1, borderColor: variantColor.primary }
+
   return (
-    <View
-      style={[styles.container, { backgroundColor: variantColor.secondary }, style]}
-      testID={testID}
-    >
+    <View style={[styles.container, backgroundStyle, borderStyle, style]} testID={testID}>
       <View style={styles.row}>
         {!hideIcon && (
           <View style={styles.iconContainer}>
@@ -101,7 +103,6 @@ const styles = StyleSheet.create({
   },
   ctaRow: {
     paddingTop: Spacing.Smallest8,
-    paddingHorizontal: Spacing.Smallest8,
     justifyContent: 'flex-end',
     gap: Spacing.Smallest8,
   },
