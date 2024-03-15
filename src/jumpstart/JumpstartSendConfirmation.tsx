@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
-import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import { NotificationVariant } from 'src/components/InLineNotification'
 import Toast from 'src/components/Toast'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -113,10 +113,10 @@ function JumpstartSendConfirmation({ route }: Props) {
             style={styles.button}
             showLoading={jumpstartSendStatus === 'loading'}
           />
-          <InLineNotification
-            variant={NotificationVariant.Info}
-            description={t('jumpstartSendConfirmationScreen.info')}
-          />
+          <Text style={styles.detailsLabel}>
+            {t('jumpstartSendConfirmationScreen.detailsLabel')}
+          </Text>
+          <Text style={styles.detailsText}>{t('jumpstartSendConfirmationScreen.details')}</Text>
         </SafeAreaView>
       </ScrollView>
       <Toast
@@ -166,6 +166,13 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: Spacing.Large32,
+  },
+  detailsLabel: {
+    ...typeScale.labelXSmall,
+    marginBottom: Spacing.Regular16,
+  },
+  detailsText: {
+    ...typeScale.bodySmall,
   },
 })
 

@@ -2114,7 +2114,8 @@
     "title": "Create shareable link",
     "sendAmountLabel": "CLAIM LINK AMOUNT",
     "confirmButton": "Send funds and create link",
-    "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
+    "detailsLabel": "HOW IT WORKS",
+    "details": "1. Tap generate link & your funds are sent into the claim link\n2. Send the claim link to a friend\n3. They’ll accept the funds\n4. If funds aren’t claimed, you can reclaim them anytime.",
     "sendError": {
       "title": "Unable to create link",
       "description": "Your live link wasn’t created. Please try again.",
