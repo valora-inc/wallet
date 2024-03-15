@@ -1,5 +1,4 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
-import BigNumber from 'bignumber.js'
 import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
@@ -25,15 +24,22 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartShareLink>
 const TAG = 'JumpstartShareLink'
 
 function JumpstartShareLink({ route }: Props) {
-  const { tokenId, sendAmount, link } = route.params
-  const parsedAmount = new BigNumber(sendAmount)
+  const { tokenId, link } = route.params
+
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
 
-  const token = useTokenInfo(tokenId)
-
   const shouldNavigate = useRef(false)
   const [showNavigationWarning, setShowNavigationWarning] = useState(false)
+
+  const token = useTokenInfo(tokenId)
+
+  useBackHandler(() => {
+    if (!showNavigationWarning) {
+      setShowNavigationWarning(true)
+    }
+    return true
+  }, [])
 
   const handleShowNavigationWarning = () => {
     setShowNavigationWarning(true)
@@ -57,13 +63,6 @@ function JumpstartShareLink({ route }: Props) {
       navigateHome()
     }
   }
-
-  useBackHandler(() => {
-    if (!showNavigationWarning) {
-      setShowNavigationWarning(true)
-    }
-    return true
-  }, [])
 
   if (!token) {
     // should never happen
