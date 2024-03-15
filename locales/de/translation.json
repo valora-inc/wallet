@@ -2113,7 +2113,12 @@
     "sendAmountLabel": "ANSPRUCH LINK BETRAG",
     "confirmButton": "Geld senden und Link erstellen",
     "detailsLabel": "WIE ES FUNKTIONIERT",
-    "details": "1. Tippe auf \"Link generieren\" und dein Geld wird an den Claim-Link\ngesendet. 2. Sende den Claim-Link an einen Freund\n3. Er wird das Geld annehmen\n4. Wenn das Geld nicht eingefordert wird, kannst du es jederzeit zurückfordern."
+    "details": "1. Tippe auf \"Link generieren\" und dein Geld wird an den Claim-Link\ngesendet. 2. Sende den Claim-Link an einen Freund\n3. Er wird das Geld annehmen\n4. Wenn das Geld nicht eingefordert wird, kannst du es jederzeit zurückfordern.",
+    "sendError": {
+      "title": "Link kann nicht erstellt werden",
+      "description": "Dein Live-Link wurde nicht erstellt. Bitte versuche es erneut.",
+      "ctaLabel": "Verwerfen"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Genehmigt",
