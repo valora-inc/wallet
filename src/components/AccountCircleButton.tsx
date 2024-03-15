@@ -18,8 +18,13 @@ export default function AccountCircleButton({ style, size, testID }: Props) {
   }
 
   return (
-    <View testID={testID} style={styles.container}>
-      <Touchable onPress={onPress} style={[style, styles.button]} borderRadius={Spacing.Thick24}>
+    <View style={styles.container}>
+      <Touchable
+        testID={testID}
+        onPress={onPress}
+        style={[style, styles.button]}
+        borderRadius={Spacing.Thick24}
+      >
         <AccountCircle size={size} />
       </Touchable>
     </View>
