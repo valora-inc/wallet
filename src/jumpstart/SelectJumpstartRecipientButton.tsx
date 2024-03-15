@@ -31,23 +31,24 @@ function SelectRecipientJumpstartButton() {
   }
 
   return (
-    <Touchable onPress={handlePress} style={styles.container}>
-      <View style={styles.body}>
-        <CircledIcon radius={40} backgroundColor={colors.successLight}>
-          <MagicWand />
-        </CircledIcon>
-        <View style={styles.textSection}>
-          <Text style={styles.title}>{t('sendSelectRecipient.jumpstart.title')}</Text>
-          <Text style={styles.subtitle}>{t('sendSelectRecipient.jumpstart.subtitle')}</Text>
-        </View>
-      </View>
-    </Touchable>
+    <View style={styles.container}>
+      <Touchable onPress={handlePress} style={styles.body} borderRadius={12}>
+        <>
+          <CircledIcon radius={40} backgroundColor={colors.successLight}>
+            <MagicWand />
+          </CircledIcon>
+          <View style={styles.textSection}>
+            <Text style={styles.title}>{t('sendSelectRecipient.jumpstart.title')}</Text>
+            <Text style={styles.subtitle}>{t('sendSelectRecipient.jumpstart.subtitle')}</Text>
+          </View>
+        </>
+      </Touchable>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: Spacing.Regular16,
     borderWidth: 1,
     borderColor: colors.primary,
     borderRadius: 12,
@@ -63,6 +64,7 @@ const styles = StyleSheet.create({
   body: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: Spacing.Regular16,
   },
   textSection: {
     paddingLeft: Spacing.Small12,
