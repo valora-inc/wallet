@@ -239,7 +239,7 @@ describe('TokenDetails', () => {
       },
     })
 
-    const { getByTestId, queryByText } = render(
+    const { getByTestId } = render(
       <Provider store={store}>
         <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
       </Provider>
