@@ -2117,7 +2117,12 @@
     "sendAmountLabel": "KWOTA ŁĄCZA DO ROSZCZENIA",
     "confirmButton": "Wyślij środki i utwórz link",
     "detailsLabel": "JAK TO DZIAŁA",
-    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie."
+    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie.",
+    "sendError": {
+      "title": "Nie można utworzyć łącza",
+      "description": "Twój link na żywo nie został utworzony. Spróbuj ponownie.",
+      "ctaLabel": "Odrzuć"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
