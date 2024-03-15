@@ -1,11 +1,12 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
+import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
 import Times from 'src/icons/Times'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
@@ -31,19 +32,33 @@ function JumpstartShareLink({ route }: Props) {
 
   const token = useTokenInfo(tokenId)
 
-  const [showConfirmNavigate, setShowConfirmNavigate] = useState(false)
+  const shouldNavigate = useRef(false)
+  const [showNavigationWarning, setShowNavigationWarning] = useState(false)
 
-  const handleConfirmNavigate = () => {
-    setShowConfirmNavigate(true)
+  const handleShowNavigationWarning = () => {
+    setShowNavigationWarning(true)
   }
 
   const handleNavigate = () => {
-    navigateHome()
+    setShowNavigationWarning(false)
+    setTimeout(() => {
+      navigateHome()
+    }, 1000)
+  }
+
+  const handleDismissNavigationWarning = () => {
+    setShowNavigationWarning(false)
+  }
+
+  const handleNavigation = () => {
+    if (shouldNavigate.current) {
+      navigateHome()
+    }
   }
 
   useBackHandler(() => {
-    if (!showConfirmNavigate) {
-      setShowConfirmNavigate(true)
+    if (!showNavigationWarning) {
+      setShowNavigationWarning(true)
     }
     return true
   }, [])
@@ -58,7 +73,7 @@ function JumpstartShareLink({ route }: Props) {
     <SafeAreaView edges={['top']} style={styles.safeAreaContainer}>
       <CustomHeader
         style={styles.customHeader}
-        left={<TopBarIconButton icon={<Times />} onPress={handleConfirmNavigate} />}
+        left={<TopBarIconButton icon={<Times />} onPress={handleShowNavigationWarning} />}
       />
       <ScrollView
         contentContainerStyle={[
@@ -76,6 +91,20 @@ function JumpstartShareLink({ route }: Props) {
           copySuccessMessage={t('jumpstartShareLinkScreen.linkCopiedMessage')}
           testID="JumpstartShareLink/LiveLink"
         />
+        <Dialog
+          title={t('jumpstartShareLinkScreen.navigationWarning.title')}
+          isVisible={showNavigationWarning}
+          actionText={t('jumpstartShareLinkScreen.navigationWarning.ctaDoNotNavigate')}
+          actionPress={handleDismissNavigationWarning}
+          testID="JumpstartShareLink/ConfirmNavigationDialog"
+          secondaryActionText={t('jumpstartShareLinkScreen.navigationWarning.ctaNavigate')}
+          secondaryActionPress={handleNavigate}
+          onDialogHide={handleNavigation}
+        >
+          <Text style={styles.description}>
+            {t('jumpstartShareLinkScreen.navigationWarning.description')}
+          </Text>
+        </Dialog>
       </ScrollView>
     </SafeAreaView>
   )
