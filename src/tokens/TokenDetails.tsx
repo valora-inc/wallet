@@ -15,6 +15,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Touchable from 'src/components/Touchable'
 import CustomHeader from 'src/components/header/CustomHeader'
 import CeloGoldHistoryChart from 'src/exchange/CeloGoldHistoryChart'
+import CeloNewsFeed from 'src/exchange/CeloNewsFeed'
 import { CICOFlow } from 'src/fiatExchanges/utils'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import DataDown from 'src/icons/DataDown'
@@ -74,7 +75,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   )
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <ScrollView>
         <View style={styles.titleContainer}>
@@ -128,6 +129,7 @@ export default function TokenDetailsScreen({ route }: Props) {
             analyticsProps={getTokenAnalyticsProps(token)}
           />
         )}
+        {token.tokenId === networkConfig.celoTokenId && <CeloNewsFeed />}
       </ScrollView>
       <TokenDetailsMoreActions
         forwardedRef={tokenDetailsMoreActionsBottomSheetRef}
