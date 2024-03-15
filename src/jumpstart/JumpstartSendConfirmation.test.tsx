@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
-import { depositTransactionStarted } from 'src/jumpstart/slice'
+import { depositErrorDismissed, depositTransactionStarted } from 'src/jumpstart/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
@@ -170,16 +170,15 @@ describe('JumpstartSendConfirmation', () => {
       </Provider>
     )
 
-    expect(queryByText('jumpstartSendConfirmationScreen.error.title')).toBeFalsy()
+    expect(queryByText('jumpstartSendConfirmationScreen.sendError.title')).toBeFalsy()
 
+    const updatedMockStore = createMockStore({
+      jumpstart: {
+        depositStatus: 'error',
+      },
+    })
     rerender(
-      <Provider
-        store={createMockStore({
-          jumpstart: {
-            depositStatus: 'error',
-          },
-        })}
-      >
+      <Provider store={updatedMockStore}>
         <MockedNavigator
           component={JumpstartSendConfirmation}
           params={{
@@ -191,10 +190,10 @@ describe('JumpstartSendConfirmation', () => {
       </Provider>
     )
 
-    expect(getByText('jumpstartSendConfirmationScreen.error.title')).toBeTruthy()
+    expect(getByText('jumpstartSendConfirmationScreen.sendError.title')).toBeTruthy()
 
-    fireEvent.press(getByText('jumpstartSendConfirmationScreen.error.ctaLabel'))
+    fireEvent.press(getByText('jumpstartSendConfirmationScreen.sendError.ctaLabel'))
 
-    expect(queryByText('jumpstartSendConfirmationScreen.error.title')).toBeFalsy()
+    expect(updatedMockStore.getActions()).toEqual([depositErrorDismissed()])
   })
 })
