@@ -47,8 +47,6 @@ function JumpstartSendConfirmation({ route }: Props) {
     if (jumpstartSendStatus === 'success') {
       navigate(Screens.JumpstartShareLink, { tokenId, sendAmount, link })
     }
-
-    setShowError(jumpstartSendStatus === 'error')
   }, [jumpstartSendStatus])
 
   const handleSendTransaction = () => {

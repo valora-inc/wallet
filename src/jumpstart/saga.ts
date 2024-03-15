@@ -14,6 +14,7 @@ import {
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
 } from 'src/jumpstart/slice'
+import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { NftMetadata } from 'src/nfts/types'
 import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { getDynamicConfigParams } from 'src/statsig'
@@ -30,6 +31,7 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
@@ -207,9 +209,24 @@ export function* sendJumpstartTransactions(
   action: PayloadAction<JumpstartTransactionStartedAction>
 ) {
   const { serializablePreparedTransactions, sendToken, sendAmount } = action.payload
+  const networkId = sendToken.networkId
+  const localCurrency = yield* select(getLocalCurrencyCode)
+  const localCurrencyExchangeRate = yield* select(usdToLocalCurrencyRateSelector)
+
+  const trackedProperties = {
+    localCurrency,
+    localCurrencyExchangeRate,
+    tokenSymbol: sendToken.symbol,
+    tokenAmount: sendAmount,
+    amountInUsd: new BigNumber(sendAmount)
+      .shiftedBy(-sendToken.decimals)
+      .multipliedBy(sendToken.priceUsd ?? 0)
+      .toFixed(2),
+    tokenId: sendToken.tokenId,
+    networkId: sendToken.networkId,
+  }
 
   try {
-    const networkId = sendToken.networkId
     const jumpstartContractAddress = getDynamicConfigParams(
       DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
     ).jumpstartContracts?.[networkId]?.contractAddress
@@ -274,37 +291,42 @@ export function* sendJumpstartTransactions(
       'Executing send transaction',
       sendToken.tokenId
     )
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_start, trackedProperties)
 
-    // const txHashes = yield* call(
-    //   sendPreparedTransactions,
-    //   serializablePreparedTransactions,
-    //   sendToken.networkId,
-    //   createStandbyTxHandlers
-    // )
+    const txHashes = yield* call(
+      sendPreparedTransactions,
+      serializablePreparedTransactions,
+      sendToken.networkId,
+      createStandbyTxHandlers
+    )
 
-    // Logger.debug(`${TAG}/sendJumpstartTransactionSaga`, 'Waiting for transaction receipts')
-    // const txReceipts = yield* all(
-    //   txHashes.map((txHash) => {
-    //     return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
-    //       hash: txHash,
-    //     })
-    //   })
-    // )
-    // txReceipts.forEach((receipt, index) => {
-    //   Logger.debug(
-    //     `${TAG}/sendJumpstartTransactionSaga`,
-    //     `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
-    //     receipt
-    //   )
-    // })
-    // if (txReceipts.some((receipt) => receipt.status !== 'success')) {
-    //   throw new Error('One or more transactions failed')
-    // }
+    Logger.debug(`${TAG}/sendJumpstartTransactionSaga`, 'Waiting for transaction receipts')
+    const txReceipts = yield* all(
+      txHashes.map((txHash) => {
+        return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
+          hash: txHash,
+        })
+      })
+    )
+    txReceipts.forEach((receipt, index) => {
+      Logger.debug(
+        `${TAG}/sendJumpstartTransactionSaga`,
+        `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
+        receipt
+      )
+    })
 
+    const jumpstartTxReceipt = txReceipts[txReceipts.length - 1]
+    if (jumpstartTxReceipt.status !== 'success') {
+      throw new Error(`Jumpstart transaction reverted: ${jumpstartTxReceipt.transactionHash}`)
+    }
+
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_succeeded, trackedProperties)
     yield* put(depositTransactionSucceeded())
   } catch (err) {
     if (err === CANCELLED_PIN_INPUT) {
       Logger.info(TAG, 'Transaction cancelled by user')
+      ValoraAnalytics.track(JumpstartEvents.jumpstart_send_cancelled, trackedProperties)
       yield* put(depositTransactionCancelled())
       return
     }
@@ -316,6 +338,7 @@ export function* sendJumpstartTransactions(
       error
     )
 
+    ValoraAnalytics.track(JumpstartEvents.jumpstart_send_failed, trackedProperties)
     yield* put(depositTransactionFailed())
     vibrateError()
   }
