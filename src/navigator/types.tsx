@@ -92,7 +92,7 @@ export type StackParamList = {
   [Screens.DappKitSignTxScreen]: {
     dappKitRequest: SignTxRequest
   }
-  [Screens.DAppsExplorerScreen]: undefined
+  [Screens.DAppsExplorerScreen]: { isTabNavigator?: boolean } | undefined
   [Screens.DappShortcutsRewards]: undefined
   [Screens.DappShortcutTransactionRequest]: {
     rewardId: string
@@ -258,7 +258,7 @@ export type StackParamList = {
     link: string
     sendAmount: string
     tokenId: string
-    preparedTransactions: SerializableTransactionRequest[]
+    serializablePreparedTransactions: SerializableTransactionRequest[]
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
@@ -273,7 +273,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
-  [Screens.TabDiscover]: undefined
+  [Screens.TabDiscover]: { isTabNavigator?: boolean } | undefined
   [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {

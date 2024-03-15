@@ -3157,11 +3157,24 @@ export const v200Schema = {
     ...v199Schema._persist,
     version: 200,
   },
+  jumpstart: {
+    ...v199Schema.jumpstart,
+    depositStatus: 'idle',
+  },
+}
+
+export const v201Schema = {
+  ...v200Schema,
+  _persist: {
+    ...v200Schema._persist,
+    version: 201,
+  },
   app: {
-    ..._.omit(v199Schema.app, 'hideHomeBalances'),
+    ..._.omit(v200Schema.app, 'hideHomeBalances'),
     hideBalances: false,
   },
 }
+
 export function getLatestSchema(): Partial<RootState> {
-  return v200Schema as Partial<RootState>
+  return v201Schema as Partial<RootState>
 }

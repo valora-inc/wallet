@@ -261,6 +261,7 @@ describe('store state', () => {
         },
         "jumpstart": {
           "claimStatus": "idle",
+          "depositStatus": "idle",
         },
         "keylessBackup": {
           "backupStatus": "NotStarted",

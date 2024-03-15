@@ -1,11 +1,20 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { TokenBalance } from 'src/tokens/slice'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 
+export interface JumpstartTransactionStartedAction {
+  serializablePreparedTransactions: SerializableTransactionRequest[]
+  sendToken: TokenBalance
+  sendAmount: string
+}
 interface State {
   claimStatus: 'idle' | 'loading' | 'error'
+  depositStatus: 'idle' | 'loading' | 'error' | 'success'
 }
 
 const initialState: State = {
   claimStatus: 'idle',
+  depositStatus: 'idle',
 }
 
 const slice = createSlice({
@@ -36,6 +45,33 @@ const slice = createSlice({
       ...state,
       claimStatus: 'idle',
     }),
+    depositTransactionFlowStarted: (state) => ({
+      ...state,
+      depositStatus: 'idle',
+    }),
+    depositTransactionStarted: (
+      state,
+      _action: PayloadAction<JumpstartTransactionStartedAction>
+    ) => ({
+      ...state,
+      depositStatus: 'loading',
+    }),
+    depositTransactionSucceeded: (state) => ({
+      ...state,
+      depositStatus: 'success',
+    }),
+    depositTransactionFailed: (state) => ({
+      ...state,
+      depositStatus: 'error',
+    }),
+    depositErrorDismissed: (state) => ({
+      ...state,
+      depositStatus: 'idle',
+    }),
+    depositTransactionCancelled: (state) => ({
+      ...state,
+      depositStatus: 'idle',
+    }),
   },
 })
 
@@ -45,6 +81,12 @@ export const {
   jumpstartClaimFailed,
   jumpstartLoadingDismissed,
   jumpstartErrorDismissed,
+  depositTransactionFlowStarted,
+  depositTransactionStarted,
+  depositTransactionSucceeded,
+  depositTransactionFailed,
+  depositErrorDismissed,
+  depositTransactionCancelled,
 } = slice.actions
 
 export default slice.reducer
