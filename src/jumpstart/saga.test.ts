@@ -372,9 +372,19 @@ describe('sendJumpstartTransactions', () => {
     ]
     return defaultProviders
   }
+  const expectedTrackedProperties = {
+    amountInUsd: '1.00',
+    localCurrency: 'PHP',
+    localCurrencyExchangeRate: '1.33',
+    networkId: 'celo-alfajores',
+    tokenAmount: '1000000000000000000',
+    tokenId: 'celo-alfajores:0x874069fa1eb16d44d622f2e0ca25eea172369bc1',
+    tokenSymbol: 'cUSD',
+  }
 
   beforeEach(() => {
     jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
+    jest.clearAllMocks()
   })
 
   it('should send the transactions and dispatch the success action', async () => {
@@ -386,6 +396,7 @@ describe('sendJumpstartTransactions', () => {
         serializablePreparedTransactions,
       },
     })
+      .withState(createMockStore().getState())
       .provide(createDefaultProviders())
       .put(depositTransactionSucceeded())
       .run()
@@ -394,6 +405,14 @@ describe('sendJumpstartTransactions', () => {
       serializablePreparedTransactions,
       'celo-alfajores',
       expect.any(Array)
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_send_start,
+      expectedTrackedProperties
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_send_succeeded,
+      expectedTrackedProperties
     )
   })
 
@@ -406,6 +425,7 @@ describe('sendJumpstartTransactions', () => {
         serializablePreparedTransactions,
       },
     })
+      .withState(createMockStore().getState())
       .provide(createDefaultProviders('reverted'))
       .put(depositTransactionFailed())
       .not.put(depositTransactionSucceeded())
@@ -415,6 +435,18 @@ describe('sendJumpstartTransactions', () => {
       serializablePreparedTransactions,
       'celo-alfajores',
       expect.any(Array)
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_send_start,
+      expectedTrackedProperties
+    )
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_send_failed,
+      expectedTrackedProperties
+    )
+    expect(ValoraAnalytics.track).not.toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_send_succeeded,
+      expect.any(Object)
     )
   })
 })

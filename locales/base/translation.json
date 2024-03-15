@@ -2115,7 +2115,7 @@
     "sendAmountLabel": "Live Link Amount",
     "confirmButton": "Send and create link",
     "info": "When you create a link, funds are withdrawn from your wallet. You can reclaim the link anytime. Share links with care.",
-    "error": {
+    "sendError": {
       "title": "Unable to create link",
       "description": "Your live link wasn’t created. Please try again.",
       "ctaLabel": "Dismiss"

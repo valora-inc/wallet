@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -8,13 +8,13 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import Toast from 'src/components/Toast'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
-import { depositTransactionStarted } from 'src/jumpstart/slice'
+import { depositErrorDismissed, depositTransactionStarted } from 'src/jumpstart/slice'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -41,16 +41,12 @@ function JumpstartSendConfirmation({ route }: Props) {
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
 
-  const [showError, setShowError] = useState(false)
-
   useEffect(() => {
     if (jumpstartSendStatus === 'success') {
       // TODO: navigate clearing stack to the next screen, navigateHome is just
       // a placeholder for now
       navigateHome()
     }
-
-    setShowError(jumpstartSendStatus === 'error')
   }, [jumpstartSendStatus])
 
   const handleSendTransaction = () => {
@@ -76,7 +72,7 @@ function JumpstartSendConfirmation({ route }: Props) {
   }
 
   const handleDismissError = () => {
-    setShowError(false)
+    dispatch(depositErrorDismissed())
   }
 
   if (!token) {
@@ -123,14 +119,13 @@ function JumpstartSendConfirmation({ route }: Props) {
           />
         </SafeAreaView>
       </ScrollView>
-      <BottomSheetInLineNotification
-        showNotification={showError && jumpstartSendStatus === 'error'}
+      <Toast
+        showToast={jumpstartSendStatus === 'error'}
         variant={NotificationVariant.Error}
-        title={t('jumpstartSendConfirmationScreen.error.title')}
-        description={t('jumpstartSendConfirmationScreen.error.description')}
-        ctaLabel={t('jumpstartSendConfirmationScreen.error.ctaLabel')}
+        title={t('jumpstartSendConfirmationScreen.sendError.title')}
+        description={t('jumpstartSendConfirmationScreen.sendError.description')}
+        ctaLabel={t('jumpstartSendConfirmationScreen.sendError.ctaLabel')}
         onPressCta={handleDismissError}
-        withBackdrop={false}
       />
     </>
   )
