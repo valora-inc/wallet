@@ -126,9 +126,9 @@ function JumpstartSendConfirmation({ route }: Props) {
       <Toast
         showToast={showError && jumpstartSendStatus === 'error'}
         variant={NotificationVariant.Error}
-        title={t('jumpstartSendConfirmationScreen.error.title')}
-        description={t('jumpstartSendConfirmationScreen.error.description')}
-        ctaLabel={t('jumpstartSendConfirmationScreen.error.ctaLabel')}
+        title={t('jumpstartSendConfirmationScreen.sendError.title')}
+        description={t('jumpstartSendConfirmationScreen.sendError.description')}
+        ctaLabel={t('jumpstartSendConfirmationScreen.sendError.ctaLabel')}
         onPressCta={handleDismissError}
       />
     </>
