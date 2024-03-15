@@ -7,3 +7,7 @@ export const showJumstartLoading = (state: RootState) => {
 export const showJumstartError = (state: RootState) => {
   return state.jumpstart.claimStatus === 'error'
 }
+
+export const jumpstartSendStatusSelector = (state: RootState) => {
+  return state.jumpstart.depositStatus
+}

@@ -1,11 +1,15 @@
 import BigNumber from 'bignumber.js'
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
+import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
+import { currentLanguageSelector } from 'src/i18n/selectors'
+import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
+import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { convertDollarsToLocalAmount } from 'src/localCurrency/convert'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
@@ -28,6 +32,7 @@ const TAG = 'JumpstartEnterAmount'
 
 function JumpstartEnterAmount() {
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const [sendAmountExceedsThreshold, setSendAmountExceedsThreshold] = useState(false)
 
@@ -40,7 +45,8 @@ function JumpstartEnterAmount() {
     usdToLocalRate
   )
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
-
+  const locale = useSelector(currentLanguageSelector)
+  const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
   const walletAddress = useSelector(walletAddressSelector)
   const tokens = useSelector(jumpstartSendTokensSelector)
 
@@ -52,6 +58,12 @@ function JumpstartEnterAmount() {
       privateKey,
     }
   }, [])
+
+  useEffect(() => {
+    if (jumpstartLink.privateKey) {
+      dispatch(depositTransactionFlowStarted())
+    }
+  }, [jumpstartLink.privateKey])
 
   const handleProceed = useAsyncCallback(
     async (parsedAmount: BigNumber, token: TokenBalance) => {
@@ -139,6 +151,14 @@ function JumpstartEnterAmount() {
     })
   }
 
+  // add checks for the jumpstartSendStatus here to safeguard against the user
+  // navigating back to this screen to initiate another transaction with the
+  // same link while the previous one is in progress or successful
+  const disableProceed =
+    sendAmountExceedsThreshold ||
+    jumpstartSendStatus === 'success' ||
+    jumpstartSendStatus === 'loading'
+
   return (
     <EnterAmount
       tokens={tokens}
@@ -147,16 +167,18 @@ function JumpstartEnterAmount() {
       onRefreshPreparedTransactions={handleRefreshPreparedTransactions}
       prepareTransactionError={prepareJumpstartTransactions.error}
       onPressProceed={handleProceed.execute}
-      disableProceed={sendAmountExceedsThreshold}
+      disableProceed={disableProceed}
     >
       {sendAmountExceedsThreshold && (
         <InLineNotification
           variant={NotificationVariant.Warning}
-          title={t('jumpstartEnterAmountScreen.maxAmountWarning.title')}
-          description={t('jumpstartEnterAmountScreen.maxAmountWarning.description', {
-            maxAmount: maxSendAmountLocalCurrency?.toFormat(2),
-            localCurrencyCode,
+          title={t('jumpstartEnterAmountScreen.maxAmountWarning.title', {
+            amountInLocalCurrency: maxSendAmountLocalCurrency,
+            formatParams: {
+              amountInLocalCurrency: { currency: localCurrencyCode, locale },
+            },
           })}
+          description={t('jumpstartEnterAmountScreen.maxAmountWarning.description')}
         />
       )}
     </EnterAmount>
