@@ -6,12 +6,10 @@ import InLineNotification, { InLineNotificationProps } from 'src/components/InLi
 import { useShowOrHideAnimation } from 'src/components/useShowOrHideAnimation'
 import Colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
-import variables from 'src/styles/variables'
 
 interface Props extends InLineNotificationProps {
   showNotification: boolean
   onUnmount?: () => void
-  withBackdrop?: boolean
 }
 
 // this value is used to animate the notification on and off the screen. the
@@ -23,7 +21,6 @@ const NOTIFICATION_HEIGHT = 500
 const BottomSheetInLineNotification = ({
   showNotification,
   onUnmount,
-  withBackdrop = true,
   ...inLineNotificationProps
 }: Props) => {
   const [isVisible, setIsVisible] = useState(showNotification)
@@ -57,26 +54,18 @@ const BottomSheetInLineNotification = ({
     }
   )
 
-  const AnimatedNotification = (
-    <Animated.View style={[styles.notificationContainer, animatedStyle]}>
-      <InLineNotification {...inLineNotificationProps} />
-    </Animated.View>
-  )
-
   if (!isVisible) {
     return null
   }
 
-  if (withBackdrop) {
-    return (
-      <SafeAreaView edges={['bottom']} style={[styles.modal, styles.container]}>
-        <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
-        {AnimatedNotification}
-      </SafeAreaView>
-    )
-  }
-
-  return AnimatedNotification
+  return (
+    <SafeAreaView edges={['bottom']} style={[styles.modal, styles.container]}>
+      <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
+      <Animated.View style={[styles.notificationContainer, animatedStyle]}>
+        <InLineNotification {...inLineNotificationProps} />
+      </Animated.View>
+    </SafeAreaView>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -84,6 +73,7 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   container: {
+    paddingHorizontal: Spacing.Regular16,
     alignItems: 'center',
   },
   background: {
@@ -91,9 +81,8 @@ const styles = StyleSheet.create({
   },
   notificationContainer: {
     position: 'absolute',
-    bottom: Spacing.XLarge48,
-    left: Spacing.Regular16,
-    width: variables.width - Spacing.Large32,
+    bottom: Spacing.Large32,
+    width: '100%',
   },
 })
 
