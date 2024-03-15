@@ -75,7 +75,7 @@ export default function TokenDetailsScreen({ route }: Props) {
   )
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <CustomHeader style={{ paddingHorizontal: variables.contentPadding }} left={<BackButton />} />
       <ScrollView>
         <View style={styles.titleContainer}>
