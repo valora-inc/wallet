@@ -2113,7 +2113,12 @@
     "sendAmountLabel": "VALOR DO LINK DA REIVINDICAÇÃO",
     "confirmButton": "Enviar fundos e criar um link",
     "detailsLabel": "COMO FUNCIONA",
-    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento."
+    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento.",
+    "sendError": {
+      "title": "Não é possível criar um link",
+      "description": "Seu link ao vivo não foi criado. Por favor, tente novamente.",
+      "ctaLabel": "Ignorar"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
