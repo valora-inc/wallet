@@ -2113,7 +2113,12 @@
     "sendAmountLabel": "IMPORTE DEL ENLACE DE RECLAMACIÓN",
     "confirmButton": "Enviar fondos y crear enlace",
     "detailsLabel": "CÓMO FUNCIONA",
-    "details": "1. Pulsa generar enlace y tus fondos se enviarán al enlace de reclamación\n2. Envía el enlace de reclamación a un amigo\n3. Ellos aceptarán los fondos\n4. Si no se reclaman los fondos, puedes reclamarlos en cualquier momento."
+    "details": "1. Pulsa generar enlace y tus fondos se enviarán al enlace de reclamación\n2. Envía el enlace de reclamación a un amigo\n3. Ellos aceptarán los fondos\n4. Si no se reclaman los fondos, puedes reclamarlos en cualquier momento.",
+    "sendError": {
+      "title": "No se puede crear el enlace",
+      "description": "No se ha creado tu enlace en directo. Inténtalo de nuevo.",
+      "ctaLabel": "Ignorar"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
