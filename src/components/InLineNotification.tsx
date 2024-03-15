@@ -105,9 +105,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   ctaRow: {
-    paddingTop: Spacing.Smallest8,
+    paddingTop: Spacing.Regular16,
     justifyContent: 'flex-end',
-    gap: Spacing.Smallest8,
+    gap: Spacing.Thick24,
   },
   iconContainer: {
     paddingTop: Spacing.Tiny4,
@@ -124,8 +124,6 @@ const styles = StyleSheet.create({
   ctaLabel: {
     ...typeScale.labelSmall,
     fontWeight: '600',
-    paddingVertical: Spacing.Tiny4,
-    paddingHorizontal: Spacing.Smallest8,
   },
 })
 
