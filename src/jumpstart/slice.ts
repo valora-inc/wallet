@@ -64,6 +64,10 @@ const slice = createSlice({
       ...state,
       depositStatus: 'error',
     }),
+    depositErrorDismissed: (state) => ({
+      ...state,
+      depositStatus: 'idle',
+    }),
     depositTransactionCancelled: (state) => ({
       ...state,
       depositStatus: 'idle',
@@ -81,6 +85,7 @@ export const {
   depositTransactionStarted,
   depositTransactionSucceeded,
   depositTransactionFailed,
+  depositErrorDismissed,
   depositTransactionCancelled,
 } = slice.actions
 
