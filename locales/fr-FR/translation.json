@@ -2113,7 +2113,12 @@
     "sendAmountLabel": "LIEN DE RÉCLAMATION MONTANT",
     "confirmButton": "Envoyer des fonds et créer un lien",
     "detailsLabel": "COMMENT ÇA MARCHE",
-    "details": "1. Appuie sur générer un lien et tes fonds sont envoyés dans le lien de réclamation\n2. Envoie le lien de réclamation à un ami\n3. Il acceptera les fonds\n4. Si les fonds ne sont pas réclamés, tu peux les réclamer à tout moment."
+    "details": "1. Appuie sur générer un lien et tes fonds sont envoyés dans le lien de réclamation\n2. Envoie le lien de réclamation à un ami\n3. Il acceptera les fonds\n4. Si les fonds ne sont pas réclamés, tu peux les réclamer à tout moment.",
+    "sendError": {
+      "title": "Impossible de créer un lien",
+      "description": "Ton lien en direct n'a pas été créé. Essaie à nouveau.",
+      "ctaLabel": "Refuser"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approbation",
