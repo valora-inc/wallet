@@ -225,25 +225,17 @@ export async function isBottomSheetVisible(screen: Screens) {
   return !!state?.routes.find((route: any) => route.name === screen)
 }
 
-interface NavigateHomeOptions {
-  params?: StackParamList[Screens.DrawerNavigator] | StackParamList[Screens.TabNavigator]
-}
-
 /***
  * Navigates to the home screen resetting the navigation stack by default
  * If called from a modal make sure to pass fromModal: true. Otherwise it will cause a null pointer dereference and subsequent app crash
  * TODO: stop using ReactNative modals and switch to react-navigation modals
  */
-export function navigateHome(options?: NavigateHomeOptions) {
-  const { params } = options ?? {}
-  const timeout = params?.fromModal && Platform.OS === 'ios' ? 500 : 0
+export function navigateHome(fromModal?: boolean) {
+  const timeout = fromModal && Platform.OS === 'ios' ? 500 : 0
   setTimeout(() => {
-    navigationRef.current?.reset({
-      index: 0,
-      routes: getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-        ? [{ name: Screens.TabNavigator, params }]
-        : [{ name: Screens.DrawerNavigator, params }],
-    })
+    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+      ? navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabHome })
+      : navigateClearingStack(Screens.DrawerNavigator, { initialScreen: Screens.WalletHome })
   }, timeout)
 }
 
