@@ -1,9 +1,10 @@
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
+import Touchable from 'src/components/Touchable'
 import AccountCircle from 'src/icons/AccountCircle'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -17,11 +18,20 @@ export default function AccountCircleButton({ style, size, testID }: Props) {
   }
 
   return (
-    <TopBarIconButton
-      testID={testID}
-      icon={<AccountCircle size={size} />}
-      onPress={onPress}
-      style={style}
-    />
+    <View testID={testID} style={styles.container}>
+      <Touchable onPress={onPress} style={[style, styles.button]} borderRadius={Spacing.Thick24}>
+        <AccountCircle size={size} />
+      </Touchable>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    padding: Spacing.Small12,
+  },
+})

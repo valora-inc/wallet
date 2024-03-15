@@ -115,7 +115,6 @@ export const styles = StyleSheet.create({
   topElementsContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: Spacing.Regular16,
   },
 })
 
@@ -301,13 +300,13 @@ export function HeaderTitleWithSubtitle({
 export const tabHeader: NativeStackNavigationOptions = {
   ...emptyHeader,
   headerRight: () => (
-    <View style={[styles.topElementsContainer, { marginRight: Spacing.Regular16 }]}>
+    <View style={[styles.topElementsContainer, { marginRight: Spacing.Tiny4 }]}>
       <QrScanButton testID="WalletHome/QRScanButton" />
       <NotificationBell testID="WalletHome/NotificationBell" />
     </View>
   ),
   headerLeft: () => (
-    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Regular16 }]}>
+    <View style={[styles.topElementsContainer, { marginLeft: Spacing.Tiny4 }]}>
       <AccountCircleButton testID="WalletHome/AccountCircle" />
     </View>
   ),

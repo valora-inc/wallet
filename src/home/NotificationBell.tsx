@@ -1,13 +1,14 @@
 import React from 'react'
-import { StyleProp, ViewStyle } from 'react-native'
+import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native'
 import { HomeEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import Touchable from 'src/components/Touchable'
 import { useNotifications } from 'src/home/NotificationCenter'
 import NotificationBellIcon from 'src/icons/NotificationBellIcon'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
-import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import colors from 'src/styles/colors'
+import { Spacing } from 'src/styles/styles'
 
 interface Props {
   style?: StyleProp<ViewStyle>
@@ -29,11 +30,20 @@ export default function NotificationBell({ style, size, testID }: Props) {
   }
 
   return (
-    <TopBarIconButton
-      testID={testID}
-      icon={<NotificationBellIcon size={size} notificationMark={notificationMark} />}
-      onPress={onPress}
-      style={style}
-    />
+    <View testID={testID} style={styles.container}>
+      <Touchable onPress={onPress} style={[style, styles.button]} borderRadius={Spacing.Thick24}>
+        <NotificationBellIcon size={size} notificationMark={notificationMark} />
+      </Touchable>
+    </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    padding: Spacing.Small12,
+  },
+})
