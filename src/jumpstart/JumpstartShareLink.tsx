@@ -74,7 +74,7 @@ function JumpstartShareLink({ route }: Props) {
           label={t('jumpstartShareLinkScreen.linkLabel')}
           value={link}
           copySuccessMessage={t('jumpstartShareLinkScreen.linkCopiedMessage')}
-          testID="WalletConnectRequest/ActionRequestPayload"
+          testID="JumpstartShareLink/LiveLink"
         />
       </ScrollView>
     </SafeAreaView>
