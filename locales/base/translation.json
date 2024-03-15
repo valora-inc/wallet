@@ -2122,6 +2122,12 @@
       "ctaLabel": "Dismiss"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Share Live Link",
+    "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
+    "linkLabel": "Live Link",
+    "linkCopiedMessage": "Live Link copied"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approval",
     "estimatedNetworkFee": "Estimated network fee",

@@ -30,7 +30,6 @@ import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
 import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
-import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
@@ -276,31 +275,31 @@ export function* sendJumpstartTransactions(
       sendToken.tokenId
     )
 
-    const txHashes = yield* call(
-      sendPreparedTransactions,
-      serializablePreparedTransactions,
-      sendToken.networkId,
-      createStandbyTxHandlers
-    )
+    // const txHashes = yield* call(
+    //   sendPreparedTransactions,
+    //   serializablePreparedTransactions,
+    //   sendToken.networkId,
+    //   createStandbyTxHandlers
+    // )
 
-    Logger.debug(`${TAG}/sendJumpstartTransactionSaga`, 'Waiting for transaction receipts')
-    const txReceipts = yield* all(
-      txHashes.map((txHash) => {
-        return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
-          hash: txHash,
-        })
-      })
-    )
-    txReceipts.forEach((receipt, index) => {
-      Logger.debug(
-        `${TAG}/sendJumpstartTransactionSaga`,
-        `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
-        receipt
-      )
-    })
-    if (txReceipts.some((receipt) => receipt.status !== 'success')) {
-      throw new Error('One or more transactions failed')
-    }
+    // Logger.debug(`${TAG}/sendJumpstartTransactionSaga`, 'Waiting for transaction receipts')
+    // const txReceipts = yield* all(
+    //   txHashes.map((txHash) => {
+    //     return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
+    //       hash: txHash,
+    //     })
+    //   })
+    // )
+    // txReceipts.forEach((receipt, index) => {
+    //   Logger.debug(
+    //     `${TAG}/sendJumpstartTransactionSaga`,
+    //     `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
+    //     receipt
+    //   )
+    // })
+    // if (txReceipts.some((receipt) => receipt.status !== 'success')) {
+    //   throw new Error('One or more transactions failed')
+    // }
 
     yield* put(depositTransactionSucceeded())
   } catch (err) {
