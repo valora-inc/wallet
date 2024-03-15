@@ -215,7 +215,7 @@ describe('TokenDetails', () => {
     expect(getByTestId(`PriceHistoryChart/Loader`)).toBeTruthy()
   })
 
-  it('renders chart using blockchain API', () => {
+  it('renders chart and celo news using blockchain API', () => {
     jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
     const store = createMockStore({
       priceHistory: {
@@ -239,13 +239,46 @@ describe('TokenDetails', () => {
       },
     })
 
-    const { getByTestId } = render(
+    const { getByTestId, queryByText } = render(
       <Provider store={store}>
         <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
       </Provider>
     )
 
     expect(getByTestId(`TokenDetails/Chart/${mockCeloTokenId}`)).toBeTruthy()
+  })
+
+  it('renders celo news when using blockchain API', () => {
+    jest.mocked(getFeatureGate).mockReturnValue(true) // Use new prices from blockchain API
+    const store = createMockStore({
+      priceHistory: {
+        [mockCeloTokenId]: {
+          status: 'success',
+          prices: [
+            {
+              priceFetchedAt: 1700378258000,
+              priceUsd: '0.97',
+            },
+            {
+              priceFetchedAt: 1701659858000,
+              priceUsd: '1.2',
+            },
+            {
+              priceFetchedAt: 1702941458000,
+              priceUsd: '1.4',
+            },
+          ] as Price[],
+        },
+      },
+    })
+
+    const { queryByText } = render(
+      <Provider store={store}>
+        <MockedNavigator component={TokenDetailsScreen} params={{ tokenId: mockCeloTokenId }} />
+      </Provider>
+    )
+
+    expect(queryByText('celoNews.headerTitle')).toBeTruthy()
   })
 
   it('does not render chart if no prices are found and error status', () => {
