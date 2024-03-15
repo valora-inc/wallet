@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -40,8 +40,6 @@ function JumpstartSendConfirmation({ route }: Props) {
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
   const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
-
-  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     if (jumpstartSendStatus === 'success') {
