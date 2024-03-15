@@ -2113,7 +2113,12 @@
     "sendAmountLabel": "TALEP BAĞLANTI TUTARI",
     "confirmButton": "Fon gönderin ve bağlantı oluşturun",
     "detailsLabel": "NASIL ÇALIŞIR",
-    "details": "1. Bağlantı oluştur'a dokunun ve fonlarınız talep bağlantısına gönderilir\n2. Talep bağlantısını bir arkadaşınıza gönderin\n3. Fonları kabul edeceklerdir\n4. Fonlar talep edilmezse, istediğiniz zaman geri alabilirsiniz."
+    "details": "1. Bağlantı oluştur'a dokunun ve fonlarınız talep bağlantısına gönderilir\n2. Talep bağlantısını bir arkadaşınıza gönderin\n3. Fonları kabul edeceklerdir\n4. Fonlar talep edilmezse, istediğiniz zaman geri alabilirsiniz.",
+    "sendError": {
+      "title": "Bağlantı oluşturulamıyor",
+      "description": "Canlı bağlantınız oluşturulmadı. Lütfen tekrar deneyin.",
+      "ctaLabel": "Yoksay"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
