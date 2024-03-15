@@ -4184,10 +4184,20 @@
                         "loading"
                     ],
                     "type": "string"
+                },
+                "depositStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "claimStatus"
+                "claimStatus",
+                "depositStatus"
             ],
             "type": "object"
         },

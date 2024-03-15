@@ -1,26 +1,38 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import BigNumber from 'bignumber.js'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
+  JumpstartTransactionStartedAction,
+  depositTransactionCancelled,
+  depositTransactionFailed,
+  depositTransactionStarted,
+  depositTransactionSucceeded,
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
 } from 'src/jumpstart/slice'
 import { NftMetadata } from 'src/nfts/types'
+import { CANCELLED_PIN_INPUT } from 'src/pincode/authentication'
 import { getDynamicConfigParams } from 'src/statsig'
 import { DynamicConfigs } from 'src/statsig/constants'
 import { StatsigDynamicConfigs } from 'src/statsig/types'
+import { vibrateError } from 'src/styles/hapticFeedback'
 import { tokensByIdSelector } from 'src/tokens/selectors'
 import { getTokenId } from 'src/tokens/utils'
-import { addStandbyTransaction } from 'src/transactions/actions'
-import { NetworkId, TokenTransactionTypeV2 } from 'src/transactions/types'
+import { BaseStandbyTransaction, addStandbyTransaction } from 'src/transactions/actions'
+import { NetworkId, TokenTransactionTypeV2, newTransactionContext } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
+import { ensureError } from 'src/utils/ensureError'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
+import { safely } from 'src/utils/safely'
 import { publicClient } from 'src/viem'
+import { getPreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { all, call, fork, put, select } from 'typed-redux-saga'
+import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
 import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 const TAG = 'WalletJumpstart'
@@ -190,4 +202,131 @@ export function* dispatchPendingERC721Transactions(
       }
     }
   }
+}
+
+export function* sendJumpstartTransactions(
+  action: PayloadAction<JumpstartTransactionStartedAction>
+) {
+  const { serializablePreparedTransactions, sendToken, sendAmount } = action.payload
+
+  try {
+    const networkId = sendToken.networkId
+    const jumpstartContractAddress = getDynamicConfigParams(
+      DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG]
+    ).jumpstartContracts?.[networkId]?.contractAddress
+    if (!jumpstartContractAddress) {
+      throw new Error(
+        `Jumpstart contract address for send token ${sendToken.tokenId} on network ${networkId} is not provided in dynamic config`
+      )
+    }
+
+    const createStandbyTxHandlers = []
+    const preparedTransactions = getPreparedTransactions(serializablePreparedTransactions)
+
+    // in this flow, there should only be 1 or 2 transactions. if there are 2
+    // transactions, the first one should be an approval.
+    if (preparedTransactions.length > 2) {
+      throw new Error(
+        'Received more than the maximum expected number of transactions, only 2 is allowed'
+      )
+    }
+
+    if (preparedTransactions.length === 2) {
+      const createApprovalStandbyTx = (
+        txHash: string,
+        feeCurrencyId?: string
+      ): BaseStandbyTransaction => {
+        return {
+          context: newTransactionContext(TAG, 'Approve jumpstart transaction'),
+          __typename: 'TokenApproval',
+          networkId,
+          type: TokenTransactionTypeV2.Approval,
+          transactionHash: txHash,
+          tokenId: sendToken.tokenId,
+          approvedAmount: sendAmount,
+          feeCurrencyId,
+        }
+      }
+      createStandbyTxHandlers.push(createApprovalStandbyTx)
+    }
+
+    const createStandbySendTransaction = (
+      hash: string,
+      feeCurrencyId?: string
+    ): BaseStandbyTransaction => ({
+      __typename: 'TokenTransferV3',
+      type: TokenTransactionTypeV2.Sent,
+      context: newTransactionContext(TAG, 'Send jumpstart transaction'),
+      networkId,
+      amount: {
+        value: new BigNumber(sendAmount).negated().toString(),
+        tokenAddress: sendToken.address ?? undefined,
+        tokenId: sendToken.tokenId,
+      },
+      address: jumpstartContractAddress,
+      metadata: {},
+      transactionHash: hash,
+      feeCurrencyId,
+    })
+    createStandbyTxHandlers.push(createStandbySendTransaction)
+
+    Logger.debug(
+      `${TAG}/sendJumpstartTransactionSaga`,
+      'Executing send transaction',
+      sendToken.tokenId
+    )
+
+    const txHashes = yield* call(
+      sendPreparedTransactions,
+      serializablePreparedTransactions,
+      sendToken.networkId,
+      createStandbyTxHandlers
+    )
+
+    Logger.debug(`${TAG}/sendJumpstartTransactionSaga`, 'Waiting for transaction receipts')
+    const txReceipts = yield* all(
+      txHashes.map((txHash) => {
+        return call([publicClient[networkIdToNetwork[networkId]], 'waitForTransactionReceipt'], {
+          hash: txHash,
+        })
+      })
+    )
+    txReceipts.forEach((receipt, index) => {
+      Logger.debug(
+        `${TAG}/sendJumpstartTransactionSaga`,
+        `Received transaction receipt ${index + 1} of ${txReceipts.length}`,
+        receipt
+      )
+    })
+    const jumpstartTxReceipt = txReceipts[txReceipts.length - 1]
+    if (jumpstartTxReceipt.status !== 'success') {
+      throw new Error(`Jumpstart transaction reverted: ${jumpstartTxReceipt.transactionHash}`)
+    }
+
+    yield* put(depositTransactionSucceeded())
+  } catch (err) {
+    if (err === CANCELLED_PIN_INPUT) {
+      Logger.info(TAG, 'Transaction cancelled by user')
+      yield* put(depositTransactionCancelled())
+      return
+    }
+
+    const error = ensureError(err)
+    Logger.error(
+      `${TAG}/sendJumpstartTransactionSaga`,
+      'Error sending jumpstart transaction',
+      error
+    )
+
+    yield* put(depositTransactionFailed())
+    vibrateError()
+  }
+}
+
+function* watchSendJumpstartTransaction() {
+  yield* takeEvery(depositTransactionStarted.type, safely(sendJumpstartTransactions))
+}
+
+export function* jumpstartSaga() {
+  yield* spawn(watchSendJumpstartTransaction)
 }

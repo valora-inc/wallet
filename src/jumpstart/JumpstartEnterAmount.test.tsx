@@ -6,6 +6,7 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { createJumpstartLink } from 'src/firebase/dynamicLinks'
 import JumpstartEnterAmount from 'src/jumpstart/JumpstartEnterAmount'
+import { depositTransactionFlowStarted } from 'src/jumpstart/slice'
 import { usePrepareJumpstartTransactions } from 'src/jumpstart/usePrepareJumpstartTransactions'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -98,6 +99,7 @@ describe('JumpstartEnterAmount', () => {
       },
       maxAllowedSendAmountUsd: 50,
     })
+    store.clearActions()
   })
 
   it('should render only jumpstart tokens', () => {
@@ -192,5 +194,41 @@ describe('JumpstartEnterAmount', () => {
         tokenSymbol: 'cEUR',
       }
     )
+  })
+
+  it('should block the continue button if there is an in-flight jumpstart transaction', async () => {
+    const { getByTestId, rerender } = render(
+      <Provider store={store}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    expect(store.getActions()).toEqual([depositTransactionFlowStarted()])
+
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.25')
+    await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(1))
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeEnabled()
+
+    const updatedStore = createMockStore({
+      tokens: {
+        tokenBalances,
+      },
+      jumpstart: {
+        depositStatus: 'success',
+      },
+    })
+    rerender(
+      <Provider store={updatedStore}>
+        <JumpstartEnterAmount />
+      </Provider>
+    )
+
+    // depositTransactionFlowStarted should not be dispatched
+    expect(updatedStore.getActions()).toEqual([])
+    fireEvent.changeText(getByTestId('SendEnterAmount/Input'), '.30')
+    // prepare transaction for a second time on this screen
+    await waitFor(() => expect(executeSpy).toHaveBeenCalledTimes(2))
+    // review button should remain disabled
+    expect(getByTestId('SendEnterAmount/ReviewButton')).toBeDisabled()
   })
 })

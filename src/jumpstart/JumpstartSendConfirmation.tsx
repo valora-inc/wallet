@@ -1,16 +1,20 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import BigNumber from 'bignumber.js'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { useDispatch } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import Button, { BtnSizes } from 'src/components/Button'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
+import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
+import { depositTransactionStarted } from 'src/jumpstart/slice'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
+import { navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
@@ -25,17 +29,34 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartSendConfirm
 const TAG = 'JumpstartSendConfirmation'
 
 function JumpstartSendConfirmation({ route }: Props) {
-  const { tokenId, sendAmount } = route.params
+  const { tokenId, sendAmount, serializablePreparedTransactions } = route.params
   const parsedAmount = new BigNumber(sendAmount)
   const { t } = useTranslation()
+  const dispatch = useDispatch()
 
   const token = useTokenInfo(tokenId)
   const usdToLocalRate = useSelector(usdToLocalCurrencyRateSelector)
   const localCurrencyCode = useSelector(getLocalCurrencyCode)
+  const jumpstartSendStatus = useSelector(jumpstartSendStatusSelector)
+
+  useEffect(() => {
+    if (jumpstartSendStatus === 'success') {
+      // TODO: navigate clearing stack to the next screen, navigateHome is just
+      // a placeholder for now
+      navigateHome()
+    }
+    // TODO: handle error state
+  }, [jumpstartSendStatus])
 
   const handleSendTransaction = () => {
     if (token) {
-      // TODO - send transaction
+      dispatch(
+        depositTransactionStarted({
+          sendToken: token,
+          sendAmount,
+          serializablePreparedTransactions,
+        })
+      )
 
       ValoraAnalytics.track(JumpstartEvents.jumpstart_send_confirm, {
         localCurrency: localCurrencyCode,
@@ -84,6 +105,7 @@ function JumpstartSendConfirmation({ route }: Props) {
           onPress={handleSendTransaction}
           size={BtnSizes.FULL}
           style={styles.button}
+          showLoading={jumpstartSendStatus === 'loading'}
         />
         <Text style={styles.detailsLabel}>{t('jumpstartSendConfirmationScreen.detailsLabel')}</Text>
         <Text style={styles.detailsText}>{t('jumpstartSendConfirmationScreen.details')}</Text>

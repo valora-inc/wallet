@@ -1,6 +1,11 @@
 import { expectSaga } from 'redux-saga-test-plan'
 import * as matchers from 'redux-saga-test-plan/matchers'
-import { throwError } from 'redux-saga-test-plan/providers'
+import {
+  EffectProviders,
+  StaticProvider,
+  dynamic,
+  throwError,
+} from 'redux-saga-test-plan/providers'
 import { fork } from 'redux-saga/effects'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
@@ -10,8 +15,12 @@ import {
   dispatchPendingERC721Transactions,
   dispatchPendingTransactions,
   jumpstartClaim,
+  sendJumpstartTransactions,
 } from 'src/jumpstart/saga'
 import {
+  depositTransactionFailed,
+  depositTransactionStarted,
+  depositTransactionSucceeded,
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
@@ -22,12 +31,15 @@ import { Network, NetworkId, TokenTransactionTypeV2 } from 'src/transactions/typ
 import Logger from 'src/utils/Logger'
 import { fetchWithTimeout } from 'src/utils/fetchWithTimeout'
 import { publicClient } from 'src/viem'
+import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
+import { sendPreparedTransactions } from 'src/viem/saga'
 import { createMockStore } from 'test/utils'
 import {
   mockAccount,
   mockAccount2,
   mockAccountInvitePrivKey,
   mockCusdAddress,
+  mockCusdTokenBalance,
   mockCusdTokenId,
   mockNftAllFields,
   mockTokenBalances,
@@ -40,6 +52,10 @@ jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('viem', () => ({
   ...jest.requireActual('viem'),
   parseEventLogs: jest.fn(),
+}))
+jest.mock('src/viem/saga', () => ({
+  ...jest.requireActual('src/viem/saga'),
+  sendPreparedTransactions: jest.fn().mockResolvedValue(['0x1', '0x2']),
 }))
 
 const networkId = NetworkId['celo-alfajores']
@@ -304,6 +320,101 @@ describe('dispatchPendingERC721Transactions', () => {
       'WalletJumpstart',
       'Error adding pending NFT transaction',
       mockError
+    )
+  })
+})
+
+describe('sendJumpstartTransactions', () => {
+  const serializablePreparedTransactions = getSerializablePreparedTransactions([
+    {
+      from: '0xa',
+      to: '0xb',
+      value: BigInt(0),
+      data: '0x0',
+      gas: BigInt(59_480),
+    },
+    {
+      from: '0xa',
+      to: '0xc',
+      value: BigInt(0),
+      data: '0x0',
+      gas: BigInt(1_325_000),
+    },
+  ])
+  const mockDepositTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x2',
+    cumulativeGasUsed: BigInt(3_899_547),
+    effectiveGasPrice: BigInt(5_000_000_000),
+    gasUsed: BigInt(371_674),
+  }
+  const mockApproveTxReceipt = {
+    status: 'success',
+    blockNumber: BigInt(1234),
+    transactionHash: '0x1',
+    cumulativeGasUsed: BigInt(3_129_217),
+    effectiveGasPrice: BigInt(5_000_000_000),
+    gasUsed: BigInt(51_578),
+  }
+  function createDefaultProviders(transactionStatus = 'success') {
+    let waitForTransactionReceiptCallCount = 0
+    const defaultProviders: (EffectProviders | StaticProvider)[] = [
+      [
+        matchers.call.fn(publicClient[network].waitForTransactionReceipt),
+        dynamic(() => {
+          waitForTransactionReceiptCallCount += 1
+          return waitForTransactionReceiptCallCount > 1
+            ? { ...mockDepositTxReceipt, status: transactionStatus }
+            : mockApproveTxReceipt
+        }),
+      ],
+    ]
+    return defaultProviders
+  }
+
+  beforeEach(() => {
+    jest.mocked(getDynamicConfigParams).mockReturnValue(mockJumpstartRemoteConfig)
+  })
+
+  it('should send the transactions and dispatch the success action', async () => {
+    await expectSaga(sendJumpstartTransactions, {
+      type: depositTransactionStarted.type,
+      payload: {
+        sendToken: mockCusdTokenBalance,
+        sendAmount: '1000000000000000000',
+        serializablePreparedTransactions,
+      },
+    })
+      .provide(createDefaultProviders())
+      .put(depositTransactionSucceeded())
+      .run()
+
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      serializablePreparedTransactions,
+      'celo-alfajores',
+      expect.any(Array)
+    )
+  })
+
+  it('should dispatch error if the transactions were reverted', async () => {
+    await expectSaga(sendJumpstartTransactions, {
+      type: depositTransactionStarted.type,
+      payload: {
+        sendToken: mockCusdTokenBalance,
+        sendAmount: '1000000000000000000',
+        serializablePreparedTransactions,
+      },
+    })
+      .provide(createDefaultProviders('reverted'))
+      .put(depositTransactionFailed())
+      .not.put(depositTransactionSucceeded())
+      .run()
+
+    expect(sendPreparedTransactions).toHaveBeenCalledWith(
+      serializablePreparedTransactions,
+      'celo-alfajores',
+      expect.any(Array)
     )
   })
 })
