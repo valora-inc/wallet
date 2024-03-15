@@ -2029,8 +2029,8 @@
       "subtitle": "Invita amici dal tuo elenco dei contatti"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Invia con un link in tempo reale",
+      "subtitle": "Copia il link e condividilo per inviare criptovalute come se fosse un testo."
     },
     "getStarted": {
       "title": "Come inviare fondi su Valora",
@@ -2104,16 +2104,15 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Suggeriamo un importo inferiore",
-      "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Si consiglia di inviare non più di {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Puoi inviare fino a {{amountInLocalCurrency,currency}} in un link",
+      "description": "Questo link potrà essere richiesto da chiunque ne abbia accesso. Assicurati di inviare i link a persone di cui ti fidi."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crea un link condivisibile",
-    "sendAmountLabel": "IMPORTO DEL LINK DI RICHIESTA",
-    "confirmButton": "Invia i fondi e crea il link",
-    "detailsLabel": "COME FUNZIONA",
-    "details": "1. Tocca genera il link e i tuoi fondi saranno inviati al link di richiesta\n2. Invia il link per la richiesta di rimborso a un amico\n3. Questi accetteranno i fondi\n4. Se i fondi non vengono richiesti, puoi reclamarli in qualsiasi momento.",
+    "title": "Crea un collegamento in tempo reale",
+    "sendAmountLabel": "Importo del collegamento in diretta",
+    "confirmButton": "Invia e crea un link",
+    "info": "Quando crei un link, i fondi vengono prelevati dal tuo portafoglio. Puoi recuperare il link in qualsiasi momento. Condividi i link con attenzione.",
     "sendError": {
       "title": "Impossibile creare un collegamento",
       "description": "Il tuo link live non è stato creato. Riprova.",
