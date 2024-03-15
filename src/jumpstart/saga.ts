@@ -298,8 +298,9 @@ export function* sendJumpstartTransactions(
         receipt
       )
     })
-    if (txReceipts.some((receipt) => receipt.status !== 'success')) {
-      throw new Error('One or more transactions failed')
+    const jumpstartTxReceipt = txReceipts[txReceipts.length - 1]
+    if (jumpstartTxReceipt.status !== 'success') {
+      throw new Error(`Jumpstart transaction reverted: ${jumpstartTxReceipt.transactionHash}`)
     }
 
     yield* put(depositTransactionSucceeded())
