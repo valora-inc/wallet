@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
-import { depositTransactionStarted } from 'src/jumpstart/slice'
+import { depositErrorDismissed, depositTransactionStarted } from 'src/jumpstart/slice'
 import { navigateHome } from 'src/navigator/NavigationService'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
@@ -148,5 +148,52 @@ describe('JumpstartSendConfirmation', () => {
       </Provider>
     )
     expect(navigateHome).toHaveBeenCalled()
+  })
+
+  it('should render a dismissable error notification if the transaction is unsuccessful', async () => {
+    const { rerender, queryByText, getByText } = render(
+      <Provider
+        store={createMockStore({
+          jumpstart: {
+            depositStatus: 'idle',
+          },
+        })}
+      >
+        <MockedNavigator
+          component={JumpstartSendConfirmation}
+          params={{
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
+            serializablePreparedTransactions,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(queryByText('jumpstartSendConfirmationScreen.sendError.title')).toBeFalsy()
+
+    const updatedMockStore = createMockStore({
+      jumpstart: {
+        depositStatus: 'error',
+      },
+    })
+    rerender(
+      <Provider store={updatedMockStore}>
+        <MockedNavigator
+          component={JumpstartSendConfirmation}
+          params={{
+            tokenId: mockCusdTokenId,
+            sendAmount: '12.345',
+            serializablePreparedTransactions,
+          }}
+        />
+      </Provider>
+    )
+
+    expect(getByText('jumpstartSendConfirmationScreen.sendError.title')).toBeTruthy()
+
+    fireEvent.press(getByText('jumpstartSendConfirmationScreen.sendError.ctaLabel'))
+
+    expect(updatedMockStore.getActions()).toEqual([depositErrorDismissed()])
   })
 })
