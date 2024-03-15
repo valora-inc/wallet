@@ -2113,7 +2113,12 @@
     "sendAmountLabel": "IMPORTO DEL LINK DI RICHIESTA",
     "confirmButton": "Invia i fondi e crea il link",
     "detailsLabel": "COME FUNZIONA",
-    "details": "1. Tocca genera il link e i tuoi fondi saranno inviati al link di richiesta\n2. Invia il link per la richiesta di rimborso a un amico\n3. Questi accetteranno i fondi\n4. Se i fondi non vengono richiesti, puoi reclamarli in qualsiasi momento."
+    "details": "1. Tocca genera il link e i tuoi fondi saranno inviati al link di richiesta\n2. Invia il link per la richiesta di rimborso a un amico\n3. Questi accetteranno i fondi\n4. Se i fondi non vengono richiesti, puoi reclamarli in qualsiasi momento.",
+    "sendError": {
+      "title": "Impossibile creare un collegamento",
+      "description": "Il tuo link live non è stato creato. Riprova.",
+      "ctaLabel": "Ignorare"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Approvazione",
