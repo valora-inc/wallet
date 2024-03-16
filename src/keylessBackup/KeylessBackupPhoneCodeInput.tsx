@@ -10,7 +10,7 @@ import TextButton from 'src/components/TextButton'
 import KeylessBackupCancelButton from 'src/keylessBackup/KeylessBackupCancelButton'
 import { useVerifyPhoneNumber } from 'src/keylessBackup/hooks'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { TopBarTextButton } from 'src/navigator/TopBarButton'
 import { StackParamList } from 'src/navigator/types'
@@ -85,9 +85,7 @@ function KeylessBackupPhoneCodeInput({
     ValoraAnalytics.track(KeylessBackupEvents.cab_phone_verification_help_skip, {
       keylessBackupFlow,
     })
-    navigate(
-      keylessBackupFlow === KeylessBackupFlow.Setup ? Screens.WalletHome : Screens.ImportSelect
-    )
+    keylessBackupFlow === KeylessBackupFlow.Setup ? navigateHome() : navigate(Screens.ImportSelect)
   }
 
   useLayoutEffect(() => {
