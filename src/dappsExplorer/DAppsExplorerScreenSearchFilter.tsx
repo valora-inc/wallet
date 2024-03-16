@@ -1,3 +1,4 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { RefreshControl, SectionList, SectionListProps, StyleSheet, Text, View } from 'react-native'
@@ -29,6 +30,8 @@ import useOpenDapp from 'src/dappsExplorer/useOpenDapp'
 import { currentLanguageSelector } from 'src/i18n/selectors'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { styles as headerStyles } from 'src/navigator/Headers'
+import { Screens } from 'src/navigator/Screens'
+import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
@@ -44,8 +47,18 @@ interface SectionData {
   testID: string
 }
 
-export function DAppsExplorerScreenSearchFilter() {
+type Props = NativeStackScreenProps<
+  StackParamList,
+  Screens.DAppsExplorerScreen | Screens.TabDiscover
+>
+
+export function DAppsExplorerScreenSearchFilter({ route }: Props) {
   const { t } = useTranslation()
+
+  // temporary parameter while we build the tab navigator, should be cleaned up
+  // when we remove the drawer
+  const isTabNavigator = !!route.params?.isTabNavigator
+
   const insets = useSafeAreaInsets()
 
   const sectionListRef = useRef<SectionList>(null)
@@ -171,13 +184,18 @@ export function DAppsExplorerScreenSearchFilter() {
   ])
 
   return (
-    <SafeAreaView testID="DAppsExplorerScreen" style={styles.safeAreaContainer} edges={['top']}>
-      <DrawerTopBar
-        rightElement={<QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} />}
-        middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
-        scrollPosition={scrollPosition}
-      />
-
+    <SafeAreaView
+      testID="DAppsExplorerScreen"
+      style={styles.safeAreaContainer}
+      edges={isTabNavigator ? [] : ['top']}
+    >
+      {!isTabNavigator && (
+        <DrawerTopBar
+          rightElement={<QrScanButton testID={'DAppsExplorerScreen/QRScanButton'} />}
+          middleElement={<Text style={headerStyles.headerTitle}>{t('dappsScreen.title')}</Text>}
+          scrollPosition={scrollPosition}
+        />
+      )}
       <>
         {!loading && error && (
           <View style={styles.centerContainer}>
@@ -300,7 +318,7 @@ const styles = StyleSheet.create({
     paddingTop: Spacing.Regular16,
   },
   sectionListContentContainer: {
-    padding: Spacing.Thick24,
+    padding: Spacing.Regular16,
     flexGrow: 1,
   },
   refreshControl: {

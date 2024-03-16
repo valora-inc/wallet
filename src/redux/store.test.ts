@@ -98,7 +98,7 @@ describe('store state', () => {
       {
         "_persist": {
           "rehydrated": true,
-          "version": 198,
+          "version": 200,
         },
         "account": {
           "acceptedTerms": false,
@@ -160,7 +160,6 @@ describe('store state', () => {
           "pincodeUseExpandedBlocklist": false,
           "pushNotificationRequestedUnixTime": 1692878055000,
           "pushNotificationsEnabled": false,
-          "rampCashInButtonExpEnabled": false,
           "requirePinOnAppOpen": false,
           "sentryNetworkErrors": [
             "network request failed",
@@ -262,6 +261,7 @@ describe('store state', () => {
         },
         "jumpstart": {
           "claimStatus": "idle",
+          "depositStatus": "idle",
         },
         "keylessBackup": {
           "backupStatus": "NotStarted",

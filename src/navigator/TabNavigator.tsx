@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet } from 'react-native'
 import DAppsExplorerScreenSearchFilter from 'src/dappsExplorer/DAppsExplorerScreenSearchFilter'
 import WalletHome from 'src/home/WalletHome'
+import ValoraV from 'src/icons/ValoraV'
 import Discover from 'src/icons/navigator/Discover'
-import Home from 'src/icons/navigator/Home'
 import Wallet from 'src/icons/navigator/Wallet'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -57,18 +57,23 @@ export default function TabNavigator({ route }: Props) {
           freezeOnBlur: false,
           lazy: false,
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
-          tabBarIcon: Home,
+          tabBarIcon: ValoraV,
         }}
         initialParams={{ isTabNavigator: true }}
       />
       <Tab.Screen
-        // TODO(act-1106) discover tab screen
         name={Screens.TabDiscover}
         component={DAppsExplorerScreenSearchFilter}
         options={{
           tabBarLabel: t('bottomTabsNavigator.discover.tabName') as string,
           tabBarIcon: Discover,
+          // Special case for the Dapps explorer,
+          // so it reloads the list when the user comes back to it
+          // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
+          // but here it's the right expectation
+          unmountOnBlur: true,
         }}
+        initialParams={{ isTabNavigator: true }}
       />
     </Tab.Navigator>
   )

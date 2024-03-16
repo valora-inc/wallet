@@ -92,7 +92,7 @@ export type StackParamList = {
   [Screens.DappKitSignTxScreen]: {
     dappKitRequest: SignTxRequest
   }
-  [Screens.DAppsExplorerScreen]: undefined
+  [Screens.DAppsExplorerScreen]: { isTabNavigator?: boolean } | undefined
   [Screens.DappShortcutsRewards]: undefined
   [Screens.DappShortcutTransactionRequest]: {
     rewardId: string
@@ -100,7 +100,6 @@ export type StackParamList = {
   [Screens.Debug]: undefined
   [Screens.DrawerNavigator]: {
     initialScreen?: Screens
-    fromModal?: boolean
   }
   [Screens.ErrorScreen]: {
     errorMessage?: string
@@ -222,6 +221,7 @@ export type StackParamList = {
   [Screens.ProtectWallet]: undefined
   [Screens.OnboardingRecoveryPhrase]: undefined
   [Screens.Profile]: undefined
+  [Screens.ProfileMenu]: undefined
   [Screens.QRNavigator]: NestedNavigatorParams<QRTabParamList> | undefined
   [Screens.ReclaimPaymentConfirmationScreen]: {
     reclaimPaymentInput: EscrowedPayment
@@ -257,7 +257,7 @@ export type StackParamList = {
     link: string
     sendAmount: string
     tokenId: string
-    preparedTransactions: SerializableTransactionRequest[]
+    serializablePreparedTransactions: SerializableTransactionRequest[]
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
@@ -272,12 +272,11 @@ export type StackParamList = {
       }
     | undefined
   [Screens.SwapScreenWithBack]: { fromTokenId: string } | undefined
-  [Screens.TabDiscover]: undefined
+  [Screens.TabDiscover]: { isTabNavigator?: boolean } | undefined
   [Screens.TabHome]: { isTabNavigator?: boolean } | undefined
   [Screens.TabWallet]: { activeAssetTab?: AssetTabType; isWalletTab?: boolean } | undefined
   [Screens.TabNavigator]: {
-    initialScreen?: Screens
-    fromModal?: boolean
+    initialScreen?: Screens.TabHome | Screens.TabWallet | Screens.TabDiscover
   }
   [Screens.TokenDetails]: { tokenId: string }
   [Screens.TokenImport]: undefined

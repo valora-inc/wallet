@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native'
 import { nameSelector } from 'src/account/selectors'
 import Button from 'src/components/Button'
 import ExchangesBottomSheet from 'src/components/ExchangesBottomSheet'
-import InLineNotification, { Severity } from 'src/components/InLineNotification'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import { ExternalExchangeProvider } from 'src/fiatExchanges/ExternalExchanges'
 import CopyIcon from 'src/icons/CopyIcon'
 import StyledQRCode from 'src/qrcode/StyledQRCode'
@@ -131,7 +131,7 @@ export default function QRCodeDisplay(props: Props) {
       ) : (
         <View style={styles.notificationWrapper}>
           <InLineNotification
-            severity={Severity.Informational}
+            variant={NotificationVariant.Info}
             description={description()}
             style={styles.link}
             testID="supportedNetworksNotification"

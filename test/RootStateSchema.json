@@ -2649,6 +2649,7 @@
                 "PincodeEnter",
                 "PincodeSet",
                 "Profile",
+                "ProfileMenu",
                 "ProtectWallet",
                 "QRCode",
                 "QRNavigator",
@@ -3242,9 +3243,6 @@
                 "pushNotificationsEnabled": {
                     "type": "boolean"
                 },
-                "rampCashInButtonExpEnabled": {
-                    "type": "boolean"
-                },
                 "requirePinOnAppOpen": {
                     "type": "boolean"
                 },
@@ -3323,7 +3321,6 @@
                 "pincodeUseExpandedBlocklist",
                 "pushNotificationRequestedUnixTime",
                 "pushNotificationsEnabled",
-                "rampCashInButtonExpEnabled",
                 "requirePinOnAppOpen",
                 "sentryNetworkErrors",
                 "sentryTracesSampleRate",
@@ -4187,10 +4184,20 @@
                         "loading"
                     ],
                     "type": "string"
+                },
+                "depositStatus": {
+                    "enum": [
+                        "error",
+                        "idle",
+                        "loading",
+                        "success"
+                    ],
+                    "type": "string"
                 }
             },
             "required": [
-                "claimStatus"
+                "claimStatus",
+                "depositStatus"
             ],
             "type": "object"
         },

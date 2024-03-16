@@ -214,7 +214,6 @@ export async function quickOnboarding(mnemonic = SAMPLE_BACKUP_KEY) {
     }
 
     // Assert on Wallet Home Screen
-    await dismissCashInBottomSheet()
     await expect(element(by.id('HomeAction-Send'))).toBeVisible()
   } catch {} // Don't throw an error just silently continue
 }
@@ -318,6 +317,14 @@ export async function addComment(comment) {
  */
 export async function confirmTransaction(commentText) {
   try {
+    // the transaction should be visible because it is the most recent, however
+    // the comment text may be hidden while the transaction is pending. allow
+    // some time for the transaction to be settled, before asserting on the
+    // comment.
+    await waitFor(element(by.text(commentText)))
+      .toBeVisible()
+      .withTimeout(60 * 1000)
+
     // getAttributes() for multiple elements only supported on iOS for Detox < 20.12.0
     if (device.getPlatform() === 'ios') {
       // Comment should be present in the feed
@@ -340,15 +347,6 @@ export async function confirmTransaction(commentText) {
   } catch (error) {
     throw new Error(`utils/confirmTransaction failed: ${error}`)
   }
-}
-
-export async function dismissCashInBottomSheet() {
-  try {
-    await waitFor(element(by.id('CashInBottomSheet')))
-      .toBeVisible()
-      .withTimeout(15 * 1000)
-    await element(by.id('DismissBottomSheet')).tap()
-  } catch {}
 }
 
 export async function waitForElementByText(text, timeout = 30_000, index = 0) {
