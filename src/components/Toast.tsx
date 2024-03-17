@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Dimensions, LayoutChangeEvent, StyleSheet, TouchableWithoutFeedback } from 'react-native'
 import { PanGestureHandler } from 'react-native-gesture-handler'
 import Animated, {
@@ -21,6 +21,7 @@ type DismissHandler = () => void
 interface Props extends Omit<InLineNotificationProps, 'withBorder'> {
   showToast: boolean
   position?: 'top' | 'bottom'
+  onUnmount?: () => void
 }
 
 // toast with backdrop must have `onDismiss` handler (fired when user taps on the backdrop)
@@ -55,9 +56,16 @@ const Toast = ({
   swipeable,
   position = 'bottom',
   onDismiss,
+  onUnmount,
   ...inLineNotificationProps
 }: WithBackdrop | Swipeable | MustHaveCTA) => {
   const [isVisible, setIsVisible] = useState(showToast)
+
+  useEffect(() => {
+    return () => {
+      onUnmount?.()
+    }
+  }, [])
 
   const window = Dimensions.get('window')
   const safeInitialHeight = Math.max(window.width, window.height)
