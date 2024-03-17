@@ -4,11 +4,14 @@ import { useAsyncCallback } from 'react-async-hook'
 import { useTranslation } from 'react-i18next'
 import { Share, StyleSheet, Text, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
+import QRCode from 'react-native-qrcode-svg'
 import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
+import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
 import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import Dialog from 'src/components/Dialog'
 import CustomHeader from 'src/components/header/CustomHeader'
+import QRCodeIcon from 'src/icons/QRCode'
 import ShareIcon from 'src/icons/Share'
 import Times from 'src/icons/Times'
 import { noHeaderGestureDisabled } from 'src/navigator/Headers'
@@ -32,6 +35,7 @@ function JumpstartShareLink({ route }: Props) {
 
   const { t } = useTranslation()
   const insets = useSafeAreaInsets()
+  const qrCodeBottomSheetRef = useRef<BottomSheetRefType>(null)
 
   const shouldNavigate = useRef(false)
   const [showNavigationWarning, setShowNavigationWarning] = useState(false)
@@ -47,6 +51,7 @@ function JumpstartShareLink({ route }: Props) {
 
   const nativeShare = useAsyncCallback(
     async () => {
+      qrCodeBottomSheetRef.current?.close()
       const result = await Share.share({
         message: t('jumpstartShareLinkScreen.shareMessage', {
           link,
@@ -87,6 +92,10 @@ function JumpstartShareLink({ route }: Props) {
     if (shouldNavigate.current) {
       navigateHome()
     }
+  }
+
+  const handleShowQRBottomSheet = () => {
+    qrCodeBottomSheetRef.current?.snapToIndex(0)
   }
 
   if (!token) {
@@ -133,6 +142,14 @@ function JumpstartShareLink({ route }: Props) {
             iconPositionLeft={false}
             size={BtnSizes.FULL}
           />
+          <Button
+            text={t('jumpstartShareLinkScreen.ctaScanQRCode')}
+            onPress={handleShowQRBottomSheet}
+            style={styles.button}
+            icon={<QRCodeIcon color={Colors.white} />}
+            iconPositionLeft={false}
+            size={BtnSizes.FULL}
+          />
         </View>
         <Dialog
           title={t('jumpstartShareLinkScreen.navigationWarning.title')}
@@ -149,6 +166,35 @@ function JumpstartShareLink({ route }: Props) {
           </Text>
         </Dialog>
       </ScrollView>
+      <BottomSheet
+        forwardedRef={qrCodeBottomSheetRef}
+        testId="JumpstartShareLink/QRCodeBottomSheet"
+      >
+        <View testID="QRCode" style={styles.qrContainer}>
+          <QRCode value={link} size={160} />
+        </View>
+        <Text style={[styles.title, styles.centeredText]}>
+          {t('jumpstartShareLinkScreen.qrCodeBottomSheet.title')}
+        </Text>
+        <Text style={[styles.description, styles.centeredText]}>
+          {t('jumpstartShareLinkScreen.qrCodeBottomSheet.description')}
+        </Text>
+        <DataFieldWithCopy
+          label={t('jumpstartShareLinkScreen.linkLabel')}
+          value={link}
+          copySuccessMessage={t('jumpstartShareLinkScreen.linkCopiedMessage')}
+          testID="JumpstartShareLink/QRCodeBottomSheet/LiveLink"
+          style={styles.copyContainer}
+        />
+        <Button
+          text={t('jumpstartShareLinkScreen.ctaShare')}
+          onPress={nativeShare.execute}
+          style={styles.button}
+          icon={<ShareIcon color={Colors.white} />}
+          iconPositionLeft={false}
+          size={BtnSizes.FULL}
+        />
+      </BottomSheet>
     </SafeAreaView>
   )
 }
@@ -182,6 +228,14 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
+  },
+  qrContainer: {
+    marginTop: Spacing.Regular16,
+    marginBottom: Spacing.Large32,
+    alignItems: 'center',
+  },
+  centeredText: {
+    textAlign: 'center',
   },
 })
 
