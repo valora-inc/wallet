@@ -1499,20 +1499,20 @@ interface TransactionDetailsProperties {
   }
 }
 
-interface JumpstartSendProperties {
-  localCurrency: LocalCurrencyCode
-  localCurrencyExchangeRate: string | null
-  tokenSymbol: string
-  tokenAmount: string | null
+interface JumpstartDepositProperties {
   amountInUsd: string | null
   tokenId: string | null
   networkId: string | null
 }
+interface JumpstartSendProperties extends JumpstartDepositProperties {
+  localCurrency: LocalCurrencyCode
+  localCurrencyExchangeRate: string | null
+  tokenSymbol: string
+  tokenAmount: string | null
+}
 interface JumpstartEventsProperties {
   [JumpstartEvents.send_select_recipient_jumpstart]: undefined
-  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: {
-    tokenId: string
-    sendAmountUsd: string
+  [JumpstartEvents.jumpstart_send_amount_exceeds_threshold]: JumpstartDepositProperties & {
     thresholdUsd: number
   }
   [JumpstartEvents.jumpstart_send_amount_continue]: JumpstartSendProperties
@@ -1521,6 +1521,12 @@ interface JumpstartEventsProperties {
   [JumpstartEvents.jumpstart_send_succeeded]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_failed]: JumpstartSendProperties
   [JumpstartEvents.jumpstart_send_cancelled]: JumpstartSendProperties
+  [JumpstartEvents.jumpstart_share_screen_share_link]: JumpstartDepositProperties
+  [JumpstartEvents.jumpstart_share_screen_share_via_QR]: JumpstartDepositProperties
+  [JumpstartEvents.jumpstart_share_screen_copy_link]: JumpstartDepositProperties
+  [JumpstartEvents.jumpstart_share_screen_close]: JumpstartDepositProperties
+  [JumpstartEvents.jumpstart_share_screen_confirm_close]: JumpstartDepositProperties
+  [JumpstartEvents.jumpstart_share_screen_dismiss_close]: JumpstartDepositProperties
   [JumpstartEvents.jumpstart_claim_succeeded]: undefined
   [JumpstartEvents.jumpstart_claim_failed]: undefined
   [JumpstartEvents.jumpstart_claimed_token]: {
