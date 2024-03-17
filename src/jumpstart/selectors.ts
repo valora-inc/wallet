@@ -1,10 +1,10 @@
 import { RootState } from 'src/redux/reducers'
 
-export const showJumstartLoading = (state: RootState) => {
+export const showJumstartClaimLoading = (state: RootState) => {
   return state.jumpstart.claimStatus === 'loading'
 }
 
-export const showJumstartError = (state: RootState) => {
+export const showJumstartClaimError = (state: RootState) => {
   return state.jumpstart.claimStatus === 'error'
 }
 
