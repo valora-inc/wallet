@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
+import { isJumpstartTransaction } from 'src/jumpstart/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -43,6 +44,7 @@ import {
 
 jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/statsig')
+jest.mock('src/jumpstart/utils')
 
 const mockAddress = '0x8C3b8Af721384BB3479915C72CEe32053DeFca4E'
 const mockName = 'Hello World'
@@ -545,5 +547,37 @@ describe('TransactionDetailsScreen', () => {
 
     fireEvent.press(getByText('transactionDetailsActions.retryFailedTransaction'))
     expect(navigate).toHaveBeenCalledWith(Screens.SendSelectRecipient)
+  })
+
+  it('handles jumpstart sent transactions correctly', async () => {
+    jest.mocked(isJumpstartTransaction).mockImplementation((_tx) => true)
+
+    const { getByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Sent,
+        address: mockAddress,
+      }),
+    })
+
+    const amountSendComponent = getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')
+    expect(getElementText(amountSendComponent)).toBe('amountSent')
+    const amountValue = getByTestId('JumpstartContent/AmountValue')
+    expect(getElementText(amountValue)).toBe('10.00 cUSD')
+  })
+
+  it('handles jumpstart received transactions correctly', async () => {
+    jest.mocked(isJumpstartTransaction).mockImplementation((_tx) => true)
+
+    const { getByTestId } = renderScreen({
+      transaction: tokenTransfer({
+        type: TokenTransactionTypeV2.Received,
+        address: mockAddress,
+      }),
+    })
+
+    const amountReceivedComponent = getByTestId('LineItemRowTitle/JumpstartContent/TokenDetails')
+    expect(getElementText(amountReceivedComponent)).toBe('amountReceived')
+    const amountValue = getByTestId('JumpstartContent/AmountValue')
+    expect(getElementText(amountValue)).toBe('10.00 cUSD')
   })
 })

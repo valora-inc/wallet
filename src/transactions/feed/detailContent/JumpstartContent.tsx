@@ -36,13 +36,13 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
       <View style={styles.amountContainer}>
         <View style={styles.amountTextContainer}>
           <TokenDisplay
-            style={styles.sendAmount}
+            style={styles.amount}
             amount={parsedAmount}
             tokenId={token.tokenId}
             showLocalAmount={false}
           />
           <TokenDisplay
-            style={styles.sendAmountLocalCurrency}
+            style={styles.amountLocalCurrency}
             amount={parsedAmount}
             tokenId={token.tokenId}
             showLocalAmount
@@ -52,6 +52,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
       </View>
       <NetworkFeeRowItem fees={transfer.fees} transactionStatus={transfer.status} />
       <LineItemRow
+        testID="JumpstartContent/TokenDetails"
         title={isDeposit ? t('amountSent') : t('amountReceived')}
         textStyle={typeScale.labelSemiBoldMedium}
         style={styles.amountSentContainer}
@@ -61,7 +62,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
             tokenId={transfer.amount.tokenId}
             showLocalAmount={false}
             hideSign={true}
-            testID="TransferSent/AmountSentValue"
+            testID="JumpstartContent/AmountValue"
           />
         }
       />
@@ -75,7 +76,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
               amount={new BigNumber(1)}
               tokenId={transfer.amount.tokenId}
               showLocalAmount={true}
-              testID="TransferSent/TransferTokenExchangeRate"
+              testID="JumpstartContent/TransferTokenExchangeRate"
             />
           </Trans>
         }
@@ -85,7 +86,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
             tokenId={transfer.amount.tokenId}
             showLocalAmount={true}
             hideSign={true}
-            testID="TransferSent/AmountSentValueFiat"
+            testID="JumpstartContent/AmountSentValueFiat"
           />
         }
         style={styles.tokenFiatValueContainer}
@@ -106,14 +107,6 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.gray4,
   },
-
-  container: {
-    padding: Spacing.Thick24,
-  },
-  heading: {
-    ...typeScale.titleSmall,
-    marginBottom: Spacing.Thick24,
-  },
   amountContainer: {
     backgroundColor: Colors.gray1,
     borderWidth: 1,
@@ -128,19 +121,12 @@ const styles = StyleSheet.create({
   amountTextContainer: {
     flex: 1,
   },
-  sendAmountLabel: {
-    ...typeScale.labelSmall,
-    marginBottom: Spacing.Smallest8,
-  },
-  sendAmount: {
+  amount: {
     ...typeScale.titleLarge,
     marginBottom: Spacing.Tiny4,
   },
-  sendAmountLocalCurrency: {
+  amountLocalCurrency: {
     ...typeScale.labelMedium,
-  },
-  button: {
-    marginBottom: Spacing.Large32,
   },
 })
 
