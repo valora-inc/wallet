@@ -2,6 +2,7 @@ import BigNumber from 'bignumber.js'
 import React from 'react'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, View } from 'react-native'
+import Button from 'src/components/Button'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
@@ -10,7 +11,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
-import { TokenTransfer } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 
 const TAG = 'JumpstartContent'
@@ -21,6 +22,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
 
   const parsedAmount = new BigNumber(transfer.amount.value).abs()
   const token = useTokenInfo(transfer.amount.tokenId)
+  const isDeposit = transfer.type === TokenTransactionTypeV2.Sent
 
   if (!token) {
     // should never happen
@@ -29,6 +31,9 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
   }
 
   // TODO: Add reclaim button
+  const reclaimButton = !isDeposit ? undefined : (
+    <Button onPress={() => console.log('pressed')} text="Press" />
+  )
 
   return (
     <>
@@ -49,6 +54,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
         </View>
         <TokenIcon token={token} size={IconSize.LARGE} />
       </View>
+      {reclaimButton}
       <NetworkFeeRowItem fees={transfer.fees} transactionStatus={transfer.status} />
       <LineItemRow
         title={t('amountSent')}
@@ -80,7 +86,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
         }
         amount={
           <TokenDisplay
-            amount={transfer.amount.value}
+            amount={-transfer.amount.value}
             tokenId={transfer.amount.tokenId}
             showLocalAmount={true}
             hideSign={true}
