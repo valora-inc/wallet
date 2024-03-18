@@ -37,7 +37,7 @@ jest.mock('src/web3/networkConfig', () => {
   }
 })
 
-describe('TransferFeedItem', () => {
+describe('JumpstartFeedItem', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(true)
