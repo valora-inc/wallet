@@ -18,7 +18,7 @@ import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import variables from 'src/styles/variables'
 import { useTokenInfo } from 'src/tokens/hooks'
-import { TokenTransfer } from 'src/transactions/types'
+import { TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
 
 interface Props {
   transfer: TokenTransfer
@@ -26,7 +26,7 @@ interface Props {
 
 function JumpstartFeedItem({ transfer }: Props) {
   const { t } = useTranslation()
-  const { amount } = transfer
+  const { amount, type } = transfer
 
   const openTransferDetails = () => {
     navigate(Screens.TransactionDetailsScreen, { transaction: transfer })
@@ -41,19 +41,20 @@ function JumpstartFeedItem({ transfer }: Props) {
   const hideBalance =
     getFeatureGate(StatsigFeatureGates.SHOW_HIDE_HOME_BALANCES_TOGGLE) && hideHomeBalanceState
 
-  const subtitle = BigNumber(amount.value).isGreaterThan(0)
-    ? t('feedItemJumpstartReceivedSubtitle')
-    : t('feedItemJumpstartSentSubtitle')
+  const subtitle =
+    type === TokenTransactionTypeV2.Received
+      ? t('feedItemJumpstartReceivedSubtitle')
+      : t('feedItemJumpstartSentSubtitle')
 
   return (
-    <Touchable testID="TransferFeedItem" onPress={openTransferDetails}>
+    <Touchable testID="JumpstartFeedItem" onPress={openTransferDetails}>
       <View style={styles.container}>
         <MagicWand />
         <View style={styles.contentContainer}>
-          <Text style={styles.title} testID={'TransferFeedItem/title'} numberOfLines={1}>
+          <Text style={styles.title} testID={'JumpstartFeedItem/title'} numberOfLines={1}>
             {t('feedItemJumpstartTitle')}
           </Text>
-          <Text style={styles.subtitle} testID={'TransferFeedItem/subtitle'} numberOfLines={1}>
+          <Text style={styles.subtitle} testID={'JumpstartFeedItem/subtitle'} numberOfLines={1}>
             {subtitle}
           </Text>
         </View>
@@ -66,7 +67,7 @@ function JumpstartFeedItem({ transfer }: Props) {
               showExplicitPositiveSign={true}
               showLocalAmount={!showTokenAmount}
               style={[styles.amount, colorStyle]}
-              testID={'TransferFeedItem/amount'}
+              testID={'JumpstartFeedItem/amount'}
             />
             <TokenDisplay
               amount={amount.value}
@@ -75,7 +76,7 @@ function JumpstartFeedItem({ transfer }: Props) {
               showSymbol={true}
               hideSign={true}
               style={[styles.tokenAmount, { opacity: showTokenAmount ? 0 : 1 }]}
-              testID={'TransferFeedItem/tokenAmount'}
+              testID={'JumpstartFeedItem/tokenAmount'}
             />
           </View>
         )}
