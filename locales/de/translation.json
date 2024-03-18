@@ -2184,6 +2184,18 @@
       "tabName": "Entdecke"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Dein Geld ist auf dem Weg",
+      "description": "Das Geld, das du von deinem Freund bekommen hast, wird gerade überwiesen. Bitte warte... "
+    },
+    "error": {
+      "title": "Nicht in der Lage, Gelder zu beantragen",
+      "description": "Probiere deinen Live-Link erneut aus, um zu versuchen, Geld zu erhalten, oder bitte deinen Freund, einen neuen Link zu senden.",
+      "contactSupport": "Support kontaktieren",
+      "dismiss": "Verwerfen"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
