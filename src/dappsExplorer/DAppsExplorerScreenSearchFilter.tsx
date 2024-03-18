@@ -238,7 +238,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
             refreshControl={
               <RefreshControl
                 tintColor={Colors.primary}
-                Colors={[Colors.primary]}
+                colors={[Colors.primary]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
