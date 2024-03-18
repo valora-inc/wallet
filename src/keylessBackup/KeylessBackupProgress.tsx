@@ -24,6 +24,8 @@ import { StackParamList } from 'src/navigator/types'
 import { goToNextOnboardingScreen, onboardingPropsSelector } from 'src/onboarding/steps'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -273,7 +275,11 @@ function Setup() {
 
   const onPressLater = () => {
     ValoraAnalytics.track(KeylessBackupEvents.cab_progress_failed_later)
-    navigate(Screens.Settings)
+    navigate(
+      getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+        ? Screens.Settings
+        : Screens.SettingsDrawer
+    )
   }
 
   switch (keylessBackupStatus) {

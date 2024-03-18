@@ -86,7 +86,7 @@ import { useRevokeCurrentPhoneNumber } from 'src/verify/hooks'
 import { selectSessions } from 'src/walletConnect/selectors'
 import { walletAddressSelector } from 'src/web3/selectors'
 
-type Props = NativeStackScreenProps<StackParamList, Screens.Settings>
+type Props = NativeStackScreenProps<StackParamList, Screens.Settings | Screens.SettingsDrawer>
 
 export const Account = ({ navigation, route }: Props) => {
   const dispatch = useDispatch()
@@ -436,7 +436,7 @@ export const Account = ({ navigation, route }: Props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
+      {!getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>

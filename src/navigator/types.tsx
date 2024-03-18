@@ -185,6 +185,7 @@ export type StackParamList = {
       }
     | undefined
   [Screens.Invite]: undefined
+  [Screens.InviteDrawer]: undefined
   [Screens.NameAndPicture]: undefined
   [Screens.EnableBiometry]: undefined
   [Screens.Language]:
@@ -261,12 +262,14 @@ export type StackParamList = {
     serializablePreparedTransactions: SerializableTransactionRequest[]
   }
   [Screens.Settings]: { promptConfirmRemovalModal?: boolean } | undefined
+  [Screens.SettingsDrawer]: { promptConfirmRemovalModal?: boolean } | undefined
   [Screens.SignInWithEmail]: {
     keylessBackupFlow: KeylessBackupFlow
   }
   [Screens.Spend]: undefined
   [Screens.StoreWipeRecoveryScreen]: undefined
   [Screens.Support]: undefined
+  [Screens.SupportDrawer]: undefined
   [Screens.SupportContact]:
     | {
         prefilledText: string

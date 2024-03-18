@@ -7,6 +7,8 @@ import { FAQ_LINK, FORUM_LINK } from 'src/config'
 import DrawerTopBar from 'src/navigator/DrawerTopBar'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import fontStyles from 'src/styles/fonts'
 import { navigateToURI } from 'src/utils/linking'
 
@@ -21,7 +23,7 @@ const Support = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <DrawerTopBar />
+      {!getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && <DrawerTopBar />}
       <ScrollView>
         <Text style={styles.title} testID={'SettingsTitle'}>
           {t('help')}
