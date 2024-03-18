@@ -15,7 +15,7 @@ import { useCashInTokens, useCashOutTokens, useSpendTokens } from 'src/tokens/ho
 import { TokenBalance } from 'src/tokens/slice'
 import { sortCicoTokens } from 'src/tokens/utils'
 import { resolveCurrency } from 'src/utils/currencies'
-import { CICOFlow, FiatExchangeFlow } from './utils'
+import { FiatExchangeFlow } from './utils'
 
 type Props = BottomSheetScreenProps<StackParamList, Screens.FiatExchangeCurrencyBottomSheet>
 
@@ -50,11 +50,7 @@ function FiatExchangeCurrencyBottomSheet({ route }: Props) {
           currency: resolveCurrency(symbol),
         })
       }
-      navigate(Screens.FiatExchangeAmount, {
-        tokenId: tokenId,
-        flow: flow === FiatExchangeFlow.CashIn ? CICOFlow.CashIn : CICOFlow.CashOut,
-        tokenSymbol: symbol,
-      })
+      navigate(Screens.NetworkMultiSelectBottomSheet)
     }
 
   return (
