@@ -743,3 +743,115 @@ describe.each([
     expect(getElementText(tree.getByTestId('TotalTokenBalance'))).toEqual('₱-')
   })
 })
+
+describe('Token differentiation for ETH and Layer 2 ETHs', () => {
+  const ethToken = {
+    priceUsd: '3000',
+    tokenId: 'ethereum:0xETH',
+    address: '0xETH',
+    networkId: NetworkId['ethereum'],
+    symbol: 'ETH',
+    balance: '1',
+    priceFetchedAt: Date.now(),
+    networkIconUrl: 'https://example.com/eth_icon.png',
+  }
+
+  const arbitrumEthToken = {
+    priceUsd: '2000',
+    tokenId: 'arbitrum-one:0xETH',
+    address: '0xETH',
+    networkId: NetworkId['arbitrum-one'],
+    symbol: 'aETH',
+    balance: '1',
+    priceFetchedAt: Date.now(),
+    networkIconUrl: 'https://example.com/arbitrum_icon.png',
+  }
+
+  const optimismEthToken = {
+    priceUsd: '2950',
+    tokenId: 'optimism:0xETH',
+    address: '0xETH',
+    networkId: NetworkId['optimism'],
+    symbol: 'oETH',
+    balance: '1',
+    priceFetchedAt: Date.now(),
+    networkIconUrl: 'https://example.com/optimism_icon.png',
+  }
+
+  it('renders correctly with only ETH token balance', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          'ethereum:0xETH': ethToken,
+        },
+      },
+      positions: {
+        positions: [],
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(getByTestId('TokenIcon/NetworkIcon')).toHaveProp('source', {
+      uri: ethToken.networkIconUrl,
+    })
+    expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$3000.00')
+  })
+
+  it('renders correctly with only Arbitrum ETH token balance', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          'arbitrum-one:0xETH': arbitrumEthToken,
+        },
+      },
+      positions: {
+        positions: [],
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(getByTestId('TokenIcon/NetworkIcon')).toHaveProp('source', {
+      uri: arbitrumEthToken.networkIconUrl,
+    })
+    expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$2000.00')
+  })
+
+  it('renders correctly with only Optimism ETH token balance', async () => {
+    const store = createMockStore({
+      ...defaultStore,
+      tokens: {
+        tokenBalances: {
+          'optimism:0xETH': optimismEthToken,
+        },
+      },
+      positions: {
+        positions: [],
+      },
+    })
+
+    const { getByTestId } = render(
+      <Provider store={store}>
+        <HomeTokenBalance />
+      </Provider>
+    )
+
+    expect(getByTestId('TokenIcon/NetworkIcon')).toHaveProp('source', {
+      uri: optimismEthToken.networkIconUrl,
+    })
+    expect(getElementText(getByTestId('TotalTokenBalance'))).toEqual('$2950.00')
+  })
+
+  // Optional: Additional tests for mixed scenarios
+})
