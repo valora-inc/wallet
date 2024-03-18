@@ -324,6 +324,9 @@ export const eventDocs: Record<AnalyticsEventType, string> = {
   [JumpstartEvents.jumpstart_claim_failed]: `When claiming from Wallet Jumpstart failed`,
   [JumpstartEvents.jumpstart_claimed_token]: `When user successfully claimed an ERC20 token trough Wallet Jumpstart`,
   [JumpstartEvents.jumpstart_claimed_nft]: `When user successfully claimed an NFT trough Wallet Jumpstart`,
+  [JumpstartEvents.jumpstart_claim_loading_dismissed]: `When user dismisses Wallet Jumpstart claim loading toast`,
+  [JumpstartEvents.jumpstart_claim_error_dismissed]: `When user dismisses Wallet Jumpstart claim error toast`,
+  [JumpstartEvents.jumpstart_claim_error_contact_support]: `When user taps "Contact Support" CTA on Wallet Jumpstart claim error toast`,
   // Events for the QR screen redesign
   [QrScreenEvents.qr_screen_copy_address]: ``,
   [QrScreenEvents.qr_scanner_open]: `When unique "QR scanner" button is pressed`,
