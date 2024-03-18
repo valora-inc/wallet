@@ -40,6 +40,7 @@ export default function TabNavigator({ route }: Props) {
         tabBarStyle: {
           height: variables.height * 0.1,
         },
+        ...(tabHeader as NativeStackHeaderProps),
       }}
     >
       <Tab.Screen
@@ -49,7 +50,6 @@ export default function TabNavigator({ route }: Props) {
           tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
           tabBarIcon: Wallet,
           tabBarTestID: 'Tab/Wallet',
-          ...(tabHeader as NativeStackHeaderProps),
         }}
         initialParams={{ isWalletTab: true }}
       />
@@ -62,7 +62,6 @@ export default function TabNavigator({ route }: Props) {
           tabBarLabel: t('bottomTabsNavigator.home.tabName') as string,
           tabBarIcon: ValoraV,
           tabBarTestID: 'Tab/Home',
-          ...(tabHeader as NativeStackHeaderProps),
         }}
         initialParams={{ isTabNavigator: true }}
       />
@@ -78,7 +77,6 @@ export default function TabNavigator({ route }: Props) {
           // Note: we generally want to avoid this as it resets the scroll position (and all other component state)
           // but here it's the right expectation
           unmountOnBlur: true,
-          ...(tabHeader as NativeStackHeaderProps),
         }}
         initialParams={{ isTabNavigator: true }}
       />
