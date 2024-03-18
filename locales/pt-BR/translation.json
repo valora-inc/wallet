@@ -2184,6 +2184,18 @@
       "tabName": "Descobrir"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Seus fundos estão a caminho",
+      "description": "Os fundos que seu amigo deu a você estão sendo enviados. Por favor, aguarde... "
+    },
+    "error": {
+      "title": "Não é possível reivindicar fundos",
+      "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
+      "contactSupport": "Contate o suporte",
+      "dismiss": "Ignorar"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
