@@ -121,14 +121,14 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
     <>
       <View style={styles.amountContainer}>
         <View style={styles.amountTextContainer}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+          <View style={styles.amountRow}>
             <TokenDisplay
               style={styles.amount}
               amount={parsedAmount}
               tokenId={token.tokenId}
               showLocalAmount={false}
             />
-            <TokenIcon viewStyle={{ flex: 1 }} token={token} size={IconSize.LARGE} />
+            <TokenIcon token={token} size={IconSize.LARGE} />
           </View>
 
           <TokenDisplay
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   amount: {
     ...typeScale.titleLarge,
     marginBottom: Spacing.Smallest8,
-    flex: 6,
+    flex: 1,
   },
   amountLocalCurrency: {
     ...typeScale.labelMedium,
@@ -237,6 +237,9 @@ const styles = StyleSheet.create({
   claimedText: {
     ...typeScale.labelSemiBoldMedium,
     color: Colors.successDark,
+  },
+  amountRow: {
+    flexDirection: 'row',
   },
 })
 
