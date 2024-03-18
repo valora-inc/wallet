@@ -2033,8 +2033,8 @@
       "subtitle": "Zaproś znajomych z listy kontaktów"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Wyślij za pomocą łącza na żywo",
+      "subtitle": "Skopiuj link i udostępnij go, aby wysłać kryptowalutę tak jak tekst"
     },
     "getStarted": {
       "title": "Sposoby wysyłania środków w Valorze",
@@ -2108,16 +2108,20 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugerujemy niższą kwotę",
-      "description": "Ten link będzie mógł być wykorzystany przez każdego, kto ma do niego dostęp. Zalecamy wysyłanie nie więcej niż {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Możesz wysłać do {{amountInLocalCurrency,currency}} w linku",
+      "description": "Ten link może zostać wykorzystany przez każdego, kto ma do niego dostęp. Upewnij się, że wysyłasz linki do zaufanych osób."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Utwórz link do udostępnienia",
-    "sendAmountLabel": "KWOTA ŁĄCZA DO ROSZCZENIA",
-    "confirmButton": "Wyślij środki i utwórz link",
-    "detailsLabel": "JAK TO DZIAŁA",
-    "details": "1. Stuknij wygeneruj link, a Twoje środki zostaną przesłane do linku roszczenia\n2. Wyślij link do roszczenia znajomemu\n3. Przyjmie on środki\n4. Jeśli środki nie zostaną odebrane, możesz je odzyskać w dowolnym momencie."
+    "title": "Utwórz łącze na żywo",
+    "sendAmountLabel": "Kwota łącza na żywo",
+    "confirmButton": "Wyślij i utwórz łącze",
+    "info": "Kiedy tworzysz link, środki są pobierane z Twojego portfela. Możesz odzyskać link w dowolnym momencie. Udostępniaj linki ostrożnie.",
+    "sendError": {
+      "title": "Nie można utworzyć łącza",
+      "description": "Twój link na żywo nie został utworzony. Spróbuj ponownie.",
+      "ctaLabel": "Odrzuć"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",

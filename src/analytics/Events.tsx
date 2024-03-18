@@ -652,4 +652,7 @@ export enum JumpstartEvents {
   jumpstart_claim_failed = 'jumpstart_claim_failed',
   jumpstart_claimed_token = 'jumpstart_claimed_token',
   jumpstart_claimed_nft = 'jumpstart_claimed_nft',
+  jumpstart_claim_loading_dismissed = 'jumpstart_claim_loading_dismissed',
+  jumpstart_claim_error_dismissed = 'jumpstart_claim_error_dismissed',
+  jumpstart_claim_error_contact_support = 'jumpstart_claim_error_contact_support',
 }

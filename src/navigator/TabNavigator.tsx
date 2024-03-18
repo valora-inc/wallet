@@ -47,6 +47,7 @@ export default function TabNavigator({ route }: Props) {
         options={{
           tabBarLabel: t('bottomTabsNavigator.wallet.tabName') as string,
           tabBarIcon: Wallet,
+          tabBarTestID: 'Tab/Wallet',
         }}
         initialParams={{ isWalletTab: true }}
       />

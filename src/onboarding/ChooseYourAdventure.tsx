@@ -14,14 +14,17 @@ import GraphSparkle from 'src/icons/GraphSparkle'
 import PlusIcon from 'src/icons/PlusIcon'
 import ProfilePlus from 'src/icons/ProfilePlus'
 import { nuxNavigationOptionsNoBackButton } from 'src/navigator/Headers'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { AdventureCardName } from 'src/onboarding/types'
 import { useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import { Shadow, Spacing } from 'src/styles/styles'
 import { shuffle } from 'src/utils/random'
+import networkConfig from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 
 const DEFAULT_SEED = '0x0'
@@ -70,7 +73,13 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.dapp'),
       goToNextScreen: () => {
-        navigateHome({ params: { initialScreen: Screens.DAppsExplorerScreen } })
+        if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
+          navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabDiscover })
+        } else {
+          navigateClearingStack(Screens.DrawerNavigator, {
+            initialScreen: Screens.DAppsExplorerScreen,
+          })
+        }
       },
       icon: <GraphSparkle />,
       name: AdventureCardName.Dapp,
@@ -87,7 +96,14 @@ function ChooseYourAdventure() {
     {
       text: t('chooseYourAdventure.options.learn'),
       goToNextScreen: () => {
-        navigateHome({ params: { initialScreen: Screens.ExchangeHomeScreen } })
+        if (getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)) {
+          navigateHome()
+          navigate(Screens.TokenDetails, { tokenId: networkConfig.celoTokenId })
+        } else {
+          navigateClearingStack(Screens.DrawerNavigator, {
+            initialScreen: Screens.ExchangeHomeScreen,
+          })
+        }
       },
       icon: <CeloIconNew />,
       name: AdventureCardName.Learn,

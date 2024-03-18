@@ -1,6 +1,6 @@
 import Clipboard from '@react-native-clipboard/clipboard'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native'
 import Toast from 'react-native-simple-toast'
 import Touchable from 'src/components/Touchable'
 import CopyIcon from 'src/icons/CopyIcon'
@@ -16,9 +16,10 @@ interface Props {
   copySuccessMessage: string
   testID: string
   onCopy?: () => void
+  style?: StyleProp<ViewStyle>
 }
 
-function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }: Props) {
+function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy, style }: Props) {
   const handleCopy = () => {
     onCopy?.()
 
@@ -29,9 +30,9 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
   }
 
   return (
-    <View style={styles.container} testID={testID}>
+    <View style={[styles.container, style]} testID={testID}>
+      <Text style={styles.transactionDataLabel}>{label}</Text>
       <View style={styles.transactionDataContainer}>
-        <Text style={styles.transactionDataLabel}>{label}</Text>
         <Text
           testID={`${testID}/Value`}
           style={styles.transactionData}
@@ -40,10 +41,10 @@ function DataFieldWithCopy({ label, value, copySuccessMessage, testID, onCopy }:
         >
           {value}
         </Text>
+        <Touchable hitSlop={variables.iconHitslop} onPress={handleCopy} testID={`${testID}/Copy`}>
+          <CopyIcon color={Colors.gray4} />
+        </Touchable>
       </View>
-      <Touchable hitSlop={variables.iconHitslop} onPress={handleCopy} testID={`${testID}/Copy`}>
-        <CopyIcon />
-      </Touchable>
     </View>
   )
 }
@@ -52,23 +53,24 @@ const styles = StyleSheet.create({
   container: {
     padding: Spacing.Regular16,
     backgroundColor: Colors.gray1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderRadius: 12,
     marginTop: Spacing.Smallest8,
     marginBottom: Spacing.Large32,
   },
   transactionDataContainer: {
-    flex: 1,
-    marginRight: Spacing.Regular16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: Spacing.Large32,
   },
   transactionDataLabel: {
     ...typeScale.labelXSmall,
     color: Colors.black,
+    marginBottom: Spacing.Smallest8,
   },
   transactionData: {
-    ...typeScale.bodyXSmall,
+    ...typeScale.bodyMedium,
     color: Colors.black,
+    flex: 1,
   },
 })
 
