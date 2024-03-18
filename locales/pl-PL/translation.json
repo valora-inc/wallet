@@ -2188,6 +2188,18 @@
       "tabName": "Odkryj"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Twoje środki są w drodze",
+      "description": "Środki, które przekazał Ci Twój znajomy, są właśnie przesyłane. Poczekaj... "
+    },
+    "error": {
+      "title": "Nie możesz ubiegać się o środki",
+      "description": "Wypróbuj ponownie swój link na żywo, aby spróbować otrzymać środki, lub poproś znajomego, aby spróbował wysłać nowy link.",
+      "contactSupport": "Skontaktuj się z Działem wsparcia",
+      "dismiss": "Odrzuć"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dolar",
   "celoDollarAmount_1": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolary",
   "celoDollarAmount_2": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo Dolarów",
