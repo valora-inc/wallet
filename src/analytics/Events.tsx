@@ -34,6 +34,7 @@ export enum AppEvents {
 
 export enum HomeEvents {
   hamburger_tapped = 'hamburger_tapped',
+  account_circle_tapped = 'account_circle_tapped',
   drawer_navigation = 'drawer_navigation',
   drawer_address_copy = 'drawer_address_copy',
   profile_address_copy = 'profile_address_copy',
