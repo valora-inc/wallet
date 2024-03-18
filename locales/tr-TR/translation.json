@@ -2184,6 +2184,18 @@
       "tabName": "Keşfedin"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Paranız yolda",
+      "description": "Arkadaşınızın size verdiği para gönderiliyor. Lütfen bekleyin... "
+    },
+    "error": {
+      "title": "Fon talep edilemiyor",
+      "description": "Para almayı denemek için canlı bağlantınızı tekrar deneyin veya arkadaşınızdan yeni bir bağlantı göndermeyi denemesini isteyin",
+      "contactSupport": "Destek ile İletişime Geç",
+      "dismiss": "Yoksay"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
