@@ -42,7 +42,7 @@ import { Screens } from 'src/navigator/Screens'
 import useScrollAwareHeader from 'src/navigator/ScrollAwareHeader'
 import { StackParamList } from 'src/navigator/types'
 import { useDispatch, useSelector } from 'src/redux/hooks'
-import colors, { Colors } from 'src/styles/colors'
+import { Colors } from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 
@@ -237,8 +237,8 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
           <AnimatedSectionList
             refreshControl={
               <RefreshControl
-                tintColor={colors.primary}
-                colors={[colors.primary]}
+                tintColor={Colors.primary}
+                Colors={[Colors.primary]}
                 style={styles.refreshControl}
                 refreshing={loading}
                 onRefresh={() => dispatch(fetchDappsList())}
@@ -264,7 +264,7 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
                   }}
                   value={searchTerm}
                   multiline={false}
-                  placeholderTextColor={colors.gray4}
+                  placeholderTextColor={Colors.gray4}
                   underlineColorAndroid="transparent"
                   placeholder={t('dappsScreen.searchPlaceHolder') ?? undefined}
                   showClearButton={true}
@@ -273,8 +273,8 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
                 <FilterChipsCarousel
                   chips={filterChips}
                   onSelectChip={handleToggleFilterChip}
-                  primaryColor={colors.infoDark}
-                  secondaryColor={colors.infoLight}
+                  primaryColor={Colors.infoDark}
+                  secondaryColor={Colors.infoLight}
                   style={styles.dappFilterView}
                   forwardedRef={horizontalScrollView}
                 />
@@ -358,19 +358,19 @@ const styles = StyleSheet.create({
     flexGrow: 1,
   },
   refreshControl: {
-    backgroundColor: colors.white,
+    backgroundColor: Colors.white,
   },
   sectionList: {
     flex: 1,
   },
   sectionTitle: {
     ...fontStyles.label,
-    color: colors.gray4,
+    color: Colors.gray4,
     marginTop: Spacing.Large32,
   },
   disclaimer: {
     ...fontStyles.xsmall,
-    color: colors.gray4,
+    color: Colors.gray4,
     textAlign: 'center',
     marginTop: Spacing.Large32,
     marginBottom: Spacing.Regular16,
