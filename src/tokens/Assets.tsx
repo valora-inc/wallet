@@ -208,7 +208,13 @@ function AssetsScreen({ navigation, route }: Props) {
     // Transparency issue on Android present when a fragment is used - Nested Animated.View prevents it
     <Animated.View>
       <Animated.View
-        style={[styles.listHeaderContainer, animatedListHeaderStyles]}
+        style={[
+          styles.listHeaderContainer,
+          animatedListHeaderStyles,
+          isWalletTab
+            ? { paddingHorizontal: Spacing.Regular16 }
+            : { paddingHorizontal: Spacing.Thick24, paddingTop: Spacing.Smallest8 },
+        ]}
         onLayout={handleMeasureListHeaderHeight}
       >
         <View
@@ -267,8 +273,6 @@ AssetsScreen.navigationOptions = {
 const styles = StyleSheet.create({
   listHeaderContainer: {
     ...getShadowStyle(Shadow.SoftLight),
-    paddingHorizontal: Spacing.Regular16,
-    paddingTop: Spacing.Regular16,
     paddingBottom: Spacing.Regular16,
     backgroundColor: Colors.white,
     position: 'absolute',
