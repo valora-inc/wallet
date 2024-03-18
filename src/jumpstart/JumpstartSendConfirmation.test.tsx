@@ -5,7 +5,8 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartSendConfirmation from 'src/jumpstart/JumpstartSendConfirmation'
 import { depositErrorDismissed, depositTransactionStarted } from 'src/jumpstart/slice'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import { getSerializablePreparedTransactions } from 'src/viem/preparedTransactionSerialization'
 import MockedNavigator from 'test/MockedNavigator'
 import { createMockStore } from 'test/utils'
@@ -93,6 +94,13 @@ describe('JumpstartSendConfirmation', () => {
   })
 
   it('should dispatch the correct action after successful transaction', async () => {
+    const navParams = {
+      tokenId: mockCusdTokenId,
+      sendAmount: '12.345',
+      serializablePreparedTransactions,
+      link: 'https://some.link',
+    }
+
     const store = createMockStore({
       jumpstart: {
         depositStatus: 'idle',
@@ -100,14 +108,7 @@ describe('JumpstartSendConfirmation', () => {
     })
     const { rerender } = render(
       <Provider store={store}>
-        <MockedNavigator
-          component={JumpstartSendConfirmation}
-          params={{
-            tokenId: mockCusdTokenId,
-            sendAmount: '12.345',
-            serializablePreparedTransactions,
-          }}
-        />
+        <MockedNavigator component={JumpstartSendConfirmation} params={navParams} />
       </Provider>
     )
 
@@ -118,17 +119,10 @@ describe('JumpstartSendConfirmation', () => {
     })
     rerender(
       <Provider store={updatedStoreLoading}>
-        <MockedNavigator
-          component={JumpstartSendConfirmation}
-          params={{
-            tokenId: mockCusdTokenId,
-            sendAmount: '12.345',
-            serializablePreparedTransactions,
-          }}
-        />
+        <MockedNavigator component={JumpstartSendConfirmation} params={navParams} />
       </Provider>
     )
-    expect(navigateHome).not.toHaveBeenCalled()
+    expect(navigate).not.toHaveBeenCalled()
 
     const updatedStoreCompleted = createMockStore({
       jumpstart: {
@@ -137,17 +131,14 @@ describe('JumpstartSendConfirmation', () => {
     })
     rerender(
       <Provider store={updatedStoreCompleted}>
-        <MockedNavigator
-          component={JumpstartSendConfirmation}
-          params={{
-            tokenId: mockCusdTokenId,
-            sendAmount: '12.345',
-            serializablePreparedTransactions,
-          }}
-        />
+        <MockedNavigator component={JumpstartSendConfirmation} params={navParams} />
       </Provider>
     )
-    expect(navigateHome).toHaveBeenCalled()
+    expect(navigate).toHaveBeenCalledWith(Screens.JumpstartShareLink, {
+      link: 'https://some.link',
+      sendAmount: '12.345',
+      tokenId: mockCusdTokenId,
+    })
   })
 
   it('should render a dismissable error notification if the transaction is unsuccessful', async () => {
