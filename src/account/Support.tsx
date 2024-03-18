@@ -22,7 +22,7 @@ const Support = () => {
   const { t } = useTranslation()
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['bottom']}>
       {!getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && <DrawerTopBar />}
       <ScrollView>
         <Text style={styles.title} testID={'SettingsTitle'}>
