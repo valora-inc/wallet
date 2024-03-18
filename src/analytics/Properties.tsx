@@ -1547,6 +1547,9 @@ interface JumpstartEventsProperties {
     contractAddress: string
     tokenId: string
   }
+  [JumpstartEvents.jumpstart_claim_loading_dismissed]: undefined
+  [JumpstartEvents.jumpstart_claim_error_dismissed]: undefined
+  [JumpstartEvents.jumpstart_claim_error_contact_support]: undefined
 }
 
 export type AnalyticsPropertiesList = AppEventsProperties &

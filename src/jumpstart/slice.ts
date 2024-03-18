@@ -36,12 +36,12 @@ const slice = createSlice({
       claimStatus: 'error',
     }),
 
-    jumpstartLoadingDismissed: (state) => ({
+    jumpstartClaimLoadingDismissed: (state) => ({
       ...state,
       claimStatus: 'idle',
     }),
 
-    jumpstartErrorDismissed: (state) => ({
+    jumpstartClaimErrorDismissed: (state) => ({
       ...state,
       claimStatus: 'idle',
     }),
@@ -79,8 +79,8 @@ export const {
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
   jumpstartClaimFailed,
-  jumpstartLoadingDismissed,
-  jumpstartErrorDismissed,
+  jumpstartClaimLoadingDismissed,
+  jumpstartClaimErrorDismissed,
   depositTransactionFlowStarted,
   depositTransactionStarted,
   depositTransactionSucceeded,

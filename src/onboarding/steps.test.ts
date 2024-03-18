@@ -34,7 +34,7 @@ describe('onboarding steps', () => {
       Screens.VerificationStartScreen,
     ],
     name: 'newUserFlowWithEverythingEnabled',
-    finalScreen: Screens.WalletHome,
+    finalScreen: Screens.TabHome,
   }
 
   const newUserChooseAdventure = {
@@ -66,7 +66,7 @@ describe('onboarding steps', () => {
     },
     screens: [Screens.NameAndPicture, Screens.PincodeSet, Screens.ProtectWallet],
     name: 'newUserFlowWithEverythingDisabled',
-    finalScreen: Screens.WalletHome,
+    finalScreen: Screens.TabHome,
   }
 
   const importWalletFlowEverythingEnabled = {
@@ -86,7 +86,7 @@ describe('onboarding steps', () => {
       Screens.VerificationStartScreen,
     ],
     name: 'importWalletFlowEverythingEnabled',
-    finalScreen: Screens.WalletHome,
+    finalScreen: Screens.TabHome,
   }
 
   beforeEach(() => {
@@ -253,9 +253,7 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(
-          updateStatsigAndNavigate(Screens.WalletHome)
-        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
       })
       it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
@@ -277,9 +275,7 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(
-          updateStatsigAndNavigate(Screens.WalletHome)
-        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
       })
       it('should otherwise navigate to VerificationStartScreen', () => {
         goToNextOnboardingScreen({
@@ -300,9 +296,7 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(
-          updateStatsigAndNavigate(Screens.WalletHome)
-        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
       })
       it('should navigate to the Screens.ChooseYourAdventure if skipVerification is true and chooseAdventureEnabled is true', () => {
         goToNextOnboardingScreen({
@@ -324,9 +318,7 @@ describe('onboarding steps', () => {
           },
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(
-          updateStatsigAndNavigate(Screens.WalletHome)
-        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
       })
       it('should otherwise navigate to LinkPhoneNumber', () => {
         goToNextOnboardingScreen({
@@ -348,9 +340,7 @@ describe('onboarding steps', () => {
             firstScreenInCurrentStep: screen,
             onboardingProps,
           })
-          expect(mockStore.dispatch).toHaveBeenCalledWith(
-            updateStatsigAndNavigate(Screens.WalletHome)
-          )
+          expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
         }
       )
       it.each([Screens.VerificationStartScreen, Screens.LinkPhoneNumber])(
@@ -373,9 +363,7 @@ describe('onboarding steps', () => {
           onboardingProps,
         })
         expect(mockStore.dispatch).toHaveBeenCalledWith(setHasSeenVerificationNux(true))
-        expect(mockStore.dispatch).toHaveBeenCalledWith(
-          updateStatsigAndNavigate(Screens.WalletHome)
-        )
+        expect(mockStore.dispatch).toHaveBeenCalledWith(updateStatsigAndNavigate(Screens.TabHome))
       })
       it('should navigate to VerficationStartScreen if skipVerification is false and choseToRestoreAccount is false', () => {
         goToNextOnboardingScreen({

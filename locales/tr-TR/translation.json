@@ -2029,8 +2029,8 @@
       "subtitle": "Kişi listenizden arkadaşlarınızı davet edin"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Canlı bağlantı ile gönder",
+      "subtitle": "Tıpkı bir metin gibi kripto göndermek için bağlantıyı kopyalayın ve paylaşın"
     },
     "getStarted": {
       "title": "Valora'da fon gönderme yolları",
@@ -2104,16 +2104,20 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Daha düşük bir miktar öneriyoruz",
-      "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilecektir. {{maxAmount}} {{localCurrencyCode}}adresinden daha fazlasını göndermemenizi öneririz."
+      "title": "Bir bağlantıda {{amountInLocalCurrency,currency}} adresine kadar gönderebilirsiniz",
+      "description": "Bu bağlantı, ona erişimi olan herkes tarafından talep edilebilir. Bağlantıları güvendiğiniz kişilere gönderdiğinizden emin olun."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Paylaşılabilir bağlantı oluşturun",
-    "sendAmountLabel": "TALEP BAĞLANTI TUTARI",
-    "confirmButton": "Fon gönderin ve bağlantı oluşturun",
-    "detailsLabel": "NASIL ÇALIŞIR",
-    "details": "1. Bağlantı oluştur'a dokunun ve fonlarınız talep bağlantısına gönderilir\n2. Talep bağlantısını bir arkadaşınıza gönderin\n3. Fonları kabul edeceklerdir\n4. Fonlar talep edilmezse, istediğiniz zaman geri alabilirsiniz."
+    "title": "Canlı Bağlantı Oluştur",
+    "sendAmountLabel": "Canlı Bağlantı Miktarı",
+    "confirmButton": "Bağlantı gönder ve oluştur",
+    "info": "Bir bağlantı oluşturduğunuzda, fonlar cüzdanınızdan çekilir. Bağlantıyı istediğiniz zaman geri alabilirsiniz. Bağlantıları dikkatle paylaşın.",
+    "sendError": {
+      "title": "Bağlantı oluşturulamıyor",
+      "description": "Canlı bağlantınız oluşturulmadı. Lütfen tekrar deneyin.",
+      "ctaLabel": "Yoksay"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
