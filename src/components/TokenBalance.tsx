@@ -32,7 +32,7 @@ import {
   getLocalCurrencySymbol,
   localCurrencyExchangeRateErrorSelector,
 } from 'src/localCurrency/selectors'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateClearingStack } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
@@ -301,7 +301,11 @@ export function FiatExchangeTokenBalance() {
     ValoraAnalytics.track(FiatExchangeEvents.cico_landing_token_balance, {
       totalBalance: totalBalance?.toString(),
     })
-    navigate(Screens.Assets)
+    getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+      ? // this can ideally navigate to TabWallet, but if the gate is turned on mid
+        // session, a screen named TabWallet won't be found
+        navigateClearingStack(Screens.TabNavigator, { initialScreen: Screens.TabWallet })
+      : navigate(Screens.Assets)
   }
 
   return (
