@@ -4,7 +4,7 @@ import { Provider } from 'react-redux'
 import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartClaimStatusToasts from 'src/jumpstart/JumpstartClaimStatusToasts'
-import { jumpstartErrorDismissed } from 'src/jumpstart/slice'
+import { jumpstartClaimErrorDismissed } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
@@ -40,7 +40,7 @@ describe('JumpstartClaimStatusError', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_claim_error_dismissed
     )
-    expect(store.dispatch).toHaveBeenCalledWith(jumpstartErrorDismissed())
+    expect(store.dispatch).toHaveBeenCalledWith(jumpstartClaimErrorDismissed())
   })
 
   it('handles contact support correctly', () => {
@@ -51,7 +51,7 @@ describe('JumpstartClaimStatusError', () => {
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       JumpstartEvents.jumpstart_claim_error_contact_support
     )
-    expect(store.dispatch).toHaveBeenCalledWith(jumpstartErrorDismissed())
+    expect(store.dispatch).toHaveBeenCalledWith(jumpstartClaimErrorDismissed())
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
   })
 })
