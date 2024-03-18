@@ -205,6 +205,7 @@ function AssetsScreen({ navigation, route }: Props) {
   }
 
   return (
+    // Transparency issue on Android present when a fragment is used - Nested Animated.View prevents it
     <Animated.View>
       <Animated.View
         style={[styles.listHeaderContainer, animatedListHeaderStyles]}
