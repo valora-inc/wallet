@@ -1,12 +1,15 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
+import { JumpstartEvents } from 'src/analytics/Events'
+import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import JumpstartClaimStatusToasts from 'src/jumpstart/JumpstartClaimStatusToasts'
 import { jumpstartErrorDismissed } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { createMockStore } from 'test/utils'
 
+jest.mock('src/analytics/ValoraAnalytics')
 jest.mock('src/navigator/NavigationService', () => ({
   navigate: jest.fn(),
 }))
@@ -34,6 +37,9 @@ describe('JumpstartClaimStatusError', () => {
 
     fireEvent.press(getByText('jumpstartStatus.error.dismiss'))
 
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_claim_error_dismissed
+    )
     expect(store.dispatch).toHaveBeenCalledWith(jumpstartErrorDismissed())
   })
 
@@ -42,6 +48,9 @@ describe('JumpstartClaimStatusError', () => {
 
     fireEvent.press(getByText('jumpstartStatus.error.contactSupport'))
 
+    expect(ValoraAnalytics.track).toHaveBeenCalledWith(
+      JumpstartEvents.jumpstart_claim_error_contact_support
+    )
     expect(store.dispatch).toHaveBeenCalledWith(jumpstartErrorDismissed())
     expect(navigate).toHaveBeenCalledWith(Screens.SupportContact)
   })
