@@ -1,7 +1,7 @@
 import { fireEvent, render } from '@testing-library/react-native'
 import * as React from 'react'
 import { Provider } from 'react-redux'
-import JumpstartClaimStatusError from 'src/jumpstart/JumpstartClaimStatusError'
+import JumpstartClaimStatusToasts from 'src/jumpstart/JumpstartClaimStatusToasts'
 import { jumpstartErrorDismissed } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
@@ -21,7 +21,7 @@ function renderComponent() {
 
   const screen = render(
     <Provider store={store}>
-      <JumpstartClaimStatusError />
+      <JumpstartClaimStatusToasts />
     </Provider>
   )
 
