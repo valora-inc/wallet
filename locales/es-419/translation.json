@@ -2184,6 +2184,18 @@
       "tabName": "Descubre"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Tus fondos están en camino",
+      "description": "Se están enviando los fondos que te dio tu amigo. Por favor, espera... "
+    },
+    "error": {
+      "title": "Imposible reclamar fondos",
+      "description": "Prueba de nuevo tu enlace en directo para intentar recibir fondos, o pide a tu amigo que intente enviar un nuevo enlace",
+      "contactSupport": "Contactar a Soporte",
+      "dismiss": "Ignorar"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
