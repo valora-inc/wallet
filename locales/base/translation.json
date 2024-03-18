@@ -2158,7 +2158,7 @@
   "nftCelebration": {
     "bottomSheet": {
       "title": "Congratulations!",
-      "description": "You’ve earned an exclusive collectible for Early Ethereum Explorers. Welcome to Ethereum on {{appName}}",
+      "description": "You’ve earned an exclusive collectible for Early Ethereum Explorers. Welcome to Ethereum on {{appName}}.",
       "cta": "Thanks!"
     },
     "notification": {
