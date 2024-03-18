@@ -10,6 +10,7 @@ import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
+import { isJumpstartTransaction } from 'src/jumpstart/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -21,6 +22,7 @@ import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
 import TransactionPrimaryAction from 'src/transactions/feed/TransactionPrimaryAction'
 import TransactionStatusIndicator from 'src/transactions/feed/TransactionStatusIndicator'
+import JumpstartContent from 'src/transactions/feed/detailContent/JumpstartContent'
 import TokenApprovalDetails from 'src/transactions/feed/detailContent/TokenApprovalDetails'
 import TransferSentContent from 'src/transactions/feed/detailContent/TransferSentContent'
 import {
@@ -55,6 +57,10 @@ function useHeaderTitle(transaction: TokenTransaction) {
       return isCeloSell ? t('soldGold') : t('purchasedGold')
     case TokenTransactionTypeV2.Sent:
       const isCeloSend = (transaction as TokenTransfer).amount.tokenId === celoTokenId
+      if (isJumpstartTransaction(transaction as TokenTransfer)) {
+        return t('feedItemJumpstartTitle')
+      }
+
       return isCeloSend ? t('transactionHeaderWithdrewCelo') : t('transactionHeaderSent')
     case TokenTransactionTypeV2.Received:
       const transfer = transaction as TokenTransfer
@@ -65,6 +71,8 @@ function useHeaderTitle(transaction: TokenTransaction) {
         addressToDisplayName[transfer.address]?.isCeloRewardSender
       ) {
         return t('transactionHeaderCeloReward')
+      } else if (isJumpstartTransaction(transfer)) {
+        return t('feedItemJumpstartReceivedSubtitle')
       } else {
         return isCeloReception || isCoinbasePaySenders
           ? t('transactionHeaderCeloDeposit')
@@ -101,23 +109,33 @@ function TransactionDetailsScreen({ navigation, route }: Props) {
 
   switch (transaction.type) {
     case TokenTransactionTypeV2.Sent:
-      retryHandler = () => navigate(Screens.SendSelectRecipient)
-      content = <TransferSentContent transfer={transaction as TokenTransfer} />
+      const sentTransfer = transaction as TokenTransfer
+      if (isJumpstartTransaction(sentTransfer)) {
+        retryHandler = () => navigate(Screens.JumpstartEnterAmount)
+        content = <JumpstartContent transfer={sentTransfer} />
+      } else {
+        retryHandler = () => navigate(Screens.SendSelectRecipient)
+        content = <TransferSentContent transfer={sentTransfer} />
+      }
+
       break
     case TokenTransactionTypeV2.InviteSent:
       content = <TransferSentContent transfer={transaction as TokenTransfer} />
       break
     case TokenTransactionTypeV2.Received:
     case TokenTransactionTypeV2.InviteReceived:
-      const transfer = transaction as TokenTransfer
+      const receivedTransfer = transaction as TokenTransfer
       const isRewardSender =
-        rewardsSenders.includes(transfer.address) ||
-        addressToDisplayName[transfer.address]?.isCeloRewardSender
-      content = isRewardSender ? (
-        <RewardReceivedContent transfer={transfer} />
-      ) : (
-        <TransferReceivedContent transfer={transfer} />
-      )
+        rewardsSenders.includes(receivedTransfer.address) ||
+        addressToDisplayName[receivedTransfer.address]?.isCeloRewardSender
+      if (isRewardSender) {
+        content = <RewardReceivedContent transfer={receivedTransfer} />
+      } else if (isJumpstartTransaction(receivedTransfer)) {
+        content = <JumpstartContent transfer={receivedTransfer} />
+      } else {
+        content = <TransferReceivedContent transfer={receivedTransfer} />
+      }
+
       break
     case TokenTransactionTypeV2.SwapTransaction:
       content = <SwapContent exchange={transaction as TokenExchange} />
