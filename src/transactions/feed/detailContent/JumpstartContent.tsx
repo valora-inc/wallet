@@ -35,12 +35,16 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
     <>
       <View style={styles.amountContainer}>
         <View style={styles.amountTextContainer}>
-          <TokenDisplay
-            style={styles.amount}
-            amount={parsedAmount}
-            tokenId={token.tokenId}
-            showLocalAmount={false}
-          />
+          <View style={styles.amountRow}>
+            <TokenDisplay
+              style={styles.amount}
+              amount={parsedAmount}
+              tokenId={token.tokenId}
+              showLocalAmount={false}
+            />
+            <TokenIcon token={token} size={IconSize.LARGE} />
+          </View>
+
           <TokenDisplay
             style={styles.amountLocalCurrency}
             amount={parsedAmount}
@@ -48,7 +52,6 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
             showLocalAmount
           />
         </View>
-        <TokenIcon token={token} size={IconSize.LARGE} />
       </View>
       <NetworkFeeRowItem fees={transfer.fees} transactionStatus={transfer.status} />
       <LineItemRow
@@ -112,21 +115,27 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: Colors.gray2,
     borderRadius: 16,
-    padding: Spacing.Regular16,
+    paddingHorizontal: Spacing.Regular16,
+    paddingVertical: Spacing.Large32,
     gap: Spacing.Regular16,
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: Spacing.Thick24,
+    marginBottom: Spacing.Regular16,
+    marginTop: -Spacing.Small12,
   },
   amountTextContainer: {
     flex: 1,
   },
   amount: {
     ...typeScale.titleLarge,
-    marginBottom: Spacing.Tiny4,
+    marginBottom: Spacing.Smallest8,
+    flex: 1,
   },
   amountLocalCurrency: {
     ...typeScale.labelMedium,
+  },
+  amountRow: {
+    flexDirection: 'row',
   },
 })
 
