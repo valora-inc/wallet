@@ -121,12 +121,16 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
     <>
       <View style={styles.amountContainer}>
         <View style={styles.amountTextContainer}>
-          <TokenDisplay
-            style={styles.amount}
-            amount={parsedAmount}
-            tokenId={token.tokenId}
-            showLocalAmount={false}
-          />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <TokenDisplay
+              style={styles.amount}
+              amount={parsedAmount}
+              tokenId={token.tokenId}
+              showLocalAmount={false}
+            />
+            <TokenIcon viewStyle={{ flex: 1 }} token={token} size={IconSize.LARGE} />
+          </View>
+
           <TokenDisplay
             style={styles.amountLocalCurrency}
             amount={parsedAmount}
@@ -134,7 +138,6 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
             showLocalAmount
           />
         </View>
-        <TokenIcon token={token} size={IconSize.LARGE} />
       </View>
       {isDeposit && <ReclaimButton />}
       <NetworkFeeRowItem fees={transfer.fees} transactionStatus={transfer.status} />
@@ -205,13 +208,15 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginBottom: Spacing.Regular16,
+    marginTop: -Spacing.Small12,
   },
   amountTextContainer: {
     flex: 1,
   },
   amount: {
     ...typeScale.titleLarge,
-    marginBottom: Spacing.Tiny4,
+    marginBottom: Spacing.Smallest8,
+    flex: 6,
   },
   amountLocalCurrency: {
     ...typeScale.labelMedium,
