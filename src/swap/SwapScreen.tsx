@@ -15,9 +15,9 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import { TRANSACTION_FEES_LEARN_MORE } from 'src/brandingConfig'
 import BackButton from 'src/components/BackButton'
 import BottomSheet, { BottomSheetRefType } from 'src/components/BottomSheet'
-import BottomSheetInLineNotification from 'src/components/BottomSheetInLineNotification'
 import Button, { BtnSizes, BtnTypes } from 'src/components/Button'
 import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
+import Toast from 'src/components/Toast'
 import TokenBottomSheet, {
   TokenBalanceItemOption,
   TokenPickerOrigin,
@@ -869,8 +869,9 @@ export function SwapScreen({ route }: Props) {
           text={t('swapScreen.transactionDetails.networkFeeInfoDismissButton')}
         />
       </BottomSheet>
-      <BottomSheetInLineNotification
-        showNotification={!!selectingNoUsdPriceToken}
+      <Toast
+        withBackdrop
+        showToast={!!selectingNoUsdPriceToken}
         variant={NotificationVariant.Warning}
         title={t('swapScreen.noUsdPriceWarning.title', { localCurrency })}
         description={t('swapScreen.noUsdPriceWarning.description', {
@@ -881,6 +882,7 @@ export function SwapScreen({ route }: Props) {
         onPressCta2={handleConfirmSelectTokenNoUsdPrice}
         ctaLabel={t('swapScreen.noUsdPriceWarning.ctaDismiss')}
         onPressCta={handleDismissSelectTokenNoUsdPrice}
+        onDismiss={handleDismissSelectTokenNoUsdPrice}
       />
       <BottomSheet
         forwardedRef={fundYourWalletBottomSheetRef}

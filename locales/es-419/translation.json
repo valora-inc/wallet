@@ -2029,8 +2029,8 @@
       "subtitle": "Invita a amigos de tu lista de contactos"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Enviar con un enlace en directo",
+      "subtitle": "Copia el enlace y compártelo para enviar criptomonedas como si fuera un texto"
     },
     "getStarted": {
       "title": "Formas de enviar fondos en Valora",
@@ -2104,16 +2104,20 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugeriríamos una cantidad inferior",
-      "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Te recomendamos que no envíes más de {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Puedes enviar hasta {{amountInLocalCurrency,currency}} en un enlace",
+      "description": "Este enlace podrá ser reclamado por cualquiera que tenga acceso a él. Asegúrate de enviar enlaces a personas de confianza."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Crear enlace compartible",
-    "sendAmountLabel": "IMPORTE DEL ENLACE DE RECLAMACIÓN",
-    "confirmButton": "Enviar fondos y crear enlace",
-    "detailsLabel": "CÓMO FUNCIONA",
-    "details": "1. Pulsa generar enlace y tus fondos se enviarán al enlace de reclamación\n2. Envía el enlace de reclamación a un amigo\n3. Ellos aceptarán los fondos\n4. Si no se reclaman los fondos, puedes reclamarlos en cualquier momento."
+    "title": "Crear enlace en directo",
+    "sendAmountLabel": "Enlace en directo Importe",
+    "confirmButton": "Enviar y crear enlace",
+    "info": "Cuando creas un enlace, los fondos se retiran de tu monedero. Puedes recuperar el enlace en cualquier momento. Comparte enlaces con cuidado.",
+    "sendError": {
+      "title": "No se puede crear el enlace",
+      "description": "No se ha creado tu enlace en directo. Inténtalo de nuevo.",
+      "ctaLabel": "Ignorar"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",

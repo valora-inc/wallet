@@ -9,7 +9,7 @@ import { ErrorMessages } from 'src/app/ErrorMessages'
 import KeylessBackupPhoneCodeInput from 'src/keylessBackup/KeylessBackupPhoneCodeInput'
 import { valoraKeyshareIssued } from 'src/keylessBackup/slice'
 import { KeylessBackupFlow } from 'src/keylessBackup/types'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import networkConfig from 'src/web3/networkConfig'
 import MockedNavigator from 'test/MockedNavigator'
@@ -158,14 +158,14 @@ describe('KeylessBackupPhoneCodeInput', () => {
       { keylessBackupFlow: KeylessBackupFlow.Setup }
     )
   })
-  it('goes to WalletHome screen and track analytics event when pressing skip button in setup flow', async () => {
+  it('goes to home screen and track analytics event when pressing skip button in setup flow', async () => {
     const { getByTestId } = renderComponent()
 
     expect(getByTestId('KeylessBackupPhoneCodeInputHelp')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInputHelp'))
     expect(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip')).toBeTruthy()
     fireEvent.press(getByTestId('KeylessBackupPhoneCodeInput/HelpInfoBottomSheet/Skip'))
-    expect(navigate).toHaveBeenCalledWith(Screens.WalletHome)
+    expect(navigateHome).toHaveBeenCalledWith()
     expect(ValoraAnalytics.track).toHaveBeenCalledWith(
       KeylessBackupEvents.cab_phone_verification_help_skip,
       { keylessBackupFlow: KeylessBackupFlow.Setup }
