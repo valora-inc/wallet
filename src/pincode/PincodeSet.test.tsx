@@ -166,7 +166,7 @@ describe('Pincode', () => {
     })
 
     expect(updatePin).toHaveBeenCalledWith(mockAccount.toLowerCase(), oldPin, mockPin)
-    expect(navigate).toBeCalledWith(Screens.Settings)
+    expect(navigate).toBeCalledWith(Screens.SettingsDrawer)
   })
 
   it('renders header subtitle with steps when creating new wallet', () => {
