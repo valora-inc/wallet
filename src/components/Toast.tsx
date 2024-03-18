@@ -115,7 +115,7 @@ const Toast = ({
     },
     onEnd: (event: { translationY: number }) => {
       const dismissThreshold = 0.33 * toastHeight
-      const translationY = Math.abs(event.translationY)
+      const translationY = event.translationY * slidingDirection[position]
       if (onDismiss && translationY > dismissThreshold) {
         runOnJS(onDismiss)()
       } else {
@@ -149,7 +149,7 @@ const Toast = ({
     <>
       {withBackdrop && (
         <TouchableWithoutFeedback onPress={onDismiss} testID="Toast/Backdrop">
-          <Animated.View style={[styles.modal, styles.background, animatedOpacity]} />
+          <Animated.View style={[styles.modal, styles.backdrop, animatedOpacity]} />
         </TouchableWithoutFeedback>
       )}
       {swipeable ? (
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   modal: {
     ...StyleSheet.absoluteFillObject,
   },
-  background: {
+  backdrop: {
     backgroundColor: Colors.black,
   },
   notificationContainer: {
