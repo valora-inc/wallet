@@ -2119,6 +2119,19 @@
       "ctaLabel": "Ignorar"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartir enlace en directo",
+    "description": "Copia el enlace para enviar {{tokenSymbol}} a través de la aplicación de mensajería que prefieras, o utiliza el código QR.",
+    "linkLabel": "Enlace en directo",
+    "linkCopiedMessage": "Enlace en directo copiado",
+    "navigationWarning": {
+      "title": "¿Has compartido tu enlace?",
+      "description": "Asegúrate de compartir este enlace en directo o de guardarlo en un lugar seguro.\n\nNo te preocupes si no es reclamado: puedes reclamar los fondos fácilmente desde tu feed de actividad.",
+      "ctaNavigate": "Volver a casa"
+    },
+    "ctaShare": "Compartir enlace",
+    "shareMessage": "Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
     "estimatedNetworkFee": "Estimación de la tarifa de red",
