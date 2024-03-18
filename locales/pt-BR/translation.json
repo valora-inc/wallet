@@ -2029,8 +2029,8 @@
       "subtitle": "Convide amigos da sua lista de contatos"
     },
     "jumpstart": {
-      "title": "Share crypto with a link",
-      "subtitle": "Copy the claim link & send crypto via your messaging app of choice"
+      "title": "Enviar com um link ao vivo",
+      "subtitle": "Copie o link e compartilhe-o para enviar criptografia como se fosse um texto"
     },
     "getStarted": {
       "title": "Formas de enviar fundos na Valora",
@@ -2104,16 +2104,20 @@
   },
   "jumpstartEnterAmountScreen": {
     "maxAmountWarning": {
-      "title": "Sugerimos um valor menor",
-      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Recomendamos que você não envie mais do que {{maxAmount}} {{localCurrencyCode}}."
+      "title": "Você pode enviar até {{amountInLocalCurrency,currency}} em um link",
+      "description": "Esse link poderá ser reivindicado por qualquer pessoa que tenha acesso a ele. Certifique-se de enviar links para pessoas em quem você confia."
     }
   },
   "jumpstartSendConfirmationScreen": {
-    "title": "Criar um link compartilhável",
-    "sendAmountLabel": "VALOR DO LINK DA REIVINDICAÇÃO",
-    "confirmButton": "Enviar fundos e criar um link",
-    "detailsLabel": "COMO FUNCIONA",
-    "details": "1. Toque em gerar link e seus fundos serão enviados para o link de resgate\n2. Envie o link de resgate para um amigo\n3. Ele aceitará os fundos\n4. Se os fundos não forem reivindicados, você poderá reivindicá-los a qualquer momento."
+    "title": "Criar link ao vivo",
+    "sendAmountLabel": "Valor do link ao vivo",
+    "confirmButton": "Enviar e criar link",
+    "info": "Quando você cria um link, os fundos são retirados de sua carteira. Você pode recuperar o link a qualquer momento. Compartilhe links com cuidado.",
+    "sendError": {
+      "title": "Não é possível criar um link",
+      "description": "Seu link ao vivo não foi criado. Por favor, tente novamente.",
+      "ctaLabel": "Ignorar"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",

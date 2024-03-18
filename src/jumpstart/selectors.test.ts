@@ -1,4 +1,4 @@
-import { showJumstartError, showJumstartLoading } from 'src/jumpstart/selectors'
+import { showJumstartClaimError, showJumstartClaimLoading } from 'src/jumpstart/selectors'
 
 describe('jumpstart selectors', () => {
   it('should return the correct value for showJumpstartLoading', () => {
@@ -7,7 +7,7 @@ describe('jumpstart selectors', () => {
         claimStatus: 'loading',
       },
     }
-    expect(showJumstartLoading(state)).toEqual(true)
+    expect(showJumstartClaimLoading(state)).toEqual(true)
   })
 
   it('should return the correct value for showJumpstartError', () => {
@@ -16,6 +16,6 @@ describe('jumpstart selectors', () => {
         claimStatus: 'error',
       },
     }
-    expect(showJumstartError(state)).toEqual(true)
+    expect(showJumstartClaimError(state)).toEqual(true)
   })
 })

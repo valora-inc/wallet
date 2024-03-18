@@ -1,9 +1,9 @@
 import reducer, {
+  jumpstartClaimErrorDismissed,
   jumpstartClaimFailed,
+  jumpstartClaimLoadingDismissed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
-  jumpstartErrorDismissed,
-  jumpstartLoadingDismissed,
 } from 'src/jumpstart/slice'
 
 describe('Wallet Jumpstart', () => {
@@ -26,13 +26,13 @@ describe('Wallet Jumpstart', () => {
   })
 
   it('should handle jumpstart loading dismiss', () => {
-    const updatedState = reducer(undefined, jumpstartLoadingDismissed())
+    const updatedState = reducer(undefined, jumpstartClaimLoadingDismissed())
 
     expect(updatedState).toHaveProperty('claimStatus', 'idle')
   })
 
   it('should handle jumpstart error dismiss', () => {
-    const updatedState = reducer(undefined, jumpstartErrorDismissed())
+    const updatedState = reducer(undefined, jumpstartClaimErrorDismissed())
 
     expect(updatedState).toHaveProperty('claimStatus', 'idle')
   })
