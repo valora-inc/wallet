@@ -16,9 +16,9 @@ import {
 } from 'src/transactions/types'
 import networkConfig from 'src/web3/networkConfig'
 import { createMockStore, RecursivePartial } from 'test/utils'
-import { mockCusdAddress, mockCusdTokenId } from 'test/values'
-import { mockApprovalTransaction } from 'test/values'
+import { mockApprovalTransaction, mockCusdAddress, mockCusdTokenId } from 'test/values'
 
+jest.mock('src/jumpstart/utils')
 jest.mock('src/statsig', () => ({
   getFeatureGate: jest.fn(),
   getDynamicConfigParams: jest.fn(() => ({
