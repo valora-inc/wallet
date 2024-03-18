@@ -36,6 +36,8 @@ import { navigate, navigateClearingStack } from 'src/navigator/NavigationService
 import { Screens } from 'src/navigator/Screens'
 import { totalPositionsBalanceUsdSelector } from 'src/positions/selectors'
 import { useDispatch, useSelector } from 'src/redux/hooks'
+import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import Colors from 'src/styles/colors'
 import fontStyles, { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
