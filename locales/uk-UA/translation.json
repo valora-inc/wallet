@@ -2188,6 +2188,18 @@
       "tabName": "Дізнатися"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Ваші кошти вже пройшли",
+      "description": "Кошти, які вам передав ваш друг, надсилаються. Будь ласка, зачекайте... "
+    },
+    "error": {
+      "title": "Неможливо отримати кошти",
+      "description": "Спробуйте надіслати посилання ще раз, щоб отримати кошти, або попросіть друга спробувати надіслати нове посилання",
+      "contactSupport": "Звернутися до служби підтримки",
+      "dismiss": "Відхилити"
+    }
+  },
   "celoDollarAmount_0": "<0></0> Celo Dollar",
   "celoDollarAmount_1": "<0></0> Celo Dollars",
   "celoDollarAmount_2": "<0></0> Celo Dollars",
