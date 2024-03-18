@@ -435,7 +435,14 @@ export const Account = ({ navigation, route }: Props) => {
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={['bottom']}>
+    <SafeAreaView
+      style={styles.container}
+      edges={
+        getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+          ? ['bottom', 'left', 'right']
+          : undefined
+      }
+    >
       {!getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
