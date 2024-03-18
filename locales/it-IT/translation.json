@@ -2184,6 +2184,18 @@
       "tabName": "Scopri"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "I tuoi fondi sono in arrivo",
+      "description": "I fondi che il tuo amico ti ha dato sono in fase di invio. Per favore, aspetta... "
+    },
+    "error": {
+      "title": "Impossibile richiedere i fondi",
+      "description": "Riprova il tuo link live per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link.",
+      "contactSupport": "Contatta il supporto tecnico",
+      "dismiss": "Ignorare"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollar"
 }
