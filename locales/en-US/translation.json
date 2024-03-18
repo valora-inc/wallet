@@ -2184,6 +2184,18 @@
       "tabName": "Discover"
     }
   },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Your funds are on their way",
+      "description": "The funds that your friend gave you are being sent over. Please wait... "
+    },
+    "error": {
+      "title": "Unable to claim funds",
+      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "contactSupport": "Contact Support",
+      "dismiss": "Dismiss"
+    }
+  },
   "celoDollarAmount": "<0></0> Celo Dollar",
   "celoDollarAmount_plural": "<0></0> Celo Dollars"
 }
