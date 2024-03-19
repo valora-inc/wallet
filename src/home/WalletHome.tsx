@@ -115,7 +115,6 @@ function WalletHome({ navigation, route }: Props) {
   useScrollAwareHeader({
     navigation,
     title: isTabNavigator ? t('bottomTabsNavigator.home.title') : '',
-    titleStyle: isTabNavigator ? { ...typeScale.labelSemiBoldMedium } : null,
     scrollPosition,
     startFadeInPosition: titleHeight - titleHeight * 0.33,
     animationDistance: titleHeight * 0.33,

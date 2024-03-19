@@ -1,13 +1,11 @@
 import { NativeStackNavigationProp } from '@react-navigation/native-stack'
 import React, { useLayoutEffect } from 'react'
-import { StyleProp, TextStyle } from 'react-native'
 import Animated, { useAnimatedStyle, useDerivedValue } from 'react-native-reanimated'
 import { HeaderTitleWithSubtitle } from 'src/navigator/Headers'
 import { StackParamList } from 'src/navigator/types'
 
 interface Props {
   title: string
-  titleStyle?: StyleProp<TextStyle>
   subtitle?: string | null
   scrollPosition: Animated.SharedValue<number>
   navigation: NativeStackNavigationProp<StackParamList, keyof StackParamList>
@@ -22,7 +20,6 @@ interface Props {
 const useScrollAwareHeader = ({
   navigation,
   title,
-  titleStyle,
   subtitle,
   scrollPosition,
   startFadeInPosition,
@@ -50,7 +47,7 @@ const useScrollAwareHeader = ({
     navigation.setOptions({
       headerTitle: () => (
         <Animated.View style={animatedScreenHeaderStyles}>
-          <HeaderTitleWithSubtitle title={title} subTitle={subtitle} titleStyle={titleStyle} />
+          <HeaderTitleWithSubtitle title={title} subTitle={subtitle} />
         </Animated.View>
       ),
     })

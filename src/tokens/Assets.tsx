@@ -174,7 +174,6 @@ function AssetsScreen({ navigation, route }: Props) {
   useScrollAwareHeader({
     navigation,
     title: isWalletTab ? t('bottomTabsNavigator.wallet.title') : t('totalAssets'),
-    titleStyle: isWalletTab && { ...typeScale.labelSemiBoldMedium },
     subtitle: isWalletTab
       ? ''
       : !tokensAreStale && totalBalanceLocal.gte(0)

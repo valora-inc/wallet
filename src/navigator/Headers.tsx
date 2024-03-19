@@ -1,17 +1,7 @@
 import { NativeStackNavigationOptions } from '@react-navigation/native-stack'
 import * as React from 'react'
 import { Trans } from 'react-i18next'
-import {
-  Dimensions,
-  PixelRatio,
-  Platform,
-  Pressable,
-  StyleProp,
-  StyleSheet,
-  Text,
-  TextStyle,
-  View,
-} from 'react-native'
+import { Dimensions, PixelRatio, Platform, Pressable, StyleSheet, Text, View } from 'react-native'
 import AccountCircleButton from 'src/components/AccountCircleButton'
 import BackButton from 'src/components/BackButton'
 import CancelButton from 'src/components/CancelButton'
@@ -27,7 +17,7 @@ import { navigateBack } from 'src/navigator/NavigationService'
 import { TopBarIconButton } from 'src/navigator/TopBarButton'
 import DisconnectBanner from 'src/shared/DisconnectBanner'
 import colors from 'src/styles/colors'
-import fontStyles from 'src/styles/fonts'
+import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfoByCurrency } from 'src/tokens/hooks'
 import { TokenBalance } from 'src/tokens/slice'
@@ -81,7 +71,7 @@ export const headerTransparentWithBack: NativeStackNavigationOptions = {
 
 export const styles = StyleSheet.create({
   headerTitle: {
-    ...fontStyles.navigationHeader,
+    ...typeScale.labelSemiBoldMedium,
     maxWidth: Dimensions.get('window').width * 0.6,
   },
   headerSubTitle: {
@@ -262,12 +252,10 @@ export function HeaderTitleWithTokenBalance({
 
 export function HeaderTitleWithSubtitle({
   title,
-  titleStyle,
   subTitle,
   testID,
 }: {
   title: string | React.ReactNode
-  titleStyle?: StyleProp<TextStyle>
   subTitle?: string | React.ReactNode
   testID?: string
 }) {
@@ -276,7 +264,7 @@ export function HeaderTitleWithSubtitle({
       {title && (
         <Text
           testID="HeaderTitle"
-          style={titleStyle ?? styles.headerTitle}
+          style={styles.headerTitle}
           numberOfLines={1}
           allowFontScaling={false}
         >

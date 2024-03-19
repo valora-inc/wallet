@@ -163,7 +163,6 @@ export function DAppsExplorerScreenSearchFilter({ navigation, route }: Props) {
   useScrollAwareHeader({
     navigation,
     title: isTabNavigator ? t('bottomTabsNavigator.discover.title') : '',
-    titleStyle: isTabNavigator ? { ...typeScale.labelSemiBoldMedium } : null,
     scrollPosition,
     startFadeInPosition: titleHeight - titleHeight * 0.33,
     animationDistance: titleHeight * 0.33,
