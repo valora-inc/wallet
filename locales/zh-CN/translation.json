@@ -2128,7 +2128,12 @@
       "ctaNavigate": "回家"
     },
     "ctaShare": "共享链接",
-    "shareMessage": "你好！我给你发了一个链接，资金来自 {{tokenAmount}} {{tokenSymbol}} ，网址是 {{appName}}。使用此链接下载应用程序，资金就会到账，等着您。 {{link}}"
+    "ctaScanQRCode": "扫描二维码",
+    "shareMessage": "你好！我给你发了一个链接，资金来自 {{tokenAmount}} {{tokenSymbol}} ，网址是 {{appName}}。使用此链接下载应用程序，资金就会到账，等着您。 {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "扫描代码接收资金",
+      "description": "在主屏幕上查看资金状态。或者，复制或分享下面的链接。"
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "批准",
