@@ -70,7 +70,6 @@ function WalletHome({ navigation, route }: Props) {
 
   const insets = useSafeAreaInsets()
   const scrollPositionValue = useRef(new Animated.Value(0)).current
-  const onScroll = Animated.event([{ nativeEvent: { contentOffset: { y: scrollPositionValue } } }])
 
   const dispatch = useDispatch()
 
@@ -107,8 +106,11 @@ function WalletHome({ navigation, route }: Props) {
   }
 
   const handleScroll = useAnimatedScrollHandler((event) => {
-    onScroll()
-    scrollPosition.value = event.contentOffset.y
+    if (isTabNavigator) {
+      scrollPosition.value = event.contentOffset.y
+    } else {
+      Animated.event([{ nativeEvent: { contentOffset: { y: scrollPositionValue } } }])
+    }
   })
 
   useScrollAwareHeader({
@@ -237,7 +239,7 @@ function WalletHome({ navigation, route }: Props) {
         // Workaround iOS setting an incorrect automatic inset at the top
         scrollIndicatorInsets={{ top: 0.01 }}
         scrollEventThrottle={16}
-        onScroll={isTabNavigator ? handleScroll : onScroll}
+        onScroll={handleScroll}
         refreshControl={refresh}
         onRefresh={onRefresh}
         refreshing={isLoading}
