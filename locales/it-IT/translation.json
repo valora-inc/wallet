@@ -2155,13 +2155,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Adottatore di catene multiple 🎁",
-      "description": "Per ringraziarti di essere un beta tester multi-catena, abbiamo aggiunto un omaggio al tuo portafoglio {{appName}} ! L'NFT per gli early adopter si trova nei tuoi oggetti da collezione.",
+      "title": "Congratulazioni!",
+      "description": "Hai guadagnato un oggetto da collezione esclusivo per i primi esploratori di Ethereum. Benvenuto in Ethereum su {{appName}}.",
       "cta": "Grazie!"
     },
     "notification": {
-      "title": "Congratulazioni 🎉",
-      "description": "{{rewardName}} è stato aggiunto con successo al tuo portafoglio {{appName}} ."
+      "title": "Una nuova NFT ti aspetta 🎉",
+      "description": "Puoi trovare il tuo nuovo {{rewardName}} NFT nella sezione \"Oggetti da collezione\"."
     },
     "rewardBottomSheet": {
       "title": "Incassi gratuiti per un mese",
