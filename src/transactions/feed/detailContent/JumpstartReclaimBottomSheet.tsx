@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
-import Button from 'src/components/Button'
+import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import Logo from 'src/icons/Logo'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { typeScale } from 'src/styles/fonts'
@@ -31,6 +31,7 @@ function JumpstartReclaimBottomSheet({
   async function onConfirm() {
     Logger.debug(TAG, 'Reclaiming', { reclaimTx, networkId, tokenAmount })
     // TODO: Send transaction
+    navigateBack()
     navigateHome()
   }
 
@@ -46,7 +47,7 @@ function JumpstartReclaimBottomSheet({
         testID="JumpstarReclaimBottomSheet/RequestPayload"
       />
       <EstimatedNetworkFee networkId={networkId} transaction={reclaimTx} />
-      <Button text={t('confirm')} onPress={onConfirm} />
+      <Button text={t('confirm')} onPress={onConfirm} size={BtnSizes.FULL} />
     </BottomSheetScrollView>
   )
 }
