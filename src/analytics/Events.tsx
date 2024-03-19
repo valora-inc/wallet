@@ -653,3 +653,8 @@ export enum JumpstartEvents {
   jumpstart_claimed_token = 'jumpstart_claimed_token',
   jumpstart_claimed_nft = 'jumpstart_claimed_nft',
 }
+
+export enum PointsEvents {
+  points_screen_open = 'points_screen_open',
+  points_screen_back = 'points_screen_back',
+}

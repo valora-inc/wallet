@@ -41,6 +41,7 @@ import {
   TransactionEvents,
   WalletConnectEvents,
   WebViewEvents,
+  PointsEvents,
 } from 'src/analytics/Events'
 import {
   BackQuizProgress,
@@ -1535,6 +1536,11 @@ interface JumpstartEventsProperties {
   }
 }
 
+interface PointsEventsProperties {
+  [PointsEvents.points_screen_open]: undefined
+  [PointsEvents.points_screen_back]: undefined
+}
+
 export type AnalyticsPropertiesList = AppEventsProperties &
   HomeEventsProperties &
   SettingsEventsProperties &
@@ -1569,6 +1575,7 @@ export type AnalyticsPropertiesList = AppEventsProperties &
   NftsEventsProperties &
   BuilderHooksProperties &
   DappShortcutsProperties &
-  TransactionDetailsProperties
+  TransactionDetailsProperties &
+  PointsEventsProperties
 
 export type AnalyticsEventType = keyof AnalyticsPropertiesList
