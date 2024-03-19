@@ -434,16 +434,14 @@ export const Account = ({ navigation, route }: Props) => {
     }
   }
 
+  const isTabNav = getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
+
   return (
     <SafeAreaView
       style={styles.container}
-      edges={
-        getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-          ? ['bottom', 'left', 'right']
-          : undefined
-      }
+      edges={isTabNav ? ['bottom', 'left', 'right'] : undefined}
     >
-      {!getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR) && <DrawerTopBar />}
+      {!isTabNav && <DrawerTopBar />}
       <ScrollView testID="SettingsScrollView">
         <TouchableWithoutFeedback onPress={onDevSettingsTriggerPress}>
           <Text style={styles.title} testID={'SettingsTitle'}>

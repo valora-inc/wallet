@@ -20,12 +20,10 @@ import Touchable from 'src/components/Touchable'
 import i18n, { withTranslation } from 'src/i18n'
 import Backspace from 'src/icons/Backspace'
 import { emptyHeader } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigate, navigateToSettings } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import fontStyles from 'src/styles/fonts'
 import Logger from 'src/utils/Logger'
@@ -77,11 +75,7 @@ const mapStateToProps = (state: RootState): StateProps => {
 export const navOptionsForQuiz = ({ route }: OwnProps) => {
   const navigatedFromSettings = route.params?.navigatedFromSettings
   const onCancel = () => {
-    navigate(
-      getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-        ? Screens.Settings
-        : Screens.SettingsDrawer
-    )
+    navigateToSettings(false)
   }
   return {
     ...emptyHeader,

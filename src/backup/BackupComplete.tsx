@@ -7,12 +7,10 @@ import { OnboardingEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { backupCompletedSelector } from 'src/backup/selectors'
 import Checkmark from 'src/icons/Checkmark'
-import { navigate, navigateHome } from 'src/navigator/NavigationService'
+import { navigateHome, navigateToSettings } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import fontStyles from 'src/styles/fonts'
 
 /**
@@ -31,12 +29,7 @@ function BackupComplete({ route }: Props) {
   useEffect(() => {
     const timer = setTimeout(() => {
       if (navigatedFromSettings) {
-        navigate(
-          getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-            ? Screens.Settings
-            : Screens.SettingsDrawer,
-          { promptConfirmRemovalModal: true }
-        )
+        navigateToSettings(true)
       } else if (backupCompleted) {
         ValoraAnalytics.track(OnboardingEvents.backup_complete)
         navigateHome()

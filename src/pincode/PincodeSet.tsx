@@ -21,7 +21,7 @@ import {
   nuxNavigationOptions,
   nuxNavigationOptionsOnboarding,
 } from 'src/navigator/Headers'
-import { navigate } from 'src/navigator/NavigationService'
+import { navigateToSettings } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import {
@@ -39,8 +39,6 @@ import {
 import { getCachedPin, setCachedPin } from 'src/pincode/PasswordCache'
 import Pincode from 'src/pincode/Pincode'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
-import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import Logger from 'src/utils/Logger'
 import { currentAccountSelector } from 'src/web3/selectors'
@@ -155,11 +153,7 @@ export class PincodeSet extends React.Component<Props, State> {
 
   navigateToNextScreen = () => {
     if (this.isChangingPin()) {
-      navigate(
-        getFeatureGate(StatsigFeatureGates.USE_TAB_NAVIGATOR)
-          ? Screens.Settings
-          : Screens.SettingsDrawer
-      )
+      navigateToSettings(false)
     } else {
       goToNextOnboardingScreen({
         firstScreenInCurrentStep: Screens.PincodeSet,
