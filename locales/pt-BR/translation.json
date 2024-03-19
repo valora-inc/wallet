@@ -2130,7 +2130,12 @@
       "ctaNavigate": "Ir para casa"
     },
     "ctaShare": "Compartilhar link",
-    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}"
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Digitalize o código para receber os fundos",
+      "description": "Verifique o status dos seus fundos na tela inicial. Como alternativa, copie ou compartilhe o link abaixo."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
