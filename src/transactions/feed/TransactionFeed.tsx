@@ -2,14 +2,12 @@ import React, { useMemo } from 'react'
 import { ActivityIndicator, SectionList, StyleSheet, View } from 'react-native'
 import SectionHead from 'src/components/SectionHead'
 import GetStarted from 'src/home/GetStarted'
-import { isJumpstartTransaction } from 'src/jumpstart/utils'
 import { useSelector } from 'src/redux/hooks'
 import { getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import colors from 'src/styles/colors'
 import { Spacing } from 'src/styles/styles'
 import NoActivity from 'src/transactions/NoActivity'
-import JumpstartFeedItem from 'src/transactions/feed/JumpstartFeedItem'
 import NftFeedItem from 'src/transactions/feed/NftFeedItem'
 import SwapFeedItem from 'src/transactions/feed/SwapFeedItem'
 import TokenApprovalFeedItem from 'src/transactions/feed/TokenApprovalFeedItem'
@@ -81,10 +79,6 @@ function TransactionFeed() {
       case 'TokenExchangeV3':
         return <SwapFeedItem key={tx.transactionHash} exchange={tx} />
       case 'TokenTransferV3':
-        if (isJumpstartTransaction(tx)) {
-          return <JumpstartFeedItem key={tx.transactionHash} transfer={tx} />
-        }
-
         return <TransferFeedItem key={tx.transactionHash} transfer={tx} />
       case 'NftTransferV3':
         return <NftFeedItem key={tx.transactionHash} transaction={tx} />

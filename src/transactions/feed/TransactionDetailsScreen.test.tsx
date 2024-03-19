@@ -3,7 +3,6 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { TransactionDetailsEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
-import { isJumpstartTransaction } from 'src/jumpstart/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { RootState } from 'src/redux/reducers'
@@ -22,6 +21,7 @@ import {
   TokenTransferMetadata,
   TransactionStatus,
 } from 'src/transactions/types'
+import { isJumpstartTransaction } from 'src/transactions/utils'
 import { blockExplorerUrls } from 'src/web3/networkConfig'
 import {
   RecursivePartial,
