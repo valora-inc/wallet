@@ -7,7 +7,7 @@ import { StackParamList } from 'src/navigator/types'
 
 interface Props {
   title: string
-  titleStyle?: StyleProp<TextStyle> | null
+  titleStyle?: StyleProp<TextStyle>
   subtitle?: string | null
   scrollPosition: Animated.SharedValue<number>
   navigation: NativeStackNavigationProp<StackParamList, keyof StackParamList>

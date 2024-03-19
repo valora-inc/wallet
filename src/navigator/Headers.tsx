@@ -267,7 +267,7 @@ export function HeaderTitleWithSubtitle({
   testID,
 }: {
   title: string | React.ReactNode
-  titleStyle?: StyleProp<TextStyle> | null
+  titleStyle?: StyleProp<TextStyle>
   subTitle?: string | React.ReactNode
   testID?: string
 }) {
