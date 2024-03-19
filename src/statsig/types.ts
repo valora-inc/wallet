@@ -18,7 +18,6 @@ export enum StatsigFeatureGates {
   SHOW_CLOUD_ACCOUNT_BACKUP_RESTORE = 'show_cloud_account_backup_restore',
   RESTRICT_SUPERCHARGE_FOR_CLAIM_ONLY = 'restrict_supercharge_for_claim_only',
   SHOW_IMPORT_TOKENS_FLOW = 'show_import_tokens_flow',
-  SHOW_HIDE_HOME_BALANCES_TOGGLE = 'show_hide_home_balances_toggle',
   SHOW_MULTICHAIN_BETA_SCREEN = 'show_multichain_beta_screen',
   SHOW_BETA_TAG = 'show_beta_tag',
   SAVE_CONTACTS = 'save_contacts',

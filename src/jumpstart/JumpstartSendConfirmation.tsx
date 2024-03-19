@@ -16,7 +16,7 @@ import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import { jumpstartSendStatusSelector } from 'src/jumpstart/selectors'
 import { depositErrorDismissed, depositTransactionStarted } from 'src/jumpstart/slice'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
-import { navigateHome } from 'src/navigator/NavigationService'
+import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
 import { useSelector } from 'src/redux/hooks'
@@ -31,7 +31,7 @@ type Props = NativeStackScreenProps<StackParamList, Screens.JumpstartSendConfirm
 const TAG = 'JumpstartSendConfirmation'
 
 function JumpstartSendConfirmation({ route }: Props) {
-  const { tokenId, sendAmount, serializablePreparedTransactions } = route.params
+  const { tokenId, sendAmount, serializablePreparedTransactions, link } = route.params
   const parsedAmount = new BigNumber(sendAmount)
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -43,9 +43,7 @@ function JumpstartSendConfirmation({ route }: Props) {
 
   useEffect(() => {
     if (jumpstartSendStatus === 'success') {
-      // TODO: navigate clearing stack to the next screen, navigateHome is just
-      // a placeholder for now
-      navigateHome()
+      navigate(Screens.JumpstartShareLink, { tokenId, sendAmount, link })
     }
   }, [jumpstartSendStatus])
 

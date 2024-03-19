@@ -47,6 +47,19 @@ describe('PositionItem', () => {
     expect(getByText('11.90')).toBeTruthy()
   })
 
+  it('shows the correct info for a position with balance hidden', () => {
+    const { getByText, queryByText } = render(
+      <Provider store={createMockStore({})}>
+        <PositionItem position={mockPositions[0]} hideBalances={true} />
+      </Provider>
+    )
+
+    expect(getByText('MOO / CELO')).toBeTruthy()
+    expect(getByText('Pool')).toBeTruthy()
+    expect(queryByText('₱3.34')).toBeFalsy()
+    expect(queryByText('11.90')).toBeFalsy()
+  })
+
   it('shows the correct info for a position with a negative balance', () => {
     const mockPosition = mockPositions[0] as AppTokenPosition
     const { getByText } = render(

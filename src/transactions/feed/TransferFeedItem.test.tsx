@@ -10,6 +10,7 @@ import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
 import { getFeatureGate } from 'src/statsig'
+import { StatsigFeatureGates } from 'src/statsig/types'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
   Fee,
@@ -627,15 +628,20 @@ describe('TransferFeedItem', () => {
     })
   })
 
-  it('shows balance when feature gate false, root state hide home balances flag is set', async () => {
-    jest.mocked(getFeatureGate).mockReturnValue(false)
-    const { getByTestId } = renderScreen({ storeOverrides: { app: { hideHomeBalances: true } } })
+  it('shows balance when feature gate true, root state hide home balances flag is set', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate === StatsigFeatureGates.USE_TAB_NAVIGATOR)
+    const { getByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
     expect(getByTestId('TransferFeedItem/amount')).toBeTruthy()
     expect(getByTestId('TransferFeedItem/tokenAmount')).toBeTruthy()
   })
 
-  it('hides balance when feature gate true, root state hide home balances flag is set', async () => {
-    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideHomeBalances: true } } })
+  it('hides balance when feature gate false, root state hide home balances flag is set', async () => {
+    jest
+      .mocked(getFeatureGate)
+      .mockImplementation((featureGate) => featureGate !== StatsigFeatureGates.USE_TAB_NAVIGATOR)
+    const { queryByTestId } = renderScreen({ storeOverrides: { app: { hideBalances: true } } })
     expect(queryByTestId('TransferFeedItem/amount')).toBeNull()
     expect(queryByTestId('TransferFeedItem/tokenAmount')).toBeNull()
   })
