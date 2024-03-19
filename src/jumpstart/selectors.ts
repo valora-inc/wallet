@@ -1,4 +1,7 @@
 import { RootState } from 'src/redux/reducers'
+import { getDynamicConfigParams } from 'src/statsig'
+import { DynamicConfigs } from 'src/statsig/constants'
+import { StatsigDynamicConfigs } from 'src/statsig/types'
 import { NetworkId } from 'src/transactions/types'
 
 export const showJumstartClaimLoading = (state: RootState) => {
@@ -14,8 +17,6 @@ export const jumpstartSendStatusSelector = (state: RootState) => {
 }
 
 export const getJumpstartContractAddress = (networkId: NetworkId) => {
-  return '0x7BF3fefE9881127553D23a8Cd225a2c2442c438C'.toLowerCase()
-
-  // return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG])
-  //   .jumpstartContracts[networkId]?.contractAddress
+  return getDynamicConfigParams(DynamicConfigs[StatsigDynamicConfigs.WALLET_JUMPSTART_CONFIG])
+    .jumpstartContracts[networkId]?.contractAddress
 }

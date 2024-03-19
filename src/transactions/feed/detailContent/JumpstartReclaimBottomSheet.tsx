@@ -53,9 +53,6 @@ function JumpstartReclaimBottomSheet({
 }
 
 const styles = StyleSheet.create({
-  requestDetailsContainer: {
-    marginBottom: Spacing.Thick24,
-  },
   header: {
     ...typeScale.titleSmall,
     color: Colors.black,
@@ -65,15 +62,6 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
-  },
-  requestDetailLabel: {
-    ...typeScale.labelXSmall,
-    color: Colors.gray4,
-    marginBottom: 4,
-  },
-  requestDetailValue: {
-    ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
 })
 
