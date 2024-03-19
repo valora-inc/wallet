@@ -9,7 +9,7 @@ import { CICOFlow } from 'src/fiatExchanges/utils'
 import { FiatConnectQuoteSuccess } from 'src/fiatconnect'
 import { LocalCurrencyCode } from 'src/localCurrency/consts'
 import { RootState } from 'src/redux/reducers'
-import { getFeatureGate } from 'src/statsig'
+import { getDynamicConfigParams, getFeatureGate } from 'src/statsig'
 import { StatsigFeatureGates } from 'src/statsig/types'
 import TransferFeedItem from 'src/transactions/feed/TransferFeedItem'
 import {
@@ -27,6 +27,7 @@ import {
   mockCusdAddress,
   mockCusdTokenId,
   mockFiatConnectQuotes,
+  mockJumpstartAdddress,
   mockName,
   mockTestTokenAddress,
   mockTestTokenTokenId,
@@ -65,6 +66,11 @@ describe('TransferFeedItem', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     jest.mocked(getFeatureGate).mockReturnValue(true)
+    jest.mocked(getDynamicConfigParams).mockReturnValue({
+      jumpstartContracts: {
+        [NetworkId['celo-alfajores']]: { contractAddress: mockJumpstartAdddress },
+      },
+    })
   })
   function renderScreen({
     storeOverrides = {},
