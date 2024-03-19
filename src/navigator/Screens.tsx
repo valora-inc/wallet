@@ -51,6 +51,7 @@ export enum Screens {
   LanguageModal = 'LanguageModal',
   Licenses = 'Licenses',
   LinkPhoneNumber = 'LinkPhoneNumber',
+  JumpstartReclaimBottomSheet = 'JumpstartReclaimBottomSheet',
   Main = 'Main',
   MainModal = 'MainModal',
   MultichainBeta = 'MultichainBeta',

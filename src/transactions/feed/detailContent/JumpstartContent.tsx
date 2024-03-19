@@ -3,6 +3,7 @@ import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
+import { useSelector } from 'react-redux'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import Button, { BtnSizes } from 'src/components/Button'
 import LineItemRow from 'src/components/LineItemRow'
@@ -10,6 +11,8 @@ import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Checkmark from 'src/icons/Checkmark'
 import { getJumpstartContractAddress } from 'src/jumpstart/selectors'
+import { navigate } from 'src/navigator/NavigationService'
+import { Screens } from 'src/navigator/Screens'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
@@ -18,10 +21,17 @@ import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRow
 import { NetworkId, TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
+import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
-import { Address, Hash, decodeEventLog } from 'viem'
+import { walletAddressSelector } from 'src/web3/selectors'
+import { Address, Hash, decodeEventLog, encodeFunctionData } from 'viem'
 
 const TAG = 'JumpstartContent'
+
+interface Props {
+  transfer: TokenTransfer
+  showOnBottomSheet?: (title: string, description: string, children: React.ReactNode) => void
+}
 
 async function getRewardDataAndStatus(networkId: NetworkId, transactionHash: Hash) {
   const jumpstartContractAddress = getJumpstartContractAddress(networkId)
@@ -61,13 +71,16 @@ async function getRewardDataAndStatus(networkId: NetworkId, transactionHash: Has
   return { beneficiary, index: Number(index), claimed }
 }
 
-function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
+function JumpstartContent({ transfer, showOnBottomSheet }: Props) {
   const { t } = useTranslation()
-  const transferTokenInfo = useTokenInfo(transfer.amount.tokenId)
 
+  const transferTokenInfo = useTokenInfo(transfer.amount.tokenId)
   const parsedAmount = new BigNumber(transfer.amount.value).abs()
   const token = useTokenInfo(transfer.amount.tokenId)
   const isDeposit = transfer.type === TokenTransactionTypeV2.Sent
+
+  const walletAddress = useSelector(walletAddressSelector)
+  const jumpstartContractAddress = getJumpstartContractAddress(transfer.networkId)
 
   const fetchEscrowData = useAsync(
     async () => {
@@ -80,7 +93,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
     [],
     {
       onError: (error) => {
-        // Show error message in the UI
+        // TODO: Show error message in the UI
         Logger.error(TAG, 'Failed to fetch escrow data', error)
       },
     }
@@ -101,6 +114,40 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
     </View>
   )
 
+  const onReclaimPress = () => {
+    if (!fetchEscrowData.result) {
+      Logger.error(TAG, 'No escrow data found when trying to reclaim')
+      return
+    }
+
+    const { beneficiary, index } = fetchEscrowData.result
+
+    const reclaimTx: SerializableTransactionRequest = {
+      from: walletAddress as Address,
+      to: jumpstartContractAddress as Address,
+      value: '0',
+      data: encodeFunctionData({
+        abi: walletJumpstart.abi,
+        functionName: 'reclaimERC20',
+        args: [beneficiary, index],
+      }),
+      // TODO: Estimate
+      gas: '130000',
+      maxFeePerGas: '1000000000',
+    }
+
+    navigate(Screens.JumpstartReclaimBottomSheet, {
+      reclaimTx,
+      networkId: transfer.networkId,
+      tokenAmount: {
+        value: parsedAmount.toString(),
+        tokenId: token.tokenId,
+        tokenAddress: token.address ?? undefined,
+        localAmount: transfer.amount.localAmount,
+      },
+    })
+  }
+
   const ReclaimButton = () => (
     <View style={styles.buttonContainer}>
       {fetchEscrowData.result?.claimed ? (
@@ -109,7 +156,7 @@ function JumpstartContent({ transfer }: { transfer: TokenTransfer }) {
         <Button
           showLoading={fetchEscrowData.loading}
           disabled={fetchEscrowData.loading}
-          onPress={() => console.log('pressed')}
+          onPress={onReclaimPress}
           text={t('reclaim')}
           size={BtnSizes.FULL}
         />

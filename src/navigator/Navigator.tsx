@@ -111,6 +111,7 @@ import AssetsScreen from 'src/tokens/Assets'
 import TokenDetailsScreen from 'src/tokens/TokenDetails'
 import TokenImportScreen from 'src/tokens/TokenImport'
 import TransactionDetailsScreen from 'src/transactions/feed/TransactionDetailsScreen'
+import JumpstartReclaimBottomSheet from 'src/transactions/feed/detailContent/JumpstartReclaimBottomSheet'
 import Logger from 'src/utils/Logger'
 import { ExtractProps } from 'src/utils/typescript'
 import VerificationCodeInputScreen from 'src/verify/VerificationCodeInputScreen'
@@ -684,6 +685,10 @@ function nativeBottomSheets(BottomSheet: typeof RootStack) {
       <BottomSheet.Screen
         name={Screens.FiatExchangeCurrencyBottomSheet}
         component={FiatExchangeCurrencyBottomSheet}
+      />
+      <BottomSheet.Screen
+        name={Screens.JumpstartReclaimBottomSheet}
+        component={JumpstartReclaimBottomSheet}
       />
     </>
   )
