@@ -2119,6 +2119,19 @@
       "ctaLabel": "Ignorar"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Compartilhar link ao vivo",
+    "description": "Copie o link para enviar {{tokenSymbol}} pelo aplicativo de mensagens de sua preferência ou use o código QR.",
+    "linkLabel": "Link ao vivo",
+    "linkCopiedMessage": "Link ao vivo copiado",
+    "navigationWarning": {
+      "title": "Você compartilhou seu link?",
+      "description": "Certifique-se de compartilhar este link ao vivo ou salvá-lo em um local seguro.\n\nNão se preocupe se não for reivindicado - você pode facilmente recuperar os fundos no seu feed de atividades.",
+      "ctaNavigate": "Ir para casa"
+    },
+    "ctaShare": "Compartilhar link",
+    "shareMessage": "Olá! Estou enviando a você um link financiado com {{tokenAmount}} {{tokenSymbol}} em {{appName}}. Use esse link para fazer o download do aplicativo e os fundos estarão ativos, esperando por você. {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprovação",
     "estimatedNetworkFee": "Taxa de rede estimada",
@@ -2182,6 +2195,18 @@
     },
     "discover": {
       "tabName": "Descobrir"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Seus fundos estão a caminho",
+      "description": "Os fundos que seu amigo deu a você estão sendo enviados. Por favor, aguarde... "
+    },
+    "error": {
+      "title": "Não é possível reivindicar fundos",
+      "description": "Tente usar o link ativo novamente para tentar receber fundos ou peça ao seu amigo para tentar enviar um novo link",
+      "contactSupport": "Contate o suporte",
+      "dismiss": "Ignorar"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

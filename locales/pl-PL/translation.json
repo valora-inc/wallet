@@ -2123,6 +2123,19 @@
       "ctaLabel": "Odrzuć"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Udostępnij łącze na żywo",
+    "description": "Skopiuj link, aby wysłać {{tokenSymbol}} za pośrednictwem wybranej aplikacji do przesyłania wiadomości lub użyj kodu QR.",
+    "linkLabel": "Link na żywo",
+    "linkCopiedMessage": "Skopiowany link na żywo",
+    "navigationWarning": {
+      "title": "Udostępniłeś swój link?",
+      "description": "Udostępnij ten link na żywo lub zapisz go w bezpiecznym miejscu.\n\nNie martw się, jeśli środki nie zostaną odebrane - możesz je łatwo odzyskać ze swojego kanału aktywności.",
+      "ctaNavigate": "Idź do domu"
+    },
+    "ctaShare": "Udostępnij łącze",
+    "shareMessage": "Cześć! Wysyłam Ci link zasilony przez {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Użyj tego linku, aby pobrać aplikację, a środki będą na żywo, czekając na Ciebie. {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
     "estimatedNetworkFee": "Szacowana opłata sieciowa",
@@ -2186,6 +2199,18 @@
     },
     "discover": {
       "tabName": "Odkryj"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Twoje środki są w drodze",
+      "description": "Środki, które przekazał Ci Twój znajomy, są właśnie przesyłane. Poczekaj... "
+    },
+    "error": {
+      "title": "Nie możesz ubiegać się o środki",
+      "description": "Wypróbuj ponownie swój link na żywo, aby spróbować otrzymać środki, lub poproś znajomego, aby spróbował wysłać nowy link.",
+      "contactSupport": "Skontaktuj się z Działem wsparcia",
+      "dismiss": "Odrzuć"
     }
   },
   "celoDollarAmount_0": "<0></0> Celo Dolar",

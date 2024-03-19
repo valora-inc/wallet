@@ -2119,6 +2119,19 @@
       "ctaLabel": "Ignorare"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Condividi il link in diretta",
+    "description": "Copia il link per inviare {{tokenSymbol}} tramite la tua app di messaggistica preferita, oppure utilizza il codice QR.",
+    "linkLabel": "Collegamento in diretta",
+    "linkCopiedMessage": "Link in diretta copiato",
+    "navigationWarning": {
+      "title": "Hai condiviso il tuo link?",
+      "description": "Assicurati di condividere questo link live o di salvarlo in un posto sicuro.\n\nNon preoccuparti se non viene riscosso: puoi facilmente recuperare i fondi dal tuo feed di attività.",
+      "ctaNavigate": "Vai a casa"
+    },
+    "ctaShare": "Condividi il link",
+    "shareMessage": "Ciao! Ti invio un link finanziato con {{tokenAmount}} {{tokenSymbol}} su {{appName}}. Utilizza questo link per scaricare l'applicazione e i fondi saranno attivi, in attesa di te. {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Approvazione",
     "estimatedNetworkFee": "Commissione di rete stimata",
@@ -2182,6 +2195,18 @@
     },
     "discover": {
       "tabName": "Scopri"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "I tuoi fondi sono in arrivo",
+      "description": "I fondi che il tuo amico ti ha dato sono in fase di invio. Per favore, aspetta... "
+    },
+    "error": {
+      "title": "Impossibile richiedere i fondi",
+      "description": "Riprova il tuo link live per tentare di ricevere i fondi, oppure chiedi al tuo amico di provare a inviare un nuovo link.",
+      "contactSupport": "Contatta il supporto tecnico",
+      "dismiss": "Ignorare"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",
