@@ -48,7 +48,7 @@ function createSessionProposal(
   return {
     id: 1669989187506938,
     params: {
-      expiry: 1669989496,
+      expiryTimestamp: 1669989496,
       proposer: {
         publicKey: 'f4284dc764da82e9b62d625f4dfea4088142f477c0d7420cdec2a0f49959c233',
         metadata: proposerMetadata,
