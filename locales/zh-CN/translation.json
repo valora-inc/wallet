@@ -2153,13 +2153,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "多链早期采用者 🎁",
-      "description": "为了感谢您成为多链测试者，我们在您的 {{appName}} 钱包中添加了一份免费礼物！早期采用者 NFT 可以在您的收藏品中找到。",
+      "title": "祝贺你",
+      "description": "您获得了以太坊早期探索者的独家珍藏品。欢迎访问以太坊网站 {{appName}}。",
       "cta": "谢谢！"
     },
     "notification": {
-      "title": "恭喜 🎉",
-      "description": "{{rewardName}} 已成功添加到您的 {{appName}} 钱包。"
+      "title": "等待新的 NFT 🎉",
+      "description": "您可以在 \"收藏品 \"下找到新的 {{rewardName}} NFT"
     },
     "rewardBottomSheet": {
       "title": "免费兑现一个月",
