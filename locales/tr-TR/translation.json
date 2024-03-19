@@ -2155,13 +2155,13 @@
   },
   "nftCelebration": {
     "bottomSheet": {
-      "title": "Çoklu zinciri erken benimseyen 🎁",
-      "description": "Çok zincirli bir beta test kullanıcısı olduğunuz için bir teşekkür olarak, {{appName}} cüzdanınıza ücretsiz bir hediye ekledik! Erken benimseyen NFT, koleksiyonlarınızda bulunabilir.",
+      "title": "Tebrikler!",
+      "description": "Erken Ethereum Kaşifleri için özel bir koleksiyon kazandınız. {{appName}}adresindeki Ethereum'a hoş geldiniz.",
       "cta": "Teşekkürler!"
     },
     "notification": {
-      "title": "Tebrikler 🎉",
-      "description": "{{rewardName}} {{appName}} cüzdanınıza başarıyla eklendi."
+      "title": "Yeni bir NFT bekliyor 🎉",
+      "description": "Yeni {{rewardName}} NFT'nizi \"Koleksiyon Eşyalarınız\" altında bulabilirsiniz"
     },
     "rewardBottomSheet": {
       "title": "Bir ay boyunca ücretsiz nakit girişleri",
