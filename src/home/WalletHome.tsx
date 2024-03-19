@@ -192,7 +192,7 @@ function WalletHome({ route }: Props) {
   const topRightElements = (
     <View style={styles.topRightElementsContainer}>
       {showPoints && (
-        <PointsButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
+        <PointsButton testID={'WalletHome/PointsButton'} style={styles.topRightElement} />
       )}
       <QrScanButton testID={'WalletHome/QRScanButton'} style={styles.topRightElement} />
       <NotificationBell testID={'WalletHome/NotificationBell'} style={styles.topRightElement} />
