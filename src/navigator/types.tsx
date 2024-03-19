@@ -202,6 +202,7 @@ export type StackParamList = {
     reclaimTx: SerializableTransactionRequest
     networkId: NetworkId
     tokenAmount: TokenAmount
+    onError?: (error: Error) => void
   }
   [Screens.Main]: undefined
   [Screens.MainModal]: undefined

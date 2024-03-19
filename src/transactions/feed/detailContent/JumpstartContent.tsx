@@ -3,25 +3,29 @@ import React from 'react'
 import { useAsync } from 'react-async-hook'
 import { Trans, useTranslation } from 'react-i18next'
 import { StyleSheet, Text, View } from 'react-native'
-import { useSelector } from 'react-redux'
 import walletJumpstart from 'src/abis/IWalletJumpstart'
 import Button, { BtnSizes } from 'src/components/Button'
+import InLineNotification, { NotificationVariant } from 'src/components/InLineNotification'
 import LineItemRow from 'src/components/LineItemRow'
 import TokenDisplay from 'src/components/TokenDisplay'
 import TokenIcon, { IconSize } from 'src/components/TokenIcon'
 import Checkmark from 'src/icons/Checkmark'
 import { getJumpstartContractAddress } from 'src/jumpstart/selectors'
+import { jumpstartReclaimFlowStarted } from 'src/jumpstart/slice'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
+import { useDispatch, useSelector } from 'src/redux/hooks'
 import Colors from 'src/styles/colors'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import { useTokenInfo } from 'src/tokens/hooks'
+import { feeCurrenciesSelector } from 'src/tokens/selectors'
 import NetworkFeeRowItem from 'src/transactions/feed/detailContent/NetworkFeeRowItem'
 import { NetworkId, TokenTransactionTypeV2, TokenTransfer } from 'src/transactions/types'
 import Logger from 'src/utils/Logger'
 import { publicClient } from 'src/viem'
-import { SerializableTransactionRequest } from 'src/viem/preparedTransactionSerialization'
+import { TransactionRequest, prepareTransactions } from 'src/viem/prepareTransactions'
+import { getSerializablePreparedTransaction } from 'src/viem/preparedTransactionSerialization'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { walletAddressSelector } from 'src/web3/selectors'
 import { Address, Hash, decodeEventLog, encodeFunctionData } from 'viem'
@@ -41,6 +45,7 @@ async function getRewardDataAndStatus(networkId: NetworkId, transactionHash: Has
     hash: transactionHash,
   })
 
+  // TODO: Fix decode for non celo assets
   const { eventName, args } = decodeEventLog({
     abi: walletJumpstart.abi,
     data: transactionReceipt.logs[1].data,
@@ -74,10 +79,16 @@ async function getRewardDataAndStatus(networkId: NetworkId, transactionHash: Has
 function JumpstartContent({ transfer, showOnBottomSheet }: Props) {
   const { t } = useTranslation()
 
+  const dispatch = useDispatch()
+
+  const [error, setError] = React.useState<Error | null>(null)
+
   const transferTokenInfo = useTokenInfo(transfer.amount.tokenId)
   const parsedAmount = new BigNumber(transfer.amount.value).abs()
   const token = useTokenInfo(transfer.amount.tokenId)
   const isDeposit = transfer.type === TokenTransactionTypeV2.Sent
+
+  const feeCurrencies = useSelector((state) => feeCurrenciesSelector(state, transfer.networkId))
 
   const walletAddress = useSelector(walletAddressSelector)
   const jumpstartContractAddress = getJumpstartContractAddress(transfer.networkId)
@@ -114,7 +125,13 @@ function JumpstartContent({ transfer, showOnBottomSheet }: Props) {
     </View>
   )
 
-  const onReclaimPress = () => {
+  const handleOnError = (error: Error) => {
+    setError(error)
+    // Refetching just in case the error was because the escrow was claimed in the meantime
+    fetchEscrowData.execute()
+  }
+
+  const onReclaimPress = async () => {
     if (!fetchEscrowData.result) {
       Logger.error(TAG, 'No escrow data found when trying to reclaim')
       return
@@ -122,30 +139,39 @@ function JumpstartContent({ transfer, showOnBottomSheet }: Props) {
 
     const { beneficiary, index } = fetchEscrowData.result
 
-    const reclaimTx: SerializableTransactionRequest = {
+    const reclaimTx: TransactionRequest = {
       from: walletAddress as Address,
       to: jumpstartContractAddress as Address,
-      value: '0',
+      value: BigInt(0),
       data: encodeFunctionData({
         abi: walletJumpstart.abi,
         functionName: 'reclaimERC20',
         args: [beneficiary, index],
       }),
-      // TODO: Estimate
-      gas: '130000',
-      maxFeePerGas: '1000000000',
     }
 
-    navigate(Screens.JumpstartReclaimBottomSheet, {
-      reclaimTx,
-      networkId: transfer.networkId,
-      tokenAmount: {
-        value: parsedAmount.toString(),
-        tokenId: token.tokenId,
-        tokenAddress: token.address ?? undefined,
-        localAmount: transfer.amount.localAmount,
-      },
+    const preparedTransactions = await prepareTransactions({
+      feeCurrencies,
+      baseTransactions: [reclaimTx],
     })
+
+    const resultType = preparedTransactions.type
+    switch (resultType) {
+      case 'need-decrease-spend-amount-for-gas': // fallthrough on purpose
+      case 'not-enough-balance-for-gas':
+        setError(new Error('Not enough balance for gas'))
+        break
+      case 'possible':
+        const transaction = preparedTransactions.transactions[0]
+        dispatch(jumpstartReclaimFlowStarted())
+        navigate(Screens.JumpstartReclaimBottomSheet, {
+          reclaimTx: getSerializablePreparedTransaction(transaction),
+          networkId: transfer.networkId,
+          tokenAmount: transfer.amount,
+          onError: handleOnError,
+        })
+        break
+    }
   }
 
   const ReclaimButton = () => (
@@ -187,6 +213,22 @@ function JumpstartContent({ transfer, showOnBottomSheet }: Props) {
         </View>
       </View>
       {isDeposit && <ReclaimButton />}
+      {error && (
+        <InLineNotification
+          style={styles.errorNotification}
+          variant={NotificationVariant.Error}
+          testID="JumpstartContent/ErrorNotification"
+          withBorder={true}
+          title={t('jumpstartReclaimError.title')}
+          description={t('jumpstartReclaimError.description')}
+          ctaLabel2={t('dismiss')}
+          onPressCta2={() => setError(null)}
+          ctaLabel={t('contactSupport')}
+          onPressCta={() => {
+            navigate(Screens.SupportContact)
+          }}
+        />
+      )}
       <NetworkFeeRowItem fees={transfer.fees} transactionStatus={transfer.status} />
       <LineItemRow
         testID="JumpstartContent/TokenDetails"
@@ -287,6 +329,9 @@ const styles = StyleSheet.create({
   },
   amountRow: {
     flexDirection: 'row',
+  },
+  errorNotification: {
+    marginVertical: Spacing.Regular16,
   },
 })
 

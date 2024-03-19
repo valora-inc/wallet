@@ -1,15 +1,19 @@
 import { BottomSheetScreenProps } from '@th3rdwave/react-navigation-bottom-sheet'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { StyleSheet, Text } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { useSelector } from 'react-redux'
 import BottomSheetScrollView from 'src/components/BottomSheetScrollView'
 import Button, { BtnSizes } from 'src/components/Button'
 import DataFieldWithCopy from 'src/components/DataFieldWithCopy'
 import Logo from 'src/icons/Logo'
+import { jumpstartReclaimStatusSelector } from 'src/jumpstart/selectors'
+import { jumpstartReclaimStarted } from 'src/jumpstart/slice'
 import { navigateBack, navigateHome } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
+import { useDispatch } from 'src/redux/hooks'
 import { typeScale } from 'src/styles/fonts'
 import { Spacing } from 'src/styles/styles'
 import Logger from 'src/utils/Logger'
@@ -21,18 +25,42 @@ const TAG = 'JumpstartReclaimBottomSheet'
 
 function JumpstartReclaimBottomSheet({
   route: {
-    params: { reclaimTx, networkId, tokenAmount },
+    params: { reclaimTx, networkId, tokenAmount, onError: onErrorCallback },
   },
 }: Props) {
   const { t } = useTranslation()
 
+  const dispatch = useDispatch()
+
   const transactionString = JSON.stringify(reclaimTx)
 
-  async function onConfirm() {
-    Logger.debug(TAG, 'Reclaiming', { reclaimTx, networkId, tokenAmount })
-    // TODO: Send transaction
+  const reclaimStatus = useSelector(jumpstartReclaimStatusSelector)
+
+  function onError(error: Error) {
+    if (!onErrorCallback) {
+      Logger.debug(TAG, 'No error callback provided', error)
+    } else {
+      onErrorCallback(error)
+    }
     navigateBack()
-    navigateHome()
+  }
+
+  useEffect(() => {
+    Logger.debug(TAG, 'Reclaim status changed', { reclaimStatus })
+    switch (reclaimStatus) {
+      case 'error':
+        onError(new Error('Reclaim failed'))
+        break
+      case 'success':
+        navigateBack()
+        navigateHome()
+        break
+    }
+  }, [reclaimStatus])
+
+  function onConfirm() {
+    Logger.debug(TAG, 'Reclaiming', { reclaimTx, networkId, tokenAmount })
+    dispatch(jumpstartReclaimStarted({ reclaimTx, networkId, tokenAmount }))
   }
 
   return (
@@ -47,15 +75,18 @@ function JumpstartReclaimBottomSheet({
         testID="JumpstarReclaimBottomSheet/RequestPayload"
       />
       <EstimatedNetworkFee networkId={networkId} transaction={reclaimTx} />
-      <Button text={t('confirm')} onPress={onConfirm} size={BtnSizes.FULL} />
+      <Button
+        text={t('confirm')}
+        onPress={onConfirm}
+        size={BtnSizes.FULL}
+        showLoading={reclaimStatus === 'loading'}
+        disabled={reclaimStatus !== 'idle'}
+      />
     </BottomSheetScrollView>
   )
 }
 
 const styles = StyleSheet.create({
-  requestDetailsContainer: {
-    marginBottom: Spacing.Thick24,
-  },
   header: {
     ...typeScale.titleSmall,
     color: Colors.black,
@@ -65,15 +96,6 @@ const styles = StyleSheet.create({
     ...typeScale.bodySmall,
     color: Colors.black,
     marginBottom: Spacing.Thick24,
-  },
-  requestDetailLabel: {
-    ...typeScale.labelXSmall,
-    color: Colors.gray4,
-    marginBottom: 4,
-  },
-  requestDetailValue: {
-    ...typeScale.labelSemiBoldSmall,
-    color: Colors.black,
   },
 })
 

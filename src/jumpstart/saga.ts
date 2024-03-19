@@ -5,6 +5,7 @@ import { JumpstartEvents } from 'src/analytics/Events'
 import ValoraAnalytics from 'src/analytics/ValoraAnalytics'
 import { jumpstartLinkHandler } from 'src/jumpstart/jumpstartLinkHandler'
 import {
+  JumpstarReclaimAction,
   JumpstartTransactionStartedAction,
   depositTransactionCancelled,
   depositTransactionFailed,
@@ -13,6 +14,8 @@ import {
   jumpstartClaimFailed,
   jumpstartClaimStarted,
   jumpstartClaimSucceeded,
+  jumpstartReclaimStarted,
+  jumpstartReclaimSucceeded,
 } from 'src/jumpstart/slice'
 import { getLocalCurrencyCode, usdToLocalCurrencyRateSelector } from 'src/localCurrency/selectors'
 import { NftMetadata } from 'src/nfts/types'
@@ -34,7 +37,7 @@ import { getPreparedTransactions } from 'src/viem/preparedTransactionSerializati
 import { sendPreparedTransactions } from 'src/viem/saga'
 import { networkIdToNetwork } from 'src/web3/networkConfig'
 import { all, call, fork, put, select, spawn, takeEvery } from 'typed-redux-saga'
-import { Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
+import { Address, Hash, TransactionReceipt, parseAbi, parseEventLogs } from 'viem'
 
 const TAG = 'WalletJumpstart'
 
@@ -344,10 +347,45 @@ export function* sendJumpstartTransactions(
   }
 }
 
-function* watchSendJumpstartTransaction() {
+export function* jumpstartReclaim(action: PayloadAction<JumpstarReclaimAction>) {
+  try {
+    const { reclaimTx, networkId, tokenAmount } = action.payload
+
+    const createStandbyReclaimTransaction = (
+      transactionHash: string,
+      _feeCurrencyId?: string
+    ): BaseStandbyTransaction => {
+      return {
+        context: newTransactionContext(TAG, 'Reclaim transaction'),
+        __typename: 'TokenTransferV3',
+        networkId,
+        type: TokenTransactionTypeV2.Received,
+        transactionHash: transactionHash,
+        amount: {
+          value: new BigNumber(tokenAmount.value).negated().toString(),
+          tokenId: tokenAmount.tokenId,
+          tokenAddress: tokenAmount.tokenAddress,
+        },
+        address: reclaimTx.to as Address,
+        metadata: {},
+      }
+    }
+
+    Logger.debug(TAG, 'Executing reclaim transaction', reclaimTx)
+
+    yield* call(sendPreparedTransactions, [reclaimTx], networkId, [createStandbyReclaimTransaction])
+    yield* put(jumpstartReclaimSucceeded())
+  } catch (err) {
+    Logger.warn(TAG, 'Error reclaiming jumpstart transaction', err)
+    yield* put(jumpstartClaimFailed())
+  }
+}
+
+function* watchJumpstartTransaction() {
   yield* takeEvery(depositTransactionStarted.type, safely(sendJumpstartTransactions))
+  yield* takeEvery(jumpstartReclaimStarted.type, safely(jumpstartReclaim))
 }
 
 export function* jumpstartSaga() {
-  yield* spawn(watchSendJumpstartTransaction)
+  yield* spawn(watchJumpstartTransaction)
 }

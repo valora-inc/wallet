@@ -13,6 +13,10 @@ export const jumpstartSendStatusSelector = (state: RootState) => {
   return state.jumpstart.depositStatus
 }
 
+export const jumpstartReclaimStatusSelector = (state: RootState) => {
+  return state.jumpstart.reclaimStatus
+}
+
 export const getJumpstartContractAddress = (networkId: NetworkId) => {
   return '0x7BF3fefE9881127553D23a8Cd225a2c2442c438C'.toLowerCase()
 

@@ -2215,5 +2215,9 @@
       "dismiss": "Dismiss"
     }
   },
-  "jumpstartReclaimDescription": "Reclaiming your link requires a small fee, would you like to proceed?"
+  "jumpstartReclaimDescription": "Reclaiming your link requires a small fee, would you like to proceed?",
+  "jumpstartReclaimError": {
+    "title": "Unable to reclaim funds",
+    "description": "Try to reclaim again, or contact support"
+  }
 }
