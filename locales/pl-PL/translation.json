@@ -2134,7 +2134,12 @@
       "ctaNavigate": "Idź do domu"
     },
     "ctaShare": "Udostępnij łącze",
-    "shareMessage": "Cześć! Wysyłam Ci link zasilony przez {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Użyj tego linku, aby pobrać aplikację, a środki będą na żywo, czekając na Ciebie. {{link}}"
+    "ctaScanQRCode": "Zeskanuj kod QR",
+    "shareMessage": "Cześć! Wysyłam Ci link zasilony przez {{tokenAmount}} {{tokenSymbol}} na {{appName}}. Użyj tego linku, aby pobrać aplikację, a środki będą na żywo, czekając na Ciebie. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Zeskanuj kod, aby otrzymać środki",
+      "description": "Sprawdź stan swoich środków na ekranie głównym. Możesz też skopiować lub udostępnić poniższy link."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Zatwierdzenie",
