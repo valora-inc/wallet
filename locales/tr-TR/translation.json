@@ -2119,6 +2119,19 @@
       "ctaLabel": "Yoksay"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Canlı Bağlantı Paylaş",
+    "description": "Seçtiğiniz mesajlaşma uygulaması aracılığıyla {{tokenSymbol}} adresine göndermek için bağlantıyı kopyalayın veya QR kodunu kullanın.",
+    "linkLabel": "Canlı Bağlantı",
+    "linkCopiedMessage": "Canlı Bağlantı kopyalandı",
+    "navigationWarning": {
+      "title": "Bağlantınızı paylaştınız mı?",
+      "description": "Bu canlı bağlantıyı paylaştığınızdan veya güvenli bir yere kaydettiğinizden emin olun.\n\nTalep edilmezse endişelenmeyin - fonları etkinlik akışınızdan kolayca geri alabilirsiniz.",
+      "ctaNavigate": "Eve Git"
+    },
+    "ctaShare": "Bağlantı Paylaş",
+    "shareMessage": "Merhaba! Size {{appName}}adresinde {{tokenAmount}} {{tokenSymbol}} ile finanse edilen bir bağlantı gönderiyorum. Uygulamayı indirmek için bu bağlantıyı kullanın ve fonlar canlı olarak sizi bekliyor olacak. {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Onay",
     "estimatedNetworkFee": "Tahmini ağ ücreti",
@@ -2182,6 +2195,18 @@
     },
     "discover": {
       "tabName": "Keşfedin"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Paranız yolda",
+      "description": "Arkadaşınızın size verdiği para gönderiliyor. Lütfen bekleyin... "
+    },
+    "error": {
+      "title": "Fon talep edilemiyor",
+      "description": "Para almayı denemek için canlı bağlantınızı tekrar deneyin veya arkadaşınızdan yeni bir bağlantı göndermeyi denemesini isteyin",
+      "contactSupport": "Destek ile İletişime Geç",
+      "dismiss": "Yoksay"
     }
   },
   "celoDollarAmount": "<0></0> Celo Dollar",

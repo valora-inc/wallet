@@ -10,7 +10,6 @@ import Touchable from 'src/components/Touchable'
 import i18n from 'src/i18n'
 import ArrowRightThick from 'src/icons/ArrowRightThick'
 import { addressToDisplayNameSelector } from 'src/identity/selectors'
-import { isJumpstartTransaction } from 'src/jumpstart/utils'
 import { navigate } from 'src/navigator/NavigationService'
 import { Screens } from 'src/navigator/Screens'
 import { StackParamList } from 'src/navigator/types'
@@ -34,6 +33,7 @@ import {
   TokenTransfer,
   TransactionStatus,
 } from 'src/transactions/types'
+import { isJumpstartTransaction } from 'src/transactions/utils'
 import { Currency } from 'src/utils/currencies'
 import { getDatetimeDisplayString } from 'src/utils/time'
 import networkConfig, { blockExplorerUrls } from 'src/web3/networkConfig'
@@ -56,11 +56,11 @@ function useHeaderTitle(transaction: TokenTransaction) {
       const isCeloSell = (transaction as TokenExchange).inAmount.tokenId === celoTokenId
       return isCeloSell ? t('soldGold') : t('purchasedGold')
     case TokenTransactionTypeV2.Sent:
-      const isCeloSend = (transaction as TokenTransfer).amount.tokenId === celoTokenId
       if (isJumpstartTransaction(transaction as TokenTransfer)) {
         return t('feedItemJumpstartTitle')
       }
 
+      const isCeloSend = (transaction as TokenTransfer).amount.tokenId === celoTokenId
       return isCeloSend ? t('transactionHeaderWithdrewCelo') : t('transactionHeaderSent')
     case TokenTransactionTypeV2.Received:
       const transfer = transaction as TokenTransfer

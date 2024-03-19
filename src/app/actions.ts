@@ -45,7 +45,7 @@ export enum Actions {
   PUSH_NOTIFICATIONS_PERMISSION_CHANGED = 'APP/PUSH_NOTIFICATIONS_PERMISSION_CHANGED',
   IN_APP_REVIEW_REQUESTED = 'APP/IN_APP_REVIEW_REQUESTED',
   NOTIFICATION_SPOTLIGHT_SEEN = 'APP/NOTIFICATION_SPOTLIGHT_SEEN',
-  TOGGLE_HIDE_HOME_BALANCES = 'APP/TOGGLE_HIDE_HOME_BALANCES',
+  TOGGLE_HIDE_BALANCES = 'APP/TOGGLE_HIDE_BALANCES',
   OPT_MULTICHAIN_BETA = 'APP/OPT_MULTICHAIN_BETA',
 }
 
@@ -184,8 +184,8 @@ export interface NotificationSpotlightSeen {
   type: Actions.NOTIFICATION_SPOTLIGHT_SEEN
 }
 
-interface ToggleHideHomeBalances {
-  type: Actions.TOGGLE_HIDE_HOME_BALANCES
+interface ToggleHideBalances {
+  type: Actions.TOGGLE_HIDE_BALANCES
 }
 
 interface OptMultichainBeta {
@@ -220,7 +220,7 @@ export type ActionTypes =
   | PushNotificationsPermissionChanged
   | inAppReviewRequested
   | NotificationSpotlightSeen
-  | ToggleHideHomeBalances
+  | ToggleHideBalances
   | OptMultichainBeta
   | DeepLinkDeferred
 
@@ -398,9 +398,9 @@ export const notificationSpotlightSeen = (): NotificationSpotlightSeen => {
   }
 }
 
-export const toggleHideHomeBalances = (): ToggleHideHomeBalances => {
+export const toggleHideBalances = (): ToggleHideBalances => {
   return {
-    type: Actions.TOGGLE_HIDE_HOME_BALANCES,
+    type: Actions.TOGGLE_HIDE_BALANCES,
   }
 }
 

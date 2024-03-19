@@ -1623,4 +1623,11 @@ export const migrations = {
       depositStatus: 'idle',
     },
   }),
+  201: (state: any) => ({
+    ...state,
+    app: {
+      ..._.omit(state.app, 'hideHomeBalances'),
+      hideBalances: state.app.hideHomeBalances,
+    },
+  }),
 }

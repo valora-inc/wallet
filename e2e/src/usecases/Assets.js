@@ -75,6 +75,9 @@ export default Assets = () => {
       await launchApp({
         newInstance: true,
         permissions: { notifications: 'YES', contacts: 'YES', camera: 'YES' },
+        launchArgs: {
+          statsigGateOverrides: `use_tab_navigator=true`,
+        },
       })
       let mnemonic = SAMPLE_BACKUP_KEY
       if (balance === 'zero') {
@@ -83,8 +86,8 @@ export default Assets = () => {
       await quickOnboarding(mnemonic)
     })
 
-    it('navigates to Assets screen from home', async () => {
-      await waitForElementByIdAndTap('ViewBalances')
+    it('navigates to wallet tab from home', async () => {
+      await waitForElementByIdAndTap('Tab/Wallet')
       await waitForElementId('Assets/TabBar')
     })
 

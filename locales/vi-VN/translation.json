@@ -2117,6 +2117,19 @@
       "ctaLabel": "Loại bỏ"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "Share Live Link",
+    "description": "Copy the link to send {{tokenSymbol}} via your messaging app of choice, or use the QR code.",
+    "linkLabel": "Live Link",
+    "linkCopiedMessage": "Live Link copied",
+    "navigationWarning": {
+      "title": "Did you share your link?",
+      "description": "Make sure to share this live link or save it somewhere safe.\n\nDon’t worry if it goes unclaimed — you can easily reclaim the funds from your activity feed.",
+      "ctaNavigate": "Go Home"
+    },
+    "ctaShare": "Share Link",
+    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "Phê duyệt",
     "estimatedNetworkFee": "Phí mạng ước tính",
@@ -2180,6 +2193,18 @@
     },
     "discover": {
       "tabName": "Khám phá"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "Tiền của bạn đang được chuyển",
+      "description": "The funds that your friend gave you are being sent over. Please wait... "
+    },
+    "error": {
+      "title": "Unable to claim funds",
+      "description": "Try your live link again to attempt to receive funds, or ask your friend to try sending a new link",
+      "contactSupport": "Liên hệ với bộ phận hỗ trợ",
+      "dismiss": "Loại bỏ"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Đô la Celo"
