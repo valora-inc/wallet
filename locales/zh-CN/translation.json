@@ -2117,6 +2117,19 @@
       "ctaLabel": "忽略"
     }
   },
+  "jumpstartShareLinkScreen": {
+    "title": "共享实时链接",
+    "description": "复制链接，通过您选择的信息应用程序发送 {{tokenSymbol}} ，或使用二维码。",
+    "linkLabel": "实时链接",
+    "linkCopiedMessage": "复制的实时链接",
+    "navigationWarning": {
+      "title": "你分享了你的链接吗？",
+      "description": "确保分享此实时链接或将其保存在安全的地方。\n\n如果无人认领，也不用担心，您可以轻松地从您的活动提要中收回资金。",
+      "ctaNavigate": "回家"
+    },
+    "ctaShare": "共享链接",
+    "shareMessage": "你好！我给你发了一个链接，资金来自 {{tokenAmount}} {{tokenSymbol}} ，网址是 {{appName}}。使用此链接下载应用程序，资金就会到账，等着您。 {{link}}"
+  },
   "transactionFeed": {
     "approvalTransactionTitle": "批准",
     "estimatedNetworkFee": "估算的网络费用",
@@ -2180,6 +2193,18 @@
     },
     "discover": {
       "tabName": "探索"
+    }
+  },
+  "jumpstartStatus": {
+    "loading": {
+      "title": "您的资金即将到位",
+      "description": "您朋友给您的资金正在汇入。请稍候... "
+    },
+    "error": {
+      "title": "无法申请资金",
+      "description": "再次尝试您的实时链接以尝试接收资金，或请您的朋友尝试发送一个新链接",
+      "contactSupport": "联系支持团队",
+      "dismiss": "忽略"
     }
   },
   "celoDollarAmount_0": "&amp;lt;0&amp;gt;&amp;lt;/0&amp;gt; Celo 美元"
