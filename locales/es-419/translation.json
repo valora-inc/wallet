@@ -2130,7 +2130,12 @@
       "ctaNavigate": "Volver a casa"
     },
     "ctaShare": "Compartir enlace",
-    "shareMessage": "Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}"
+    "ctaScanQRCode": "Escanear código QR",
+    "shareMessage": "Hola! Te envío un enlace financiado con {{tokenAmount}} {{tokenSymbol}} en {{appName}}. Utiliza este enlace para descargar la aplicación y los fondos estarán activos, esperándote. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Escanea el código para recibir fondos",
+      "description": "Comprueba el estado de tus fondos en la pantalla de inicio. También puedes copiar o compartir el siguiente enlace."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "Aprobación",
