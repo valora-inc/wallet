@@ -10,6 +10,7 @@ import {
   sleep,
   waitForElementId,
 } from '../utils/utils'
+import { launchApp } from '../utils/retries'
 
 /**
  * From the home screen, navigate to the FiatExchange screen (add/withdraw)
