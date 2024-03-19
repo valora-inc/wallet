@@ -2128,7 +2128,12 @@
       "ctaNavigate": "Go Home"
     },
     "ctaShare": "Share Link",
-    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}"
+    "ctaScanQRCode": "สแกน QR Code",
+    "shareMessage": "Hi! I’m sending you a link funded with {{tokenAmount}} {{tokenSymbol}} on {{appName}}. Use this link to download the app and the funds will be live, waiting for you. {{link}}",
+    "qrCodeBottomSheet": {
+      "title": "Scan the code to receive funds",
+      "description": "Check the status of your funds on the homescreen. Alternatively, copy or share the link below."
+    }
   },
   "transactionFeed": {
     "approvalTransactionTitle": "การอนุมัติ",
